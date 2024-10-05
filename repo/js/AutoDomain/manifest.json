@@ -1,0 +1,15 @@
+{
+  "manifest_version": 1,
+  "name": "传送并自动秘境",
+  "version": "1.0",
+  "description": "BetterGI自带脚本，用于传送后并执行自动秘境",
+  "authors": [
+    {
+      "name": "huiyadanli",
+      "link": "https://github.com/huiyadanli"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "dispatcher_timer_operation": "UseCacheImage"
+}
