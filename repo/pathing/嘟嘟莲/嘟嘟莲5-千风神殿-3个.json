@@ -1,0 +1,33 @@
+{
+	"info":{
+		"bgi_version":"0.34.5",
+		"version":"1.0",
+		"name":"嘟嘟莲5-千风神殿-3个",
+		"description":"",
+		"type":"collect",
+		"author":"yulalaa"
+	},
+	"positions":[
+		{
+			"x":-1505.9140625,
+			"y":2296.210693359375,
+			"type":"teleport",
+			"move_mode":"walk",
+			"action":""
+		},
+		{
+			"x":-1468.28515625,
+			"y":2290.935791015625,
+			"type":"path",
+			"move_mode":"fly",
+			"action":"stop_flying"
+		},
+		{
+			"x":-1468.8828125,
+			"y":2291.862548828125,
+			"type":"path",
+			"move_mode":"walk",
+			"action":"nahida_collect"
+		}
+	]
+}

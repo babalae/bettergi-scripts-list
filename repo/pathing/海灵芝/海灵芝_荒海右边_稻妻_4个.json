@@ -1,64 +1,65 @@
 {
 	"info":{
 		"name":"海灵芝_荒海右边",
-		"type":"collect"
+		"type":"collect",
+		"author":"tignioj"
 	},
 	"positions":[
 		{
-			"action":"",
-			"move_mode":"walk",
-			"type":"teleport",
 			"x":-4406.486328125,
-			"y":-2398.90625
+			"y":-2398.90625,
+			"type":"teleport",
+			"move_mode":"walk",
+			"action":""
 		},
 		{
-			"action":"",
-			"move_mode":"walk",
-			"type":"path",
 			"x":-4409.8740234375,
-			"y":-2381.416015625
+			"y":-2381.416015625,
+			"type":"path",
+			"move_mode":"walk",
+			"action":""
 		},
 		{
-			"action":"",
-			"move_mode":"walk",
-			"type":"path",
 			"x":-4400.58984375,
-			"y":-2358.15234375
-		},
-		{
-			"action":"",
-			"move_mode":"walk",
+			"y":-2358.15234375,
 			"type":"path",
+			"move_mode":"walk",
+			"action":""
+		},
+		{
 			"x":-4393.5537109375,
-			"y":-2345.701171875
+			"y":-2345.701171875,
+			"type":"path",
+			"move_mode":"walk",
+			"action":""
 		},
 		{
-			"action":"stop_flying",
-			"move_mode":"fly",
-			"type":"target",
 			"x":-4376.990234375,
-			"y":-2335.0310554504395
+			"y":-2335.0310554504395,
+			"type":"target",
+			"move_mode":"fly",
+			"action":"stop_flying"
 		},
 		{
-			"action":"",
-			"move_mode":"walk",
-			"type":"target",
 			"x":-4372.9033203125,
-			"y":-2312.0341796875
+			"y":-2312.0341796875,
+			"type":"target",
+			"move_mode":"walk",
+			"action":""
 		},
 		{
-			"action":"",
-			"move_mode":"walk",
-			"type":"target",
 			"x":-4409.927734375,
-			"y":-2316.46875
+			"y":-2316.46875,
+			"type":"target",
+			"move_mode":"walk",
+			"action":""
 		},
 		{
-			"action":"",
-			"move_mode":"walk",
-			"type":"target",
 			"x":-4419.5126953125,
-			"y":-2321.8212890625
+			"y":-2321.8212890625,
+			"type":"target",
+			"move_mode":"walk",
+			"action":""
 		}
 	]
 }
