@@ -36,9 +36,10 @@ function extractInfoFromJSFolder(folderPath) {
         try {
             const manifestContent = fs.readFileSync(manifestPath, 'utf8');
             const manifest = JSON.parse(manifestContent);
+            const combinedDescription = `${manifest.name || ''}~|~${manifest.description || ''}`;
             return {
                 version: manifest.version || '',
-                description: convertNewlines(manifest.description || ''),
+                description: convertNewlines(combinedDescription),
                 author: manifest.authors && manifest.authors.length > 0 ? manifest.authors[0].name : '',
                 tags: []
             };
@@ -66,13 +67,13 @@ function extractInfoFromTCGFile(filePath, parentFolder) {
     const descriptionMatch = content.match(/\/\/\s*描述:(.*)/);
     const characterMatches = content.match(/角色\d+=([^|\r\n{]+)/g);
 
-    const tags = characterMatches
+    let tags = characterMatches
         ? characterMatches.map(match => match.split('=')[1].trim())
             .filter(tag => tag && !tag.startsWith('角色'))
         : [];
 
-    if (parentFolder === '惊喜牌组') {
-        tags.push('惊喜牌组');
+    if (filePath.includes('惊喜牌组')) {
+        tags = ['惊喜牌组', ...tags];
     }
 
     return {
