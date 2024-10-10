@@ -9,6 +9,10 @@ function calculateSHA1(filePath) {
     return hashSum.digest('hex');
 }
 
+function convertNewlines(text) {
+    return text.replace(/\\n/g, '\n');
+}
+
 function extractInfoFromCombatFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf8');
     const authorMatch = content.match(/\/\/\s*作者:(.*)/);
@@ -21,7 +25,7 @@ function extractInfoFromCombatFile(filePath) {
 
     return {
         author: authorMatch ? authorMatch[1].trim() : '',
-        description: descriptionMatch ? descriptionMatch[1].trim() : '',
+        description: descriptionMatch ? convertNewlines(descriptionMatch[1].trim()) : '',
         tags: tags
     };
 }
@@ -34,7 +38,7 @@ function extractInfoFromJSFolder(folderPath) {
             const manifest = JSON.parse(manifestContent);
             return {
                 version: manifest.version || '',
-                description: manifest.description || '',
+                description: convertNewlines(manifest.description || ''),
                 author: manifest.authors && manifest.authors.length > 0 ? manifest.authors[0].name : '',
                 tags: []
             };
@@ -51,7 +55,7 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
     const content = JSON.parse(fs.readFileSync(filePath, 'utf8'));
     return {
         author: content.info && content.info.author ? content.info.author : '',
-        description: '',
+        description: convertNewlines(content.info && content.info.description ? content.info.description : ''),
         tags: parentFolders.slice(2)  // 从第三个元素开始，跳过 'pathing' 和下一级目录
     };
 }
@@ -73,7 +77,7 @@ function extractInfoFromTCGFile(filePath, parentFolder) {
 
     return {
         author: authorMatch ? authorMatch[1].trim() : '',
-        description: descriptionMatch ? descriptionMatch[1].trim() : '',
+        description: descriptionMatch ? convertNewlines(descriptionMatch[1].trim()) : '',
         tags: [...new Set(tags)]  // 去重
     };
 }
