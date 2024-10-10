@@ -133,15 +133,20 @@ function generateDirectoryTree(dir, currentDepth = 0, parentFolders = []) {
 
 const repoPath = path.resolve(__dirname, '..', 'repo');
 
+// 定义期望的文件夹顺序
+const folderOrder = ['pathing', 'js', 'combat', 'tcg', 'onekey'];
+
 // 读取 repoPath 下的所有文件夹
 const topLevelFolders = fs.readdirSync(repoPath)
     .filter(item => fs.statSync(path.join(repoPath, item)).isDirectory());
 
-// 对每个顶级文件夹调用 generateDirectoryTree
-const result = topLevelFolders.map(folder => {
-    const folderPath = path.join(repoPath, folder);
-    return generateDirectoryTree(folderPath, 0, [folder]);
-});
+// 对每个顶级文件夹调用 generateDirectoryTree，并按照指定顺序排序
+const result = folderOrder
+    .filter(folder => topLevelFolders.includes(folder))
+    .map(folder => {
+        const folderPath = path.join(repoPath, folder);
+        return generateDirectoryTree(folderPath, 0, [folder]);
+    });
 
 fs.writeFileSync('tree.json', JSON.stringify(result, null, 2));
 console.log('树状结构已保存到 tree.json 文件中。');
