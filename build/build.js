@@ -153,5 +153,22 @@ const result = folderOrder
         return generateDirectoryTree(folderPath, 0, [folder]);
     });
 
-fs.writeFileSync('tree.json', JSON.stringify(result, null, 2));
-console.log('树状结构已保存到 tree.json 文件中。');
+const repoJson = {
+    "time": new Date().toLocaleString('zh-CN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+        timeZone: 'Asia/Shanghai'
+    }).replace(/[/\s,:]/g, ''),
+    "url": "https://github.com/babalae/bettergi-scripts-list/archive/refs/heads/main.zip",
+    "file": "repo.json",
+    "indexes": result
+};
+
+const repoJsonPath = path.resolve(__dirname, '..', 'repo.json');
+fs.writeFileSync(repoJsonPath, JSON.stringify(repoJson, null, 2));
+console.log('repo.json 文件已创建并保存在 repo 同级目录中。');
