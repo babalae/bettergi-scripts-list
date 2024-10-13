@@ -9,9 +9,10 @@
             `确保地图的按键为M键`,
             '左上角派蒙头像未被其他悬浮窗遮挡',
             '游戏以60帧运行',
-            '游戏视角灵敏度保持默认',
+            '游戏视角灵敏度保持默认为3',
             '运行时是琳妮特前台且拥有双风共鸣',
             '元素共鸣需要四个角色组队触发，仅两个风系角色无效'
+            '不要带其他有移速加成的角色',
         ];
 
         for (let message of messages) {
@@ -35,7 +36,7 @@
 
     async function AutoPath(locationName) {
         let filePath = `assets/AutoPath/${locationName}.json`;
-        await AutoPathing.runFile(filePath);
+        await pathingScript.runFile(filePath);
     }
 
     await logTaskStart();
@@ -51,10 +52,6 @@
     await KeyMouse('沉玉谷码头', 2, 1113, 1948);
     await KeyMouse('沉玉谷狗洞', 2, 1114, 1948);
     await KeyMouse('奥藏山', 2, 1451, 1029);
-    await KeyMouse('放大地图', 1, 1185, 620);
-    await KeyMouse('绝云间1', 2, 1185, 620);
-    await KeyMouse('绝云间2', 2, 1185, 620);
-    await KeyMouse('缩小地图', 1);
     await KeyMouse('酒窖', 2, 730, 1062);
 
     await KeyMouse('神无冢1', 2, -3405, -3534);
