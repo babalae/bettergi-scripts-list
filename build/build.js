@@ -34,7 +34,8 @@ function extractInfoFromJSFolder(folderPath) {
     const manifestPath = path.join(folderPath, 'manifest.json');
     if (fs.existsSync(manifestPath)) {
         try {
-            const manifestContent = fs.readFileSync(manifestPath, 'utf8');
+            let manifestContent = fs.readFileSync(manifestPath, 'utf8');
+            manifestContent = manifestContent.replace(/,(\s*[}\]])/g, '$1');
             const manifest = JSON.parse(manifestContent);
             const combinedDescription = `${manifest.name || ''}~|~${manifest.description || ''}`;
             return {

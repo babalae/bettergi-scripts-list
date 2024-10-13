@@ -1,0 +1,52 @@
+{
+  "info": {
+    "name": "狗粮_化城郭_2",
+    "type": "collect",
+    "author": "Tim",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.34.5"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2701.53076171875,
+      "y": -761.8154296875
+    },
+    {
+      "id": 2,
+      "x": 2703.22119140625,
+      "y": -794.27490234375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 2706.17041015625,
+      "y": -789.1103515625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 2690.923828125,
+      "y": -822.13232421875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 2683.91015625,
+      "y": -839.9404296875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}
