@@ -15,8 +15,8 @@ function convertNewlines(text) {
 
 function extractInfoFromCombatFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf8');
-    const authorMatch = content.match(/\/\/\s*作者:(.*)/);
-    const descriptionMatch = content.match(/\/\/\s*描述:(.*)/);
+    const authorMatch = content.match(/\/\/\s*作者\s*:(.*)/);
+    const descriptionMatch = content.match(/\/\/\s*描述\s*:(.*)/);
     const characterMatches = content.match(/^(?!\/\/).*?(\S+)(?=\s|$)/gm);
 
     const tags = [...new Set(characterMatches || [])]
