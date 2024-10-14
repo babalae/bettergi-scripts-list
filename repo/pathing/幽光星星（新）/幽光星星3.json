@@ -1,0 +1,60 @@
+{
+  "info": {
+    "name": "幽光星星3",
+    "type": "collect",
+    "author": "jbcaaa",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4984.814453125,
+      "y": 4462.923828125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4973.928955078125,
+      "y": 4475.01025390625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 4963.04345703125,
+      "y": 4487.0966796875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4990.07568359375,
+      "y": 4519.4521484375,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 5000.32421875,
+      "y": 4540.251953125,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4998.4658203125,
+      "y": 4561.9462890625,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    }
+  ]
+}
