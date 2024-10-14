@@ -11,8 +11,8 @@
             '游戏以60帧运行',
             '游戏视角灵敏度保持默认为3',
             '运行时是琳妮特前台且拥有双风共鸣',
-            '元素共鸣需要四个角色组队触发，仅两个风系角色无效'
-            '不要带其他有移速加成的角色',
+            '元素共鸣需要四个角色组队触发，仅两个风系角色无效',
+            '不要带其他有移速加成的角色'
         ];
 
         for (let message of messages) {
@@ -100,11 +100,12 @@
     await KeyMouse('流泉之众', 2, 8918, -2678);
     await KeyMouse('悬木人', 2, 8433, -2108);
 
+    await AutoPath('渌华池');
+    await AutoPath('轻策庄');
+    await AutoPath('荻花洲');
+    await AutoPath('维摩庄');
+
     await KeyMouse('精石铜城', 2, 6323, 821);
-    //彩蛋：凭此注释截图可找'辉鸭蛋'领取10分钟禁言礼包一份
-
-    //await AutoPath('莫尔泰区神像');
-
     // 计算并输出总时长
     const endTime = Date.now();
     const totalTimeInSeconds = (endTime - startTime) / 1000;
