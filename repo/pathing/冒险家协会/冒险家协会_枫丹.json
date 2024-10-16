@@ -1,0 +1,36 @@
+{
+  "info": {
+    "name": "冒险家协会_枫丹",
+    "type": "collect",
+    "author": "yemaxul",
+    "version": "1.2",
+    "description": "枫丹冒险家协会，搭配原生BGI或者js脚本使用",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4508.990234375,
+      "y": 3630.582763671875
+    },
+    {
+      "id": 2,
+      "x": 4501.93212890625,
+      "y": 3626.40478515625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 4495.86767578125,
+      "y": 3638.030517578125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}
