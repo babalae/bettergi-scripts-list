@@ -1,0 +1,36 @@
+{
+  "info": {
+    "name": "日落果13-荻花洲-璃月5个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 253.154296875,
+      "y": 1285.13916015625
+    },
+    {
+      "id": 2,
+      "x": 267.2080078125,
+      "y": 1273.39794921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 3,
+      "x": 224.529296875,
+      "y": 1248.12255859375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    }
+  ]
+}
