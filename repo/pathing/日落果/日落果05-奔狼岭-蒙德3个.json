@@ -1,0 +1,28 @@
+{
+  "info": {
+    "name": "日落果5-奔狼岭-蒙德3个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -386.177734375,
+      "y": 2297.316650390625
+    },
+    {
+      "id": 2,
+      "x": -382.3466796875,
+      "y": 2295.962890625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

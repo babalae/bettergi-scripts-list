@@ -1,0 +1,28 @@
+{
+  "info": {
+    "name": "日落果16-云来海-璃月3个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 26.0302734375,
+      "y": -112.2705078125
+    },
+    {
+      "id": 2,
+      "x": 14.6083984375,
+      "y": -93.23681640625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    }
+  ]
+}
