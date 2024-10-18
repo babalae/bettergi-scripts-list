@@ -6,6 +6,8 @@
     await sleep(1000);
     click(1550,750);
     await sleep(3000);
+    click(970,1000);
+    await sleep(3000);
     keyPress("Escape");
   
     log.info("已领取历练点");

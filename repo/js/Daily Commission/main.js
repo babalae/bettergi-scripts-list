@@ -7,6 +7,8 @@
     click(1400, 430);
     await sleep(3000); 
     click(950, 800); 
+    await sleep(800); 
+    click(950, 800); 
 
     log.info("已领取每日委托奖励");
 })();
