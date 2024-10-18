@@ -1,0 +1,18 @@
+// Author: rong-xiaoli
+// Description: 一个基于优菈，钟离的自动打本机制
+//              钟离开盾，雷电将军挂雷，芭芭拉挂水 + 可能的掉血回复
+//              本脚本效率较低，有些过时，不使用大招，仍有优化空间
+
+// cycle 1 start
+钟离 e(hold)
+雷电将军 e
+芭芭拉 e
+优菈 e,attack(3),e,attack(3),e(hold)
+// cycle 1 end
+
+//cycle 2 start
+钟离 e(hold)
+雷电将军 e
+芭芭拉 charge
+优菈 e,attack(3),e,attack(3),e(hold)
+//cycle 2 end
