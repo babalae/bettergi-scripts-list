@@ -1,0 +1,28 @@
+{
+  "info": {
+    "name": "琉璃带-天工峡-2个",
+    "type": "collect",
+    "author": "黎歌",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.34.5"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1759.5361328125,
+      "y": -874.17578125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": 1759.544921875,
+      "y": -874.1806640625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}
