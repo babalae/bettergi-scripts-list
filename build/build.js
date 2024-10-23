@@ -108,12 +108,19 @@ function generateDirectoryTree(dir, currentDepth = 0, parentFolders = []) {
                 info.tags = jsInfo.tags;
             }
         } else {
-            info.children = fs.readdirSync(dir).map(child => {
-                const childPath = path.join(dir, child);
-                return generateDirectoryTree(childPath, currentDepth + 1, [...parentFolders, info.name]);
-            });
+            info.children = fs.readdirSync(dir)
+                .filter(child => !['desktop.ini', 'icon.ico'].includes(child)) // 过滤掉 desktop.ini 和 icon.ico
+                .map(child => {
+                    const childPath = path.join(dir, child);
+                    return generateDirectoryTree(childPath, currentDepth + 1, [...parentFolders, info.name]);
+                });
         }
     } else {
+        // 如果是 desktop.ini 或 icon.ico 文件，直接返回 null
+        if (['desktop.ini', 'icon.ico'].includes(info.name)) {
+            return null;
+        }
+
         const hash = calculateSHA1(dir);
         info.hash = hash;
         info.version = hash.substring(0, 7);
