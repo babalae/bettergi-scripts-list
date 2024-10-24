@@ -1,0 +1,28 @@
+{
+  "info": {
+    "name": "日落果17-归离原-璃月3个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 340.890625,
+      "y": 547.9482421875
+    },
+    {
+      "id": 2,
+      "x": 309.9033203125,
+      "y": 555.53955078125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    }
+  ]
+}

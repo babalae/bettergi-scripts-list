@@ -1,0 +1,36 @@
+{
+  "info": {
+    "name": "日落果03-蒙德城外-蒙德6个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1120.8701171875,
+      "y": 2190.551025390625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1053.0078125,
+      "y": 2196.9384765625,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": -1034.9979641190348,
+      "y": 2135.493636020872,
+      "action": "nahida_collect",
+      "move_mode": "run",
+      "type": "target"
+    }
+  ]
+}

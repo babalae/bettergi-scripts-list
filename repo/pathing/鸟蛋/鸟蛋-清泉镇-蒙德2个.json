@@ -1,0 +1,28 @@
+{
+  "info": {
+    "name": "鸟蛋01-清泉镇-蒙德2个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -867.5654296875,
+      "y": 1992.21875
+    },
+    {
+      "id": 2,
+      "x": -921.1162109375,
+      "y": 1981.32861328125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    }
+  ]
+}
