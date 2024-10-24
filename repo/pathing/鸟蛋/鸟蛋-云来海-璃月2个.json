@@ -5,40 +5,40 @@
     "author": "不瘦五十斤不改名",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.35.0"
+    "bgiVersion": "0.35.1"
   },
   "positions": [
     {
       "id": 1,
       "x": 54.341796875,
       "y": 139.3583984375,
-      "type": "path",
+      "action": "",
       "move_mode": "walk",
-      "action": ""
+      "type": "teleport"
     },
     {
       "id": 2,
       "x": 53.3505859375,
       "y": 139.60498046875,
-      "type": "path",
+      "action": "",
       "move_mode": "walk",
-      "action": ""
+      "type": "path"
     },
     {
       "id": 3,
       "x": 50.1357421875,
       "y": 141.318359375,
-      "type": "path",
+      "action": "",
       "move_mode": "fly",
-      "action": ""
+      "type": "path"
     },
     {
       "id": 4,
       "x": 23.7412109375,
       "y": 163.98388671875,
-      "type": "path",
+      "action": "stop_flying",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path"
     }
   ]
 }

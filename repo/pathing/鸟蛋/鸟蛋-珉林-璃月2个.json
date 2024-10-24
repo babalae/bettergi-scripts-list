@@ -5,24 +5,24 @@
     "author": "不瘦五十斤不改名",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.35.0"
+    "bgiVersion": "0.35.1"
   },
   "positions": [
     {
       "id": 1,
       "x": 730.345703125,
       "y": 1062.060546875,
-      "type": "path",
+      "action": "",
       "move_mode": "walk",
-      "action": ""
+      "type": "teleport"
     },
     {
       "id": 2,
       "x": 720.9287109375,
       "y": 1057.66162109375,
-      "type": "path",
+      "action": "nahida_collect",
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "path"
     }
   ]
 }
