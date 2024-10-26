@@ -1,0 +1,36 @@
+{
+  "info": {
+    "name": "松茸2",
+    "type": "collect",
+    "author": "",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3846.98681640625,
+      "y": 4652.82177734375
+    },
+    {
+      "id": 2,
+      "x": 3838.9052734375,
+      "y": 4604.3955078125,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 3843.22802734375,
+      "y": 4592.271484375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

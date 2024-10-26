@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "松茸22",
+    "type": "collect",
+    "author": "",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1432.7255859375,
+      "y": 1464.6708984375
+    },
+    {
+      "id": 2,
+      "x": -1429.9267578125,
+      "y": 1475.72509765625,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -1426.236328125,
+      "y": 1483.60595703125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": -1422.2490234375,
+      "y": 1493.33984375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 5,
+      "x": -1406.451171875,
+      "y": 1524.45166015625,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": -1390.6904296875,
+      "y": 1570.0556640625,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": -1388.6015625,
+      "y": 1573.525390625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

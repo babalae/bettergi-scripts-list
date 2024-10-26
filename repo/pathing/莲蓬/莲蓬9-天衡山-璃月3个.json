@@ -1,0 +1,52 @@
+{
+  "info": {
+    "name": "莲蓬9-天衡山-璃月3个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.34.5"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 710.8330078125,
+      "y": -772.42626953125
+    },
+    {
+      "id": 2,
+      "x": 714.76953125,
+      "y": -771.31591796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 717.3427734375,
+      "y": -770.5322265625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 758.607421875,
+      "y": -749.2119140625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 5,
+      "x": 758.2607421875,
+      "y": -749.68603515625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

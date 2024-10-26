@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "松茸26",
+    "type": "collect",
+    "author": "",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 2,
+      "x": 897.826171875,
+      "y": 583.49560546875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 910.625,
+      "y": 571.89306640625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": 910.6240234375,
+      "y": 571.88525390625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 4,
+      "x": 922.6494140625,
+      "y": 574.06884765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

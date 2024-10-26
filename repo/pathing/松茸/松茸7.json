@@ -1,0 +1,92 @@
+{
+  "info": {
+    "name": "松茸7",
+    "type": "collect",
+    "author": "",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4498.130859375,
+      "y": 4710.76806640625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4510.0419921875,
+      "y": 4702.728515625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 3,
+      "x": 4500.13818359375,
+      "y": 4702.9013671875,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 4499.26171875,
+      "y": 4773.07177734375,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4481.26708984375,
+      "y": 4783.6328125,
+      "action": "nahida_collect",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4474.27685546875,
+      "y": 4790.21923828125,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4491.58203125,
+      "y": 4812.3623046875,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4502.04052734375,
+      "y": 4853.7353515625,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4501.8251953125,
+      "y": 4857.88037109375,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 4510.40283203125,
+      "y": 4867.9580078125,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "path"
+    }
+  ]
+}

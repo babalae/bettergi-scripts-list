@@ -1,0 +1,36 @@
+{
+  "info": {
+    "name": "墩墩桃19",
+    "type": "collect",
+    "author": "风埠",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2567.47802734375,
+      "y": -1424.0517578125
+    },
+    {
+      "id": 2,
+      "x": 2513.73876953125,
+      "y": -1515.3505859375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 2514.9560546875,
+      "y": -1526.38232421875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}
