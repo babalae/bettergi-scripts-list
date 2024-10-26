@@ -37,6 +37,7 @@
     async function AutoPath(locationName) {
         let filePath = `assets/AutoPath/${locationName}.json`;
         await pathingScript.runFile(filePath);
+        await sleep(2000);
     }
 
     function logTimeTaken(startTime) {
@@ -90,7 +91,7 @@
     await KeyMouse('须弥城西北1', 2, 2876, -292);
     await KeyMouse('须弥城西北2', 2, 2876, -292);
     await AutoPath('化城郭西');
-    await AutoPath('维摩庄');
+    await AutoPath('二净甸神像');
     await KeyMouse('圣显厅南', 2, 4271, -1666);
     await KeyMouse('圣显厅西', 2, 4775, -1437);
     await KeyMouse('神的棋盘', 2, 5759, -1309);
@@ -100,6 +101,7 @@
     await KeyMouse('枫丹廷1', 2, 4509, 3630);
     await KeyMouse('枫丹廷2', 2, 4509, 3630);
     await KeyMouse('欧庇克莱歌剧院东南', 2, 3595, 3254);
+    await AutoPath('莫尔泰神像');
     await KeyMouse('芒索斯山东1', 2, 4985, 4463);
     await KeyMouse('芒索斯山东2', 2, 4985, 4463);
     await KeyMouse('学术会堂', 2, 4144, 4424);
