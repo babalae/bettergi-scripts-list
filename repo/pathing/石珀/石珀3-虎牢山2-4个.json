@@ -1,103 +1,103 @@
 {
-	"info":{
-		"bgi_version":"0.34.5",
-		"version":"1.0",
-		"name":"虎牢山2-4",
-		"description":"",
-		"type":"collect",
-		"author":"yulalaa"
-	},
-	"positions":[
-		{
-			"x":1813.3720703125,
-			"y":712.63818359375,
-			"type":"path",
-			"move_mode":"walk",
-			"action":""
-		},
-		{
-			"x":1828.9697265625,
-			"y":711.7939453125,
-			"type":"path",
-			"move_mode":"fly",
-			"action":"stop_flying"
-		},
-		{
-			"x":1854.9052734375,
-			"y":710.45654296875,
-			"type":"path",
-			"move_mode":"walk",
-			"action":""
-		},
-		{
-			"x":1859.2705078125,
-			"y":710.43701171875,
-			"type":"target",
-			"move_mode":"walk",
-			"action":"nahida_collect"
-		},
-		{
-			"x":1858.2978515625,
-			"y":711.3203125,
-			"type":"path",
-			"move_mode":"walk",
-			"action":""
-		},
-		{
-			"x":1855.3671875,
-			"y":712.6943359375,
-			"type":"target",
-			"move_mode":"walk",
-			"action":""
-		},
-		{
-			"x":1857.8056640625,
-			"y":714.37939453125,
-			"type":"target",
-			"move_mode":"walk",
-			"action":""
-		},
-		{
-			"x":1856.2548828125,
-			"y":715.322265625,
-			"type":"target",
-			"move_mode":"walk",
-			"action":""
-		},
-		{
-			"x":1858.19921875,
-			"y":712.96826171875,
-			"type":"path",
-			"move_mode":"walk",
-			"action":""
-		},
-		{
-			"x":1860.3681640625,
-			"y":709.51025390625,
-			"type":"path",
-			"move_mode":"walk",
-			"action":""
-		},
-		{
-			"x":1864.3818359375,
-			"y":705.3603515625,
-			"type":"target",
-			"move_mode":"walk",
-			"action":""
-		},
-		{
-			"x":1860.369140625,
-			"y":704.39111328125,
-			"type":"path",
-			"move_mode":"walk",
-			"action":""
-		},
-		{
-			"x":1855.73828125,
-			"y":703.3154296875,
-			"type":"target",
-			"move_mode":"walk",
-			"action":""
-		}
-	]
+  "info": {
+    "bgi_version": "0.34.5",
+    "version": "1.0",
+    "name": "虎牢山2-4",
+    "description": "",
+    "type": "collect",
+    "author": "yulalaa"
+  },
+  "positions": [
+    {
+      "x": 1813.3720703125,
+      "y": 712.63818359375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "x": 1828.9697265625,
+      "y": 711.7939453125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "x": 1854.9052734375,
+      "y": 710.45654296875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "x": 1859.2705078125,
+      "y": 710.43701171875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "x": 1858.2978515625,
+      "y": 711.3203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "x": 1855.3671875,
+      "y": 712.6943359375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "x": 1857.8056640625,
+      "y": 714.37939453125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "x": 1856.2548828125,
+      "y": 715.322265625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "x": 1858.19921875,
+      "y": 712.96826171875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "x": 1860.3681640625,
+      "y": 709.51025390625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "x": 1864.3818359375,
+      "y": 705.3603515625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "x": 1860.369140625,
+      "y": 704.39111328125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "x": 1855.73828125,
+      "y": 703.3154296875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
 }
