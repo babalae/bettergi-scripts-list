@@ -2,7 +2,7 @@
     setGameMetrics(1920, 1080, 2);
     // 来自于界面配置
     let sereniteaPotType = settings.sereniteaPot;
-    log.info('快捷道具栏需装满4个，确保诚哥壶在第5位');
+    log.info('快捷道具栏需装满4个，确保尘歌壶在第5位');
     setGameMetrics(1920, 1080, 2);
     await sleep(1000); 
     keyPress("B");     //打开背包
@@ -16,26 +16,20 @@
     keyPress("F");    //进入诚哥壶
     await sleep(10000); 
 
-    if (sereniteaPotType == "罗浮洞"){
-        log.info("罗浮洞");
+    if (sereniteaPotType == "璃月绿顶建筑"){
+        log.info("璃月绿顶建筑");
         keyDown("D");
         await sleep(500);
         keyUp("D");
         await sleep(500);    
-    }else if(sereniteaPotType == "翠黛峰"){
-        log.info("翠黛峰");
-        keyDown("D");
-        await sleep(500);
-        keyUp("D");
-        await sleep(500);
-    }else if(sereniteaPotType == "清琼岛"){
-        log.info("清琼岛");
+    }else if(sereniteaPotType == "蒙德红顶建筑"){
+        log.info("蒙德红顶建筑");
         keyDown("A");
         await sleep(1200);
         keyUp("A");
         await sleep(500); 
-    }else if(sereniteaPotType == "绘绮庭"){
-        log.info("绘绮庭");
+    }else if(sereniteaPotType == "稻妻蓝顶建筑"){
+        log.info("稻妻蓝顶建筑");
         keyDown("A");
         await sleep(1700);
         keyUp("A");
@@ -44,14 +38,14 @@
         await sleep(1700);
         keyUp("S");
         await sleep(500);
-    }else if(sereniteaPotType == "妙香林"){
-        log.info("妙香林");
+    }else if(sereniteaPotType == "须弥绿色建筑"){
+        log.info("须弥绿色建筑");
         keyDown("D");
         await sleep(1300);
         keyUp("D");
         await sleep(500);
-    }else if(sereniteaPotType == "旋流屿"){
-        log.info("旋流屿");
+    }else if(sereniteaPotType == "枫丹白色建筑"){
+        log.info("枫丹白色建筑");
         keyDown("S");
         await sleep(1300);
         keyUp("S");
