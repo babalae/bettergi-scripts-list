@@ -1,0 +1,36 @@
+{
+  "info": {
+    "name": "海草16-天云峠-稻妻4个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4170.578125,
+      "y": -4571.310546875
+    },
+    {
+      "id": 2,
+      "x": -4141.3955078125,
+      "y": -4587.525390625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": -4136.490234375,
+      "y": -4578.876953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

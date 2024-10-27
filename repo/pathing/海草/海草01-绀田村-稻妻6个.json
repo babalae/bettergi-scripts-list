@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "海草01-绀田村-稻妻6个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4050.0068359375,
+      "y": -2657.4482421875
+    },
+    {
+      "id": 2,
+      "x": -4020.79296875,
+      "y": -2625.603515625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 3,
+      "x": -3983.13671875,
+      "y": -2617.7021484375,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": -3915.34765625,
+      "y": -2611.6650390625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    }
+  ]
+}
