@@ -1,0 +1,36 @@
+{
+  "info": {
+    "name": "日落果10-誓言岬-蒙德6个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.1",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1999.138671875,
+      "y": 1435.07763671875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1972.9482421875,
+      "y": 1416.52197265625,
+      "action": "nahida_collect",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1937.3779296875,
+      "y": 1436.9619140625,
+      "action": "nahida_collect",
+      "move_mode": "run",
+      "type": "path"
+    }
+  ]
+}

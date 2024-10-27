@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "日落果14-明蕴镇-璃月3个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.1",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -188.4072265625,
+      "y": 971.46484375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -164.8759765625,
+      "y": 925.23388671875,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -171.9365234375,
+      "y": 893.14208984375,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -157.7685546875,
+      "y": 880.12841796875,
+      "action": "nahida_collect",
+      "move_mode": "run",
+      "type": "path"
+    }
+  ]
+}
