@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "帕蒂沙兰 须弥城右下",
+    "type": "collect",
+    "author": "jbcaaa",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2651.42529296875,
+      "y": -564.408203125
+    },
+    {
+      "id": 2,
+      "x": 2653.37158203125,
+      "y": -530.6142578125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 2662.2506791896294,
+      "y": -518,
+      "type": "path",
+      "move_mode": "climb",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 2698.04296875,
+      "y": -518.7275390625,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 2708.54443359375,
+      "y": -522.2294921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 2717.32275390625,
+      "y": -523.20751953125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 2787.25048828125,
+      "y": -525.39697265625,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    }
+  ]
+}
