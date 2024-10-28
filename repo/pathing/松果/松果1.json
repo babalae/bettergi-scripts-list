@@ -1,0 +1,60 @@
+{
+  "info": {
+    "name": "松果1",
+    "type": "collect",
+    "author": "玛卡巴卡",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1629.37109375,
+      "y": 2834.395751953125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": -1660.2177734375,
+      "y": 2789.519775390625,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -1662.3212890625,
+      "y": 2786.100341796875,
+      "type": "path",
+      "move_mode": "climb",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": -1665.46484375,
+      "y": 2777.626953125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 5,
+      "x": -1680.0546875,
+      "y": 2774.24365234375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 6,
+      "x": -1663.515625,
+      "y": 2751.4169921875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    }
+  ]
+}
