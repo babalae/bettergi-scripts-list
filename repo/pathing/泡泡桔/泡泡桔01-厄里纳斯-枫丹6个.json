@@ -1,0 +1,36 @@
+{
+  "info": {
+    "name": "泡泡桔01-厄里纳斯-枫丹6个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4626.0869140625,
+      "y": 2182.316162109375
+    },
+    {
+      "id": 2,
+      "x": 4594.5126953125,
+      "y": 2152.251220703125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 3,
+      "x": 4578.5517578125,
+      "y": 2136.3623046875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}
