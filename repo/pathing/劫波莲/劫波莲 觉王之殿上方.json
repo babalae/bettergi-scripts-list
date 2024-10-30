@@ -1,0 +1,91 @@
+{
+  "info": {
+    "name": "劫波莲 觉王之殿上方",
+    "type": "collect",
+    "author": "jbcaaa",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3705.595703125,
+      "y": -497.3955078125
+    },
+    {
+      "id": 2,
+      "x": 3587.87890625,
+      "y": -416.3623046875,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 3567.500181117234,
+      "y": -417.75,
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3556.2494566482965,
+      "y": -414.75,
+      "type": "target",
+      "move_mode": "climb",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 3548.96435546875,
+      "y": -411.76220703125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 3537.984375,
+      "y": -421.0341796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 3544.9208984375,
+      "y": -421.83642578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": 3546.11572265625,
+      "y": -422.2568359375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x": 3561.1083984375,
+      "y": -434.724609375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 10,
+      "x": 3551.5478515625,
+      "y": -439.736328125,
+      "type": "target",
+      "move_mode": "climb",
+      "action": ""
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "劫波莲1",
+    "type": "collect",
+    "author": "jbcaaa",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.34.5"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2297.626953125,
+      "y": -824.5341796875
+    },
+    {
+      "id": 2,
+      "x": 2300.35791015625,
+      "y": -845.3017578125,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 2309.10009765625,
+      "y": -855.220703125,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": 2308.0830078125,
+      "y": -843.77734375,
+      "type": "target",
+      "move_mode": "fly",
+      "action": ""
+    }
+  ]
+}
