@@ -1,0 +1,60 @@
+{
+  "info": {
+    "name": "008劫波莲 须弥城西边7个",
+    "type": "collect",
+    "author": "lifrom",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3100.46,
+      "y": -354.62
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3169.5472045456227,
+      "y": -429.89731241234585
+    },
+    {
+      "id": 3,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target",
+      "x": 3183.2769901588617,
+      "y": -447.4465906512487
+    },
+    {
+      "id": 4,
+      "x": 3183.2769901588617,
+      "y": -447.4465906512487,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 5,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3176.2729246956014,
+      "y": -470.68724647421186
+    },
+    {
+      "id": 6,
+      "x": 3176.2729246956014,
+      "y": -470.68724647421186,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

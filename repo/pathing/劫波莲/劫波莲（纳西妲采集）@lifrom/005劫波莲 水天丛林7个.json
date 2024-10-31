@@ -1,0 +1,84 @@
+{
+  "info": {
+    "name": "005劫波莲 水天丛林7个",
+    "type": "collect",
+    "author": "lifrom",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3436,
+      "y": -1469.97
+    },
+    {
+      "id": 2,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3349.2331734992877,
+      "y": -1518.6901972669602
+    },
+    {
+      "id": 3,
+      "x": 3349.2331734992877,
+      "y": -1518.6901972669602,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 4,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3327.722106404859,
+      "y": -1510.6925579011586
+    },
+    {
+      "id": 5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3306.713975478341,
+      "y": -1507.6945250963245
+    },
+    {
+      "id": 6,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3328.9740262069545,
+      "y": -1478.4560331880448
+    },
+    {
+      "id": 7,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3332.2254942909085,
+      "y": -1469.9593774198265
+    },
+    {
+      "id": 8,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target",
+      "x": 3317.4688314483446,
+      "y": -1492.9503283220638
+    },
+    {
+      "id": 9,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3316.967702152994,
+      "y": -1480.7075085844192
+    }
+  ]
+}
