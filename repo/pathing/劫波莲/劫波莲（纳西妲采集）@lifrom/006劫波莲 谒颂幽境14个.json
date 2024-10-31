@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "006劫波莲 谒颂幽境14个",
+    "type": "collect",
+    "author": "lifrom",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3646.3199999999997,
+      "y": -1418.4099999999999,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": 3666.925466506912,
+      "y": -1348.909312302857,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": 3653.925466506913,
+      "y": -1353.909312302857,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3640.9137218352735,
+      "y": -1348.409902461407,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 3647.3119853194803,
+      "y": -1243.953525014209,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 3653.710248803686,
+      "y": -1139.49714756701,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 3653.710248803686,
+      "y": -1139.49714756701,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}
