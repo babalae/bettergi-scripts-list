@@ -56,7 +56,7 @@ function extractInfoFromJSFolder(folderPath) {
 function extractInfoFromPathingFile(filePath, parentFolders) {
     const content = JSON.parse(fs.readFileSync(filePath, 'utf8'));
     let tags = parentFolders.slice(2)  // 从第三个元素开始，跳过 'pathing' 和下一级目录
-        .map(tag => tag.split('@')[0]) // 取@符号前面的数据
+        .filter(tag => !tag.includes('@'))  // 跳过包含 @ 的标签
         .filter((tag, index, self) => self.indexOf(tag) === index); // 去重
 
     // 检查positions数组中是否存在特定动作
