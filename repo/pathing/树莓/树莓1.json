@@ -1,0 +1,84 @@
+{
+  "info": {
+    "name": "树莓",
+    "type": "collect",
+    "author": "风埠",
+    "version": "1.0",
+    "description": "树莓",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -440.140625,
+      "y": 2580.892578125
+    },
+    {
+      "id": 2,
+      "x": -458.154296875,
+      "y": 2566.329833984375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -481.4853515625,
+      "y": 2554.830322265625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": -472.458984375,
+      "y": 2554.12744140625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": -553.4375,
+      "y": 2618.07177734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": -497.876953125,
+      "y": 2646.230712890625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": -476.1875,
+      "y": 2665.854248046875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": -455.61328125,
+      "y": 2692.27490234375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x": -459.099609375,
+      "y": 2702.3642578125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

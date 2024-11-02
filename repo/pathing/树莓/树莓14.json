@@ -1,0 +1,60 @@
+{
+  "info": {
+    "name": "树莓14",
+    "type": "collect",
+    "author": "风埠",
+    "version": "1.0",
+    "description": "树莓",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2598.38671875,
+      "y": -6690.4384765625
+    },
+    {
+      "id": 2,
+      "x": -2599.11328125,
+      "y": -6698.841796875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -2665.3232421875,
+      "y": -6745.208984375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": -2712.5419921875,
+      "y": -6765.7197265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": -2739.98046875,
+      "y": -6742.015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": -2734.15625,
+      "y": -6732.6826171875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}
