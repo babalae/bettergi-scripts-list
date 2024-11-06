@@ -6,6 +6,7 @@
 
     async function logTaskStart() {
         const messages = [
+            '此脚本运行时间约45-50分钟',
             '确保地图的按键为M键',
             '左上角派蒙头像未被其他悬浮窗遮挡',
             '游戏以60帧运行',
@@ -21,22 +22,28 @@
         }
     }
 
-    async function KeyMouse(locationName, sec, x, y) 
-    {
+    async function KeyMouse(locationName, sec, x, y) {
+        try {
         if (x !== undefined && y !== undefined) {
             log.info(`前往 ${locationName}`);
             await genshin.tp(x, y);
             await sleep(1000);
         }
-    
-        let filePath = `assets/KeyMouse/${locationName}.json`;
-        await keyMouseScript.runFile(filePath);
+            let filePath = `assets/KeyMouse/${locationName}.json`;
+            await keyMouseScript.runFile(filePath);
+        } catch (error) {
+            log.error(`执行 ${locationName} 脚本时发生错误`);
+        }
         await sleep(sec * 1000); // 将秒转换为毫秒
     }
 
     async function AutoPath(locationName) {
+        try {
         let filePath = `assets/AutoPath/${locationName}.json`;
-        await pathingScript.runFile(filePath);
+            await pathingScript.runFile(filePath);
+        } catch (error) {
+            log.error(`执行 ${locationName} 路径时发生错误`);
+        }
         await sleep(2000);
     }
 
@@ -57,17 +64,13 @@
     await KeyMouse('解除冰元素附着', 4, -255, 629);
     await KeyMouse('地中之盐', 2, -164, 1183);
     await KeyMouse('望舒客栈', 2, 330, 874);
-    await AutoPath('荻花洲');
     await KeyMouse('荻花洲西', 2, 730, 1062);
     await KeyMouse('望舒客栈西', 2, 730, 1062);
     await KeyMouse('轻策庄', 2, 547, 1767);
-    await AutoPath('轻策庄');
     await KeyMouse('沉玉谷码头', 2, 1113, 1948);
     await KeyMouse('沉玉谷狗洞', 2, 1114, 1948);
     await KeyMouse('奥藏山', 2, 1451, 1029);
     await KeyMouse('酒窖', 2, 730, 1062);
-    await AutoPath('酒窖');
-    await AutoPath('渌华池');
     logTimeTaken(startTime);
 
     log.info('前往地区：稻妻')
@@ -76,7 +79,6 @@
     await KeyMouse('炉心1', 2, -3289, -3654);
     await KeyMouse('炉心2', 2, -3289, -3654);
     await KeyMouse('绝美我心', 2, -1315, -3776);
-    await AutoPath('望泷村西南');
     await KeyMouse('沉眠之庭1', 2, -4185, -4244);
     await KeyMouse('沉眠之庭2', 2, -4185, -4244);
     await KeyMouse('浅濑神社', 2, -3698, -4689);
@@ -90,8 +92,6 @@
     await KeyMouse('须弥城东', 2, 2694, -416);
     await KeyMouse('须弥城西北1', 2, 2876, -292);
     await KeyMouse('须弥城西北2', 2, 2876, -292);
-    await AutoPath('化城郭西');
-    await AutoPath('二净甸神像');
     await KeyMouse('圣显厅南', 2, 4271, -1666);
     await KeyMouse('圣显厅西', 2, 4775, -1437);
     await KeyMouse('神的棋盘', 2, 5759, -1309);
@@ -101,7 +101,6 @@
     await KeyMouse('枫丹廷1', 2, 4509, 3630);
     await KeyMouse('枫丹廷2', 2, 4509, 3630);
     await KeyMouse('欧庇克莱歌剧院东南', 2, 3595, 3254);
-    await AutoPath('莫尔泰神像');
     await KeyMouse('芒索斯山东1', 2, 4985, 4463);
     await KeyMouse('芒索斯山东2', 2, 4985, 4463);
     await KeyMouse('学术会堂', 2, 4144, 4424);
@@ -129,7 +128,21 @@
 
     log.info('前往地区：其他')
     await KeyMouse('精石铜城', 2, 6323, 821);
+
+    await AutoPath('荻花洲');
+    await AutoPath('轻策庄');
+    await AutoPath('酒窖');
+    await AutoPath('渌华池');
+    await AutoPath('望泷村西南');
+    await AutoPath('越石村');
+    await AutoPath('化城郭西');
+    await AutoPath('二净甸神像');
+    await AutoPath('无郁绸林');
     await AutoPath('塔尼特营地');
+    await AutoPath('神的棋盘');
+    await AutoPath('莫尔泰神像');
+    await AutoPath('欧庇克莱歌剧院东南');
+    await AutoPath('新枫科院西南');
     await AutoPath('新枫科院宿舍');
     // 计算并输出总时长
     const endTime = Date.now();
