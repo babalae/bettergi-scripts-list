@@ -57,7 +57,7 @@
         //传入路径以及循环次数
         let filePath = `assets/AutoPath/${locationName}.json`;
         await pathingScript.runFile(filePath);
-        await sleep(5000)
+        await sleep(3000)
         await runGameActionsMultipleTimes(time,locationName)
     }
     async function KeyMouse(locationName, sec, x, y,time) {
@@ -76,27 +76,27 @@
 
 
 
-    await AutoPath('香柏木27个', 1)
-    await AutoPath('御伽木9个(孔雀木6个)', 1)
-    await AutoPath('萃华木6个(垂香木3个)', 1)
-    await AutoPath('松木24个', 1)
-    await AutoPath('业果木15个(辉木15个)', 1)
-    await AutoPath('刺葵木6个', 1)
-    await AutoPath('却砂木12个', 1)
-    // await AutoPath('垂香木15个', 1)//?w?
-    // await AutoPath('悬铃木18个', 1)//w??
-    await AutoPath('杉木12个', 1)
-    await AutoPath('枫木9个', 1)
-    await AutoPath('柽木15个', 1)
-    await AutoPath('桦木15个', 1)
-    await AutoPath('梦见木12个', 1)
-    await AutoPath('椴木9个(悬铃木9个)', 1)
-    await AutoPath('灰灰楼木6个', 1)
+        await AutoPath('香柏木27个', 75)
+        await AutoPath('御伽木9个(孔雀木6个)', 334)
+        await AutoPath('萃华木6个(垂香木3个)', 334)
+        await AutoPath('松木24个', 84)
+        await AutoPath('业果木15个(辉木15个)', 134)
+        await AutoPath('刺葵木6个', 334)
+        await AutoPath('却砂木12个', 167)
+        await AutoPath('杉木12个', 167)
+        await AutoPath('枫木9个', 223)
+        await AutoPath('柽木15个', 134)
+        await AutoPath('桦木15个', 134)
+        await AutoPath('梦见木12个', 167)
+        await AutoPath('椴木9个(悬铃木9个)', 223)
+        await AutoPath('灰灰楼木6个', 334)
+        await AutoPath('白梣木15个', 134)
+        await AutoPath('竹节30个', 67)
+        await AutoPath('证悟木15个(业果木6个)', 134)
     // await AutoPath('燃爆木15个', 134)//>>
-    // await AutoPath('燃爆木6个(白栗栎木6个)', 1)//?ww
-    await AutoPath('白梣木15个', 1)//?
-    await AutoPath('竹节30个', 1)
-    await AutoPath('证悟木15个(业果木6个)', 1)
+    // await AutoPath('燃爆木6个(白栗栎木6个)', 1)//路线异常
+    // await AutoPath('垂香木15个', 1)//路线异常
+    // await AutoPath('悬铃木18个', 1)//路线异常
     // await KeyMouse('炬木15个',3, 8359.7548828125, -2868.03515625,1)//?
     // await KeyMouse('桃椰子木12个',5,8353.4921875,-2853.8505859375,1)//?
     
