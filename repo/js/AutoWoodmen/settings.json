@@ -1,0 +1,153 @@
+[
+    {
+        "name": "selectValue", // 变量名，在js内使用 settings.变量名 获取对应的配置值
+        "type": "select", // 类型
+        "label": "运行结束后操作", // 显示标签
+        "options": [ //选项
+            "无操作",
+            "退出账号",
+            "关闭游戏"
+        ]
+    },
+    {
+        "name": "exitdelay",
+        "type": "input-text",
+        "label": "退出延迟"
+    },
+    {
+        "name": "loadingdelay",
+        "type": "input-text",
+        "label": "加载延迟"
+    }
+    // { //等待作者更新多选框
+    // 
+    //     "name": "checkValue", // 变量名，在js内使用 settings.变量名 获取对应的配置值
+    //     "type": "checkbox", // 类型
+    //     "label": "全选" // 显示标签
+    // }
+    // {
+    //     "name": "whiteAsh",
+    //     "type": "checkbox",
+    //     "label": "白梣木"
+    // },
+    // {
+    //     "name": "whiteChestnut",
+    //     "type": "checkbox",
+    //     "label": "白栗木"
+    // },
+    // {
+    //     "name": "grayTowerWood",
+    //     "type": "checkbox",
+    //     "label": "灰灰楼林木"
+    // },
+    // {
+    //     "name": "peachCoconut",
+    //     "type": "checkbox",
+    //     "label": "桃椰子木"
+    // },
+    // {
+    //     "name": "explosiveWood",
+    //     "type": "checkbox",
+    //     "label": "燃爆木"
+    // },
+    // {
+    //     "name": "linden",
+    //     "type": "checkbox",
+    //     "label": "椴木"
+    // },
+    // {
+    //     "name": "torchwood",
+    //     "type": "checkbox",
+    //     "label": "炬木"
+    // },
+    // {
+    //     "name": "sycamore",
+    //     "type": "checkbox",
+    //     "label": "悬铃木"
+    // },
+    // {
+    //     "name": "incenseCedar",
+    //     "type": "checkbox",
+    //     "label": "香柏木"
+    // },
+    // {
+    //     "name": "strangeWood",
+    //     "type": "checkbox",
+    //     "label": "怪木"
+    // },
+    // {
+    //     "name": "palmThorn",
+    //     "type": "checkbox",
+    //     "label": "刺葵木"
+    // },
+    // {
+    //     "name": "karmicFruitWood",
+    //     "type": "checkbox",
+    //     "label": "业果木"
+    // },
+    // {
+    //     "name": "radiantWood",
+    //     "type": "checkbox",
+    //     "label": "辉木"
+    // },
+    // {
+    //     "name": "enlightenmentWood",
+    //     "type": "checkbox",
+    //     "label": "证悟木"
+    // },
+    // {
+    //     "name": "dreamingWood",
+    //     "type": "checkbox",
+    //     "label": "梦见木"
+    // },
+    // {
+    //     "name": "peacockWood",
+    //     "type": "checkbox",
+    //     "label": "孔雀木"
+    // },
+    // {
+    //     "name": "maple",
+    //     "type": "checkbox",
+    //     "label": "枫木"
+    // },
+    // {
+    //     "name": "otogi",
+    //     "type": "checkbox",
+    //     "label": "御伽木"
+    // },
+    // {
+    //     "name": "droopingIncense",
+    //     "type": "checkbox",
+    //     "label": "垂香木"
+    // },
+    // {
+    //     "name": "luxuriantBlossom",
+    //     "type": "checkbox",
+    //     "label": "萃华木"
+    // },
+    // {
+    //     "name": "birch",
+    //     "type": "checkbox",
+    //     "label": "桦木"
+    // },
+    // {
+    //     "name": "quicksandWood",
+    //     "type": "checkbox",
+    //     "label": "却砂木"
+    // },
+    // {
+    //     "name": "bambooJoint",
+    //     "type": "checkbox",
+    //     "label": "竹节"
+    // },
+    // {
+    //     "name": "pine",
+    //     "type": "checkbox",
+    //     "label": "松木"
+    // },
+    // {
+    //     "name": "cedar",
+    //     "type": "checkbox",
+    //     "label": "杉木"
+    // }
+]
