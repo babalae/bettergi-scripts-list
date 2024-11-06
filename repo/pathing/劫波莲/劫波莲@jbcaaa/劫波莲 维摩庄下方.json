@@ -1,0 +1,84 @@
+{
+  "info": {
+    "name": "劫波莲 维摩庄下方",
+    "type": "collect",
+    "author": "jbcaaa",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2794.126953125,
+      "y": -1216.4345703125
+    },
+    {
+      "id": 2,
+      "x": 2772.7125244140625,
+      "y": -1247.39111328125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 2751.298095703125,
+      "y": -1278.34765625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 2729.8836669921875,
+      "y": -1309.30419921875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 2708.46923828125,
+      "y": -1340.2607421875,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 6,
+      "x": 2716.3583984375,
+      "y": -1334.0791015625,
+      "type": "path",
+      "move_mode": "climb",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x": 2703.83203125,
+      "y": -1332.02197265625,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 10,
+      "x": 2711.32861328125,
+      "y": -1323.37939453125,
+      "type": "path",
+      "move_mode": "climb",
+      "action": ""
+    },
+    {
+      "id": 11,
+      "x": 2679.9997283241482,
+      "y": -1282.25,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    }
+  ]
+}

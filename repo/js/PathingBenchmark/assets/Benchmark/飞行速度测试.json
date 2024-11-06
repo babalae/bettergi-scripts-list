@@ -1,0 +1,36 @@
+{
+  "info": {
+    "name": "飞行速度测试",
+    "type": "collect",
+    "author": "HZYgrandma",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1536.8916015625,
+      "y": 1978.646484375
+    },
+    {
+      "id": 2,
+      "x": -1479.0283203125,
+      "y": 1869.71875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -1476.4248046875,
+      "y": 1864.8203125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    }
+  ]
+}

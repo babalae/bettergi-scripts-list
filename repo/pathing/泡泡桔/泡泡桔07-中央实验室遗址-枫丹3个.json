@@ -1,0 +1,28 @@
+{
+  "info": {
+    "name": "泡泡桔07-中央实验室遗址-枫丹3个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3636.02001953125,
+      "y": 4796.115234375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3669.2484003792415,
+      "y": 4768.25343654873,
+      "action": "nahida_collect",
+      "move_mode": "run",
+      "type": "path"
+    }
+  ]
+}

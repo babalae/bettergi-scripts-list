@@ -1,0 +1,28 @@
+{
+  "info": {
+    "name": "泡泡桔09-优兰尼娅湖-枫丹3个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3618.27392578125,
+      "y": 4057.899169921875
+    },
+    {
+      "id": 2,
+      "x": 3589.734375,
+      "y": 4073.52880859375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    }
+  ]
+}
