@@ -39,6 +39,7 @@
 
     async function AutoPath(locationName) {
         try {
+            log.info(`前往 ${locationName}`);
         let filePath = `assets/AutoPath/${locationName}.json`;
             await pathingScript.runFile(filePath);
         } catch (error) {
