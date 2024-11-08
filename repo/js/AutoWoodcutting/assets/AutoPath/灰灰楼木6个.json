@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "灰灰楼木6个",
+    "type": "collect",
+    "author": "愚溪",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 3,
+      "x": 8978.330078125,
+      "y": -1872.3369140625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": 8996.033203125,
+      "y": -1838.43505859375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 9008.49609375,
+      "y": -1791.96484375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": 9009.5966796875,
+      "y": -1781.61328125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}
