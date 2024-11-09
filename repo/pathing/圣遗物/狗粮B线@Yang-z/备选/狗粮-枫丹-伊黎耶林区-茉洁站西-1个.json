@@ -1,0 +1,41 @@
+{
+    "info": {
+        "name": "",
+        "type": "collect",
+        "author":"Yang-z"
+    },
+    "positions": [
+        {
+            "x": 3773.974609375,
+            "y": 3784.01513671875,
+            "type": "teleport",
+            "move_mode": "walk"
+        },
+        {
+            "x": 3852.51171875,
+            "y": 3843.235107421875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 3949.00244140625,
+            "y": 3830.81884765625,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "stop_flying"
+        },
+        {
+            "x": 3949.00244140625,
+            "y": 3830.81884765625,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "pick_around"
+        },
+        {
+            "x": 3945.8671875,
+            "y": 3833.670654296875,
+            "type": "path",
+            "move_mode": "walk"
+        }
+    ]
+}
