@@ -169,7 +169,8 @@
             log.info(`自动狗粮运行总时长：${formattedTime}`);
         }
     };
-
+    // 启用自动拾取的实时任务
+    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     const startTime = Date.now();
     await runAlternateTasks();
 })();
