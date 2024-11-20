@@ -119,14 +119,35 @@
             click(42, 420); await sleep(500); // zoom out
         }
         click(42, 645); await sleep(1000); // zoom in
+        keyPress("M"); await sleep(1000);
 
         // 打开自动拾取
         dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     }
 
+    // 分解圣遗物
+    async function salvage() {
+        keyPress("B"); await sleep(2000);
+        click(670, 40); await sleep(1000); // 圣遗物
+        click(660, 1010); await sleep(1000); // 分解
+        click(300, 1020); await sleep(1000); // 快速选择
+
+        click(200, 150); await sleep(500); // 1
+        click(200, 220); await sleep(500); // 2
+        click(200, 300); await sleep(500); // 3
+        // click(300, 380); await sleep(3000); // 4
+
+        click(340, 1000); await sleep(1000); // 确认选择
+        click(1720, 1015); await sleep(1500); // 分解
+        click(1180, 750); await sleep(1000); // 进行分解
+
+        click(1840, 45); await sleep(1500); // 取消
+        click(1840, 45); await sleep(1000); // 取消
+        click(1840, 45); await sleep(1000); // 取消
+    }
+
     // 单一脚本执行
-    async function runFile(filePath) {
-        let times = tryTimes; // 剩余尝试次数
+    async function runFile(filePath, times = tryTimes) {
         log.info(filePath);
         try {
             times--;
@@ -135,18 +156,18 @@
         catch (error) {
             log.error(error.toString());
             await sleep(3000);
-            if (times > 0) await runFile(filePath);
+            if (times > 0) await runFile(filePath, times);
         }
     }
 
     // 批量执行
     async function batch(folder, files) {
-        for (const file of files) {
-            const filePath = folder + file;
+        for (let i = 0; i < files.length; i++) {
+            if (i % 15 == 0) await salvage();
+            const filePath = folder + files[i];
             await runFile(filePath);
         }
     }
-
 
     // main
     log.warn('"触摸"需要加入拾取白名单，否则纳塔额外点位无法拾取！')
@@ -163,6 +184,6 @@
     log.info(`开始执行额外线路。`);
     await batch(folderE, pathingE);
     keyPress('VK_LBUTTON'); // 砸开罐子拾取
-    await sleep(3000);
+    await sleep(5000);
 
 })();
