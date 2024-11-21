@@ -75,9 +75,9 @@
     ]; // 97个
 
     const pathingE = [
-        "【额外】狗粮-须弥-水天丛林+7个.json", // 24小时刷新
         "【额外】狗粮-纳塔+7个.json", // 凌晨刷新
-        "【额外】狗粮-枫丹-研究院区-新枫丹科学院南+1个.json"
+        "【额外】狗粮-须弥-水天丛林+7个.json", // 24小时刷新
+        "【额外】狗粮-枫丹-研究院区-新枫丹科学院南+1个.json" // 24小时刷新
     ]; // 15个（其中纳塔第2个似乎是一次性的）
 
 
@@ -116,9 +116,9 @@
         // zoom map to 75%
         keyPress("M"); await sleep(1000);
         for (let i = 0; i < 5; i++) {
-            click(42, 420); await sleep(500); // zoom out
+            click(42, 420); await sleep(500); // zoom in
         }
-        click(42, 645); await sleep(1000); // zoom in
+        click(42, 645); await sleep(1000); // zoom out
         keyPress("M"); await sleep(1000);
 
         // 打开自动拾取
@@ -135,7 +135,7 @@
         click(200, 150); await sleep(500); // 1
         click(200, 220); await sleep(500); // 2
         click(200, 300); await sleep(500); // 3
-        // click(300, 380); await sleep(3000); // 4
+        // click(200, 380); await sleep(3000); // 4
 
         click(340, 1000); await sleep(1000); // 确认选择
         click(1720, 1015); await sleep(1500); // 分解
@@ -183,7 +183,7 @@
     // Extra
     log.info(`开始执行额外线路。`);
     await batch(folderE, pathingE);
-    keyPress('VK_LBUTTON'); // 砸开罐子拾取
+    leftButtonClick(); // 砸开罐子拾取
     await sleep(5000);
 
 })();
