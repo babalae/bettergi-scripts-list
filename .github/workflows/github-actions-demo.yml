@@ -15,11 +15,11 @@ jobs:
 
       - name: Set up Git
         run: |
-          git config --global user.name 'Your Name'
-          git config --global user.email 'your-email@example.com'
+          git config --global user.name 'Traveler07'
+          git config --global user.email 'night.colby.05@gmail.com'
 
       - name: Sync fork
-        uses: devmasx/fork-sync@v1
+        uses: tgymnich/fork-sync@v2.0.10
         with:
-          upstream: original-repo-owner/original-repo-name  # 上游仓库的所有者和名称
+          upstream: babalae/bettergi-scripts-list  # 上游仓库的所有者和名称
           token: ${{ secrets.GITHUB_TOKEN }}  # 使用 GitHub 提供的令牌
