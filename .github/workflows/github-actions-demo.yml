@@ -27,5 +27,5 @@ jobs:
           base: main  # 你的目标分支
           head: main  # 你的源分支
           merge_method: merge  # 合并方法，可选值：merge, squash, rebase
-          # pr_title: 'Sync with upstream'
-          # pr_message: 'Automatically sync with upstream'
+          pr_title: 'Sync with upstream'
+          pr_message: 'Automatically sync with upstream'
