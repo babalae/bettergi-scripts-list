@@ -21,8 +21,6 @@ jobs:
       - name: Sync fork
         uses: tgymnich/fork-sync@v2.0.10
         with:
-          upstream: babalae/bettergi-scripts-list  # 上游仓库的所有者和名称
-          with:
           owner: babalae  # 上游仓库的所有者
           repo: bettergi-scripts-list  # 上游仓库的名称
           token: ${{ secrets.GITHUB_TOKEN }}
