@@ -5,8 +5,8 @@
     click(1920, 100);
     await sleep(1000);
     click(3480, 1948);
-    await sleep(1000);
+    await sleep(3000);
     keyPress("Escape");
 
-    log.info("已领取历练点");
+    log.info("已领取纪行奖励");
 })();
