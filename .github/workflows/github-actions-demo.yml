@@ -12,6 +12,7 @@ jobs:
     steps:
       - uses: tgymnich/fork-sync@v2.0.10
         with:
-          owner: babalae
-          base: master
-          head: master
+            token: ${{ secrets.TOKEN }} 
+            owner: babalae
+            base: master
+            head: master
