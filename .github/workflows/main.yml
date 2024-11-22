@@ -24,13 +24,8 @@ jobs:
           owner: babalae  # 上游仓库的所有者
           repo: bettergi-scripts-list  # 上游仓库的名称
           token: ${{ secrets.GITHUB_TOKEN }}
-<<<<<<< HEAD:.github/workflows/github-actions-demo.yml
           base: main  # 你的目标分支
           head: main  # 你的源分支
-=======
-          base: master  # 你的目标分支
-          head: master  # 你的源分支
->>>>>>> e35d35337fc9f250bd5af70d8d46e810136becac:.github/workflows/main.yml
           merge_method: merge  
           pr_title: 'Sync with upstream'
           pr_message: 'Automatically sync with upstream'
