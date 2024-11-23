@@ -26,13 +26,13 @@
             "action": ""
         }
 
-
-
-
-
-       
     ],
-    "position1": [
+
+
+
+    "position_not_actived": [
+        { "#": "太远" },
+
         {
             "x": 3923.07763671875,
             "y": 4233.857421875,
@@ -52,7 +52,8 @@
             "y": 4324.28125,
             "type": "target",
             "move_mode": "walk",
-            "action": "pick_around"
+            "action": "pick_around",
+            "#": "2"
         },
 
         {
