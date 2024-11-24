@@ -19,13 +19,13 @@ jobs:
           git config --global user.email 'night.colby.05@gmail.com'
 
       - name: Sync fork
-        uses: tgymnich/fork-sync@v2.0.10
+        uses: tgymnich/fork-sync@v1.2.1
         with:
-          owner: babalae  # 上游仓库的所有者
-          repo: bettergi-scripts-list  # 上游仓库的名称
+          owner: babalae
+          repo: bettergi-scripts-list
           token: ${{ secrets.GITHUB_TOKEN }}
-          base: main  # 你的目标分支
-          head: main  # 你的源分支
+          base: main
+          head: main
           merge_method: merge  
           pr_title: 'Sync with upstream'
           pr_message: 'Automatically sync with upstream'
