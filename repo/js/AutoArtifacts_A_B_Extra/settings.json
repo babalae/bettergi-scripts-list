@@ -1,5 +1,11 @@
 [
   {
+    "name": "tryTimes",
+    "type": "input-text",
+    "label": "尝试次数"
+  },
+
+  {
     "name": "path",
     "type": "select",
     "label": "路线",
@@ -9,14 +15,31 @@
       "自动"
     ]
   },
-  {
-    "name": "tryTimes",
-    "type": "input-text",
-    "label": "尝试次数"
-  },
-  {
-    "name": "Extra",
-    "type": "checkbox",
-    "label": "额外点位"
-  }
+  // {
+  //   "name": "swapPath",
+  //   "type": "checkbox",
+  //   "label": "自动选择路线时，交换AB路线"
+  // },
+
+  // {
+  //   "name": "Extra",
+  //   "type": "checkbox",
+  //   "label": "拾取额外点位"
+  // },
+
+  // {
+  //   "name": "autoSalvage",
+  //   "type": "checkbox",
+  //   "label": "自动分解"
+  // },
+  // {
+  //   "name": "autoSalvage4",
+  //   "type": "checkbox",
+  //   "label": "自动分解包括4星圣遗物"
+  // },
+  // {
+  //   "name": "autoSalvageSpan",
+  //   "type": "input-text",
+  //   "label": "自动分解在多少路径后执行一次"
+  // }
 ]
