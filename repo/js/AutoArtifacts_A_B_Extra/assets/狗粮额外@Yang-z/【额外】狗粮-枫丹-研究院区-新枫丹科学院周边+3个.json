@@ -29,11 +29,17 @@
             "type": "path",
             "move_mode": "run"
         },
-        
         {
             "x": 4274.20458984375,
             "y": 4584.49267578125,
             "type": "path",
+            "move_mode": "walk"
+        },
+
+        {
+            "x": 4278.322265625,
+            "y": 4581.658203125,
+            "type": "target",
             "move_mode": "walk"
         },
         {
@@ -41,23 +47,25 @@
             "y": 4579.73193359375,
             "type": "target",
             "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "attack(0.2),attack(0.2),attack(0.2)",
+            "#": 1
+        },
+        {
+            "x": 4281.57421875,
+            "y": 4579.0537109375,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "attack(0.2),attack(0.2),attack(0.2)",
+            "#": 1
+        },
+        {
+            "x": 4281.57421875,
+            "y": 4579.0537109375,
+            "type": "target",
+            "move_mode": "walk",
             "action": "",
-            "#": 1
-        },
-        {
-            "x": 4281.57421875,
-            "y": 4579.0537109375,
-            "type": "target",
-            "move_mode": "fly",
-            "action": "stop_flying",
-            "#": 1
-        },
-        {
-            "x": 4281.57421875,
-            "y": 4579.0537109375,
-            "type": "target",
-            "move_mode": "fly",
-            "action": "stop_flying",
             "#": 1
         },
 
@@ -94,27 +102,35 @@
         },
 
         {
+            "x": 4385.12109375,
+            "y": 4825.5810546875,
+            "type": "target",
+            "move_mode": "walk"
+        },
+        {
             "x": 4383.2890625,
             "y": 4827.6865234375,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
+            "action": "combat_script",
+            "action_params": "attack(0.2),attack(0.2),attack(0.2)",
             "#": 2
         },
         {
             "x": 4382.4169921875,
             "y": 4828.38720703125,
             "type": "target",
-            "move_mode": "fly",
-            "action": "stop_flying",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "attack(0.2),attack(0.2),attack(0.2)",
             "#": 2
         },
         {
             "x": 4381.66357421875,
             "y": 4828.92529296875,
             "type": "target",
-            "move_mode": "fly",
-            "action": "stop_flying",
+            "move_mode": "walk",
+            "action": "",
             "#": 2
         },
 
@@ -126,33 +142,42 @@
             "move_mode": "run"
         },
         {
-            "x": 4454.5625,
-            "y": 4862.7509765625,
+            "x": 4452.7392578125,
+            "y": 4861.34375,
             "type": "path",
             "move_mode": "run"
+        },
+
+        {
+            "x": 4457.26513671875,
+            "y": 4866.49365234375,
+            "type": "target",
+            "move_mode": "walk"
         },
         {
             "x": 4458.3935546875,
             "y": 4867.66015625,
             "type": "target",
             "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "attack(0.2),attack(0.2),attack(0.2)",
+            "#": 3
+        },
+        {
+            "x": 4459.04248046875,
+            "y": 4868.44873046875,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "attack(0.2),attack(0.2),attack(0.2)",
+            "#": 3
+        },
+        {
+            "x": 4459.04248046875,
+            "y": 4868.44873046875,
+            "type": "target",
+            "move_mode": "walk",
             "action": "",
-            "#": 3
-        },
-        {
-            "x": 4459.04248046875,
-            "y": 4868.44873046875,
-            "type": "target",
-            "move_mode": "fly",
-            "action": "stop_flying",
-            "#": 3
-        },
-        {
-            "x": 4459.04248046875,
-            "y": 4868.44873046875,
-            "type": "target",
-            "move_mode": "fly",
-            "action": "stop_flying",
             "#": 3
         },
         {
