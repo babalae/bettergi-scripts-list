@@ -36,9 +36,7 @@
     const pathingB = [
         "狗粮-枫丹-白露区-秋分山东侧-2个.json",
         "狗粮-枫丹-白露区-秋分山西侧-北-2个.json",
-        "狗粮-枫丹-莫尔泰区-七天神像-1个.json",
         "狗粮-枫丹-伊黎耶林区-欧庇克莱歌剧院东南-2个.json",
-        "狗粮-枫丹-研究院区-东-3个.json",
         "（恢复）狗粮-枫丹-研究院区.json",
         "狗粮-枫丹-研究院区-学术会堂-1个／2个.json",
         "狗粮-枫丹-研究院区-中央实验室遗址-北侧屋内-4个.json",
@@ -61,6 +59,8 @@
         "狗粮-稻妻-清籁岛-越石村-8个.json",
         "狗粮-稻妻-清籁岛-平海砦西-8个.json",
         "狗粮-稻妻-鹤观-东-3个.json",
+        "狗粮-稻妻-鹤观-东偏中-2个.json",
+        "狗粮-稻妻-鹤观-南-2个.json",
         "（恢复）狗粮-稻妻-清籁岛.json",
         "【收尾】狗粮-稻妻-清籁岛-清籁丸-20个.json",
         "（恢复）狗粮-稻妻-清籁岛.json",
@@ -72,16 +72,6 @@
         "【额外】狗粮-枫丹-研究院区-新枫丹科学院周边+3个.json" // 24小时刷新
     ]; // 17个（其中纳塔第2个似乎是一次性的）
 
-
-    let tryTimes = 2; // 尝试次数
-    function updateTryTimes() {
-        try {
-            tryTimes = ~~settings.tryTimes ? ~~settings.tryTimes : 2;
-        } catch (error) {
-            log.error(error.toString());
-        }
-        log.debug(`全局尝试次数：${tryTimes}`);
-    }
 
     let path = ''; // 路线
     function determinePath() {
@@ -136,13 +126,13 @@
     }
 
     // 单一脚本执行
-    async function runFile(filePath, times = tryTimes) {
+    async function runFile(filePath, times = 2) {
         log.info(filePath);
         try {
             times--;
             await pathingScript.runFile(filePath);
         }
-        catch (error) {
+        catch (error) { // bgi已捕获可预期异常，此处仅做兜底
             log.error(error.toString());
             await sleep(3000);
             if (times > 0) await runFile(filePath, times);
@@ -162,7 +152,6 @@
     }
 
     // main
-    updateTryTimes();
     determinePath();
     await init();
 
