@@ -29,16 +29,13 @@
         "（恢复）狗粮-稻妻-神无冢.json",
         "【收尾】狗粮-稻妻-神无冢-踏鞴砂①-6个／21个.json",
         "【收尾】狗粮-稻妻-神无冢-踏鞴砂②-7个／21个.json",
-        "【收尾】狗粮-稻妻-神无冢-踏鞴砂③-8个／21个.json",
-        "（恢复）狗粮-稻妻-神无冢.json"
+        "【收尾】狗粮-稻妻-神无冢-踏鞴砂③-8个／21个.json"
     ]; // 97+21个
 
     const pathingB = [
         "狗粮-枫丹-白露区-秋分山东侧-2个.json",
         "狗粮-枫丹-白露区-秋分山西侧-北-2个.json",
-        "狗粮-枫丹-莫尔泰区-七天神像-1个.json",
         "狗粮-枫丹-伊黎耶林区-欧庇克莱歌剧院东南-2个.json",
-        "狗粮-枫丹-研究院区-东-3个.json",
         "（恢复）狗粮-枫丹-研究院区.json",
         "狗粮-枫丹-研究院区-学术会堂-1个／2个.json",
         "狗粮-枫丹-研究院区-中央实验室遗址-北侧屋内-4个.json",
@@ -61,9 +58,10 @@
         "狗粮-稻妻-清籁岛-越石村-8个.json",
         "狗粮-稻妻-清籁岛-平海砦西-8个.json",
         "狗粮-稻妻-鹤观-东-3个.json",
+        "狗粮-稻妻-鹤观-东偏中-2个.json",
+        "狗粮-稻妻-鹤观-南-2个.json",
         "（恢复）狗粮-稻妻-清籁岛.json",
-        "【收尾】狗粮-稻妻-清籁岛-清籁丸-20个.json",
-        "（恢复）狗粮-稻妻-清籁岛.json",
+        "【收尾】狗粮-稻妻-清籁岛-清籁丸-20个.json"
     ]; // 97+20个
 
     const pathingE = [
@@ -72,16 +70,6 @@
         "【额外】狗粮-枫丹-研究院区-新枫丹科学院周边+3个.json" // 24小时刷新
     ]; // 17个（其中纳塔第2个似乎是一次性的）
 
-
-    let tryTimes = 2; // 尝试次数
-    function updateTryTimes() {
-        try {
-            tryTimes = ~~settings.tryTimes ? ~~settings.tryTimes : 2;
-        } catch (error) {
-            log.error(error.toString());
-        }
-        log.debug(`全局尝试次数：${tryTimes}`);
-    }
 
     let path = ''; // 路线
     function determinePath() {
@@ -101,17 +89,20 @@
     }
 
     // 准备
-    async function init() {
+    async function init(resizeMap = true) {
         // restore and alignment
         await genshin.tp("253.146484375", "1285.14306640625"); await sleep(3000);
 
-        // zoom map to 75%
-        keyPress("M"); await sleep(1000);
-        for (let i = 0; i < 5; i++) {
-            click(42, 420); await sleep(500); // zoom in
+        if (resizeMap) {
+            // zoom map to 75%
+            keyPress("M"); await sleep(1000);
+            for (let i = 0; i < 5; i++) {
+                click(42, 420); await sleep(500); // zoom in
+            }
+            click(42, 645); await sleep(1000); // zoom out
+            keyPress("M"); await sleep(1000);
         }
-        click(42, 645); await sleep(1000); // zoom out
-        keyPress("M"); await sleep(1000);
+
     }
 
     // 分解圣遗物
@@ -136,13 +127,13 @@
     }
 
     // 单一脚本执行
-    async function runFile(filePath, times = tryTimes) {
+    async function runFile(filePath, times = 2) {
         log.info(filePath);
         try {
             times--;
             await pathingScript.runFile(filePath);
         }
-        catch (error) {
+        catch (error) { // bgi已捕获可预期异常，此处仅做兜底
             log.error(error.toString());
             await sleep(3000);
             if (times > 0) await runFile(filePath, times);
@@ -162,16 +153,16 @@
     }
 
     // main
-    updateTryTimes();
     determinePath();
-    await init();
 
     // A or B
+    await init();
     log.info(`开始执行${path}线路。`);
     if (path == 'A') await batch(folderA, pathingA);
     else await batch(folderB, pathingB);
 
     // Extra
+    await init(false);
     log.info(`开始执行额外线路。`);
     await batch(folderE, pathingE, true); // 强制交互
 
