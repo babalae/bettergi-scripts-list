@@ -1,5 +1,5 @@
 (async function () {
-
+    setGameMetrics(1920, 1080, 1);
     const folderA = 'assets/狗粮A线@Yang-z/';
     const folderB = 'assets/狗粮B线@Yang-z/';
     const folderE = 'assets/狗粮额外@Yang-z/';

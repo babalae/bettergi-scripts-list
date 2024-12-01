@@ -1,0 +1,18 @@
+{
+  "manifest_version": 1,
+  "name": "芙芙挂机暗杀流", // 名称
+  "version": "1.0", // 版本
+  "bgi_version": "0.37.2", // 适用于 BetterGI 的最低版本，BetterGI低于此版本会提示
+  "description": "用于芙宁娜海鲜挂机暗杀地方传奇", // 描述
+  // 作者信息
+  "authors": [
+    {
+      "name": "起个名字好难",
+      "link": "https://mualani.fun"
+    }
+  ],
+  // 自定义配置
+  "settings_ui": "settings.json",
+  // 入口文件
+  "main": "main.js"
+}
