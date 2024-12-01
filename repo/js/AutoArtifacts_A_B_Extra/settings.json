@@ -1,40 +1,55 @@
 [
-
   {
     "name": "path",
     "type": "select",
-    "label": "路线",
+    "label": "路线（默认：自动）",
     "options": [
       "A",
       "B",
       "自动"
     ]
   },
-  // {
-  //   "name": "swapPath",
-  //   "type": "checkbox",
-  //   "label": "自动选择路线时，交换AB路线"
-  // },
+  {
+    "name": "swapPath",
+    "type": "select",
+    "label": "自动选择路线时，交换AB路线（默认：否）",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
 
-  // {
-  //   "name": "Extra",
-  //   "type": "checkbox",
-  //   "label": "拾取额外点位"
-  // },
+  {
+    "name": "extra",
+    "type": "select",
+    "label": "拾取额外点位（默认：是）",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
 
-  // {
-  //   "name": "autoSalvage",
-  //   "type": "checkbox",
-  //   "label": "自动分解"
-  // },
-  // {
-  //   "name": "autoSalvage4",
-  //   "type": "checkbox",
-  //   "label": "自动分解包括4星圣遗物"
-  // },
-  // {
-  //   "name": "autoSalvageSpan",
-  //   "type": "input-text",
-  //   "label": "自动分解在多少路径后执行一次"
-  // }
+  {
+    "name": "autoSalvage",
+    "type": "select",
+    "label": "自动分解（默认：是）",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
+  {
+    "name": "autoSalvage4",
+    "type": "select",
+    "label": "自动分解包括4星圣遗物（默认：否）",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
+  {
+    "name": "autoSalvageSpan",
+    "type": "input-text",
+    "label": "自动分解在多少路径后执行一次（默认：10）"
+  }
 ]
