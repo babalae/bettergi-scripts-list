@@ -82,6 +82,7 @@
     const startTime = Date.now();
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
 
+    setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
     let exitdelay = Number(settings.exitdelay);
     let loadingdelay = Number(settings.loadingdelay);
     const { exitDelay: validatedExitDelay, loadingDelay: validatedLoadingDelay } = validateAndSetDefaults(exitdelay, loadingdelay);
