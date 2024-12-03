@@ -76,7 +76,7 @@
     let swapPath = settings.swapPath != undefined && settings.swapPath != '否' ? true : false;
     let extra = settings.extra != undefined && settings.extra != '是' ? false : true;
     let autoSalvage = settings.autoSalvage != undefined && settings.autoSalvage != '是' ? false : true;
-    let autoSalvage4 = settings.autoSalvage4 != undefined && autoSalvage4 != '否' ? true : false;
+    let autoSalvage4 = settings.autoSalvage4 != undefined && settings.autoSalvage4 != '否' ? true : false;
     let autoSalvageSpan = settings.autoSalvageSpan != undefined && ~~settings.autoSalvageSpan > 0 ? ~~settings.autoSalvageSpan : 10;
 
     log.debug(`path: ${path}; swapPath: ${swapPath}; extra: ${extra}; autoSalvage: ${autoSalvage}; autoSalvage4: ${autoSalvage4}; autoSalvageSpan: ${autoSalvageSpan};`);
@@ -178,7 +178,7 @@
         await batch(folderE, pathingE, true); // 强制交互
     }
 
-    log.info(`今日狗粮拾取任务完成。拾取路线：${path}+E`);
+    log.info(`今日狗粮拾取任务完成。拾取路线：${path}${extra ? '+E' : ''}`);
     await sleep(3000);
 
 })();
