@@ -24,13 +24,13 @@ for (let i = 0; i < settings.cycle_times; ++i) {
     await sleep(1000);
 
     keyPress("E");//释放芙芙元素战技
-    await sleep(1000);
+    await sleep(800);
 
     keyPress("2");//芙芙切后台触发剧团
-    await sleep(1000);
+    await sleep(500);
 
     keyPress("T");//附身纳塔龙
-    await sleep(27000);
+    await sleep(28500);
 
     log.info("第"+(i+1)+"次执行完成")
 }
