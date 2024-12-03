@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "琉璃带-天球古-2个",
+    "type": "collect",
+    "author": "yulalaa",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.34.5"
+  },
+  "positions": [
+    {
+      "id": 3,
+      "x": 1268.359375,
+      "y": -64.189453125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 1261.0966796875,
+      "y": -76.41796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 1228.5927734375,
+      "y": -114.6513671875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 1183.3837890625,
+      "y": -160.3134765625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "info": {
+    "name": "圣金虫_秘仪圣殿北_1",
+    "type": "collect",
+    "author": "Tim",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.34.5"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4994.080078125,
+      "y": -2161.736328125
+    },
+    {
+      "id": 2,
+      "x": 4987.9482421875,
+      "y": -2190.603515625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 4977.107421875,
+      "y": -2224.5419921875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

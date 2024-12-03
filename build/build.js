@@ -56,8 +56,32 @@ function extractInfoFromJSFolder(folderPath) {
 function extractInfoFromPathingFile(filePath, parentFolders) {
     const content = JSON.parse(fs.readFileSync(filePath, 'utf8'));
     let tags = parentFolders.slice(2)  // 从第三个元素开始，跳过 'pathing' 和下一级目录
-        .map(tag => tag.split('@')[0]) // 取@符号前面的数据
+        .filter(tag => !tag.includes('@'))  // 跳过包含 @ 的标签
         .filter((tag, index, self) => self.indexOf(tag) === index); // 去重
+
+    // 检查positions数组中是否存在特定动作
+    if (content.positions && Array.isArray(content.positions)) {
+        const hasNahidaCollect = content.positions.some(pos => pos.action === 'nahida_collect');
+        const hasHydroCollect = content.positions.some(pos => pos.action === 'hydro_collect');
+        const hasAnemoCollect = content.positions.some(pos => pos.action === 'anemo_collect');
+        const hasElectroCollect = content.positions.some(pos => pos.action === 'electro_collect');
+        const hasUpDownGrabLeaf = content.positions.some(pos => pos.action === 'up_down_grab_leaf');
+        if (hasNahidaCollect) {
+            tags.push('纳西妲');
+        }
+        if (hasHydroCollect) {
+            tags.push('水元素力收集');
+        }
+        if (hasAnemoCollect) {
+            tags.push('风元素力收集');
+        }
+        if (hasElectroCollect) {
+            tags.push('雷元素力收集');
+        }
+        if (hasUpDownGrabLeaf) {
+            tags.push('四叶印');
+        }
+    }
 
     return {
         author: content.info && content.info.author ? content.info.author : '',
@@ -108,12 +132,19 @@ function generateDirectoryTree(dir, currentDepth = 0, parentFolders = []) {
                 info.tags = jsInfo.tags;
             }
         } else {
-            info.children = fs.readdirSync(dir).map(child => {
-                const childPath = path.join(dir, child);
-                return generateDirectoryTree(childPath, currentDepth + 1, [...parentFolders, info.name]);
-            });
+            info.children = fs.readdirSync(dir)
+                .filter(child => !['desktop.ini', 'icon.ico'].includes(child)) // 过滤掉 desktop.ini 和 icon.ico
+                .map(child => {
+                    const childPath = path.join(dir, child);
+                    return generateDirectoryTree(childPath, currentDepth + 1, [...parentFolders, info.name]);
+                });
         }
     } else {
+        // 如果是 desktop.ini 或 icon.ico 文件，直接返回 null
+        if (['desktop.ini', 'icon.ico'].includes(info.name)) {
+            return null;
+        }
+
         const hash = calculateSHA1(dir);
         info.hash = hash;
         info.version = hash.substring(0, 7);

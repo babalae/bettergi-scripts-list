@@ -1,0 +1,36 @@
+{
+  "info": {
+    "name": "攀爬速度测试",
+    "type": "collect",
+    "author": "HZYgrandma",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1629.373046875,
+      "y": 2834.40283203125
+    },
+    {
+      "id": 2,
+      "x": -1611.1640625,
+      "y": 2823.08056640625,
+      "type": "path",
+      "move_mode": "climb",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -1602.9296875,
+      "y": 2819.64990234375,
+      "type": "path",
+      "move_mode": "climb",
+      "action": ""
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "info": {
+    "name": "鸟蛋-纳塔-回声之子下方锚点-2个",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7633.8056640625,
+      "y": -1646.66796875
+    },
+    {
+      "id": 3,
+      "x": 7637.474609375,
+      "y": -1641.02490234375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

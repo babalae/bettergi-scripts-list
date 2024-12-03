@@ -251,6 +251,11 @@
                 213.12219238281,
                 9041.2890625
             ]
+        },
+        {
+            "description": "Domain",
+            "name": "昏识塔",
+            "position": [-93.67, 0, 3015.46]
         }
     ]
 
@@ -261,16 +266,34 @@
     let domainInfo = domainList.find(function (domain) {
         return domain.name === domainName;
     });
-    await genshin.tp(domainInfo.position[2], domainInfo.position[0]);
-    await sleep(1000);
+    while(true){
+        try{
+            await genshin.tp(domainInfo.position[2], domainInfo.position[0]);
+            await sleep(1000);
 
-    // 向前走
-    keyDown("w");
-    await sleep(2500);
-    keyUp("w");
+            // 向前走
+            keyDown("w");
+            await sleep(2500);
+            keyUp("w");
 
-    await sleep(500);
+            await sleep(500);
 
-    // 执行自动秘境
-    await dispatcher.runTask(new SoloTask("AutoDomain"));
+            // 执行自动秘境
+            await dispatcher.runTask(new SoloTask("AutoDomain"));
+            await sleep(500);
+            break;
+        }catch (ex) 
+        {
+            if (ex.message.includes("检测到复苏界面"))
+            {
+                log.info("复活后，继续执行自动秘境。");
+                continue;
+            }
+            else
+            {
+                // 如果不包含 "检测到复苏界面"，则继续抛出异常
+                throw ex;
+            } 
+        }
+    }
 })();

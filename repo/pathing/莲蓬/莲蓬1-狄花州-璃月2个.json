@@ -1,0 +1,36 @@
+{
+  "info": {
+    "name": "莲蓬1-狄花州-璃月2个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.34.5"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 253.10546875,
+      "y": 1285.19091796875
+    },
+    {
+      "id": 2,
+      "x": 242.8359375,
+      "y": 1294.07568359375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 209.1416015625,
+      "y": 1305.79541015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

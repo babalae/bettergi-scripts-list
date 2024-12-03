@@ -1,0 +1,37 @@
+{
+  "info": {
+    "name": "赤念果",
+    "type": "collect",
+    "country": "须弥",
+    "author": "½",
+    "version": "",
+    "description": "需要纳西妲",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5655.267578125,
+      "y": -1822.481689453125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 5643.912353515625,
+      "y": -1812.25830078125,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": 5636.08544921875,
+      "y": -1850.376220703125,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

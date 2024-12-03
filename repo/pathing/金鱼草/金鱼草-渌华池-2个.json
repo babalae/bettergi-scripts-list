@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "谢谢01",
+    "type": "collect",
+    "author": "曦",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 489.4033203125,
+      "y": 222.20361328125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 498.826171875,
+      "y": 225.86279296875,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 520.0380859375,
+      "y": 213.005859375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 514.2041015625,
+      "y": 188.61474609375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

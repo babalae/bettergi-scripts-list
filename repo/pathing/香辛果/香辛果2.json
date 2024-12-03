@@ -1,0 +1,140 @@
+{
+  "info": {
+    "name": "香辛果2",
+    "type": "collect",
+    "author": "玛卡巴卡",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3021.14599609375,
+      "y": -94.978515625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3023.82373046875,
+      "y": -104.31103515625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 3,
+      "x": 2482.8349609375,
+      "y": 6.08203125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 4,
+      "x": 2464.79150390625,
+      "y": -11.556640625,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 2462.505859375,
+      "y": -13.55078125,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 2470.47314453125,
+      "y": -21.86669921875,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 2477.47509765625,
+      "y": -28.6123046875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 2454.35400390625,
+      "y": -88.97509765625,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 2446.66650390625,
+      "y": -101.0791015625,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 2342.3310546875,
+      "y": -4.7001953125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 11,
+      "x": 2345.27783203125,
+      "y": -7.5751953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 12,
+      "x": 2288.6728515625,
+      "y": -1197.65234375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 13,
+      "x": 2332.61572265625,
+      "y": -1221.57568359375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 14,
+      "x": 2343.76318359375,
+      "y": -1223.80419921875,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 15,
+      "x": 2360.0966796875,
+      "y": -1233.7880859375,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 16,
+      "x": 2363.9541015625,
+      "y": -1236.484375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

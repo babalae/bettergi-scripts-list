@@ -1,12 +1,23 @@
 (async function () {
-    setGameMetrics(1920, 1080, 2); // 设置游戏窗口大小和DPI
+    setGameMetrics(1920, 1080, 2);
     keyPress("F");
-    await sleep(3000); 
-    click(960, 540); 
-    await sleep(2000); 
-    click(1400, 430);
-    await sleep(3000); 
-    click(950, 800); 
-
-    log.info("已领取每日委托奖励");
+    log.info("按下F键");
+    await sleep(1000);
+    log.info("等待1秒");
+    click(960, 540);
+    log.info("点击坐标(960, 540)(屏幕中心)");
+    await sleep(1000);
+    log.info("等待1秒");
+    click(1380, 425);
+    log.info("点击坐标(1380, 425)(领取「每日委托」奖励)");
+    await sleep(1000);
+    log.info("等待1秒");
+    click(960, 540);
+    log.info("点击坐标(960, 540)(屏幕中心)");
+    await sleep(3000);
+    log.info("等待3秒");
+    click(960, 960);
+    log.info("点击坐标(960, 960)(关闭奖励弹出页面)");
+    
+    log.info("结束");
 })();
