@@ -29,16 +29,13 @@
         "（恢复）狗粮-稻妻-神无冢.json",
         "【收尾】狗粮-稻妻-神无冢-踏鞴砂①-6个／21个.json",
         "【收尾】狗粮-稻妻-神无冢-踏鞴砂②-7个／21个.json",
-        "【收尾】狗粮-稻妻-神无冢-踏鞴砂③-8个／21个.json",
-        "（恢复）狗粮-稻妻-神无冢.json"
+        "【收尾】狗粮-稻妻-神无冢-踏鞴砂③-8个／21个.json"
     ]; // 97+21个
 
     const pathingB = [
         "狗粮-枫丹-白露区-秋分山东侧-2个.json",
         "狗粮-枫丹-白露区-秋分山西侧-北-2个.json",
-        "狗粮-枫丹-莫尔泰区-七天神像-1个.json",
         "狗粮-枫丹-伊黎耶林区-欧庇克莱歌剧院东南-2个.json",
-        "狗粮-枫丹-研究院区-东-3个.json",
         "（恢复）狗粮-枫丹-研究院区.json",
         "狗粮-枫丹-研究院区-学术会堂-1个／2个.json",
         "狗粮-枫丹-研究院区-中央实验室遗址-北侧屋内-4个.json",
@@ -61,9 +58,10 @@
         "狗粮-稻妻-清籁岛-越石村-8个.json",
         "狗粮-稻妻-清籁岛-平海砦西-8个.json",
         "狗粮-稻妻-鹤观-东-3个.json",
+        "狗粮-稻妻-鹤观-东偏中-2个.json",
+        "狗粮-稻妻-鹤观-南-2个.json",
         "（恢复）狗粮-稻妻-清籁岛.json",
-        "【收尾】狗粮-稻妻-清籁岛-清籁丸-20个.json",
-        "（恢复）狗粮-稻妻-清籁岛.json",
+        "【收尾】狗粮-稻妻-清籁岛-清籁丸-20个.json"
     ]; // 97+20个
 
     const pathingE = [
@@ -73,58 +71,60 @@
     ]; // 17个（其中纳塔第2个似乎是一次性的）
 
 
-    let tryTimes = 2; // 尝试次数
-    function updateTryTimes() {
-        try {
-            tryTimes = ~~settings.tryTimes ? ~~settings.tryTimes : 2;
-        } catch (error) {
-            log.error(error.toString());
-        }
-        log.debug(`全局尝试次数：${tryTimes}`);
-    }
+    // 读取用户设置（JS脚本直接运行已不会抛出异常，但默认值还不支持[bgi0.37.1]）
+    let path = settings.path != undefined ? settings.path : '';
+    let swapPath = settings.swapPath != undefined && settings.swapPath != '否' ? true : false;
+    let extra = settings.extra != undefined && settings.extra != '是' ? false : true;
+    let autoSalvage = settings.autoSalvage != undefined && settings.autoSalvage != '是' ? false : true;
+    let autoSalvage4 = settings.autoSalvage4 != undefined && autoSalvage4 != '否' ? true : false;
+    let autoSalvageSpan = settings.autoSalvageSpan != undefined && ~~settings.autoSalvageSpan > 0 ? ~~settings.autoSalvageSpan : 10;
 
-    let path = ''; // 路线
+    log.debug(`path: ${path}; swapPath: ${swapPath}; extra: ${extra}; autoSalvage: ${autoSalvage}; autoSalvage4: ${autoSalvage4}; autoSalvageSpan: ${autoSalvageSpan};`);
+    // await sleep(30000);
+
+    // 路线
     function determinePath() {
-        try {
-            path = settings.path;
-        } catch (error) {
-            log.error(error.toString());
-        }
-
         if (path != 'A' && path != 'B') {
             const benchmark = new Date("2024-11-20T04:00:00");
             const now = new Date();
             const delta = now - benchmark;
             const days = delta / (1000 * 60 * 60 * 24);
             path = days % 2 < 1 ? 'A' : 'B';
+
+            if (swapPath) path = path == 'A' ? 'B' : 'A';
         }
     }
 
     // 准备
-    async function init() {
+    async function init(resizeMap = true) {
         // restore and alignment
         await genshin.tp("253.146484375", "1285.14306640625"); await sleep(3000);
 
-        // zoom map to 75%
-        keyPress("M"); await sleep(1000);
-        for (let i = 0; i < 5; i++) {
-            click(42, 420); await sleep(500); // zoom in
+        if (resizeMap) {
+            // zoom map to 75%
+            keyPress("M"); await sleep(1000);
+            for (let i = 0; i < 5; i++) {
+                click(42, 420); await sleep(500); // zoom in
+            }
+            click(42, 645); await sleep(1000); // zoom out
+            keyPress("M"); await sleep(1000);
         }
-        click(42, 645); await sleep(1000); // zoom out
-        keyPress("M"); await sleep(1000);
+
     }
 
     // 分解圣遗物
     async function salvage() {
+        if (!autoSalvage) return;
+
         keyPress("B"); await sleep(2000);
         click(670, 40); await sleep(1000); // 圣遗物
         click(660, 1010); await sleep(1000); // 分解
         click(300, 1020); await sleep(1000); // 快速选择
 
-        click(200, 150); await sleep(500); // 1
+        click(200, 140); await sleep(500); // 1
         click(200, 220); await sleep(500); // 2
         click(200, 300); await sleep(500); // 3
-        // click(200, 380); await sleep(3000); // 4
+        if (autoSalvage4) click(200, 380); await sleep(500); // 4
 
         click(340, 1000); await sleep(1000); // 确认选择
         click(1720, 1015); await sleep(1500); // 分解
@@ -136,13 +136,13 @@
     }
 
     // 单一脚本执行
-    async function runFile(filePath, times = tryTimes) {
+    async function runFile(filePath, times = 2) {
         log.info(filePath);
         try {
             times--;
             await pathingScript.runFile(filePath);
         }
-        catch (error) {
+        catch (error) { // bgi已捕获可预期异常，此处仅做兜底
             log.error(error.toString());
             await sleep(3000);
             if (times > 0) await runFile(filePath, times);
@@ -155,25 +155,28 @@
         dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": forceInteraction }));
 
         for (let i = 0; i < files.length; i++) {
-            if (i % 10 == 0) await salvage();
+            if (i % autoSalvageSpan == 0) await salvage();
             const filePath = folder + files[i];
             await runFile(filePath);
         }
     }
 
     // main
-    updateTryTimes();
+    setGameMetrics(1920, 1080, 1);
     determinePath();
-    await init();
 
     // A or B
+    await init();
     log.info(`开始执行${path}线路。`);
     if (path == 'A') await batch(folderA, pathingA);
     else await batch(folderB, pathingB);
 
     // Extra
-    log.info(`开始执行额外线路。`);
-    await batch(folderE, pathingE, true); // 强制交互
+    if (extra) {
+        await init(false);
+        log.info(`开始执行额外线路。`);
+        await batch(folderE, pathingE, true); // 强制交互
+    }
 
     log.info(`今日狗粮拾取任务完成。拾取路线：${path}+E`);
     await sleep(3000);
