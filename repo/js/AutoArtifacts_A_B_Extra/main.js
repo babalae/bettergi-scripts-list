@@ -1,5 +1,5 @@
 (async function () {
-    setGameMetrics(1920, 1080, 1);
+
     const folderA = 'assets/狗粮A线@Yang-z/';
     const folderB = 'assets/狗粮B线@Yang-z/';
     const folderE = 'assets/狗粮额外@Yang-z/';
@@ -71,20 +71,27 @@
     ]; // 17个（其中纳塔第2个似乎是一次性的）
 
 
-    let path = ''; // 路线
-    function determinePath() {
-        try {
-            path = settings.path;
-        } catch (error) {
-            log.error(error.toString());
-        }
+    // 读取用户设置（JS脚本直接运行已不会抛出异常，但默认值还不支持[bgi0.37.1]）
+    let path = settings.path != undefined ? settings.path : '';
+    let swapPath = settings.swapPath != undefined && settings.swapPath != '否' ? true : false;
+    let extra = settings.extra != undefined && settings.extra != '是' ? false : true;
+    let autoSalvage = settings.autoSalvage != undefined && settings.autoSalvage != '是' ? false : true;
+    let autoSalvage4 = settings.autoSalvage4 != undefined && settings.autoSalvage4 != '否' ? true : false;
+    let autoSalvageSpan = settings.autoSalvageSpan != undefined && ~~settings.autoSalvageSpan > 0 ? ~~settings.autoSalvageSpan : 10;
 
+    log.debug(`path: ${path}; swapPath: ${swapPath}; extra: ${extra}; autoSalvage: ${autoSalvage}; autoSalvage4: ${autoSalvage4}; autoSalvageSpan: ${autoSalvageSpan};`);
+    // await sleep(30000);
+
+    // 路线
+    function determinePath() {
         if (path != 'A' && path != 'B') {
             const benchmark = new Date("2024-11-20T04:00:00");
             const now = new Date();
             const delta = now - benchmark;
             const days = delta / (1000 * 60 * 60 * 24);
             path = days % 2 < 1 ? 'A' : 'B';
+
+            if (swapPath) path = path == 'A' ? 'B' : 'A';
         }
     }
 
@@ -107,15 +114,17 @@
 
     // 分解圣遗物
     async function salvage() {
+        if (!autoSalvage) return;
+
         keyPress("B"); await sleep(2000);
         click(670, 40); await sleep(1000); // 圣遗物
         click(660, 1010); await sleep(1000); // 分解
         click(300, 1020); await sleep(1000); // 快速选择
 
-        click(200, 150); await sleep(500); // 1
+        click(200, 140); await sleep(500); // 1
         click(200, 220); await sleep(500); // 2
         click(200, 300); await sleep(500); // 3
-        // click(200, 380); await sleep(3000); // 4
+        if (autoSalvage4) click(200, 380); await sleep(500); // 4
 
         click(340, 1000); await sleep(1000); // 确认选择
         click(1720, 1015); await sleep(1500); // 分解
@@ -146,13 +155,14 @@
         dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": forceInteraction }));
 
         for (let i = 0; i < files.length; i++) {
-            if (i % 10 == 0) await salvage();
+            if (i % autoSalvageSpan == 0) await salvage();
             const filePath = folder + files[i];
             await runFile(filePath);
         }
     }
 
     // main
+    setGameMetrics(1920, 1080, 1);
     determinePath();
 
     // A or B
@@ -162,11 +172,13 @@
     else await batch(folderB, pathingB);
 
     // Extra
-    await init(false);
-    log.info(`开始执行额外线路。`);
-    await batch(folderE, pathingE, true); // 强制交互
+    if (extra) {
+        await init(false);
+        log.info(`开始执行额外线路。`);
+        await batch(folderE, pathingE, true); // 强制交互
+    }
 
-    log.info(`今日狗粮拾取任务完成。拾取路线：${path}+E`);
+    log.info(`今日狗粮拾取任务完成。拾取路线：${path}${extra ? '+E' : ''}`);
     await sleep(3000);
 
 })();
