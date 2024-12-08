@@ -1,0 +1,36 @@
+{
+  "info": {
+    "name": "苹果06-地中之盐-璃月3个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -188.5224609375,
+      "y": 972.50537109375
+    },
+    {
+      "id": 2,
+      "x": -78.3798828125,
+      "y": 987.20263671875,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": -67.8271484375,
+      "y": 1050.791015625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    }
+  ]
+}
