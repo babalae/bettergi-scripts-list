@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "苹果04-奔狼岭-蒙德3个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -385.4775390625,
+      "y": 2297.24609375
+    },
+    {
+      "id": 2,
+      "x": -426.2548828125,
+      "y": 2233.7373046875,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": -445.16015625,
+      "y": 2213.802001953125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": -438.41015625,
+      "y": 2213.377685546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

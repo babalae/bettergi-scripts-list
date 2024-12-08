@@ -1,0 +1,28 @@
+{
+  "info": {
+    "name": "苹果02-清泉镇-蒙德5个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -914.9873046875,
+      "y": 1795.625
+    },
+    {
+      "id": 2,
+      "x": -847.3740234375,
+      "y": 1805.662109375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    }
+  ]
+}

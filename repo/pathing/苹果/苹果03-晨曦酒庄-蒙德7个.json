@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "苹果03-晨曦酒庄-蒙德7个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -578.853515625,
+      "y": 1853.5107421875
+    },
+    {
+      "id": 2,
+      "x": -560.318359375,
+      "y": 1799.22705078125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 3,
+      "x": -549.3193359375,
+      "y": 1790.41064453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": -542.4462890625,
+      "y": 1772.84619140625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": -430.2861328125,
+      "y": 1765.62158203125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": -421.60546875,
+      "y": 1785.40576171875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": -410.3427734375,
+      "y": 1796.1630859375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}
