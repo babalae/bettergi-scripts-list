@@ -1,0 +1,98 @@
+{
+  "info": {
+    "name": "璃月-归离原-却砂木-39个",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 341.3017578125,
+      "y": 548.232421875
+    },
+    {
+      "id": 2,
+      "x": 350.7763671875,
+      "y": 542.86328125,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 367.6201171875,
+      "y": 524.19580078125,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x":406.9091796875,
+      "y":503.80615234375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z),wait(1.2)"
+    },
+    {
+      "id": 5,
+      "x": 418.763671875,
+      "y": 494.4697265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z),wait(1.5)"
+    },
+    {
+      "id": 7,
+      "x": 417.869140625,
+      "y": 479.9580078125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z),wait(1)"
+    },
+    {
+      "id": 7,
+      "x": 430.8212890625,
+      "y": 464.87109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 8,
+      "x": 420.044921875,
+      "y": 474.55419921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x":396.82421875,
+      "y":461.33837890625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z),wait(1)"
+    },
+    {
+      "id": 10,
+      "x": 386.46875,
+      "y": 475.10400390625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    }
+  ]
+}

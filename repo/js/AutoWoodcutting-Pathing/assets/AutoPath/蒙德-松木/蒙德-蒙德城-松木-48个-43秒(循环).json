@@ -1,0 +1,80 @@
+{
+  "info": {
+    "name": "蒙德-蒙德城-松木-48个-43秒(循环)",
+    "type": "collect",
+    "author": "Tim",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -790.3994140625,
+      "y": 2256.621337890625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -777.7216796875,
+      "y": 2257.013427734375,
+      "move_mode": "walk",
+      "type": "path",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 1,
+      "x": -779.3896484375,
+      "y": 2285.1611328125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -785.5078125,
+      "y": 2300.47412109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 3,
+      "x": -788.62890625,
+      "y": 2306.305908203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(3.5),keypress(VK_Z)"
+    },
+    {
+      "id": 1,
+      "x": -782.59765625,
+      "y": 2289.109619140625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 1,
+      "x": -793.3828125,
+      "y": 2248.433349609375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -788.6083984375,
+      "y": 2235.560302734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    }
+  ]
+}

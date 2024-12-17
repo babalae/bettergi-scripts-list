@@ -1,0 +1,113 @@
+{
+  "info": {
+    "name": "蒙德-星落湖-桦木-75个-54秒",
+    "type": "collect",
+    "author": "Tim",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1330.0517578125,
+      "y": 2563.900390625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1324.2451171875,
+      "y": 2562.7314453125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 2,
+      "x": -1321.0087890625,
+      "y": 2566.410400390625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1299.3505859375,
+      "y": 2574.847900390625,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1291.8896484375,
+      "y": 2577.42041015625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "type": "path",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 5,
+      "x": -1285.4482421875,
+      "y": 2565.784423828125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1311.775390625,
+      "y": 2530.9931640625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "type": "path",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 7,
+      "x": -1321.0751953125,
+      "y": 2518.44189453125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -1338.51953125,
+      "y": 2521.916259765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 9,
+      "x": -1369.244140625,
+      "y": 2552.98291015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 10,
+      "x": -1375.4873046875,
+      "y": 2553.815673828125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "type": "path",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 11,
+      "x": -1376.4267578125,
+      "y": 2578.98876953125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "type": "path",
+      "action_params": "wait(0.8),keypress(VK_Z)"
+    }
+  ]
+}
