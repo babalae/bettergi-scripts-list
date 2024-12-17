@@ -1,0 +1,37 @@
+{
+  "info": {
+    "name": "须弥-禅那园-证悟木-3个-业果木-6个-辉木-3个(大循环)",
+    "type": "collect",
+    "author": "Tim",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3135.6904296875,
+      "y": -1079.63427734375
+    },
+    {
+      "id": 2,
+      "x": 3148.7041015625,
+      "y": -1090.595703125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 3,
+      "x": 3152.1123046875,
+      "y": -1108.0283203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}
