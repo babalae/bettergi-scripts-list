@@ -1,8 +1,8 @@
 {
   "info": {
-    "name": "南风之狮蒲公英1个",
+    "name": "08-蒲公英-达达乌帕谷南3个",
     "type": "collect",
-    "author": "",
+    "author": "秋云",
     "version": "1.0",
     "description": "",
     "bgiVersion": "0.35.1"
@@ -10,51 +10,51 @@
   "positions": [
     {
       "id": 1,
-      "x": -1427.75390625,
-      "y": 1661.5712890625,
+      "x": -1024.33,
+      "y": 1174.73,
       "type": "teleport",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 2,
-      "x": -1427.73046875,
-      "y": 1661.5771484375,
+      "x": -1260.47,
+      "y": 1229.67,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "fly",
       "action": ""
     },
     {
       "id": 3,
-      "x": -1427.7763671875,
-      "y": 1661.5634765625,
+      "x": -1310.99,
+      "y": 1173.99,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 4,
-      "x": -1435.2568359375,
-      "y": 1683.54345703125,
+      "x": -1359.35,
+      "y": 1126.00,
       "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "action": "anemo_collect"
     },
     {
       "id": 5,
-      "x": -1451.572265625,
-      "y": 1680.39013671875,
+      "x": -1361.40,
+      "y": 1123.94,
       "type": "path",
       "move_mode": "walk",
-      "action": "elemental_skill"
+      "action": "anemo_collect"
     },
     {
       "id": 6,
-      "x": -1454.7197265625,
-      "y": 1680.00927734375,
+      "x": -1370.21,
+      "y": 1139.57,
       "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "action": "anemo_collect"
     }
   ]
 }
