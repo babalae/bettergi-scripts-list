@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "5秋分山西侧2",
+    "type": "collect",
+    "author": "雕茂",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4146.71533203125,
+      "y": 2606.18896484375
+    },
+    {
+      "id": 2,
+      "x": 4177.4423828125,
+      "y": 2588.734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 4212.60791015625,
+      "y": 2571.44287109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 4250.39013671875,
+      "y": 2581.383544921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 4285.07763671875,
+      "y": 2597.829345703125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 6,
+      "x": 4342.580078125,
+      "y": 2622.11328125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 7,
+      "x": 4357.0048828125,
+      "y": 2596.038330078125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}
