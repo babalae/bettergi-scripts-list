@@ -1,0 +1,123 @@
+{
+  "info": {
+    "name": "须弥-阿如村-柽木-42个-65秒",
+    "type": "collect",
+    "author": "Tim",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4096.05224609375,
+      "y": -2025.96875
+    },
+    {
+      "id": 2,
+      "x": 4097.50439453125,
+      "y": -2036.2197265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 4112.2109375,
+      "y": -2034.2060546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(VK_Z)"
+    },
+    {
+      "id": 4,
+      "x": 4108.60302734375,
+      "y": -2040.36474609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 4129.7001953125,
+      "y": -2047.8935546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 4151.6357421875,
+      "y": -2037.359375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(VK_Z)"
+    },
+    {
+      "id": 8,
+      "x": 4145.02294921875,
+      "y": -2039.63671875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x": 4144.703125,
+      "y": -2017.17041015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 12,
+      "x": 4152.56591796875,
+      "y": -1998.60986328125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(VK_Z)"
+    },
+    {
+      "id": 13,
+      "x": 4144.98681640625,
+      "y": -1996.576171875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "click,wait(3),keypress(VK_Z)"
+    },
+    {
+      "id": 13,
+      "x": 4136.96875,
+      "y": -1996.74267578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(3),keypress(VK_Z)"
+    },
+
+    {
+      "id": 14,
+      "x": 4124.5283203125,
+      "y": -1992.64306640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 15,
+      "x": 4108.23486328125,
+      "y": -1982.93994140625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(VK_Z)"
+    }
+  ]
+}

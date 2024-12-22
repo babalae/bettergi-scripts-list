@@ -1,0 +1,107 @@
+{
+  "info": {
+    "name": "枫丹-苍晶区-白梣木-75个",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 3,
+      "x":4702.38037109375,
+      "y":2459.947509765625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(VK_Z)"
+    },
+    {
+      "id": 4,
+      "x": 4730.1552734375,
+      "y": 2477.38818359375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z),wait(0.5)"
+    },
+    {
+      "id": 5,
+      "x": 4742.123046875,
+      "y": 2492.362060546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 6,
+      "x": 4747.15869140625,
+      "y": 2507.729248046875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x":4740.48876953125,
+      "y":2528.6259765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 8,
+      "x": 4723.4130859375,
+      "y": 2545.822509765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 9,
+      "x":4697.5166015625,
+      "y":2533.1142578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z),wait(2)"
+    },
+    {
+      "id": 10,
+      "x": 4684.84521484375,
+      "y": 2537.250732421875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 11,
+      "x":4675.2841796875,
+      "y":2504.705322265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "x":4655.4921875,
+      "y":2485.709716796875,
+      "type":"path",
+      "move_mode":"run"
+    },
+    {
+      "id": 12,
+      "x":4651.8828125,
+      "y":2447.710205078125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    }
+  ]
+}
