@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "骗骗花-风起地右",
+    "type": "collect",
+    "author": "san",
+    "version": "1.0",
+    "description": "骗骗花",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1541.5,
+      "y": 1981.9061299984405
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1596,
+      "y": 2064.9691386296236
+    },
+    {
+      "id": 3,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1612,
+      "y": 2078.4871410956766
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": -1623.5,
+      "y": 2091.5074581645076
+    },
+    {
+      "id": 5,
+      "x": -1631.5,
+      "y": 2069.002828958952,
+      "move_mode": "run"
+    },
+    {
+      "id": 6,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1625.5,
+      "y": 1994.9958851506162
+    },
+    {
+      "id": 7,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": -1618,
+      "y": 1977.0095155891995
+    }
+  ]
+}
