@@ -1,0 +1,124 @@
+{
+  "info": {
+    "name": "遗迹守卫1",
+    "type": "collect",
+    "author": "XS",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1045.5537109375,
+      "y": 950.6259765625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1038.5869140625,
+      "y": 942.1435546875,
+      "action": "",
+      "move_mode": "fly",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": 1028.955078125,
+      "y": 916.89990234375,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 977.77734375,
+      "y": 837.34765625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 970.9951171875,
+      "y": 814.802734375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 957.498046875,
+      "y": 781.80712890625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 957.3232421875,
+      "y": 781.16455078125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 957.4013671875,
+      "y": 779.53857421875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 955.056640625,
+      "y": 777.16845703125,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 966.1689453125,
+      "y": 761.4921875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 966.0888671875,
+      "y": 760.8818359375,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 965.1796875,
+      "y": 758.0341796875,
+      "action": "",
+      "move_mode": "fly",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": 968.73046875,
+      "y": 756.09130859375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 14,
+      "x": 968.73046872,
+      "y": 756.09130859379,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path"
+    }
+  ]
+}
