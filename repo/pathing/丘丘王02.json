@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "丘丘王02",
+    "type": "collect",
+    "author": "XS",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1007.7995550712803,
+      "y": 848.5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -976.8136293471362,
+      "y": 846,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -928.9973894488339,
+      "y": 820.5,
+      "action": "",
+      "move_mode": "fly",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": -926.404296875,
+      "y": 817.474609375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight"
+    }
+  ]
+}
