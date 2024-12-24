@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "遗迹守卫2",
+    "type": "collect",
+    "author": "XS",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 489.404296875,
+      "y": 222.162109375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 487.99609375,
+      "y": 231.6259765625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 488.408203125,
+      "y": 255.03759765625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 491.3623046875,
+      "y": 255.20751953125,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}
