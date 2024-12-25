@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "枫丹风役人01",
+    "type": "collect",
+    "author": "迷茫之途",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4541.71,
+      "y": 4230.11,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4572.286547716335,
+      "y": 4239.75,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4612.768160355943,
+      "y": 4262,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4660,
+      "y": 4280,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "target"
+    }
+  ]
+}
