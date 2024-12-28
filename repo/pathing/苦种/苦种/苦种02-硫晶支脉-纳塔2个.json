@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "苦种02-硫晶支脉-纳塔2个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8258.408203125,
+      "y": -1744.64599609375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8261.421875,
+      "y": -1746.66552734375,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 8285.8212890625,
+      "y": -1757.35498046875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 8292.564453125,
+      "y": -1763.96923828125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    }
+  ]
+}
