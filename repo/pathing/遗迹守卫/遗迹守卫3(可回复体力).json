@@ -1,0 +1,188 @@
+{
+  "info": {
+    "name": "遗迹守卫3(可回复体力)",
+    "type": "collect",
+    "author": "XS",
+    "version": "1.1",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 978.75,
+      "y": -353.57421875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 988.92578125,
+      "y": -349.26025390625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": 1002.5126953125,
+      "y": -347.17138671875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1009.9033203125,
+      "y": -342.505859375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1014.654296875,
+      "y": -340.251953125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 1101.4375,
+      "y": -321.30810546875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 1101.978515625,
+      "y": -303.955078125,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 1115.990234375,
+      "y": -320.11962890625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 1145.521484375,
+      "y": -342.9462890625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 1157.8046875,
+      "y": -347.6630859375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 1157.69921875,
+      "y": -343.59375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 1158.359375,
+      "y": -346.61328125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": 1158.8212890625,
+      "y": -348.392578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 14,
+      "x": 1164.9208984375,
+      "y": -341.7900390625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 15,
+      "x": 1180.7421875,
+      "y": -318.98974609375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 16,
+      "x": 1187.619140625,
+      "y": -294.67578125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 1196.111328125,
+      "y": -297.05224609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 18,
+      "x": 1211.0859375,
+      "y": -280.556640625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 1206.57421875,
+      "y": -268.76025390625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 1193.5205078125,
+      "y": -257.5556640625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 1194.72265625,
+      "y": -254.2333984375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 22,
+      "x": 1193.701171875,
+      "y": -255.1416015625,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path"
+    }
+  ]
+}
