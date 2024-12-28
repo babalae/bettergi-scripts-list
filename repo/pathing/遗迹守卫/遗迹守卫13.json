@@ -1,0 +1,92 @@
+{
+  "info": {
+    "name": "遗迹守卫13",
+    "type": "collect",
+    "author": "XS",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1045.5224609375,
+      "y": 950.583984375
+    },
+    {
+      "id": 2,
+      "x": 1058.1015625,
+      "y": 959.70458984375,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 1088.7529296875,
+      "y": 982.99755859375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 1094.4755859375,
+      "y": 970.66455078125,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 1076.130859375,
+      "y": 975.6953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 1079.263671875,
+      "y": 984.4755859375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": 1110.3603515625,
+      "y": 981.8662109375,
+      "type": "target",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x": 1108.818359375,
+      "y": 1000.3193359375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 10,
+      "x": 1113.0712890625,
+      "y": 1007.28369140625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 11,
+      "x": 1117.4638671875,
+      "y": 1016.88330078125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight"
+    }
+  ]
+}
