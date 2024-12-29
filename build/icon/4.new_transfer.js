@@ -1,3 +1,5 @@
+// 只找新的png文件，然后复制到diffPng目录
+
 const fs = require('fs');
 const path = require('path');
 

@@ -1,3 +1,5 @@
+// 这个脚本每次原神更新使用一次
+
 const fs = require('fs');
 const path = require('path');
 
@@ -18,16 +20,20 @@ if (!fs.existsSync(targetDir)) {
 fs.readdirSync(sourceDir).forEach(file => {
   const fileName = path.parse(file).name; // 获取文件名（不含扩展名）
   
-  // 在JSON数据中查找匹配项
-  const matchedItem = jsonData.find(item => item.Icon === fileName);
+  // 查找所有匹配项
+  const matchedItems = jsonData.filter(item => item.Icon === fileName);
   
-  if (matchedItem) {
+  if (matchedItems.length > 0) {
     const sourcePath = path.join(sourceDir, file);
-    const targetPath = path.join(targetDir, `${matchedItem.Name}.png`);
     
-    // 复制并重命名文件
-    fs.copyFileSync(sourcePath, targetPath);
-    console.log(`已复制并重命名: ${file} -> ${matchedItem.Name}.png`);
+    // 为每个匹配项创建文件
+    matchedItems.forEach(matchedItem => {
+      const targetPath = path.join(targetDir, `${matchedItem.Name}.png`);
+      
+      // 复制并重命名文件
+      fs.copyFileSync(sourcePath, targetPath);
+      console.log(`已复制并重命名: ${file} -> ${matchedItem.Name}.png`);
+    });
   }
 });
 

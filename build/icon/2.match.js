@@ -1,3 +1,5 @@
+// 这个脚本，有新的脚本目录就要使用
+
 const fs = require('fs');
 const path = require('path');
 
