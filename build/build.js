@@ -2,6 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
+// 在文件开头添加全局变量
+const pathingDirsWithoutIcon = new Set();
+
 function calculateSHA1(filePath) {
     const fileBuffer = fs.readFileSync(filePath);
     const hashSum = crypto.createHash('sha1');
@@ -54,18 +57,34 @@ function extractInfoFromJSFolder(folderPath) {
 }
 
 function extractInfoFromPathingFile(filePath, parentFolders) {
-    const content = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-    let tags = parentFolders.slice(2)  // 从第三个元素开始，跳过 'pathing' 和下一级目录
-        .filter(tag => !tag.includes('@'))  // 跳过包含 @ 的标签
-        .filter((tag, index, self) => self.indexOf(tag) === index); // 去重
+    // 读取文件内容
+    let content = fs.readFileSync(filePath, 'utf8');
+    
+    // 检测并移除BOM
+    if (content.charCodeAt(0) === 0xFEFF) {
+        content = content.replace(/^\uFEFF/, '');
+        // 检测到BOM时，保存无BOM的版本
+        try {
+            fs.writeFileSync(filePath, content, 'utf8');
+            console.log(`已移除文件BOM标记: ${filePath}`);
+        } catch (error) {
+            console.error(`移除BOM标记时出错 ${filePath}:`, error);
+        }
+    }
+    
+    const contentObj = JSON.parse(content);
+    
+    let tags = parentFolders.slice(2)
+        .filter(tag => !tag.includes('@'))
+        .filter((tag, index, self) => self.indexOf(tag) === index);
 
     // 检查positions数组中是否存在特定动作
-    if (content.positions && Array.isArray(content.positions)) {
-        const hasNahidaCollect = content.positions.some(pos => pos.action === 'nahida_collect');
-        const hasHydroCollect = content.positions.some(pos => pos.action === 'hydro_collect');
-        const hasAnemoCollect = content.positions.some(pos => pos.action === 'anemo_collect');
-        const hasElectroCollect = content.positions.some(pos => pos.action === 'electro_collect');
-        const hasUpDownGrabLeaf = content.positions.some(pos => pos.action === 'up_down_grab_leaf');
+    if (contentObj.positions && Array.isArray(contentObj.positions)) {
+        const hasNahidaCollect = contentObj.positions.some(pos => pos.action === 'nahida_collect');
+        const hasHydroCollect = contentObj.positions.some(pos => pos.action === 'hydro_collect');
+        const hasAnemoCollect = contentObj.positions.some(pos => pos.action === 'anemo_collect');
+        const hasElectroCollect = contentObj.positions.some(pos => pos.action === 'electro_collect');
+        const hasUpDownGrabLeaf = contentObj.positions.some(pos => pos.action === 'up_down_grab_leaf');
         if (hasNahidaCollect) {
             tags.push('纳西妲');
         }
@@ -84,8 +103,8 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
     }
 
     return {
-        author: content.info && content.info.author ? content.info.author : '',
-        description: convertNewlines(content.info && content.info.description ? content.info.description : ''),
+        author: contentObj.info && contentObj.info.author ? contentObj.info.author : '',
+        description: convertNewlines(contentObj.info && contentObj.info.description ? contentObj.info.description : ''),
         tags: tags
     };
 }
@@ -120,6 +139,19 @@ function generateDirectoryTree(dir, currentDepth = 0, parentFolders = []) {
     };
 
     if (stats.isDirectory()) {
+        // 修改检查pathing目录图标的逻辑
+        if (parentFolders[0] === 'pathing') {
+            const hasIcon = fs.readdirSync(dir).some(file => 
+                file.toLowerCase() === 'icon.ico'
+            );
+            if (!hasIcon) {
+                // 使用 path.join 来确保正确的路径分隔符
+                const relativePath = path.join('pathing', path.basename(dir));
+                pathingDirsWithoutIcon.add(relativePath);
+                // console.log(`未找到icon.ico的pathing目录: ${relativePath}`);
+            }
+        }
+
         if (parentFolders[0] === 'js' && currentDepth === 1) {
             // 对于 js 文件夹下的直接子文件夹，不再递归
             const manifestPath = path.join(dir, 'manifest.json');
@@ -186,7 +218,31 @@ const result = folderOrder
     .filter(folder => topLevelFolders.includes(folder))
     .map(folder => {
         const folderPath = path.join(repoPath, folder);
-        return generateDirectoryTree(folderPath, 0, [folder]);
+        const tree = generateDirectoryTree(folderPath, 0, [folder]);
+        
+        // 如果是pathing目录，对其子目录进行排序
+        if (folder === 'pathing' && tree.children) {
+            tree.children.sort((a, b) => {
+                const aPath = path.join('pathing', a.name);
+                const bPath = path.join('pathing', b.name);
+                const aHasNoIcon = pathingDirsWithoutIcon.has(aPath);
+                const bHasNoIcon = pathingDirsWithoutIcon.has(bPath);
+                
+                // 如果两个目录的图标状态不同，则按照有无图标排序
+                if (aHasNoIcon !== bHasNoIcon) {
+                    return aHasNoIcon ? 1 : -1;
+                }
+                
+                // 使用拼音排序
+                return a.name.localeCompare(b.name, 'zh-CN', {
+                    numeric: true,
+                    sensitivity: 'accent',
+                    caseFirst: false
+                });
+            });
+        }
+        
+        return tree;
     });
 
 const repoJson = {
