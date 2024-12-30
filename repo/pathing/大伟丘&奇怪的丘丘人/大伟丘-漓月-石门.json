@@ -1,0 +1,61 @@
+{
+  "info": {
+    "name": "大伟丘-漓月-石门",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 207.4208984375,
+      "y": 1572.96630859375
+    },
+    {
+      "id": 2,
+      "x": 188.2685546875,
+      "y": 1559.70556640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 170.125,
+      "y": 1545.15771484375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 157.76953125,
+      "y": 1558.8671875,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "combat_script",
+	  "action_params": "wait(3)"
+    },
+    {
+      "id": 5,
+      "x": 163.98828125,
+      "y": 1570.40625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 172.564453125,
+      "y": 1575.044921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}
