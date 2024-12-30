@@ -5,81 +5,93 @@
     const folderE = 'assets/狗粮额外@Yang-z/';
 
     const pathingA = [
+        "狗粮-龙脊雪山-西-3个-f.json",
+        "狗粮-璃月-碧水源-盐中之地-3个-f.json",
+        "狗粮-璃月-珉林-东北-9个-f.json",
         "狗粮-璃月-珉林-北-5个.json",
-        "狗粮-璃月-珉林-东北-9个.json",
+        "狗粮-璃月-珉林-奥藏山南-3个-f.json",
+        "狗粮-璃月-珉林-绝云间-3个-m.json",
         "（恢复）狗粮-璃月-琼玑野.json",
-        "狗粮-璃月-琼玑野-绿华池-3个.json",
-        "狗粮-璃月-碧水源-盐中之地-3个.json",
-        "狗粮-须弥-道成林-化城郭-西-3个.json",
-        "狗粮-须弥-二净甸-觉王之殿南-6个.json",
-        "（恢复）狗粮-须弥-二净甸.json",
-        "狗粮-须弥-失落的苗圃-南-8个.json",
-        "狗粮-须弥-上风蚀地-东北营地-2个.json",
-        "狗粮-须弥-下风蚀地-阿如村-4个.json",
-        "狗粮-须弥-千壑沙地-塔尼特露营地-3个／5个.json",
-        "狗粮-须弥-浮罗囿-甘露花海北-4个.json",
-        "狗粮-纳塔-坚岩隘谷-回声之子南-6个／7个 .json",
+        "狗粮-璃月-琼玑野-绿华池-3个-f.json",
+        "狗粮-须弥-须弥城-4个.json",
+        "狗粮-须弥-二净甸-七天神像-4个／8个-f.json",
+        "狗粮-须弥-二净甸-觉王之殿南-6个-f.json",
+        "（恢复）狗粮-须弥-失落的苗圃.json",
+        "狗粮-须弥-失落的苗圃-南-8个-f.json",
+        "狗粮-须弥-下风蚀地-阿如村-北-1个-f.json",
         "狗粮-纳塔-万火之瓯-竞技场东-4个.json",
         "狗粮-纳塔-涌流地-流泉之众-4个.json",
         "（恢复）狗粮-纳塔-涌流地.json",
-        "狗粮-纳塔-镜璧山-南-9个.json",
-        "狗粮-纳塔-翘枝崖-北-6个.json",
+        "狗粮-纳塔-镜璧山-南-9个-f.json",
+        "狗粮-纳塔-翘枝崖-北-6个-f.json",
         "狗粮-纳塔-奥奇卡纳塔-七天神像-12个.json",
-        "狗粮-纳塔-奥奇卡纳塔-托佐兹之岛-6个.json",
+        "狗粮-纳塔-奥奇卡纳塔-流灰之街-4个-f.json",
+        "狗粮-纳塔-奥奇卡纳塔-托佐兹之岛-6个-f.json",
         "（恢复）狗粮-稻妻-神无冢.json",
-        "【收尾】狗粮-稻妻-神无冢-踏鞴砂①-6个／21个.json",
-        "【收尾】狗粮-稻妻-神无冢-踏鞴砂②-7个／21个.json",
-        "【收尾】狗粮-稻妻-神无冢-踏鞴砂③-8个／21个.json"
+        "【收尾】狗粮-稻妻-神无冢-踏鞴砂①-6个／21个-f.json",
+        "【收尾】狗粮-稻妻-神无冢-踏鞴砂②-7个／21个-f.json",
+        "【收尾】狗粮-稻妻-神无冢-踏鞴砂③-8个／21个-f.json"
     ]; // 97+21个
 
     const pathingB = [
-        "狗粮-枫丹-白露区-秋分山东侧-2个.json",
-        "狗粮-枫丹-白露区-秋分山西侧-北-2个.json",
-        "狗粮-枫丹-伊黎耶林区-欧庇克莱歌剧院东南-2个.json",
+        "狗粮-枫丹-枫丹庭区-3个.json",
+        "狗粮-枫丹-白露区-秋分山东侧-2个-f.json",
+        "狗粮-枫丹-伊黎耶林区-欧庇克莱歌剧院东南-2个-f.json",
         "（恢复）狗粮-枫丹-研究院区.json",
-        "狗粮-枫丹-研究院区-学术会堂-1个／2个.json",
+        "狗粮-枫丹-研究院区-学术会堂-1个／2个-f.json",
         "狗粮-枫丹-研究院区-中央实验室遗址-北侧屋内-4个.json",
-        "狗粮-枫丹-研究院区-新枫丹科学院-东南侧-8个.json",
-        "狗粮-枫丹-研究院区-西南偏南-6个.json",
-        "狗粮-枫丹-研究院区-西南偏西-4个.json",
+        "狗粮-枫丹-研究院区-新枫丹科学院-东南侧-8个-f.json",
+        "狗粮-枫丹-研究院区-西南偏南-6个-m-f.json",
+        "狗粮-枫丹-研究院区-西南偏西-4个-f.json",
         "狗粮-枫丹-研究院区-西北-6个／7个.json",
+        "狗粮-枫丹-研究院区-中部塔内-9个.json",
         "（恢复）狗粮-枫丹-黎翡区.json",
-        "狗粮-枫丹-黎翡区-七天神像-5个.json",
-        "狗粮-枫丹-黎翡区-芒索斯山东-3个.json",
+        "狗粮-枫丹-黎翡区-七天神像-3个／5个.json",
+        "狗粮-枫丹-黎翡区-芒索斯山东-3个-f.json",
         "狗粮-稻妻-神无冢-堇色之庭-4个.json",
-        "狗粮-稻妻-神无冢-九条阵屋-3个.json",
-        "狗粮-稻妻-神无冢-无相之火-4个／5个.json",
-        "狗粮-稻妻-神无冢-东-5个／6个.json",
+        "狗粮-稻妻-神无冢-九条阵屋-2个／3个-f.json",
+        "狗粮-稻妻-神无冢-东-5个／6个-f.json",
         "（恢复）狗粮-稻妻-神无冢.json",
-        "狗粮-稻妻-海祇岛-东方小岛-2个.json",
-        "狗粮-稻妻-海祇岛-珊瑚宫东北-6个.json",
-        "狗粮-稻妻-海祇岛-望泷村西南-4个.json",
-        "狗粮-稻妻-清籁岛-浅濑神社-3个.json",
-        "狗粮-稻妻-清籁岛-越石村-8个.json",
-        "狗粮-稻妻-清籁岛-平海砦西-8个.json",
-        "狗粮-稻妻-鹤观-东-3个.json",
-        "狗粮-稻妻-鹤观-东偏中-2个.json",
-        "狗粮-稻妻-鹤观-南-2个.json",
+        "狗粮-稻妻-海祇岛-东方小岛-2个-f.json",
+        "狗粮-稻妻-海祇岛-珊瑚宫东北-6个-f.json",
+        "狗粮-稻妻-海祇岛-望泷村西南-4个-f.json",
+        "狗粮-稻妻-清籁岛-浅濑神社-3个-f.json",
+        "狗粮-稻妻-清籁岛-越石村-8个-f.json",
+        "狗粮-稻妻-清籁岛-平海砦西-8个-f.json",
+        "狗粮-稻妻-鹤观-东偏中-2个-f.json",
+        "狗粮-稻妻-鹤观-南-2个-f.json",
         "（恢复）狗粮-稻妻-清籁岛.json",
-        "【收尾】狗粮-稻妻-清籁岛-清籁丸-20个.json"
+        "【收尾】狗粮-稻妻-清籁岛-清籁丸-20个-f.json"
     ]; // 97+20个
 
     const pathingE = [
-        "【额外】狗粮-纳塔+7个.json", // 凌晨刷新
-        "【额外】狗粮-须弥-水天丛林+7个.json", // 24小时刷新
-        "【额外】狗粮-枫丹-研究院区-新枫丹科学院周边+3个.json" // 24小时刷新
-    ]; // 17个（其中纳塔第2个似乎是一次性的）
+        "【额外】狗粮-纳塔-鸡屁股+7个-f.json", // 12小时刷新
+    ]; // 7个
+
+    const pathingE_A = [
+        "【额外】狗粮-须弥-水天丛林+7个-f.json", // 24小时刷新
+        "【额外】狗粮-枫丹-研究院区-新枫丹科学院周边+3个-f.json", // 24小时刷新
+    ];  // 10个
+
+    const pathingE_B = [
+        "【额外】狗粮-纳塔-灵谜纹+13个.json" // 24小时刷新
+    ];  // 13个
+
+    // 每日拾取点位数
+    // A: 97 + 21 + 7 + 10 = 135
+    // B: 97 + 20 + 7 + 13 = 137
 
 
-    // 读取用户设置（JS脚本直接运行已不会抛出异常，但默认值还不支持[bgi0.37.1]）
+    // 读取用户设置
     let path = settings.path != undefined ? settings.path : '';
     let swapPath = settings.swapPath != undefined && settings.swapPath != '否' ? true : false;
     let extra = settings.extra != undefined && settings.extra != '是' ? false : true;
+    let extraAB = settings.extraAB != undefined && settings.extraAB != '是' ? false : true;
     let autoSalvage = settings.autoSalvage != undefined && settings.autoSalvage != '是' ? false : true;
     let autoSalvage4 = settings.autoSalvage4 != undefined && settings.autoSalvage4 != '否' ? true : false;
     let autoSalvageSpan = settings.autoSalvageSpan != undefined && ~~settings.autoSalvageSpan > 0 ? ~~settings.autoSalvageSpan : 10;
 
-    log.debug(`path: ${path}; swapPath: ${swapPath}; extra: ${extra}; autoSalvage: ${autoSalvage}; autoSalvage4: ${autoSalvage4}; autoSalvageSpan: ${autoSalvageSpan};`);
+    log.debug(`path: ${path}; swapPath: ${swapPath}; extra: ${extra}; extraAB: ${extraAB}; autoSalvage: ${autoSalvage}; autoSalvage4: ${autoSalvage4}; autoSalvageSpan: ${autoSalvageSpan};`);
     // await sleep(30000);
 
     // 路线
@@ -95,21 +107,27 @@
         }
     }
 
-    // 准备
-    async function init(resizeMap = true) {
+    // 初始化
+    async function init(shouldRestore = true, shouldResizeMap = true) {
+        // close forced interaction just in case..
+        dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
+
         // restore and alignment
-        await genshin.tp("253.146484375", "1285.14306640625"); await sleep(3000);
+        if (shouldRestore) await genshin.tp("1468.0732421875", "1998.04443359375"); await sleep(3000);
 
-        if (resizeMap) {
-            // zoom map to 75%
-            keyPress("M"); await sleep(1000);
-            for (let i = 0; i < 5; i++) {
-                click(42, 420); await sleep(500); // zoom in
-            }
-            click(42, 645); await sleep(1000); // zoom out
-            keyPress("M"); await sleep(1000);
+        // resize map here even after bgi v0.37.5
+        if (shouldResizeMap) await resizeMap();
+    }
+
+    // 调整地图
+    async function resizeMap() {
+        // zoom map to 75%
+        keyPress("M"); await sleep(1000);
+        for (let i = 0; i < 5; i++) {
+            click(42, 420); await sleep(500); // zoom in
         }
-
+        click(42, 645); await sleep(1000); // zoom out
+        keyPress("M"); await sleep(1000);
     }
 
     // 分解圣遗物
@@ -139,6 +157,23 @@
     async function runFile(filePath, times = 2) {
         log.info(filePath);
         try {
+            // 暂不支持关闭自动拾取
+            // let isToRestore = filePath.search("（恢复）") != -1;
+            // if (isToRestore) dispatcher.removeTimer(...);
+            // else...
+
+            // 配置自动拾取，根据文件名指定信息，确定是否强制交互（快速拾取）
+            let forceInteraction = filePath.search("-f") != -1; //
+            dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": forceInteraction }));
+
+            // 调整地图缩放
+            // - 比如，绝云间传送点和副本紧挨。如地图缩得过小且在绝云间附近，
+            // - 在新版本（bgi v0.37.5）的传送方法下，依然会不缩放直接点击传送点，
+            // - 此时出现一个副本（在上）和一个传送锚点（在下）两个图标，都是有效传送点，
+            // - bgi直接点击上面那个，导致传至副本门口。
+            let shouldResizeMap = filePath.search("-m") != -1;
+            if (shouldResizeMap) await resizeMap();
+
             times--;
             await pathingScript.runFile(filePath);
         }
@@ -150,16 +185,15 @@
     }
 
     // 批量执行
-    async function batch(folder, files, forceInteraction = false) {
-        // 打开自动拾取
-        dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": forceInteraction }));
-
-        for (let i = 0; i < files.length; i++) {
-            if (i % autoSalvageSpan == 0) await salvage();
-            const filePath = folder + files[i];
+    let count = 0;
+    async function batch(folder, files) {
+        for (let file of files) {
+            if (count++ % autoSalvageSpan == 0) await salvage();
+            const filePath = folder + file;
             await runFile(filePath);
         }
     }
+
 
     // main
     setGameMetrics(1920, 1080, 1);
@@ -173,12 +207,19 @@
 
     // Extra
     if (extra) {
-        await init(false);
+        await init();
         log.info(`开始执行额外线路。`);
-        await batch(folderE, pathingE, true); // 强制交互
+
+        // 12小时刷新的额外点位每天拾取
+        await batch(folderE, pathingE);
+
+        // 24小时刷新的额外点位隔天拾取，避免空跑
+        if (path == 'A' || extraAB == false) await batch(folderE, pathingE_A);
+        if (path == 'B' || extraAB == false) await batch(folderE, pathingE_B);
     }
 
+    await init(true, false);
     log.info(`今日狗粮拾取任务完成。拾取路线：${path}${extra ? '+E' : ''}`);
-    await sleep(3000);
+    await sleep(1000);
 
 })();

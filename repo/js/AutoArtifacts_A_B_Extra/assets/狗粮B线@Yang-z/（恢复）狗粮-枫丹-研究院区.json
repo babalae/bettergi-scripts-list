@@ -6,27 +6,31 @@
     },
     "positions": [
         {
-            "x": 3865.14990234375,
-            "y": 4492.30517578125,
+            "x": 3865.1328125,
+            "y": 4492.28564453125,
             "type": "teleport",
             "move_mode": "walk"
         },
         {
-            "x": 3868.4013671875,
-            "y": 4498.7373046875,
+            "x": 3868.001953125,
+            "y": 4496.66162109375,
             "type": "target",
-            "move_mode": "walk"
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
         },
         {
-            "x": 3867.43310546875,
-            "y": 4496.9462890625,
+            "x": 3868.8974609375,
+            "y": 4496.4794921875,
             "type": "target",
-            "move_mode": "walk"
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
         },
         {
-            "x": 3869.60791015625,
-            "y": 4499.50341796875,
-            "type": "target",
+            "x": 3867.14453125,
+            "y": 4493.82470703125,
+            "type": "path",
             "move_mode": "walk"
         }
     ]
