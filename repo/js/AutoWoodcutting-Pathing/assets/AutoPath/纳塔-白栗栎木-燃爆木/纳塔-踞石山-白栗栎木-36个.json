@@ -1,0 +1,120 @@
+{
+  "info": {
+    "name": "白栗栎木-踞石山-36个",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8286.041015625,
+      "y": -2521.2783203125
+    },
+    {
+      "id": 2,
+      "x":8279.2275390625,
+      "y":-2523.287109375,
+      "type": "path",
+      "move_mode": "fly"
+    },
+    {
+      "id": 3,
+      "x":8279.2275390625,
+      "y":-2523.287109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "attack,wait(2.5),keypress(VK_Z)"
+    },
+    {
+      "id": 4,
+      "x": 8266.060546875,
+      "y": -2499.291015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 8251.76171875,
+      "y": -2471.82421875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "x": 8235.66015625,
+      "y": -2446.724609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 8222.3974609375,
+      "y": -2444.3203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 7,
+      "x": 8176.63818359375,
+      "y": -2424.1708984375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 8,
+      "x": 8166.3349609375,
+      "y": -2433.0185546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x": 8155.7978515625,
+      "y": -2430.185546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 10,
+      "x": 8156.60302734375,
+      "y": -2415.5341796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 11,
+      "x": 8147.0302734375,
+      "y": -2440.24609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 12,
+      "x": 8150.5712890625,
+      "y": -2492.11328125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    }
+  ]
+}

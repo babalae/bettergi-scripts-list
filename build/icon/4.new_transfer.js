@@ -1,3 +1,5 @@
+// 只找新的png文件，然后复制到diffPng目录
+
 const fs = require('fs');
 const path = require('path');
 
@@ -33,3 +35,4 @@ unmatchedPng.forEach(filename => {
 
 console.log(`找到并复制了 ${unmatchedPng.length} 个不匹配的 PNG 文件到: ${outputDir}`);
 
+// 然后去 https://offlineconverter.com/ 转换为ico

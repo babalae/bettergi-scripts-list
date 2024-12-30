@@ -1,0 +1,129 @@
+{
+  "info": {
+    "name": "稻妻-水月池-御伽木-18个-90秒(大循环)",
+    "type": "collect",
+    "author": "Tim",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -765.9765625,
+      "y": -3557.2373046875
+    },
+    {
+      "id": 1,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -769.482421875,
+      "y": -3564.517578125,
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 2,
+      "x": -816.1904296875,
+      "y": -3573.5,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(VK_Z)"
+    },
+    {
+      "id": 3,
+      "x": -821.5322265625,
+      "y": -3574.7109375,
+      "type": "path",
+      "move_mode": "climb",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": -849.0185546875,
+      "y": -3570.8974609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 5,
+      "x": -864.98046875,
+      "y": -3567.7685546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": -887.6640625,
+      "y": -3559.587890625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": -910.5625,
+      "y": -3562.7099609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": -917.703125,
+      "y": -3575.3076171875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x": -931.0029296875,
+      "y": -3580.3095703125,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 10,
+      "x": -951.080078125,
+      "y": -3576.3466796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 11,
+      "x": -966.15625,
+      "y": -3581.255859375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 12,
+      "x": -964.04296875,
+      "y": -3596.123046875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(VK_SPACE),wait(2.4),click"
+    },
+    {
+      "id": 13,
+      "x": -984.0888671875,
+      "y": -3598.572265625,
+      "type": "path",
+      "move_mode": "walk"
+    }
+  ]
+}

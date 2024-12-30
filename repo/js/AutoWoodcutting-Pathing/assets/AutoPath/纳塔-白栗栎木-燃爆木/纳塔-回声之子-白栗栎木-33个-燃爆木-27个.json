@@ -1,0 +1,129 @@
+{
+    "info": {
+      "name": "回声之子-白栗栎木-33个-燃爆木-27个",
+      "type": "collect",
+      "author": "起个名字好难",
+      "version": "1.0",
+      "description": "",
+      "bgiVersion": "0.35.1"
+    },
+    "positions": [
+      {
+        "id": 1,
+        "action": "",
+        "move_mode": "walk",
+        "type": "teleport",
+        "x": 7633.859375,
+        "y": -1646.6982421875
+      },
+      {
+        "id": 2,
+        "x": 7626.90625,
+        "y": -1639.8232421875,
+        "type": "path",
+        "move_mode": "walk",
+        "action": "combat_script",
+        "action_params": "keypress(VK_Z)"
+      },
+      {
+        "id": 3,
+        "x": 7578.19384765625,
+        "y": -1687.45849609375,
+        "type": "path",
+        "move_mode": "walk",
+        "action": ""
+      },
+      {
+        "id": 4,
+        "x":7531.408203125,
+        "y":-1707.43896484375,
+        "type": "path",
+        "move_mode": "fly",
+        "action": "stop_flying"
+      },
+      {
+        "id": 5,
+        "x": 7519.7353515625,
+        "y": -1699.18798828125,
+        "type": "path",
+        "move_mode": "walk",
+        "action": "combat_script",
+        "action_params": "keypress(VK_Z)"
+      },
+      {
+        "id": 7,
+        "x":7483.171875,
+        "y":-1650.626953125,
+        "type": "path",
+        "move_mode": "walk",
+        "action": ""
+      },
+      {
+        "id": 7,
+        "x":7478.20166015625,
+        "y":-1626.26416015625,
+        "type": "path",
+        "move_mode": "walk",
+        "action": "combat_script",
+        "action_params": "keypress(VK_Z)"
+      },
+      {
+        "id": 8,
+        "x": 7497.3818359375,
+        "y": -1556.83837890625,
+        "type": "path",
+        "move_mode": "walk",
+        "action": "combat_script",
+        "action_params": "keypress(VK_Z),wait(1.5)"
+      },
+      {
+        "id": 9,
+        "x": 7496.97607421875,
+        "y": -1540.78662109375,
+        "type": "path",
+        "move_mode": "walk",
+        "action": "combat_script",
+        "action_params": "keypress(VK_Z)"
+      },
+      {
+        "id": 10,
+        "action": "",
+        "move_mode": "walk",
+        "type": "teleport",
+        "x": 7229.10,
+        "y": -1441.13
+      },
+      {
+        "x":7255.64501953125,
+        "y":-1431.7705078125,
+        "type":"path",
+        "move_mode":"walk"
+      },
+      {
+        "id": 11,
+        "x": 7257.61083984375,
+        "y": -1423.62939453125,
+        "type": "path",
+        "move_mode": "walk",
+        "action": "combat_script",
+        "action_params": "keypress(VK_Z)"
+      },
+      {
+        "id": 12,
+        "x": 7207.01220703125,
+        "y": -1437.00830078125,
+        "type": "path",
+        "move_mode": "walk",
+        "action": ""
+      },
+      {
+        "id": 13,
+        "x": 7198.01220703125,
+        "y": -1437.18359375,
+        "type": "path",
+        "move_mode": "walk",
+        "action": "combat_script",
+        "action_params": "keypress(VK_Z)"
+      }
+    ]
+  }

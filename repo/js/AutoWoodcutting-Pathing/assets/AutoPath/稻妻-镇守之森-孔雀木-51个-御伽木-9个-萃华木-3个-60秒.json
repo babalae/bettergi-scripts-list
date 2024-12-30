@@ -1,0 +1,130 @@
+{
+  "info": {
+    "name": "稻妻-镇守之森-孔雀木-51个-御伽木-9个-萃华木-3个-60秒",
+    "type": "collect",
+    "author": "Tim",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4429.86328125,
+      "y": -2798.49609375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": -4430.525390625,
+      "y": -2782,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(VK_Z)"
+    },
+    {
+      "id": 3,
+      "x": -4422.7421875,
+      "y": -2775.1376953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": -4411.763671875,
+      "y": -2781.984375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1),keypress(VK_Z)"
+    },
+    {
+      "id": 5,
+      "x": -4408.1640625,
+      "y": -2791.5205078125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": -4412.888671875,
+      "y": -2802.60546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1),keypress(VK_Z)"
+    },
+    {
+      "id": 7,
+      "x": -4423.61328125,
+      "y": -2810.6416015625,
+      "type": "path",
+      "move_mode": "jump",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": -4431.37890625,
+      "y": -2809.3681640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x": -4449.60546875,
+      "y": -2809.2783203125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 10,
+      "x": -4457.734375,
+      "y": -2810.76953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(VK_Z)"
+    },
+    {
+      "id": 11,
+      "x": -4470.134765625,
+      "y": -2815.0703125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 12,
+      "x": -4482.890625,
+      "y": -2802.5693359375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1),keypress(VK_Z)"
+    },
+    {
+      "id": 13,
+      "x": -4487.61328125,
+      "y": -2782.6162109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 15,
+      "x": -4502.759765625,
+      "y": -2787.203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(VK_Z)"
+    }
+  ]
+}

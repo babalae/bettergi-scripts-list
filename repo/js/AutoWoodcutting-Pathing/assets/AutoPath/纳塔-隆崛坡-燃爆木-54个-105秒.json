@@ -1,0 +1,188 @@
+{
+  "info": {
+    "name": "纳塔-隆崛坡-燃爆木-54个-105秒",
+    "type": "collect",
+    "author": "Tim",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8179.40771484375,
+      "y": -1868.0712890625
+    },
+    {
+      "id": 2,
+      "x": 8189.26025390625,
+      "y": -1878.45263671875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(VK_Z)"
+    },
+    {
+      "id": 3,
+      "x": 8171.16455078125,
+      "y": -1863.49609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1.2),keypress(VK_Z)"
+    },
+    {
+      "id": 4,
+      "x": 8171.5244140625,
+      "y": -1856.505859375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 8157.283203125,
+      "y": -1853.572265625,
+      "type": "path",
+      "move_mode": "jump",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 8185.99560546875,
+      "y": -1815.99560546875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "click,wait(2),keypress(VK_Z)"
+    },
+    {
+      "id": 7,
+      "x": 8197.6572265625,
+      "y": -1819.63232421875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": 8195.9638671875,
+      "y": -1795.9658203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x": 8183.033203125,
+      "y": -1785.69921875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(1.5),click,wait(1)"
+    },
+    {
+      "id": 10,
+      "x": 8149.8955078125,
+      "y": -1782.28564453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 11,
+      "x": 8141.24560546875,
+      "y": -1779.4345703125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 12,
+      "x": 8129.49755859375,
+      "y": -1769.7880859375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 13,
+      "x": 8119.33251953125,
+      "y": -1777.85302734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 14,
+      "x": 8114.55078125,
+      "y": -1787.61279296875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 15,
+      "x": 8107.9638671875,
+      "y": -1785.0341796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 16,
+      "x": 8085.4140625,
+      "y": -1768.6962890625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 18,
+      "x": 8071.65673828125,
+      "y": -1764.98193359375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 19,
+      "x": 8085.6025390625,
+      "y": -1739.6494140625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    },
+    {
+      "id": 20,
+      "x": 8084.8583984375,
+      "y": -1724.5615234375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 21,
+      "x": 8059.908203125,
+      "y": -1728.4453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 22,
+      "x": 8053.916015625,
+      "y": -1746.35205078125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_Z)"
+    }
+  ]
+}

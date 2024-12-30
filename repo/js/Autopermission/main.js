@@ -5,9 +5,9 @@
     log.info("请确保执行脚本时处于主界面");
     
     keyPress("VK_F2")
-    await sleep(500);
+    await sleep(1000);
     click(330,1010) //点击世界权限
-    await sleep(500);
+    await sleep(1000);
     let domainName = settings.domainName;
 
     switch (domainName) {

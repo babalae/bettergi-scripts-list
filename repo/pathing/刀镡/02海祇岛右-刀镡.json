@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "海祇岛右-刀镡",
+    "type": "collect",
+    "author": "XS",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1315.22265625,
+      "y": -3776.0693359375
+    },
+    {
+      "id": 2,
+      "x": -1335.2060546875,
+      "y": -3778.3720703125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 3,
+      "x": -1344.2958984375,
+      "y": -3770.2001953125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": -1384.3603515625,
+      "y": -3766.5283203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

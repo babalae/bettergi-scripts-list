@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "骗骗花-渌华池右",
+    "type": "collect",
+    "author": "san",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 260,
+      "y": -26.89198520368518
+    },
+    {
+      "id": 2,
+      "x": 273.5,
+      "y": -22.253729082253813,
+      "move_mode": "run"
+    },
+    {
+      "id": 3,
+      "x": 274,
+      "y": 167.01620221944722,
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 293,
+      "y": 171.2098573185549
+    },
+    {
+      "id": 5,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 308,
+      "y": 195.2222018667053
+    },
+    {
+      "id": 6,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 312.5,
+      "y": 186.24292760262233
+    }
+  ]
+}
