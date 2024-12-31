@@ -39,7 +39,7 @@
             "type": "path",
             "move_mode": "walk",
             "action": "combat_script",
-            "action_params": "wait(1),mousedown,wait(0.5),moveby(-400,0),wait(1.5),mouseup,wait(0.5),keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE)",
+            "action_params": "wait(1),mousedown,wait(0.5),moveby(-400,0),wait(1.0),mouseup,wait(0.5),keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE)",
             "//": "扫码，起跳",
             "#": "1"
         },
@@ -49,17 +49,17 @@
             "type": "path",
             "move_mode": "walk",
             "action": "combat_script",
-            "action_params": "keypress(VK_SPACE),wait(3),mousedown,wait(0.5),moveby(-200,-150),wait(1.5),mouseup,wait(0.5),keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE)",
+            "action_params": "keypress(VK_SPACE),wait(3),mousedown,wait(0.5),moveby(-200,-150),wait(1.0),mouseup,wait(0.5),keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE)",
             "//": "降落，扫码，起跳",
             "#": "2"
         },
         {
-            "x": 9725.56640625,
-            "y": -1548.70703125,
+            "x": 9725.4921875,
+            "y": -1548.083984375,
             "type": "path",
             "move_mode": "walk",
             "action": "combat_script",
-            "action_params": "keypress(VK_SPACE),wait(3),mousedown,wait(0.5),moveby(-4000,2000),wait(1.5),mouseup",
+            "action_params": "keypress(VK_SPACE),wait(3),mousedown,wait(0.5),moveby(-2000,2000),wait(1.0),mouseup",
             "//": "降落，扫码",
             "#": "3"
         },
@@ -246,15 +246,15 @@
             "//": "降落"
         },
         {
-            "x": 9387.634765625,
-            "y": -1551.78125,
+            "x": 9386.4736328125,
+            "y": -1553.3427734375,
             "type": "path",
             "move_mode": "walk"
         },
 
         {
-            "x": 9388.9013671875,
-            "y": -1549.7275390625,
+            "x": 9390.462890625,
+            "y": -1548.35400390625,
             "type": "path",
             "move_mode": "walk",
             "action": "combat_script",
