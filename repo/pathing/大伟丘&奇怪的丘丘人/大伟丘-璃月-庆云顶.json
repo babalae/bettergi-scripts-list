@@ -1,0 +1,37 @@
+{
+  "info": {
+    "name": "大伟丘-璃月-庆云顶",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1433.390625,
+      "y": 837.078125
+    },
+    {
+      "id": 2,
+      "x": 1461.3994140625,
+      "y": 850.50927734375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(VK_SPACE),wait(2.5),click"
+    },
+    {
+      "id": 3,
+      "x": 1464.1787109375,
+      "y": 846.4345703125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

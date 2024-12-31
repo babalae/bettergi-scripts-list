@@ -270,19 +270,21 @@
         try{
             await genshin.tp(domainInfo.position[2], domainInfo.position[0]);
             await sleep(1000);
-
-            // 向前走
-            keyDown("w");
-            await sleep(2500);
-            keyUp("w");
-
-            await sleep(500);
-
+            
+            // 向前走，除非秘境是芬德尼尔之顶
+            if (domainName !== "芬德尼尔之顶") {
+                // 向前走
+                keyDown("w");
+                await sleep(2500);
+                keyUp("w");
+                await sleep(500);
+            }
+            
             // 执行自动秘境
             await dispatcher.runTask(new SoloTask("AutoDomain"));
             await sleep(500);
             break;
-        }catch (ex) 
+        }catch (ex)
         {
             if (ex.message.includes("检测到复苏界面"))
             {
@@ -293,7 +295,7 @@
             {
                 // 如果不包含 "检测到复苏界面"，则继续抛出异常
                 throw ex;
-            } 
+            }
         }
     }
 })();
