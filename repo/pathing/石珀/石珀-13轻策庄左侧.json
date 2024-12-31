@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "轻策庄左侧2石珀",
+    "type": "collect",
+    "author": "爱凑热闹",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 799.5673828125,
+      "y": 1790.7568359375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": 793.5517578125,
+      "y": 1788.25390625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 781.7021484375,
+      "y": 1785.54443359375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 772.46484375,
+      "y": 1785.46923828125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script","action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
+    }
+  ]
+}
