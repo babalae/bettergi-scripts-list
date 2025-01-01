@@ -270,14 +270,41 @@
         try{
             await genshin.tp(domainInfo.position[2], domainInfo.position[0]);
             await sleep(1000);
-            
-            // 向前走，除非秘境是芬德尼尔之顶
-            if (domainName !== "芬德尼尔之顶") {
-                // 向前走
-                keyDown("w");
-                await sleep(2500);
-                keyUp("w");
-                await sleep(500);
+
+            switch (domainName) {
+                case "芬德尼尔之顶":
+                case "太山府":
+                    // 这两个不需要向前走
+                    break;
+                case "无妄引咎密宫":
+                    // 火本需要往左走再往上走
+                    keyDown("a");
+                    await sleep(1500);
+                    keyUp("a");
+                    await sleep(500);
+                    keyDown("w");
+                    await sleep(500);
+                    keyUp("w");
+                    await sleep(500);
+                    break;
+                case "苍白的遗荣":
+                    // 这个走一秒就够了，并且有可能被晶蝶打断，所以需要按F
+                    keyDown("w");
+                    await sleep(1000);
+                    keyUp("w");
+                    await sleep(500);
+                    keyDown("f");
+                    await sleep(500);
+                    keyUp("f");
+                    await sleep(500);
+                    break;
+                default:
+                    // 其余秘境需要向前走
+                    keyDown("w");
+                    await sleep(2500);
+                    keyUp("w");
+                    await sleep(500);
+                    break;
             }
             
             // 执行自动秘境
