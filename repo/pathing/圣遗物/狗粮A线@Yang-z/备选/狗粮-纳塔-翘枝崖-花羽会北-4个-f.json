@@ -15,9 +15,11 @@
         {
             "x": 9594.6513671875,
             "y": -1062.68896484375,
-            "type": "target",
+            "type": "path",
             "move_mode": "fly",
-            "action": "stop_flying"
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(1.5),click",
+            "//": "无伤下落"
         },
         {
             "x": 9594.6513671875,
@@ -38,9 +40,11 @@
         {
             "x": 9491.322265625,
             "y": -1004.78271484375,
-            "type": "target",
+            "type": "path",
             "move_mode": "fly",
-            "action": "stop_flying"
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(0.5),click",
+            "//": "无伤下落"
         },
         {
             "x": 9491.322265625,
@@ -53,9 +57,11 @@
         {
             "x": 9535.1474609375,
             "y": -996.32763671875,
-            "type": "target",
+            "type": "path",
             "move_mode": "fly",
-            "action": "stop_flying"
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(1.5),click",
+            "//": "无伤下落"
         },
         {
             "x": 9535.1474609375,

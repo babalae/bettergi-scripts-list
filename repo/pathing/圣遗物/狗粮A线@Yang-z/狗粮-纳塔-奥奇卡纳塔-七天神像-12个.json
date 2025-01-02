@@ -105,11 +105,13 @@
         },
 
         {
-            "x": 9726.82421875,
-            "y": -670.78466796875,
+            "x": 9734.0712890625,
+            "y": -670.005859375,
             "type": "path",
             "move_mode": "fly",
-            "action": "stop_flying"
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(2.5),click",
+            "//": "stop_flying"
         },
         {
             "x": 9727.59375,
