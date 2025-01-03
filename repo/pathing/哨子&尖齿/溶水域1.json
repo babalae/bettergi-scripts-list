@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "未命名路径",
+    "type": "collect",
+    "author": "雕茂",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8286.8046875,
+      "y": -2521.6845703125
+    },
+    {
+      "id": 2,
+      "x": 8343.89453125,
+      "y": -2561.904296875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 8409.01953125,
+      "y": -2615.931640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 4,
+      "x": 8424.47265625,
+      "y": -2554.0966796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}
