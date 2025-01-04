@@ -42,7 +42,9 @@
             "y": -3742.8154296875,
             "type": "path",
             "move_mode": "fly",
-            "action": "stop_flying"
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(0.5),click",
+            "//": "stop_flying"
         },
 
         {
