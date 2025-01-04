@@ -1,0 +1,120 @@
+{
+  "info": {
+    "name": "纳塔龙众-万火之瓯6",
+    "type": "collect",
+    "author": "老马RYO",
+    "version": "5.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "fly",
+      "type": "teleport",
+      "x": 8669.136970036507,
+      "y": -2071.3569877981245,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8700.1200870499,
+      "y": -2116.3316509907054,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8712.61327939401,
+      "y": -2136.3203901874076,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8681.50122537806,
+      "y": -2185.746903279094,
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8639.153308410643,
+      "y": -2182.5443495797826,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8643.004765359123,
+      "y": -2199.7519706405765,
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8587.681355952911,
+      "y": -2192.7885784180926,
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8553.699872776931,
+      "y": -2201.7835110566084,
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8536.209403495177,
+      "y": -2188.7908305787514,
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8537.708586576471,
+      "y": -2175.2984316209768,
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8532.211581945063,
+      "y": -2133.8217977878194,
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "target",
+      "x": 8532.211581945063,
+      "y": -2123.8274281894683,
+      "action_params": ""
+    }
+  ]
+}
