@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "大灵显化身-疾叶-踞石山",
+    "type": "collect",
+    "author": "起个名字好难的喵",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7796.02880859375,
+      "y": -1873.208984375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 7839.849609375,
+      "y": -1969.49658203125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 7885.1162109375,
+      "y": -1991.9541015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
