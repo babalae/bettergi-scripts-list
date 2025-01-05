@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "大灵显化身-窟岩-踞石山",
+    "type": "collect",
+    "author": "起个名字好难的喵",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 7633.84765625,
+      "y": -1646.68701171875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 7641.250775618037,
+      "y": -1769,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 7679.93359375,
+      "y": -1840.28076171875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 7687.95458984375,
+      "y": -1900.87353515625,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
