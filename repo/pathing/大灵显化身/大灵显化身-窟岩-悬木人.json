@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "大灵显化身-窟岩-悬木人",
+    "type": "collect",
+    "author": "起个名字好难的喵",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8372.1298828125,
+      "y": -2196.2021484375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 8466.2265625,
+      "y": -2267.6162109375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 8479.0771484375,
+      "y": -2270.6435546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 8495.498046875,
+      "y": -2275.685546875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 8500.560546875,
+      "y": -2284.7119140625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
