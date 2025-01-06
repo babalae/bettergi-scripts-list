@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "11001纳塔奥奇05",
+    "type": "collect",
+    "author": "mfkvfhpdx",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9757.9345703125,
+      "y": -613.6181640625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "force_tp",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 9767.546875,
+      "y": -603.865234375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 9813.5224609375,
+      "y": -622.8095703125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 9820.322265625,
+      "y": -635.68359375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
