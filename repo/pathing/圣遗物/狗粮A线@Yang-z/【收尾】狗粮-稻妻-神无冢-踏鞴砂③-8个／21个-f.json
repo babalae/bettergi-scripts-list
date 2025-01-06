@@ -90,7 +90,9 @@
             "y": -3724.44921875,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
+            "action": "combat_script",
+            "action_params": "wait(0.2),keypress(x)",
+            "//": "stop_climbing",
             "#": "15"
         },
         
@@ -152,7 +154,9 @@
             "y": -3704.8525390625,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
+            "action": "combat_script",
+            "action_params": "wait(0.2),keypress(x)",
+            "//": "stop_climbing",
             "#": "16"
         },
         
