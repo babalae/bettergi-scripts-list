@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "大灵显化身-疾叶-万火之瓯",
+    "type": "collect",
+    "author": "起个名字好难的喵",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8597.3955078125,
+      "y": -1928.6357421875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 8621.2822265625,
+      "y": -1930.82470703125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 8705.22265625,
+      "y": -1963.890625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 8732.0078125,
+      "y": -1977.33056640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

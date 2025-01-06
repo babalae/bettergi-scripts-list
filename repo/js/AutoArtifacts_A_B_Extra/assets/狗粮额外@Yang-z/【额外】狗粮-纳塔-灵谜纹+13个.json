@@ -54,13 +54,13 @@
             "#": "2"
         },
         {
-            "x": 9725.4921875,
-            "y": -1548.083984375,
+            "x": 9732.736328125,
+            "y": -1552.6640625,
             "type": "path",
             "move_mode": "walk",
             "action": "combat_script",
-            "action_params": "keypress(VK_SPACE),wait(3),mousedown,wait(0.5),moveby(-2000,2000),wait(1.0),mouseup",
-            "//": "降落，扫码",
+            "action_params": "mousedown,wait(0.5),moveby(-100,3000),wait(1.0),mouseup",
+            "//": "扫码",
             "#": "3"
         },
 

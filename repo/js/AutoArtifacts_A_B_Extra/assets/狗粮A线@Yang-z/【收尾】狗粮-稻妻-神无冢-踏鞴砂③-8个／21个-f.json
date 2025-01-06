@@ -42,7 +42,9 @@
             "y": -3742.8154296875,
             "type": "path",
             "move_mode": "fly",
-            "action": "stop_flying"
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(0.5),click",
+            "//": "stop_flying"
         },
 
         {
@@ -88,7 +90,9 @@
             "y": -3724.44921875,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
+            "action": "combat_script",
+            "action_params": "wait(0.2),keypress(x)",
+            "//": "stop_climbing",
             "#": "15"
         },
         
@@ -150,7 +154,9 @@
             "y": -3704.8525390625,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
+            "action": "combat_script",
+            "action_params": "wait(0.2),keypress(x)",
+            "//": "stop_climbing",
             "#": "16"
         },
         
