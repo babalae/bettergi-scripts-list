@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "鬼兜虫-八酝岛(南侧)-6个",
+    "name": "鬼兜虫-八酝岛(西南侧)-1个",
     "type": "collect",
     "author": "起个名字好难",
     "version": "1.0",
@@ -20,9 +20,10 @@
       "id": 9,
       "x": -2347.369140625,
       "y": -4032.2001953125,
-      "type": "path",
+      "action": "combat_script",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "action_params": "wait(0.5),keypress(VK_SPACE),wait(3.5),click",
+      "type": "path"
     },
     {
       "id": 10,

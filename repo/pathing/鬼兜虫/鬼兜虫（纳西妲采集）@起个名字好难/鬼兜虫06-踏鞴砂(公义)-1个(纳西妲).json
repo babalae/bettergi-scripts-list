@@ -34,19 +34,21 @@
     },
     {
       "id": 4,
-      "x": -3091.416015625,
-      "y": -3844.8818359375,
-      "action": "stop_flying",
+      "x": -3093.109375,
+      "y": -3852.6376953125,
+      "type": "path",
       "move_mode": "fly",
-      "type": "path"
+      "action": "stop_flying",
+      "action_params": ""
     },
     {
       "id": 5,
-      "x": -3088.578125,
-      "y": -3845.1494140625,
-      "action": "nahida_collect",
+      "x": -3082.3251953125,
+      "y": -3846.6435546875,
+      "type": "target",
       "move_mode": "walk",
-      "type": "target"
+      "action": "nahida_collect",
+      "action_params": ""
     }
   ]
 }
