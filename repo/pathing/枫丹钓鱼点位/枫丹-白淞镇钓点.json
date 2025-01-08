@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "枫丹-白淞镇钓点",
+    "type": "collect",
+    "author": "龙弗山权",
+    "version": "1.0",
+    "description": "枫丹-白淞镇钓点",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4146.71533203125,
+      "y": 2606.241455078125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4330.546875,
+      "y": 2654.039794921875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4330.54296875,
+      "y": 2654.050048828125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4339.21824520646,
+      "y": 2653.6249982007594,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
