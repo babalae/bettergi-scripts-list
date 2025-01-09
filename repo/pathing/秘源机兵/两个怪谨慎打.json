@@ -1,0 +1,28 @@
+{
+  "info": {
+    "name": "两个怪谨慎打",
+    "type": "collect",
+    "author": "jsp",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8372.185546875,
+      "y": -2196.265625
+    },
+    {
+      "id": 2,
+      "x": 8474.056640625,
+      "y": -2322.509765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}
