@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "硫晶支脉-北",
+    "type": "collect",
+    "author": "Shell",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8400.548828125,
+      "y": -1221.509765625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 8423.8984375,
+      "y": -1224.04931640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 8449.90625,
+      "y": -1227.314453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 8456.064453125,
+      "y": -1228.08935546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    }
+  ]
+}
