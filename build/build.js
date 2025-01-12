@@ -113,7 +113,7 @@ function extractInfoFromTCGFile(filePath, parentFolder) {
     const content = fs.readFileSync(filePath, 'utf8');
     const authorMatch = content.match(/\/\/\s*作者:(.*)/);
     const descriptionMatch = content.match(/\/\/\s*描述:(.*)/);
-    const characterMatches = content.match(/角色\d+=([^|\r\n{]+)/g);
+    const characterMatches = content.match(/角色\d+\s?=([^|\r\n{]+)/g);
 
     let tags = characterMatches
         ? characterMatches.map(match => match.split('=')[1].trim())
@@ -122,6 +122,9 @@ function extractInfoFromTCGFile(filePath, parentFolder) {
 
     if (filePath.includes('惊喜牌组')) {
         tags = ['惊喜牌组', ...tags];
+    }
+    if (filePath.includes('酒馆挑战')) {
+        tags = ['酒馆挑战', ...tags];
     }
 
     return {
