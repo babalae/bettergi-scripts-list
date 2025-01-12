@@ -29,7 +29,7 @@
             "y": -1138.818359375,
             "type": "target",
             "move_mode": "walk",
-            "action": "pick_around"
+            "#": "1"
         },
         {
             "x": 2701.74365234375,
@@ -42,7 +42,7 @@
             "y": -1146.880859375,
             "type": "target",
             "move_mode": "walk",
-            "action": "pick_around"
+            "#": "2"
         },
 
         {
@@ -55,32 +55,32 @@
             "x": 2710.01123046875,
             "y": -1129.4599609375,
             "type": "path",
-            "move_mode": "walk"
+            "move_mode": "run"
         },
         {
             "x": 2729.0908203125,
             "y": -1091.6220703125,
             "type": "path",
-            "move_mode": "walk"
+            "move_mode": "run"
         },
         {
             "x": 2725.5048828125,
             "y": -1086.3173828125,
             "type": "path",
-            "move_mode": "walk"
+            "move_mode": "run"
         },
         {
             "x": 2724.63134765625,
             "y": -1084.23974609375,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "pick_around"
+            "type": "path",
+            "move_mode": "walk"
         },
         {
             "x": 2724.3125,
             "y": -1081.69482421875,
-            "type": "path",
-            "move_mode": "walk"
+            "type": "target",
+            "move_mode": "walk",
+            "#": "3"
         }
     ]
 }

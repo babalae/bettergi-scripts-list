@@ -43,8 +43,15 @@
         },
 
         {
-            "x": 3608.84375,
-            "y": -728.8193359375,
+            "x": 3603.5595703125,
+            "y": -729.30712890625,
+            "type": "path",
+            "move_mode": "run"
+        },
+
+        {
+            "x": 3608.8974609375,
+            "y": -729.0302734375,
             "type": "target",
             "move_mode": "run",
             "action":"",
@@ -52,15 +59,21 @@
         },
 
         {
-            "x": 3608.337890625,
-            "y": -732.755859375,
+            "x": 3615.451171875,
+            "y": -737.78857421875,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 3623.935546875,
+            "y": -757.58984375,
             "type": "path",
             "move_mode": "run"
         },
 
         {
-            "x": 3627.2099609375,
-            "y": -764.0400390625,
+            "x": 3626.6474609375,
+            "y": -764.0546875,
             "type": "target",
             "move_mode": "run",
             "action":"",
@@ -80,7 +93,7 @@
             "type": "target",
             "move_mode": "walk",
             "action": "combat_script",
-            "action_params": "click,wait(0.2),click,wait(0.3),click,wait(0.4)",
+            "action_params": "click,wait(0.5),click,wait(0.5),click,wait(0.2)",
             "No.": "4"
         },
 

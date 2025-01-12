@@ -137,25 +137,17 @@
         },
 
         {
-            "x": 9448.1923828125,
-            "y": -1658.0986328125,
+            "x": 9447.9716796875,
+            "y": -1653.560546875,
             "type": "path",
             "move_mode": "walk",
             "action": "combat_script",
             "action_params": "mousedown,wait(1.0),mouseup",
             "#": "5"
         },
-
         {
-            "x": 9488.5693359375,
-            "y": -1623.923828125,
-            "type": "path",
-            "move_mode": "walk"
-        },
-
-        {
-            "x": 9507.4951171875,
-            "y": -1616.11767578125,
+            "x": 9506.048828125,
+            "y": -1620.984375,
             "type": "path",
             "move_mode": "walk",
             "action": "combat_script",
@@ -223,7 +215,7 @@
             "type": "path",
             "move_mode": "walk",
             "action": "combat_script",
-            "action_params": "mousedown,wait(1.0),mouseup",
+            "action_params": "wait(0.2),mousedown,wait(1.0),mouseup,wait(0.2)",
             "#": "7"
         },
 

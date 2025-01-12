@@ -13,12 +13,21 @@
             "type": "teleport",
             "move_mode": "walk"
         },
+
+        {
+            "x": 4510.58544921875,
+            "y": 4714.5146484375,
+            "type": "path",
+            "move_mode": "run"
+        },
         {
             "x": 4566.91064453125,
             "y": 4733.60009765625,
             "type": "path",
             "move_mode": "fly",
-            "action": "stop_flying"
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(0.2),click",
+            "//": "stop_flying"
         },
 
         {
