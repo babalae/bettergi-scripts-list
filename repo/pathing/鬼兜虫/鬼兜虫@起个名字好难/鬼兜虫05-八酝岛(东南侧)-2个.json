@@ -1,0 +1,69 @@
+{
+  "info": {
+    "name": "鬼兜虫-八酝岛(东南侧)-2个",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2404.5908203125,
+      "y": -3921.5458984375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -2412.1435546875,
+      "y": -3928.1396484375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -2412.5126953125,
+      "y": -3933.142578125,
+      "action": "",
+      "move_mode": "fly",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": -2404.9462890625,
+      "y": -3921.8837890625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 5,
+      "x": -2448.892578125,
+      "y": -3915.6669921875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -2526.12109375,
+      "y": -3947.1142578125,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "wait(0.5),keypress(VK_SPACE),wait(3.5),click",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -2517.3330078125,
+      "y": -3946.8115234375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

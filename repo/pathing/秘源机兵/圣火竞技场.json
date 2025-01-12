@@ -1,0 +1,98 @@
+{
+  "info": {
+    "name": "圣火竞技场",
+    "type": "collect",
+    "author": "Shell",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8978.51953125,
+      "y": -1872.12841796875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 8958.007264142378,
+      "y": -1880.25,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 8955.875,
+      "y": -1891.875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 8953.43906065559,
+      "y": -1900.375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 8954.876305275584,
+      "y": -1905.8125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 8956.25119177336,
+      "y": -1914,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 8957.50119177336,
+      "y": -1924.125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 8951.874943248888,
+      "y": -1946.625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 8951.312471624444,
+      "y": -1958.0625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 8953.281278375556,
+      "y": -1958.625
+    }
+  ]
+}

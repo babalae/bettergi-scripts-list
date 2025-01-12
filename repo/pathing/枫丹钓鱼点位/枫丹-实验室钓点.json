@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "枫丹-实验室钓点",
+    "type": "collect",
+    "author": "龙弗山权",
+    "version": "1.0",
+    "description": "枫丹-实验室钓点",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3865.1474609375,
+      "y": 4492.275390625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3958.212890625,
+      "y": 4529.73974609375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3958.080078125,
+      "y": 4529.8671875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 3985.21484375,
+      "y": 4531.5146484375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

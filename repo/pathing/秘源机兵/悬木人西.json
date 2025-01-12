@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "悬木人西",
+    "type": "collect",
+    "author": "Shell",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8674.154296875,
+      "y": -2063.279296875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 8700.20703125,
+      "y": -2080.486328125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 8723.2978515625,
+      "y": -2086.44140625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 8753.125,
+      "y": -2107.5595703125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 8802.09375,
+      "y": -2120.390625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 8811.087890625,
+      "y": -2121.7646484375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    }
+  ]
+}
