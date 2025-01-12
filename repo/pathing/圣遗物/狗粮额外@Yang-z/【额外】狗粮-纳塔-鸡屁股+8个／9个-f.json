@@ -5,28 +5,60 @@
         "author":"Yang-z"
     },
     "positions": [
+
         {
-            "x": 7857.4638671875,
-            "y": -1751.333984375,
+            "x": 8738.1943359375,
+            "y": -1857.46533203125,
             "type": "teleport",
             "move_mode": "walk"
         },
         {
-            "x": 8003.58984375,
-            "y": -1744.78076171875,
+            "x": 8766.15234375,
+            "y": -1834.3193359375,
             "type": "path",
             "move_mode": "fly",
             "action": "combat_script",
-            "action_params": "keypress(VK_SPACE),wait(3),click",
-            "//": "无伤下落"
+            "action_params": "keypress(VK_SPACE),wait(0.2),click",
+            "//": "stop_flying"
         },
         {
-            "x": 7994.86328125,
-            "y": -1745.2353515625,
+            "x": 8766.4541015625,
+            "y": -1825.40478515625,
             "type": "target",
             "move_mode": "walk",
             "action": "",
             "#": "1"
+        },
+
+
+
+        {
+            "x": 8439.59765625,
+            "y": -2107.0283203125,
+            "type": "teleport",
+            "move_mode": "walk"
+        },
+        {
+            "x": 8415.802734375,
+            "y": -2075.837890625,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 8379.1923828125,
+            "y": -1980.14990234375,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(3.5),click",
+            "//": "无伤下落"
+        },
+        {
+            "x": 8375.69921875,
+            "y": -1971.431640625,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "2"
         },
 
 
@@ -55,23 +87,23 @@
 
 
         {
-            "x": 8738.1943359375,
-            "y": -1857.46533203125,
+            "x": 7857.4638671875,
+            "y": -1751.333984375,
             "type": "teleport",
             "move_mode": "walk"
         },
         {
-            "x": 8766.15234375,
-            "y": -1834.3193359375,
+            "x": 8003.58984375,
+            "y": -1744.78076171875,
             "type": "path",
             "move_mode": "fly",
             "action": "combat_script",
-            "action_params": "keypress(VK_SPACE),wait(0.2),click",
-            "//": "stop_flying"
+            "action_params": "keypress(VK_SPACE),wait(3),click",
+            "//": "无伤下落"
         },
         {
-            "x": 8766.4541015625,
-            "y": -1825.40478515625,
+            "x": 7994.86328125,
+            "y": -1745.2353515625,
             "type": "target",
             "move_mode": "walk",
             "action": "",
@@ -117,7 +149,7 @@
             "type": "target",
             "move_mode": "walk",
             "action": "",
-            "#": "5"
+            "#": "6"
         },
         {
             "x": 8126.6875,
@@ -125,7 +157,7 @@
             "type": "target",
             "move_mode": "walk",
             "action": "",
-            "#": "5"
+            "#": "6"
         },
 
         {
@@ -134,7 +166,7 @@
             "type": "target",
             "move_mode": "walk",
             "action": "",
-            "#": "6"
+            "#": "7"
         },
         {
             "x": 8124.8818359375,
@@ -142,7 +174,7 @@
             "type": "target",
             "move_mode": "walk",
             "action": "",
-            "#": "6"
+            "#": "7"
         },
         {
             "x": 8124.2548828125,
@@ -190,7 +222,7 @@
             "type": "target",
             "move_mode": "walk",
             "action": "",
-            "#": "7"
+            "#": "8"
         },
 
 
@@ -243,7 +275,7 @@
             "y": -1866.52490234375,
             "type": "target",
             "move_mode": "run",
-            "#": "8"
+            "#": "9"
         }
         
     ],
@@ -268,7 +300,8 @@
             "type": "target",
             "move_mode": "walk",
             "action": "",
-            "#": "2 一次性的"
+            "#": "5",
+            "//": "需要在到达上限之前触摸鸡屁三次直到出现调查点，超限后回来依然存在"
         },
         {
             "x": 8056.9794921875,
@@ -276,7 +309,7 @@
             "type": "target",
             "move_mode": "walk",
             "action": "",
-            "#": "2"
+            "#": "5"
         }
     ]
 }

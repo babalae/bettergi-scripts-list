@@ -152,6 +152,14 @@
             "action": "",
             "#": "4"
         },
+        {
+            "x": 4734.841796875,
+            "y": 4902.86572265625,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "#": "4"
+        },
 
         {
             "x": 4746.90625,
@@ -166,6 +174,7 @@
             "move_mode": "walk",
             "action": "combat_script",
             "action_params": "wait(0.2),keypress(x)",
+            "//": "stop_climbing",
             "#": "5"
         },
         {
@@ -175,6 +184,7 @@
             "move_mode": "walk",
             "action": "combat_script",
             "action_params": "wait(0.2),keypress(x)",
+            "//": "stop_climbing",
             "#": "5"
         },
 
