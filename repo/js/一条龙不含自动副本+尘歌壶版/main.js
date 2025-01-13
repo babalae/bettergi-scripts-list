@@ -61,7 +61,7 @@
     
     keyPress("VK_F2")
     await sleep(1000);
-    click(330,1010) //点击世界权限
+    click(330,1010);//点击世界权限
     await sleep(1000);
     let domainName = settings.domainName;
 
@@ -81,6 +81,8 @@
     default:
         click(330, 850); // 不允许
         log.info("锁门");
+        await sleep(2000);
+        keyPress("Escape");
         break;
 }
 
@@ -171,6 +173,8 @@
     keyPress("F4");
     await sleep(1500);
     click(1920, 100);
+    await sleep(1000);
+    click(3480, 1948);
     await sleep(1000);
     click(3480, 1948);
     await sleep(1000);
