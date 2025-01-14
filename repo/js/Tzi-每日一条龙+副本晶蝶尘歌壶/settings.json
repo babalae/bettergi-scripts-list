@@ -1,0 +1,85 @@
+[
+  {
+    "name": "domainName",
+    "type": "select",
+    "label": "设置房间权限(默认 不允许加入)",
+    "options": [
+      "直接加入",
+      "确认后可加入",
+      "不允许加入"
+    ]
+  },
+  {
+    "name": "ksl_selectValue",
+    "type": "select",
+    "label": "凯瑟琳(默认 枫丹)",
+    "options": [
+      // "蒙德凯瑟琳",
+      // "璃月凯瑟琳",
+      "稻妻凯瑟琳",
+      "须弥凯瑟琳",
+      "枫丹凯瑟琳",
+      // "纳塔凯瑟琳"
+    ]
+  },
+  {
+    "name": "hct_selectValue",
+    "type": "select",
+    "label": "合成台(默认 枫丹)",
+    "options": [
+      // "蒙德合成台",
+      // "璃月合成台",
+      // "稻妻合成台",
+      // "须弥合成台",
+      "枫丹合成台",
+      // "纳塔合成台"
+    ]
+  },
+  {
+    "name": "path",
+    "type": "select",
+    "label": "尘歌壶名称（默认 清琼岛）",
+    "options": [
+      "绘绮庭 ",
+      "妙香林",
+      "黛翠峰&罗浮洞",
+      "清琼岛"
+    ]
+  },
+  {
+    "name": "decomposeDogFood",
+    "type": "select",
+    "label": "自动分解狗粮(默认 是)",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
+  {
+    "name": "catchButterfly",
+    "type": "select",
+    "label": "自动抓晶蝶(默认 是)",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
+  {
+    "name": "number",
+    "type": "input-text",
+    "label": "晶蝶队伍序号1-15(默认 5)"
+  },
+  {
+    "name": "exitGame",
+    "type": "select",
+    "label": "一切完成结束游戏(默认 是)",
+    "options": [
+      "是",
+      "否"
+    ]
+  },  {
+    "name": "delay",
+    "type": "input-text",
+    "label": "无法运行可以适当加大(默认 2000ms)"
+  },
+]
