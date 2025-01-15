@@ -1,9 +1,5 @@
 (async function () {
-
-
-
-    // 设置游戏运行的分辨率和缩放
-    setGameMetrics(1920, 1080, 1);
+    setGameMetrics(1920, 1080, 1);  // 设置游戏运行的分辨率和缩放
     //基础延迟
     let delay = settings.delay || 2000;
     //定义合成台and凯瑟琳的选择路径
@@ -42,28 +38,24 @@
     }
 
 
-
-
     // 领取邮件
-    setGameMetrics(3840, 2160, 2);
     keyPress("Escape");
     await sleep(1500);
-    click(94, 1212);
-    // click(50, 605); //1920x1080
+    click(50, 605);
     await sleep(1500);
-    click(500, 2024);
+    click(150, 1015); 
+    await sleep(1000);
+    click(150, 1015); 
     await sleep(1000);
     keyPress("Escape");
     await sleep(1000);
     keyPress("Escape");
-    await sleep(1000);
-    // keyPress("Escape");
     log.info("已完成 领取邮件");
-    setGameMetrics(1920, 1080, 1);
+    await sleep(delay);
+    // exit();
 
-
+    
     // 设置世界权限
-    log.info("请确保执行脚本时处于主界面");
     keyPress("VK_F2")
     await sleep(1000);
     click(160, 1020); // 点击世界权限
@@ -108,7 +100,7 @@
     await sleep(1000);
     keyPress("Escape"); // 确保完全退出合成
     log.info("已完成 合成浓缩树脂");
-    await sleep(2000);
+    await sleep(delay);
 
     // 自动秘境
     while (true) {
@@ -128,8 +120,9 @@
         }
     }
 
+
+    // 分解狗粮
     if (settings.decomposeDogFood == "是" | settings.decomposeDogFood == undefined) {
-        // 分解狗粮
         keyPress("B");
         await sleep(1000);
         click(670, 40);
@@ -219,7 +212,7 @@
     click(960, 50);
     await sleep(1000);
     click(1720, 980);
-    await sleep(1000);
+    await sleep(2000);
     click(860, 50);
     await sleep(1000);
     click(1720, 980);
