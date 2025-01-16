@@ -40,6 +40,7 @@
         log.info(`已到达 ${locationName}`);
     }
 
+
     // 领取邮件
     keyPress("Escape");
     await sleep(1500);
@@ -54,7 +55,6 @@
     keyPress("Escape");
     log.info("已完成 领取邮件");
     await sleep(delay);
-    // exit();
 
 
     // 设置世界权限
@@ -366,7 +366,7 @@
     keyPress("F");
     await sleep(2000);
     click(1370, 420);
-    await sleep(2000);
+    await sleep(1500);
     click(1370, 420);
 
     await sleep(800);
@@ -404,11 +404,10 @@
         await captureCrystalfly('枫丹-枫丹廷区', 4822, 3628, 3);
         await captureCrystalfly('枫丹-苍白的遗荣', 4188, 2992, 2);
         await captureCrystalfly('枫丹-幽林雾道', 3376, 3290, 2);
-        await captureCrystalfly('枫丹-莫尔泰区', 3810, 2334, 2);
-        await captureCrystalfly('枫丹-特别温暖的地方', 4790, 2520, 3);
         await captureCrystalfly('枫丹-卡布狄斯堡遗迹上方', 3554, 3024, 4);
         await captureCrystalfly('枫丹-卡布狄斯堡遗迹下方', 3374, 2699, 4);
-        await captureCrystalfly('枫丹-枫丹廷区', 4822, 3628, 3);
+        await captureCrystalfly('枫丹-莫尔泰区', 3810, 2334, 2);
+        await captureCrystalfly('枫丹-特别温暖的地方', 4790, 2520, 3);
         await captureCrystalfly('须弥-下风蚀地', 4452, -2456, 3);
     }
 
