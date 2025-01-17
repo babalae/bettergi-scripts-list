@@ -27,14 +27,17 @@
             log.error(`执行 ${locationName} 路径时发生错误`);
         }
         log.info(`已到达 ${locationName}`);
-        // await sleep(2000);
-        // if (locationName == "纳塔凯瑟琳")
-        //     keyDown("w");
-        // await sleep(4500);
-        // keyUp("w");
-        // keyDown("d");
-        // await sleep(2000);
-        // keyUp("d");
+    }
+
+    async function prt_AutoPath(locationName) {
+        log.info(`即将前往 ${locationName}`);
+        try {
+            let filePath = `assets/烹饪台位置/${locationName}.json`;
+            await pathingScript.runFile(filePath);
+        } catch (error) {
+            log.error(`执行 ${locationName} 路径时发生错误`);
+        }
+        log.info(`已到达 ${locationName}`);
     }
 
 
@@ -43,18 +46,17 @@
     await sleep(1500);
     click(50, 605);
     await sleep(1500);
-    click(150, 1015); 
+    click(150, 1015);
     await sleep(1000);
-    click(150, 1015); 
+    click(150, 1015);
     await sleep(1000);
     keyPress("Escape");
     await sleep(1000);
     keyPress("Escape");
     log.info("已完成 领取邮件");
     await sleep(delay);
-    // exit();
 
-    
+
     // 设置世界权限
     keyPress("VK_F2")
     await sleep(1000);
@@ -85,6 +87,7 @@
 
     // 前往_合成台
     await hct_AutoPath(hct_filePath);
+    await sleep(1000);
 
 
     // 合成浓缩树脂
@@ -101,6 +104,7 @@
     keyPress("Escape"); // 确保完全退出合成
     log.info("已完成 合成浓缩树脂");
     await sleep(delay);
+
 
     // 自动秘境
     while (true) {
@@ -167,10 +171,10 @@
     await sleep(1000);
     click(1550, 755);
     await sleep(1000);
-    keyPress("Escape");
+    click(1550, 755);
     await sleep(1500);
-    click(1670, 235);
-    // keyPress("Escape");
+    // click(1670, 235);
+    keyPress("Escape");
     log.info("已完成 领取历练点");
     await sleep(delay);
 
@@ -179,11 +183,11 @@
     keyPress("F");
     log.info("按下F键");
     await sleep(1000);
-    click(960, 540);// 点击坐标(960, 540)(屏幕中心)
+    click(960, 540);
     await sleep(1000);
     click(1380, 425);// 点击坐标(1380, 425)(领取「每日委托」奖励)
     await sleep(1000);
-    click(960, 540);// 点击坐标(960, 540)(屏幕中心)
+    click(960, 540);
     await sleep(2000);
     click(960, 960);// 点击坐标(960, 960)(关闭奖励弹出页面)
     log.info("已完成 领取每日委托奖励");
@@ -224,7 +228,7 @@
     await sleep(delay);
 
 
-    // 传送到枫丹凯瑟琳锚点
+    // 前往_凯瑟琳
     await genshin.tp(4515, 3630);
     await sleep(1000);
 
@@ -261,6 +265,7 @@
     log.info("已切换至第" + settings.number || 5 + "队");
     await sleep(delay);
 
+    
     //切换角色
     keyPress("1");
     log.info("已切换至第1个角色");
@@ -361,7 +366,7 @@
     keyPress("F");
     await sleep(2000);
     click(1370, 420);
-    await sleep(2000);
+    await sleep(1500);
     click(1370, 420);
 
     await sleep(800);
@@ -399,19 +404,26 @@
         await captureCrystalfly('枫丹-枫丹廷区', 4822, 3628, 3);
         await captureCrystalfly('枫丹-苍白的遗荣', 4188, 2992, 2);
         await captureCrystalfly('枫丹-幽林雾道', 3376, 3290, 2);
+        await captureCrystalfly('枫丹-卡布狄斯堡遗迹上方', 3554, 3024, 4);
+        await captureCrystalfly('枫丹-卡布狄斯堡遗迹下方', 3374, 2699, 4);
         await captureCrystalfly('枫丹-莫尔泰区', 3810, 2334, 2);
         await captureCrystalfly('枫丹-特别温暖的地方', 4790, 2520, 3);
         await captureCrystalfly('须弥-下风蚀地', 4452, -2456, 3);
     }
 
+
     // 结束游戏
+    for (let i = 0; i < 5; i++) {
+        log.info('即将在 {num}s 后退出', 5 - i + "s");
+        await sleep(1000);
+    }
+    log.info("已完成 所有内容 结束-Tzi");
+    await sleep(2000);
     keyDown("MENU");
     keyDown("F4");
     await sleep(50);
     keyUp("MENU");
     keyUp("F4");
-    await sleep(1500);
 
-    log.info("已完成 所有内容 结束-Tzi");
 
 })();
