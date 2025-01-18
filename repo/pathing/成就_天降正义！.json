@@ -1,0 +1,30 @@
+{
+  "info": {
+    "name": "天降正义",
+    "type": "collect",
+    "author": "花见木易",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "fly",
+      "type": "teleport",
+      "x": 1433.3955078125,
+      "y": 837.115234375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1268.4968399235968,
+      "y": 921,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    }
+  ]
+}
