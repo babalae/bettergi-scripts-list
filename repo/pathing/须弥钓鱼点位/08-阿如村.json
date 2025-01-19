@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "08-阿如村",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4089.9427476120472,
+      "y": -2022.737787629936,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4109.375542676663,
+      "y": -1997.501857297947,
+      "move_mode": "run",
+      "type": "path",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4142.758614992026,
+      "y": -1990.000127212188,
+      "move_mode": "walk",
+      "type": "path",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target",
+      "x": 4163.755,
+      "y": -1958.503,
+      "action_params": ""
+    }
+  ]
+}
