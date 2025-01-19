@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "稻妻-野伏众-鸣神岛神里屋敷东北-3个",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.0",
+    "description": "野伏众-3个\n稻妻-鸣神岛神里屋敷东北",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4581.330000000002,
+      "y": -2578.4300000000003,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4572.494183197243,
+      "y": -2555.749485643828,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4583.827363476674,
+      "y": -2535.038705302013,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -4613.246946178551,
+      "y": -2505.497556808179,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -4669.264832847031,
+      "y": -2467.2388127532395,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -4669.126951720184,
+      "y": -2467.5039862603408,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

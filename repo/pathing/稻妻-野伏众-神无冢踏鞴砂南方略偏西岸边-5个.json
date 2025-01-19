@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "稻妻-野伏众-5个-神无冢踏鞴砂南方略偏西岸边",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.0",
+    "description": "野伏众-5个\n稻妻-神无冢踏鞴砂南方略偏西岸边",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3156.2700000000004,
+      "y": -3885.5300000000007,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3139.094813884947,
+      "y": -4026.166137043856,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -3139.4861850934503,
+      "y": -4026.750385767129,
+      "type": "path",
+      "action": "fight",
+      "action_params": "",
+      "move_mode": "walk"
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": -3187.577363476674,
+      "y": -4026.079339439675,
+      "action_params": ""
+    }
+  ]
+}

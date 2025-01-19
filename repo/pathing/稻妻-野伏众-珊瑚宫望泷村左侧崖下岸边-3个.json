@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "稻妻-野伏众-3个-珊瑚宫望泷村左侧崖下岸边",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.0",
+    "description": "野伏众3个\n稻妻-珊瑚宫-望泷村左侧悬崖下（1个野伏众，靠近出现另外两个）",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -754.7998790836446,
+      "y": -4000.0500211378167,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": -671.7515996207585,
+      "y": -3982.791148493834,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -650.7393843349673,
+      "y": -3987.793720274698,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": -638.2321133315199,
+      "y": -3986.793205918526,
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -638.2321133315199,
+      "y": -3986.793205918526,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
