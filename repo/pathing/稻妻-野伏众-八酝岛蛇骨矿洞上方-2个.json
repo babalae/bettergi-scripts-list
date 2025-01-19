@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "稻妻-野伏众-2个-八酝岛蛇骨矿洞上方",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.0",
+    "description": "野伏众-4个\n稻妻-八酝岛-蛇骨矿洞上方",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2404.619999999999,
+      "y": -3921.959999999999,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2401.776611872616,
+      "y": -3927.2866478773212,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2369.7579981037925,
+      "y": -3982.815194644918,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -2369.512651545998,
+      "y": -3982.99562797253,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2325.9825495917285,
+      "y": -4000.3241958779454,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": -2301.25,
+      "y": -3979.247942575308,
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "稻妻-野伏众-珊瑚宫望泷村东北方河边瀑布边-4个",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.0",
+    "description": "野伏众-4个\n稻妻-珊瑚宫望泷村东北方河边瀑布边",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1057.4799999999996,
+      "y": -3945.369999999999,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1044.6477467900404,
+      "y": -3935.6213880568102,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1006.6256429395617,
+      "y": -3862.583840056188,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1005.0219584304086,
+      "y": -3867.2573295754646,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -928.0799810379158,
+      "y": -3843.5740672889024,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -926.2547988622755,
+      "y": -3859.750900123303,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -950.003780921792,
+      "y": -3888.254500616513,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "稻妻-野伏众-9个-八酝岛蛇神之首东方",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.0",
+    "description": "野伏众-4个\n稻妻-八酝岛-蛇神之首东方",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2404.62,
+      "y": -3921.96,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -2401.012069865721,
+      "y": -3917.521731548306,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -2355.236621353657,
+      "y": -3824.476082437959,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2355.5866703610864,
+      "y": -3824.5941271796455,
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2493.6669422391387,
+      "y": -3811.587440549398,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": -2584.719875144234,
+      "y": -3805.58435441236,
+      "action_params": ""
+    }
+  ]
+}
