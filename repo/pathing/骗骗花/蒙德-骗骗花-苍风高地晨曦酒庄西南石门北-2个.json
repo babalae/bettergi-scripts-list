@@ -1,0 +1,138 @@
+{
+  "info": {
+    "name": "蒙德-骗骗花-苍风高地晨曦酒庄西南石门北-2个",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.0",
+    "description": "骗骗花-2个\n蒙德-苍风高地晨曦酒庄西南石门北",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 207.6900000000005,
+      "y": 1573.6399999999994,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 163.25,
+      "y": 1623.9466355470577,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 142.25,
+      "y": 1632.7011361635723,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 118.75,
+      "y": 1647.458722917123,
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 107,
+      "y": 1653.4618090541608,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(0.5),keypress(f),wait(0.5),keypress(f),wait(0.5),keypress(f)"
+    },
+    {
+      "id": 6,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 107,
+      "y": 1653.4618090541608,
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 99,
+      "y": 1639.9405918620268,
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 85.75,
+      "y": 1673.958079971906,
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 87,
+      "y": 1713.478397040737,
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 51.25,
+      "y": 1703.4732534790073,
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 41,
+      "y": 1703.4732534790073,
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 36.25,
+      "y": 1707.4753109036992,
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 31.75,
+      "y": 1713.228268451694,
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 19.5,
+      "y": 1732.2380412189796,
+      "action_params": ""
+    }
+  ]
+}

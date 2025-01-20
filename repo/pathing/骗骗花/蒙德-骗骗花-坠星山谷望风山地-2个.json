@@ -1,0 +1,84 @@
+{
+  "info": {
+    "name": "蒙德-骗骗花-坠星山谷望风山地-2个",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.0",
+    "description": "骗骗花-2个\n蒙德-坠星山谷望风山地",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1273.47,
+      "y": 2722.32,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1268.5,
+      "y": 2806.474796547527,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1191,
+      "y": 2805.4742821913533,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5),keypress(f),wait(0.5),keypress(f),wait(0.5),keypress(f),wait(0.5),keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1191,
+      "y": 2805.4742821913533,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": -1191,
+      "y": 2805.4742821913533,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 6,
+      "x": -1316.5,
+      "y": 2824.9094733135644,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -1350.5,
+      "y": 2928.9629663555497,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -1410,
+      "y": 2908.9526792320903,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

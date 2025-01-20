@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "蒙德-骗骗花-明冠山地风龙废墟西方崖下-1个",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.0",
+    "description": "骗骗花-1个\n蒙德-明冠山地风龙废墟西方崖下",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 344.9927289965526,
+      "y": 2570.916031354769,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 350.4959282380696,
+      "y": 2566.913973930077,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 382.7594523044809,
+      "y": 2539.7429276026214,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 382.51454200689295,
+      "y": 2539.900086313408,
+      "action_params": ""
+    }
+  ]
+}
