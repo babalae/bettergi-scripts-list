@@ -1,0 +1,119 @@
+{
+  "info": {
+    "name": "琉璃袋-层岩巨渊-天工峡-5个",
+    "type": "collect",
+    "author": "起个名字好难的喵&yulalaa",
+    "version": "1.0",
+    "description": "https://www.bilibili.com/video/BV1Uh411L7Z4/?p=12",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1759.599609375,
+      "y": -874.15869140625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1759.544921875,
+      "y": -874.1806640625,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": 1740.7861328125,
+      "y": -874.9765625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "w(0.2),keypress(VK_SPACE)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1703.0595703125,
+      "y": -871.53076171875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "w(0.1),keypress(VK_SPACE)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1676.5615234375,
+      "y": -870.810546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 1706.2392578125,
+      "y": -886.70068359375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 1708.52734375,
+      "y": -895.619140625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 1706.849609375,
+      "y": -897.13427734375,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 1693.1455078125,
+      "y": -910.2685546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 1682.259765625,
+      "y": -914.89501953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE)"
+    },
+    {
+      "id": 11,
+      "x": 1680.7421875,
+      "y": -925.0498046875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 1679.8447265625,
+      "y": -927.2158203125,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
