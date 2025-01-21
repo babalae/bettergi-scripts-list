@@ -1,0 +1,91 @@
+{
+  "info": {
+    "name": "04-水月池",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1135.0008227833914,
+      "y": -3611.090761481588,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1136.7497330247552,
+      "y": -3596.1241245022848,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(f),wait(0.1),keyup(f),wait(1.0),keydown(t),wait(0.2),keyup(t),wait(1.2),keydown(t),wait(0.2),keyup(t),wait(1.2),keydown(t),wait(0.2),keyup(t),wait(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1118.251121296029,
+      "y": -3592.753501990863,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1128.7497607667847,
+      "y": -3582.0015076658074,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1153.0622063272313,
+      "y": -3591.0008025395728,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1198.5,
+      "y": -3575.496833901805,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -1229.8748932099024,
+      "y": -3571.3725923812817,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -1241.3751067900976,
+      "y": -3570.248978585998,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -1248.7500055895616,
+      "y": -3569.7515076658074,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
