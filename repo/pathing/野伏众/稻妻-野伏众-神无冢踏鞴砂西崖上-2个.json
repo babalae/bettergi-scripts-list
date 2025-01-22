@@ -1,57 +1,57 @@
 {
-  "info": {
-    "name": "稻妻-野伏众-2个-神无冢踏鞴砂西崖上",
-    "type": "collect",
-    "author": "提瓦特钓鱼玳师",
-    "version": "1.0",
-    "description": "野伏众-2个\n稻妻-神无冢踏鞴砂西崖上",
-    "bgiVersion": "0.35.1"
-  },
-  "positions": [
-    {
-      "id": 1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": -3156.2700000000004,
-      "y": -3885.5300000000007,
-      "action_params": ""
+    "info": {
+        "name": "稻妻-野伏众-神无冢踏鞴砂西崖上-2个",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "野伏众-2个\n稻妻-神无冢踏鞴砂西崖上",
+        "bgiVersion": "0.39.1"
     },
-    {
-      "id": 2,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path",
-      "x": -3133.655890313901,
-      "y": -3844.1993130170104,
-      "action_params": ""
-    },
-    {
-      "id": 3,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "type": "path",
-      "x": -3104.6390215859046,
-      "y": -3729.6404192352093,
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "action": "fight",
-      "move_mode": "walk",
-      "type": "path",
-      "x": -3071.7498545799317,
-      "y": -3724.248971287654,
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "action": "fight",
-      "move_mode": "walk",
-      "type": "target",
-      "x": -3086.751745040827,
-      "y": -3667.499485643828,
-      "action_params": ""
-    }
-  ]
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -3156.27,
+            "y": -3885.53,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path",
+            "x": -3133.66,
+            "y": -3844.2,
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "action": "stop_flying",
+            "move_mode": "fly",
+            "type": "path",
+            "x": -3104.64,
+            "y": -3729.64,
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "action": "fight",
+            "move_mode": "walk",
+            "type": "path",
+            "x": -3071.75,
+            "y": -3724.25,
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "action": "fight",
+            "move_mode": "walk",
+            "type": "target",
+            "x": -3086.75,
+            "y": -3667.5,
+            "action_params": ""
+        }
+    ]
 }

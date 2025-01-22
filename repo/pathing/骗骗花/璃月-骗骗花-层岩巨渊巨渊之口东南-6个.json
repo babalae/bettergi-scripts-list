@@ -1,0 +1,213 @@
+{
+    "info": {
+        "name": "璃月-骗骗花-层岩巨渊巨渊之口东南-6个",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "骗骗花-6个\n璃月-层岩巨渊巨渊之口东南",
+        "bgiVersion": "0.39.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": 1760.98,
+            "y": -870.93,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": 1741.04,
+            "y": -875.76,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "keypress(space),wait(0.8),keypress(space)"
+        },
+        {
+            "id": 3,
+            "x": 1722.98,
+            "y": -876.73,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "attack(0.1),wait(0.1),keypress(f),wait(0.1),keypress(f)",
+            "locked": false
+        },
+        {
+            "id": 4,
+            "x": 1722.98,
+            "y": -876.73,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "fight",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 1717.94,
+            "y": -883.09,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": 1702.59,
+            "y": -871.96,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "keypress(space),wait(0.8),keypress(space)"
+        },
+        {
+            "id": 7,
+            "x": 1695.61,
+            "y": -884.8,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "stop_flying",
+            "action_params": ""
+        },
+        {
+            "id": 8,
+            "x": 1630.26,
+            "y": -833.0,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 9,
+            "x": 1632.23,
+            "y": -829.44,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+            "locked": false
+        },
+        {
+            "id": 10,
+            "x": 1632.23,
+            "y": -829.44,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "fight",
+            "action_params": ""
+        },
+        {
+            "id": 11,
+            "x": 1597.21,
+            "y": -791.74,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 12,
+            "x": 1577.15,
+            "y": -794.48,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 13,
+            "x": 1550.07,
+            "y": -758.01,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 14,
+            "x": 1527.36,
+            "y": -760.64,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 15,
+            "x": 1547.26,
+            "y": -795.9,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 16,
+            "x": 1553.79,
+            "y": -846.48,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)"
+        },
+        {
+            "id": 17,
+            "x": 1556.58,
+            "y": -847.88,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)"
+        },
+        {
+            "id": 18,
+            "x": 1554.3,
+            "y": -849.73,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+            "locked": false
+        },
+        {
+            "id": 19,
+            "x": 1554.3,
+            "y": -849.73,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "fight",
+            "action_params": ""
+        },
+        {
+            "id": 20,
+            "x": 1578.3,
+            "y": -855.54,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 21,
+            "x": 1588.96,
+            "y": -835.88,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)"
+        },
+        {
+            "id": 22,
+            "x": 1583.09,
+            "y": -846.0,
+            "type": "path",
+            "move_mode": "run",
+            "action": "fight",
+            "action_params": ""
+        }
+    ]
+}

@@ -1,48 +1,48 @@
 {
-  "info": {
-    "name": "稻妻-野伏众-4个-八酝岛无想刃狭间南方",
-    "type": "collect",
-    "author": "提瓦特钓鱼玳师",
-    "version": "1.0",
-    "description": "野伏众-4个\n稻妻-八酝岛-无想刃狭间南方",
-    "bgiVersion": "0.35.1"
-  },
-  "positions": [
-    {
-      "id": 1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": -2367.27,
-      "y": -3772.58,
-      "action_params": ""
+    "info": {
+        "name": "稻妻-野伏众-八酝岛无想刃狭间南方-4个",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "野伏众-4个\n稻妻-八酝岛无想刃狭间南方",
+        "bgiVersion": "0.39.1"
     },
-    {
-      "id": 2,
-      "action": "fight",
-      "move_mode": "walk",
-      "type": "path",
-      "x": -2358.864300174184,
-      "y": -3701.580239562976,
-      "action_params": ""
-    },
-    {
-      "id": 3,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path",
-      "x": -2378.3756429395617,
-      "y": -3715.587440549398,
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "action": "fight",
-      "move_mode": "walk",
-      "type": "target",
-      "x": -2458.777920653236,
-      "y": -3730.0478351240818,
-      "action_params": ""
-    }
-  ]
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -2367.27,
+            "y": -3772.58,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "action": "fight",
+            "move_mode": "walk",
+            "type": "path",
+            "x": -2358.86,
+            "y": -3701.58,
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path",
+            "x": -2378.38,
+            "y": -3715.59,
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "action": "fight",
+            "move_mode": "walk",
+            "type": "target",
+            "x": -2458.78,
+            "y": -3730.05,
+            "action_params": ""
+        }
+    ]
 }
