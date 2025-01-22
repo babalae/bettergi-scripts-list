@@ -1,100 +1,73 @@
 {
   "info": {
-    "name": "琉璃带-曾言剧院-4个",
+    "name": "琉璃袋-层岩巨渊-4个",
     "type": "collect",
-    "author": "yulalaa",
-    "version": "1.0",
+    "author": "yulalaa&起个名字好难",
+    "version": "1.1",
     "description": "",
-    "bgiVersion": "0.34.5"
+    "bgiVersion": "0.35.1"
   },
   "positions": [
     {
       "id": 1,
+      "x": 1998.1162109375,
+      "y": -678.548828125,
       "action": "",
       "move_mode": "walk",
-      "type": "teleport",
-      "x": 1998.1162109375,
-      "y": -678.548828125
+      "type": "teleport"
     },
     {
       "id": 2,
-      "x": 2000.560546875,
-      "y": -680.33935546875,
-      "type": "path",
+      "x": 2010.9765625,
+      "y": -690.0166015625,
+      "action": "",
       "move_mode": "walk",
-      "action": ""
+      "type": "path"
     },
     {
       "id": 3,
-      "x": 2003.068359375,
-      "y": -682.197265625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "x": 2051.470703125,
+      "y": -704.76025390625,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
     },
     {
       "id": 4,
-      "x": 2004.73828125,
-      "y": -683.4248046875,
-      "type": "path",
+      "x": 2051.470703125,
+      "y": -704.7548828125,
+      "type": "target",
       "move_mode": "walk",
-      "action": ""
+      "action": "nahida_collect",
+      "action_params": ""
     },
     {
       "id": 5,
-      "x": 2007.263671875,
-      "y": -685.1806640625,
+      "x": 2056.36328125,
+      "y": -688.95458984375,
       "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 6,
-      "x": 2008.6669921875,
-      "y": -686.5205078125,
+      "x": 2060.4482421875,
+      "y": -684.70361328125,
       "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
     },
     {
       "id": 7,
-      "x": 2009.0302734375,
-      "y": -688.4306640625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 8,
-      "x": 2010.94921875,
-      "y": -690.02001953125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 9,
-      "x": 2010.9765625,
-      "y": -690.0166015625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 10,
-      "x": 2049.41796875,
-      "y": -681.78466796875,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying"
-    },
-    {
-      "id": 11,
-      "x": 2049.43505859375,
-      "y": -681.83935546875,
+      "x": 2060.0224609375,
+      "y": -686.34326171875,
       "type": "target",
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "action": "nahida_collect",
+      "action_params": ""
     }
   ]
 }
