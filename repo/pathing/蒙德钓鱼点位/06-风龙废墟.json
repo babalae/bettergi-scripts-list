@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "06-风龙废墟",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 37.45681221013365,
+      "y": 2382.0837396660645,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 48.33407022559004,
+      "y": 2411.94997706528,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 59.21132824104643,
+      "y": 2441.8162144644975,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 70.23183205955138,
+      "y": 2472.528487618447,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 81.25233587805815,
+      "y": 2503.2407607723962,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target",
+      "x": 112.0002076336059,
+      "y": 2493.8750366636013,
+      "action_params": ""
+    }
+  ]
+}
