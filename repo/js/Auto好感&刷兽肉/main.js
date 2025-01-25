@@ -72,18 +72,28 @@
         await sleep(2000);
     }
 
-    async function AutoFriendship(times) {
+    async function AutoFriendship(times,statue_times) {
 
         log.info(`导航至好感-张牙舞爪的恶党-触发位置`);
         await AutoPath('好感-张牙舞爪的恶党-触发位置');
 
         log.info(`自动好感开始...`);
 
-        await ReopenTheGate();
         for (let i = 0; i < times; i++) {
-            log.info(`自动好感当前次数：${i + 1}/${times}`);
-            await AutoPath('好感-张牙舞爪的恶党-循环');
-            await ReopenTheGate();
+            // 每运行 5 次 '好感-张牙舞爪的恶党-循环' 后运行 '好感-张牙舞爪的恶党-神像'
+            if ((i + 1) % statue_times === 0) {
+                await AutoPath('好感-张牙舞爪的恶党-神像');
+                await ReopenTheGate();
+                log.info(`当前次数：${i + 1}/${times}`);
+                logTimeTaken(startTime);
+                await AutoPath('好感-张牙舞爪的恶党-循环');
+            } else {
+                await ReopenTheGate();
+                log.info(`当前次数：${i + 1}/${times}`);
+                logTimeTaken(startTime);
+                await AutoPath('好感-张牙舞爪的恶党-循环');
+            }
+            log.info(`已完成次数：${i + 1}/${times}`);
             logTimeTaken(startTime);
         }
         log.info('自动好感已完成');
@@ -105,24 +115,29 @@
     setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
     let exitdelay = Number(settings.exitdelay);
     let loadingdelay = Number(settings.loadingdelay);
-    let UL = settings.UL? settings.UL : false; 
-    let inputValue = settings.inputValue? settings.inputValue : 9999; 
+    let UL = settings.UL ? settings.UL : false; 
+    let inputValue = settings.inputValue ? settings.inputValue : 9999; 
     let times =  UL ? (isNaN(inputValue) ? 1667 : Math.ceil(inputValue / 6)) : 10;
-    log.info(`计算后的运行次数为： ${times}`);
+    let gostatue = settings.gostatue ? settings.gostatue : false; 
+    let statue = settings.statue ? settings.statue : 5;
+    let statue_times = gostatue ? (isNaN(statue) ? 5 : statue) : 0;
+
 
     const { exitDelay: validatedExitDelay, loadingDelay: validatedLoadingDelay } = validateAndSetDefaults(exitdelay, loadingdelay);
     const messages = [
         '请确保队伍满员，并为队伍配置相应的战斗策略',
+        `退出延迟: ${validatedExitDelay}秒, 加载延迟: ${validatedLoadingDelay}秒`,
+        `设置的七天神像周期为： ${statue_times}`,
+        `计算后的运行次数为： ${times}`,
     ];
     for (let message of messages) {
         log.info(message);
         await sleep(1000);
     }
     log.info('自动好感开始...');
-    log.info(`退出延迟: ${validatedExitDelay}秒, 加载延迟: ${validatedLoadingDelay}秒`);
 
     //默认10次自动好感
-    await AutoFriendship(times);
+    await AutoFriendship(times,statue_times);
 
     // 计算并输出总时长
     const endTime = Date.now();
