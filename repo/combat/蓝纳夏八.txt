@@ -1,0 +1,11 @@
+// 作者:FEiiL
+// 描述:副本，采集（除矿物），锄地（虽然不是很好，神子和蓝砚会动来动去的落材料）通用。建议高练度（蕾神血量++，蓝砚攻击++），另外神子的q等作者添加满能量及cd判断再说
+
+八重神子 keydown(w),wait(0.1),e,keyup(w),wait(0.3),keydown(s),wait(0.1),e,wait(0.4),e,keyup(s),wait(0.3),keydown(w),wait(0.2),keyup(w),keydown(w),wait(0.2),keyup(w),attack(0.2),wait(0.2),attack(0.2),wait(0.3),attack(0.2)
+夏沃蕾 e,wait(0.2)
+蓝砚 e,wait(0.2)
+纳西妲 e(hold),wait(0.5),q,attack(0.2)
+八重神子 keydown(w),wait(0.1),e,keyup(w),wait(0.3),keydown(s),wait(0.1),e,wait(0.4),e,keyup(s),wait(0.3),keydown(w),wait(0.2),keyup(w),keydown(w),wait(0.2),keyup(w),attack(0.2),wait(0.2),attack(0.2),wait(0.3),attack(0.2)
+夏沃蕾 attack(0.2),q,e(hold),wait(0.3),
+蓝砚 q,e,wait(0.2)
+纳西妲 e(hold),wait(0.5),q,wait(0.2)
