@@ -1,0 +1,54 @@
+{
+  "info": {
+    "name": "06-奥奇卡纳塔·北岸",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10069.748970229375,
+      "y": 18.03545075398233,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 10077.250007684856,
+      "y": 18.999240978819216,
+      "move_mode": "run",
+      "type": "path",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 10095.249942363585,
+      "y": 7.373705199162032,
+      "move_mode": "fly",
+      "type": "path",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 10124.75022478202,
+      "y": -9.746517432228757,
+      "move_mode": "run"
+    },
+    {
+      "id": 5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10125.281244716662,
+      "y": -8.00001116207659,
+      "action_params": ""
+    }
+  ]
+}

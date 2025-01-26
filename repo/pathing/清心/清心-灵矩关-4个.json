@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "清心-灵矩关-4个",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 828.2529296875,
+      "y": -583.44775390625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 814.12890625,
+      "y": -598.51513671875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 848.3701171875,
+      "y": -592.482421875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 945.2900390625,
+      "y": -572.037109375,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 949.9833984375,
+      "y": -575.45458984375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

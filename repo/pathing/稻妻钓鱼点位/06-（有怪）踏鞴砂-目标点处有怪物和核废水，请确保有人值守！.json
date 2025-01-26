@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "06",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "目标点处有怪物和核废水，请确保有人值守！",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3481.0773160309236,
+      "y": -3756.8567102072066,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -3466.2476506178446,
+      "y": -3773.4995622511415,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1.0),keydown(f),wait(0.3),keyup(f)"
+    },
+    {
+      "id": 3,
+      "x": -3472.0023493821554,
+      "y": -3773.7530642420043
+    },
+    {
+      "id": 4,
+      "x": -3473.498398148531,
+      "y": -3782.4969357579957,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(f),wait(0.3),keyup(f),wait(1),keydown(w),wait(2),keydown(a),wait(3.8),keyup(w),keyup(a),wait(1),keypress(VK_Shift),keydown(w),wait(10),wait(10),wait(10),wait(3),keyup(w),keydown(w),wait(0.5),keydown(d),wait(3),keyup(d),wait(2),keyup(w),wait(2),keydown(Space),wait(2),keyup(Space),keydown(a),keydown(w),wait(0.35),keyup(a),keyup(w)"
+    },
+  ]
+}

@@ -1,0 +1,165 @@
+{
+  "info": {
+    "name": "丘丘萨满-须弥城-6只",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.1",
+    "description": "带钟离+芙宁娜+万叶+任意染色角色（水火雷冰），必须带万叶，钟离可换其他盾辅\n开启战斗结束检测，战斗超时60秒以内，根据练度自行调整\n特别提醒：多个点位有炸药桶，已尽量避开，存在一个地形有起伏+炸药桶+驮兽的复杂环境的点，盾薄的可能会暴毙\n1.1调整部分点位位置",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2870.9697265625,
+      "y": -377.11083984375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2879.5029296875,
+      "y": -391.22314453125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2890.4365234375,
+      "y": -395.1826171875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 2915.171875,
+      "y": -401.4775390625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 2922.9091796875,
+      "y": -377.20849609375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 2921.34765625,
+      "y": -379.609375,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 2937.013671875,
+      "y": -394.75146484375,
+      "action": "",
+      "move_mode": "swim",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 2934.306640625,
+      "y": -417.92431640625,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 2932.0234375,
+      "y": -434.02099609375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 2942.8037109375,
+      "y": -440.63818359375,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 2963.81640625,
+      "y": -454.734375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 2976.873046875,
+      "y": -424.482421875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 3004.03125,
+      "y": -439.1865234375,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 3010.9326171875,
+      "y": -445.87548828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 3015.302734375,
+      "y": -462.6904296875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 3035.283203125,
+      "y": -483.517578125,
+      "action": "fight",
+      "move_mode": "swim",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 3022.70703125,
+      "y": -504.3828125,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

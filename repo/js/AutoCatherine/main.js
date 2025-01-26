@@ -9,13 +9,14 @@
             log.error(`执行 ${locationName} 路径时发生错误`);
         }
         await sleep(2000);
-        if (locationName == "纳塔凯瑟琳")
+        if (locationName == "纳塔凯瑟琳") {
             keyDown("w");
             await sleep(4500);
             keyUp("w");
             keyDown("d");
             await sleep(2000);
-            keyUp("d");           
+            keyUp("d");
+        }
     }
     let filePath;
     
