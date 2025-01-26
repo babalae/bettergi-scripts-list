@@ -83,32 +83,22 @@
             "type": "path",
             "move_mode": "walk"
         },
-        
         {
-            "x": 4705.22705078125,
-            "y": 4928.8642578125,
+            "x": 4731.576171875,
+            "y": 4946.5927734375,
             "type": "path",
             "move_mode": "run"
         },
         {
-            "x": 4705.22705078125,
-            "y": 4928.8642578125,
+            "x": 4726.74853515625,
+            "y": 4935.31982421875,
             "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": 4717.4814453125,
-            "y": 4929.82568359375,
-            "type": "path",
-            "move_mode": "walk"
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(0.2),click",
+            "//": "stop_flying"
         },
 
-        {
-            "x": 4720.4013671875,
-            "y": 4931.0986328125,
-            "type": "path",
-            "move_mode": "fly"
-        },
 
         {
             "x": 4723.99169921875,

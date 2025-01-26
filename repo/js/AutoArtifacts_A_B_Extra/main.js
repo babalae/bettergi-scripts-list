@@ -9,20 +9,20 @@
         "狗粮-璃月-碧水源-盐中之地-3个-f.json",
         "狗粮-璃月-珉林-东北-9个-f.json",
         "狗粮-璃月-珉林-北-5个.json",
-        "狗粮-璃月-珉林-奥藏山南-3个-f.json",
+        "狗粮-璃月-珉林-奥藏山南-2个／3个-f.json",
         "狗粮-璃月-珉林-绝云间-3个-m.json",
         "（恢复）狗粮-璃月-琼玑野.json",
         "狗粮-璃月-琼玑野-绿华池-3个-f.json",
         "狗粮-须弥-须弥城-4个.json",
         "狗粮-须弥-二净甸-七天神像-4个／8个.json",
-        "狗粮-须弥-二净甸-觉王之殿南-6个-f.json",
+        "狗粮-须弥-二净甸-觉王之殿南-6个／7个-f.json",
         "（恢复）狗粮-须弥-失落的苗圃.json",
         "狗粮-须弥-失落的苗圃-南-8个-f.json",
-        "狗粮-须弥-下风蚀地-阿如村-北-1个-f.json",
         "狗粮-纳塔-万火之瓯-竞技场东-2个／4个-f.json",
         "狗粮-纳塔-涌流地-流泉之众-4个.json",
         "（恢复）狗粮-纳塔-涌流地.json",
         "狗粮-纳塔-镜璧山-南-9个-f.json",
+        "狗粮-纳塔-镜璧山-七天神像下-3个-f.json",
         "狗粮-纳塔-翘枝崖-北-6个-f.json",
         "狗粮-纳塔-奥奇卡纳塔-七天神像-14个.json",
         "狗粮-纳塔-奥奇卡纳塔-流灰之街-4个-f.json",
@@ -31,7 +31,7 @@
         "【收尾】狗粮-稻妻-神无冢-踏鞴砂①-6个／21个-f.json",
         "【收尾】狗粮-稻妻-神无冢-踏鞴砂②-7个／21个-f.json",
         "【收尾】狗粮-稻妻-神无冢-踏鞴砂③-8个／21个-f.json"
-    ]; // 97+21个
+    ]; // 98+21个
 
     const pathingB = [
         "狗粮-枫丹-枫丹庭区-3个.json",
@@ -78,8 +78,8 @@
     ];  // 13个
 
     // 每日拾取点位数及耗时
-    // A: 97 + 21 + 8 + 10 = 136 (~47 minutes)
-    // B: 97 + 20 + 8 + 13 = 138 (~45 minutes)
+    // A: 98 + 21 + 8 + 10 = 137 ~(34 + 12 = 46 minutes)
+    // B: 97 + 20 + 8 + 13 = 138 ~(33 + 12 = 45 minutes)
 
 
     // 读取用户设置
@@ -90,8 +90,10 @@
     let autoSalvage = settings.autoSalvage != undefined && settings.autoSalvage != '是' ? false : true;
     let autoSalvage4 = settings.autoSalvage4 != undefined && settings.autoSalvage4 != '否' ? true : false;
     let autoSalvageSpan = settings.autoSalvageSpan != undefined && ~~settings.autoSalvageSpan > 0 ? ~~settings.autoSalvageSpan : 10;
+    let activeRestore = settings.activeRestore != undefined && settings.activeRestore != '是' ? false : true;
 
-    log.debug(`path: ${path}; swapPath: ${swapPath}; extra: ${extra}; extraAB: ${extraAB}; autoSalvage: ${autoSalvage}; autoSalvage4: ${autoSalvage4}; autoSalvageSpan: ${autoSalvageSpan};`);
+
+    log.debug(`path: ${path}; swapPath: ${swapPath}; extra: ${extra}; extraAB: ${extraAB}; autoSalvage: ${autoSalvage}; autoSalvage4: ${autoSalvage4}; autoSalvageSpan: ${autoSalvageSpan}; activeRestore: ${activeRestore};`);
     // await sleep(30000);
 
     // 路线
@@ -155,10 +157,12 @@
 
     // 单一脚本执行
     async function runFile(filePath, times = 2) {
-        log.info(filePath);
         try {
+            // 如关闭主动去神像恢复，则依赖队伍配置持续恢复角色，及bgi的低血量被动恢复
+            let isToRestore = filePath.search("（恢复）") != -1;
+            if (isToRestore && !activeRestore) return;
+
             // 暂不支持关闭自动拾取
-            // let isToRestore = filePath.search("（恢复）") != -1;
             // if (isToRestore) dispatcher.removeTimer(...);
             // else...
 
@@ -175,6 +179,7 @@
             if (shouldResizeMap) await resizeMap();
 
             times--;
+            log.info(filePath);
             await pathingScript.runFile(filePath);
         }
         catch (error) { // bgi已捕获可预期异常，此处仅做兜底
