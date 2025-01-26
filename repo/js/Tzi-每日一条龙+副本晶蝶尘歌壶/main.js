@@ -1,4 +1,6 @@
 (async function () {
+    const startTime = Date.now(); //记录启动时间
+
     setGameMetrics(1920, 1080, 1);  // 设置游戏运行的分辨率和缩放
     //基础延迟
     let delay = settings.delay || 2000;
@@ -58,31 +60,34 @@
 
 
     // 设置世界权限
-    keyPress("VK_F2")
-    await sleep(1000);
-    click(160, 1020); // 点击世界权限
-    await sleep(1000);
     let domainName = settings.domainName;
-    switch (domainName) {
-        case "不允许加入":
-            click(330, 870);
-            log.info("权限设置为 不允许加入");
-            break;
-        case "直接加入":
-            click(330, 920);
-            log.info("权限设置为 直接加入");
-            break;
-        case "确认后可加入":
-            click(330, 970);
-            log.info("权限设置为 确认后可加入");
-            break;
-        default:
-            click(330, 870); // 为空不允许
-            log.info("锁门");
-            await sleep(2000);
-            keyPress("Escape");
-            break;
+    if (domainName != "默认当前") {
+        keyPress("VK_F2")
+        await sleep(1000);
+        click(160, 1020); // 点击世界权限
+        await sleep(1000);
+        switch (domainName) {
+            case "不允许加入":
+                click(330, 870);
+                log.info("权限设置为 不允许加入");
+                break;
+            case "直接加入":
+                click(330, 920);
+                log.info("权限设置为 直接加入");
+                break;
+            case "确认后可加入":
+                click(330, 970);
+                log.info("权限设置为 确认后可加入");
+                break;
+            default:
+                click(330, 870); // 为空不允许
+                log.info("锁门");
+                await sleep(2000);
+                keyPress("Escape");
+                break;
+        }
     }
+
 
 
     // 前往_合成台
@@ -107,19 +112,21 @@
 
 
     // 自动秘境
-    while (true) {
-        try {
-            await dispatcher.runTask(new SoloTask("AutoDomain"));
-            await sleep(500);
-            break;
-        } catch (ex) {
-            if (ex.message.includes("检测到复苏界面")) {
-                log.info("复活后，继续执行自动秘境。");
-                continue;
-            }
-            else {
-                // 如果不包含 "检测到复苏界面"，则继续抛出异常
-                throw ex;
+    if (settings.autoInstance == "是" | settings.autoInstance == undefined) {
+        while (true) {
+            try {
+                await dispatcher.runTask(new SoloTask("AutoDomain"));
+                await sleep(500);
+                break;
+            } catch (ex) {
+                if (ex.message.includes("检测到复苏界面")) {
+                    log.info("复活后，继续执行自动秘境。");
+                    continue;
+                }
+                else {
+                    // 如果不包含 "检测到复苏界面"，则继续抛出异常
+                    throw ex;
+                }
             }
         }
     }
@@ -233,50 +240,43 @@
     await sleep(1000);
 
 
-    //切换队伍
-    keyPress("L");
-    await sleep(3000);
-    click(75, 1020);
-    await sleep(200);
-    click(700, 115);
-    await sleep(200);
-    click(700, 115);
-    await sleep(300);
-    click(75, 200);
-    await sleep(800);
-    click(75, 1020);
-    await sleep(800);
-    let tempVar = settings.number || 5;
-    if (tempVar < 9) {   // 向右点击
-        for (let i = 1; i < tempVar; i++) {
-            click(1850, 540);
-            await sleep(50);
+    //切换至抓晶蝶队伍
+    if (settings.catchButterfly == "是" | settings.catchButterfly == undefined) {
+        keyPress("L");
+        await sleep(3000);
+        click(75, 1020);
+        await sleep(200);
+        click(700, 115);
+        await sleep(200);
+        click(700, 115);
+        await sleep(300);
+        click(75, 200);
+        await sleep(800);
+        click(75, 1020);
+        await sleep(800);
+        let tempVar = settings.number || 5;
+        if (tempVar < 9) {   // 向右点击
+            for (let i = 1; i < tempVar; i++) {
+                click(1850, 540);
+                await sleep(50);
+            }
+        } else {    // 向左点击
+            tempVar = 16 - tempVar
+            for (let i = 0; i < tempVar; i++) {
+                click(75, 540);
+                await sleep(50);
+            }
         }
-    } else {    // 向左点击
-        tempVar = 16 - tempVar
-        for (let i = 0; i < tempVar; i++) {
-            click(75, 540);
-            await sleep(50);
-        }
+        click(1555, 1020);
+        await sleep(1000);
+        keyPress("Escape");
+        log.info("已切换至第" + settings.number || 5 + "队");
+        await sleep(delay);
     }
-    click(1555, 1020);
-    await sleep(1000);
-    keyPress("Escape");
-    log.info("已切换至第" + settings.number || 5 + "队");
-    await sleep(delay);
 
-    
     //切换角色
     keyPress("1");
     log.info("已切换至第1个角色");
-
-
-    // // 向后行走1.5秒
-    // keyDown("S");
-    // await sleep(1500);
-    // keyUp("S");
-    // log.info("已完成 向后走1.5秒");
-    // await sleep(1000);
 
 
     // 进入尘歌壶
@@ -293,9 +293,11 @@
     log.info("已完成 进入尘歌壶");
 
 
-    // // 防止加载卡岩
-    // await sleep(3000);
-    // log.info("等待防止加载卡岩");
+    // 如果延迟时间大于3000ms 执行防止加载卡岩
+    if (delay > 3000) {
+        await sleep(3000);
+        log.info("当前基础延迟大于{time}，已等待防止加载卡岩", "3000ms");
+    }
 
 
     // 尘歌壶找阿圆
@@ -405,25 +407,37 @@
         await captureCrystalfly('枫丹-苍白的遗荣', 4188, 2992, 2);
         await captureCrystalfly('枫丹-幽林雾道', 3376, 3290, 2);
         await captureCrystalfly('枫丹-卡布狄斯堡遗迹上方', 3554, 3024, 4);
-        await captureCrystalfly('枫丹-卡布狄斯堡遗迹下方', 3374, 2699, 4);
+        await captureCrystalfly('枫丹-卡布狄斯堡遗迹下方_优化', 3374, 2699, 3);
         await captureCrystalfly('枫丹-莫尔泰区', 3810, 2334, 2);
         await captureCrystalfly('枫丹-特别温暖的地方', 4790, 2520, 3);
+
+        await captureCrystalfly('须弥-化城郭左侧', 2699, -767, 2);
         await captureCrystalfly('须弥-下风蚀地', 4452, -2456, 3);
+        dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false })); // 关闭自动拾取的实时任务
     }
 
-
-    // 结束游戏
-    for (let i = 0; i < 5; i++) {
-        log.info('即将在 {num}s 后退出', 5 - i + "s");
-        await sleep(1000);
-    }
+    const endTime = Date.now();
+    const totalTimeInSeconds = (endTime - startTime) / 1000;
+    const minutes = Math.floor(totalTimeInSeconds / 60);
+    const seconds = totalTimeInSeconds % 60;
+    const formattedTime = `${minutes}分${seconds.toFixed(0).padStart(2, '0')}秒`;
+    log.info(`已完成总耗时: ${formattedTime}`);
+    await sleep(2000);
     log.info("已完成 所有内容 结束-Tzi");
     await sleep(2000);
-    keyDown("MENU");
-    keyDown("F4");
-    await sleep(50);
-    keyUp("MENU");
-    keyUp("F4");
+
+    // 结束游戏
+    if (settings.exitGame == "是" | settings.exitGame == undefined) {
+        for (let i = 0; i < 5; i++) {
+            log.info('即将在 {num}s 后退出', 5 - i + "s");
+            await sleep(1000);
+        }
+        keyDown("MENU");
+        keyDown("F4");
+        await sleep(50);
+        keyUp("MENU");
+        keyUp("F4");
+    }
 
 
 })();
