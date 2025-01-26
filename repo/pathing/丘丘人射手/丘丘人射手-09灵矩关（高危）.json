@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "丘丘人射手-09灵矩关",
+    "type": "collect",
+    "author": "曦",
+    "version": "1.0",
+    "description": "此处有丘丘岩凯王",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1038.2568359375,
+      "y": -559.75341796875
+    },
+    {
+      "id": 2,
+      "x": 968.734375,
+      "y": -521.916015625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 968.734375,
+      "y": -521.916015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 4,
+      "x": 933.35546875,
+      "y": -497.25,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

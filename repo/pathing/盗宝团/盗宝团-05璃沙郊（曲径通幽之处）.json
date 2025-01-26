@@ -1,0 +1,60 @@
+{
+  "info": {
+    "name": "盗宝团-05璃沙郊（曲径通幽之处）",
+    "type": "collect",
+    "author": "曦",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 828.23046875,
+      "y": -583.36865234375
+    },
+    {
+      "id": 2,
+      "x": 842.955078125,
+      "y": -586.14892578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 923.4326171875,
+      "y": -596.57421875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": 932.3291015625,
+      "y": -623.52978515625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 5,
+      "x": 916.685546875,
+      "y": -622.47998046875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 6,
+      "x": 914.552734375,
+      "y": -622.27490234375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

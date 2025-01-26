@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "丘丘人射手-02风龙废墟02",
+    "type": "collect",
+    "author": "曦",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 338.2236328125,
+      "y": 2581.216552734375
+    },
+    {
+      "id": 2,
+      "x": 374.62109375,
+      "y": 2590.700439453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 426.244140625,
+      "y": 2604.6201171875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 451.26953125,
+      "y": 2590.6943359375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

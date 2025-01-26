@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "盗宝团-06云来海",
+    "type": "collect",
+    "author": "曦",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 54.34375,
+      "y": 139.38818359375
+    },
+    {
+      "id": 2,
+      "x": 36.955078125,
+      "y": 129.76611328125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 40.724609375,
+      "y": 106.85205078125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": 40.3076171875,
+      "y": 108.892578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 5,
+      "x": 14.7919921875,
+      "y": 97.310546875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 6,
+      "x": -32.0654296875,
+      "y": 67.64111328125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 7,
+      "x": -62.3046875,
+      "y": 48.2998046875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

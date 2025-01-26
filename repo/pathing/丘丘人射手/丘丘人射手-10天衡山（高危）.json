@@ -1,0 +1,52 @@
+{
+  "info": {
+    "name": "丘丘人射手-10天衡山",
+    "type": "collect",
+    "author": "曦",
+    "version": "1.0",
+    "description": "燃烧反应，高危",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 523.0185546875,
+      "y": -624.466796875
+    },
+    {
+      "id": 2,
+      "x": 557.361328125,
+      "y": -622.728515625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 581.7353515625,
+      "y": -601.26904296875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 618.1025390625,
+      "y": -552.2412109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 5,
+      "x": 607.1220703125,
+      "y": -554.24267578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}
