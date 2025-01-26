@@ -12,11 +12,21 @@
     {
         "name": "UL",
         "type": "checkbox",
-        "label": "是否开启刷兽肉模式"
+        "label": "开启刷兽肉模式"
     },
     {
         "name": "inputValue",
         "type": "input-text",
-        "label": "刷取个数（默认刷9999个）"
+        "label": "刷取个数（选填，默认为9999）"
+    },
+    {
+        "name": "gostatue",
+        "type": "checkbox",
+        "label": "开启定期前往七天神像"
+    },
+    {
+        "name": "statue",
+        "type": "input-text",
+        "label": "返回神像周期（选填，默认为5）"
     }
 ]
