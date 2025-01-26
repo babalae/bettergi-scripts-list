@@ -1,0 +1,52 @@
+{
+  "info": {
+    "name": "盗宝团-10覆雪之路右上",
+    "type": "collect",
+    "author": "曦",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1130.791015625,
+      "y": 1597.92724609375
+    },
+    {
+      "id": 2,
+      "x": -1143.4267578125,
+      "y": 1567.8837890625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -1129.890625,
+      "y": 1529.72705078125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": -1137.513671875,
+      "y": 1509.76904296875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 5,
+      "x": -1144.63671875,
+      "y": 1495.0771484375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}
