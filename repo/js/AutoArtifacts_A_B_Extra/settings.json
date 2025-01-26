@@ -60,5 +60,15 @@
     "name": "autoSalvageSpan",
     "type": "input-text",
     "label": "自动分解在多少路径后执行一次（默认：10）"
+  },
+
+  {
+    "name": "activeRestore",
+    "type": "select",
+    "label": "主动去神像恢复（默认：是）",
+    "options": [
+      "是",
+      "否"
+    ]
   }
 ]
