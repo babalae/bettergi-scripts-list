@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "丘丘萨满-地中之盐-1只",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "丘丘萨满-地中之盐-1只",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -321.560546875,
+      "y": 1473.26416015625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -291.04296875,
+      "y": 1496.40673828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -251.703125,
+      "y": 1498.599609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

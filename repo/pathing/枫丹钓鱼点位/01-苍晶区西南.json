@@ -1,0 +1,45 @@
+{
+  "info": {
+    "name": "钓鱼点1",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "run",
+      "type": "teleport",
+      "x": 4877.856545474899,
+      "y": 2258.4550793665476,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4880.750672836731,
+      "y": 2244.1264855660193,
+      "move_mode": "walk"
+    },
+    {
+      "id": 3,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4892.438423194584,
+      "y": 2241.876809154657,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target",
+      "x": 4942.625203415756,
+      "y": 2213.9998970399793,
+      "action_params": ""
+    }
+  ]
+}
