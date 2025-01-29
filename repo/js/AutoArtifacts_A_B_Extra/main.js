@@ -170,11 +170,7 @@
             let forceInteraction = filePath.search("-f") != -1; //
             dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": forceInteraction }));
 
-            // 调整地图缩放
-            // - 比如，绝云间传送点和副本紧挨。如地图缩得过小且在绝云间附近，
-            // - 在新版本（bgi v0.37.5）的传送方法下，依然会不缩放直接点击传送点，
-            // - 此时出现一个副本（在上）和一个传送锚点（在下）两个图标，都是有效传送点，
-            // - bgi直接点击上面那个，导致传至副本门口。
+            // 调整地图缩放 (bgi[v0.40.0]版本下仍需要，可能下个版本会解决)
             let shouldResizeMap = filePath.search("-m") != -1;
             if (shouldResizeMap) await resizeMap();
 
