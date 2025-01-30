@@ -1,0 +1,129 @@
+{
+  "info": {
+    "name": "圣显厅中（3）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4777.2822265625,
+      "y": -1434.572265625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4755.380859375,
+      "y": -1439.91162109375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4742.7353515625,
+      "y": -1445.90771484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4733.146484375,
+      "y": -1442.41845703125,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4726.97265625,
+      "y": -1443.92529296875,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "wait(0.5),click(middle),wait(1),keypress(t),wait(2),keypress(t),wait(2.5),keypress(t),wait(2.5),keypress(t),wait(3),keypress(t)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4604.03662109375,
+      "y": -1481.40234375,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4600.275390625,
+      "y": -1471.97998046875,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4593.69970703125,
+      "y": -1469.6884765625,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "wait(0.5),click(middle),wait(1),keypress(t)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4549.82177734375,
+      "y": -1452.10302734375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 4540.53271484375,
+      "y": -1455.39208984375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 4510.2958984375,
+      "y": -1461.08935546875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(3),click"
+    },
+    {
+      "id": 12,
+      "x": 4516.80810546875,
+      "y": -1490.529296875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 4506.861328125,
+      "y": -1520.22607421875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

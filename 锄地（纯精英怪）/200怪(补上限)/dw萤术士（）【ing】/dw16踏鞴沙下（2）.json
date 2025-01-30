@@ -1,0 +1,90 @@
+{
+  "info": {
+    "name": "踏鞴沙下（2）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3156.578125,
+      "y": -3886.1259765625,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": -3090.1796875,
+      "y": -3925.8544921875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(5),click",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": -3097.2705078125,
+      "y": -3914.0146484375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -3099.5322265625,
+      "y": -3911.5546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": -3099.1123046875,
+      "y": -3893.9833984375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": -3108.9033203125,
+      "y": -3880.193359375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": -3127.8984375,
+      "y": -3855.642578125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": -3112.9287109375,
+      "y": -3839.5888671875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
