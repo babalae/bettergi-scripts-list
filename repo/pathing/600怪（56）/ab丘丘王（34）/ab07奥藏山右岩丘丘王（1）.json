@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "b奥藏山右岩丘丘王（1）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1120.966796875,
+      "y": 1190.3876953125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1095.9599609375,
+      "y": 1164.89208984375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1045.400390625,
+      "y": 1122.81787109375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 1045.3916015625,
+      "y": 1122.74853515625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
