@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "厄里那斯左上雷丘丘王（1）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5113.56787109375,
+      "y": 2998.2353515625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 5129.18505859375,
+      "y": 3038.587646484375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 5141.8154296875,
+      "y": 3064.15673828125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 5155.91552734375,
+      "y": 3097.37451171875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 5168.28857421875,
+      "y": 3121.89599609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
