@@ -1,172 +1,192 @@
 {
-  "info": {
-    "name": "摇光摊2识破",
-    "type": "collect",
-    "author": "爱凑热闹",
-    "version": "1.0",
-    "description": "顺手采了星罗",
-    "bgiVersion": "0.35.1"
-  },
-  "positions": [
-    {
-      "id": 1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": -473.9833984375,
-      "y": 441.67333984375
+    "info": {
+        "name": "摇光摊2识破",
+        "type": "collect",
+        "author": "爱凑热闹",
+        "version": "1.0",
+        "description": "顺手采了星罗",
+        "bgiVersion": "0.35.1"
     },
-    {
-      "id": 2,
-      "x": -481.11328125,
-      "y": 462.76025390625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 3,
-      "x": -501.0712890625,
-      "y": 488.7724609375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 4,
-      "x": -518.9140625,
-      "y": 500.99560546875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 5,
-      "x": -509.0361328125,
-      "y": 515.04248046875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 6,
-      "x": -498.6748046875,
-      "y": 515.1435546875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script","action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-    },
-    {
-      "id": 7,
-      "x": -474.0283203125,
-      "y": 441.78515625,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 8,
-      "x": -437.46875,
-      "y": 429.10986328125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 9,
-      "x": -423.9736328125,
-      "y": 398.748046875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 10,
-      "x": -332.7177734375,
-      "y": 389.7197265625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 11,
-      "x": -250.8935546875,
-      "y": 388.88525390625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 12,
-      "x": -221.853515625,
-      "y": 390.16845703125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 13,
-      "x": -202.8193359375,
-      "y": 393.62841796875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 14,
-      "x": -202.06640625,
-      "y": 389.40771484375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 15,
-      "x": -173.4990234375,
-      "y": 416.87255859375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 16,
-      "x": -155.4892578125,
-      "y": 435.45703125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 17,
-      "x": -148.2783203125,
-      "y": 423.8740234375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 18,
-      "x": -126.046875,
-      "y": 389.72705078125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 19,
-      "x": -102.7158203125,
-      "y": 366.14501953125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 20,
-      "x": -80.2236328125,
-      "y": 376.4072265625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script","action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-    }
-  ]
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -473.9833984375,
+            "y": 441.67333984375
+        },
+        {
+            "id": 2,
+            "x": -481.11328125,
+            "y": 462.76025390625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 3,
+            "x": -501.0712890625,
+            "y": 488.7724609375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 4,
+            "x": -518.9140625,
+            "y": 500.99560546875,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 5,
+            "x": -509.0361328125,
+            "y": 515.04248046875,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 6,
+            "x": -498.6748046875,
+            "y": 515.1435546875,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
+        },
+        {
+            "id": 7,
+            "x": -498.6748046875,
+            "y": 515.1435546875,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "pick_around",
+            "action_params": ""
+        },
+        {
+            "id": 8,
+            "x": -474.0283203125,
+            "y": 441.78515625,
+            "type": "teleport",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 9,
+            "x": -437.46875,
+            "y": 429.10986328125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 10,
+            "x": -423.9736328125,
+            "y": 398.748046875,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 11,
+            "x": -332.7177734375,
+            "y": 389.7197265625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 12,
+            "x": -250.8935546875,
+            "y": 388.88525390625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 13,
+            "x": -221.853515625,
+            "y": 390.16845703125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 14,
+            "x": -202.8193359375,
+            "y": 393.62841796875,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 15,
+            "x": -202.06640625,
+            "y": 389.40771484375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 16,
+            "x": -173.4990234375,
+            "y": 416.87255859375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 17,
+            "x": -155.4892578125,
+            "y": 435.45703125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 18,
+            "x": -148.2783203125,
+            "y": 423.8740234375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 19,
+            "x": -126.046875,
+            "y": 389.72705078125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 20,
+            "x": -102.7158203125,
+            "y": 366.14501953125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 21,
+            "x": -80.2236328125,
+            "y": 376.4072265625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
+        },
+        {
+            "id": 22,
+            "x": -80.2236328125,
+            "y": 376.4072265625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "pick_around",
+            "action_params": ""
+        }
+    ]
 }
