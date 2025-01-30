@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "踏鞴沙右（1）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3288.177734375,
+      "y": -3652.546875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -3279.3505859375,
+      "y": -3657.787109375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -3234.1767578125,
+      "y": -3693.8115234375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(2),click",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": -3234.1767578125,
+      "y": -3693.8115234375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
