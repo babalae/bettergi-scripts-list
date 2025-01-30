@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "锋刃林泽下（1）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5942.51953125,
+      "y": 618.1865234375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 5948.5595703125,
+      "y": 621.1728515625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 5982.10546875,
+      "y": 578.478515625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 6002.21630859375,
+      "y": 580.78955078125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 6004.6552734375,
+      "y": 550.06982421875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

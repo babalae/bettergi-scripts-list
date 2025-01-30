@@ -1,0 +1,50 @@
+{
+  "info": {
+    "name": "孤云阁（1）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -963.357421875,
+      "y": -288.9306640625,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": -938.1904296875,
+      "y": -280.0703125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -909.5712890625,
+      "y": -273.0556640625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -895.4443359375,
+      "y": -245.7001953125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": "",
+      "locked": true
+    }
+  ]
+}
