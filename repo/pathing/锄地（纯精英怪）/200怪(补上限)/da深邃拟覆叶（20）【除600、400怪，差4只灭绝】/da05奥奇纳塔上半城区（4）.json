@@ -1,0 +1,184 @@
+{
+  "info": {
+    "name": "奥奇纳塔上半城区（4）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10070.2744140625,
+      "y": 25.68408203125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 10070.18359375,
+      "y": 13.25244140625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 10077.185546875,
+      "y": 14.73681640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 10093.572265625,
+      "y": 15.07666015625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 10103.9228515625,
+      "y": 5.80517578125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 10129.1318359375,
+      "y": -14.10693359375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 10156.138671875,
+      "y": -17.60009765625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 10112.837890625,
+      "y": -140.4296875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 10115.666015625,
+      "y": -130.28125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 10065.84765625,
+      "y": -80.4609375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 10067.482421875,
+      "y": -216.79296875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 10074.7724609375,
+      "y": -241.59619140625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(5),click",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": 10074.7724609375,
+      "y": -241.59619140625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 9959.478515625,
+      "y": -218.78125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 9957.140625,
+      "y": -214.015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": 9944.6806640625,
+      "y": -205.59423828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": 9906.349609375,
+      "y": -171.4091796875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": 9879.365234375,
+      "y": -132.6591796875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(5),click"
+    },
+    {
+      "id": 19,
+      "x": 9886.7685546875,
+      "y": -125.48095703125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
