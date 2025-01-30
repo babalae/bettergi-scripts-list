@@ -290,35 +290,28 @@
             "type": "path",
             "move_mode": "walk",
             "action": "combat_script",
-            "action_params": "wait(0.2),keypress(t),wait(2.8),mousedown,wait(0.5),moveby(3000,400),wait(1.0),mouseup",
-            "//": "附身，转身，扫描",
+            "action_params": "wait(0.2),keypress(t),wait(2.8),mousedown,wait(0.5),moveby(3000,400),wait(1.0),mouseup,wait(0.5),keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE)",
+            "//": "附身，转身，扫码，起跳",
             "#": "9"
         },
-
         {
-            "x": 10085.3232421875,
-            "y": -88.92724609375,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": 10100.80859375,
-            "y": -89.8603515625,
-            "type": "path",
-            "move_mode": "walk"
-        },
-
-        {
-            "x": 10100.201171875,
-            "y": -92.39599609375,
+            "x": 10099.3974609375,
+            "y": -88.05859375,
             "type": "path",
             "move_mode": "walk",
             "action": "combat_script",
-            "action_params": "mousedown,wait(1.0),mouseup",
+            "action_params": "keypress(VK_SPACE),wait(3)",
+            "//": "降落"
+        },
+        {
+            "x": 10098.0927734375,
+            "y": -91.4072265625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "mousedown,wait(0.5),moveby(0,0),wait(1.0),mouseup",
             "#": "10",
-
-            "x_": 10098.3720703125,
-            "y_": -92.80908203125
+            "//": "扫码"
         },
 
 
