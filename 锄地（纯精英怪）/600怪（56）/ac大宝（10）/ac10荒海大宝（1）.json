@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "荒海大宝（1）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4217.89453125,
+      "y": -2397.87890625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4225.525390625,
+      "y": -2346.544921875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4210.904296875,
+      "y": -2320.107421875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -4230.15234375,
+      "y": -2293.623046875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -4245.66015625,
+      "y": -2290.923828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
