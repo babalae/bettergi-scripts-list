@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "巨人峡谷右（1）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5196.70947265625,
+      "y": -1336.791015625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 5185.8095703125,
+      "y": -1329.22412109375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 5162.45458984375,
+      "y": -1314.42431640625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

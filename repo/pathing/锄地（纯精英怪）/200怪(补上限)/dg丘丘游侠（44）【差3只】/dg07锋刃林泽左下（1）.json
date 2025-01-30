@@ -1,0 +1,156 @@
+{
+  "info": {
+    "name": "锋刃林泽左下（1）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5942.5,
+      "y": 618.18310546875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 5948.3779296875,
+      "y": 618.97509765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 5968.09326171875,
+      "y": 595.810546875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 5994.30078125,
+      "y": 588.58984375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5),moveby(0,-1000),wait(0.5),keypress(t)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 6027.55419921875,
+      "y": 580.759765625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 6060.34423828125,
+      "y": 563.08642578125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 6079.591796875,
+      "y": 556.82861328125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 6113.93017578125,
+      "y": 554.4521484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 6139.59912109375,
+      "y": 569.3984375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 6143.10888671875,
+      "y": 588.7236328125,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "wait(0.5),moveby(0,-1000000),wait(0.5),moveby(0,1000),wait(0.5),keypress(t)",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 6158.875,
+      "y": 600.79541015625,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 6162.87060546875,
+      "y": 620.5966796875,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 6153.27783203125,
+      "y": 653.43115234375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 6158.82470703125,
+      "y": 668.2744140625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 6166.435546875,
+      "y": 661.23779296875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": 6158.50048828125,
+      "y": 662.556640625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
