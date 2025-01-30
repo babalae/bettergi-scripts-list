@@ -168,7 +168,7 @@
             "x": 9316.2021484375,
             "y": -1547.384765625,
             "type": "path",
-            "move_mode": "run"
+            "move_mode": "dash"
         },
         {
             "x": 9324.3671875,
@@ -309,13 +309,16 @@
         },
 
         {
-            "x": 10098.3720703125,
-            "y": -92.80908203125,
+            "x": 10100.201171875,
+            "y": -92.39599609375,
             "type": "path",
             "move_mode": "walk",
             "action": "combat_script",
             "action_params": "mousedown,wait(1.0),mouseup",
-            "#": "10"
+            "#": "10",
+
+            "x_": 10098.3720703125,
+            "y_": -92.80908203125
         },
 
 
@@ -327,18 +330,12 @@
             "move_mode": "walk",
             "action": "force_tp"
         },
-        {
-            "x": 10070.185546875,
-            "y": 30.2275390625,
-            "type": "path",
-            "move_mode": "walk"
-        },
 
         {
             "x": 10071.48046875,
             "y": 78.560546875,
             "type": "path",
-            "move_mode": "run",
+            "move_mode": "dash",
             "action": "combat_script",
             "action_params": "wait(0.2),keypress(t),wait(2.8),keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE)",
             "//": "附身，起跳"

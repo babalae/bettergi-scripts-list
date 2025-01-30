@@ -1,0 +1,40 @@
+{
+  "info": {
+    "name": "蕈兽-04河谷的黯道02",
+    "type": "collect",
+    "author": "C-01-11011",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "run",
+      "type": "teleport",
+      "x": 2954.425451760748,
+      "y": -1470.4867129745144,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 2964.437612111831,
+      "y": -1434.9722666783482,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3066.010574218333,
+      "y": -1312.4946495199383,
+      "action_params": "",
+      "locked": false
+    }
+  ]
+}
