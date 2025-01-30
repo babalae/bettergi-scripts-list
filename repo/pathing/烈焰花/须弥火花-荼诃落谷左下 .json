@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "须弥火花-荼诃落谷左下",
+    "type": "collect",
+    "author": "ran",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4791.08740234375,
+      "y": -3182.41015625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4801.05126953125,
+      "y": -3168.873046875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "hydro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4746.00244140625,
+      "y": -3089.740234375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4747.38232421875,
+      "y": -3089.802734375,
+      "type": "target",
+      "move_mode": "run",
+      "action": "hydro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4746.44189453125,
+      "y": -3087.1328125,
+      "type": "target",
+      "move_mode": "run",
+      "action": "hydro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4743.7138671875,
+      "y": -3089.9794921875,
+      "type": "target",
+      "move_mode": "run",
+      "action": "hydro_collect",
+      "action_params": ""
+    }
+  ]
+}
