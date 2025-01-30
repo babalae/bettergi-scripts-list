@@ -1,0 +1,40 @@
+{
+  "info": {
+    "name": "三运河上大宝（1）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5300.408203125,
+      "y": -197.97509765625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 5283.48828125,
+      "y": -174.822265625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 5283.48828125,
+      "y": -174.822265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
