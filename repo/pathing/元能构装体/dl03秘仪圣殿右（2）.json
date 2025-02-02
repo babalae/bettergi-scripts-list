@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "秘仪圣殿右（2）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4691.68017578125,
+      "y": -2345.2109375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4732.03759765625,
+      "y": -2344.13671875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4760.44677734375,
+      "y": -2334.146484375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4817.54296875,
+      "y": -2315.0517578125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4817.6923828125,
+      "y": -2300.3447265625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "info": {
+    "name": "璃月港右下（1）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 26.0087890625,
+      "y": -112.240234375,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 18.89453125,
+      "y": -107.181640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -0.6708984375,
+      "y": -106.919921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -24.529296875,
+      "y": -106.52978515625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -58.337890625,
+      "y": -110.00830078125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": "",
+      "locked": true
+    }
+  ]
+}

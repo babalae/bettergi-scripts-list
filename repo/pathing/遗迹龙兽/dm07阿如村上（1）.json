@@ -1,0 +1,110 @@
+{
+  "info": {
+    "name": "阿如村上（1）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4409.75,
+      "y": -1874.69140625,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 4397.20166015625,
+      "y": -1875.08251953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 4364.9990234375,
+      "y": -1857.12353515625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 4367.91015625,
+      "y": -1853.74267578125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 4374.27197265625,
+      "y": -1843.0322265625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 4374.140625,
+      "y": -1828.24951171875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 4367.34033203125,
+      "y": -1819.96533203125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 4364.52197265625,
+      "y": -1809.97607421875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 4299.0751953125,
+      "y": -1807.04150390625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 4271.7490234375,
+      "y": -1758.908203125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
