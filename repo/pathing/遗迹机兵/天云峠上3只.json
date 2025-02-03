@@ -1,0 +1,74 @@
+{
+  "info": {
+    "name": "天云峠上3只",
+    "type": "collect",
+    "author": "baixi",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4185.912109375,
+      "y": -4383.6015625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4179.552734375,
+      "y": -4393.2099609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4171.8671875,
+      "y": -4403.8740234375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -4172.990234375,
+      "y": -4426.23828125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -4203.439453125,
+      "y": -4451.93359375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -4184.1953125,
+      "y": -4468.1875,
+      "type": "path",
+      "move_mode": "swim",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -4190.1015625,
+      "y": -4486.1259765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}
