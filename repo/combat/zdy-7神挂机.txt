@@ -2,7 +2,7 @@
 // 描述：生存位，奶芙，两位必选（奶芙方便循环）
 
 // 生存位，奶芙，两位必选（奶芙方便循环）
-钟离 s(0.2),e(hold),wait(0.3),w(0.2),q
+钟离 e(hold),q
 芙宁娜 e,wait(0.4),attack,wait(0.2),charge(0.5),wait(0.4),q
 
 //无所谓，凑个位置
@@ -11,4 +11,4 @@
 
 //输出位
 雷电将军 e,q,attack(1.6),charge(0.6)
-玛薇卡 q,e(hold),attack(1.5),charge(2.5)
+玛薇卡 attack,keypress(q),e(hold),attack(3)
