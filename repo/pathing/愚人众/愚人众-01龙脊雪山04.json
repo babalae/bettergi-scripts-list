@@ -1,0 +1,40 @@
+{
+  "info": {
+    "name": "愚人众-01龙脊雪山04",
+    "type": "collect",
+    "author": "C-01-11011",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -689.9999904230554,
+      "y": 930.1136085266371,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": -666.9999920668597,
+      "y": 952.109684841259,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "target",
+      "x": -680.9999910662827,
+      "y": 1025.0966653397754,
+      "action_params": "",
+      "locked": false
+    }
+  ]
+}

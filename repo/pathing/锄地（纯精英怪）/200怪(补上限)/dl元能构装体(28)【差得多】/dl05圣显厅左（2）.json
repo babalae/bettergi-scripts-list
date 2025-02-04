@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "圣显厅左（2）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4777.31396484375,
+      "y": -1434.5595703125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4810.74267578125,
+      "y": -1428.93994140625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4836.986328125,
+      "y": -1427.84326171875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

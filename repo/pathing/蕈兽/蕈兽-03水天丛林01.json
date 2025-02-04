@@ -1,0 +1,40 @@
+{
+  "info": {
+    "name": "蕈兽-03水天丛林01",
+    "type": "collect",
+    "author": "C-01-11011",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "fly",
+      "type": "teleport",
+      "x": 3450.6573953259904,
+      "y": -1720.8195104725955,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3425.46325459129,
+      "y": -1691.1032190874166,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3425.46325459129,
+      "y": -1691.1032190874166,
+      "action_params": ""
+    }
+  ]
+}

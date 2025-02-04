@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "灵濛山（2）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2002.3623046875,
+      "y": 2081.01953125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1996.55078125,
+      "y": 2094.63232421875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1990.107421875,
+      "y": 2102.8759765625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 1997.14453125,
+      "y": 2124.6767578125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 1989.259765625,
+      "y": 2138.3701171875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 1958.80859375,
+      "y": 2147.763916015625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+{
+  "info": {
+    "name": "荼诃落谷右上（1）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4209.82177734375,
+      "y": -2712.02734375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 4208.2392578125,
+      "y": -2719.2578125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 4210.583984375,
+      "y": -2735.76953125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 4213.00244140625,
+      "y": -2744.7998046875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 4221.59326171875,
+      "y": -2760.3779296875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 4210.1083984375,
+      "y": -2791.3720703125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 4192.31396484375,
+      "y": -2819.6240234375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 4162.9345703125,
+      "y": -2821.3359375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 4140.79541015625,
+      "y": -2833.83984375,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 4135.81884765625,
+      "y": -2825.658203125,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "wait(0.5),click(middle),wait(1),moveby(0,-7000),wait(0.5),keypress(t)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 4117.92626953125,
+      "y": -2789.685546875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 4120.98681640625,
+      "y": -2766.1962890625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 4126.630859375,
+      "y": -2765.7021484375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 4143.73876953125,
+      "y": -2762.380859375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 4169.4375,
+      "y": -2754.634765625,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path",
+      "locked": true
+    }
+  ]
+}

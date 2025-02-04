@@ -1,0 +1,40 @@
+{
+  "info": {
+    "name": "b灵矩关右岩丘丘王（1）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 978.697265625,
+      "y": -353.5888671875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 926.1552734375,
+      "y": -477.82666015625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 926.1552734375,
+      "y": -477.82666015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

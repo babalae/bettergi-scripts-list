@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "蒙德火花-誓言岬",
+    "type": "collect",
+    "author": "ran",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1999.0771484375,
+      "y": 1434.87548828125,
+      "type": "teleport",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1989.5673828125,
+      "y": 1469.48974609375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1986.4580078125,
+      "y": 1478.537109375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "hydro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1991.2216796875,
+      "y": 1489.48681640625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "hydro_collect",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "info": {
+    "name": "蛇神之首右下（1）",
+    "type": "collect",
+    "author": "下流山汉",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2405.7060546875,
+      "y": -3912.927734375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -2427.578125,
+      "y": -3909.884765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -2447.697265625,
+      "y": -3913.81640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -2477.0703125,
+      "y": -3920.7783203125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(2),click"
+    },
+    {
+      "id": 5,
+      "x": -2491.396484375,
+      "y": -3923.5986328125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -2519.490234375,
+      "y": -3927.083984375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -2531.7314453125,
+      "y": -3935.5224609375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(1),click"
+    },
+    {
+      "id": 8,
+      "x": -2539.126953125,
+      "y": -3931.181640625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -2544.4638671875,
+      "y": -3918.9462890625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

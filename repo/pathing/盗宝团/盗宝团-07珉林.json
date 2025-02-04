@@ -1,0 +1,76 @@
+{
+  "info": {
+    "name": "盗宝团-07珉林",
+    "type": "collect",
+    "author": "曦",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1115.86328125,
+      "y": 1188.52685546875
+    },
+    {
+      "id": 2,
+      "x": 1124.7021484375,
+      "y": 1236.4140625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 1128.0185546875,
+      "y": 1279.91552734375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": 1128.5625,
+      "y": 1277.2431640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 5,
+      "x": 1129.919921875,
+      "y": 1283.23388671875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 1120.9033203125,
+      "y": 1308.80908203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 1101.3369140625,
+      "y": 1322.37646484375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": 1109.408203125,
+      "y": 1317.51806640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}
