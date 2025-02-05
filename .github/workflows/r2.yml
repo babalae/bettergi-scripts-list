@@ -9,7 +9,7 @@ jobs:
   upload:
     runs-on: ubuntu-latest
     environment: 
-      name: production
+      name: product
     steps:
       - name: Download and extract repository ZIP
         run: |
