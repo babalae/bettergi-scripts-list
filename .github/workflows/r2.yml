@@ -1,9 +1,6 @@
 name: Upload to R2
 
 on:
-  workflow_run:
-    workflows: ["Build repo.json"]
-    types: [requested]
   workflow_dispatch:
 
 jobs:
