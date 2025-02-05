@@ -1,0 +1,29 @@
+name: Upload to R2
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Download and extract repository ZIP
+        run: |
+          curl -L -o main.zip "https://github.com/${{ github.repository }}/archive/refs/heads/main.zip"
+          unzip main.zip
+          mkdir -p my_files
+          mv main.zip my_files/
+          mv bettergi-scripts-list-main/repo.json my_files/
+          
+      - name: Upload to R2
+        uses: ryand56/r2-upload-action@latest
+        with:
+          r2-account-id: ${{ secrets.R2_ACCOUNT_ID }}
+          r2-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
+          r2-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          r2-bucket: ${{ secrets.R2_BUCKET_NAME }}
+          source-dir: my_files/
+          destination-dir: github_mirror/
