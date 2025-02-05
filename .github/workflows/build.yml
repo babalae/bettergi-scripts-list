@@ -6,7 +6,10 @@ name: Build repo.json
 on:
   push:
     branches: [ "main" ]
-
+    paths:
+      - 'repo/**'
+      - 'build/build.js'
+      - 'workflows/**'
 jobs:
   build:
 
