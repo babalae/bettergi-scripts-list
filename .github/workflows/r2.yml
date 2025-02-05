@@ -8,7 +8,8 @@ on:
 jobs:
   upload:
     runs-on: ubuntu-latest
-    
+    environment: 
+      name: production
     steps:
       - name: Download and extract repository ZIP
         run: |
