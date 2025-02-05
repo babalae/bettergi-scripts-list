@@ -16,6 +16,7 @@ jobs:
           mkdir -p my_files
           mv main.zip my_files/
           mv bettergi-scripts-list-main/repo.json my_files/
+          sed -i 's|https://github\.com/babalae/bettergi-scripts-list/archive/refs/heads/main\.zip|https://r2-script\.bettergi\.com/github_mirror/main\.zip|g' my_files/repo.json
           
       - name: Upload to R2
         uses: ryand56/r2-upload-action@latest
