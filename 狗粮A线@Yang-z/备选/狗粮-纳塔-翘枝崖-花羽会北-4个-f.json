@@ -1,0 +1,90 @@
+{
+    "info": {
+        "name": "",
+        "type": "collect",
+        "author":"Yang-z"
+    },
+    "positions": [
+        {
+            "x": 9548.2724609375,
+            "y": -1116.5625,
+            "type": "teleport",
+            "move_mode": "walk",
+            "action": "force_tp"
+        },
+        {
+            "x": 9594.6513671875,
+            "y": -1062.68896484375,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(1.5),click",
+            "//": "无伤下落"
+        },
+        {
+            "x": 9594.6513671875,
+            "y": -1062.68896484375,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "1"
+        },
+
+
+        {
+            "x": 9548.2724609375,
+            "y": -1116.5625,
+            "type": "teleport",
+            "move_mode": "walk",
+            "action": "force_tp"
+        },
+        {
+            "x": 9491.322265625,
+            "y": -1004.78271484375,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(0.5),click",
+            "//": "无伤下落"
+        },
+        {
+            "x": 9491.322265625,
+            "y": -1004.78271484375,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "2"
+        },
+
+        {
+            "x": 9535.1474609375,
+            "y": -996.32763671875,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(1.5),click",
+            "//": "无伤下落"
+        },
+        {
+            "x": 9535.1474609375,
+            "y": -996.32763671875,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "3"
+        },
+        {
+            "x": 9536.7880859375,
+            "y": -993.86572265625,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "4"
+        },
+        {
+            "x": 9539.587890625,
+            "y": -990.88818359375,
+            "type": "path",
+            "move_mode": "walk"
+        }
+
+
+
+    ]
+}
