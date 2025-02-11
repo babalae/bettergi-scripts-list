@@ -5,7 +5,7 @@
     const folderE = 'assets/狗粮额外@Yang-z/';
 
     const pathingA = [
-        "狗粮-龙脊雪山-西-3个-f.json",
+        "狗粮-蒙德-龙脊雪山-西-3个-f.json",
         "狗粮-璃月-碧水源-盐中之地-3个-f.json",
         "狗粮-璃月-珉林-东北-9个-f.json",
         "狗粮-璃月-珉林-北-5个.json",
@@ -78,8 +78,8 @@
     ];  // 13个
 
     // 每日拾取点位数及耗时
-    // A: 98 + 21 + 8 + 10 = 137 ~(34 + 12 = 46 minutes)
-    // B: 97 + 20 + 8 + 13 = 138 ~(33 + 12 = 45 minutes)
+    // A: (98 + 21) + (8 + 10) = 137    ~   31 + 10 = 41 minutes
+    // B: (97 + 20) + (8 + 13) = 138    ~   32 + 11 = 43 minutes
 
 
     // 读取用户设置
@@ -110,14 +110,14 @@
     }
 
     // 初始化
-    async function init(shouldRestore = true, shouldResizeMap = true) {
+    async function init(shouldRestore = true, shouldResizeMap = false) {
         // close forced interaction just in case..
         dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
 
         // restore and alignment
         if (shouldRestore) await genshin.tp("1468.0732421875", "1998.04443359375"); await sleep(3000);
 
-        // resize map here even after bgi v0.37.5
+        // resize map here (not necessary after bgi v0.41.0)
         if (shouldResizeMap) await resizeMap();
     }
 
@@ -156,8 +156,11 @@
     }
 
     // 单一脚本执行
+    let count = 0;
     async function runFile(filePath, times = 2) {
         try {
+            --times;
+
             // 如关闭主动去神像恢复，则依赖队伍配置持续恢复角色，及bgi的低血量被动恢复
             let isToRestore = filePath.search("（恢复）") != -1;
             if (isToRestore && !activeRestore) return;
@@ -166,15 +169,18 @@
             // if (isToRestore) dispatcher.removeTimer(...);
             // else...
 
+            // 分解圣遗物
+            if (!isToRestore && count++ % autoSalvageSpan == 0) await salvage();
+
+            // 调整地图缩放 (bgi[v0.41.0]后不需要)
+            // let shouldResizeMap = filePath.search("-m") != -1;
+            // if (shouldResizeMap) await resizeMap();
+
             // 配置自动拾取，根据文件名指定信息，确定是否强制交互（快速拾取）
             let forceInteraction = filePath.search("-f") != -1; //
             dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": forceInteraction }));
 
-            // 调整地图缩放 (bgi[v0.40.0]版本下仍需要，可能下个版本会解决)
-            let shouldResizeMap = filePath.search("-m") != -1;
-            if (shouldResizeMap) await resizeMap();
-
-            times--;
+            //执行路径追踪脚本
             log.info(filePath);
             await pathingScript.runFile(filePath);
         }
@@ -186,10 +192,8 @@
     }
 
     // 批量执行
-    let count = 0;
     async function batch(folder, files) {
         for (let file of files) {
-            if (count++ % autoSalvageSpan == 0) await salvage();
             const filePath = folder + file;
             await runFile(filePath);
         }
@@ -219,7 +223,7 @@
         if (path == 'B' || extraAB == false) await batch(folderE, pathingE_B);
     }
 
-    await init(true, false);
+    await init();
     log.info(`今日狗粮拾取任务完成。拾取路线：${path}${extra ? '+E' : ''}`);
     await sleep(1000);
 
