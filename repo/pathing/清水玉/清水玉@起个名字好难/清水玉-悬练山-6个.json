@@ -1,0 +1,101 @@
+{
+  "info": {
+    "name": "清水玉-悬练山-6个",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1904.6220703125,
+      "y": 1197.84228515625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1973.1650390625,
+      "y": 1197.82763671875,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "wait(0.5),keypress(VK_SPACE),wait(3),click",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1972.953125,
+      "y": 1187.20166015625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 1972.953125,
+      "y": 1187.20166015625,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "1",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 1987.4208984375,
+      "y": 1199.36328125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 1987.4208984375,
+      "y": 1199.36328125,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "1",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 2018.623046875,
+      "y": 1195.36962890625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 2018.623046875,
+      "y": 1195.36962890625,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "1",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 2029.943359375,
+      "y": 1192.99951171875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 2036.3955078125,
+      "y": 1194.13671875,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "3",
+      "type": "target"
+    }
+  ]
+}
