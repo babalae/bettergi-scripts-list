@@ -1,0 +1,38 @@
+{
+  "info": {
+    "name": "清水玉-沉玉谷南陵-南侧-1个",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2209.955078125,
+      "y": 1250.2001953125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2181.390625,
+      "y": 1249.16357421875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": 2181.677734375,
+      "y": 1252.705078125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    }
+  ]
+}
