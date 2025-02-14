@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "游逸旅闻-万叶1",
+    "name": "游逸旅闻-申鹤1-璃月万民堂",
     "type": "collect",
     "author": "ddaodan",
     "version": "1.0",
@@ -10,17 +10,17 @@
   "positions": [
     {
       "id": 1,
-      "x": 25.9921875,
-      "y": -112.341796875,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 267.9404296875,
+      "y": -665.1259765625,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 14.6875,
-      "y": -120.36962890625,
+      "x": 234.0224609375,
+      "y": -662.20703125,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -28,19 +28,10 @@
     },
     {
       "id": 3,
-      "x": -84.2197265625,
-      "y": -153.654296875,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 4,
+      "x": 228.1494140625,
+      "y": -668.376953125,
+      "type": "target",
       "move_mode": "walk",
-      "type": "path",
-      "x": -116.779296875,
-      "y": -164.60888671875,
       "action": "combat_script",
       "action_params": "wait(0.1),keypress(f)"
     }

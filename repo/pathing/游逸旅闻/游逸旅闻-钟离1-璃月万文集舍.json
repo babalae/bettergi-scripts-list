@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "游逸旅闻-钟离1",
+    "name": "游逸旅闻-钟离1-璃月万文集舍",
     "type": "collect",
     "author": "ddaodan",
     "version": "1.0",
@@ -10,66 +10,75 @@
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport",
       "x": 366.7490234375,
       "y": -502.521484375,
-      "action_params": ""
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
       "x": 380.6796875,
       "y": -534.955078125,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
       "x": 381.484375,
       "y": -549.9833984375,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 4,
       "x": 393.125,
       "y": -538.71435546875,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 5,
       "x": 400.5048828125,
       "y": -539.673828125,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 6,
-      "x": 394.890625,
-      "y": -534.662109375,
-      "type": "path",
+      "x": 394.0068359375,
+      "y": -533.5703125,
+      "type": "target",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
       "id": 7,
-      "x": 389.673828125,
-      "y": -542.80712890625,
+      "x": 388.8359375,
+      "y": -540.517578125,
       "type": "path",
       "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 389.673828125,
+      "y": -542.80712890625,
       "action": "combat_script",
-      "action_params": "wait(0.1),keypress(f)"
+      "move_mode": "walk",
+      "action_params": "wait(0.1),keypress(f)",
+      "type": "path"
     }
   ]
 }
