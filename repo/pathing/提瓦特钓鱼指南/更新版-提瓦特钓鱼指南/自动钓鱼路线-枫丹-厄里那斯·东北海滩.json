@@ -1,0 +1,64 @@
+{
+  "info": {
+    "name": "自动钓鱼路线-枫丹-厄里那斯·东北海滩",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4703.99962558251,
+      "y": 2951.962740583049,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4710.1882022415675,
+      "y": 2961.624897379079,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "id": 3,
+      "x": 4712.813427962072,
+      "y": 2972.374794758158,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4733.562199039328,
+      "y": 2996.5624771953517,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4733.687148879216,
+      "y": 3000.8749657930257,
+      "move_mode": "climb",
+      "type": "path",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4733.593737459972,
+      "y": 3005.4373859767547,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

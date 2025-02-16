@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "10.枫丹研究院神像西",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3872.9962950763347,
+      "y": 4494.555278993537,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3970.874957556307,
+      "y": 4531.62480805905,
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3984.6250095840605,
+      "y": 4531.500255921266,
+      "action_params": ""
+    }
+  ]
+}
