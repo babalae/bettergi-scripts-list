@@ -5,7 +5,7 @@
         "author": "提瓦特钓鱼玳师",
         "version": "1.0",
         "description": "骗骗花-1个\n璃月-珉林奥藏山南方",
-        "bgiVersion": "0.39.1"
+        "bgiVersion": "0.42.0"
     },
     "positions": [
         {
@@ -21,20 +21,19 @@
             "id": 2,
             "x": 1604.02,
             "y": 874.12,
-            "type": "path",
-            "move_mode": "walk",
             "action": "combat_script",
+            "move_mode": "fly",
             "action_params": "keypress(space),wait(3),attack(0.1),wait(2),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f)",
-            "locked": false
+            "type": "path"
         },
         {
             "id": 3,
             "x": 1604.02,
             "y": 874.12,
-            "type": "target",
-            "move_mode": "walk",
             "action": "fight",
-            "action_params": ""
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "target"
         }
     ]
 }

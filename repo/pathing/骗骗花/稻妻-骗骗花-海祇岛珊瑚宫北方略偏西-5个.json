@@ -5,7 +5,7 @@
         "author": "提瓦特钓鱼玳师",
         "version": "1.0",
         "description": "骗骗花-5个\n稻妻-海祇岛珊瑚宫北方略偏西",
-        "bgiVersion": "0.39.1"
+        "bgiVersion": "0.42.0"
     },
     "positions": [
         {
@@ -20,94 +20,112 @@
         {
             "id": 2,
             "x": -732.94,
-            "y": -3563.0,
-            "type": "path",
-            "move_mode": "walk",
+            "y": -3563,
             "action": "fight",
-            "action_params": ""
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
         },
         {
             "id": 3,
             "x": -728.37,
             "y": -3558.09,
-            "type": "path",
-            "move_mode": "walk",
             "action": "",
-            "action_params": ""
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
         },
         {
             "id": 4,
             "x": -698.67,
             "y": -3568.64,
-            "type": "path",
-            "move_mode": "walk",
             "action": "",
-            "action_params": ""
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
         },
         {
             "id": 5,
             "x": -658.68,
             "y": -3561.23,
-            "type": "path",
-            "move_mode": "walk",
             "action": "combat_script",
+            "move_mode": "walk",
             "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
-            "locked": false
+            "type": "path"
         },
         {
             "id": 6,
             "x": -658.68,
             "y": -3561.23,
-            "type": "path",
-            "move_mode": "walk",
             "action": "fight",
-            "action_params": ""
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
         },
         {
             "id": 7,
             "x": -636.92,
             "y": -3552.05,
-            "type": "path",
-            "move_mode": "walk",
             "action": "",
-            "action_params": ""
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
         },
         {
             "id": 8,
             "x": -610.55,
             "y": -3574.16,
-            "type": "path",
-            "move_mode": "walk",
             "action": "combat_script",
-            "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)"
+            "move_mode": "walk",
+            "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+            "type": "path",
+            "locked": false
         },
         {
             "id": 9,
-            "x": -605.48,
-            "y": -3574.56,
-            "type": "path",
+            "x": -610.55,
+            "y": -3574.16,
+            "action": "fight",
             "move_mode": "walk",
-            "action": "combat_script",
-            "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)"
+            "action_params": "",
+            "type": "path"
         },
         {
             "id": 10,
-            "x": -607.29,
-            "y": -3570.76,
-            "type": "path",
-            "move_mode": "walk",
+            "x": -605.48,
+            "y": -3574.56,
             "action": "combat_script",
+            "move_mode": "walk",
             "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+            "type": "path",
             "locked": false
         },
         {
             "id": 11,
+            "x": -605.48,
+            "y": -3574.56,
+            "action": "fight",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 12,
             "x": -607.29,
             "y": -3570.76,
-            "type": "target",
+            "action": "combat_script",
             "move_mode": "walk",
+            "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+            "type": "path"
+        },
+        {
+            "id": 13,
+            "x": -607.29,
+            "y": -3570.76,
             "action": "fight",
-            "action_params": ""
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "target"
         }
     ]
 }
