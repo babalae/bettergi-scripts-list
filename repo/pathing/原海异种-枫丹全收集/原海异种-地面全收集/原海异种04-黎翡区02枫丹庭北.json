@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "原海异种04-黎翡区02枫丹庭北",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4597.498374236715,
+      "y": 4023.716112291495,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4562.874144987297,
+      "y": 4014.7336718712722,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": 4528.249915737879,
+      "y": 4005.7512314510495,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4531.750125154033,
+      "y": 4052.8761402324526,
+      "action": "",
+      "action_params": "",
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "id": 5,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4500.874993804256,
+      "y": 4091.6245211023706,
+      "action_params": ""
+    }
+  ]
+}

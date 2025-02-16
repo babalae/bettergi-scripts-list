@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "原海异种27-秋分山南01",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3809.9979753623757,
+      "y": 2330.0548092308327,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3822.9982412238824,
+      "y": 2329.055151788525,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3861.7477708535243,
+      "y": 2364.287253149081,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 3887.0000818035405,
+      "y": 2351.5023979038488,
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3918.499969323673,
+      "y": 2306.4994861634605,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": 3951.000020450885,
+      "y": 2308.999314884615,
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3986.74988240741,
+      "y": 2291.7483728509596,
+      "action_params": ""
+    }
+  ]
+}

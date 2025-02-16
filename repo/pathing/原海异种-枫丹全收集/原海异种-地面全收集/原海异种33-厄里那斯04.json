@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "原海异种33-厄里那斯04",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5115.9989257499365,
+      "y": 2994.0361394437805,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5133.500204508851,
+      "y": 3020.001884067309,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5185.0000818035405,
+      "y": 2998.997430817304,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5318.000204508851,
+      "y": 2967.071765836621,
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": 5321.000265861506,
+      "y": 2919.08820860587,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": 5333.50052149757,
+      "y": 2887.0991704520384,
+      "action_params": ""
+    }
+  ]
+}

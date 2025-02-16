@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "原海异种15-枫丹科学院南08",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4150.249303598349,
+      "y": 4419.721174923587,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4136.499167291976,
+      "y": 4425.972315156039,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4079.8736059575494,
+      "y": 4439.599800862787,
+      "move_mode": "fly",
+      "action": "",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4029.249779431506,
+      "y": 4452.876185841751,
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4023.248044623122,
+      "y": 4453.227286569536,
+      "action_params": ""
+    }
+  ]
+}
