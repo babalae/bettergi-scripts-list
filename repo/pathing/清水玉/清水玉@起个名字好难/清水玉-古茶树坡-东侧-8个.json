@@ -1,0 +1,104 @@
+{
+  "info": {
+    "name": "清水玉-古茶树坡-东侧-8个",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1468.1162109375,
+      "y": 1998.06396484375
+    },
+    {
+      "id": 2,
+      "x": 1461.6171875,
+      "y": 2014.591796875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
+    },
+    {
+      "x": 1461.6171875,
+      "y": 2014.591796875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": "3"
+    },
+    {
+      "id": 3,
+      "x": 1487.84375,
+      "y": 1978.87841796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 1496.9599609375,
+      "y": 1910.74072265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 1480.3154296875,
+      "y": 1859.34375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
+    },
+    {
+      "x": 1480.3154296875,
+      "y": 1859.34375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": "2"
+    },
+    {
+      "id": 6,
+      "x": 1436.7294921875,
+      "y": 1846.845703125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 1408.6494140625,
+      "y": 1807.15771484375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
+    },
+    {
+      "x": 1408.6494140625,
+      "y": 1806.15771484375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 1456.12890625,
+      "y": 1805.06787109375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
+    }
+  ]
+}

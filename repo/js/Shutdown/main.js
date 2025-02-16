@@ -12,4 +12,6 @@
     keyPress("U");
     await sleep(1000);
     keyPress("U");
+    await sleep(50);
+    keyPress("RETURN");
 })();

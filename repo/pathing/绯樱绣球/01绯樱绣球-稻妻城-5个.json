@@ -1,11 +1,11 @@
 {
   "info": {
-    "name": "绯樱绣球-稻妻城-4个(途经一个半空的不采)",
+    "name": "绯樱绣球-稻妻城-5个",
     "type": "collect",
     "author": "起个名字好难",
     "version": "1.0",
-    "description": "",
-    "bgiVersion": "0.36.5"
+    "description": "雷元素法师可采集全，久歧忍漏1个",
+    "bgiVersion": "0.35.1"
   },
   "positions": [
     {
@@ -28,12 +28,12 @@
       "id": 3,
       "x": -4386.6328125,
       "y": -3047.404296875,
-      "type": "path",
+      "action": "",
       "move_mode": "walk",
-      "action": ""
+      "type": "path"
     },
     {
-      "id": 5,
+      "id": 4,
       "x": -4379.58203125,
       "y": -3054.8212890625,
       "action": "electro_collect",
@@ -41,7 +41,7 @@
       "type": "target"
     },
     {
-      "id": 6,
+      "id": 5,
       "x": -4401.16015625,
       "y": -3051.0791015625,
       "action": "force_tp",
@@ -49,7 +49,7 @@
       "type": "teleport"
     },
     {
-      "id": 7,
+      "id": 6,
       "x": -4407.748046875,
       "y": -3055.2763671875,
       "action": "",
@@ -57,7 +57,7 @@
       "type": "path"
     },
     {
-      "id": 8,
+      "id": 7,
       "x": -4442.71484375,
       "y": -3029.7724609375,
       "action": "",
@@ -65,7 +65,7 @@
       "type": "path"
     },
     {
-      "id": 9,
+      "id": 8,
       "x": -4451.88671875,
       "y": -3025.7578125,
       "action": "electro_collect",
@@ -73,23 +73,43 @@
       "type": "target"
     },
     {
-      "id": 10,
-      "x": -4404.69921875,
-      "y": -2977.689453125,
-      "action": "",
+      "id": 9,
+      "x": -4436.732421875,
+      "y": -2995.92578125,
+      "type": "path",
       "move_mode": "walk",
-      "type": "path"
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -4418.544921875,
+      "y": -2987.9423828125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "electro_collect",
+      "action_params": ""
     },
     {
       "id": 11,
-      "x": -4397.31640625,
-      "y": -2985.3955078125,
-      "action": "electro_collect",
+      "x": -4400.37109375,
+      "y": -2982.4111328125,
+      "type": "path",
       "move_mode": "walk",
-      "type": "target"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 12,
+      "x": -4397.41796875,
+      "y": -2985.8271484375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "electro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 13,
       "x": -4379.2421875,
       "y": -2979.8818359375,
       "action": "",
@@ -97,7 +117,7 @@
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 14,
       "x": -4363.30859375,
       "y": -2983.12109375,
       "action": "electro_collect",
