@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "深渊法师3",
+    "type": "collect",
+    "author": "FuYeqi",
+    "version": "1.0",
+    "description": "深渊法师",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1490.5,
+      "y": 2284,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1521.5,
+      "y": 2248.5,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1558,
+      "y": 2240,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1578,
+      "y": 2238.5,
+      "action_params": ""
+    }
+  ]
+}
