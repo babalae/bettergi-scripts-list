@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "原海异种38-苍晶区南01",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4631.998507085388,
+      "y": 2180.10139707704,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4561.497065297989,
+      "y": 2202.0938608077995,
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": 4491.750015338163,
+      "y": 2230.747687735575,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4498.995787117671,
+      "y": 2299.8103757933386,
+      "action": "",
+      "action_params": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4495.2497597021,
+      "y": 2373.000856394232,
+      "action_params": ""
+    }
+  ]
+}

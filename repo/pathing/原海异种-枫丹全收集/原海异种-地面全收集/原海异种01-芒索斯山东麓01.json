@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "原海异种01-芒索斯山东麓01",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4987.495648109256,
+      "y": 4466.429031932123,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4961.750003717447,
+      "y": 4487.000273655789,
+      "action": "",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": 4958.374996282553,
+      "y": 4483.500091218597,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4921.43746220596,
+      "y": 4452.749315860528,
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4913.687521685105,
+      "y": 4443.7515051068385,
+      "action_params": ""
+    }
+  ]
+}
