@@ -1,0 +1,84 @@
+{
+    "info": {
+        "name": "蒙德-垂钓点-明冠山地风龙废墟北-花鳉_蓝染花鳉_擒霞客_水晶宴-果酿饵-普通.json",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "出没鱼类: 花鳉、蓝染花鳉、擒霞客、水晶宴\n所需鱼饵: 果酿饵\n鱼类详情: \n花鳉(果酿饵)[全天]\n蓝染花鳉(果酿饵)[全天]\n擒霞客(果酿饵)[夜晚]\n水晶宴(果酿饵)[白天]\n\n特殊属性(供JS脚本识别): 普通",
+        "bgiVersion": "0.42.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 265.65,
+            "y": 2914.79,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 195.72,
+            "y": 2919.42,
+            "type": "path",
+            "move_mode": "dash",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 126.32,
+            "y": 2909.81,
+            "type": "path",
+            "move_mode": "dash",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 77.14,
+            "y": 2925.38,
+            "type": "path",
+            "move_mode": "dash",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 56.73,
+            "y": 2905.74,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "fight",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": 56.18,
+            "y": 2897.43,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 7,
+            "x": 55.63,
+            "y": 2891.88,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 8,
+            "x": 59.92,
+            "y": 2889.84,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)"
+        }
+    ]
+}

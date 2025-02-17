@@ -1,0 +1,48 @@
+{
+    "info": {
+        "name": "纳塔-垂钓点-翘枝崖花羽会西-花鳉_繁花斗士急流鱼_深潜斗士急流鱼_晚霞翻车鲀_伪装鲨鲨独角鱼-果酿饵_澄晶果粒饵-普通.json",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "出没鱼类: 花鳉、繁花斗士急流鱼、深潜斗士急流鱼、晚霞翻车鲀、伪装鲨鲨独角鱼\n所需鱼饵: 果酿饵、澄晶果粒饵\n鱼类详情: \n花鳉(果酿饵)[全天]\n繁花斗士急流鱼(澄晶果粒饵)[夜晚]\n深潜斗士急流鱼(澄晶果粒饵)[白天]\n晚霞翻车鲀(澄晶果粒饵)[夜晚]\n伪装鲨鲨独角鱼(澄晶果粒饵)[全天]\n\n特殊属性(供JS脚本识别): 普通",
+        "bgiVersion": "0.42.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 9839.55,
+            "y": -1290.0,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 9878.25,
+            "y": -1226.13,
+            "type": "path",
+            "move_mode": "dash",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 9938.91,
+            "y": -1197.05,
+            "type": "path",
+            "move_mode": "dash",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 9933.82,
+            "y": -1175.72,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)"
+        }
+    ]
+}

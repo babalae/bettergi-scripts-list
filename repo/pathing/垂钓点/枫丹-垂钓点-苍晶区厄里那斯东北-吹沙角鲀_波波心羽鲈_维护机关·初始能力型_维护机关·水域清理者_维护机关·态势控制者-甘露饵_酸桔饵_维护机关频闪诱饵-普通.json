@@ -1,0 +1,57 @@
+{
+    "info": {
+        "name": "枫丹-垂钓点-苍晶区厄里那斯东北-吹沙角鲀_波波心羽鲈_维护机关·初始能力型_维护机关·水域清理者_维护机关·态势控制者-甘露饵_酸桔饵_维护机关频闪诱饵-普通.json",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "出没鱼类: 吹沙角鲀、波波心羽鲈、维护机关·初始能力型、维护机关·水域清理者、维护机关·态势控制者\n所需鱼饵: 甘露饵、酸桔饵、维护机关频闪诱饵\n鱼类详情: \n吹沙角鲀(甘露饵)[白天]\n波波心羽鲈(酸桔饵)[夜晚]\n维护机关·初始能力型(维护机关频闪诱饵)[全天]\n维护机关·水域清理者(维护机关频闪诱饵)[白天]\n维护机关·态势控制者(维护机关频闪诱饵)[夜晚]\n\n特殊属性(供JS脚本识别): 普通",
+        "bgiVersion": "0.42.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 4705.51,
+            "y": 2951.55,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 4715.22,
+            "y": 2973.37,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 4741.52,
+            "y": 3005.44,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 4744.16,
+            "y": 3007.0,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 4741.07,
+            "y": 3011.2,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)"
+        }
+    ]
+}

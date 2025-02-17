@@ -1,0 +1,66 @@
+{
+    "info": {
+        "name": "璃月-垂钓点-沉玉谷·上谷古树茶坡东-花鳉_擒霞客_水晶宴_斗棘鱼_锖假龙_玉玉心羽鲈-果酿饵_赤糜饵_飞蝇假饵_酸桔饵-普通.json",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "出没鱼类: 花鳉、擒霞客、水晶宴、斗棘鱼、锖假龙、玉玉心羽鲈\n所需鱼饵: 果酿饵、赤糜饵、飞蝇假饵、酸桔饵\n鱼类详情: \n花鳉(果酿饵)[全天]\n擒霞客(果酿饵)[夜晚]\n水晶宴(果酿饵)[白天]\n斗棘鱼(赤糜饵)[夜晚]\n锖假龙(飞蝇假饵)[全天]\n玉玉心羽鲈(酸桔饵)[全天]\n\n特殊属性(供JS脚本识别): 普通",
+        "bgiVersion": "0.42.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 1114.88,
+            "y": 1948.03,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 1134.28,
+            "y": 1930.28,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 1132.97,
+            "y": 1890.3,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 1124.21,
+            "y": 1870.08,
+            "type": "path",
+            "move_mode": "swim",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 1107.88,
+            "y": 1861.32,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": 1105.25,
+            "y": 1865.1,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)"
+        }
+    ]
+}

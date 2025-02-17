@@ -1,0 +1,48 @@
+{
+    "info": {
+        "name": "蒙德-垂钓点-龙脊雪山寒天之钉西-花鳉_鸩棘鱼_雪中君_流纹茶蝶鱼-果酿饵_赤糜饵_蠕虫假饵-普通.json",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "出没鱼类: 花鳉、鸩棘鱼、雪中君、流纹茶蝶鱼\n所需鱼饵: 果酿饵、赤糜饵、蠕虫假饵\n鱼类详情: \n花鳉(果酿饵)[全天]\n鸩棘鱼(赤糜饵)[夜晚]\n雪中君(赤糜饵)[夜晚]\n流纹茶蝶鱼(蠕虫假饵)[白天]\n\n特殊属性(供JS脚本识别): 普通",
+        "bgiVersion": "0.42.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -705.5,
+            "y": 925.62,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": -687.73,
+            "y": 926.62,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": -604.83,
+            "y": 1006.54,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": -605.82,
+            "y": 995.64,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)"
+        }
+    ]
+}
