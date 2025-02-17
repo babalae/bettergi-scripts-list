@@ -20,10 +20,10 @@
     }
     let filePath;
     
-    if (settings.selectway === undefined)
+    if (settings.selectValue === undefined)
         filePath = "枫丹凯瑟琳"
     else
-        filePath = settings.selectway;
+        filePath = settings.selectValue;
 
     log.info("开始执行路径脚本");
     await AutoPath(filePath);
