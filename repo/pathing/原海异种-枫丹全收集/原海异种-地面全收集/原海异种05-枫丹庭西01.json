@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "原海异种05-枫丹庭西01",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4819.747373004448,
+      "y": 3625.469213723767,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4824.000018587232,
+      "y": 3580.058577600361,
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4824.497420092104,
+      "y": 3577.710502347827,
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "原海异种07-枫丹科学院西",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4628.496084289649,
+      "y": 4946.442988377348,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4650.50033209189,
+      "y": 4878.743112995984,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4625.3749714995765,
+      "y": 4854.000912185962,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4621.624996282553,
+      "y": 4856.750866576664,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "target",
+      "x": 4609.375038413614,
+      "y": 4876.998266846671,
+      "action_params": ""
+    }
+  ]
+}

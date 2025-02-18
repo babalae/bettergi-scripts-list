@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "自动钓鱼路线-稻妻-越石村",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4026.6155468859943,
+      "y": -4438.767701272782,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -4038.1220154733383,
+      "y": -4422.3737685489505,
+      "move_mode": "fly",
+      "type": "path",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4044.68343703093,
+      "y": -4414.593117170989,
+      "action": "",
+      "action_params": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -4064.687775880615,
+      "y": -4417.374897379079,
+      "action": "",
+      "action_params": "",
+      "move_mode": "climb",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -4064.8749247598316,
+      "y": -4418.812420183727,
+      "action": "",
+      "action_params": "",
+      "move_mode": "climb",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -4064.9998495196633,
+      "y": -4419.812374574431,
+      "action": "",
+      "action_params": "",
+      "move_mode": "climb",
+      "type": "path"
+    }
+  ]
+}

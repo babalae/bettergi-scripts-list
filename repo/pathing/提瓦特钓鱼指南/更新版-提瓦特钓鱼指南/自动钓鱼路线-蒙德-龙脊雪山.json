@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "自动钓鱼路线-蒙德-龙脊雪山",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -704.5487938972037,
+      "y": 922.5835930116573,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -674.3970645033951,
+      "y": 960.5453426287577,
+      "move_mode": "fly",
+      "type": "path",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -644.2453351095864,
+      "y": 998.5070922458581,
+      "move_mode": "fly",
+      "type": "path",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -607.8739967977599,
+      "y": 1007.6255017022795,
+      "move_mode": "climb",
+      "type": "path",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -607.2496739592716,
+      "y": 1001.125182437192,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -606.8124122198042,
+      "y": 996.9375,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "moveby(0,400)",
+      "type": "target"
+    }
+  ]
+}

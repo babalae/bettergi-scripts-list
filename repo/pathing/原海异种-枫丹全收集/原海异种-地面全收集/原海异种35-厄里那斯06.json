@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "原海异种35-厄里那斯06",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5109.496891465466,
+      "y": 2547.038709019276,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5116.49995909823,
+      "y": 2496.4950329134554,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": 5086.994621193572,
+      "y": 2456.5974873738032,
+      "action_params": ""
+    }
+  ]
+}
