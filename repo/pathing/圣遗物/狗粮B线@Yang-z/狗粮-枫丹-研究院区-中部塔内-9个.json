@@ -25,7 +25,6 @@
             "y": 5069.4326171875,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
             "#" : "PRE-1"
         },
         {
@@ -45,7 +44,10 @@
             "x": 4376.3173828125,
             "y": 4970.154296875,
             "type": "path",
-            "move_mode": "dash"
+            "move_mode": "dash",
+            "action": "combat_script",
+            "action_params": "wait(2.0)",
+            "//": "稍等体力恢复"
         },
         {
             "x": 4418.76025390625,
@@ -71,7 +73,6 @@
             "y": 4929.1748046875,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
             "#" : "1"
         },
 
@@ -120,9 +121,9 @@
         },
 
         {
-            "x": 4396.4033203125,
-            "y": 4926.8662109375,
-            "type": "path",
+            "x": 4397.484375,
+            "y": 4928.078125,
+            "type": "orientation",
             "move_mode": "walk"
         },
         {
@@ -137,14 +138,13 @@
             "y": 4931.0205078125,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
             "#" : "3"
         },
 
         {
-            "x": 4398.13671875,
-            "y": 4928.1826171875,
-            "type": "path",
+            "x": 4398.18115234375,
+            "y": 4924.869140625,
+            "type": "orientation",
             "move_mode": "walk"
         },
         {
@@ -159,7 +159,6 @@
             "y": 4922.4599609375,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
             "#" : "4"
         },
         {
@@ -173,7 +172,6 @@
             "y": 4920.79248046875,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
             "#" : "5"
         },
 
@@ -212,6 +210,12 @@
         {
             "x": 4404.35009765625,
             "y": 4924.2646484375,
+            "type": "orientation",
+            "move_mode": "walk"
+        },
+        {
+            "x": 4404.35009765625,
+            "y": 4924.2646484375,
             "type": "target",
             "move_mode": "walk",
             "//": "为了背对交互干扰"
@@ -224,19 +228,12 @@
         },
 
         {
-            "x": 4401.71728515625,
-            "y": 4921.8876953125,
+            "x": 4402.04296875,
+            "y": 4922.03759765625,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
-            "#" : "6"
-        },
-        {
-            "x": 4401.71728515625,
-            "y": 4921.8876953125,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "",
+            "action": "combat_script",
+            "action_params": "wait(1.0)",
             "#" : "6"
         },
         {
@@ -244,7 +241,6 @@
             "y": 4921.734375,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
             "#" : "7"
         },
         {
@@ -252,7 +248,6 @@
             "y": 4921.734375,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
             "#" : "7"
         },
 
