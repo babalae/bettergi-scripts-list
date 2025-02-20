@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "游逸旅闻-闲云1-璃月港",
+    "name": "游逸旅闻-闲云4-蒙德奔狼领",
     "type": "collect",
     "author": "ddaodan",
     "version": "1.0",
@@ -10,8 +10,8 @@
   "positions": [
     {
       "id": 1,
-      "x": 267.951171875,
-      "y": -665.11376953125,
+      "x": -251.6220703125,
+      "y": 2256.625,
       "type": "teleport",
       "move_mode": "walk",
       "action": "",
@@ -19,36 +19,27 @@
     },
     {
       "id": 2,
-      "x": 254.791015625,
-      "y": -652.310546875,
+      "x": -252.7998046875,
+      "y": 2236.828125,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "fly",
       "action": "",
       "action_params": ""
     },
     {
       "id": 3,
-      "x": 257.3125,
-      "y": -636.31298828125,
+      "x": -264.4052734375,
+      "y": 2212.378662109375,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "fly",
       "action": "",
       "action_params": ""
     },
     {
       "id": 4,
-      "x": 207.1259765625,
-      "y": -639.18701171875,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": 206.478515625,
-      "y": -635.322265625,
-      "type": "path",
+      "x": -310.98828125,
+      "y": 2186.760986328125,
+      "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
       "action_params": "wait(0.1),keypress(f)"
