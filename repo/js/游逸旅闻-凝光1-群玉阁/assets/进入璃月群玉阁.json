@@ -1,48 +1,48 @@
 {
   "info": {
-    "name": "游逸旅闻-万叶1-璃月云来海",
+    "name": "进入璃月群玉阁",
     "type": "collect",
     "author": "ddaodan",
     "version": "1.0",
-    "description": "",
+    "description": "需要先传送到群玉阁",
     "bgiVersion": "0.35.1"
   },
   "positions": [
     {
       "id": 1,
-      "x": 25.9921875,
-      "y": -112.341796875,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 417.1337890625,
+      "y": -848.62353515625,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 14.6875,
-      "y": -120.36962890625,
-      "type": "path",
+      "x": 426.658203125,
+      "y": -819.048828125,
+      "type": "target",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
       "id": 3,
-      "x": -84.2197265625,
-      "y": -153.654296875,
+      "x": 438.1064453125,
+      "y": -819.9150390625,
       "type": "path",
-      "move_mode": "fly",
+      "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
       "id": 4,
-      "move_mode": "walk",
+      "x": 449.244140625,
+      "y": -834.70458984375,
       "type": "path",
-      "x": -116.779296875,
-      "y": -164.60888671875,
+      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.1),keypress(f)"
+      "action_params": "wait(0.5),keypress(f)"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "游逸旅闻-万叶2-璃月云来海",
+    "name": "游逸旅闻-枫原万叶1-璃月云来海",
     "type": "collect",
     "author": "ddaodan",
     "version": "1.0",
@@ -10,17 +10,17 @@
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
+      "x": 25.9921875,
+      "y": -112.341796875,
       "type": "teleport",
-      "x": 259.2275390625,
-      "y": -14.27880859375,
+      "move_mode": "walk",
+      "action": "",
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 224.1240234375,
-      "y": -22.98779296875,
+      "x": 14.6875,
+      "y": -120.36962890625,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -28,28 +28,19 @@
     },
     {
       "id": 3,
-      "x": 206.5283203125,
-      "y": -18.916015625,
+      "x": -84.2197265625,
+      "y": -153.654296875,
       "type": "path",
-      "move_mode": "climb",
+      "move_mode": "fly",
       "action": "",
       "action_params": ""
     },
     {
       "id": 4,
-      "x": 196.2314453125,
-      "y": -20.96630859375,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": 189.8515625,
-      "y": -38.1865234375,
-      "type": "target",
-      "move_mode": "walk",
+      "x": -116.779296875,
+      "y": -164.60888671875,
       "action": "combat_script",
       "action_params": "wait(0.1),keypress(f)"
     }
