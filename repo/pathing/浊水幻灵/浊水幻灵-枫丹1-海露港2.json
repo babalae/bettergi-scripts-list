@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "浊水幻灵-海露港2",
+    "type": "collect",
+    "author": "无狐",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4722.140625,
+      "y": 1854.5927734375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4706.5654296875,
+      "y": 1860.072265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4594.02587890625,
+      "y": 1815.92578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
