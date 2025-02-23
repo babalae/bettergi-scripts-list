@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "浊水幻灵-厄里那斯2",
+    "type": "collect",
+    "author": "无狐",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4705.53369140625,
+      "y": 2951.61669921875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4682.586425781251,
+      "y": 2913.57177734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4662.077636718749,
+      "y": 2863.231201171875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

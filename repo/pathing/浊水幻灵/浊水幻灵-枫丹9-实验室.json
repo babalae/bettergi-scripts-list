@@ -1,0 +1,112 @@
+{
+  "info": {
+    "name": "浊水幻灵-实验室",
+    "type": "collect",
+    "author": "无狐",
+    "version": "1.0",
+    "description": "第2只需要采集薄荷触发",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3846.9482421875,
+      "y": 4652.837890625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3823.2255859375,
+      "y": 4619.27587890625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3776.4892578125,
+      "y": 4616.33642578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 3771.330078125,
+      "y": 4634.3203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 3744.9765625,
+      "y": 4678.94873046875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 3721.7919921875,
+      "y": 4697.037109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 3714.9970703125,
+      "y": 4715.94580078125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 3714.9970703125,
+      "y": 4715.94580078125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 3771.361328125,
+      "y": 4742.359375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 3818.673828125,
+      "y": 4760.4892578125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 3818.68359375,
+      "y": 4760.48828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
