@@ -36,7 +36,10 @@ let holdingState = settings.holdingState != undefined ? settings.holdingState : 
         keyPress("ESCAPE"); await sleep(2000);
     }
 
-    await Purchase('蒙德购买狗粮');
+     
+
+
+  await Purchase('蒙德购买狗粮');
     await Shopping();
 
 //调整时间
@@ -57,7 +60,11 @@ let holdingState = settings.holdingState != undefined ? settings.holdingState : 
     await Shopping();
 
     await Purchase('璃月购买狗粮2');
-    await sleep(1500);
+    await sleep(1000);
+    keyDown("w");
+    await sleep(600);
+    keyUp("w");
+    await sleep(1000);
     keyPress("F"); await sleep(1200);
     keyPress("F"); await sleep(1800);
   if (holdingState == 'YES') keyPress("s");
@@ -85,10 +92,38 @@ let holdingState = settings.holdingState != undefined ? settings.holdingState : 
     await Purchase('稻妻购买狗粮');
     await sleep(1000);
     keyPress("F"); await sleep(1500);
-    await Shopping();
+         await sleep(1500);
+        keyPress("F"); await sleep(1200);//对话
+        keyPress("F"); await sleep(1800);//对话
+        keyPress("F"); await sleep(1200);//对话
+        keyPress("F"); await sleep(1800);//对话
+        click(200, 400); await sleep(500); // 选择狗粮
+        click(1690, 1020); await sleep(500); // 购买
+        click(1170, 780); await sleep(400); // 确定
+        click(1690, 1020); await sleep(200); // 点击空白处
+        click(1690, 1020); await sleep(400); // 购买
+        click(1170, 780); await sleep(400); // 确定
+        click(1690, 1020); await sleep(200); // 点击空白处
+        click(1690, 1020); await sleep(400); // 购买
+        click(1170, 780); await sleep(400); // 确定
+        click(1690, 1020); await sleep(200); // 点击空白处
+        click(1690, 1020); await sleep(400); // 购买
+        click(1170, 780); await sleep(400); // 确定
+        click(1690, 1020); await sleep(200); // 点击空白处
+        click(1690, 1020); await sleep(400); // 购买
+        click(1170, 780); await sleep(400); // 确定
+        click(1690, 1020); await sleep(200); // 点击空白处
+        keyPress("ESCAPE"); await sleep(2000);
 
     await Purchase('须弥购买狗粮');
     await Shopping();
+
+
+
+
+
+
+
 
     await Purchase('枫丹购买狗粮');
     await sleep(1000);
@@ -99,15 +134,12 @@ let holdingState = settings.holdingState != undefined ? settings.holdingState : 
     await sleep(300);
     keyUp("a");
     keyDown("w");
-    await sleep(6100);
+    await sleep(6000);
     keyUp("w");
-    keyDown("d");
-    await sleep(300);
-    keyUp("d");
     keyDown("s");
     await sleep(2000);
     keyPress("SPACE");
-    await sleep(800);
+    await sleep(600);
     keyUp("s");
     await Shopping();
 
