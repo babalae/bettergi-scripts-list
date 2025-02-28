@@ -3,8 +3,8 @@
     "name": "沙脂蛹-5三运河之地",
     "type": "collect",
     "author": "无狐",
-    "version": "1.0",
-    "description": "",
+    "version": "1.1",
+    "description": "修正了路径；邪恶的沙虫不要再撅我了",
     "bgiVersion": "0.35.1"
   },
   "positions": [
@@ -28,26 +28,26 @@
     },
     {
       "id": 3,
-      "x": 5179.09912109375,
-      "y": -544.39892578125,
-      "action": "stop_flying",
+      "x": 5195.10107421875,
+      "y": -561.3701171875,
+      "type": "path",
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 4,
-      "x": 5179.09912109375,
-      "y": -544.39892578125,
+      "x": 5180.48486328125,
+      "y": -560.98974609375,
+      "type": "path",
+      "move_mode": "climb",
       "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 5,
-      "x": 5187.67236328125,
-      "y": -561.19873046875,
+      "x": 5171.39111328125,
+      "y": -595.75830078125,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -55,28 +55,19 @@
     },
     {
       "id": 6,
-      "x": 5173.953125,
-      "y": -592.6650390625,
+      "x": 5176.7080078125,
+      "y": -599.4658203125,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action": "",
       "action_params": ""
     },
     {
       "id": 7,
-      "x": 5173.2001953125,
-      "y": -604.93310546875,
+      "x": 5170.1376953125,
+      "y": -605.52099609375,
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 8,
-      "x": 5171.04443359375,
-      "y": -596.2802734375,
-      "type": "path",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action": "",
       "action_params": ""
     }

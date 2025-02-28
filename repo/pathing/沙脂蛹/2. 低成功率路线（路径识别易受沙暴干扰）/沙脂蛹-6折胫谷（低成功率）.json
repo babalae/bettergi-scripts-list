@@ -3,8 +3,8 @@
     "name": "沙脂蛹-6折胫谷",
     "type": "collect",
     "author": "无狐",
-    "version": "1.0",
-    "description": "",
+    "version": "1.1",
+    "description": "修正了路径；小饶了一圈，避免进入战斗被蕈兽肘飞",
     "bgiVersion": "0.35.1"
   },
   "positions": [
@@ -12,42 +12,42 @@
       "id": 1,
       "x": 5690.23583984375,
       "y": -706.8984375,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
-      "x": 5665.58935546875,
-      "y": -728.56640625,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 5668.58935546875,
+      "y": -731.56640625,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
-      "x": 5664.3623046875,
-      "y": -729.5703125,
-      "type": "path",
-      "move_mode": "climb",
+      "x": 5666.3623046875,
+      "y": -733.5703125,
       "action": "",
-      "action_params": ""
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 4,
-      "x": 5634.55224609375,
-      "y": -755.203125,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 5635.55224609375,
+      "y": -747.203125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 5,
-      "x": 5597.1162109375,
-      "y": -734.31005859375,
+      "x": 5598.01611328125,
+      "y": -742.90771484375,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -55,17 +55,17 @@
     },
     {
       "id": 6,
-      "x": 5590.38232421875,
-      "y": -722.3349609375,
+      "x": 5594.85302734375,
+      "y": -725.37451171875,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action": "",
       "action_params": ""
     },
     {
       "id": 7,
-      "x": 5597.87255859375,
-      "y": -692.47802734375,
+      "x": 5594.562011718749,
+      "y": -691.2783203125,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -73,19 +73,10 @@
     },
     {
       "id": 8,
-      "x": 5598.03125,
-      "y": -700.54736328125,
+      "x": 5608.04541015625,
+      "y": -701.35107421875,
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 9,
-      "x": 5605.59423828125,
-      "y": -699.90087890625,
-      "type": "path",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action": "",
       "action_params": ""
     }

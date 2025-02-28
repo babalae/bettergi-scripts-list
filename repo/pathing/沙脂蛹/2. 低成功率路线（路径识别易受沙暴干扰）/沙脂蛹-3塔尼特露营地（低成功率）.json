@@ -3,8 +3,8 @@
     "name": "沙脂蛹-3塔尼特露营地",
     "type": "collect",
     "author": "无狐",
-    "version": "1.0",
-    "description": "部分地方攀爬（等价于“慢走”）替代行走",
+    "version": "1.1",
+    "description": "之前有些路径不太准确，修正了路径",
     "bgiVersion": "0.35.1"
   },
   "positions": [
@@ -51,8 +51,7 @@
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 6,
@@ -79,8 +78,7 @@
       "action": "",
       "move_mode": "climb",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 9,
@@ -102,21 +100,21 @@
     },
     {
       "id": 11,
-      "x": 4996.10986328125,
-      "y": -1308.62353515625,
-      "action": "",
+      "x": 5002.14404296875,
+      "y": -1314.744140625,
+      "type": "path",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 12,
-      "x": 4991.5400390625,
-      "y": -1309.203125,
-      "action": "",
+      "x": 4986.59130859375,
+      "y": -1306.18994140625,
+      "type": "path",
       "move_mode": "climb",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     }
   ]
 }

@@ -3,8 +3,8 @@
     "name": "沙脂蛹-2巨人峡谷",
     "type": "collect",
     "author": "无狐",
-    "version": "1.0",
-    "description": "部分地方攀爬（等价于“慢走”）替代行走",
+    "version": "1.1",
+    "description": "之前有些路径不太准确，修正了路径",
     "bgiVersion": "0.35.1"
   },
   "positions": [
@@ -46,39 +46,39 @@
     },
     {
       "id": 5,
-      "x": 5440.49169921875,
-      "y": -1216.50341796875,
-      "action": "",
+      "x": 5440.98388671875,
+      "y": -1219.04833984375,
+      "type": "path",
       "move_mode": "climb",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 6,
-      "x": 5444.6748046875,
-      "y": -1208.8320312500002,
-      "action": "",
+      "x": 5440.759765625,
+      "y": -1207.580078125,
+      "type": "path",
       "move_mode": "climb",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 7,
-      "x": 5424.56591796875,
-      "y": -1179.67431640625,
-      "action": "",
+      "x": 5429.974609375,
+      "y": -1174.21044921875,
+      "type": "path",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 8,
-      "x": 5433.04638671875,
-      "y": -1159.78857421875,
+      "x": 5434.06201171875,
+      "y": -1163.16455078125,
+      "type": "path",
+      "move_mode": "climb",
       "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 9,
@@ -91,12 +91,12 @@
     },
     {
       "id": 10,
-      "x": 5460.35205078125,
-      "y": -1174.0673828125,
+      "x": 5462.33447265625,
+      "y": -1170.55078125,
+      "type": "path",
+      "move_mode": "climb",
       "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     }
   ]
 }
