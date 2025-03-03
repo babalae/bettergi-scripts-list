@@ -1,4 +1,4 @@
-(async function () { // 更改了连音
+(async function () { // 优化了单曲循环逻辑、优化乐谱读取逻辑、修复了连音中的休止符的时长计算错误、修复了队列留空导致的错误
 
     // 乐曲名（带序号）
     const music_list = ["1.小星星", "2.小星星变奏曲", "3.Unknown Mother Goose [アンノウン・マザーグース]"]
@@ -112,7 +112,7 @@
             // 读取队列间隔时间
             let music_interval = typeof(settings.music_interval) === 'undefined' ? 0 : parseInt(settings.music_interval, 10);
 
-            if (music_queue === 0) { // 单曲执行
+            if (music_queue === 0 || music_queue === "") { // 单曲执行
                 if (music_single !== 0) {
                     return {
                         "type": "single",
@@ -343,7 +343,9 @@
                 } else {
                     await play_note(sheet_list[i]["note"]); // 单音
                 }
-                await sleep(ornament_time);
+                if (i !== sheet_list.length - 1) {
+                    await sleep(ornament_time);
+                }
             } else if (/\.3|\.6|\.\$/.test(sheet_list[i]["spl"])) { // 三连音/六连音（可能包含休止符）
                 temp_legato.push({
                     "note": sheet_list[i]["note"],
@@ -369,7 +371,7 @@
                             await play_chord(sheet_list[i]["note"]); // 和弦
                         } else {
                             if (sheet_list[i]["note"] === '@') { // 休止符
-                                await sleep(time_current);
+                                // pass
                             } else {
                                 await play_note(sheet_list[i]["note"]); // 单音
                             }
@@ -380,7 +382,7 @@
                             await sleep(cal_time_ornament(sheet_list, symbol_time, symbol, sheet_list[i]["type"], i, time_current));
                             // 重置连音缓存区
                             temp_legato = [];
-                        } else {
+                        } else if (i !== sheet_list.length - 1) {
                             await sleep(time_current);
                         }
                         count += 1;
@@ -396,6 +398,7 @@
                         await play_note(sheet_list[i]["note"]); // 单音
                     }
                 }
+                // 排除尾音
                 if (i !== sheet_list.length - 1) {
                     await sleep(cal_time_ornament(sheet_list, symbol_time * 1.5, symbol, sheet_list[i]["type"], i));
                 }
@@ -407,60 +410,52 @@
     }
 
     async function main() {
-        const settings_dic = get_settings();
+        const settings_msg = get_settings();
 
-        if (settings_dic["type"] === "single") { // 单曲
-            if (settings_dic["repeat"] === 1) {
-                log.info(`1`);
-                let music_msg = await get_music_msg(settings_dic["music"]);
-                const music_sheet = parseMusicSheet(music_msg["notes"]);
+        if (settings_msg["type"] === "single") { // 单曲
+            // 读取乐谱
+            const music_msg = await get_music_msg(settings_msg["music"]);
+            const music_sheet = parseMusicSheet(music_msg["notes"]);
+
+            for (let i = 0; i < settings_msg["repeat"]; i++) {
                 await play_sheet(music_sheet, music_msg["bpm"], music_msg["time_signature"]);
-            } else {
-                for (let i = 0; i < settings_dic["repeat"]; i++) {
-                    log.info(`2`);
-                    await sleep(settings_dic["repeat_interval"] * 1000); // 循环间隔
 
-                    const music_msg = await get_music_msg(settings_dic["music"]);
-                    const music_sheet = parseMusicSheet(music_msg["notes"]);
-                    await play_sheet(music_sheet, music_msg["bpm"], music_msg["time_signature"]);
+                // 单曲循环间隔
+                if (settings_msg["repeat"] !== 1 && i !== settings_msg["repeat"] - 1) {
+                    await sleep(settings_msg["repeat_interval"] * 1000);
                 }
             }
         } else { // 队列
-            let repeat_queue = 1;
-            if (settings_dic["repeat_mode"] === "队列循环") { // 队列循环
-                log.info(`3`);
-                repeat_queue = settings_dic["repeat"];
+            // 存储读取的乐谱
+            let music_msg_list = [];
+            // 读取乐谱
+            for (const music_name of settings_msg["music"]) {
+                const music_msg = await get_music_msg(settings_msg["music"]);
+                const music_sheet = parseMusicSheet(music_msg["notes"]);
+
+                music_msg_list.push([music_name, music_msg, music_sheet]);
             }
+            let repeat_queue = settings_msg["repeat_mode"] === "队列循环" ? settings_msg["repeat"] : 1;
 
             for (let r = 0; r < repeat_queue; r++) {
-                for (const music_name of settings_dic["music"]) {
-                    // 读取乐谱
-                    const music_msg = await get_music_msg(music_name);
-                    // 解析乐谱
-                    const music_sheet = parseMusicSheet(music_msg["notes"]);
+                for (const music_msg of Object.entries(music_msg_list)) {
+                    let repeat_single = settings_msg["repeat_mode"] !== "队列循环" ? repeat_single = settings_msg["repeat"] : 1;
 
-                    if (settings_dic["repeat"] === 1) {
-                        await play_sheet(music_sheet, music_msg["bpm"], music_msg["time_signature"]);
-                    } else {
-                        let repeat_single = 1;
-                        if (settings_dic["repeat_mode"] !== "队列循环") { // 单曲循环
-                            log.info(`4`);
-                            repeat_single = settings_dic["repeat"];
-                        }
-
-                        for (let i = 0; i < repeat_single; i++) {
-                            await play_sheet(music_sheet, music_msg["bpm"], music_msg["time_signature"]);
-                            log.info(`曲目: ${music_name} 演奏完成`);
-                            if (repeat_single !== 1) {
-                                await sleep(settings_dic["repeat_interval"] * 1000); // 单曲循环间隔
-                            }
+                    for (let i = 0; i < repeat_single; i++) {
+                        await play_sheet(music_msg[2], music_msg[1]["bpm"], music_msg[1]["time_signature"]);
+                        log.info(`曲目: ${music_msg[0]} 演奏完成`);
+                        if (repeat_single !== 1) {
+                            await sleep(settings_msg["repeat_interval"] * 1000); // 单曲循环间隔
                         }
                     }
                     // 队列内间隔
-                    await sleep(settings_dic["interval"] * 1000);
+                    if (music_msg_list.indexOf(music_msg) !== music_msg_list.length - 1) {
+                        await sleep(settings_msg["interval"] * 1000);
+                    }
                 }
-                if (repeat_queue !== 1) {
-                    await sleep(settings_dic["repeat_interval"] * 1000); // 队列循环间隔
+                // 队列循环间隔
+                if (repeat_queue !== 1 && r !== repeat_queue - 1) {
+                    await sleep(settings_msg["repeat_interval"] * 1000);
                 }
             }
         }
