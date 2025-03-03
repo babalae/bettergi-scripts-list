@@ -1,0 +1,48 @@
+{
+    "info": {
+        "name": "枫丹-垂钓点-枫丹听取茉洁站西南-海涛斧枪鱼_烘烘心羽鲈_维护机关·初始能力型_维护机关·态势控制者-甘露饵_酸桔饵_维护机关频闪诱饵-普通.json",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "出没鱼类: 海涛斧枪鱼、烘烘心羽鲈、维护机关·初始能力型、维护机关·态势控制者\n所需鱼饵: 甘露饵、酸桔饵、维护机关频闪诱饵\n鱼类详情: \n海涛斧枪鱼(甘露饵)[全天]\n烘烘心羽鲈(酸桔饵)[白天]\n维护机关·初始能力型(维护机关频闪诱饵)[全天]\n维护机关·态势控制者(维护机关频闪诱饵)[夜晚]\n\n特殊属性(供JS脚本识别): 普通",
+        "bgiVersion": "0.42.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 3774.01,
+            "y": 3783.97,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 3789.33,
+            "y": 3763.73,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f),wait(10)"
+        },
+        {
+            "id": 3,
+            "x": 3898.53,
+            "y": 3533.49,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "stop_flying",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 3913.76,
+            "y": 3539.38,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)"
+        }
+    ]
+}
