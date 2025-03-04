@@ -22,7 +22,7 @@ jobs:
         node-version: [18.x]
     steps:
     - name: Configure Git for long paths
-      run: git config --system core.longpaths true
+      run: sudo git config --system core.longpaths true
     - uses: actions/checkout@v4
       with:
         ref: ${{ github.head_ref }}
