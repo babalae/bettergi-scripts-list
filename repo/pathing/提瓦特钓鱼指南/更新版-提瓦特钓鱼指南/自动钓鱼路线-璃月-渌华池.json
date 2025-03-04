@@ -2,7 +2,7 @@
   "info": {
     "name": "自动钓鱼路线-璃月-渌华池",
     "type": "collect",
-    "author": "鸿羽er",
+    "author": "鸿羽er&起个名字好难的喵",
     "version": "1.0",
     "description": "",
     "bgiVersion": "0.35.1"
@@ -28,12 +28,30 @@
     },
     {
       "id": 3,
-      "x": 529.5000254826136,
-      "y": 128.49698301016542,
+      "x": 530.779296875,
+      "y": 120.9423828125,
       "action": "stop_flying",
-      "move_mode": "walk",
+      "move_mode": "fly",
       "action_params": "",
       "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 531.2666015625,
+      "y": 127.3095703125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 532.7928131092084,
+      "y": 147.2512522454437,
+      "action": "fishing",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
     }
   ]
 }

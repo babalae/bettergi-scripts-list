@@ -1,57 +1,57 @@
 {
-  "info": {
-    "name": "自动钓鱼路线-璃月-古茶树坡·北侧水域",
-    "type": "collect",
-    "author": "鸿羽er",
-    "version": "1.0",
-    "description": "",
-    "bgiVersion": "0.35.1"
-  },
-  "positions": [
-    {
-      "id": 1,
-      "x": 1690.749004054538,
-      "y": 1831.546372251154,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+    "info": {
+        "name": "自动钓鱼路线-璃月-古茶树坡·北侧水域",
+        "type": "collect",
+        "author": "鸿羽er&起个名字好难的喵",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
     },
-    {
-      "id": 2,
-      "x": 1695.9999893822442,
-      "y": 1835.8761174036426,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 1703.8741155409698,
-      "y": 1845.1652824013036,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 1713.9999745173864,
-      "y": 1866.4965360487095,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 1724.5,
-      "y": 1890,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "target"
-    }
-  ]
+    "positions": [
+        {
+            "id": 1,
+            "x": 1690.749004054538,
+            "y": 1831.546372251154,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": 1695.9999893822442,
+            "y": 1835.8761174036426,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": 1724.3916015625,
+            "y": 1874.919921875,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(VK_SPACE),wait(1.5),click"
+        },
+        {
+            "id": 4,
+            "x": 1724.677734375,
+            "y": 1890.4033203125,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 1725.047270775724,
+            "y": 1910.399906092291,
+            "type": "orientation",
+            "move_mode": "walk",
+            "action": "fishing",
+            "action_params": ""
+        }
+    ]
 }
