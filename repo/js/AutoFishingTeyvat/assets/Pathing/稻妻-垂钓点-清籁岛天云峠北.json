@@ -1,0 +1,48 @@
+{
+    "info": {
+        "name": "稻妻-垂钓点-清籁岛天云峠北-花鳉_擒霞客_水晶宴_流纹京紫蝶鱼_炮鲀-果酿饵_蠕虫假饵_飞蝇假饵-普通.json",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "出没鱼类: 花鳉、擒霞客、水晶宴、流纹京紫蝶鱼、炮鲀\n所需鱼饵: 果酿饵、蠕虫假饵、飞蝇假饵\n鱼类详情: \n花鳉(果酿饵)[全天]\n擒霞客(果酿饵)[夜晚]\n水晶宴(果酿饵)[白天]\n流纹京紫蝶鱼(蠕虫假饵)[白天]\n炮鲀(飞蝇假饵)[全天]\n\n特殊属性(供JS脚本识别): 普通",
+        "bgiVersion": "0.42.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -4186.05,
+            "y": -4384.52,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": -4177.89,
+            "y": -4397.05,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": -4161.24,
+            "y": -4431.81,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(space),wait(1.5),attack(0.1)"
+        },
+        {
+            "id": 4,
+            "x": -4154.07,
+            "y": -4445.2,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)"
+        }
+    ]
+}
