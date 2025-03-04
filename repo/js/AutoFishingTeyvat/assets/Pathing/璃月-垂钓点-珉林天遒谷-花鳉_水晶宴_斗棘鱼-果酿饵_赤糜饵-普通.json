@@ -1,0 +1,75 @@
+{
+    "info": {
+        "name": "璃月-垂钓点-珉林天遒谷-花鳉_水晶宴_斗棘鱼-果酿饵_赤糜饵-普通.json",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "出没鱼类: 花鳉、水晶宴、斗棘鱼\n所需鱼饵: 果酿饵、赤糜饵\n鱼类详情: \n花鳉(果酿饵)[全天]\n水晶宴(果酿饵)[白天]\n斗棘鱼(赤糜饵)[夜晚]\n\n特殊属性(供JS脚本识别): 普通",
+        "bgiVersion": "0.42.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": 1152.65,
+            "y": 141.64,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 1240.85,
+            "y": 144.33,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 1256.84,
+            "y": 147.91,
+            "type": "path",
+            "move_mode": "dash",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 1305.18,
+            "y": 146.47,
+            "type": "path",
+            "move_mode": "dash",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 1321.18,
+            "y": 154.93,
+            "type": "path",
+            "move_mode": "dash",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": 1332.97,
+            "y": 156.51,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 7,
+            "x": 1333.66,
+            "y": 153.75,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)"
+        }
+    ]
+}

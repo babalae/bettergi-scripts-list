@@ -1,0 +1,39 @@
+{
+    "info": {
+        "name": "须弥-垂钓点-阿陀河谷降诸魔山-擒霞客_真果角鲀_暮云角鲀_翡玉斧枪鱼-果酿饵_甘露饵-普通.json",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "出没鱼类: 擒霞客、真果角鲀、暮云角鲀、翡玉斧枪鱼\n所需鱼饵: 果酿饵、甘露饵\n鱼类详情: \n擒霞客(果酿饵)[夜晚]\n真果角鲀(甘露饵)[白天]\n暮云角鲀(甘露饵)[夜晚]\n翡玉斧枪鱼(甘露饵)[全天]\n\n特殊属性(供JS脚本识别): 普通",
+        "bgiVersion": "0.42.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 2288.82,
+            "y": -1197.56,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 2315.55,
+            "y": -1281.99,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(space),wait(2),attack(0.1)"
+        },
+        {
+            "id": 3,
+            "x": 2319.11,
+            "y": -1286.9,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)"
+        }
+    ]
+}

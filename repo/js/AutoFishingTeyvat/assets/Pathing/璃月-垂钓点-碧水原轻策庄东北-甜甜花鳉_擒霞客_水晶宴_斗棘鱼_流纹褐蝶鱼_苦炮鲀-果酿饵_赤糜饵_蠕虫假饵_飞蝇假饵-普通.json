@@ -1,0 +1,57 @@
+{
+    "info": {
+        "name": "璃月-垂钓点-碧水原轻策庄东北-甜甜花鳉_擒霞客_水晶宴_斗棘鱼_流纹褐蝶鱼_苦炮鲀-果酿饵_赤糜饵_蠕虫假饵_飞蝇假饵-普通.json",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "出没鱼类: 甜甜花鳉、擒霞客、水晶宴、斗棘鱼、流纹褐蝶鱼、苦炮鲀\n所需鱼饵: 果酿饵、赤糜饵、蠕虫假饵、飞蝇假饵\n鱼类详情: \n甜甜花鳉(果酿饵)[全天]\n擒霞客(果酿饵)[夜晚]\n水晶宴(果酿饵)[白天]\n斗棘鱼(赤糜饵)[夜晚]\n流纹褐蝶鱼(蠕虫假饵)[白天]\n苦炮鲀(飞蝇假饵)[全天]\n\n特殊属性(供JS脚本识别): 普通",
+        "bgiVersion": "0.42.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 548.38,
+            "y": 1767.06,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 543.8,
+            "y": 1763.76,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 497.21,
+            "y": 1778.69,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 492.01,
+            "y": 1783.56,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 456.39,
+            "y": 1814.77,
+            "type": "target",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "wait(4.5),keypress(f)"
+        }
+    ]
+}

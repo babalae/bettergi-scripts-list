@@ -1,0 +1,48 @@
+{
+    "info": {
+        "name": "须弥-垂钓点-阿陀河谷奥摩斯港北-水晶宴_真果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-果酿饵_甘露饵-普通.json",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "出没鱼类: 水晶宴、真果角鲀、吹沙角鲀、暮云角鲀、青金斧枪鱼、翡玉斧枪鱼\n所需鱼饵: 果酿饵、甘露饵\n鱼类详情: \n水晶宴(果酿饵)[白天]\n真果角鲀(甘露饵)[白天]\n吹沙角鲀(甘露饵)[白天]\n暮云角鲀(甘露饵)[夜晚]\n青金斧枪鱼(甘露饵)[全天]\n翡玉斧枪鱼(甘露饵)[全天]\n\n特殊属性(供JS脚本识别): 普通",
+        "bgiVersion": "0.42.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 2567.48,
+            "y": -1424.06,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 2540.23,
+            "y": -1664.57,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 2533.5,
+            "y": -1675.29,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 2545.12,
+            "y": -1686.21,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)"
+        }
+    ]
+}

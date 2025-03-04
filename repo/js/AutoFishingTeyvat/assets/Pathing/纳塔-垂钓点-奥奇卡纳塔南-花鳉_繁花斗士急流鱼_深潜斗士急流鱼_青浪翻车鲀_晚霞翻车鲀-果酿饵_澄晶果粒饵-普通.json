@@ -1,0 +1,48 @@
+{
+    "info": {
+        "name": "纳塔-垂钓点-奥奇卡纳塔南-花鳉_繁花斗士急流鱼_深潜斗士急流鱼_青浪翻车鲀_晚霞翻车鲀-果酿饵_澄晶果粒饵-普通.json",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "出没鱼类: 花鳉、繁花斗士急流鱼、深潜斗士急流鱼、青浪翻车鲀、晚霞翻车鲀\n所需鱼饵: 果酿饵、澄晶果粒饵\n鱼类详情: \n花鳉(果酿饵)[全天]\n繁花斗士急流鱼(澄晶果粒饵)[夜晚]\n深潜斗士急流鱼(澄晶果粒饵)[白天]\n青浪翻车鲀(澄晶果粒饵)[白天]\n晚霞翻车鲀(澄晶果粒饵)[夜晚]\n\n特殊属性(供JS脚本识别): 普通",
+        "bgiVersion": "0.42.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": 9715.53,
+            "y": -847.85,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": 9720.81,
+            "y": -862.49,
+            "action": "",
+            "move_mode": "run",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": 9722.94,
+            "y": -881.93,
+            "action": "combat_script",
+            "move_mode": "fly",
+            "action_params": "keypress(space),wait(1.5),attack(0.1)",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": 9722.97,
+            "y": -888.04,
+            "action": "combat_script",
+            "move_mode": "walk",
+            "action_params": "wait(0.5),keypress(f)",
+            "type": "path"
+        }
+    ]
+}

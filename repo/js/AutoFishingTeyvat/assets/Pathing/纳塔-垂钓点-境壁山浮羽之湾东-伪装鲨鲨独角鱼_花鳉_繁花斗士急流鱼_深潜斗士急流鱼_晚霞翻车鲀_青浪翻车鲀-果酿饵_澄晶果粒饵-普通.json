@@ -1,0 +1,66 @@
+{
+    "info": {
+        "name": "纳塔-垂钓点-境壁山浮羽之湾东-伪装鲨鲨独角鱼_花鳉_繁花斗士急流鱼_深潜斗士急流鱼_晚霞翻车鲀_青浪翻车鲀-果酿饵_澄晶果粒饵-普通.json",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "出没鱼类: 伪装鲨鲨独角鱼、花鳉、繁花斗士急流鱼、深潜斗士急流鱼、晚霞翻车鲀、青浪翻车鲀\n所需鱼饵: 果酿饵、澄晶果粒饵\n鱼类详情: \n伪装鲨鲨独角鱼(澄晶果粒饵)[全天]\n花鳉(果酿饵)[全天]\n繁花斗士急流鱼(澄晶果粒饵)[夜晚]\n深潜斗士急流鱼(澄晶果粒饵)[白天]\n晚霞翻车鲀(澄晶果粒饵)[夜晚]\n青浪翻车鲀(澄晶果粒饵)[白天]\n\n特殊属性(供JS脚本识别): 普通",
+        "bgiVersion": "0.42.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 9970.75,
+            "y": -1605.49,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 10000.27,
+            "y": -1601.03,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 10117.55,
+            "y": -1573.44,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 10132.27,
+            "y": -1589.87,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 10163.63,
+            "y": -1606.48,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": 10170.31,
+            "y": -1621.04,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)"
+        }
+    ]
+}
