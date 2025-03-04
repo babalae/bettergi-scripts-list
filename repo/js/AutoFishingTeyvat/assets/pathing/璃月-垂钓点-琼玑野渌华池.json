@@ -1,0 +1,39 @@
+{
+    "info": {
+        "name": "璃月-垂钓点-琼玑野渌华池",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.1",
+        "description": "地区: 璃月\n类型: 垂钓点\n详细位置: 琼玑野渌华池\n鱼类: 甜甜花鳉、斗棘鱼、赤魔王、金赤假龙、錆假龙、流纹褐蝶鱼\n饵类: 果酿饵、赤糜饵、蠕虫假饵、飞蝇假饵\n附加信息: 普通",
+        "bgiVersion": "0.42.4"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "combat_script",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 526.14,
+            "y": 105.78,
+            "action_params": "wait(0.5),keypress(space),wait(0.5)"
+        },
+        {
+            "id": 2,
+            "x": 529.17,
+            "y": 120.12,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "stop_flying",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 530.63,
+            "y": 129.27,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)"
+        }
+    ]
+}
