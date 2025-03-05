@@ -3,7 +3,7 @@
         "name": "枫丹-垂钓点-翡黎区芒索斯山东麓东",
         "type": "collect",
         "author": "提瓦特钓鱼玳师",
-        "version": "1.1",
+        "version": "1.2",
         "description": "地区: 枫丹\n类型: 垂钓点\n详细位置: 翡黎区芒索斯山东麓东\n鱼类: 海涛斧枪鱼、烘烘心羽鲈、维护机关·初始能力型、维护机关·态势控制者\n饵类: 甘露饵、酸桔饵、维护机关频闪诱饵\n附加信息: 普通",
         "bgiVersion": "0.42.4"
     },
@@ -60,7 +60,7 @@
             "type": "target",
             "move_mode": "walk",
             "action": "combat_script",
-            "action_params": "wait(0.5),keypress(f)"
+            "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
         }
     ]
 }

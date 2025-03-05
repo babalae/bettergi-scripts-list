@@ -3,7 +3,7 @@
         "name": "蒙德-垂钓点-风啸山坡风起地南",
         "type": "collect",
         "author": "提瓦特钓鱼玳师",
-        "version": "1.1",
+        "version": "1.2",
         "description": "地区: 蒙德\n类型: 垂钓点\n详细位置: 风啸山坡风起地南\n鱼类: 花鳉 蓝染花鳉 鸩棘鱼 流纹茶蝶鱼\n饵类: 果酿饵、赤糜饵、蠕虫假饵\n附加信息: 普通",
         "bgiVersion": "0.42.4"
     },
@@ -69,7 +69,7 @@
             "type": "target",
             "move_mode": "walk",
             "action": "combat_script",
-            "action_params": "wait(0.5),keypress(f)"
+            "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
         }
     ]
 }
