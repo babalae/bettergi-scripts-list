@@ -99,11 +99,11 @@ async function QucikBuy(count = 1) {
 
         // 点击弹出页的购买/兑换 1560, 1040
         click(1560, 1040);
-        await sleep(200);
+        await sleep(500);
 
         // 点击空白处关闭
-        leftButtonClick();
-        await sleep(1000);
+        click(936, 230);
+        await sleep(2000);
 
     }
 }

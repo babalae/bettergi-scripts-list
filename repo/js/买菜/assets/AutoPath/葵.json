@@ -3,28 +3,28 @@
     "name": "葵",
     "type": "collect",
     "author": "听雨♪",
-    "version": "1.0",
+    "version": "1.1",
     "description": "",
     "bgiVersion": "0.35.1"
   },
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport",
       "x": -4402.5390625,
       "y": -3053.0341796875,
-      "action_params": ""
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
-      "x": -4402.562737285378,
-      "y": -3070.4375,
-      "type": "path",
-      "move_mode": "walk",
+      "x": -4402.687357628773,
+      "y": -3072.3125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     }
   ]
 }
