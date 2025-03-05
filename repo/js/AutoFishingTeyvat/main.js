@@ -35,12 +35,12 @@
         '璃月-垂钓点-沉玉谷·上谷古树茶坡-花鳉_斗棘鱼_流纹褐蝶鱼_锖假龙_金赤假龙_玉玉心羽鲈-果酿饵_赤糜饵_蠕虫假饵_飞蝇假饵_酸桔饵-普通',
         '璃月-垂钓点-沉玉谷·上谷古树茶坡东-花鳉_擒霞客_水晶宴_斗棘鱼_锖假龙_玉玉心羽鲈-果酿饵_赤糜饵_飞蝇假饵_酸桔饵-普通',
         '璃月-垂钓点-沉玉谷·南陵悬练山西南-甜甜花鳉_擒霞客_赤魔王_金赤假龙_玉玉心羽鲈-果酿饵_赤糜饵_飞蝇假饵_酸桔饵-普通',
-        '璃月-垂钓点-珉林天遒谷-花鳉_水晶宴_斗棘鱼-果酿饵_赤糜饵-普通',
+        '璃月-垂钓点-珉林天遒谷-花鳉_水晶宴_斗棘鱼-果酿饵_赤糜饵-战斗',
         '璃月-垂钓点-珉林奥藏山-花鳉_甜甜花鳉_擒霞客_水晶宴_长生仙-果酿饵_蠕虫假饵-普通',
         '璃月-垂钓点-珉林琥牢山东-花鳉_甜甜花鳉_擒霞客_水晶宴_斗棘鱼_流纹褐蝶鱼-果酿饵_赤糜饵_蠕虫假饵-普通',
         '璃月-垂钓点-琼玑野归离原东北-甜甜花鳉_斗棘鱼_赤魔王_金赤假龙_錆假龙_流纹褐蝶鱼-果酿饵_赤糜饵_蠕虫假饵_飞蝇假饵-普通',
         '璃月-垂钓点-琼玑野渌华池-甜甜花鳉_斗棘鱼_赤魔王_金赤假龙_錆假龙_流纹褐蝶鱼-果酿饵_赤糜饵_蠕虫假饵_飞蝇假饵-普通',
-        '璃月-垂钓点-碧水原奥藏山东-花鳉_擒霞客_水晶宴_流纹褐蝶鱼-果酿饵_蠕虫假饵-普通',
+        '璃月-垂钓点-碧水原奥藏山东-花鳉_擒霞客_水晶宴_流纹褐蝶鱼-果酿饵_蠕虫假饵-战斗',
         '璃月-垂钓点-碧水原无妄坡南-花鳉_甜甜花鳉_擒霞客_流纹褐蝶鱼-果酿饵_蠕虫假饵-战斗',
         '璃月-垂钓点-碧水原望舒客栈西-甜甜花鳉_斗棘鱼_赤魔王_金赤假龙_锖假龙_流纹褐蝶鱼-果酿饵_赤糜饵_蠕虫假饵_飞蝇假饵-普通',
         '璃月-垂钓点-碧水原药蝶谷东-花鳉_斗棘鱼_流纹褐蝶鱼-果酿饵_赤糜饵_蠕虫假饵-普通',
@@ -75,7 +75,7 @@
         '蒙德-垂钓点-龙脊雪山寒天之钉西-花鳉_鸩棘鱼_雪中君_流纹茶蝶鱼-果酿饵_赤糜饵_蠕虫假饵-普通',
         '须弥-垂钓点-下风蚀地活力之家西南-花鳉_擒霞客_赤魔王_真果角鲀_青金斧枪鱼-果酿饵_赤糜饵_甘露饵-普通',
         '须弥-垂钓点-下风蚀地阿如村-花鳉_水晶宴_吹沙角鲀_暮云角鲀_翡玉斧枪鱼-果酿饵_甘露饵-普通',
-        '须弥-垂钓点-千壑沙地「五绿洲」的孑遗-真果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-甘露饵-普通',
+        '须弥-垂钓点-千壑沙地「五绿洲」的孑遗-真果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-甘露饵-战斗',
         '须弥-垂钓点-护世森无郁稠林-沉波蜜桃_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-甘露饵-普通',
         '须弥-垂钓点-桓那兰那觉王之殿北-花鳉_青果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-果酿饵_甘露饵-普通',
         '须弥-垂钓点-荒石苍漠铁穆山南-擒霞客_真果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-果酿饵_甘露饵-普通',
@@ -159,7 +159,7 @@
                 for (const [material_name, fish_msg] of Object.entries(material_msg)) {
                     // 目标材料正则表达式
                     const check_regex = new RegExp(material_name);
-                    
+
                     if (check_regex.test(path_sort_material)) {
                         log.info(`目标材料: ${material_name}\n鱼类: ${fish_msg}`);
                         for  (const path of path_pathing) {
@@ -179,20 +179,20 @@
         }
     }
 
-    async function run_file(file_name) {
+    async function run_file(file_name, addition = false) {
         const base_path_pathing = "assets/Pathing/";
         const base_path_gcm = "assets/KeyMouseScript/";
 
         await pathingScript.runFile(base_path_pathing + file_name + ".json");
 
         // 执行键鼠脚本
-        if (/GCM/g.test(file_name)) {
+        if (addition) {
             await keyMouseScript.runFile(base_path_gcm + file_name + ".json");
 
         }
         // 调用自动钓鱼
-        await dispatcher.runTask(new SoloTask("AutoFishing"));
-        // await genshin.autofishing();
+        // await dispatcher.runTask(new SoloTask("AutoFishing"));
+        await genshin.autofishing();
     }
 
     async function main() {
@@ -210,8 +210,7 @@
 
                 log.info(`当前钓鱼点: ${path_msg["area"]}-${path_msg["detail"]}(进度: ${i + 1}/${path_filter.length})`);
 
-                let f_type = path_msg["addition"] === "path" ? "path" : "gcm"; // test
-                await run_file(file_path, f_type);
+                await run_file(file_path, path_msg["addition"] === "GCM") ;
             } catch (e) {
                 log.info(`路径: ${file_path} 执行时出错，已跳过...`)
             }
