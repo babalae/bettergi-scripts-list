@@ -146,7 +146,7 @@ async function AutoBuy(npc) {
         await QucikBuy(NPC_list[npc].item_count);
 
         await sleep(1000);
-        genshin.returnMainUi();
+        await genshin.returnMainUi();
         log.info(`${npc_name} 的商品购买完毕`)
 
 
@@ -225,6 +225,5 @@ async function AutoBuy(npc) {
         log.info(" 拜拜")
         log.info(" Done.")
         log.info("└────────────────────────────┘")
-
     }
 })();
