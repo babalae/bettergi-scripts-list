@@ -1,7 +1,31 @@
 // main.js
 (async function () {
+    // ==================== 时间检查 ====================
+    function checkBeijingDay(allowedDays) {
+        // 创建北京时间对象
+        const now = new Date();
+        const beijingTime = new Date(now.getTime() + (8 * 3600 * 1000)); // UTC+8
+        
+        // 获取ISO星期（1=周一 到7=周日）
+        const beijingDay = beijingTime.getUTCDay() || 7; // 转换周日0为7
+        
+        // 检查允许日期
+        if (!allowedDays.includes(beijingDay)) {
+            log.info(`当前北京时间：${beijingTime.toISOString()}`);
+            log.error(`今日星期${beijingDay}不在允许运行列表，脚本终止`);
+            return false;
+        }
+        return true;
+    }
+
     // ==================== 初始化日志 ====================
     log.info("======== 脚本启动 ========");
+
+    // ==================== 日期检查配置 ====================
+    const ALLOWED_DAYS = [1]; // 设置允许运行的星期（1-7）
+    if (!checkBeijingDay(ALLOWED_DAYS)) {
+        return; // 直接终止脚本
+    }
 
     //设置脚本环境的游戏分辨率和DPI缩放
     setGameMetrics(1920, 1080, 1.5);
