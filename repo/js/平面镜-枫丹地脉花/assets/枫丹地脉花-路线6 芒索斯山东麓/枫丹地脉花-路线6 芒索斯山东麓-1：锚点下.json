@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "枫丹地脉花-路线6 芒索斯山东麓-1:锚点下",
+    "type": "collect",
+    "author": "平面镜",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4984.794921875,
+      "y": 4462.982421875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4970.0341796875,
+      "y": 4415.9619140625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4962.818359375,
+      "y": 4395.8056640625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(F)",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 4962.818359375,
+      "y": 4395.8056640625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(F)",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 4962.818359375,
+      "y": 4395.8056640625,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4962.818359375,
+      "y": 4395.8056640625,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4962.85,
+      "y": 4395.5,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 4962.85,
+      "y": 4395.5,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}
