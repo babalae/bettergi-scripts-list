@@ -1,0 +1,84 @@
+{
+    "info": {
+        "name": "纳塔-垂钓点-奥奇卡纳塔西",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.3",
+        "description": "地区: 纳塔\n类型: 垂钓点\n详细位置: 奥奇卡纳塔西\n鱼类: 深潜斗士急流鱼、繁花斗士急流鱼、伪装鲨鲨独角鱼\n饵类: 澄晶果粒饵\n附加信息: 普通",
+        "bgiVersion": "0.42.4"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": 10163.09,
+            "y": -398.85,
+            "type": "teleport",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 10245.02,
+            "y": -392.27,
+            "type": "path",
+            "move_mode": "dash",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 10264.41,
+            "y": -390.43,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 10276.46,
+            "y": -388.09,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 10316.22,
+            "y": -420.1,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": 10313.9,
+            "y": -443.41,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 7,
+            "x": 10314.94,
+            "y": -476.15,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 8,
+            "x": 10327.16,
+            "y": -489.68,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(2),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+        }
+    ]
+}

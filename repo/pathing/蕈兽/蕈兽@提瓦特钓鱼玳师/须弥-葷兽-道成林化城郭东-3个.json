@@ -1,0 +1,40 @@
+{
+  "info": {
+    "name": "须弥-葷兽-道成林化城郭东-3个",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2297.59765625,
+      "y": -824.56640625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 2308.5068359375,
+      "y": -849.12646484375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(2),attack(0.1)",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 2308.5068359375,
+      "y": -849.12646484375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
