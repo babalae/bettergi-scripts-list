@@ -24,7 +24,7 @@
             "action": "combat_script",
             "move_mode": "walk",
             "action_params": "keypress(space),wait(0.8),keypress(space)",
-            "type": "path"
+            "type": "target"
         },
         {
             "id": 3,
@@ -33,7 +33,7 @@
             "action": "combat_script",
             "move_mode": "fly",
             "action_params": "attack(0.1),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
-            "type": "path"
+            "type": "target"
         },
         {
             "id": 4,
@@ -60,7 +60,7 @@
             "action": "combat_script",
             "move_mode": "walk",
             "action_params": "keypress(space),wait(0.8),keypress(space)",
-            "type": "path"
+            "type": "target"
         },
         {
             "id": 7,
@@ -186,7 +186,7 @@
             "action": "combat_script",
             "move_mode": "walk",
             "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
-            "type": "path",
+            "type": "target",
             "locked": false
         },
         {
@@ -205,7 +205,7 @@
             "action": "combat_script",
             "move_mode": "walk",
             "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
-            "type": "path",
+            "type": "target",
             "locked": false
         },
         {
@@ -224,7 +224,7 @@
             "action": "combat_script",
             "move_mode": "walk",
             "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
-            "type": "path"
+            "type": "target"
         },
         {
             "id": 25,
@@ -260,7 +260,7 @@
             "action": "combat_script",
             "move_mode": "walk",
             "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
-            "type": "path"
+            "type": "target"
         },
         {
             "id": 29,

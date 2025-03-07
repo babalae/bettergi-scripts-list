@@ -42,7 +42,7 @@
             "action": "combat_script",
             "move_mode": "walk",
             "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f)",
-            "type": "path"
+            "type": "target"
         },
         {
             "id": 5,
@@ -60,7 +60,7 @@
             "action": "combat_script",
             "move_mode": "run",
             "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
-            "type": "path",
+            "type": "target",
             "locked": false
         },
         {
@@ -79,7 +79,7 @@
             "action": "combat_script",
             "move_mode": "walk",
             "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
-            "type": "path"
+            "type": "target"
         },
         {
             "id": 9,

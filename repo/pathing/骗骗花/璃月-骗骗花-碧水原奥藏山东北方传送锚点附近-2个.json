@@ -3,9 +3,9 @@
         "name": "璃月-骗骗花-碧水原奥藏山东北方传送锚点附近-2个",
         "type": "collect",
         "author": "提瓦特钓鱼玳师",
-        "version": "1.0",
+        "version": "1.1",
         "description": "骗骗花-2个\n璃月-碧水原奥藏山东北方传送锚点附近",
-        "bgiVersion": "0.39.1"
+        "bgiVersion": "0.42.0"
     },
     "positions": [
         {
@@ -21,7 +21,7 @@
             "id": 2,
             "x": 1270.08,
             "y": 1563.87,
-            "type": "path",
+            "type": "target",
             "move_mode": "walk",
             "action": "combat_script",
             "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
@@ -58,7 +58,7 @@
             "id": 6,
             "x": 1166.84,
             "y": 1439.26,
-            "type": "path",
+            "type": "target",
             "move_mode": "walk",
             "action": "combat_script",
             "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",

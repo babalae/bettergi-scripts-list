@@ -3,9 +3,9 @@
         "name": "稻妻-骗骗花-清籁岛浅濑神社东南方-4个",
         "type": "collect",
         "author": "提瓦特钓鱼玳师",
-        "version": "1.0",
+        "version": "1.1",
         "description": "骗骗花-4个\n稻妻-清籁岛浅濑神社东南方",
-        "bgiVersion": "0.39.1"
+        "bgiVersion": "0.42.0"
     },
     "positions": [
         {
@@ -40,7 +40,7 @@
             "id": 4,
             "x": -3720.66,
             "y": -4630.69,
-            "type": "path",
+            "type": "target",
             "move_mode": "walk",
             "action": "combat_script",
             "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
@@ -86,7 +86,7 @@
             "id": 9,
             "x": -3800.48,
             "y": -4536.62,
-            "type": "path",
+            "type": "target",
             "move_mode": "walk",
             "action": "combat_script",
             "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f)",

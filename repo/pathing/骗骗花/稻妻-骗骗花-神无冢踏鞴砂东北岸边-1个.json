@@ -3,9 +3,9 @@
         "name": "稻妻-骗骗花-神无冢踏鞴砂东北岸边-1个",
         "type": "collect",
         "author": "提瓦特钓鱼玳师",
-        "version": "1.0",
+        "version": "1.1",
         "description": "骗骗花-1个\n稻妻-神无冢踏鞴砂东北岸边",
-        "bgiVersion": "0.39.1"
+        "bgiVersion": "0.42.0"
     },
     "positions": [
         {
@@ -30,7 +30,7 @@
             "id": 3,
             "x": -3358.22,
             "y": -3474.6,
-            "type": "path",
+            "type": "target",
             "move_mode": "fly",
             "action": "combat_script",
             "action_params": "attack(0.1),wait(2),wait(0.1),keypress(f),wait(0.1),keypress(f)",

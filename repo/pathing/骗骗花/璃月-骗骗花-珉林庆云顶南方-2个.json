@@ -3,9 +3,9 @@
         "name": "璃月-骗骗花-珉林庆云顶南方-2个",
         "type": "collect",
         "author": "提瓦特钓鱼玳师",
-        "version": "1.0",
+        "version": "1.1",
         "description": "骗骗花-2个\n璃月-珉林庆云顶南方",
-        "bgiVersion": "0.39.1"
+        "bgiVersion": "0.42.0"
     },
     "positions": [
         {
@@ -39,7 +39,7 @@
             "id": 4,
             "x": 1418.34,
             "y": 624.24,
-            "type": "path",
+            "type": "target",
             "move_mode": "fly",
             "action": "combat_script",
             "action_params": "keypress(space),wait(2),attack(0.1),wait(2),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f)",
@@ -76,7 +76,7 @@
             "id": 8,
             "x": 1525.62,
             "y": 555.74,
-            "type": "path",
+            "type": "target",
             "move_mode": "fly",
             "action": "combat_script",
             "action_params": "attack(0.1),wait(2),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f)",

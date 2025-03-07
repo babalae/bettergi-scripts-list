@@ -3,9 +3,9 @@
         "name": "璃月-骗骗花-云来海天衡山北方洞内-2个",
         "type": "collect",
         "author": "提瓦特钓鱼玳师",
-        "version": "1.0",
+        "version": "1.1",
         "description": "骗骗花-2个\n璃月-云来海天衡山北方洞内",
-        "bgiVersion": "0.39.1"
+        "bgiVersion": "0.42.0"
     },
     "positions": [
         {
@@ -33,7 +33,7 @@
             "action": "combat_script",
             "move_mode": "fly",
             "action_params": "keypress(space),wait(3),keypress(space)",
-            "type": "path"
+            "type": "target"
         },
         {
             "id": 4,
