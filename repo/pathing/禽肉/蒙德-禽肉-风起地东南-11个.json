@@ -1,0 +1,192 @@
+{
+  "info": {
+    "name": "蒙德-禽肉-风起地东南-11个",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1427.7998046875,
+      "y": 1661.54052734375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1433.423828125,
+      "y": 1650.64892578125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1441.4716796875,
+      "y": 1646.1181640625,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1455.845703125,
+      "y": 1671.85107421875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1434.494140625,
+      "y": 1685.6611328125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1434.494140625,
+      "y": 1685.6611328125,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": -1408.705078125,
+      "y": 1741.19189453125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": -1408.705078125,
+      "y": 1741.19189453125,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": -1394.9345703125,
+      "y": 1732.388671875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -1383.53515625,
+      "y": 1726.7109375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -1371.033203125,
+      "y": 1728.06982421875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5),keypress(space),wait(0.5),keypress(space),wait(4)",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": -1339.7978515625,
+      "y": 1727.9658203125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": -1339.7978515625,
+      "y": 1727.9658203125,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 14,
+      "x": -1350.1748046875,
+      "y": 1741.8935546875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -1371.38671875,
+      "y": 1727.927734375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5),keypress(space),wait(0.5),keypress(space),wait(6)",
+      "type": "target"
+    },
+    {
+      "id": 16,
+      "x": -1359.09765625,
+      "y": 1672.12890625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 17,
+      "x": -1359.09765625,
+      "y": 1672.12890625,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 18,
+      "x": -1371.5185546875,
+      "y": 1728.3857421875,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "wait(0.5),keypress(f)",
+      "type": "target"
+    },
+    {
+      "id": 19,
+      "x": -1408.49609375,
+      "y": 1808.78466796875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 20,
+      "x": -1408.49609375,
+      "y": 1808.78466796875,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

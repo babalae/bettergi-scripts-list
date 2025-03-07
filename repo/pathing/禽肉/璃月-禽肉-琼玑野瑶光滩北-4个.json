@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "璃月-禽肉-琼玑野瑶光滩北-4个",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -255.0322265625,
+      "y": 630.05224609375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -261.8974609375,
+      "y": 628.083984375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -264.154296875,
+      "y": 619.02099609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -282.6435546875,
+      "y": 573.30126953125,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(2),attack(0.1)"
+    },
+    {
+      "id": 5,
+      "x": -282.6748046875,
+      "y": 573.28564453125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -255.3623046875,
+      "y": 500.31298828125,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -255.326171875,
+      "y": 500.3017578125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    }
+  ]
+}

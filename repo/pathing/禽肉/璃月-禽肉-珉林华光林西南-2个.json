@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "璃月-禽肉-珉林华光林西南-2个",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1604.4638671875,
+      "y": 1039.69775390625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1608.359375,
+      "y": 1038.4423828125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1803.63671875,
+      "y": 887.34033203125,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(space),wait(3),attack(0.1)",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 1803.63671875,
+      "y": 887.34033203125,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}
