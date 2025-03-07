@@ -1,7 +1,13 @@
 (async function () { // 优化了单曲循环逻辑、优化乐谱读取逻辑、修复了连音中的休止符的时长计算错误、修复了队列留空导致的错误
 
     // 乐曲名（带序号）
-    const music_list = ["1.小星星", "2.小星星变奏曲", "3.Unknown Mother Goose [アンノウン・マザーグース]"]
+    const music_list = [
+        "1.小星星",
+        "2.小星星变奏曲",
+        "3.Unknown Mother Goose [アンノウン・マザーグース]",
+        "4.铃芽之旅[Suzume]",
+        "5.Flower Dance"
+    ]
     const base_path = "assets/"
 
     /**
@@ -122,6 +128,7 @@
                     };
                 } else {
                     log.error(`错误：JS脚本配置有误（单曲未选择）`);
+                    return null;
                 }
             } else { // 队列执行
                 let local_music_dic = {}; // 存储本地乐曲对照字典
@@ -411,6 +418,9 @@
 
     async function main() {
         const settings_msg = get_settings();
+        if (settings_msg == null) {
+            return null
+        }
 
         if (settings_msg["type"] === "single") { // 单曲
             // 读取乐谱
