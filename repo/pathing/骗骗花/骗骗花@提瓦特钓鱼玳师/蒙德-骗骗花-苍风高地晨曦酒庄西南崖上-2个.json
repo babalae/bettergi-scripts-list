@@ -1,0 +1,102 @@
+{
+    "info": {
+        "name": "蒙德-骗骗花-苍风高地晨曦酒庄西南崖上-2个",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.1",
+        "description": "骗骗花-2个\n蒙德-苍风高地晨曦酒庄西南崖上",
+        "bgiVersion": "0.42.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": -321.73,
+            "y": 1470.27,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": -269.5,
+            "y": 1479.5,
+            "action": "",
+            "move_mode": "run",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": -223.25,
+            "y": 1497.0,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": -176.75,
+            "y": 1483.5,
+            "action": "",
+            "move_mode": "run",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 5,
+            "x": -115.5,
+            "y": 1505.42,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 6,
+            "x": -110.12,
+            "y": 1485.62,
+            "action": "combat_script",
+            "move_mode": "walk",
+            "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+            "type": "target"
+        },
+        {
+            "id": 7,
+            "x": -110.0,
+            "y": 1485.62,
+            "action": "fight",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 8,
+            "x": -115,
+            "y": 1537.93,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 9,
+            "x": -108.25,
+            "y": 1563.75,
+            "action": "stop_flying",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 10,
+            "x": -108.25,
+            "y": 1563.75,
+            "action": "fight",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "target"
+        }
+    ]
+}
