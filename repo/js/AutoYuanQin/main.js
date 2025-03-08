@@ -8,7 +8,7 @@
         "4.铃芽之旅[Suzume]",
         "5.Flower Dance",
         "6.起风了",
-        "7.千本樱 （Eric Chen）"
+        "7.千本樱 (Eric Chen)"
     ]
     const base_path = "assets/score_file/"
 
@@ -179,6 +179,7 @@
      */
     async function get_music_msg(music_name) {
 
+        music_name = music_name.replace(/-\[.*?]/g, "");
         let music_path = path_join(music_name);
         let file_text = ""; // 存储乐曲文件内容
 
