@@ -6,9 +6,11 @@
         "2.小星星变奏曲",
         "3.Unknown Mother Goose [アンノウン・マザーグース]",
         "4.铃芽之旅[Suzume]",
-        "5.Flower Dance"
+        "5.Flower Dance",
+        "6.起风了",
+        "7.千本樱 （Eric Chen）"
     ]
-    const base_path = "assets/"
+    const base_path = "assets/score_file/"
 
     /**
      *
