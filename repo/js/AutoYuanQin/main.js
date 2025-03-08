@@ -120,30 +120,30 @@
             // 读取队列间隔时间
             let music_interval = typeof(settings.music_interval) === 'undefined' ? 0 : parseInt(settings.music_interval, 10);
 
+            let local_music_dic = {}; // 存储本地乐曲对照字典
+            // 写入本地乐曲对照字典
+            for (const each of music_list) {
+                if (each !== "example") {
+                    // 从文件名提取编号
+                    let temp_num = each.split(".")[0];
+                    local_music_dic[temp_num] = each;
+                }
+            }
+
             if (music_queue === 0 || music_queue === "") { // 单曲执行
                 if (music_single !== 0) {
                     return {
                         "type": "single",
                         "repeat": music_repeat,
                         "repeat_interval": repeat_interval,
-                        "music": music_single,
+                        "music": local_music_dic[music_single.split(".")[0]]
                     };
                 } else {
                     log.error(`错误：JS脚本配置有误（单曲未选择）`);
                     return null;
                 }
             } else { // 队列执行
-                let local_music_dic = {}; // 存储本地乐曲对照字典
                 let temp_music_list = []; // 存储乐曲名
-
-                // 写入本地乐曲对照字典
-                for (const each of music_list) {
-                    if (each !== "example") {
-                        // 从文件名提取编号
-                        let temp_num = each.split(".")[0];
-                        local_music_dic[temp_num] = each;
-                    }
-                }
 
                 // 读取乐曲队列配置
                 for (const num of music_queue.split(" ")) {
@@ -179,7 +179,6 @@
      */
     async function get_music_msg(music_name) {
 
-        music_name = music_name.replace(/-\[.*?]/g, "");
         let music_path = path_join(music_name);
         let file_text = ""; // 存储乐曲文件内容
 
@@ -424,54 +423,58 @@
         if (settings_msg == null) {
             return null
         }
-
-        if (settings_msg["type"] === "single") { // 单曲
-            // 读取乐谱
-            const music_msg = await get_music_msg(settings_msg["music"]);
-            const music_sheet = parseMusicSheet(music_msg["notes"]);
-
-            for (let i = 0; i < settings_msg["repeat"]; i++) {
-                await play_sheet(music_sheet, music_msg["bpm"], music_msg["time_signature"]);
-
-                // 单曲循环间隔
-                if (settings_msg["repeat"] !== 1 && i !== settings_msg["repeat"] - 1) {
-                    await sleep(settings_msg["repeat_interval"] * 1000);
-                }
-            }
-        } else { // 队列
-            // 存储读取的乐谱
-            let music_msg_list = [];
-            // 读取乐谱
-            for (const music_name of settings_msg["music"]) {
+        try {
+            if (settings_msg["type"] === "single") { // 单曲
+                // 读取乐谱
                 const music_msg = await get_music_msg(settings_msg["music"]);
                 const music_sheet = parseMusicSheet(music_msg["notes"]);
 
-                music_msg_list.push([music_name, music_msg, music_sheet]);
-            }
-            let repeat_queue = settings_msg["repeat_mode"] === "队列循环" ? settings_msg["repeat"] : 1;
+                for (let i = 0; i < settings_msg["repeat"]; i++) {
+                    await play_sheet(music_sheet, music_msg["bpm"], music_msg["time_signature"]);
 
-            for (let r = 0; r < repeat_queue; r++) {
-                for (const music_msg of Object.entries(music_msg_list)) {
-                    let repeat_single = settings_msg["repeat_mode"] !== "队列循环" ? repeat_single = settings_msg["repeat"] : 1;
+                    // 单曲循环间隔
+                    if (settings_msg["repeat"] !== 1 && i !== settings_msg["repeat"] - 1) {
+                        await sleep(settings_msg["repeat_interval"] * 1000);
+                    }
+                }
+            } else { // 队列
+                // 存储读取的乐谱
+                let music_msg_list = [];
+                // 读取乐谱
+                for (let i = 0; i < settings_msg["music"].length; i++) {
+                    const music_msg = await get_music_msg(settings_msg["music"][i]);
+                    const music_sheet = parseMusicSheet(music_msg["notes"]);
 
-                    for (let i = 0; i < repeat_single; i++) {
-                        await play_sheet(music_msg[2], music_msg[1]["bpm"], music_msg[1]["time_signature"]);
-                        log.info(`曲目: ${music_msg[0]} 演奏完成`);
-                        if (repeat_single !== 1) {
-                            await sleep(settings_msg["repeat_interval"] * 1000); // 单曲循环间隔
+                    music_msg_list.push([settings_msg["music"][i], music_msg, music_sheet]);
+                }
+
+                let repeat_queue = settings_msg["repeat_mode"] === "队列循环" ? settings_msg["repeat"] : 1;
+                let repeat_single = settings_msg["repeat_mode"] !== "队列循环" ? settings_msg["repeat"] : 1;
+
+                for (let r = 0; r < repeat_queue; r++) {
+                    for (let j = 0; j < music_msg_list.length; j++) {
+                        for (let i = 0; i < repeat_single; i++) {
+                            await play_sheet(music_msg_list[j][2], music_msg_list[j][1]["bpm"], music_msg_list[j][1]["time_signature"]);
+                            log.info(`曲目: ${music_msg_list[j][0]} 演奏完成`);
+                            if (repeat_single !== 1) {
+                                await sleep(settings_msg["repeat_interval"] * 1000); // 单曲循环间隔
+                            }
+                        }
+                        // 队列内间隔
+                        if (music_msg_list.indexOf(music_msg_list[j]) !== music_msg_list.length - 1) {
+                            await sleep(settings_msg["interval"] * 1000);
                         }
                     }
-                    // 队列内间隔
-                    if (music_msg_list.indexOf(music_msg) !== music_msg_list.length - 1) {
-                        await sleep(settings_msg["interval"] * 1000);
+                    // 队列循环间隔
+                    if (repeat_queue !== 1 && r !== repeat_queue - 1) {
+                        await sleep(settings_msg["repeat_interval"] * 1000);
                     }
                 }
-                // 队列循环间隔
-                if (repeat_queue !== 1 && r !== repeat_queue - 1) {
-                    await sleep(settings_msg["repeat_interval"] * 1000);
-                }
             }
+        } catch (error) {
+            log.error(`出现错误: ${error}`);
         }
+
     }
 
     await main();
