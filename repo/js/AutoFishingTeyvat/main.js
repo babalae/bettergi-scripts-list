@@ -1,4 +1,5 @@
 (async function () {
+
     const area_list = ['蒙德', '璃月', '稻妻', '须弥', '枫丹', '纳塔', '至冬']
     const fish_list = ['花鳉', '波波心羽鲈', '烘烘心羽鲈', '维护机关·水域清理者', '维护机关·态势控制者', '维护机关·澄金领队型', '海涛斧枪鱼', '维护机关·初始能力型', '维护机关·白金典藏型', '吹沙角鲀', '甜甜花鳉', '擒霞客', '水晶宴', '斗棘鱼', '炮鲀', '流纹褐蝶鱼', '锖假龙', '金赤假龙', '玉玉心羽鲈', '赤魔王', '长生仙', '苦炮鲀', '肺棘鱼', '流纹京紫蝶鱼', '琉璃花鳉', '伪装鲨鲨独角鱼', '繁花斗士急流鱼', '深潜斗士急流鱼', '晚霞翻车鲀', '青浪翻车鲀', '拟似燃素独角鱼', '炽岩斗士急流鱼', '蓝染花鳉', '鸩棘鱼', '流纹茶蝶鱼', '雪中君', '真果角鲀', '青金斧枪鱼', '暮云角鲀', '翡玉斧枪鱼', '沉波蜜桃']
     const bait_list = ['果酿饵', '酸桔饵', '维护机关频闪诱饵', '甘露饵', '赤糜饵', '飞蝇假饵', '蠕虫假饵', '澄晶果粒饵', '温火饵']
@@ -149,8 +150,10 @@
             } else {
                 regex_bait = new RegExp(bait_list.join("|"));
             }
+            // 额外判断（空项）
+            let default_set = path_sort_area.length === 0 && path_sort_fish.length === 0 && path_sort_bait.length === 0 && path_sort_material === "无";
 
-            if (path_sort_material === "无(默认)") {
+            if (path_sort_material === "无(默认)" || default_set) {
                 for  (const path of path_pathing) {
                     if (regex_area.test(path) && regex_fish.test(path) && regex_bait.test(path)) {
                         path_list.push(path);
