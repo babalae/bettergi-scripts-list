@@ -295,17 +295,22 @@
         }
     }
 
-    async function run_file(path_msg, time_out_throw, time_out_whole, is_con) {
+    async function run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight) {
         const base_path_pathing = "assets/Pathing/";
         const base_path_gcm = "assets/KeyMouseScript/";
         const file_name = `${path_msg["area"]}-${path_msg["type"]}-${path_msg["detail"]}`;
-        // 键鼠设置读取
-        const block_gcm = typeof(settings.block_gcm) === 'undefined' ? false : settings.block_gcm;
+
         // 检测禁用键鼠设置
         if (block_gcm && !is_con && path_msg["addition"] === "GCM") {
             log.info(`跳过键鼠路线: ${file_name}`)
             return null;
         }
+        // 检测禁用战斗设置
+        if (!block_fight && !is_con && path_msg["addition"] === "战斗") {
+            log.info(`跳过战斗路线: ${file_name}`)
+            return null;
+        }
+
         // 时间调节
         let fishing_time = "全天";
         // 读取游戏模式（多人模式则禁用时间调节）[暂时不可用]
@@ -387,6 +392,11 @@
         let is_continue = true;
         // 判断是否是调式模式
         const is_con = !(typeof(settings.path_select) === 'undefined' || settings.path_select === "无(默认)");
+        // 键鼠设置读取
+        const block_gcm = typeof(settings.block_gcm) === 'undefined' ? false : settings.block_gcm;
+        // 战斗设置读取
+        const block_fight = typeof(settings.block_fight) === 'undefined' ? false : settings.block_fight;
+
         log.info(`本次总计 ${path_filter.length} 个钓鱼点`);
         if (path_continue !== "无(默认)") {
             path_continue = `${path_continue.split("-")[0]}-${path_continue.split("-")[2]}`;
@@ -402,11 +412,13 @@
                     is_continue = false;
                 }
 
+                // 从选择的点位继续
                 if (path_continue !== "无(默认)" && !is_con && is_continue && path_filter.length === path_pathing.length) {
                     log.info("跳过...");
                     continue;
                 }
-                await run_file(path_msg, time_out_throw, time_out_whole, is_con);
+
+                await run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight);
             } catch (error) {
                 const file_name = `${path_msg["area"]}-${path_msg["type"]}-${path_msg["detail"]}`;
                 log.info(`路径: ${file_name} 执行时出错，已跳过...\n错误信息: ${error}`)
