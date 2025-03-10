@@ -1,0 +1,40 @@
+{
+    "info": {
+        "name": "璃月-骗骗花-珉林琥牢山东侧-1个",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.1",
+        "description": "骗骗花-1个\n璃月-珉林琥牢山东侧",
+        "bgiVersion": "0.42.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": 1800.7,
+            "y": 707.46,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": 1809.59,
+            "y": 729.21,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f)",
+            "locked": false
+        },
+        {
+            "id": 3,
+            "x": 1809.59,
+            "y": 729.21,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "fight",
+            "action_params": ""
+        }
+    ]
+}
