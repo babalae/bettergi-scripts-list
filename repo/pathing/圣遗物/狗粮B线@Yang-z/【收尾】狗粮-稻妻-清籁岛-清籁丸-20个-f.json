@@ -235,6 +235,8 @@
             "y": -4441.794921875,
             "type": "target",
             "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1.0)",
             "#": "4"
         },
 
@@ -284,7 +286,7 @@
             "x": -3739.787109375,
             "y": -4426.6416015625,
             "type": "path",
-            "move_mode": "walk"
+            "move_mode": "jump"
         },
         {
             "x": -3742.4375,
@@ -519,6 +521,13 @@
         {
             "x": -3718.216796875,
             "y": -4433.0048828125,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "15"
+        },
+        {
+            "x": -3718.89453125,
+            "y": -4432.8076171875,
             "type": "target",
             "move_mode": "walk",
             "#": "15"
