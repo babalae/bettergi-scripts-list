@@ -1,6 +1,6 @@
 (async function () {
 
-	async function RequestToVisitSereniteaPot() {
+	async function RequestToVisitSereniteaPot(total_clicks) {
 		setGameMetrics(3840, 2160, 1.5);
 		await sleep(2000);
 		keyPress("VK_ESCAPE");
@@ -15,7 +15,6 @@
 		const avatar_increment = 250;		//两按钮相隔坐标
 		const request_increment = 249;		//两按钮相隔坐标
 		const request_fixed_value = 1118;	//第四~七位好友申请造访按钮Y坐标
-		const total_clicks = 14;
 		let request_count = 0;
 		
 		// 先申请造访首位好友的尘歌壶
@@ -87,17 +86,18 @@
 		await sleep(20000);
 	}
 
-	log.warn("注意：队伍中小于等于两人时，才会触发双倍奖励");
-	await sleep(1500);
-	log.warn("注意：队伍中小于等于两人时，才会触发双倍奖励");
-	await sleep(1500);
-	log.warn("注意：队伍中小于等于两人时，才会触发双倍奖励");
-	await sleep(1500);
-	
+	let request_times = settings.request_times * 2;
+	let total_clicks = request_times ? request_times : 14;
+
+	for (let n = 0 ; n < 6 ; n++)
+		log.warn("注意：队伍中小于等于两人时，才会触发双倍奖励");
+		await sleep(2000);
+
 	if (!!settings.partyName) {
 		try {
 			log.info("正在传送回七天神像切换队伍");
 			await genshin.tp(2297.60, -824.45);
+			await sleep(3000);
 			log.info("正在尝试切换至" + settings.partyName);
 			await genshin.switchParty(settings.partyName);
 		} catch {
@@ -107,7 +107,7 @@
 	} else {
 		await genshin.returnMainUi();
 	}
-	await RequestToVisitSereniteaPot();
+	await RequestToVisitSereniteaPot(total_clicks);
 	await claimEncounterPointsRewards();
 	await sleep(1500);
 	await genshin.returnMainUi();
