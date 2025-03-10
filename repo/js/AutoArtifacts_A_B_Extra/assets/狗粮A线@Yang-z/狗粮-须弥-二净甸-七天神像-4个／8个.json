@@ -8,14 +8,12 @@
         {
             "x": 3252.849609375,
             "y": -591.28125,
-            "type": "teleport",
-            "move_mode": "walk"
+            "type": "teleport"
         },
         {
             "x": 3243.53515625,
             "y": -596.373046875,
-            "type": "orientation",
-            "move_mode": "walk"
+            "type": "orientation"
         },
         {
             "x": 3243.53515625,
@@ -48,6 +46,8 @@
             "y": -669.97021484375,
             "type": "target",
             "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1.0)",
             "#": "2"
         },
 
@@ -72,10 +72,16 @@
         },
 
         {
-            "x": 3167.27490234375,
-            "y": -667.78662109375,
-            "type": "target",
+            "_x": 3167.27490234375,
+            "_y": -667.78662109375,
+
+            "x": 3166.3701171875,
+            "y": -667.390625,
+            "type": "path",
             "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1.0)",
+            "//": "只等待，不趋近，否则有可能被怪撞一下成了从远处小碎步逼近，很耗时，会被打死",
             "#": "6"
         }
     ],
@@ -99,7 +105,6 @@
             "y": -667.3544921875,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
             "#": "3"
         },
         {
@@ -123,7 +128,6 @@
             "y": -663.19921875,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
             "#": "7"
         },
         {
@@ -137,7 +141,6 @@
             "y": -661.556640625,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
             "#": "8"
         }
     ]
