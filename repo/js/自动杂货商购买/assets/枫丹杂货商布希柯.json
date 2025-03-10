@@ -1,0 +1,40 @@
+{
+  "info": {
+    "name": "达莫维百货店主布希柯",
+    "type": "collect",
+    "author": "吉吉喵",
+    "version": "1.0",
+    "description": "达莫维百货 店主布希柯",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4514.18,
+      "y": 3630.4,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 4514.2802734375,
+      "y": 3604.35498046875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4470.1357421875,
+      "y": 3562.072265625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
