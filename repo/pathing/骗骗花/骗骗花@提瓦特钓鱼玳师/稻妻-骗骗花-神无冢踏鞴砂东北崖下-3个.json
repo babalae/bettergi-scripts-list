@@ -1,0 +1,58 @@
+{
+    "info": {
+        "name": "稻妻-骗骗花-神无冢踏鞴砂东北崖下-3个",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.1",
+        "description": "骗骗花-3个\n稻妻-神无冢踏鞴砂东北崖下",
+        "bgiVersion": "0.42.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": -3289.82,
+            "y": -3654.42,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": -3246.6,
+            "y": -3621.94,
+            "type": "target",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "attack(0.1),wait(2),wait(0.1),keypress(f),wait(0.1),keypress(f)"
+        },
+        {
+            "id": 3,
+            "x": -3233.87,
+            "y": -3617.19,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)"
+        },
+        {
+            "id": 4,
+            "x": -3230.96,
+            "y": -3633.95,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+            "locked": false
+        },
+        {
+            "id": 5,
+            "x": -3230.96,
+            "y": -3633.95,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "fight",
+            "action_params": ""
+        }
+    ]
+}
