@@ -1,7 +1,7 @@
 (async function () {
 
-    const area_list = ['蒙德', '璃月', '稻妻', '须弥', '枫丹', '纳塔', '至冬']
-    const fish_list = ['花鳉', '波波心羽鲈', '烘烘心羽鲈', '维护机关·水域清理者', '维护机关·态势控制者', '维护机关·澄金领队型', '海涛斧枪鱼', '维护机关·初始能力型', '维护机关·白金典藏型', '吹沙角鲀', '甜甜花鳉', '擒霞客', '水晶宴', '斗棘鱼', '炮鲀', '流纹褐蝶鱼', '锖假龙', '金赤假龙', '玉玉心羽鲈', '赤魔王', '长生仙', '苦炮鲀', '肺棘鱼', '流纹京紫蝶鱼', '琉璃花鳉', '伪装鲨鲨独角鱼', '繁花斗士急流鱼', '深潜斗士急流鱼', '晚霞翻车鲀', '青浪翻车鲀', '拟似燃素独角鱼', '炽岩斗士急流鱼', '蓝染花鳉', '鸩棘鱼', '流纹茶蝶鱼', '雪中君', '真果角鲀', '青金斧枪鱼', '暮云角鲀', '翡玉斧枪鱼', '沉波蜜桃']
+    const area_list = ['蒙德', '璃月', '稻妻', '须弥', '枫丹', '纳塔', '至冬', '层岩巨渊·地下矿区', '渊下宫']
+    const fish_list = ['花鳉', '波波心羽鲈', '烘烘心羽鲈', '维护机关·水域清理者', '维护机关·态势控制者', '维护机关·澄金领队型', '海涛斧枪鱼', '维护机关·初始能力型', '维护机关·白金典藏型', '吹沙角鲀', '甜甜花鳉', '擒霞客', '水晶宴', '斗棘鱼', '炮鲀', '流纹褐蝶鱼', '锖假龙', '金赤假龙', '玉玉心羽鲈', '赤魔王', '长生仙', '苦炮鲀', '肺棘鱼', '流纹京紫蝶鱼', '琉璃花鳉', '伪装鲨鲨独角鱼', '繁花斗士急流鱼', '深潜斗士急流鱼', '晚霞翻车鲀', '青浪翻车鲀', '拟似燃素独角鱼', '炽岩斗士急流鱼', '蓝染花鳉', '鸩棘鱼', '流纹茶蝶鱼', '雪中君', '真果角鲀', '青金斧枪鱼', '暮云角鲀', '翡玉斧枪鱼', '沉波蜜桃', '雷鸣仙']
     const bait_list = ['果酿饵', '酸桔饵', '维护机关频闪诱饵', '甘露饵', '赤糜饵', '飞蝇假饵', '蠕虫假饵', '澄晶果粒饵', '温火饵']
     const material_msg = {
         "风缠": ["花鳉", "蓝染花鳉", "鸩棘鱼", "流纹茶蝶鱼"],
@@ -65,7 +65,8 @@
         '翡玉斧枪鱼': {'bait': '甘露饵', 'time': '全天'},
         '沉波蜜桃': {'bait': '甘露饵', 'time': '白天'},
         '雷鸣仙': {'bait': '蠕虫假饵', 'time': '夜晚'},
-        '': {},
+        '佛玛洛鳐': {'bait': '', 'time': ''},
+        '迪芙妲鳐': {'bait': '', 'time': ''}
     }
     const path_pathing = [
         '枫丹-垂钓点-伊黎耶林区幽林雾道西南-花鳉_波波心羽鲈_烘烘心羽鲈_维护机关·水域清理者_维护机关·态势控制者_维护机关·澄金领队型-果酿饵_酸橘饵_维护机关频闪诱饵-普通',
@@ -294,16 +295,14 @@
         }
     }
 
-    async function run_file(path_msg, time_out_throw, time_out_whole) {
+    async function run_file(path_msg, time_out_throw, time_out_whole, is_con) {
         const base_path_pathing = "assets/Pathing/";
         const base_path_gcm = "assets/KeyMouseScript/";
         const file_name = `${path_msg["area"]}-${path_msg["type"]}-${path_msg["detail"]}`;
-        // 判断是否是调式模式
-        const is_con = !(typeof(settings.path_select) === 'undefined' || settings.path_select === "无(默认)");
         // 键鼠设置读取
         const block_gcm = typeof(settings.block_gcm) === 'undefined' ? false : settings.block_gcm;
         // 检测禁用键鼠设置
-        if (block_gcm && !is_con) {
+        if (block_gcm && !is_con && path_msg["addition"] === "GCM") {
             log.info(`跳过键鼠路线: ${file_name}`)
             return null;
         }
@@ -383,15 +382,31 @@
         }
         // 筛选路径
         let path_filter = pathing_filter();
+        // 读取要继续的路径
+        let path_continue = typeof(settings.path_continue) === "undefined" ? "无(默认)" : settings.path_continue;
+        let is_continue = true;
+        // 判断是否是调式模式
+        const is_con = !(typeof(settings.path_select) === 'undefined' || settings.path_select === "无(默认)");
         log.info(`本次总计 ${path_filter.length} 个钓鱼点`);
+        if (path_continue !== "无(默认)") {
+            path_continue = `${path_continue.split("-")[0]}-${path_continue.split("-")[2]}`;
+        }
 
         for (let i = 0; i < path_filter.length; i++) {
             // 路径详细信息
             const path_msg = get_pathing_msg(path_filter[i]);
             try {
-                log.info(`当前钓鱼点: ${path_msg["area"]}-${path_msg["detail"]}(进度: ${i + 1}/${path_filter.length})`);
+                let current_msg = `${path_msg["area"]}-${path_msg["detail"]}`
+                log.info(`当前钓鱼点: ${current_msg}(进度: ${i + 1}/${path_filter.length})`);
+                if (path_continue === current_msg) {
+                    is_continue = false;
+                }
 
-                await run_file(path_msg, time_out_throw, time_out_whole);
+                if (path_continue !== "无(默认)" && !is_con && is_continue && path_filter.length === path_pathing.length) {
+                    log.info("跳过...");
+                    continue;
+                }
+                await run_file(path_msg, time_out_throw, time_out_whole, is_con);
             } catch (error) {
                 const file_name = `${path_msg["area"]}-${path_msg["type"]}-${path_msg["detail"]}`;
                 log.info(`路径: ${file_name} 执行时出错，已跳过...\n错误信息: ${error}`)
