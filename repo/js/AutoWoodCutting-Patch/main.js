@@ -1,5 +1,5 @@
 (async function () {
-    const RAW_PATHING = ['枫丹-炬木-苍晶区「很明亮的地方」-10个.json', '枫丹-炬木-白露区秋分山西侧西南-6个.json','纳塔-桃椰子木-涌流地浮土静界东-4个.json', '纳塔-桃椰子木-涌流地浮土静界南-9个.json'];
+    const RAW_PATHING = ['枫丹-炬木-苍晶区「很明亮的地方」-10个.json', '枫丹-炬木-白露区秋分山西侧西南-6个.json','纳塔-桃椰子木-涌流地浮土静界东-4个.json', '纳塔-桃椰子木-涌流地浮土静界南-6个.json'];
     const WOODS = ['炬木', '桃椰子木'];
     const BASE_PATH_PATHING = "assets/pathing/";
     const BASE_PATH_SCRIPT = "assets/KeyMouseScript/";
