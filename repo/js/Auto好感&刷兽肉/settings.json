@@ -10,14 +10,19 @@
         "label": "加载延迟（秒）（选填）"
     },
     {
-        "name": "UL",
+        "name": "partyName",
+        "type": "input-text",
+        "label": "(选填)需要切换的队伍名称"
+    },
+    {
+        "name": "GetMeatMode",
         "type": "checkbox",
-        "label": "开启刷兽肉模式"
+        "label": "开启刷兽肉模式（勾选才拾取散落的兽肉）"
     },
     {
         "name": "inputValue",
         "type": "input-text",
-        "label": "刷取个数（选填，默认为9999）"
+        "label": "刷取个数（选填，默认为300）"
     },
     {
         "name": "gostatue",
@@ -27,6 +32,6 @@
     {
         "name": "statue",
         "type": "input-text",
-        "label": "返回神像周期（选填，默认为5）"
+        "label": "返回神像周期（选填，默认为5次/周期）"
     }
 ]
