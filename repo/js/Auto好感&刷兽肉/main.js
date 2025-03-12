@@ -1,15 +1,15 @@
 (async function () {
 
     const defaultExitDelay = 12;
-    const defaultLoadingDelay = 15;
+    const defaultLoadingDelay = 10;
 
     function validateAndSetDefaults(exitDelay, loadingDelay) {
         if (isNaN(exitDelay) || exitDelay <= 0) {
             log.warn("你没有设置退出延迟，将使用默认值：12秒");
             exitDelay = defaultExitDelay;
         }
-        if (isNaN(loadingDelay) || loadingDelay <= 0) {
-            log.warn("你没有设置加载延迟，将使用默认值：15秒");
+        if (isNaN(loadingDelay) || loadingDelay < 0) {
+            log.warn("你没有设置加载延迟，将使用默认值：10秒");
             loadingDelay = defaultLoadingDelay;
         }
         return { exitDelay, loadingDelay };
@@ -72,26 +72,25 @@
         await sleep(2000);
     }
 
-    async function AutoFriendship(times,statue_times) {
-
-        log.info(`导航至好感-张牙舞爪的恶党-触发位置`);
-        await AutoPath('好感-张牙舞爪的恶党-触发位置');
-
+    async function AutoFriendship(times, statue_times, GetMeatMode) {
+        log.info(`导航至好感-张牙舞爪的恶党-触发位置(二净甸)`);
+        await AutoPath(`好感-张牙舞爪的恶党-触发位置(二净甸)`);
+    
         log.info(`自动好感开始...`);
-
+    
         for (let i = 0; i < times; i++) {
-            // 每运行 5 次 '好感-张牙舞爪的恶党-循环' 后运行 '好感-张牙舞爪的恶党-神像'
             if ((i + 1) % statue_times === 0) {
-                await AutoPath('好感-张牙舞爪的恶党-神像');
+                await genshin.tp(2297.60, -824.45);
+                await AutoPath(`好感-张牙舞爪的恶党-触发位置(二净甸)`);
                 await ReopenTheGate();
                 log.info(`当前次数：${i + 1}/${times}`);
                 logTimeTaken(startTime);
-                await AutoPath('好感-张牙舞爪的恶党-循环');
+                await AutoPath(`好感-张牙舞爪的恶党-循环${GetMeatMode ? '(二净甸刷肉版)' : '(二净甸)'}`);
             } else {
                 await ReopenTheGate();
                 log.info(`当前次数：${i + 1}/${times}`);
                 logTimeTaken(startTime);
-                await AutoPath('好感-张牙舞爪的恶党-循环');
+                await AutoPath(`好感-张牙舞爪的恶党-循环${GetMeatMode ? '(二净甸刷肉版)' : '(二净甸)'}`);
             }
             log.info(`已完成次数：${i + 1}/${times}`);
             logTimeTaken(startTime);
@@ -108,21 +107,22 @@
         log.info(`当前运行总时长：${formattedTime}`);
     }
 
-    // 启用自动拾取的实时任务
-    const startTime = Date.now();
-    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
-
-    setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
     let exitdelay = Number(settings.exitdelay);
     let loadingdelay = Number(settings.loadingdelay);
-    let UL = settings.UL ? settings.UL : false; 
-    let inputValue = settings.inputValue ? settings.inputValue : 9999; 
-    let times =  UL ? (isNaN(inputValue) ? 1667 : Math.ceil(inputValue / 6)) : 10;
+    // 肉相关
+    let GetMeatMode = settings.GetMeatMode ? settings.GetMeatMode : false; 
+    let inputValue = settings.inputValue ? settings.inputValue : 300;
+    let times =  GetMeatMode ? (isNaN(inputValue) ? 50 : Math.ceil(inputValue / 6)) : 10;
+    // 神像相关
     let gostatue = settings.gostatue ? settings.gostatue : false; 
     let statue = settings.statue ? settings.statue : 5;
     let statue_times = gostatue ? (isNaN(statue) ? 5 : statue) : 0;
 
+    // 启用自动拾取的实时任务，并配置成启用急速拾取模式
+    dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
 
+    const startTime = Date.now();
+    setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
     const { exitDelay: validatedExitDelay, loadingDelay: validatedLoadingDelay } = validateAndSetDefaults(exitdelay, loadingdelay);
     const messages = [
         '请确保队伍满员，并为队伍配置相应的战斗策略',
@@ -136,8 +136,22 @@
     }
     log.info('自动好感开始...');
 
+    if (!!settings.partyName) {
+		try {
+            await genshin.tp(2297.60, -824.45);
+            await sleep(3000);
+			log.info("正在尝试切换至" + settings.partyName);
+			await genshin.switchParty(settings.partyName);
+		} catch {
+			log.warn("队伍切换失败，可能处于联机模式或其他不可切换状态");
+			await genshin.returnMainUi();
+		}
+	} else {
+		await genshin.returnMainUi();
+	}
+
     //默认10次自动好感
-    await AutoFriendship(times,statue_times);
+    await AutoFriendship(times,statue_times,GetMeatMode);
 
     // 计算并输出总时长
     const endTime = Date.now();
