@@ -1,0 +1,66 @@
+{
+    "info": {
+        "name": "自动钓鱼路线-璃月-悬练山·西南水域",
+        "type": "collect",
+        "author": "鸿羽er",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": 2255.488507207301,
+            "y": 923.9617132754038,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": 2275.4971690279963,
+            "y": 932.2499987433939,
+            "action": "",
+            "move_mode": "run",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": 2294.0028309720037,
+            "y": 913.2500006956216,
+            "action": "",
+            "move_mode": "run",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": 2299.063790085722,
+            "y": 911.0624205315389,
+            "move_mode": "climb",
+            "type": "path",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 2304.12474919944,
+            "y": 908.8748403674563,
+            "action": "",
+            "move_mode": "climb",
+            "action_params": "",
+            "type": "target"
+        },
+        {
+            "id": 5,
+            "x": 2322.483135473397,
+            "y": 900.9394983196185,
+            "action": "fishing",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "orientation"
+        }
+    ]
+}

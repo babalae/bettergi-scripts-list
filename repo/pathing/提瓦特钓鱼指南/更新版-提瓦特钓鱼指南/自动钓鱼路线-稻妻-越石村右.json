@@ -1,0 +1,66 @@
+{
+    "info": {
+        "name": "自动钓鱼路线-稻妻-越石村右",
+        "type": "collect",
+        "author": "鸿羽er&起个名字好难的喵",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": -4026.6155468859943,
+            "y": -4438.767701272782,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": -4038.1220154733383,
+            "y": -4422.3737685489505,
+            "action": "stop_flying",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": -4044.68343703093,
+            "y": -4414.593117170989,
+            "action": "",
+            "move_mode": "run",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": -4060.2548828125,
+            "y": -4415.646484375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": -4063.583984375,
+            "y": -4417.8505859375,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": -4080.2602774662732,
+            "y": -4428.89147578995,
+            "type": "orientation",
+            "move_mode": "walk",
+            "action": "fishing",
+            "action_params": ""
+        }
+    ]
+}

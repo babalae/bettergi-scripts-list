@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "薄荷F04-纳塔-流泉之众3",
+    "type": "collect",
+    "author": "Tool_tingsu",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8581.9619140625,
+      "y": -2675.2890625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8550.7744140625,
+      "y": -2680.36328125,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 8542.662109375,
+      "y": -2688.58984375,
+      "action": "stop_flying",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

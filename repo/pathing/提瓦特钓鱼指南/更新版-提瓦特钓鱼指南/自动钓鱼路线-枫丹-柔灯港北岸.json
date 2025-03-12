@@ -1,64 +1,74 @@
 {
-  "info": {
-    "name": "自动钓鱼路线-枫丹-柔灯港北岸",
-    "type": "collect",
-    "author": "鸿羽er",
-    "version": "1.0",
-    "description": "",
-    "bgiVersion": "0.35.1"
-  },
-  "positions": [
-    {
-      "id": 1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": 2902.4808137571727,
-      "y": 3184.492292028617,
-      "action_params": ""
+    "info": {
+        "name": "自动钓鱼路线-枫丹-柔灯港北岸",
+        "type": "collect",
+        "author": "鸿羽er&起个名字好难的喵",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
     },
-    {
-      "id": 2,
-      "x": 2894.562224119385,
-      "y": 3205.625,
-      "move_mode": "run",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 2885.5012038426867,
-      "y": 3226.2499543907015,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": 2885.1253511207833,
-      "y": 3252.6237913536006,
-      "type": "path",
-      "move_mode": "climb",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": 2890.8121739592716,
-      "y": 3254.374817562808,
-      "move_mode": "climb",
-      "type": "path",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 6,
-      "action": "",
-      "move_mode": "climb",
-      "type": "target",
-      "x": 2895.1873244396083,
-      "y": 3255.812306160484,
-      "action_params": ""
-    }
-  ]
+    "positions": [
+        {
+            "id": 1,
+            "x": 2902.4808137571727,
+            "y": 3184.492292028617,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": 2894.562224119385,
+            "y": 3205.625,
+            "action": "",
+            "move_mode": "run",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": 2885.5012038426867,
+            "y": 3226.2499543907015,
+            "action": "",
+            "move_mode": "run",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": 2885.5205078125,
+            "y": 3251.56201171875,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 2890.4375,
+            "y": 3253.0224609375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": 2894.533203125,
+            "y": 3255.024658203125,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": 2912.501143904615,
+            "y": 3263.8083421762785,
+            "type": "orientation",
+            "move_mode": "walk",
+            "action": "fishing",
+            "action_params": ""
+        }
+    ]
 }

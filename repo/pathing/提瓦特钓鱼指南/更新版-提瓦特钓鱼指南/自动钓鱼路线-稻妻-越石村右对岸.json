@@ -1,0 +1,84 @@
+{
+    "info": {
+        "name": "自动钓鱼路线-稻妻-越石村右对岸",
+        "type": "collect",
+        "author": "鸿羽er&起个名字好难的喵",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": -4190.807025912312,
+            "y": -4389.709435272509,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": -4177.4990388891165,
+            "y": -4391.256566232867,
+            "action": "",
+            "move_mode": "run",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": -4167.498398148531,
+            "y": -4400.498176046425,
+            "action": "stop_flying",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": -4161.872116667357,
+            "y": -4406.00539890258,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 5,
+            "x": -4165.50436392974,
+            "y": -4419.813925290566,
+            "action": "stop_flying",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 6,
+            "x": -4162.408203125,
+            "y": -4434.3798828125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 7,
+            "x": -4155.908203125,
+            "y": -4444.1455078125,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 7,
+            "x": -4144.826497020672,
+            "y": -4460.794705685589,
+            "type": "orientation",
+            "move_mode": "walk",
+            "action": "fishing",
+            "action_params": ""
+        }
+    ]
+}

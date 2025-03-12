@@ -1,102 +1,111 @@
 {
-  "info": {
-    "name": "自动钓鱼路线-蒙德-风龙废墟",
-    "type": "collect",
-    "author": "鸿羽er",
-    "version": "1.0",
-    "description": "",
-    "bgiVersion": "0.35.1"
-  },
-  "positions": [
-    {
-      "id": 1,
-      "x": 37.45681221013365,
-      "y": 2382.0837396660645,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+    "info": {
+        "name": "自动钓鱼路线-蒙德-风龙废墟",
+        "type": "collect",
+        "author": "鸿羽er",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
     },
-    {
-      "id": 2,
-      "x": 48.33407022559004,
-      "y": 2411.94997706528,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 59.21132824104643,
-      "y": 2441.8162144644975,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 70.23183205955138,
-      "y": 2472.528487618447,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 79.87444823876831,
-      "y": 2496.9988597675474,
-      "action": "",
-      "move_mode": "climb",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": 117.8741337804895,
-      "y": 2481.603705518417,
-      "move_mode": "fly",
-      "type": "path",
-      "action": "stop_flying",
-      "action_params": ""
-    },
-    {
-      "id": 7,
-      "x": 125.12644789444312,
-      "y": 2483.004926448748,
-      "type": "path",
-      "move_mode": "climb",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 8,
-      "x": 132.37876200839673,
-      "y": 2484.406147379079,
-      "move_mode": "climb",
-      "type": "path",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 9,
-      "x": 131.15645064044838,
-      "y": 2485.7811245744306,
-      "type": "path",
-      "move_mode": "climb",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 10,
-      "x": 128.90619983988836,
-      "y": 2488.5625399081364,
-      "action": "combat_script",
-      "move_mode": "climb",
-      "action_params": "moveby(0,600)",
-      "type": "target"
-    }
-  ]
+    "positions": [
+        {
+            "id": 1,
+            "x": 37.45681221013365,
+            "y": 2382.0837396660645,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": 48.33407022559004,
+            "y": 2411.94997706528,
+            "action": "",
+            "move_mode": "run",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": 59.21132824104643,
+            "y": 2441.8162144644975,
+            "action": "",
+            "move_mode": "run",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": 70.23183205955138,
+            "y": 2472.528487618447,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 5,
+            "x": 79.87444823876831,
+            "y": 2496.9988597675474,
+            "action": "",
+            "move_mode": "climb",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 6,
+            "x": 117.8741337804895,
+            "y": 2481.603705518417,
+            "move_mode": "fly",
+            "type": "path",
+            "action": "stop_flying",
+            "action_params": ""
+        },
+        {
+            "id": 7,
+            "x": 125.12644789444312,
+            "y": 2483.004926448748,
+            "type": "path",
+            "move_mode": "climb",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 8,
+            "x": 132.37876200839673,
+            "y": 2484.406147379079,
+            "move_mode": "climb",
+            "type": "path",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 9,
+            "x": 131.15645064044838,
+            "y": 2485.7811245744306,
+            "type": "path",
+            "move_mode": "climb",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 10,
+            "x": 128.90619983988836,
+            "y": 2488.5625399081364,
+            "action": "combat_script",
+            "move_mode": "climb",
+            "action_params": "moveby(0,600)",
+            "type": "target"
+        },
+        {
+            "id": 10,
+            "x": 116.32686627323422,
+            "y": 2504.1111850908796,
+            "action": "fishing",
+            "move_mode": "walk",
+            "action_params": "moveby(0,600)",
+            "type": "orientation"
+        }
+    ]
 }
