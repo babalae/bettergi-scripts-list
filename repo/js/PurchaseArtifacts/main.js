@@ -1,46 +1,29 @@
 (async function () {
     
-log.info('开始购买狗粮');
-
  async function Purchase(locationName) {       
         let filePath = `assets/${locationName}.json`;
         await pathingScript.runFile(filePath);
     }
 
 //读取配置
-let holdingState = settings.holdingState != undefined ? settings.holdingState : '';
+let holdingState = settings.holdingState ?? 0;
 
 //基本购买流程
    async function Shopping() {
-     
         await sleep(1500);
-        keyPress("F"); await sleep(1200);//对话
-        keyPress("F"); await sleep(1800);//对话
-        keyPress("F"); await sleep(1200);//对话
-        keyPress("F"); await sleep(1800);//对话
-        click(1690, 1020); await sleep(500); // 购买
-        click(1170, 780); await sleep(400); // 确定
-        click(1690, 1020); await sleep(200); // 点击空白处
-        click(1690, 1020); await sleep(400); // 购买
-        click(1170, 780); await sleep(400); // 确定
-        click(1690, 1020); await sleep(200); // 点击空白处
-        click(1690, 1020); await sleep(400); // 购买
-        click(1170, 780); await sleep(400); // 确定
-        click(1690, 1020); await sleep(200); // 点击空白处
-        click(1690, 1020); await sleep(400); // 购买
-        click(1170, 780); await sleep(400); // 确定
-        click(1690, 1020); await sleep(200); // 点击空白处
-        click(1690, 1020); await sleep(400); // 购买
-        click(1170, 780); await sleep(400); // 确定
-        click(1690, 1020); await sleep(200); // 点击空白处
+        for (let j = 0; j < 4; j++) {
+    keyPress("F"); await sleep(1800);//对话
+         }
+        for (let i = 0; i < 5; i++) {
+  click(1690, 1020); await sleep(500); // 购买
+  click(1170, 780); await sleep(400); // 确定
+  click(1690, 1020); await sleep(200); // 点击空白处
+        }
         keyPress("ESCAPE"); await sleep(2000);
     }
 
-     
-
-
-  await Purchase('蒙德购买狗粮');
-    await Shopping();
+await Purchase('蒙德购买狗粮');
+await Shopping();
 
 //调整时间
     await sleep(1500);
@@ -67,63 +50,33 @@ let holdingState = settings.holdingState != undefined ? settings.holdingState : 
     await sleep(1000);
     keyPress("F"); await sleep(1200);
     keyPress("F"); await sleep(1800);
-  if (holdingState == 'YES') keyPress("s");
+  if (holdingState) keyPress("s");
     await sleep(500);
     keyPress("F"); await sleep(1200);
     keyPress("F"); await sleep(1800);
     click(1690, 1020); await sleep(500); 
-    click(1170, 780); await sleep(400); 
-    click(1690, 1020); await sleep(200); 
-    click(1690, 1020); await sleep(400); 
-    click(1170, 780); await sleep(400); 
-    click(1690, 1020); await sleep(200); 
-    click(1690, 1020); await sleep(400); 
-    click(1170, 780); await sleep(400); 
-    click(1690, 1020); await sleep(200); 
-    click(1690, 1020); await sleep(400); 
-    click(1170, 780); await sleep(400); 
-    click(1690, 1020); await sleep(200); 
-    click(1690, 1020); await sleep(400); 
-    click(1170, 780); await sleep(400); 
-    click(1690, 1020); await sleep(200); 
+    for (let i = 0; i < 5; i++) {
+  click(1690, 1020); await sleep(500); // 购买
+  click(1170, 780); await sleep(400); // 确定
+  click(1690, 1020); await sleep(200); // 点击空白处
+        }
     keyPress("ESCAPE"); await sleep(2000);
 
-
     await Purchase('稻妻购买狗粮');
-    await sleep(1000);
-    keyPress("F"); await sleep(1500);
-         await sleep(1500);
-        keyPress("F"); await sleep(1200);//对话
-        keyPress("F"); await sleep(1800);//对话
-        keyPress("F"); await sleep(1200);//对话
-        keyPress("F"); await sleep(1800);//对话
+    await sleep(1500);
+        for (let j = 0; j < 5; j++) {
+    keyPress("F"); await sleep(1800);//对话
+         }
         click(200, 400); await sleep(500); // 选择狗粮
-        click(1690, 1020); await sleep(500); // 购买
-        click(1170, 780); await sleep(400); // 确定
-        click(1690, 1020); await sleep(200); // 点击空白处
-        click(1690, 1020); await sleep(400); // 购买
-        click(1170, 780); await sleep(400); // 确定
-        click(1690, 1020); await sleep(200); // 点击空白处
-        click(1690, 1020); await sleep(400); // 购买
-        click(1170, 780); await sleep(400); // 确定
-        click(1690, 1020); await sleep(200); // 点击空白处
-        click(1690, 1020); await sleep(400); // 购买
-        click(1170, 780); await sleep(400); // 确定
-        click(1690, 1020); await sleep(200); // 点击空白处
-        click(1690, 1020); await sleep(400); // 购买
-        click(1170, 780); await sleep(400); // 确定
-        click(1690, 1020); await sleep(200); // 点击空白处
+        for (let i = 0; i < 5; i++) {
+  click(1690, 1020); await sleep(500); // 购买
+  click(1170, 780); await sleep(400); // 确定
+  click(1690, 1020); await sleep(200); // 点击空白处
+        }
         keyPress("ESCAPE"); await sleep(2000);
 
     await Purchase('须弥购买狗粮');
     await Shopping();
-
-
-
-
-
-
-
 
     await Purchase('枫丹购买狗粮');
     await sleep(1000);
