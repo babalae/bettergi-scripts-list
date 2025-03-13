@@ -123,6 +123,8 @@
 
     // 调整地图
     async function resizeMap(level = 1) {
+        await genshin.returnMainUi();
+
         keyPress("M"); await sleep(1000);
         for (let i = 5; i > 0; --i) {
             click(46, 436); await sleep(500); // zoom in
@@ -130,20 +132,22 @@
         for (let i = 0; i < level; ++i) {
             click(46, 630); await sleep(500); // zoom out
         }
-        keyPress("M"); await sleep(1000);
+        // keyPress("M"); await sleep(1000);
     }
 
     // 拖拽地图
     async function dragMap(byX, byY) {
+        await genshin.returnMainUi();
+
         let byL = Math.sqrt(byX * byX + byY * byY);
         let d = 5;
 
         let dx = Math.round(d * byX / byL);
         let dy = Math.round(d * byY / byL);
 
-        let times = Math.round(byX / dx) * 2; // ？？？
+        let times = Math.round(byX / dx * genshin.screenDpiScale);
 
-        log.debug(`byL: ${byL}; dx: ${dx}; dy: ${dy}; times: ${times};`);
+        log.debug(`byL: ${byL}; dx: ${dx}; dy: ${dy}; times: ${times}; genshin.screenDpiScale: ${genshin.screenDpiScale};`);
 
         keyPress("M"); await sleep(1000);
         moveMouseBy(-byX, -byY); await sleep(300);
@@ -155,9 +159,18 @@
         leftButtonUp(); await sleep(300);
     }
 
+    // 就近传送（传送脚本文件中的第一个点）
+    async function tpNearby(filePath) {
+        const raw = file.ReadTextSync(filePath);
+        const data = JSON.parse(raw);
+        await genshin.tp(data['positions'][0]['x'], data['positions'][0]['y']);
+    }
+
     // 分解圣遗物
     async function salvage() {
         if (!autoSalvage) return;
+
+        await genshin.returnMainUi();
 
         keyPress("B"); await sleep(2000);
         click(670, 40); await sleep(1000); // 圣遗物
@@ -208,12 +221,19 @@
             await pathingScript.runFile(filePath);
 
             // 地图缩放按键同某些地图标识重叠，导致识别失败(bgi[v0.43.0]后引入)
-            // 完成路径后，拖拽地图，并就近传送。仍有问题，到下个路径时会关闭地图再打开。
-            // let shouldDragMap_after = filePath.search("~m") != -1;
-            // if (shouldDragMap_after) await dragMap(-50, 50);
-            // 完成路径后，放大地图。仍可能被缩小回去。
-            // let shouldDragMap_after = filePath.search("~m") != -1;
-            // if (shouldDragMap_after) await resizeMap(0);
+            // // 完成路径后，放大地图，脚本中调用就近传送。仍可能被缩小回去。不可行
+            // let shouldResizeMap_after = filePath.search("~m") != -1;
+            // if (shouldResizeMap_after) {
+            //     await resizeMap(0);
+            //     await tpNearby(filePath);
+            // }
+            // 完成路径后，拖拽地图，脚本中调用就近传送。可行
+            let shouldDragMap_after = filePath.search("~m") != -1;
+            if (shouldDragMap_after) {
+                await dragMap(-50, 50);
+                await tpNearby(filePath);
+            }
+
         }
         catch (error) { // bgi已捕获可预期异常，此处仅做兜底
             log.error(error.toString());
