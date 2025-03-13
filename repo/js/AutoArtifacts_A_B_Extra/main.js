@@ -35,7 +35,7 @@
 
     const pathingB = [
         "狗粮-枫丹-枫丹庭区-3个.json",
-        "狗粮-枫丹-白露区-秋分山东侧-2个-f.json",
+        "狗粮-枫丹-白露区-秋分山东侧-2个-f~m.json",
         "狗粮-枫丹-伊黎耶林区-欧庇克莱歌剧院东南-2个-f.json",
         "（恢复）狗粮-枫丹-研究院区.json",
         "狗粮-枫丹-研究院区-学术会堂-1个／2个-f.json",
@@ -122,14 +122,37 @@
     }
 
     // 调整地图
-    async function resizeMap() {
-        // zoom map to 75%
+    async function resizeMap(level = 1) {
         keyPress("M"); await sleep(1000);
-        for (let i = 0; i < 5; i++) {
-            click(42, 420); await sleep(500); // zoom in
+        for (let i = 5; i > 0; --i) {
+            click(46, 436); await sleep(500); // zoom in
         }
-        click(42, 645); await sleep(1000); // zoom out
+        for (let i = 0; i < level; ++i) {
+            click(46, 630); await sleep(500); // zoom out
+        }
         keyPress("M"); await sleep(1000);
+    }
+
+    // 拖拽地图
+    async function dragMap(byX, byY) {
+        let byL = Math.sqrt(byX * byX + byY * byY);
+        let d = 5;
+
+        let dx = Math.round(d * byX / byL);
+        let dy = Math.round(d * byY / byL);
+
+        let times = Math.round(byX / dx) * 2; // ？？？
+
+        log.debug(`byL: ${byL}; dx: ${dx}; dy: ${dy}; times: ${times};`);
+
+        keyPress("M"); await sleep(1000);
+        moveMouseBy(-byX, -byY); await sleep(300);
+
+        leftButtonDown(); await sleep(300);
+        for (let i = 0; i < times; ++i) {
+            moveMouseBy(dx, dy); await sleep(30);
+        }
+        leftButtonUp(); await sleep(300);
     }
 
     // 分解圣遗物
@@ -183,6 +206,14 @@
             //执行路径追踪脚本
             log.info(filePath);
             await pathingScript.runFile(filePath);
+
+            // 地图缩放按键同某些地图标识重叠，导致识别失败(bgi[v0.43.0]后引入)
+            // 完成路径后，拖拽地图，并就近传送。仍有问题，到下个路径时会关闭地图再打开。
+            // let shouldDragMap_after = filePath.search("~m") != -1;
+            // if (shouldDragMap_after) await dragMap(-50, 50);
+            // 完成路径后，放大地图。仍可能被缩小回去。
+            // let shouldDragMap_after = filePath.search("~m") != -1;
+            // if (shouldDragMap_after) await resizeMap(0);
         }
         catch (error) { // bgi已捕获可预期异常，此处仅做兜底
             log.error(error.toString());
