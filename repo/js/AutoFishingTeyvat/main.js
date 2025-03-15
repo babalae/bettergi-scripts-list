@@ -295,7 +295,7 @@
         }
     }
 
-    async function run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight) {
+    async function run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight, block_tsurumi) {
         const base_path_pathing = "assets/Pathing/";
         const base_path_gcm = "assets/KeyMouseScript/";
         const file_name = `${path_msg["area"]}-${path_msg["type"]}-${path_msg["detail"]}`;
@@ -308,6 +308,11 @@
         // 检测禁用战斗设置
         if (!block_fight && !is_con && path_msg["addition"] === "战斗") {
             log.info(`跳过战斗路线: ${file_name}`)
+            return null;
+        }
+        // 检测禁用鹤观设置
+        if (!block_tsurumi && !is_con && /鹤观/.test(path_msg["detail"])) {
+            log.info(`跳过鹤观路线: ${file_name}`)
             return null;
         }
 
@@ -396,11 +401,16 @@
         const block_gcm = typeof(settings.block_gcm) === 'undefined' ? false : settings.block_gcm;
         // 战斗设置读取
         const block_fight = typeof(settings.block_fight) === 'undefined' ? false : settings.block_fight;
+        // 鹤观设置读取
+        const block_tsurumi = typeof(settings.block_tsurumi) === 'undefined' ? false : settings.block_tsurumi;
 
         log.info(`本次总计 ${path_filter.length} 个钓鱼点`);
         if (path_continue !== "无(默认)") {
             path_continue = `${path_continue.split("-")[0]}-${path_continue.split("-")[2]}`;
         }
+
+        // 调整分辨率和dpi，适应键鼠配置
+        setGameMetrics(1920, 1080, 1.25);
 
         for (let i = 0; i < path_filter.length; i++) {
             // 路径详细信息
@@ -418,7 +428,7 @@
                     continue;
                 }
 
-                await run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight);
+                await run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight, block_tsurumi);
             } catch (error) {
                 const file_name = `${path_msg["area"]}-${path_msg["type"]}-${path_msg["detail"]}`;
                 log.info(`路径: ${file_name} 执行时出错，已跳过...\n错误信息: ${error}`)
