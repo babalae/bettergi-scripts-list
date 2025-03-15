@@ -1,0 +1,147 @@
+{
+  "info": {
+    "name": "稻妻-稻妻主城-7",
+    "type": "collect",
+    "author": "火山",
+    "version": "1.0",
+    "description": "稻妻-稻妻主城-7",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4495.599609375,
+      "y": -3218.248046875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "combat_script",
+      "move_mode": "run",
+      "type": "path",
+      "x": -4492.02734375,
+      "y": -3208.1494140625,
+      "action_params": "芙宁娜 attack"
+    },
+    {
+      "id": 3,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": -4482.138168724279,
+      "y": -3217.75,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": -4493.27232510288,
+      "y": -3232.75,
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": -4508.53487654321,
+      "y": -3252.125,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4500.40318930041,
+      "y": -3264,
+      "action_params": "芙宁娜 wait(0.3),e"
+    },
+    {
+      "id": 7,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": -4497.275617283951,
+      "y": -3278.75,
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": -4506.579166666666,
+      "y": -3277.8125,
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "action": "pick_around",
+      "move_mode": "run",
+      "type": "path",
+      "x": -4509.456532921809,
+      "y": -3280.5,
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": -4519.21455761317,
+      "y": -3277.8125,
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": -4529.94866255144,
+      "y": -3277,
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "action": "combat_script",
+      "move_mode": "run",
+      "type": "path",
+      "x": -4537.07952674897,
+      "y": -3261.875,
+      "action_params": "芙宁娜 wait(0.3),e"
+    },
+    {
+      "id": 13,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": -4538.665123456791,
+      "y": -3249.375,
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": -4534.349074074074,
+      "y": -3246.1875,
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "action": "pick_around",
+      "move_mode": "run",
+      "type": "path",
+      "x": -4530.2206790123455,
+      "y": -3245.0625,
+      "action_params": ""
+    }
+  ]
+}

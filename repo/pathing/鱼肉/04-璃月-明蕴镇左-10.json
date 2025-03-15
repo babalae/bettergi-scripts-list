@@ -1,0 +1,120 @@
+{
+  "info": {
+    "name": "04-明蕴镇左-10",
+    "type": "collect",
+    "author": "火山",
+    "version": "1.0",
+    "description": "04-明蕴镇左-10",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -56.1796875,
+      "y": 657.40966796875,
+      "type": "teleport",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1.05859375,
+      "y": 699.03173828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芙宁娜 wait(0.3),e"
+    },
+    {
+      "id": 3,
+      "x": 2.0693359375,
+      "y": 715.72900390625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "dash"
+    },
+    {
+      "id": 4,
+      "x": -1.3056640625,
+      "y": 718.07763671875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "dash"
+    },
+    {
+      "id": 5,
+      "x": -4.1728515625,
+      "y": 713.125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 7.298828125,
+      "y": 717.41259765625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 7.7939453125,
+      "y": 737.11962890625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -8.7041015625,
+      "y": 745.99365234375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -15.400390625,
+      "y": 747.375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -14.359375,
+      "y": 744.5634765625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -14.6787109375,
+      "y": 754.18115234375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": -18.8447265625,
+      "y": 760.62939453125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

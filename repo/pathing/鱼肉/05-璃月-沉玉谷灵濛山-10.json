@@ -1,0 +1,201 @@
+{
+  "info": {
+    "name": "璃月-沉玉谷灵濛山-10",
+    "type": "collect",
+    "author": "火山",
+    "version": "1.0",
+    "description": "璃月-沉玉谷灵濛山-10",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1977.8736625514412,
+      "y": 2337.5,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1942.8448559670778,
+      "y": 2331.5,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1913.3205761316876,
+      "y": 2345.5,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "芙宁娜 wait(0.3),e",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1893.25,
+      "y": 2352.375,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1890.5008230452677,
+      "y": 2350.875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1888.8125,
+      "y": 2359.25,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 1880.40625,
+      "y": 2357.671142578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 1892.375,
+      "y": 2360.125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 1885.5625,
+      "y": 2356.3125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 1889.947265625,
+      "y": 2348.26318359375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芙宁娜 wait(0.3),e"
+    },
+    {
+      "id": 11,
+      "x": 1896.5673828125,
+      "y": 2365.060791015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 1883.7529835390942,
+      "y": 2350.75,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 1871.9792695473243,
+      "y": 2329.4375,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "芙宁娜 wait(0.3), e",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 1854.089557613168,
+      "y": 2320.375,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 1850.1488168724281,
+      "y": 2316,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "芙宁娜 dash",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 1849.1479938271605,
+      "y": 2297.75,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "芙宁娜 wait(0.5),e",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 1846.0204218106992,
+      "y": 2287.5625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 1849.1256172839512,
+      "y": 2285.5,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 1845.0001028806582,
+      "y": 2285.375,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 1838.802734375,
+      "y": 2281.9873046875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 1841.5029296875,
+      "y": 2287.564697265625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

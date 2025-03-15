@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "稻妻-九条阵屋右-3",
+    "type": "collect",
+    "author": "火山",
+    "version": "1.0",
+    "description": "稻妻-九条阵屋右-3",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3436.9228515625,
+      "y": -3319.65625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -3449.2001953125,
+      "y": -3320.5966796875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -3464.3994140625,
+      "y": -3327.443359375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -3471.564453125,
+      "y": -3322.0654296875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -3472.6044921875,
+      "y": -3324.916015625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -3487.1552734375,
+      "y": -3326.9970703125,
+      "type": "target",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -3501.6142578125,
+      "y": -3343.248046875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "芙宁娜 attack,wait(2)"
+    }
+  ]
+}
