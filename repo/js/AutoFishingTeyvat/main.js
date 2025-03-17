@@ -152,6 +152,7 @@
         "夜晚": {"name": "Nighttime", "param": 2},
         "禁用": {"name": "Block", "param": ""},
     }
+    const statue_name = "蒙德-七天神像-苍风高地";
     // 存储本次任务中的所有鱼类，作为调节时间的关键参考
     let list_fish = [];
 
@@ -198,7 +199,7 @@
             // 读取鱼饵
             let path_sort_bait = typeof(settings.path_sort_bait) === 'undefined' ? [] : settings.path_sort_bait.split(' ');
             // 读取兑换材料
-            let path_sort_material = typeof(settings.path_sort_material) === 'undefined' ? "无" : settings.path_sort_material;
+            let path_sort_material = typeof(settings.path_sort_material) === 'undefined' ? "无(默认)" : settings.path_sort_material;
             // 读取调试信息
             let path_select = typeof(settings.path_select) === 'undefined' ? "无(默认)" : settings.path_select;
 
@@ -295,9 +296,10 @@
         }
     }
 
-    async function run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight, block_tsurumi) {
-        const base_path_pathing = "assets/Pathing/";
+    async function run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight, block_tsurumi, auto_skip) {
+        const base_path_pathing = "assets/pathing/";
         const base_path_gcm = "assets/KeyMouseScript/";
+        const base_path_statues = "assets/pathing_statues/";
         const file_name = `${path_msg["area"]}-${path_msg["type"]}-${path_msg["detail"]}`;
 
         // 检测禁用键鼠设置
@@ -362,6 +364,46 @@
             fishing_time = path_time;
         }
 
+        // 4点自动领取月卡
+        let time_now = new Date();
+        let time_4 = new Date(time_now.getFullYear(), time_now.getMonth(), time_now.getDate(), 4, 0, 0); // 4点
+        let time_predict_end; // 根据超时时间预测本次钓鱼结束时间（加1分钟容错）
+        if (fishing_time === "全天") {
+            time_predict_end = time_now.setSeconds(time_now.getSeconds() + time_out_whole * 2 + 60);
+        } else {
+            time_predict_end = time_now.setSeconds(time_now.getSeconds() + time_out_whole + 60);
+        }
+        // 30s点击一次，等待领取月卡
+        let step_flag = 0; // 领取月卡步骤标志
+        while (auto_skip && time_now < time_4 && time_predict_end >= time_4) {
+            log.info(`等待领取月卡(剩余${Math.floor((time_4 - new Date()) / 1000)}s)...`);
+            if (step_flag == 0) {
+                // 传送到七天神像
+                await pathingScript.runFile(base_path_pathing + statue_name + ".json");
+                step_flag += 1;
+            }
+            await sleep(30000);
+            keyDown("VK_LBUTTON");
+            await sleep(100);
+            keyUp("VK_LBUTTON");
+
+            // 本次已经到达4点(5s容错)
+            if (new Date() > time_4.setSeconds(time_4.getSeconds() - 5)) {
+                step_flag += 1;
+                auto_skip = false;
+            }
+
+        }
+        // 领取月卡(点击两次)
+        if (step_flag == 2) {
+            step_flag = 0;
+            await sleep(5); // 补回容错时间
+            await click(1450, 1020); // 点击时间调节的确认按钮的位置
+            await sleep(5); // 等待月卡动画时间
+            await click(1450, 1020);
+            await sleep(1);
+        }
+
         log.info(`该钓鱼点的时间: ${fishing_time}`);
 
         await pathingScript.runFile(base_path_pathing + file_name + ".json");
@@ -393,7 +435,7 @@
         // 筛选路径
         let path_filter = pathing_filter();
         // 读取要继续的路径
-        let path_continue = typeof(settings.path_continue) === "undefined" ? "无(默认)" : settings.path_continue;
+        let path_continue = typeof(settings.path_continue) === 'undefined' ? "无(默认)" : settings.path_continue;
         let is_continue = true;
         // 判断是否是调式模式
         const is_con = !(typeof(settings.path_select) === 'undefined' || settings.path_select === "无(默认)");
@@ -403,6 +445,32 @@
         const block_fight = typeof(settings.block_fight) === 'undefined' ? false : settings.block_fight;
         // 鹤观设置读取
         const block_tsurumi = typeof(settings.block_tsurumi) === 'undefined' ? false : settings.block_tsurumi;
+        // 读取自动拾取设置
+        const auto_pick = typeof(settings.auto_pick) === 'undefined' ? false : settings.auto_pick;
+        // 读取4点自动领取月卡的设置
+        const auto_skip = typeof(settings.auto_skip) === 'undefined' ? false : settings.auto_skip;
+        // 读取终止时间
+        const kill_hour = typeof(settings.time_kill_hour) === 'undefined' ? "无" : settings.time_kill_hour;
+        const kill_minute = typeof(settings.time_kill_minute) === 'undefined' ? "无" : settings.time_kill_minute;
+        const is_time_kill = kill_hour !== "无" && kill_minute !== "无"; // 判断是否启用
+        let time_target = new Date();
+
+        if (is_time_kill) {
+            let now = new Date();
+            time_target.setHours(parseInt(kill_hour), 10);
+            time_target.setMinutes(parseInt(kill_minute), 10);
+            time_target.setSeconds(0);
+            time_target.setMilliseconds(0);
+            if (time_target < now) { // 不是当天终止，天数+1
+                time_target.setDate(now.getDate() + 1); // 不会超限
+            }
+            let time_show = `${time_target.getFullYear()}/${time_target.getMonth()}/${time_target.getDate()} ${time_target.getHours()}:${time_target.getMinutes()}`;
+            log.info(`定时关闭已启用，将在 ${time_show} 后停止后续任务...`);
+            await sleep(2000);
+        } else if (kill_hour !== "无" ^ kill_minute !== "无") {
+            log.warn("如果需要启用定时关闭，请确保同时设置了小时和分钟！\n任务将在5s后继续...");
+            await sleep(5000);
+        }
 
         log.info(`本次总计 ${path_filter.length} 个钓鱼点`);
         if (path_continue !== "无(默认)") {
@@ -411,8 +479,18 @@
 
         // 调整分辨率和dpi，适应键鼠配置
         setGameMetrics(1920, 1080, 1.25);
+        // 设置自动拾取
+        if (auto_pick) {
+            dispatcher.addTimer(new RealtimeTimer("AutoPick"));
+        }
 
         for (let i = 0; i < path_filter.length; i++) {
+            // 检查时间
+            if (is_time_kill && time_target < new Date()) {
+                let time_now = `${new Date().getHours()}:${new Date().getMinutes()}`;
+                log.info(`预定时间(${kill_hour}:${kill_minute})已到(当前时间：${time_now})，终止运行...`);
+                return null;
+            }
             // 路径详细信息
             const path_msg = get_pathing_msg(path_filter[i]);
             try {
@@ -428,7 +506,7 @@
                     continue;
                 }
 
-                await run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight, block_tsurumi);
+                await run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight, block_tsurumi, auto_skip);
             } catch (error) {
                 const file_name = `${path_msg["area"]}-${path_msg["type"]}-${path_msg["detail"]}`;
                 log.info(`路径: ${file_name} 执行时出错，已跳过...\n错误信息: ${error}`)
