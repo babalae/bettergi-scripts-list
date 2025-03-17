@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "起个名字好难",
     "version": "1.0",
-    "description": "雷元素法师可采集全，久歧忍漏1个",
+    "description": "雷元素法师可采集全，久歧忍漏1个(其余路径的是久岐忍可采集全)",
     "bgiVersion": "0.35.1"
   },
   "positions": [
@@ -89,6 +89,15 @@
       "move_mode": "walk",
       "action": "electro_collect",
       "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -4418.544921875,
+      "y": -2987.9423828125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "丽莎 attack,attack"
     },
     {
       "id": 11,
