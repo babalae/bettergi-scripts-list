@@ -84,6 +84,7 @@
             if ((i + 1) % statue_times === 0) {
                 await genshin.tp(2297.60, -824.45);
                 await AutoPath(`好感-张牙舞爪的恶党-触发位置(二净甸)`);
+                await sleep(10000);
                 await ReopenTheGate();
                 log.info(`当前次数：${i + 1}/${times}`);
                 logTimeTaken(startTime);

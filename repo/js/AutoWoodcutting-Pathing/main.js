@@ -113,11 +113,14 @@
                     await pathingScript.runFile(filePath);
                 }
                 log.info(`${pathingName} 第 ${i+1}/${n} 次循环执行完成`);
+                logTimeTaken(startTime);
             }
             log.info(`完成 ${pathingName} 循环路径, 获得${woodCountToStr(woodCount, n)}`);
+            logTimeTaken(startTime);
             woodCount.forEach((value, key) => {
                 woodNumberMap.set(key, woodNumberMap.get(key)-value*n);});
             log.info(`${pathingName} 伐木完成，将执行下一个`);
+            logTimeTaken(startTime);
             logRemainingItems();
         } catch (error) {
             log.error(`在砍伐 ${pathingName} 时发生错误: ${error}`);
@@ -215,7 +218,17 @@
         return woodCount;
     }
 
+    function logTimeTaken(startTime) {
+        const currentTime = Date.now();
+        const totalTimeInSeconds = (currentTime - startTime) / 1000;
+        const minutes = Math.floor(totalTimeInSeconds / 60);
+        const seconds = totalTimeInSeconds % 60;
+        const formattedTime = `${minutes}分${seconds.toFixed(0).padStart(2, '0')}秒`;
+        log.info(`当前运行总时长：${formattedTime}`);
+    }
+
     // Set game environment settings
+    const startTime = Date.now();
     setGameMetrics(1920, 1080, 1);
     //修改路线：除了 垂香木-萃华木-香柏木，悬铃木-椴木 以外，其他木材基本都是单独路线，可以替换 \assets\AutoPath 中的路径追踪脚本，然后修改 pathingMap 中的文件名即可。
     // pathingMap 为木材路径追踪文件路径列表, 键名可以随意命名, 值的 fileName 属性为路线包含路径追踪文件名列表, 文件夹为'assets/AutoPath/', 如果还有子文件夹请添加 folderName 属性. 如果 fileName 数组中有两项以上, 并且第一个文件名包含 '大循环', 则会先执行一次大循环, 剩余的文件名视为循环路径, 将在每次循环中依次执行.
