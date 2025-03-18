@@ -200,6 +200,7 @@
         // 正则表达式，用于匹配如下内容
         let regex_name = /(?<="name": ")[\s\S]*?(?=")/
         let regex_author = /(?<="author": ")[\s\S]*?(?=")/
+        let regex_description = /(?<="description": ")[\s\S]*?(?=")/
         let regex_bpm = /(?<="bpm": ")[\s\S]*?(?=")/
         let regex_time_signature = /(?<="time_signature": ")[\s\S]*?(?=")/
         let regex_composer = /(?<="composer": ")[\s\S]*?(?=")/
@@ -212,6 +213,8 @@
             music_msg_dic["name"] = file_text.match(regex_name)[0];
             // 录谱人
             music_msg_dic["author"] = file_text.match(regex_author)[0];
+            // 描述
+            music_msg_dic["description"] = file_text.match(regex_description)[0];
             // 歌曲BPM
             music_msg_dic["bpm"] = file_text.match(regex_bpm)[0];
             // 拍号

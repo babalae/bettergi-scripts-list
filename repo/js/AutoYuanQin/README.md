@@ -1,5 +1,7 @@
 # 曲谱 JSON 文件说明
-此文档供曲谱制作人阅读，本文档详细说明了如何书写一个标准格式的曲谱.json文件，包括各个字段的解释以及曲谱内容的格式要求。
+* **注意** 
+	- 制铺优先使用AutoYuanQin\assets\tutorial_file目录下的制铺软件(index.html)，有任何疑问请来看这个使用说明
+此文档供曲谱制作人阅读，本文档详细说明了一个标准格式的曲谱.json文件格式，包括各个字段的解释以及曲谱内容的格式要求。
 
 重要：即使制作了曲谱的JSON文件，放到了正确的路径下，在调度器的JS脚本配置里也不会出现你制作的曲谱（上传方法如下）
 
@@ -10,10 +12,29 @@
 
 3.发送邮件到hijiwos@hotmail.com并说明，你的谱子将会在一段时间内更新到仓库
 
-## 曲谱制作问题
-\assets/tutorial_file/五线谱注解.png包含了五线谱（高音区和低音区）对应的4组键盘键位（相邻的红蓝大写字母为一组，每组音域为三个八度）
+## 曲谱制作器使用方法
+**制谱器路径: AutoYuanQin\assets\tutorial_file\index.html(请确保 五线谱注解.png与制谱器位于同一目录下)**
+**声明：本制谱器生成的曲谱文件为标准格式**
 
-有不懂的地方请在\assets/tutorial_file/example.json内找，这个谱子内包含了该脚本的五线谱相关的所有功能
+* 使用步骤如下（顺序）
+	* 确定音域（共有三种音域可选[左中右共三个]，每个音域为一对红蓝大写字符[21个]）
+		* 选择音符：点击左上角图片中的对应大写字母或@, 点击多个音符实现和弦
+		* 完善音符：页面底部两行选择音符的具体类型，选好后点击按钮```确定（完善音符）```
+		* 分节：确保当前页面的音符都已完善，点击按钮```分节```
+		* 换行：确保当前页面的音符都已完善，点击按钮```换行```
+		
+		* **删除音符：** 如果您**写错了音符**，请**手动**删除**整个音符**并确保右上角代码框的**末尾**是 ```]、|、或一行的开头```
+			* 音符删除示例：```A[16]B[32]``` 比如您想写 ```B[16]``` ，一不小心写成了三十二分音符，请删除整个音符~~B[32]~~，删除后的示例```A[16]```，然后再次进行音符 ```B```的写入
+	* 写入曲谱信息（曲名、录谱人必填、bpm、拍号）
+	* 导出曲谱
+		点击按钮```导出乐谱JSON```，曲谱文件名请确认是```曲名.json```
+	* 读取乐谱
+		如果您写了一半，打算下次在写，可以使用导出曲谱功能保存曲谱，下次要写的时候点击按钮```读取乐谱JSON```，选择上次导出的文件即可
+
+## 曲谱制作问题
+\assets\tutorial_file\五线谱注解.png包含了五线谱（高音区和低音区）对应的3组键盘键位（相邻的红蓝大写字母为一组，每组音域为三个八度）
+
+有不懂的地方请在\assets\tutorial_file\example.json内找，这个谱子内包含了该脚本的五线谱相关的所有功能
 
 ## 曲谱文件位置
 所有的曲谱文件应放置于 AutoLyre\assets\score_file 路径下，并在文件名前添加正确的序号
@@ -58,14 +79,14 @@ notes 字段中包含的是乐谱内容。音符**必须**使用**大写字母**
 ### A[4]
 表示按下A键，A键视作四分音符。
 <div align="center">
-  <img src="https://github.com/babalae/bettergi-scripts-list/tree/main/repo/js/AutoYuanQin/assets/tutorial_file/四分音符示例.png"/>
+  <img src="D:\Workplace\BetterGI脚本-追踪-战斗\JS脚本\AutoYuanQin\assets\tutorial_file\四分音符示例.png"/>
   <p>四分音符示例</p>
 </div>
 
 ### F[16-#]D[16-#]S[16-#]
 表示**装饰音·倚音**  
 <div align="center">
-  <img src="https://github.com/babalae/bettergi-scripts-list/tree/main/repo/js/AutoYuanQin/assets/tutorial_file/装饰音·倚音示例.png"/>
+  <img src="D:\Workplace\BetterGI脚本-追踪-战斗\JS脚本\AutoYuanQin\assets\tutorial_file\装饰音·倚音示例.png"/>
   <p>装饰音·倚音示例</p>
 </div>
 
@@ -75,7 +96,7 @@ notes 字段中包含的是乐谱内容。音符**必须**使用**大写字母**
 表示一个**三连音**（六连音用法与此相似，仅需将3改成6，**其它类型的连音**也请使用3或6(即使是5连音)）
 另外，连音内支持和弦
 <div align="center">
-  <img src="https://github.com/babalae/bettergi-scripts-list/tree/main/repo/js/AutoYuanQin/assets/tutorial_file/三连音示例.png"/>
+  <img src="D:\Workplace\BetterGI脚本-追踪-战斗\JS脚本\AutoYuanQin\assets\tutorial_file\三连音示例.png"/>
   <p>三连音示例</p>
 </div>
 
@@ -94,7 +115,7 @@ notes 字段中包含的是乐谱内容。音符**必须**使用**大写字母**
 ### D[4-16.3]G[4-16.3]H[4-16.3]W[4-16.3]R[4-16.$]
 表示一个**五连音**，同理也可以是**N连音**
 <div align="center">
-  <img src="https://github.com/babalae/bettergi-scripts-list/tree/main/repo/js/AutoYuanQin/assets/tutorial_file/五连音示例.png"/>
+  <img src="D:\Workplace\BetterGI脚本-追踪-战斗\JS脚本\AutoYuanQin\assets\tutorial_file\五连音示例.png"/>
   <p>五连音示例</p>
 </div>
 
@@ -108,7 +129,7 @@ notes 字段中包含的是乐谱内容。音符**必须**使用**大写字母**
 ### (BG)[4-4.3]\(VF\)[4-8.$]
 表示一个**三连音连音线**（与三连音用法相同，但是三连音连音线允许连线内出现不同类型的音符）
 <div align="center">
-  <img src="https://github.com/babalae/bettergi-scripts-list/tree/main/repo/js/AutoYuanQin/assets/tutorial_file/三连音连音线示例.png"/>
+  <img src="D:\Workplace\BetterGI脚本-追踪-战斗\JS脚本\AutoYuanQin\assets\tutorial_file\三连音连音线示例.png"/>
   <p>三连音连音线示例</p>
 </div>
 
@@ -123,7 +144,7 @@ notes 字段中包含的是乐谱内容。音符**必须**使用**大写字母**
 ### @[2-8.6]\(AF\)[2-16.6]N[2-16.6]\(AF\)[2-16.6]N[2-16.6]\(AF\)[2-16.6]N[2-16.6]\(AF\)[2-16.6]N[2-16.6]\(AF\)[2-16.6]N[2-16.$]
 表示一个**六连音连音线**（乐谱上表示为一个六连音连音线内包含1个八分休止符和10个十六分音符，区别于三连音，六连音的.后面的数字是6）
 <div align="center">
-  <img src="https://github.com/babalae/bettergi-scripts-list/tree/main/repo/js/AutoYuanQin/assets/tutorial_file/六连音连音线示例.png"/>
+  <img src="D:\Workplace\BetterGI脚本-追踪-战斗\JS脚本\AutoYuanQin\assets\tutorial_file\六连音连音线示例.png"/>
   <p>六连音连音线示例</p>
 </div>
 
@@ -138,7 +159,7 @@ notes 字段中包含的是乐谱内容。音符**必须**使用**大写字母**
 ### @[4]
 表示一个**休止符**
 <div align="center">
-  <img src="https://github.com/babalae/bettergi-scripts-list/tree/main/repo/js/AutoYuanQin/assets/tutorial_file/四分休止符示例.png"/>
+  <img src="D:\Workplace\BetterGI脚本-追踪-战斗\JS脚本\AutoYuanQin\assets\tutorial_file\四分休止符示例.png"/>
   <p>四分休止符示例</p>
 </div>
 
@@ -147,7 +168,7 @@ notes 字段中包含的是乐谱内容。音符**必须**使用**大写字母**
 ### (SH)[4-*]
 表示一个**附点四分音符**
 <div align="center">
-  <img src="https://github.com/babalae/bettergi-scripts-list/tree/main/repo/js/AutoYuanQin/assets/tutorial_file/附点四分音符示例.png"/>
+  <img src="D:\Workplace\BetterGI脚本-追踪-战斗\JS脚本\AutoYuanQin\assets\tutorial_file\附点四分音符示例.png"/>
   <p>附点四分音符示例</p>
 </div>
 
