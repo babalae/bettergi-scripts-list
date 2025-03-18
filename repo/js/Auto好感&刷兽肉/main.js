@@ -75,13 +75,16 @@
     async function AutoFriendship(times, statue_times, GetMeatMode) {
         log.info(`导航至好感-张牙舞爪的恶党-触发位置(二净甸)`);
         await AutoPath(`好感-张牙舞爪的恶党-触发位置(二净甸)`);
-    
+        // 加个10秒延迟，避免没上报当前位置导致登录重上后退回传送锚点
+        await sleep(10000);
+
         log.info(`自动好感开始...`);
     
         for (let i = 0; i < times; i++) {
             if ((i + 1) % statue_times === 0) {
                 await genshin.tp(2297.60, -824.45);
                 await AutoPath(`好感-张牙舞爪的恶党-触发位置(二净甸)`);
+                await sleep(10000);
                 await ReopenTheGate();
                 log.info(`当前次数：${i + 1}/${times}`);
                 logTimeTaken(startTime);

@@ -1,0 +1,156 @@
+{
+  "info": {
+    "name": "蒙德-清泉镇南-10",
+    "type": "collect",
+    "author": "火山",
+    "version": "1.0",
+    "description": "蒙德-清泉镇南-10",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -913.5693359375,
+      "y": 1790.32958984375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -914.845703125,
+      "y": 1795.46240234375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芙宁娜 attack(0.1)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -919.8896484375,
+      "y": 1794.62255859375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芙宁娜 e",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -920.673828125,
+      "y": 1784.0986328125,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "dash",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -932.5381687242807,
+      "y": 1784.75,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -933.5389917695466,
+      "y": 1791.87744140625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -930.498046875,
+      "y": 1805.1376953125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -910.6982421875,
+      "y": 1813.6708984375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芙宁娜 e",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -902.8810699588485,
+      "y": 1808.25,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -898.1271604938265,
+      "y": 1795.875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -901.4502881759472,
+      "y": 1789.8125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -901.4502881759472,
+      "y": 1789.8125,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "芙宁娜 e",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -905.5087890625,
+      "y": 1778.2451171875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -899.5588477366255,
+      "y": 1777,
+      "action": "pick_around",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -895.7666666666664,
+      "y": 1758.0625,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "芙宁娜 e",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -904.384765625,
+      "y": 1747.56396484375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

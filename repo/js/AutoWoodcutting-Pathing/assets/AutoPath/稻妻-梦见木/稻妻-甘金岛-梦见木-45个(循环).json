@@ -1,75 +1,121 @@
 {
   "info": {
-    "name": "稻妻-甘金岛-梦见木-45个",
+    "name": "稻妻-甘金岛-梦见木-45个(循环)",
     "type": "collect",
     "author": "起个名字好难",
-    "version": "1.0",
+    "version": "1.1",
     "description": "",
-    "bgiVersion": "0.35.1"
+    "bgiVersion": "0.42.3"
   },
   "positions": [
     {
-      "id": 4,
+      "id": 1,
       "x": -3996.86328125,
       "y": -2976.578125,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keypress(VK_Z),wait(2.5)"
+      "move_mode": "walk",
+      "action_params": "keypress(VK_Z),wait(2)",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": -4010.0439453125,
+      "y": -2984.115234375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": -4010.0439453125,
+      "y": -2984.115234375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(VK_Z),wait(1.5)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": -4031.265625,
+      "y": -3000.931640625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(VK_Z)",
+      "type": "path",
+      "locked": false
     },
     {
       "id": 5,
-      "x": -4010.0439453125,
-      "y": -2984.115234375,
-      "type": "path",
-      "move_mode": "walk",
+      "x": -4039.6923828125,
+      "y": -3022.5771484375,
       "action": "combat_script",
-      "action_params": "keypress(VK_Z),wait(1.5)"
+      "move_mode": "walk",
+      "action_params": "keypress(VK_Z),wait(1.5)",
+      "type": "path",
+      "locked": false
     },
     {
       "id": 6,
-      "x": -4031.265625,
-      "y": -3000.931640625,
-      "type": "path",
+      "x": -4020.197265625,
+      "y": -3013.8046875,
+      "action": "",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keypress(VK_Z)"
+      "action_params": "",
+      "type": "orientation",
+      "locked": false
     },
     {
       "id": 7,
-      "x": -4039.6923828125,
-      "y": -3022.5771484375,
-      "type": "path",
-      "move_mode": "walk",
+      "x": -4020.197265625,
+      "y": -3013.8046875,
       "action": "combat_script",
-      "action_params": "keypress(VK_Z),wait(1.5)"
+      "move_mode": "walk",
+      "action_params": "keypress(VK_Z),wait(1.0)",
+      "type": "path",
+      "locked": false
     },
     {
       "id": 8,
-      "x": -4020.197265625,
-      "y": -3013.8046875,
-      "type": "path",
-      "move_mode": "walk",
+      "x": -4006.0859375,
+      "y": -3000.724609375,
       "action": "combat_script",
-      "action_params": "keypress(VK_Z),wait(1.8)"
+      "move_mode": "walk",
+      "action_params": "keypress(VK_Z)",
+      "type": "target",
+      "locked": false
     },
     {
       "id": 9,
-      "x": -4001.1005859375,
-      "y": -3007.08984375,
+      "x": -4001.9833984375,
+      "y": -2990.015625,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keypress(VK_Z),wait(1)"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 10,
-      "x": -3978.7841796875,
-      "y": -2991.3134765625,
-      "type": "path",
-      "move_mode": "walk",
+      "x": -3981.384765625,
+      "y": -2985.6025390625,
       "action": "combat_script",
-      "action_params": "keypress(VK_Z)"
+      "move_mode": "walk",
+      "action_params": "keypress(VK_Z)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": -3996.86328125,
+      "y": -2976.578125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation",
+      "locked": false
     }
   ]
 }
