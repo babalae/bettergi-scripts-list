@@ -10,15 +10,24 @@
     "positions": [
         {
             "id": 1,
-            "action": "combat_script",
+            "action": "",
             "move_mode": "walk",
             "type": "teleport",
             "x": 526.14,
             "y": 105.78,
-            "action_params": "wait(0.5),keypress(space),wait(0.5)"
+            "action_params": ""
         },
         {
             "id": 2,
+            "x": 527.00,
+            "y": 106.75,
+            "action": "combat_script",
+            "move_mode": "walk",
+            "action_params": "wait(2),keydown(Space),wait(0.1),keyup(Space),wait(0.2),keydown(Space),wait(0.1),keyup(Space),wait(5)",
+            "type": "path"
+        },
+        {
+            "id": 3,
             "x": 529.17,
             "y": 120.12,
             "type": "path",
@@ -27,7 +36,7 @@
             "action_params": ""
         },
         {
-            "id": 3,
+            "id": 4,
             "x": 530.63,
             "y": 129.27,
             "type": "target",
