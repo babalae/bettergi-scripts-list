@@ -113,11 +113,14 @@
                     await pathingScript.runFile(filePath);
                 }
                 log.info(`${pathingName} 第 ${i+1}/${n} 次循环执行完成`);
+                logTimeTaken(startTime);
             }
             log.info(`完成 ${pathingName} 循环路径, 获得${woodCountToStr(woodCount, n)}`);
+            logTimeTaken(startTime);
             woodCount.forEach((value, key) => {
                 woodNumberMap.set(key, woodNumberMap.get(key)-value*n);});
             log.info(`${pathingName} 伐木完成，将执行下一个`);
+            logTimeTaken(startTime);
             logRemainingItems();
         } catch (error) {
             log.error(`在砍伐 ${pathingName} 时发生错误: ${error}`);
@@ -215,7 +218,17 @@
         return woodCount;
     }
 
+    function logTimeTaken(startTime) {
+        const currentTime = Date.now();
+        const totalTimeInSeconds = (currentTime - startTime) / 1000;
+        const minutes = Math.floor(totalTimeInSeconds / 60);
+        const seconds = totalTimeInSeconds % 60;
+        const formattedTime = `${minutes}分${seconds.toFixed(0).padStart(2, '0')}秒`;
+        log.info(`当前运行总时长：${formattedTime}`);
+    }
+
     // Set game environment settings
+    const startTime = Date.now();
     setGameMetrics(1920, 1080, 1);
     //修改路线：除了 垂香木-萃华木-香柏木，悬铃木-椴木 以外，其他木材基本都是单独路线，可以替换 \assets\AutoPath 中的路径追踪脚本，然后修改 pathingMap 中的文件名即可。
     // pathingMap 为木材路径追踪文件路径列表, 键名可以随意命名, 值的 fileName 属性为路线包含路径追踪文件名列表, 文件夹为'assets/AutoPath/', 如果还有子文件夹请添加 folderName 属性. 如果 fileName 数组中有两项以上, 并且第一个文件名包含 '大循环', 则会先执行一次大循环, 剩余的文件名视为循环路径, 将在每次循环中依次执行.
@@ -229,7 +242,7 @@
         '竹节':   { fileName: ['璃月-轻策庄-竹节-0个(大循环)', '璃月-轻策庄-竹节-78个-29秒(循环)'], folderName: '璃月-竹节'},
         '垂香木': { fileName: ['蒙德-风起地-垂香木-48个-萃华木-6个-57秒']},
         '杉木':   { fileName: ['蒙德-达达乌帕谷-杉木-0个(大循环)', '蒙德-达达乌帕谷-杉木-69个-58秒(循环)'], folderName: '蒙德-杉木'},
-        '梦见木': { fileName: ['稻妻-甘金岛-梦见木-45个(大循环)', '稻妻-甘金岛-梦见木-45个(循环)'], folderName: '稻妻-梦见木'},
+        '梦见木': { fileName: ['稻妻-甘金岛-梦见木-0个(大循环)', '稻妻-甘金岛-梦见木-45个(循环)'], folderName: '稻妻-梦见木'},
         '枫木':   { fileName: ['稻妻-绯木村-枫木-42个-83秒']},
         '孔雀木': { fileName: ['稻妻-镇守之森-孔雀木-51个-御伽木-9个-萃华木-3个-60秒']},
         '御伽木': { fileName: ['稻妻-水月池-御伽木-18个-90秒(大循环)', '稻妻-水月池-御伽木-57个-64秒(循环)'], folderName: '稻妻-御伽木'},
