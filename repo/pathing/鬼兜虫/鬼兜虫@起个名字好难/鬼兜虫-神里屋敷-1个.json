@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "鬼兜虫-神里屋敷-1个",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4578.763671875,
+      "y": -2577.72265625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4584.23828125,
+      "y": -2523.7197265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4614.515625,
+      "y": -2482.8291015625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "2000"
+    },
+    {
+      "id": 4,
+      "x": -4610.5703125,
+      "y": -2481.9599609375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

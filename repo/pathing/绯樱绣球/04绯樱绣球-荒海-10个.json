@@ -1,15 +1,87 @@
 {
   "info": {
-    "name": "绯樱绣球-荒海-7个",
+    "name": "绯樱绣球-荒海-10个",
     "type": "collect",
     "author": "起个名字好难",
     "version": "1.0",
-    "description": "久歧忍可采集全，引战导致雷元素法师漏采集1个",
-    "bgiVersion": "0.35.1"
+    "description": "久歧忍可采集全，引战导致雷元素法师漏采集最后1~2个",
+    "bgiVersion": "0.42.3"
   },
   "positions": [
     {
       "id": 1,
+      "x": -4217.91,
+      "y": -2397.82,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -4221.71484375,
+      "y": -2402.1181640625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -4254.48046875,
+      "y": -2431.5087890625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -4261.966796875,
+      "y": -2438.44921875,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": -4217.91,
+      "y": -2397.82,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 6,
+      "x": -4168.29296875,
+      "y": -2480.5068359375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -4162.048828125,
+      "y": -2483.8955078125,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": -4178.681640625,
+      "y": -2506.4638671875,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
       "x": -4217.634765625,
       "y": -2397.204833984375,
       "action": "",
@@ -17,7 +89,7 @@
       "type": "teleport"
     },
     {
-      "id": 2,
+      "id": 10,
       "x": -4277.25,
       "y": -2343.76,
       "action": "stop_flying",
@@ -25,7 +97,7 @@
       "type": "path"
     },
     {
-      "id": 3,
+      "id": 11,
       "x": -4283.616,
       "y": -2338.456,
       "action": "electro_collect",
@@ -33,7 +105,7 @@
       "type": "target"
     },
     {
-      "id": 4,
+      "id": 12,
       "x": -4285.75,
       "y": -2309.25,
       "action": "",
@@ -41,7 +113,7 @@
       "type": "path"
     },
     {
-      "id": 5,
+      "id": 13,
       "x": -4249.62,
       "y": -2311.336,
       "action": "electro_collect",
@@ -49,7 +121,7 @@
       "type": "target"
     },
     {
-      "id": 6,
+      "id": 14,
       "x": -4265.25,
       "y": -2295.9949837547574,
       "action": "",
@@ -57,7 +129,7 @@
       "type": "path"
     },
     {
-      "id": 7,
+      "id": 15,
       "x": -4269,
       "y": -2242.228957828398,
       "action": "",
@@ -65,7 +137,7 @@
       "type": "path"
     },
     {
-      "id": 8,
+      "id": 16,
       "x": -4284.773,
       "y": -2240.042,
       "action": "electro_collect",
@@ -73,7 +145,7 @@
       "type": "target"
     },
     {
-      "id": 9,
+      "id": 17,
       "x": -4295,
       "y": -2243.5,
       "action": "",
@@ -81,7 +153,7 @@
       "type": "path"
     },
     {
-      "id": 10,
+      "id": 18,
       "x": -4278.985,
       "y": -2266.819,
       "action": "electro_collect",
@@ -89,7 +161,7 @@
       "type": "target"
     },
     {
-      "id": 11,
+      "id": 19,
       "x": -4291.891,
       "y": -2285.137,
       "action": "electro_collect",
@@ -97,7 +169,7 @@
       "type": "target"
     },
     {
-      "id": 12,
+      "id": 20,
       "x": -4217.634765625,
       "y": -2397.204833984375,
       "action": "",
@@ -105,7 +177,7 @@
       "type": "teleport"
     },
     {
-      "id": 13,
+      "id": 21,
       "x": -4236,
       "y": -2353,
       "action": "stop_flying",
@@ -113,7 +185,7 @@
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 22,
       "x": -4237.946,
       "y": -2346.986,
       "action": "electro_collect",
@@ -121,7 +193,7 @@
       "type": "target"
     },
     {
-      "id": 15,
+      "id": 23,
       "x": -4218.329,
       "y": -2343.689,
       "action": "electro_collect",

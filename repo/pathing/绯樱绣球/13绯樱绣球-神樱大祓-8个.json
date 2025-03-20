@@ -1,0 +1,174 @@
+{
+  "info": {
+    "name": "绯樱绣球-神樱大祓-8个",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "丽莎可采集全，久岐忍漏最后2个",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4375.669921875,
+      "y": -2498.134765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -4396.4609375,
+      "y": -2505.9833984375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -4407.220703125,
+      "y": -2584.4052734375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "5000",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -4406.978515625,
+      "y": -2583.19140625,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": -4394.064453125,
+      "y": -2581.060546875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -4395.658203125,
+      "y": -2555.244140625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -4399.083984375,
+      "y": -2529.97265625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "4000",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -4393.1015625,
+      "y": -2521.04296875,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": -4389.375,
+      "y": -2511.6455078125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -4385.380859375,
+      "y": -2514.7109375,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": -4374.654296875,
+      "y": -2524.234375,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": -4423.576171875,
+      "y": -2537.6337890625,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": -4420.146484375,
+      "y": -2542.4853515625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -4423.939453125,
+      "y": -2550.7353515625,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -4418.9140625,
+      "y": -2551.29296875,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 16,
+      "x": -4417.15234375,
+      "y": -2563.3642578125,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "丽莎 attack,wait(0.5),attack,wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE)",
+      "type": "target"
+    },
+    {
+      "id": 17,
+      "x": -4379.09765625,
+      "y": -2572.099609375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": -4375.265625,
+      "y": -2566.3935546875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "丽莎 attack,wait(0.5),attack,wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE)",
+      "type": "target"
+    }
+  ]
+}
