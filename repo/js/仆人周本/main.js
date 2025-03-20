@@ -63,7 +63,7 @@ keyDown("s");
 await sleep(25000);
 keyUp("s");
 keyDown("w");
-await sleep(4700);
+await sleep(4300);
 keyUp("w");
 
 await sleep(1000);
