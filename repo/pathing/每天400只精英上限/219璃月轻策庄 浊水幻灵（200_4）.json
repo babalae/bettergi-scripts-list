@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "219璃月轻策庄 浊水幻灵（200_4）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "4浊水幻灵",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 547.7353515625,
+      "y": 1766.79345703125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 540.826171875,
+      "y": 1766.02978515625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 475.234375,
+      "y": 1789.2255859375,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 389.353515625,
+      "y": 1690.11669921875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 5,
+      "x": 362.623046875,
+      "y": 1696.9609375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 297.8642578125,
+      "y": 1686.732421875,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "click,wait(0.5),click",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 314.140625,
+      "y": 1713.35693359375,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

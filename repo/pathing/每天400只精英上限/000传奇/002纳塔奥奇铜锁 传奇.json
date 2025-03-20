@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "002纳塔奥奇铜锁",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "1铜锁 600摩拉",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9180.626450333903,
+      "y": -24.622889598163965,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9192.502008154635,
+      "y": -49.87823295600356,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(5),keydown(w),wait(3),keyup(w),wait(1),keydown(d),wait(2),keyup(d)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9192.502008154635,
+      "y": -49.87823295600356,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

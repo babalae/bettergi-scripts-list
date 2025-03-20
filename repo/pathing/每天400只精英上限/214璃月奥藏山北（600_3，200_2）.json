@@ -1,0 +1,120 @@
+{
+  "info": {
+    "name": "214璃月奥藏山北（600_3，200_2）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "2狂风之核 1岩龙蜥 2幼岩龙蜥",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1604.244140625,
+      "y": 1040.6728515625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1607.5341796875,
+      "y": 1039.19287109375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1611.3779296875,
+      "y": 1043.94140625,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1624.7861328125,
+      "y": 1057.95654296875,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1629.3076171875007,
+      "y": 1102.8510742187498,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1613.3076171875,
+      "y": 1152.85107421875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 1617.298828125,
+      "y": 1192.052734375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 1623.6728515625,
+      "y": 1214.5610351562502,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 1602.9443359375,
+      "y": 1233.91357421875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 1623.603515625,
+      "y": 1270.91064453125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(1),click"
+    },
+    {
+      "id": 11,
+      "x": 1598.9716796875,
+      "y": 1304.3935546875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 1565.7294921875,
+      "y": 1283.7666015625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
