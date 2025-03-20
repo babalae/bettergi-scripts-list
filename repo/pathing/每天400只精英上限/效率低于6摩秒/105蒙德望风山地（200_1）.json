@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "105蒙德望风山地（200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "1丘丘暴徒",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1273.98046875,
+      "y": 2722.332763671875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1281.8876953125,
+      "y": 2700.05419921875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1273.1962890625,
+      "y": 2680.886474609375,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1296.5,
+      "y": 2682.97509765625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
