@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "07-白萝卜-稻妻望龙村-3个",
+    "type": "collect",
+    "author": "小刘忙",
+    "version": "1.0",
+    "description": "07-白萝卜-稻妻望龙村-3个",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "fly",
+      "type": "teleport",
+      "x": -755.623046875,
+      "y": -4001.09765625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -808.2494212609854,
+      "y": -4009.750377989567,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -827.4992765762308,
+      "y": -4008.249874003477,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

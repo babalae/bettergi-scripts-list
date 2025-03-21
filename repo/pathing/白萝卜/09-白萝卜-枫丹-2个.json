@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "09-白萝卜-枫丹-2个",
+    "type": "collect",
+    "author": "小刘忙",
+    "version": "1.0",
+    "description": "09-白萝卜-枫丹-2个",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": 4865.4521484375,
+      "y": 3913.154541015625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4953.000289369507,
+      "y": 3960.016127554856,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4997.000289369507,
+      "y": 3963.0055438469826,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 5043.06640625,
+      "y": 3943.544921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}
