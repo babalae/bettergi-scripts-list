@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "4浊水幻灵",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -46,30 +46,39 @@
     },
     {
       "id": 5,
-      "x": 362.623046875,
-      "y": 1696.9609375,
+      "x": 369.833984375,
+      "y": 1698.0419921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 337.830078125,
+      "y": 1693.32373046875,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 6,
-      "x": 297.8642578125,
-      "y": 1686.732421875,
+      "id": 7,
+      "x": 296.814453125,
+      "y": 1688.31982421875,
+      "type": "path",
+      "move_mode": "dash",
       "action": "combat_script",
-      "move_mode": "run",
-      "action_params": "click,wait(0.5),click",
-      "type": "path"
+      "action_params": "click,wait(0.5),click"
     },
     {
-      "id": 7,
-      "x": 314.140625,
-      "y": 1713.35693359375,
+      "id": 8,
+      "x": 320.4111328125,
+      "y": 1718.5849609375,
+      "type": "path",
+      "move_mode": "dash",
       "action": "fight",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     }
   ]
 }
