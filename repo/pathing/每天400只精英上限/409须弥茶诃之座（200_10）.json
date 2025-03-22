@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "3丘丘暴徒 4遗迹机兵 1遗迹龙兽 2遗迹猎者",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -58,7 +58,7 @@
       "x": 3634.5,
       "y": -1904.0020362432988,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
@@ -86,7 +86,7 @@
       "y": -1777.876150920125,
       "action": "combat_script",
       "move_mode": "run",
-      "action_params": "keypress(4),wait(0.3),keypress(e),wait(1),keypress(2),wait(0.3),keypress(e),wait(1),keypress(1),wait(0.2),keypress(a),wait(0.1),keydown(e),wait(1.2),keyup(e)",
+      "action_params": "keypress(4),wait(0.3),keypress(e),wait(1),keypress(2),wait(0.3),keypress(e),wait(1),keypress(1),wait(0.2),keypress(a),wait(0.1),keydown(e),wait(1.2),keyup(e),wait(2)",
       "type": "path"
     },
     {
@@ -139,21 +139,30 @@
       "x": 3665.625,
       "y": -1691.6260181216503,
       "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 16,
-      "x": 3646.5,
-      "y": -1761.7741250564775,
-      "action": "fight",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
+      "id": 16,
+      "x": 3651.3955078125,
+      "y": -1760.53466796875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
       "id": 17,
+      "x": 3646.5,
+      "y": -1761.7741250564775,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
       "x": 3672.5,
       "y": -1796.499911467683,
       "action": "",
@@ -162,13 +171,13 @@
       "type": "path"
     },
     {
-      "id": 18,
-      "x": 3702.75,
-      "y": -1816.749557338413,
+      "id": 19,
+      "x": 3695.1728515625,
+      "y": -1810.93359375,
+      "type": "path",
+      "move_mode": "dash",
       "action": "fight",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     }
   ]
 }
