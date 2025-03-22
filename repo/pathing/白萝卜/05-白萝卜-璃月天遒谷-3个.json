@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "05-白萝卜-璃月天遒谷-3个",
+    "type": "collect",
+    "author": "小刘忙",
+    "version": "1.0",
+    "description": "05-白萝卜-璃月天遒谷-3个",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "run",
+      "type": "teleport",
+      "x": 1152.9189453125,
+      "y": 142.107421875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1107.5595703125,
+      "y": 77.36767578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1066.564453125,
+      "y": 55.16748046875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 1108.5439453125,
+      "y": 20.72021484375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

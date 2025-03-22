@@ -1,0 +1,30 @@
+{
+  "info": {
+    "name": "08-白萝卜-稻妻-2个",
+    "type": "collect",
+    "author": "小刘忙",
+    "version": "1.0",
+    "description": "08-白萝卜-稻妻-2个",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4023.302734375,
+      "y": -4428.8076171875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4002.484375,
+      "y": -4389.416015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

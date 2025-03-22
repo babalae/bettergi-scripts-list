@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "01-白萝卜-蒙德-8个",
+    "type": "collect",
+    "author": "小刘忙",
+    "version": "1.0",
+    "description": "01-白萝卜-蒙德-8个",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "run",
+      "type": "teleport",
+      "x": -578.8193359375,
+      "y": 1853.3701171875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -501.00332774933486,
+      "y": 1809.4967240904189,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -497.50043405426186,
+      "y": 1777.4974800695545,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -479.75065108139097,
+      "y": 1722.2471020799858,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -466.505859375,
+      "y": 1708.8056640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -400.2685546875,
+      "y": 1683.20849609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}
