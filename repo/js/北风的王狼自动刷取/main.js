@@ -8,6 +8,8 @@ await sleep(1000);
 await pathingScript.runFile("assets/领取奖励.json");
 keyPress("F");
 await sleep(5000);
-click(975, 1000);//消耗树脂领取
+click(968, 759);//消耗树脂领取
+await sleep(1000);
+click(975, 1000);//点击空白区域
 await sleep(1000);
 })();
