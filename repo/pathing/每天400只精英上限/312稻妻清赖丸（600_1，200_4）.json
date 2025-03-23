@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "1丘丘王 1冰萤术士 3遗迹机兵",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -55,6 +55,15 @@
     },
     {
       "id": 6,
+      "x": -3693.544921875,
+      "y": -4352.943359375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
       "x": -3661.4052734375,
       "y": -4391.4033203125,
       "action": "fight",
@@ -63,7 +72,7 @@
       "type": "path"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": -3684.8115234375,
       "y": -4278.5205078125,
       "action": "",
@@ -72,49 +81,49 @@
       "type": "teleport"
     },
     {
-      "id": 8,
-      "x": -3715.80859375,
-      "y": -4289.232421875,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
       "id": 9,
-      "x": -3765.7626953125,
-      "y": -4247.2939453125,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "x": -3727.955078125,
+      "y": -4306.87109375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 10,
-      "x": -3769.88671875,
-      "y": -4281.4013671875,
-      "action": "",
+      "x": -3757.2890625,
+      "y": -4324.8212890625,
+      "type": "path",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "action": "fight",
+      "action_params": ""
     },
     {
       "id": 11,
-      "x": -3768.1474609375,
-      "y": -4309.2978515625,
-      "action": "fight",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "x": -3796.3154296875,
+      "y": -4301.01171875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 12,
-      "x": -3744.5205078125,
-      "y": -4314.7216796875,
-      "action": "fight",
+      "x": -3776.7255859375,
+      "y": -4240.8037109375,
+      "type": "path",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": -3764.1826171875,
+      "y": -4254.630859375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
     }
   ]
 }

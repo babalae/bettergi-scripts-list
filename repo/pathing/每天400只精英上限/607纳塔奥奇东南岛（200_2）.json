@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "2遗迹守卫",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -32,8 +32,9 @@
       "y": -572.9372726305483,
       "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "wait(0.2),keypress(VK_SPACE),wait(2),click,,wait(4)",
-      "type": "path"
+      "action_params": "wait(0.5),keypress(VK_SPACE),wait(1.5),click,wait(5)",
+      "type": "path",
+      "locked": false
     },
     {
       "id": 4,

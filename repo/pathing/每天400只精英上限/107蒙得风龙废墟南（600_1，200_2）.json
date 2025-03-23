@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "1狂风之核 2丘丘暴徒",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -75,46 +75,46 @@
       "id": 8,
       "x": 255.041015625,
       "y": 2431.875244140625,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 9,
       "x": 252.96484375,
       "y": 2431.479248046875,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(3),keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(3),keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(1.5)"
+      "move_mode": "walk",
+      "action_params": "keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(3),keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(3),keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(1.5)",
+      "type": "path"
     },
     {
       "id": 10,
       "x": 225.875,
       "y": 2418.050048828125,
-      "type": "path",
-      "move_mode": "fly",
       "action": "",
-      "action_params": ""
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 11,
       "x": 226.43749996636507,
       "y": 2410.5624772630545,
-      "type": "path",
-      "move_mode": "fly",
       "action": "",
-      "action_params": ""
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 12,
       "x": 283.5283203125,
       "y": 2385.822998046875,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 13,
@@ -145,17 +145,17 @@
     },
     {
       "id": 16,
-      "x": 395.927734375,
-      "y": 2415.104248046875,
-      "action": "stop_flying",
+      "x": 400.171875,
+      "y": 2417.035888671875,
+      "type": "path",
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "action": "stop_flying",
+      "action_params": ""
     },
     {
       "id": 17,
-      "x": 396.927734375,
-      "y": 2414.104248046875,
+      "x": 400.927734375,
+      "y": 2416.104248046875,
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
