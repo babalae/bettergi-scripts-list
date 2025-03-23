@@ -1,10 +1,10 @@
 {
   "info": {
-    "name": "605纳塔奥奇（200_1）次数盾",
+    "name": "605纳塔奥奇（600_1）次数盾",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "1次数盾",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -28,21 +28,21 @@
     },
     {
       "id": 3,
-      "x": 9813.5224609375,
-      "y": -622.8095703125,
-      "action": "stop_flying",
+      "x": 9802.4443359375,
+      "y": -609.7412109375,
+      "type": "path",
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(1.5),click"
     },
     {
       "id": 4,
-      "x": 9820.322265625,
-      "y": -635.68359375,
+      "x": 9825.8544921875,
+      "y": -632.357421875,
+      "type": "path",
+      "move_mode": "dash",
       "action": "fight",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     }
   ]
 }
