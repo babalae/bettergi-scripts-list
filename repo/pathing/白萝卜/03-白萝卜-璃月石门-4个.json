@@ -1,26 +1,26 @@
 {
   "info": {
-    "name": "02-白萝卜-蒙德-7个",
+    "name": "03-白萝卜-璃月石门-4个",
     "type": "collect",
     "author": "小刘忙",
-    "version": "1.0",
-    "description": "02-白萝卜-蒙德-7个",
+    "version": "1.1",
+    "description": "03-白萝卜-璃月石门-4个",
     "bgiVersion": "0.42.3"
   },
   "positions": [
     {
       "id": 1,
-      "x": -914.861328125,
-      "y": 1795.4130859375,
+      "x": 207.4619140625,
+      "y": 1573.01416015625,
       "action": "",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action_params": "",
       "type": "teleport"
     },
     {
       "id": 2,
-      "x": -903.6247468016809,
-      "y": 1838.749748006956,
+      "x": 188.7109375,
+      "y": 1556.30615234375,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -28,53 +28,53 @@
     },
     {
       "id": 3,
-      "x": -883.6303895070741,
-      "y": 1835.998551039993,
+      "x": 166.5322265625,
+      "y": 1539.17041015625,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "fly",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 4,
-      "x": -879.2509766220883,
-      "y": 1847.0001889947835,
+      "x": 143.634765625,
+      "y": 1525.94384765625,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 5,
-      "x": -886.5361328125,
-      "y": 1880.361328125,
-      "action": "nahida_collect",
+      "x": 120.451171875,
+      "y": 1516.5693359375,
+      "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 6,
-      "x": -880.7503617118837,
-      "y": 1903.7526459269684,
-      "action": "stop_flying",
-      "move_mode": "fly",
+      "x": 118.0068359375,
+      "y": 1507.90673828125,
+      "action": "",
+      "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 7,
-      "x": -877.4130859375,
-      "y": 1916.515625,
-      "action": "nahida_collect",
+      "x": 119.45703125,
+      "y": 1493.92529296875,
+      "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 8,
-      "x": -920.7514468475365,
-      "y": 1925.750629982611,
+      "x": 119.296875,
+      "y": 1488.19580078125,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -82,12 +82,21 @@
     },
     {
       "id": 9,
-      "x": -930.5166015625,
-      "y": 1962.8916015625,
-      "action": "nahida_collect",
+      "x": 120.4619140625,
+      "y": 1477.32373046875,
+      "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 121.017578125,
+      "y": 1474.47509765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     }
   ]
 }
