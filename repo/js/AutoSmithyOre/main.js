@@ -44,5 +44,5 @@
     ///
     setGameMetrics(1920, 1080, 1);
     await autoSmithy(smithyName);
-    // await forgeOre(smithyName);
+    await forgeOre(smithyName);
 })();
