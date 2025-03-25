@@ -1,5 +1,4 @@
 (async function () {
-
 const food = 'yueliang';
  await sleep(1000);
 await pathingScript.runFile("assets/recover.json");
@@ -19,7 +18,7 @@ await sleep(15000);
 keyPress("ESCAPE");//点击任意处
 await sleep(2000);
 keyPress("1");
-await sleep(1000);
+await sleep(1000);//切回钟离
 keyPress("B");//打开背包
 await sleep(2000);
 click(863, 51);//选择食物
@@ -44,28 +43,27 @@ click(1690, 1015);//使用
 await sleep(1000);
 keyPress("ESCAPE");
 await sleep(1500);
+
 keyDown("w");
-await sleep(7600);
+await sleep(10000);
 keyUp("w");
+await sleep(7000);
+keyDown("s");
+await sleep(200);
+keyDown("SHIFT");
+await sleep(300);
+keyUp("SHIFT");
+await sleep(200);
+keyUp("s");
 await dispatcher.runTask(new SoloTask("AutoFight"));
-await sleep(30000);//等待柱子碎裂
 keyPress("1");
 await sleep(1000);//切回钟离
-
-
-keyDown("w");//居中大法
-keyDown("d");
-await sleep(12500);
-keyUp("d");
-await sleep(12500);
-keyUp("w");
 keyDown("s");
-await sleep(25000);
+await sleep(2400);//再次校准位置
 keyUp("s");
 keyDown("w");
-await sleep(4300);
+await sleep(7500);
 keyUp("w");
-
 await sleep(1000);
 keyPress("F");//领奖
 await sleep(1000);
