@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "1丘丘王 2法师火雷",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -130,18 +130,18 @@
       "x": -3477.1875,
       "y": -3156.24960589295,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 15,
-      "x": -3525.69921875,
-      "y": -3148.630859375,
-      "action": "fight",
+      "x": -3524.412109375,
+      "y": -3162.59765625,
+      "type": "path",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "action": "fight",
+      "action_params": ""
     }
   ]
 }

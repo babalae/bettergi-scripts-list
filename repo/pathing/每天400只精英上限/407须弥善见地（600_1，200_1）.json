@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "222璃月层岩北（600_1，200_2）",
+    "name": "407须弥善见地（600_1，200_1）",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
@@ -10,8 +10,8 @@
   "positions": [
     {
       "id": 1,
-      "x": 1701.5029296875,
-      "y": -582.3544921875,
+      "x": 3993.7724609375,
+      "y": -989.365234375,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -19,8 +19,8 @@
     },
     {
       "id": 2,
-      "x": 1706.505859375,
-      "y": -575.25048828125,
+      "x": 3978.83203125,
+      "y": -988.5341796875,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -28,44 +28,44 @@
     },
     {
       "id": 3,
-      "x": 1724.44921875,
-      "y": -566.44482421875,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
+      "x": 3897.7216796875,
+      "y": -1006.822265625,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(VK_SPACE),wait(2),click",
       "type": "path"
     },
     {
       "id": 4,
-      "x": 1735.25390625,
-      "y": -558.291015625,
+      "x": 3887.7216796875,
+      "y": -1006.822265625,
       "action": "",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 5,
-      "x": 1742.2646484375,
-      "y": -553.13134765625,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "attack(10),keypress(x)",
+      "x": 3859.3935546875,
+      "y": -1000.44677734375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 6,
-      "x": 1742.2646484375,
-      "y": -553.13134765625,
+      "x": 3838.4462890625,
+      "y": -1002.853515625,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 7,
-      "x": 1752.0126953125,
-      "y": -550.1376953125,
+      "x": 3842.79296875,
+      "y": -1007.61865234375,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -73,17 +73,17 @@
     },
     {
       "id": 8,
-      "x": 1760.0322265625,
-      "y": -548.765625,
-      "action": "",
-      "move_mode": "walk",
+      "x": 3880.33203125,
+      "y": -1009.8359375,
+      "action": "fight",
+      "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 9,
-      "x": 1772.943359375,
-      "y": -539.04296875,
+      "x": 3844.392578125,
+      "y": -1042.71875,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -91,10 +91,19 @@
     },
     {
       "id": 10,
-      "x": 1782.265625,
-      "y": -548.22412109375,
+      "x": 3811.0810546875,
+      "y": -1059.8408203125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 3811.0810546875,
+      "y": -1059.8408203125,
       "action": "fight",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action_params": "",
       "type": "path"
     }
