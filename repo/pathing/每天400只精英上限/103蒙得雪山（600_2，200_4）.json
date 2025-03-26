@@ -1,0 +1,192 @@
+{
+  "info": {
+    "name": "103蒙得雪山（600_2，200_4）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "1丘丘王 1遗迹重机 4丘丘暴徒",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1006.923828125,
+      "y": 859.47607421875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -998.10546875,
+      "y": 852.6123046875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -976.125,
+      "y": 847.7493581406989,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -996.10546875,
+      "y": 849.6123046875,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1006.923828125,
+      "y": 859.47607421875,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(2.5)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -952.380859375,
+      "y": 837.0498046875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -940.5283203125,
+      "y": 833.31591796875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -924.27734375,
+      "y": 815.9580078125,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -1006.9228515625,
+      "y": 859.50244140625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 10,
+      "x": -1047.25,
+      "y": 758.7453963194976,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -1083.25,
+      "y": 771.8736720152401,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -1098.625,
+      "y": 770.8752213307935,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -1121.625,
+      "y": 761.188652005223,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -1153.298828125,
+      "y": 751.9658203125,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -1164.6005859375,
+      "y": 728.52490234375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -1184.1845703125,
+      "y": 708.76611328125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -1184.0419921875,
+      "y": 671.18505859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": -1183.3525390625,
+      "y": 589.6865234375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": -1195.888671875,
+      "y": 562.03759765625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": -1203.2919921875,
+      "y": 539.708984375,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

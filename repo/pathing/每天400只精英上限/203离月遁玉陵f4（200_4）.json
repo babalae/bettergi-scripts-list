@@ -1,0 +1,129 @@
+{
+  "info": {
+    "name": "203离月遁玉陵f4（200_4）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "3遗迹重机 1遗迹猎者",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 981.3793180976045,
+      "y": -343.15015284549554,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1044.5003346924386,
+      "y": -312.75026941299984,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1092.5625,
+      "y": -290.5009738554909,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1109.9981034095126,
+      "y": -313.50179608666895,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1138.25,
+      "y": -338.2510776520012,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1154.1277333215858,
+      "y": -345.74806920683113,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 1154.1277333215858,
+      "y": -345.74806920683113,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 1161.7502789103655,
+      "y": -345.9377469619167,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 1185.0001115641462,
+      "y": -313.499550978333,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 1200.6254183655492,
+      "y": -277.7505388260006,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 1194.8100215107388,
+      "y": -260.2494611739994,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(2),",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 1200.6254183655492,
+      "y": -277.7505388260006,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 1190.8125836731106,
+      "y": -292.9372081359161,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

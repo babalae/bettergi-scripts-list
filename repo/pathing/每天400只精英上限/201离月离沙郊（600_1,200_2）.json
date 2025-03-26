@@ -1,0 +1,84 @@
+{
+  "info": {
+    "name": "201离月离沙郊（600_1,200_2）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 828.279296875,
+      "y": -583.36181640625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 866.7060546875,
+      "y": -521.166015625,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(VK_SPACE),wait(2.5),click",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 853.2607421875,
+      "y": -522.00341796875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 858.2607421875,
+      "y": -522.00341796875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 866.7060546875,
+      "y": -521.166015625,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 880.7275390625,
+      "y": -499.13134765625,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "click,wait(5)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 903.9375,
+      "y": -512.544921875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(4)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 933.080078125,
+      "y": -500.89111328125,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

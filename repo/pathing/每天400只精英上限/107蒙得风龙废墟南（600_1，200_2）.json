@@ -1,0 +1,165 @@
+{
+  "info": {
+    "name": "107蒙得风龙废墟南（600_1，200_2）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 338.2294921875,
+      "y": 2581.150634765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 303.00067151409894,
+      "y": 2532.996665248038,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 284.318359375,
+      "y": 2508.653076171875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 295.8232421875,
+      "y": 2460.06982421875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 296.609375,
+      "y": 2450.408203125,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 296.53125,
+      "y": 2439.8134765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 267.4375003601017,
+      "y": 2434.875712424282,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 255.041015625,
+      "y": 2431.875244140625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 252.96484375,
+      "y": 2431.479248046875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(3),keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(3),keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(1.5)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 225.875,
+      "y": 2418.050048828125,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 226.43749996636507,
+      "y": 2410.5624772630545,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 283.5283203125,
+      "y": 2385.822998046875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 346.2499999366846,
+      "y": 2421.438045686684,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 361.6787109375,
+      "y": 2448.9306640625,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 379.767578125,
+      "y": 2433.81103515625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 400.171875,
+      "y": 2417.035888671875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": 400.927734375,
+      "y": 2416.104248046875,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
