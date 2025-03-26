@@ -1,0 +1,32 @@
+[
+	{
+        "name": "qiuQiuRen",
+        "type": "checkbox",
+        "label": "是否清理丘丘人【默认否，选是会清理丘丘人之后再开始盗宝团好感】"
+    },
+	{
+        "name": "partyName",
+        "type": "input-text",
+        "label": "(选填)需要切换的队伍名称"
+    },
+	{
+        "name": "runTimes",
+        "type": "input-text",
+        "label": "(选填)运行次数【默认10次，卡时间模式默认50次】"
+    },
+	{
+        "name": "waitTimeMode",
+        "type": "checkbox",
+        "label": "卡时间模式【基于运行次数、基准日期、周期确定需要运行次数】"
+    },
+	{
+        "name": "waitTimeModeDay",
+        "type": "input-text",
+        "label": "卡时间模式基准日期【格式参考：2025-01-01】"
+    },
+	{
+        "name": "waitTimeModePeriod",
+        "type": "input-text",
+        "label": "(选填)卡时间模式周期【默认：25天】"
+    }
+]
