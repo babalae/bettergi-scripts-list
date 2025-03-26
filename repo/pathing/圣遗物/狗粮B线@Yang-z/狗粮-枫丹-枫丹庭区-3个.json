@@ -29,13 +29,8 @@
             "y": 3607.502685546875,
             "type": "target",
             "move_mode": "walk",
-            "#" : "1"
-        },
-        {
-            "x": 4455.14306640625,
-            "y": 3607.502685546875,
-            "type": "target",
-            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.8)",
             "#" : "1"
         },
 
