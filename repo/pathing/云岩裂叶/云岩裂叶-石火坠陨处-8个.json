@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "云岩裂叶-石火坠陨处-7个",
+    "name": "云岩裂叶-石火坠陨处-8个",
     "type": "collect",
     "author": "ddaodan",
     "version": "1.0",
@@ -75,33 +75,51 @@
       "id": 8,
       "x": 10595.27734375,
       "y": -2654.40625,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "force_tp",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 9,
       "x": 10605.095703125,
       "y": -2664.25390625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 10627.57421875,
+      "y": -2668.9814453125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 10629.8603515625,
+      "y": -2671.298828125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 10639.4423828125,
+      "y": -2710.50390625,
       "type": "path",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 10,
-      "x": 10627.57421875,
-      "y": -2668.9814453125,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 11,
-      "x": 10629.8603515625,
-      "y": -2671.298828125,
+      "id": 13,
+      "x": 10660.1640625,
+      "y": -2752.4501953125,
       "type": "target",
       "move_mode": "walk",
       "action": "",
