@@ -177,10 +177,10 @@
         click(660, 1010); await sleep(1000); // 分解
         click(300, 1020); await sleep(1000); // 快速选择
 
-        click(200, 140); await sleep(500); // 1
-        click(200, 220); await sleep(500); // 2
-        click(200, 300); await sleep(500); // 3
-        if (autoSalvage4) click(200, 380); await sleep(500); // 4
+        // click(200, 140); await sleep(500); // 1
+        // click(200, 220); await sleep(500); // 2
+        // click(200, 300); await sleep(500); // 3
+        if (!autoSalvage4) { click(200, 380); await sleep(500); } // 4
 
         click(340, 1000); await sleep(1000); // 确认选择
         click(1720, 1015); await sleep(1500); // 分解
