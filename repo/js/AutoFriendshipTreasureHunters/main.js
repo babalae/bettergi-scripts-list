@@ -72,9 +72,12 @@
 	function calculateWaitModeRuns(baseRuns, waitTimeModeDay, period) {
         const now = new Date();
         const benchmark = new Date(waitTimeModeDay + BENCHMARK_HOUR);
-        const delta = now - benchmark;
-        const days = Math.floor(delta / (1000 * 60 * 60 * 24));
-        return Math.floor(baseRuns / period) * (days % period + 1);
+        const timeDiff = now.getTime() - benchmark.getTime();
+        const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+        const daysNormalized = daysDiff >= 0 ? daysDiff : period - (Math.abs(daysDiff) % period);
+        const dayInCycle = (daysNormalized % period) + 1;
+        const baseRunsPerDay = Math.ceil(baseRuns / period);
+        return baseRunsPerDay * dayInCycle;
     }
 
 	async function switchPartyIfNeeded(partyName) {
