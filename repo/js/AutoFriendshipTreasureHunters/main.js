@@ -39,11 +39,12 @@
     }
 
     // 执行 N 次盗宝团任务并输出日志
-    async function AutoFriendshipDev(times, startTimeParam) {
+    async function AutoFriendshipDev(times) {
+        startFisrtTime = Date.now();
         for (let i = 0; i < times; i++) {
             await AutoPath('盗宝团');
-            const estimatedCompletion = CalculateEstimatedCompletion(startTimeParam, i + 1, times);
-            const currentTime = LogTimeTaken(startTimeParam);
+            const estimatedCompletion = CalculateEstimatedCompletion(startFisrtTime, i + 1, times);
+            const currentTime = LogTimeTaken(startFisrtTime);
             log.info(`当前进度：${i + 1}/${times} (${((i + 1) / times * 100).toFixed(1)}%)`);
             log.info(`当前运行总时长：${currentTime}`);
             log.info(`预计完成时间：${estimatedCompletion}`);
@@ -152,6 +153,6 @@
 		await AutoPath('清理原住民');
 	}	
     // 盗宝团好感循环开始	
-	await AutoFriendshipDev(runTimes, startTime);
+	await AutoFriendshipDev(runTimes);
 	log.info(`盗宝团好感运行总时长：${LogTimeTaken(startTime)}`);  
 })();

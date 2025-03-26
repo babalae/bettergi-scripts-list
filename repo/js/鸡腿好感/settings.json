@@ -1,12 +1,12 @@
 [
     {
-        "name": "exitdelay",
+        "name": "times",
         "type": "input-text",
-        "label": "退出延迟（秒）（选填）"
+        "label": "(选填)运行次数【默认10，为避免失败可以酌情添加次数】"
     },
-    {
-        "name": "loadingdelay",
+	{
+        "name": "partyName",
         "type": "input-text",
-        "label": "加载延迟（秒）（选填）"
+        "label": "(选填)需要切换的队伍名称【前往设置的七天神像切换好感队】"
     }
 ]
