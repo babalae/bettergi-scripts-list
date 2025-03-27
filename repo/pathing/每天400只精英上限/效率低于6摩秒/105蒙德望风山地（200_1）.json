@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "1丘丘暴徒",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -19,30 +19,21 @@
     },
     {
       "id": 2,
-      "x": -1281.8876953125,
-      "y": 2700.05419921875,
-      "action": "",
+      "x": -1294.8623046875,
+      "y": 2687.79931640625,
+      "action": "combat_script",
       "move_mode": "run",
-      "action_params": "",
+      "action_params": "click,wait(0.2),click",
       "type": "path"
     },
     {
       "id": 3,
-      "x": -1273.1962890625,
-      "y": 2680.886474609375,
+      "x": -1281.259765625,
+      "y": 2681.071044921875,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
-    },
-    {
-      "id": 4,
-      "x": -1296.5,
-      "y": 2682.97509765625,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "fight",
-      "action_params": ""
     }
   ]
 }
