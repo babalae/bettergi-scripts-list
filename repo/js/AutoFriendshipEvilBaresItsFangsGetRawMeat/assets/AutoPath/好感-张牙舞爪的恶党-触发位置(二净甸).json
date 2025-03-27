@@ -5,7 +5,7 @@
     "author": "起个名字好难的喵",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.42.3"
+    "bgiVersion": "0.43.5"
   },
   "positions": [
     {
@@ -23,8 +23,23 @@
       "y": -521.2724609375,
       "type": "path",
       "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "2500"
+    },
+    {
+      "x": 3615.4814453125,
+      "y": -521.2724609375,
+      "type": "path",
+      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.5),keypress(VK_SPACE),wait(2.5),click"
+      "action_params": "wait(10)"
+    },
+    {
+      "x": 3615.4814453125,
+      "y": -521.2724609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "exit_and_relogin"
     }
   ]
 }
