@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "1遗迹重机 1水法 1火之债务处理人",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -30,13 +30,23 @@
       "id": 3,
       "x": 489.3046875,
       "y": 251.033203125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1.5)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 489.3046875,
+      "y": 251.033203125,
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 4,
+      "id": 5,
       "x": 489.2900390625,
       "y": 222.23779296875,
       "action": "",
@@ -45,7 +55,7 @@
       "type": "teleport"
     },
     {
-      "id": 5,
+      "id": 6,
       "x": 465.828125,
       "y": 228.6083984375,
       "action": "stop_flying",
@@ -54,7 +64,7 @@
       "type": "path"
     },
     {
-      "id": 6,
+      "id": 7,
       "x": 463.73828125,
       "y": 226.86767578125,
       "action": "fight",
@@ -63,7 +73,7 @@
       "type": "path"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": 489.2900390625,
       "y": 222.23779296875,
       "action": "",
@@ -72,7 +82,7 @@
       "type": "teleport"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": 499.55859375,
       "y": 200.2763671875,
       "action": "stop_flying",
@@ -81,7 +91,7 @@
       "type": "path"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": 501.2470703125,
       "y": 201.16748046875,
       "action": "fight",
