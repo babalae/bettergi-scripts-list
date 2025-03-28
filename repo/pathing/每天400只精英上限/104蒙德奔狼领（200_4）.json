@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "104蒙德奔狼领（200_4）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "3流血狗 1冰法师",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -247.5029296875,
+      "y": 2256.41455078125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -228.0751953125,
+      "y": 2225.9130859375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -223.033203125,
+      "y": 2219.344482421875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -213.7001953125,
+      "y": 2196.7236328125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -200.5068359375,
+      "y": 2161.565673828125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -216.705078125,
+      "y": 2125.780517578125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -222.4033203125,
+      "y": 2094.99609375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

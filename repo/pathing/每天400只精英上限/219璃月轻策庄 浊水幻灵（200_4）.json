@@ -1,0 +1,120 @@
+{
+  "info": {
+    "name": "219璃月轻策庄 浊水幻灵（200_4）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 547.7353515625,
+      "y": 1766.79345703125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 540.826171875,
+      "y": 1766.02978515625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 475.234375,
+      "y": 1789.2255859375,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 389.353515625,
+      "y": 1690.11669921875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 5,
+      "x": 369.833984375,
+      "y": 1698.0419921875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 296.814453125,
+      "y": 1688.31982421875,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "click,wait(0.5),click",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 324.150390625,
+      "y": 1724.67431640625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(3.5)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 315.76171875,
+      "y": 1728.41259765625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 324.150390625,
+      "y": 1724.67431640625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 315.76171875,
+      "y": 1728.41259765625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 324.150390625,
+      "y": 1724.67431640625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 314.76171875000006,
+      "y": 1718.41259765625,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

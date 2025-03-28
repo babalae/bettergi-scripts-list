@@ -1,0 +1,102 @@
+{
+  "info": {
+    "name": "412须弥沙漠圣显厅北（600_1，200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "1遗迹重机 1圣骸兽",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4777.298828125,
+      "y": -1434.5771484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4814.5,
+      "y": -1393.9346448327651,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4802.6845703125,
+      "y": -1338.404296875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4791.7685546875,
+      "y": -1303.73681640625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4762.048828125,
+      "y": -1277.9501953125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4741.89306640625,
+      "y": -1239.208984375,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4739.7978515625,
+      "y": -1232.67822265625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 4736.97509765625,
+      "y": -1228.71533203125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(2.5)"
+    },
+    {
+      "id": 9,
+      "x": 4684.264858007222,
+      "y": -1177.75,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 4739.995648998292,
+      "y": -1118.7471262613299,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

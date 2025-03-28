@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "605纳塔奥奇（600_1）次数盾",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9757.9345703125,
+      "y": -613.6181640625,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9767.546875,
+      "y": -603.865234375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9802.4443359375,
+      "y": -609.7412109375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(1.5),click"
+    },
+    {
+      "id": 4,
+      "x": 9825.8544921875,
+      "y": -632.357421875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

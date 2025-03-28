@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "417须弥沙漠三运河之地北（600_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "1遗迹重机 ",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5300.4794921875,
+      "y": -197.95947265625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 5289.357421875002,
+      "y": -181.84033203125,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "click,wait(4)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 5298.17578125,
+      "y": -126.896484375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 5291.1279296875,
+      "y": -116.6318359375,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 5294.1279296875,
+      "y": -102.6318359375,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 5289.882324218749,
+      "y": -94.515625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 5289.88232421875,
+      "y": -94.515625,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

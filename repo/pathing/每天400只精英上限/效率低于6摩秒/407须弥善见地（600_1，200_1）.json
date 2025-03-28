@@ -1,0 +1,111 @@
+{
+  "info": {
+    "name": "407须弥善见地（600_1，200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3993.7724609375,
+      "y": -989.365234375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3978.83203125,
+      "y": -988.5341796875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3897.7216796875,
+      "y": -1006.822265625,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(VK_SPACE),wait(2),click",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3887.7216796875,
+      "y": -1006.822265625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3859.3935546875,
+      "y": -1000.44677734375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3838.4462890625,
+      "y": -1002.853515625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3842.79296875,
+      "y": -1007.61865234375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3880.33203125,
+      "y": -1009.8359375,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3844.392578125,
+      "y": -1042.71875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 3811.0810546875,
+      "y": -1059.8408203125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 3811.0810546875,
+      "y": -1059.8408203125,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

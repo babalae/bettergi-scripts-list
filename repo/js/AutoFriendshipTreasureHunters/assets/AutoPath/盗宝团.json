@@ -1,0 +1,52 @@
+{
+  "info": {
+    "name": "盗宝团",
+    "type": "collect",
+    "author": "HZYgrandma",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.43.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2738.38,
+      "y": -3414.45
+    },
+    {
+      "id": 2,
+      "x": -2739.72,
+      "y": -3400.15,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "exit_and_relogin"
+    },
+	{
+      "id": 3,
+      "x": -2739.71,
+      "y": -3399.06,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": -2738.67,
+      "y": -3427.38,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": -2756.67,
+      "y": -3467.63,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

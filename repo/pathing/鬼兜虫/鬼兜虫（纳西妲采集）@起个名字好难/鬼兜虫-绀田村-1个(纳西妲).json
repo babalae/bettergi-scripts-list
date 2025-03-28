@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "鬼兜虫-绀田村-1个(纳西妲)",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4124.4609375,
+      "y": -2759.8896484375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4097.802734375,
+      "y": -2749.814453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4089.025390625,
+      "y": -2763.9775390625,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -4084.5712890625,
+      "y": -2764.4287109375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": -4084.5712890625,
+      "y": -2764.4287109375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

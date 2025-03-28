@@ -1,0 +1,200 @@
+{
+  "info": {
+    "name": "绯樱绣球-稻妻城-6个",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "雷元素法师可采集全，久歧忍漏第4个(大部分路径是久岐忍(二命行走/治疗位)可采集全，可两个都带，久岐忍序号排前)",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4491.99,
+      "y": -3208.13,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -4478.296875,
+      "y": -3187.9716796875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -4490.61328125,
+      "y": -3142.6708984375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -4495.884765625,
+      "y": -3124.970703125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -4505.81640625,
+      "y": -3109.2509765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -4496.36328125,
+      "y": -3102.9033203125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -4500.587890625,
+      "y": -3083.1826171875,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": -4400.83,
+      "y": -3051.08,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 9,
+      "x": -4394.177734375,
+      "y": -3051.9951171875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -4386.6328125,
+      "y": -3047.404296875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -4379.58203125,
+      "y": -3054.8212890625,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": -4400.83,
+      "y": -3051.08,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 13,
+      "x": -4407.748046875,
+      "y": -3055.2763671875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -4442.71484375,
+      "y": -3029.7724609375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -4451.88671875,
+      "y": -3025.7578125,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 16,
+      "x": -4436.732421875,
+      "y": -2995.92578125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -4418.544921875,
+      "y": -2987.9423828125,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 18,
+      "x": -4418.544921875,
+      "y": -2987.9423828125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "丽莎 attack,wait(0.5),attack,wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE)",
+      "type": "target"
+    },
+    {
+      "id": 19,
+      "x": -4400.37109375,
+      "y": -2982.4111328125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": -4397.41796875,
+      "y": -2985.8271484375,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 21,
+      "x": -4379.2421875,
+      "y": -2979.8818359375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": -4363.30859375,
+      "y": -2983.12109375,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

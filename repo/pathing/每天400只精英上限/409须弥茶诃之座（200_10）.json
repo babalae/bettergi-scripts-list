@@ -1,0 +1,183 @@
+{
+  "info": {
+    "name": "409须弥茶诃之座（200_10）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3546.6640625,
+      "y": -1993.623046875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3541,
+      "y": -1977.250442661587,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3583.6875,
+      "y": -1913.7406598405196,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3594.75,
+      "y": -1897.2262733389507,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(4),wait(0.3),keypress(e),wait(1),keypress(2),wait(0.3),keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3627.5,
+      "y": -1904.0020362432988,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3634.5,
+      "y": -1904.0020362432988,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3635,
+      "y": -1900.0020362432988,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(t),wait(1.5),keydown(d),wait(2),keyup(d)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3612.875,
+      "y": -1826.2285751792015,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3619.75,
+      "y": -1777.876150920125,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(4),wait(0.3),keypress(e),wait(1),keypress(2),wait(0.3),keypress(e),wait(1),keypress(1),wait(0.2),keypress(a),wait(0.1),keydown(e),wait(1.2),keyup(e),wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 3621.625,
+      "y": -1746.3635793310623,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 3631.125,
+      "y": -1725.2421648899144,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 3629.125,
+      "y": -1692.2421648899144,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(2),wait(0.3),keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 3661.625,
+      "y": -1671.6260181216494,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 3661.625,
+      "y": -1671.6260181216494,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 3665.625,
+      "y": -1691.6260181216503,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 3651.3955078125,
+      "y": -1760.53466796875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": 3646.5,
+      "y": -1761.7741250564775,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 3672.5,
+      "y": -1796.499911467683,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 3695.1728515625,
+      "y": -1810.93359375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
