@@ -1,96 +1,96 @@
 {
-  "info": {
-    "name": "夜泊石-珉琳-狭窄山洞-1个",
-    "type": "collect",
-    "author": "起个名字好难的喵",
-    "version": "1.0",
-    "description": "",
-    "bgiVersion": "0.35.1"
-  },
-  "positions": [
-    {
-      "id": 1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": 730.3134765625,
-      "y": 1062.11572265625,
-      "action_params": "",
-      "locked": false
+    "info": {
+        "name": "夜泊石-珉琳-狭窄山洞-1个",
+        "type": "collect",
+        "author": "起个名字好难的喵",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
     },
-    {
-      "id": 2,
-      "x": 726.7744140625,
-      "y": 993.83740234375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 3,
-      "x": 686.14453125,
-      "y": 981.50146484375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 4,
-      "x": 695.2294921875,
-      "y": 980.53125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": 698.2919921875,
-      "y": 981.0556640625,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 6,
-      "x": 700.619140625,
-      "y": 977.658203125,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 7,
-      "x": 700.2666015625,
-      "y": 975.59326171875,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-    },
-    {
-      "id": 8,
-      "x": 700.9638671875,
-      "y": 976.50048828125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 9,
-      "x": 699.6162109375,
-      "y": 977.8095703125,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    }
-  ]
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 730.3134765625,
+            "y": 1062.11572265625,
+            "action_params": "",
+            "locked": false
+        },
+        {
+            "id": 2,
+            "x": 726.7744140625,
+            "y": 993.83740234375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": "",
+            "locked": false
+        },
+        {
+            "id": 3,
+            "x": 686.14453125,
+            "y": 981.50146484375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": "",
+            "locked": false
+        },
+        {
+            "id": 4,
+            "x": 695.2294921875,
+            "y": 980.53125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 698.2919921875,
+            "y": 981.0556640625,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": 700.619140625,
+            "y": 977.658203125,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 7,
+            "x": 700.2666015625,
+            "y": 975.59326171875,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "mining",
+            "action_params": ""
+        },
+        {
+            "id": 8,
+            "x": 700.9638671875,
+            "y": 976.50048828125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 9,
+            "x": 699.6162109375,
+            "y": 977.8095703125,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        }
+    ]
 }

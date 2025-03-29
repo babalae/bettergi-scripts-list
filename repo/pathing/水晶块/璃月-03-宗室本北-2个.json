@@ -1,93 +1,93 @@
 {
-    "info":  {
-                 "name":  "宗室本北-2个",
-                 "type":  "collect",
-                 "author":  "愚溪",
-                 "version":  "1.0",
-                 "description":  "",
-                 "bgiVersion":  "0.35.1"
-             },
-    "positions":  [
-                      {
-                          "id":  1,
-                          "action":  "",
-                          "move_mode":  "walk",
-                          "type":  "teleport",
-                          "x":  1436.3076171875,
-                          "y":  1289.9482421875
-                      },
-                      {
-                          "id":  2,
-                          "x":  1430.544921875,
-                          "y":  1303.15234375,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  3,
-                          "x":  1416.568359375,
-                          "y":  1310.83251953125,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  4,
-                          "x":  1410.4677734375,
-                          "y":  1321.0625,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  5,
-                          "x":  1369.41796875,
-                          "y":  1358.5478515625,
-                          "type":  "path",
-                          "move_mode":  "fly",
-                          "action":  "stop_flying"
-                      },
-                      {
-                          "id":  6,
-                          "x":  1375.3671875,
-                          "y":  1364.6064453125,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  "combat_script",
-                          "action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-                      },
-                      {
-                          "id":  7,
-                          "x":  1376.990234375,
-                          "y":  1360.13818359375,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  8,
-                          "x":  1373.0625,
-                          "y":  1366.2265625,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  9,
-                          "x":  1377.4951171875,
-                          "y":  1370.30419921875,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                        "id": 10,
-                        "x": 1374.3173828125,
-                        "y": 1370.755859375,
-                        "type": "path",
-                        "move_mode": "walk",
-                        "action": ""
-                      }
-                  ]
+    "info": {
+        "name": "宗室本北-2个",
+        "type": "collect",
+        "author": "愚溪",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 1436.3076171875,
+            "y": 1289.9482421875
+        },
+        {
+            "id": 2,
+            "x": 1430.544921875,
+            "y": 1303.15234375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 3,
+            "x": 1416.568359375,
+            "y": 1310.83251953125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 4,
+            "x": 1410.4677734375,
+            "y": 1321.0625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 5,
+            "x": 1369.41796875,
+            "y": 1358.5478515625,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "stop_flying"
+        },
+        {
+            "id": 6,
+            "x": 1375.3671875,
+            "y": 1364.6064453125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "mining",
+            "action_params": ""
+        },
+        {
+            "id": 7,
+            "x": 1376.990234375,
+            "y": 1360.13818359375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 8,
+            "x": 1373.0625,
+            "y": 1366.2265625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 9,
+            "x": 1377.4951171875,
+            "y": 1370.30419921875,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 10,
+            "x": 1374.3173828125,
+            "y": 1370.755859375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        }
+    ]
 }

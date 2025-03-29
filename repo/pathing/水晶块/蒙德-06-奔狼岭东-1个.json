@@ -1,87 +1,87 @@
 {
-    "info":  {
-                 "name":  "奔狼岭东-1个",
-                 "type":  "collect",
-                 "author":  "愚溪",
-                 "version":  "1.0",
-                 "description":  "",
-                 "bgiVersion":  "0.35.1"
-             },
-    "positions":  [
-                      {
-                          "id":  1,
-                          "action":  "",
-                          "move_mode":  "walk",
-                          "type":  "teleport",
-                          "x":  -521.6318359375,
-                          "y":  2181.341796875
-                      },
-                      {
-                          "id":  2,
-                          "x":  -574.3427734375,
-                          "y":  2163.740478515625,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  3,
-                          "x":  -585.5224609375,
-                          "y":  2150.30615234375,
-                          "type":  "target",
-                          "move_mode":  "walk",
-                          "action":  "combat_script",
-                          "action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-                      },
-                      {
-                          "id":  4,
-                          "x":  -581.794921875,
-                          "y":  2146.080322265625,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  5,
-                          "x":  -588.611328125,
-                          "y":  2142.691162109375,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  6,
-                          "x":  -594.123046875,
-                          "y":  2139.95166015625,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  "combat_script",
-                          "action_params":  "钟离 wait(3),e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-                      },
-                      {
-                          "id":  7,
-                          "x":  -599.7236328125,
-                          "y":  2156.706787109375,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  "combat_script",
-                          "action_params":  "钟离 wait(3)e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-                      },
-                      {
-                          "id":  8,
-                          "x":  -585.4013671875,
-                          "y":  2153.25390625,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  9,
-                          "x":  -579.1123046875,
-                          "y":  2151.080078125,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      }
-                  ]
+    "info": {
+        "name": "奔狼岭东-1个",
+        "type": "collect",
+        "author": "愚溪",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -521.6318359375,
+            "y": 2181.341796875
+        },
+        {
+            "id": 2,
+            "x": -574.3427734375,
+            "y": 2163.740478515625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 3,
+            "x": -585.5224609375,
+            "y": 2150.30615234375,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "mining",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": -581.794921875,
+            "y": 2146.080322265625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 5,
+            "x": -588.611328125,
+            "y": 2142.691162109375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 6,
+            "x": -594.123046875,
+            "y": 2139.95166015625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "mining",
+            "action_params": ""
+        },
+        {
+            "id": 7,
+            "x": -599.7236328125,
+            "y": 2156.706787109375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "mining",
+            "action_params": ""
+        },
+        {
+            "id": 8,
+            "x": -585.4013671875,
+            "y": 2153.25390625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 9,
+            "x": -579.1123046875,
+            "y": 2151.080078125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        }
+    ]
 }
