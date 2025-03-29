@@ -1,101 +1,101 @@
 {
-    "info":  {
-                 "name":  "苍风高地神像北-1个",
-                 "type":  "collect",
-                 "author":  "愚溪",
-                 "version":  "1.0",
-                 "description":  "",
-                 "bgiVersion":  "0.35.1"
-             },
-    "positions":  [
-                      {
-                          "id":  1,
-                          "action":  "",
-                          "move_mode":  "walk",
-                          "type":  "teleport",
-                          "x":  -578.75390625,
-                          "y":  1853.40478515625
-                      },
-                      {
-                          "id":  2,
-                          "x":  -587.068359375,
-                          "y":  1876.4326171875,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  3,
-                          "x":  -607.90625,
-                          "y":  1935.17626953125,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  4,
-                          "x":  -612.3154296875,
-                          "y":  1984.728515625,
-                          "type":  "path",
-                          "move_mode":  "fly",
-                          "action":  "stop_flying"
-                      },
-                      {
-                          "id":  5,
-                          "x":  -635.44921875,
-                          "y":  2021.7197265625,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  6,
-                          "x":  -634.052734375,
-                          "y":  2033.033203125,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  "combat_script",
-                          "action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-                      },
-                      {
-                          "id":  7,
-                          "x":  -629.1171875,
-                          "y":  2035.24609375,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  8,
-                          "x":  -627.46875,
-                          "y":  2035.119140625,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  9,
-                          "x":  -629.37109375,
-                          "y":  2032.8046875,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  10,
-                          "x":  -633.537109375,
-                          "y":  2030.19384765625,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  11,
-                          "x":  -636.5185546875,
-                          "y":  2031.0283203125,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      }
-                  ]
+    "info": {
+        "name": "苍风高地神像北-1个",
+        "type": "collect",
+        "author": "愚溪",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -578.75390625,
+            "y": 1853.40478515625
+        },
+        {
+            "id": 2,
+            "x": -587.068359375,
+            "y": 1876.4326171875,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 3,
+            "x": -607.90625,
+            "y": 1935.17626953125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 4,
+            "x": -612.3154296875,
+            "y": 1984.728515625,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "stop_flying"
+        },
+        {
+            "id": 5,
+            "x": -635.44921875,
+            "y": 2021.7197265625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 6,
+            "x": -634.052734375,
+            "y": 2033.033203125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "mining",
+            "action_params": ""
+        },
+        {
+            "id": 7,
+            "x": -629.1171875,
+            "y": 2035.24609375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 8,
+            "x": -627.46875,
+            "y": 2035.119140625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 9,
+            "x": -629.37109375,
+            "y": 2032.8046875,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 10,
+            "x": -633.537109375,
+            "y": 2030.19384765625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 11,
+            "x": -636.5185546875,
+            "y": 2031.0283203125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        }
+    ]
 }

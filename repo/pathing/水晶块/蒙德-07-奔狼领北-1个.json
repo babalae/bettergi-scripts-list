@@ -1,85 +1,85 @@
 {
-    "info":  {
-                 "name":  "奔狼领北-1个",
-                 "type":  "collect",
-                 "author":  "愚溪",
-                 "version":  "1.0",
-                 "description":  "",
-                 "bgiVersion":  "0.35.1"
-             },
-    "positions":  [
-                      {
-                          "id":  1,
-                          "x":  -386.189453125,
-                          "y":  2297.5537109375,
-                          "action":  "",
-                          "move_mode":  "walk",
-                          "type":  "teleport"
-                      },
-                      {
-                          "id":  2,
-                          "x":  -369.8193359375,
-                          "y":  2339.214599609375,
-                          "action":  "",
-                          "move_mode":  "walk",
-                          "type":  "path"
-                      },
-                      {
-                          "id":  3,
-                          "x":  -338.3837890625,
-                          "y":  2358.6201171875,
-                          "action":  "",
-                          "move_mode":  "walk",
-                          "type":  "path"
-                      },
-                      {
-                          "id":  4,
-                          "x":  -329.4404296875,
-                          "y":  2389.094482421875,
-                          "action":  "combat_script",
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-                      },
-                      {
-                          "id":  5,
-                          "x":  -332.4609375,
-                          "y":  2387.237060546875,
-                          "action":  "",
-                          "move_mode":  "walk",
-                          "type":  "path"
-                      },
-                      {
-                          "id":  6,
-                          "x":  -334.41015625,
-                          "y":  2383.962890625,
-                          "action":  "",
-                          "move_mode":  "walk",
-                          "type":  "path"
-                      },
-                      {
-                          "id":  7,
-                          "x":  -329.140625,
-                          "y":  2379.811767578125,
-                          "action":  "",
-                          "move_mode":  "walk",
-                          "type":  "path"
-                      },
-                      {
-                          "id":  8,
-                          "x":  -332.4462890625,
-                          "y":  2377.017822265625,
-                          "action":  "",
-                          "move_mode":  "walk",
-                          "type":  "path"
-                      },
-                      {
-                          "id":  9,
-                          "x":  -334.0205078125,
-                          "y":  2376.275146484375,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      }
-                  ]
+    "info": {
+        "name": "奔狼领北-1个",
+        "type": "collect",
+        "author": "愚溪",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": -386.189453125,
+            "y": 2297.5537109375,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": -369.8193359375,
+            "y": 2339.214599609375,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": -338.3837890625,
+            "y": 2358.6201171875,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": -329.4404296875,
+            "y": 2389.094482421875,
+            "action": "mining",
+            "move_mode": "walk",
+            "type": "path",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": -332.4609375,
+            "y": 2387.237060546875,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path"
+        },
+        {
+            "id": 6,
+            "x": -334.41015625,
+            "y": 2383.962890625,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path"
+        },
+        {
+            "id": 7,
+            "x": -329.140625,
+            "y": 2379.811767578125,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path"
+        },
+        {
+            "id": 8,
+            "x": -332.4462890625,
+            "y": 2377.017822265625,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path"
+        },
+        {
+            "id": 9,
+            "x": -334.0205078125,
+            "y": 2376.275146484375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        }
+    ]
 }

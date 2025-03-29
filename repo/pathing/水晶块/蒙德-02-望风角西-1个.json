@@ -1,109 +1,109 @@
 {
-    "info":  {
-                 "name":  "望风角西-1个",
-                 "type":  "collect",
-                 "author":  "愚溪",
-                 "version":  "1.0",
-                 "description":  "",
-                 "bgiVersion":  "0.35.1"
-             },
-    "positions":  [
-                      {
-                          "id":  1,
-                          "action":  "",
-                          "move_mode":  "walk",
-                          "type":  "teleport",
-                          "x":  -1629.4033203125,
-                          "y":  2834.371826171875
-                      },
-                      {
-                          "id":  2,
-                          "x":  -1641.2373046875,
-                          "y":  2868.02734375,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  3,
-                          "x":  -1629.154296875,
-                          "y":  2908.923095703125,
-                          "type":  "path",
-                          "move_mode":  "fly",
-                          "action":  "stop_flying"
-                      },
-                      {
-                          "id":  4,
-                          "x":  -1628.2548828125,
-                          "y":  2909.484619140625,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  "combat_script",
-                          "action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-                      },
-                      {
-                          "id":  5,
-                          "x":  -1627.08203125,
-                          "y":  2905.3349609375,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  6,
-                          "x":  -1622.8896484375,
-                          "y":  2905.3955078125,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  7,
-                          "x":  -1621.19140625,
-                          "y":  2910.285400390625,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  8,
-                          "x":  -1626.0234375,
-                          "y":  2913.850830078125,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  9,
-                          "x":  -1630.9501953125,
-                          "y":  2913.664794921875,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  10,
-                          "x":  -1629.8017578125,
-                          "y":  2909.659912109375,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  11,
-                          "x":  -1631.9990234375,
-                          "y":  2907.982177734375,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  12,
-                          "x":  -1631.79296875,
-                          "y":  2905.455078125,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      }
-                  ]
+    "info": {
+        "name": "望风角西-1个",
+        "type": "collect",
+        "author": "愚溪",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -1629.4033203125,
+            "y": 2834.371826171875
+        },
+        {
+            "id": 2,
+            "x": -1641.2373046875,
+            "y": 2868.02734375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 3,
+            "x": -1629.154296875,
+            "y": 2908.923095703125,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "stop_flying"
+        },
+        {
+            "id": 4,
+            "x": -1628.2548828125,
+            "y": 2909.484619140625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "mining",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": -1627.08203125,
+            "y": 2905.3349609375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 6,
+            "x": -1622.8896484375,
+            "y": 2905.3955078125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 7,
+            "x": -1621.19140625,
+            "y": 2910.285400390625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 8,
+            "x": -1626.0234375,
+            "y": 2913.850830078125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 9,
+            "x": -1630.9501953125,
+            "y": 2913.664794921875,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 10,
+            "x": -1629.8017578125,
+            "y": 2909.659912109375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 11,
+            "x": -1631.9990234375,
+            "y": 2907.982177734375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 12,
+            "x": -1631.79296875,
+            "y": 2905.455078125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        }
+    ]
 }

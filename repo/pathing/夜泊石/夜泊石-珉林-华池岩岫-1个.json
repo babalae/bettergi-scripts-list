@@ -1,57 +1,57 @@
 {
-  "info": {
-    "name": "夜泊石-珉林-华池岩岫-1个",
-    "type": "collect",
-    "author": "起个名字好难的喵",
-    "version": "1.0",
-    "description": "",
-    "bgiVersion": "0.35.1"
-  },
-  "positions": [
-    {
-      "id": 1,
-      "x": 1436.361328125,
-      "y": 1289.85693359375,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+    "info": {
+        "name": "夜泊石-珉林-华池岩岫-1个",
+        "type": "collect",
+        "author": "起个名字好难的喵",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
     },
-    {
-      "id": 2,
-      "x": 1448.357421875,
-      "y": 1250.65234375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 3,
-      "x": 1457.498046875,
-      "y": 1231.90869140625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": 1447.91796875,
-      "y": 1212.08349609375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-    },
-    {
-      "id": 5,
-      "x": 1444.5322265625,
-      "y": 1216.685546875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-    }
-  ]
+    "positions": [
+        {
+            "id": 1,
+            "x": 1436.361328125,
+            "y": 1289.85693359375,
+            "type": "teleport",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 1448.357421875,
+            "y": 1250.65234375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 1457.498046875,
+            "y": 1231.90869140625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 1447.91796875,
+            "y": 1212.08349609375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "mining",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 1444.5322265625,
+            "y": 1216.685546875,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "mining",
+            "action_params": ""
+        }
+    ]
 }

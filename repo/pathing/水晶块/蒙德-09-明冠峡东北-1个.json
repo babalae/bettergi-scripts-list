@@ -1,101 +1,101 @@
 {
-    "info":  {
-                 "name":  "明冠峡东北-1个",
-                 "type":  "collect",
-                 "author":  "愚溪",
-                 "version":  "1.0",
-                 "description":  "",
-                 "bgiVersion":  "0.35.1"
-             },
-    "positions":  [
-                      {
-                          "id":  1,
-                          "action":  "",
-                          "move_mode":  "walk",
-                          "type":  "teleport",
-                          "x":  -440.115234375,
-                          "y":  2580.90087890625
-                      },
-                      {
-                          "id":  3,
-                          "x":  -464.31640625,
-                          "y":  2631.714111328125,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  4,
-                          "x":  -481.5302734375,
-                          "y":  2665.27685546875,
-                          "type":  "path",
-                          "move_mode":  "fly",
-                          "action":  "stop_flying"
-                      },
-                      {
-                          "id":  4,
-                          "x":  -477.64453125,
-                          "y":  2674.515625,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  5,
-                          "x":  -483.5498046875,
-                          "y":  2673.285400390625,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  "combat_script",
-                          "action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-                      },
-                      {
-                          "id":  6,
-                          "x":  -483.8076171875,
-                          "y":  2675.997802734375,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  7,
-                          "x":  -480.861328125,
-                          "y":  2670.224853515625,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  8,
-                          "x":  -480.2900390625,
-                          "y":  2667.7119140625,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  9,
-                          "x":  -483.1083984375,
-                          "y":  2664.845947265625,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  10,
-                          "x":  -485.9921875,
-                          "y":  2671.399169921875,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      },
-                      {
-                          "id":  11,
-                          "x":  -498.78125,
-                          "y":  2663.12744140625,
-                          "type":  "path",
-                          "move_mode":  "walk",
-                          "action":  ""
-                      }
-                  ]
+    "info": {
+        "name": "明冠峡东北-1个",
+        "type": "collect",
+        "author": "愚溪",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -440.115234375,
+            "y": 2580.90087890625
+        },
+        {
+            "id": 3,
+            "x": -464.31640625,
+            "y": 2631.714111328125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 4,
+            "x": -481.5302734375,
+            "y": 2665.27685546875,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "stop_flying"
+        },
+        {
+            "id": 4,
+            "x": -477.64453125,
+            "y": 2674.515625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 5,
+            "x": -483.5498046875,
+            "y": 2673.285400390625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "mining",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": -483.8076171875,
+            "y": 2675.997802734375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 7,
+            "x": -480.861328125,
+            "y": 2670.224853515625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 8,
+            "x": -480.2900390625,
+            "y": 2667.7119140625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 9,
+            "x": -483.1083984375,
+            "y": 2664.845947265625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 10,
+            "x": -485.9921875,
+            "y": 2671.399169921875,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 11,
+            "x": -498.78125,
+            "y": 2663.12744140625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        }
+    ]
 }
