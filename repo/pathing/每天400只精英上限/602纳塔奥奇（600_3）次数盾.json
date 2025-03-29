@@ -1,10 +1,10 @@
 {
   "info": {
-    "name": "602纳塔奥奇（200_3）次数盾",
+    "name": "602纳塔奥奇（600_3）次数盾",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "3次数盾",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -46,8 +46,8 @@
     },
     {
       "id": 5,
-      "x": 9685.9375,
-      "y": 248.5616368099054,
+      "x": 9675.93686798673,
+      "y": 230.12947159922078,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -55,6 +55,34 @@
     },
     {
       "id": 6,
+      "x": 9675.63671875,
+      "y": 248.84375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 9670.888671875,
+      "y": 259.0576171875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "0.6",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 9666.888671875,
+      "y": 262.0576171875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 9,
       "x": 9670.146484375,
       "y": 171.35888671875,
       "action": "force_tp",
@@ -63,7 +91,7 @@
       "type": "teleport"
     },
     {
-      "id": 7,
+      "id": 10,
       "x": 9665.130859374998,
       "y": 174.31884765625,
       "action": "",
@@ -72,7 +100,7 @@
       "type": "path"
     },
     {
-      "id": 8,
+      "id": 11,
       "x": 9628.75,
       "y": 158.4994909391753,
       "action": "",
@@ -81,7 +109,7 @@
       "type": "path"
     },
     {
-      "id": 9,
+      "id": 12,
       "x": 9616.5,
       "y": 160.0623450684443,
       "action": "",
@@ -90,7 +118,7 @@
       "type": "path"
     },
     {
-      "id": 10,
+      "id": 13,
       "x": 9597.125,
       "y": 167.37356134984293,
       "action": "stop_flying",
@@ -99,7 +127,7 @@
       "type": "path"
     },
     {
-      "id": 11,
+      "id": 14,
       "x": 9580.16796875,
       "y": 186.51318359375,
       "action": "combat_script",
@@ -108,7 +136,7 @@
       "type": "path"
     },
     {
-      "id": 12,
+      "id": 15,
       "x": 9565.623046875,
       "y": 183.45654296875,
       "action": "fight",
