@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "珊瑚真珠01",
+    "type": "collect",
+    "author": "彩虹QQ人",
+    "version": "1.0",
+    "description": "性价比路线，要求队伍：必须带小草神",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -757.939453125,
+      "y": -3815.2099609375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -765.8583984375,
+      "y": -3868.208984375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -766.9267578125,
+      "y": -3873.5419921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -782.2470703125,
+      "y": -3885.34375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -811.7685546875,
+      "y": -3889.373046875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -840.1708984375,
+      "y": -3887.158203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -836.2958984375,
+      "y": -3865.677734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}
