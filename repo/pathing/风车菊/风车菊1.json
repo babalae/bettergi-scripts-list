@@ -1,0 +1,111 @@
+{
+  "info": {
+    "name": "风车菊1",
+    "type": "collect",
+    "author": "彩虹QQ人",
+    "version": "1.0",
+    "description": "性价比路线，要求队伍：必须带小草神",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1266.4375,
+      "y": 1933.6083984375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1256.986328125,
+      "y": 1954.06005859375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1249.759765625,
+      "y": 1941.41650390625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1229.3193359375,
+      "y": 1927.42138671875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1266.8916015625,
+      "y": 1934.09228515625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -1330.4892578125,
+      "y": 1979.828125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -1353.5439453125,
+      "y": 1941.99609375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -1266.2763671875,
+      "y": 1933.5029296875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -1283.66015625,
+      "y": 1913.1484375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -1292.0751953125,
+      "y": 1893.44140625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -1291.236328125,
+      "y": 1882.658203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}
