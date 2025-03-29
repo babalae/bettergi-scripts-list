@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "烬芯花17-沃陆之邦右下-1个",
+    "type": "collect",
+    "author": "",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9812.67578125,
+      "y": -2852.6025390625,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9786.8154296875,
+      "y": -2850.1064453125,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9772.486328125,
+      "y": -2835.734375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9747.919921875,
+      "y": -2812.078125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9743.193359375,
+      "y": -2806.470703125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack(0.2)",
+      "type": "target"
+    }
+  ]
+}

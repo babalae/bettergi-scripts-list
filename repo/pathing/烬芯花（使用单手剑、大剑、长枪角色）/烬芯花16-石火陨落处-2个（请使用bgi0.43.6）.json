@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "烬芯花16-石火陨落处-2个",
+    "type": "collect",
+    "author": "",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 10595.341796875,
+      "y": -2654.419921875,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 10624.1572265625,
+      "y": -2683.9130859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 10647.1357421875,
+      "y": -2730.634765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 10667.8505859375,
+      "y": -2753.0693359375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 10682.462890625,
+      "y": -2764.7265625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 10681.8466796875,
+      "y": -2767.9287109375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack(0.2)",
+      "type": "target"
+    }
+  ]
+}

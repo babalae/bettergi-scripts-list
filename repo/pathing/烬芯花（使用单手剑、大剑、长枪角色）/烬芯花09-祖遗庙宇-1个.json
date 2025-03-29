@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "烬芯花09-祖遗庙宇-1个",
+    "type": "collect",
+    "author": "Tool_tingsu",
+    "version": "1.0",
+    "description": "感谢 @曦 老师的路线脚本",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 7974.3154296875,
+      "y": -2226.2763671875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 7977.0263671875,
+      "y": -2211.90625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 7980.828125,
+      "y": -2182.38671875,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 7967.27734375,
+      "y": -2167.984375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target"
+    }
+  ]
+}
