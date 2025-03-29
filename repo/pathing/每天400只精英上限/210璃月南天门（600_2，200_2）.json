@@ -57,13 +57,22 @@
       "id": 6,
       "x": 1689.9066746339158,
       "y": 259.9992799967358,
-      "action": "fight",
+      "action": "",
       "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 7,
+      "x": 1674.0439453125,
+      "y": 266.6044921875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 8,
       "x": 1665.93359375,
       "y": 386.61083984375,
       "action": "",
@@ -72,43 +81,43 @@
       "type": "teleport"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": 1652.359375,
       "y": 394.28076171875,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "keydown(w),wait(2),keypress(VK_SPACE),wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE),wait(1),keyup(w)",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": 1644.302734375,
-      "y": 399.03173828125,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "orientation"
     },
     {
       "id": 10,
       "x": 1644.302734375,
       "y": 399.03173828125,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(3),keydown(w),wait(2),keypress(VK_SPACE),wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE),wait(1),keyup(w)",
-      "type": "path"
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "orientation"
     },
     {
       "id": 11,
+      "x": 1642.9999802495859,
+      "y": 399.9062803159268,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(3),keydown(w),wait(2),keypress(VK_SPACE),wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE),wait(1),keyup(w)",
+      "type": "orientation"
+    },
+    {
+      "id": 12,
       "x": 1635.4375,
       "y": 403.3111720152401,
       "action": "",
       "move_mode": "fly",
       "action_params": "",
-      "type": "path"
+      "type": "orientation"
     },
     {
-      "id": 12,
+      "id": 13,
       "x": 1609.21484375,
       "y": 385.638671875,
       "action": "fight",

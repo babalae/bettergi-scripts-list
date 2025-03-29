@@ -46,22 +46,21 @@
     },
     {
       "id": 5,
-      "x": 9793.2353515625,
-      "y": -2544.78125,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "wait(3)",
-      "type": "path",
-      "locked": false
+      "x": 9778.490234375,
+      "y": -2539.2421875,
+      "type": "orientation",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 6,
-      "x": 9793.2353515625,
-      "y": -2544.78125,
-      "action": "fight",
+      "x": 9807.759765625,
+      "y": -2541.3642578125,
+      "type": "path",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action": "fight",
+      "action_params": ""
     }
   ]
 }
