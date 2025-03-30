@@ -48,7 +48,7 @@
             log.info(`自动好感当前次数：${i + 1}/${times}`);
             await AutoPath('从甜甜花到狗盆');
             await Feed();
-            if( i == times - 1) {
+            if( i != times - 1) {
                 await AutoPath('从狗盆到甜甜花'); 
             }  //最后一次不需要返回到甜甜花
             const estimatedCompletion = CalculateEstimatedCompletion(startFirstTime, i + 1, times);
