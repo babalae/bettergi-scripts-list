@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "蒙德凯瑟琳",
+    "name": "蒙德铁匠铺",
     "type": "collect",
     "author": "寒露",
     "version": "1.0",
@@ -10,41 +10,36 @@
   "positions": [
     {
       "id": 1,
-      "x": -867.6884765625,
-      "y": 2281.365966796875,
       "action": "",
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -875.2568359375,
+      "y": 2277.54150390625,
+      "action_params": ""
     },
     {
       "id": 2,
-      "x": -883.1246203433966,
-      "y": 2261.875,
-      "action": "",
+      "x": -891.330078125,
+      "y": 2257.5595703125,
+      "type": "path",
       "move_mode": "walk",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 3,
-      "x": -893.874762714624,
-      "y": 2250.125,
-      "action": "",
+      "x": -921.8359375,
+      "y": 2232.016845703125,
+      "type": "path",
       "move_mode": "walk",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 4,
-      "x": -924.0010915127332,
-      "y": 2232.875,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": -922.9964881764263,
-      "y": 2215.0625,
-      "type": "path",
+      "x": -922.5673828125,
+      "y": 2215.397216796875,
+      "type": "target",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
