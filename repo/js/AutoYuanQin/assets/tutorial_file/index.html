@@ -221,16 +221,16 @@
               <area shape="rect" coords="794,827,849,877" onclick="add_key('B')">
               <area shape="rect" coords="794,877,849,927" onclick="add_key('C')">
               <area shape="rect" coords="794,927,849,977" onclick="add_key('Z')">
-              <area shape="rect" coords="854,477,909,527" onclick="add_key('Y')">
-              <area shape="rect" coords="854,527,909,577" onclick="add_key('R')">
-              <area shape="rect" coords="854,577,909,627" onclick="add_key('W')">
-              <area shape="rect" coords="854,627,909,677" onclick="add_key('J')">
-              <area shape="rect" coords="854,677,909,727" onclick="add_key('G')">
-              <area shape="rect" coords="854,727,909,777" onclick="add_key('D')">
-              <area shape="rect" coords="854,777,909,827" onclick="add_key('A')">
-              <area shape="rect" coords="854,827,909,877" onclick="add_key('N')">
-              <area shape="rect" coords="854,877,909,927" onclick="add_key('V')">
-              <area shape="rect" coords="854,927,909,977" onclick="add_key('X')">
+              <area shape="rect" coords="849,453,904,503" onclick="add_key('Y')">
+              <area shape="rect" coords="849,503,904,553" onclick="add_key('R')">
+              <area shape="rect" coords="849,553,904,603" onclick="add_key('W')">
+              <area shape="rect" coords="849,603,904,653" onclick="add_key('J')">
+              <area shape="rect" coords="849,653,904,703" onclick="add_key('G')">
+              <area shape="rect" coords="849,703,904,753" onclick="add_key('D')">
+              <area shape="rect" coords="849,753,904,803" onclick="add_key('A')">
+              <area shape="rect" coords="849,803,904,853" onclick="add_key('N')">
+              <area shape="rect" coords="849,853,904,903" onclick="add_key('V')">
+              <area shape="rect" coords="849,903,904,953" onclick="add_key('X')">
             </map>
             </div>
             <div id="code-wrapper">
@@ -277,7 +277,7 @@
                     <option value="none">普通</option>
                     <option value="*">附点音符</option>
                     <option value=".">连音</option>
-					<option value="&">连音(末尾)</option>
+					<option value="$">连音(末尾)</option>
 					<option value="#">装饰音·倚音</option>
                 </select>
 				<label for="dropdown_all" class="textarea" style="display: none;" id="dropdown_all_text">连音总时值: </label>
@@ -332,6 +332,13 @@
 			
 			const fileInput = document.getElementById('file_input');
 			const readButton = document.getElementById('read_button');
+			const textArea = document.getElementById("code-area");
+
+			// 代码文本框自动滚动到底部
+			textArea.addEventListener("input", () => {
+				textArea.scrollTop = textArea.scrollHeight;
+			});
+
 			
 			/*设置连音时值下拉菜单的可见性和音符时值文本*/
 			dropdownType.addEventListener('change', function() {
@@ -371,62 +378,45 @@
 		function add_key(key) {
 			const regex_note = /(^|(?<=\])|(?<=\n))[^][^\n]*(?=\[\])/g; // 匹配空音符A[]或(AD)[]
 			const codeArea = document.getElementById('code-area');
+			const textArea = document.getElementById('code-area'); // 用于滚动
             let content = codeArea.value;
 			let matches = content.match(regex_note);
-			if (matches !== null && matches.length > 1) { // 异常操作检测
-				alert(`存在的未完成的音符大于一个，无法添加新的音符(目前存在的所有未完成音符数: ${matches.length})`);
+			if (matches !== null && matches.length > 1) { // 异常操作检测（可能用不到）
+				alert(`存在的未完成的音符数大于一个，无法添加新的音符(目前存在的所有未完成音符数: ${matches.length})`);
 				return null;
 			}
 
             if (content.endsWith("[]")) { // 添加为和弦
-				if (content[content.length - 3] === ")") {
+				if (content[content.length - 3] === ")") { // 已是和弦
 					const left_index = content.lastIndexOf("(");
 					const right_index = content.lastIndexOf(")");
 					
 					const string_mid = content.substring(left_index, right_index);
-					if (string_mid.includes(key)) {
+					if (string_mid.includes(key)) { // 重复音不添加
 						return null;
 					}
 					content = `${content.substring(0, left_index)}${string_mid}${key}${content.substring(right_index)}`;
-				} else {
+				} else { // 仍为单音
 					const ori_key_index = content.lastIndexOf("[") - 1;
-					if (content[ori_key_index] === key) {
+					if (content[ori_key_index] === key) { // 重复音不添加
 						return null;
 					}
 					content = `${content.substring(0, ori_key_index)}(${content[ori_key_index]}${key})[]`;
 				}
-//				// 取正则匹配的最后一个
-//				matches = matches[matches.length - 1];
-//				if (!matches.includes(key)) { // 和弦不能有重复的音符
-//					if (matches.endsWith(")")) {
-//						matches = `${matches.slice(0, -1)}${key})`;
-//					} else {
-//						if (matches.startsWith("\n\n")) {
-//							matches = `\n(${matches.replace(/\n/g, "")}${key})`;
-//						} else if (matches.startsWith("\n")) {
-//							matches = `\n(${matches.replace(/\n/g, "")}${key})`;
-//						} else if (content.length === 3){
-//							matches = `(${matches}${key})`;
-//						} else {
-//							`${matches.slice(0, -3)}(${matches[-1]}${key})[]`;
-//						}
-//					}
-//				} else {
-//					return null;
-//				}
-				
-//				content = content.replace(regex_note, matches);
 				codeArea.value = content;
             } else { // 添加新的音
 				content += key + "[]"; 
 				codeArea.value = content;
             }
+			// 滚动到底部
+			textArea.scrollTop = textArea.scrollHeight;
 		}
 		
 		/*点击按钮添加分节标志*/
 		function new_bar() {
 			const regex_note = /(^|(?<=\])|(?<=\n))[^][^\n]*(?=\[\])/g; // 匹配空音符A[]或(AD)[]
 			const codeArea = document.getElementById('code-area');
+			const textArea = document.getElementById('code-area'); // 用于滚动
             let content = codeArea.value;
 			if (regex_note.test(content)) {
 				alert(`存在未完成的音符！`);
@@ -437,6 +427,8 @@
 			}
 			content += "|\n";
 			codeArea.value = content;
+			// 滚动到底部
+			textArea.scrollTop = textArea.scrollHeight;
 			
 		}
 		
@@ -444,6 +436,7 @@
 		function new_line() {
 			const regex_note = /(^|(?<=\])|(?<=\n))[^][^\n]*(?=\[\])/g; // 匹配空音符A[]或(AD)[]
 			const codeArea = document.getElementById('code-area');
+			const textArea = document.getElementById('code-area'); // 用于滚动
             let content = codeArea.value;
 			if (regex_note.test(content)) {
 				alert(`存在未完成的音符！`);
@@ -454,6 +447,8 @@
 			}
 			content += "|\n\n";
 			codeArea.value = content;
+			// 滚动到底部
+			codeArea.scrollTop = textArea.scrollHeight;
 		}
 		
 		/*根据所选完善音符*/
@@ -556,7 +551,7 @@
 			reader.onload = function(event) {
 				const content = event.target.result; // 文件内容
 				const content_msg = get_music_msg(content); // 解析后的文件内容
-
+				// 将本地乐谱文件载入HTML
 				scoreName.value = content_msg["name"];
 				scoreAuthor.value = content_msg["author"];
 				scoreBpm.value = content_msg["bpm"];
@@ -592,7 +587,8 @@
 			let regex_arranger = /(?<="arranger": ")[\s\S]*?(?=")/
 			let regex_notes = /(?<="notes": ")[\s\S]*?(?=")/
 
-			let regex_blank = /[\\\\n]{2}/g
+			let regex_blank_1 = /[\\\\n]{1}/g
+			let regex_blank_2 = /[\\\\n]{2}/g
 			try {
 				// 歌曲名
 				music_msg_dic["name"] = file_text.match(regex_name)[0];
@@ -609,7 +605,7 @@
 				// 谱师
 				music_msg_dic["arranger"] = file_text.match(regex_arranger)[0];
 				// 曲谱内容(删除换行符)
-				music_msg_dic["notes"] = file_text.match(regex_notes)[0].replace(/[\\\\n]{3}/g, "\n").replace(/[\\\\n]{2}/g, "\n\n");
+				music_msg_dic["notes"] = file_text.match(regex_notes)[0].replace(regex_blank_2, "\n").replace(regex_blank_1, "");
 				
 			} catch(error) {
 				alert(`曲谱解析错误：${error}\n请检查曲谱文件格式是否正确`);
