@@ -48,24 +48,15 @@
       "id": 5,
       "x": 10443.437247194692,
       "y": -3276.6875,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "",
+      "action_params": "keydown(q),wait(1.7),keyup(q),attack(0.5)",
       "type": "path"
     },
     {
       "id": 6,
-      "x": 10462.5859375,
-      "y": -3294.3623046875,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "keypress(e),wait(1.5),keydown(q),wait(1.5),keyup(q),attack(0.5)"
-    },
-    {
-      "id": 7,
-      "x": 10469.701171875,
-      "y": -3305.7021484375,
+      "x": 10456.048828125,
+      "y": -3292.6884765625,
       "type": "path",
       "move_mode": "dash",
       "action": "fight",
