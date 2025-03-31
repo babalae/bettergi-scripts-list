@@ -1,76 +1,77 @@
 {
-  "info": {
-    "name": "纳塔踞石山01",
-    "type": "collect",
-    "author": "mfkvfhpdx",
-    "version": "1.0",
-    "description": "",
-    "bgiVersion": "0.35.1"
-  },
-  "positions": [
-    {
-      "id": 1,
-      "x": 7977.74853515625,
-      "y": -2425.7470703125,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+    "info": {
+        "name": "纳塔踞石山01",
+        "type": "collect",
+        "author": "mfkvfhpdx",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
     },
-    {
-      "id": 2,
-      "x": 7977.74853515625,
-      "y": -2425.7470703125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script","action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-    },
-    {
-      "id": 3,
-      "x": 7972.80322265625,
-      "y": -2432.1572265625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 4,
-      "x": 7984.880859375,
-      "y": -2419.169921875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 5,
-      "x": 7985.27490234375,
-      "y": -2424.01171875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 6,
-      "x": 7977.84814453125,
-      "y": -2420.19921875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 7,
-      "x": 7978.48828125,
-      "y": -2425.712890625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 8,
-      "x": 7984.06640625,
-      "y": -2419.974609375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    }
-  ]
+    "positions": [
+        {
+            "id": 1,
+            "x": 7977.74853515625,
+            "y": -2425.7470703125,
+            "type": "teleport",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 2,
+            "x": 7977.74853515625,
+            "y": -2425.7470703125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "mining",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 7972.80322265625,
+            "y": -2432.1572265625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 4,
+            "x": 7984.880859375,
+            "y": -2419.169921875,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 5,
+            "x": 7985.27490234375,
+            "y": -2424.01171875,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 6,
+            "x": 7977.84814453125,
+            "y": -2420.19921875,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 7,
+            "x": 7978.48828125,
+            "y": -2425.712890625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 8,
+            "x": 7984.06640625,
+            "y": -2419.974609375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        }
+    ]
 }

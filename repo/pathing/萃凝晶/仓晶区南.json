@@ -1,136 +1,144 @@
 {
-  "info": {
-    "name": "仓晶区南",
-    "type": "collect",
-    "author": "cy",
-    "version": "1.0",
-    "description": "",
-    "bgiVersion": "0.35.0"
-  },
-  "positions": [
-    {
-      "id": 1,
-      "x": 4876.60498046875,
-      "y": 2255.18212890625,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+    "info": {
+        "name": "仓晶区南",
+        "type": "collect",
+        "author": "cy",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.0"
     },
-    {
-      "id": 2,
-      "x": 4850.69677734375,
-      "y": 2275.215576171875,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
-    },
-    {
-      "id": 3,
-      "x": 4832.2958984375,
-      "y": 2259.337890625,
-      "type": "path",
-      "move_mode": "walk","action":  "combat_script","action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-    },
-    {
-      "id": 4,
-      "x": 4826.55908203125,
-      "y": 2258.4638671875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 5,
-      "x": 4832.8984375,
-      "y": 2256.17822265625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 6,
-      "x": 4840.5380859375,
-      "y": 2262.3662109375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 7,
-      "x": 4854.42333984375,
-      "y": 2247.667236328125,
-      "type": "path",
-      "move_mode": "walk","action":  "combat_script","action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-    },
-    {
-      "id": 8,
-      "x": 4850.07666015625,
-      "y": 2243.21533203125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 9,
-      "x": 4855.03515625,
-      "y": 2248.031982421875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 10,
-      "x": 4838.2392578125,
-      "y": 2235.393798828125,
-      "type": "path",
-      "move_mode": "walk","action":  "combat_script","action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-    },
-    {
-      "id": 11,
-      "x": 4837.2783203125,
-      "y": 2232.173828125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 12,
-      "x": 4840.9091796875,
-      "y": 2237.451416015625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 13,
-      "x": 4843.35791015625,
-      "y": 2246.09619140625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 14,
-      "x": 4830.5625,
-      "y": 2238.2734375,
-      "type": "path",
-      "move_mode": "walk","action":  "combat_script","action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-    },
-    {
-      "id": 15,
-      "x": 4830.08984375,
-      "y": 2239.815673828125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 16,
-      "x": 4829.740234375,
-      "y": 2235.2666015625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    }
-  ]
+    "positions": [
+        {
+            "id": 1,
+            "x": 4876.60498046875,
+            "y": 2255.18212890625,
+            "type": "teleport",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 2,
+            "x": 4850.69677734375,
+            "y": 2275.215576171875,
+            "type": "path",
+            "move_mode": "run",
+            "action": ""
+        },
+        {
+            "id": 3,
+            "x": 4832.2958984375,
+            "y": 2259.337890625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "mining",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 4826.55908203125,
+            "y": 2258.4638671875,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 5,
+            "x": 4832.8984375,
+            "y": 2256.17822265625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 6,
+            "x": 4840.5380859375,
+            "y": 2262.3662109375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 7,
+            "x": 4854.42333984375,
+            "y": 2247.667236328125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "mining",
+            "action_params": ""
+        },
+        {
+            "id": 8,
+            "x": 4850.07666015625,
+            "y": 2243.21533203125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 9,
+            "x": 4855.03515625,
+            "y": 2248.031982421875,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 10,
+            "x": 4838.2392578125,
+            "y": 2235.393798828125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "mining",
+            "action_params": ""
+        },
+        {
+            "id": 11,
+            "x": 4837.2783203125,
+            "y": 2232.173828125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 12,
+            "x": 4840.9091796875,
+            "y": 2237.451416015625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 13,
+            "x": 4843.35791015625,
+            "y": 2246.09619140625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 14,
+            "x": 4830.5625,
+            "y": 2238.2734375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "mining",
+            "action_params": ""
+        },
+        {
+            "id": 15,
+            "x": 4830.08984375,
+            "y": 2239.815673828125,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 16,
+            "x": 4829.740234375,
+            "y": 2235.2666015625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        }
+    ]
 }

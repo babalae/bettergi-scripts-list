@@ -1,67 +1,69 @@
 {
-  "info": {
-    "name": "枫丹科学院右下",
-    "type": "collect",
-    "author": "cy",
-    "version": "1.0",
-    "description": "",
-    "bgiVersion": "0.35.0"
-  },
-  "positions": [
-    {
-      "id": 1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": 4001.0146484375,
-      "y": 4878.36181640625
+    "info": {
+        "name": "枫丹科学院右下",
+        "type": "collect",
+        "author": "cy",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.0"
     },
-    {
-      "id": 2,
-      "x": 4054.82177734375,
-      "y": 4875.81201171875,
-      "type": "path",
-      "move_mode": "walk","action":  "combat_script","action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-    },
-    {
-      "id": 3,
-      "x": 4059.93408203125,
-      "y": 4870.9677734375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 4,
-      "x": 4054.44189453125,
-      "y": 4879.74853515625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 5,
-      "x": 4051.25,
-      "y": 4878.8818359375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 6,
-      "x": 4056.806640625,
-      "y": 4870.4775390625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 7,
-      "x": 4057.53173828125,
-      "y": 4878.447265625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    }
-  ]
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 4001.0146484375,
+            "y": 4878.36181640625
+        },
+        {
+            "id": 2,
+            "x": 4054.82177734375,
+            "y": 4875.81201171875,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "mining",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 4059.93408203125,
+            "y": 4870.9677734375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 4,
+            "x": 4054.44189453125,
+            "y": 4879.74853515625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 5,
+            "x": 4051.25,
+            "y": 4878.8818359375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 6,
+            "x": 4056.806640625,
+            "y": 4870.4775390625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "id": 7,
+            "x": 4057.53173828125,
+            "y": 4878.447265625,
+            "type": "path",
+            "move_mode": "walk",
+            "action": ""
+        }
+    ]
 }
