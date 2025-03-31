@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "2浊水幻灵",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -28,12 +28,21 @@
     },
     {
       "id": 3,
-      "x": 4851.55810546875,
-      "y": 2538.245361328125,
-      "action": "fight",
+      "x": 4850.5,
+      "y": 2541.627819381203,
+      "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4848.7109375,
+      "y": 2539.451904296875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
     }
   ]
 }
