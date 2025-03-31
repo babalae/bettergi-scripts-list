@@ -1,0 +1,112 @@
+{
+  "info": {
+    "name": "未命名路径",
+    "type": "collect",
+    "author": "Demo",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9548.26171875,
+      "y": -1116.56103515625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9537.115234375,
+      "y": -1117.1728515625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9533.7373046875,
+      "y": -1137.255859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9518.533203125,
+      "y": -1143.52490234375,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9441.2421875,
+      "y": -1172.59130859375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 9390.240234375,
+      "y": -1204.36083984375,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 9354.25390625,
+      "y": -1234.9423828125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 9317.208984375,
+      "y": -1175.18310546875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 9257.8876953125,
+      "y": -1125.73046875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 9257.8876953125,
+      "y": -1125.73046875,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 9257.8876953125,
+      "y": -1125.73046875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1.5)",
+      "type": "path"
+    }
+  ]
+}
