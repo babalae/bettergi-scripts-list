@@ -100,7 +100,7 @@
 
     log.info('自动好感开始...');
     //默认10次自动好感
-    if(isPositiveInteger(settings.times){
+    if(isPositiveInteger(settings.times)){
         log.info(`自动好感任务开始，运行：${settings.times} 次`);
     	await AutoFriendshipDev(settings.times);	
     } else {
