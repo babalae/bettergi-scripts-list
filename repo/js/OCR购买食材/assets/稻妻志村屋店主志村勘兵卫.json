@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "稻妻志村屋店主志村堪兵卫",
+    "type": "collect",
+    "author": "吉吉喵",
+    "version": "1.0",
+    "description": "购买鱼肉+螃蟹",
+    "bgiVersion": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4402.56,
+      "y": -3052.88
+    },
+    {
+      "id": 2,
+      "x": -4409.03125,
+      "y": -3067.2666015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -4421.849609375,
+      "y": -3084.564453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": -4425.07421875,
+      "y": -3082.072265625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

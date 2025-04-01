@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "咖啡厅露泽店主阿鲁埃",
+    "type": "collect",
+    "author": "吉吉喵",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4649.4873046875,
+      "y": 3467.8935546875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4627.564453125,
+      "y": 3470.357421875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4604.40869140625,
+      "y": 3510.25,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4600.888671875,
+      "y": 3514.0810546875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 4599.888671875,
+      "y": 3516.081054687501,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    }
+  ]
+}
