@@ -2,16 +2,21 @@
     {
         "name": "partyName",
         "type": "input-text",
-        "label": "(选填)需要切换的队伍名称"
+        "label": "(选填)需要领取双倍好感的队伍名称"
     },
     {
         "name": "appointFriendName",
         "type": "input-text",
-        "label": "指定好友名称"
+        "label": "(选填)指定好友名称"
     },
     {
         "name": "request_times",
         "type": "input-text",
         "label": "(选填)申请好友数，需小于等于7，不支持翻页"
+    },
+    {
+        "name": "goStatue",
+        "type": "checkbox",
+        "label": "关闭前往七天神像"
     }
 ]
