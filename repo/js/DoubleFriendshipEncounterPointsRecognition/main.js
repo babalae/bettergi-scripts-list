@@ -28,15 +28,17 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
  */
 (async function() {
 	// 切换队伍
-	for (let n = 0; n < 10; n++) {
-		log.warn("提示：队伍中小于等于两人时，才会触发双倍奖励");
+	if (!settings.disableNotice) {
+		for (let n = 0; n < 10; n++) {
+			log.warn("提示：队伍中小于等于两人时，才会触发双倍奖励");
+		}
+		await sleep(1000);
 	}
-	await sleep(1000);
 
 	if (!!settings.partyName) {
 		try {
 			log.info("正在尝试切换至" + settings.partyName);
-			if (!settings.goStatue) {
+			if (!settings.disableGoStatue) {
 				log.info("正在传送回七天神像切换队伍");
 				await genshin.TpToStatueOfTheSeven();
 				await SwitchParty(settings.partyName);
@@ -45,7 +47,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 				await SwitchParty(settings.partyName);
 			}
 		} catch {
-			log.warn("队伍切换失败，可能处于联机模式或其他不可切换状态");
+			log.warn("\n\n队伍切换失败,可能是：\n1.处于联机模式 \n2.无法正确识别\n3.JS自定义配置中的队伍名称设置错误，请检查!\n");
 			await genshin.returnMainUi();
 		}
 	} else {
@@ -86,6 +88,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 
 	// 切换队伍
 	async function SwitchParty(partyName) {
+		let ConfigureStatue = false;
 		keyPress("VK_L");
 
 		for (let i = 0; i < 10; i++) {
@@ -102,10 +105,11 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 		let resList = captureRegion.findMulti(RecognitionObject.ocr(100, 900, 300, 180));
 		for (let i = 0; i < resList.count; i++) {
 			let res = resList[i];
+			log.info("当前队伍名称位置:({x},{y},{w},{h}), 识别结果：{text}", res.x, res.y, res.Width, res.Height, res.text);
 			if (res.text.includes(partyName)) {
-				log.info("当前队伍即为目标队伍，无需切换", res.x, res.y, res.Width, res.Height, res.text);
+				log.info("当前队伍即为目标队伍，无需切换");
 				keyPress("VK_ESCAPE");
-				await sleep(1000);
+				await sleep(500);
 			} else {
 				await sleep(1000);
 				let ConfigureTeamButton = captureGameRegion().find(ConfigureTeamButtonRo);
@@ -116,35 +120,46 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 					await pageTop(LeftSliderTopRo);
 
 					for (let p = 0; p < 4; p++) {
-						let ConfigureStatue = false;
 						// 识别当前页
 						let captureRegion = captureGameRegion();
 						let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 100, 400, 900));
 						for (let i = 0; i < resList.count; i++) {
 							let res = resList[i];
-							// log.info("文本位置:({x},{y},{w},{h}), 名称：{text}", res.x, res.y, res.Width, res.Height, res.text);
+							if (settings.enableDebug) {
+								log.info("文本位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
+							}
 							if (res.text.includes(partyName)) {
-								log.info("目标队伍位置:({x},{y},{w},{h}), 名称：{text}", res.x, res.y, res.Width, res.Height, res.text);
-								click(res.x, Math.ceil(res.y + res.Height * 1.1));
+								log.info("目标队伍位置:({x},{y},{w},{h}), 识别结果：{text}", res.x, res.y, res.Width, res.Height, res.text);
+								click(res.x, Math.ceil(res.y + res.Height * 1.35));
 
 								// 找到目标队伍，点击确定、部署
-								for (let c = 0; c < 2; c++) {
-									await sleep(1000);
-									let ConfirmDeployButton = captureGameRegion().find(ConfirmDeployButtonRo);
-									if (ConfirmDeployButton.isExist()) {
-										log.info("识别到确定按钮");
-										ConfirmDeployButton.click();
-									}
+								await sleep(1500);
+								let ConfirmButton = captureGameRegion().find(ConfirmDeployButtonRo);
+								if (ConfirmButton.isExist()) {
+									log.info("识别到确定按钮:({x},{y},{w},{h})", ConfirmButton.x, ConfirmButton.y, ConfirmButton.Width, ConfirmButton.Height);
+									ConfirmButton.click();
 								}
-								ConfigureStatue = true;
-								keyPress("VK_ESCAPE");
+								await sleep(1500);
+								let DeployButton = captureGameRegion().find(ConfirmDeployButtonRo);
+								if (DeployButton.isExist()) {
+									log.info("识别到部署按钮:({x},{y},{w},{h})", DeployButton.x, DeployButton.y, DeployButton.Width, DeployButton.Height);
+									DeployButton.click();
+									ConfigureStatue = true;
+									break;
+								}
 							}
 						}
 						if (ConfigureStatue) {
+							await genshin.returnMainUi();
 							break;
 						} else {
 							await pageDown(LeftSliderBottomRo);
 						}
+					}
+					if (!ConfigureStatue) {
+						log.warn("\n\n队伍切换失败,可能是：\n1.处于联机模式 \n2.无法正确识别\n3.JS自定义配置中的队伍名称设置错误，请检查!\n");
+						await genshin.returnMainUi();
+						break;
 					}
 				}
 			}
@@ -164,7 +179,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 			FriendsBotton.click();
 			await sleep(2000);
 		} else {
-			log.info("未识别到按钮,使用坐标点击");
+			log.warn("未识别到按钮,使用坐标点击");
 			click(680, 550);
 			await sleep(2000);
 		}
@@ -176,7 +191,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 			for (let i = 0; i < resList.count; i++) {
 				let res = resList[i];
 				if (res.text.includes(settings.appointFriendName)) {
-					log.info("指定好友名字位置:({x},{y},{w},{h}), 文本{text}", res.x, res.y, res.Width, res.Height, res.text);
+					log.info("指定好友名字位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
 					click(res.x - 100, res.y + 50);
 					await sleep(500);
 
@@ -186,7 +201,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 					for (let i = 0; i < resList.count; i++) {
 						let res = resList[i];
 						if (res.text.includes("申请造访") || res.text.includes("visit Serenitea Pot") || res.text.includes("申請造訪")) {
-							log.info("申请造访尘歌壶位置:({x},{y},{w},{h}), 文本{text}", res.x, res.y, res.Width, res.Height, res.text);
+							log.info("申请造访尘歌壶位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
 							res.click();
 						}
 					}
@@ -242,7 +257,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 			FriendsBotton.click();
 			await sleep(2000);
 		} else {
-			log.info("未识别到按钮,使用坐标点击");
+			log.warn("未识别到按钮,使用坐标点击");
 			// click(1020,840);
 			click(680, 550);
 			await sleep(2000);
@@ -326,7 +341,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 			for (let i = 0; i < resList.count; i++) {
 				let res = resList[i];
 				if (res.text.includes("委托") || res.text.includes("委託") || res.text.includes("Commissions") || res.text.includes("委")) {
-					log.info("识别到委托选项卡位置:({x},{y},{w},{h}), 文本{text}", res.x, res.y, res.Width, res.Height, res.text);
+					log.info("识别到委托选项卡位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
 					res.click();
 				} else {
 					log.info("未识别到识别到委托选项卡");
@@ -342,7 +357,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 				log.info("已领取历练点奖励");
 				keyPress("VK_ESCAPE");
 			} else if (EncounterPointsStageRewardsButton.isEmpty()) {
-				log.info("未识别到历练点领取奖励按钮");
+				log.warn("未识别到历练点领取奖励按钮，可能是已领取或未完成");
 			}
 			await genshin.returnMainUi();
 			await sleep(2000);

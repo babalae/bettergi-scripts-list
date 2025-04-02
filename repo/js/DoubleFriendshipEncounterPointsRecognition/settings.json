@@ -15,8 +15,18 @@
         "label": "(选填)申请好友数，需小于等于7，不支持翻页"
     },
     {
-        "name": "goStatue",
+        "name": "disableGoStatue",
         "type": "checkbox",
         "label": "关闭前往七天神像"
+    },
+    {
+        "name": "disableNotice",
+        "type": "checkbox",
+        "label": "关闭双人队伍提醒"
+    },
+    {
+        "name": "enableDebug",
+        "type": "checkbox",
+        "label": "开启Debug模式(队伍识别输出所有内容)"
     }
 ]
