@@ -1,0 +1,371 @@
+name: JSON Data Validation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+    branches:
+      - main
+    # 修改路径匹配，使其更宽松
+    paths:
+      - '**/*.json'
+
+jobs:
+  validate-json:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        ref: ${{ github.head_ref }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        pip install packaging semver
+
+    - name: Run validation and correction
+      env:
+        GITHUB_ACTOR: ${{ github.actor }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        HEAD_REF: ${{ github.head_ref }}
+      run: |
+        cat << 'EOF' > validate.py
+        import json
+        import os
+        import sys
+        import subprocess
+        from packaging.version import parse
+        from semver import VersionInfo
+
+        # 定义有效的 type 和 move_mode 值
+        VALID_TYPES = ["teleport", "path", "target", "orientation"]
+        VALID_MOVE_MODES = ["walk", "fly", "climb", "run", "dash", "jump"]
+        
+        # 定义 action 和 action_params 的最低兼容版本
+        ACTION_VERSION_MAP = {
+            "stop_flying": "0.42.0",
+            "force_tp": "0.42.0",
+            "nahida_collect": "0.42.0",
+            "pick_around": "0.42.0",
+            "hydro_collect": "0.42.0",
+            "electro_collect": "0.42.0",
+            "anemo_collect": "0.42.0",
+            "pyro_collect": "0.43.0",
+            "up_down_grab_leaf": "0.42.0",
+            "fight": "0.42.0",
+            "combat_script": "0.42.0",
+            "log_output": "0.42.0",
+            "fishing": "0.43.0"
+        }
+        
+        # 定义 action_params 的最低兼容版本和正则表达式验证
+        ACTION_PARAMS_VERSION_MAP = {            
+            "stop_flying": {
+                "params": {"version": "0.44.0", "regex": r"^\d+(\.\d+)?$"}
+            },
+            "pick_around": {
+                "params": {"version": "0.42.0", "regex": r"^\d+$"}
+            },
+            "combat_script": {
+                "params": {"version": "0.36.4", "regex": r"^.+$"}  # 任意非空字符串
+            },
+            "log_output": {
+                "params": {"version": "0.40.0", "regex": r"^.+$"}  # 任意非空字符串
+            }
+            # 其他 action 类型没有明确的 action_params 格式要求
+        }
+
+        def get_original_file(file_path):
+            try:
+                result = subprocess.run(['git', 'show', f'origin/main:{file_path}'], 
+                                      capture_output=True, text=True)
+                return json.loads(result.stdout) if result.returncode == 0 else None
+            except Exception as e:
+                print(f"获取原始文件失败: {str(e)}")
+                return None
+
+        def process_version(current, original, is_new):
+            if is_new:
+                return "1.0"
+            try:
+                # 修改版本号处理逻辑，确保总是增加版本号
+                if not original:
+                    return "1.0"
+                
+                try:
+                    cv = parse(current)
+                    ov = parse(original)
+                    # 强制更新版本号，无论当前版本是否大于原始版本
+                    return f"{ov.major}.{ov.minor + 1}"
+                except:
+                    # 如果解析失败，尝试简单的数字处理
+                    parts = original.split('.')
+                    if len(parts) >= 2:
+                        try:
+                            major = int(parts[0])
+                            minor = int(parts[1])
+                            return f"{major}.{minor + 1}"
+                        except:
+                            pass
+                    return f"{original}.1"
+            except Exception as e:
+                print(f"处理版本号失败: {str(e)}")
+                return "1.0" if not original else f"{original}.1"
+        
+        def check_action_compatibility(action_type, action_params, bgi_version):
+            """检查 action 和 action_params 与 BGI 版本的兼容性"""
+            import re
+            issues = []
+            validation_issues = []
+            
+            # 如果 action_type 为空，则跳过检查
+            if not action_type:
+                return issues, validation_issues
+            
+            # 检查 action 兼容性
+            if action_type in ACTION_VERSION_MAP:
+                min_version = ACTION_VERSION_MAP[action_type]
+                if VersionInfo.parse(bgi_version.lstrip('v')) < VersionInfo.parse(min_version):
+                    issues.append(f"action '{action_type}' 需要 BGI 版本 >= {min_version}，当前为 {bgi_version}")
+            else:
+                # 未知的 action 类型
+                validation_issues.append(f"未知的 action 类型: '{action_type}'，已知类型: {', '.join(sorted(ACTION_VERSION_MAP.keys()))}")
+            
+            # 检查 action_params 兼容性和格式
+            if action_type in ACTION_PARAMS_VERSION_MAP and action_params:
+                param_info = ACTION_PARAMS_VERSION_MAP[action_type]["params"]
+                min_version = param_info["version"]
+                regex_pattern = param_info["regex"]
+                
+                # 版本兼容性检查
+                if VersionInfo.parse(bgi_version.lstrip('v')) < VersionInfo.parse(min_version):
+                    issues.append(f"action '{action_type}' 的参数需要 BGI 版本 >= {min_version}，当前为 {bgi_version}")
+                
+                # 参数格式验证
+                if not re.match(regex_pattern, str(action_params)):
+                    validation_issues.append(f"action '{action_type}' 的参数格式不正确: '{action_params}'，应匹配模式: {regex_pattern}")
+            
+            return issues, validation_issues
+        
+        def validate_file(file_path):
+            try:
+                with open(file_path) as f:
+                    data = json.load(f)
+            except Exception as e:
+                print(f"❌ JSON 格式错误: {str(e)}")
+                sys.exit(1)
+
+            original_data = get_original_file(file_path)
+            is_new = not original_data
+            info = data["info"]
+            filename = os.path.splitext(os.path.basename(file_path))[0]
+
+            # 自动修正逻辑
+            corrections = []
+            if info["name"] != filename:
+                info["name"] = filename
+                corrections.append(f"name 自动修正为 {filename}")
+            
+            if info["type"] not in ["collect", "fight"]:
+                info["type"] = "collect"
+                corrections.append("type 自动修正为 collect")
+            
+            if not info["author"]:
+                info["author"] = os.getenv("GITHUB_ACTOR")
+                corrections.append(f"author 自动设置为 {info['author']}")
+            
+            # 处理坐标保留两位小数
+            coord_changed = False
+            for pos in data["positions"]:
+                if "x" in pos and isinstance(pos["x"], (int, float)):
+                    original_x = pos["x"]
+                    pos["x"] = round(float(pos["x"]), 2)
+                    if original_x != pos["x"]:
+                        coord_changed = True
+                
+                if "y" in pos and isinstance(pos["y"], (int, float)):
+                    original_y = pos["y"]
+                    pos["y"] = round(float(pos["y"]), 2)
+                    if original_y != pos["y"]:
+                        coord_changed = True
+            
+            if coord_changed:
+                corrections.append("坐标值自动保留两位小数")
+            
+            # 检查 action 和 action_params 兼容性
+            bgi_version = info["bgiVersion"]
+            compatibility_issues = []
+            validation_issues = []
+            
+            for idx, pos in enumerate(data["positions"]):
+                # 验证 type 字段
+                if "type" in pos:
+                    pos_type = pos["type"]
+                    if pos_type not in VALID_TYPES:
+                        validation_issues.append(f"位置 {idx+1}: type '{pos_type}' 无效，有效值为: {', '.join(VALID_TYPES)}")
+                    
+                    # 当 type 为 path 或 target 时，验证 move_mode
+                    if pos_type in ["path", "target"]:
+                        if "move_mode" not in pos:
+                            validation_issues.append(f"位置 {idx+1}: type 为 '{pos_type}' 时必须指定 move_mode")
+                        elif pos["move_mode"] not in VALID_MOVE_MODES:
+                            validation_issues.append(f"位置 {idx+1}: move_mode '{pos['move_mode']}' 无效，有效值为: {', '.join(VALID_MOVE_MODES)}")
+                
+                # 验证 action 兼容性
+                action_type = pos.get("action", "")
+                action_params = pos.get("params", "")
+                
+                if action_type:
+                    compat_issues, valid_issues = check_action_compatibility(action_type, action_params, bgi_version)
+                    
+                    for issue in compat_issues:
+                        compatibility_issues.append(f"位置 {idx+1}: {issue}")
+                    
+                    for issue in valid_issues:
+                        validation_issues.append(f"位置 {idx+1}: {issue}")
+            
+            # 根据兼容性问题更新 bgiVersion
+            if compatibility_issues:
+                required_versions = []
+                for issue in compatibility_issues:
+                    # 从错误信息中提取版本号
+                    parts = issue.split(">=")
+                    if len(parts) > 1:
+                        version_part = parts[1].split(",")[0].strip()
+                        required_versions.append(version_part)
+                
+                if required_versions:
+                    max_required = max(required_versions, key=lambda v: VersionInfo.parse(v))
+                    current_bgi = VersionInfo.parse(bgi_version.lstrip('v'))
+                    if current_bgi < VersionInfo.parse(max_required):
+                        info["bgiVersion"] = f"v{max_required}"
+                        corrections.append(f"bgiVersion 自动更新为 v{max_required} 以兼容所有功能")
+                        compatibility_issues = []  # 清空兼容性问题，因为已经更新了版本
+            
+            original_version = original_data["info"]["version"] if original_data and "info" in original_data else None
+            print(f"原始版本号: {original_version}, 当前版本号: {info['version']}, 是否新文件: {is_new}")
+            
+            new_version = process_version(info["version"], original_version, is_new)
+            if new_version != info["version"]:
+                info["version"] = new_version
+                corrections.append(f"version 自动更新为 {new_version}")
+                print(f"版本号已更新: {info['version']}")
+            else:
+                print(f"版本号未变化: {info['version']}")
+            
+            try:
+                bgi_ver = VersionInfo.parse(info["bgiVersion"].lstrip('v'))
+                if not (bgi_ver > VersionInfo.parse("0.42.0")):
+                    print(f"❌ bgiVersion {info['bgiVersion']} 必须大于 0.42")
+                    sys.exit(1)
+            except ValueError:
+                print(f"❌ 无效的 bgiVersion 格式: {info['bgiVersion']}")
+                sys.exit(1)
+
+            # 校验 positions
+            notices = []
+            for idx, pos in enumerate(data["positions"]):
+                if not all(key in pos for key in ["x", "y", "type"]):
+                    print(f"❌ position {idx+1} 缺少必需字段")
+                    sys.exit(1)
+                if idx == 0 and pos["type"] != "teleport":
+                    notices.append("⚠️ 第一个 position 的 type 不是 teleport")
+            
+            # 添加兼容性问题和验证问题到通知中
+            for issue in compatibility_issues:
+                notices.append(issue)
+                
+            # 添加验证问题到通知中
+            for issue in validation_issues:
+                notices.append(issue)
+
+            # 保存修正
+            if corrections:
+                with open(file_path, 'w') as f:
+                    json.dump(data, f, indent=2, ensure_ascii=False)
+                subprocess.run(['git', 'add', file_path])
+                print("🔧 自动修正:", ", ".join(corrections))
+
+            return notices
+
+        # 主流程
+        changed_files = subprocess.run(['git', 'diff', '--name-only', 'origin/main...HEAD'], 
+                                     capture_output=True, text=True).stdout.splitlines()
+        
+        print(f"检测到的变更文件: {changed_files}")
+        
+        all_notices = []
+        for f in [f for f in changed_files if f.endswith('.json')]:
+            print(f"\n🔍 校验文件: {f}")
+            notices = validate_file(f)
+            all_notices.extend([f"{f}: {n}" for n in notices])
+
+        # 提交自动修正
+        if subprocess.run(['git', 'diff', '--staged', '--quiet']).returncode:
+            print("检测到需要提交的修改")
+            subprocess.run(['git', 'config', 'user.name', 'GitHub Actions'])
+            subprocess.run(['git', 'config', 'user.email', 'actions@github.com'])
+            commit_result = subprocess.run(['git', 'commit', '-m', '🛠 自动校验修正'], capture_output=True, text=True)
+            print(f"提交结果: {commit_result.stdout} {commit_result.stderr}")
+            
+            # 修改 push 命令，指定远程分支名称
+            head_ref = os.getenv('HEAD_REF')
+            if not head_ref:
+                print("⚠️ 无法获取 HEAD_REF 环境变量")
+                head_ref = "HEAD:refs/heads/" + subprocess.run(['git', 'rev-parse', '--abbrev-ref', 'HEAD'], 
+                                                            capture_output=True, text=True).stdout.strip()
+                print(f"使用当前分支: {head_ref}")
+            
+            push_result = subprocess.run(['git', 'push', 'origin', f'HEAD:{head_ref}'], capture_output=True, text=True)
+            print(f"推送结果: {push_result.stdout} {push_result.stderr}")
+            
+            if push_result.returncode == 0:
+                print("✅ 自动修正已提交")
+            else:
+                print(f"❌ 推送失败: {push_result.stderr}")
+        else:
+            print("没有需要提交的修改")
+
+        # 生成提醒信息
+        if all_notices:
+            with open('validation_notes.md', 'w') as f:
+                f.write("## 校验注意事项\n\n" + "\n".join(f"- {n}" for n in all_notices))
+        EOF
+
+        python validate.py
+
+    - name: Add PR comment
+      if: always()
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const fs = require('fs');
+          if (fs.existsSync('validation_notes.md')) {
+            const message = fs.readFileSync('validation_notes.md', 'utf8');
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message
+            });
+          } else {
+            console.log("没有发现 validation_notes.md 文件");
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "✅ 校验完成，没有发现问题"
+            });
+          }
