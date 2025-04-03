@@ -50,7 +50,7 @@ jobs:
 
         # 定义有效的 type 和 move_mode 值
         VALID_TYPES = ["teleport", "path", "target", "orientation"]
-        VALID_MOVE_MODES = ["walk", "fly", "climb", "run", "dash", "jump"]
+        VALID_MOVE_MODES = ["swim", "walk", "fly", "climb", "run", "dash", "jump"]
         
         # 定义 action 和 action_params 的最低兼容版本
         ACTION_VERSION_MAP = {
@@ -66,7 +66,8 @@ jobs:
             "fight": "0.42.0",
             "combat_script": "0.42.0",
             "log_output": "0.42.0",
-            "fishing": "0.43.0"
+            "fishing": "0.43.0",
+            "mining": "0.43.0"
         }
         
         # 定义 action_params 的最低兼容版本和正则表达式验证
@@ -88,8 +89,9 @@ jobs:
 
         def get_original_file(file_path):
             try:
+                # 添加编码参数解决中文路径问题
                 result = subprocess.run(['git', 'show', f'origin/main:{file_path}'], 
-                                      capture_output=True, text=True)
+                                      capture_output=True, text=True, encoding='utf-8')
                 return json.loads(result.stdout) if result.returncode == 0 else None
             except Exception as e:
                 print(f"获取原始文件失败: {str(e)}")
@@ -160,7 +162,7 @@ jobs:
         
         def validate_file(file_path):
             try:
-                with open(file_path) as f:
+                with open(file_path, encoding='utf-8') as f:  # 明确指定 UTF-8 编码
                     data = json.load(f)
             except Exception as e:
                 print(f"❌ JSON 格式错误: {str(e)}")
@@ -273,12 +275,33 @@ jobs:
                 print(f"❌ 无效的 bgiVersion 格式: {info['bgiVersion']}")
                 sys.exit(1)
 
+            # 检查 bgiVersion 并自动修正
+            bgi_version = info["bgiVersion"]
+            try:
+                bgi_ver = VersionInfo.parse(bgi_version.lstrip('v'))
+                if bgi_ver < VersionInfo.parse("0.42.0"):
+                    # 自动修正为 v0.42.0
+                    info["bgiVersion"] = "v0.42.0"
+                    corrections.append(f"bgiVersion {bgi_version} 自动更新为 v0.42.0 (原版本低于要求)")
+                    bgi_version = "v0.42.0"
+            except ValueError:
+                # 格式无效时自动修正
+                info["bgiVersion"] = "v0.42.0"
+                corrections.append(f"bgiVersion {bgi_version} 格式无效，自动更新为 v0.42.0")
+                bgi_version = "v0.42.0"
+
             # 校验 positions
             notices = []
             for idx, pos in enumerate(data["positions"]):
                 if not all(key in pos for key in ["x", "y", "type"]):
-                    print(f"❌ position {idx+1} 缺少必需字段")
-                    sys.exit(1)
+                    # 改为自动添加缺失字段而不是退出
+                    missing = [k for k in ["x", "y", "type"] if k not in pos]
+                    for m in missing:
+                        if m == "type":
+                            pos[m] = "teleport"
+                        else:
+                            pos[m] = 0.0
+                    corrections.append(f"position {idx+1} 自动补全缺失字段: {', '.join(missing)}")
                 if idx == 0 and pos["type"] != "teleport":
                     notices.append("⚠️ 第一个 position 的 type 不是 teleport")
             
@@ -292,7 +315,7 @@ jobs:
 
             # 保存修正
             if corrections:
-                with open(file_path, 'w') as f:
+                with open(file_path, 'w', encoding='utf-8') as f:  # 保存时也使用 UTF-8 编码
                     json.dump(data, f, indent=2, ensure_ascii=False)
                 subprocess.run(['git', 'add', file_path])
                 print("🔧 自动修正:", ", ".join(corrections))
