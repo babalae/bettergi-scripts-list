@@ -19,6 +19,10 @@ on:
         required: false
         default: 'true'
         type: boolean
+      pr_number:
+        description: '关联的 PR 号 (留空则不关联)'
+        required: false
+        type: string
 
 jobs:
   validate-json:
@@ -33,9 +37,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -46,13 +50,40 @@ jobs:
         run: |
           pip install packaging semver
 
+      - name: Get PR information
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.pr_number != '' }}
+        id: pr_info
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            try {
+              const pr = await github.rest.pulls.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: parseInt(${{ github.event.inputs.pr_number }})
+              });
+              
+              core.setOutput('head_sha', pr.data.head.sha);
+              core.setOutput('head_ref', pr.data.head.ref);
+              core.setOutput('head_repo', pr.data.head.repo.full_name);
+              core.setOutput('found', 'true');
+              
+              console.log(`找到 PR #${{ github.event.inputs.pr_number }}`);
+              console.log(`Head SHA: ${pr.data.head.sha}`);
+              console.log(`Head Ref: ${pr.data.head.ref}`);
+              console.log(`Head Repo: ${pr.data.head.repo.full_name}`);
+            } catch (error) {
+              console.log(`获取 PR #${{ github.event.inputs.pr_number }} 信息失败: ${error.message}`);
+              core.setOutput('found', 'false');
+            }
       - name: Run validation and correction
         env:
           GITHUB_ACTOR: ${{ github.actor }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_NUMBER: ${{ github.event.pull_request.number || github.event.inputs.pr_number }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HEAD_REF: ${{ github.event.pull_request.head.ref }}
-          PR_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref || steps.pr_info.outputs.head_ref || '' }}
+          PR_REPO: ${{ github.event.pull_request.head.repo.full_name || steps.pr_info.outputs.head_repo || github.repository }}
           VALIDATE_PATH: ${{ github.event.inputs.path || 'repo/pathing' }}
           AUTO_FIX: ${{ github.event.inputs.auto_fix || 'true' }}
         run: |
@@ -596,18 +627,19 @@ jobs:
           
               path = args.path
               auto_fix = args.fix
+              all_notices = []  # 初始化 all_notices 变量
           
               if os.path.isfile(path) and path.endswith('.json'):
                   print(f"\n🔍 校验文件: {path}")
                   notices = validate_file(path, auto_fix)
                   if notices:
+                      all_notices.extend([f"{path}: {n}" for n in notices])  # 添加到 all_notices
                       print("\n校验注意事项:")
                       for notice in notices:
                           print(f"- {notice}")
                   else:
                       print("✅ 校验完成，没有发现问题")
               elif os.path.isdir(path):
-                  all_notices = []
                   for root, _, files in os.walk(path):
                       for file in files:
                           if file.endswith('.json'):
@@ -626,44 +658,47 @@ jobs:
               else:
                   print(f"❌ 无效的路径: {path}")
           
-          # 生成提醒信息
-          if all_notices:
-              with open('validation_notes.md', 'w') as f:
-                  f.write("## 校验注意事项\n\n" + "\n".join(f"- {n}" for n in all_notices))
+              # 生成提醒信息
+              if all_notices:
+                  with open('validation_notes.md', 'w') as f:
+                      f.write("## 校验注意事项\n\n" + "\n".join(f"- {n}" for n in all_notices))
+          
+          if __name__ == "__main__":
+              main()
           EOF
           
-          python validate.py
-
-      - name: Add PR comment
-        if: ${{ github.event_name == 'pull_request_target' && always() }}
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const fs = require('fs');
-            if (fs.existsSync('validation_notes.md')) {
-              const message = fs.readFileSync('validation_notes.md', 'utf8');
-              await github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: message
-              });
-            } else {
-              console.log("没有发现 validation_notes.md 文件");
-              await github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: "✅ 校验完成，没有发现问题"
-              });
-            }
-            
-      - name: Create summary for manual run
-        if: ${{ github.event_name == 'workflow_dispatch' && always() }}
-        run: |
-          if [ -f validation_notes.md ]; then
-            cat validation_notes.md >> $GITHUB_STEP_SUMMARY
+          # 根据触发方式决定验证路径和是否自动修复
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "手动触发模式，验证路径: ${VALIDATE_PATH}"
+            python validate.py ${VALIDATE_PATH} $([[ "${AUTO_FIX}" == "true" ]] && echo "--fix")
           else
-            echo "✅ 校验完成，没有发现问题" >> $GITHUB_STEP_SUMMARY
+            echo "PR 触发模式，验证修改的 JSON 文件"
+            python validate.py repo/pathing --fix
           fi
+          
+          - name: Add PR comment
+            if: ${{ (github.event_name == 'pull_request_target' || (github.event_name == 'workflow_dispatch' && github.event.inputs.pr_number != '' && steps.pr_info.outputs.found == 'true')) && always() }}
+            uses: actions/github-script@v6
+            with:
+              github-token: ${{ secrets.GITHUB_TOKEN }}
+              script: |
+                const fs = require('fs');
+                const pr_number = ${{ github.event.pull_request.number || github.event.inputs.pr_number }};
+                
+                if (fs.existsSync('validation_notes.md')) {
+                  const message = fs.readFileSync('validation_notes.md', 'utf8');
+                  await github.rest.issues.createComment({
+                    issue_number: pr_number,
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    body: message
+                  });
+                } else {
+                  console.log("没有发现 validation_notes.md 文件");
+                  await github.rest.issues.createComment({
+                    issue_number: pr_number,
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    body: "✅ 校验完成，没有发现问题"
+                  });
+                }
