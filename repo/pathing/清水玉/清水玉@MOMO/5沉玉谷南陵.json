@@ -1,92 +1,93 @@
 {
-  "info": {
-    "name": "5沉玉谷南陵",
-    "type": "collect",
-    "author": "MOMO",
-    "version": "1.0",
-    "description": "",
-    "bgiVersion": "0.35.1"
-  },
-  "positions": [
-    {
-      "id": 1,
-      "x": 2324.03857421875,
-      "y": 1605.85595703125,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+    "info": {
+        "name": "5沉玉谷南陵",
+        "type": "collect",
+        "author": "MOMO",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
     },
-    {
-      "id": 2,
-      "x": 2322.65185546875,
-      "y": 1670.18310546875,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "type": "target"
-    },
-    {
-      "id": 3,
-      "x": 2319.81591796875,
-      "y": 1670.7373046875,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 2319.14794921875,
-      "y": 1674.783203125,
-      "action": "combat_script","action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 2326.10498046875,
-      "y": 1673.83935546875,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": 2328.826171875,
-      "y": 1678.11962890625,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": 2320.130859375,
-      "y": 1672.15625,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": 2319.4931640625,
-      "y": 1677.1005859375,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": 2326.76708984375,
-      "y": 1680.734375,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 10,
-      "x": 2325.33935546875,
-      "y": 1675.2421875,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    }
-  ]
+    "positions": [
+        {
+            "id": 1,
+            "x": 2324.03857421875,
+            "y": 1605.85595703125,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": 2322.65185546875,
+            "y": 1670.18310546875,
+            "action": "stop_flying",
+            "move_mode": "fly",
+            "type": "target"
+        },
+        {
+            "id": 3,
+            "x": 2319.81591796875,
+            "y": 1670.7373046875,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": 2319.14794921875,
+            "y": 1674.783203125,
+            "action": "mining",
+            "action_params": "",
+            "move_mode": "walk",
+            "type": "path"
+        },
+        {
+            "id": 5,
+            "x": 2326.10498046875,
+            "y": 1673.83935546875,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path"
+        },
+        {
+            "id": 6,
+            "x": 2328.826171875,
+            "y": 1678.11962890625,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path"
+        },
+        {
+            "id": 7,
+            "x": 2320.130859375,
+            "y": 1672.15625,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path"
+        },
+        {
+            "id": 8,
+            "x": 2319.4931640625,
+            "y": 1677.1005859375,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path"
+        },
+        {
+            "id": 9,
+            "x": 2326.76708984375,
+            "y": 1680.734375,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path"
+        },
+        {
+            "id": 10,
+            "x": 2325.33935546875,
+            "y": 1675.2421875,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path"
+        }
+    ]
 }

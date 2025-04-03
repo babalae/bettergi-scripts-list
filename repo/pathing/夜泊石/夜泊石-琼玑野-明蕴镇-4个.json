@@ -1,129 +1,129 @@
 {
-  "info": {
-    "name": "夜泊石-琼玑野-明蕴镇-4个",
-    "type": "collect",
-    "author": "起个名字好难的喵",
-    "version": "1.0",
-    "description": "",
-    "bgiVersion": "0.35.1"
-  },
-  "positions": [
-    {
-      "id": 1,
-      "x": -188.6494140625,
-      "y": 972.462890625,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+    "info": {
+        "name": "夜泊石-琼玑野-明蕴镇-4个",
+        "type": "collect",
+        "author": "起个名字好难的喵",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
     },
-    {
-      "id": 2,
-      "x": -197.5927734375,
-      "y": 1026.314453125,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": -212.576171875,
-      "y": 1088.4697265625,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": -214.4140625,
-      "y": 1088.31640625,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": -214.7236328125,
-      "y": 1085.53369140625,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": -215.4814453125,
-      "y": 1087.68212890625,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": -222.32421875,
-      "y": 1095.07421875,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": -221.8310546875,
-      "y": 1095.50341796875,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": -207.7421875,
-      "y": 1094.4697265625,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)",
-      "type": "path"
-    },
-    {
-      "id": 10,
-      "x": -207.8486328125,
-      "y": 1095.77490234375,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 11,
-      "x": -203.4384765625,
-      "y": 1085.33544921875,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)",
-      "type": "path"
-    },
-    {
-      "id": 12,
-      "x": -204.529296875,
-      "y": 1085.38427734375,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 13,
-      "x": -202.2978515625,
-      "y": 1084.1318359375,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    }
-  ]
+    "positions": [
+        {
+            "id": 1,
+            "x": -188.6494140625,
+            "y": 972.462890625,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": -197.5927734375,
+            "y": 1026.314453125,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": -212.576171875,
+            "y": 1088.4697265625,
+            "action": "stop_flying",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": -214.4140625,
+            "y": 1088.31640625,
+            "action": "mining",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 5,
+            "x": -214.7236328125,
+            "y": 1085.53369140625,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 6,
+            "x": -215.4814453125,
+            "y": 1087.68212890625,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 7,
+            "x": -222.32421875,
+            "y": 1095.07421875,
+            "action": "mining",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 8,
+            "x": -221.8310546875,
+            "y": 1095.50341796875,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 9,
+            "x": -207.7421875,
+            "y": 1094.4697265625,
+            "action": "mining",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 10,
+            "x": -207.8486328125,
+            "y": 1095.77490234375,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 11,
+            "x": -203.4384765625,
+            "y": 1085.33544921875,
+            "action": "mining",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 12,
+            "x": -204.529296875,
+            "y": 1085.38427734375,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 13,
+            "x": -202.2978515625,
+            "y": 1084.1318359375,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        }
+    ]
 }

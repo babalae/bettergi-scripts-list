@@ -25,7 +25,7 @@
         await sleep(1000);
         click(1010, 760);
         await sleep(1000);
-    }
+    }  // todo:考虑添加ocr参数确保一定点击到 F
 
     async function AutoPath(locationName) {
         try {
@@ -41,14 +41,15 @@
 
         log.info(`导航至甜甜花位置`);
         await AutoPath('导航至甜甜花位置');
-
         log.info(`自动好感开始...`);
         const startFirstTime = Date.now();
         for (let i = 0; i < times; i++) {
             log.info(`自动好感当前次数：${i + 1}/${times}`);
             await AutoPath('从甜甜花到狗盆');
             await Feed();
-            await AutoPath('从狗盆到甜甜花');   
+            if( i != times - 1) {
+                await AutoPath('从狗盆到甜甜花'); 
+            }  //最后一次不需要返回到甜甜花
             const estimatedCompletion = CalculateEstimatedCompletion(startFirstTime, i + 1, times);
             const currentTime = LogTimeTaken(startFirstTime);
             log.info(`当前进度：${i + 1}/${times} (${((i + 1) / times * 100).toFixed(1)}%)`);
@@ -79,6 +80,9 @@
         return `${completionDate.toLocaleTimeString()} (约 ${Math.round(remainingTime / 60000)} 分钟)`;
     }
 
+    function isPositiveInteger(value) {
+        return Number.isInteger(value) && value > 0;
+    }
     // 启用自动拾取的实时任务
     const startTime = Date.now();
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
@@ -86,7 +90,6 @@
     const messages = [
         '请确保有足够的鸡腿',
         '请确保队伍满员',
-        `自动好感任务开始，运行：${settings.times} 次`,
     ];
     for (let message of messages) {
         log.info(message);
@@ -97,7 +100,14 @@
 
     log.info('自动好感开始...');
     //默认10次自动好感
-    await AutoFriendshipDev(settings.times);
-
+    if(isPositiveInteger(settings.times)){
+        log.info(`自动好感任务开始，运行：${settings.times} 次`);
+    	await AutoFriendshipDev(settings.times);	
+    } else {
+	log.info(`运行次数输入不合法或者未输入，使用默认值`);
+	times = 10;
+	log.info(`自动好感任务开始，运行：${times} 次`);
+	await AutoFriendshipDev(10);	
+    }
     log.info(`自动好感运行总时长：${LogTimeTaken(startTime)}`);
 })();

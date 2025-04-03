@@ -1,75 +1,75 @@
 {
-  "info": {
-    "name": "夜泊石-琼玑野-明蕴镇-2个",
-    "type": "collect",
-    "author": "起个名字好难的喵",
-    "version": "1.0",
-    "description": "",
-    "bgiVersion": "0.35.1"
-  },
-  "positions": [
-    {
-      "id": 1,
-      "x": -255.05859375,
-      "y": 630.1259765625,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+    "info": {
+        "name": "夜泊石-琼玑野-明蕴镇-2个",
+        "type": "collect",
+        "author": "起个名字好难的喵",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
     },
-    {
-      "id": 2,
-      "x": -254.1142578125,
-      "y": 619.5517578125,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": -250.615234375,
-      "y": 598.716796875,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": -249.4404296875,
-      "y": 604.4677734375,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": -246.8876953125,
-      "y": 612.92578125,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": -245.54296875,
-      "y": 611.74462890625,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": -245.5283203125,
-      "y": 610.3544921875,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    }
-  ]
+    "positions": [
+        {
+            "id": 1,
+            "x": -255.05859375,
+            "y": 630.1259765625,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": -254.1142578125,
+            "y": 619.5517578125,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": -250.615234375,
+            "y": 598.716796875,
+            "action": "",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": -249.4404296875,
+            "y": 604.4677734375,
+            "action": "stop_flying",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 5,
+            "x": -246.8876953125,
+            "y": 612.92578125,
+            "action": "mining",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 6,
+            "x": -245.54296875,
+            "y": 611.74462890625,
+            "action": "mining",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 7,
+            "x": -245.5283203125,
+            "y": 610.3544921875,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        }
+    ]
 }

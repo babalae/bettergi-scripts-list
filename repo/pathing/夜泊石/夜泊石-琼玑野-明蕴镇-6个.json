@@ -1,131 +1,131 @@
 {
-  "info": {
-    "name": "夜泊石-琼玑野-明蕴镇-6个",
-    "type": "collect",
-    "author": "起个名字好难的喵",
-    "version": "1.0",
-    "description": "",
-    "bgiVersion": "0.35.1"
-  },
-  "positions": [
-    {
-      "id": 1,
-      "x": -416.0888671875,
-      "y": 729.08349609375,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport",
-      "locked": false
+    "info": {
+        "name": "夜泊石-琼玑野-明蕴镇-6个",
+        "type": "collect",
+        "author": "起个名字好难的喵",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
     },
-    {
-      "id": 2,
-      "x": -405.1865234375,
-      "y": 712.2060546875,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 3,
-      "x": -394.3095703125,
-      "y": 682.75927734375,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)",
-      "type": "target",
-      "locked": false
-    },
-    {
-      "id": 4,
-      "x": -394.916015625,
-      "y": 681.73681640625,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 5,
-      "x": -408.6044921875,
-      "y": 674.2939453125,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 6,
-      "x": -407.322265625,
-      "y": 673.7080078125,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 7,
-      "x": -413.939453125,
-      "y": 667.4755859375,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 8,
-      "x": -411.2890625,
-      "y": 677.076171875,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 9,
-      "x": -412.2841796875,
-      "y": 668.21826171875,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 10,
-      "x": -418.2353515625,
-      "y": 675.35498046875,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 11,
-      "x": -418.544921875,
-      "y": 672.2890625,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 12,
-      "x": -417.7255859375,
-      "y": 683.22705078125,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path",
-      "locked": false
-    }
-  ]
+    "positions": [
+        {
+            "id": 1,
+            "x": -416.0888671875,
+            "y": 729.08349609375,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport",
+            "locked": false
+        },
+        {
+            "id": 2,
+            "x": -405.1865234375,
+            "y": 712.2060546875,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path",
+            "locked": false
+        },
+        {
+            "id": 3,
+            "x": -394.3095703125,
+            "y": 682.75927734375,
+            "action": "mining",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "target",
+            "locked": false
+        },
+        {
+            "id": 4,
+            "x": -394.916015625,
+            "y": 681.73681640625,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path",
+            "locked": false
+        },
+        {
+            "id": 5,
+            "x": -408.6044921875,
+            "y": 674.2939453125,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": -407.322265625,
+            "y": 673.7080078125,
+            "action": "mining",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path",
+            "locked": false
+        },
+        {
+            "id": 7,
+            "x": -413.939453125,
+            "y": 667.4755859375,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path",
+            "locked": false
+        },
+        {
+            "id": 8,
+            "x": -411.2890625,
+            "y": 677.076171875,
+            "action": "mining",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path",
+            "locked": false
+        },
+        {
+            "id": 9,
+            "x": -412.2841796875,
+            "y": 668.21826171875,
+            "action": "mining",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path",
+            "locked": false
+        },
+        {
+            "id": 10,
+            "x": -418.2353515625,
+            "y": 675.35498046875,
+            "action": "mining",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path",
+            "locked": false
+        },
+        {
+            "id": 11,
+            "x": -418.544921875,
+            "y": 672.2890625,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path",
+            "locked": false
+        },
+        {
+            "id": 12,
+            "x": -417.7255859375,
+            "y": 683.22705078125,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path",
+            "locked": false
+        }
+    ]
 }

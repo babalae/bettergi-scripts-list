@@ -1,161 +1,161 @@
 {
-    "info":  {
-                 "name":  "风龙废墟入口-5个",
-                 "type":  "collect",
-                 "author":  "愚溪",
-                 "version":  "1.0",
-                 "description":  "",
-                 "bgiVersion":  "0.35.1"
-             },
-    "positions":  [
-                      {
-                          "id":  1,
-                          "x":  36.7666015625,
-                          "y":  2380.8740234375,
-                          "action":  "",
-                          "move_mode":  "walk",
-                          "type":  "teleport"
-                      },
-                      {
-                          "id":  2,
-                          "x":  62.556640625,
-                          "y":  2388.259765625,
-                          "action":  "",
-                          "move_mode":  "walk",
-                          "type":  "path"
-                      },
-                      {
-                          "id":  3,
-                          "x":  73.9111328125,
-                          "y":  2389.407958984375,
-                          "action":  "stop_flying",
-                          "move_mode":  "fly",
-                          "type":  "target"
-                      },
-                      {
-                          "id":  4,
-                          "x":  73.0771484375,
-                          "y":  2387.312255859375,
-                          "type":  "target",
-                          "move_mode":  "climb",
-                          "action":  ""
-                      },
-                      {
-                          "id":  5,
-                          "x":  73,
-                          "y":  2382.5,
-                          "action":  "",
-                          "move_mode":  "climb",
-                          "type":  "path"
-                      },
-                      {
-                          "id":  6,
-                          "x":  95.24646821392525,
-                          "y":  2387.5,
-                          "action":  "",
-                          "move_mode":  "walk",
-                          "type":  "path"
-                      },
-                      {
-                          "id":  7,
-                          "x":  95.73828125,
-                          "y":  2402.567626953125,
-                          "action":  "stop_flying",
-                          "move_mode":  "fly",
-                          "type":  "path"
-                      },
-                      {
-                          "id":  8,
-                          "x":  94.59375,
-                          "y":  2389.73583984375,
-                          "action":  "combat_script",
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-                      },
-                      {
-                          "id":  9,
-                          "x":  92.9296875,
-                          "y":  2401.4296875,
-                          "action":  "",
-                          "move_mode":  "walk",
-                          "type":  "path"
-                      },
-                      {
-                          "id":  10,
-                          "x":  157.2099609375,
-                          "y":  2409.35693359375,
-                          "action":  "combat_script",
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-                      },
-                      {
-                          "id":  11,
-                          "x":  152.876953125,
-                          "y":  2433.02880859375,
-                          "action":  "",
-                          "move_mode":  "walk",
-                          "type":  "path"
-                      },
-                      {
-                          "id":  12,
-                          "x":  150.84375,
-                          "y":  2443.87890625,
-                          "action":  "stop_flying",
-                          "move_mode":  "fly",
-                          "type":  "path"
-                      },
-                      {
-                          "id":  13,
-                          "x":  187.173828125,
-                          "y":  2434.751708984375,
-                          "action":  "combat_script",
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-                      },
-                      {
-                          "id":  14,
-                          "x":  185.939453125,
-                          "y":  2447.296630859375,
-                          "action":  "",
-                          "move_mode":  "walk",
-                          "type":  "path"
-                      },
-                      {
-                          "id":  15,
-                          "x":  250.23828125,
-                          "y":  2452.027099609375,
-                          "action":  "",
-                          "move_mode":  "walk",
-                          "type":  "path"
-                      },
-                      {
-                          "id":  16,
-                          "x":  254.052734375,
-                          "y":  2436.83349609375,
-                          "action":  "",
-                          "move_mode":  "climb",
-                          "type":  "path"
-                      },
-                      {
-                          "id":  17,
-                          "x":  255.279296875,
-                          "y":  2429.80712890625,
-                          "action":  "combat_script",
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-                      },
-                      {
-                          "id":  18,
-                          "x":  354.6572265625,
-                          "y":  2449.6259765625,
-                          "action":  "combat_script",
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-                      }
-                  ]
+    "info": {
+        "name": "风龙废墟入口-5个",
+        "type": "collect",
+        "author": "愚溪",
+        "version": "1.0",
+        "description": "",
+        "bgiVersion": "0.35.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": 36.7666015625,
+            "y": 2380.8740234375,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": 62.556640625,
+            "y": 2388.259765625,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": 73.9111328125,
+            "y": 2389.407958984375,
+            "action": "stop_flying",
+            "move_mode": "fly",
+            "type": "target"
+        },
+        {
+            "id": 4,
+            "x": 73.0771484375,
+            "y": 2387.312255859375,
+            "type": "target",
+            "move_mode": "climb",
+            "action": ""
+        },
+        {
+            "id": 5,
+            "x": 73,
+            "y": 2382.5,
+            "action": "",
+            "move_mode": "climb",
+            "type": "path"
+        },
+        {
+            "id": 6,
+            "x": 95.24646821392525,
+            "y": 2387.5,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path"
+        },
+        {
+            "id": 7,
+            "x": 95.73828125,
+            "y": 2402.567626953125,
+            "action": "stop_flying",
+            "move_mode": "fly",
+            "type": "path"
+        },
+        {
+            "id": 8,
+            "x": 94.59375,
+            "y": 2389.73583984375,
+            "action": "mining",
+            "move_mode": "walk",
+            "type": "path",
+            "action_params": ""
+        },
+        {
+            "id": 9,
+            "x": 92.9296875,
+            "y": 2401.4296875,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path"
+        },
+        {
+            "id": 10,
+            "x": 157.2099609375,
+            "y": 2409.35693359375,
+            "action": "mining",
+            "move_mode": "walk",
+            "type": "path",
+            "action_params": ""
+        },
+        {
+            "id": 11,
+            "x": 152.876953125,
+            "y": 2433.02880859375,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path"
+        },
+        {
+            "id": 12,
+            "x": 150.84375,
+            "y": 2443.87890625,
+            "action": "stop_flying",
+            "move_mode": "fly",
+            "type": "path"
+        },
+        {
+            "id": 13,
+            "x": 187.173828125,
+            "y": 2434.751708984375,
+            "action": "mining",
+            "move_mode": "walk",
+            "type": "path",
+            "action_params": ""
+        },
+        {
+            "id": 14,
+            "x": 185.939453125,
+            "y": 2447.296630859375,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path"
+        },
+        {
+            "id": 15,
+            "x": 250.23828125,
+            "y": 2452.027099609375,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path"
+        },
+        {
+            "id": 16,
+            "x": 254.052734375,
+            "y": 2436.83349609375,
+            "action": "",
+            "move_mode": "climb",
+            "type": "path"
+        },
+        {
+            "id": 17,
+            "x": 255.279296875,
+            "y": 2429.80712890625,
+            "action": "mining",
+            "move_mode": "walk",
+            "type": "path",
+            "action_params": ""
+        },
+        {
+            "id": 18,
+            "x": 354.6572265625,
+            "y": 2449.6259765625,
+            "action": "mining",
+            "move_mode": "walk",
+            "type": "path",
+            "action_params": ""
+        }
+    ]
 }

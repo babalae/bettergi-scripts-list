@@ -4,54 +4,45 @@
     "type": "collect",
     "author": "寒露",
     "version": "1.0",
-    "description": "自动寻找枫丹铁匠铺",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
     {
       "id": 1,
-      "x": 4509.96044921875,
-      "y": 3630.826904296875,
       "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "move_mode": "run",
+      "type": "teleport",
+      "x": 4514.0908203125,
+      "y": 3630.588623046875,
+      "action_params": ""
     },
     {
       "id": 2,
-      "x": 4519.625237285377,
-      "y": 3604.75,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 4542.001993197164,
-      "y": 3597,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 4561.749952542925,
-      "y": 3596.25,
+      "x": 4518.59765625,
+      "y": 3601.3916015625,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 5,
-      "x": 4580.500332199527,
-      "y": 3603.75,
+      "id": 3,
+      "x": 4563.74755859375,
+      "y": 3593.390869140625,
+      "type": "path",
+      "move_mode": "run",
       "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4580.56640625,
+      "y": 3603.6337890625,
+      "type": "path",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     }
   ]
 }

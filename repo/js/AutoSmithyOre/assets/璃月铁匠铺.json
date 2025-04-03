@@ -10,56 +10,66 @@
   "positions": [
     {
       "id": 1,
-      "x": 267.89999999999964,
-      "y": -665.1000000000004,
       "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "teleport"
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 269.6123046875,
+      "y": -666.208984375,
+      "action_params": ""
     },
     {
       "id": 2,
-      "x": 245.8753796566034,
-      "y": -663.625,
+      "x": 253.6806640625,
+      "y": -661.6376953125,
+      "type": "path",
+      "move_mode": "walk",
       "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 3,
-      "x": 228.6251898283008,
-      "y": -662.125,
+      "x": 230.4423828125,
+      "y": -664.1513671875,
+      "type": "path",
+      "move_mode": "walk",
       "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 4,
-      "x": 211.0001423712256,
-      "y": -663,
+      "x": 208.1728515625,
+      "y": -665.02685546875,
+      "type": "path",
+      "move_mode": "walk",
       "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 5,
-      "x": 196.3759965985828,
-      "y": -677.75,
-      "action": "",
+      "x": 196.900390625,
+      "y": -677.50244140625,
+      "type": "path",
       "move_mode": "walk",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 6,
-      "x": 187.12528474245119,
-      "y": -668.125,
+      "x": 190.3271484375,
+      "y": -671.70361328125,
+      "type": "path",
+      "move_mode": "climb",
       "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 186.5703125,
+      "y": -669.265625,
+      "type": "target",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "action": "",
+      "action_params": ""
     }
   ]
 }
