@@ -5,7 +5,7 @@
     "author": "鸿羽er",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "v0.42.0"
+    "bgiVersion": "0.42.0"
   },
   "positions": [
     {
@@ -40,7 +40,9 @@
       "x": 4651.0,
       "y": 1865.0,
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "type": "path",
+      "move_mode": "walk"
     },
     {
       "id": 5,
@@ -56,7 +58,9 @@
       "x": 4595.25,
       "y": 1848.0,
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "type": "path",
+      "move_mode": "walk"
     },
     {
       "id": 7,
@@ -99,7 +103,9 @@
       "x": 4480.25,
       "y": 1932.0,
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "type": "path",
+      "move_mode": "walk"
     },
     {
       "id": 12,

@@ -5,7 +5,7 @@
     "author": "鸿羽er",
     "version": "1.0",
     "description": "右后方可能会有一只<大伟丘>",
-    "bgiVersion": "v0.42.0"
+    "bgiVersion": "0.42.0"
   },
   "positions": [
     {
@@ -65,7 +65,9 @@
     {
       "id": 7,
       "x": 1322.75,
-      "y": 144.37
+      "y": 144.37,
+      "type": "path",
+      "move_mode": "walk"
     }
   ]
 }

@@ -5,7 +5,7 @@
     "author": "san",
     "version": "1.0",
     "description": "漂浮零",
-    "bgiVersion": "v0.42.0"
+    "bgiVersion": "0.42.0"
   },
   "positions": [
     {
@@ -20,12 +20,15 @@
       "id": 2,
       "x": -4168.75,
       "y": -4385.5,
-      "move_mode": "run"
+      "move_mode": "run",
+      "type": "path"
     },
     {
       "id": 3,
       "x": -4164.25,
-      "y": -4380.25
+      "y": -4380.25,
+      "type": "path",
+      "move_mode": "walk"
     },
     {
       "id": 4,

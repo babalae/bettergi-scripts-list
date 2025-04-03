@@ -5,7 +5,7 @@
     "author": "鸿羽er",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "v0.42.0"
+    "bgiVersion": "0.42.0"
   },
   "positions": [
     {
@@ -27,7 +27,9 @@
     {
       "id": 3,
       "x": -3781.5,
-      "y": -2567.62
+      "y": -2567.62,
+      "type": "path",
+      "move_mode": "walk"
     },
     {
       "id": 4,
@@ -40,31 +42,36 @@
       "id": 5,
       "x": -3732.75,
       "y": -2568.88,
-      "move_mode": "run"
+      "move_mode": "run",
+      "type": "path"
     },
     {
       "id": 6,
       "x": -3712.25,
       "y": -2567.75,
-      "move_mode": "walk"
+      "move_mode": "walk",
+      "type": "path"
     },
     {
       "id": 7,
       "x": -3706.12,
       "y": -2567.13,
-      "move_mode": "walk"
+      "move_mode": "walk",
+      "type": "path"
     },
     {
       "id": 8,
       "x": -3701.37,
       "y": -2564.87,
-      "move_mode": "walk"
+      "move_mode": "walk",
+      "type": "path"
     },
     {
       "id": 9,
       "x": -3695.25,
       "y": -2564.88,
-      "move_mode": "walk"
+      "move_mode": "walk",
+      "type": "path"
     },
     {
       "id": 10,
