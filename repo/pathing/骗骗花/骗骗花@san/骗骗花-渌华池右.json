@@ -5,7 +5,7 @@
     "author": "san",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.35.1"
+    "bgiVersion": "v0.42.0"
   },
   "positions": [
     {
@@ -13,19 +13,19 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 260,
-      "y": -26.89198520368518
+      "x": 260.0,
+      "y": -26.89
     },
     {
       "id": 2,
       "x": 273.5,
-      "y": -22.253729082253813,
+      "y": -22.25,
       "move_mode": "run"
     },
     {
       "id": 3,
-      "x": 274,
-      "y": 167.01620221944722,
+      "x": 274.0,
+      "y": 167.02,
       "move_mode": "run",
       "action": ""
     },
@@ -34,16 +34,16 @@
       "action": "",
       "move_mode": "run",
       "type": "path",
-      "x": 293,
-      "y": 171.2098573185549
+      "x": 293.0,
+      "y": 171.21
     },
     {
       "id": 5,
       "action": "stop_flying",
       "move_mode": "fly",
       "type": "path",
-      "x": 308,
-      "y": 195.2222018667053
+      "x": 308.0,
+      "y": 195.22
     },
     {
       "id": 6,
@@ -51,7 +51,7 @@
       "move_mode": "walk",
       "type": "path",
       "x": 312.5,
-      "y": 186.24292760262233
+      "y": 186.24
     }
   ]
 }

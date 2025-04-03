@@ -1,101 +1,101 @@
 {
-    "info": {
-        "name": "稻妻神祗岛01",
-        "type": "collect",
-        "author": "mfkvfhpdx",
-        "version": "1.0",
-        "description": "",
-        "bgiVersion": "0.35.1"
+  "info": {
+    "name": "稻妻海祗岛01",
+    "type": "collect",
+    "author": "mfkvfhpdx",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "v0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1056.69,
+      "y": -3945.74
     },
-    "positions": [
-        {
-            "id": 1,
-            "action": "",
-            "move_mode": "walk",
-            "type": "teleport",
-            "x": -1056.689453125,
-            "y": -3945.7421875
-        },
-        {
-            "id": 2,
-            "x": -1039.1357421875,
-            "y": -3926.349609375,
-            "type": "path",
-            "move_mode": "fly",
-            "action": "stop_flying"
-        },
-        {
-            "id": 3,
-            "x": -1043.080078125,
-            "y": -3914.1845703125,
-            "type": "path",
-            "move_mode": "walk",
-            "action": "mining",
-            "action_params": ""
-        },
-        {
-            "id": 4,
-            "x": -1046.71875,
-            "y": -3914.818359375,
-            "type": "path",
-            "move_mode": "walk",
-            "action": ""
-        },
-        {
-            "id": 5,
-            "x": -1046.4873046875,
-            "y": -3911.2529296875,
-            "type": "path",
-            "move_mode": "walk",
-            "action": ""
-        },
-        {
-            "id": 6,
-            "x": -1046.08984375,
-            "y": -3910.212890625,
-            "type": "path",
-            "move_mode": "walk",
-            "action": ""
-        },
-        {
-            "id": 7,
-            "x": -1044.2744140625,
-            "y": -3910.6416015625,
-            "type": "path",
-            "move_mode": "walk",
-            "action": ""
-        },
-        {
-            "id": 8,
-            "x": -1045.0380859375,
-            "y": -3912.5302734375,
-            "type": "path",
-            "move_mode": "walk",
-            "action": ""
-        },
-        {
-            "id": 9,
-            "x": -1042.0927734375,
-            "y": -3908.5556640625,
-            "type": "path",
-            "move_mode": "walk",
-            "action": ""
-        },
-        {
-            "id": 10,
-            "x": -1045.01953125,
-            "y": -3908.8720703125,
-            "type": "path",
-            "move_mode": "walk",
-            "action": ""
-        },
-        {
-            "id": 11,
-            "x": -1045.8525390625,
-            "y": -3907.4609375,
-            "type": "path",
-            "move_mode": "walk",
-            "action": ""
-        }
-    ]
+    {
+      "id": 2,
+      "x": -1039.14,
+      "y": -3926.35,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": -1043.08,
+      "y": -3914.18,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1046.72,
+      "y": -3914.82,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": -1046.49,
+      "y": -3911.25,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": -1046.09,
+      "y": -3910.21,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": -1044.27,
+      "y": -3910.64,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": -1045.04,
+      "y": -3912.53,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x": -1042.09,
+      "y": -3908.56,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 10,
+      "x": -1045.02,
+      "y": -3908.87,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 11,
+      "x": -1045.85,
+      "y": -3907.46,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
 }

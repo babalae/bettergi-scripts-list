@@ -1,93 +1,93 @@
 {
-    "info": {
-        "name": "自动钓鱼路线-蒙德-果酒湖",
-        "type": "collect",
-        "author": "鸿羽er&起个名字好难的喵",
-        "version": "1.0",
-        "description": "",
-        "bgiVersion": "0.35.1"
+  "info": {
+    "name": "自动钓鱼路线-蒙德-果酒湖",
+    "type": "collect",
+    "author": "鸿羽er&起个名字好难的喵",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "v0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -871.77,
+      "y": 1993.55,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
-    "positions": [
-        {
-            "id": 1,
-            "x": -871.7674412228298,
-            "y": 1993.5451695571755,
-            "action": "",
-            "move_mode": "walk",
-            "action_params": "",
-            "type": "teleport"
-        },
-        {
-            "id": 2,
-            "x": -860.6262458016299,
-            "y": 2005.6250733272027,
-            "action": "",
-            "move_mode": "run",
-            "action_params": "",
-            "type": "path"
-        },
-        {
-            "id": 3,
-            "x": -840.5005969466147,
-            "y": 2031.8709670038243,
-            "action": "",
-            "move_mode": "run",
-            "action_params": "",
-            "type": "path"
-        },
-        {
-            "id": 4,
-            "x": -827.1263755726341,
-            "y": 2032.3744133823748,
-            "action": "",
-            "move_mode": "climb",
-            "action_params": "",
-            "type": "path"
-        },
-        {
-            "id": 5,
-            "x": -820.361328125,
-            "y": 2037.12744140625,
-            "type": "path",
-            "move_mode": "run",
-            "action": "",
-            "action_params": ""
-        },
-        {
-            "id": 6,
-            "x": -811.2568359375,
-            "y": 2030.4482421875,
-            "type": "path",
-            "move_mode": "walk",
-            "action": "",
-            "action_params": ""
-        },
-        {
-            "id": 7,
-            "x": -807.1279296875,
-            "y": 2031.7587890625,
-            "type": "path",
-            "move_mode": "walk",
-            "action": "",
-            "action_params": ""
-        },
-        {
-            "id": 8,
-            "x": -806.322265625,
-            "y": 2040.90576171875,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "",
-            "action_params": ""
-        },
-        {
-            "id": 8,
-            "x": -804.5674622287614,
-            "y": 2060.8286296107117,
-            "type": "orientation",
-            "move_mode": "walk",
-            "action": "fishing",
-            "action_params": ""
-        }
-    ]
+    {
+      "id": 2,
+      "x": -860.63,
+      "y": 2005.63,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -840.5,
+      "y": 2031.87,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -827.13,
+      "y": 2032.37,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -820.36,
+      "y": 2037.13,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -811.26,
+      "y": 2030.45,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -807.13,
+      "y": 2031.76,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -806.32,
+      "y": 2040.91,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -804.57,
+      "y": 2060.83,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "fishing",
+      "action_params": ""
+    }
+  ]
 }

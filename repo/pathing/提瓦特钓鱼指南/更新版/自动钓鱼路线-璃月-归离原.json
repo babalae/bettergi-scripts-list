@@ -1,69 +1,69 @@
 {
-    "info": {
-        "name": "自动钓鱼路线-璃月-归离原",
-        "type": "collect",
-        "author": "鸿羽er",
-        "version": "1.0",
-        "description": "",
-        "bgiVersion": "0.35.1"
+  "info": {
+    "name": "自动钓鱼路线-璃月-归离原",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "v0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -53.75,
+      "y": 659.45,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
-    "positions": [
-        {
-            "id": 1,
-            "x": -53.75136969045525,
-            "y": 659.4534321598276,
-            "action": "",
-            "move_mode": "walk",
-            "action_params": "",
-            "type": "teleport"
-        },
-        {
-            "id": 2,
-            "x": -11.74999575289803,
-            "y": 643.3741619472685,
-            "action": "",
-            "move_mode": "run",
-            "action_params": "",
-            "type": "path"
-        },
-        {
-            "id": 3,
-            "x": 20,
-            "y": 646.4998323894533,
-            "action": "",
-            "move_mode": "run",
-            "action_params": "",
-            "type": "path"
-        },
-        {
-            "id": 4,
-            "x": 52.193895414275175,
-            "y": 651.6882183464459,
-            "move_mode": "walk"
-        },
-        {
-            "id": 5,
-            "x": 52.34695089246452,
-            "y": 650.3440812381323,
-            "move_mode": "climb"
-        },
-        {
-            "id": 6,
-            "x": 52.500006370653864,
-            "y": 648.9999441298178,
-            "action": "",
-            "move_mode": "climb",
-            "action_params": "",
-            "type": "target"
-        },
-        {
-            "id": 6,
-            "x": 54.76276296607296,
-            "y": 629.1283580685622,
-            "action": "fishing",
-            "move_mode": "walk",
-            "action_params": "",
-            "type": "orientation"
-        }
-    ]
+    {
+      "id": 2,
+      "x": -11.75,
+      "y": 643.37,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 20.0,
+      "y": 646.5,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 52.19,
+      "y": 651.69,
+      "move_mode": "walk"
+    },
+    {
+      "id": 5,
+      "x": 52.35,
+      "y": 650.34,
+      "move_mode": "climb"
+    },
+    {
+      "id": 6,
+      "x": 52.5,
+      "y": 649.0,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 54.76,
+      "y": 629.13,
+      "action": "fishing",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    }
+  ]
 }

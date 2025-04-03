@@ -1,61 +1,61 @@
 {
-    "info": {
-        "name": "清水玉-古茶树坡-东南-3个",
-        "type": "collect",
-        "author": "起个名字好难",
-        "version": "1.0",
-        "description": "",
-        "bgiVersion": "0.35.1"
+  "info": {
+    "name": "清水玉-古茶树坡-东南-3个",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "v0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1691.35,
+      "y": 1829.29
     },
-    "positions": [
-        {
-            "id": 1,
-            "action": "",
-            "move_mode": "walk",
-            "type": "teleport",
-            "x": 1691.34765625,
-            "y": 1829.29052734375
-        },
-        {
-            "id": 2,
-            "x": 1676.3701171875,
-            "y": 1797.81640625,
-            "type": "path",
-            "move_mode": "walk",
-            "action": ""
-        },
-        {
-            "id": 3,
-            "x": 1638.462890625,
-            "y": 1766.6484375,
-            "type": "path",
-            "move_mode": "walk",
-            "action": ""
-        },
-        {
-            "id": 4,
-            "x": 1631.5126953125,
-            "y": 1761.47314453125,
-            "type": "path",
-            "move_mode": "fly",
-            "action": "stop_flying"
-        },
-        {
-            "id": 5,
-            "x": 1631.552734375,
-            "y": 1761.4521484375,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "mining",
-            "action_params": ""
-        },
-        {
-            "x": 1631.552734375,
-            "y": 1761.4521484375,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "pick_around",
-            "action_params": ""
-        }
-    ]
+    {
+      "id": 2,
+      "x": 1676.37,
+      "y": 1797.82,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 1638.46,
+      "y": 1766.65,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 1631.51,
+      "y": 1761.47,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 5,
+      "x": 1631.55,
+      "y": 1761.45,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "x": 1631.55,
+      "y": 1761.45,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    }
+  ]
 }

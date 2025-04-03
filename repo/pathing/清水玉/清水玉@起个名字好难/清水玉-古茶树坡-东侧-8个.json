@@ -1,104 +1,104 @@
 {
-    "info": {
-        "name": "清水玉-古茶树坡-东侧-8个",
-        "type": "collect",
-        "author": "起个名字好难",
-        "version": "1.0",
-        "description": "",
-        "bgiVersion": "0.35.1"
+  "info": {
+    "name": "清水玉-古茶树坡-东侧-8个",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "v0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1468.12,
+      "y": 1998.06
     },
-    "positions": [
-        {
-            "id": 1,
-            "action": "",
-            "move_mode": "walk",
-            "type": "teleport",
-            "x": 1468.1162109375,
-            "y": 1998.06396484375
-        },
-        {
-            "id": 2,
-            "x": 1461.6171875,
-            "y": 2014.591796875,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "mining",
-            "action_params": ""
-        },
-        {
-            "x": 1461.6171875,
-            "y": 2014.591796875,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "pick_around",
-            "action_params": "3"
-        },
-        {
-            "id": 3,
-            "x": 1487.84375,
-            "y": 1978.87841796875,
-            "type": "path",
-            "move_mode": "walk",
-            "action": ""
-        },
-        {
-            "id": 4,
-            "x": 1496.9599609375,
-            "y": 1910.74072265625,
-            "type": "path",
-            "move_mode": "walk",
-            "action": ""
-        },
-        {
-            "id": 5,
-            "x": 1480.3154296875,
-            "y": 1859.34375,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "mining",
-            "action_params": ""
-        },
-        {
-            "x": 1480.3154296875,
-            "y": 1859.34375,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "pick_around",
-            "action_params": "2"
-        },
-        {
-            "id": 6,
-            "x": 1436.7294921875,
-            "y": 1846.845703125,
-            "type": "path",
-            "move_mode": "walk",
-            "action": ""
-        },
-        {
-            "id": 7,
-            "x": 1408.6494140625,
-            "y": 1807.15771484375,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "mining",
-            "action_params": ""
-        },
-        {
-            "x": 1408.6494140625,
-            "y": 1806.15771484375,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "pick_around",
-            "action_params": ""
-        },
-        {
-            "id": 8,
-            "x": 1456.12890625,
-            "y": 1805.06787109375,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "mining",
-            "action_params": ""
-        }
-    ]
+    {
+      "id": 2,
+      "x": 1461.62,
+      "y": 2014.59,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "x": 1461.62,
+      "y": 2014.59,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": "3"
+    },
+    {
+      "id": 3,
+      "x": 1487.84,
+      "y": 1978.88,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 1496.96,
+      "y": 1910.74,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 1480.32,
+      "y": 1859.34,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "x": 1480.32,
+      "y": 1859.34,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": "2"
+    },
+    {
+      "id": 6,
+      "x": 1436.73,
+      "y": 1846.85,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 1408.65,
+      "y": 1807.16,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "x": 1408.65,
+      "y": 1806.16,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 1456.13,
+      "y": 1805.07,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    }
+  ]
 }
