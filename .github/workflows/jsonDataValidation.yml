@@ -677,7 +677,8 @@ jobs:
           fi
           
           - name: Add PR comment
-            if: ${{ (github.event_name == 'pull_request_target' || (github.event_name == 'workflow_dispatch' && github.event.inputs.pr_number != '' && steps.pr_info.outputs.found == 'true')) && always() }}
+            if: ${{ github.event_name == 'pull_request_target' || (github.event_name == 'workflow_dispatch' && github.event.inputs.pr_number != '' && steps.pr_info.outputs.found == 'true') }}
+            continue-on-error: true
             uses: actions/github-script@v6
             with:
               github-token: ${{ secrets.GITHUB_TOKEN }}
