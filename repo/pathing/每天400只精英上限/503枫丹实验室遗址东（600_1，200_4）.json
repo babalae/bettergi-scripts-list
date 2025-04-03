@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "1丘丘王 1丘丘游侠 2丘丘暴徒 1法师",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -31,7 +31,7 @@
       "x": 3732.98,
       "y": 4849.44,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
@@ -64,8 +64,8 @@
     },
     {
       "id": 7,
-      "x": 3581.56,
-      "y": 4718.75,
+      "x": 3582.0,
+      "y": 4718.0,
       "action": "fight",
       "move_mode": "run",
       "action_params": "",
@@ -82,44 +82,71 @@
     },
     {
       "id": 9,
-      "x": 3575.81,
-      "y": 4655.18,
+      "x": 3592.59,
+      "y": 4661.42,
+      "type": "path",
+      "move_mode": "dash",
       "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 10,
-      "x": 3580.39,
-      "y": 4629.79,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "x": 3603.22,
+      "y": 4649.59,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "combat_script",
+      "action_params": "attack(0.6)"
     },
     {
       "id": 11,
-      "x": 3593.39,
-      "y": 4635.79,
-      "action": "",
-      "move_mode": "dash",
+      "x": 3582.62,
+      "y": 4626.13,
+      "action": "fight",
+      "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 12,
-      "x": 3604.39,
-      "y": 4650.79,
-      "action": "combat_script",
+      "x": 3590.19,
+      "y": 4622.63,
+      "action": "",
       "move_mode": "run",
-      "action_params": "wait(1)",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 13,
-      "x": 3582.62,
-      "y": 4626.13,
+      "x": 3593.48,
+      "y": 4594.56,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 3566.53,
+      "y": 4578.81,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 3604.03,
+      "y": 4574.37,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 3650.24,
+      "y": 4614.03,
       "action": "fight",
       "move_mode": "run",
       "action_params": "",
