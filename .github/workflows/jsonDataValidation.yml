@@ -7,6 +7,18 @@ on:
       - main
     paths:
       - 'repo/pathing/*.json'
+  workflow_dispatch:
+    inputs:
+      path:
+        description: '要验证的路径 (例如: repo/pathing 或 repo/pathing/某文件.json)'
+        required: true
+        default: 'repo/pathing'
+        type: string
+      auto_fix:
+        description: '是否自动修复问题'
+        required: false
+        default: 'true'
+        type: boolean
 
 jobs:
   validate-json:
@@ -41,6 +53,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_REF: ${{ github.event.pull_request.head.ref }}
           PR_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          VALIDATE_PATH: ${{ github.event.inputs.path || 'repo/pathing' }}
+          AUTO_FIX: ${{ github.event.inputs.auto_fix || 'true' }}
         run: |
           cat << 'EOF' > validate.py
           import json
@@ -621,7 +635,7 @@ jobs:
           python validate.py
 
       - name: Add PR comment
-        if: always()
+        if: ${{ github.event_name == 'pull_request_target' && always() }}
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -644,3 +658,12 @@ jobs:
                 body: "✅ 校验完成，没有发现问题"
               });
             }
+            
+      - name: Create summary for manual run
+        if: ${{ github.event_name == 'workflow_dispatch' && always() }}
+        run: |
+          if [ -f validation_notes.md ]; then
+            cat validation_notes.md >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ 校验完成，没有发现问题" >> $GITHUB_STEP_SUMMARY
+          fi
