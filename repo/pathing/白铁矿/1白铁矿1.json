@@ -1,75 +1,75 @@
 {
-    "info": {
-        "name": "白铁矿1",
-        "type": "collect",
-        "author": "Lcy",
-        "version": "1.0",
-        "description": "",
-        "bgiVersion": "0.35.1"
+  "info": {
+    "name": "1白铁矿1",
+    "type": "collect",
+    "author": "Lcy",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "v0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1629.36,
+      "y": 2834.37,
+      "action_params": ""
     },
-    "positions": [
-        {
-            "id": 1,
-            "action": "",
-            "move_mode": "walk",
-            "type": "teleport",
-            "x": -1629.3642578125,
-            "y": 2834.37255859375,
-            "action_params": ""
-        },
-        {
-            "id": 2,
-            "x": -1635.1005859375,
-            "y": 2846.5634765625,
-            "type": "path",
-            "move_mode": "walk",
-            "action": "",
-            "action_params": ""
-        },
-        {
-            "id": 3,
-            "x": -1636.0029296875,
-            "y": 2865.284423828125,
-            "type": "path",
-            "move_mode": "walk",
-            "action": "",
-            "action_params": ""
-        },
-        {
-            "id": 4,
-            "x": -1627.7734375,
-            "y": 2909.009033203125,
-            "type": "path",
-            "move_mode": "fly",
-            "action": "stop_flying",
-            "action_params": ""
-        },
-        {
-            "id": 5,
-            "x": -1627.998046875,
-            "y": 2907.775146484375,
-            "type": "path",
-            "move_mode": "walk",
-            "action": "mining",
-            "action_params": ""
-        },
-        {
-            "id": 6,
-            "x": -1626.6708984375,
-            "y": 2906.134521484375,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "pick_around",
-            "action_params": ""
-        },
-        {
-            "id": 7,
-            "x": -1630.0283203125,
-            "y": 2911.6318359375,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "pick_around",
-            "action_params": ""
-        }
-    ]
+    {
+      "id": 2,
+      "x": -1635.1,
+      "y": 2846.56,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1636.0,
+      "y": 2865.28,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1627.77,
+      "y": 2909.01,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1628.0,
+      "y": 2907.78,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -1626.67,
+      "y": 2906.13,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -1630.03,
+      "y": 2911.63,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    }
+  ]
 }

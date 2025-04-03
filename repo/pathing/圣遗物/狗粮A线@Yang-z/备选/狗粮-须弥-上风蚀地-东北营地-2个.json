@@ -1,80 +1,81 @@
 {
-    "info": {
-        "name": "",
-        "type": "collect",
-        "author":"Yang-z"
+  "info": {
+    "name": "狗粮-须弥-上风蚀地-东北营地-2个",
+    "type": "collect",
+    "author": "Yang-z",
+    "version": "1.0",
+    "bgiVersion": "v0.42.0"
+  },
+  "positions": [
+    {
+      "x": 4209.84,
+      "y": -2712.04,
+      "type": "teleport",
+      "move_mode": "walk"
     },
-    "positions": [
-        {
-            "x": 4209.83935546875,
-            "y": -2712.0439453125,
-            "type": "teleport",
-            "move_mode": "walk"
-        },
-        {
-            "x": 4176.16455078125,
-            "y": -2726.15234375,
-            "type": "path",
-            "move_mode": "run"
-        },
-        {
-            "x": 4166.1396484375,
-            "y": -2730.453125,
-            "type": "path",
-            "move_mode": "run"
-        },
-        {
-            "x": 4140.98681640625,
-            "y": -2729.94140625,
-            "type": "path",
-            "move_mode": "run"
-        },
-        {
-            "x": 4135.51513671875,
-            "y": -2738.9423828125,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": 4135.29443359375,
-            "y": -2743.03515625,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "",
-            "#": "1"
-        },
-        {
-            "x": 4135.99365234375,
-            "y": -2744.66796875,
-            "type": "path",
-            "move_mode": "walk"
-        },
-
-        {
-            "x": 4131.20654296875,
-            "y": -2734.072265625,
-            "type": "fly",
-            "move_mode": "fly"
-        },
-        {
-            "x": 4120.2685546875,
-            "y": -2707.25390625,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": 4119.091796875,
-            "y": -2703.1494140625,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "",
-            "#": "2"
-        },
-        {
-            "x": 4117.6025390625,
-            "y": -2700.8681640625,
-            "type": "path",
-            "move_mode": "walk"
-        }
-    ]
+    {
+      "x": 4176.16,
+      "y": -2726.15,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "x": 4166.14,
+      "y": -2730.45,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "x": 4140.99,
+      "y": -2729.94,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "x": 4135.52,
+      "y": -2738.94,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": 4135.29,
+      "y": -2743.04,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "#": "1"
+    },
+    {
+      "x": 4135.99,
+      "y": -2744.67,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": 4131.21,
+      "y": -2734.07,
+      "type": "fly",
+      "move_mode": "fly"
+    },
+    {
+      "x": 4120.27,
+      "y": -2707.25,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": 4119.09,
+      "y": -2703.15,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "#": "2"
+    },
+    {
+      "x": 4117.6,
+      "y": -2700.87,
+      "type": "path",
+      "move_mode": "walk"
+    }
+  ]
 }

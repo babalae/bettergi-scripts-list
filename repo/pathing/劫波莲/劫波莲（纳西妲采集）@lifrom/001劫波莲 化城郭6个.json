@@ -5,7 +5,7 @@
     "author": "lifrom",
     "version": "1.0",
     "description": "成熟的纳西妲要学会自己采材料。感谢米游社大佬“@吃瓜的喵”的优质路线！（本引导的所有路线均已精修过，请放心使用）",
-    "bgiVersion": "0.35.0"
+    "bgiVersion": "v0.42.0"
   },
   "positions": [
     {
@@ -13,24 +13,24 @@
       "action": "force_tp",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 2297.626953125,
-      "y": -824.5341796875
+      "x": 2297.63,
+      "y": -824.53
     },
     {
       "id": 2,
       "action": "stop_flying",
       "move_mode": "fly",
       "type": "path",
-      "x": 2323.724364995559,
-      "y": -832.9553446697364
+      "x": 2323.72,
+      "y": -832.96
     },
     {
       "id": 3,
       "action": "nahida_collect",
       "move_mode": "walk",
       "type": "target",
-      "x": 2317.9726710525347,
-      "y": -841.9521971574712
+      "x": 2317.97,
+      "y": -841.95
     }
   ]
 }

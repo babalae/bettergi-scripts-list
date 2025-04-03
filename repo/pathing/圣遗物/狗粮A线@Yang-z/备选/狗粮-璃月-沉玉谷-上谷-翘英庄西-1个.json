@@ -1,54 +1,56 @@
 {
-    "info": {
-        "name": "",
-        "type": "collect",
-        "author":"Yang-z"
+  "info": {
+    "name": "狗粮-璃月-沉玉谷-上谷-翘英庄西-1个",
+    "type": "collect",
+    "author": "Yang-z",
+    "version": "1.0",
+    "bgiVersion": "v0.42.0"
+  },
+  "positions": [
+    {
+      "x": 1746.67,
+      "y": 2325.15,
+      "type": "teleport",
+      "move_mode": "walk"
     },
-    "positions": [
-        {
-            "x": 1746.669921875,
-            "y": 2325.153076171875,
-            "type": "teleport",
-            "move_mode": "walk"
-        },
-        {
-            "x": 1778.9130859375,
-            "y": 2340.885498046875,
-            "type": "path",
-            "move_mode": "fly",
-            "action": "stop_flying"
-        },
-        {
-            "x": 1809.6708984375,
-            "y": 2348.93115234375,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": 1861.439453125,
-            "y": 2364.15380859375,
-            "type": "path",
-            "move_mode": "fly",
-            "action": "stop_flying"
-        },
-        {
-            "x": 1870.0947265625,
-            "y": 2364.95458984375,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": 1875.6875,
-            "y": 2365.521728515625,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "pick_around"
-        },
-        {
-            "x": 1876.607421875,
-            "y": 2360.030029296875,
-            "type": "path",
-            "move_mode": "walk"
-        }
-    ]
+    {
+      "x": 1778.91,
+      "y": 2340.89,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "x": 1809.67,
+      "y": 2348.93,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": 1861.44,
+      "y": 2364.15,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "x": 1870.09,
+      "y": 2364.95,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": 1875.69,
+      "y": 2365.52,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around"
+    },
+    {
+      "x": 1876.61,
+      "y": 2360.03,
+      "type": "path",
+      "move_mode": "walk"
+    }
+  ]
 }

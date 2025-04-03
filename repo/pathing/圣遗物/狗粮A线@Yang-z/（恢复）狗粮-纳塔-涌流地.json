@@ -1,37 +1,39 @@
 {
-    "info": {
-        "name": "",
-        "type": "collect",
-        "author":"Yang-z"
+  "info": {
+    "name": "（恢复）狗粮-纳塔-涌流地",
+    "type": "collect",
+    "author": "Yang-z",
+    "version": "1.0",
+    "bgiVersion": "v0.42.0"
+  },
+  "positions": [
+    {
+      "x": 8582.04,
+      "y": -2675.2,
+      "type": "teleport",
+      "move_mode": "walk"
     },
-    "positions": [
-        {
-            "x": 8582.041015625,
-            "y": -2675.1962890625,
-            "type": "teleport",
-            "move_mode": "walk"
-        },
-        {
-            "x": 8579.3798828125,
-            "y": -2658.2998046875,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "combat_script",
-            "action_params": "wait(1)"
-        },
-        {
-            "x": 8579.26953125,
-            "y": -2657.3076171875,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "combat_script",
-            "action_params": "wait(1)"
-        },
-        {
-            "x": 8586.71875,
-            "y": -2652.466796875,
-            "type": "path",
-            "move_mode": "walk"
-        }
-    ]
+    {
+      "x": 8579.38,
+      "y": -2658.3,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    },
+    {
+      "x": 8579.27,
+      "y": -2657.31,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    },
+    {
+      "x": 8586.72,
+      "y": -2652.47,
+      "type": "path",
+      "move_mode": "walk"
+    }
+  ]
 }

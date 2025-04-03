@@ -1,100 +1,98 @@
 {
-    "info": {
-        "name": "",
-        "type": "collect",
-        "author":"Yang-z"
+  "info": {
+    "name": "狗粮-蒙德-龙脊雪山-南-4个-f",
+    "type": "collect",
+    "author": "Yang-z",
+    "version": "1.0",
+    "bgiVersion": "v0.42.0"
+  },
+  "positions": [
+    {
+      "x": -705.48,
+      "y": 925.71,
+      "type": "teleport",
+      "move_mode": "walk"
     },
-    "positions": [
-        {
-            "x": -705.4814453125,
-            "y": 925.70703125,
-            "type": "teleport",
-            "move_mode": "walk"
-        },
-        {
-            "x": -708.37109375,
-            "y": 926.7841796875,
-            "type": "path",
-            "move_mode": "run"
-        },
-        {
-            "x": -736.3388671875,
-            "y": 935.12744140625,
-            "type": "path",
-            "move_mode": "run"
-        },
-
-        {
-            "x": -751.365234375,
-            "y": 930.7138671875,
-            "type": "path",
-            "move_mode": "run",
-            "//": "drump down"
-        },
-
-        {
-            "x": -790.1748046875,
-            "y": 919.01904296875,
-            "type": "path",
-            "move_mode": "run"
-        },
-        {
-            "x": -785.4814453125,
-            "y": 890.2529296875,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": -784.7685546875,
-            "y": 881.95654296875,
-            "type": "path",
-            "move_mode": "walk"
-        },
-
-        {
-            "x": -782.638671875,
-            "y": 877.58935546875,
-            "type": "target",
-            "move_mode": "walk",
-            "#": "1"
-        },
-        {
-            "x": -783.2958984375,
-            "y": 875.14697265625,
-            "type": "target",
-            "move_mode": "walk",
-            "#": "2"
-        },
-        {
-            "x": -783.5126953125,
-            "y": 875.98046875,
-            "type": "path",
-            "move_mode": "walk",
-            "action": "pick_around",
-            "#": "1 2"
-        },
-
-        {
-            "x": -790.4453125,
-            "y": 876.91455078125,
-            "type": "target",
-            "move_mode": "walk",
-            "#": "3"
-        },
-        {
-            "x": -791.279296875,
-            "y": 876.30517578125,
-            "type": "target",
-            "move_mode": "walk",
-            "#": "4"
-        },
-        {
-            "x": -791.228515625,
-            "y": 875.82080078125,
-            "type": "path",
-            "move_mode": "walk",
-            "action": "pick_around",
-            "#": "3 4"
-        }
-    ]
+    {
+      "x": -708.37,
+      "y": 926.78,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "x": -736.34,
+      "y": 935.13,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "x": -751.37,
+      "y": 930.71,
+      "type": "path",
+      "move_mode": "run",
+      "//": "drump down"
+    },
+    {
+      "x": -790.17,
+      "y": 919.02,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "x": -785.48,
+      "y": 890.25,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": -784.77,
+      "y": 881.96,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": -782.64,
+      "y": 877.59,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "1"
+    },
+    {
+      "x": -783.3,
+      "y": 875.15,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "2"
+    },
+    {
+      "x": -783.51,
+      "y": 875.98,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "#": "1 2"
+    },
+    {
+      "x": -790.45,
+      "y": 876.91,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "3"
+    },
+    {
+      "x": -791.28,
+      "y": 876.31,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "4"
+    },
+    {
+      "x": -791.23,
+      "y": 875.82,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "#": "3 4"
+    }
+  ]
 }

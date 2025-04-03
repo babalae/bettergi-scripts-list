@@ -1,66 +1,66 @@
 {
-    "info": {
-        "name": "自动钓鱼路线-枫丹-枫丹研究院神像西",
-        "type": "collect",
-        "author": "鸿羽er&起个名字好难的喵",
-        "version": "1.0",
-        "description": "",
-        "bgiVersion": "0.35.1"
+  "info": {
+    "name": "自动钓鱼路线-枫丹-枫丹研究院神像西",
+    "type": "collect",
+    "author": "鸿羽er&起个名字好难的喵",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "v0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3873.0,
+      "y": 4494.56,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
-    "positions": [
-        {
-            "id": 1,
-            "x": 3872.9962950763347,
-            "y": 4494.555278993537,
-            "action": "",
-            "move_mode": "walk",
-            "action_params": "",
-            "type": "teleport"
-        },
-        {
-            "id": 2,
-            "x": 3971.0625250800567,
-            "y": 4529.562602620921,
-            "action": "stop_flying",
-            "move_mode": "fly",
-            "action_params": "",
-            "type": "path"
-        },
-        {
-            "id": 3,
-            "x": 3977.2497993595516,
-            "y": 4530.5000456092985,
-            "action": "",
-            "move_mode": "climb",
-            "action_params": "",
-            "type": "path"
-        },
-        {
-            "id": 4,
-            "x": 3981.39453125,
-            "y": 4534.1513671875,
-            "type": "path",
-            "move_mode": "walk",
-            "action": "",
-            "action_params": ""
-        },
-        {
-            "id": 5,
-            "x": 3985.0419921875,
-            "y": 4532.57421875,
-            "type": "path",
-            "move_mode": "walk",
-            "action": "",
-            "action_params": ""
-        },
-        {
-            "id": 5,
-            "x": 4003.39937486553,
-            "y": 4524.636555289487,
-            "type": "orientation",
-            "move_mode": "walk",
-            "action": "fishing",
-            "action_params": ""
-        }
-    ]
+    {
+      "id": 2,
+      "x": 3971.06,
+      "y": 4529.56,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3977.25,
+      "y": 4530.5,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3981.39,
+      "y": 4534.15,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 3985.04,
+      "y": 4532.57,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4003.4,
+      "y": 4524.64,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "fishing",
+      "action_params": ""
+    }
+  ]
 }
