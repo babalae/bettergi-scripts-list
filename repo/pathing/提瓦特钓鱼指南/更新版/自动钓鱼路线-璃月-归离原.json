@@ -5,7 +5,7 @@
     "author": "鸿羽er",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "v0.43.0"
+    "bgiVersion": "0.43.0"
   },
   "positions": [
     {
@@ -39,13 +39,15 @@
       "id": 4,
       "x": 52.19,
       "y": 651.69,
-      "move_mode": "walk"
+      "move_mode": "walk",
+      "type": "path"
     },
     {
       "id": 5,
       "x": 52.35,
       "y": 650.34,
-      "move_mode": "climb"
+      "move_mode": "climb",
+      "type": "path"
     },
     {
       "id": 6,
