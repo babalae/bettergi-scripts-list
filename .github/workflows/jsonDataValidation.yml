@@ -7,7 +7,7 @@ on:
       - main
     # 修改路径匹配，使其更宽松
     paths:
-      - '**/*.json'
+      - 'repo/pathing/*.json'
 
 jobs:
   validate-json:
