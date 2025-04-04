@@ -151,7 +151,7 @@ if(teaPot){
     await sleep(500);
     keyPress("F"); 
     await sleep(2000);
-    click(200, 380); //选择树脂
+    click(350, 200); //选择树脂
     await sleep(1000);
     click(1750, 1010); //兑换
     await sleep(1000);
