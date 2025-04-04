@@ -6,8 +6,8 @@
     log.info("等待1秒");
     click(960, 540);
     log.info("点击坐标(960, 540)(屏幕中心)");
-    await sleep(1000);
-    log.info("等待1秒");
+    await sleep(1500);
+    log.info("等待1.5秒");
     click(1380, 425);
     log.info("点击坐标(1380, 425)(领取「每日委托」奖励)");
     await sleep(1000);

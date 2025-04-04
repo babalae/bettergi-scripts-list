@@ -1,0 +1,38 @@
+{
+  "info": {
+    "name": "清水玉-沉玉谷南陵-南侧-1个",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2209.96,
+      "y": 1250.2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2181.39,
+      "y": 1249.16,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": 2181.68,
+      "y": 1252.71,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    }
+  ]
+}

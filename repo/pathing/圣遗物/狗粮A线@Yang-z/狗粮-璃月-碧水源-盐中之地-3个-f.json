@@ -1,48 +1,50 @@
 {
-    "info": {
-        "name": "",
-        "type": "collect",
-        "author":"Yang-z"
+  "info": {
+    "name": "狗粮-璃月-碧水源-盐中之地-3个-f",
+    "type": "collect",
+    "author": "Yang-z",
+    "version": "1.0",
+    "bgiVersion": "0.42.0"
+  },
+  "positions": [
+    {
+      "x": -164.59,
+      "y": 1182.51,
+      "type": "teleport",
+      "move_mode": "walk"
     },
-    "positions": [
-        {
-            "x": -164.5927734375,
-            "y": 1182.50537109375,
-            "type": "teleport",
-            "move_mode": "walk"
-        },
-        {
-            "x": -171.73828125,
-            "y": 1225.6494140625,
-            "type": "path",
-            "move_mode": "dash"
-        },
-        {
-            "x": -147.2490234375,
-            "y": 1261.24951171875,
-            "type": "path",
-            "move_mode": "dash"
-        },
-        {
-            "x": -95.0634765625,
-            "y": 1238.294921875,
-            "type": "target",
-            "move_mode": "dash",
-            "action":""
-        },
-        {
-            "x": -94.11328125,
-            "y": 1235.544921875,
-            "type": "target",
-            "move_mode": "walk",
-            "action":""
-        },
-        {
-            "x": -90.9267578125,
-            "y": 1235.23193359375,
-            "type": "target",
-            "move_mode": "walk",
-            "action":""
-        }
-    ]
+    {
+      "x": -171.74,
+      "y": 1225.65,
+      "type": "path",
+      "move_mode": "dash"
+    },
+    {
+      "x": -147.25,
+      "y": 1261.25,
+      "type": "path",
+      "move_mode": "dash"
+    },
+    {
+      "x": -95.06,
+      "y": 1238.29,
+      "type": "target",
+      "move_mode": "dash",
+      "action": ""
+    },
+    {
+      "x": -94.11,
+      "y": 1235.54,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "x": -90.93,
+      "y": 1235.23,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
 }

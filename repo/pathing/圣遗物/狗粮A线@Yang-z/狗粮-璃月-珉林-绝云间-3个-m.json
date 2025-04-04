@@ -1,92 +1,94 @@
 {
-    "info": {
-        "name": "",
-        "type": "collect",
-        "author":"Yang-z"
+  "info": {
+    "name": "狗粮-璃月-珉林-绝云间-3个-m",
+    "type": "collect",
+    "author": "Yang-z",
+    "version": "1.0",
+    "bgiVersion": "0.42.0"
+  },
+  "positions": [
+    {
+      "x": 1182.69,
+      "y": 626.05,
+      "type": "teleport",
+      "move_mode": "walk"
     },
-    "positions": [
-        {
-            "x": 1182.685546875,
-            "y": 626.04638671875,
-            "type": "teleport",
-            "move_mode": "walk"
-        },
-        {
-            "x": 1189.333984375,
-            "y": 619.7275390625,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": 1172.51171875,
-            "y": 576.34814453125,
-            "type": "path",
-            "move_mode": "run"
-        },
-
-        {
-            "x": 1170.0234375,
-            "y": 568.9345703125,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "",
-            "No.": "1"
-        },
-
-        {
-            "x": 1163.6103515625,
-            "y": 563.8779296875,
-            "type": "path",
-            "move_mode": "fly"
-        },
-
-        {
-            "x": 1159.9677734375,
-            "y": 558.46630859375,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "",
-            "No.": "2"
-        },
-
-        {
-            "x": 1158.4697265625,
-            "y": 555.63037109375,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": 1153.23046875,
-            "y": 557.69970703125,
-            "type": "path",
-            "move_mode": "walk"
-        },
-
-        {
-            "x": 1147.169921875,
-            "y": 561.39208984375,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "",
-            "No.": "3"
-        },
-        {
-            "x": 1144.01953125,
-            "y": 562.1396484375,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": 1144.6865234375,
-            "y": 562.3701171875,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": 1147.0361328125,
-            "y": 563.318359375,
-            "type": "path",
-            "move_mode": "walk"
-        }
-    ]
+    {
+      "x": 1189.33,
+      "y": 619.73,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": 1172.51,
+      "y": 576.35,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "x": 1170.02,
+      "y": 568.93,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "No.": "1"
+    },
+    {
+      "x": 1163.61,
+      "y": 563.88,
+      "type": "path",
+      "move_mode": "fly"
+    },
+    {
+      "x": 1159.97,
+      "y": 558.47,
+      "type": "orientation"
+    },
+    {
+      "x": 1159.97,
+      "y": 558.47,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "No.": "2"
+    },
+    {
+      "x": 1158.47,
+      "y": 555.63,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": 1153.23,
+      "y": 557.7,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": 1147.17,
+      "y": 561.39,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "No.": "3"
+    },
+    {
+      "x": 1144.02,
+      "y": 562.14,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": 1147.04,
+      "y": 563.32,
+      "type": "orientation",
+      "move_mode": "walk"
+    },
+    {
+      "x": 1147.04,
+      "y": 563.32,
+      "type": "path",
+      "move_mode": "walk"
+    }
+  ]
 }

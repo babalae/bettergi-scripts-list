@@ -1,0 +1,131 @@
+{
+  "info": {
+    "name": "6204--纳塔_奥奇_神像_(7-1)",
+    "type": "collect",
+    "author": "Demo",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9757.95,
+      "y": -613.65,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9766.56,
+      "y": -604.68,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9759.44,
+      "y": -576.77,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "2000",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9759.44,
+      "y": -576.77,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9759.44,
+      "y": -576.77,
+      "action": "fight",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 9764.8,
+      "y": -539.99,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 9749.76,
+      "y": -514.06,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 9749.76,
+      "y": -514.06,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 9738.64,
+      "y": -521.27,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 9739.59,
+      "y": -497.08,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 9760.82,
+      "y": -446.07,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 9750.1,
+      "y": -435.6,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": 9750.1,
+      "y": -435.6,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1.5)"
+    }
+  ]
+}

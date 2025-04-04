@@ -1,157 +1,141 @@
 {
-    "info": {
-        "name": "",
-        "type": "collect",
-        "author":"Yang-z"
+  "info": {
+    "name": "狗粮-枫丹-研究院区-中央实验室遗址-北侧屋内-4个",
+    "type": "collect",
+    "author": "Yang-z",
+    "version": "1.0",
+    "bgiVersion": "0.42.0"
+  },
+  "positions": [
+    {
+      "x": 4001.06,
+      "y": 4878.44,
+      "type": "teleport",
+      "move_mode": "walk"
     },
-    "positions": [
-        {
-            "x": 4001.06298828125,
-            "y": 4878.43701171875,
-            "type": "teleport",
-            "move_mode": "walk"
-        },
-        {
-            "x": 3951.5068359375,
-            "y": 4831.5673828125,
-            "type": "path",
-            "move_mode": "fly",
-            "action": "combat_script",
-            "action_params": "keypress(VK_SPACE),wait(1),click",
-            "//": "stop_flying"
-        },
-        {
-            "x": 3950.2333984375,
-            "y": 4837.30517578125,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": 3947.6455078125,
-            "y": 4844.3544921875,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": 3944.673828125,
-            "y": 4851.689453125,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": 3943.515625,
-            "y": 4855.76171875,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": 3941.748046875,
-            "y": 4860.615234375,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": 3950.771484375,
-            "y": 4865.1259765625,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": 3952.0966796875,
-            "y": 4862.296875,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        
-        {
-            "x": 3953.05126953125,
-            "y": 4853.205078125,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "",
-            "#": 1
-        },
-
-        {
-            "x": 3953.16015625,
-            "y": 4857.77587890625,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": 3949.775390625,
-            "y": 4868.416015625,
-            "type": "path",
-            "move_mode": "walk"
-        },
-
-        {
-            "x": 3946.5185546875,
-            "y": 4876.19873046875,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "",
-            "#": 2
-        },
-        {
-            "x": 3947.05419921875,
-            "y": 4876.5859375,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "",
-            "#": 2
-        },
-
-
-        {
-            "x": 3955.32080078125,
-            "y": 4877.55859375,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": 3955.33349609375,
-            "y": 4879.58984375,
-            "type": "target",
-            "move_mode": "walk"
-        },
-        {
-            "x": 3955.875,
-            "y": 4881.54345703125,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "",
-            "#": 3
-        },
-
-        {
-            "x": 3954.81787109375,
-            "y": 4875.39111328125,
-            "type": "path",
-            "move_mode": "fly"
-        },
-        {
-            "x": 3956.9384765625,
-            "y": 4874.291015625,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        
-        {
-            "x": 3959.8349609375,
-            "y": 4875.939453125,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "",
-            "#": 4
-        },
-        {
-            "x": 3960.79150390625,
-            "y": 4876.11279296875,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "",
-            "#": 4
-        }
-    ]
+    {
+      "x": 3951.51,
+      "y": 4831.57,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(1),click",
+      "//": "stop_flying"
+    },
+    {
+      "x": 3950.23,
+      "y": 4837.31,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": 3941.91,
+      "y": 4860.54,
+      "type": "orientation",
+      "move_mode": "walk"
+    },
+    {
+      "x": 3941.91,
+      "y": 4860.54,
+      "type": "path",
+      "move_mode": "dash"
+    },
+    {
+      "x": 3947.99,
+      "y": 4863.25,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": 3951.83,
+      "y": 4861.88,
+      "type": "orientation",
+      "move_mode": "walk"
+    },
+    {
+      "x": 3951.83,
+      "y": 4861.88,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": 3953.05,
+      "y": 4853.21,
+      "type": "target",
+      "move_mode": "walk",
+      "#": 1
+    },
+    {
+      "x": 3953.16,
+      "y": 4857.78,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": 3946.52,
+      "y": 4876.2,
+      "type": "target",
+      "move_mode": "dash",
+      "#": 2
+    },
+    {
+      "x": 3947.05,
+      "y": 4876.59,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "#": 2
+    },
+    {
+      "x": 3952.74,
+      "y": 4876.56,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": 3955.45,
+      "y": 4878.79,
+      "type": "target",
+      "move_mode": "walk"
+    },
+    {
+      "x": 3955.88,
+      "y": 4881.54,
+      "type": "target",
+      "move_mode": "walk",
+      "#": 3
+    },
+    {
+      "x": 3957.56,
+      "y": 4876.62,
+      "type": "orientation",
+      "move_mode": "walk"
+    },
+    {
+      "x": 3957.56,
+      "y": 4876.62,
+      "type": "path",
+      "move_mode": "fly"
+    },
+    {
+      "x": 3961.28,
+      "y": 4875.99,
+      "type": "orientation",
+      "move_mode": "walk"
+    },
+    {
+      "x": 3961.28,
+      "y": 4875.99,
+      "type": "target",
+      "move_mode": "walk",
+      "#": 4
+    },
+    {
+      "x": 3961.28,
+      "y": 4876.02,
+      "type": "target",
+      "move_mode": "walk",
+      "#": 4
+    }
+  ]
 }

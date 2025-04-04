@@ -1,36 +1,36 @@
 {
-    "info": {
-        "name": "",
-        "type": "collect",
-        "author":"Yang-z"
+  "info": {
+    "name": "狗粮-璃月-碧水源-石门-1个",
+    "type": "collect",
+    "author": "Yang-z",
+    "version": "1.0",
+    "bgiVersion": "0.42.0"
+  },
+  "positions": [
+    {
+      "x": 207.45,
+      "y": 1573.01,
+      "type": "teleport",
+      "move_mode": "walk"
     },
-    "positions": [
-        {
-            "x": 207.451171875,
-            "y": 1573.0126953125,
-            "type": "teleport",
-            "move_mode": "walk"
-        },
-
-        {
-            "x": 247.9873046875,
-            "y": 1569.02294921875,
-            "type": "path",
-            "move_mode": "fly"
-        },
-        {
-            "x": 255.888671875,
-            "y": 1566.6259765625,
-            "type": "path",
-            "move_mode": "walk"
-        },
-
-        {
-            "x": 257.748046875,
-            "y": 1568.83154296875,
-            "type": "target",
-            "move_mode": "walk",
-            "#": "1"
-        }
-    ]
+    {
+      "x": 247.99,
+      "y": 1569.02,
+      "type": "path",
+      "move_mode": "fly"
+    },
+    {
+      "x": 255.89,
+      "y": 1566.63,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": 257.75,
+      "y": 1568.83,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "1"
+    }
+  ]
 }

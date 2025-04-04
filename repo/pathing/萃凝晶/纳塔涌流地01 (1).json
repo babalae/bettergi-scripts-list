@@ -1,113 +1,114 @@
 {
   "info": {
-    "name": "纳塔涌流地01",
+    "name": "纳塔涌流地01 (1)",
     "type": "collect",
-    "author": "",
+    "author": "未知作者",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.35.1"
+    "bgiVersion": "0.43.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": 8285.984375,
-      "y": -2521.44140625,
+      "x": 8285.98,
+      "y": -2521.44,
       "type": "teleport",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 2,
-      "x": 8275.6416015625,
-      "y": -2566.638671875,
+      "x": 8275.64,
+      "y": -2566.64,
       "type": "path",
       "move_mode": "fly",
       "action": "stop_flying"
     },
     {
       "id": 3,
-      "x": 8284.7841796875,
-      "y": -2570.9091796875,
+      "x": 8284.78,
+      "y": -2570.91,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script","action_params":  "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
+      "action": "mining",
+      "action_params": ""
     },
     {
       "id": 4,
-      "x": 8289.0751953125,
-      "y": -2570.333984375,
+      "x": 8289.08,
+      "y": -2570.33,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 5,
-      "x": 8288.96484375,
-      "y": -2573.1396484375,
+      "x": 8288.96,
+      "y": -2573.14,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 6,
-      "x": 8289.236328125,
-      "y": -2576.5400390625,
+      "x": 8289.24,
+      "y": -2576.54,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 7,
-      "x": 8288.056640625,
-      "y": -2575.220703125,
+      "x": 8288.06,
+      "y": -2575.22,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 8,
-      "x": 8288.1005859375,
-      "y": -2573.5986328125,
+      "x": 8288.1,
+      "y": -2573.6,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 9,
-      "x": 8287.56640625,
-      "y": -2570.53125,
+      "x": 8287.57,
+      "y": -2570.53,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 10,
-      "x": 8288.5126953125,
-      "y": -2570.5166015625,
+      "x": 8288.51,
+      "y": -2570.52,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 11,
-      "x": 8286.333984375,
-      "y": -2571.3427734375,
+      "x": 8286.33,
+      "y": -2571.34,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 12,
-      "x": 8288.7119140625,
-      "y": -2572.7958984375,
+      "x": 8288.71,
+      "y": -2572.8,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 13,
-      "x": 8284.8310546875,
-      "y": -2572.1123046875,
+      "x": 8284.83,
+      "y": -2572.11,
       "type": "path",
       "move_mode": "walk",
       "action": ""

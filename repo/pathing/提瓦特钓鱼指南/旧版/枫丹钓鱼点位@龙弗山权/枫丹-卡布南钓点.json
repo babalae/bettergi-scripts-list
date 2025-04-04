@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "枫丹-卡布南钓点",
+    "type": "collect",
+    "author": "龙弗山权",
+    "version": "1.0",
+    "description": "枫丹-卡布南钓点",
+    "bgiVersion": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3463.3,
+      "y": 2286.26,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3463.97,
+      "y": 2308.93,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3464.14,
+      "y": 2313.33,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 3423.63,
+      "y": 2359.46,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 3426.78,
+      "y": 2363.41,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

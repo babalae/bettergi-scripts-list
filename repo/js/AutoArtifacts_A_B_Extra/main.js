@@ -35,7 +35,7 @@
 
     const pathingB = [
         "狗粮-枫丹-枫丹庭区-3个.json",
-        "狗粮-枫丹-白露区-秋分山东侧-2个-f.json",
+        "狗粮-枫丹-白露区-秋分山东侧-2个-f~m.json",
         "狗粮-枫丹-伊黎耶林区-欧庇克莱歌剧院东南-2个-f.json",
         "（恢复）狗粮-枫丹-研究院区.json",
         "狗粮-枫丹-研究院区-学术会堂-1个／2个-f.json",
@@ -122,29 +122,65 @@
     }
 
     // 调整地图
-    async function resizeMap() {
-        // zoom map to 75%
+    async function resizeMap(level = 1) {
+        await genshin.returnMainUi();
+
         keyPress("M"); await sleep(1000);
-        for (let i = 0; i < 5; i++) {
-            click(42, 420); await sleep(500); // zoom in
+        for (let i = 5; i > 0; --i) {
+            click(46, 436); await sleep(500); // zoom in
         }
-        click(42, 645); await sleep(1000); // zoom out
+        for (let i = 0; i < level; ++i) {
+            click(46, 630); await sleep(500); // zoom out
+        }
+        // keyPress("M"); await sleep(1000);
+    }
+
+    // 拖拽地图
+    async function dragMap(byX, byY) {
+        await genshin.returnMainUi();
+
+        let byL = Math.sqrt(byX * byX + byY * byY);
+        let d = 5;
+
+        let dx = Math.round(d * byX / byL);
+        let dy = Math.round(d * byY / byL);
+
+        let times = Math.round(byX / dx * genshin.screenDpiScale);
+
+        log.debug(`byL: ${byL}; dx: ${dx}; dy: ${dy}; times: ${times}; genshin.screenDpiScale: ${genshin.screenDpiScale};`);
+
         keyPress("M"); await sleep(1000);
+        moveMouseBy(-byX, -byY); await sleep(300);
+
+        leftButtonDown(); await sleep(300);
+        for (let i = 0; i < times; ++i) {
+            moveMouseBy(dx, dy); await sleep(30);
+        }
+        leftButtonUp(); await sleep(300);
+    }
+
+    // 就近传送（传送脚本文件中的第一个点）
+    async function tpNearby(filePath) {
+        const raw = file.ReadTextSync(filePath);
+        const data = JSON.parse(raw);
+        await genshin.tp(data['positions'][0]['x'], data['positions'][0]['y']);
     }
 
     // 分解圣遗物
     async function salvage() {
         if (!autoSalvage) return;
 
+        await genshin.returnMainUi();
+
         keyPress("B"); await sleep(2000);
         click(670, 40); await sleep(1000); // 圣遗物
         click(660, 1010); await sleep(1000); // 分解
         click(300, 1020); await sleep(1000); // 快速选择
 
-        click(200, 140); await sleep(500); // 1
-        click(200, 220); await sleep(500); // 2
-        click(200, 300); await sleep(500); // 3
-        if (autoSalvage4) click(200, 380); await sleep(500); // 4
+        // click(200, 140); await sleep(500); // 1
+        // click(200, 220); await sleep(500); // 2
+        // click(200, 300); await sleep(500); // 3
+        if (!autoSalvage4) { click(200, 380); await sleep(500); } // 4
 
         click(340, 1000); await sleep(1000); // 确认选择
         click(1720, 1015); await sleep(1500); // 分解
@@ -183,6 +219,21 @@
             //执行路径追踪脚本
             log.info(filePath);
             await pathingScript.runFile(filePath);
+
+            // 地图缩放按键同某些地图标识重叠，导致识别失败(bgi[v0.43.0]后引入)
+            // // 完成路径后，放大地图，脚本中调用就近传送。仍可能被缩小回去。不可行
+            // let shouldResizeMap_after = filePath.search("~m") != -1;
+            // if (shouldResizeMap_after) {
+            //     await resizeMap(0);
+            //     await tpNearby(filePath);
+            // }
+            // 完成路径后，拖拽地图，脚本中调用就近传送。可行
+            let shouldDragMap_after = filePath.search("~m") != -1;
+            if (shouldDragMap_after) {
+                await dragMap(-50, 50);
+                await tpNearby(filePath);
+            }
+
         }
         catch (error) { // bgi已捕获可预期异常，此处仅做兜底
             log.error(error.toString());

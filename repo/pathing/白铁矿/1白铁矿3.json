@@ -1,17 +1,17 @@
 {
   "info": {
-    "name": "白铁矿3",
+    "name": "1白铁矿3",
     "type": "collect",
     "author": "Lcy",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.35.1"
+    "bgiVersion": "0.43.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": -2659.44140625,
-      "y": 1638.28515625,
+      "x": -2659.44,
+      "y": 1638.29,
       "type": "teleport",
       "move_mode": "walk",
       "action": "",
@@ -19,8 +19,8 @@
     },
     {
       "id": 2,
-      "x": -2637.689453125,
-      "y": 1638.9716796875,
+      "x": -2637.69,
+      "y": 1638.97,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -28,17 +28,17 @@
     },
     {
       "id": 3,
-      "x": -2637.9521484375,
-      "y": 1653.3037109375,
+      "x": -2637.95,
+      "y": 1653.3,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
+      "action": "mining",
+      "action_params": ""
     },
     {
       "id": 4,
-      "x": -2637.9521484375,
-      "y": 1653.3037109375,
+      "x": -2637.95,
+      "y": 1653.3,
       "type": "path",
       "move_mode": "walk",
       "action": "pick_around",
@@ -46,17 +46,17 @@
     },
     {
       "id": 5,
-      "x": -2618.2763671875,
-      "y": 1633.6904296875,
+      "x": -2618.28,
+      "y": 1633.69,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e;凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
+      "action": "mining",
+      "action_params": ""
     },
     {
       "id": 6,
-      "x": -2621.333984375,
-      "y": 1633.0498046875,
+      "x": -2621.33,
+      "y": 1633.05,
       "type": "path",
       "move_mode": "walk",
       "action": "pick_around",
@@ -64,8 +64,8 @@
     },
     {
       "id": 7,
-      "x": -2617.6396484375,
-      "y": 1629.93798828125,
+      "x": -2617.64,
+      "y": 1629.94,
       "type": "path",
       "move_mode": "walk",
       "action": "pick_around",
@@ -73,8 +73,8 @@
     },
     {
       "id": 8,
-      "x": -2614.4580078125,
-      "y": 1635.1015625,
+      "x": -2614.46,
+      "y": 1635.1,
       "type": "path",
       "move_mode": "walk",
       "action": "pick_around",

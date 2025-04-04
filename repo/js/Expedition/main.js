@@ -3,7 +3,7 @@
     keyPress("F");
     await sleep(3000); 
     click(960, 540); 
-    await sleep(1000); 
+    await sleep(1500); 
     click(1400, 580);
     await sleep(1000); 
     click(160, 1010); 

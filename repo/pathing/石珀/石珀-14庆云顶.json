@@ -1,72 +1,72 @@
 {
-    "info": {
-        "name": "庆云顶七天神像2石珀",
-        "type": "collect",
-        "author": "爱凑热闹",
-        "version": "1.0",
-        "description": "",
-        "bgiVersion": "0.35.1"
+  "info": {
+    "name": "石珀-14庆云顶",
+    "type": "collect",
+    "author": "爱凑热闹",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1472.06,
+      "y": 757.73
     },
-    "positions": [
-        {
-            "id": 1,
-            "action": "",
-            "move_mode": "walk",
-            "type": "teleport",
-            "x": 1472.05859375,
-            "y": 757.72607421875
-        },
-        {
-            "id": 2,
-            "x": 1474.8134765625,
-            "y": 757.2060546875,
-            "type": "path",
-            "move_mode": "fly",
-            "action": ""
-        },
-        {
-            "id": 3,
-            "x": 1471.134765625,
-            "y": 619.43994140625,
-            "type": "path",
-            "move_mode": "fly",
-            "action": ""
-        },
-        {
-            "id": 4,
-            "x": 1475.458984375,
-            "y": 627.3583984375,
-            "type": "path",
-            "move_mode": "walk",
-            "action": "combat_script",
-            "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-        },
-        {
-            "id": 5,
-            "x": 1475.458984375,
-            "y": 627.3583984375,
-            "type": "path",
-            "move_mode": "walk",
-            "action": "pick_around",
-            "action_params": ""
-        },
-        {
-            "id": 6,
-            "x": 1478.3720703125,
-            "y": 628.982421875,
-            "type": "path",
-            "move_mode": "walk",
-            "action": "combat_script",
-            "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-        },
-        {
-            "id": 7,
-            "x": 1478.3720703125,
-            "y": 628.982421875,
-            "type": "path",
-            "move_mode": "walk",
-            "action": "pick_around",
-            "action_params": ""
-        }
-    ]
+    {
+      "id": 2,
+      "x": 1474.81,
+      "y": 757.21,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 1471.13,
+      "y": 619.44,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 1475.46,
+      "y": 627.36,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 1475.46,
+      "y": 627.36,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 1478.37,
+      "y": 628.98,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 1478.37,
+      "y": 628.98,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    }
+  ]
 }

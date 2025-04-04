@@ -1,0 +1,183 @@
+{
+  "info": {
+    "name": "409须弥茶诃之座（200_10）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3546.66,
+      "y": -1993.62,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3541.0,
+      "y": -1977.25,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3583.69,
+      "y": -1913.74,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3594.75,
+      "y": -1897.23,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(4),wait(0.3),keypress(e),wait(1),keypress(2),wait(0.3),keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3627.5,
+      "y": -1904.0,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3634.5,
+      "y": -1904.0,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3635.0,
+      "y": -1900.0,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(t),wait(1.5),keydown(d),wait(2),keyup(d)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3612.88,
+      "y": -1826.23,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3619.75,
+      "y": -1777.88,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(4),wait(0.3),keypress(e),wait(1),keypress(2),wait(0.3),keypress(e),wait(1),keypress(1),wait(0.2),keypress(a),wait(0.1),keydown(e),wait(1.2),keyup(e),wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 3621.62,
+      "y": -1746.36,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 3631.12,
+      "y": -1725.24,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 3629.12,
+      "y": -1692.24,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(2),wait(0.3),keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 3661.62,
+      "y": -1671.63,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 3661.62,
+      "y": -1671.63,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 3665.62,
+      "y": -1691.63,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 3651.4,
+      "y": -1760.53,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": 3646.5,
+      "y": -1761.77,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 3672.5,
+      "y": -1796.5,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 3695.17,
+      "y": -1810.93,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

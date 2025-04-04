@@ -1,0 +1,110 @@
+{
+  "info": {
+    "name": "P2(挖)清水玉-沉玉谷上谷-鼋背(陆)-6个",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2145.63,
+      "y": 2412.93,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2115.32,
+      "y": 2463.13,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2112.68,
+      "y": 2477.5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 2126.98,
+      "y": 2521.31,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 2154.88,
+      "y": 2548.37,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 2200.28,
+      "y": 2647.14,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "wait(0.5),keypress(VK_SPACE),wait(2),click",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 2200.28,
+      "y": 2647.14,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 2204.14,
+      "y": 2654.48,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 2193.22,
+      "y": 2656.87,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 2190.69,
+      "y": 2644.54,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 2199.19,
+      "y": 2641.07,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 2208.06,
+      "y": 2639.28,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

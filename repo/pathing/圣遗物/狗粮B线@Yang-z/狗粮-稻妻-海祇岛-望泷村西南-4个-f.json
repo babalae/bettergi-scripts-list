@@ -1,125 +1,94 @@
 {
-    "info": {
-        "name": "",
-        "type": "collect",
-        "author":"Yang-z"
+  "info": {
+    "name": "狗粮-稻妻-海祇岛-望泷村西南-4个-f",
+    "type": "collect",
+    "author": "Yang-z",
+    "version": "1.0",
+    "bgiVersion": "0.42.0"
+  },
+  "positions": [
+    {
+      "x": -755.56,
+      "y": -4001.06,
+      "type": "teleport",
+      "move_mode": "walk"
     },
-    "positions": [
-        {
-            "x": -755.556640625,
-            "y": -4001.0576171875,
-            "type": "teleport",
-            "move_mode": "walk"
-        },
-        {
-            "x": -754.037109375,
-            "y": -4002.3544921875,
-            "type": "path",
-            "move_mode": "run"
-        },
-        {
-            "x": -725.943359375,
-            "y": -4029.255859375,
-            "type": "path",
-            "move_mode": "run"
-        },
-        {
-            "x": -709.2138671875,
-            "y": -4045.4638671875,
-            "type": "path",
-            "move_mode": "run"
-        },
-        {
-            "x": -702.724609375,
-            "y": -4050.6787109375,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "",
-            "#": "1"
-        },
-
-        {
-            "x": -700.99609375,
-            "y": -4057.7744140625,
-            "type": "path",
-            "move_mode": "run"
-        },
-        {
-            "x": -677.654296875,
-            "y": -4045.9296875,
-            "type": "path",
-            "move_mode": "run"
-        },
-
-        {
-            "x": -672.419921875,
-            "y": -4043.4560546875,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "",
-            "#": "2"
-        },
-        {
-            "x": -673.548828125,
-            "y": -4043.82421875,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "",
-            "#": "2"
-        },
-
-
-        {
-            "x": -682.07421875,
-            "y": -4042.4619140625,
-            "type": "path",
-            "move_mode": "run"
-        },
-
-        {
-            "x": -688.423828125,
-            "y": -4042.2841796875,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "",
-            "#": "3"
-        },
-        {
-            "x": -689.103515625,
-            "y": -4042.796875,
-            "type": "target",
-            "move_mode": "walk",
-            "action": "",
-            "#": "3"
-        },
-
-
-        {
-            "x": -682.83203125,
-            "y": -4064.791015625,
-            "type": "path",
-            "move_mode": "run"
-        },
-        {
-            "x": -689.36328125,
-            "y": -4084.0888671875,
-            "type": "path",
-            "move_mode": "run"
-        },
-
-        {
-            "x": -694.6552734375,
-            "y": -4087.5498046875,
-            "type": "target",
-            "move_mode": "run",
-            "action": "",
-            "#": "4"
-        },
-        {
-            "x": -692.21875,
-            "y": -4089.1806640625,
-            "type": "path",
-            "move_mode": "walk"
-        }
-    ]
+    {
+      "x": -709.21,
+      "y": -4045.46,
+      "type": "orientation",
+      "move_mode": "run"
+    },
+    {
+      "x": -709.21,
+      "y": -4045.46,
+      "type": "path",
+      "move_mode": "dash"
+    },
+    {
+      "x": -702.72,
+      "y": -4050.68,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "1"
+    },
+    {
+      "x": -701.0,
+      "y": -4057.77,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "x": -672.42,
+      "y": -4043.46,
+      "type": "target",
+      "move_mode": "dash",
+      "#": "2"
+    },
+    {
+      "x": -688.42,
+      "y": -4042.28,
+      "type": "orientation",
+      "move_mode": "walk"
+    },
+    {
+      "x": -688.42,
+      "y": -4042.28,
+      "type": "target",
+      "move_mode": "dash",
+      "#": "3"
+    },
+    {
+      "x": -689.1,
+      "y": -4042.8,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "3"
+    },
+    {
+      "x": -682.83,
+      "y": -4064.79,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "x": -689.36,
+      "y": -4084.09,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "x": -694.66,
+      "y": -4087.55,
+      "type": "target",
+      "move_mode": "run",
+      "#": "4"
+    },
+    {
+      "x": -692.22,
+      "y": -4089.18,
+      "type": "path",
+      "move_mode": "walk"
+    }
+  ]
 }

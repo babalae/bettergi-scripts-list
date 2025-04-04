@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "游逸旅闻-罗莎莉亚1-蒙德西风大教堂",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -749.44,
+      "y": 2263.12,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -748.12,
+      "y": 2264.02,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -719.46,
+      "y": 2316.21,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -706.53,
+      "y": 2348.88,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -696.37,
+      "y": 2366.28,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -683.61,
+      "y": 2371.44,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f)"
+    }
+  ]
+}

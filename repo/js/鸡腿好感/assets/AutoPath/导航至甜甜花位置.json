@@ -3,9 +3,9 @@
     "name": "到达甜甜花位置",
     "type": "collect",
     "author": "花火",
-    "version": "1.0",
+    "version": "1.1",
     "description": "",
-    "bgiVersion": "0.35.1"
+    "bgiVersion": "0.43.5"
   },
   "positions": [
     {
@@ -46,7 +46,7 @@
       "y": -3084.009765625,
       "type": "target",
       "move_mode": "walk",
-      "action": ""
+      "action": "exit_and_relogin"
     }
   ]
 }

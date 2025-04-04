@@ -1,0 +1,91 @@
+{
+  "info": {
+    "name": "04-水月池",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1135.0,
+      "y": -3611.09,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1136.75,
+      "y": -3596.12,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(f),wait(0.1),keyup(f),wait(1.0),keydown(t),wait(0.2),keyup(t),wait(1.2),keydown(t),wait(0.2),keyup(t),wait(1.2),keydown(t),wait(0.2),keyup(t),wait(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1118.25,
+      "y": -3592.75,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1128.75,
+      "y": -3582.0,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1153.06,
+      "y": -3591.0,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1198.5,
+      "y": -3575.5,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -1229.87,
+      "y": -3571.37,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -1241.38,
+      "y": -3570.25,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -1248.75,
+      "y": -3569.75,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

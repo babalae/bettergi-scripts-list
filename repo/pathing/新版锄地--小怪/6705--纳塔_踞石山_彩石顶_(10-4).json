@@ -1,0 +1,238 @@
+{
+  "info": {
+    "name": "6705--纳塔_踞石山_彩石顶_(10-4)",
+    "type": "collect",
+    "author": "Demo",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8372.14,
+      "y": -2196.23,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8365.73,
+      "y": -2234.9,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "click,wait(0.5),click",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 8325.06,
+      "y": -2221.01,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 8313.73,
+      "y": -2218.77,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 8308.25,
+      "y": -2220.37,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 8286.97,
+      "y": -2186.25,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(F)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 8288.13,
+      "y": -2189.92,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 8288.13,
+      "y": -2189.92,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 8292.07,
+      "y": -2186.24,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 8288.87,
+      "y": -2164.1,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 8250.81,
+      "y": -2142.08,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 8233.73,
+      "y": -2113.47,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 8184.82,
+      "y": -2112.69,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 8152.47,
+      "y": -2088.76,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 8141.17,
+      "y": -2080.34,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 8121.09,
+      "y": -2087.0,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 8054.23,
+      "y": -2046.4,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 8021.8,
+      "y": -2010.66,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 8016.04,
+      "y": -2009.65,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 8010.26,
+      "y": -2009.17,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 8010.26,
+      "y": -2009.17,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": 7996.37,
+      "y": -2007.07,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": 7995.21,
+      "y": -1991.52,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 24,
+      "x": 7997.75,
+      "y": -1990.07,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 25,
+      "x": 7997.75,
+      "y": -1990.07,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1.5)",
+      "type": "path"
+    }
+  ]
+}

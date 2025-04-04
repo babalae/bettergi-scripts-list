@@ -1,0 +1,46 @@
+{
+  "info": {
+    "name": "01-苍晶区西南",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "run",
+      "type": "teleport",
+      "x": 4877.86,
+      "y": 2258.46,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4880.75,
+      "y": 2244.13,
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4892.44,
+      "y": 2241.88,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target",
+      "x": 4942.63,
+      "y": 2214.0,
+      "action_params": ""
+    }
+  ]
+}

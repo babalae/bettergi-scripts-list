@@ -1,88 +1,88 @@
 {
-    "info": {
-        "name": "轻策庄右边3石珀",
-        "type": "collect",
-        "author": "爱凑热闹",
-        "version": "1.0",
-        "description": "",
-        "bgiVersion": "0.35.1"
+  "info": {
+    "name": "石珀-12轻策庄右边",
+    "type": "collect",
+    "author": "爱凑热闹",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 543.09,
+      "y": 1767.35
     },
-    "positions": [
-        {
-            "id": 1,
-            "action": "",
-            "move_mode": "walk",
-            "type": "teleport",
-            "x": 543.0859375,
-            "y": 1767.35107421875
-        },
-        {
-            "id": 2,
-            "x": 526.1201171875,
-            "y": 1766.2431640625,
-            "type": "path",
-            "move_mode": "walk",
-            "action": ""
-        },
-        {
-            "id": 3,
-            "x": 499.138671875,
-            "y": 1774.3173828125,
-            "type": "path",
-            "move_mode": "walk",
-            "action": ""
-        },
-        {
-            "id": 4,
-            "x": 500.2265625,
-            "y": 1784.734375,
-            "type": "path",
-            "move_mode": "fly",
-            "action": ""
-        },
-        {
-            "id": 5,
-            "x": 508.8056640625,
-            "y": 1825.833984375,
-            "type": "path",
-            "move_mode": "fly",
-            "action": "combat_script",
-            "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-        },
-        {
-            "id": 6,
-            "x": 508.8056640625,
-            "y": 1825.833984375,
-            "type": "path",
-            "move_mode": "fly",
-            "action": "pick_around",
-            "action_params": ""
-        },
-        {
-            "id": 7,
-            "x": 512.048828125,
-            "y": 1824.947265625,
-            "type": "path",
-            "move_mode": "fly",
-            "action": ""
-        },
-        {
-            "id": 8,
-            "x": 516.716796875,
-            "y": 1822.60791015625,
-            "type": "path",
-            "move_mode": "fly",
-            "action": "combat_script",
-            "action_params": "钟离 e(hold);坎蒂丝 e(hold);雷泽 e(hold);卡齐娜 e(hold),attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2);凝光 attack(0.2),attack(0.2),attack(0.2),attack(0.2),attack(0.2)"
-        },
-        {
-            "id": 9,
-            "x": 516.716796875,
-            "y": 1822.60791015625,
-            "type": "path",
-            "move_mode": "fly",
-            "action": "pick_around",
-            "action_params": ""
-        }
-    ]
+    {
+      "id": 2,
+      "x": 526.12,
+      "y": 1766.24,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 499.14,
+      "y": 1774.32,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 500.23,
+      "y": 1784.73,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 508.81,
+      "y": 1825.83,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 508.81,
+      "y": 1825.83,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "pick_around",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 512.05,
+      "y": 1824.95,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": 516.72,
+      "y": 1822.61,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 516.72,
+      "y": 1822.61,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "pick_around",
+      "action_params": ""
+    }
+  ]
 }

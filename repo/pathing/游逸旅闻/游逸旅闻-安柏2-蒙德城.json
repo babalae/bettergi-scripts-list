@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "游逸旅闻-安柏2-蒙德城",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -867.72,
+      "y": 2281.39,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -894.0,
+      "y": 2251.01,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -934.24,
+      "y": 2231.73,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -943.34,
+      "y": 2240.96,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -954.25,
+      "y": 2239.38,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -959.07,
+      "y": 2248.34,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f)"
+    }
+  ]
+}

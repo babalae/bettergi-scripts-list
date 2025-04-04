@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "游逸旅闻-诺艾尔2-蒙德城",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "做完后去琴的办公室有彩蛋",
+    "bgiVersion": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -749.41,
+      "y": 2263.09,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -744.42,
+      "y": 2261.2,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -738.15,
+      "y": 2265.43,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -737.52,
+      "y": 2265.9,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f)"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "612纳塔火山安饶之野入口（600_1，200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9713.47,
+      "y": -2420.61,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9734.19,
+      "y": -2437.25,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9755.02,
+      "y": -2482.93,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9779.54,
+      "y": -2532.73,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "attack(0.8)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9778.49,
+      "y": -2541.24,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 6,
+      "x": 9807.76,
+      "y": -2541.36,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

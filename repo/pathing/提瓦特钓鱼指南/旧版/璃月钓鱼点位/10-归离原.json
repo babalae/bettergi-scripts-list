@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "10-归离原",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -53.75,
+      "y": 659.45,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": -11.75,
+      "y": 643.37,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 20.0,
+      "y": 646.5,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 52.5,
+      "y": 649.0,
+      "action_params": ""
+    }
+  ]
+}
