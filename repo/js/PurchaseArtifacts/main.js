@@ -54,7 +54,6 @@ await Shopping();
     await sleep(500);
     keyPress("F"); await sleep(1200);
     keyPress("F"); await sleep(1800);
-    click(1690, 1020); await sleep(500); 
     for (let i = 0; i < 5; i++) {
   click(1690, 1020); await sleep(500); // 购买
   click(1170, 780); await sleep(400); // 确定
