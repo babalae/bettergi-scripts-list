@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - 'repo/pathing/*.json'
+      - 'repo/pathing/**/*.json'
   workflow_dispatch:
     inputs:
       path:
