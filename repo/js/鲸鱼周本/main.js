@@ -58,7 +58,7 @@ keyDown("s");
 await sleep(25000);
 keyUp("s");
 keyDown("w");
-await sleep(7200);
+await sleep(7400);
 keyUp("w");
 
 await sleep(1000);
