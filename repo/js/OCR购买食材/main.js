@@ -262,7 +262,7 @@ async function clickSelectedIngredients(selectedIngredients, filePath, npcNames)
 
                 if (f_attempts === 1) {
                     // 第一次未找到 F 图标
-                    await simulateKeyOperations("S", 500); // 后退 500 毫秒
+                    await simulateKeyOperations("S", 200); // 后退 200 毫秒
                     await sleep(200);
                     await simulateKeyOperations("W", 800); // 前进 800 毫秒
                 } else if (f_attempts === 2) {
