@@ -1,0 +1,50 @@
+{
+  "info": {
+    "name": "蒙德6-望风山地-4",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1629.435546875,
+      "y": 2834.361572265625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1603.9482421875,
+      "y": 2865.65185546875,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "keypress(f)",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": -1603.9482421874998,
+      "y": 2864.65185546875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": -1603.9482421875,
+      "y": 2865.65185546875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
