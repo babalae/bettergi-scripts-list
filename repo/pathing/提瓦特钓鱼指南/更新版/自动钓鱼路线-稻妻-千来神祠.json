@@ -1,44 +1,46 @@
 {
-    "info": {
-        "name": "自动钓鱼路线-稻妻-千来神祠",
-        "type": "collect",
-        "author": "鸿羽er",
-        "version": "1.0",
-        "description": "",
-        "bgiVersion": "0.35.1"
+  "info": {
+    "name": "自动钓鱼路线-稻妻-千来神祠",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2809.05,
+      "y": -6045.45,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
-    "positions": [
-        {
-            "id": 1,
-            "x": -2809.05446294996,
-            "y": -6045.450096630208,
-            "action": "",
-            "move_mode": "walk",
-            "action_params": "",
-            "type": "teleport"
-        },
-        {
-            "id": 2,
-            "x": -2791.62474919944,
-            "y": -6049.875022804648
-        },
-        {
-            "id": 3,
-            "x": -2790.906212379916,
-            "y": -6044.781164482567,
-            "action": "",
-            "move_mode": "run",
-            "action_params": "",
-            "type": "target"
-        },
-        {
-            "id": 3,
-            "x": -2788.1126791547326,
-            "y": -6024.9772211348445,
-            "action": "fishing",
-            "move_mode": "walk",
-            "action_params": "",
-            "type": "orientation"
-        }
-    ]
+    {
+      "id": 2,
+      "x": -2791.62,
+      "y": -6049.88,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 3,
+      "x": -2790.91,
+      "y": -6044.78,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": -2788.11,
+      "y": -6024.98,
+      "action": "fishing",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    }
+  ]
 }

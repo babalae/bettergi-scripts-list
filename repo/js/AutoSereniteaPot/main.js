@@ -18,11 +18,24 @@ async function main() {
 
     // 进入尘歌壶，等待加载动画
     keyPress("F");
-    let waitTime = settings.loadingWaitTime;
-    if (!waitTime) {
-        waitTime = 10;
+    // 先等待5秒，应该不会比这快
+    await sleep(5000);
+    // 等待传送完成
+    let isEntering = true;
+    while (isEntering) {
+        // 截图检测传送状态
+        let screen = captureGameRegion();
+        let targetRegion = screen.DeriveCrop(85, 1025, 69, 28);
+        let ocrRo = RecognitionObject.Ocr(0, 0, targetRegion.Width, targetRegion.Height);
+        let ocrResult = targetRegion.find(ocrRo);
+        if (ocrResult.Text.toLowerCase().includes("enter")) {
+            isEntering = false;
+        }
+        await sleep(1000);
     }
-    await sleep(waitTime * 1000);
+
+    // 进入尘歌壶以后，等待1秒
+    await sleep(1000);
 
     // 移动到阿圆
     await moveToAYuan();
@@ -33,7 +46,7 @@ async function main() {
     await sleep(2000);
     // 点击屏幕中间跳过对话
     click(960, 540);
-    await sleep(1000);
+    await sleep(2000);
     // 点击“信任等阶”
     click(1370, 432)
     await sleep(1000);
@@ -60,7 +73,6 @@ async function main() {
 }
 
 async function findSereniteaPot() {
-    let found = false;
     let currentX = 178; // 起始X坐标
     let searchCount = 0; // 添加查找次数计数器
     const MAX_SEARCH_COUNT = 5; // 最大查找次数
@@ -82,7 +94,6 @@ async function findSereniteaPot() {
         let ocrResult = targetRegion.find(ocrRo);
 
         if (!ocrResult.isEmpty() && ocrResult.Text.includes("尘歌壶")) {
-            found = true;
             // 点击指定坐标
             click(1690, 1020);
             await sleep(1000);

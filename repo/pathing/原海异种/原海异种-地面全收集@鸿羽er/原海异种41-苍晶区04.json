@@ -5,7 +5,7 @@
     "author": "鸿羽er",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.35.1"
+    "bgiVersion": "0.42.0"
   },
   "positions": [
     {
@@ -13,8 +13,8 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 4727.749120611941,
-      "y": 1852.2976155192864,
+      "x": 4727.75,
+      "y": 1852.3,
       "action_params": ""
     },
     {
@@ -22,8 +22,8 @@
       "action": "",
       "move_mode": "climb",
       "type": "path",
-      "x": 4709.745843357605,
-      "y": 1861.0478724375553,
+      "x": 4709.75,
+      "y": 1861.05,
       "action_params": ""
     },
     {
@@ -31,46 +31,50 @@
       "action": "",
       "move_mode": "run",
       "type": "path",
-      "x": 4676.495163365676,
-      "y": 1870.794532500051,
+      "x": 4676.5,
+      "y": 1870.79,
       "action_params": ""
     },
     {
       "id": 4,
-      "x": 4650.99995909823,
-      "y": 1864.9981159326908,
+      "x": 4651.0,
+      "y": 1865.0,
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "type": "path",
+      "move_mode": "walk"
     },
     {
       "id": 5,
       "action": "fight",
       "move_mode": "run",
       "type": "path",
-      "x": 4629.499734138494,
-      "y": 1848.5039394134656,
+      "x": 4629.5,
+      "y": 1848.5,
       "action_params": ""
     },
     {
       "id": 6,
-      "x": 4595.249769927543,
-      "y": 1847.9996574423076,
+      "x": 4595.25,
+      "y": 1848.0,
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "type": "path",
+      "move_mode": "walk"
     },
     {
       "id": 7,
       "action": "fight",
       "move_mode": "climb",
       "type": "path",
-      "x": 4583.749790378428,
-      "y": 1845.627355084138,
+      "x": 4583.75,
+      "y": 1845.63,
       "action_params": ""
     },
     {
       "id": 8,
-      "x": 4602.000143156196,
-      "y": 1880.2507707548084,
+      "x": 4602.0,
+      "y": 1880.25,
       "type": "path",
       "move_mode": "run",
       "action": "",
@@ -78,8 +82,8 @@
     },
     {
       "id": 9,
-      "x": 4520.499141062826,
-      "y": 1924.0034255769278,
+      "x": 4520.5,
+      "y": 1924.0,
       "type": "path",
       "move_mode": "run",
       "action": "fight",
@@ -87,8 +91,8 @@
     },
     {
       "id": 10,
-      "x": 4461.999764814822,
-      "y": 1928.0020553461563,
+      "x": 4462.0,
+      "y": 1928.0,
       "type": "path",
       "move_mode": "run",
       "action": "fight",
@@ -96,15 +100,17 @@
     },
     {
       "id": 11,
-      "x": 4480.2509816424845,
-      "y": 1931.9984584903832,
+      "x": 4480.25,
+      "y": 1932.0,
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "type": "path",
+      "move_mode": "walk"
     },
     {
       "id": 12,
-      "x": 4402.747060185267,
-      "y": 1927.247259538457,
+      "x": 4402.75,
+      "y": 1927.25,
       "type": "path",
       "move_mode": "run",
       "action": "",
@@ -112,8 +118,8 @@
     },
     {
       "id": 13,
-      "x": 4398.500245410622,
-      "y": 2002.0001712788471,
+      "x": 4398.5,
+      "y": 2002.0,
       "type": "path",
       "action": "fight",
       "action_params": "",
@@ -124,8 +130,8 @@
       "action": "fight",
       "move_mode": "walk",
       "type": "target",
-      "x": 4398.9999181964595,
-      "y": 2020.0015415096168,
+      "x": 4399.0,
+      "y": 2020.0,
       "action_params": ""
     }
   ]

@@ -1,54 +1,54 @@
 {
-    "info": {
-        "name": "碧水源2石珀",
-        "type": "collect",
-        "author": "爱凑热闹",
-        "version": "1.0",
-        "description": "",
-        "bgiVersion": "0.35.1"
+  "info": {
+    "name": "石珀-04碧水源",
+    "type": "collect",
+    "author": "爱凑热闹",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 842.6,
+      "y": 1530.82
     },
-    "positions": [
-        {
-            "id": 1,
-            "action": "",
-            "move_mode": "walk",
-            "type": "teleport",
-            "x": 842.5966796875,
-            "y": 1530.81640625
-        },
-        {
-            "id": 2,
-            "x": 854.4306640625,
-            "y": 1563.02392578125,
-            "type": "path",
-            "move_mode": "walk",
-            "action": ""
-        },
-        {
-            "id": 3,
-            "x": 845.982421875,
-            "y": 1579.66650390625,
-            "type": "path",
-            "move_mode": "walk",
-            "action": ""
-        },
-        {
-            "id": 4,
-            "x": 836.3564453125,
-            "y": 1596.08935546875,
-            "type": "path",
-            "move_mode": "walk",
-            "action": "mining",
-            "action_params": ""
-        },
-        {
-            "id": 5,
-            "x": 836.3564453125,
-            "y": 1596.08935546875,
-            "type": "path",
-            "move_mode": "walk",
-            "action": "pick_around",
-            "action_params": ""
-        }
-    ]
+    {
+      "id": 2,
+      "x": 854.43,
+      "y": 1563.02,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 845.98,
+      "y": 1579.67,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 836.36,
+      "y": 1596.09,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 836.36,
+      "y": 1596.09,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    }
+  ]
 }

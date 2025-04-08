@@ -37,26 +37,35 @@
     },
     {
       "id": 4,
-      "x": 9779.5380859375,
-      "y": -2532.73046875,
+      "x": 9779.357421875,
+      "y": -2532.904296875,
       "action": "combat_script",
-      "move_mode": "run",
-      "action_params": "attack(0.8)",
+      "move_mode": "dash",
+      "action_params": "attack(0.5)",
       "type": "path"
     },
     {
       "id": 5,
-      "x": 9778.490234375,
-      "y": -2541.2421875,
+      "x": 9776.904296875,
+      "y": -2537.7236328125,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "dash",
       "action_params": "",
-      "type": "orientation"
+      "type": "path"
     },
     {
       "id": 6,
-      "x": 9807.759765625,
-      "y": -2541.3642578125,
+      "x": 9776.904296875,
+      "y": -2537.7236328125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 9802.220703125,
+      "y": -2540.10546875,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",

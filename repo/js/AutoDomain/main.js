@@ -256,6 +256,11 @@
             "description": "Domain",
             "name": "昏识塔",
             "position": [-93.67, 0, 3015.46]
+        },
+        {
+            "description": "Domain",
+            "name": "荒废砌造坞",
+            "position": [-3378.5, 0, 10535.5]
         }
     ]
 

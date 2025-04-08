@@ -1,162 +1,154 @@
 {
-    "info": {
-        "name": "",
-        "type": "collect",
-        "author":"Yang-z"
+  "info": {
+    "name": "狗粮-纳塔-翘枝崖-北-6个-f",
+    "type": "collect",
+    "author": "Yang-z",
+    "version": "1.0",
+    "bgiVersion": "0.42.0"
+  },
+  "positions": [
+    {
+      "x": 9719.17,
+      "y": -852.12,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "force_tp"
     },
-    "positions": [
-        {
-            "x": 9719.171875,
-            "y": -852.11669921875,
-            "type": "teleport",
-            "move_mode": "walk",
-            "action": "force_tp"
-        },
-        
-        {
-            "x": 9760.36328125,
-            "y": -809.44921875,
-            "type": "path",
-            "move_mode": "run"
-        },
-        {
-            "x": 9766.6298828125,
-            "y": -805.0888671875,
-            "type": "target",
-            "move_mode": "walk"
-        },
-
-        {
-            "x": 9768,
-            "y": -806.7119140625,
-            "type": "orientation",
-            "move_mode": "walk"
-        },
-        {
-            "x": 9768,
-            "y": -806.7119140625,
-            "type": "target",
-            "move_mode": "walk",
-            "#": "1"
-        },
-        {
-            "x": 9768.197265625,
-            "y": -806.56494140625,
-            "type": "target",
-            "move_mode": "walk",
-            "#": "1"
-        },
-
-        {
-            "x": 9766.150390625,
-            "y": -800.48583984375,
-            "type": "orientation",
-            "move_mode": "walk"
-        },
-        {
-            "x": 9766.150390625,
-            "y": -800.48583984375,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": 9777.76953125,
-            "y": -774.345703125,
-            "type": "path",
-            "move_mode": "dash"
-        },
-
-        {
-            "x": 9776.802734375,
-            "y": -769.34521484375,
-            "type": "orientation",
-            "move_mode": "walk"
-        },
-        {
-            "x": 9776.802734375,
-            "y": -769.34521484375,
-            "type": "target",
-            "move_mode": "walk",
-            "#": "2"
-        },
-        {
-            "x": 9776.802734375,
-            "y": -769.34521484375,
-            "type": "target",
-            "move_mode": "walk",
-            "#": "2"
-        },
-
-        {
-            "x": 9782.1328125,
-            "y": -767.8994140625,
-            "type": "path",
-            "move_mode": "walk"
-        },
-
-        {
-            "x": 9788.591796875,
-            "y": -755.54150390625,
-            "type": "path",
-            "move_mode": "run"
-        },
-        {
-            "x": 9792.294921875,
-            "y": -749.29248046875,
-            "type": "target",
-            "move_mode": "walk",
-            "#": "3"
-        },
-
-
-
-        {
-            "x": 9719.1982421875,
-            "y": -852.04931640625,
-            "type": "teleport",
-            "move_mode": "walk",
-            "action": "force_tp"
-        },
-        {
-            "x": 9706.2421875,
-            "y": -863.09375,
-            "type": "path",
-            "move_mode": "run"
-        },
-        {
-            "x": 9701.865234375,
-            "y": -872.02490234375,
-            "type": "target",
-            "move_mode": "fly",
-            "action": "stop_flying"
-        },
-        {
-            "x": 9701.3681640625,
-            "y": -872.40869140625,
-            "type": "target",
-            "move_mode": "walk",
-            "#": "4"
-        },
-        {
-            "x": 9699.0625,
-            "y": -870.73193359375,
-            "type": "target",
-            "move_mode": "walk",
-            "#": "5"
-        },
-        {
-            "x": 9643.5654296875,
-            "y": -898.142578125,
-            "type": "path",
-            "move_mode": "run"
-        },
-        {
-            "x": 9623.0859375,
-            "y": -894.71435546875,
-            "type": "target",
-            "move_mode": "walk",
-            "#": "6"
-        }
-
-    ]
+    {
+      "x": 9760.36,
+      "y": -809.45,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "x": 9766.63,
+      "y": -805.09,
+      "type": "target",
+      "move_mode": "walk"
+    },
+    {
+      "x": 9768.0,
+      "y": -806.71,
+      "type": "orientation",
+      "move_mode": "walk"
+    },
+    {
+      "x": 9768.0,
+      "y": -806.71,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "1"
+    },
+    {
+      "x": 9768.2,
+      "y": -806.56,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "1"
+    },
+    {
+      "x": 9766.15,
+      "y": -800.49,
+      "type": "orientation",
+      "move_mode": "walk"
+    },
+    {
+      "x": 9766.15,
+      "y": -800.49,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": 9777.77,
+      "y": -774.35,
+      "type": "path",
+      "move_mode": "dash"
+    },
+    {
+      "x": 9776.8,
+      "y": -769.35,
+      "type": "orientation",
+      "move_mode": "walk"
+    },
+    {
+      "x": 9776.8,
+      "y": -769.35,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "2"
+    },
+    {
+      "x": 9776.8,
+      "y": -769.35,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "2"
+    },
+    {
+      "x": 9782.13,
+      "y": -767.9,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": 9788.59,
+      "y": -755.54,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "x": 9792.29,
+      "y": -749.29,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "3"
+    },
+    {
+      "x": 9719.2,
+      "y": -852.05,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "force_tp"
+    },
+    {
+      "x": 9706.24,
+      "y": -863.09,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "x": 9701.87,
+      "y": -872.02,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "x": 9701.37,
+      "y": -872.41,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "4"
+    },
+    {
+      "x": 9699.06,
+      "y": -870.73,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "5"
+    },
+    {
+      "x": 9643.57,
+      "y": -898.14,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "x": 9623.09,
+      "y": -894.71,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "6"
+    }
+  ]
 }

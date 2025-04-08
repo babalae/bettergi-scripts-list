@@ -3,8 +3,8 @@
     "name": "琉鳞石-火山西北-13个",
     "type": "collect",
     "author": "ddaodan",
-    "version": "1.0",
-    "description": "",
+    "version": "1.1",
+    "description": "需要战斗，请配置好战斗策略\n1.1 调整可能卡住的点位",
     "bgiVersion": "0.43.5"
   },
   "positions": [
@@ -57,15 +57,15 @@
       "id": 6,
       "x": 10839.7021484375,
       "y": -2465.1455078125,
-      "type": "target",
-      "move_mode": "walk",
       "action": "electro_collect",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 7,
-      "x": 10837.7138671875,
-      "y": -2473.0966796875,
+      "x": 10840.4638671875,
+      "y": -2473.9716796875,
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
@@ -73,21 +73,21 @@
     },
     {
       "id": 8,
-      "x": 10836.990234375,
+      "x": 10836.590234375,
       "y": -2474.935546875,
-      "type": "target",
-      "move_mode": "walk",
       "action": "electro_collect",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 9,
       "x": 10837.953125,
       "y": -2473.142578125,
-      "type": "target",
-      "move_mode": "walk",
       "action": "electro_collect",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 10,
@@ -129,13 +129,23 @@
       "id": 14,
       "x": 10833.9267578125,
       "y": -2517.798828125,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 15,
+      "x": 10833.9267578125,
+      "y": -2517.798828125,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": 10828.2626953125,
       "y": -2530.7060546875,
       "action": "electro_collect",
@@ -144,67 +154,67 @@
       "type": "target"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": 10828.54296875,
       "y": -2532.3515625,
-      "type": "target",
-      "move_mode": "walk",
       "action": "electro_collect",
-      "action_params": ""
-    },
-    {
-      "id": 17,
-      "x": 10825.78515625,
-      "y": -2529.4619140625,
-      "type": "target",
       "move_mode": "walk",
-      "action": "electro_collect",
-      "action_params": ""
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 18,
-      "x": 10835.392578125,
-      "y": -2520.4453125,
-      "type": "path",
+      "x": 10825.78515625,
+      "y": -2529.4619140625,
+      "action": "electro_collect",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 19,
-      "x": 10856.4208984375,
-      "y": -2518.5029296875,
-      "type": "target",
+      "x": 10835.392578125,
+      "y": -2520.4453125,
+      "action": "",
       "move_mode": "walk",
-      "action": "electro_collect",
-      "action_params": ""
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 20,
-      "x": 10858.953125,
-      "y": -2521.4453125,
-      "type": "target",
-      "move_mode": "walk",
+      "x": 10856.4208984375,
+      "y": -2518.5029296875,
       "action": "electro_collect",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 21,
-      "x": 10860.1015625,
-      "y": -2523.646484375,
-      "type": "target",
-      "move_mode": "walk",
+      "x": 10858.953125,
+      "y": -2521.4453125,
       "action": "electro_collect",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 22,
+      "x": 10860.1015625,
+      "y": -2523.646484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 23,
       "x": 10861.3759765625,
       "y": -2524.1025390625,
-      "type": "target",
-      "move_mode": "walk",
       "action": "electro_collect",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     }
   ]
 }

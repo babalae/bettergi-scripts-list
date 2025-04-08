@@ -3,8 +3,8 @@
     "name": "琉鳞石-沃陆之邦七天神像东北-14个",
     "type": "collect",
     "author": "ddaodan",
-    "version": "1.0",
-    "description": "",
+    "version": "1.1",
+    "description": "需要战斗，请配置好战斗策略\n1.1 添加一个战斗，尝试通过跳跃避免被卡住",
     "bgiVersion": "0.43.5"
   },
   "positions": [
@@ -33,55 +33,83 @@
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
       "id": 4,
-      "x": 9816.12611524127,
-      "y": -2427.0625,
-      "action": "electro_collect",
+      "x": 9826.5615234375,
+      "y": -2430.5419921875,
+      "type": "path",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "action": "fight",
+      "action_params": ""
     },
     {
       "id": 5,
+      "x": 9827.126138969808,
+      "y": -2422.125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 9820.002705053294,
+      "y": -2423.5,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 9816.12611524127,
+      "y": -2427.0625,
+      "action": "electro_collect",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 8,
       "x": 9812.126162698345,
       "y": -2430.125,
       "action": "electro_collect",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 9814.2021484375,
+      "y": -2433.8330078125,
+      "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "target"
     },
     {
-      "id": 6,
-      "x": 9814.2021484375,
-      "y": -2433.8330078125,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 7,
+      "id": 10,
       "x": 9815.65625,
       "y": -2430.908203125,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "action": "electro_collect",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "target"
     },
     {
-      "id": 8,
+      "id": 11,
       "x": 9818.306640625,
       "y": -2428.2607421875,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     },
     {
-      "id": 9,
+      "id": 12,
       "x": 9795.73046875,
       "y": -2665.640625,
       "action": "force_tp",
@@ -90,7 +118,7 @@
       "type": "teleport"
     },
     {
-      "id": 10,
+      "id": 13,
       "x": 9795.90625,
       "y": -2612.0048828125,
       "action": "",
@@ -99,7 +127,7 @@
       "type": "path"
     },
     {
-      "id": 11,
+      "id": 14,
       "x": 9823.249525429246,
       "y": -2583.125,
       "action": "electro_collect",
@@ -108,16 +136,16 @@
       "type": "target"
     },
     {
-      "id": 12,
+      "id": 15,
       "x": 9826.249549157785,
       "y": -2580.4375,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "jump",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 16,
       "x": 9836.408203125,
       "y": -2574.7197265625,
       "action": "",
@@ -126,7 +154,7 @@
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 17,
       "x": 9866.7216796875,
       "y": -2576.6123046875,
       "action": "",
@@ -135,7 +163,7 @@
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 18,
       "x": 9878.7890625,
       "y": -2563.98046875,
       "action": "electro_collect",
@@ -144,25 +172,25 @@
       "type": "target"
     },
     {
-      "id": 16,
+      "id": 19,
       "x": 9880.218204243634,
       "y": -2561.96875,
       "action": "electro_collect",
-      "move_mode": "walk",
+      "move_mode": "jump",
       "action_params": "",
       "type": "target"
     },
     {
-      "id": 17,
+      "id": 20,
       "x": 9881.41015625,
       "y": -2558.8212890625,
       "action": "electro_collect",
-      "move_mode": "walk",
+      "move_mode": "jump",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 18,
+      "id": 21,
       "x": 9713.5009765625,
       "y": -2420.6025390625,
       "action": "force_tp",
@@ -171,7 +199,7 @@
       "type": "teleport"
     },
     {
-      "id": 19,
+      "id": 22,
       "x": 9723.2509765625,
       "y": -2469.3271484375,
       "action": "",
@@ -180,7 +208,7 @@
       "type": "path"
     },
     {
-      "id": 20,
+      "id": 23,
       "x": 9724.138671875,
       "y": -2473.326171875,
       "action": "",
@@ -189,7 +217,7 @@
       "type": "orientation"
     },
     {
-      "id": 21,
+      "id": 24,
       "x": 9730.7802734375,
       "y": -2480.1357421875,
       "action": "",
@@ -198,7 +226,7 @@
       "type": "path"
     },
     {
-      "id": 22,
+      "id": 25,
       "x": 9750.14453125,
       "y": -2493.818359375,
       "action": "electro_collect",
@@ -207,31 +235,31 @@
       "type": "target"
     },
     {
-      "id": 23,
+      "id": 26,
       "x": 9753.31640625,
       "y": -2496.6572265625,
       "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 27,
+      "x": 9755.1103515625,
+      "y": -2494.8916015625,
+      "action": "electro_collect",
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 24,
-      "x": 9755.1103515625,
-      "y": -2494.8916015625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "electro_collect",
-      "action_params": ""
-    },
-    {
-      "id": 25,
+      "id": 28,
       "x": 9751.1416015625,
       "y": -2495.865234375,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
     }
   ]
 }

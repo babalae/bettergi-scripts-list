@@ -1,11 +1,11 @@
 {
   "info": {
-    "name": "钓鱼点1",
+    "name": "01-苍晶区西南",
     "type": "collect",
     "author": "鸿羽er",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.35.1"
+    "bgiVersion": "0.42.0"
   },
   "positions": [
     {
@@ -13,23 +13,24 @@
       "action": "",
       "move_mode": "run",
       "type": "teleport",
-      "x": 4877.856545474899,
-      "y": 2258.4550793665476,
+      "x": 4877.86,
+      "y": 2258.46,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 4880.750672836731,
-      "y": 2244.1264855660193,
-      "move_mode": "walk"
+      "x": 4880.75,
+      "y": 2244.13,
+      "move_mode": "walk",
+      "type": "path"
     },
     {
       "id": 3,
       "action": "",
       "move_mode": "fly",
       "type": "path",
-      "x": 4892.438423194584,
-      "y": 2241.876809154657,
+      "x": 4892.44,
+      "y": 2241.88,
       "action_params": ""
     },
     {
@@ -37,8 +38,8 @@
       "action": "stop_flying",
       "move_mode": "fly",
       "type": "target",
-      "x": 4942.625203415756,
-      "y": 2213.9998970399793,
+      "x": 4942.63,
+      "y": 2214.0,
       "action_params": ""
     }
   ]

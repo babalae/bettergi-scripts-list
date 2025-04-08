@@ -1,110 +1,110 @@
 {
-    "info": {
-        "name": "清水玉-沉玉谷上谷-鼋背-6个",
-        "type": "collect",
-        "author": "起个名字好难",
-        "version": "1.0",
-        "description": "",
-        "bgiVersion": "0.35.1"
+  "info": {
+    "name": "P2(挖)清水玉-沉玉谷上谷-鼋背(陆)-6个",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2145.63,
+      "y": 2412.93,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
     },
-    "positions": [
-        {
-            "id": 1,
-            "x": 2145.6279296875,
-            "y": 2412.92529296875,
-            "action": "",
-            "move_mode": "walk",
-            "type": "teleport"
-        },
-        {
-            "id": 2,
-            "x": 2115.3154296875,
-            "y": 2463.132080078125,
-            "action": "",
-            "move_mode": "fly",
-            "type": "path"
-        },
-        {
-            "id": 3,
-            "x": 2112.6845703125,
-            "y": 2477.499755859375,
-            "action": "",
-            "move_mode": "walk",
-            "type": "path"
-        },
-        {
-            "id": 4,
-            "x": 2126.9814453125,
-            "y": 2521.30517578125,
-            "action": "",
-            "move_mode": "walk",
-            "type": "path"
-        },
-        {
-            "id": 5,
-            "x": 2154.8779296875,
-            "y": 2548.370849609375,
-            "action": "",
-            "move_mode": "walk",
-            "type": "path"
-        },
-        {
-            "id": 6,
-            "x": 2200.2822265625,
-            "y": 2647.14404296875,
-            "action": "combat_script",
-            "move_mode": "fly",
-            "action_params": "wait(0.5),keypress(VK_SPACE),wait(2),click",
-            "type": "path"
-        },
-        {
-            "id": 7,
-            "x": 2200.2822265625,
-            "y": 2647.14404296875,
-            "action": "mining",
-            "move_mode": "walk",
-            "action_params": "",
-            "type": "path"
-        },
-        {
-            "id": 8,
-            "x": 2204.1416015625,
-            "y": 2654.481201171875,
-            "action": "",
-            "move_mode": "walk",
-            "type": "target"
-        },
-        {
-            "id": 9,
-            "x": 2193.216796875,
-            "y": 2656.86865234375,
-            "action": "",
-            "move_mode": "walk",
-            "type": "path"
-        },
-        {
-            "id": 10,
-            "x": 2190.689453125,
-            "y": 2644.54052734375,
-            "action": "",
-            "move_mode": "walk",
-            "type": "path"
-        },
-        {
-            "id": 11,
-            "x": 2199.1865234375,
-            "y": 2641.06884765625,
-            "action": "",
-            "move_mode": "walk",
-            "type": "target"
-        },
-        {
-            "id": 12,
-            "x": 2208.0625,
-            "y": 2639.276611328125,
-            "action": "pick_around",
-            "move_mode": "walk",
-            "type": "target"
-        }
-    ]
+    {
+      "id": 2,
+      "x": 2115.32,
+      "y": 2463.13,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2112.68,
+      "y": 2477.5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 2126.98,
+      "y": 2521.31,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 2154.88,
+      "y": 2548.37,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 2200.28,
+      "y": 2647.14,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "wait(0.5),keypress(VK_SPACE),wait(2),click",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 2200.28,
+      "y": 2647.14,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 2204.14,
+      "y": 2654.48,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 2193.22,
+      "y": 2656.87,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 2190.69,
+      "y": 2644.54,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 2199.19,
+      "y": 2641.07,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 2208.06,
+      "y": 2639.28,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
 }

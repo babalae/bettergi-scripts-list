@@ -1,151 +1,151 @@
 {
-    "info": {
-        "name": "枫丹厅西北下",
-        "type": "collect",
-        "author": "cy",
-        "version": "1.0",
-        "description": "",
-        "bgiVersion": "0.35.0"
+  "info": {
+    "name": "枫丹厅西北下",
+    "type": "collect",
+    "author": "cy",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4699.41,
+      "y": 3958.69,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
     },
-    "positions": [
-        {
-            "id": 1,
-            "x": 4699.4130859375,
-            "y": 3958.68896484375,
-            "action": "",
-            "move_mode": "walk",
-            "type": "teleport"
-        },
-        {
-            "id": 2,
-            "x": 4740.84521484375,
-            "y": 3971.8232421875,
-            "action": "",
-            "move_mode": "run",
-            "type": "path"
-        },
-        {
-            "id": 3,
-            "x": 4747.056640625,
-            "y": 3919.73876953125,
-            "action": "",
-            "move_mode": "run",
-            "type": "path"
-        },
-        {
-            "id": 4,
-            "x": 4746.3837890625,
-            "y": 3869.110107421875,
-            "action": "",
-            "move_mode": "walk",
-            "type": "path"
-        },
-        {
-            "id": 5,
-            "x": 4754.2265625,
-            "y": 3840.740234375,
-            "action": "",
-            "move_mode": "walk",
-            "type": "path"
-        },
-        {
-            "id": 6,
-            "x": 4745.81689453125,
-            "y": 3838.000244140625,
-            "action": "mining",
-            "action_params": "",
-            "move_mode": "walk",
-            "type": "path"
-        },
-        {
-            "id": 7,
-            "x": 4751.65380859375,
-            "y": 3837.11083984375,
-            "action": "",
-            "move_mode": "walk",
-            "type": "path"
-        },
-        {
-            "id": 8,
-            "x": 4747.27587890625,
-            "y": 3843.97705078125,
-            "action": "",
-            "move_mode": "walk",
-            "type": "path"
-        },
-        {
-            "id": 9,
-            "x": 4740.76318359375,
-            "y": 3836.7734375,
-            "action": "",
-            "move_mode": "walk",
-            "type": "path"
-        },
-        {
-            "id": 10,
-            "x": 4741.55322265625,
-            "y": 3828.41015625,
-            "action": "",
-            "move_mode": "walk",
-            "type": "path"
-        },
-        {
-            "id": 11,
-            "x": 4705.478515625,
-            "y": 3794.736328125,
-            "action": "",
-            "move_mode": "walk",
-            "type": "path"
-        },
-        {
-            "id": 12,
-            "x": 4698.46728515625,
-            "y": 3795.9072265625,
-            "action": "mining",
-            "action_params": "",
-            "move_mode": "walk",
-            "type": "path"
-        },
-        {
-            "id": 13,
-            "x": 4697.81396484375,
-            "y": 3798.670654296875,
-            "action": "",
-            "move_mode": "walk",
-            "type": "path"
-        },
-        {
-            "id": 14,
-            "x": 4696.2275390625,
-            "y": 3793.843017578125,
-            "action": "",
-            "move_mode": "walk",
-            "type": "path"
-        },
-        {
-            "id": 15,
-            "x": 4711.49609375,
-            "y": 3784.73583984375,
-            "action": "",
-            "move_mode": "walk",
-            "type": "path"
-        },
-        {
-            "id": 16,
-            "x": 4704.4736328125,
-            "y": 3779.703125,
-            "action": "mining",
-            "action_params": "",
-            "move_mode": "walk",
-            "type": "path"
-        },
-        {
-            "id": 17,
-            "x": 4701.6513671875,
-            "y": 3787.640625,
-            "action": "",
-            "move_mode": "walk",
-            "type": "path"
-        }
-    ]
+    {
+      "id": 2,
+      "x": 4740.85,
+      "y": 3971.82,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4747.06,
+      "y": 3919.74,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4746.38,
+      "y": 3869.11,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4754.23,
+      "y": 3840.74,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4745.82,
+      "y": 3838.0,
+      "action": "mining",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4751.65,
+      "y": 3837.11,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4747.28,
+      "y": 3843.98,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4740.76,
+      "y": 3836.77,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 4741.55,
+      "y": 3828.41,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 4705.48,
+      "y": 3794.74,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 4698.47,
+      "y": 3795.91,
+      "action": "mining",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 4697.81,
+      "y": 3798.67,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 4696.23,
+      "y": 3793.84,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 4711.5,
+      "y": 3784.74,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 4704.47,
+      "y": 3779.7,
+      "action": "mining",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 4701.65,
+      "y": 3787.64,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    }
+  ]
 }

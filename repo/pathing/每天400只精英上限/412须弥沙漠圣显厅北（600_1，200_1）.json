@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "1遗迹重机 1圣骸兽",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -66,19 +66,19 @@
       "id": 7,
       "x": 4739.7978515625,
       "y": -1232.67822265625,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 8,
       "x": 4736.97509765625,
       "y": -1228.71533203125,
-      "type": "path",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "keypress(t),wait(2.5)"
+      "move_mode": "dash",
+      "action_params": "keypress(t),wait(1)",
+      "type": "path"
     },
     {
       "id": 9,

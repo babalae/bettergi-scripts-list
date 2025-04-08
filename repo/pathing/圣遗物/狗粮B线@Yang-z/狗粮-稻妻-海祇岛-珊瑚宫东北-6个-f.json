@@ -1,160 +1,154 @@
 {
-    "info": {
-        "name": "",
-        "type": "collect",
-        "author":"Yang-z"
+  "info": {
+    "name": "狗粮-稻妻-海祇岛-珊瑚宫东北-6个-f",
+    "type": "collect",
+    "author": "Yang-z",
+    "version": "1.0",
+    "bgiVersion": "0.42.0"
+  },
+  "positions": [
+    {
+      "x": -1057.77,
+      "y": -3946.1,
+      "type": "teleport"
     },
-    "positions": [
-        {
-            "x": -1057.765625,
-            "y": -3946.099609375,
-            "type": "teleport"
-        },
-        {
-            "x": -1059.79296875,
-            "y": -3918.24609375,
-            "type": "path",
-            "move_mode": "run"
-        },
-        {
-            "x": -1064.2255859375,
-            "y": -3900.314453125,
-            "type": "path",
-            "move_mode": "run"
-        },
-        {
-            "x": -1062.611328125,
-            "y": -3876.7705078125,
-            "type": "path",
-            "move_mode": "run"
-        },
-        {
-            "x": -1061.4912109375,
-            "y": -3875.04296875,
-            "type": "target",
-            "move_mode": "walk",
-            "#" : "1"
-        },
-        {
-            "x": -1059.796875,
-            "y": -3876.1328125,
-            "type": "path",
-            "move_mode": "walk"
-        },
-
-        {
-            "x": -1043.0927734375,
-            "y": -3873.9521484375,
-            "type": "path",
-            "move_mode": "fly"
-        },
-        {
-            "x": -1008.44921875,
-            "y": -3815.68359375,
-            "type": "path",
-            "move_mode": "fly"
-        },
-        {
-            "x": -985.3623046875,
-            "y": -3702.8671875,
-            "type": "path",
-            "move_mode": "fly",
-            "action": "combat_script",
-            "action_params": "keypress(VK_SPACE),wait(0.2),click,wait(0.2),keypress(x),wait(0.2),click",
-            "//": "stop_flying and stop_climbing",
-            "#" : "2"
-        },
-
-        {
-            "x": -985.31640625,
-            "y": -3702.8623046875,
-            "type": "target",
-            "move_mode": "walk",
-            "#" : "2"
-        },
-        {
-            "x": -988.7158203125,
-            "y": -3701.0595703125,
-            "type": "orientation"
-        },
-        {
-            "x": -988.7158203125,
-            "y": -3701.0595703125,
-            "type": "target",
-            "move_mode": "walk",
-            "#" : "3"
-        },
-
-        {
-            "x": -996.2490234375,
-            "y": -3698.03125,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        
-        {
-            "x": -994.94921875,
-            "y": -3689.1689453125,
-            "type": "target",
-            "move_mode": "walk",
-            "#" : "4"
-        },
-        {
-            "x": -994.9169921875,
-            "y": -3689.126953125,
-            "type": "target",
-            "move_mode": "walk",
-            "#" : "4"
-        },
-
-        {
-            "x": -996.2236328125,
-            "y": -3699.126953125,
-            "type": "path",
-            "move_mode": "walk"
-        },
-
-        {
-            "x": -1009.1708984375,
-            "y": -3707.1435546875,
-            "type": "target",
-            "move_mode": "walk",
-            "#" : "5"
-        },
-        {
-            "x": -1009.0302734375,
-            "y": -3707.2490234375,
-            "type": "target",
-            "move_mode": "walk",
-            "#" : "5"
-        },
-
-        {
-            "x": -1016.515625,
-            "y": -3715.2587890625,
-            "type": "target",
-            "move_mode": "walk",
-            "#" : "6"
-        },
-        {
-            "x": -1016.5107421875,
-            "y": -3715.2275390625,
-            "type": "target",
-            "move_mode": "walk",
-            "#" : "6"
-        },
-        
-        {
-            "x": -1016.1181640625,
-            "y": -3717.6982421875,
-            "type": "path",
-            "move_mode": "walk"
-        },
-        {
-            "x": -1017.8671875,
-            "y": -3717,
-            "type": "path",
-            "move_mode": "walk"
-        }
-    ]
+    {
+      "x": -1059.79,
+      "y": -3918.25,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "x": -1064.23,
+      "y": -3900.31,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "x": -1062.61,
+      "y": -3876.77,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "x": -1061.49,
+      "y": -3875.04,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "1"
+    },
+    {
+      "x": -1059.8,
+      "y": -3876.13,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": -1043.09,
+      "y": -3873.95,
+      "type": "path",
+      "move_mode": "fly"
+    },
+    {
+      "x": -1008.45,
+      "y": -3815.68,
+      "type": "path",
+      "move_mode": "fly"
+    },
+    {
+      "x": -985.36,
+      "y": -3702.87,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(0.2),click,wait(0.2),keypress(x),wait(0.2),click",
+      "//": "stop_flying and stop_climbing",
+      "#": "2"
+    },
+    {
+      "x": -985.32,
+      "y": -3702.86,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "2"
+    },
+    {
+      "x": -988.72,
+      "y": -3701.06,
+      "type": "orientation"
+    },
+    {
+      "x": -988.72,
+      "y": -3701.06,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "3"
+    },
+    {
+      "x": -996.25,
+      "y": -3698.03,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": -994.95,
+      "y": -3689.17,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "4"
+    },
+    {
+      "x": -994.92,
+      "y": -3689.13,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "4"
+    },
+    {
+      "x": -996.22,
+      "y": -3699.13,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": -1009.17,
+      "y": -3707.14,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "5"
+    },
+    {
+      "x": -1009.03,
+      "y": -3707.25,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "5"
+    },
+    {
+      "x": -1016.52,
+      "y": -3715.26,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "6"
+    },
+    {
+      "x": -1016.51,
+      "y": -3715.23,
+      "type": "target",
+      "move_mode": "walk",
+      "#": "6"
+    },
+    {
+      "x": -1016.12,
+      "y": -3717.7,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "x": -1017.87,
+      "y": -3717.0,
+      "type": "path",
+      "move_mode": "walk"
+    }
+  ]
 }
