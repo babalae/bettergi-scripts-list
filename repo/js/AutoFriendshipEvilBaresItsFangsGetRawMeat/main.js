@@ -22,7 +22,7 @@
 
     async function AutoPath(locationName) {
         try {
-        let filePath = `assets/AutoPath/${locationName}.json`;
+        let filePath = `Assets/AutoPath/${locationName}.json`;
             await pathingScript.runFile(filePath);
         } catch (error) {
             log.error(`执行 ${locationName} 路径时发生错误`);
@@ -31,27 +31,61 @@
         await sleep(1000);
     }
 
+    async function comparePosition() {
+        const targetPosition = { X: 3615.48, Y: -521.27 };
+        const maxDistance = 20;
+        let currentPosition;
+
+        try {
+            // 优先使用小地图坐标
+            await genshin.returnMainUi();
+            currentPosition = genshin.getPositionFromMap();
+            log.info(`当前小地图坐标: X=${currentPosition.X}, Y=${currentPosition.Y}`);
+        } catch (error) {
+            // 如果失败，使用大地图坐标
+            log.warn(`获取小地图坐标失败，使用大地图坐标。错误信息: ${error}`);
+            await genshin.returnMainUi();
+            keyPress("M");
+            await sleep(2000);
+            currentPosition = genshin.getPositionFromBigMap();
+            log.info(`当前大地图坐标: X=${currentPosition.X}, Y=${currentPosition.Y}`);
+            keyPress("Escape");
+        }
+
+        // 计算欧氏距离
+        const dx = currentPosition.X - targetPosition.X;
+        const dy = currentPosition.Y - targetPosition.Y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        log.info(`与目标坐标的距离为: ${distance}`);
+
+        // 判断距离是否在允许范围内
+        if (distance <= maxDistance) {
+            log.info("距离在突发任务范围内，循环继续");
+            return true;
+        } else {
+            log.warn("距离超出突发任务范围，执行触发线路");
+            return false;
+        }
+    }
+
     // 好感核心函数
     async function AutoFriendship(runTimes, statueTimes, GetMeatMode,startTime) {
-        log.info(`导航至好感-张牙舞爪的恶党-触发位置(二净甸)`);
-        await AutoPath(`好感-张牙舞爪的恶党-触发位置(二净甸)`);
-    
-        log.info(`已抵达预期位置，兽肉好感循环开始...`);
-    
         for (let i = 0; i < runTimes; i++) {
-            if ((i + 1) % statueTimes === 0) {
-                await genshin.tp(2297.60, -824.45); //  神像坐标
+            if ((i + 1) % statueTimes === 0) {  // 判断当前循环次数否达到去神像设置值
+                await genshin.tpToStatueOfTheSeven();
                 await AutoPath(`好感-张牙舞爪的恶党-触发位置(二净甸)`);
-                log.info(`当前次数：${i + 1}/${runTimes}`);
-                await AutoPath(`好感-张牙舞爪的恶党-循环${GetMeatMode ? '(二净甸刷肉版)' : '(二净甸)'}`);
-            } else {
-                log.info(`当前次数：${i + 1}/${runTimes}`);
-                await AutoPath(`好感-张牙舞爪的恶党-循环${GetMeatMode ? '(二净甸刷肉版)' : '(二净甸)'}`);
+            } else if (!await comparePosition()){   // 对比触发位置坐标，如果不符合预期坐标则重新执行触发线路
+                log.info(`导航至好感-张牙舞爪的恶党-触发位置(二净甸)`);
+                await AutoPath(`好感-张牙舞爪的恶党-触发位置(二净甸)`);
             }
+            log.info(`当前次数：${i + 1}/${runTimes}`);
+            await AutoPath(`好感-张牙舞爪的恶党-循环${GetMeatMode ? '(二净甸刷肉版)' : '(二净甸)'}`);
             const estimatedCompletion = calculateEstimatedCompletion(startTime, i + 1, runTimes);
             log.info(`已完成次数：${i + 1}/${runTimes}`);
             logTimeTaken(startTime);
             log.info(`预计完成时间：${estimatedCompletion}`);
+            await sleep(10000);
         }
         log.info('兽肉好感已完成');
     }
@@ -92,7 +126,6 @@
 
     // Main
     dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
-    const startTime = Date.now();
     let messages = [
         '请确保队伍满员，并为队伍配置相应的战斗策略',
         `使用的七天神像周期为： ${statueTimes}`,
@@ -107,8 +140,8 @@
     //  切换队伍
     if (!!settings.partyName) {
         try {
-            await genshin.tp(2297.60, -824.45);
-            await sleep(3000);
+            await genshin.tpToStatueOfTheSeven();
+            await sleep(2000);
             log.info("正在尝试切换至" + settings.partyName);
             await genshin.switchParty(settings.partyName);
         } catch {
@@ -119,6 +152,7 @@
         await genshin.returnMainUi();
     }
 
+    const startTime = Date.now();
     await AutoFriendship(runTimes,statueTimes,GetMeatMode,startTime);
     log.info(`兽肉好感运行总时长：${LogTimeTaken(startTime)}`);
     
