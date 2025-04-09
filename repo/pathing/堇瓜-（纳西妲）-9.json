@@ -1,0 +1,84 @@
+{
+  "info": {
+    "name": "堇瓜-绀田村-9",
+    "type": "collect",
+    "author": "momo",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4217.955078125,
+      "y": -2397.794921875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4195.353515625,
+      "y": -2301.2041015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "stop_flying",
+      "action_params": "5"
+    },
+    {
+      "id": 3,
+      "x": -4195.67578125,
+      "y": -2302.3291015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -4578.740234375,
+      "y": -2577.6162109375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -4574.671875,
+      "y": -2639.5283203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -4124.533203125,
+      "y": -2759.9111328125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -4114.69140625,
+      "y": -2755.0810546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -4086.611328125,
+      "y": -2792.048828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}
