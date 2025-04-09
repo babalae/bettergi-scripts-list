@@ -62,5 +62,11 @@ await sleep(1000);
 click(950, 750);//使用树脂
 await sleep(6000);
 click(975, 1000);//退出秘境
-await sleep(10000);
+await sleep(1000);
+keyPress("ESCAPE");//退出秘境：避免挑战失败无法退出
+await sleep(500);
+click(950, 750);//点击确认：避免挑战失败无法退出
+await sleep(3500);
+keyPress("ESCAPE");//退出秘境：避免挑战失败无法退出
+await sleep(7500);
 })();
