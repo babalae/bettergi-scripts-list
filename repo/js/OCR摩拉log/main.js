@@ -95,7 +95,7 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
 (async function () {
     setGameMetrics(1920, 1080, 1);
     await genshin.returnMainUi();
-    const notification = settings.notification || false;
+    const noti = settings.notification || false;
 
     // 按下 C 键
     keyPress("C");
@@ -134,7 +134,7 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
         let recognizedText = await recognizeTextInRegion(ocrRegionMora);
         if (recognizedText) {
             log.info(`成功识别到摩拉数值: ${recognizedText}`);
-            if (notification) {
+            if (noti) {
                 notification.Send(`摩拉数值: ${recognizedText}`);
             }
         } else {
@@ -143,4 +143,5 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
     } else {
         log.warn("未能识别到角色菜单或天赋，跳过摩拉数值识别。");
     }
+	await genshin.returnMainUi();
 })();
