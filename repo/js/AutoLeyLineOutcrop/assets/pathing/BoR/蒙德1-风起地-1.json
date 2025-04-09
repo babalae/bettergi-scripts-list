@@ -1,0 +1,103 @@
+{
+  "info": {
+    "name": "蒙德1-风起地-1",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1166.8447265625,
+      "y": 2132.83154296875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1173.845703125,
+      "y": 2124.60009765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1213.3193359375,
+      "y": 2116.663818359375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1228.4873046875,
+      "y": 2145.917236328125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1233.84375,
+      "y": 2148.54638671875,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1274.2587890625,
+      "y": 2165.313720703125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -1284.747959345761,
+      "y": 2168.625,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -1298.033203125,
+      "y": 2172.3720703125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(F)",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": -1298.033203125,
+      "y": 2172.3720703125,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": -1298.033203125,
+      "y": 2172.3720703125,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}
