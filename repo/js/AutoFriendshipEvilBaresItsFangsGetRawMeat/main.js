@@ -70,7 +70,7 @@
     }
 
     // 好感核心函数
-    async function AutoFriendship(runTimes, statueTimes, GetMeatMode,startTime) {
+    async function AutoFriendship(runTimes, statueTimes, GetMeatMode, startTime) {
         for (let i = 0; i < runTimes; i++) {
             if ((i + 1) % statueTimes === 0) {  // 判断当前循环次数否达到去神像设置值
                 await genshin.tpToStatueOfTheSeven();
@@ -79,13 +79,18 @@
                 log.info(`导航至好感-张牙舞爪的恶党-触发位置(二净甸)`);
                 await AutoPath(`好感-张牙舞爪的恶党-触发位置(二净甸)`);
             }
-            log.info(`当前次数：${i + 1}/${runTimes}`);
-            await AutoPath(`好感-张牙舞爪的恶党-循环${GetMeatMode ? '(二净甸刷肉版)' : '(二净甸)'}`);
+            if (await comparePosition()){
+                log.info(`当前次数：${i + 1}/${runTimes}`);
+                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
+                await AutoPath(`好感-张牙舞爪的恶党-循环${GetMeatMode ? '(二净甸刷肉版)' : '(二净甸)'}`);
+                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
+                log.info(`已完成次数：${i + 1}/${runTimes}`);
+            } else {
+                i = i - 1;  // 退回这次次数
+            }
             const estimatedCompletion = calculateEstimatedCompletion(startTime, i + 1, runTimes);
-            log.info(`已完成次数：${i + 1}/${runTimes}`);
             logTimeTaken(startTime);
             log.info(`预计完成时间：${estimatedCompletion}`);
-            await sleep(10000);
         }
         log.info('兽肉好感已完成');
     }
@@ -125,7 +130,6 @@
 	}
 
     // Main
-    dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
     let messages = [
         '请确保队伍满员，并为队伍配置相应的战斗策略',
         `使用的七天神像周期为： ${statueTimes}`,
