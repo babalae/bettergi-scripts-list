@@ -11,19 +11,13 @@
     黄花=藏金之花，产出摩拉
 
     脚本函数：
-    attemptReward(forcerun) 领取奖励
+    attemptReward(forcerun, retryCount) 领取奖励
     closeCustomMarks() 关闭自定义标记
     findLeyLineOutcrop() 寻找地脉花位置
     openCustomMarks() 打开自定义标记
-    zoomMap() 缩放地图
-    
 */
 (async function () {
     try {
-        /* 调试用
-        retryCount = 0;
-        await attemptReward(forcerun);
-        */
         await genshin.returnMainUi();
         setGameMetrics(1920, 1080, 1)
 
@@ -57,7 +51,7 @@
         }
         log.info(`国家：${country}`);
         // 关闭自动拾取
-        dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false }));
+        //dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false }));
         // 切换队伍
         if (team) {
             console.log(`切换至队伍 ${team}`);
@@ -99,7 +93,7 @@
                 const pathType = type == "蓝花（经验书）" ? "BoR" : "BoW";
                 for (let i = 1; i <= 6; i++) {
                     await pathingScript.runFile(`assets/pathing/${pathType}/${forcerunpath}-${i}.json`);
-                    await attemptReward(forcerun);
+                    await attemptReward(forcerun, retryCount);
                 }
             } catch (error) {
                 log.info(error.message);
@@ -117,102 +111,116 @@
             log.info(`执行策略：${task}`);
             for (let i = 1; i <= 4; i++) {
                 await pathingScript.runFile(`assets/pathing/BoR/${task}-${i}.json`);
-                await attemptReward(forcerun);
+                await attemptReward(forcerun, retryCount);
             }
         } else if (country == "蒙德" && lanhua && lanhua.x > 810 && lanhua.x < 830 && lanhua.y > 880 && lanhua.y < 910 || country == "蒙德" && huanghua && huanghua.x > 810 && huanghua.x < 830 && huanghua.y > 880 && huanghua.y < 910) {
             task = "蒙德2-清泉镇";
             log.info(`执行策略：${task}`);
             for (let i = 1; i <= 4; i++) {
                 await pathingScript.runFile(`assets/pathing/BoR/${task}-${i}.json`);
-                await attemptReward(forcerun);
+                await attemptReward(forcerun, retryCount);
             }
         } else if (country == "蒙德" && lanhua && lanhua.x > 480 && lanhua.x < 490 && lanhua.y > 490 && lanhua.y < 500) {
             task = "蒙德3-奔狼领";
             log.info(`执行策略：${task}`);
             for (let i = 1; i <= 4; i++) {
                 await pathingScript.runFile(`assets/pathing/BoR/${task}-${i}.json`);
-                await attemptReward(forcerun);
+                await attemptReward(forcerun, retryCount);
             }
         } else if (country == "蒙德" && lanhua && lanhua.x > 550 && lanhua.x < 600 && lanhua.y > 150 && lanhua.y < 250 || country == "蒙德" && huanghua && huanghua.x > 550 && huanghua.x < 600 && huanghua.y > 150 && huanghua.y < 250) {
             task = "蒙德4-风龙废墟";
             log.info(`执行策略：${task}`);
             for (let i = 1; i <= 4; i++) {
                 await pathingScript.runFile(`assets/pathing/BoR/${task}-${i}.json`);
-                await attemptReward(forcerun);
+                await attemptReward(forcerun, retryCount);
             }
         } else if (country == "蒙德" && lanhua && lanhua.x > 1380 && lanhua.x < 1390 && lanhua.y > 515 && lanhua.y < 525 || country == "蒙德" && huanghua && huanghua.x > 1380 && huanghua.x < 1390 && huanghua.y > 515 && huanghua.y < 525) {
             task = "蒙德5-千风神殿";
             log.info(`执行策略：${task}`);
             for (let i = 1; i <= 4; i++) {
                 await pathingScript.runFile(`assets/pathing/BoR/${task}-${i}.json`);
-                await attemptReward(forcerun);
+                await attemptReward(forcerun, retryCount);
             }
         } else if (country == "蒙德" && lanhua && lanhua.x > 1280 && lanhua.x < 1290 && lanhua.y > 170 && lanhua.y < 180 || country == "蒙德" && huanghua && huanghua.x > 1280 && huanghua.x < 1290 && huanghua.y > 170 && huanghua.y < 180) {
             task = "蒙德6-望风山地";
             log.info(`执行策略：${task}`);
             for (let i = 1; i <= 5; i++) {
                 await pathingScript.runFile(`assets/pathing/BoR/${task}-${i}.json`);
-                await attemptReward(forcerun);
+                await attemptReward(forcerun, retryCount);
             }
         } else if (country == "蒙德" && lanhua && lanhua.x > 1100 && lanhua.x < 1300 && lanhua.y > 700 && lanhua.y < 900 || country == "蒙德" && huanghua && huanghua.x > 1100 && huanghua.x < 1300 && huanghua.y > 700 && huanghua.y < 900) {
             task = "蒙德7-达达乌帕谷";
             log.info(`执行策略：${task}`);
             for (let i = 1; i <= 5; i++) {
                 await pathingScript.runFile(`assets/pathing/BoR/${task}-${i}.json`);
-                await attemptReward(forcerun);
+                await attemptReward(forcerun, retryCount);
             }
         } else if (lanhua && lanhua.x > 1100 && lanhua.x < 1150 && lanhua.y > 300 && lanhua.y < 350) {
             task = "璃月1-石门";
             log.info(`执行策略：${task}`);
             for (let i = 1; i <= 4; i++) {
                 await pathingScript.runFile(`assets/pathing/BoR/${task}-${i}.json`);
-                await attemptReward(forcerun);
+                await attemptReward(forcerun, retryCount);
             }
         //} else if (lanhua.x > 1350 && lanhua.x < 1400 && lanhua.y > 400 && lanhua.y < 450 && center.x - lanhua.x >= 1050 && center.x - lanhua.x <= 1060 && center.y - lanhua.y >= 90 && center.y - lanhua.y <= 100) {
         } else if (lanhua && lanhua.x > 1200 && lanhua.x < 1250 && lanhua.y > 450 && lanhua.y < 500) { // 如果改用碧水原七天神像的中心点的话这个也要改
             task = "璃月3-瑶光滩";
             log.info(`执行策略：${task}`);
             await pathingScript.runFile(`assets/pathing/BoR/${task}-1.json`);
-            await attemptReward(forcerun);
+            await attemptReward(forcerun, retryCount);
         } else if (lanhua && lanhua.x > 220 && lanhua.x < 270 && lanhua.y > 900 && lanhua.y < 950) {
             task = "稻妻3-八酝岛";
             log.info(`执行策略：${task}`);
             await pathingScript.runFile(`assets/pathing/BoR/${task}-1.json`);
-            await attemptReward(forcerun);
+            await attemptReward(forcerun, retryCount);
         } else if (country == "枫丹" && huanghua && huanghua.x > 700 && huanghua.x < 900 && huanghua.y > 900 && huanghua.y < 1100) {
             task = "枫丹1-秋分山西侧";
             log.info(`执行策略：${task}`);
             for (let i = 1; i <= 5; i++) {
                 await pathingScript.runFile(`assets/pathing/BoW/${task}-${i}.json`);
-                await attemptReward(forcerun);
+                await attemptReward(forcerun, retryCount);
             }
         } else if (country == "枫丹" && lanhua && lanhua.x > 300 && lanhua.x < 500 && lanhua.y > 700 && lanhua.y < 900) {
             task = "枫丹2-芒索斯山东麓";
             log.info(`执行策略：${task}`);
             for (let i = 1; i <= 4; i++) {
                 await pathingScript.runFile(`assets/pathing/BoR/${task}-${i}.json`);
-                await attemptReward(forcerun);
+                await attemptReward(forcerun, retryCount);
+            }
+        } else if (country == "枫丹" && lanhua && lanhua.x > 700 && lanhua.x < 800 && lanhua.y > 400 && lanhua.y < 650) {
+            task = "枫丹3-新枫丹科学院";
+            log.info(`执行策略：${task}`);
+            for (let i = 1; i <= 4; i++) {
+                await pathingScript.runFile(`assets/pathing/BoR/${task}-${i}.json`);
+                await attemptReward(forcerun, retryCount); 
+            }
+        } else if (country == "枫丹" && lanhua && lanhua.x > 1800 && lanhua.x < 1900 && lanhua.y > 100 && lanhua.y < 200) {
+            task = "枫丹4-柔灯港";
+            log.info(`执行策略：${task}`);
+            for (let i = 1; i <= 4; i++) {
+                await pathingScript.runFile(`assets/pathing/BoR/${task}-${i}.json`);
+                await attemptReward(forcerun, retryCount);
             }
         } else if (country == "枫丹" && lanhua && lanhua.x > 800 && lanhua.x < 1000 && lanhua.y > 800 && lanhua.y < 1000 || country == "枫丹" && huanghua && huanghua.x > 800 && huanghua.x < 1000 && huanghua.y > 800 && huanghua.y < 1000) {
             task = "枫丹5-秋分山东侧";
             log.info(`执行策略：${task}`);
             for (let i = 1; i <= 4; i++) {
                 await pathingScript.runFile(`assets/pathing/BoR/${task}-${i}.json`);
-                await attemptReward(forcerun);
+                await attemptReward(forcerun, retryCount);
             }
         } else if (country == "枫丹" && lanhua && lanhua.x > 300 && lanhua.x < 500 && lanhua.y > 900 && lanhua.y < 1000) {
             task = "枫丹6-厄里那斯";
             log.info(`执行策略：${task}`);
             for (let i = 1; i <= 6; i++) {
                 await pathingScript.runFile(`assets/pathing/BoR/${task}-${i}.json`);
-                await attemptReward(forcerun);
+                await attemptReward(forcerun, retryCount);
             }
         } else if (lanhua && lanhua.x > 1100 && lanhua.x < 1200 && lanhua.y > 750 && lanhua.y < 850) {
             task = "纳塔5-圣火竞技场";
             log.info(`执行策略：${task}`);
             for (let i = 1; i <= 4; i++) {
                 await pathingScript.runFile(`assets/pathing/BoR/${task}-${i}.json`);
-                await attemptReward(forcerun);
+                await attemptReward(forcerun, retryCount);
             }
 
         } else {
@@ -228,7 +236,7 @@
     }
 })();
 
-async function attemptReward(forcerun) {
+async function attemptReward(forcerun, retryCount) {
     // 超时处理
     if (retryCount >= 5 && forcerun == false) {
         retryCount = 0;
@@ -248,43 +256,45 @@ async function attemptReward(forcerun) {
     let isValid = false;
     let condensedResin = null;
     let originalResin = null;
+    let isResinEmpty = false;
 
     if (resList && resList.count > 0) {
         for (let i = 0; i < resList.count; i++) {
             let res = resList[i];
             if (res.text.includes("使用浓缩树脂")) {
+                isValid = true;
                 condensedResin = res;
             } else if (res.text.includes("使用原粹树脂")) {
+                isValid = true;
                 originalResin = res;
             } else if (res.text.includes("补充原粹树脂")) {
-                // 树脂用完了，结束脚本
                 isValid = true;
-                log.error("识别到补充原粹树脂，看来树脂用完了呢");
-                await keyPress("VK_ESCAPE");
-                throw new Error("树脂已用完");
+                isResinEmpty = true;
             }
         }
 
         if (condensedResin) {
-            isValid = true;
             log.info("选择使用浓缩树脂");
             click(Math.round(condensedResin.x + condensedResin.width / 2), Math.round(condensedResin.y + condensedResin.height / 2));
             return;
         } else if (originalResin) {
-            isValid = true;
             log.info("选择使用原粹树脂");
             click(Math.round(originalResin.x + originalResin.width / 2), Math.round(originalResin.y + originalResin.height / 2));
             return;
+        } else if (isResinEmpty) {
+            log.error("识别到补充原粹树脂，看来树脂用完了呢");
+            await keyPress("VK_ESCAPE");
+            throw new Error("树脂已用完");
         }
     }
 
     // 重试
     if (!isValid) {
-        log.info("当前界面不是地脉之花界面，重新执行代码");
+        log.info("当前界面不是地脉之花界面，重试");
         await genshin.returnMainUi();
         await sleep(1000);
         retryCount++;
-        await attemptReward(forcerun);
+        await attemptReward(forcerun, retryCount);
     }
 }
 async function closeCustomMarks() {
@@ -491,25 +501,4 @@ async function openCustomMarks() {
         log.error("未找到开关按钮");
     }
     await genshin.returnMainUi();
-}
-
-// 纯点击的缩放地图，已弃用
-async function zoomMap() {
-    // 缩小地图
-    await sleep(1000);
-    await click(50, 640);
-    await sleep(500);
-    await click(50, 640);
-    await sleep(500);
-    await click(50, 640);
-    await sleep(500);
-    await click(50, 640);
-    await sleep(500);
-    await click(50, 640);
-    await sleep(500);
-    // 放大
-    await click(50, 450);
-    await sleep(500);
-    await click(50, 450);
-    await sleep(500);
 }
