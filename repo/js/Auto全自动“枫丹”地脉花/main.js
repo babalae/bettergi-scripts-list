@@ -192,7 +192,7 @@
             // 调用PathCheak2
             if (await PathCheak2()) {return true;} else return false;
         } else {
-            throw new Error("无效的参数LOOOKING，请使用1或2");
+            throw new Error("无效的参数LOOOKING，请使用0或1");
         }
     }
 
@@ -265,16 +265,15 @@
         await moveMouseTo(1272,18);
         await sleep(200);
         let XIAN23 = await imageRecognition(DIMAIHUA,1,0,0,1076,651,183,142);
-        let QIU = await Textocr("秋分山西侧",2,0,0,1076,651,183,142);
-        if (QIU.found && (QIU.y > XIAN23.y+651)){AutofilePath=3;log.info("找到线路'3'");await leftButtonUp();return true}//return true
-        if (QIU.found && (QIU.y < XIAN23.y+651)){AutofilePath=2;log.info("找到线路'2'");await leftButtonUp();return true}//return true
+        if ( (XIAN23.y+651)<=720){AutofilePath=3;log.info("找到线路'3'");await leftButtonUp();return true}//return true
+        if ( (XIAN23.y+651)>720){AutofilePath=2;log.info("找到线路'2'");await leftButtonUp();return true}//return true
         let XIAN1 = await imageRecognition(DIMAIHUA,1,0,0,714,633,130,124);if (XIAN1.found){AutofilePath=1;log.info("找到线路'1'");await leftButtonUp();return true}//return true
         await moveMouseTo(132,583);
         await sleep(200);
-        let XIAN4 = await imageRecognition(DIMAIHUA,1,0,0,714,633,130,124);if (XIAN4.found){AutofilePath=4;log.info("找到线路'4'");await leftButtonUp();return true}//return true
+        let XIAN4 = await imageRecognition(DIMAIHUA,1,0,0,884,497,107,87);if (XIAN4.found){AutofilePath=4;log.info("找到线路'4'");await leftButtonUp();return true}//return true
         await moveMouseTo(1064,1026);
         await sleep(200);
-        let XIAN5 = await imageRecognition(DIMAIHUA,1,0,0,714,633,130,124);if (XIAN5.found){AutofilePath=5;log.info("找到线路'5'");await leftButtonUp();return true}//
+        let XIAN5 = await imageRecognition(DIMAIHUA,1,0,0,680,148,87,72);if (XIAN5.found){AutofilePath=5;log.info("找到线路'5'");await leftButtonUp();return true}//
         AutofilePath =0;
         await leftButtonUp();
         return false
@@ -284,22 +283,23 @@
     async function PathCheak2() {
         // 地脉花坐标
         const coordArray = [
-        { x: 4760, y: 2374 },//1
-        { x: 4113, y: 2354 },//2
-        { x: 4058, y: 2354 },//3
+        { x: 4960, y: 2180 },//1 
+        { x: 4113, y: 2154 },//2
+        { x: 3858, y: 2354 },//3
         { x: 2732, y: 3633 },//4
-        { x: 4556, y: 4999 },//5
-        { x: 4962, y: 4599 }];//6
-        // const coordArray = [
-        //     { x: 4760, y: 2374 },//1
-        //     { x: 4143, y: 2374 },//2
-        //     { x: 4088, y: 2374 },//3
-        //     { x: 2732, y: 3633 },//4
-        //     { x: 4556, y: 4999 },//5
-        //     { x: 4962, y: 4599 }];//6
+        { x: 4556, y: 5100 },//5
+        { x: 4962, y: 4699 }];//6
+
+        const coordArray2 = [
+            { x: 974, y: 150 ,w: 616 ,h:775},//1
+            { x: 515, y: 228 ,w: 493 ,h:710},//2
+            { x: 651, y: 236 ,w: 531 ,h:481},//3
+            { x: 500, y: 300 ,w: 600 ,h:500},//4
+            { x: 582, y: 238 ,w: 700 ,h:600},//5
+            { x: 384, y: 175 ,w: 850 ,h:800},];//6
     
         await genshin.returnMainUi();
-        log.info("更换为放大模式寻找地脉花……"); 
+        log.info("更换为放大模糊模式寻找地脉花,……"); 
         await genshin.tp(2297.60, -824.45);
         await genshin.returnMainUi();
         await sleep(1000);
@@ -309,15 +309,14 @@
 
         for (let i = 0; i < coordArray.length; i++) {
             const coord = coordArray[i];
+            const coord2 = coordArray2[i];
             await genshin.moveMapTo(coord.x,coord.y,"枫丹");
-            if (i===1 || i===2){await genshin.setBigMapZoomLevel(1);}else{await genshin.setBigMapZoomLevel(1.5);}
-            let DIMAI = await imageRecognition(DIMAIHUA,1.5,0,0,408,185,1200,780);
-                if (i===1 || i===2){var QIU = await Textocr("秋分山西侧",2,0,0,408,185,1200,780);}
+            await genshin.setBigMapZoomLevel(1.5);
+            let DIMAI = await imageRecognition(DIMAIHUA,1.5,0,0,coord2.x,coord2.y,coord2.w,coord2.h);
                 if (DIMAI.found)
-                    {if (i===1 || i===2) {            
-                        if (QIU.found && (QIU.y > DIMAI.y+185)){AutofilePath=3;return true}//break;
-                        if (QIU.found && (QIU.y < DIMAI.y+185)){AutofilePath=2;return true}//break;
-                    } else{AutofilePath=i+1;return true}//break;
+                    {                   
+                    log.info("地脉花找到，但不在初始位置，尝试寻找……"); 
+                    AutofilePath=i+1;FINDagin = 1;return true;
                 } 
             await genshin.returnMainUi();
             if (i === 5){return false;}
@@ -325,9 +324,6 @@
         await genshin.returnMainUi();
         return true;
     }
-
-
-
 
     //寻找地脉溢口，文字识别不到转圈寻找，不管有没找到都执行战斗，最后领取奖励判断是否继续执行
     async function VeinEntrance() {
@@ -376,14 +372,14 @@
         let SHUY =  await Textocr("使用原粹树脂",2,1,0,877,726,193,53);
         let SHUB =  await Textocr("补充原粹树脂",1,0,0,877,726,193,53);
                 await sleep(1000);
-            if  (SHUB.found){log.warn("树脂消耗完毕，结束任务");SHUOVER=2;await keyPress("VK_ESCAPE");await sleep(1000);return false;}
+            if  (SHUB.found){log.warn("树脂消耗完毕，结束任务");await keyPress("VK_ESCAPE");await sleep(1000);if (FINDagin===1){SHUOVER=1;log.warn("模糊模式，地脉不在初始位置，继续寻找！");return true;}else{SHUOVER=2;return false;}}
             else if (SHUN.found || SHUY.found) {
-                log.info("找到树脂，已经使用...");dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: true })); return true;
+                log.info("找到树脂，已经使用...");FINDagin=0;dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: true })); return true;
             }else{
                 log.warn("未找到树脂，尝试领取奖励...");
                 let SHUN =  await Textocr("使用浓缩树脂",0.5,1,0,672,726,191,53);
                 let SHUY =  await Textocr("使用原粹树脂",0.5,1,0,877,726,193,53);
-                if (SHUN.found || SHUY.found) { return true;}else{log.warn("领取错误，退出！");SHUOVER=2;return false;}//SHUOVER=2
+                if (SHUN.found || SHUY.found) {FINDagin=0; return true;}else{log.warn("领取错误，退出！");if (FINDagin===1){SHUOVER=1;log.warn("模糊模式，地脉不在初始位置，继续寻找！");return true}else{SHUOVER=2;return false;}}//SHUOVER=2
             }
     }
 
@@ -427,14 +423,9 @@
          var executedCount = 0;
        
         for (let i = 0; i < selectedPath.length; i += 2){
-
            // if(AutofilePath==1 && i <=8 ){i=8}测试用，注释掉即可
-
-
             const jsonFile1 = selectedPath[i];
             const jsonFile2 = selectedPath[i + 1];
-
-
             // 条件1触发：次数限制
             if (executedCount >= maxExecutions*2) {
                 log.info("本线路已达到执行次数，终止运行！");
@@ -445,6 +436,8 @@
             await pathingScript.runFile(`${selectedFolder}${jsonFile1}`);
 
             // 寻找地脉溢口，文字识别不到转圈寻找，不管有没找到都执行战斗，最后领取奖励判断是否继续执行
+            shouldContinueChecking = true;
+            checkRewardPage();// 执行自动战斗并同步检测领奖页面
             await VeinEntrance();
             await sleep(1000);
             dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
@@ -452,9 +445,6 @@
             if (LCBMODEL){await dispatcher.runTask(new SoloTask("LCBAutoPickCLOSE"));}//LCB自编译版本命令，公版BETTERGI无效===========LCB
            
             //执行自动战斗,配置器中的设置建议填你的队伍打一次大概得时间
-            shouldContinueChecking = true;
-            checkRewardPage();// 执行自动战斗并同步检测领奖页面
-
             await dispatcher.runTask(new SoloTask("AutoFight"));
             await sleep(2000);
             await dispatcher.runTask(new SoloTask("AutoFight"));//公版BETTERGI战斗两次可能触发已经出现的地脉花
@@ -482,6 +472,7 @@
             await sleep(1000);
             executedCount=executedCount+2;
         }
+        FINDagin = 0; //重置地脉花寻找标志。lv.1.2新增，用于判断是否找线路余下地脉花。
         return true;// 线路完成
     }
 
@@ -493,6 +484,7 @@
     var SHUV = settings.shuv ? settings.shuv : 1; // 1 单线路，2 树脂耗尽
     var Rewards = settings.Rewards ? settings.Rewards : false; // ture 领取冒险点奖励，false 不领取冒险点奖励
     var Fligtin = false;  //领取冒险点奖励标志。
+    var FINDagin = 0; //地脉花寻找标志。lv.1.2新增，用于判断是否找线路余下地脉花。
 
 
 
@@ -502,11 +494,10 @@
     if (settings.n === undefined || settings.n === "") { log.warn("队伍名称未配置，不更换队伍！");SHUOVER=1;}
     if (SHUV === 1) {log.warn("线路模式 ：'单线路！'");}else{log.warn("线路模式 ：'树脂耗尽模式，强制打完整体线路！'");rawTimes=12}
     if (color == 1) {log.warn("地脉类型 ：'蓝色经验书花！'");}else{log.warn("地脉类型 ：'黄色摩拉花！'")}  
-
-
-
     let nowuidString = settings.nowuid ? settings.nowuid : "";
-    // 使用正则表达式匹配字符串中的所有数字序列//UID获取存在概率不成功，慎用！请更换背景纯色的名片提高OCR成功率
+
+
+    // UID获取存在概率不成功，慎用！请更换背景纯色的名片提高OCR成功率
     let uidNumbers = nowuidString.match(/\d+/g);
     if (nowuidString) {
         log.debug(`DEBUG:${uidNumbers}`);//调试LOG
