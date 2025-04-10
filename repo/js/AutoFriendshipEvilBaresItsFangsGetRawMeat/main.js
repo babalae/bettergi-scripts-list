@@ -76,8 +76,9 @@
                 await genshin.tpToStatueOfTheSeven();
                 await AutoPath(`好感-张牙舞爪的恶党-触发位置(二净甸)`);
             } else if (!await comparePosition()){   // 对比触发位置坐标，如果不符合预期坐标则重新执行触发线路
-                log.info(`导航至好感-张牙舞爪的恶党-触发位置(二净甸)`);
+                log.info(`导航至突发任务（张牙舞爪的恶党）触发位置(二净甸)`);
                 await AutoPath(`好感-张牙舞爪的恶党-触发位置(二净甸)`);
+                notification.send(`已抵达突发任务（张牙舞爪的恶党）触发位置`);
             }
             if (await comparePosition()){
                 log.info(`当前次数：${i + 1}/${runTimes}`);
@@ -149,7 +150,8 @@
             log.info("正在尝试切换至" + settings.partyName);
             await genshin.switchParty(settings.partyName);
         } catch {
-            log.warn("队伍切换失败，可能处于联机模式或其他不可切换状态");
+            log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
+            notification.error(`队伍切换失败，可能处于联机模式或其他不可切换状态`);
             await genshin.returnMainUi();
         }
     } else {
