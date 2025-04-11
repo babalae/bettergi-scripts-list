@@ -95,7 +95,7 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
 (async function () {
     setGameMetrics(1920, 1080, 1);
     await genshin.returnMainUi();
-    const noti = settings.notification || false;
+    const notify = settings.notify || false;
 
     // 按下 C 键
     keyPress("C");
@@ -134,8 +134,23 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
         let recognizedText = await recognizeTextInRegion(ocrRegionMora);
         if (recognizedText) {
             log.info(`成功识别到摩拉数值: ${recognizedText}`);
-            if (noti) {
+            if (notify) {
                 notification.Send(`摩拉数值: ${recognizedText}`);
+            }
+
+            // 获取当前时间
+            const now = new Date();
+            const formattedTime = now.toLocaleString(); // 使用本地时间格式化
+
+
+            // 写入本地文件
+            const filePath = "mora_log.txt";
+            const logContent = `${formattedTime} - 摩拉数值: ${recognizedText}\n`;
+            const result = file.WriteTextSync(filePath, logContent, true); // 追加模式
+            if (result) {
+                log.info("成功将摩拉数值写入日志文件");
+            } else {
+                log.error("写入日志文件失败");
             }
         } else {
             log.warn("未能识别到摩拉数值。");
@@ -143,5 +158,5 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
     } else {
         log.warn("未能识别到角色菜单或天赋，跳过摩拉数值识别。");
     }
-	await genshin.returnMainUi();
 })();
+
