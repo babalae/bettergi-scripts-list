@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "401须弥降诸魔山神像（600_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "1遗迹重机\n",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2567.5146484375,
+      "y": -1424.9580078125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2599.0966796875,
+      "y": -1413.7783203125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2611.8564453125,
+      "y": -1406.287109375,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "info": {
+    "name": "602纳塔奥奇（600_3）次数盾",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9670.146484375,
+      "y": 171.35888671875,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9674.1162109375,
+      "y": 199.98486328125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9672.98828125,
+      "y": 225.2265625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9692.744140625,
+      "y": 258.25732421875,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(3)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9675.93686798673,
+      "y": 230.12947159922078,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 9670.146484375,
+      "y": 171.35888671875,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 7,
+      "x": 9665.130859374998,
+      "y": 174.31884765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 9628.75,
+      "y": 158.4994909391753,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 9616.5,
+      "y": 160.0623450684443,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 9597.125,
+      "y": 167.37356134984293,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 9580.16796875,
+      "y": 186.51318359375,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(3)",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 9565.623046875,
+      "y": 183.45654296875,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
