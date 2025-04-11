@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "614纳塔火山安饶之野南 炉壳山鼬（200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 10363.76171875,
+      "y": -3315.970703125,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 10344.73828125,
+      "y": -3316.5458984375,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(t)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 10368.124861747097,
+      "y": -3316.3125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 4,
+      "x": 10378.87497234942,
+      "y": -3311.9377122114893,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 10443.437247194692,
+      "y": -3276.6875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keydown(q),wait(1.7),keyup(q),attack(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 10456.048828125,
+      "y": -3292.6884765625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
