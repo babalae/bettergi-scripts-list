@@ -158,5 +158,7 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
     } else {
         log.warn("未能识别到角色菜单或天赋，跳过摩拉数值识别。");
     }
+    await sleep(500); 
+    await genshin.returnMainUi();
 })();
 
