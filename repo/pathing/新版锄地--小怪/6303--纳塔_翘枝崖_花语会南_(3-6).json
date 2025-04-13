@@ -2,16 +2,16 @@
   "info": {
     "name": "6303--纳塔_翘枝崖_花语会南_(3-6)",
     "type": "collect",
-    "author": "Demo",
-    "version": "1.0",
+    "author": "Demo&汐",
+    "version": "1.2",
     "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
     {
       "id": 1,
-      "x": 9587.41,
-      "y": -1279.27,
+      "x": 9587.40625,
+      "y": -1279.27294921875,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -19,120 +19,101 @@
     },
     {
       "id": 2,
-      "x": 9601.79,
-      "y": -1294.81,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
+      "x": 9593.84372432446,
+      "y": -1340.594500319191,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1000",
       "type": "path"
     },
     {
       "id": 3,
-      "x": 9595.43,
-      "y": -1344.21,
-      "action": "stop_flying",
-      "move_mode": "fly",
+      "x": 9583.531433678856,
+      "y": -1345.7167415698414,
+      "action": "",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 4,
-      "x": 9580.62,
-      "y": -1337.45,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 9576.06,
-      "y": -1350.16,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": 9491.06,
-      "y": -1368.29,
+      "x": 9576.056640625,
+      "y": -1350.1640625,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 7,
-      "x": 9405.49,
-      "y": -1364.91,
+      "id": 5,
+      "x": 9492.0615234375,
+      "y": -1366.2900390625,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 9396.4951171875,
+      "y": -1376.82080078125,
+      "type": "path",
+      "move_mode": "dash",
       "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 9368.312468399337,
+      "y": -1376.500075789817,
+      "action": "fight",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 8,
-      "x": 9373.09,
-      "y": -1355.43,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": 9370.97,
-      "y": -1360.71,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 10,
-      "x": 9312.78,
-      "y": -1345.38,
+      "x": 9312.783203125,
+      "y": -1345.3798828125,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 11,
-      "x": 9307.95,
-      "y": -1357.44,
+      "id": 9,
+      "x": 9307.94921875,
+      "y": -1357.4443359375,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "click,wait(0.5),click",
+      "move_mode": "dash",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 9287.048828125,
+      "y": -1318.8984375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 9292.697265625,
+      "y": -1329.22998046875,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 12,
-      "x": 9279.12,
-      "y": -1339.4,
+      "x": 9292.697265625,
+      "y": -1329.22998046875,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "click,wait(3.5),click",
-      "type": "path"
-    },
-    {
-      "id": 13,
-      "x": 9285.05,
-      "y": -1315.9,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 14,
-      "x": 9285.05,
-      "y": -1315.9,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(1.5)",
+      "move_mode": "dash",
+      "action_params": "wait(0.5)",
       "type": "path"
     }
   ]
