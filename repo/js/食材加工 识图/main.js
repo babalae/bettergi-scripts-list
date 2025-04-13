@@ -90,7 +90,8 @@
         if (processingKey === "Processing13") {
             log.info("为 Processing13 执行额外的点击操作");
             click(1715, 565); await sleep(1000); // 打开素材列表
-            click(60, 295); await sleep(500);   // 非红色花鳉一般位于第一行，默认选择第二行
+            click(220, 295); await sleep(1000);   // 非红色花鳉一般位于第一行，默认选择第二行
+            click(1005, 45);await sleep(500)
             click(1005, 45);  // 点击菜单防止其他页面干扰
         }
     }
@@ -211,15 +212,17 @@ async function recognizeFIcon() {
 
     if (!fRes.isExist()) {
         let f_attempts = 0; // 初始化尝试次数
-        while (f_attempts <= 3) { // 最多尝试 3 次
+        while (f_attempts < 3) { // 最多尝试 3 次
             f_attempts++;
             log.info(`当前尝试次数：${f_attempts}`);
 
             if (f_attempts === 1 || f_attempts === 2) {
                 // 第一次未找到 F 图标
                 await simulateKeyOperations("S", 200); // 后退 200 毫秒
+                log.info("执行后退操作");
                 await sleep(200);
                 await simulateKeyOperations("W", 800); // 前进 800 毫秒
+                log.info("执行前进操作");
             } else if (f_attempts === 3) {
                 // 第二次未找到 F 图标
                 log.info("重新加载路径文件");
@@ -227,14 +230,29 @@ async function recognizeFIcon() {
                 log.info(`加载路径文件：${filePath}`);
                 await pathingScript.runFile(filePath);
                 await sleep(500);
-            } else {
-                // 第三次未找到 F 图标
-                log.error("尝试次数已达上限");
-                return null;
             }
+
+            // 重新获取游戏区域截图
             ra = captureGameRegion();
             fRes = ra.find(fDialogueRo);
+
+            // 打印识别结果
+            log.info(`识别结果：${fRes.isExist()}`);
+
+            // 如果识别成功，立即退出循环
+            if (fRes.isExist()) {
+                log.info("识别成功，退出循环");
+                break;
+            }
+
+            await sleep(500);
         }
+    }
+
+    // 如果尝试次数已达上限，返回 null
+    if (!fRes.isExist()) {
+        log.error("尝试次数已达上限");
+        return null;
     }
 
     return fRes;
@@ -245,83 +263,101 @@ async function recognizeCookingIcon(centerYF) {
     const cookingRo = RecognitionObject.TemplateMatch(
         file.ReadImageMatSync("assets/Cooking.png"),
         1176,
-        centerYF - 18, // 以 F 图标的中心，向上偏移  像素
+        centerYF - 18, // 以 F 图标的中心，向上偏移 18 像素
         27,           // 宽度范围
         36            // 高度范围
     );
 
-    let isAligned = false;
-    let scrollAttempts = 0;
-    const maxScrollAttempts = 5; // 最大滚轮操作次数限制
+    let ra = captureGameRegion();
+    let cookingRes = ra.find(cookingRo);
 
-    while (!isAligned && scrollAttempts < maxScrollAttempts) {
-        let ra = captureGameRegion();
-        let cookingRes = ra.find(cookingRo);
+    if (cookingRes.isExist()) {
+        log.info("找到 Cooking 图标");
+        return cookingRes;
+    } else {
+        log.info("未找到 Cooking 图标");
+        return null;
+    }
+}
 
-        if (cookingRes.isExist()) {
-            log.info("找到 Cooking 图标");
-            return cookingRes;
-        } else {
-            // 如果未水平对齐，执行滚轮操作
-            await keyMouseScript.runFile(`assets/滚轮下翻.json`);
-            await sleep(1000);
-
-            // 检查是否超过最大滚轮操作次数
-            scrollAttempts++;
-            if (scrollAttempts >= maxScrollAttempts) {
-                log.error(`滚轮操作次数已达上限 ${maxScrollAttempts} 次，退出循环`);
-                break; // 超过最大滚轮操作次数，终止循环
-            }
-        }
+// 主逻辑函数
+async function main() {
+    // 识别 F 图标
+    let fRes = await recognizeFIcon();
+    if (!fRes) {
+        log.error("未能识别到 F 图标，退出任务");
+        return;
     }
 
+    // 获取 F 图标的中心点 Y 坐标
+    let centerYF = fRes.y + fRes.height / 2;
+
+    const maxScrollAttempts = 5; // 最大滚轮操作次数限制
+    let scrollAttempts = 0;
+
+    while (scrollAttempts < maxScrollAttempts) {
+        // 识别 Cooking 图标
+        let cookingRes = await recognizeCookingIcon(centerYF);
+        if (cookingRes) {
+            log.info("找到 Cooking 图标");
+            return cookingRes; // 识别成功，返回结果
+        }
+
+        // 如果未找到 Cooking 图标，执行滚轮操作
+        log.info(`未找到 Cooking 图标，执行滚轮操作，当前尝试次数：${scrollAttempts + 1}`);
+        await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+        await sleep(1000);
+
+        // 重新识别 F 图标，获取最新的中心点
+        fRes = await recognizeFIcon();
+        if (!fRes) {
+            log.error("滚轮操作后，未能重新识别到 F 图标，退出任务");
+            return;
+        }
+
+        centerYF = fRes.y + fRes.height / 2; // 更新 F 图标的中心点 Y 坐标
+
+        // 增加尝试次数
+        scrollAttempts++;
+    }
+
+    // 如果超过最大滚轮操作次数，返回 null
+    log.error(`滚轮操作次数已达上限 ${maxScrollAttempts} 次，未能找到 Cooking 图标`);
     return null;
 }
 
-/**
-    自动寻路并执行按键操作
-**/
-    async function AutoPath() {
-        log.info("开始执行自动寻路任务");
+// 自动寻路并执行按键操作
+async function AutoPath() {
+    log.info("开始执行自动寻路任务");
 
-        // 定义路径文件路径
-        const filePath = `assets/璃月杂货商东升旁灶台.json`;
-        log.info(`加载路径文件：${filePath}`);
+    // 定义路径文件路径
+    const filePath = `assets/璃月杂货商东升旁灶台.json`;
+    log.info(`加载路径文件：${filePath}`);
 
-        try {
-            // 执行路径文件
-            await pathingScript.runFile(filePath);
-            log.info("路径文件执行完成");
-        } catch (error) {
-            log.error(`执行路径文件时发生错误：${error.message}`);
-            return; // 如果路径文件执行失败，直接返回
+    try {
+        // 执行路径文件
+        await pathingScript.runFile(filePath);
+        log.info("路径文件执行完成");
+    } catch (error) {
+        log.error(`执行路径文件时发生错误：${error.message}`);
+        return; // 如果路径文件执行失败，直接返回
+    }
+
+    // 等待1秒后执行按键操作
+    log.info("等待1秒后执行按键操作...");
+    await sleep(1000);
+
+    try {
+        // 识别 Cooking 图标
+        const cookingRes = await main();
+        if (!cookingRes) {
+            log.error("未能识别到 Cooking 图标，退出任务");
+            return;
         }
 
-        // 等待1秒后执行按键操作
-        log.info("等待1秒后执行按键操作...");
+        // 按下 F 键
+        keyPress("F");
         await sleep(1000);
-
-        try {
-            // 识别 F 图标
-            const fRes = await recognizeFIcon();
-            if (!fRes) {
-                log.error("未能识别到 F 图标，退出任务");
-                return;
-            }
-
-            // 获取 F 图标的中心点 Y 坐标
-            let centerYF = fRes.y + fRes.height / 2;
-
-            // 识别 Cooking 图标
-            const cookingRes = await recognizeCookingIcon(centerYF);
-            if (!cookingRes) {
-                log.error("未能识别到 Cooking 图标，退出任务");
-                return;
-            }
-
-            // 按下 F 键
-            keyPress("F");
-            await sleep(1000);
 
             // 加工菜单
             click(1005, 45);
