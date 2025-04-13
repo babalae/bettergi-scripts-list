@@ -299,12 +299,12 @@ async function main() {
         // 识别 Cooking 图标
         let cookingRes = await recognizeCookingIcon(centerYF);
         if (cookingRes) {
-            log.info("找到 Cooking 图标");
+            // log.info("找到 Cooking 图标");
             return cookingRes; // 识别成功，返回结果
         }
 
         // 如果未找到 Cooking 图标，执行滚轮操作
-        log.info(`未找到 Cooking 图标，执行滚轮操作，当前尝试次数：${scrollAttempts + 1}`);
+        log.info(`执行滚轮操作，当前尝试次数：${scrollAttempts + 1}`);
         await keyMouseScript.runFile(`assets/滚轮下翻.json`);
         await sleep(1000);
 
