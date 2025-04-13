@@ -1,0 +1,396 @@
+(async function () {
+    // 设置游戏基础参数
+    setGameMetrics(1920, 1080, 1);
+    await genshin.returnMainUi();
+/**菜单区**/
+    // 初始化变量
+    let CookingClickX; // 烹饪点击坐标 X
+    const CookingClickY = 45; // 烹饪点击坐标 Y（假设固定为 45）
+/**加工区**/
+    // 解析 加工数量PrepCount 的值，逗号分隔的数字序列
+    const PrepCountArray = (settings.PrepCount || "")
+        .split(",")
+        .filter(Boolean) // 过滤掉空字符串
+        .map((num) => Math.max(0, Number(num) || 0)); // 转换为非负整数数组
+
+    // 提取所有 ProcessingXX 的键名，并过滤出值为 true 的项
+    const enabledProcessingKeys = Object.keys(settings)
+        .filter(key => key.startsWith("Processing"))
+        .filter(key => settings[key]); // 确保值为 true
+
+    log.info(`启用的 Processing 设置: ${enabledProcessingKeys.join(", ")}`);
+
+    if (enabledProcessingKeys.length === 0) {
+        log.error("未找到启用的 Processing 设置");
+        // 如果没有启用的 Processing 设置，假设所有 Processing 设置都为 true
+        for (let i = 1; i <= 4; i++) {
+            for (let j = 1; j <= 8; j++) {
+                const processingKey = `Processing${i}${j}`;
+                settings[processingKey] = false; // 如果没有启用的 ProcessingXX，则设置所有 ProcessingXX都为 false
+                // enabledProcessingKeys.push(processingKey);// 如果没有启用的 ProcessingXX，则所有 ProcessingXX都为 true
+            }
+        }
+    }
+
+    // 食材图像映射
+    const ingredientImageMap = {
+        "Processing11": "assets/Picture/Flour.png",
+        "Processing12": "assets/Picture/Raw-Meat.png",
+        "Processing13": "assets/Picture/Fish.png",
+        "Processing14": "assets/Picture/Mysterious-Meat.png",
+        "Processing15": "assets/Picture/Butter.png",
+        "Processing16": "assets/Picture/Smoked-Poultry.png",
+        "Processing17": "assets/Picture/Lard.png",
+        "Processing18": "assets/Picture/Ham.png",
+        "Processing21": "assets/Picture/Sugar.png",
+        "Processing22": "assets/Picture/Spices.png",
+        "Processing23": "assets/Picture/Crab-Roe.png",
+        "Processing24": "assets/Picture/Jam.png",
+        "Processing25": "assets/Picture/Cheese.png",
+        "Processing26": "assets/Picture/Bacon.png",
+        "Processing27": "assets/Picture/Sausage.png",
+        // 添加其他食材的图像映射
+    };
+
+    // 行列数的排列组合
+    const rows = [1, 2];// [1, 2, 3, 4];三、四行 暂时用不上
+    const cols = [1, 2, 3, 4, 5, 6, 7, 8];
+    const gridCoordinates = [];
+
+    // 计算每个行列组合的坐标
+    for (const row of rows) {
+        for (const col of cols) {
+            const ProcessingX = Math.round(178.5 + (col - 1) * 146);
+            const ProcessingY = Math.round(182.5 + (row - 1) * 175);
+            gridCoordinates.push({ row, col, x: ProcessingX, y: ProcessingY });
+        }
+    }
+
+    // log.info(`生成的搜索区域坐标: ${JSON.stringify(gridCoordinates)}`);
+
+    // 图像识别函数
+    function recognizeImage(imagePath, x, y, searchWidth, searchHeight) {
+        try {
+            let template = file.ReadImageMatSync(imagePath);
+            let recognitionObject = RecognitionObject.TemplateMatch(template, x, y, searchWidth, searchHeight);
+            // 设置识别阈值和通道
+            recognitionObject.threshold = 0.85; // 设置识别阈值为 0.85
+            recognitionObject.Use3Channels = true; // 使用三通道匹配
+
+            let result = captureGameRegion().find(recognitionObject);
+            return result.isExist() ? result : null;
+        } catch (error) {
+            log.error(`图像识别失败，路径: ${imagePath}, 错误: ${error.message}`);
+            return null;
+        }
+    }
+
+    // 执行额外的点击操作
+    async function performExtraClicks(processingKey) {
+        if (processingKey === "Processing13") {
+            log.info("为 Processing13 执行额外的点击操作");
+            click(1715, 565); await sleep(1000); // 打开素材列表
+            click(60, 295); await sleep(500);   // 非红色花鳉一般位于第一行，默认选择第二行
+            click(1005, 45);  // 点击菜单防止其他页面干扰
+        }
+    }
+
+    // 执行 PrepCount 操作
+    async function performPrepCountActions(PrepCount) {
+        log.info(`执行 PrepCount 操作: ${PrepCount}`);
+        if (PrepCount < 99) {
+            click(965, 455); // 输入数量
+            await sleep(1000);
+
+            // 逐个字符输入 PrepCount
+            const PrepCountStr = String(PrepCount);
+            for (const char of PrepCountStr) {
+                keyPress(char);
+                await sleep(500);
+            }
+        } else if (PrepCount === 99) {
+            click(1190, 590); await sleep(1000);
+        }
+
+        click(1315, 755); await sleep(2000); // 点击确认
+    }
+
+/**烹饪区**/
+    // 检查 CookingTimes 是否为正整数
+    const CookingTimes = Math.max(0, Number(settings.CookingTimes) || 0);
+    const pageScrollCount = Math.max(0, Number(settings.pageScrollCount) || 0); // 滑页次数
+    const rightOffset = Math.max(0, Number(settings.rightOffset) - 1 || 2); // 右偏移
+    const downOffset = Math.max(0, Number(settings.downOffset) - 1 || 0); // 下偏移
+
+    if (CookingTimes > 0 && Number.isInteger(CookingTimes)) {
+        CookingClickX = 910; // 设置 CookingClickX
+        log.info("CookingTimes 是正整数。设置 CookingClickX 为 910。");
+    } else {
+        log.info("CookingTimes 不是正整数。跳过烹饪操作。");
+    }
+
+// 烹饪操作函数
+    async function performCookingOperations(CookingClickX, CookingClickY, pageScrollCount, rightOffset, downOffset, CookingTimes) {
+    log.info("执行烹饪操作...");
+    click(CookingClickX, CookingClickY);
+    await sleep(500);
+    click(CookingClickX, CookingClickY); // 点击菜单
+    await sleep(500);
+
+    for (let i = 0; i < pageScrollCount; ++i) {
+        click(1200, 920);
+        await sleep(500);
+        leftButtonDown();
+        await sleep(100);
+
+        // 根据条件选择运行的 JSON 文件
+        let filePath;
+        if (pageScrollCount >= 10 && (i + 1) % 10 === 0) {
+            filePath = `assets/pageScroll2.json`; // 每 10 次运行一次 pageScroll2.json
+        } else {
+            filePath = `assets/pageScroll.json`; // 其他情况下运行 pageScroll.json
+        }
+
+        await keyMouseScript.runFile(filePath); // 平滑移动鼠标
+        await sleep(600);
+        leftButtonUp();
+        await sleep(100);
+    }
+
+    // 点击动态坐标
+    const rightClickX = Math.round(178.5 + rightOffset * 147);
+    const downClickY = Math.round(197 + downOffset * 176);
+    click(rightClickX, downClickY); // 点击选中物品的坐标
+    await sleep(1000);
+
+    click(1600, 1020); await sleep(3000);
+    click(635, 1015); await sleep(1000);
+
+    if (CookingTimes < 99) {
+        click(965, 455); // 输入数量
+        await sleep(1000);
+
+        // 逐个字符输入 CookingTimes
+        const CookingTimesStr = String(CookingTimes);
+        for (const char of CookingTimesStr) {
+            keyPress(char);
+            await sleep(500);
+        }
+    } else if (CookingTimes === 99) {
+        click(1190, 590); await sleep(1000);
+    }
+
+    click(1315, 755); await sleep(3000); // 点击自动烹饪
+    click(960, 905); await sleep(2000);  // 点击确认
+    click(1845, 45); await sleep(200);   // 退出烹饪界面
+}
+
+/**
+    F交互区
+**/
+// 定义一个函数用于模拟按键操作
+async function simulateKeyOperations(key, duration) {
+    keyDown(key);
+    await sleep(duration);
+    keyUp(key);
+    await sleep(500); // 释放按键后等待 500 毫秒
+}
+
+// 识别 F 图标
+async function recognizeFIcon() {
+    const fDialogueRo = RecognitionObject.TemplateMatch(
+        file.ReadImageMatSync("assets/F_Dialogue.png"),
+        1101,
+        400,
+        36,
+        400
+    );
+
+    let ra = captureGameRegion();
+    let fRes = ra.find(fDialogueRo);
+
+    if (!fRes.isExist()) {
+        let f_attempts = 0; // 初始化尝试次数
+        while (f_attempts <= 3) { // 最多尝试 3 次
+            f_attempts++;
+            log.info(`当前尝试次数：${f_attempts}`);
+
+            if (f_attempts === 1 || f_attempts === 2) {
+                // 第一次未找到 F 图标
+                await simulateKeyOperations("S", 200); // 后退 200 毫秒
+                await sleep(200);
+                await simulateKeyOperations("W", 800); // 前进 800 毫秒
+            } else if (f_attempts === 3) {
+                // 第二次未找到 F 图标
+                log.info("重新加载路径文件");
+                const filePath = `assets/璃月杂货商东升旁灶台.json`;
+                log.info(`加载路径文件：${filePath}`);
+                await pathingScript.runFile(filePath);
+                await sleep(500);
+            } else {
+                // 第三次未找到 F 图标
+                log.error("尝试次数已达上限");
+                return null;
+            }
+            ra = captureGameRegion();
+            fRes = ra.find(fDialogueRo);
+        }
+    }
+
+    return fRes;
+}
+
+// 识别 Cooking 图标
+async function recognizeCookingIcon(centerYF) {
+    const cookingRo = RecognitionObject.TemplateMatch(
+        file.ReadImageMatSync("assets/Cooking.png"),
+        1176,
+        centerYF - 18, // 以 F 图标的中心，向上偏移  像素
+        27,           // 宽度范围
+        36            // 高度范围
+    );
+
+    let isAligned = false;
+    let scrollAttempts = 0;
+    const maxScrollAttempts = 5; // 最大滚轮操作次数限制
+
+    while (!isAligned && scrollAttempts < maxScrollAttempts) {
+        let ra = captureGameRegion();
+        let cookingRes = ra.find(cookingRo);
+
+        if (cookingRes.isExist()) {
+            log.info("找到 Cooking 图标");
+            return cookingRes;
+        } else {
+            // 如果未水平对齐，执行滚轮操作
+            await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+            await sleep(1000);
+
+            // 检查是否超过最大滚轮操作次数
+            scrollAttempts++;
+            if (scrollAttempts >= maxScrollAttempts) {
+                log.error(`滚轮操作次数已达上限 ${maxScrollAttempts} 次，退出循环`);
+                break; // 超过最大滚轮操作次数，终止循环
+            }
+        }
+    }
+
+    return null;
+}
+
+/**
+    自动寻路并执行按键操作
+**/
+    async function AutoPath() {
+        log.info("开始执行自动寻路任务");
+
+        // 定义路径文件路径
+        const filePath = `assets/璃月杂货商东升旁灶台.json`;
+        log.info(`加载路径文件：${filePath}`);
+
+        try {
+            // 执行路径文件
+            await pathingScript.runFile(filePath);
+            log.info("路径文件执行完成");
+        } catch (error) {
+            log.error(`执行路径文件时发生错误：${error.message}`);
+            return; // 如果路径文件执行失败，直接返回
+        }
+
+        // 等待1秒后执行按键操作
+        log.info("等待1秒后执行按键操作...");
+        await sleep(1000);
+
+        try {
+            // 识别 F 图标
+            const fRes = await recognizeFIcon();
+            if (!fRes) {
+                log.error("未能识别到 F 图标，退出任务");
+                return;
+            }
+
+            // 获取 F 图标的中心点 Y 坐标
+            let centerYF = fRes.y + fRes.height / 2;
+
+            // 识别 Cooking 图标
+            const cookingRes = await recognizeCookingIcon(centerYF);
+            if (!cookingRes) {
+                log.error("未能识别到 Cooking 图标，退出任务");
+                return;
+            }
+
+            // 按下 F 键
+            keyPress("F");
+            await sleep(1000);
+
+            // 加工菜单
+            click(1005, 45);
+            await sleep(1000);
+            click(150, 1020); await sleep(500);
+            click(150, 1020); await sleep(500);
+
+            // 如果 PrepCountArray 和 enabledProcessingKeys 的长度不匹配，使用第一个 PrepCount 值
+            const minLen = Math.min(PrepCountArray.length, enabledProcessingKeys.length);
+            const defaultPrepCount = PrepCountArray[0] || 99; // 默认值为第一个 PrepCount 或 99
+
+            // 遍历启用的 Processing 设置，进行图像识别
+            for (const processingKey of enabledProcessingKeys) {
+                const imagePath = ingredientImageMap[processingKey];
+                if (!imagePath) {
+                    log.error(`未找到食材图像路径: ${processingKey}`);
+                    continue;
+                }
+
+                log.info(`开始识别食材: ${processingKey}, 图像路径: ${imagePath}`);
+
+                // 左上角的偏移量
+                const scanOffset = { x: -35, y: -35 };
+
+                let foundIngredient = false;
+                for (const coordinate of gridCoordinates) {
+                    const scanX = coordinate.x + scanOffset.x; // 左上角的 X 坐标
+                    const scanY = coordinate.y + scanOffset.y; // 左上角的 Y 坐标
+
+                    const imageResult = recognizeImage(imagePath, scanX, scanY, 70, 70);
+                    if (imageResult) {
+                        log.info(`通过图像识别找到食材: ${processingKey} 在坐标 X=${scanX}, Y=${scanY}`);
+                        imageResult.click();
+                        await sleep(1000); // 等待1秒以确保点击生效
+                        foundIngredient = true;
+
+                        // 执行额外的点击操作（如果需要）
+                        await performExtraClicks(processingKey);
+
+                        // 点击确认按钮
+                        click(1600, 1020); await sleep(2000);
+
+                        // 执行 PrepCount 操作
+                        const PrepCount = PrepCountArray.length > 0 ? PrepCountArray.shift() : defaultPrepCount;
+                        if (PrepCount > 0) {
+                            await performPrepCountActions(PrepCount);
+                        }
+
+                        break; // 找到食材后跳出循环
+                    }
+                }
+
+                if (!foundIngredient) {
+                    log.error(`未能识别到食材: ${processingKey}`);
+                }
+            }
+            // 如果 CookingClickX 被设置，执行烹饪操作
+            if (CookingClickX === 910) {
+                await performCookingOperations(CookingClickX, CookingClickY, pageScrollCount, rightOffset, downOffset, CookingTimes);
+            }
+            await genshin.returnMainUi();
+            keyDown("S"); await sleep(1000);
+            keyUp("S"); await sleep(1000);
+        } catch (error) {
+            log.error(`执行按键或鼠标操作时发生错误：${error.message}`);
+        }
+    }
+
+    // 调用 AutoPath 函数
+    await AutoPath();
+})();
+
