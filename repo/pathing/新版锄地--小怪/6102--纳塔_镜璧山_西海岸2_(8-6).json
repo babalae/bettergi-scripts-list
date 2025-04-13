@@ -2,16 +2,16 @@
   "info": {
     "name": "6102--纳塔_镜璧山_西海岸2_(8-6)",
     "type": "collect",
-    "author": "Demo",
-    "version": "1.0",
+    "author": "Demo&汐",
+    "version": "1.2",
     "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
     {
       "id": 1,
-      "x": 9989.54,
-      "y": -1607.86,
+      "x": 9989.5439453125,
+      "y": -1607.8603515625,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -19,8 +19,8 @@
     },
     {
       "id": 2,
-      "x": 9923.97,
-      "y": -1560.5,
+      "x": 9920.437527650582,
+      "y": -1542.1876667375982,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -28,8 +28,8 @@
     },
     {
       "id": 3,
-      "x": 9912.41,
-      "y": -1554.68,
+      "x": 9909.874996049917,
+      "y": -1532.3751818955616,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
@@ -37,35 +37,35 @@
     },
     {
       "id": 4,
-      "x": 9910.01,
-      "y": -1546.34,
-      "action": "stop_flying",
-      "move_mode": "fly",
+      "x": 9893.333984375,
+      "y": -1509.58544921875,
+      "action": "fight",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 5,
-      "x": 9891.87,
-      "y": -1506.94,
-      "action": "fight",
+      "x": 9893.333984375,
+      "y": -1509.58544921875,
+      "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 6,
-      "x": 9960.32,
-      "y": -1451.53,
-      "action": "fight",
+      "x": 9908.5927734375,
+      "y": -1475.96044921875,
+      "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 7,
-      "x": 9892.14,
-      "y": -1465.41,
+      "x": 9899.921875,
+      "y": -1458.42626953125,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -73,65 +73,119 @@
     },
     {
       "id": 8,
-      "x": 9893.49,
-      "y": -1489.14,
-      "action": "",
-      "move_mode": "walk",
+      "x": 9960.318359375,
+      "y": -1451.52783203125,
+      "action": "fight",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 9,
-      "x": 9850.69,
-      "y": -1528.23,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "2000",
-      "type": "path"
+      "x": 9989.5439453125,
+      "y": -1607.8603515625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 10,
-      "x": 9852.86,
-      "y": -1552.86,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 11,
-      "x": 9823.74,
-      "y": -1490.9,
+      "x": 9906.72265625,
+      "y": -1569.7939453125,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 12,
-      "x": 9813.7,
-      "y": -1436.97,
+      "id": 11,
+      "x": 9898.843755925125,
+      "y": -1566.6875909477803,
       "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "500",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 9873.250023700497,
+      "y": -1556.7504850548312,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 13,
-      "x": 9815.46,
-      "y": -1436.9,
+      "x": 9857.23046875,
+      "y": -1550.548828125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "2000",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 9855.8603515625,
+      "y": -1549.86328125,
       "action": "fight",
       "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 9830.666015625,
+      "y": -1507.94921875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 9836.500110602323,
+      "y": -1490.9376061057446,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 9848.874940748756,
+      "y": -1452.2493785234983,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 9850.312456549087,
+      "y": -1447.6866208381189,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 9815.353515625,
+      "y": -1435.1533203125,
+      "action": "fight",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path",
       "locked": false
     },
     {
-      "id": 14,
-      "x": 9815.46,
-      "y": -1436.9,
+      "id": 20,
+      "x": 9815.353515625,
+      "y": -1435.1533203125,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action_params": "wait(1.5)",
       "type": "path"
     }

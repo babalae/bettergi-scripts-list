@@ -2,16 +2,16 @@
   "info": {
     "name": "6204--纳塔_奥奇_神像_(7-1)",
     "type": "collect",
-    "author": "Demo",
-    "version": "1.0",
+    "author": "Demo&汐",
+    "version": "1.2",
     "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
     {
       "id": 1,
-      "x": 9757.95,
-      "y": -613.65,
+      "x": 9757.9482421875,
+      "y": -613.650390625,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -19,8 +19,8 @@
     },
     {
       "id": 2,
-      "x": 9766.56,
-      "y": -604.68,
+      "x": 9766.5576171875,
+      "y": -604.68017578125,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -28,8 +28,8 @@
     },
     {
       "id": 3,
-      "x": 9759.44,
-      "y": -576.77,
+      "x": 9761.093728274544,
+      "y": -577.1561590522197,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "2000",
@@ -37,95 +37,75 @@
     },
     {
       "id": 4,
-      "x": 9759.44,
-      "y": -576.77,
-      "action": "",
-      "move_mode": "fly",
+      "x": 9752.44140626,
+      "y": -572.77099609376,
+      "action": "fight",
+      "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 5,
-      "x": 9759.44,
-      "y": -576.77,
-      "action": "fight",
-      "move_mode": "fly",
+      "x": 9756.124454888555,
+      "y": -542.124484629242,
+      "action": "",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 6,
-      "x": 9764.8,
-      "y": -539.99,
-      "type": "path",
+      "x": 9750.281220374378,
+      "y": -513.3751667375982,
+      "action": "fight",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 7,
-      "x": 9749.76,
-      "y": -514.06,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "fight",
+      "x": 9734.874762995023,
+      "y": -520.1252804223241,
+      "action": "",
+      "move_mode": "walk",
       "action_params": "",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 8,
-      "x": 9749.76,
-      "y": -514.06,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 9745.844145008294,
+      "y": -490.9077506383828,
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 9,
-      "x": 9738.64,
-      "y": -521.27,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 9751.49940748756,
+      "y": -444.00051537075797,
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 10,
-      "x": 9739.59,
-      "y": -497.08,
+      "x": 9743.794921875,
+      "y": -433.16943359375,
       "type": "path",
-      "move_mode": "dash",
-      "action": "",
+      "move_mode": "walk",
+      "action": "fight",
       "action_params": ""
     },
     {
       "id": 11,
-      "x": 9760.82,
-      "y": -446.07,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 12,
-      "x": 9750.1,
-      "y": -435.6,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 13,
-      "x": 9750.1,
-      "y": -435.6,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 9743.794921875,
+      "y": -433.16943359375,
       "action": "combat_script",
-      "action_params": "wait(1.5)"
+      "move_mode": "walk",
+      "action_params": "wait(1.5)",
+      "type": "path"
     }
   ]
 }

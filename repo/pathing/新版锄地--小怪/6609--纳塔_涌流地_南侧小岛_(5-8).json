@@ -2,16 +2,16 @@
   "info": {
     "name": "6609--纳塔_涌流地_南侧小岛_(5-8)",
     "type": "collect",
-    "author": "Demo",
-    "version": "1.0",
+    "author": "Demo&汐",
+    "version": "1.1",
     "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
     {
       "id": 1,
-      "x": 8744.71,
-      "y": -3009.56,
+      "x": 8744.70703125,
+      "y": -3009.5615234375,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -19,76 +19,58 @@
     },
     {
       "id": 2,
-      "x": 8735.67,
-      "y": -2979.73,
-      "action": "fight",
+      "x": 8732.916015625,
+      "y": -2969.48828125,
+      "type": "path",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action": "combat_script",
+      "action_params": "attack(0.5)"
     },
     {
       "id": 3,
-      "x": 8773.59,
-      "y": -2980.71,
-      "action": "",
+      "x": 8746.072265625,
+      "y": -2975.880859375,
+      "type": "path",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action": "fight",
+      "action_params": ""
     },
     {
       "id": 4,
-      "x": 8796.71,
-      "y": -2998.79,
-      "action": "",
+      "x": 8770.892578125,
+      "y": -3005.71484375,
+      "type": "path",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 5,
-      "x": 8793.79,
-      "y": -3006.8,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "x": 8787.9296875,
+      "y": -3017.7451171875,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "fight",
+      "action_params": ""
     },
     {
       "id": 6,
-      "x": 8791.25,
-      "y": -3018.12,
-      "action": "fight",
-      "move_mode": "jump",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": 8791.25,
-      "y": -3018.12,
-      "action": "",
-      "move_mode": "jump",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": 8841.69,
-      "y": -3021.44,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
+      "x": 8840.828125,
+      "y": -3018.798828125,
       "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
       "locked": false
     },
     {
-      "id": 9,
-      "x": 8841.69,
-      "y": -3021.44,
+      "id": 7,
+      "x": 8840.828125,
+      "y": -3018.798828125,
+      "type": "path",
+      "move_mode": "dash",
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(1.5)",
-      "type": "path"
+      "action_params": "wait(0.5)"
     }
   ]
 }
