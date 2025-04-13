@@ -87,8 +87,7 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 10,
@@ -101,8 +100,8 @@
     },
     {
       "id": 11,
-      "x": 9508.0927734375,
-      "y": -2425.1611328125,
+      "x": 9505.71875,
+      "y": -2432.062643865016,
       "action": "",
       "move_mode": "climb",
       "action_params": "",
@@ -110,29 +109,29 @@
     },
     {
       "id": 12,
-      "x": 9510.6689453125,
-      "y": -2439.455078125,
-      "action": "",
+      "x": 9507.923828125,
+      "y": -2441.0322265625,
+      "type": "path",
       "move_mode": "climb",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 13,
-      "x": 9516.111328125,
-      "y": -2482.5927734375,
-      "action": "",
+      "x": 9535.6201171875,
+      "y": -2547.0224609375,
+      "type": "path",
       "move_mode": "climb",
-      "action_params": "",
-      "type": "path"
+      "action": "combat_script",
+      "action_params": "keydown(Q),wait(1.5),keyup(Q),attack(0.3)"
     },
     {
       "id": 14,
-      "x": 9542.874683993365,
-      "y": -2545.500515370757,
+      "x": 9542.34375,
+      "y": -2547.907102123554,
       "action": "combat_script",
-      "move_mode": "climb",
-      "action_params": "keydown(Q),wait(1.5),keyup(Q),attack(1.2)",
+      "move_mode": "walk",
+      "action_params": "attack(0.3)",
       "type": "path"
     },
     {
@@ -155,33 +154,15 @@
     },
     {
       "id": 17,
-      "x": 9536.6416015625,
-      "y": -2569.6982421875,
-      "action": "",
+      "x": 9538.17578125,
+      "y": -2568.6689453125,
+      "type": "path",
       "move_mode": "climb",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 18,
-      "x": 9542.6025390625,
-      "y": -2611.3994140625,
-      "action": "",
-      "move_mode": "climb",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 19,
-      "x": 9542.31640625,
-      "y": -2640.97265625,
-      "action": "",
-      "move_mode": "climb",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 20,
       "x": 9537.0732421875,
       "y": -2707.5390625,
       "action": "combat_script",
@@ -190,7 +171,7 @@
       "type": "path"
     },
     {
-      "id": 21,
+      "id": 19,
       "x": 9540.4833984375,
       "y": -2730.3525390625,
       "action": "combat_script",
@@ -199,7 +180,7 @@
       "type": "path"
     },
     {
-      "id": 22,
+      "id": 20,
       "x": 9536.041015625,
       "y": -2698.0693359375,
       "action": "fight",
