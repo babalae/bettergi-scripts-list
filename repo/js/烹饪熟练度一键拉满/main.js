@@ -3,10 +3,11 @@
     
 
 
-//OCR得到烹制时间
+//模板匹配得到烹制时间
 async function getPerfectCookingWaitTime() {
 
-let extraTime = settings.extraTime || 0; // 如果转换失败，默认 0
+let extraTime = settings.extraTime || 0; // 
+let threshold0 = Number(settings.threshold0) || 0.9; 
 extraTime = extraTime+300;
     const checkPoints = [
     {x: 741, y: 772},    // 原始点1
@@ -54,11 +55,11 @@ extraTime = extraTime+300;
     const templateRo0 = RecognitionObject.templateMatch(templateMat0);
     const templateRo1 = RecognitionObject.templateMatch(templateMat1);
     const templateRo2 = RecognitionObject.templateMatch(templateMat2);
-    templateRo0.threshold = 0.9;
+    templateRo0.threshold = threshold0;
     templateRo0.Use3Channels = true;
-    templateRo1.threshold = 0.9;
+    templateRo1.threshold = threshold0;
     templateRo1.Use3Channels = true;
-    templateRo2.threshold = 0.9;
+    templateRo2.threshold = threshold0;
     templateRo2.Use3Channels = true;
     // 捕获游戏区域
     const gameRegion = captureGameRegion();
@@ -110,6 +111,8 @@ throw new Error("人家才不是错误呢>_<");
 
 
 //主要流程
+
+
 await sleep(1000);
 await pathingScript.runFile("assets/前往蒙德灶台.json");
 keyPress("F");
@@ -140,6 +143,8 @@ await getPerfectCookingWaitTime();
 log.info(`第${sum+1}次烹饪`);
 await sleep(1000);
 click(975, 900);//确认
+await sleep(500);
+click(215, 1015);//重新排序
 await sleep(500);
 click(1700, 1020);//制作
 await sleep(500);
