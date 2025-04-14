@@ -3,11 +3,11 @@
     
 
 
-//OCR得到烹制时间
+//模板匹配得到烹制时间
 async function getPerfectCookingWaitTime() {
 
 let extraTime = settings.extraTime || 0; // 
-let threshold0 = settings.threshold0 || 0.9; 
+let threshold0 = Number(settings.threshold0) || 0.9; 
 extraTime = extraTime+300;
     const checkPoints = [
     {x: 741, y: 772},    // 原始点1
@@ -112,7 +112,7 @@ throw new Error("人家才不是错误呢>_<");
 
 //主要流程
 
-/*
+
 await sleep(1000);
 await pathingScript.runFile("assets/前往蒙德灶台.json");
 keyPress("F");
@@ -127,7 +127,7 @@ click(195, 675);//熟练度未满
 await sleep(1000);
 click(490, 1020);//确认筛选
 await sleep(1000);
-*/
+
 let sum= 0;
 
        while (1) {
