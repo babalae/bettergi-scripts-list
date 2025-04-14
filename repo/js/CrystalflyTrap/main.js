@@ -4,7 +4,6 @@
         await genshin.returnMainUi();
 
         let enable = settings.enable;
-        let type = settings.type;
         let ore = settings.ore;
 
         if (!enable) {
@@ -13,11 +12,31 @@
         if (!ore) {
             throw new Error("不是吧，哥们，你配置好了吗？用什么矿石啊？");
         }
-        log.info(`当前动作: ${type}`);
+        
+        // 读取状态数据，如果文件不存在则创建默认状态
+        let statusData = { isPlaced: false, collectionTime: 0 };
+        try {
+            const statusContent = file.readTextSync("status.json");
+            if (statusContent) {
+                statusData = JSON.parse(statusContent);
+            }
+        } catch (err) {
+            log.info("未找到状态文件或文件格式错误，创建默认状态");
+            await file.WriteTextSync("status.json", JSON.stringify(statusData, null, 2));
+        }
+        
+        // 根据当前状态决定操作类型
+        const isPlaced = statusData.isPlaced;
+        const now = new Date().getTime();
+        const operationType = isPlaced ? "收集" : "放置";
+        
+        log.info(`当前动作: ${operationType}`);
         log.info("传送至枫丹冒险家协会锚点");
         await genshin.tp(4509, 3631);
         await sleep(1000);
-        if (type == "放置") {
+        
+        if (!isPlaced) {
+            // 放置操作
             log.info("放置晶蝶诱捕装置");
             keyPress("B");
             await sleep(1000);
@@ -80,21 +99,28 @@
                 log.error(`未找到${ore}，请检查背包内是否拥有该矿石！`);
                 throw new Error(`未找到${ore}`);
             }
+            
+            // 更新状态信息
             log.info(`当前时间: ${new Date().toLocaleString()}`);
             let collectionTime = new Date().getTime() + 7 * 24 * 60 * 60 * 1000;
             log.info(`领取时间: ${new Date(collectionTime).toLocaleString()}`);
-            await file.WriteTextSync("time.txt", collectionTime.toString());
-            log.info("时间保存成功");
-        } else if (type == "收集") {
-            const content = file.readTextSync("time.txt");
+            
+            // 使用JSON格式保存状态
+            statusData.isPlaced = true;
+            statusData.collectionTime = collectionTime;
+            await file.WriteTextSync("status.json", JSON.stringify(statusData, null, 2));
+            log.info("状态保存成功");
+            
+        } else {
+            // 收集操作
             log.info(`读取领取时间成功`);
-            const readableTime = new Date(parseInt(content)).toLocaleString();
+            const readableTime = new Date(statusData.collectionTime).toLocaleString();
             log.info(`领取时间: ${readableTime}`);
-            const now = new Date().getTime();
-            if (now < parseInt(content)) {
+            if (now < statusData.collectionTime) {
                 log.error("还没到领取时间");
                 throw new Error(`还没到领取时间，领取时间: ${readableTime}`);
             }
+            
             let captureRegion = captureGameRegion();
             let resList = captureRegion.findMulti(RecognitionObject.ocr(1210, 510, 210, 50));
             for (let i = 0; i < resList.count; i++) {
@@ -106,11 +132,14 @@
             }
             log.info("收获晶蝶");
             keyPress("F");
-            await file.WriteTextSync("time.txt", "");
+            
+            // 更新状态
+            statusData.isPlaced = false;
+            statusData.collectionTime = 0;
+            await file.WriteTextSync("status.json", JSON.stringify(statusData, null, 2));
+            
             await sleep(3000);
             keyPress("VK_ESCAPE");
-        } else {
-           throw new Error("不是吧，哥们，你配置好了吗？放置还是收集啊？"); 
         }
     } catch (e) {
         log.error(`执行脚本时出错：${e}`, e.message);
