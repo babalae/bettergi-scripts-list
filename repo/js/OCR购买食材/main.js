@@ -191,7 +191,7 @@ async function recognizeIngredient(ingredient) {
     const clickOffset = 30; // 点击坐标偏移
 
     // 尝试 OCR 识别
-    let ocrResult = await performOcr(ingredient, { min: 210, max: 390 }, { min: 105, max: 950 }, 10);
+    let ocrResult = await performOcr(ingredient, { min: 210, max: 390 }, { min: 105, max: 920 }, 10);
     if (ocrResult.success) {
         log.info(`通过 OCR 识别找到食材: ${ingredient}`);
         log.info(`坐标: x=${ocrResult.x}, y=${ocrResult.y}`);
