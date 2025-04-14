@@ -10,7 +10,7 @@
     ///
     // 自动前往铁匠铺
     async function autoSmithy(smithyName) {
-        log.info(`自动前往${smithyName}`);
+        log.info(`自动前往 ${smithyName}`);
         try {
             let filePath = `assets/${smithyName}.json`;
             await pathingScript.runFile(filePath);
@@ -32,21 +32,22 @@
              {log.info("无指定矿石,将使用 水晶块 锻造矿石");}
     }
 
+
     const forgeOre = async function (smithyName) {
         await sleep(1000);
         keyPress("F"); await sleep(1000); // 开始交互
-        await click(960, 600); await sleep(1000); // 跳过第一个对话
-        await click(960, 600); await sleep(1000); // 跳过第一个对话
+        await click(960, 600);   await sleep(1000); // 跳过第一个对话
+        await click(960, 600);   await sleep(1000); // 跳过第一个对话
         await click(1375, 500); await sleep(1000);
-        await click(960, 600); await sleep(1000); // 跳过第二个对话
-        await click(960, 600); await sleep(1000); // 跳过第二个对话
-        await click(520, 140); await sleep(1000); // 选择锻造队列
-        await click(170, 1010); await sleep(1000); // 领取全部
-
+        await click(960, 600);   await sleep(1000); // 跳过第二个对话
+        await click(960, 600);   await sleep(1000); // 跳过第二个对话
     log.info("已进入锻造界面，开始锻造");
-    // 点击"配方"
-    click(220, 150);
-    await sleep(1000);
+    determineOre();
+        await click(520, 140);   await sleep(1000); // 选择锻造队列
+        await click(170, 1010); await sleep(1000); // 领取全部
+        await click(960, 900);   await sleep(1000); // 确认
+
+    click(220, 150);await sleep(1000);// 点击"配方"
     // 根据用户选择的矿石进行锻造
     if (ore == '水晶块') 
         {click(545, 290);} 
@@ -68,17 +69,17 @@
     await sleep(4000);
 
 
-    log.info("锻造结束，退出画面");
+    log.info("锻造结束，退出界面");
     // 退出锻造界面
     click(1845, 45);
     await sleep(1000);
 }
-
     ///
     // main
     ///
     setGameMetrics(1920, 1080, 1);
     await autoSmithy(smithyName);// 设置游戏窗口大小和DPI
     await forgeOre(smithyName);
-    determineOre();
+
+
 })();

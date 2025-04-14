@@ -2,16 +2,16 @@
   "info": {
     "name": "6509--纳塔_坚岩隘谷_南侧崖壁_(5-5)",
     "type": "collect",
-    "author": "Demo",
-    "version": "1.0",
+    "author": "Demo&汐",
+    "version": "1.1",
     "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
     {
       "id": 1,
-      "x": 8179.4,
-      "y": -1868.08,
+      "x": 8179.40087890625,
+      "y": -1868.0791015625,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -19,8 +19,8 @@
     },
     {
       "id": 2,
-      "x": 8196.65,
-      "y": -1841.06,
+      "x": 8160.8447265625,
+      "y": -1836.93994140625,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -28,17 +28,17 @@
     },
     {
       "id": 3,
-      "x": 8104.81,
-      "y": -1814.3,
-      "action": "",
+      "x": 8058.21923828125,
+      "y": -1792.87353515625,
+      "type": "path",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action": "combat_script",
+      "action_params": "attack(0.4)"
     },
     {
       "id": 4,
-      "x": 8050.94,
-      "y": -1799.97,
+      "x": 8030.1708984375,
+      "y": -1808.0185546875,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -46,8 +46,8 @@
     },
     {
       "id": 5,
-      "x": 8042.08,
-      "y": -1812.97,
+      "x": 8041.18779625622,
+      "y": -1824.6839075626594,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -55,102 +55,65 @@
     },
     {
       "id": 6,
-      "x": 8042.08,
-      "y": -1812.97,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": 7993.86,
-      "y": -1857.32,
+      "x": 7996.312654053235,
+      "y": -1861.4989844164484,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 8,
-      "x": 7993.86,
-      "y": -1857.32,
+      "id": 7,
+      "x": 7997.312654053235,
+      "y": -1851.4989844164484,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 7983.069824218751,
+      "y": -1807.45166015625,
+      "action": "fight",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 9,
-      "x": 7974.87,
-      "y": -1805.36,
-      "action": "stop_flying",
-      "move_mode": "fly",
+      "x": 7983.4091796875,
+      "y": -1781.39501953125,
+      "action": "",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 10,
-      "x": 7974.87,
-      "y": -1805.36,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
+      "x": 8000.88330078125,
+      "y": -1742.720703125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1200",
       "type": "path"
     },
     {
       "id": 11,
-      "x": 7974.87,
-      "y": -1805.36,
-      "action": "",
+      "x": 8002.883300781252,
+      "y": -1742.720703125,
+      "action": "fight",
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 12,
-      "x": 7983.41,
-      "y": -1781.4,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 13,
-      "x": 7995.67,
-      "y": -1743.88,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 14,
-      "x": 7995.67,
-      "y": -1743.88,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 15,
-      "x": 7995.67,
-      "y": -1743.88,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 16,
-      "x": 7995.67,
-      "y": -1743.88,
+      "x": 8002.883300781252,
+      "y": -1742.720703125,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1.5)",
+      "action_params": "wait(0.5)",
       "type": "path"
     }
   ]

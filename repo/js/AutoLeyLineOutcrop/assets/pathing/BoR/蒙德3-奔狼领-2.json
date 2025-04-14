@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "蒙德3-奔狼领-2",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -279.7900390625,
+      "y": 2318.056396484375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -243.1435546875,
+      "y": 2348.14794921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -233.1875,
+      "y": 2388.01708984375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -205.4931640625,
+      "y": 2429.072021484375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f)",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": -204.4931640625,
+      "y": 2430.072021484375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": -205.4931640625,
+      "y": 2429.072021484375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

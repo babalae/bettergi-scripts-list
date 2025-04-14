@@ -2,16 +2,16 @@
   "info": {
     "name": "6406--纳塔_万火之瓯_悬木人_(6-6)",
     "type": "collect",
-    "author": "Demo",
-    "version": "1.0",
+    "author": "Demo&汐",
+    "version": "1.1",
     "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
     {
       "id": 1,
-      "x": 8674.16,
-      "y": -2063.56,
+      "x": 8674.15625,
+      "y": -2063.5595703125,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -19,8 +19,8 @@
     },
     {
       "id": 2,
-      "x": 8670.56,
-      "y": -2086.2,
+      "x": 8656.562063515836,
+      "y": -2069.406212105092,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
@@ -28,8 +28,8 @@
     },
     {
       "id": 3,
-      "x": 8643.5,
-      "y": -2087.25,
+      "x": 8613.031082121475,
+      "y": -2093.2506821083552,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -37,8 +37,8 @@
     },
     {
       "id": 4,
-      "x": 8595.93,
-      "y": -2073.97,
+      "x": 8602.279296875,
+      "y": -2085.29296875,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -46,35 +46,35 @@
     },
     {
       "id": 5,
-      "x": 8598.68,
-      "y": -2036.1,
+      "x": 8674.15625,
+      "y": -2063.5595703125,
       "action": "",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "type": "teleport"
     },
     {
       "id": 6,
-      "x": 8634.72,
-      "y": -2028.5,
-      "action": "",
-      "move_mode": "dash",
+      "x": 8666.1318359375,
+      "y": -2033.0986328125,
+      "action": "stop_flying",
+      "move_mode": "fly",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 7,
-      "x": 8657.0,
-      "y": -2034.32,
-      "action": "fight",
+      "x": 8711.43806486186,
+      "y": -2003.3119694712786,
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "",
+      "action_params": "attack(0.3)",
       "type": "path"
     },
     {
       "id": 8,
-      "x": 8703.05,
-      "y": -1998.83,
+      "x": 8684.5634765625,
+      "y": -2016.7734375,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -82,8 +82,8 @@
     },
     {
       "id": 9,
-      "x": 8727.63,
-      "y": -2030.22,
+      "x": 8732.19921875,
+      "y": -2023.47802734375,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -91,21 +91,20 @@
     },
     {
       "id": 10,
-      "x": 8786.29,
-      "y": -1991.44,
+      "x": 8780.968866527446,
+      "y": -1995.1878031592696,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 11,
-      "x": 8786.29,
-      "y": -1991.44,
+      "x": 8780.968866527446,
+      "y": -1995.1878031592696,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(1.5)",
+      "move_mode": "dash",
+      "action_params": "wait(0.5)",
       "type": "path"
     }
   ]

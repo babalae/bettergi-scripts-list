@@ -2,16 +2,16 @@
   "info": {
     "name": "6502--纳塔_坚岩隘谷_硫晶支脉2_(4-9)",
     "type": "collect",
-    "author": "Demo",
-    "version": "1.0",
+    "author": "Demo&汐",
+    "version": "1.1",
     "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
     {
       "id": 1,
-      "x": 8400.54,
-      "y": -1221.38,
+      "x": 8400.537109375,
+      "y": -1221.384765625,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -19,8 +19,8 @@
     },
     {
       "id": 2,
-      "x": 8511.14,
-      "y": -1238.58,
+      "x": 8433.0107421875,
+      "y": -1298.90771484375,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -28,8 +28,8 @@
     },
     {
       "id": 3,
-      "x": 8527.82,
-      "y": -1269.19,
+      "x": 8433.0107421875,
+      "y": -1298.90771484375,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -37,8 +37,8 @@
     },
     {
       "id": 4,
-      "x": 8524.26,
-      "y": -1314.02,
+      "x": 8469.197265625,
+      "y": -1287.7822265625,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -46,17 +46,17 @@
     },
     {
       "id": 5,
-      "x": 8497.88,
-      "y": -1304.25,
+      "x": 8504.2744140625,
+      "y": -1310.490234375,
       "action": "fight",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 6,
-      "x": 8454.44,
-      "y": -1278.43,
+      "x": 8504.2744140625,
+      "y": -1310.490234375,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -64,56 +64,65 @@
     },
     {
       "id": 7,
-      "x": 8446.89,
-      "y": -1297.12,
-      "action": "fight",
-      "move_mode": "walk",
+      "x": 8528.8447265625,
+      "y": -1287.45751953125,
+      "action": "",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 8,
-      "x": 8382.29,
-      "y": -1314.9,
-      "action": "",
+      "x": 8517.275390625,
+      "y": -1240.54296875,
+      "action": "fight",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 9,
-      "x": 8342.62,
-      "y": -1363.33,
+      "x": 8400.537109375,
+      "y": -1221.384765625,
       "action": "",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "type": "teleport"
     },
     {
       "id": 10,
-      "x": 8334.26,
-      "y": -1378.11,
+      "x": 8343.103515625,
+      "y": -1356.853515625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 8334.2626953125,
+      "y": -1378.11083984375,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "3000",
       "type": "path"
     },
     {
-      "id": 11,
-      "x": 8334.26,
-      "y": -1378.11,
-      "action": "",
+      "id": 12,
+      "x": 8334.2626953126,
+      "y": -1378.11083984376,
+      "action": "fight",
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 12,
-      "x": 8334.26,
-      "y": -1378.11,
-      "action": "fight",
+      "id": 13,
+      "x": 8334.2626953126,
+      "y": -1378.11083984376,
+      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "",
+      "action_params": "wait(0.5)",
       "type": "path"
     }
   ]

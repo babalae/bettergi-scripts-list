@@ -2,16 +2,16 @@
   "info": {
     "name": "6205--纳塔_奥奇_东北岛屿_(5-1)",
     "type": "collect",
-    "author": "Demo",
-    "version": "1.0",
+    "author": "Demo&汐",
+    "version": "1.2",
     "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
     {
       "id": 1,
-      "x": 9676.98,
-      "y": 235.8,
+      "x": 9676.9794921875,
+      "y": 235.7958984375,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -19,8 +19,8 @@
     },
     {
       "id": 2,
-      "x": 9677.08,
-      "y": 243.43,
+      "x": 9677.078125,
+      "y": 243.4345703125,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -28,8 +28,8 @@
     },
     {
       "id": 3,
-      "x": 9666.71,
-      "y": 259.62,
+      "x": 9666.7099609375,
+      "y": 259.62158203125,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "1500",
@@ -37,8 +37,8 @@
     },
     {
       "id": 4,
-      "x": 9666.71,
-      "y": 259.62,
+      "x": 9666.7099609376,
+      "y": 259.62158203126,
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
@@ -46,8 +46,8 @@
     },
     {
       "id": 5,
-      "x": 9670.07,
-      "y": 171.37,
+      "x": 9670.068359375,
+      "y": 171.36962890625,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -55,66 +55,58 @@
     },
     {
       "id": 6,
-      "x": 9673.58,
-      "y": 162.84,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "x": 9704.031228274544,
+      "y": 155.31268947454282,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
     },
     {
       "id": 7,
-      "x": 9684.12,
-      "y": 145.31,
-      "action": "combat_script",
-      "move_mode": "fly",
-      "action_params": "wait(2)",
-      "type": "path"
+      "x": 9711.562551351079,
+      "y": 150.15598473563932,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 8,
-      "x": 9703.67,
-      "y": 154.65,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "x": 9710.953125,
+      "y": 162.60107421875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
     },
     {
       "id": 9,
-      "x": 9707.88,
-      "y": 146.0,
+      "x": 9698.9296875,
+      "y": 168.240234375,
+      "type": "path",
+      "move_mode": "dash",
       "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 10,
-      "x": 9703.12,
-      "y": 138.43,
+      "x": 9687.2587890625,
+      "y": 162.67236328125,
+      "type": "path",
+      "move_mode": "dash",
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "locked": false
     },
     {
       "id": 11,
-      "x": 9679.82,
-      "y": 137.25,
-      "action": "",
+      "x": 9687.2587890625,
+      "y": 162.67236328125,
+      "type": "path",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 12,
-      "x": 9675.31,
-      "y": 144.57,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action": "combat_script",
+      "action_params": "wait(1.5)"
     }
   ]
 }
