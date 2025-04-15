@@ -1,0 +1,77 @@
+{
+  "info": {
+    "name": "纳塔4-溶水域-1",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9038.736328125,
+      "y": -2429.330078125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 8994.5078125,
+      "y": -2434.7158203125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 9013.998046875,
+      "y": -2408.8271484375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 9028.36328125,
+      "y": -2404.43359375,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 9028.666015625,
+      "y": -2342.603515625,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "keypress(f)",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 9028.666015625,
+      "y": -2341.603515625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 9028.666015625,
+      "y": -2342.603515625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
