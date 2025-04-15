@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "1丘丘王  ",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -40,7 +40,17 @@
       "y": 1663.8737202882494,
       "action": "fight",
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 1927.1247210896345,
+      "y": 1663.8737202882494,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

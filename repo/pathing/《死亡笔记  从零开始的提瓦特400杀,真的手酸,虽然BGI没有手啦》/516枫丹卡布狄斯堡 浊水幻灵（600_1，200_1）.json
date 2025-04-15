@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "1丘丘王 1浊水幻灵",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -69,7 +69,17 @@
       "action": "fight",
       "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 3267.206054687502,
+      "y": 2607.0458984375,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

@@ -42,8 +42,7 @@
       "action": "combat_script",
       "move_mode": "run",
       "action_params": "wait(2.5)",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 5,
@@ -115,8 +114,7 @@
       "action": "combat_script",
       "move_mode": "run",
       "action_params": "wait(4)",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 13,
@@ -125,7 +123,17 @@
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 14,
+      "x": 10276.1044921875,
+      "y": -559.57763671875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }
