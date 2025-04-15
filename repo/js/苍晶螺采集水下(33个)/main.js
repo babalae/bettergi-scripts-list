@@ -51,14 +51,14 @@ keyDown("s");
 await sleep(12000);
 keyUp("s");
 keyDown("a");
-await sleep(6500);
+await sleep(7000);
 keyUp("a");
 keyDown("VK_SPACE");
 await sleep(1500);
 keyUp("VK_SPACE");
 
 keyDown("VK_LCONTROL");
-await sleep(2000);
+await sleep(3000);
 keyUp("VK_LCONTROL");
 keyDown("s");
 await sleep(4000);
@@ -244,67 +244,6 @@ keyUp("w");
 
 
 
-//传送1
-await sleep(1000);
-keyPress("M");
-await sleep(1500);
-click(1841, 1015);//地图选择
-await sleep(1000);
-click(1460, 350);//枫丹
-await sleep(1000);
-click(48, 441);//放大地图
-await sleep(500);
-click(48, 441);//放大地图
-await sleep(500);
-click(48, 441);//放大地图
-await sleep(500);
-click(48, 441);//放大地图
-await sleep(500);
-click(48, 441);//放大地图
-await sleep(500);
-click(48, 636);//缩小地图
-await sleep(500);
-click(48, 636);//缩小地图
-await sleep(500);
-click(1050, 960);//点击传送点
-await sleep(500);
-click(1707, 1010);//确认
-await sleep(8000);
-
-
-
-//采集2/5
-keyDown("d");
-await sleep(1000);
-keyUp("d");
-await sleep(500);
-keyPress("ESCAPE"); 
-await sleep(1500);
-keyPress("ESCAPE"); 
-await sleep(1000);
-//leftButtonClick();
-keyDown("d");//
-await sleep(7500);
-keyUp("d");
-keyDown("VK_LCONTROL");
-keyDown("w");
-await sleep(7000);
-keyUp("VK_LCONTROL");
-await sleep(4000);
-keyUp("w");
-//keyPress("e");
-await sleep(500);
-keyDown("a");
-keyDown("VK_LCONTROL");
-await sleep(5500);
-keyUp("VK_LCONTROL");
-keyUp("a");
-keyDown("w");
-await sleep(1500);
-keyUp("w");
-keyDown("d");
-await sleep(6500);
-keyUp("d");
 
 
 
@@ -394,6 +333,69 @@ keyUp("d");
 keyDown("w");
 await sleep(3500);
 keyUp("w");//3
+
+//传送1
+await sleep(1000);
+keyPress("M");
+await sleep(1500);
+click(1841, 1015);//地图选择
+await sleep(1000);
+click(1460, 350);//枫丹
+await sleep(1000);
+click(48, 441);//放大地图
+await sleep(500);
+click(48, 441);//放大地图
+await sleep(500);
+click(48, 441);//放大地图
+await sleep(500);
+click(48, 441);//放大地图
+await sleep(500);
+click(48, 441);//放大地图
+await sleep(500);
+click(48, 636);//缩小地图
+await sleep(500);
+click(48, 636);//缩小地图
+await sleep(500);
+click(1050, 960);//点击传送点
+await sleep(500);
+click(1707, 1010);//确认
+await sleep(8000);
+
+
+
+//采集2/5
+keyDown("d");
+await sleep(1000);
+keyUp("d");
+await sleep(500);
+keyPress("ESCAPE"); 
+await sleep(1500);
+keyPress("ESCAPE"); 
+await sleep(1000);
+//leftButtonClick();
+keyDown("d");//
+await sleep(7500);
+keyUp("d");
+keyDown("VK_LCONTROL");
+keyDown("w");
+await sleep(7000);
+keyUp("VK_LCONTROL");
+await sleep(4000);
+keyUp("w");
+//keyPress("e");
+await sleep(500);
+keyDown("a");
+keyDown("VK_LCONTROL");
+await sleep(5500);
+keyUp("VK_LCONTROL");
+keyUp("a");
+keyDown("w");
+await sleep(1500);
+keyUp("w");
+keyDown("d");
+await sleep(6500);
+keyUp("d");
+
 
 //传送2
 await sleep(1000);
