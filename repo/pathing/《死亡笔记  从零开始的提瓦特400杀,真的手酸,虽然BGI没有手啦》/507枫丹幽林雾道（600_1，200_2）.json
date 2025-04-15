@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "1丘丘王 1丘丘暴徒 1丘丘游侠",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -48,7 +48,7 @@
       "id": 5,
       "x": 3453.849609375,
       "y": 3195.052734375,
-      "action": "fight",
+      "action": "",
       "move_mode": "run",
       "action_params": "",
       "type": "path"
@@ -57,10 +57,37 @@
       "id": 6,
       "x": 3460.849609375,
       "y": 3165.052734375,
-      "action": "fight",
-      "move_mode": "run",
+      "action": "",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3458.7998046875,
+      "y": 3171.400424241998,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3453.75,
+      "y": 3183.748114108997,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3446.6259765625,
+      "y": 3188.54345703125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
     }
   ]
 }

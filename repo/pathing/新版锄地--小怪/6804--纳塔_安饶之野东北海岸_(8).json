@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "6804--纳塔_安饶之野东北海岸_(10)",
+    "name": "6804--纳塔_安饶之野东北海岸_(8)",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
@@ -111,19 +111,19 @@
       "id": 12,
       "x": 9507.923828125,
       "y": -2441.0322265625,
-      "type": "path",
-      "move_mode": "climb",
       "action": "",
-      "action_params": ""
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 13,
       "x": 9535.6201171875,
       "y": -2547.0224609375,
-      "type": "path",
-      "move_mode": "climb",
       "action": "combat_script",
-      "action_params": "keydown(Q),wait(1.5),keyup(Q),attack(0.3)"
+      "move_mode": "climb",
+      "action_params": "keydown(Q),wait(1.5),keyup(Q),attack(0.3)",
+      "type": "path"
     },
     {
       "id": 14,
@@ -138,51 +138,6 @@
       "id": 15,
       "x": 9534.0712890625,
       "y": -2571.2060546875,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 16,
-      "x": 9535.0712890625,
-      "y": -2555.2060546875,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "click(middle),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),",
-      "type": "path"
-    },
-    {
-      "id": 17,
-      "x": 9538.17578125,
-      "y": -2568.6689453125,
-      "type": "path",
-      "move_mode": "climb",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 18,
-      "x": 9537.0732421875,
-      "y": -2707.5390625,
-      "action": "combat_script",
-      "move_mode": "climb",
-      "action_params": "wait(2.3),keydown(Q),wait(1.5),keyup(Q),",
-      "type": "path"
-    },
-    {
-      "id": 19,
-      "x": 9540.4833984375,
-      "y": -2730.3525390625,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "keydown(s),wait(0.2),keydown(LSHIFT),wait(6),keyup(s),keyup(LSHIFT)",
-      "type": "path"
-    },
-    {
-      "id": 20,
-      "x": 9536.041015625,
-      "y": -2698.0693359375,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
