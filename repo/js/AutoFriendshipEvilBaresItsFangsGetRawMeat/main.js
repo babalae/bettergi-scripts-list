@@ -171,6 +171,6 @@
 
 	const startTime = Date.now();
 	await AutoFriendship(runTimes, statueTimes, GetMeatMode, startTime);
-	log.info(`兽肉好感运行总时长：${LogTimeTaken(startTime)}`);
+	log.info(`兽肉好感运行总时长：${logTimeTaken(startTime)}`);
 
 })();

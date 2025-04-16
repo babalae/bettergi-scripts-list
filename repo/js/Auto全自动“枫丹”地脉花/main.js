@@ -264,7 +264,7 @@
         await sleep(200);
         await moveMouseTo(1272,18);
         await sleep(200);
-        let XIAN23 = await imageRecognition(DIMAIHUA,1,0,0,1076,651,183,142);
+        let XIAN23 = await imageRecognition(DIMAIHUA,1,0,0,1076,651,160,142);
         if ( (XIAN23.y+651)<=720){AutofilePath=3;log.info("找到线路'3'");await leftButtonUp();return true}//return true
         if ( (XIAN23.y+651)>720){AutofilePath=2;log.info("找到线路'2'");await leftButtonUp();return true}//return true
         let XIAN1 = await imageRecognition(DIMAIHUA,1,0,0,714,633,130,124);if (XIAN1.found){AutofilePath=1;log.info("找到线路'1'");await leftButtonUp();return true}//return true
@@ -421,11 +421,11 @@
          log.info(`执行线路‘ ${AutofilePath} ’`);
          log.info(`本条路线执行至第 ${maxExecutions/2} 朵花`);
          var executedCount = 0;
-       
+
         for (let i = 0; i < selectedPath.length; i += 2){
-           // if(AutofilePath==1 && i <=8 ){i=8}测试用，注释掉即可
             const jsonFile1 = selectedPath[i];
             const jsonFile2 = selectedPath[i + 1];
+
             // 条件1触发：次数限制
             if (executedCount >= maxExecutions*2) {
                 log.info("本线路已达到执行次数，终止运行！");
@@ -433,7 +433,10 @@
 
             // 执行单个到达地脉花路径文件1
             log.info(`开始执行前往都地脉花：${jsonFile1}`);
-            await pathingScript.runFile(`${selectedFolder}${jsonFile1}`);
+
+            // 特殊处理：1、枫丹路线2秋分山西侧锚点左下第五朵花特殊处理，修复线路问题
+            if(AutofilePath==2 && i==9){await pathingScript.runFile("assets/枫丹地脉花-路线2 秋分山西侧锚点左下/线路修复/枫丹地脉花-路线2 秋分山西侧锚点左下-5：秋分山左左下下1-线路修复.json");}
+            else{await pathingScript.runFile(`${selectedFolder}${jsonFile1}`);}
 
             // 寻找地脉溢口，文字识别不到转圈寻找，不管有没找到都执行战斗，最后领取奖励判断是否继续执行
             shouldContinueChecking = true;
@@ -449,15 +452,15 @@
             await sleep(2000);
             await dispatcher.runTask(new SoloTask("AutoFight"));//公版BETTERGI战斗两次可能触发已经出现的地脉花
            
-            shouldContinueChecking = false;
-
             //执行到地脉花地点的寻路脚本
             log.info(`开始执行寻找地脉花奖励：${jsonFile2}`);
             await pathingScript.runFile(`${selectedFolder}${jsonFile2}`);
             await sleep(3000);
             // 领取奖励，开始找地脉口
             log.info(`开始第 ${executedCount + 1} 朵花的奖励领取`);
-            if (haoganq==1){log.info(`切换好感队伍：'${haogandui}'`);await genshin.SwitchParty(haogandui);}
+            if (haoganq==1){log.info(`切换好感队伍：'${haogandui}'`);await genshin.returnMainUi(); await sleep(1000);await genshin.SwitchParty(haogandui);}
+            shouldContinueChecking = false;
+            await sleep(2000);
             if (!(await claimRewards())) {
                 log.warn("树脂消耗完毕，结束任务");
                 dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false }));
@@ -466,7 +469,7 @@
                 return true; // 条件2触发：树脂耗尽
             }
             if (LCBMODEL){await dispatcher.runTask(new SoloTask("LCBAutoPickOPEN"));}//LCB自编译版本命令，公版BETTERGI无效===========LCB
-            if (haoganq==1){log.info(`切换战斗队伍：'${settings.n}'`);await genshin.SwitchParty(settings.n);}
+            if (haoganq==1){log.info(`切换战斗队伍：'${settings.n}'`);await genshin.returnMainUi(); await sleep(1000);await genshin.SwitchParty(settings.n);}
             dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false }));
             // 冷却等待（可选）
             await sleep(1000);
@@ -495,6 +498,8 @@
     if (SHUV === 1) {log.warn("线路模式 ：'单线路！'");}else{log.warn("线路模式 ：'树脂耗尽模式，强制打完整体线路！'");rawTimes=12}
     if (color == 1) {log.warn("地脉类型 ：'蓝色经验书花！'");}else{log.warn("地脉类型 ：'黄色摩拉花！'")}  
     let nowuidString = settings.nowuid ? settings.nowuid : "";
+
+  
 
 
     // UID获取存在概率不成功，慎用！请更换背景纯色的名片提高OCR成功率
@@ -527,7 +532,7 @@
             Fligtin = true ; //领取冒险点奖励标志。
             if (!(await PathCheak(0))){if (!(await PathCheak(1))){throw new Error("未找到地脉花，退出！")}}
             //第一次执行选择队伍
-            if (SHUOVER == 0){await genshin.SwitchParty(settings.n);await sleep(500);}
+            if (SHUOVER == 0){await genshin.returnMainUi(); await sleep(1000);await genshin.SwitchParty(settings.n);await sleep(500);}
             //开始寻找并执行地脉花自动。
             if (!(await Veinfligt())){throw new Error("线路出错，退出！")}
             //线路一般4~6朵花，默认打完一条线路后退出，如耗尽模式重新寻找地脉线路，打到没树脂为止。
@@ -537,7 +542,7 @@
         log.warn("本次地脉花路线已执行完毕。");
         //领取冒险点奖励，切换好感队伍
         if (Rewards && Fligtin) {
-            if(!(settings.nh === undefined)){log.info(`切换好感队伍：'${haogandui}'`);await genshin.SwitchParty(haogandui);}else{log.warn("好感队未配置，领奖励时不切换队伍")}
+            if(!(settings.nh === undefined)){log.info(`切换好感队伍：'${haogandui}'`);await genshin.returnMainUi(); await sleep(1000);await genshin.SwitchParty(haogandui);}else{log.warn("好感队未配置，领奖励时不切换队伍")}
             await genshin.goToAdventurersGuild("枫丹");}
             if (LCBMODEL){await dispatcher.runTask(new SoloTask("LCBAutoPickOPEN"));}//LCB自编译版本命令，公版BETTERGI无效===========LCB
     } catch (error) {
