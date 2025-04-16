@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "1遗迹重机 1遗迹守卫",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -33,7 +33,17 @@
       "action": "fight",
       "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 1863.0712890625,
+      "y": -892.28173828125,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

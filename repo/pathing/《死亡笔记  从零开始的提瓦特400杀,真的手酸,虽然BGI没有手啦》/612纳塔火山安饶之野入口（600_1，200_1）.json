@@ -69,7 +69,17 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 9802.220703125,
+      "y": -2540.10546875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

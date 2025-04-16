@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "1丘丘王 2丘丘暴徒 2雷法师 1遗迹机兵",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -85,7 +85,7 @@
       "x": -453.4755859375,
       "y": -3814.34375,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "jump",
       "action_params": "",
       "type": "path"
     },
@@ -96,10 +96,20 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
       "id": 11,
+      "x": -429.6250276505798,
+      "y": -3873.8436590522197,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
       "x": -445.4375,
       "y": -3897.1939185930078,
       "action": "",
@@ -108,16 +118,16 @@
       "type": "path"
     },
     {
-      "id": 12,
+      "id": 13,
       "x": -452.7060546875,
       "y": -3919.482421875,
       "action": "",
-      "move_mode": "dash",
+      "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 14,
       "x": -452.3388671875,
       "y": -3952.23828125,
       "action": "",
@@ -126,22 +136,31 @@
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": -460.7587890625,
       "y": -3982.9658203125,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": -449.4404296875,
       "y": -3988.0458984375,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -449.4404296875,
+      "y": -3988.0458984375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

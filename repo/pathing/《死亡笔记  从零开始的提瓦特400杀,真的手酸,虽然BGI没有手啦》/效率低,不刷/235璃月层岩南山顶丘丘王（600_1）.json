@@ -57,10 +57,10 @@
       "id": 6,
       "x": 1701.7119140625,
       "y": -871.28466796875,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keypress(VK_SPACE),wait(0.5),keypress(VK_SPACE)"
+      "move_mode": "walk",
+      "action_params": "keypress(VK_SPACE),wait(0.5),keypress(VK_SPACE)",
+      "type": "path"
     },
     {
       "id": 7,
@@ -75,19 +75,19 @@
       "id": 8,
       "x": 1708.4921875,
       "y": -889.23876953125,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 9,
       "x": 1708.6962890625,
       "y": -898.2685546875,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 10,
@@ -231,7 +231,17 @@
       "action": "fight",
       "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 26,
+      "x": 1635.4091796875,
+      "y": -1007.9775390625,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

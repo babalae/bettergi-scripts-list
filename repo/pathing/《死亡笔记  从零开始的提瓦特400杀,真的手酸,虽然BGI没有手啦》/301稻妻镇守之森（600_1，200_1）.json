@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "1丘丘王 1丘丘暴徒",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -78,7 +78,17 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": -4277.3125,
+      "y": -2862.312234403049,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

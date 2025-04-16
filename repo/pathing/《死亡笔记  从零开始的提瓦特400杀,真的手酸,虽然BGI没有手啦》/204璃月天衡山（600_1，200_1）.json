@@ -1,10 +1,10 @@
 {
   "info": {
-    "name": "204离月天衡山（600_1，200_1）",
+    "name": "204璃月天衡山（600_1，200_1）",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "1幼岩龙蜥 1岩龙蜥",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -87,7 +87,17 @@
       "action": "fight",
       "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 589.998326537805,
+      "y": -97.75026941299984,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

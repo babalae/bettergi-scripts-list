@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "2狂风之核 1岩龙蜥 2幼岩龙蜥",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -93,28 +93,38 @@
       "id": 10,
       "x": 1623.603515625,
       "y": 1270.91064453125,
-      "type": "path",
-      "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "keypress(VK_SPACE),wait(1),click"
+      "move_mode": "fly",
+      "action_params": "keypress(VK_SPACE),wait(1),click",
+      "type": "path"
     },
     {
       "id": 11,
       "x": 1598.9716796875,
       "y": 1304.3935546875,
-      "type": "path",
+      "action": "stop_flying",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 12,
       "x": 1565.7294921875,
       "y": 1283.7666015625,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": 1565.7294921875,
+      "y": 1283.7666015625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }
