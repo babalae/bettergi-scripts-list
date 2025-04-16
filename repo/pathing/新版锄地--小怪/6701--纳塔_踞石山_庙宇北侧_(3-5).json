@@ -15,8 +15,7 @@
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "teleport",
-      "locked": false
+      "type": "teleport"
     },
     {
       "id": 2,
@@ -58,19 +57,19 @@
       "id": 6,
       "x": 7690.26025390625,
       "y": -2120.359375,
-      "type": "path",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "attack(0.3)"
+      "move_mode": "dash",
+      "action_params": "attack(0.3)",
+      "type": "path"
     },
     {
       "id": 7,
       "x": 7689.625023700498,
       "y": -2133.3750909477803,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 8,
@@ -88,16 +87,6 @@
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 10,
-      "x": 7660.02099609376,
-      "y": -2107.7324218760004,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(0.5)",
       "type": "path"
     }
   ]

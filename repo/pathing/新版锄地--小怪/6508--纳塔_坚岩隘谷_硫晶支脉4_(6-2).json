@@ -48,19 +48,19 @@
       "id": 5,
       "x": 8406.6435546875,
       "y": -1469.65087890625,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 6,
       "x": 8401.8251953125,
       "y": -1468.095703125,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keydown(w),wait(0.1),keydown(VK_LSHIFT),wait(3.5),keyup(VK_LSHIFT),keyup(w),attack(0.3)"
+      "move_mode": "walk",
+      "action_params": "keydown(w),wait(0.1),keydown(VK_LSHIFT),wait(3.5),keyup(VK_LSHIFT),keyup(w),attack(0.3)",
+      "type": "path"
     },
     {
       "id": 7,
@@ -96,15 +96,6 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 11,
-      "x": 8305.67578125,
-      "y": -1493.9970703125,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "wait(0.5)",
       "type": "path"
     }
   ]

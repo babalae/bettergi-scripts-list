@@ -201,10 +201,10 @@
       "id": 22,
       "x": 9137.08203125,
       "y": -2168.1787109375,
-      "type": "path",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "attack(0.3)"
+      "move_mode": "dash",
+      "action_params": "attack(0.3)",
+      "type": "path"
     },
     {
       "id": 23,
@@ -213,15 +213,6 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 24,
-      "x": 9171.611328125,
-      "y": -2136.529296875,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "wait(0.5)",
       "type": "path"
     }
   ]
