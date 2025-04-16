@@ -1,0 +1,60 @@
+{
+  "info": {
+    "name": "纳塔1-隆崛坡-3",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 7857.46826171875,
+      "y": -1751.2490234375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 7932.19970703125,
+      "y": -1616.37158203125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 7932.19970703125,
+      "y": -1616.37158203125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f)",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 7933.19970703125,
+      "y": -1615.37158203125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 7930.576171875,
+      "y": -1618.466796875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

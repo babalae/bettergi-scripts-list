@@ -28,28 +28,28 @@
     },
     {
       "id": 3,
-      "x": 3533.3076171875,
-      "y": 3289.958251953125,
+      "x": 3518.8154296875,
+      "y": 3307.571533203125,
+      "type": "path",
+      "move_mode": "dash",
       "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 4,
-      "x": 3496.9599609375,
-      "y": 3233.406494140625,
-      "action": "",
+      "x": 3474.3916015625,
+      "y": 3248.631103515625,
+      "type": "path",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 5,
       "x": 3453.849609375,
       "y": 3195.052734375,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
@@ -75,19 +75,28 @@
       "id": 8,
       "x": 3453.75,
       "y": 3183.748114108997,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "",
+      "action_params": "keypress(q)",
       "type": "path"
     },
     {
       "id": 9,
       "x": 3446.6259765625,
       "y": 3188.54345703125,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 3446.6259765625,
+      "y": 3188.54345703125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

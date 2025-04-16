@@ -1,0 +1,50 @@
+{
+  "info": {
+    "name": "纳塔5-安饶之野-3",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9812.7607421875,
+      "y": -2852.578125,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9778.703125,
+      "y": -2856.30859375,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(f)",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 9777.703125,
+      "y": -2856.30859375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 9778.703125,
+      "y": -2856.30859375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

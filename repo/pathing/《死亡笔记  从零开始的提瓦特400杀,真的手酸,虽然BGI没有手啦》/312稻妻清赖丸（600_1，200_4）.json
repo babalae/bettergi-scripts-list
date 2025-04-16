@@ -69,10 +69,20 @@
       "action": "fight",
       "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
       "id": 8,
+      "x": -3661.4052734375,
+      "y": -4391.4033203125,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    },
+    {
+      "id": 9,
       "x": -3684.8115234375,
       "y": -4278.5205078125,
       "action": "",
@@ -81,49 +91,49 @@
       "type": "teleport"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": -3727.955078125,
       "y": -4306.87109375,
-      "type": "path",
-      "move_mode": "run",
       "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 10,
-      "x": -3757.2890625,
-      "y": -4324.8212890625,
-      "type": "path",
       "move_mode": "run",
-      "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 11,
-      "x": -3796.3154296875,
-      "y": -4301.01171875,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "x": -3757.2890625,
+      "y": -4324.8212890625,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 12,
-      "x": -3776.7255859375,
-      "y": -4240.8037109375,
-      "type": "path",
-      "move_mode": "dash",
+      "x": -3796.3154296875,
+      "y": -4301.01171875,
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 13,
+      "x": -3776.7255859375,
+      "y": -4240.8037109375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
       "x": -3764.1826171875,
       "y": -4254.630859375,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     }
   ]
 }

@@ -1,0 +1,77 @@
+{
+  "info": {
+    "name": "纳塔5-安饶之野-1",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9812.7607421875,
+      "y": -2852.578125,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9782.794921875,
+      "y": -2862.8935546875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 9724.3818359375,
+      "y": -2905.7353515625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 9708.166015625,
+      "y": -2903.17578125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 9687.15234375,
+      "y": -2898.1875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f)",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 9686.152343750002,
+      "y": -2898.1875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 9687.15234375,
+      "y": -2898.1875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

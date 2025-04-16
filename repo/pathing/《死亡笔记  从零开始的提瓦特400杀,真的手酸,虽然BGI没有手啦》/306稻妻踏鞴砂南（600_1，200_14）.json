@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "1丘丘王 7丘丘暴徒 4法师 2火之债务处理人 1冰萤术士",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -204,7 +204,17 @@
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 23,
+      "x": -2971.875,
+      "y": -3858.687212269968,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }
