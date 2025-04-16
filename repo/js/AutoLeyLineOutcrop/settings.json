@@ -5,7 +5,7 @@
         "label": "请仔细阅读脚本介绍，并进行配置后勾选此项\n不勾选脚本不会运行！"
     },
     {
-        "name": "leylineoutcroptype",
+        "name": "leyLineOutcropType",
         "type": "select",
         "label": "地脉花类型",
         "options": [
@@ -37,12 +37,22 @@
         "label": "战斗的队伍名称，不填表示不切换队伍"
     },
     {
-        "name": "forcerun",
+        "name": "reRun",
+        "type": "checkbox",
+        "label": "可重跑模式，开启后每个地脉花将从传送锚点处开始\n适用于低练度、容易阵亡的队伍\n相较于正常情况会花费更多的时间\n还没做完，请勿启用！"
+    },
+    {
+       "name": "friendshipTeam",
+       "type": "input-text",
+       "label": "好感队名称，不填表示不切换好感队" 
+    },
+    {
+        "name": "forceRun",
         "type": "checkbox",
         "label": "强制运行，适用于中途停止等特殊情况\n开启后将无视地脉花的实际位置"
     },
     {
-        "name": "forcerunpath",
+        "name": "forceRunPath",
         "type": "select",
         "label": "强制运行的路线，勾选上方选项后生效",
         "options": [
@@ -63,7 +73,10 @@
             "枫丹4-柔灯港",
             "枫丹5-秋分山东侧",
             "枫丹6-厄里那斯",
-            "纳塔5-圣火竞技场"
+            "纳塔1-隆崛坡",
+            "纳塔4-溶水域",
+            "纳塔5-安饶之野",
+            "纳塔6-圣火竞技场"
         ]
     }
 ]

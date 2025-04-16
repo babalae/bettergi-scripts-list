@@ -1,0 +1,86 @@
+{
+  "info": {
+    "name": "纳塔6-圣火竞技场-2",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9282.7001953125,
+      "y": -2163.5849609375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 9261.1044921875,
+      "y": -2234.521484375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 9232.5439453125,
+      "y": -2246.845703125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 9182.4833984375,
+      "y": -2244.140625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 9142.3505859375,
+      "y": -2240.369140625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 9110.86328125,
+      "y": -2222.4833984375,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(f)",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 9110.86328125,
+      "y": -2222.4833984375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 9110.86328125,
+      "y": -2222.4833984375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
