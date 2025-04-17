@@ -7498,6 +7498,7 @@
      * @returns {{food_choice_single_select: (string|*), food_choice_multi_input: (*[]|*), food_num: (number|number), cook_character_choice: (string|*), food_character_select: (string|*), food_character_multi_name_input: (*[]|*), food_character_multi_cname_input: (*[]|*), food_character_num: (number|number), extra_time: (number|number)}|boolean}
      */
     function get_js_settings() {
+        let food_choice_single_select;
         let food_Max_HP_Boost;
         let food_num_Max_HP_Boost;
         let food_Elemental_Recharge_Boost;
@@ -7540,6 +7541,12 @@
         let select_cooking_mode;
         let extraTime;
         let check_quality;
+        try {
+            food_choice_single_select = typeof(settings.food_choice_single_select) === "undefined" ? "无(默认)": settings.food_choice_single_select;
+        } catch(error) {
+            log.error(`food_choice_single_select 读取错误: ${error}`);
+            return false;
+        }
         try {
             food_Max_HP_Boost = typeof(settings.food_Max_HP_Boost) === "undefined" ? "无(默认)": settings.food_Max_HP_Boost;
         } catch(error) {
@@ -7793,6 +7800,7 @@
             return false;
         }
         return {
+            "food_choice_single_select": food_choice_single_select,
             "food_Max_HP_Boost": food_Max_HP_Boost,
             "food_num_Max_HP_Boost": food_num_Max_HP_Boost,
             "food_Elemental_Recharge_Boost": food_Elemental_Recharge_Boost,
@@ -7854,6 +7862,13 @@
         }
         // 烹饪
         // 普通料理
+        if (setting_dic["food_choice_single_select"] === "全部料理") {
+            for (let i = 0; i < name_can_make.length; i++) {
+                task_dic["cooking"][name_can_make[i]] = setting_dic["food_num"];
+            }
+        } else {
+            task_dic["cooking"][setting_dic["food_choice_single_select"]] = setting_dic["food_num"];
+        }
         if (setting_dic["food_Max_HP_Boost"] == "全部料理") {
             for (let i = 0; i < sort_dic["Max_HP_Boost"].length; i++) {
                 task_dic["cooking"][sort_dic["Max_HP_Boost"][i]] = setting_dic["food_num_Max_HP_Boost"];
