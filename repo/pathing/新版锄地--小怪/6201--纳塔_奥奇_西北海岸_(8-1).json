@@ -93,10 +93,10 @@
       "id": 10,
       "x": 10372.2470703125,
       "y": -118.30419921875,
-      "type": "path",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "attack(0.2)"
+      "move_mode": "dash",
+      "action_params": "attack(0.2)",
+      "type": "path"
     },
     {
       "id": 11,
@@ -123,15 +123,6 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 14,
-      "x": 10380.3349609375,
-      "y": -165.1162109375,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(1.5)",
       "type": "path"
     }
   ]

@@ -21,10 +21,10 @@
       "id": 2,
       "x": 8742.8359375,
       "y": -1852.94189453125,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
@@ -69,15 +69,6 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": 8940.3466796875,
-      "y": -1731.37158203125,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(1.5)",
       "type": "path"
     }
   ]

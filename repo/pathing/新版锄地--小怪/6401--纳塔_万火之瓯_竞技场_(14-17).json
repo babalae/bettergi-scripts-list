@@ -82,116 +82,87 @@
     },
     {
       "id": 9,
-      "x": 8984.595703125,
-      "y": -1591.8818359375,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 10,
-      "x": 8993.595703125,
-      "y": -1593.8818359375,
+      "x": 8988.595703125,
+      "y": -1592.8818359375,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 11,
-      "x": 8997.92578125,
-      "y": -1608.0341796875,
-      "type": "path",
-      "move_mode": "fly",
+      "id": 10,
+      "x": 9042.658203125,
+      "y": -1600.86474609375,
       "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 12,
-      "x": 9004.099609375,
-      "y": -1625.34326171875,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 13,
-      "x": 9032.330078125,
-      "y": -1629.990234375,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "action_params": "",
+      "type": "path"
     },
     {
-      "id": 14,
-      "x": 9044.4970703125,
-      "y": -1632.63037109375,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 15,
-      "x": 9089.031090021641,
-      "y": -1656.1566213701044,
+      "id": 11,
+      "x": 9105.0625,
+      "y": -1639.861328125,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 16,
+      "id": 12,
       "x": 9105.0625,
-      "y": -1639.861328125,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path",
-      "locked": false
+      "y": -1640.861328125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "click(middle),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),wait(2),keypress(e),wait(0.5)",
+      "type": "orientation"
     },
     {
-      "id": 17,
-      "x": 9106.0625,
-      "y": -1639.861328125,
+      "id": 13,
+      "x": 9100.16015625,
+      "y": -1648.96240234375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 9092.687464449253,
+      "y": -1657.3749696840732,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 9090.43752567554,
+      "y": -1656.0625227369455,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(E),wait(1.5),keydown(Q),wait(1.5),keyup(Q),attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 9089.031090021641,
+      "y": -1656.1566213701044,
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 18,
-      "x": 9121.9365234375,
-      "y": -1656.36865234375,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 19,
-      "x": 9123.46484375,
-      "y": -1686.96533203125,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 20,
+      "id": 17,
       "x": 9098.98828125,
       "y": -1707.396484375,
       "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "",
+      "action_params": "2500",
       "type": "path"
     },
     {
-      "id": 21,
+      "id": 18,
       "x": 9074.0732421875,
       "y": -1712.41455078125,
       "action": "fight",
@@ -200,7 +171,7 @@
       "type": "path"
     },
     {
-      "id": 22,
+      "id": 19,
       "x": 9059.750079001658,
       "y": -1720.7510913733695,
       "action": "",
@@ -209,7 +180,7 @@
       "type": "path"
     },
     {
-      "id": 23,
+      "id": 20,
       "x": 9037.390625,
       "y": -1730.96923828125,
       "action": "stop_flying",
@@ -218,7 +189,7 @@
       "type": "path"
     },
     {
-      "id": 24,
+      "id": 21,
       "x": 9033.390626,
       "y": -1732.96923828126,
       "action": "fight",
@@ -227,7 +198,7 @@
       "type": "path"
     },
     {
-      "id": 25,
+      "id": 22,
       "x": 8996.86328125,
       "y": -1775.3447265625,
       "action": "combat_script",
@@ -236,7 +207,7 @@
       "type": "path"
     },
     {
-      "id": 26,
+      "id": 23,
       "x": 8975.29296875,
       "y": -1810.0185546875,
       "action": "fight",
@@ -245,16 +216,7 @@
       "type": "path"
     },
     {
-      "id": 27,
-      "x": 8975.29296875,
-      "y": -1810.0185546875,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "wait(0.5)",
-      "type": "path"
-    },
-    {
-      "id": 28,
+      "id": 24,
       "x": 8978.3154296875,
       "y": -1872.341796875,
       "action": "",
@@ -263,7 +225,7 @@
       "type": "teleport"
     },
     {
-      "id": 29,
+      "id": 25,
       "x": 8949.9482421875,
       "y": -1877.0283203125,
       "action": "",
@@ -272,7 +234,7 @@
       "type": "path"
     },
     {
-      "id": 30,
+      "id": 26,
       "x": 8934.263671875,
       "y": -1882.60400390625,
       "action": "stop_flying",
@@ -281,7 +243,7 @@
       "type": "path"
     },
     {
-      "id": 31,
+      "id": 27,
       "x": 8907.05859375,
       "y": -1895.1953125,
       "action": "combat_script",
@@ -290,21 +252,12 @@
       "type": "path"
     },
     {
-      "id": 32,
+      "id": 28,
       "x": 8901.880859375,
       "y": -1883.70751953125,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 33,
-      "x": 8901.880859375,
-      "y": -1883.70751953125,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "wait(0.5)",
       "type": "path"
     }
   ]
