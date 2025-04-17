@@ -14,18 +14,16 @@
       "y": 1196.91,
       "action": "",
       "move_mode": "walk",
-      "type": "teleport",
-      "locked": false
+      "type": "teleport"
     },
     {
       "id": 2,
       "x": 1908.62,
       "y": 1370.42,
-      "action": "combat_script",
+      "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "wait(0.5),keypress(VK_SPACE),wait(1.5),click",
-      "type": "path",
-      "locked": false
+      "action_params": "1500",
+      "type": "path"
     },
     {
       "id": 3,
@@ -33,8 +31,7 @@
       "y": 1381.35,
       "action": "",
       "move_mode": "walk",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 4,
@@ -43,8 +40,7 @@
       "action": "mining",
       "move_mode": "walk",
       "action_params": "",
-      "type": "target",
-      "locked": false
+      "type": "target"
     },
     {
       "id": 5,
@@ -53,8 +49,7 @@
       "action": "mining",
       "move_mode": "walk",
       "action_params": "",
-      "type": "target",
-      "locked": false
+      "type": "target"
     },
     {
       "id": 6,
@@ -63,8 +58,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
       "id": 7,
@@ -73,8 +67,7 @@
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
       "id": 8,
@@ -83,18 +76,16 @@
       "type": "teleport",
       "move_mode": "walk",
       "action": "",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
       "id": 9,
       "x": 1908.62,
       "y": 1370.42,
-      "action": "combat_script",
+      "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "wait(0.5),keypress(VK_SPACE),wait(1.5),click",
-      "type": "path",
-      "locked": false
+      "action_params": "1500",
+      "type": "path"
     },
     {
       "id": 10,
@@ -102,8 +93,7 @@
       "y": 1381.35,
       "action": "",
       "move_mode": "walk",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 11,
@@ -112,8 +102,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
       "id": 12,
@@ -122,8 +111,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
       "id": 13,
@@ -132,8 +120,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
       "id": 14,
@@ -142,8 +129,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
       "id": 15,
@@ -152,8 +138,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
       "id": 16,
@@ -162,8 +147,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
       "id": 17,
@@ -172,8 +156,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     }
   ]
 }
