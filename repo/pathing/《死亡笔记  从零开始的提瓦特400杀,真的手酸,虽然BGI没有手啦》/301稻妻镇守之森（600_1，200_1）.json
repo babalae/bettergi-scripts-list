@@ -19,8 +19,8 @@
     },
     {
       "id": 2,
-      "x": -4407.25,
-      "y": -2792.562145870732,
+      "x": -4404.687338046599,
+      "y": -2794.3120755770233,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -28,61 +28,51 @@
     },
     {
       "id": 3,
-      "x": -4393,
-      "y": -2817.4366810760657,
-      "action": "fight",
+      "x": -4371.177734375,
+      "y": -2820.314453125,
+      "type": "path",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action": "combat_script",
+      "action_params": "attack(0.3)"
     },
     {
       "id": 4,
-      "x": -4379.388671875,
-      "y": -2832.4765625,
-      "action": "",
+      "x": -4391.3203125,
+      "y": -2820.6484375,
+      "type": "path",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action": "fight",
+      "action_params": ""
     },
     {
       "id": 5,
-      "x": -4372.16796875,
-      "y": -2824.921875,
-      "action": "fight",
-      "move_mode": "run",
+      "x": -4362.912109375,
+      "y": -2835.5166015625,
+      "action": "",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 6,
-      "x": -4360.912109375,
-      "y": -2836.5166015625,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": -4350.1875,
-      "y": -2842.7492696083827,
+      "x": -4348.1875,
+      "y": -2840.7492696083827,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 8,
+      "id": 7,
       "x": -4277.3125,
       "y": -2862.312234403049,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
-      "id": 9,
+      "id": 8,
       "x": -4277.3125,
       "y": -2862.312234403049,
       "action": "combat_script",
