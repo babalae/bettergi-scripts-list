@@ -36,8 +36,8 @@
       "id": 4,
       "x": -4342.98,
       "y": -2461.07,
-      "action": "combat_script",
-      "action_params": "wait(0.5),keypress(VK_SPACE),wait(2),click",
+      "action": "stop_flying",
+      "action_params": "2000",
       "move_mode": "fly",
       "type": "path"
     },
@@ -221,9 +221,9 @@
       "id": 27,
       "x": -4393.32,
       "y": -2521.69,
-      "action": "combat_script",
+      "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "wait(0.5),keypress(VK_SPACE),wait(2),click",
+      "action_params": "2000",
       "type": "path"
     },
     {

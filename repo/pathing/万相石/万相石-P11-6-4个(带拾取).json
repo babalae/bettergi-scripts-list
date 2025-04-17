@@ -30,9 +30,9 @@
       "id": 3,
       "x": 5983.65,
       "y": 557.26,
-      "action": "combat_script",
+      "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "wait(0.5),keypress(VK_SPACE),wait(1),click",
+      "action_params": "1000",
       "type": "path"
     },
     {
@@ -102,9 +102,9 @@
       "id": 11,
       "x": 5983.65,
       "y": 557.26,
-      "action": "combat_script",
+      "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "wait(0.5),keypress(VK_SPACE),wait(1),click",
+      "action_params": "1000",
       "type": "path"
     },
     {
