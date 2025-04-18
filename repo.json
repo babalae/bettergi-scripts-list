@@ -1,5 +1,5 @@
 {
-  "time": "20250418202000",
+  "time": "20250418232240",
   "url": "https://github.com/babalae/bettergi-scripts-list/archive/refs/heads/main.zip",
   "file": "repo.json",
   "indexes": [
@@ -32283,15 +32283,6 @@
           "tags": []
         },
         {
-          "name": "Auto Commission && Expedition",
-          "type": "directory",
-          "hash": "a41dee52dcc535285fdac41825d7c0ef66e09c3f",
-          "version": "1.1",
-          "author": "yemaxul",
-          "description": "自动领取委托或派遣~|~自动传送到枫丹并领取每日委托或探索派遣，两个都要请运行两次，建议搭配领取历练点使用",
-          "tags": []
-        },
-        {
           "name": "AutoArtifacts_A_B_Extra",
           "type": "directory",
           "hash": "e26d77cb0ec8a6fc72c3edf9b5df16e4c96c610e",
@@ -32301,12 +32292,12 @@
           "tags": []
         },
         {
-          "name": "AutoCatherine",
+          "name": "AutoCommission&Expedition",
           "type": "directory",
-          "hash": "eaab39db2b44ea37692b32a5b2fd911851435347",
-          "version": "1.2",
-          "author": "½",
-          "description": "自动找凯瑟琳~|~去找凯瑟琳(基于路径追踪)",
+          "hash": "985c7b6ff3b92cde8208be5ea9fe9aeb34e1c994",
+          "version": "1.1",
+          "author": "yemaxul",
+          "description": "自动领取委托或派遣~|~自动传送到枫丹并领取每日委托或探索派遣，两个都要请运行两次，建议搭配领取历练点使用",
           "tags": []
         },
         {
@@ -32361,6 +32352,15 @@
           "version": "1.1",
           "author": "秋云",
           "description": "盗宝团好感：自动好感度&刷盗宝团&卡时间~|~通过突发事件【岛上无贼】刷好感度，刷盗宝团材料，小怪锄地，卡时间等，请配合战斗脚本使用。在 HZYgrandma & 愚溪的原始脚本上改编。",
+          "tags": []
+        },
+        {
+          "name": "AutoFriendship鸡腿",
+          "type": "directory",
+          "hash": "16ccb48c296f59ea4301ed4d8a861f88295fd194",
+          "version": "1.1",
+          "author": "花火 & 秋云",
+          "description": "鸡腿好感~|~通过喂狗突发事件刷好感度，使用满员好感度队伍，每天上限10次，有概率失败可以适当增加次数",
           "tags": []
         },
         {
@@ -32463,30 +32463,12 @@
           "tags": []
         },
         {
-          "name": "Back",
-          "type": "directory",
-          "hash": "e4734389cd7ae20c0191028cec8103cca691313d",
-          "version": "1.0",
-          "author": "LL",
-          "description": "返回主界面~|~强制返回主界面",
-          "tags": []
-        },
-        {
           "name": "BattlePass",
           "type": "directory",
           "hash": "bf4f4b380e4ea7c4b233c5a73b3dd03ff3afe49a",
           "version": "1.1",
           "author": "HZYgrandma",
           "description": "领取纪行~|~用于领取纪行",
-          "tags": []
-        },
-        {
-          "name": "BeginFish",
-          "type": "directory",
-          "hash": "451a68242cdc1e9aea614d14dfdf5c791983a986",
-          "version": "1.0",
-          "author": "龙弗山权",
-          "description": "开始钓鱼~|~开始钓鱼",
           "tags": []
         },
         {
@@ -32517,15 +32499,6 @@
           "tags": []
         },
         {
-          "name": "Daily Commission",
-          "type": "directory",
-          "hash": "aa0c64c34c5db0028c2d52c1c30a0a15586ed128",
-          "version": "1.3",
-          "author": "鹤望兰",
-          "description": "领取每日委托奖励~|~用于领取每日委托奖励",
-          "tags": []
-        },
-        {
           "name": "Decompose artifact",
           "type": "directory",
           "hash": "3ee22cd6f037934026d8dda47ac99323d96767d7",
@@ -32544,30 +32517,12 @@
           "tags": []
         },
         {
-          "name": "DoubleFriendshipEncounterPointsRecognition",
+          "name": "DoubleFriendshipEncounterPoints",
           "type": "directory",
-          "hash": "4a9f9b73d9339bc67b99e164c78ce01756e5cce3",
+          "hash": "cd87dd26fcd92abbff1401dcdded6ea16b7ab0c6",
           "version": "2.1.1",
           "author": "起个名字好难的喵",
-          "description": "历练点双倍好感(Recognition Version)~|~进入好友尘歌壶，用历练点领取双倍好感\n目前支持游戏语言：简体、繁体中文、英文\n！！！此版本基于图像识别&OCR，Build日期早于2025年4月2日的BetterGI无法使用",
-          "tags": []
-        },
-        {
-          "name": "EncounterPoints",
-          "type": "directory",
-          "hash": "cae3570f0858ca9db650272ca072c143f7d45567",
-          "version": "1.0",
-          "author": "HZYgrandma",
-          "description": "领取历练点~|~用于领取历练点",
-          "tags": []
-        },
-        {
-          "name": "EndFish",
-          "type": "directory",
-          "hash": "d82b68e89944f7976a5612460d3ecda86e15270c",
-          "version": "1.0",
-          "author": "龙弗山权",
-          "description": "结束钓鱼~|~结束钓鱼",
+          "description": "历练点双倍好感~|~进入好友尘歌壶，用历练点领取双倍好感\n目前支持游戏语言：简体、繁体中文、英文\n！！！此版本基于图像识别&OCR，Build日期早于2025年4月2日的BetterGI无法使用",
           "tags": []
         },
         {
@@ -32577,51 +32532,6 @@
           "version": "1.0",
           "author": "Because",
           "description": "完全退出游戏~|~配合其他脚本使用。当其他任务完成之后，调用此脚本完成游戏退出（指结束游戏进程）",
-          "tags": []
-        },
-        {
-          "name": "Expedition",
-          "type": "directory",
-          "hash": "93a354ba1f6ffba7049d33d75bf0ff55c197c2f0",
-          "version": "1.1",
-          "author": "鹤望兰",
-          "description": "重新探索派遣~|~用于重新探索派遣",
-          "tags": []
-        },
-        {
-          "name": "JustAwait",
-          "type": "directory",
-          "hash": "b16b4f6e53345769b489706b860ab212f630dd31",
-          "version": "1.0",
-          "author": "HZYgrandma",
-          "description": "只是等待一下~|~只用于等待，方便在调度器为不同性能的设备配置等待",
-          "tags": []
-        },
-        {
-          "name": "JustMove",
-          "type": "directory",
-          "hash": "b7f32fba15de1c0d7877ea6967167be483ac5ace",
-          "version": "1.0",
-          "author": "½",
-          "description": "只是移动一下~|~用于自定义移动",
-          "tags": []
-        },
-        {
-          "name": "JustTp",
-          "type": "directory",
-          "hash": "0ea9503552d087928fc0517b2267d882f04fd08e",
-          "version": "1.0",
-          "author": "huiyadanli",
-          "description": "只是传送一下~|~BetterGI自带脚本，只用于传送。方便在调度器配合键鼠脚本使用",
-          "tags": []
-        },
-        {
-          "name": "LastParty",
-          "type": "directory",
-          "hash": "b8b8ec669e421328c7941f5b2feaead144999b35",
-          "version": "1.0",
-          "author": "HZYgrandma",
-          "description": "切换上一队~|~用于切换到上一队",
           "tags": []
         },
         {
@@ -32652,30 +32562,12 @@
           "tags": []
         },
         {
-          "name": "MeetKatheryne",
-          "type": "directory",
-          "hash": "33304861b4990790cfee96e27a4495612c26d58d",
-          "version": "1.1",
-          "author": "Lix",
-          "description": "传送到凯瑟琳~|~传送到枫丹凯瑟琳旁边，可搭配领取每日奖励或重新派遣",
-          "tags": []
-        },
-        {
           "name": "NaiLong",
           "type": "directory",
           "hash": "a1ad858e5a2561f6eb9a30716d45747dd4dd8d1d",
           "version": "1.0",
           "author": "HZYgrandma",
           "description": "奶龙~|~在日志窗口一直输出奶龙",
-          "tags": []
-        },
-        {
-          "name": "NextParty",
-          "type": "directory",
-          "hash": "743c072c454ae06787b89d592d48dc2c73dfec4f",
-          "version": "1.0",
-          "author": "HZYgrandma",
-          "description": "切换下一队~|~用于切换到下一队",
           "tags": []
         },
         {
@@ -32751,15 +32643,6 @@
           "tags": []
         },
         {
-          "name": "SetMapZoom",
-          "type": "directory",
-          "hash": "5507d53813d0f23116e4453316eb2a7b425b581f",
-          "version": "1.0",
-          "author": "Tim",
-          "description": "设置大地图缩放~|~通过左侧缩放条调整大地图缩放，1为最大放大，6为最小，3.5为中间",
-          "tags": []
-        },
-        {
           "name": "SetTime",
           "type": "directory",
           "hash": "6689fc3d1c34e32f4e965488d9ac7f3c21b4bd8a",
@@ -32787,24 +32670,6 @@
           "tags": []
         },
         {
-          "name": "Switch roles",
-          "type": "directory",
-          "hash": "5e7a09e72e055956c2e2ffa370e9efba747c65e9",
-          "version": "1.0",
-          "author": "LL",
-          "description": "切换角色~|~用于切换角色",
-          "tags": []
-        },
-        {
-          "name": "Switch teams",
-          "type": "directory",
-          "hash": "3542e15dc96914ac9ef6f7ef9b304fc1795d9138",
-          "version": "1.0",
-          "author": "LL",
-          "description": "切换队伍~|~按顺序切换至队伍",
-          "tags": []
-        },
-        {
           "name": "TheTable",
           "type": "directory",
           "hash": "6f6cc2a7c6cb6f0a963f6465bf283fb3ebe4a82e",
@@ -32820,15 +32685,6 @@
           "version": "0.04",
           "author": "T子",
           "description": "Tzi-每日一条龙+副本晶蝶尘歌壶邮件~|~每日一条龙 包含每日任务 刷副本，分解狗粮，尘歌壶，抓晶蝶 自动下线。【自动副本】请先去独立任务中将自动秘境配置完成，【自动晶蝶】队伍需要携带早柚或瑶瑶。【尘歌壶】将快捷道具栏需装满4个，确保尘歌壶在第5位。运行前可以右键配置参数。主要适配枫丹凯瑟琳锚点。",
-          "tags": []
-        },
-        {
-          "name": "Wait 10s",
-          "type": "directory",
-          "hash": "7ab31d6a55b5addc95fa039a513aef29ecbb4279",
-          "version": "1.0",
-          "author": "鹤望兰",
-          "description": "等待十秒~|~用于等待十秒",
           "tags": []
         },
         {
@@ -32886,15 +32742,6 @@
           "tags": []
         },
         {
-          "name": "仆人周本",
-          "type": "directory",
-          "hash": "33682844a3b578bc92d0b9ecbf864a6a442dc22c",
-          "version": "1.1",
-          "author": "柒叶子",
-          "description": "仆人周本刷取~|~建议队伍：钟离(必须一号位)、芙芙、精通雷神、6命芭芭拉。脚本需要在调度器设置里开启路径追踪行走配置，选择切换的队伍，打开允许在JsScript中使用，打开战斗配置，选择战斗策略，推荐使用战斗脚本(周本队前进版)，关闭战斗结束拾取物品和万叶拾取，最后根据队伍大致表现，填入合适的战斗超时时间，(周本队前进版)建议280s，此外周本压力较大，会强制使用美味的月亮派，请提前准备",
-          "tags": []
-        },
-        {
           "name": "使用料理",
           "type": "directory",
           "hash": "463a74a0403bd2b23a3ff3afac55f2b028c76c8a",
@@ -32922,66 +32769,12 @@
           "tags": []
         },
         {
-          "name": "公子周本",
-          "type": "directory",
-          "hash": "54d64359a788c20aa0484f5e0a0c65831a0ad351",
-          "version": "1.1",
-          "author": "柒叶子",
-          "description": "黄金屋自动刷取~|~建议队伍：钟离(必须一号位)、芙芙、精通雷神、6命芭芭拉。脚本需要在调度器设置里开启路径追踪行走配置，选择切换的队伍，打开允许在JsScript中使用，打开战斗配置，选择战斗策略，推荐使用战斗脚本(周本队后退版)，关闭战斗结束拾取物品和万叶拾取，最后根据队伍大致表现，填入合适的战斗超时时间，(周本队后退版)建议180s，此外周本压力较大，会强制使用美味的月亮派，请提前准备",
-          "tags": []
-        },
-        {
-          "name": "切换1号角色",
-          "type": "directory",
-          "hash": "78723b61bda4c6dbd22b17c5dd0626818bd7901e",
-          "version": "1.0",
-          "author": "风埠",
-          "description": "切换1号角色~|~用于切换1号角色",
-          "tags": []
-        },
-        {
-          "name": "切换2号角色",
-          "type": "directory",
-          "hash": "84a8df39639e3f7ef7a3c241088c52038a7fc5df",
-          "version": "1.0",
-          "author": "风埠",
-          "description": "切换2号角色~|~用于切换2号角色",
-          "tags": []
-        },
-        {
-          "name": "切换3号角色",
-          "type": "directory",
-          "hash": "3503d94566f29a769efbf3d6439dc3766c336851",
-          "version": "1.0",
-          "author": "风埠",
-          "description": "切换3号角色~|~用于切换3号角色",
-          "tags": []
-        },
-        {
-          "name": "切换4号角色",
-          "type": "directory",
-          "hash": "4217e048714e8b25c7a869d70c7730b11283df55",
-          "version": "1.0",
-          "author": "风埠",
-          "description": "切换4号角色~|~用于切换4号角色",
-          "tags": []
-        },
-        {
           "name": "切换武器 OCR",
           "type": "directory",
           "hash": "e32dbabd9bad160f98333424f5e888fde1af4abb",
           "version": "2.01",
           "author": "吉吉喵",
           "description": "选择角色和武器 ~|~OCR。默认四行为一页",
-          "tags": []
-        },
-        {
-          "name": "切换武器 自定义",
-          "type": "directory",
-          "hash": "b0f54e1e130bf0d81692f90484de60894849b87d",
-          "version": "1.01",
-          "author": "吉吉喵",
-          "description": "选择切换武器的角色 ~|~可自定义 当前配队角色武器，默认4号位角色，默认四行为一页",
           "tags": []
         },
         {
@@ -33030,57 +32823,84 @@
           "tags": []
         },
         {
-          "name": "向前行走5秒",
+          "name": "周本-仆人",
           "type": "directory",
-          "hash": "cc8661adca942daccde9382c6273a717d469e254",
-          "version": "1.0",
-          "author": "风埠",
-          "description": "向前行走5秒，搭配进尘歌壶脚本并在入口处放合成台，可以自动走到到合成台~|~用于向前走5秒",
+          "hash": "33682844a3b578bc92d0b9ecbf864a6a442dc22c",
+          "version": "1.1",
+          "author": "柒叶子",
+          "description": "仆人周本刷取~|~建议队伍：钟离(必须一号位)、芙芙、精通雷神、6命芭芭拉。脚本需要在调度器设置里开启路径追踪行走配置，选择切换的队伍，打开允许在JsScript中使用，打开战斗配置，选择战斗策略，推荐使用战斗脚本(周本队前进版)，关闭战斗结束拾取物品和万叶拾取，最后根据队伍大致表现，填入合适的战斗超时时间，(周本队前进版)建议280s，此外周本压力较大，会强制使用美味的月亮派，请提前准备",
           "tags": []
         },
         {
-          "name": "向右行走5秒",
+          "name": "周本-公子",
           "type": "directory",
-          "hash": "436780fcb71177b87ef8ad043f533ec9de410951",
-          "version": "1.0",
-          "author": "风埠",
-          "description": "向右行走5秒~|~向右行走5秒",
+          "hash": "54d64359a788c20aa0484f5e0a0c65831a0ad351",
+          "version": "1.1",
+          "author": "柒叶子",
+          "description": "黄金屋自动刷取~|~建议队伍：钟离(必须一号位)、芙芙、精通雷神、6命芭芭拉。脚本需要在调度器设置里开启路径追踪行走配置，选择切换的队伍，打开允许在JsScript中使用，打开战斗配置，选择战斗策略，推荐使用战斗脚本(周本队后退版)，关闭战斗结束拾取物品和万叶拾取，最后根据队伍大致表现，填入合适的战斗超时时间，(周本队后退版)建议180s，此外周本压力较大，会强制使用美味的月亮派，请提前准备",
           "tags": []
         },
         {
-          "name": "向右行走Xms",
-          "type": "directory",
-          "hash": "f0198f0e6ec09f9df8991ab838ecfccbab4e0b64",
-          "version": "1.0",
-          "author": "miludelongwang",
-          "description": "向右行走X毫秒~|~可以选择向右行走多少毫秒",
-          "tags": []
-        },
-        {
-          "name": "向后行走5秒",
-          "type": "directory",
-          "hash": "5b352df3f3a2dc5952b02e099f289ad412c0bed4",
-          "version": "1.0",
-          "author": "风埠",
-          "description": "向后行走5秒~|~向后行走5秒",
-          "tags": []
-        },
-        {
-          "name": "向左行走5秒",
-          "type": "directory",
-          "hash": "e5b458d5e39772f27201e9e7fe11250a4ffb28e4",
-          "version": "1.0",
-          "author": "风埠",
-          "description": "向左行走5秒~|~向左行走5秒",
-          "tags": []
-        },
-        {
-          "name": "女士周本",
+          "name": "周本-女士",
           "type": "directory",
           "hash": "3fa266ab63019e3b59298e536c93f5948fe7e178",
           "version": "1.1",
           "author": "柒叶子",
           "description": "女士周本刷取~|~建议队伍：钟离(必须一号位)、芙芙、火神、6命芭芭拉。脚本需要在调度器设置里开启路径追踪行走配置，选择切换的队伍，打开允许在JsScript中使用，打开战斗配置，选择战斗策略，推荐使用战斗脚本(女士周本队特制版)，关闭战斗结束拾取物品和万叶拾取，最后根据队伍大致表现，填入合适的战斗超时时间，(女士周本队特制版)建议300s",
+          "tags": []
+        },
+        {
+          "name": "周本-散兵",
+          "type": "directory",
+          "hash": "4f66c69fff158e8138d131460b61b87bf4018549",
+          "version": "1.0",
+          "author": "柒叶子",
+          "description": "散兵周本刷取~|~建议队伍：钟离(必须一号位)、芙芙、精通雷神、6命芭芭拉。脚本需要在调度器设置里开启路径追踪行走配置，选择切换的队伍，打开允许在JsScript中使用，打开战斗配置，选择战斗策略，推荐使用战斗脚本(周本队后退版)，关闭战斗结束拾取物品和万叶拾取，最后根据队伍大致表现，填入合适的战斗超时时间，(周本队后退版)建议500s，此外周本压力较大，会强制使用美味的月亮派，请提前准备",
+          "tags": []
+        },
+        {
+          "name": "周本-若陀",
+          "type": "directory",
+          "hash": "3efbf4eea270f9b7e031877a8253ebcd119d1671",
+          "version": "1.1",
+          "author": "柒叶子",
+          "description": "若陀龙王自动刷取~|~建议队伍：钟离(必须一号位)、芙芙、精通雷神、6命芭芭拉。脚本需要在调度器设置里开启路径追踪行走配置，选择切换的队伍，打开允许在JsScript中使用，打开战斗配置，选择战斗策略，推荐使用战斗脚本(周本队后退版)，关闭战斗结束拾取物品和万叶拾取，最后根据队伍大致表现，填入合适的战斗超时时间，(周本队原地版)建议260s，此外周本压力较大，会强制使用美味的月亮派，请提前准备",
+          "tags": []
+        },
+        {
+          "name": "周本-草龙",
+          "type": "directory",
+          "hash": "97f3515e1b7914a31f6391a22840ad9944252d0c",
+          "version": "1.1",
+          "author": "柒叶子",
+          "description": "阿佩普周本刷取~|~建议队伍：钟离(必须一号位)、芙芙、火神、6命芭芭拉。脚本需要在调度器设置里开启路径追踪行走配置，选择切换的队伍，打开允许在JsScript中使用，打开战斗配置，选择战斗策略，推荐使用战斗脚本(周本队火神原地版)，关闭战斗结束拾取物品和万叶拾取，最后根据队伍大致表现，填入合适的战斗超时时间，(周本队火神原地版)建议260s，此外周本压力较大，会强制使用美味的月亮派，请提前准备",
+          "tags": []
+        },
+        {
+          "name": "周本-雷神",
+          "type": "directory",
+          "hash": "43a9b0ee4c105407142d79975d5dc9b28c81a904",
+          "version": "1.1",
+          "author": "柒叶子",
+          "description": "雷神周本刷取~|~建议队伍：钟离(必须一号位)、芙芙、精通雷神、6命芭芭拉。脚本需要在调度器设置里开启路径追踪行走配置，选择切换的队伍，打开允许在JsScript中使用，打开战斗配置，选择战斗策略，推荐使用战斗脚本(周本队后退版)，关闭战斗结束拾取物品和万叶拾取，最后根据队伍大致表现，填入合适的战斗超时时间，(周本队后退版)建议210s，此外周本压力较大，会强制使用美味的月亮派，请提前准备，如果队伍练度不够，请必须保证有一个六命老芭，不然打不过",
+          "tags": []
+        },
+        {
+          "name": "周本-风魔龙",
+          "type": "directory",
+          "hash": "3330d0ade7b13cc59eba10794707efed628ecca7",
+          "version": "1.1",
+          "author": "柒叶子",
+          "description": "风魔龙自动刷取~|~建议队伍：钟离(必须一号位)、芙芙、精通雷神、6命芭芭拉。脚本需要在调度器设置里开启路径追踪行走配置，选择切换的队伍，打开允许在JsScript中使用，打开战斗配置，选择战斗策略，推荐使用战斗脚本(周本队原地版)，关闭战斗结束拾取物品和万叶拾取，最后根据队伍大致表现，填入合适的战斗超时时间，(周本队原地版)建议80s",
+          "tags": []
+        },
+        {
+          "name": "周本-鲸鱼",
+          "type": "directory",
+          "hash": "5be2c9dba971e273acf14bebc67fa2e03649fc7e",
+          "version": "1.1",
+          "author": "柒叶子",
+          "description": "鲸鱼周本刷取~|~建议队伍：钟离(必须一号位)、芙芙、精通雷神、6命芭芭拉。脚本需要在调度器设置里开启路径追踪行走配置，选择切换的队伍，打开允许在JsScript中使用，打开战斗配置，选择战斗策略，推荐使用战斗脚本(周本队原地版)，关闭战斗结束拾取物品和万叶拾取，最后根据队伍大致表现，填入合适的战斗超时时间，(周本队原地版)建议260s，此外周本压力较大，会强制使用美味的月亮派，请提前准备",
           "tags": []
         },
         {
@@ -33156,15 +32976,6 @@
           "tags": []
         },
         {
-          "name": "散兵周本",
-          "type": "directory",
-          "hash": "4f66c69fff158e8138d131460b61b87bf4018549",
-          "version": "1.0",
-          "author": "柒叶子",
-          "description": "散兵周本刷取~|~建议队伍：钟离(必须一号位)、芙芙、精通雷神、6命芭芭拉。脚本需要在调度器设置里开启路径追踪行走配置，选择切换的队伍，打开允许在JsScript中使用，打开战斗配置，选择战斗策略，推荐使用战斗脚本(周本队后退版)，关闭战斗结束拾取物品和万叶拾取，最后根据队伍大致表现，填入合适的战斗超时时间，(周本队后退版)建议500s，此外周本压力较大，会强制使用美味的月亮派，请提前准备",
-          "tags": []
-        },
-        {
           "name": "料理制作及食材加工",
           "type": "directory",
           "hash": "43a3ff85ed14d53e3a7ed75007a8eaf36d4335bb",
@@ -33192,51 +33003,6 @@
           "tags": []
         },
         {
-          "name": "游逸旅闻-凝光1-群玉阁",
-          "type": "directory",
-          "hash": "f528e11f09fe0a9c90bd7295de472006b842b635",
-          "version": "1.0",
-          "author": "ddaodan",
-          "description": "游逸旅闻-凝光1-璃月群玉阁~|~",
-          "tags": []
-        },
-        {
-          "name": "游逸旅闻-罗莎莉亚2-蒙德天使的馈赠",
-          "type": "directory",
-          "hash": "41fe99bee534c4722ed0a7c75bb822763e45bf31",
-          "version": "1.0",
-          "author": "ddaodan",
-          "description": "游逸旅闻-罗莎莉亚2-蒙德天使的馈赠~|~",
-          "tags": []
-        },
-        {
-          "name": "游逸旅闻-菲谢尔1&3-蒙德西风骑士团",
-          "type": "directory",
-          "hash": "ac2f069887f6ede04c3361d7516f41236bd7a7ff",
-          "version": "1.0",
-          "author": "ddaodan",
-          "description": "游逸旅闻-菲谢尔1&3-蒙德西风骑士团~|~",
-          "tags": []
-        },
-        {
-          "name": "游逸旅闻-菲谢尔2-蒙德西风骑士团",
-          "type": "directory",
-          "hash": "10d12562db8ab1e9d91f4c4c05b25ffa8f289778",
-          "version": "1.0",
-          "author": "ddaodan",
-          "description": "游逸旅闻-菲谢尔2-蒙德西风骑士团~|~",
-          "tags": []
-        },
-        {
-          "name": "游逸旅闻-迪卢克1-蒙德晨曦酒庄",
-          "type": "directory",
-          "hash": "fa5386233703014fa0cf03445dae4553da66ee3d",
-          "version": "1.0",
-          "author": "ddaodan",
-          "description": "游逸旅闻-迪卢克1-蒙德晨曦酒庄~|~",
-          "tags": []
-        },
-        {
           "name": "烹饪熟练度一键拉满",
           "type": "directory",
           "hash": "3e284a0fc79925e917be929692f75a9c48c6db94",
@@ -33261,15 +33027,6 @@
           "version": "1.0",
           "author": "蜜柑魚",
           "description": "等待到指定时间(默认凌晨4点)~|~等待到指定时间(默认凌晨4点),适用于等到第二天4点执行其他任务",
-          "tags": []
-        },
-        {
-          "name": "自动杂货商购买",
-          "type": "directory",
-          "hash": "49835615939fa69660bf54476d708005f3fc4af1",
-          "version": "1.1",
-          "author": "吉吉喵",
-          "description": "购买食材杂货~|~寻路杂货商，枫丹有咖啡豆、秃秃豆，璃月有豆腐、杏仁，稻妻有豆腐，顺路有点鱼蟹，这几个路线短快。用法：放入BetterGI中User中JsScript文件夹内。已屏蔽纳塔杂货商，解开选项即恢复。在纳塔杂货商购买时，移动速度不宜过快；在纳塔杂货商购买时，如撞到npc将无法正常寻路。",
           "tags": []
         },
         {
@@ -33309,24 +33066,6 @@
           "tags": []
         },
         {
-          "name": "若陀周本",
-          "type": "directory",
-          "hash": "3efbf4eea270f9b7e031877a8253ebcd119d1671",
-          "version": "1.1",
-          "author": "柒叶子",
-          "description": "若陀龙王自动刷取~|~建议队伍：钟离(必须一号位)、芙芙、精通雷神、6命芭芭拉。脚本需要在调度器设置里开启路径追踪行走配置，选择切换的队伍，打开允许在JsScript中使用，打开战斗配置，选择战斗策略，推荐使用战斗脚本(周本队后退版)，关闭战斗结束拾取物品和万叶拾取，最后根据队伍大致表现，填入合适的战斗超时时间，(周本队原地版)建议260s，此外周本压力较大，会强制使用美味的月亮派，请提前准备",
-          "tags": []
-        },
-        {
-          "name": "草龙周本",
-          "type": "directory",
-          "hash": "97f3515e1b7914a31f6391a22840ad9944252d0c",
-          "version": "1.1",
-          "author": "柒叶子",
-          "description": "阿佩普周本刷取~|~建议队伍：钟离(必须一号位)、芙芙、火神、6命芭芭拉。脚本需要在调度器设置里开启路径追踪行走配置，选择切换的队伍，打开允许在JsScript中使用，打开战斗配置，选择战斗策略，推荐使用战斗脚本(周本队火神原地版)，关闭战斗结束拾取物品和万叶拾取，最后根据队伍大致表现，填入合适的战斗超时时间，(周本队火神原地版)建议260s，此外周本压力较大，会强制使用美味的月亮派，请提前准备",
-          "tags": []
-        },
-        {
           "name": "计算机",
           "type": "directory",
           "hash": "acc041edad464bf02e0cffdef92b6c271c147e2a",
@@ -33363,15 +33102,6 @@
           "tags": []
         },
         {
-          "name": "雷神周本",
-          "type": "directory",
-          "hash": "43a9b0ee4c105407142d79975d5dc9b28c81a904",
-          "version": "1.1",
-          "author": "柒叶子",
-          "description": "雷神周本刷取~|~建议队伍：钟离(必须一号位)、芙芙、精通雷神、6命芭芭拉。脚本需要在调度器设置里开启路径追踪行走配置，选择切换的队伍，打开允许在JsScript中使用，打开战斗配置，选择战斗策略，推荐使用战斗脚本(周本队后退版)，关闭战斗结束拾取物品和万叶拾取，最后根据队伍大致表现，填入合适的战斗超时时间，(周本队后退版)建议210s，此外周本压力较大，会强制使用美味的月亮派，请提前准备，如果队伍练度不够，请必须保证有一个六命老芭，不然打不过",
-          "tags": []
-        },
-        {
           "name": "领取洞天宝钱和好感",
           "type": "directory",
           "hash": "bf0ee2547be5fa41bb222cea37f920fd77c71dc8",
@@ -33381,39 +33111,12 @@
           "tags": []
         },
         {
-          "name": "风魔龙周本",
-          "type": "directory",
-          "hash": "3330d0ade7b13cc59eba10794707efed628ecca7",
-          "version": "1.1",
-          "author": "柒叶子",
-          "description": "风魔龙自动刷取~|~建议队伍：钟离(必须一号位)、芙芙、精通雷神、6命芭芭拉。脚本需要在调度器设置里开启路径追踪行走配置，选择切换的队伍，打开允许在JsScript中使用，打开战斗配置，选择战斗策略，推荐使用战斗脚本(周本队原地版)，关闭战斗结束拾取物品和万叶拾取，最后根据队伍大致表现，填入合适的战斗超时时间，(周本队原地版)建议80s",
-          "tags": []
-        },
-        {
           "name": "食材加工 识图",
           "type": "directory",
           "hash": "13fba1d7dd6bf5e5925bf5c488499c72719676dd",
           "version": "1.01",
           "author": "吉吉喵",
           "description": "选择加工 食材~|~食材加工 识图 复选框。修复交互失败不能尝试方案的bug。",
-          "tags": []
-        },
-        {
-          "name": "鲸鱼周本",
-          "type": "directory",
-          "hash": "5be2c9dba971e273acf14bebc67fa2e03649fc7e",
-          "version": "1.1",
-          "author": "柒叶子",
-          "description": "鲸鱼周本刷取~|~建议队伍：钟离(必须一号位)、芙芙、精通雷神、6命芭芭拉。脚本需要在调度器设置里开启路径追踪行走配置，选择切换的队伍，打开允许在JsScript中使用，打开战斗配置，选择战斗策略，推荐使用战斗脚本(周本队原地版)，关闭战斗结束拾取物品和万叶拾取，最后根据队伍大致表现，填入合适的战斗超时时间，(周本队原地版)建议260s，此外周本压力较大，会强制使用美味的月亮派，请提前准备",
-          "tags": []
-        },
-        {
-          "name": "鸡腿好感",
-          "type": "directory",
-          "hash": "16ccb48c296f59ea4301ed4d8a861f88295fd194",
-          "version": "1.1",
-          "author": "花火 & 秋云",
-          "description": "鸡腿好感~|~通过喂狗突发事件刷好感度，使用满员好感度队伍，每天上限10次，有概率失败可以适当增加次数",
           "tags": []
         }
       ]
