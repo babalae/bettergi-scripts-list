@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "3302稻妻蛇骨矿洞南",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2399.6669921875,
+      "y": -4123.2109375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -2381.046875,
+      "y": -4130.361328125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -2358.2275390625,
+      "y": -4130.3134765625,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -2358.2275390625,
+      "y": -4130.3134765625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}
