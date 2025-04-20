@@ -138,51 +138,97 @@ async function simulateKeyOperations(key, duration) {
 // 定义一个函数用于购买食材
 async function purchaseIngredient(ingredient) {
     log.info(`购买食材: ${ingredient}`);
-    // 模拟购买操作的后续点击
-    await click(1600, 1020); await sleep(1000); // 购买
-    await click(1181, 600); await sleep(200);  // 选择100个
-    await click(1320, 780); await sleep(1000); // 最终确认
-    await click(1320, 780); await sleep(1000); // 点击空白
+    // 在购买前进行识别
+    let ComfirmRoResult1 = await recognizeImage("assets/Comfirm.png", 1585, 1005, 31, 31, 2000);
+    if (ComfirmRoResult1) {
+        // 模拟购买操作的后续点击
+        await click(1600, 1020); 
+        await sleep(1000); // 购买
+    } else {
+        log.warn(`食材: ${ingredient}已售罄或背包已满`);
+        return; // 退出操作
+    }
+
+    // 在点击选择100个之前进行识别
+    let ComfirmRoResult2 = await recognizeImage("assets/Comfirm.png", 995, 766, 31, 31, 2000);
+    if (ComfirmRoResult2) {
+        log.info("选择100个的");
+        await click(1181, 600); 
+        await sleep(200);  // 选择100个
+    } else {
+        log.warn("尝试重新点击购买");
+        await click(1600, 1020); 
+        await sleep(1000); // 购买
+        return; // 退出操作
+    }
+
+    await click(1320, 780); 
+    await sleep(1000); // 最终确认
+    await click(1320, 780); 
+    await sleep(1000); // 点击空白
 }
 
+
 // 定义一个通用的图像识别函数
-function recognizeImage(templatePath, xMin, yMin, width, height) {
-    let template = file.ReadImageMatSync(templatePath);
-    let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
-    let result = captureGameRegion().find(recognitionObject);
-    return result.isExist() ? result : null;
+function recognizeImage(templatePath, xMin, yMin, width, height, timeout = 2000) {
+    let startTime = Date.now();
+    while (Date.now() - startTime < timeout) {
+        try {
+            let template = file.ReadImageMatSync(templatePath);
+            let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
+            let result = captureGameRegion().find(recognitionObject);
+            if (result.isExist()) {
+                return { success: true, x: result.x, y: result.y, width: result.width, height: result.height };
+            }
+        } catch (error) {
+            log.error(`识别图像时发生异常: ${error.message}`);
+            return null;
+        }
+    }
+    log.warn("图像识别超时");
+    return null;
 }
 
 // 定义一个函数用于执行OCR识别
-async function performOcr(targetText, xRange, yRange, tolerance) {
-    // 调整区域范围以包含容错区间
-    let adjustedXMin = xRange.min - tolerance;
-    let adjustedXMax = xRange.max + tolerance;
-    let adjustedYMin = yRange.min - tolerance;
-    let adjustedYMax = yRange.max + tolerance;
+function performOcr(targetText, xRange, yRange, tolerance, timeout = 2000) {
+    let startTime = Date.now();
+    while (Date.now() - startTime < timeout) {
+        try {
+            // 调整区域范围以包含容错区间
+            let adjustedXMin = xRange.min - tolerance;
+            let adjustedXMax = xRange.max + tolerance;
+            let adjustedYMin = yRange.min - tolerance;
+            let adjustedYMax = yRange.max + tolerance;
 
-    // 在捕获的区域内进行OCR识别
-    let ra = captureGameRegion();
-    let resList = ra.findMulti(RecognitionObject.ocr(
-        adjustedXMin, adjustedYMin, 
-        adjustedXMax - adjustedXMin, adjustedYMax - adjustedYMin
-    ));
+            // 在捕获的区域内进行OCR识别
+            let ra = captureGameRegion();
+            let resList = ra.findMulti(RecognitionObject.ocr(
+                adjustedXMin, adjustedYMin, 
+                adjustedXMax - adjustedXMin, adjustedYMax - adjustedYMin
+            ));
 
-    // 遍历识别结果，检查是否找到目标文本
-    for (let i = 0; i < resList.count; i++) {
-        let res = resList[i];
-        // 后处理：根据替换映射表检查和替换错误识别的字符
-        let correctedText = res.text;
-        for (let [wrongChar, correctChar] of Object.entries(replacementMap)) {
-            correctedText = correctedText.replace(wrongChar, correctChar);
-        }
+            // 遍历识别结果，检查是否找到目标文本
+            for (let i = 0; i < resList.count; i++) {
+                let res = resList[i];
+                // 后处理：根据替换映射表检查和替换错误识别的字符
+                let correctedText = res.text;
+                const replacementMap = { /* 替换映射表，例如：'0': 'O', '1': 'l' */ };
+                for (let [wrongChar, correctChar] of Object.entries(replacementMap)) {
+                    correctedText = correctedText.replace(new RegExp(wrongChar, 'g'), correctChar);
+                }
 
-        if (correctedText.includes(targetText)) {
-            // 如果找到目标文本，直接返回坐标
-            return { success: true, x: res.x, y: res.y, width: res.width, height: res.height };
+                if (correctedText.includes(targetText)) {
+                    // 如果找到目标文本，直接返回坐标
+                    return { success: true, x: res.x, y: res.y, width: res.width, height: res.height };
+                }
+            }
+        } catch (error) {
+            log.error(`识别文字时发生异常: ${error.message}`);
+            return { success: false };
         }
     }
-    return { success: false }; // 未找到符合条件的文本
+    log.warn("OCR识别超时");
+    return { success: false };
 }
 
 // 定义一个函数用于识别食材
@@ -194,7 +240,7 @@ async function recognizeIngredient(ingredient) {
     let ocrResult = await performOcr(ingredient, { min: 210, max: 390 }, { min: 105, max: 920 }, 10);
     if (ocrResult.success) {
         log.info(`通过 OCR 识别找到食材: ${ingredient}`);
-        log.info(`坐标: x=${ocrResult.x}, y=${ocrResult.y}`);
+        // log.info(`坐标: x=${ocrResult.x}, y=${ocrResult.y}`);
         await click(ocrResult.x, ocrResult.y + clickOffset);
         await sleep(1000);
         recognized = true;
@@ -202,17 +248,19 @@ async function recognizeIngredient(ingredient) {
         // OCR 识别失败，尝试图像识别
         let imagePath = `assets/Picture/${ingredientImageMap[ingredient]}`;
         if (!imagePath) {
-            log.error(`未找到食材 '${ingredient}' 的图片文件`);
+            log.warn(`未找到食材 '${ingredient}' 的图片文件`);
             return recognized;
         }
-        let imageResult = recognizeImage(imagePath, 120, 90, 95, 865);
+        let imageResult = recognizeImage(imagePath, 120, 90, 95, 865, 1000);
         if (imageResult) {
             log.info(`通过图像识别找到食材: ${ingredient}`);
-            imageResult.click();
-            await sleep(1000);
+            // log.debug(`imageResult: ${JSON.stringify(imageResult)}`);
+            let x = Math.round(imageResult.x);
+            let y = Math.round(imageResult.y);
+            await click(x, y);await sleep(1000);
             recognized = true;
         } else {
-                log.error(`未能识别到食材: ${ingredient}`);
+                log.warn(`未能识别到食材: ${ingredient}`);
         }
         }
 
@@ -240,13 +288,13 @@ async function clickSelectedIngredients(selectedIngredients, filePath, npcNames)
             await click(1300, 650); await sleep(500); // 双击增加低帧点击成功率
             await click(1300, 650); await sleep(500);
             await click(1300, 650); await sleep(1000);
-            await click(1600, 1020); await sleep(1000);
+            await click(1320, 780); await sleep(1000);
         } else {
             log.info("执行其他路径文件的点击操作");
             await click(1300, 580); await sleep(500);
             await click(1300, 580); await sleep(500);
             await click(1300, 580); await sleep(1000);
-            await click(1600, 1020); await sleep(1000);
+            await click(1320, 780); await sleep(1000);
         }
     }
 
@@ -272,10 +320,10 @@ async function clickSelectedIngredients(selectedIngredients, filePath, npcNames)
                     await sleep(500);
                 } else {
                     // 第三次未找到 F 图标
-                    log.error("尝试次数已达上限");
+                    log.warn("尝试次数已达上限");
                     return false;
                 }
-                log.error(`尝试 ${f_attempts + 1}：寻找 F 图标`);
+                log.warn(`尝试 ${f_attempts + 1}：寻找 F 图标`);
             }
         }
         // 获取 F 图标的中心点 Y 坐标
@@ -284,7 +332,7 @@ async function clickSelectedIngredients(selectedIngredients, filePath, npcNames)
         // 在 F 图标右侧水平方向上识别 NPC 名称
         let ocrResult = await performOcr(npcName, npcxRange, { min: fRes.y, max: fRes.y + fRes.height }, tolerance);
         if (!ocrResult.success) {
-            log.error(`OCR 识别未找到 NPC: ${npcName}，尝试滚动`);
+            log.warn(`OCR 识别未找到 NPC: ${npcName}，尝试滚动`);
             return false;
         }
 
@@ -324,13 +372,39 @@ async function clickSelectedIngredients(selectedIngredients, filePath, npcNames)
             isAligned = await checkNpcAndFAlignment(npcName, fDialogueRo);
         }
 
-        if (isAligned) {
             // 如果水平对齐，执行交互操作
-            keyPress("F");
-            await sleep(2500);
+             if (isAligned) {
+                keyPress("F");
+                await sleep(2500);
 
-            // 执行点击操作
+// 首次执行点击操作
             await performClickOperations(filePath);
+            let ComfirmRoResult = null;
+            let C_maxAttempts = 2; // 最大尝试次数
+            let C_attempts = 0; // 当前尝试次数
+
+            while (!ComfirmRoResult && C_attempts < C_maxAttempts) {
+                // 调用 recognizeImage 检测 ComfirmRo
+                ComfirmRoResult = await recognizeImage("assets/Comfirm.png", 1585, 1005, 31, 31, 2000);
+
+                if (ComfirmRoResult) {
+                    log.info("识别到购买按钮，执行食材选择");
+                    break; // 如果识别到，退出循环
+                } else {
+                    log.warn("未识别到购买按钮，尝试重新识别");
+                }
+
+                await sleep(500); // 等待一段时间后再次检测
+                // 如果未识别到 ComfirmRo，再次执行点击操作
+                await performClickOperations(filePath);
+
+                C_attempts++; // 增加尝试次数
+            }
+
+            if (!ComfirmRoResult) {
+                log.warn("未在规定时间内完成对话");
+                return; // 退出函数
+}
 
             // 只有在成功对齐并交互后，才执行后续的食材购买操作
             // 记录已购买的食材
@@ -357,7 +431,7 @@ async function clickSelectedIngredients(selectedIngredients, filePath, npcNames)
                         await purchaseIngredient(ingredient);
                         purchasedIngredients.add(ingredient);
                     } else {
-                        log.error(`未能识别到食材: ${ingredient}`);
+                        // log.error(`未能识别到食材: ${ingredient}`);
                         allIngredientsFound = false; // 本轮有食材未找到
                     }
                 }
@@ -381,7 +455,7 @@ async function clickSelectedIngredients(selectedIngredients, filePath, npcNames)
 
             // 如果成功购买了所有食材，记录成功信息
             if (allIngredientsFound) {
-                log.info("成功购买了所有食材！");
+                log.info("该处所需食材已完成购买！");
             } else {
                 log.error("未能购买所有食材，部分食材可能未找到或未成功购买。");
             }
