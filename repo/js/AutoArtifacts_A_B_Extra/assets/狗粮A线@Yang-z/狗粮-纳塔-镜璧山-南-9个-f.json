@@ -1,8 +1,10 @@
 {
     "info": {
-        "name": "",
+        "name": "狗粮-纳塔-镜璧山-南-9个-f",
         "type": "collect",
-        "author":"Yang-z"
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgiVersion": "0.42.0"
     },
 
     "positions": [
@@ -10,7 +12,6 @@
             "x": 9638.033203125,
             "y": -1854.703125,
             "type": "teleport",
-            "move_mode": "walk",
             "action": "force_tp"
         },
         {
@@ -98,7 +99,7 @@
             "x": 9576.17578125,
             "y": -1960.8349609375,
             "type": "target",
-            "move_mode": "fly",
+            "move_mode": "jump",
             "#" : "4 5 6"
         },
         {
@@ -111,17 +112,17 @@
             "move_mode": "walk"
         },
         {
-            "x": 9575.2177734375,
-            "y": -1960.056640625,
+            "x": 9575.287109375,
+            "y": -1960.943359375,
             "type": "orientation"
         },
         {
-            "x": 9574.2177734375,
-            "y": -1959.256640625,
-            "type": "path",
+            "x": 9575.287109375,
+            "y": -1960.943359375,
+            "type": "target",
             "move_mode": "walk",
             "action": "combat_script",
-            "action_params": "wait(0.2),keypress(x),wait(1.0)",
+            "action_params": "keydown(w),wait(0.5),keyup(w),wait(0.2),keypress(x),wait(1.5)",
             "//": "stop_climbing"
         },
 
@@ -196,9 +197,59 @@
         }
     ],
 
+    "positions_alternative3": [
+        {
+            "_x": 9577.4677734375,
+            "_y": -1956.6142578125,
 
+            "x": 9577.240234375,
+            "y": -1957.71923828125,
 
-    "positions_alternative1": [
+            "x_": 9577.2119140625,
+            "y_": -1957.74169921875,
+
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 9576.17578125,
+            "y": -1960.8349609375,
+            "type": "orientation",
+            "move_mode": "walk"
+        },
+        {
+            "x": 9576.17578125,
+            "y": -1960.8349609375,
+            "type": "target",
+            "move_mode": "jump",
+            "#" : "4 5 6"
+        },
+        {
+            "_x": 9577.10546875,
+            "_y": -1957.60302734375,
+
+            "x": 9578.9921875,
+            "y": -1961.9375,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 9575.2265625,
+            "y": -1960.08740234375,
+            "type": "orientation"
+        },
+        {
+            "x": 9575.2265625,
+            "y": -1960.08740234375,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "keydown(w),wait(0.5),keyup(w),wait(0.2),keypress(x),wait(1.5)",
+            "//": "stop_climbing"
+        }
+    ],
+
+    "positions_alternative2": [
         {
             "x": 9638.033203125,
             "y": -1854.703125,
@@ -275,7 +326,7 @@
 
 
 
-    "positions_alternative2": [
+    "positions_alternative1": [
         {
             "x": 9638.033203125,
             "y": -1854.703125,

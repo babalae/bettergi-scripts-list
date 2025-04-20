@@ -1,50 +1,53 @@
 {
-  "info": {
-    "name": "(不可用-地图识别大概率失效)狗粮-纳塔-奥奇卡纳塔-烬火炽燃所-7个",
-    "type": "collect",
-    "author": "Yang-z",
-    "version": "1.0",
-    "bgiVersion": "0.42.0"
-  },
-  "positions": [
-    {
-      "x": 9202.54,
-      "y": -573.33,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": "force_tp"
+    "info": {
+        "name": "(不可用-地图识别大概率失效)狗粮-纳塔-奥奇卡纳塔-烬火炽燃所-7个",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgiVersion": "0.42.0"
     },
-    {
-      "x": 9197.33,
-      "y": -570.92,
-      "type": "path",
-      "move_mode": "run"
-    },
-    {
-      "x": 9158.75,
-      "y": -588.66,
-      "type": "path",
-      "move_mode": "run"
-    },
-    {
-      "x": 9155.86,
-      "y": -599.92,
-      "type": "target",
-      "move_mode": "walk",
-      "#": "1"
-    },
-    {
-      "x": 9151.54,
-      "y": -586.27,
-      "type": "path",
-      "move_mode": "run"
-    },
-    {
-      "x": 9148.8,
-      "y": -582.22,
-      "type": "target",
-      "move_mode": "walk",
-      "#": "2"
-    }
-  ]
+    "positions": [
+
+        {
+            "x": 9202.53515625,
+            "y": -573.32763671875,
+            "type": "teleport",
+            "move_mode": "walk",
+            "action": "force_tp"
+        },
+        {
+            "x": 9197.33203125,
+            "y": -570.9189453125,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 9158.7529296875,
+            "y": -588.65966796875,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 9155.861328125,
+            "y": -599.9189453125,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "1"
+        },
+
+        {
+            "x": 9151.537109375,
+            "y": -586.271484375,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 9148.798828125,
+            "y": -582.21533203125,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "2"
+        }
+
+    ]
 }
