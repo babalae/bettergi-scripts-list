@@ -1,0 +1,138 @@
+{
+  "info": {
+    "name": "3304稻妻剑鬼东3",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2405.748046875,
+      "y": -3912.9091796875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -2405.2409453125,
+      "y": -3936.182890625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -2420.3336328125,
+      "y": -3996.790984375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "3000",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -2422.3336328125,
+      "y": -3996.790984375,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 5,
+      "x": -2420.3336328125,
+      "y": -3996.790984375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -2462.662109375,
+      "y": -4028.2392578125,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -2462.662109375,
+      "y": -4028.2392578125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -2487.5556640625,
+      "y": -4036.365234375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -2483.966796875,
+      "y": -4065.69921875,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -2483.966796875,
+      "y": -4065.69921875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -2530.650390625,
+      "y": -4039.8603515625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -2572.380859375,
+      "y": -4000.00390625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -2576.517578125,
+      "y": -4002.162109375,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -2576.517578125,
+      "y": -4002.162109375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}
