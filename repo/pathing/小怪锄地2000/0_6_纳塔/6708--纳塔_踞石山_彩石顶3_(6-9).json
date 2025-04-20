@@ -1,0 +1,120 @@
+{
+  "info": {
+    "name": "6708--纳塔_踞石山_彩石顶3_(6-9)",
+    "type": "collect",
+    "author": "Demo&汐",
+    "version": "1.1",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8201.818359375,
+      "y": -2288.8037109375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8174.830078125,
+      "y": -2266.564453125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 8174.830078125,
+      "y": -2265.564453125,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 8176.21240234375,
+      "y": -2243.9169921875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 8214.6005859375,
+      "y": -2216.1533203125,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 8187.0166015625,
+      "y": -2212.92578125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 8151,
+      "y": -2208.0030986311067,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.3),keydown(a),wait(1.5),keyup(a)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 8113.46875,
+      "y": -2210.9078767813317,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 8119.150390625,
+      "y": -2207.908203125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 8106.7626953125,
+      "y": -2151.2705078125,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 8130.7177734375,
+      "y": -2143.146484375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 8128.7177734376,
+      "y": -2145.1464843760004,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
