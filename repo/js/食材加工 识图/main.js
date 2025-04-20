@@ -99,7 +99,7 @@ const processingKeyChineseMap = {
             let template = file.ReadImageMatSync(imagePath);
             let recognitionObject = RecognitionObject.TemplateMatch(template, x, y, searchWidth, searchHeight);
             // 设置识别阈值和通道
-            recognitionObject.threshold = 0.95; // 设置识别阈值为 0.85
+            recognitionObject.threshold = 0.90; // 设置识别阈值为 0.85
             recognitionObject.Use3Channels = true; // 使用三通道匹配
 
             let result = captureGameRegion().find(recognitionObject);
