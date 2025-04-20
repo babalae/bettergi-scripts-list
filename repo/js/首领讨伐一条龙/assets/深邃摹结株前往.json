@@ -1,0 +1,30 @@
+{
+  "info": {
+    "name": "深邃摹结株前往",
+    "type": "collect",
+    "author": "柒叶子",
+    "version": "1.0",
+    "description": "深邃摹结株前往",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9352.87109375,
+      "y": -1333.6162109375,
+      "action_params": ""
+    },
+ {
+      "id": 2,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9352.87109375,
+      "y": -1333.6162109375,
+      "action_params": "钟离 moveMouseBy(500, 0),s(0.2),e(hold),w(7);"
+    }
+  ]
+}
