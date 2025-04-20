@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "409须弥茶诃之座（200_10）",
+    "name": "409须弥茶诃之座（200_9）",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
@@ -46,33 +46,15 @@
     },
     {
       "id": 5,
-      "x": 3627.5,
-      "y": -1904.0020362432988,
-      "action": "fight",
-      "move_mode": "run",
+      "x": 3607.312717254561,
+      "y": -1869.1247877885116,
+      "action": "stop_flying",
+      "move_mode": "fly",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 6,
-      "x": 3634.5,
-      "y": -1904.0020362432988,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": 3635,
-      "y": -1900.0020362432988,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keypress(t),wait(1.5),keydown(d),wait(2),keyup(d)",
-      "type": "path"
-    },
-    {
-      "id": 8,
       "x": 3612.875,
       "y": -1826.2285751792015,
       "action": "",
@@ -81,16 +63,16 @@
       "type": "path"
     },
     {
-      "id": 9,
+      "id": 7,
       "x": 3619.75,
       "y": -1777.876150920125,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 10,
+      "id": 8,
       "x": 3621.625,
       "y": -1746.3635793310623,
       "action": "",
@@ -99,7 +81,7 @@
       "type": "path"
     },
     {
-      "id": 11,
+      "id": 9,
       "x": 3631.125,
       "y": -1725.2421648899144,
       "action": "fight",
@@ -108,16 +90,16 @@
       "type": "path"
     },
     {
-      "id": 12,
+      "id": 10,
       "x": 3629.125,
       "y": -1692.2421648899144,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 11,
       "x": 3661.625,
       "y": -1671.6260181216494,
       "action": "stop_flying",
@@ -126,16 +108,16 @@
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 12,
       "x": 3661.625,
       "y": -1671.6260181216494,
-      "action": "fight",
+      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "",
+      "action_params": "attack(0.5)",
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 13,
       "x": 3665.625,
       "y": -1691.6260181216503,
       "action": "fight",
@@ -144,7 +126,7 @@
       "type": "path"
     },
     {
-      "id": 16,
+      "id": 14,
       "x": 3651.3955078125,
       "y": -1760.53466796875,
       "action": "fight",
@@ -153,16 +135,16 @@
       "type": "path"
     },
     {
-      "id": 17,
+      "id": 15,
       "x": 3646.5,
-      "y": -1761.7741250564775,
+      "y": -1761.7741250564777,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 18,
+      "id": 16,
       "x": 3672.5,
       "y": -1796.499911467683,
       "action": "",
@@ -171,7 +153,7 @@
       "type": "path"
     },
     {
-      "id": 19,
+      "id": 17,
       "x": 3695.1728515625,
       "y": -1810.93359375,
       "action": "fight",
