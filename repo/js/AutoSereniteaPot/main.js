@@ -178,6 +178,15 @@ function checkSettings() {
     if (!settings.route) {
         log.warn("当前未配置进入尘歌壶以后的路线，脚本可能无法正常运行");
     }
+
+    // 记录是否跳过领取角色好感和洞天宝钱
+    if (settings.skipCharacterReward) {
+        log.info("当前配置：不领取角色好感");
+    }
+
+    if (settings.skipTreasureReward) {
+        log.info("当前配置：不领取洞天宝钱");
+    }
 }
 
 // 打开背包并切换到小道具
@@ -225,20 +234,30 @@ async function collectRewards() {
     await sleep(1000);
 
     // 领取好感度
-    click(1810, 715);
-    await sleep(1000);
+    if (!settings.skipCharacterReward) {
+        log.info("领取角色好感度");
+        click(1810, 715);
+        await sleep(1000);
 
-    // 关闭洞天赠礼弹窗
-    click(1346, 300);
-    await sleep(1000);
+        // 关闭洞天赠礼弹窗
+        click(1346, 300);
+        await sleep(1000);
+    } else {
+        log.info("根据自定义配置，跳过领取角色好感度");
+    }
 
     // 领取洞天宝钱
-    click(1080, 929);
-    await sleep(1000);
+    if (!settings.skipTreasureReward) {
+        log.info("领取洞天宝钱");
+        click(1080, 929);
+        await sleep(1000);
 
-    // 关闭洞天财瓮弹窗
-    click(1346, 300);
-    await sleep(1000);
+        // 关闭洞天财瓮弹窗
+        click(1346, 300);
+        await sleep(1000);
+    } else {
+        log.info("根据自定义配置，跳过领取洞天宝钱");
+    }
 
     // 关闭对话
     click(1864, 47);

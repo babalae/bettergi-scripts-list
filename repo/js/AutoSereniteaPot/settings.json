@@ -8,5 +8,15 @@
         "name": "itemsToBuy",
         "type": "input-text",
         "label": "想要购买的物品名称，支持只填写部分文字\n多个物品用英文逗号隔开，例如：祝圣精华,树脂"
+    },
+    {
+        "name": "skipCharacterReward",
+        "type": "checkbox",
+        "label": "不领取角色好感(注意是不领取)"
+    },
+    {
+        "name": "skipTreasureReward",
+        "type": "checkbox",
+        "label": "不领取洞天宝钱(注意是不领取)"
     }
 ]
