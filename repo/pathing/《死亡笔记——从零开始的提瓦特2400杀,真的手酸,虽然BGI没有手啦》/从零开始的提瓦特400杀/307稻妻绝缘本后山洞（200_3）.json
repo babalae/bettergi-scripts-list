@@ -1,0 +1,93 @@
+{
+  "info": {
+    "name": "307稻妻绝缘本后山洞（200_3）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2365.9599609375,
+      "y": -3769.537109375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -2362.2412109375,
+      "y": -3758.3193359375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -2377.2138671875,
+      "y": -3757.0263671875,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -2386.5302734375,
+      "y": -3784.0244140625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -2387.50390625,
+      "y": -3789.3134765625,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -2390.177734375,
+      "y": -3802.0595703125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -2380.22265625,
+      "y": -3806.53125,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "click,keypress(x),wait(0.2),click,keypress(x)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -2364.779296875,
+      "y": -3820.4248046875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -2347.3779296875,
+      "y": -3822.328125,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "410须弥沙漠丰饶绿洲（200_2）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "2元能构装体",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4691.500111564146,
+      "y": -2352.2525145213367,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4760.44677734375,
+      "y": -2334.146484375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4780.875,
+      "y": -2324.3753983954284,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(t),wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4819.5014503339025,
+      "y": -2302.999550978333,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

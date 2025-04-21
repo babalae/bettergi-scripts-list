@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "510枫丹厄里那斯南（400_2，200_5）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "2大型碎石隙境原体 5碎石隙境原体",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4954.93408203125,
+      "y": 2760.102783203125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4913.39208984375,
+      "y": 2709.40771484375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(3.5),click"
+    },
+    {
+      "id": 3,
+      "x": 4906.720703125,
+      "y": 2713.90625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4923.4697265625,
+      "y": 2657.64111328125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4952.50490882244,
+      "y": 2635.248832543666,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4997.937747206334,
+      "y": 2625.4808716769785,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

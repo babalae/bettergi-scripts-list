@@ -1,0 +1,111 @@
+{
+  "info": {
+    "name": "509枫丹厄里那斯西（600_1，400_1，200_4）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4954.934082031251,
+      "y": 2760.102783203125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 5037.052734375,
+      "y": 2783.155029296875,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(VK_SPACE),wait(2.6),click",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 5036.052734374999,
+      "y": 2786.155029296875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1.5)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 5043.388671875,
+      "y": 2794.2177734375,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 5064.8115234375,
+      "y": 2806.1845703125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 5093.180175781248,
+      "y": 2766.35205078125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 5091.180175781249,
+      "y": 2744.35205078125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 5109.180175781249,
+      "y": 2726.35205078125,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 5067.8681640625,
+      "y": 2808.968505859375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 5071.12841796875,
+      "y": 2841.29443359375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "keypress(x)"
+    },
+    {
+      "id": 11,
+      "x": 5075.1962890625,
+      "y": 2862.287841796875,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
