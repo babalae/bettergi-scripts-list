@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "3秘源机兵",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -19,8 +19,8 @@
     },
     {
       "id": 2,
-      "x": 8714.43359375,
-      "y": -3026.36328125,
+      "x": 8624.1484375,
+      "y": -3015.5439453125,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -28,33 +28,15 @@
     },
     {
       "id": 3,
-      "x": 8668.2021484375,
-      "y": -3024.033203125,
-      "action": "",
-      "move_mode": "swim",
+      "x": 8569.328125,
+      "y": -3035.845703125,
+      "action": "fight",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 4,
-      "x": 8624.1484375,
-      "y": -3015.5439453125,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 8569.328125,
-      "y": -3035.845703125,
-      "action": "fight",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
       "x": 8538.4931640625,
       "y": -3014.6083984375,
       "action": "fight",
@@ -63,13 +45,13 @@
       "type": "path"
     },
     {
-      "id": 7,
+      "id": 5,
       "x": 8479.556640625,
       "y": -3048.931640625,
-      "type": "path",
-      "move_mode": "run",
       "action": "fight",
-      "action_params": ""
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
     }
   ]
 }

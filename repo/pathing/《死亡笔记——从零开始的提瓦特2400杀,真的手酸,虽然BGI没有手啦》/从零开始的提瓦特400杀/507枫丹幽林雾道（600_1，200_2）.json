@@ -30,24 +30,24 @@
       "id": 3,
       "x": 3518.8154296875,
       "y": 3307.571533203125,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 4,
       "x": 3474.3916015625,
       "y": 3248.631103515625,
-      "type": "path",
-      "move_mode": "run",
       "action": "",
-      "action_params": ""
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 5,
-      "x": 3453.849609375,
-      "y": 3195.052734375,
+      "x": 3459.5625,
+      "y": 3204.628386361139,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -55,6 +55,15 @@
     },
     {
       "id": 6,
+      "x": 3455.3466796875,
+      "y": 3177.931396484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
       "x": 3460.849609375,
       "y": 3165.052734375,
       "action": "",
@@ -63,36 +72,36 @@
       "type": "path"
     },
     {
-      "id": 7,
-      "x": 3458.7998046875,
-      "y": 3171.400424241998,
+      "id": 8,
+      "x": 3458.125,
+      "y": 3171.4687721330793,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 8,
-      "x": 3453.75,
-      "y": 3183.748114108997,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "keypress(q)",
-      "type": "path"
-    },
-    {
       "id": 9,
-      "x": 3446.6259765625,
-      "y": 3188.54345703125,
-      "action": "fight",
+      "x": 3455.3466796875,
+      "y": 3177.931396484375,
+      "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 10,
-      "x": 3446.6259765625,
-      "y": 3188.54345703125,
+      "x": 3457.84375,
+      "y": 3193.7497786692074,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 3457.84375,
+      "y": 3193.7497786692074,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "wait(1)",
