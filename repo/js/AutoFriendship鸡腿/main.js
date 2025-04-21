@@ -81,6 +81,7 @@
     }
 
     function isPositiveInteger(value) {
+	value = Number(value);    
         return Number.isInteger(value) && value > 0;
     }
     // 启用自动拾取的实时任务
