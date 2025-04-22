@@ -116,7 +116,7 @@ const click_into = {
     await waitForToClick(input_phone_or_email,"填写邮箱/手机号");
     await inputText(settings.username);
     await sleep(1000);
-    await identificationAndClick(input_password,"填写密码");
+    await waitForToClick(input_password,"填写密码");
     await inputText(settings.password);
     await sleep(1000);
     //按下回车登录账号，弹出用户协议对话框
