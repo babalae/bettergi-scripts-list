@@ -148,5 +148,6 @@ const click_into = {
     await sleep(5000);
     log.info("执行开门自动领取月卡");
     await genshin.blessingOfTheWelkinMoon();
-
+    await sleep(1000);
+    log.info(`账号切换成功，当前帐号：${settings.username}`);
 })();
