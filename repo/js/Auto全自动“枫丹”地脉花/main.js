@@ -267,13 +267,16 @@
         let XIAN23 = await imageRecognition(DIMAIHUA,1,0,0,1076,651,160,142);
         if ( (XIAN23.y+651)<=720){AutofilePath=3;log.info("找到线路'3'");await leftButtonUp();return true}//return true
         if ( (XIAN23.y+651)>720){AutofilePath=2;log.info("找到线路'2'");await leftButtonUp();return true}//return true
+        let XIANmo = await imageRecognition(DIMAIHUA,0.5,0,0);if (XIANmo.found){if(XIANmo.x<969){mo=0;}else if(XIANmo.x>1171){mo=2;}else{mo=1;}}
         let XIAN1 = await imageRecognition(DIMAIHUA,1,0,0,714,633,130,124);if (XIAN1.found){AutofilePath=1;log.info("找到线路'1'");await leftButtonUp();return true}//return true
         await moveMouseTo(132,583);
         await sleep(200);
         let XIAN4 = await imageRecognition(DIMAIHUA,1,0,0,884,497,107,87);if (XIAN4.found){AutofilePath=4;log.info("找到线路'4'");await leftButtonUp();return true}//return true
+        XIANmo = await imageRecognition(DIMAIHUA,0.5,0,0);if (XIANmo.found){mo=3}
         await moveMouseTo(1064,1026);
         await sleep(200);
         let XIAN5 = await imageRecognition(DIMAIHUA,1,0,0,680,148,87,72);if (XIAN5.found){AutofilePath=5;log.info("找到线路'5'");await leftButtonUp();return true}//
+        XIANmo = await imageRecognition(DIMAIHUA,0.5,0,0);if (XIANmo.found){mo=4}else{mo=5}
         AutofilePath =0;
         await leftButtonUp();
         return false
@@ -308,20 +311,22 @@
         await genshin.setBigMapZoomLevel(1.5);
 
         for (let i = 0; i < coordArray.length; i++) {
-            const coord = coordArray[i];
-            const coord2 = coordArray2[i];
+            const coord = coordArray[i+mo];
+            const coord2 = coordArray2[i+mo];
             await genshin.moveMapTo(coord.x,coord.y,"枫丹");
             await genshin.setBigMapZoomLevel(1.5);
             let DIMAI = await imageRecognition(DIMAIHUA,1.5,0,0,coord2.x,coord2.y,coord2.w,coord2.h);
                 if (DIMAI.found)
                     {                   
                     log.info("地脉花找到，但不在初始位置，尝试寻找……"); 
-                    AutofilePath=i+1;FINDagin = 1;return true;
+                    AutofilePath=i+1+mo;FINDagin = 1;return true;
                 } 
             await genshin.returnMainUi();
             if (i === 5){return false;}
         }
         await genshin.returnMainUi();
+        mo=0; //重置模糊量
+        log.info("111"); 
         return true;
     }
 
@@ -372,7 +377,7 @@
         let SHUY =  await Textocr("使用原粹树脂",2,1,0,877,726,193,53);
         let SHUB =  await Textocr("补充原粹树脂",1,0,0,877,726,193,53);
                 await sleep(1000);
-            if  (SHUB.found){log.warn("树脂消耗完毕，结束任务");await keyPress("VK_ESCAPE");await sleep(1000);if (FINDagin===1){SHUOVER=1;log.warn("模糊模式，地脉不在初始位置，继续寻找！");return true;}else{SHUOVER=2;return false;}}
+            if  (SHUB.found){log.warn("树脂消耗完毕，结束任务");await keyPress("VK_ESCAPE");FINDagin=0;await sleep(1000);SHUOVER=2;return false;}
             else if (SHUN.found || SHUY.found) {
                 log.info("找到树脂，已经使用...");FINDagin=0;dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: true })); return true;
             }else{
@@ -396,6 +401,7 @@
      * @returns 无返回值
      */
     async function checkRewardPage(timeout = 1000) {
+
         if (!shouldContinueChecking) {
             return; // 如果不应该继续检测，则直接返回
         }
@@ -488,6 +494,7 @@
     var Rewards = settings.Rewards ? settings.Rewards : false; // ture 领取冒险点奖励，false 不领取冒险点奖励
     var Fligtin = false;  //领取冒险点奖励标志。
     var FINDagin = 0; //地脉花寻找标志。lv.1.2新增，用于判断是否找线路余下地脉花。
+    var mo=0; //线路模糊标志
 
 
 
@@ -498,9 +505,6 @@
     if (SHUV === 1) {log.warn("线路模式 ：'单线路！'");}else{log.warn("线路模式 ：'树脂耗尽模式，强制打完整体线路！'");rawTimes=12}
     if (color == 1) {log.warn("地脉类型 ：'蓝色经验书花！'");}else{log.warn("地脉类型 ：'黄色摩拉花！'")}  
     let nowuidString = settings.nowuid ? settings.nowuid : "";
-
-  
-
 
     // UID获取存在概率不成功，慎用！请更换背景纯色的名片提高OCR成功率
     let uidNumbers = nowuidString.match(/\d+/g);
@@ -520,8 +524,7 @@
                         SHUOVER = 2; // 假设 SHUOVER = 2 表示需要停止程序
                         break; 
                     }
-                }
-            
+                } 
         }
     }else{log.warn("未配置禁用UID，继续进行！");}
 
@@ -530,7 +533,7 @@
         //根据SHUOVER决定模式
         while (SHUOVER<=1){
             Fligtin = true ; //领取冒险点奖励标志。
-            if (!(await PathCheak(0))){if (!(await PathCheak(1))){throw new Error("未找到地脉花，退出！")}}
+            if (!(await PathCheak(0))){if (!(await PathCheak(1))){throw new Error("未找到地脉花，退出！")}}else{mo=0}
             //第一次执行选择队伍
             if (SHUOVER == 0){await genshin.returnMainUi(); await sleep(1000);await genshin.SwitchParty(settings.n);await sleep(500);}
             //开始寻找并执行地脉花自动。
@@ -542,9 +545,18 @@
         log.warn("本次地脉花路线已执行完毕。");
         //领取冒险点奖励，切换好感队伍
         if (Rewards && Fligtin) {
-            if(!(settings.nh === undefined)){log.info(`切换好感队伍：'${haogandui}'`);await genshin.returnMainUi(); await sleep(1000);await genshin.SwitchParty(haogandui);}else{log.warn("好感队未配置，领奖励时不切换队伍")}
-            await genshin.goToAdventurersGuild("枫丹");}
-            if (LCBMODEL){await dispatcher.runTask(new SoloTask("LCBAutoPickOPEN"));}//LCB自编译版本命令，公版BETTERGI无效===========LCB
+            if(!(settings.nh === undefined)){
+                shouldContinueChecking = true;
+                checkRewardPage();// 执行自动战斗并同步检测领奖页面    
+                log.info(`切换好感队伍：'${haogandui}'`);
+                await genshin.returnMainUi(); await sleep(1000);
+                await genshin.SwitchParty(haogandui);
+            }else{log.warn("好感队未配置，领奖励时不切换队伍")}
+            await genshin.goToAdventurersGuild("枫丹");
+                shouldContinueChecking = false;
+                await sleep(2000);
+        }
+        if (LCBMODEL){await dispatcher.runTask(new SoloTask("LCBAutoPickOPEN"));}//LCB自编译版本命令，公版BETTERGI无效===========LCB
     } catch (error) {
         log.error(`执行过程中发生错误：${error.message}`);
     }finally{
