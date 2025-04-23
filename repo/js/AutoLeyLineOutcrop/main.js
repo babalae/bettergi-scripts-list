@@ -396,13 +396,13 @@ async function processLeyLineOutcrop(timeout, forceRun, targetPath, retries = 0)
         await autoFight(timeout);
         await autoNavigateToReward();
         const settings = { forceRun };
-        attemptReward(settings)
+        await attemptReward(settings)
     } else if (ocr && ocr.text.includes("打倒所有敌人")) {
         log.info("地脉花已经打开，直接战斗");
         await autoFight(timeout);
         await autoNavigateToReward();
         const settings = { forceRun };
-        attemptReward(settings)
+        await attemptReward(settings)
     } else if (ocr && ocr.text.includes("地脉之花")) {
         log.info("识别到地脉之花");
         const settings = { forceRun };
