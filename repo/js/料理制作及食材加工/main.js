@@ -1,7 +1,7 @@
 (async function () {
 
 let foodName = settings.foodName ?? 0;
-let foodNum = settings.foodNum ?? 0;
+let foodNum = settings.foodNum ?? 1;
 let flourNum = settings.flourNum ?? 0;
 let creamNum = settings.creamNum ?? 0;
 let smokedPoultryNum = settings.smokedPoultryNum ?? 0;
@@ -30,10 +30,7 @@ click(195, 1020);//重置
 await sleep(1000);
 click(110, 110);//输入名字
 await sleep(1000);
-for (const char of foodName) {
-  keyPress(char);
-  await sleep(500);
-}
+inputText(`${foodName}`);
 keyPress("SPACE");
 await sleep(500);
 click(490, 1020);//确认筛选
