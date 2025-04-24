@@ -1,0 +1,121 @@
+{
+  "info": {
+    "name": "6808--纳塔_安饶之野_沃陆之邦北小岛_(14)",
+    "type": "collect",
+    "author": "汐&mno",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 10261.6494140625,
+      "y": -2529.599609375,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 10277.3388671875,
+      "y": -2513.6123046875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 10300.1865234375,
+      "y": -2494.6513671875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 10295.2099609375,
+      "y": -2424.58203125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 10285.0625,
+      "y": -2316.2109375,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 10285.0625,
+      "y": -2316.2109375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "click(middle),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 10317.505859375,
+      "y": -2178.25,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.5),keypress(E),wait(1.5),keydown(Q),wait(1.5),keyup(Q),attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 10296.0029296875,
+      "y": -2175.7880859375,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 10357.6142578125,
+      "y": -2159.2880859375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 10358.98046875,
+      "y": -2081.8291015625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 10410.94921875,
+      "y": -2048.7236328125,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 10410.94921875,
+      "y": -2048.7236328125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}
