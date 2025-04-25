@@ -35,7 +35,7 @@ const autoNavigateToReward = async () => {
         
         // 3. 前进一小步
         keyDown("w");
-        await sleep(900);
+        await sleep(800);
         keyUp("w");
         await sleep(100); // 等待角色移动稳定
     }
@@ -102,7 +102,7 @@ await pathingScript.runFile(`assets/${challengeName}前往.json`);
 await keyMouseScript.runFile(`assets/${challengeName}前往键鼠.json`);
 for (let i = 0;i < challengeNum; i++) {
  await sleep(1000);
-if(samePlace == 1&& i > 0){
+if(samePlace != "YES" && i > 0){
 log.info(`前往第${i+1}次恢复状态`);
 await pathingScript.runFile("assets/recover.json");//回复状态
 log.info(`前往第${i+1}次讨伐${challengeName}`);
@@ -110,13 +110,24 @@ await pathingScript.runFile(`assets/${challengeName}前往.json`);
 await keyMouseScript.runFile(`assets/${challengeName}前往键鼠.json`);
 }
 log.info(`开始第${i+1}次战斗`);
+try {
 await dispatcher.runTask(new SoloTask("AutoFight"));
+} catch (error) {
+//失败后最多只挑战一次，因为两次都打不过，基本上没戏，干脆直接报错结束
+log.info(`挑战失败，再来一次`);
+await pathingScript.runFile("assets/recover.json");//回复状态
+await pathingScript.runFile(`assets/${challengeName}前往.json`);
+await keyMouseScript.runFile(`assets/${challengeName}前往键鼠.json`);
+await dispatcher.runTask(new SoloTask("AutoFight"));
+}
+
 log.info(`等待一会儿，避免钟离柱子害人`);
 await sleep(10000);
 log.info(`第${i+1}次领奖`);
 await autoNavigateToReward();//前往地脉之花
 //await pathingScript.runFile(`assets/${challengeName}领奖.json`);
 await sleep(600);
+
 keyPress("F");
 await sleep(800);
 click(968, 759);//消耗树脂领取
