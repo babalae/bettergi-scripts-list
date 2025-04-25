@@ -13,7 +13,8 @@
     const name_can_make = ['酪香蟹蟹锅', '丰稔之赐', '沃陆果饮', '粒果膨膨棒', '酪烤菇菇串', '乌乌黑蛋', '钱汤馒头', '梅落雪间醉', '炎岩之颂', '清心花饼', '奇瑰之汤', '纵声欢唱', '山与海与天空', '火山蛋糕', '粒果裹裹', '苦水', '串烤牛心', '宝石闪闪', '温泉时光', '咚咚嘭嘭', '苹果金条条', '塔塔可', '兽肉旋风', '巧克力', '龙龙饼干', '奇旅馔匣', '夹心土豆泥', '炸虾豆球', '火焰炖肉', '「强水」', '苹果卷卷', '多彩之森', '粒果肉汤', '粒果片片', '酸汁腌鱼', '薄荷酱烤鱼', '粒果杯', '膨膨冰淇淋', '酥酥羊角包', '奶油炖鸡', '桔香鸭胸肉', '泡泡舒芙蕾', '肉满满寿司', '八宝福禄鸭', '茶好月圆', '知足常乐', '红烧肉圆', '繁弦急管', '宾至如归', '金玉满堂', '茶熏乳鸽', '油爆双脆', '古华鱼羊鲜', '玉纹茶叶蛋', '沉玉茶露', '蜜汁叉烧', '千灵慕斯', '缤纷马卡龙', '圈圈圆圆', '致水神', '羊杂哈吉斯', '桔桔薄饼', '港湾牛肚', '咖啡芭芭露', '卡苏莱砂锅', '纳博内番茄盅', '「纯洁之水」', '百味一缕', '苹果黑布丁', '香烤肋排', '杏仁鳟鱼', '韦西鸡', '花果三重奏', '果果仙酪', '鱼鱼咏唱派', '炸鱼薯条', '生肉塔塔', '肉酱千层面', '白淞鲜汤', '膨膨泡芙', '双果清露', '果果软糖', '晶螺糕', '枫丹肥肝', '奶油蘑菇汤', '塔塞斯杂烩', '浮露白霜', '蒜香面包棍', '水乡肉冻', '枫丹洋葱汤', '油封鸭腿', '琼玉果汤', '脆饼珐提', '超级至尊披萨', '蜜金泡果', '薄荷曼果茶', '镀金锅', '秘香肉团', '萨布兹炖肉', '萨巴桑炸角', '蔷薇奶糊', '帕蒂沙兰布丁', '椰炭饼', '千层酥酥', '假日果酿', '枣椰蜜糖', '阿如拌饭', '唐杜尔烤鸡', '肉肉烤蘑菇披萨', '兽米香香', '土豆船', '口袋饼', '奶香菌菇脆塔', '米圆塔', '黄油鸡', '日落莓莓茶', '雨林沙拉', '绿汁脆球', '咖喱虾', '奶酱鲜鱼', '烤肉卷', '马萨拉芝士球', '杂菇荟萃', '薄荷豆汤', '兰巴德鱼卷', '紫苑云霓', '炸肉排三明治', '山家烧', '乌冬面', '丰年有余', '龙须面', '五宝腌菜', '鳗肉茶泡饭', '绯樱虾仙贝', '树莓水馒头', '鲜鱼炖萝卜', '若竹煮', '荞麦面', '辣肉窝窝头', '蛋包饭', '米饭布丁', '文心豆腐', '活力喵饭', '日落鲷鱼烧', '红烩兽肉', '多多烧', '蒲烧鳗肉', '甜虾寿司', '鸟蛋寿司', '刺身拼盘', '黄油蟹蟹', '绀田煮', '绯樱饼', '兽骨拉面', '三彩团子', '绯樱天妇罗', '串串三味', '渡来禽肉', '市井杂煮', '什锦炒面', '金枪鱼寿司', '饭团', '蟹黄壳壳烧', '鸟蛋烧', '干烧香鱼', '味噌汤', '鸡豆花', '清炒虾仁', '米窝窝', '干锅腊肉', '蟹黄豆腐', '干炒鱼河', '大黄金吮指鸡', '兽肉薄荷卷', '脆脆鸡腿堡', '鲜虾脆薯盏', '香浓土豆泥', '凉拌薄荷', '薄荷果冻', '明月蛋', '素鲍鱼', '岩港三鲜', '四方和平', '绝云锅巴', '黄油煎鱼', '稠汁蔬菜炖肉', '天枢肉', '月亮派', '金丝虾球', '北地苹果焖肉', '腌笃鲜', '扣三丝', '冒险家蛋堡', '莲花酥', '仙跳墙', '翡玉什锦袋', '黄金蟹', '中原杂碎', '蜜酱胡萝卜煎肉', '风神杂烩菜', '蟹黄火腿焗时蔬', '蒙德土豆饼', '松鼠鱼', '水煮黑背鲈', '烤蘑菇披萨', '冷肉拼盘', '黄油松茸', '轻策农家菜', '「堆高高」', '来来菜', '嘟嘟莲海鲜羹', '白汁时蔬烩肉', '莲子禽蛋羹', '庄园烤松饼', '山珍热卤面', '北地烟熏鸡', '松茸酿肉卷', '甜甜花酿鸡', '水晶虾', '火火肉酱面', '炸萝卜丸子', '杏仁豆腐', '香嫩椒椒鸡', '满足沙拉', '珍珠翡翠白玉汤', '渔人吐司', '蒙德烤鱼', '摩拉肉', '爆炒肉片', '提瓦特煎蛋', '烤肉排', '野菇鸡肉串', '烤吃虎鱼', '萝卜时蔬汤']
     // 模板匹配图片路径
     const pic_path = {
-        "slide_bar_main": "assets\\others\\slide_bar_main.png",
+        "slide_bar_main_up": "assets\\others\\slide_bar_main_up.png",
+        "slide_bar_main_down": "assets\\others\\slide_bar_main_down.png",
         "slide_bar_cooking": "assets\\others\\slide_bar_cooking.png",
         "claim": "assets\\others\\claim.png",
         "auto_cooking": {
@@ -7413,25 +7414,28 @@
      *
      * @param {string} direction: 滑动方向
      * @param {bigint} pages: 页数
-     * @returns {Promise<void>} 滑动到底部或者找不到滑块return false，成功滑动return true
+     * @returns {Promise<void>}
      */
     async function scroll_pages_main(direction = "down", pages = 1) {
-        const slide_barRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(pic_path["slide_bar_main"]), 1282, 112, 13, 840);
-        slide_barRo.threshold = 0.6;
+        const slide_bar_upRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(pic_path["slide_bar_main_up"]), 1282, 112, 13, 840);
+        const slide_bar_downRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(pic_path["slide_bar_main_down"]), 1282, 112, 13, 840);
+        slide_bar_upRo.threshold = 0.6;
+        slide_bar_downRo.threshold = 0.6;
         for (let i = 0; i < pages; i++) {
             moveMouseTo(1555, 860); // 移走鼠标，防止干扰识别
             await sleep(200);
-            let slide_bar = captureGameRegion().Find(slide_barRo); // 当前页面模板匹配
-            if (slide_bar.isExist()) {
-                log.info(`定位到滑块...(${slide_bar.x}, ${slide_bar.y})-滑动方向: ${direction}`);
-                if (slide_bar.y > 752 && direction === "down") { // 当前为向下滑动且滑块y值已经大于设定y值
+            let slide_bar_up = captureGameRegion().Find(slide_bar_upRo); // 当前页面模板匹配
+            let slide_bar_down = captureGameRegion().Find(slide_bar_downRo); // 当前页面模板匹配
+            if (slide_bar_up.isExist() && slide_bar_down.isExist()) {
+                log.info(`定位到滑块...(${slide_bar_up.x}, ${slide_bar_up.y})-滑动方向: ${direction}`);
+                if (slide_bar_down.y > 920 && direction === "down") {
                     log.info(`滑块已经滑动到底部...`);
                     if (i != 0) {
                         return true;
                     } else {
                         return false;
                     }
-                } else if (slide_bar.y < 125 && direction === "up") { // 当前为向上滑动且滑块y值已经小于设定y值
+                } else if (slide_bar_up.y < 125 && direction === "up") {
                     log.info(`滑块已经滑动到顶部...`);
                     if (i != 0) {
                         return true;
@@ -7439,8 +7443,8 @@
                         return false;
                     }
                 }
-                click(1289, direction === "down" ? slide_bar.y + 205 : slide_bar.y - 20); // 88 + 175 = 263
-                await sleep(10);
+                click(1289, direction === "down" ? slide_bar_down.y + 20 : slide_bar_up.y - 20); // 向上下滑动（点击）
+                await sleep(100);
             } else {
                 log.error("未找到滑块，无法执行页面滑动操作！");
                 return false;
