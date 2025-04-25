@@ -8249,7 +8249,7 @@
                 // 识别当前buff(判断烹饪产物)
                 let current_buff = get_current_buff();
                 if (unlock || (proficiency[0] === proficiency[1] && proficiency[1] !== 0)) { // 解锁了自动烹饪
-                    const loop_time = Math.ceil(setting_dic["cooking"][food_name] / 99) + 1; // 总计循环数，一次最大99
+                    const loop_time = Math.floor(setting_dic["cooking"][food_name] / 99) + 1; // 总计循环数，一次最大99
                     let cook_num = setting_dic["cooking"][food_name] + 0; // 设定的数量
                     for (let i = 0; i < loop_time; i++) {
                         let cook_time = i !== loop_time - 1 ? 99: cook_num - i * 99; // 本次烹饪数
@@ -8321,7 +8321,7 @@
                         unlock = await is_unlock(); // 检测当前食材是否已经解锁
                     }
                     if (unlock_flag) {
-                        const loop_time = Math.ceil(cook_num / 99) + 1; // 总计循环数，一次最大99
+                        const loop_time = Math.floor(cook_num / 99) + 1; // 总计循环数，一次最大99
                         let cook_num = setting_dic["cooking"][food_name] + 0; // 设定的数量
                         for (let i = 0; i < loop_time; i++) {
                             let cook_time = i !== loop_time - 1 ? 99: cook_num - i * 99; // 本次烹饪数
