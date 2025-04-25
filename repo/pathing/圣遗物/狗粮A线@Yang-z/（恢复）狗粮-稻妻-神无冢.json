@@ -1,39 +1,38 @@
 {
-  "info": {
-    "name": "（恢复）狗粮-稻妻-神无冢",
-    "type": "collect",
-    "author": "Yang-z",
-    "version": "1.0",
-    "bgiVersion": "0.42.0"
-  },
-  "positions": [
-    {
-      "x": -3233.2,
-      "y": -3534.19,
-      "type": "teleport",
-      "move_mode": "walk"
+    "info": {
+        "name": "（恢复）狗粮-稻妻-神无冢",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgiVersion": "0.42.0"
     },
-    {
-      "x": -3238.42,
-      "y": -3532.76,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(1)"
-    },
-    {
-      "x": -3239.14,
-      "y": -3532.55,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(1)"
-    },
-    {
-      "x": -3243.41,
-      "y": -3525.49,
-      "type": "path",
-      "move_mode": "walk"
-    }
-  ]
+    "positions": [
+        {
+            "x": -3233.2021484375,
+            "y": -3534.1865234375,
+            "type": "teleport"
+        },
+        {
+            "x": -3238.419921875,
+            "y": -3532.7587890625,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
+        },
+        {
+            "x": -3239.13671875,
+            "y": -3532.5478515625,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
+        },
+        {
+            "x": -3243.40625,
+            "y": -3525.4921875,
+            "type": "path",
+            "move_mode": "walk"
+        }
+    ]
 }

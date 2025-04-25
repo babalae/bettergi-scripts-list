@@ -1,8 +1,10 @@
 {
     "info": {
-        "name": "",
+        "name": "狗粮-枫丹-研究院区-西北-6个／7个",
         "type": "collect",
-        "author":"Yang-z"
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgiVersion": "0.42.0"
     },
     "positions": [
         {
@@ -12,28 +14,23 @@
         },
 
         {
-            "x": 4607.05322265625,
-            "y": 4943.1953125,
+            "x": 4610.19580078125,
+            "y": 4933.4912109375,
             "type": "path",
             "move_mode": "run"
         },
         {
-            "x": 4604.587890625,
-            "y": 4933.91796875,
+            "x": 4605.03564453125,
+            "y": 4934.54052734375,
             "type": "orientation"
         },
         {
-            "x": 4604.587890625,
-            "y": 4933.91796875,
+            "x": 4605.03564453125,
+            "y": 4934.54052734375,
             "type": "target",
             "move_mode": "run",
-            "#": "1"
-        },
-        {
-            "x": 4604.587890625,
-            "y": 4933.91796875,
-            "type": "target",
-            "move_mode": "run",
+            "action": "combat_script",
+            "action_params": "wait(0.8)",
             "#": "1"
         },
         
@@ -194,13 +191,9 @@
             "y": 4899.99755859375,
             "type": "target",
             "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.8)",
             "#": "6"
-        },
-        {
-            "x": 4758.90966796875,
-            "y": 4899.86083984375,
-            "type": "pth",
-            "move_mode": "walk"
         }
 
     ],

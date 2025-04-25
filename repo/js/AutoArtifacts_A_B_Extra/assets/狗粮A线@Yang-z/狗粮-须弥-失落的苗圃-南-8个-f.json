@@ -1,8 +1,10 @@
 {
     "info": {
-        "name": "",
+        "name": "狗粮-须弥-失落的苗圃-南-8个-f",
         "type": "collect",
-        "author":"Yang-z"
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgiVersion": "0.42.0"
     },
     "positions": [
         {
@@ -161,6 +163,8 @@
             "y": -1090.826171875,
             "type": "target",
             "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.8)",
             "#": "6"
         },
         {
@@ -194,7 +198,7 @@
         {
             "x": 3994.71826171875,
             "y": -1048.44091796875,
-            "type": "target",
+            "type": "path",
             "move_mode": "walk"
         }
     ]

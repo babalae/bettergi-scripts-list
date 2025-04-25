@@ -1,84 +1,89 @@
 {
-  "info": {
-    "name": "狗粮-纳塔-奥奇卡纳塔-七天神像西-5个（重兵把守，未测试）",
-    "type": "collect",
-    "author": "Yang-z",
-    "version": "1.0",
-    "bgiVersion": "0.42.0"
-  },
-  "positions": [
-    {
-      "x": 10030.4,
-      "y": -643.4,
-      "type": "teleport",
-      "move_mode": "walk"
+    "info": {
+        "name": "狗粮-纳塔-奥奇卡纳塔-七天神像西-5个（重兵把守，未测试）",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgiVersion": "0.42.0"
     },
-    {
-      "x": 10023.73,
-      "y": -593.17,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying"
-    },
-    {
-      "x": 10021.34,
-      "y": -586.47,
-      "type": "target",
-      "move_mode": "walk",
-      "#": "1"
-    },
-    {
-      "x": 10025.78,
-      "y": -581.22,
-      "type": "target",
-      "move_mode": "walk",
-      "#": "2"
-    },
-    {
-      "x": 10026.53,
-      "y": -577.27,
-      "type": "target",
-      "move_mode": "walk",
-      "#": "3"
-    },
-    {
-      "x": 10011.24,
-      "y": -595.53,
-      "type": "path",
-      "move_mode": "run"
-    },
-    {
-      "x": 9978.56,
-      "y": -565.25,
-      "type": "path",
-      "move_mode": "run"
-    },
-    {
-      "x": 9980.94,
-      "y": -509.33,
-      "type": "path",
-      "move_mode": "run"
-    },
-    {
-      "x": 9993.75,
-      "y": -506.85,
-      "type": "target",
-      "move_mode": "walk",
-      "#": "4"
-    },
-    {
-      "x": 10030.4,
-      "y": -643.4,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": "force_tp"
-    },
-    {
-      "x": 10030.11,
-      "y": -793.73,
-      "type": "target",
-      "move_mode": "fly",
-      "#": "5"
-    }
-  ]
+    "positions": [
+        {
+            "x": 10030.400390625,
+            "y": -643.39599609375,
+            "type": "teleport",
+            "move_mode": "walk"
+        },
+        {
+            "x": 10023.7294921875,
+            "y": -593.17431640625,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "stop_flying"
+        },
+        {
+            "x": 10021.3388671875,
+            "y": -586.47119140625,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "1"
+        },
+        {
+            "x": 10025.775390625,
+            "y": -581.22021484375,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "2"
+        },
+        {
+            "x": 10026.533203125,
+            "y": -577.2685546875,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "3"
+        },
+
+
+        {
+            "x": 10011.244140625,
+            "y": -595.53173828125,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 9978.5556640625,
+            "y": -565.25,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 9980.9423828125,
+            "y": -509.32763671875,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 9993.7470703125,
+            "y": -506.8466796875,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "4"
+        },
+
+
+
+        {
+            "x": 10030.400390625,
+            "y": -643.39599609375,
+            "type": "teleport",
+            "move_mode": "walk",
+            "action": "force_tp"
+        },
+        {
+            "x": 10030.107421875,
+            "y": -793.728515625,
+            "type": "target",
+            "move_mode": "fly",
+            "#": "5"
+        }
+    ]
 }

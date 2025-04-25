@@ -1,0 +1,30 @@
+{
+  "info": {
+    "name": "[稻妻] 御伽木x9 + 孔雀木x6",
+    "type": "collect",
+    "author": "Patrick-Ze (AyakaMain)",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4217.869140625,
+      "y": -2397.865234375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4185.3984375,
+      "y": -2430.158203125,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "2000"
+    }
+  ]
+}
