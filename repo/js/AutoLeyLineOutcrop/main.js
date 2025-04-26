@@ -60,7 +60,9 @@ let retryCount = 0;       // 重试次数
             try {
                 for (let i = 1; i <= 6; i++) {
                     await pathingScript.runFile(`assets/pathing/${settings.forceRunPath}-${i}.json`);
+                    log.info(`assets/pathing/${settings.forceRunPath}-${i}.json`);
                     await processLeyLineOutcrop(settings.timeout, settings.forceRun, `assets/pathing/target/${settings.forceRunPath}-${i}.json`);
+                    log.info(settings.timeout, settings.forceRun, `assets/pathing/target/${settings.forceRunPath}-${i}.json`);
                 }
             } catch (error) {
                 log.info(error.message);
@@ -298,10 +300,9 @@ async function locateLeyLineOutcrop(country, type, config) {
         // 未找到地脉花，尝试移动地图或重试
         if (shouldMoveMap(country, retryCount)) {
             // 移动到特定位置再次尝试
-            const position = getMapPosition(country, retryCount, config);
+            const position = await getMapPosition(country, retryCount, config);
             log.info(`移动到特定位置：(${position.x},${position.y})`);
             await genshin.moveMapTo(position.x, position.y);
-            return await locateLeyLineOutcrop(country, type, config);
         }
 
         log.warn("未找到地脉花");
@@ -337,12 +338,14 @@ function shouldMoveMap(country, retryCount) {
  * @param {Object} config - 配置对象
  * @returns {Object} 包含x,y坐标的位置对象
  */
-function getMapPosition(country, retryCount, config) {
+async function getMapPosition(country, retryCount, config) {
     // 从配置文件获取位置
     if (config.mapPositions[country]) {
         const positions = config.mapPositions[country];
         // 确保retryCount+1不超过位置数量
-        const index = Math.min(retryCount + 1, positions.length - 1);
+        let index = Math.min(retryCount + 1, positions.length - 1);
+        log.warn(`retryCount：${retryCount}`);
+        log.warn(`index：${index}`);
         return positions[index];
     }
     
@@ -626,6 +629,7 @@ async function closeCustomMarks() {
         log.info("关闭自定义标记");
         click(Math.round(button.x + button.width / 2), Math.round(button.y + button.height / 2));
         await sleep(600);
+        keyPress("ESCAPE");
     } else {
         log.error("未找到开关按钮");
     }
