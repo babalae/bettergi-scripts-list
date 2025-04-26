@@ -214,7 +214,7 @@
 
             // 配置自动拾取，根据文件名指定信息，确定是否强制交互（快速拾取）
             let forceInteraction = filePath.search("-f") != -1; //
-            dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": forceInteraction }));
+            if (!isToRestore) dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": forceInteraction }));
 
             //执行路径追踪脚本
             log.info(filePath);
