@@ -31,7 +31,6 @@ await sleep(1000);
 click(110, 110);//输入名字
 await sleep(1000);
 inputText(`${foodName}`);
-keyPress("SPACE");
 await sleep(500);
 click(490, 1020);//确认筛选
 await sleep(1000);
