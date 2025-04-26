@@ -153,7 +153,7 @@
     * */
     function parse_file_name(file_name) {
         try {
-            const file_msg = file_name.split()
+            const file_msg = file_name.split("-")
             let msg_dic = {}; // 存储路径信息
 
             const area = file_msg[0];
@@ -190,7 +190,7 @@
      * */
     async function run_file(file_name) {
         const base_path_pathing = "assets/pathing/";
-        await keyMouseScript.runFile(base_path_pathing + file_name + ".json");
+        await pathingScript.runFile(base_path_pathing + file_name + ".json");
     }
 
     async function main() {
@@ -202,16 +202,15 @@
             const setting_msg = read_settings();
             // 自动拾取
             if (setting_msg["mode_pick"] === "自动拾取") {
-                dispatcher.addTimer(new RealtimeTimer("AutoPick");
+                dispatcher.addTimer(new RealtimeTimer("AutoPick"));
             } else if (setting_msg["mode_pick"] === "强制拾取") {
                 dispatcher.addTimer(new RealtimeTimer("AutoPick", {"forceInteraction": true}));
             }
             // 刷取禽肉上限
-            if (setting_msg["check_upper_limit"]) {
-                upper_one = 0;
-                upper_two = 0;
-                upper_three = 0;
-            }
+            // if (setting_msg["check_upper_limit"]) {}
+            upper_one = 0;
+            upper_two = 0;
+            upper_three = 0;
             // 输出JS脚本配置
             log.info(`下落路线: ${setting_msg["check_descend"] ? "禁用": "启用"}`);
             log.info(`战斗路线: ${setting_msg["check_fight"] ? "禁用": "启用"}`);
@@ -241,7 +240,7 @@
                 }
 
                 // 执行任务
-                run_file(pathing_list[i]);
+                await run_file(pathing_list[i]);
                 // 禽肉上限判定
                 if (setting_msg["check_upper_limit"]) {
                     for (const [key, value] of Object.entries(path_msg["objects"])) {
