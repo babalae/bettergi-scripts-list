@@ -1,12 +1,12 @@
 // 作者:苍夏
-// 描述:生存(钟离，茜特菈莉，莱伊拉 至少有一个),后台(影,八重,芙宁娜,玛薇卡,千织,5选3,千织绑定钟离)
+// 描述:V2 生存(钟离，茜特菈莉，莱伊拉 至少有一个),后台(影,八重,芙宁娜,玛薇卡,千织,5选3,千织绑定钟离)
+
 钟离 s(0.2),e(hold),wait(0.3),w(0.2),keypress(q)
 茜特菈莉 e,wait(0.5),keypress(q),attack,e
 莱依拉 e,wait(0.5),keypress(q)
-
 雷电将军 e
-八重神子 a(0.2),e,wait(0.5),e,wait(0.6),d(0.2),e
+八重神子 e,wait(0.5),keydown(w),e,keyup(w),wait(0.6),keydown(a),keydown(s),e,keyup(a),keyup(s)
 芙宁娜 e,wait(0.5),keypress(q)
-玛薇卡 e,wait(0.5),keypress(q)
-千织 attack,keypress(q),wait(0.3),e,attack(5.5)
-雷电将军 q,attack(6)
+玛薇卡 attack(0.1),e,wait(0.5),keypress(q)
+千织 attack(0.1),click(middle),wait(0.2),keydown(e),wait(0.2),moveby(0,2000),wait(0.2),keyup(e),attack(1),keypress(q)
+雷电将军 q,attack(2)
