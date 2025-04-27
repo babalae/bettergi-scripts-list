@@ -220,6 +220,9 @@
             log.info(filePath);
             await pathingScript.runFile(filePath);
 
+            // 配置强制拾取为关闭状态
+            dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
+
             // 地图缩放按键同某些地图标识重叠，导致识别失败(bgi[v0.43.0]后引入)
             // // 完成路径后，放大地图，脚本中调用就近传送。仍可能被缩小回去。不可行
             // let shouldResizeMap_after = filePath.search("~m") != -1;
