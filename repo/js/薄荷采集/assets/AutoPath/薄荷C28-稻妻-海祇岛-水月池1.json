@@ -1,0 +1,93 @@
+{
+  "info": {
+    "name": "薄荷C28-稻妻-海祇岛-水月池1",
+    "type": "collect",
+    "author": "Tool_tingsu",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1134.408203125,
+      "y": -3605.2275390625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1139.1650390625,
+      "y": -3597.98046875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(F),wait(0.3),keypress(T),wait(0.8),keypress(T),wait(0.8),keypress(T)"
+    },
+    {
+      "id": 3,
+      "x": -1150.646484375,
+      "y": -3593.2060546875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1155.8974609375,
+      "y": -3589.7490234375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1167.2431640625,
+      "y": -3578.2822265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -1178.296875,
+      "y": -3566.443359375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -1190.8759765625,
+      "y": -3553.314453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -1193.23828125,
+      "y": -3524.1416015625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -1183.9580078125,
+      "y": -3511.4599609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
