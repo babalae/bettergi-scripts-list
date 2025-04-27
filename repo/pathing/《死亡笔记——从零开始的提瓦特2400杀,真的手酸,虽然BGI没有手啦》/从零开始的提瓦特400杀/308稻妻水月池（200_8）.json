@@ -23,8 +23,8 @@
       "y": -3596.6162109375,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),wait(1),keypress(t),wait(0.5),keypress(t),wait(0.5),keypress(t),wait(0.5)",
-      "type": "path"
+      "action_params": "keypress(f),w(0.4),keypress(f),wait(1),keypress(t),wait(0.5),keypress(t),wait(0.5),keypress(t),wait(0.5)",
+      "type": "target"
     },
     {
       "id": 3,
@@ -55,34 +55,43 @@
     },
     {
       "id": 6,
-      "x": -1188.7498419966832,
-      "y": -3581.75,
-      "action": "fight",
+      "x": -1191.73828125,
+      "y": -3575.154296875,
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "",
+      "action_params": "wait(7)",
       "type": "path"
     },
     {
       "id": 7,
-      "x": -1195.7498419966832,
-      "y": -3600.75,
-      "action": "fight",
+      "x": -1188.771484375,
+      "y": -3595.39453125,
+      "type": "path",
       "move_mode": "dash",
+      "action": "fight",
       "action_params": "",
-      "type": "path"
+      "locked": false
     },
     {
       "id": 8,
+      "x": -1188.771484375,
+      "y": -3595.39453125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
       "x": -1180.5625750515755,
       "y": -3573.063333687991,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": -1176.2499170482588,
       "y": -3568.8752880013053,
       "action": "",
@@ -91,7 +100,7 @@
       "type": "path"
     },
     {
-      "id": 10,
+      "id": 11,
       "x": -1154.4060623710611,
       "y": -3556.7191213701044,
       "action": "",
@@ -100,7 +109,7 @@
       "type": "path"
     },
     {
-      "id": 11,
+      "id": 12,
       "x": -1140.7119140625,
       "y": -3545.8935546875,
       "action": "fight",
@@ -108,7 +117,7 @@
       "type": "path"
     },
     {
-      "id": 12,
+      "id": 13,
       "x": -1143.7119140625,
       "y": -3547.8935546875,
       "action": "",
@@ -117,7 +126,7 @@
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 14,
       "x": -1129.7501975041469,
       "y": -3530.6255456866857,
       "action": "",
@@ -126,7 +135,7 @@
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": -1108.500557820731,
       "y": -3500.2486978371653,
       "action": "",
@@ -135,7 +144,7 @@
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": -1106.5006136028042,
       "y": -3528.8740570544996,
       "action": "",
@@ -144,41 +153,41 @@
       "type": "path"
     },
     {
-      "id": 16,
-      "x": -1101.4424646045136,
-      "y": -3510.8112202882476,
+      "id": 17,
+      "x": -1101.34375,
+      "y": -3520.6226318297486,
       "action": "fight",
       "move_mode": "run",
-      "type": "path"
-    },
-    {
-      "id": 17,
-      "x": -1095.837890625,
-      "y": -3577.1279296875,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
       "type": "path"
     },
     {
       "id": 18,
-      "x": -1097.0001673462193,
-      "y": -3636.9987876415,
-      "action": "fight",
-      "move_mode": "run",
-      "type": "path"
-    },
-    {
-      "id": 19,
-      "x": -1056.1237833744563,
-      "y": -3657.6280315926924,
+      "x": -1095.837890625,
+      "y": -3577.1279296875,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
+      "id": 19,
+      "x": -1097.0001673462193,
+      "y": -3636.9987876415,
+      "action": "fight",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
       "id": 20,
+      "x": -1056.1237833744563,
+      "y": -3657.6280315926924,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
       "x": -1011.4375,
       "y": -3662.687123737651,
       "action": "fight",
@@ -186,7 +195,7 @@
       "type": "path"
     },
     {
-      "id": 21,
+      "id": 22,
       "x": -1314.3594291755944,
       "y": -3774.5396935153767,
       "action": "",
@@ -195,7 +204,7 @@
       "type": "teleport"
     },
     {
-      "id": 22,
+      "id": 23,
       "x": -1340,
       "y": -3783.6259295893324,
       "action": "fight",
