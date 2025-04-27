@@ -214,101 +214,93 @@ function loadSettings() {
  * 查找地脉花位置
  * @param {string} country - 国家名称
  * @param {string} type - 地脉花类型
- * @param {Object} settings - 设置对象
  * @returns {Promise<void>}
  */
-async function findLeyLineOutcrop(country, type, settings) {
-    // 加载配置
+async function findLeyLineOutcrop(country, type) {
     const config = await loadConfig();
-    
-    // 最大重试次数检查
-    if (retryCount >= 5) {
-        retryCount = 0;
-        throw new Error("寻找地脉花位置失败");
-    }
-    
-    log.info("寻找地脉花位置");
-    
-    // 从配置文件读取地图位置
-    if (config.mapPositions[country] && config.mapPositions[country].length > 0) {
-        // 使用第一个位置（默认位置）
-        const defaultPos = config.mapPositions[country][0];
-        await genshin.moveMapTo(defaultPos.x, defaultPos.y, country);
-    } else {
+    const maxRetries = 5;
+
+    log.info("开始寻找地脉花");
+
+    if (!config.mapPositions[country] || config.mapPositions[country].length === 0) {
         throw new Error(`未找到国家 ${country} 的位置信息`);
     }
-    
-    // 初始化花的引用
+
+    const defaultPos = config.mapPositions[country][0];
+    await genshin.moveMapTo(defaultPos.x, defaultPos.y, country);
+    await sleep(1000); // 移动完等地图稳定
+
     currentFlower = null;
 
-    // 尝试定位地脉花
-    const found = await locateLeyLineOutcrop(country, type, config);
+    for (let retryCount = 0; retryCount < maxRetries; retryCount++) {
+        log.info(`第 ${retryCount + 1} 次尝试定位地脉花`);
 
-    // 如果未找到，进行重试
-    if (!found) {
-        retryCount++;
+        const found = await locateLeyLineOutcrop(type);
 
-        // 首次重试时，额外步骤：传送到七天神像并关闭自定义标记
-        if (retryCount == 1) {
-            log.warn("未找到地脉花，关闭自定义标记并继续尝试");
-            await closeCustomMarks();
+        if (found) {
+            log.info("成功找到地脉花！");
+            return; // 找到就直接结束
         }
 
-        // 递归调用自身继续查找
-        await findLeyLineOutcrop(country, type, settings);
+        // 第一次失败，执行特殊操作
+        if (retryCount === 0) {
+            log.warn("未找到地脉花，关闭自定义标记并继续尝试");
+            await closeCustomMarks();
+            await sleep(1000);
+        }
+
+        // 如果 shouldMoveMap 建议移动地图，就移动一下
+        if (shouldMoveMap(country, retryCount)) {
+            const position = await getMapPosition(country, retryCount, config);
+            log.info(`移动到特定位置：(${position.x},${position.y}), ${position.name}`);
+            await genshin.moveMapTo(position.x, position.y);
+            await sleep(1000); // 移动后也等一下
+        }
+
+        await sleep(1000); // 每次循环结束也等一下，防止太快
     }
+
+    // 如果到这里还没找到
+    throw new Error("寻找地脉花失败，已达最大重试次数");
 }
+
 
 /**
  * 在地图上定位地脉花
- * @param {string} country - 国家名称
  * @param {string} type - 地脉花类型
- * @param {Object} config - 配置对象
  * @returns {Promise<boolean>} 是否找到地脉花
  */
-async function locateLeyLineOutcrop(country, type, config) {
-    await sleep(200);
+async function locateLeyLineOutcrop(type) {
+    await sleep(500); // 确保画面稳定
     await genshin.setBigMapZoomLevel(3.0);
-    
-    // 根据花的类型选择图标路径
-    const iconPath = type == "蓝花（经验书）"
+
+    const iconPath = type === "蓝花（经验书）"
         ? "assets/icon/Blossom_of_Revelation.png"
         : "assets/icon/Blossom_of_Wealth.png";
 
-    // 查找地脉花图标
     const flowerList = captureGameRegion().findMulti(RecognitionObject.TemplateMatch(file.ReadImageMatSync(iconPath)));
 
     if (flowerList && flowerList.count > 0) {
-        // 找到地脉花，记录位置并计算坐标
         currentFlower = flowerList[0];
-        const flowerType = type == "蓝花（经验书）" ? "经验" : "摩拉";
+        const flowerType = type === "蓝花（经验书）" ? "经验" : "摩拉";
 
         log.info(`找到${flowerType}地脉花,位置：(${currentFlower.x},${currentFlower.y})`);
 
-        // 计算地脉花的实际坐标
         const center = genshin.getPositionFromBigMap();
         const mapZoomLevel = genshin.getBigMapZoomLevel();
-        log.info(`地图缩放级别：${mapZoomLevel}`);
+        const mapScaleFactor = 2.361;
 
-        const mapScaleFactor = 2.361; // 地图缩放因子，固定值
         leyLineX = (960 - currentFlower.x - 25) * mapZoomLevel / mapScaleFactor + center.x;
         leyLineY = (540 - currentFlower.y - 25) * mapZoomLevel / mapScaleFactor + center.y;
 
         log.info(`地脉花的实际坐标：(${leyLineX},${leyLineY})`);
-        return true; // 返回true表示找到了地脉花
+        return true;
     } else {
-        // 未找到地脉花，尝试移动地图或重试
-        if (shouldMoveMap(country, retryCount)) {
-            // 移动到特定位置再次尝试
-            const position = await getMapPosition(country, retryCount, config);
-            log.info(`移动到特定位置：(${position.x},${position.y})`);
-            await genshin.moveMapTo(position.x, position.y);
-        }
-
         log.warn("未找到地脉花");
-        return false; // 返回false表示未找到地脉花
+        return false;
     }
 }
+
 
 /**
  * 判断是否需要移动地图
