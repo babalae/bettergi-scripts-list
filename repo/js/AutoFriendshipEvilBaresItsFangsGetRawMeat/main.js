@@ -43,7 +43,7 @@
 			// 优先使用小地图坐标
 			await genshin.returnMainUi();
 			currentPosition = genshin.getPositionFromMap();
-			log.info(`当前小地图坐标: X=${currentPosition.X}, Y=${currentPosition.Y}`);
+			// log.info(`当前小地图坐标: X=${currentPosition.X}, Y=${currentPosition.Y}`);
 		} catch (error) {
 			// 如果失败，使用大地图坐标
 			log.warn(`获取小地图坐标失败，使用大地图坐标。错误信息: ${error}`);
@@ -51,7 +51,7 @@
 			keyPress("M");
 			await sleep(2000);
 			currentPosition = genshin.getPositionFromBigMap();
-			log.info(`当前大地图坐标: X=${currentPosition.X}, Y=${currentPosition.Y}`);
+			// log.info(`当前大地图坐标: X=${currentPosition.X}, Y=${currentPosition.Y}`);
 			keyPress("Escape");
 		}
 
@@ -60,11 +60,9 @@
 		const dy = currentPosition.Y - targetPosition.Y;
 		const distance = Math.sqrt(dx * dx + dy * dy);
 
-		log.info(`与目标坐标的距离为: ${distance}`);
-
 		// 判断距离是否在允许范围内
 		if (distance <= maxDistance) {
-			log.info("距离在突发任务范围内，循环继续");
+			log.info(`距离：${distance} 在突发任务范围内，循环继续`);
 			return true;
 		} else {
 			log.warn("距离超出突发任务范围，执行触发线路");
@@ -73,7 +71,7 @@
 	}
 
 	// 好感核心函数
-	async function AutoFriendship(runTimes, statueTimes, GetMeatMode, startTime) {
+	async function AutoFriendship(runTimes, statueTimes, GetMeatMode, delayTime, startTime) {
 		for (let i = 0; i < runTimes; i++) {
 			if ((i + 1) % statueTimes === 0) { // 判断当前循环次数否达到去神像设置值
 				await genshin.tpToStatueOfTheSeven();
@@ -81,24 +79,45 @@
 			} else if (!await comparePosition()) { // 对比触发位置坐标，如果不符合预期坐标则重新执行触发线路
 				log.info(`导航至突发任务（张牙舞爪的恶党）触发位置(二净甸)`);
 				await AutoPath(`好感-张牙舞爪的恶党-触发位置(二净甸)`);
+				await sleep(delayTime);
 				notification.send(`已抵达突发任务（张牙舞爪的恶党）触发位置`);
 			}
 			// 开启急速拾取
 			dispatcher.addTimer(new RealtimeTimer("AutoPick", {
 				"forceInteraction": true
 			}));
-			log.info(`当前次数：${i + 1}/${runTimes}`);
-			await AutoPath(`好感-张牙舞爪的恶党-循环${GetMeatMode ? '(二净甸刷肉版)' : '(二净甸)'}`);
-			// 关闭急速拾取
-			dispatcher.addTimer(new RealtimeTimer("AutoPick", {
-				"forceInteraction": false
-			}));
-			// 判定本轮循环是否执行完毕
-			if (await comparePosition()) {
-				log.info(`已完成次数：${i + 1}/${runTimes}`);
+			await genshin.relogin();
+
+			// OCR识别是否触发任务
+			let ocrStatus = false;
+			for (let c = 0; c < 3; c++) {
+				let captureRegion = captureGameRegion();
+				let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 200, 300, 300));
+				for (let o = 0; o < resList.count; o++) {
+					let res = resList[o];
+					if (res.text.includes("打倒") || res.text.includes("所有") || res.text.includes("鳄") || res.text.includes("鱼") || res.text.includes("张牙") || res.text.includes("舞爪") || res.text.includes("的") || res.text.includes("恶党")) {
+						ocrStatus = true;
+						break;
+					}
+				}
+			}
+
+			if (ocrStatus) {
+				log.info(`当前次数：${i + 1}/${runTimes}`);
+				await AutoPath(`好感-张牙舞爪的恶党-循环${GetMeatMode ? '(二净甸刷肉版)' : '(二净甸)'}`);
+				// 关闭急速拾取
+				dispatcher.addTimer(new RealtimeTimer("AutoPick", {
+					"forceInteraction": false
+				}));
+				// 判定本轮循环是否执行完毕
+				if (await comparePosition()) {
+					log.info(`已完成次数：${i + 1}/${runTimes}`);
+				} else {
+					i = i - 1; // 退回这次次数
+					log.warn(`判定本轮循环执行失败，退回本轮执行次数：${i + 1}/${runTimes}`);
+				}
 			} else {
-				i = i - 1; // 退回这次次数
-				log.warn(`判定本轮循环执行失败，退回本轮执行次数：${i + 1}/${runTimes}`);
+				break;
 			}
 			const estimatedCompletion = calculateEstimatedCompletion(startTime, i + 1, runTimes);
 			logTimeTaken(startTime);
@@ -114,6 +133,8 @@
 	// 神像相关参数
 	let goStatue = settings.goStatue ? settings.goStatue : false;
 	let statueTimes = goStatue ? (isNaN(settings.statueTimes) ? 5 : settings.statueTimes) : 0;
+	// 延迟相关
+	let delayTime = settings.delayTime ? settings.delayTime * 1000 : 0;
 	// 卡时间相关参数
 	if (settings.waitTimeMode) {
 		let maxTimes = settings.maxTimes ? settings.maxTimes : runTimes;
@@ -170,7 +191,6 @@
 	}
 
 	const startTime = Date.now();
-	await AutoFriendship(runTimes, statueTimes, GetMeatMode, startTime);
-	log.info(`兽肉好感运行总时长：${logTimeTaken(startTime)}`);
+	await AutoFriendship(runTimes, statueTimes, GetMeatMode, delayTime, startTime);
 
 })();
