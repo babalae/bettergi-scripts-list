@@ -22,7 +22,7 @@
       "x": -2362.2412109375,
       "y": -3758.3193359375,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
@@ -37,17 +37,17 @@
     },
     {
       "id": 4,
-      "x": -2386.5302734375,
-      "y": -3784.0244140625,
+      "x": -2384.96875,
+      "y": -3783.968765083886,
       "action": "",
-      "move_mode": "dash",
+      "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 5,
-      "x": -2387.50390625,
-      "y": -3789.3134765625,
+      "x": -2385.96875,
+      "y": -3789.0000754194352,
       "action": "",
       "move_mode": "fly",
       "action_params": "",
@@ -55,33 +55,42 @@
     },
     {
       "id": 6,
-      "x": -2390.177734375,
-      "y": -3802.0595703125,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": -2380.22265625,
-      "y": -3806.53125,
-      "action": "combat_script",
-      "move_mode": "fly",
-      "action_params": "click,keypress(x),wait(0.2),click,keypress(x)",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": -2364.779296875,
-      "y": -3820.4248046875,
+      "x": -2389.28125,
+      "y": -3806.9050809987602,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
+      "id": 7,
+      "x": -2384.34375,
+      "y": -3807.093734916114,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "attack(0.3),keypress(x),w(0.5)"
+    },
+    {
+      "id": 8,
+      "x": -2381.6875,
+      "y": -3807.1873416191866,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "attack(0.3),keypress(x),w(0.4),attack(0.3),w(0.4),keypress(x)",
+      "type": "path"
+    },
+    {
       "id": 9,
+      "x": -2365.53125,
+      "y": -3819.3440139680224,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
       "x": -2347.3779296875,
       "y": -3822.328125,
       "action": "fight",
