@@ -89,11 +89,11 @@ let retryCount = 0;       // 重试次数
                     for (let i = 1; i <= position.steps; i++) {
                         if (settings.reRun) {
                             await pathingScript.runFile(`assets/pathing/rerun/${strategyName}-${i}-rerun.json`);
-                            await processLeyLineOutcrop(settings.timeout, settings.forceRun, `assets/pathing/target/${settings.forceRunPath}-${i}.json`);
+                            await processLeyLineOutcrop(settings.timeout, settings.forceRun, `assets/pathing/target/${strategyName}-${i}.json`);
                             await attemptReward(settings);
                         } else {
                             await pathingScript.runFile(`assets/pathing/${strategyName}-${i}.json`);
-                            await processLeyLineOutcrop(settings.timeout, settings.forceRun, `assets/pathing/target/${settings.forceRunPath}-${i}.json`);
+                            await processLeyLineOutcrop(settings.timeout, settings.forceRun, `assets/pathing/target/${strategyName}-${i}.json`);
                             await attemptReward(settings);
                         }
                     }
@@ -250,7 +250,7 @@ async function findLeyLineOutcrop(country, type, settings) {
 
         // 首次重试时，额外步骤：传送到七天神像并关闭自定义标记
         if (retryCount == 1) {
-            log.warn("传送到七天神像并关闭自定义标记以避免地脉花图标被遮挡导致找不到地脉花");
+            log.warn("未找到地脉花，关闭自定义标记并继续尝试");
             await closeCustomMarks();
         }
 
@@ -364,8 +364,8 @@ async function getMapPosition(country, retryCount, config) {
  * @returns {boolean} 是否在指定范围内
  */
 function isNearPosition(x, y, targetX, targetY, threshold) {
-    // 使用配置中的阈值或默认值100
-    const errorThreshold = threshold || 100;
+    // 使用配置中的阈值或默认值50
+    const errorThreshold = threshold || 50;
     return Math.abs(x - targetX) <= errorThreshold && Math.abs(y - targetY) <= errorThreshold;
 }
 
@@ -386,9 +386,13 @@ async function processLeyLineOutcrop(timeout, forceRun, targetPath, retries = 0)
     const MAX_RETRIES = 3;
     
     // 如果超过最大重试次数，记录错误并返回，避免死循环
-    if (retries >= MAX_RETRIES) {
+    if (retries >= MAX_RETRIES && !forceRun) {
         log.error(`打开地脉花失败，已重试${MAX_RETRIES}次，终止处理`);
         log.error("我辣么大一个地脉花哪去了？");
+        throw new Error("打开地脉花失败");
+    } else if (retries >= MAX_RETRIES && forceRun) {
+        log.error(`打开地脉花失败，已重试${MAX_RETRIES}次，终止处理`);
+        log.error("强制运行模式，继续运行");
         return;
     }
     
@@ -398,25 +402,19 @@ async function processLeyLineOutcrop(timeout, forceRun, targetPath, retries = 0)
         await openOutcrop(targetPath);
         await autoFight(timeout);
         await autoNavigateToReward();
-        const settings = { forceRun };
-        await attemptReward(settings)
     } else if (ocr && ocr.text.includes("打倒所有敌人")) {
         log.info("地脉花已经打开，直接战斗");
         await autoFight(timeout);
         await autoNavigateToReward();
-        const settings = { forceRun };
-        await attemptReward(settings)
     } else if (ocr && ocr.text.includes("地脉之花")) {
         log.info("识别到地脉之花");
-        const settings = { forceRun };
-        await attemptReward(settings);
     } else {
         log.warn(`未识别到地脉花文本，当前重试次数: ${retries + 1}/${MAX_RETRIES}`);
         try {
             await pathingScript.runFile(targetPath);
             await processLeyLineOutcrop(timeout, forceRun, targetPath, retries + 1);
         } catch (error) {
-            log.error(`打开地脉花失败: ${error.message}`);
+            throw new Error (`打开地脉花失败: ${error.message}`);
         }
     }
 }
@@ -521,9 +519,6 @@ async function openOutcrop(targetPath){
         keyPress("F");
         await sleep(400);
     }
-    keyDown("S");
-    await sleep(200);
-    keyUp("S"); // 后撤一步防止被花卡住
 }
 
 /**
