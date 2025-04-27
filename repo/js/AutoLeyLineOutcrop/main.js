@@ -246,7 +246,6 @@ async function findLeyLineOutcrop(country, type) {
         if (retryCount === 0) {
             log.warn("未找到地脉花，关闭自定义标记并继续尝试");
             await closeCustomMarks();
-            await sleep(1000);
         }
 
         // 如果 shouldMoveMap 建议移动地图，就移动一下
@@ -334,10 +333,10 @@ async function getMapPosition(country, retryCount, config) {
     // 从配置文件获取位置
     if (config.mapPositions[country]) {
         const positions = config.mapPositions[country];
-        // 确保retryCount+1不超过位置数量
-        let index = Math.min(retryCount + 1, positions.length - 1);
+        // 确保retryCount不超过位置数量
+        let index = Math.min(retryCount, positions.length - 1);
         log.warn(`retryCount：${retryCount}`);
-        log.warn(`index：${index}`);
+        log.warn(`countryIndex：${index}`);
         return positions[index];
     }
     
