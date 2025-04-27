@@ -1,0 +1,34 @@
+[
+    {
+      "name": "selectValue", // 变量名，在js内使用 settings.变量名 获取对应的配置值
+      "type": "select", // 类型
+      "label": "选择凯瑟琳地区（默认:枫丹）", // 显示标签
+      "options": [ //选项
+        "蒙德凯瑟琳",
+        "璃月凯瑟琳",
+        "稻妻凯瑟琳",
+        "须弥凯瑟琳",
+        "枫丹凯瑟琳",
+        "纳塔凯瑟琳"
+      ]
+    },
+  {
+    "name": "AutoDailyReward",
+    "type": "select",
+    "label": "自动领取每日委托奖励（默认：否）",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
+  {
+    "name": "AutoDispatch",
+    "type": "select",
+    "label": "自动探索派遣（默认：是）",
+    "options": [
+      "是",
+      "否"
+    ]
+  }
+  ]
+  
