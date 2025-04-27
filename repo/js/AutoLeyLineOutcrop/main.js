@@ -290,7 +290,7 @@ async function locateLeyLineOutcrop(country, type, config) {
         const mapZoomLevel = genshin.getBigMapZoomLevel();
         log.info(`地图缩放级别：${mapZoomLevel}`);
 
-        const mapScaleFactor = 2.35; // 地图缩放因子，固定值
+        const mapScaleFactor = 2.361; // 地图缩放因子，固定值
         leyLineX = (960 - currentFlower.x - 25) * mapZoomLevel / mapScaleFactor + center.x;
         leyLineY = (540 - currentFlower.y - 25) * mapZoomLevel / mapScaleFactor + center.y;
 
