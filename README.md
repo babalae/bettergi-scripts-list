@@ -63,9 +63,9 @@ repo/pathing/
 如果脚本和原来的地图追踪脚本存在冲突 按照以下原则处理：
 - 修复或补充：直接提交到原材料目录。
 - 路线冲突：新建同名目录并添加作者标识：
-  1. 将旧脚本目录重命名为 AA@旧作者名
-  2. 新脚本放入 AA@你的名字
-  3. 例：原 repo/pathing/AA重命名为 repo/pathing/AA@oldauthor新目录 repo/pathing/AA@yourname
+  1. 将旧脚本目录重命名为 `AA@旧作者名`
+  2. 新脚本放入 `AA@你的名字`
+  3. 例：原 `repo/pathing/AA` 重命名为 `repo/pathing/AA@oldauthor` 新目录 `repo/pathing/AA@yourname`
 
 其他注意事项
 - 目录名仅限材料官方名称，不添加版本号或其他标识。
