@@ -59,10 +59,11 @@ let retryCount = 0;       // 重试次数
             log.info(`执行策略：${settings.forceRunPath}`);
             try {
                 for (let i = 1; i <= 6; i++) {
-                    await pathingScript.runFile(`assets/pathing/${settings.forceRunPath}-${i}.json`);
                     log.info(`assets/pathing/${settings.forceRunPath}-${i}.json`);
+                    await pathingScript.runFile(`assets/pathing/${settings.forceRunPath}-${i}.json`);
+
+                    log.info(`processLeyLineOutcrop：assets/pathing/target/${settings.forceRunPath}-${i}.json`);
                     await processLeyLineOutcrop(settings.timeout, settings.forceRun, `assets/pathing/target/${settings.forceRunPath}-${i}.json`);
-                    log.info(settings.timeout, settings.forceRun, `assets/pathing/target/${settings.forceRunPath}-${i}.json`);
                 }
             } catch (error) {
                 log.info(error.message);
@@ -88,11 +89,17 @@ let retryCount = 0;       // 重试次数
                     // 执行位置对应的路径文件
                     for (let i = 1; i <= position.steps; i++) {
                         if (settings.reRun) {
+                            log.info(`assets/pathing/rerun/${strategyName}-${i}-rerun.json`);
                             await pathingScript.runFile(`assets/pathing/rerun/${strategyName}-${i}-rerun.json`);
+
+                            log.info(`processLeyLineOutcrop：assets/pathing/target/${strategyName}-${i}.json`);
                             await processLeyLineOutcrop(settings.timeout, settings.forceRun, `assets/pathing/target/${strategyName}-${i}.json`);
                             await attemptReward(settings);
                         } else {
+                            log.info(`assets/pathing/${strategyName}-${i}.json`);
                             await pathingScript.runFile(`assets/pathing/${strategyName}-${i}.json`);
+
+                            log.info(`processLeyLineOutcrop：assets/pathing/target/${strategyName}-${i}.json`);
                             await processLeyLineOutcrop(settings.timeout, settings.forceRun, `assets/pathing/target/${strategyName}-${i}.json`);
                             await attemptReward(settings);
                         }
@@ -386,7 +393,9 @@ async function processLeyLineOutcrop(timeout, forceRun, targetPath, retries = 0)
         log.error("强制运行模式，继续运行");
         return;
     }
-    
+
+    let boxIconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/box.png"));
+    let boxIcon = captureGameRegion().find(boxIconRo);
     let ocr = captureGameRegion().find(RecognitionObject.ocrThis);
     if (ocr && ocr.text.includes("地脉溢口")) {
         log.info("识别到地脉溢口");
@@ -399,6 +408,9 @@ async function processLeyLineOutcrop(timeout, forceRun, targetPath, retries = 0)
         await autoNavigateToReward();
     } else if (ocr && ocr.text.includes("地脉之花")) {
         log.info("识别到地脉之花");
+    } else if (boxIcon.isExist()){
+        log.info("识别到领奖按钮");
+        await autoNavigateToReward();
     } else {
         log.warn(`未识别到地脉花文本，当前重试次数: ${retries + 1}/${MAX_RETRIES}`);
         try {
@@ -493,6 +505,7 @@ async function attemptReward(settings) {
         await genshin.returnMainUi();
         await sleep(1000);
         retryCount++;
+        await autoNavigateToReward();
         await attemptReward(settings);
     }
 }
