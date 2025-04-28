@@ -15,10 +15,8 @@ function calculateSHA1(filePath) {
 
 function getGitTimestamp(filePath) {
     try {
-        // 文件创建时间
-        const fs = require('fs');
-        const stats = fs.statSync(filePath);
-        return stats.mtime; // 或 stats.ctime
+        const time = execSync(`git log -1 --format="%ai" -- ${filePath}`).toString().trim();
+        return time || 'No commit found';
     } catch (e) {
         console.warn(`无法通过 Git 获取时间: ${filePath}`, e);
         return null;
