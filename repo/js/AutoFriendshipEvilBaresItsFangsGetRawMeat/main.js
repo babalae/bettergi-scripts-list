@@ -88,7 +88,7 @@
 			// OCR识别是否触发任务（默认30秒超时）
 			let ocrStatus = false;
 			let ocrStartTime = Date.now();
-			while (Date.now() - ocrStartTime < ocrTimeout) {
+			while (Date.now() - ocrStartTime < ocrTimeout && !ocrStatus) {
 				let captureRegion = captureGameRegion();
 				let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 200, 300, 300));
 				for (let o = 0; o < resList.count; o++) {
