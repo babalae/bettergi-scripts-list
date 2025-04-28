@@ -41,14 +41,17 @@ function extractInfoFromCombatFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf8');
     const authorMatch = content.match(/\/\/\s*作者\s*:(.*)/);
     const descriptionMatch = content.match(/\/\/\s*描述\s*:(.*)/);
+    const versionMatch = content.match(/\/\/\s*版本\s*:(.*)/);
     const characterMatches = content.match(/^(?!\/\/).*?(\S+)(?=\s|$)/gm);
 
     const tags = [...new Set(characterMatches || [])]
         .map(char => char.trim())
         .filter(char => char.length > 0 && !char.match(/^[,.]$/)); // 过滤掉单个逗号或句号
     
-    const gitTimestamp = getGitTimestamp(filePath);
-    const version = gitTimestamp ? formatTime(gitTimestamp) : calculateSHA1(filePath).substring(0, 7);
+    // 优先使用文件中的版本号，其次使用提交时间，最后使用 SHA
+    const version = versionMatch ? versionMatch[1].trim() : 
+                   (getGitTimestamp(filePath) ? formatTime(getGitTimestamp(filePath)) : 
+                    calculateSHA1(filePath).substring(0, 7));
     
     return {
         author: authorMatch ? authorMatch[1].trim() : '',
@@ -97,9 +100,10 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
     
     const contentObj = JSON.parse(content);
     
-    // 优先使用 Git 提交时间作为版本号
-    const gitTimestamp = getGitTimestamp(filePath);
-    const version = gitTimestamp ? formatTime(gitTimestamp) : (contentObj.info?.version || calculateSHA1(filePath).substring(0, 7));
+    // 优先使用文件中的版本号，其次使用提交时间，最后使用 SHA
+    const version = contentObj.info?.version || 
+                   (getGitTimestamp(filePath) ? formatTime(getGitTimestamp(filePath)) : 
+                    calculateSHA1(filePath).substring(0, 7));
     
     let tags = parentFolders.slice(2)
         .filter(tag => !tag.includes('@'))
@@ -127,6 +131,7 @@ function extractInfoFromTCGFile(filePath, parentFolder) {
     const content = fs.readFileSync(filePath, 'utf8');
     const authorMatch = content.match(/\/\/\s*作者:(.*)/);
     const descriptionMatch = content.match(/\/\/\s*描述:(.*)/);
+    const versionMatch = content.match(/\/\/\s*版本:(.*)/);
     const characterMatches = content.match(/角色\d+\s?=([^|\r\n{]+)/g);
 
     let tags = characterMatches
@@ -141,8 +146,10 @@ function extractInfoFromTCGFile(filePath, parentFolder) {
         tags = ['酒馆挑战', ...tags];
     }
     
-    const gitTimestamp = getGitTimestamp(filePath);
-    const version = gitTimestamp ? formatTime(gitTimestamp) : calculateSHA1(filePath).substring(0, 7);
+    // 优先使用文件中的版本号，其次使用提交时间，最后使用 SHA
+    const version = versionMatch ? versionMatch[1].trim() : 
+                   (getGitTimestamp(filePath) ? formatTime(getGitTimestamp(filePath)) : 
+                    calculateSHA1(filePath).substring(0, 7));
     
     return {
         author: authorMatch ? authorMatch[1].trim() : '',
