@@ -59,10 +59,11 @@ let retryCount = 0;       // 重试次数
             log.info(`执行策略：${settings.forceRunPath}`);
             try {
                 for (let i = 1; i <= 6; i++) {
-                    await pathingScript.runFile(`assets/pathing/${settings.forceRunPath}-${i}.json`);
                     log.info(`assets/pathing/${settings.forceRunPath}-${i}.json`);
+                    await pathingScript.runFile(`assets/pathing/${settings.forceRunPath}-${i}.json`);
+
+                    log.info(`processLeyLineOutcrop：assets/pathing/target/${settings.forceRunPath}-${i}.json`);
                     await processLeyLineOutcrop(settings.timeout, settings.forceRun, `assets/pathing/target/${settings.forceRunPath}-${i}.json`);
-                    log.info(settings.timeout, settings.forceRun, `assets/pathing/target/${settings.forceRunPath}-${i}.json`);
                 }
             } catch (error) {
                 log.info(error.message);
@@ -88,11 +89,17 @@ let retryCount = 0;       // 重试次数
                     // 执行位置对应的路径文件
                     for (let i = 1; i <= position.steps; i++) {
                         if (settings.reRun) {
+                            log.info(`assets/pathing/rerun/${strategyName}-${i}-rerun.json`);
                             await pathingScript.runFile(`assets/pathing/rerun/${strategyName}-${i}-rerun.json`);
+
+                            log.info(`processLeyLineOutcrop：assets/pathing/target/${strategyName}-${i}.json`);
                             await processLeyLineOutcrop(settings.timeout, settings.forceRun, `assets/pathing/target/${strategyName}-${i}.json`);
                             await attemptReward(settings);
                         } else {
+                            log.info(`assets/pathing/${strategyName}-${i}.json`);
                             await pathingScript.runFile(`assets/pathing/${strategyName}-${i}.json`);
+
+                            log.info(`processLeyLineOutcrop：assets/pathing/target/${strategyName}-${i}.json`);
                             await processLeyLineOutcrop(settings.timeout, settings.forceRun, `assets/pathing/target/${strategyName}-${i}.json`);
                             await attemptReward(settings);
                         }
@@ -214,101 +221,92 @@ function loadSettings() {
  * 查找地脉花位置
  * @param {string} country - 国家名称
  * @param {string} type - 地脉花类型
- * @param {Object} settings - 设置对象
  * @returns {Promise<void>}
  */
-async function findLeyLineOutcrop(country, type, settings) {
-    // 加载配置
+async function findLeyLineOutcrop(country, type) {
     const config = await loadConfig();
-    
-    // 最大重试次数检查
-    if (retryCount >= 5) {
-        retryCount = 0;
-        throw new Error("寻找地脉花位置失败");
-    }
-    
-    log.info("寻找地脉花位置");
-    
-    // 从配置文件读取地图位置
-    if (config.mapPositions[country] && config.mapPositions[country].length > 0) {
-        // 使用第一个位置（默认位置）
-        const defaultPos = config.mapPositions[country][0];
-        await genshin.moveMapTo(defaultPos.x, defaultPos.y, country);
-    } else {
+    const maxRetries = 5;
+
+    log.info("开始寻找地脉花");
+
+    if (!config.mapPositions[country] || config.mapPositions[country].length === 0) {
         throw new Error(`未找到国家 ${country} 的位置信息`);
     }
-    
-    // 初始化花的引用
+
+    const defaultPos = config.mapPositions[country][0];
+    await genshin.moveMapTo(defaultPos.x, defaultPos.y, country);
+    await sleep(1000); // 移动完等地图稳定
+
     currentFlower = null;
 
-    // 尝试定位地脉花
-    const found = await locateLeyLineOutcrop(country, type, config);
+    for (let retryCount = 0; retryCount < maxRetries; retryCount++) {
+        log.info(`第 ${retryCount + 1} 次尝试定位地脉花`);
 
-    // 如果未找到，进行重试
-    if (!found) {
-        retryCount++;
+        const found = await locateLeyLineOutcrop(type);
 
-        // 首次重试时，额外步骤：传送到七天神像并关闭自定义标记
-        if (retryCount == 1) {
+        if (found) {
+            log.info("成功找到地脉花！");
+            return; // 找到就直接结束
+        }
+
+        // 第一次失败，执行特殊操作
+        if (retryCount === 0) {
             log.warn("未找到地脉花，关闭自定义标记并继续尝试");
             await closeCustomMarks();
         }
 
-        // 递归调用自身继续查找
-        await findLeyLineOutcrop(country, type, settings);
+        // 如果 shouldMoveMap 建议移动地图，就移动一下
+        if (shouldMoveMap(country, retryCount)) {
+            const position = await getMapPosition(country, retryCount, config);
+            log.info(`移动到特定位置：(${position.x},${position.y}), ${position.name}`);
+            await genshin.moveMapTo(position.x, position.y);
+            await sleep(1000); // 移动后也等一下
+        }
+
+        await sleep(1000); // 每次循环结束也等一下，防止太快
     }
+
+    // 如果到这里还没找到
+    throw new Error("寻找地脉花失败，已达最大重试次数");
 }
+
 
 /**
  * 在地图上定位地脉花
- * @param {string} country - 国家名称
  * @param {string} type - 地脉花类型
- * @param {Object} config - 配置对象
  * @returns {Promise<boolean>} 是否找到地脉花
  */
-async function locateLeyLineOutcrop(country, type, config) {
-    await sleep(200);
+async function locateLeyLineOutcrop(type) {
+    await sleep(500); // 确保画面稳定
     await genshin.setBigMapZoomLevel(3.0);
-    
-    // 根据花的类型选择图标路径
-    const iconPath = type == "蓝花（经验书）"
+
+    const iconPath = type === "蓝花（经验书）"
         ? "assets/icon/Blossom_of_Revelation.png"
         : "assets/icon/Blossom_of_Wealth.png";
 
-    // 查找地脉花图标
     const flowerList = captureGameRegion().findMulti(RecognitionObject.TemplateMatch(file.ReadImageMatSync(iconPath)));
 
     if (flowerList && flowerList.count > 0) {
-        // 找到地脉花，记录位置并计算坐标
         currentFlower = flowerList[0];
-        const flowerType = type == "蓝花（经验书）" ? "经验" : "摩拉";
+        const flowerType = type === "蓝花（经验书）" ? "经验" : "摩拉";
 
         log.info(`找到${flowerType}地脉花,位置：(${currentFlower.x},${currentFlower.y})`);
 
-        // 计算地脉花的实际坐标
         const center = genshin.getPositionFromBigMap();
         const mapZoomLevel = genshin.getBigMapZoomLevel();
-        log.info(`地图缩放级别：${mapZoomLevel}`);
+        const mapScaleFactor = 2.361;
 
-        const mapScaleFactor = 2.35; // 地图缩放因子，固定值
         leyLineX = (960 - currentFlower.x - 25) * mapZoomLevel / mapScaleFactor + center.x;
         leyLineY = (540 - currentFlower.y - 25) * mapZoomLevel / mapScaleFactor + center.y;
 
         log.info(`地脉花的实际坐标：(${leyLineX},${leyLineY})`);
-        return true; // 返回true表示找到了地脉花
+        return true;
     } else {
-        // 未找到地脉花，尝试移动地图或重试
-        if (shouldMoveMap(country, retryCount)) {
-            // 移动到特定位置再次尝试
-            const position = await getMapPosition(country, retryCount, config);
-            log.info(`移动到特定位置：(${position.x},${position.y})`);
-            await genshin.moveMapTo(position.x, position.y);
-        }
-
         log.warn("未找到地脉花");
-        return false; // 返回false表示未找到地脉花
+        return false;
     }
 }
+
 
 /**
  * 判断是否需要移动地图
@@ -322,7 +320,7 @@ function shouldMoveMap(country, retryCount) {
     // 不同国家的重试策略
     const countryRetryMap = {
         "蒙德": [0, 1, 2],
-        "璃月": [0, 1, 2],
+        "璃月": [0, 1, 2, 3],
         "稻妻": [0, 1],
         "枫丹": [0, 1],
         "纳塔": [0, 1, 2, 3]
@@ -342,10 +340,10 @@ async function getMapPosition(country, retryCount, config) {
     // 从配置文件获取位置
     if (config.mapPositions[country]) {
         const positions = config.mapPositions[country];
-        // 确保retryCount+1不超过位置数量
-        let index = Math.min(retryCount + 1, positions.length - 1);
+        // 确保retryCount不超过位置数量
+        let index = Math.min(retryCount, positions.length - 1);
         log.warn(`retryCount：${retryCount}`);
-        log.warn(`index：${index}`);
+        log.warn(`countryIndex：${index}`);
         return positions[index];
     }
     
@@ -395,7 +393,9 @@ async function processLeyLineOutcrop(timeout, forceRun, targetPath, retries = 0)
         log.error("强制运行模式，继续运行");
         return;
     }
-    
+
+    let boxIconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/box.png"));
+    let boxIcon = captureGameRegion().find(boxIconRo);
     let ocr = captureGameRegion().find(RecognitionObject.ocrThis);
     if (ocr && ocr.text.includes("地脉溢口")) {
         log.info("识别到地脉溢口");
@@ -409,6 +409,9 @@ async function processLeyLineOutcrop(timeout, forceRun, targetPath, retries = 0)
         await autoNavigateToReward();
     } else if (ocr && ocr.text.includes("地脉之花")) {
         log.info("识别到地脉之花");
+    } else if (boxIcon.isExist()){
+        log.info("识别到领奖按钮");
+        await autoNavigateToReward();
     } else {
         log.warn(`未识别到地脉花文本，当前重试次数: ${retries + 1}/${MAX_RETRIES}`);
         try {
@@ -514,22 +517,41 @@ async function attemptReward(settings) {
         await genshin.returnMainUi();
         await sleep(1000);
         retryCount++;
+        await autoNavigateToReward();
         await attemptReward(settings);
     }
 }
 
 async function openOutcrop(targetPath){
-    const ocrRegionX = 850;
-    const ocrRegionY = 230;
-    const ocrRegionWidth = 1040 - ocrRegionX;
-    const ocrRegionHeight = 300 - ocrRegionY;
-    let ocrRegion = { x: ocrRegionX, y: ocrRegionY, width: ocrRegionWidth, height: ocrRegionHeight };
+    let ocrRegion1 = { x:800, y:200, width:300, height:100 };   // 中心区域
+    let ocrRegion2 = { x:0, y:200, width:300, height:300 };     // 追踪任务区域
+    let startTime = Date.now();
+    let recognized = false;
+
     keyPress("F");
-    await sleep(500);
-    while(!recognizeFightText(ocrRegion)){
-        await pathingScript.runFile(targetPath);
+
+    // 前5秒识别中心区域弹出的横幅任务提示
+    while (Date.now() - startTime < 5000) {
+        if (recognizeFightText(ocrRegion1)) {
+            recognized = true;
+            break;
+        }
         keyPress("F");
-        await sleep(400);
+        await sleep(500);
+    }
+    
+    // 如果5秒内没有识别成功，再追加识别追踪任务区域及尝试重新开启地脉花
+    if (!recognized) {
+        let secondStartTime = Date.now();
+        while (Date.now() - secondStartTime < 60000) {
+            if (recognizeFightText(ocrRegion1) || recognizeFightText(ocrRegion2)) {
+                recognized = true;
+                break;
+            }
+            await pathingScript.runFile(targetPath);
+            keyPress("F");
+            await sleep(500);
+        }
     }
 }
 
