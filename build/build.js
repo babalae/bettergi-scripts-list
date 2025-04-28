@@ -37,11 +37,19 @@ function extractInfoFromCombatFile(filePath) {
     const tags = [...new Set(characterMatches || [])]
         .map(char => char.trim())
         .filter(char => char.length > 0 && !char.match(/^[,.]$/)); // 过滤掉单个逗号或句号
-
+    
+    let version = getGitTimestamp(filePath);
+    if (!version) {
+        version = calculateSHA1(filePath).substring(0, 7);
+    } else {
+        version = formatTime(version);
+    }
+    
     return {
         author: authorMatch ? authorMatch[1].trim() : '',
         description: descriptionMatch ? convertNewlines(descriptionMatch[1].trim()) : '',
-        tags: tags
+        tags: tags,
+        version: version
     };
 }
 
@@ -130,11 +138,19 @@ function extractInfoFromTCGFile(filePath, parentFolder) {
     if (filePath.includes('酒馆挑战')) {
         tags = ['酒馆挑战', ...tags];
     }
-
+    
+    let version = getGitTimestamp(filePath);
+    if (!version) {
+        version = calculateSHA1(filePath).substring(0, 7);
+    } else {
+        version = formatTime(version);
+    }
+    
     return {
         author: authorMatch ? authorMatch[1].trim() : '',
         description: descriptionMatch ? convertNewlines(descriptionMatch[1].trim()) : '',
-        tags: [...new Set(tags)]  // 去重
+        tags: [...new Set(tags)],  // 去重
+        version: version
     };
 }
 
