@@ -2,10 +2,10 @@
     {
         "name": "partyName",
         "type": "input-text",
-        "label": "需要切换的队伍名称(选填)"
+        "label": "需要切换的队伍名称（选填）"
     },
     {
-        "name": "GetMeatMode",
+        "name": "getMeatMode",
         "type": "checkbox",
         "label": "开启刷兽肉模式【勾选才拾取兽肉】"
     },
@@ -17,7 +17,7 @@
 	{
         "name": "waitTimeMode",
         "type": "checkbox",
-        "label": "卡时间模式【基于运行次数、基准日期、周期确定需要运行次数】"
+        "label": "卡时间模式（基于运行次数、基准日期、周期确定需要运行次数）"
     },
 	{
         "name": "waitTimeModeDay",
@@ -47,7 +47,7 @@
     {
         "name": "delayTime",
         "type": "input-text",
-        "label": "到达触发地点后的延迟时间（秒）"
+        "label": "到达触发地点后的延迟时间（选填，默认为10秒）"
     },
     {
         "name": "ocrTimeout",
