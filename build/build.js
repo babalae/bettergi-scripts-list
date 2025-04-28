@@ -85,6 +85,7 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
         const hasAnemoCollect = contentObj.positions.some(pos => pos.action === 'anemo_collect');
         const hasElectroCollect = contentObj.positions.some(pos => pos.action === 'electro_collect');
         const hasUpDownGrabLeaf = contentObj.positions.some(pos => pos.action === 'up_down_grab_leaf');
+        const hasFight = contentObj.positions.some(pos => pos.action === 'fight');
         if (hasNahidaCollect) {
             tags.push('纳西妲');
         }
@@ -99,6 +100,9 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
         }
         if (hasUpDownGrabLeaf) {
             tags.push('四叶印');
+        }
+        if(hasFight){
+            tags.push('战斗');
         }
     }
 
