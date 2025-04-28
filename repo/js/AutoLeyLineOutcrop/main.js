@@ -22,6 +22,7 @@ let retryCount = 0;       // 重试次数
  * 主函数 - 脚本入口点
  */
 (async function () {
+    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     try {
         // 初始化
         await genshin.returnMainUi();
@@ -410,9 +411,9 @@ async function processLeyLineOutcrop(timeout, forceRun, targetPath, retries = 0)
         await autoNavigateToReward();
     } else if (ocr && ocr.text.includes("地脉之花")) {
         log.info("识别到地脉之花");
-    } else if (boxIcon.isExist()){
-        log.info("识别到领奖按钮");
-        await autoNavigateToReward();
+    // } else if (boxIcon.isExist()){
+    //     log.info("识别到领奖按钮");
+    //     await autoNavigateToReward();
     } else {
         log.warn(`未识别到地脉花文本，当前重试次数: ${retries + 1}/${MAX_RETRIES}`);
         try {
@@ -460,6 +461,7 @@ async function attemptReward(settings) {
     let condensedResin = null;
     let originalResin = null;
     let isResinEmpty = false;
+    let dobuleReward = false;
 
     if (resList && resList.count > 0) {
         // 分析识别到的文本
