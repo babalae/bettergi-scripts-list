@@ -57,13 +57,11 @@ function extractInfoFromJSFolder(folderPath) {
 }
 
 function extractInfoFromPathingFile(filePath, parentFolders) {
-    // 读取文件内容
     let content = fs.readFileSync(filePath, 'utf8');
     
     // 检测并移除BOM
     if (content.charCodeAt(0) === 0xFEFF) {
         content = content.replace(/^\uFEFF/, '');
-        // 检测到BOM时，保存无BOM的版本
         try {
             fs.writeFileSync(filePath, content, 'utf8');
             console.log(`已移除文件BOM标记: ${filePath}`);
@@ -74,41 +72,29 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
     
     const contentObj = JSON.parse(content);
     
+    // 提取版本字段，若不存在则使用 SHA1 前7位
+    const version = contentObj.info && contentObj.info.version
+        ? contentObj.info.version
+        : calculateSHA1(filePath).substring(0, 7);
+    
     let tags = parentFolders.slice(2)
         .filter(tag => !tag.includes('@'))
         .filter((tag, index, self) => self.indexOf(tag) === index);
 
-    // 检查positions数组中是否存在特定动作
     if (contentObj.positions && Array.isArray(contentObj.positions)) {
-        const hasNahidaCollect = contentObj.positions.some(pos => pos.action === 'nahida_collect');
-        const hasHydroCollect = contentObj.positions.some(pos => pos.action === 'hydro_collect');
-        const hasAnemoCollect = contentObj.positions.some(pos => pos.action === 'anemo_collect');
-        const hasElectroCollect = contentObj.positions.some(pos => pos.action === 'electro_collect');
-        const hasUpDownGrabLeaf = contentObj.positions.some(pos => pos.action === 'up_down_grab_leaf');
-        const hasFight = contentObj.positions.some(pos => pos.action === 'fight');
-        if (hasNahidaCollect) {
-            tags.push('纳西妲');
-        }
-        if (hasHydroCollect) {
-            tags.push('水元素力收集');
-        }
-        if (hasAnemoCollect) {
-            tags.push('风元素力收集');
-        }
-        if (hasElectroCollect) {
-            tags.push('雷元素力收集');
-        }
-        if (hasUpDownGrabLeaf) {
-            tags.push('四叶印');
-        }
-        if(hasFight){
-            tags.push('战斗');
-        }
+        const actions = contentObj.positions.map(pos => pos.action);
+        if (actions.includes('nahida_collect')) tags.push('纳西妲');
+        if (actions.includes('hydro_collect')) tags.push('水元素力收集');
+        if (actions.includes('anemo_collect')) tags.push('风元素力收集');
+        if (actions.includes('electro_collect')) tags.push('雷元素力收集');
+        if (actions.includes('up_down_grab_leaf')) tags.push('四叶印');
+        if (actions.includes('fight')) tags.push('战斗');
     }
 
     return {
-        author: contentObj.info && contentObj.info.author ? contentObj.info.author : '',
-        description: convertNewlines(contentObj.info && contentObj.info.description ? contentObj.info.description : ''),
+        author: contentObj.info.author || '',
+        description: convertNewlines(contentObj.info.description || ''),
+        version: version,
         tags: tags
     };
 }
