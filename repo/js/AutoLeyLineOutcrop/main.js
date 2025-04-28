@@ -399,7 +399,8 @@ async function processLeyLineOutcrop(timeout, forceRun, targetPath, retries = 0)
     let ocr = captureGameRegion().find(RecognitionObject.ocrThis);
     if (ocr && ocr.text.includes("地脉溢口")) {
         log.info("识别到地脉溢口");
-        await openOutcrop(targetPath);
+        // await openOutcrop(targetPath);
+        keyPress("F");
         await autoFight(timeout);
         await autoNavigateToReward();
     } else if (ocr && ocr.text.includes("打倒所有敌人")) {
@@ -469,11 +470,22 @@ async function attemptReward(settings) {
             } else if (res.text.includes("补充原粹树脂")) {
                 isValid = true;
                 isResinEmpty = true;
+            } else if (res.text.includes("产出")) {
+                isValid = true;
+                dobuleReward = true;
             }
         }
 
         // 处理不同的树脂情况
-        if (condensedResin) {
+        if (originalResin && dobuleReward == true) {
+            log.info("选择使用原粹树脂，获得双倍产出");
+            click(Math.round(originalResin.x + originalResin.width / 2), Math.round(originalResin.y + originalResin.height / 2));
+            if (settings.friendshipTeam) {
+                log.info("切换回战斗队伍");
+                await genshin.switchParty(settings.team);
+            }
+            return;
+        } else if (condensedResin) {
             log.info("选择使用浓缩树脂");
             click(Math.round(condensedResin.x + condensedResin.width / 2), Math.round(condensedResin.y + condensedResin.height / 2));
             if (settings.friendshipTeam) {
