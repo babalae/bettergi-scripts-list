@@ -15,9 +15,10 @@ function calculateSHA1(filePath) {
 
 function getGitTimestamp(filePath) {
     try {
-        // 获取最后一次提交时间（ISO 格式）
-        const iso = execSync(`git log -1 --format=\"%ci\" -- "${filePath}"`, { encoding: 'utf8' }).trim();
-        return new Date(iso);
+        // 文件创建时间
+        const fs = require('fs');
+        const stats = fs.statSync(filePath);
+        return stats.mtime; // 或 stats.ctime
     } catch (e) {
         console.warn(`无法通过 Git 获取时间: ${filePath}`, e);
         return null;
