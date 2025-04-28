@@ -137,7 +137,7 @@
 	let goStatue = settings.goStatue ? settings.goStatue : false;
 	let statueTimes = goStatue ? (isNaN(settings.statueTimes) ? 5 : settings.statueTimes) : 0;
 	// 延迟相关
-	let delayTime = settings.delayTime ? settings.delayTime * 1000 : 0;
+	let delayTime = settings.delayTime ? settings.delayTime * 1000 : 10000;
 	let ocrTimeout = settings.ocrTimeout ? settings.ocrTimeout * 1000 : 30000;
 	// 卡时间相关参数
 	if (settings.waitTimeMode) {
