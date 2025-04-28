@@ -1,0 +1,112 @@
+{
+  "info": {
+    "name": "6803--纳塔_熔岩辉龙像东南_镜壁山东南_(5)",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9834.62109375,
+      "y": -2359.9140625,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 9837.0634765625,
+      "y": -2347.7509765625,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 9830.615234375,
+      "y": -2299.2001953125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "attack(0.3)"
+    },
+    {
+      "id": 4,
+      "x": 9806.796875,
+      "y": -2286.365234375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 9805.33203125,
+      "y": -2268.09765625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9834.62109375,
+      "y": -2359.9140625,
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 9870.4775390625,
+      "y": -2393.9658203125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 9873.0732421875,
+      "y": -2434.5546875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "attack(0.3)"
+    },
+    {
+      "id": 9,
+      "x": 9900.62890625,
+      "y": -2381.5908203125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "attack(0.3)"
+    },
+    {
+      "id": 10,
+      "x": 9886.44921875,
+      "y": -2417.2763671875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 9824.2255859375,
+      "y": -2432.2822265625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

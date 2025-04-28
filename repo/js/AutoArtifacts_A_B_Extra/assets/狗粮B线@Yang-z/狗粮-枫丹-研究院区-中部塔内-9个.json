@@ -1,8 +1,10 @@
 {
     "info": {
-        "name": "",
+        "name": "狗粮-枫丹-研究院区-中部塔内-9个",
         "type": "collect",
-        "author":"Yang-z"
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgiVersion": "0.42.0"
     },
 
     "positions":[
@@ -163,6 +165,8 @@
             "y": 4920.79248046875,
             "type": "target",
             "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.8)",
             "#" : "5"
         },
 

@@ -1,9 +1,6 @@
 (async function () {
-
-    setGameMetrics(1920, 1080, 1.5)
-
-    log.info("请确保执行脚本时处于主界面");
-    
+    log.info("请确保执行脚本前能够通过ESC回到主界面");
+    await genshin.returnMainUi();
     keyPress("VK_F2")
     await sleep(1000);
     click(330,1010) //点击世界权限
@@ -26,6 +23,7 @@
     default:
         click(330, 850); // 不允许
         log.info("锁门");
-        break;
-}
+        break;    
+    }
+    await genshin.returnMainUi(); // 结束后回到主界面
 })();

@@ -1,39 +1,39 @@
 {
-  "info": {
-    "name": "（恢复）狗粮-璃月-珉林",
-    "type": "collect",
-    "author": "Yang-z",
-    "version": "1.0",
-    "bgiVersion": "0.42.0"
-  },
-  "positions": [
-    {
-      "x": 1474.55,
-      "y": 763.64,
-      "type": "teleport",
-      "move_mode": "walk"
+    "info": {
+        "name": "（恢复）狗粮-璃月-珉林",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgiVersion": "0.42.0"
     },
-    {
-      "x": 1473.33,
-      "y": 762.03,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(1)"
-    },
-    {
-      "x": 1472.42,
-      "y": 762.22,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(1)"
-    },
-    {
-      "x": 1471.82,
-      "y": 765.34,
-      "type": "path",
-      "move_mode": "walk"
-    }
-  ]
+    "positions": [
+        {
+            "x": 1474.5517578125,
+            "y": 763.64013671875,
+            "type": "teleport",
+            "move_mode": "walk"
+        },
+        {
+            "x": 1473.3310546875,
+            "y": 762.0322265625,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
+        },
+        {
+            "x": 1472.4150390625,
+            "y": 762.224609375,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
+        },
+        {
+            "x": 1471.81640625,
+            "y": 765.3427734375,
+            "type": "path",
+            "move_mode": "walk"
+        }
+    ]
 }

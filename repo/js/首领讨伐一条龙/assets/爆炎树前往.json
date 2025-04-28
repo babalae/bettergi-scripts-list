@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "前往爆炎树",
+    "type": "collect",
+    "author": "柒叶子",
+    "version": "1.0",
+    "description": "前往爆炎树",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 837.5556640625,
+      "y": 235.142578125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 856.955078125,
+      "y": 230.3837890625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 897.263671875,
+      "y": 234.44580078125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 928.572265625,
+      "y": 240.56103515625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 954.2783203125,
+      "y": 227.30078125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 954.2890625,
+      "y": 175.15966796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 954.2763671875,
+      "y": 152.3193359375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

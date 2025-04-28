@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { execSync } = require('child_process');
 
 // 在文件开头添加全局变量
 const pathingDirsWithoutIcon = new Set();
@@ -10,6 +11,16 @@ function calculateSHA1(filePath) {
     const hashSum = crypto.createHash('sha1');
     hashSum.update(fileBuffer);
     return hashSum.digest('hex');
+}
+
+function getGitTimestamp(filePath) {
+    try {
+        const time = execSync(`git log -1 --format="%ai" -- ${filePath}`).toString().trim();
+        return time || 'No commit found';
+    } catch (e) {
+        console.warn(`无法通过 Git 获取时间: ${filePath}`, e);
+        return null;
+    }
 }
 
 function convertNewlines(text) {
@@ -25,11 +36,19 @@ function extractInfoFromCombatFile(filePath) {
     const tags = [...new Set(characterMatches || [])]
         .map(char => char.trim())
         .filter(char => char.length > 0 && !char.match(/^[,.]$/)); // 过滤掉单个逗号或句号
-
+    
+    let version = getGitTimestamp(filePath);
+    if (!version) {
+        version = calculateSHA1(filePath).substring(0, 7);
+    } else {
+        version = formatTime(version);
+    }
+    
     return {
         author: authorMatch ? authorMatch[1].trim() : '',
         description: descriptionMatch ? convertNewlines(descriptionMatch[1].trim()) : '',
-        tags: tags
+        tags: tags,
+        version: version
     };
 }
 
@@ -57,13 +76,11 @@ function extractInfoFromJSFolder(folderPath) {
 }
 
 function extractInfoFromPathingFile(filePath, parentFolders) {
-    // 读取文件内容
     let content = fs.readFileSync(filePath, 'utf8');
     
     // 检测并移除BOM
     if (content.charCodeAt(0) === 0xFEFF) {
         content = content.replace(/^\uFEFF/, '');
-        // 检测到BOM时，保存无BOM的版本
         try {
             fs.writeFileSync(filePath, content, 'utf8');
             console.log(`已移除文件BOM标记: ${filePath}`);
@@ -74,37 +91,31 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
     
     const contentObj = JSON.parse(content);
     
+    // 提取版本字段，若不存在则使用上传时间，还不存在就使用 SHA
+    let version = contentObj.info && contentObj.info.version;
+    if (!version) {
+        const gitDate = getGitTimestamp(filePath);
+        version = gitDate ? formatTime(gitDate) : calculateSHA1(filePath).substring(0, 7);
+    }
+    
     let tags = parentFolders.slice(2)
         .filter(tag => !tag.includes('@'))
         .filter((tag, index, self) => self.indexOf(tag) === index);
 
-    // 检查positions数组中是否存在特定动作
     if (contentObj.positions && Array.isArray(contentObj.positions)) {
-        const hasNahidaCollect = contentObj.positions.some(pos => pos.action === 'nahida_collect');
-        const hasHydroCollect = contentObj.positions.some(pos => pos.action === 'hydro_collect');
-        const hasAnemoCollect = contentObj.positions.some(pos => pos.action === 'anemo_collect');
-        const hasElectroCollect = contentObj.positions.some(pos => pos.action === 'electro_collect');
-        const hasUpDownGrabLeaf = contentObj.positions.some(pos => pos.action === 'up_down_grab_leaf');
-        if (hasNahidaCollect) {
-            tags.push('纳西妲');
-        }
-        if (hasHydroCollect) {
-            tags.push('水元素力收集');
-        }
-        if (hasAnemoCollect) {
-            tags.push('风元素力收集');
-        }
-        if (hasElectroCollect) {
-            tags.push('雷元素力收集');
-        }
-        if (hasUpDownGrabLeaf) {
-            tags.push('四叶印');
-        }
+        const actions = contentObj.positions.map(pos => pos.action);
+        if (actions.includes('nahida_collect')) tags.push('纳西妲');
+        if (actions.includes('hydro_collect')) tags.push('水元素力收集');
+        if (actions.includes('anemo_collect')) tags.push('风元素力收集');
+        if (actions.includes('electro_collect')) tags.push('雷元素力收集');
+        if (actions.includes('up_down_grab_leaf')) tags.push('四叶印');
+        if (actions.includes('fight')) tags.push('战斗');
     }
 
     return {
-        author: contentObj.info && contentObj.info.author ? contentObj.info.author : '',
-        description: convertNewlines(contentObj.info && contentObj.info.description ? contentObj.info.description : ''),
+        author: contentObj.info.author || '',
+        description: convertNewlines(contentObj.info.description || ''),
+        version: version,
         tags: tags
     };
 }
@@ -126,11 +137,19 @@ function extractInfoFromTCGFile(filePath, parentFolder) {
     if (filePath.includes('酒馆挑战')) {
         tags = ['酒馆挑战', ...tags];
     }
-
+    
+    let version = getGitTimestamp(filePath);
+    if (!version) {
+        version = calculateSHA1(filePath).substring(0, 7);
+    } else {
+        version = formatTime(version);
+    }
+    
     return {
         author: authorMatch ? authorMatch[1].trim() : '',
         description: descriptionMatch ? convertNewlines(descriptionMatch[1].trim()) : '',
-        tags: [...new Set(tags)]  // 去重
+        tags: [...new Set(tags)],  // 去重
+        version: version
     };
 }
 
