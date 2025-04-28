@@ -313,7 +313,7 @@ function shouldMoveMap(country, retryCount) {
     // 不同国家的重试策略
     const countryRetryMap = {
         "蒙德": [0, 1, 2],
-        "璃月": [0, 1, 2],
+        "璃月": [0, 1, 2, 3],
         "稻妻": [0, 1],
         "枫丹": [0, 1],
         "纳塔": [0, 1, 2, 3]
@@ -498,17 +498,35 @@ async function attemptReward(settings) {
 }
 
 async function openOutcrop(targetPath){
-    const ocrRegionX = 850;
-    const ocrRegionY = 230;
-    const ocrRegionWidth = 1040 - ocrRegionX;
-    const ocrRegionHeight = 300 - ocrRegionY;
-    let ocrRegion = { x: ocrRegionX, y: ocrRegionY, width: ocrRegionWidth, height: ocrRegionHeight };
+    let ocrRegion1 = { x:800, y:200, width:300, height:100 };   // 中心区域
+    let ocrRegion2 = { x:0, y:200, width:300, height:300 };     // 追踪任务区域
+    let startTime = Date.now();
+    let recognized = false;
+
     keyPress("F");
-    await sleep(500);
-    while(!recognizeFightText(ocrRegion)){
-        await pathingScript.runFile(targetPath);
+
+    // 前5秒识别中心区域弹出的横幅任务提示
+    while (Date.now() - startTime < 5000) {
+        if (recognizeFightText(ocrRegion1)) {
+            recognized = true;
+            break;
+        }
         keyPress("F");
-        await sleep(400);
+        await sleep(500);
+    }
+    
+    // 如果5秒内没有识别成功，再追加识别追踪任务区域及尝试重新开启地脉花
+    if (!recognized) {
+        let secondStartTime = Date.now();
+        while (Date.now() - secondStartTime < 60000) {
+            if (recognizeFightText(ocrRegion1) || recognizeFightText(ocrRegion2)) {
+                recognized = true;
+                break;
+            }
+            await pathingScript.runFile(targetPath);
+            keyPress("F");
+            await sleep(500);
+        }
     }
 }
 
