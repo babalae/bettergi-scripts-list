@@ -16,11 +16,21 @@ function calculateSHA1(filePath) {
 function getGitTimestamp(filePath) {
     try {
         const time = execSync(`git log -1 --format="%ai" -- ${filePath}`).toString().trim();
-        return time || 'No commit found';
+        if (!time) {
+            console.warn(`未找到文件 ${filePath} 的提交记录`);
+            return null;
+        }
+        return time;
     } catch (e) {
         console.warn(`无法通过 Git 获取时间: ${filePath}`, e);
         return null;
     }
+}
+
+function formatTime(timestamp) {
+    if (!timestamp) return null;
+    // 将 "2023-01-01 12:00:00 +0800" 格式化为 "20230101120000"
+    return timestamp.replace(/[-: ]/g, '').split('+')[0];
 }
 
 function convertNewlines(text) {
@@ -37,12 +47,8 @@ function extractInfoFromCombatFile(filePath) {
         .map(char => char.trim())
         .filter(char => char.length > 0 && !char.match(/^[,.]$/)); // 过滤掉单个逗号或句号
     
-    let version = getGitTimestamp(filePath);
-    if (!version) {
-        version = calculateSHA1(filePath).substring(0, 7);
-    } else {
-        version = formatTime(version);
-    }
+    const gitTimestamp = getGitTimestamp(filePath);
+    const version = gitTimestamp ? formatTime(gitTimestamp) : calculateSHA1(filePath).substring(0, 7);
     
     return {
         author: authorMatch ? authorMatch[1].trim() : '',
@@ -91,12 +97,9 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
     
     const contentObj = JSON.parse(content);
     
-    // 提取版本字段，若不存在则使用上传时间，还不存在就使用 SHA
-    let version = contentObj.info && contentObj.info.version;
-    if (!version) {
-        const gitDate = getGitTimestamp(filePath);
-        version = gitDate ? formatTime(gitDate) : calculateSHA1(filePath).substring(0, 7);
-    }
+    // 优先使用 Git 提交时间作为版本号
+    const gitTimestamp = getGitTimestamp(filePath);
+    const version = gitTimestamp ? formatTime(gitTimestamp) : (contentObj.info?.version || calculateSHA1(filePath).substring(0, 7));
     
     let tags = parentFolders.slice(2)
         .filter(tag => !tag.includes('@'))
@@ -138,12 +141,8 @@ function extractInfoFromTCGFile(filePath, parentFolder) {
         tags = ['酒馆挑战', ...tags];
     }
     
-    let version = getGitTimestamp(filePath);
-    if (!version) {
-        version = calculateSHA1(filePath).substring(0, 7);
-    } else {
-        version = formatTime(version);
-    }
+    const gitTimestamp = getGitTimestamp(filePath);
+    const version = gitTimestamp ? formatTime(gitTimestamp) : calculateSHA1(filePath).substring(0, 7);
     
     return {
         author: authorMatch ? authorMatch[1].trim() : '',
