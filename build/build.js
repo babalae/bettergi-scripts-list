@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { execSync } = require('child_process');
 
 // 在文件开头添加全局变量
 const pathingDirsWithoutIcon = new Set();
@@ -10,6 +11,17 @@ function calculateSHA1(filePath) {
     const hashSum = crypto.createHash('sha1');
     hashSum.update(fileBuffer);
     return hashSum.digest('hex');
+}
+
+function getGitTimestamp(filePath) {
+    try {
+        // 获取最后一次提交时间（ISO 格式）
+        const iso = execSync(`git log -1 --format=\"%ci\" -- "${filePath}"`, { encoding: 'utf8' }).trim();
+        return new Date(iso);
+    } catch (e) {
+        console.warn(`无法通过 Git 获取时间: ${filePath}`, e);
+        return null;
+    }
 }
 
 function convertNewlines(text) {
@@ -72,10 +84,12 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
     
     const contentObj = JSON.parse(content);
     
-    // 提取版本字段，若不存在则使用创建时间
-    const version = contentObj.info && contentObj.info.version
-        ? contentObj.info.version
-        : : `${formatTime(stats.birthtime)}_${formatTime(stats.mtime)}`;
+    // 提取版本字段，若不存在则使用上传时间，还不存在就使用 SHA
+    let version = contentObj.info && contentObj.info.version;
+    if (!version) {
+        const gitDate = getGitTimestamp(filePath);
+        version = gitDate ? formatTime(gitDate) : calculateSHA1(filePath).substring(0, 7);
+    }
     
     let tags = parentFolders.slice(2)
         .filter(tag => !tag.includes('@'))
