@@ -85,9 +85,10 @@ let retryCount = 0;       // 重试次数
                     foundStrategy = true;
                     strategyName = position.strategy;
                     log.info(`执行策略：${strategyName}`);
+                    log.info(`地脉花的次序：${position.order}`);
                     
                     // 执行位置对应的路径文件
-                    for (let i = 1; i <= position.steps; i++) {
+                    for (let i = position.order; i <= position.steps; i++) {
                         if (settings.reRun) {
                             log.info(`assets/pathing/rerun/${strategyName}-${i}-rerun.json`);
                             await pathingScript.runFile(`assets/pathing/rerun/${strategyName}-${i}-rerun.json`);
