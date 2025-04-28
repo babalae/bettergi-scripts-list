@@ -72,10 +72,10 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
     
     const contentObj = JSON.parse(content);
     
-    // 提取版本字段，若不存在则使用 SHA1 前7位
+    // 提取版本字段，若不存在则使用创建时间
     const version = contentObj.info && contentObj.info.version
         ? contentObj.info.version
-        : calculateSHA1(filePath).substring(0, 7);
+        : : `${formatTime(stats.birthtime)}_${formatTime(stats.mtime)}`;
     
     let tags = parentFolders.slice(2)
         .filter(tag => !tag.includes('@'))
