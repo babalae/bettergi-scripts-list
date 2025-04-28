@@ -71,7 +71,7 @@
 	}
 
 	// 好感核心函数
-	async function AutoFriendship(runTimes, statueTimes, GetMeatMode, delayTime, startTime) {
+	async function AutoFriendship(runTimes, statueTimes, GetMeatMode, delayTime, startTime, ocrTimeout) {
 		for (let i = 0; i < runTimes; i++) {
 			if ((i + 1) % statueTimes === 0) { // 判断当前循环次数否达到去神像设置值
 				await genshin.tpToStatueOfTheSeven();
@@ -85,9 +85,10 @@
 
 			await genshin.relogin();
 
-			// OCR识别是否触发任务
+			// OCR识别是否触发任务（默认30秒超时）
 			let ocrStatus = false;
-			for (let c = 0; c < 3; c++) {
+			let ocrStartTime = Date.now();
+			while (Date.now() - ocrStartTime < ocrTimeout) {
 				let captureRegion = captureGameRegion();
 				let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 200, 300, 300));
 				for (let o = 0; o < resList.count; o++) {
@@ -137,6 +138,7 @@
 	let statueTimes = goStatue ? (isNaN(settings.statueTimes) ? 5 : settings.statueTimes) : 0;
 	// 延迟相关
 	let delayTime = settings.delayTime ? settings.delayTime * 1000 : 0;
+	let ocrTimeout = settings.ocrTimeout ? settings.ocrTimeout * 1000 : 30000;
 	// 卡时间相关参数
 	if (settings.waitTimeMode) {
 		let maxTimes = settings.maxTimes ? settings.maxTimes : runTimes;
@@ -193,6 +195,6 @@
 	}
 
 	const startTime = Date.now();
-	await AutoFriendship(runTimes, statueTimes, GetMeatMode, delayTime, startTime);
+	await AutoFriendship(runTimes, statueTimes, GetMeatMode, delayTime, startTime, ocrTimeout);
 
 })();

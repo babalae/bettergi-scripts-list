@@ -48,5 +48,10 @@
         "name": "delayTime",
         "type": "input-text",
         "label": "到达触发地点后的延迟时间（秒）"
+    },
+    {
+        "name": "ocrTimeout",
+        "type": "input-text",
+        "label": "OCR超时时间（选填，默认为30秒）"
     }
 ]
