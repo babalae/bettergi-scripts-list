@@ -71,7 +71,7 @@
 	}
 
 	// 好感核心函数
-	async function AutoFriendship(runTimes, statueTimes, GetMeatMode, delayTime, startTime, ocrTimeout) {
+	async function AutoFriendship(runTimes, statueTimes, getMeatMode, delayTime, startTime, ocrTimeout) {
 		for (let i = 0; i < runTimes; i++) {
 			if ((i + 1) % statueTimes === 0) { // 判断当前循环次数否达到去神像设置值
 				await genshin.tpToStatueOfTheSeven();
@@ -80,48 +80,60 @@
 				log.info(`导航至突发任务（张牙舞爪的恶党）触发位置(二净甸)`);
 				await AutoPath(`好感-张牙舞爪的恶党-触发位置(二净甸)`);
 				await sleep(delayTime);
-				notification.send(`已抵达突发任务（张牙舞爪的恶党）触发位置`);
+				notification.send(`已抵达突发任务“张牙舞爪的恶党”触发位置`);
 			}
 
 			await genshin.relogin();
 
-			// OCR识别是否触发任务（默认30秒超时）
-			let ocrStatus = false;
-			let ocrStartTime = Date.now();
-			while (Date.now() - ocrStartTime < ocrTimeout && !ocrStatus) {
-				let captureRegion = captureGameRegion();
-				let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 200, 300, 300));
-				for (let o = 0; o < resList.count; o++) {
-					let res = resList[o];
-					if (res.text.includes("张牙") || res.text.includes("舞爪") || res.text.includes("恶党") || res.text.includes("打倒") || res.text.includes("所有") || res.text.includes("鳄鱼")) {
-						ocrStatus = true;
-						break;
+			// 判断游戏重上后是否在任务触发位置，如果在就进行OCR，如果不在则退回次数并重新执行触发路线
+			if (await comparePosition()) {
+				// OCR识别是否触发任务（默认30秒超时）
+				let ocrStatus = false;
+				let ocrStartTime = Date.now();
+				while (Date.now() - ocrStartTime < ocrTimeout && !ocrStatus) {
+					let captureRegion = captureGameRegion();
+					let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 200, 300, 300));
+					for (let o = 0; o < resList.count; o++) {
+						let res = resList[o];
+						if (res.text.includes("张牙") || res.text.includes("舞爪") || res.text.includes("恶党") || res.text.includes("打倒") || res.text.includes("所有") || res.text.includes("鳄鱼")) {
+							ocrStatus = true;
+							break;
+						}
 					}
 				}
-			}
 
-			if (ocrStatus) {
-				log.info(`当前次数：${i + 1}/${runTimes}`);
-				// 开启急速拾取
-				dispatcher.addTimer(new RealtimeTimer("AutoPick", {
-					"forceInteraction": true
-				}));
-				await AutoPath(`好感-张牙舞爪的恶党-循环${GetMeatMode ? '(二净甸刷肉版)' : '(二净甸)'}`);
-				// 关闭急速拾取
-				dispatcher.addTimer(new RealtimeTimer("AutoPick", {
-					"forceInteraction": false
-				}));
-				// 判定本轮循环是否执行完毕
-				if (await comparePosition()) {
-					log.info(`已完成次数：${i + 1}/${runTimes}`);
+				if (ocrStatus) {
+					log.info(`当前次数：${i + 1}/${runTimes}`);
+
+					// 开启急速拾取
+					dispatcher.addTimer(new RealtimeTimer("AutoPick", {
+						"forceInteraction": true
+					}));
+
+					await AutoPath(`好感-张牙舞爪的恶党-循环${getMeatMode ? '(二净甸刷肉版)' : '(二净甸)'}`);
+
+					// 关闭急速拾取
+					dispatcher.addTimer(new RealtimeTimer("AutoPick", {
+						"forceInteraction": false
+					}));
+
+					// 根据是否回到触发位置，判定本轮循环是否执行完毕
+					if (await comparePosition()) {
+						log.info(`已完成次数：${i + 1}/${runTimes}`);
+					} else {
+						i = i - 1; // 退回这次次数
+						log.warn(`判定本轮循环执行失败，退回本轮执行次数：${i + 1}/${runTimes}`);
+					}
 				} else {
-					i = i - 1; // 退回这次次数
-					log.warn(`判定本轮循环执行失败，退回本轮执行次数：${i + 1}/${runTimes}`);
+					notification.send(`未识别到突发任务（张牙舞爪的恶党），兽肉好感结束`);
+					break;
 				}
 			} else {
-				notification.send(`未识别到突发任务（张牙舞爪的恶党），兽肉好感结束`);
-				break;
+				i = i - 1; // 退回这次次数
+				log.warn(`判定本轮循环执行失败，退回本轮执行次数：${i + 1}/${runTimes}`);
 			}
+
+
 			const estimatedCompletion = calculateEstimatedCompletion(startTime, i + 1, runTimes);
 			logTimeTaken(startTime);
 			log.info(`预计完成时间：${estimatedCompletion}`);
@@ -130,9 +142,9 @@
 	}
 
 	// 刷肉相关参数
-	let GetMeatMode = settings.GetMeatMode ? settings.GetMeatMode : false;
+	let getMeatMode = settings.getMeatMode ? settings.getMeatMode : false;
 	let inputValue = settings.inputValue ? settings.inputValue : 300;
-	let runTimes = GetMeatMode ? (isNaN(inputValue) ? 50 : Math.ceil(inputValue / 6)) : 10;
+	let runTimes = getMeatMode ? (isNaN(inputValue) ? 50 : Math.ceil(inputValue / 6)) : 10;
 	// 神像相关参数
 	let goStatue = settings.goStatue ? settings.goStatue : false;
 	let statueTimes = goStatue ? (isNaN(settings.statueTimes) ? 5 : settings.statueTimes) : 0;
@@ -195,6 +207,6 @@
 	}
 
 	const startTime = Date.now();
-	await AutoFriendship(runTimes, statueTimes, GetMeatMode, delayTime, startTime, ocrTimeout);
+	await AutoFriendship(runTimes, statueTimes, getMeatMode, delayTime, startTime, ocrTimeout);
 
 })();
