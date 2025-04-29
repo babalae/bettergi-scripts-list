@@ -54,25 +54,7 @@ let retryCount = 0;       // 重试次数
             log.info("已开启可重跑模式，将选择可重跑路线"); 
         }
 
-        // 强制运行模式（不识别地脉花位置）
-        if (settings.forceRun) {
-            log.info("已开启强制运行，不再识别地脉花位置");
-            log.info(`执行策略：${settings.forceRunPath}`);
-            try {
-                for (let i = 1; i <= 6; i++) {
-                    log.info(`assets/pathing/${settings.forceRunPath}-${i}.json`);
-                    await pathingScript.runFile(`assets/pathing/${settings.forceRunPath}-${i}.json`);
-
-                    log.info(`processLeyLineOutcrop：assets/pathing/target/${settings.forceRunPath}-${i}.json`);
-                    await processLeyLineOutcrop(settings.timeout, settings.forceRun, `assets/pathing/target/${settings.forceRunPath}-${i}.json`);
-                }
-            } catch (error) {
-                log.info(error.message);
-            }
-            return;
-        }
-
-        // 正常模式：寻找地脉花位置
+        // 寻找地脉花位置
         await findLeyLineOutcrop(settings.country, settings.leyLineOutcropType, settings);
 
         // 寻找并执行对应的策略
@@ -95,14 +77,14 @@ let retryCount = 0;       // 重试次数
                             await pathingScript.runFile(`assets/pathing/rerun/${strategyName}-${i}-rerun.json`);
 
                             log.info(`processLeyLineOutcrop：assets/pathing/target/${strategyName}-${i}.json`);
-                            await processLeyLineOutcrop(settings.timeout, settings.forceRun, `assets/pathing/target/${strategyName}-${i}.json`);
+                            await processLeyLineOutcrop(settings.timeout, `assets/pathing/target/${strategyName}-${i}.json`);
                             await attemptReward(settings);
                         } else {
                             log.info(`assets/pathing/${strategyName}-${i}.json`);
                             await pathingScript.runFile(`assets/pathing/${strategyName}-${i}.json`);
 
                             log.info(`processLeyLineOutcrop：assets/pathing/target/${strategyName}-${i}.json`);
-                            await processLeyLineOutcrop(settings.timeout, settings.forceRun, `assets/pathing/target/${strategyName}-${i}.json`);
+                            await processLeyLineOutcrop(settings.timeout, `assets/pathing/target/${strategyName}-${i}.json`);
                             await attemptReward(settings);
                         }
                     }
@@ -160,9 +142,7 @@ function loadSettings() {
             reRun: settings.reRun,
             friendshipTeam: settings.friendshipTeam,
             timeout: settings.timeout * 1000 ? settings.timeout * 1000 : 120000,
-            count: settings.count ? settings.count : "6",
-            forceRun: settings.forceRun,
-            forceRunPath: settings.forceRunPath
+            count: settings.count ? settings.count : "6"
         };
         
         // 验证必要的设置
@@ -376,24 +356,19 @@ function isNearPosition(x, y, targetX, targetY, threshold) {
 /**
  * 判断是否为地脉花并处理
  * @param {number} timeout - 超时时间
- * @param {boolean} forceRun - 是否为强制运行模式
  * @param {string} targetPath - 目标路径
  * @param {number} [retries=0] - 当前函数内重试次数
  * @returns {Promise<void>}
  */
-async function processLeyLineOutcrop(timeout, forceRun, targetPath, retries = 0) {
+async function processLeyLineOutcrop(timeout, targetPath, retries = 0) {
     // 设置最大重试次数，防止死循环
     const MAX_RETRIES = 3;
     
     // 如果超过最大重试次数，记录错误并返回，避免死循环
-    if (retries >= MAX_RETRIES && !forceRun) {
+    if (retries >= MAX_RETRIES) {
         log.error(`打开地脉花失败，已重试${MAX_RETRIES}次，终止处理`);
         log.error("我辣么大一个地脉花哪去了？");
         throw new Error("打开地脉花失败");
-    } else if (retries >= MAX_RETRIES && forceRun) {
-        log.error(`打开地脉花失败，已重试${MAX_RETRIES}次，终止处理`);
-        log.error("强制运行模式，继续运行");
-        return;
     }
 
     let boxIconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/box.png"));
@@ -418,7 +393,7 @@ async function processLeyLineOutcrop(timeout, forceRun, targetPath, retries = 0)
         log.warn(`未识别到地脉花文本，当前重试次数: ${retries + 1}/${MAX_RETRIES}`);
         try {
             await pathingScript.runFile(targetPath);
-            await processLeyLineOutcrop(timeout, forceRun, targetPath, retries + 1);
+            await processLeyLineOutcrop(timeout, targetPath, retries + 1);
         } catch (error) {
             throw new Error (`打开地脉花失败: ${error.message}`);
         }
@@ -427,22 +402,16 @@ async function processLeyLineOutcrop(timeout, forceRun, targetPath, retries = 0)
 
 /**
  * 尝试领取地脉花奖励
- * @param {Object} settings - 设置对象，包含forceRun和friendshipTeam
+ * @param {Object} settings - 设置对象，包含friendshipTeam
  * @returns {Promise<void>}
  */
 async function attemptReward(settings) {
     const MAX_RETRY = 5;
     
     // 超时处理
-    if (retryCount >= MAX_RETRY && !settings.forceRun) {
+    if (retryCount >= MAX_RETRY) {
         retryCount = 0;
         throw new Error("超过最大重试次数，领取奖励失败");
-    } else if (retryCount >= MAX_RETRY && settings.forceRun) {
-        retryCount = 0;
-        log.error("超过最大重试次数，领取奖励失败");
-        log.info("强制运行模式，继续执行后续路线");
-        await genshin.returnMainUi();
-        return;
     }
     
     // 切换好感队
