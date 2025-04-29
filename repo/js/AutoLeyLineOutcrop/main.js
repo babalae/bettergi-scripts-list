@@ -763,5 +763,34 @@ async function adjustViewForReward(boxIconRo, advanceNum) {
         }       
     }
 
+    // 识别误触发领取导致超时的情况
+    let resList = captureGameRegion().findMulti(RecognitionObject.ocrThis);
+    if (resList && resList.count > 0) {
+        for (let i = 0; i < resList.count; i++) {
+            let res = resList[i];
+            if (res.text.includes("使用原粹树脂")) {
+                log.info("误触发领取页面，尝试关闭页面")
+                keyPress("ESCAPE");
+                await sleep(500);
+                keyPress("ESCAPE");
+                await sleep(500);
+                await genshin.returnMainUi();
+            }
+        }
+    }
+
+    // 识别误触发其他页面导致超时的情况
+    const paimonMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/paimon_menu.png"), 0, 0, genshin.width / 3.0, genshin.width / 5.0);
+    let res = captureGameRegion().Find(paimonMenuRo);
+    if (res.isEmpty()) {
+        log.info("误触发其他页面，尝试关闭页面")
+        click(960,800);
+        keyPress("ESCAPE");
+        await sleep(500);
+        keyPress("ESCAPE");
+        await sleep(500);
+        await genshin.returnMainUi();
+    }
+
     // throw new Error('视野调整超时');
 }
