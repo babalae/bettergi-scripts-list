@@ -267,19 +267,21 @@
         let XIAN23 = await imageRecognition(DIMAIHUA,1,0,0,1076,651,160,142);
         if ( (XIAN23.y+651)<=720){AutofilePath=3;log.info("找到线路'3'");await leftButtonUp();return true}//return true
         if ( (XIAN23.y+651)>720){AutofilePath=2;log.info("找到线路'2'");await leftButtonUp();return true}//return true
-        let XIANmo = await imageRecognition(DIMAIHUA,0.5,0,0);if (XIANmo.found){if(XIANmo.x<969){mo=0;}else if(XIANmo.x>1171){mo=2;}else{mo=1;}}
-        let XIAN1 = await imageRecognition(DIMAIHUA,1,0,0,714,633,130,124);if (XIAN1.found){AutofilePath=1;log.info("找到线路'1'");await leftButtonUp();return true}//return true
+        let XIANmo = await imageRecognition(DIMAIHUA,0.5,0,0);if (XIANmo.found){if(XIANmo.x<969){mo=0;}else if(XIANmo.x>1171){mo=2;}else{mo=1;}await leftButtonUp();;return false}
+        let XIAN1 = await imageRecognition(DIMAIHUA,1,0,0,714,633,130,124);if (XIAN1.found){AutofilePath=1;log.info("找到线路'1'");await leftButtonUp();;return true}//return true
         await moveMouseTo(132,583);
         await sleep(200);
         let XIAN4 = await imageRecognition(DIMAIHUA,1,0,0,884,497,107,87);if (XIAN4.found){AutofilePath=4;log.info("找到线路'4'");await leftButtonUp();return true}//return true
-        XIANmo = await imageRecognition(DIMAIHUA,0.5,0,0);if (XIANmo.found){mo=3}
+        XIANmo = await imageRecognition(DIMAIHUA,0.5,0,0);if (XIANmo.found){mo=3;await leftButtonUp();return false}
         await moveMouseTo(1064,1026);
         await sleep(200);
         let XIAN5 = await imageRecognition(DIMAIHUA,1,0,0,680,148,87,72);if (XIAN5.found){AutofilePath=5;log.info("找到线路'5'");await leftButtonUp();return true}//
-        XIANmo = await imageRecognition(DIMAIHUA,0.5,0,0);if (XIANmo.found){mo=4}else{mo=5}
-        AutofilePath =0;
-        await leftButtonUp();
-        return false
+        XIANmo = await imageRecognition(DIMAIHUA,0.5,0,0);if (XIANmo.found){if(XIANmo.x>420){mo=4;}else if(XIANmo.x<420){mo=5;}await leftButtonUp();;return false}
+        else{throw new Error("线路出错，退出！")}
+        
+        // AutofilePath =0;
+        // await leftButtonUp();
+        // return false
     }
 
     // 放大寻路模式
@@ -326,7 +328,6 @@
         }
         await genshin.returnMainUi();
         mo=0; //重置模糊量
-        log.info("111"); 
         return true;
     }
 
