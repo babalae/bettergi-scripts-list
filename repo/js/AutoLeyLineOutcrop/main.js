@@ -207,7 +207,7 @@ function loadSettings() {
  */
 async function findLeyLineOutcrop(country, type) {
     const config = await loadConfig();
-    const maxRetries = 5;
+    const maxRetries = 6;
 
     log.info("开始寻找地脉花");
 
@@ -227,7 +227,7 @@ async function findLeyLineOutcrop(country, type) {
         const found = await locateLeyLineOutcrop(type);
 
         if (found) {
-            log.info("成功找到地脉花！");
+            // log.info("成功找到地脉花！");
             return; // 找到就直接结束
         }
 
@@ -305,7 +305,7 @@ function shouldMoveMap(country, retryCount) {
         "璃月": [0, 1, 2, 3],
         "稻妻": [0, 1],
         "枫丹": [0, 1],
-        "纳塔": [0, 1, 2, 3]
+        "纳塔": [0, 1, 2, 3, 4]
     };
 
     return countryRetryMap[country] && countryRetryMap[country].includes(retryCount);
