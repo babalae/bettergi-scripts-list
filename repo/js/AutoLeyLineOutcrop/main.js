@@ -303,7 +303,7 @@ function shouldMoveMap(country, retryCount) {
     const countryRetryMap = {
         "蒙德": [0, 1, 2],
         "璃月": [0, 1, 2, 3],
-        "稻妻": [0, 1],
+        "稻妻": [0, 1, 2, 3, 4],
         "枫丹": [0, 1, 2],
         "纳塔": [0, 1, 2, 3, 4]
     };
