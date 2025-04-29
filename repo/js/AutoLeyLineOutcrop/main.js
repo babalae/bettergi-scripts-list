@@ -706,6 +706,17 @@ async function autoNavigateToReward() {
                 }
             }
         }
+        else if(advanceNum % 20 == 0 && advanceNum >= 20 ){
+            log.warn("前进又超时20次啦，先往旁边挪挪再继续试试")
+            keyDown("s");
+            await sleep(500);
+            keyUp("s");
+            middleButtonClick();
+            await sleep(1000);
+            keyDown("w");
+            await sleep(1000);
+            keyUp("w");
+        }
         else if(advanceNum > 80){
             throw new Error('前进时间超时');
         }
@@ -752,5 +763,5 @@ async function adjustViewForReward(boxIconRo, advanceNum) {
         }       
     }
 
-    throw new Error('视野调整超时');
+    // throw new Error('视野调整超时');
 }
