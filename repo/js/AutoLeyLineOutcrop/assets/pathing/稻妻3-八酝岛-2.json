@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "稻妻3-八酝岛-1",
+    "name": "稻妻3-八酝岛-2",
     "type": "collect",
     "author": "秋云",
     "version": "1.0",
@@ -10,28 +10,28 @@
   "positions": [
     {
       "id": 1,
-      "action": "",
+      "x": -2283.1484375,
+      "y": -4080.755859375,
+      "type": "path",
       "move_mode": "walk",
-      "type": "teleport",
-      "x": -2224.1435546875,
-      "y": -4004.1552734375,
+      "action": "",
       "action_params": ""
     },
     {
       "id": 2,
-      "x": -2216.021484375,
-      "y": -4021.681640625,
+      "x": -2281.9794921875,
+      "y": -4181.4345703125,
       "type": "path",
-      "move_mode": "dash",
-      "action": "",
+      "move_mode": "fly",
+      "action": "stop_flying",
       "action_params": ""
     },
     {
       "id": 3,
-      "x": -2269.86328125,
-      "y": -4068.6181640625,
+      "x": -2280.6103515625,
+      "y": -4171.1767578125,
       "type": "target",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action": "",
       "action_params": ""
     }
