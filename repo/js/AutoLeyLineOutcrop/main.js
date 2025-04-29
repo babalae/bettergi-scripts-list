@@ -371,8 +371,6 @@ async function processLeyLineOutcrop(timeout, targetPath, retries = 0) {
         throw new Error("打开地脉花失败");
     }
 
-    let boxIconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/box.png"));
-    let boxIcon = captureGameRegion().find(boxIconRo);
     let ocr = captureGameRegion().find(RecognitionObject.ocrThis);
     if (ocr && ocr.text.includes("地脉溢口")) {
         log.info("识别到地脉溢口");
@@ -386,9 +384,6 @@ async function processLeyLineOutcrop(timeout, targetPath, retries = 0) {
         await autoNavigateToReward();
     } else if (ocr && ocr.text.includes("地脉之花")) {
         log.info("识别到地脉之花");
-    // } else if (boxIcon.isExist()){
-    //     log.info("识别到领奖按钮");
-    //     await autoNavigateToReward();
     } else {
         log.warn(`未识别到地脉花文本，当前重试次数: ${retries + 1}/${MAX_RETRIES}`);
         try {
@@ -504,6 +499,11 @@ async function attemptReward(settings) {
     }
 }
 
+/**
+ * 开启地脉花
+ * @param {string} targetPath - 目标路径
+ * @returns {Promise<boolean>} 区域是否出现地脉任务
+ */
 async function openOutcrop(targetPath){
     let ocrRegion1 = { x:800, y:200, width:300, height:100 };   // 中心区域
     let ocrRegion2 = { x:0, y:200, width:300, height:300 };     // 追踪任务区域
@@ -534,6 +534,27 @@ async function openOutcrop(targetPath){
             keyPress("F");
             await sleep(500);
         }
+    }
+}
+
+/**
+ * 识别地脉开启进入战斗文本
+ * @param {Object} ocrRegion - OCR识别区域
+ * @returns {Promise<boolean>} 区域是否出现战斗文本
+ */
+function recognizeFightText(ocrRegion){
+    try{
+        let result = captureGameRegion().find(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height));
+        let text = result.text;
+        keywords = ["打倒","所有","敌人"];
+        for(let keyword of keywords){
+            if(text.includes(keyword)){
+                return true;
+            }
+        }
+        return false;
+    }catch(error){
+        log.error("OCR过程中出错: {0}", error);
     }
 }
 
@@ -602,22 +623,6 @@ async function recognizeTextInRegion(ocrRegion, timeout) {
     
     log.warn("在超时时间内未检测到战斗结果");
     return false;
-}
-
-function recognizeFightText(ocrRegion){
-    try{
-        let result = captureGameRegion().find(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height));
-        let text = result.text;
-        keywords = ["打倒","所有","敌人"];
-        for(let keyword of keywords){
-            if(text.includes(keyword)){
-                return true;
-            }
-        }
-        return false;
-    }catch(error){
-        log.error("OCR过程中出错: {0}", error);
-    }
 }
 
 /**
