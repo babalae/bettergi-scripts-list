@@ -304,7 +304,7 @@ function shouldMoveMap(country, retryCount) {
         "蒙德": [0, 1, 2],
         "璃月": [0, 1, 2, 3],
         "稻妻": [0, 1],
-        "枫丹": [0, 1],
+        "枫丹": [0, 1, 2],
         "纳塔": [0, 1, 2, 3, 4]
     };
 
@@ -417,7 +417,17 @@ async function attemptReward(settings) {
     // 切换好感队
     if (settings.friendshipTeam) {
         log.info(`切换至队伍 ${settings.friendshipTeam}`);
+        try {
         await genshin.switchParty(settings.friendshipTeam);
+        } catch(e) {
+            keyPress("ESCAPE");
+            await sleep(500);
+            keyPress("ESCAPE");
+            await sleep(500);
+            await genshin.returnMainUi();
+            log.info(`重新切换至队伍 ${settings.friendshipTeam}`);
+            await genshin.switchParty(settings.friendshipTeam);
+        }
     }
     
     log.info("领取奖励，优先使用浓缩树脂");
