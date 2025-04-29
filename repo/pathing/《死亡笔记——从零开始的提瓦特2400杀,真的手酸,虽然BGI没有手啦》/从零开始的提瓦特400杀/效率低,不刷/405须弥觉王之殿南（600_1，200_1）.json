@@ -19,19 +19,19 @@
     },
     {
       "id": 2,
-      "x": 3563.2509765625,
-      "y": -790.966796875,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
+      "x": 3587.499990124792,
+      "y": -788.3749621050911,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "玛薇卡 e(hold),wait(0.05),keydown(w),wait(0.01),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.1),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.3),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.9),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.5);",
       "type": "path"
     },
     {
       "id": 3,
-      "x": 3510.6748046875,
-      "y": -791.1259765625,
+      "x": 3478.1879187087907,
+      "y": -808.3124545261098,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
@@ -73,8 +73,8 @@
     },
     {
       "id": 8,
-      "x": 3471.375,
-      "y": -836.624645870731,
+      "x": 3469.375,
+      "y": -837.624645870731,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -119,17 +119,16 @@
     {
       "id": 13,
       "x": 3430.7498605448163,
-      "y": -826.749371369666,
+      "y": -826.7493713696658,
       "action": "fight",
       "move_mode": "run",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 14,
       "x": 3430.7498605448163,
-      "y": -826.749371369666,
+      "y": -826.7493713696658,
       "action": "combat_script",
       "move_mode": "run",
       "action_params": "wait(1)",

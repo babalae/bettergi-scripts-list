@@ -75,9 +75,9 @@
       "id": 8,
       "x": 3621.625,
       "y": -1746.3635793310623,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(2)",
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
       "type": "path"
     },
     {
@@ -85,7 +85,7 @@
       "x": 3631.125,
       "y": -1725.2421648899144,
       "action": "fight",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
@@ -129,10 +129,10 @@
       "id": 14,
       "x": 3652.1298828125,
       "y": -1719.76611328125,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 15,
@@ -141,29 +141,38 @@
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "attack(0.3)",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
       "id": 16,
-      "x": 3656.1884765625,
-      "y": -1772.59130859375,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "fight",
+      "x": 3652.375948019904,
+      "y": -1761.5000151579636,
+      "action": "",
+      "move_mode": "dash",
       "action_params": "",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 17,
       "x": 3656.1884765625,
       "y": -1772.59130859375,
-      "type": "path",
+      "action": "fight",
       "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 18,
+      "x": 3656.1884765625,
+      "y": -1772.59130859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
       "x": 3672.5,
       "y": -1796.499911467683,
       "action": "",
@@ -172,7 +181,7 @@
       "type": "path"
     },
     {
-      "id": 19,
+      "id": 20,
       "x": 3695.1728515625,
       "y": -1810.93359375,
       "action": "fight",

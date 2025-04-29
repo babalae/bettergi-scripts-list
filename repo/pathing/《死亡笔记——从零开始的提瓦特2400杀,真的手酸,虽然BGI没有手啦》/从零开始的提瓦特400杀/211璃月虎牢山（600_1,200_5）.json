@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "1岩丘王 2丘丘暴徒 2遗迹猎者 1冰法 ",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -22,7 +22,7 @@
       "x": 1802.3120537434152,
       "y": 710.75,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "",
       "type": "path"
     },
@@ -50,7 +50,7 @@
       "y": 620.874101956666,
       "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "keypress(VK_SPACE),wait(1),click",
+      "action_params": "keypress(VK_SPACE),wait(1),attack(0.3)",
       "type": "path"
     },
     {
@@ -64,80 +64,100 @@
     },
     {
       "id": 7,
-      "x": 1829.125,
-      "y": 533.9794605023753,
+      "x": 1839.375647813602,
+      "y": 541.9980597806771,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
       "id": 8,
+      "x": 1838.9374920998343,
+      "y": 537.71875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "玛薇卡 e(hold),keydown(w),wait(0.1),keydown(LSHIFT),wait(3.2),keyup(LSHIFT),wait(0.1),dash,wait(0.8),dash,wait(0.8),keyup(w);",
+      "type": "path"
+    },
+    {
+      "id": 9,
       "x": 1827.451171875,
       "y": 416.65478515625,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": 1830.1561105448163,
-      "y": 415.18703975279095,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
       "id": 10,
-      "x": 1925.375,
-      "y": 411.375,
+      "x": 1828.6562579001657,
+      "y": 416.7187651579634,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 11,
-      "x": 1965,
-      "y": 404.0009295893324,
+      "x": 1831.5937243244607,
+      "y": 416.59375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "玛薇卡 e(hold),keydown(w),wait(0.1),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.9),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.9),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.9),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.9);",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 1940.134765625,
+      "y": 406.5927734375,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 12,
-      "x": 1994.966796875,
-      "y": 403.68603515625,
+      "id": 13,
+      "x": 1965,
+      "y": 404.0009295893324,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "芙宁娜 e;玛薇卡 e;钟离 a(0.1),e(hold);",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 1989.7021484375,
+      "y": 405.54443359375,
       "action": "",
       "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 13,
-      "x": 1995.1266176801219,
-      "y": 394.0000898043336,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 14,
-      "x": 1990.874497961342,
-      "y": 415.49896725016515,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
       "id": 15,
-      "x": 2011.966796875,
-      "y": 412.68603515625,
+      "x": 1993.0625,
+      "y": 393.2501818955616,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 1994.751953125,
+      "y": 416.07568359375,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 2005.21875,
+      "y": 411.84372726305446,
       "action": "fight",
       "move_mode": "run",
       "action_params": "",
