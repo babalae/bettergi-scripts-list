@@ -865,26 +865,30 @@
         {
             "id": 57,
             "type": "teleport",
-            "region": "稻妻2",
+            "region": "稻妻1",
             "position": {
-                "x": -3016.79,
-                "y": -3623.7
+                "x": -4217.89,
+                "y": -2397.87
             },
             "prev": [],
             "next": [
                 {
                     "target": 58,
-                    "route": "assets/pathing/稻妻2-踏鞴砂-1.json"
+                    "route": "assets/pathing/稻妻1-鸣神岛-1.json"
+                },
+                {
+                    "target": 59,
+                    "route": "assets/pathing/稻妻1-鸣神岛-2.json"
                 }
             ]
         },
         {
             "id": 58,
             "type": "blossom",
-            "region": "稻妻2",
+            "region": "稻妻1",
             "position": {
-                "x": -3007.64,
-                "y": -3515.28
+                "x": -4309.58,
+                "y": -2288.5
             },
             "prev": [
                 57
@@ -893,6 +897,111 @@
         },
         {
             "id": 59,
+            "type": "blossom",
+            "region": "稻妻1",
+            "position": {
+                "x": -4401.19,
+                "y": -2226.96
+            },
+            "prev": [
+                57
+            ],
+            "next": []
+        },
+        {
+            "id": 60,
+            "type": "teleport",
+            "region": "稻妻1",
+            "position": {
+                "x": -4408.91,
+                "y": -2395.34
+            },
+            "prev": [],
+            "next": [
+                {
+                    "target": 61,
+                    "route": "assets/pathing/稻妻1-鸣神岛-3.json"
+                },
+                {
+                    "target": 63,
+                    "route": "assets/pathing/rerun/稻妻1-鸣神岛-4-rerun.json"
+                }
+            ]
+        },
+        {
+            "id": 61,
+            "type": "blossom",
+            "region": "稻妻1",
+            "position": {
+                "x": -4509.57,
+                "y": -2332.11
+            },
+            "prev": [
+                60
+            ],
+            "next": []
+        },
+        {
+            "id": 62,
+            "type": "teleport",
+            "region": "稻妻1",
+            "position": {
+                "x": -4545.01,
+                "y": -2393.6
+            },
+            "prev": [],
+            "next": [
+                {
+                    "target": 63,
+                    "route": "assets/pathing/稻妻1-鸣神岛-4.json"
+                }
+            ]
+        },
+        {
+            "id": 63,
+            "type": "blossom",
+            "region": "稻妻1",
+            "position": {
+                "x": -4549.68,
+                "y": -2399.67
+            },
+            "prev": [
+                62,
+                60
+            ],
+            "next": []
+        },
+        {
+            "id": 64,
+            "type": "teleport",
+            "region": "稻妻2",
+            "position": {
+                "x": -3016.79,
+                "y": -3623.7
+            },
+            "prev": [],
+            "next": [
+                {
+                    "target": 65,
+                    "route": "assets/pathing/稻妻2-踏鞴砂-1.json"
+                }
+            ]
+        },
+        {
+            "id": 65,
+            "type": "blossom",
+            "region": "稻妻2",
+            "position": {
+                "x": -3007.64,
+                "y": -3515.28
+            },
+            "prev": [
+                64
+            ],
+            "next": []
+        },
+        {
+            "id": 66,
             "type": "teleport",
             "region": "稻妻2",
             "position": {
@@ -902,13 +1011,13 @@
             "prev": [],
             "next": [
                 {
-                    "target": 60,
+                    "target": 67,
                     "route": "assets/pathing/稻妻2-踏鞴砂-2.json"
                 }
             ]
         },
         {
-            "id": 60,
+            "id": 67,
             "type": "blossom",
             "region": "稻妻2",
             "position": {
@@ -916,12 +1025,12 @@
                 "y": -3485.5
             },
             "prev": [
-                59
+                66
             ],
             "next": []
         },
         {
-            "id": 61,
+            "id": 68,
             "type": "teleport",
             "region": "稻妻2",
             "position": {
@@ -931,13 +1040,13 @@
             "prev": [],
             "next": [
                 {
-                    "target": 62,
+                    "target": 69,
                     "route": "assets/pathing/稻妻2-踏鞴砂-3.json"
                 }
             ]
         },
         {
-            "id": 62,
+            "id": 69,
             "type": "blossom",
             "region": "稻妻2",
             "position": {
@@ -945,12 +1054,12 @@
                 "y": -3561.28
             },
             "prev": [
-                61
+                68
             ],
             "next": []
         },
         {
-            "id": 63,
+            "id": 70,
             "type": "teleport",
             "region": "稻妻2",
             "position": {
@@ -960,13 +1069,13 @@
             "prev": [],
             "next": [
                 {
-                    "target": 64,
+                    "target": 71,
                     "route": "assets/pathing/稻妻2-踏鞴砂-5.json"
                 }
             ]
         },
         {
-            "id": 64,
+            "id": 71,
             "type": "blossom",
             "region": "稻妻2",
             "position": {
@@ -974,41 +1083,75 @@
                 "y": -3237.16
             },
             "prev": [
-                63
+                70
             ],
             "next": []
         },
         {
-            "id": 65,
+            "id": 72,
             "type": "teleport",
             "region": "稻妻3",
             "position": {
-                "x": -2405.73,
-                "y": -3912.92
+                "x": -2224.14,
+                "y": -4004.16
             },
             "prev": [],
             "next": [
                 {
-                    "target": 66,
+                    "target": 73,
                     "route": "assets/pathing/稻妻3-八酝岛-1.json"
+                },
+                {
+                    "target": 74,
+                    "route": "assets/pathing/稻妻3-八酝岛-3.json"
+                },
+                {
+                    "target": 75,
+                    "route": "assets/pathing/稻妻3-八酝岛-4.json"
                 }
             ]
         },
         {
-            "id": 66,
+            "id": 73,
             "type": "blossom",
             "region": "稻妻3",
             "position": {
-                "x": -2270.05,
-                "y": -4068.59
+                "x": -2269.86,
+                "y": -4068.62
             },
             "prev": [
-                65
+                72
             ],
             "next": []
         },
         {
-            "id": 67,
+            "id": 74,
+            "type": "blossom",
+            "region": "稻妻3",
+            "position": {
+                "x": -2169.62,
+                "y": -4076.36
+            },
+            "prev": [
+                72
+            ],
+            "next": []
+        },
+        {
+            "id": 75,
+            "type": "blossom",
+            "region": "稻妻3",
+            "position": {
+                "x": -2211.44,
+                "y": -4033.62
+            },
+            "prev": [
+                72
+            ],
+            "next": []
+        },
+        {
+            "id": 76,
             "type": "teleport",
             "region": "稻妻4",
             "position": {
@@ -1018,13 +1161,13 @@
             "prev": [],
             "next": [
                 {
-                    "target": 68,
+                    "target": 77,
                     "route": "assets/pathing/稻妻4-海祇岛-1.json"
                 }
             ]
         },
         {
-            "id": 68,
+            "id": 77,
             "type": "blossom",
             "region": "稻妻4",
             "position": {
@@ -1032,12 +1175,12 @@
                 "y": -3962.66
             },
             "prev": [
-                67
+                76
             ],
             "next": []
         },
         {
-            "id": 69,
+            "id": 78,
             "type": "teleport",
             "region": "稻妻4",
             "position": {
@@ -1047,13 +1190,13 @@
             "prev": [],
             "next": [
                 {
-                    "target": 70,
+                    "target": 79,
                     "route": "assets/pathing/稻妻4-海祇岛-4.json"
                 }
             ]
         },
         {
-            "id": 70,
+            "id": 79,
             "type": "blossom",
             "region": "稻妻4",
             "position": {
@@ -1061,12 +1204,12 @@
                 "y": -3815.69
             },
             "prev": [
-                69
+                78
             ],
             "next": []
         },
         {
-            "id": 71,
+            "id": 80,
             "type": "teleport",
             "region": "纳塔1",
             "position": {
@@ -1076,160 +1219,18 @@
             "prev": [],
             "next": [
                 {
-                    "target": 72,
-                    "route": "assets/pathing/纳塔1-隆崛坡-1.json"
-                }
-            ]
-        },
-        {
-            "id": 72,
-            "type": "blossom",
-            "region": "纳塔1",
-            "position": {
-                "x": 7864.95,
-                "y": -1823.96
-            },
-            "prev": [
-                71
-            ],
-            "next": []
-        },
-        {
-            "id": 73,
-            "type": "teleport",
-            "region": "纳塔1",
-            "position": {
-                "x": 7857.47,
-                "y": -1751.25
-            },
-            "prev": [],
-            "next": [
-                {
-                    "target": 74,
-                    "route": "assets/pathing/纳塔1-隆崛坡-2.json"
-                },
-                {
-                    "target": 75,
-                    "route": "assets/pathing/纳塔1-隆崛坡-3.json"
-                },
-                {
-                    "target": 123,
-                    "route": "assets/pathing/rerun/纳塔1-隆崛坡-4-rerun.json"
-                }
-            ]
-        },
-        {
-            "id": 74,
-            "type": "blossom",
-            "region": "纳塔1",
-            "position": {
-                "x": 7945.72,
-                "y": -1744.08
-            },
-            "prev": [
-                73
-            ],
-            "next": []
-        },
-        {
-            "id": 75,
-            "type": "blossom",
-            "region": "纳塔1",
-            "position": {
-                "x": 7932.2,
-                "y": -1616.37
-            },
-            "prev": [
-                73
-            ],
-            "next": []
-        },
-        {
-            "id": 76,
-            "type": "teleport",
-            "region": "纳塔2",
-            "position": {
-                "x": 8706.46,
-                "y": -1575.02
-            },
-            "prev": [],
-            "next": [
-                {
-                    "target": 77,
-                    "route": "assets/pathing/纳塔2-硫晶支脉-1.json"
-                },
-                {
-                    "target": 78,
-                    "route": "assets/pathing/纳塔2-硫晶支脉-2.json"
-                },
-                {
-                    "target": 79,
-                    "route": "assets/pathing/纳塔2-硫晶支脉-3.json"
-                }
-            ]
-        },
-        {
-            "id": 77,
-            "type": "blossom",
-            "region": "纳塔2",
-            "position": {
-                "x": 8604.22,
-                "y": -1635.22
-            },
-            "prev": [
-                76
-            ],
-            "next": []
-        },
-        {
-            "id": 78,
-            "type": "blossom",
-            "region": "纳塔2",
-            "position": {
-                "x": 8657.57,
-                "y": -1501.26
-            },
-            "prev": [
-                76
-            ],
-            "next": []
-        },
-        {
-            "id": 79,
-            "type": "blossom",
-            "region": "纳塔2",
-            "position": {
-                "x": 8733.62,
-                "y": -1528.95
-            },
-            "prev": [
-                76
-            ],
-            "next": []
-        },
-        {
-            "id": 80,
-            "type": "teleport",
-            "region": "纳塔2",
-            "position": {
-                "x": 8670.84,
-                "y": -1269.72
-            },
-            "prev": [],
-            "next": [
-                {
                     "target": 81,
-                    "route": "assets/pathing/纳塔2-硫晶支脉-4.json"
+                    "route": "assets/pathing/纳塔1-隆崛坡-1.json"
                 }
             ]
         },
         {
             "id": 81,
             "type": "blossom",
-            "region": "纳塔2",
+            "region": "纳塔1",
             "position": {
-                "x": 8588.9,
-                "y": -1373.62
+                "x": 7864.95,
+                "y": -1823.96
             },
             "prev": [
                 80
@@ -1239,26 +1240,34 @@
         {
             "id": 82,
             "type": "teleport",
-            "region": "纳塔4",
+            "region": "纳塔1",
             "position": {
-                "x": 9038.74,
-                "y": -2429.33
+                "x": 7857.47,
+                "y": -1751.25
             },
             "prev": [],
             "next": [
                 {
                     "target": 83,
-                    "route": "assets/pathing/纳塔4-溶水域-1.json"
+                    "route": "assets/pathing/纳塔1-隆崛坡-2.json"
+                },
+                {
+                    "target": 84,
+                    "route": "assets/pathing/纳塔1-隆崛坡-3.json"
+                },
+                {
+                    "target": 148,
+                    "route": "assets/pathing/rerun/纳塔1-隆崛坡-4-rerun.json"
                 }
             ]
         },
         {
             "id": 83,
             "type": "blossom",
-            "region": "纳塔4",
+            "region": "纳塔1",
             "position": {
-                "x": 9028.67,
-                "y": -2342.6
+                "x": 7945.72,
+                "y": -1744.08
             },
             "prev": [
                 82
@@ -1267,169 +1276,169 @@
         },
         {
             "id": 84,
-            "type": "teleport",
-            "region": "纳塔5",
-            "position": {
-                "x": 9812.76,
-                "y": -2852.58
-            },
-            "prev": [],
-            "next": [
-                {
-                    "target": 85,
-                    "route": "assets/pathing/纳塔5-安饶之野-1.json"
-                },
-                {
-                    "target": 86,
-                    "route": "assets/pathing/纳塔5-安饶之野-2.json"
-                },
-                {
-                    "target": 87,
-                    "route": "assets/pathing/纳塔5-安饶之野-3.json"
-                }
-            ]
-        },
-        {
-            "id": 85,
             "type": "blossom",
-            "region": "纳塔5",
+            "region": "纳塔1",
             "position": {
-                "x": 9687.15,
-                "y": -2898.19
+                "x": 7932.2,
+                "y": -1616.37
             },
             "prev": [
-                84
+                82
             ],
             "next": []
         },
         {
+            "id": 85,
+            "type": "teleport",
+            "region": "纳塔10",
+            "position": {
+                "x": 8291.35,
+                "y": -2922.46
+            },
+            "prev": [],
+            "next": [
+                {
+                    "target": 86,
+                    "route": "assets/pathing/纳塔10-溶水域-1.json"
+                },
+                {
+                    "target": 149,
+                    "route": "assets/pathing/rerun/纳塔10-溶水域-2-rerun.json"
+                }
+            ]
+        },
+        {
             "id": 86,
             "type": "blossom",
-            "region": "纳塔5",
+            "region": "纳塔10",
             "position": {
-                "x": 9754.7,
-                "y": -2904.43
+                "x": 8361.82,
+                "y": -2993.79
             },
             "prev": [
-                84
+                85
             ],
             "next": []
         },
         {
             "id": 87,
-            "type": "blossom",
-            "region": "纳塔5",
-            "position": {
-                "x": 9778.7,
-                "y": -2856.31
-            },
-            "prev": [
-                84
-            ],
-            "next": []
-        },
-        {
-            "id": 88,
             "type": "teleport",
-            "region": "纳塔6",
+            "region": "纳塔10",
             "position": {
-                "x": 9282.7,
-                "y": -2163.58
+                "x": 8744.65,
+                "y": -3009.56
             },
             "prev": [],
             "next": [
                 {
-                    "target": 89,
-                    "route": "assets/pathing/纳塔6-圣火竞技场-1.json"
+                    "target": 88,
+                    "route": "assets/pathing/纳塔10-溶水域-4.json"
                 },
                 {
-                    "target": 90,
-                    "route": "assets/pathing/纳塔6-圣火竞技场-2.json"
+                    "target": 150,
+                    "route": "assets/pathing/rerun/纳塔10-溶水域-3-rerun.json"
                 }
             ]
         },
         {
-            "id": 89,
+            "id": 88,
             "type": "blossom",
-            "region": "纳塔6",
+            "region": "纳塔10",
             "position": {
-                "x": 9231.08,
-                "y": -2154.74
+                "x": 8879.8,
+                "y": -3059.26
             },
             "prev": [
-                88
+                87
             ],
             "next": []
         },
         {
+            "id": 89,
+            "type": "teleport",
+            "region": "纳塔2",
+            "position": {
+                "x": 8706.46,
+                "y": -1575.02
+            },
+            "prev": [],
+            "next": [
+                {
+                    "target": 90,
+                    "route": "assets/pathing/纳塔2-硫晶支脉-1.json"
+                },
+                {
+                    "target": 91,
+                    "route": "assets/pathing/纳塔2-硫晶支脉-2.json"
+                },
+                {
+                    "target": 92,
+                    "route": "assets/pathing/纳塔2-硫晶支脉-3.json"
+                }
+            ]
+        },
+        {
             "id": 90,
             "type": "blossom",
-            "region": "纳塔6",
+            "region": "纳塔2",
             "position": {
-                "x": 9110.86,
-                "y": -2222.48
+                "x": 8604.22,
+                "y": -1635.22
             },
             "prev": [
-                88
+                89
             ],
             "next": []
         },
         {
             "id": 91,
-            "type": "teleport",
-            "region": "纳塔7",
+            "type": "blossom",
+            "region": "纳塔2",
             "position": {
-                "x": 9989.5,
-                "y": -1607.82
+                "x": 8657.57,
+                "y": -1501.26
             },
-            "prev": [],
-            "next": [
-                {
-                    "target": 92,
-                    "route": "assets/pathing/纳塔7-烟谜主-1.json"
-                },
-                {
-                    "target": 124,
-                    "route": "assets/pathing/rerun/纳塔7-烟谜主-2-rerun.json"
-                }
-            ]
+            "prev": [
+                89
+            ],
+            "next": []
         },
         {
             "id": 92,
             "type": "blossom",
-            "region": "纳塔7",
+            "region": "纳塔2",
             "position": {
-                "x": 9999.51,
-                "y": -1570.23
+                "x": 8733.62,
+                "y": -1528.95
             },
             "prev": [
-                91
+                89
             ],
             "next": []
         },
         {
             "id": 93,
             "type": "teleport",
-            "region": "蒙德1",
+            "region": "纳塔2",
             "position": {
-                "x": -1166.84,
-                "y": 2132.83
+                "x": 8670.84,
+                "y": -1269.72
             },
             "prev": [],
             "next": [
                 {
                     "target": 94,
-                    "route": "assets/pathing/蒙德1-风起地-1.json"
+                    "route": "assets/pathing/纳塔2-硫晶支脉-4.json"
                 }
             ]
         },
         {
             "id": 94,
             "type": "blossom",
-            "region": "蒙德1",
+            "region": "纳塔2",
             "position": {
-                "x": -1298.03,
-                "y": 2172.37
+                "x": 8588.9,
+                "y": -1373.62
             },
             "prev": [
                 93
@@ -1439,26 +1448,26 @@
         {
             "id": 95,
             "type": "teleport",
-            "region": "蒙德1",
+            "region": "纳塔3",
             "position": {
-                "x": -1266.59,
-                "y": 1933.52
+                "x": 8201.95,
+                "y": -2288.75
             },
             "prev": [],
             "next": [
                 {
                     "target": 96,
-                    "route": "assets/pathing/蒙德1-风起地-2.json"
+                    "route": "assets/pathing/纳塔3-彩石顶-1.json"
                 }
             ]
         },
         {
             "id": 96,
             "type": "blossom",
-            "region": "蒙德1",
+            "region": "纳塔3",
             "position": {
-                "x": -1223.18,
-                "y": 2032.04
+                "x": 8312.07,
+                "y": -2344.44
             },
             "prev": [
                 95
@@ -1468,26 +1477,30 @@
         {
             "id": 97,
             "type": "teleport",
-            "region": "蒙德2",
+            "region": "纳塔3",
             "position": {
-                "x": -663.61,
-                "y": 1709.65
+                "x": 8372.19,
+                "y": -2196.26
             },
             "prev": [],
             "next": [
                 {
                     "target": 98,
-                    "route": "assets/pathing/蒙德2-清泉镇-1.json"
+                    "route": "assets/pathing/纳塔3-彩石顶-2.json"
+                },
+                {
+                    "target": 99,
+                    "route": "assets/pathing/纳塔3-彩石顶-3.json"
                 }
             ]
         },
         {
             "id": 98,
             "type": "blossom",
-            "region": "蒙德2",
+            "region": "纳塔3",
             "position": {
-                "x": -717.83,
-                "y": 1802.77
+                "x": 8429.86,
+                "y": -2328.47
             },
             "prev": [
                 97
@@ -1496,172 +1509,182 @@
         },
         {
             "id": 99,
-            "type": "teleport",
-            "region": "蒙德2",
+            "type": "blossom",
+            "region": "纳塔3",
             "position": {
-                "x": -578.76,
-                "y": 1853.42
+                "x": 8291.29,
+                "y": -2096.67
             },
-            "prev": [],
-            "next": [
-                {
-                    "target": 100,
-                    "route": "assets/pathing/蒙德2-清泉镇-2.json"
-                }
-            ]
+            "prev": [
+                97
+            ],
+            "next": []
         },
         {
             "id": 100,
-            "type": "blossom",
-            "region": "蒙德2",
+            "type": "teleport",
+            "region": "纳塔4",
             "position": {
-                "x": -523.76,
-                "y": 1813.84
+                "x": 9038.74,
+                "y": -2429.33
             },
-            "prev": [
-                99
-            ],
-            "next": []
+            "prev": [],
+            "next": [
+                {
+                    "target": 101,
+                    "route": "assets/pathing/纳塔4-溶水域-1.json"
+                }
+            ]
         },
         {
             "id": 101,
-            "type": "teleport",
-            "region": "蒙德3",
-            "position": {
-                "x": -385.84,
-                "y": 2297.22
-            },
-            "prev": [],
-            "next": [
-                {
-                    "target": 102,
-                    "route": "assets/pathing/蒙德3-奔狼领-1.json"
-                }
-            ]
-        },
-        {
-            "id": 102,
             "type": "blossom",
-            "region": "蒙德3",
+            "region": "纳塔4",
             "position": {
-                "x": -281.79,
-                "y": 2310.78
+                "x": 9028.67,
+                "y": -2342.6
             },
             "prev": [
-                101
+                100
             ],
             "next": []
         },
         {
-            "id": 103,
+            "id": 102,
             "type": "teleport",
-            "region": "蒙德3",
+            "region": "纳塔5",
             "position": {
-                "x": -440.09,
-                "y": 2580.75
+                "x": 9812.76,
+                "y": -2852.58
             },
             "prev": [],
             "next": [
                 {
+                    "target": 103,
+                    "route": "assets/pathing/纳塔5-安饶之野-1.json"
+                },
+                {
                     "target": 104,
-                    "route": "assets/pathing/蒙德3-奔狼领-4.json"
+                    "route": "assets/pathing/纳塔5-安饶之野-2.json"
+                },
+                {
+                    "target": 105,
+                    "route": "assets/pathing/纳塔5-安饶之野-3.json"
                 }
             ]
+        },
+        {
+            "id": 103,
+            "type": "blossom",
+            "region": "纳塔5",
+            "position": {
+                "x": 9687.15,
+                "y": -2898.19
+            },
+            "prev": [
+                102
+            ],
+            "next": []
         },
         {
             "id": 104,
             "type": "blossom",
-            "region": "蒙德3",
+            "region": "纳塔5",
             "position": {
-                "x": -336.15,
-                "y": 2562.91
+                "x": 9754.7,
+                "y": -2904.43
             },
             "prev": [
-                103
+                102
             ],
             "next": []
         },
         {
             "id": 105,
-            "type": "teleport",
-            "region": "蒙德4",
-            "position": {
-                "x": 177.18,
-                "y": 2647.07
-            },
-            "prev": [],
-            "next": [
-                {
-                    "target": 106,
-                    "route": "assets/pathing/蒙德4-风龙废墟-1.json"
-                }
-            ]
-        },
-        {
-            "id": 106,
             "type": "blossom",
-            "region": "蒙德4",
+            "region": "纳塔5",
             "position": {
-                "x": 241.41,
-                "y": 2703.08
+                "x": 9778.7,
+                "y": -2856.31
             },
             "prev": [
-                105
+                102
             ],
             "next": []
         },
         {
-            "id": 107,
+            "id": 106,
             "type": "teleport",
-            "region": "蒙德4",
+            "region": "纳塔6",
             "position": {
-                "x": 265.6,
-                "y": 2915.02
+                "x": 9282.7,
+                "y": -2163.58
             },
             "prev": [],
             "next": [
                 {
+                    "target": 107,
+                    "route": "assets/pathing/纳塔6-圣火竞技场-1.json"
+                },
+                {
                     "target": 108,
-                    "route": "assets/pathing/蒙德4-风龙废墟-3.json"
+                    "route": "assets/pathing/纳塔6-圣火竞技场-2.json"
                 }
             ]
         },
         {
-            "id": 108,
+            "id": 107,
             "type": "blossom",
-            "region": "蒙德4",
+            "region": "纳塔6",
             "position": {
-                "x": 152.71,
-                "y": 2963.33
+                "x": 9231.08,
+                "y": -2154.74
             },
             "prev": [
-                107
+                106
+            ],
+            "next": []
+        },
+        {
+            "id": 108,
+            "type": "blossom",
+            "region": "纳塔6",
+            "position": {
+                "x": 9110.86,
+                "y": -2222.48
+            },
+            "prev": [
+                106
             ],
             "next": []
         },
         {
             "id": 109,
             "type": "teleport",
-            "region": "蒙德5",
+            "region": "纳塔7",
             "position": {
-                "x": -1505.87,
-                "y": 2296.26
+                "x": 9989.5,
+                "y": -1607.82
             },
             "prev": [],
             "next": [
                 {
                     "target": 110,
-                    "route": "assets/pathing/蒙德5-千风神殿-1.json"
+                    "route": "assets/pathing/纳塔7-烟谜主-1.json"
+                },
+                {
+                    "target": 151,
+                    "route": "assets/pathing/rerun/纳塔7-烟谜主-2-rerun.json"
                 }
             ]
         },
         {
             "id": 110,
             "type": "blossom",
-            "region": "蒙德5",
+            "region": "纳塔7",
             "position": {
-                "x": -1453.46,
-                "y": 2282.88
+                "x": 9999.51,
+                "y": -1570.23
             },
             "prev": [
                 109
@@ -1671,26 +1694,30 @@
         {
             "id": 111,
             "type": "teleport",
-            "region": "蒙德5",
+            "region": "纳塔8",
             "position": {
-                "x": -1330.15,
-                "y": 2563.86
+                "x": 9548.24,
+                "y": -1116.54
             },
             "prev": [],
             "next": [
                 {
                     "target": 112,
-                    "route": "assets/pathing/蒙德5-千风神殿-4.json"
+                    "route": "assets/pathing/纳塔8-花羽会-1.json"
+                },
+                {
+                    "target": 113,
+                    "route": "assets/pathing/纳塔8-花羽会-2.json"
                 }
             ]
         },
         {
             "id": 112,
             "type": "blossom",
-            "region": "蒙德5",
+            "region": "纳塔8",
             "position": {
-                "x": -1394.83,
-                "y": 2569.65
+                "x": 9636.29,
+                "y": -1038.41
             },
             "prev": [
                 111
@@ -1699,73 +1726,77 @@
         },
         {
             "id": 113,
-            "type": "teleport",
-            "region": "蒙德5",
-            "position": {
-                "x": -1273.84,
-                "y": 2721.72
-            },
-            "prev": [],
-            "next": [
-                {
-                    "target": 114,
-                    "route": "assets/pathing/蒙德5-千风神殿-5.json"
-                },
-                {
-                    "target": 115,
-                    "route": "assets/pathing/蒙德6-望风山地-1.json"
-                }
-            ]
-        },
-        {
-            "id": 114,
             "type": "blossom",
-            "region": "蒙德5",
+            "region": "纳塔8",
             "position": {
-                "x": -1316.21,
-                "y": 2734.67
+                "x": 9517.92,
+                "y": -1029.8
             },
             "prev": [
-                113
+                111
             ],
             "next": []
         },
         {
+            "id": 114,
+            "type": "teleport",
+            "region": "纳塔8",
+            "position": {
+                "x": 9719.22,
+                "y": -851.99
+            },
+            "prev": [],
+            "next": [
+                {
+                    "target": 115,
+                    "route": "assets/pathing/纳塔8-花羽会-3.json"
+                }
+            ]
+        },
+        {
             "id": 115,
             "type": "blossom",
-            "region": "蒙德6",
+            "region": "纳塔8",
             "position": {
-                "x": -1512.81,
-                "y": 2774.26
+                "x": 9472.28,
+                "y": -771.8
             },
             "prev": [
-                113
+                114
             ],
             "next": []
         },
         {
             "id": 116,
             "type": "teleport",
-            "region": "蒙德6",
+            "region": "纳塔9",
             "position": {
-                "x": -1629.44,
-                "y": 2834.36
+                "x": 9839.57,
+                "y": -1290.01
             },
             "prev": [],
             "next": [
                 {
                     "target": 117,
-                    "route": "assets/pathing/蒙德6-望风山地-3.json"
+                    "route": "assets/pathing/纳塔9-翘枝崖-1.json"
+                },
+                {
+                    "target": 152,
+                    "route": "assets/pathing/rerun/纳塔7-烟谜主-3-rerun.json"
+                },
+                {
+                    "target": 153,
+                    "route": "assets/pathing/rerun/纳塔9-翘枝崖-2-rerun.json"
                 }
             ]
         },
         {
             "id": 117,
             "type": "blossom",
-            "region": "蒙德6",
+            "region": "纳塔9",
             "position": {
-                "x": -1603.95,
-                "y": 2865.65
+                "x": 9920.8,
+                "y": -1196.25
             },
             "prev": [
                 116
@@ -1775,26 +1806,26 @@
         {
             "id": 118,
             "type": "teleport",
-            "region": "蒙德7",
+            "region": "蒙德1",
             "position": {
-                "x": -1867.21,
-                "y": 1331.21
+                "x": -1166.84,
+                "y": 2132.83
             },
             "prev": [],
             "next": [
                 {
                     "target": 119,
-                    "route": "assets/pathing/蒙德7-达达乌帕谷-1.json"
+                    "route": "assets/pathing/蒙德1-风起地-1.json"
                 }
             ]
         },
         {
             "id": 119,
             "type": "blossom",
-            "region": "蒙德7",
+            "region": "蒙德1",
             "position": {
-                "x": -1660.63,
-                "y": 1392.87
+                "x": -1298.03,
+                "y": 2172.37
             },
             "prev": [
                 118
@@ -1804,30 +1835,26 @@
         {
             "id": 120,
             "type": "teleport",
-            "region": "蒙德7",
+            "region": "蒙德1",
             "position": {
-                "x": -1432.63,
-                "y": 1464.61
+                "x": -1266.59,
+                "y": 1933.52
             },
             "prev": [],
             "next": [
                 {
                     "target": 121,
-                    "route": "assets/pathing/蒙德7-达达乌帕谷-2.json"
-                },
-                {
-                    "target": 122,
-                    "route": "assets/pathing/蒙德7-达达乌帕谷-3.json"
+                    "route": "assets/pathing/蒙德1-风起地-2.json"
                 }
             ]
         },
         {
             "id": 121,
             "type": "blossom",
-            "region": "蒙德7",
+            "region": "蒙德1",
             "position": {
-                "x": -1517.07,
-                "y": 1513.97
+                "x": -1223.18,
+                "y": 2032.04
             },
             "prev": [
                 120
@@ -1836,6 +1863,375 @@
         },
         {
             "id": 122,
+            "type": "teleport",
+            "region": "蒙德2",
+            "position": {
+                "x": -663.61,
+                "y": 1709.65
+            },
+            "prev": [],
+            "next": [
+                {
+                    "target": 123,
+                    "route": "assets/pathing/蒙德2-清泉镇-1.json"
+                }
+            ]
+        },
+        {
+            "id": 123,
+            "type": "blossom",
+            "region": "蒙德2",
+            "position": {
+                "x": -717.83,
+                "y": 1802.77
+            },
+            "prev": [
+                122
+            ],
+            "next": []
+        },
+        {
+            "id": 124,
+            "type": "teleport",
+            "region": "蒙德2",
+            "position": {
+                "x": -578.76,
+                "y": 1853.42
+            },
+            "prev": [],
+            "next": [
+                {
+                    "target": 125,
+                    "route": "assets/pathing/蒙德2-清泉镇-2.json"
+                }
+            ]
+        },
+        {
+            "id": 125,
+            "type": "blossom",
+            "region": "蒙德2",
+            "position": {
+                "x": -523.76,
+                "y": 1813.84
+            },
+            "prev": [
+                124
+            ],
+            "next": []
+        },
+        {
+            "id": 126,
+            "type": "teleport",
+            "region": "蒙德3",
+            "position": {
+                "x": -385.84,
+                "y": 2297.22
+            },
+            "prev": [],
+            "next": [
+                {
+                    "target": 127,
+                    "route": "assets/pathing/蒙德3-奔狼领-1.json"
+                }
+            ]
+        },
+        {
+            "id": 127,
+            "type": "blossom",
+            "region": "蒙德3",
+            "position": {
+                "x": -281.79,
+                "y": 2310.78
+            },
+            "prev": [
+                126
+            ],
+            "next": []
+        },
+        {
+            "id": 128,
+            "type": "teleport",
+            "region": "蒙德3",
+            "position": {
+                "x": -440.09,
+                "y": 2580.75
+            },
+            "prev": [],
+            "next": [
+                {
+                    "target": 129,
+                    "route": "assets/pathing/蒙德3-奔狼领-4.json"
+                }
+            ]
+        },
+        {
+            "id": 129,
+            "type": "blossom",
+            "region": "蒙德3",
+            "position": {
+                "x": -336.15,
+                "y": 2562.91
+            },
+            "prev": [
+                128
+            ],
+            "next": []
+        },
+        {
+            "id": 130,
+            "type": "teleport",
+            "region": "蒙德4",
+            "position": {
+                "x": 177.18,
+                "y": 2647.07
+            },
+            "prev": [],
+            "next": [
+                {
+                    "target": 131,
+                    "route": "assets/pathing/蒙德4-风龙废墟-1.json"
+                }
+            ]
+        },
+        {
+            "id": 131,
+            "type": "blossom",
+            "region": "蒙德4",
+            "position": {
+                "x": 241.41,
+                "y": 2703.08
+            },
+            "prev": [
+                130
+            ],
+            "next": []
+        },
+        {
+            "id": 132,
+            "type": "teleport",
+            "region": "蒙德4",
+            "position": {
+                "x": 265.6,
+                "y": 2915.02
+            },
+            "prev": [],
+            "next": [
+                {
+                    "target": 133,
+                    "route": "assets/pathing/蒙德4-风龙废墟-3.json"
+                }
+            ]
+        },
+        {
+            "id": 133,
+            "type": "blossom",
+            "region": "蒙德4",
+            "position": {
+                "x": 152.71,
+                "y": 2963.33
+            },
+            "prev": [
+                132
+            ],
+            "next": []
+        },
+        {
+            "id": 134,
+            "type": "teleport",
+            "region": "蒙德5",
+            "position": {
+                "x": -1505.87,
+                "y": 2296.26
+            },
+            "prev": [],
+            "next": [
+                {
+                    "target": 135,
+                    "route": "assets/pathing/蒙德5-千风神殿-1.json"
+                }
+            ]
+        },
+        {
+            "id": 135,
+            "type": "blossom",
+            "region": "蒙德5",
+            "position": {
+                "x": -1453.46,
+                "y": 2282.88
+            },
+            "prev": [
+                134
+            ],
+            "next": []
+        },
+        {
+            "id": 136,
+            "type": "teleport",
+            "region": "蒙德5",
+            "position": {
+                "x": -1330.15,
+                "y": 2563.86
+            },
+            "prev": [],
+            "next": [
+                {
+                    "target": 137,
+                    "route": "assets/pathing/蒙德5-千风神殿-4.json"
+                }
+            ]
+        },
+        {
+            "id": 137,
+            "type": "blossom",
+            "region": "蒙德5",
+            "position": {
+                "x": -1394.83,
+                "y": 2569.65
+            },
+            "prev": [
+                136
+            ],
+            "next": []
+        },
+        {
+            "id": 138,
+            "type": "teleport",
+            "region": "蒙德5",
+            "position": {
+                "x": -1273.84,
+                "y": 2721.72
+            },
+            "prev": [],
+            "next": [
+                {
+                    "target": 139,
+                    "route": "assets/pathing/蒙德5-千风神殿-5.json"
+                },
+                {
+                    "target": 140,
+                    "route": "assets/pathing/蒙德6-望风山地-1.json"
+                }
+            ]
+        },
+        {
+            "id": 139,
+            "type": "blossom",
+            "region": "蒙德5",
+            "position": {
+                "x": -1316.21,
+                "y": 2734.67
+            },
+            "prev": [
+                138
+            ],
+            "next": []
+        },
+        {
+            "id": 140,
+            "type": "blossom",
+            "region": "蒙德6",
+            "position": {
+                "x": -1512.81,
+                "y": 2774.26
+            },
+            "prev": [
+                138
+            ],
+            "next": []
+        },
+        {
+            "id": 141,
+            "type": "teleport",
+            "region": "蒙德6",
+            "position": {
+                "x": -1629.44,
+                "y": 2834.36
+            },
+            "prev": [],
+            "next": [
+                {
+                    "target": 142,
+                    "route": "assets/pathing/蒙德6-望风山地-3.json"
+                }
+            ]
+        },
+        {
+            "id": 142,
+            "type": "blossom",
+            "region": "蒙德6",
+            "position": {
+                "x": -1603.95,
+                "y": 2865.65
+            },
+            "prev": [
+                141
+            ],
+            "next": []
+        },
+        {
+            "id": 143,
+            "type": "teleport",
+            "region": "蒙德7",
+            "position": {
+                "x": -1867.21,
+                "y": 1331.21
+            },
+            "prev": [],
+            "next": [
+                {
+                    "target": 144,
+                    "route": "assets/pathing/蒙德7-达达乌帕谷-1.json"
+                }
+            ]
+        },
+        {
+            "id": 144,
+            "type": "blossom",
+            "region": "蒙德7",
+            "position": {
+                "x": -1660.63,
+                "y": 1392.87
+            },
+            "prev": [
+                143
+            ],
+            "next": []
+        },
+        {
+            "id": 145,
+            "type": "teleport",
+            "region": "蒙德7",
+            "position": {
+                "x": -1432.63,
+                "y": 1464.61
+            },
+            "prev": [],
+            "next": [
+                {
+                    "target": 146,
+                    "route": "assets/pathing/蒙德7-达达乌帕谷-2.json"
+                },
+                {
+                    "target": 147,
+                    "route": "assets/pathing/蒙德7-达达乌帕谷-3.json"
+                }
+            ]
+        },
+        {
+            "id": 146,
+            "type": "blossom",
+            "region": "蒙德7",
+            "position": {
+                "x": -1517.07,
+                "y": 1513.97
+            },
+            "prev": [
+                145
+            ],
+            "next": []
+        },
+        {
+            "id": 147,
             "type": "blossom",
             "region": "蒙德7",
             "position": {
@@ -1843,12 +2239,12 @@
                 "y": 1560.15
             },
             "prev": [
-                120
+                145
             ],
             "next": []
         },
         {
-            "id": 123,
+            "id": 148,
             "type": "blossom",
             "region": "纳塔1",
             "position": {
@@ -1856,12 +2252,38 @@
                 "y": -1554.26
             },
             "prev": [
-                73
+                82
             ],
             "next": []
         },
         {
-            "id": 124,
+            "id": 149,
+            "type": "blossom",
+            "region": "纳塔10",
+            "position": {
+                "x": 8495.87,
+                "y": -3019.42
+            },
+            "prev": [
+                85
+            ],
+            "next": []
+        },
+        {
+            "id": 150,
+            "type": "blossom",
+            "region": "纳塔10",
+            "position": {
+                "x": 8587.99,
+                "y": -3022.4
+            },
+            "prev": [
+                87
+            ],
+            "next": []
+        },
+        {
+            "id": 151,
             "type": "blossom",
             "region": "纳塔7",
             "position": {
@@ -1869,28 +2291,12 @@
                 "y": -1511.61
             },
             "prev": [
-                91
+                109
             ],
             "next": []
         },
         {
-            "id": 125,
-            "type": "teleport",
-            "region": "纳塔7",
-            "position": {
-                "x": 9839.55,
-                "y": -1290.04
-            },
-            "prev": [],
-            "next": [
-                {
-                    "target": 126,
-                    "route": "assets/pathing/rerun/纳塔7-烟谜主-3-rerun.json"
-                }
-            ]
-        },
-        {
-            "id": 126,
+            "id": 152,
             "type": "blossom",
             "region": "纳塔7",
             "position": {
@@ -1898,7 +2304,66 @@
                 "y": -1424.0
             },
             "prev": [
-                125
+                116
+            ],
+            "next": []
+        },
+        {
+            "id": 153,
+            "type": "blossom",
+            "region": "纳塔9",
+            "position": {
+                "x": 9888.22,
+                "y": -1046.55
+            },
+            "prev": [
+                116
+            ],
+            "next": []
+        },
+        {
+            "id": 154,
+            "type": "teleport",
+            "region": "纳塔9",
+            "position": {
+                "x": 10030.38,
+                "y": -643.36
+            },
+            "prev": [],
+            "next": [
+                {
+                    "target": 155,
+                    "route": "assets/pathing/rerun/纳塔9-翘枝崖-3-rerun.json"
+                },
+                {
+                    "target": 156,
+                    "route": "assets/pathing/rerun/纳塔9-翘枝崖-4-rerun.json"
+                }
+            ]
+        },
+        {
+            "id": 155,
+            "type": "blossom",
+            "region": "纳塔9",
+            "position": {
+                "x": 9938.82,
+                "y": -933.87
+            },
+            "prev": [
+                154
+            ],
+            "next": []
+        },
+        {
+            "id": 156,
+            "type": "blossom",
+            "region": "纳塔9",
+            "position": {
+                "x": 9984.24,
+                "y": -876.43
+            },
+            "prev": [
+                154
             ],
             "next": []
         }

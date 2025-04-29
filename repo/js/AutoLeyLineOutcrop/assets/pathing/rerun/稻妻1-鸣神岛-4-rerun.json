@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "稻妻1-鸣神岛-4-rerun",
+    "type": "collect",
+    "author": "寒烟",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4408.91015625,
+      "y": -2395.3271484375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4419.77734375,
+      "y": -2372.224609375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4453.220703125,
+      "y": -2379.8701171875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -4466.53515625,
+      "y": -2383.7138671875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -4554.271484375,
+      "y": -2399.7900390625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "200"
+    },
+    {
+      "id": 6,
+      "x": -4549.962890625,
+      "y": -2399.9765625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
