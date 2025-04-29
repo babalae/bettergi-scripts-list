@@ -1,11 +1,11 @@
 {
   "info": {
-    "name": "P2(捡)清水玉01-沉玉谷上谷-鼋背-6个",
+    "name": "B05-清水玉-沉玉谷南陵-赤璋城垣-七天神像-3个",
     "type": "collect",
     "author": "起个名字好难的喵",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.42.0"
+    "bgiVersion": "0.43.0"
   },
   "positions": [
     {
@@ -13,50 +13,50 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 2145.61,
-      "y": 2412.93,
+      "x": 2323.88,
+      "y": 1604.99,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 2117.01,
-      "y": 2459.84,
+      "x": 2320.12,
+      "y": 1669.67,
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
+      "move_mode": "fly",
+      "action": "stop_flying",
       "action_params": ""
     },
     {
       "id": 3,
-      "x": 2110.96,
-      "y": 2475.64,
+      "x": 2319.57,
+      "y": 1673.58,
       "type": "path",
       "move_mode": "walk",
-      "action": "",
+      "action": "mining",
       "action_params": ""
     },
     {
       "id": 4,
-      "x": 2126.25,
-      "y": 2520.98,
+      "x": 2325.7,
+      "y": 1674.42,
       "type": "path",
       "move_mode": "walk",
-      "action": "",
+      "action": "mining",
       "action_params": ""
     },
     {
       "id": 5,
-      "x": 2161.7,
-      "y": 2550.56,
-      "type": "path",
+      "x": 2323.88,
+      "y": 1605.02,
+      "type": "teleport",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
       "id": 6,
-      "x": 2195.19,
-      "y": 2664.32,
+      "x": 2321.14,
+      "y": 1668.23,
       "type": "path",
       "move_mode": "fly",
       "action": "stop_flying",
@@ -64,8 +64,8 @@
     },
     {
       "id": 7,
-      "x": 2203.17,
-      "y": 2666.78,
+      "x": 2322.24,
+      "y": 1672.29,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -73,8 +73,8 @@
     },
     {
       "id": 8,
-      "x": 2200.73,
-      "y": 2670.21,
+      "x": 2320.12,
+      "y": 1674.06,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -82,8 +82,8 @@
     },
     {
       "id": 9,
-      "x": 2197.86,
-      "y": 2674.44,
+      "x": 2320.17,
+      "y": 1675.18,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -91,8 +91,17 @@
     },
     {
       "id": 10,
-      "x": 2196.54,
-      "y": 2676.07,
+      "x": 2325.99,
+      "y": 1675.3,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 2327.16,
+      "y": 1675.42,
       "type": "path",
       "move_mode": "walk",
       "action": "",
