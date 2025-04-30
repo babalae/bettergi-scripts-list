@@ -771,7 +771,7 @@ async function adjustViewForReward(boxIconRo, advanceNum) {
             if (resList && resList.count > 0) {
                 for (let i = 0; i < resList.count; i++) {
                     let res = resList[i];
-                    if (res.text.includes("使用原粹树脂")) {
+                    if (res.text.includes("原粹树脂")) {
                         log.info("误触发领取页面，尝试关闭页面")
                         keyPress("ESCAPE");
                         await sleep(500);
