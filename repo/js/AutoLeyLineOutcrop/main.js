@@ -718,17 +718,9 @@ async function autoNavigateToReward() {
         let rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 50);
         let ocrResults = rewardTextArea.findMulti(RecognitionObject.ocrThis);
 
-        // 检测到地脉之花文字则结束
-        if (ocrResults.count > 0 && ocrResults[0].text.trim().length > 0) {
-            for (let i = 0; i < ocrResults.count; i++) {
-                if (ocrResults[i].text.includes("地脉之花")) {
-                    log.info("已到达领奖点，检测到文字: " + ocrResults[i].text);
-                    return;
-                }
-            }
-        }
-        else if (advanceNum % 20 == 0 && advanceNum >= 20) {
-            log.warn("前进又超时20次啦，先往旁边挪挪再继续试试")
+
+        if (advanceNum % 15 == 0 && advanceNum >= 10) {
+            log.warn("前进又超时15次啦，先往旁边挪挪再继续试试")
             keyDown("s");
             await sleep(500);
             keyUp("s");
@@ -738,8 +730,17 @@ async function autoNavigateToReward() {
             await sleep(1000);
             keyUp("w");
         }
-        else if (advanceNum > 80) {
+        else if (advanceNum > 45) {
             throw new Error('前进时间超时');
+        }
+        // 检测到地脉之花文字则结束
+        else if (ocrResults.count > 0 && ocrResults[0].text.trim().length > 0) {
+            for (let i = 0; i < ocrResults.count; i++) {
+                if (ocrResults[i].text.includes("地脉之花")) {
+                    log.info("已到达领奖点，检测到文字: " + ocrResults[i].text);
+                    return;
+                }
+            }
         }
 
         // 2. 未到达领奖点，则调整视野
@@ -762,6 +763,38 @@ async function autoNavigateToReward() {
  */
 async function adjustViewForReward(boxIconRo, advanceNum) {
     for (let i = 0; i < 100; i++) {
+
+        // 每10次执行一轮异常页面检查
+        if (i % 10 == 0) {
+            // 识别误触发领取导致超时的情况
+            let resList = captureGameRegion().findMulti(RecognitionObject.ocrThis);
+            if (resList && resList.count > 0) {
+                for (let i = 0; i < resList.count; i++) {
+                    let res = resList[i];
+                    if (res.text.includes("使用原粹树脂")) {
+                        log.info("误触发领取页面，尝试关闭页面")
+                        keyPress("ESCAPE");
+                        await sleep(500);
+                        keyPress("ESCAPE");
+                        await sleep(500);
+                        await genshin.returnMainUi();
+                    }
+                }
+            }
+            // 识别误触发其他页面导致超时的情况
+            const paimonMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/paimon_menu.png"), 0, 0, genshin.width / 3.0, genshin.width / 5.0);
+            let res = captureGameRegion().Find(paimonMenuRo);
+            if (res.isEmpty()) {
+                log.info("误触发其他页面，尝试关闭页面")
+                click(960, 800);
+                keyPress("ESCAPE");
+                await sleep(500);
+                keyPress("ESCAPE");
+                await sleep(500);
+                await genshin.returnMainUi();
+            }
+        }
+
         let captureRegion = captureGameRegion();
         let iconRes = captureRegion.Find(boxIconRo);
 
@@ -783,35 +816,5 @@ async function adjustViewForReward(boxIconRo, advanceNum) {
             await sleep(100);
         }
     }
-
-    // 识别误触发领取导致超时的情况
-    let resList = captureGameRegion().findMulti(RecognitionObject.ocrThis);
-    if (resList && resList.count > 0) {
-        for (let i = 0; i < resList.count; i++) {
-            let res = resList[i];
-            if (res.text.includes("使用原粹树脂")) {
-                log.info("误触发领取页面，尝试关闭页面")
-                keyPress("ESCAPE");
-                await sleep(500);
-                keyPress("ESCAPE");
-                await sleep(500);
-                await genshin.returnMainUi();
-            }
-        }
-    }
-
-    // 识别误触发其他页面导致超时的情况
-    const paimonMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/paimon_menu.png"), 0, 0, genshin.width / 3.0, genshin.width / 5.0);
-    let res = captureGameRegion().Find(paimonMenuRo);
-    if (res.isEmpty()) {
-        log.info("误触发其他页面，尝试关闭页面")
-        click(960, 800);
-        keyPress("ESCAPE");
-        await sleep(500);
-        keyPress("ESCAPE");
-        await sleep(500);
-        await genshin.returnMainUi();
-    }
-
     // throw new Error('视野调整超时');
 }
