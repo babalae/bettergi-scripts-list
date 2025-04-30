@@ -1,4 +1,13 @@
 [
+{
+    "name": "routeOrder",
+    "type": "select",
+    "label": "路线顺序选择（默认：效率顺序）",
+    "options": [
+        "效率顺序",
+        "地图顺序"
+    ]
+},
     {
         "name": "targetMintCount",
         "type": "input-text",
@@ -7,6 +16,6 @@
     {
         "name": "isRefresh",
         "type": "checkbox",
-        "label": "是否刷新"
+        "label": "是否刷新（薄荷每天0时刷新）"
     }
 ]
