@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "3遗迹重机 1遗迹猎者",
+    "description": "",
     "bgiVersion": "0.42.3"
   },
   "positions": [
@@ -57,9 +57,9 @@
       "id": 6,
       "x": 1154.1277333215858,
       "y": -345.74806920683113,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "run",
-      "action_params": "",
+      "action_params": "wait(3.5),",
       "type": "path"
     },
     {
@@ -104,7 +104,7 @@
       "y": -260.2494611739994,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(2),",
+      "action_params": "wait(2);钟离 a(0.1),e(hold);",
       "type": "path"
     },
     {

@@ -154,7 +154,7 @@ async function insertMaterial(){
     await sleep(100);
     await moveMouseBy(0,30);
     // 薄荷图片检测
-    const maxRetries = 8; // 最大重试次数
+    const maxRetries = 15; // 最大重试次数
     let retries = 0; // 当前重试次数
     while (retries < maxRetries) {
         await imageRecognition(BH, 1, 0, 0);
@@ -179,6 +179,8 @@ async function insertMaterial(){
         await sleep(500); 
         if (retries === maxRetries) {
             await leftButtonUp();
+            await sleep(100); 
+            await moveMouseTo(1287,131);
             await genshin.returnMainUi(); 
             throw new Error("未找到材料（默认薄荷，自定义请看'注意使用事项.txt'）！");}
     }   
