@@ -147,7 +147,6 @@
           imageResult.click();
           await sleep(2000); // 等待点击生效
           foundIngredient = true;
-          break; // 找到矿石后退出循环
 
           // 点击“开始锻造”3次
           click(1645, 1015);
@@ -156,6 +155,7 @@
           await sleep(3000);
           click(1645, 1015);
           await sleep(3000);
+          break; // 找到矿石后退出循环
         }
       }
       if (!foundIngredient) {
