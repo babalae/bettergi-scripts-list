@@ -46,12 +46,12 @@ let retryCount = 0;       // 重试次数
             log.info(`切换至队伍 ${settings.team}`);
             await genshin.switchParty(settings.team);
         }
-        
+
         log.info(`刷取次数：${settings.timesValue}`);
 
         // 可重跑模式提示
         if (settings.reRun) {
-            log.info("已开启可重跑模式，将选择可重跑路线"); 
+            log.info("已开启可重跑模式，将选择可重跑路线");
         }
 
         // 寻找地脉花位置
@@ -69,7 +69,7 @@ let retryCount = 0;       // 重试次数
                     strategyName = position.strategy;
                     log.info(`执行策略：${strategyName}`);
                     log.info(`地脉花的次序：${position.order}`);
-                    
+
                     // 执行位置对应的路径文件
                     for (let i = position.order; i <= position.steps; i++) {
                         if (settings.reRun) {
@@ -78,6 +78,21 @@ let retryCount = 0;       // 重试次数
 
                             log.info(`processLeyLineOutcrop：assets/pathing/target/${strategyName}-${i}.json`);
                             await processLeyLineOutcrop(settings.timeout, `assets/pathing/target/${strategyName}-${i}.json`);
+                            // 切换好感队
+                            if (settings.friendshipTeam) {
+                                log.info(`切换至队伍 ${settings.friendshipTeam}`);
+                                try {
+                                    await genshin.switchParty(settings.friendshipTeam);
+                                } catch (e) {
+                                    keyPress("ESCAPE");
+                                    await sleep(500);
+                                    keyPress("ESCAPE");
+                                    await sleep(500);
+                                    await genshin.returnMainUi();
+                                    log.info(`重新切换至队伍 ${settings.friendshipTeam}`);
+                                    await genshin.switchParty(settings.friendshipTeam);
+                                }
+                            }
                             await attemptReward(settings);
                         } else {
                             log.info(`assets/pathing/${strategyName}-${i}.json`);
@@ -85,6 +100,21 @@ let retryCount = 0;       // 重试次数
 
                             log.info(`processLeyLineOutcrop：assets/pathing/target/${strategyName}-${i}.json`);
                             await processLeyLineOutcrop(settings.timeout, `assets/pathing/target/${strategyName}-${i}.json`);
+                            // 切换好感队
+                            if (settings.friendshipTeam) {
+                                log.info(`切换至队伍 ${settings.friendshipTeam}`);
+                                try {
+                                    await genshin.switchParty(settings.friendshipTeam);
+                                } catch (e) {
+                                    keyPress("ESCAPE");
+                                    await sleep(500);
+                                    keyPress("ESCAPE");
+                                    await sleep(500);
+                                    await genshin.returnMainUi();
+                                    log.info(`重新切换至队伍 ${settings.friendshipTeam}`);
+                                    await genshin.switchParty(settings.friendshipTeam);
+                                }
+                            }
                             await attemptReward(settings);
                         }
                     }
@@ -96,16 +126,16 @@ let retryCount = 0;       // 重试次数
         // 未找到策略的错误处理
         if (!foundStrategy) {
             log.error("未找到对应的地脉花策略，请再次运行脚本");
-            log.error("如果仍然不行，请截图*完整的*游戏界面，并反馈给作者！");
+            log.error("如果仍然不行，请截图{1}游戏界面，并反馈给作者！", "*完整的*");
             log.error("完整的游戏界面！完整的游戏界面！完整的游戏界面！");
             return;
         }
-        
+
         // 完成后恢复自定义标记
-        await openCustomMarks();
+        if (marksStatus == false) { await openCustomMarks(); }
     } catch (e) {
         log.error("出错了！ {error}", e.message);
-        await openCustomMarks();
+        if (marksStatus == false) { await openCustomMarks(); }
     }
 })();
 
@@ -144,24 +174,24 @@ function loadSettings() {
             timeout: settings.timeout * 1000 ? settings.timeout * 1000 : 120000,
             count: settings.count ? settings.count : "6"
         };
-        
+
         // 验证必要的设置
         if (!settingsData.start) {
             throw new Error("请仔细阅读脚本介绍，并在调度器内进行配置，如果你是直接运行的脚本，请将脚本加入调度器内运行！");
         }
-        
+
         if (!settingsData.leyLineOutcropType) {
             throw new Error("请在游戏中确认地脉花的类型，然后在js设置中选择地脉花的类型。");
         }
-        
+
         if (!settingsData.country) {
             throw new Error("请在游戏中确认地脉花的第一个点的位置，然后在js设置中选择地脉花所在的国家。");
         }
-        
+
         if (settingsData.friendshipTeam && !settingsData.team) {
             throw new Error("未配置战斗队伍！当配置了好感队时必须配置战斗队伍！");
         }
-        
+
         // 处理刷取次数
         if (!/^-?\d+\.?\d*$/.test(settingsData.count)) {
             log.warn(`刷取次数 ${settingsData.count} 不是数字，使用默认次数6次`);
@@ -187,7 +217,7 @@ function loadSettings() {
                 }
             }
         }
-        
+
         return settingsData;
     } catch (error) {
         log.error(`加载设置失败: ${error.message}`);
@@ -328,7 +358,7 @@ async function getMapPosition(country, retryCount, config) {
         log.warn(`countryIndex：${index}`);
         return positions[index];
     }
-    
+
     // 默认返回
     log.warn(`未找到国家 ${country} 的位置信息`);
     return { x: 0, y: 0, name: "默认位置" };
@@ -363,7 +393,7 @@ function isNearPosition(x, y, targetX, targetY, threshold) {
 async function processLeyLineOutcrop(timeout, targetPath, retries = 0) {
     // 设置最大重试次数，防止死循环
     const MAX_RETRIES = 3;
-    
+
     // 如果超过最大重试次数，记录错误并返回，避免死循环
     if (retries >= MAX_RETRIES) {
         log.error(`打开地脉花失败，已重试${MAX_RETRIES}次，终止处理`);
@@ -390,7 +420,7 @@ async function processLeyLineOutcrop(timeout, targetPath, retries = 0) {
             await pathingScript.runFile(targetPath);
             await processLeyLineOutcrop(timeout, targetPath, retries + 1);
         } catch (error) {
-            throw new Error (`打开地脉花失败: ${error.message}`);
+            throw new Error(`打开地脉花失败: ${error.message}`);
         }
     }
 }
@@ -402,33 +432,17 @@ async function processLeyLineOutcrop(timeout, targetPath, retries = 0) {
  */
 async function attemptReward(settings) {
     const MAX_RETRY = 5;
-    
+
     // 超时处理
     if (retryCount >= MAX_RETRY) {
         retryCount = 0;
         throw new Error("超过最大重试次数，领取奖励失败");
     }
-    
-    // 切换好感队
-    if (settings.friendshipTeam) {
-        log.info(`切换至队伍 ${settings.friendshipTeam}`);
-        try {
-        await genshin.switchParty(settings.friendshipTeam);
-        } catch(e) {
-            keyPress("ESCAPE");
-            await sleep(500);
-            keyPress("ESCAPE");
-            await sleep(500);
-            await genshin.returnMainUi();
-            log.info(`重新切换至队伍 ${settings.friendshipTeam}`);
-            await genshin.switchParty(settings.friendshipTeam);
-        }
-    }
-    
+
     log.info("领取奖励，优先使用浓缩树脂");
     keyPress("F");
     await sleep(500);
-    
+
     // 识别是否为地脉之花界面
     let resList = captureGameRegion().findMulti(RecognitionObject.ocrThis);
     let isValid = false;
@@ -504,9 +518,9 @@ async function attemptReward(settings) {
  * @param {string} targetPath - 目标路径
  * @returns {Promise<boolean>} 区域是否出现地脉任务
  */
-async function openOutcrop(targetPath){
-    let ocrRegion1 = { x:800, y:200, width:300, height:100 };   // 中心区域
-    let ocrRegion2 = { x:0, y:200, width:300, height:300 };     // 追踪任务区域
+async function openOutcrop(targetPath) {
+    let ocrRegion1 = { x: 800, y: 200, width: 300, height: 100 };   // 中心区域
+    let ocrRegion2 = { x: 0, y: 200, width: 300, height: 300 };     // 追踪任务区域
     let startTime = Date.now();
     let recognized = false;
 
@@ -521,7 +535,7 @@ async function openOutcrop(targetPath){
         keyPress("F");
         await sleep(500);
     }
-    
+
     // 如果5秒内没有识别成功，再追加识别追踪任务区域及尝试重新开启地脉花
     if (!recognized) {
         let secondStartTime = Date.now();
@@ -542,18 +556,18 @@ async function openOutcrop(targetPath){
  * @param {Object} ocrRegion - OCR识别区域
  * @returns {Promise<boolean>} 区域是否出现战斗文本
  */
-function recognizeFightText(ocrRegion){
-    try{
+function recognizeFightText(ocrRegion) {
+    try {
         let result = captureGameRegion().find(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height));
         let text = result.text;
-        keywords = ["打倒","所有","敌人"];
-        for(let keyword of keywords){
-            if(text.includes(keyword)){
+        keywords = ["打倒", "所有", "敌人"];
+        for (let keyword of keywords) {
+            if (text.includes(keyword)) {
                 return true;
             }
         }
         return false;
-    }catch(error){
+    } catch (error) {
         log.error("OCR过程中出错: {0}", error);
     }
 }
@@ -571,7 +585,7 @@ async function autoFight(timeout) {
         const ocrRegionWidth = 1040 - ocrRegionX;
         const ocrRegionHeight = 300 - ocrRegionY;
         let ocrRegion = { x: ocrRegionX, y: ocrRegionY, width: ocrRegionWidth, height: ocrRegionHeight };
-        
+
         log.info("开始战斗");
         dispatcher.RunTask(new SoloTask("AutoFight"), cts);
         let fightResult = await recognizeTextInRegion(ocrRegion, timeout) ? "成功" : "失败";
@@ -592,13 +606,13 @@ async function recognizeTextInRegion(ocrRegion, timeout) {
     let startTime = Date.now();
     const successKeywords = ["挑战达成", "战斗胜利", "挑战成功"];
     const failureKeywords = ["挑战失败"];
-    
+
     // 循环检测直到超时
     while (Date.now() - startTime < timeout) {
         try {
             let result = captureGameRegion().find(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height));
             let text = result.text;
-            
+
             // 检查成功关键词
             for (let keyword of successKeywords) {
                 if (text.includes(keyword)) {
@@ -606,7 +620,7 @@ async function recognizeTextInRegion(ocrRegion, timeout) {
                     return true;
                 }
             }
-            
+
             // 检查失败关键词
             for (let keyword of failureKeywords) {
                 if (text.includes(keyword)) {
@@ -620,7 +634,7 @@ async function recognizeTextInRegion(ocrRegion, timeout) {
         }
         await sleep(1000); // 检查间隔
     }
-    
+
     log.warn("在超时时间内未检测到战斗结果");
     return false;
 }
@@ -639,9 +653,10 @@ async function closeCustomMarks() {
     await sleep(600);
     click(60, 1020);
     await sleep(600);
-    
+
     let button = captureGameRegion().find(RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/open.png"),));
     if (button) {
+        marksStatus = false;
         log.info("关闭自定义标记");
         click(Math.round(button.x + button.width / 2), Math.round(button.y + button.height / 2));
         await sleep(600);
@@ -659,13 +674,14 @@ async function openCustomMarks() {
     await sleep(600);
     click(60, 1020);
     await sleep(600);
-    
+
     let button = captureGameRegion().findMulti(RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/close.png"),));
     if (button) {
         for (let i = 0; i < button.count; i++) {
             let b = button[i];
             if (b.y > 280 && b.y < 350) {
                 log.info("打开自定义标记");
+                marksStatus = true;
                 click(Math.round(b.x + b.width / 2), Math.round(b.y + b.height / 2));
             }
         }
@@ -694,24 +710,24 @@ async function autoNavigateToReward() {
     await sleep(500);
     moveMouseBy(0, 710);
     await sleep(500);
-    
+
     log.info("开始自动导航到地脉花...");
     while (true) {
         // 1. 优先检查是否已到达领奖点
         let captureRegion = captureGameRegion();
         let rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 50);
         let ocrResults = rewardTextArea.findMulti(RecognitionObject.ocrThis);
-        
+
         // 检测到地脉之花文字则结束
         if (ocrResults.count > 0 && ocrResults[0].text.trim().length > 0) {
-            for(let i = 0; i < ocrResults.count; i++){
-                if(ocrResults[i].text.includes("地脉之花")){
+            for (let i = 0; i < ocrResults.count; i++) {
+                if (ocrResults[i].text.includes("地脉之花")) {
                     log.info("已到达领奖点，检测到文字: " + ocrResults[i].text);
                     return;
                 }
             }
         }
-        else if(advanceNum % 20 == 0 && advanceNum >= 20 ){
+        else if (advanceNum % 20 == 0 && advanceNum >= 20) {
             log.warn("前进又超时20次啦，先往旁边挪挪再继续试试")
             keyDown("s");
             await sleep(500);
@@ -722,13 +738,13 @@ async function autoNavigateToReward() {
             await sleep(1000);
             keyUp("w");
         }
-        else if(advanceNum > 80){
+        else if (advanceNum > 80) {
             throw new Error('前进时间超时');
         }
-        
+
         // 2. 未到达领奖点，则调整视野
         await adjustViewForReward(boxIconRo, advanceNum);
-        
+
         // 3. 前进一小步
         keyDown("w");
         await sleep(900);
@@ -745,27 +761,27 @@ async function autoNavigateToReward() {
  * @returns {Promise<void>}
  */
 async function adjustViewForReward(boxIconRo, advanceNum) {
-    for(let i = 0; i < 100; i++) {
+    for (let i = 0; i < 100; i++) {
         let captureRegion = captureGameRegion();
         let iconRes = captureRegion.Find(boxIconRo);
-        
+
         if (!iconRes) {
             // 未找到图标，小幅度转动视角
             moveMouseBy(20, 0);
             await sleep(100);
             continue;
         }
-        
-        if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {    
+
+        if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {
             log.info(`视野已调正，前进第 ${advanceNum} 次`);
             return;
         } else {
             // 小幅度调整
             let adjustAmount = iconRes.x < 920 ? -20 : 20;
             let adjustAmount2 = iconRes.y < 540 ? 1 : 10;
-            moveMouseBy(adjustAmount*adjustAmount2, 0);
+            moveMouseBy(adjustAmount * adjustAmount2, 0);
             await sleep(100);
-        }       
+        }
     }
 
     // 识别误触发领取导致超时的情况
@@ -789,7 +805,7 @@ async function adjustViewForReward(boxIconRo, advanceNum) {
     let res = captureGameRegion().Find(paimonMenuRo);
     if (res.isEmpty()) {
         log.info("误触发其他页面，尝试关闭页面")
-        click(960,800);
+        click(960, 800);
         keyPress("ESCAPE");
         await sleep(500);
         keyPress("ESCAPE");
