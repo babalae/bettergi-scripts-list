@@ -2,8 +2,6 @@ async function AutoPath(locationName) {
   try {
   let filePath = `assets/${locationName}.json`;
       await pathingScript.runFile(filePath);
-      sleep(2000);
-
       return true;
   } catch (error) {
       log.error(`执行 ${locationName} 路径时发生错误`);
