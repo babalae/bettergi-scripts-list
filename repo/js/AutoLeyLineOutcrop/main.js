@@ -1,8 +1,8 @@
 /**
  * 原神地脉花自动化脚本 (Genshin Impact Ley Line Outcrop Automation Script)
- * 
+ *
  * 功能：自动寻找并完成地脉花挑战，领取奖励
- * 
+ *
  * 术语对照表：
  * 中文 - 英文：
  * 地脉之花 - Ley Line Outcrop
@@ -17,134 +17,491 @@ let leyLineY = 0;         // 地脉花Y坐标
 let currentFlower = null; // 当前花的引用
 let strategyName = "";    // 任务策略名称
 let retryCount = 0;       // 重试次数
-
+let marksStatus = true;   // 自定义标记状态
+let currentRunTimes = 0;  // 当前运行次数
 /**
  * 主函数 - 脚本入口点
  */
 (async function () {
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     try {
-        // 初始化
-        await genshin.returnMainUi();
-        setGameMetrics(1920, 1080, 1);
-
-        // 加载配置和设置
-        const config = await loadConfig();
-        const settings = loadSettings();
-        retryCount = 0;
-
-        // 输出基本设置信息
-        log.info(`地脉花类型：${settings.leyLineOutcropType}`);
-        log.info(`国家：${settings.country}`);
-        if (settings.friendshipTeam) { // 显示好感队信息（如果配置了好感队）
-            log.info(`好感队：${settings.friendshipTeam}`);
+        await runLeyLineOutcropScript();
+    } catch (error) {
+        log.error("出错了！ {error}", error.message);
+        if (!marksStatus) { 
+            await openCustomMarks(); 
         }
-        // 开局传送到七天神像
-        await genshin.tpToStatueOfTheSeven();
-        // 切换战斗队伍
-        if (settings.team) {
-            log.info(`切换至队伍 ${settings.team}`);
-            await genshin.switchParty(settings.team);
-        }
+    }
+})();
 
-        log.info(`刷取次数：${settings.timesValue}`);
+/**
+ * 运行地脉花脚本的主要逻辑
+ * @returns {Promise<void>}
+ */
+async function runLeyLineOutcropScript() {
+    // 初始化
+    await initializeGame();
+    
+    // 加载配置和设置并校验
+    const config = await loadConfig();
+    const settings = loadSettings();
+    retryCount = 0;
+    
+    // 显示设置信息
+    logSettings(settings);
+    
+    // 开局准备
+    await prepareForLeyLineRun(settings);
+    
+    // 执行地脉花挑战
+    await runLeyLineChallenges(config, settings);
+    
+    // 完成后恢复自定义标记
+    if (!marksStatus) { 
+        await openCustomMarks(); 
+    }
+}
 
-        // 可重跑模式提示
-        if (settings.reRun) {
-            log.info("已开启可重跑模式，将选择可重跑路线");
-        }
+/**
+ * 初始化游戏状态
+ * @returns {Promise<void>}
+ */
+async function initializeGame() {
+    await genshin.returnMainUi();
+    setGameMetrics(1920, 1080, 1);
+}
 
+/**
+ * 记录设置信息到日志
+ * @param {Object} settings - 用户设置对象
+ */
+function logSettings(settings) {
+    log.info(`地脉花类型：${settings.leyLineOutcropType}`);
+    log.info(`国家：${settings.country}`);
+    
+    if (settings.friendshipTeam) {
+        log.info(`好感队：${settings.friendshipTeam}`);
+    }
+    
+    log.info(`刷取次数：${settings.timesValue}`);
+    
+    if (settings.reRun) {
+        log.info("已开启可重跑模式，将选择可重跑路线");
+    }
+}
+
+/**
+ * 执行地脉花挑战前的准备工作
+ * @param {Object} settings - 用户设置对象
+ * @returns {Promise<void>}
+ */
+async function prepareForLeyLineRun(settings) {
+    // 开局传送到七天神像
+    await genshin.tpToStatueOfTheSeven();
+    
+    // 切换战斗队伍
+    if (settings.team) {
+        log.info(`切换至队伍 ${settings.team}`);
+        await genshin.switchParty(settings.team);
+    }
+}
+
+/**
+ * 执行地脉花挑战的主要逻辑
+ * @param {Object} config - 配置对象
+ * @param {Object} settings - 用户设置对象
+ * @returns {Promise<void>}
+ */
+async function runLeyLineChallenges(config, settings) {
+    
+    
+    while (currentRunTimes < settings.timesValue) {
         // 寻找地脉花位置
-        await findLeyLineOutcrop(settings.country, settings.leyLineOutcropType, settings);
+        await findLeyLineOutcrop(settings.country, settings.leyLineOutcropType);
+        
+        // 查找并执行对应的策略
+        const foundStrategy = await executeMatchingStrategy(config, settings);
+        
+        // 未找到策略的错误处理
+        if (!foundStrategy) {
+            handleNoStrategyFound();
+            return;
+        }
+        
+        currentRunTimes++;
+    }
+}
 
-        // 寻找并执行对应的策略
-        let foundStrategy = false;
+/**
+ * 执行匹配的地脉花策略
+ * @param {Object} config - 配置对象
+ * @param {Object} settings - 用户设置对象
+ * @returns {Promise<boolean>} 是否找到并执行了策略
+ */
+async function executeMatchingStrategy(config, settings) {
+    let foundStrategy = false;
+    
+    // 从配置中查找匹配的位置和策略
+    if (config.leyLinePositions[settings.country]) {
+        const positions = config.leyLinePositions[settings.country];
+        
+        for (const position of positions) {
+            if (isNearPosition(leyLineX, leyLineY, position.x, position.y, config.errorThreshold)) {
+                foundStrategy = true;
+                strategyName = position.strategy;
+                order = position.order;
+                log.info(`找到匹配的地脉花策略：${strategyName}，次序：${order}`);
+                
+                // 使用 LeyLineOutcropData.json 数据处理路径
+                await executePathsUsingNodeData(position, settings);
+                break;
+            }
+        }
+    }
+    
+    return foundStrategy;
+}
 
-        // 从配置中查找匹配的位置和策略
-        if (config.leyLinePositions[settings.country]) {
-            const positions = config.leyLinePositions[settings.country];
-            for (const position of positions) {
-                if (isNearPosition(leyLineX, leyLineY, position.x, position.y, config.errorThreshold)) {
-                    foundStrategy = true;
-                    strategyName = position.strategy;
-                    log.info(`执行策略：${strategyName}`);
-                    log.info(`地脉花的次序：${position.order}`);
+/**
+ * 使用节点数据执行路径
+ * @param {Object} position - 位置对象
+ * @param {Object} settings - 用户设置对象
+ * @returns {Promise<void>}
+ */
+async function executePathsUsingNodeData(position, settings) {
+    try {
+        const nodeData = await loadNodeData();        
+        let currentNodePosition = position;
+        const targetNode = findTargetNodeByPosition(nodeData, currentNodePosition.x, currentNodePosition.y);            
+            
+        if (!targetNode) {
+            log.error(`未找到与坐标(${currentNodePosition.x}, ${currentNodePosition.y})匹配的目标节点`);
+            return;
+        }
+        log.info(`找到目标节点: ID ${targetNode.id}, 位置(${targetNode.position.x}, ${targetNode.position.y})`);
+        const paths = findPathsToTarget(nodeData, targetNode);
+        
+        if (paths.length === 0) {
+            log.error(`未找到通向目标节点(ID: ${targetNode.id})的路径`);
+            return;
+        }
+        
+        // 选择最短的路径执行
+        const optimalPath = selectOptimalPath(paths);
+        log.info(`选择了含有 ${optimalPath.routes.length} 个路径点的最优路径`);
+        
+        // 执行路径
+        await executePath(optimalPath, settings);            
+        currentRunTimes++;
+        
+        // 如果达到刷取次数上限，退出循环
+        if (currentRunTimes >= settings.timesValue) {
+            return;
+        }
+        
+        // 循环检查并执行当前节点的单一next路径，直到遇到没有next或有多个next的情况
+        let currentNode = targetNode;
+        
+        while (currentNode.next && currentNode.next.length === 1 && currentRunTimes < settings.timesValue) {
+            // 获取下一个节点的ID 和 路径，并在节点数据中找到下一个节点
+            const nextNodeId = currentNode.next[0].target;
+            const nextRoute = currentNode.next[0].route;
+            const nextNode = nodeData.node.find(node => node.id === nextNodeId);
+            
+            if (!nextNode) {
+                return;
+            }
+            
+            await executePath(nextRoute, settings);
+            
+            currentRunTimes++;
+            
+            log.info(`完成节点 ID ${nextNodeId}, 已执行 ${currentRunTimes}/${settings.timesValue} 次`);
+            // 更新当前节点为下一个节点，继续检查
+            currentNode = nextNode;
+            currentNodePosition = { x: nextNode.position.x, y: nextNode.position.y };
+        }
+    } catch (error) {
+        log.error(`执行路径时出错: ${error.message}`);
+        throw error;
+    }
+}
 
-                    // 执行位置对应的路径文件
-                    for (let i = position.order; i <= position.steps; i++) {
-                        if (settings.reRun) {
-                            log.info(`assets/pathing/rerun/${strategyName}-${i}-rerun.json`);
-                            await pathingScript.runFile(`assets/pathing/rerun/${strategyName}-${i}-rerun.json`);
+/**
+ * 加载节点数据
+ * @returns {Promise<Object>} 节点数据对象
+ */
+async function loadNodeData() {
+    try {
+        const nodeDataText = await file.readText("LeyLineOutcropData.json");
+        return JSON.parse(nodeDataText);
+    } catch (error) {
+        log.error(`加载节点数据失败: ${error.message}`);
+        throw new Error("无法加载 LeyLineOutcropData.json 文件");
+    }
+}
 
-                            log.info(`processLeyLineOutcrop：assets/pathing/target/${strategyName}-${i}.json`);
-                            await processLeyLineOutcrop(settings.timeout, `assets/pathing/target/${strategyName}-${i}.json`);
-                            // 切换好感队
-                            if (settings.friendshipTeam) {
-                                log.info(`切换至队伍 ${settings.friendshipTeam}`);
-                                try {
-                                    await genshin.switchParty(settings.friendshipTeam);
-                                } catch (e) {
-                                    keyPress("ESCAPE");
-                                    await sleep(500);
-                                    keyPress("ESCAPE");
-                                    await sleep(500);
-                                    await genshin.returnMainUi();
-                                    log.info(`重新切换至队伍 ${settings.friendshipTeam}`);
-                                    await genshin.switchParty(settings.friendshipTeam);
-                                }
-                            }
-                            await attemptReward(settings);
-                        } else {
-                            log.info(`assets/pathing/${strategyName}-${i}.json`);
-                            await pathingScript.runFile(`assets/pathing/${strategyName}-${i}.json`);
+/**
+ * 根据位置找到对应的目标节点
+ * @param {Object} nodeData - 节点数据
+ * @param {number} x - 目标X坐标
+ * @param {number} y - 目标Y坐标
+ * @returns {Object|null} 找到的节点或null
+ */
+function findTargetNodeByPosition(nodeData, x, y) {
+    const errorThreshold = 50; // 坐标匹配误差范围
+    
+    for (const node of nodeData.node) {
+        if (node.type === "blossom" && 
+            Math.abs(node.position.x - x) <= errorThreshold && 
+            Math.abs(node.position.y - y) <= errorThreshold) {
+            return node;
+        }
+    }
+    
+    return null;
+}
 
-                            log.info(`processLeyLineOutcrop：assets/pathing/target/${strategyName}-${i}.json`);
-                            await processLeyLineOutcrop(settings.timeout, `assets/pathing/target/${strategyName}-${i}.json`);
-                            // 切换好感队
-                            if (settings.friendshipTeam) {
-                                log.info(`切换至队伍 ${settings.friendshipTeam}`);
-                                try {
-                                    await genshin.switchParty(settings.friendshipTeam);
-                                } catch (e) {
-                                    keyPress("ESCAPE");
-                                    await sleep(500);
-                                    keyPress("ESCAPE");
-                                    await sleep(500);
-                                    await genshin.returnMainUi();
-                                    log.info(`重新切换至队伍 ${settings.friendshipTeam}`);
-                                    await genshin.switchParty(settings.friendshipTeam);
-                                }
-                            }
-                            await attemptReward(settings);
-                        }
+/**
+ * 查找到达目标节点的所有可能路径
+ * @param {Object} nodeData - 节点数据
+ * @param {Object} targetNode - 目标节点
+ * @returns {Array} 可行路径数组
+ */
+function findPathsToTarget(nodeData, targetNode) {
+    // 构建节点映射表
+    const nodeMap = {};
+    nodeData.node.forEach(node => {
+        nodeMap[node.id] = node;
+    });
+    
+    log.info(`目标节点ID: ${targetNode.id}, 类型: ${targetNode.type}, 区域: ${targetNode.region}`);
+    
+    // 采用广度优先搜索查找所有可能路径
+    return breadthFirstPathSearch(nodeData, targetNode, nodeMap);
+}
+
+/**
+ * 使用广度优先搜索算法查找从传送点到目标的所有路径
+ * @param {Object} nodeData - 节点数据
+ * @param {Object} targetNode - 目标节点
+ * @param {Object} nodeMap - 节点映射
+ * @returns {Array} 找到的所有可行路径
+ */
+function breadthFirstPathSearch(nodeData, targetNode, nodeMap) {
+    // 存储找到的所有有效路径
+    const validPaths = [];
+    
+    // 获取所有传送点作为起点
+    const teleportNodes = nodeData.node.filter(node => node.type === "teleport");
+    log.info(`找到 ${teleportNodes.length} 个传送点作为可能的起点`);
+    
+    // 对每个传送点，尝试查找到目标的路径
+    for (const startNode of teleportNodes) {
+        // 初始化队列，每个元素包含 [当前节点, 路径信息]
+        const queue = [[startNode, { 
+            startNode: startNode,
+            routes: [],
+            visitedNodes: new Set([startNode.id])
+        }]];
+        
+        // 广度优先搜索
+        while (queue.length > 0) {
+            const [currentNode, pathInfo] = queue.shift();
+            
+            // 如果已经到达目标节点
+            if (currentNode.id === targetNode.id) {
+                validPaths.push({
+                    startNode: pathInfo.startNode,
+                    targetNode: targetNode,
+                    routes: [...pathInfo.routes]
+                });
+                continue; // 找到一条路径，继续搜索其他可能路径
+            }
+            
+            // 检查当前节点的下一个连接
+            if (currentNode.next && currentNode.next.length > 0) {
+                for (const nextRoute of currentNode.next) {
+                    const nextNodeId = nextRoute.target;
+                    
+                    // 避免循环
+                    if (pathInfo.visitedNodes.has(nextNodeId)) {
+                        continue;
                     }
-                    break;
+                    
+                    const nextNode = nodeMap[nextNodeId];
+                    if (!nextNode) {
+                        continue;
+                    }
+                    
+                    // 创建新的路径信息
+                    const newPathInfo = {
+                        startNode: pathInfo.startNode,
+                        routes: [...pathInfo.routes, nextRoute.route],
+                        visitedNodes: new Set([...pathInfo.visitedNodes, nextNodeId])
+                    };
+                    
+                    // 加入队列
+                    queue.push([nextNode, newPathInfo]);
                 }
             }
         }
-
-        // 未找到策略的错误处理
-        if (!foundStrategy) {
-            log.error("未找到对应的地脉花策略，请再次运行脚本");
-            log.error("如果仍然不行，请截图{1}游戏界面，并反馈给作者！", "*完整的*");
-            log.error("完整的游戏界面！完整的游戏界面！完整的游戏界面！");
-            return;
-        }
-
-        // 完成后恢复自定义标记
-        if (marksStatus == false) { await openCustomMarks(); }
-    } catch (e) {
-        log.error("出错了！ {error}", e.message);
-        if (marksStatus == false) { await openCustomMarks(); }
     }
-})();
+    
+    // 检查是否存在反向路径
+    const reversePaths = findReversePathsIfNeeded(nodeData, targetNode, nodeMap, validPaths);
+    validPaths.push(...reversePaths);
+    
+    log.info(`共找到 ${validPaths.length} 条有效路径`);
+    return validPaths;
+}
+
+/**
+ * 如果需要，尝试查找反向路径（从目标节点的前置节点到传送点再到目标）
+ * @param {Object} nodeData - 节点数据 
+ * @param {Object} targetNode - 目标节点
+ * @param {Object} nodeMap - 节点映射
+ * @param {Array} existingPaths - 已找到的路径
+ * @returns {Array} 找到的反向路径
+ */
+function findReversePathsIfNeeded(nodeData, targetNode, nodeMap, existingPaths) {
+    // 如果已经找到路径，或者目标节点没有前置节点，则不需要查找反向路径
+    if (existingPaths.length > 0 || !targetNode.prev || targetNode.prev.length === 0) {
+        return [];
+    }
+    
+    const reversePaths = [];
+    
+    // 检查每个前置节点
+    for (const prevNodeId of targetNode.prev) {
+        const prevNode = nodeMap[prevNodeId];
+        if (!prevNode) continue;
+        
+        // 找到从前置节点到传送点的路径
+        const pathsToPrevNode = [];
+        
+        // 获取所有能从这个前置节点到达的传送点
+        const teleportNodes = nodeData.node.filter(node => 
+            node.type === "teleport" && node.next.some(route => route.target === prevNode.id)
+        );
+        
+        for (const teleportNode of teleportNodes) {
+            // 寻找传送点到前置节点的路径
+            const route = teleportNode.next.find(r => r.target === prevNode.id);
+            if (route) {
+                // 找到路径从前置节点到目标
+                const nextRoute = prevNode.next.find(r => r.target === targetNode.id);
+                if (nextRoute) {
+                    reversePaths.push({
+                        startNode: teleportNode,
+                        targetNode: targetNode,
+                        routes: [route.route, nextRoute.route]
+                    });
+                }
+            }
+        }
+    }
+    
+    return reversePaths;
+}
+
+/**
+ * 从多个可行路径中选择最优的一条
+ * @param {Array} paths - 路径数组
+ * @returns {Object} 最优路径
+ */
+function selectOptimalPath(paths) {
+    if (!paths || paths.length === 0) {
+        throw new Error("没有可用路径");
+    }
+    
+    // 按路径段数从少到多排序
+    paths.sort((a, b) => a.routes.length - b.routes.length);
+    
+    // 记录路径选择日志
+    for (let i = 0; i < Math.min(paths.length, 3); i++) {
+        log.info(`路径选项 ${i+1}: 起点ID ${paths[i].startNode.id}, ${paths[i].routes.length} 段路径`);
+        for (let j = 0; j < paths[i].routes.length; j++) {
+            log.info(`  - 路径 ${j+1}: ${paths[i].routes[j]}`);
+        }
+    }
+    
+    return paths[0]; // 返回路径段最少的路径
+}
+
+/**
+ * 执行路径
+ * @param {Object} path - 路径对象
+ * @param {Object} settings - 用户设置对象
+ * @returns {Promise<void>}
+ */
+async function executePath(path, settings) {
+    log.info(`开始执行路径，起始点ID: ${path.startNode.id}, 目标点ID: ${path.targetNode.id}`);
+    log.info(`路径包含 ${path.routes.length} 个路径段`);
+    
+    // 依次执行每个路径段
+    for (let i = 0; i < path.routes.length; i++) {
+        const routePath = path.routes[i];
+        log.info(`执行路径 ${i+1}/${path.routes.length}: ${routePath}`);
+        
+        try {
+            // 运行路径文件
+            await pathingScript.runFile(routePath);
+        } catch (error) {
+            log.error(`执行路径段 ${i+1} 时出错: ${error.message}`);
+            throw error;
+        }
+    }
+    const routePath = path.routes[path.routes.length - 1];
+    const targetPath = routePath.replace('assets/pathing/', 'assets/pathing/target/').replace('-rerun', '');
+        // 处理地脉花
+    log.info(`处理地脉花: ${targetPath}`);
+    await processLeyLineOutcrop(settings.timeout, targetPath);
+    await switchToFriendshipTeamIfNeeded(settings);
+    await attemptReward(settings);
+}
+
+/**
+ * 如果需要，切换到好感队
+ * @param {Object} settings - 用户设置对象
+ * @returns {Promise<void>}
+ */
+async function switchToFriendshipTeamIfNeeded(settings) {
+    if (!settings.friendshipTeam) {
+        return;
+    }
+    
+    log.info(`切换至队伍 ${settings.friendshipTeam}`);
+    
+    try {
+        await genshin.switchParty(settings.friendshipTeam);
+    } catch (error) {
+        // 切换失败时的恢复策略
+        keyPress("ESCAPE");
+        await sleep(500);
+        keyPress("ESCAPE");
+        await sleep(500);
+        await genshin.returnMainUi();
+        log.info(`重新切换至队伍 ${settings.friendshipTeam}`);
+        await genshin.switchParty(settings.friendshipTeam);
+    }
+}
+
+/**
+ * 处理未找到策略的情况
+ */
+function handleNoStrategyFound() {
+    log.error("未找到对应的地脉花策略，请再次运行脚本");
+    log.error("如果仍然不行，请截图{1}游戏界面，并反馈给作者！", "*完整的*");
+    log.error("完整的游戏界面！完整的游戏界面！完整的游戏界面！");
+}
 
 /**
  * 配置相关函数
  */
 
 /**
- * 加载配置文件 
+ * 加载配置文件
  * @returns {Object} 配置对象
  */
 async function loadConfig() {
@@ -367,7 +724,7 @@ async function getMapPosition(country, retryCount, config) {
 /**
  * 判断坐标是否在指定位置附近（误差范围内）
  * @param {number} x - 当前X坐标
- * @param {number} y - 当前Y坐标 
+ * @param {number} y - 当前Y坐标
  * @param {number} targetX - 目标X坐标
  * @param {number} targetY - 目标Y坐标
  * @param {number} threshold - 误差阈值
