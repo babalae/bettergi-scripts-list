@@ -10,6 +10,7 @@ async function AutoPath(locationName) {
   
   return false;
 }
+
 (
   async function () {
     try {
@@ -17,6 +18,11 @@ async function AutoPath(locationName) {
       setGameMetrics(1920, 1080, 1)
       // 读取配置文件
       let location = settings.location;
+      if(location == undefined){
+        location = "璃月合成台";
+        log.info(`未设置传送位置，默认前往 ${location}...`);
+      }
+      log.info(`正在前往 ${location}...`);
       await AutoPath(location);
     } catch (e) {
       log.error("传送失败，请检查设置");
