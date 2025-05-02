@@ -126,9 +126,7 @@ async function runLeyLineChallenges(config, settings) {
         if (!foundStrategy) {
             handleNoStrategyFound();
             return;
-        }
-        
-        currentRunTimes++;
+        }        
     }
 }
 
