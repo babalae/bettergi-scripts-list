@@ -212,11 +212,25 @@ async function executePathsUsingNodeData(position, settings) {
                 return;
             }
             
-            await executePath(nextRoute, settings);
+            // 创建一个适合executePath函数的路径对象
+            const pathObject = {
+                startNode: currentNode,
+                targetNode: nextNode,
+                routes: [nextRoute]
+            };
+            
+            log.info(`直接执行下一个节点路径: ${nextRoute}`);
+            await executePath(pathObject, settings);
             
             currentRunTimes++;
             
             log.info(`完成节点 ID ${nextNodeId}, 已执行 ${currentRunTimes}/${settings.timesValue} 次`);
+            
+            // 如果达到刷取次数上限，退出循环
+            if (currentRunTimes >= settings.timesValue) {
+                return;
+            }
+            
             // 更新当前节点为下一个节点，继续检查
             currentNode = nextNode;
             currentNodePosition = { x: nextNode.position.x, y: nextNode.position.y };
