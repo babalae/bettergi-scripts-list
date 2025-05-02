@@ -5,13 +5,13 @@
     "author": "平面镜",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.35.1"
+    "bgiVersion": "0.42.3"
   },
   "positions": [
     {
       "id": 1,
-      "x": 4749.5869140625,
-      "y": 2636.20751953125,
+      "x": 4749.59,
+      "y": 2636.21,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -19,8 +19,8 @@
     },
     {
       "id": 2,
-      "x": 4758.18505859375,
-      "y": 2611.123291015625,
+      "x": 4758.19,
+      "y": 2611.12,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -28,56 +28,10 @@
     },
     {
       "id": 3,
-      "x": 4760.80029296875,
-      "y": 2574.517578125,
-      "action": "combat_script",
+      "x": 4760.8,
+      "y": 2574.52,
+      "action": "",
       "move_mode": "dash",
-      "action_params": "keypress(F)",
-      "type": "target"
-    },
-    {
-      "id": 4,
-      "x": 4760.80029296875,
-      "y": 2574.517578125,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keypress(F)",
-      "type": "target"
-    },
-    {
-      "id": 5,
-      "x": 4760.80029296875,
-      "y": 2574.517578125,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 6,
-      "x": 4760.80029296875,
-      "y": 2574.517578125,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": 4761.7,
-      "y": 2572,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 8,
-      "x": 4761.7,
-      "y": 2572,
-      "action": "",
-      "move_mode": "walk",
       "action_params": "",
       "type": "target"
     }
