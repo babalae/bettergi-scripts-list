@@ -987,7 +987,7 @@
             "prev": [],
             "next": [
                 {
-                    "target": 187,
+                    "target": 188,
                     "route": "assets/pathing/蒙德3-奔狼领-1.json"
                 }
             ]
@@ -1003,7 +1003,7 @@
             "prev": [],
             "next": [
                 {
-                    "target": 190,
+                    "target": 191,
                     "route": "assets/pathing/蒙德3-奔狼领-4.json"
                 }
             ]
@@ -1019,7 +1019,7 @@
             "prev": [],
             "next": [
                 {
-                    "target": 191,
+                    "target": 192,
                     "route": "assets/pathing/蒙德4-风龙废墟-1.json"
                 }
             ]
@@ -1035,7 +1035,7 @@
             "prev": [],
             "next": [
                 {
-                    "target": 193,
+                    "target": 194,
                     "route": "assets/pathing/蒙德4-风龙废墟-3.json"
                 }
             ]
@@ -1051,7 +1051,7 @@
             "prev": [],
             "next": [
                 {
-                    "target": 195,
+                    "target": 196,
                     "route": "assets/pathing/蒙德5-千风神殿-1.json"
                 }
             ]
@@ -1067,7 +1067,7 @@
             "prev": [],
             "next": [
                 {
-                    "target": 198,
+                    "target": 199,
                     "route": "assets/pathing/蒙德5-千风神殿-4.json"
                 }
             ]
@@ -1083,11 +1083,11 @@
             "prev": [],
             "next": [
                 {
-                    "target": 199,
+                    "target": 200,
                     "route": "assets/pathing/蒙德5-千风神殿-5.json"
                 },
                 {
-                    "target": 200,
+                    "target": 201,
                     "route": "assets/pathing/蒙德6-望风山地-1.json"
                 }
             ]
@@ -1103,7 +1103,7 @@
             "prev": [],
             "next": [
                 {
-                    "target": 202,
+                    "target": 203,
                     "route": "assets/pathing/蒙德6-望风山地-3.json"
                 }
             ]
@@ -1119,7 +1119,7 @@
             "prev": [],
             "next": [
                 {
-                    "target": 204,
+                    "target": 205,
                     "route": "assets/pathing/蒙德7-达达乌帕谷-1.json"
                 }
             ]
@@ -1135,11 +1135,11 @@
             "prev": [],
             "next": [
                 {
-                    "target": 205,
+                    "target": 206,
                     "route": "assets/pathing/蒙德7-达达乌帕谷-2.json"
                 },
                 {
-                    "target": 206,
+                    "target": 207,
                     "route": "assets/pathing/蒙德7-达达乌帕谷-3.json"
                 }
             ]
@@ -1155,7 +1155,7 @@
             "prev": [],
             "next": [
                 {
-                    "target": 209,
+                    "target": 210,
                     "route": "assets/pathing/须弥1-无郁稠林-1.json"
                 }
             ]
@@ -1171,7 +1171,7 @@
             "prev": [],
             "next": [
                 {
-                    "target": 214,
+                    "target": 215,
                     "route": "assets/pathing/须弥2-奥摩斯港西-1.json"
                 }
             ]
@@ -1187,7 +1187,7 @@
             "prev": [],
             "next": [
                 {
-                    "target": 216,
+                    "target": 217,
                     "route": "assets/pathing/须弥2-奥摩斯港西-3.json"
                 }
             ]
@@ -1203,7 +1203,7 @@
             "prev": [],
             "next": [
                 {
-                    "target": 219,
+                    "target": 220,
                     "route": "assets/pathing/须弥5-阿如村-1.json"
                 }
             ]
@@ -1219,7 +1219,7 @@
             "prev": [],
             "next": [
                 {
-                    "target": 223,
+                    "target": 224,
                     "route": "assets/pathing/须弥6-荼诃落谷-1.json"
                 }
             ]
@@ -1235,7 +1235,7 @@
             "prev": [],
             "next": [
                 {
-                    "target": 224,
+                    "target": 225,
                     "route": "assets/pathing/须弥6-荼诃落谷-2.json"
                 }
             ]
@@ -1251,7 +1251,7 @@
             "prev": [],
             "next": [
                 {
-                    "target": 226,
+                    "target": 227,
                     "route": "assets/pathing/须弥6-荼诃落谷-4.json"
                 }
             ]
@@ -1267,7 +1267,7 @@
             "prev": [],
             "next": [
                 {
-                    "target": 227,
+                    "target": 228,
                     "route": "assets/pathing/须弥9-镔铁沙丘-1.json"
                 }
             ]
@@ -3193,7 +3193,7 @@
             "prev": [
                 51,
                 181,
-                208
+                209
             ],
             "next": []
         },
@@ -3229,13 +3229,31 @@
             ],
             "next": [
                 {
-                    "target": 185,
+                    "target": 186,
                     "route": "assets/pathing/蒙德2-清泉镇-3.json"
                 }
             ]
         },
         {
             "id": 185,
+            "type": "blossom",
+            "region": "蒙德2",
+            "position": {
+                "x": -347.95,
+                "y": 1902.51
+            },
+            "prev": [
+                186
+            ],
+            "next": [
+                {
+                    "target": 187,
+                    "route": "assets/pathing/蒙德2-清泉镇-4.json"
+                }
+            ]
+        },
+        {
+            "id": 186,
             "type": "blossom",
             "region": "蒙德2",
             "position": {
@@ -3247,13 +3265,17 @@
             ],
             "next": [
                 {
-                    "target": 186,
+                    "target": 185,
+                    "route": "assets/pathing/蒙德2-清泉镇-3.5.json"
+                },
+                {
+                    "target": 187,
                     "route": "assets/pathing/蒙德2-清泉镇-4.json"
                 }
             ]
         },
         {
-            "id": 186,
+            "id": 187,
             "type": "blossom",
             "region": "蒙德2",
             "position": {
@@ -3261,12 +3283,13 @@
                 "y": 2156.93
             },
             "prev": [
-                185
+                185,
+                186
             ],
             "next": []
         },
         {
-            "id": 187,
+            "id": 188,
             "type": "blossom",
             "region": "蒙德3",
             "position": {
@@ -3278,26 +3301,8 @@
             ],
             "next": [
                 {
-                    "target": 188,
-                    "route": "assets/pathing/蒙德3-奔狼领-2.json"
-                }
-            ]
-        },
-        {
-            "id": 188,
-            "type": "blossom",
-            "region": "蒙德3",
-            "position": {
-                "x": -205.49,
-                "y": 2429.07
-            },
-            "prev": [
-                187
-            ],
-            "next": [
-                {
                     "target": 189,
-                    "route": "assets/pathing/蒙德3-奔狼领-3.json"
+                    "route": "assets/pathing/蒙德3-奔狼领-2.json"
                 }
             ]
         },
@@ -3306,8 +3311,8 @@
             "type": "blossom",
             "region": "蒙德3",
             "position": {
-                "x": -327.03,
-                "y": 2410.43
+                "x": -205.49,
+                "y": 2429.07
             },
             "prev": [
                 188
@@ -3315,7 +3320,7 @@
             "next": [
                 {
                     "target": 190,
-                    "route": "assets/pathing/蒙德3-奔狼领-4.json"
+                    "route": "assets/pathing/蒙德3-奔狼领-3.json"
                 }
             ]
         },
@@ -3324,17 +3329,35 @@
             "type": "blossom",
             "region": "蒙德3",
             "position": {
+                "x": -327.03,
+                "y": 2410.43
+            },
+            "prev": [
+                189
+            ],
+            "next": [
+                {
+                    "target": 191,
+                    "route": "assets/pathing/蒙德3-奔狼领-4.json"
+                }
+            ]
+        },
+        {
+            "id": 191,
+            "type": "blossom",
+            "region": "蒙德3",
+            "position": {
                 "x": -336.15,
                 "y": 2562.91
             },
             "prev": [
                 55,
-                189
+                190
             ],
             "next": []
         },
         {
-            "id": 191,
+            "id": 192,
             "type": "blossom",
             "region": "蒙德4",
             "position": {
@@ -3346,26 +3369,8 @@
             ],
             "next": [
                 {
-                    "target": 192,
-                    "route": "assets/pathing/蒙德4-风龙废墟-2.json"
-                }
-            ]
-        },
-        {
-            "id": 192,
-            "type": "blossom",
-            "region": "蒙德4",
-            "position": {
-                "x": 124.61,
-                "y": 2817.24
-            },
-            "prev": [
-                191
-            ],
-            "next": [
-                {
                     "target": 193,
-                    "route": "assets/pathing/蒙德4-风龙废墟-3.json"
+                    "route": "assets/pathing/蒙德4-风龙废墟-2.json"
                 }
             ]
         },
@@ -3374,17 +3379,16 @@
             "type": "blossom",
             "region": "蒙德4",
             "position": {
-                "x": 152.71,
-                "y": 2963.33
+                "x": 124.61,
+                "y": 2817.24
             },
             "prev": [
-                57,
                 192
             ],
             "next": [
                 {
                     "target": 194,
-                    "route": "assets/pathing/蒙德4-风龙废墟-4.json"
+                    "route": "assets/pathing/蒙德4-风龙废墟-3.json"
                 }
             ]
         },
@@ -3393,16 +3397,35 @@
             "type": "blossom",
             "region": "蒙德4",
             "position": {
+                "x": 152.71,
+                "y": 2963.33
+            },
+            "prev": [
+                57,
+                193
+            ],
+            "next": [
+                {
+                    "target": 195,
+                    "route": "assets/pathing/蒙德4-风龙废墟-4.json"
+                }
+            ]
+        },
+        {
+            "id": 195,
+            "type": "blossom",
+            "region": "蒙德4",
+            "position": {
                 "x": -27.99,
                 "y": 2919.59
             },
             "prev": [
-                193
+                194
             ],
             "next": []
         },
         {
-            "id": 195,
+            "id": 196,
             "type": "blossom",
             "region": "蒙德5",
             "position": {
@@ -3414,26 +3437,8 @@
             ],
             "next": [
                 {
-                    "target": 196,
-                    "route": "assets/pathing/蒙德5-千风神殿-2.json"
-                }
-            ]
-        },
-        {
-            "id": 196,
-            "type": "blossom",
-            "region": "蒙德5",
-            "position": {
-                "x": -1367.78,
-                "y": 2411.31
-            },
-            "prev": [
-                195
-            ],
-            "next": [
-                {
                     "target": 197,
-                    "route": "assets/pathing/蒙德5-千风神殿-3.json"
+                    "route": "assets/pathing/蒙德5-千风神殿-2.json"
                 }
             ]
         },
@@ -3442,8 +3447,8 @@
             "type": "blossom",
             "region": "蒙德5",
             "position": {
-                "x": -1474.91,
-                "y": 2520.0
+                "x": -1367.78,
+                "y": 2411.31
             },
             "prev": [
                 196
@@ -3451,7 +3456,7 @@
             "next": [
                 {
                     "target": 198,
-                    "route": "assets/pathing/蒙德5-千风神殿-4.json"
+                    "route": "assets/pathing/蒙德5-千风神殿-3.json"
                 }
             ]
         },
@@ -3460,17 +3465,16 @@
             "type": "blossom",
             "region": "蒙德5",
             "position": {
-                "x": -1394.83,
-                "y": 2569.65
+                "x": -1474.91,
+                "y": 2520.0
             },
             "prev": [
-                59,
                 197
             ],
             "next": [
                 {
                     "target": 199,
-                    "route": "assets/pathing/蒙德5-千风神殿-5.json"
+                    "route": "assets/pathing/蒙德5-千风神殿-4.json"
                 }
             ]
         },
@@ -3479,17 +3483,36 @@
             "type": "blossom",
             "region": "蒙德5",
             "position": {
+                "x": -1394.83,
+                "y": 2569.65
+            },
+            "prev": [
+                59,
+                198
+            ],
+            "next": [
+                {
+                    "target": 200,
+                    "route": "assets/pathing/蒙德5-千风神殿-5.json"
+                }
+            ]
+        },
+        {
+            "id": 200,
+            "type": "blossom",
+            "region": "蒙德5",
+            "position": {
                 "x": -1316.21,
                 "y": 2734.67
             },
             "prev": [
                 60,
-                198
+                199
             ],
             "next": []
         },
         {
-            "id": 200,
+            "id": 201,
             "type": "blossom",
             "region": "蒙德6",
             "position": {
@@ -3501,26 +3524,8 @@
             ],
             "next": [
                 {
-                    "target": 201,
-                    "route": "assets/pathing/蒙德6-望风山地-2.json"
-                }
-            ]
-        },
-        {
-            "id": 201,
-            "type": "blossom",
-            "region": "蒙德6",
-            "position": {
-                "x": -1518.71,
-                "y": 2877.4
-            },
-            "prev": [
-                200
-            ],
-            "next": [
-                {
                     "target": 202,
-                    "route": "assets/pathing/蒙德6-望风山地-3.json"
+                    "route": "assets/pathing/蒙德6-望风山地-2.json"
                 }
             ]
         },
@@ -3529,17 +3534,16 @@
             "type": "blossom",
             "region": "蒙德6",
             "position": {
-                "x": -1603.95,
-                "y": 2865.65
+                "x": -1518.71,
+                "y": 2877.4
             },
             "prev": [
-                61,
                 201
             ],
             "next": [
                 {
                     "target": 203,
-                    "route": "assets/pathing/蒙德6-望风山地-4.json"
+                    "route": "assets/pathing/蒙德6-望风山地-3.json"
                 }
             ]
         },
@@ -3548,16 +3552,35 @@
             "type": "blossom",
             "region": "蒙德6",
             "position": {
+                "x": -1603.95,
+                "y": 2865.65
+            },
+            "prev": [
+                61,
+                202
+            ],
+            "next": [
+                {
+                    "target": 204,
+                    "route": "assets/pathing/蒙德6-望风山地-4.json"
+                }
+            ]
+        },
+        {
+            "id": 204,
+            "type": "blossom",
+            "region": "蒙德6",
+            "position": {
                 "x": -1710.73,
                 "y": 2983.29
             },
             "prev": [
-                202
+                203
             ],
             "next": []
         },
         {
-            "id": 204,
+            "id": 205,
             "type": "blossom",
             "region": "蒙德7",
             "position": {
@@ -3569,27 +3592,8 @@
             ],
             "next": [
                 {
-                    "target": 205,
-                    "route": "assets/pathing/蒙德7-达达乌帕谷-2.json"
-                }
-            ]
-        },
-        {
-            "id": 205,
-            "type": "blossom",
-            "region": "蒙德7",
-            "position": {
-                "x": -1517.07,
-                "y": 1513.97
-            },
-            "prev": [
-                63,
-                204
-            ],
-            "next": [
-                {
                     "target": 206,
-                    "route": "assets/pathing/蒙德7-达达乌帕谷-3.json"
+                    "route": "assets/pathing/蒙德7-达达乌帕谷-2.json"
                 }
             ]
         },
@@ -3598,8 +3602,8 @@
             "type": "blossom",
             "region": "蒙德7",
             "position": {
-                "x": -1331.96,
-                "y": 1560.15
+                "x": -1517.07,
+                "y": 1513.97
             },
             "prev": [
                 63,
@@ -3608,7 +3612,7 @@
             "next": [
                 {
                     "target": 207,
-                    "route": "assets/pathing/蒙德7-达达乌帕谷-4.json"
+                    "route": "assets/pathing/蒙德7-达达乌帕谷-3.json"
                 }
             ]
         },
@@ -3617,16 +3621,17 @@
             "type": "blossom",
             "region": "蒙德7",
             "position": {
-                "x": -1318.63,
-                "y": 1692.63
+                "x": -1331.96,
+                "y": 1560.15
             },
             "prev": [
+                63,
                 206
             ],
             "next": [
                 {
                     "target": 208,
-                    "route": "assets/pathing/蒙德7-达达乌帕谷-5.json"
+                    "route": "assets/pathing/蒙德7-达达乌帕谷-4.json"
                 }
             ]
         },
@@ -3635,11 +3640,29 @@
             "type": "blossom",
             "region": "蒙德7",
             "position": {
+                "x": -1318.63,
+                "y": 1692.63
+            },
+            "prev": [
+                207
+            ],
+            "next": [
+                {
+                    "target": 209,
+                    "route": "assets/pathing/蒙德7-达达乌帕谷-5.json"
+                }
+            ]
+        },
+        {
+            "id": 209,
+            "type": "blossom",
+            "region": "蒙德7",
+            "position": {
                 "x": -1138.22,
                 "y": 1789.79
             },
             "prev": [
-                207
+                208
             ],
             "next": [
                 {
@@ -3649,7 +3672,7 @@
             ]
         },
         {
-            "id": 209,
+            "id": 210,
             "type": "blossom",
             "region": "须弥1",
             "position": {
@@ -3661,26 +3684,8 @@
             ],
             "next": [
                 {
-                    "target": 210,
-                    "route": "assets/pathing/须弥1-无郁稠林-2.json"
-                }
-            ]
-        },
-        {
-            "id": 210,
-            "type": "blossom",
-            "region": "须弥1",
-            "position": {
-                "x": 2317.29,
-                "y": -115.35
-            },
-            "prev": [
-                209
-            ],
-            "next": [
-                {
                     "target": 211,
-                    "route": "assets/pathing/须弥1-无郁稠林-3.json"
+                    "route": "assets/pathing/须弥1-无郁稠林-2.json"
                 }
             ]
         },
@@ -3689,8 +3694,8 @@
             "type": "blossom",
             "region": "须弥1",
             "position": {
-                "x": 2212.83,
-                "y": -83.02
+                "x": 2317.29,
+                "y": -115.35
             },
             "prev": [
                 210
@@ -3698,7 +3703,7 @@
             "next": [
                 {
                     "target": 212,
-                    "route": "assets/pathing/须弥1-无郁稠林-4.json"
+                    "route": "assets/pathing/须弥1-无郁稠林-3.json"
                 }
             ]
         },
@@ -3707,8 +3712,8 @@
             "type": "blossom",
             "region": "须弥1",
             "position": {
-                "x": 2233.8,
-                "y": -160.88
+                "x": 2212.83,
+                "y": -83.02
             },
             "prev": [
                 211
@@ -3716,7 +3721,7 @@
             "next": [
                 {
                     "target": 213,
-                    "route": "assets/pathing/须弥1-无郁稠林-5.json"
+                    "route": "assets/pathing/须弥1-无郁稠林-4.json"
                 }
             ]
         },
@@ -3725,16 +3730,34 @@
             "type": "blossom",
             "region": "须弥1",
             "position": {
-                "x": 2269.0,
-                "y": -251.14
+                "x": 2233.8,
+                "y": -160.88
             },
             "prev": [
                 212
             ],
-            "next": []
+            "next": [
+                {
+                    "target": 214,
+                    "route": "assets/pathing/须弥1-无郁稠林-5.json"
+                }
+            ]
         },
         {
             "id": 214,
+            "type": "blossom",
+            "region": "须弥1",
+            "position": {
+                "x": 2269.0,
+                "y": -251.14
+            },
+            "prev": [
+                213
+            ],
+            "next": []
+        },
+        {
+            "id": 215,
             "type": "blossom",
             "region": "须弥2",
             "position": {
@@ -3746,26 +3769,8 @@
             ],
             "next": [
                 {
-                    "target": 215,
-                    "route": "assets/pathing/须弥2-奥摩斯港西-2.json"
-                }
-            ]
-        },
-        {
-            "id": 215,
-            "type": "blossom",
-            "region": "须弥2",
-            "position": {
-                "x": 2980.38,
-                "y": -1758.57
-            },
-            "prev": [
-                214
-            ],
-            "next": [
-                {
                     "target": 216,
-                    "route": "assets/pathing/须弥2-奥摩斯港西-3.json"
+                    "route": "assets/pathing/须弥2-奥摩斯港西-2.json"
                 }
             ]
         },
@@ -3774,17 +3779,16 @@
             "type": "blossom",
             "region": "须弥2",
             "position": {
-                "x": 3013.06,
-                "y": -1700.54
+                "x": 2980.38,
+                "y": -1758.57
             },
             "prev": [
-                66,
                 215
             ],
             "next": [
                 {
                     "target": 217,
-                    "route": "assets/pathing/须弥2-奥摩斯港西-4.json"
+                    "route": "assets/pathing/须弥2-奥摩斯港西-3.json"
                 }
             ]
         },
@@ -3793,16 +3797,17 @@
             "type": "blossom",
             "region": "须弥2",
             "position": {
-                "x": 2981.92,
-                "y": -1641.54
+                "x": 3013.06,
+                "y": -1700.54
             },
             "prev": [
+                66,
                 216
             ],
             "next": [
                 {
                     "target": 218,
-                    "route": "assets/pathing/须弥2-奥摩斯港西-5.json"
+                    "route": "assets/pathing/须弥2-奥摩斯港西-4.json"
                 }
             ]
         },
@@ -3811,16 +3816,34 @@
             "type": "blossom",
             "region": "须弥2",
             "position": {
-                "x": 2963.07,
-                "y": -1586.92
+                "x": 2981.92,
+                "y": -1641.54
             },
             "prev": [
                 217
             ],
-            "next": []
+            "next": [
+                {
+                    "target": 219,
+                    "route": "assets/pathing/须弥2-奥摩斯港西-5.json"
+                }
+            ]
         },
         {
             "id": 219,
+            "type": "blossom",
+            "region": "须弥2",
+            "position": {
+                "x": 2963.07,
+                "y": -1586.92
+            },
+            "prev": [
+                218
+            ],
+            "next": []
+        },
+        {
+            "id": 220,
             "type": "blossom",
             "region": "须弥5",
             "position": {
@@ -3832,26 +3855,8 @@
             ],
             "next": [
                 {
-                    "target": 220,
-                    "route": "assets/pathing/须弥5-阿如村-2.json"
-                }
-            ]
-        },
-        {
-            "id": 220,
-            "type": "blossom",
-            "region": "须弥5",
-            "position": {
-                "x": 4257.86,
-                "y": -1903.31
-            },
-            "prev": [
-                219
-            ],
-            "next": [
-                {
                     "target": 221,
-                    "route": "assets/pathing/须弥5-阿如村-3.json"
+                    "route": "assets/pathing/须弥5-阿如村-2.json"
                 }
             ]
         },
@@ -3860,21 +3865,16 @@
             "type": "blossom",
             "region": "须弥5",
             "position": {
-                "x": 4144.29,
-                "y": -2014.19
+                "x": 4257.86,
+                "y": -1903.31
             },
             "prev": [
-                220,
-                221
+                220
             ],
             "next": [
                 {
-                    "target": 221,
-                    "route": "assets/pathing/须弥5-阿如村-4.json"
-                },
-                {
                     "target": 222,
-                    "route": "assets/pathing/须弥5-阿如村-5.json"
+                    "route": "assets/pathing/须弥5-阿如村-3.json"
                 }
             ]
         },
@@ -3883,16 +3883,39 @@
             "type": "blossom",
             "region": "须弥5",
             "position": {
+                "x": 4144.29,
+                "y": -2014.19
+            },
+            "prev": [
+                221,
+                222
+            ],
+            "next": [
+                {
+                    "target": 222,
+                    "route": "assets/pathing/须弥5-阿如村-4.json"
+                },
+                {
+                    "target": 223,
+                    "route": "assets/pathing/须弥5-阿如村-5.json"
+                }
+            ]
+        },
+        {
+            "id": 223,
+            "type": "blossom",
+            "region": "须弥5",
+            "position": {
                 "x": 4211.01,
                 "y": -2165.65
             },
             "prev": [
-                221
+                222
             ],
             "next": []
         },
         {
-            "id": 223,
+            "id": 224,
             "type": "blossom",
             "region": "须弥6",
             "position": {
@@ -3904,27 +3927,8 @@
             ],
             "next": [
                 {
-                    "target": 224,
-                    "route": "assets/pathing/须弥6-荼诃落谷-2.json"
-                }
-            ]
-        },
-        {
-            "id": 224,
-            "type": "blossom",
-            "region": "须弥6",
-            "position": {
-                "x": 4696.5,
-                "y": -3055.9
-            },
-            "prev": [
-                69,
-                223
-            ],
-            "next": [
-                {
                     "target": 225,
-                    "route": "assets/pathing/须弥6-荼诃落谷-3.json"
+                    "route": "assets/pathing/须弥6-荼诃落谷-2.json"
                 }
             ]
         },
@@ -3933,16 +3937,17 @@
             "type": "blossom",
             "region": "须弥6",
             "position": {
-                "x": 4886.54,
-                "y": -2940.45
+                "x": 4696.5,
+                "y": -3055.9
             },
             "prev": [
+                69,
                 224
             ],
             "next": [
                 {
                     "target": 226,
-                    "route": "assets/pathing/须弥6-荼诃落谷-4.json"
+                    "route": "assets/pathing/须弥6-荼诃落谷-3.json"
                 }
             ]
         },
@@ -3951,17 +3956,35 @@
             "type": "blossom",
             "region": "须弥6",
             "position": {
+                "x": 4886.54,
+                "y": -2940.45
+            },
+            "prev": [
+                225
+            ],
+            "next": [
+                {
+                    "target": 227,
+                    "route": "assets/pathing/须弥6-荼诃落谷-4.json"
+                }
+            ]
+        },
+        {
+            "id": 227,
+            "type": "blossom",
+            "region": "须弥6",
+            "position": {
                 "x": 4756.03,
                 "y": -2742.32
             },
             "prev": [
                 70,
-                225
+                226
             ],
             "next": []
         },
         {
-            "id": 227,
+            "id": 228,
             "type": "blossom",
             "region": "须弥9",
             "position": {
@@ -3973,26 +3996,8 @@
             ],
             "next": [
                 {
-                    "target": 228,
-                    "route": "assets/pathing/须弥9-镔铁沙丘-2.json"
-                }
-            ]
-        },
-        {
-            "id": 228,
-            "type": "blossom",
-            "region": "须弥9",
-            "position": {
-                "x": 4573.81,
-                "y": -408.86
-            },
-            "prev": [
-                227
-            ],
-            "next": [
-                {
                     "target": 229,
-                    "route": "assets/pathing/须弥9-镔铁沙丘-3.json"
+                    "route": "assets/pathing/须弥9-镔铁沙丘-2.json"
                 }
             ]
         },
@@ -4001,8 +4006,8 @@
             "type": "blossom",
             "region": "须弥9",
             "position": {
-                "x": 4756.13,
-                "y": -221.43
+                "x": 4573.81,
+                "y": -408.86
             },
             "prev": [
                 228
@@ -4010,7 +4015,7 @@
             "next": [
                 {
                     "target": 230,
-                    "route": "assets/pathing/须弥9-镔铁沙丘-4.json"
+                    "route": "assets/pathing/须弥9-镔铁沙丘-3.json"
                 }
             ]
         },
@@ -4019,11 +4024,29 @@
             "type": "blossom",
             "region": "须弥9",
             "position": {
+                "x": 4756.13,
+                "y": -221.43
+            },
+            "prev": [
+                229
+            ],
+            "next": [
+                {
+                    "target": 231,
+                    "route": "assets/pathing/须弥9-镔铁沙丘-4.json"
+                }
+            ]
+        },
+        {
+            "id": 231,
+            "type": "blossom",
+            "region": "须弥9",
+            "position": {
                 "x": 4862.07,
                 "y": -150.71
             },
             "prev": [
-                229
+                230
             ],
             "next": []
         }

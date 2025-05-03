@@ -40,7 +40,8 @@ def parse_region_from_filename(filename):
 
 
 def extract_route_number(filename):
-    """Extract route number and area from filename (e.g., "蒙德3-奔狼领-2.json" -> ("蒙德3", "奔狼领", 2))"""
+    """Extract route number and area from filename (e.g., "蒙德3-奔狼领-2.json" -> ("蒙德3", "奔狼领", 2))
+       Also supports decimal route numbers (e.g., "蒙德2-清泉镇-3.5.json" -> ("蒙德2", "清泉镇", 3.5))"""
     parts = filename.split('-')
     if len(parts) < 3:
         return None, None, None
@@ -49,9 +50,10 @@ def extract_route_number(filename):
     area = parts[1]
     
     # Extract number from last part (remove .json)
-    num_part = parts[2].split('.')[0]
+    num_part = parts[2].split('.json')[0]
     try:
-        num = int(num_part)
+        # Support both integer and decimal route numbers
+        num = float(num_part)
         return region, area, num
     except ValueError:
         return region, area, None
@@ -355,7 +357,7 @@ def generate_ley_line_data():
                 if teleport_node["id"] not in target_node["prev"]:
                     target_node["prev"].append(teleport_node["id"])
     
-    # Fourth pass: Connect nodes based on numerical sequence
+    # Fourth pass: Connect nodes based on numerical sequence and handle branch paths
     for region_area, num_to_target in region_area_num_to_target.items():
         route_numbers = sorted(num_to_target.keys())
         
@@ -374,6 +376,46 @@ def generate_ley_line_data():
             # Create the connection
             relative_path = generate_relative_path(next_file_path, script_dir)
             
+            # Check if this is a main path or a branch path
+            is_branch = False
+            
+            # If route number has decimal part (like 3.5), it's a branch
+            if current_num != int(current_num) or next_num != int(next_num):
+                is_branch = True
+            
+            # For branch paths, we also need to connect to the next main path
+            # For example, if we have 3, 3.5, 4, we need to connect 3 to both 3.5 and 4
+            if not is_branch and i + 2 < len(route_numbers):
+                # Check if the next route is a branch (has decimal part)
+                possible_branch_num = route_numbers[i + 1]
+                if int(possible_branch_num) == int(current_num) + 1 and possible_branch_num != int(possible_branch_num):
+                    # This is a branch route, also connect current to route after branch
+                    future_num = route_numbers[i + 2]
+                    future_info = num_to_target[future_num]
+                    future_node = future_info["node"]
+                    future_file_path = future_info["file_path"]
+                    
+                    # Create the connection to the future node
+                    future_relative_path = generate_relative_path(future_file_path, script_dir)
+                    
+                    # Add future node to current's next array if not already there
+                    future_route_exists = False
+                    for route in current_node["next"]:
+                        if route["target"] == future_node["id"]:
+                            future_route_exists = True
+                            break
+                    
+                    if not future_route_exists:
+                        current_node["next"].append({
+                            "target": future_node["id"],
+                            "route": future_relative_path
+                        })
+                    
+                    # Add current node to future's prev array if not already there
+                    if current_node["id"] not in future_node["prev"]:
+                        future_node["prev"].append(current_node["id"])
+            
+            # Regular connection to the next numerical route
             # Add next node to current's next array if not already there
             route_exists = False
             for route in current_node["next"]:
