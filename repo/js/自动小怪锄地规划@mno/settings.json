@@ -1,0 +1,42 @@
+[
+    {
+        "name": "operationMode",
+        "type": "select",
+        "label": "操作模式（默认：生成路径文件）",
+        "options": [
+            "生成路径文件",
+            "执行路径文件",
+            "输出地图追踪文件"
+        ]
+    },
+    {
+        "name": "excludeWaterFree",
+        "type": "checkbox",
+        "label": "是否排除水免路线（默认：不排除）"
+    },
+    {
+        "name": "excludeHighRisk",
+        "type": "checkbox",
+        "label": "是否排除高危路线（默认：不排除）"
+    },
+    {
+        "name": "enableCooldownCheck",
+        "type": "checkbox",
+        "label": "是否启用刷新CD检测（默认：不启用）"
+    },
+    {
+        "name": "disableAutoPick",
+        "type": "checkbox",
+        "label": "是否禁用自动拾取（默认：不禁用）"
+    },
+    {
+        "name": "requiredMonsterCount",
+        "type": "input-text",
+        "label": "所需怪物数量（0-2000，默认1800）"
+    },
+    {
+        "name": "weight",
+        "type": "input-text",
+        "label": "权重（数值越大越强调效率而不是总收益，默认2）"
+    }
+]
