@@ -73,7 +73,7 @@ def get_first_and_last_positions(path_data):
         return None, None
     
     positions = path_data["positions"]
-    if not positions or len(positions) < 2:
+    if not positions or len(positions) < 1:  # Changed from 2 to 1 to handle single-position files
         return None, None
     
     return positions[0], positions[-1]
@@ -112,28 +112,37 @@ def generate_ley_line_data():
     
     # Get all pathing JSON files (excluding rerun files and target directory)
     pathing_files = []
+    target_files = {}  # Map target files by region/area/num for reference
+    
     for root, _, files in os.walk(pathing_dir):
-        # Skip target directory
-        if "target" in root.split(os.path.sep):
-            continue
-            
         for file in files:
-            if file.endswith('.json') and 'rerun' not in file and 'rerun' not in root:
-                file_path = os.path.join(root, file)
-                pathing_files.append(file_path)
+            if not file.endswith('.json') or 'rerun' in file or 'rerun' in root:
+                continue
                 
-                # Read and store file data
-                path_data = read_pathing_file(file_path)
-                if path_data:
-                    file_data[file_path] = path_data
-                
-                # Group files by region and area
+            file_path = os.path.join(root, file)
+            
+            # Process target directory files separately
+            if "target" in root.split(os.path.sep):
                 region, area, num = extract_route_number(file)
                 if region and area and num:
-                    key = f"{region}-{area}"
-                    if key not in region_area_files:
-                        region_area_files[key] = []
-                    region_area_files[key].append((num, file_path))
+                    key = f"{region}-{area}-{num}"
+                    target_files[key] = file_path
+                continue
+            
+            pathing_files.append(file_path)
+            
+            # Read and store file data
+            path_data = read_pathing_file(file_path)
+            if path_data:
+                file_data[file_path] = path_data
+            
+            # Group files by region and area
+            region, area, num = extract_route_number(file)
+            if region and area and num:
+                key = f"{region}-{area}"
+                if key not in region_area_files:
+                    region_area_files[key] = []
+                region_area_files[key].append((num, file_path))
     
     # Sort files within each group by route number
     for key in region_area_files:
@@ -246,6 +255,54 @@ def generate_ley_line_data():
             "node": blossom_node,
             "file_path": file_path
         }
+    
+    # Special handling for files with only target positions (like 纳塔4-溶水域-2.json)
+    for file_path in pathing_files:
+        file_name = os.path.basename(file_path)
+        region, area, num = extract_route_number(file_name)
+        if not region or not area or not num:
+            continue
+            
+        # Check if this file has target data but no blossom node yet
+        key = f"{region}-{area}"
+        if key in region_area_num_to_target and num not in region_area_num_to_target[key]:
+            # Check if we have a target file for this route
+            target_key = f"{region}-{area}-{num}"
+            if target_key in target_files:
+                target_path = target_files[target_key]
+                target_data = read_pathing_file(target_path)
+                
+                if target_data and "positions" in target_data and target_data["positions"]:
+                    # Create blossom node from the target file
+                    target_pos = target_data["positions"][0]
+                    if target_pos.get("type") == "target":
+                        target_x = format_coord(float(target_pos["x"]))
+                        target_y = format_coord(float(target_pos["y"]))
+                        
+                        # Check if we already have a nearby blossom node
+                        blossom_node = find_nearby_node(nodes, target_x, target_y, "blossom")
+                        
+                        if not blossom_node:
+                            # Create new blossom node
+                            blossom_node = {
+                                "id": next_node_id,
+                                "type": "blossom",
+                                "region": region,
+                                "position": {"x": target_x, "y": target_y},
+                                "prev": [],
+                                "next": []
+                            }
+                            nodes.append(blossom_node)
+                            node_map[next_node_id] = blossom_node
+                            next_node_id += 1
+                        
+                        # Add to region_area_num_to_target map
+                        if key not in region_area_num_to_target:
+                            region_area_num_to_target[key] = {}
+                        region_area_num_to_target[key][num] = {
+                            "node": blossom_node,
+                            "file_path": file_path
+                        }
     
     # Third pass: Connect teleport points to their target blossoms
     for file_path, path_data in file_data.items():
