@@ -6,7 +6,7 @@ def create_target_jsons():
     """
     Create modified JSON files in assets/pathing/target directory based on 
     JSON files in assets/pathing. Each new file will keep the info section 
-    but contain only the last position with ID set to 1, keeping only id, x, y fields
+    but contain only the last position with ID set to 1, keeping only id, x, y, type fields
     and setting move_mode to walk.
     """
     # Get current directory and create paths
@@ -46,12 +46,13 @@ def create_target_jsons():
                 'positions': []
             }
             
-            # Get the last position, keep only id, x, y fields and set move_mode to walk
+            # Get the last position, keep only id, x, y, type fields and set move_mode to walk
             last_position = data['positions'][-1]
             simplified_position = {
                 'id': 1,
                 'x': last_position['x'],
                 'y': last_position['y'],
+                'type': last_position.get('type', 'target'),  # Keep type, default to 'target' if not present
                 'move_mode': 'walk'
             }
             new_data['positions'] = [simplified_position]
@@ -76,7 +77,7 @@ if __name__ == "__main__":
     print("开始生成目标JSON文件...")
     print("此脚本将:")
     print("1. 读取 assets/pathing 下的所有JSON文件")
-    print("2. 为每个文件创建一个新版本，只保留最后一个点位的id、x、y字段，并将move_mode设为walk")
+    print("2. 为每个文件创建一个新版本，只保留最后一个点位的id、x、y、type字段，并将move_mode设为walk")
     print("3. 将新文件保存到 assets/pathing/target 目录")
     print("="*50)
     
