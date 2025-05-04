@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "圆滚滚的易爆品(果酒湖)",
+    "type": "collect",
+    "author": "LX666-666",
+    "version": "1.0",
+    "description": "圆滚滚的易爆品(果酒湖)",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -431.2983418716285,
+      "y": 2583.650947436219,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": -473.3329097728638,
+      "y": 2595.650947436219,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": -546.3929920773899,
+      "y": 2605.650947436219,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -546.3929920773899,
+      "y": 2605.650947436219,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
