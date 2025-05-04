@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "圆滚滚易爆品5",
+    "type": "collect",
+    "author": "1",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -446.72621437837006,
+      "y": 2582.824374434782,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": -470.9652046625797,
+      "y": 2581.074374434782,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -516.371481431037,
+      "y": 2589.125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -546.3527217356295,
+      "y": 2607.912187217391,
+      "action_params": ""
+    }
+  ]
+}
