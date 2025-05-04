@@ -5,13 +5,13 @@
     "author": "平面镜",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.35.1"
+    "bgiVersion": "0.42.3"
   },
   "positions": [
     {
       "id": 1,
-      "x": 2873.544921875,
-      "y": 3512.03515625,
+      "x": 2873.54,
+      "y": 3512.04,
       "type": "teleport",
       "move_mode": "walk",
       "action": "",
@@ -19,8 +19,8 @@
     },
     {
       "id": 2,
-      "x": 2890.5087890625,
-      "y": 3532.46435546875,
+      "x": 2890.51,
+      "y": 3532.46,
       "type": "path",
       "move_mode": "dash",
       "action": "",
@@ -28,8 +28,8 @@
     },
     {
       "id": 3,
-      "x": 2904.51171875,
-      "y": 3545.618896484375,
+      "x": 2904.51,
+      "y": 3545.62,
       "type": "path",
       "move_mode": "climb",
       "action": "",
@@ -37,8 +37,8 @@
     },
     {
       "id": 4,
-      "x": 2929.8173828125,
-      "y": 3563.57470703125,
+      "x": 2929.82,
+      "y": 3563.57,
       "type": "path",
       "move_mode": "dash",
       "action": "",
@@ -46,62 +46,13 @@
     },
     {
       "id": 5,
-      "x": 2932.47265625,
-      "y": 3583.896728515625,
+      "x": 2932.47,
+      "y": 3583.9,
       "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keypress(F)",
-      "locked": false
-    },
-    {
-      "id": 6,
-      "x": 2932.47265625,
-      "y": 3583.896728515625,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keypress(F)",
-      "locked": false
-    },
-    {
-      "id": 7,
-      "x": 2932.47265625,
-      "y": 3583.896728515625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 8,
-      "x": 2932.47265625,
-      "y": 3583.896728515625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 9,
-      "x": 2932.30078125,
-      "y": 3583.9755859375,
-      "type": "path",
       "move_mode": "walk",
       "action": "",
       "action_params": "",
       "locked": false
-    },
-    {
-      "id": 10,
-      "x": 2932.30078125,
-      "y": 3583.9755859375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
     }
   ]
 }

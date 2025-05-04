@@ -1,0 +1,13 @@
+// 作者:苍夏
+// 描述:V4 生存(钟离，茜特菈莉至少有一个),后台(影,八重,芙宁娜,玛薇卡,千织,5选3,千织绑定钟离)
+
+钟离 s(0.2),e(hold),wait(1),w(0.2),keypress(q)
+茜特菈莉 e,wait(1),keypress(q),attack,e
+
+
+雷电将军 e,wait(1)
+千织 attack(0.1),click(middle),wait(0.2),keydown(e),wait(0.2),moveby(0,2000),wait(0.2),keyup(e),attack(1),wait(1),keypress(q)
+八重神子 e,wait(0.5),keydown(w),e,keyup(w),wait(0.6),keydown(a),keydown(s),e,keyup(a),keyup(s)
+芙宁娜 e,wait(1),keypress(q)
+玛薇卡 attack(0.1),e,wait(1.5),keypress(q),wait(2),charge(2.5),keypress(2)
+雷电将军 attack(0.5),q,attack(2.3)
