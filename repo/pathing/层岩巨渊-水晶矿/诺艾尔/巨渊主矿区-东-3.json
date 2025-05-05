@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "巨渊主矿区-东-3",
+    "type": "collect",
+    "author": "火山",
+    "version": "1.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 278.4849853515625,
+      "y": 767.3035888671875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 274.5660400390625,
+      "y": 768.6920166015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 183.49951171875,
+      "y": 794.9732666015625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "500"
+    },
+    {
+      "id": 4,
+      "x": 178.3387451171875,
+      "y": 799.81787109375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)"
+    },
+    {
+      "id": 5,
+      "x": 177.6036376953125,
+      "y": 793.8570556640625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 178.62582304526745,
+      "y": 793,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "locked": false
+    },
+}
