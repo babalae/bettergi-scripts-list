@@ -648,9 +648,6 @@ function loadSettings() {
             if (num < 1) {
                 settingsData.timesValue = 1;
                 log.info(`⚠️ 次数 ${num} 小于1，已调整为1`);
-            } else if (num > 6) {
-                settingsData.timesValue = 6;
-                log.info(`⚠️ 次数 ${num} 大于6，已调整为6`);
             } else {
                 // 处理小数
                 if (!Number.isInteger(num)) {
