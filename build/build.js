@@ -73,7 +73,7 @@ function extractInfoFromJSFolder(folderPath) {
                 version: manifest.version || '',
                 description: convertNewlines(combinedDescription),
                 author: manifest.authors && manifest.authors.length > 0 ? manifest.authors[0].name : '',
-                tags: []
+                tags: manifest.tags || []
             };
         } catch (error) {
             console.error(`解析 ${manifestPath} 时出错:`, error);
@@ -105,9 +105,15 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
                    (getGitTimestamp(filePath) ? formatTime(getGitTimestamp(filePath)) : 
                     calculateSHA1(filePath).substring(0, 7));
     
+    // 从父文件夹获取默认标签
     let tags = parentFolders.slice(2)
         .filter(tag => !tag.includes('@'))
         .filter((tag, index, self) => self.indexOf(tag) === index);
+
+    // 如果存在自定义标签，与默认标签合并
+    if (contentObj.info && contentObj.info.tags && Array.isArray(contentObj.info.tags)) {
+        tags = [...tags, ...contentObj.info.tags];
+    }
 
     if (contentObj.positions && Array.isArray(contentObj.positions)) {
         const actions = contentObj.positions.map(pos => pos.action);
@@ -118,6 +124,9 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
         if (actions.includes('up_down_grab_leaf')) tags.push('四叶印');
         if (actions.includes('fight')) tags.push('战斗');
     }
+
+    // 确保标签数组中没有重复项
+    tags = [...new Set(tags)];
 
     return {
         author: contentObj.info.author || '',
