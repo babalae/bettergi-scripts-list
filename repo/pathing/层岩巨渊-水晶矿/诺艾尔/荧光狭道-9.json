@@ -1,0 +1,202 @@
+{
+  "info": {
+    "name": "荧光狭道-9",
+    "type": "collect",
+    "author": "火山",
+    "version": "1.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 812.6195068359375,
+      "y": 339.5067138671875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 819.068603515625,
+      "y": 381.30419921875,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 815.4786376953125,
+      "y": 393.5819091796875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 818.1171875,
+      "y": 393.3316650390625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 815.440185546875,
+      "y": 399.7283935546875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 812.6278076171875,
+      "y": 339.508056640625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 7,
+      "x": 800.412353515625,
+      "y": 312.8563232421875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 782.8751220703125,
+      "y": 250.8365478515625,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 785.101806640625,
+      "y": 233.717041015625,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 779.3818359375,
+      "y": 229.3817138671875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 782.4173583984375,
+      "y": 227.0634765625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 797.1905517578125,
+      "y": 236.6109619140625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": 793.566162109375,
+      "y": 240.4027099609375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 14,
+      "x": 790.380126953125,
+      "y": 230.510986328125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 783.19775390625,
+      "y": 203.5968017578125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 759.5430908203125,
+      "y": 184.4844970703125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": 709.5230712890625,
+      "y": 159.2803955078125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 696.6732177734375,
+      "y": 151.18212890625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 674.8642578125,
+      "y": 74.8460693359375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 680.564208984375,
+      "y": 67.362060546875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 21,
+      "x": 684.326171875,
+      "y": 71.5645751953125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "type": "target"
+    }
+  ]
+}

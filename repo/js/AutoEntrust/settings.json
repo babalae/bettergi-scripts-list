@@ -1,0 +1,23 @@
+[
+    {
+      "name": "skipRecognition",
+      "type": "checkbox",
+      "label": "跳过识别（直接从Data文件夹加载委托数据进行追踪）"
+    },
+    {
+      "name": "minTextLength",
+      "type": "input-text",
+      "label": "最小文本长度（小于此长度的文本将被过滤）",
+      "default": "4"
+    },
+    {
+      "name": "debugMode",
+      "type": "checkbox",
+      "label": "调试模式（输出更多日志信息）"
+    },
+    {
+        "name": "team",
+        "type": "input-text",
+        "label": "战斗的队伍名称，不填表示不切换队伍"
+    }
+]

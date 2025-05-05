@@ -1,0 +1,178 @@
+{
+  "info": {
+    "name": "地下水泽-西南(有战斗)-5",
+    "type": "collect",
+    "author": "火山",
+    "version": "1.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 663.7847900390625,
+      "y": 710.3050537109375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 678.9921810699589,
+      "y": 668.75,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 681.93310546875,
+      "y": 666.352783203125,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 668.2269287109375,
+      "y": 638.1168212890625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 669.7730712890625,
+      "y": 624.418701171875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 665.6649169921875,
+      "y": 615.3763427734375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 666.4992283950617,
+      "y": 614.75,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 665.6649169921875,
+      "y": 615.3763427734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 656.4813232421875,
+      "y": 602.655517578125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)"
+    },
+    {
+      "id": 10,
+      "x": 658.7716064453125,
+      "y": 598.6805419921875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)"
+    },
+    {
+      "id": 11,
+      "x": 663.7584228515625,
+      "y": 600.968994140625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)"
+    },
+    {
+      "id": 12,
+      "x": 659.966796875,
+      "y": 609.928955078125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 676.5927734375,
+      "y": 622.3553466796875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 687.3607177734375,
+      "y": 611.9718017578125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 727.9757080078125,
+      "y": 588.515380859375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": 718.52001953125,
+      "y": 557.6982421875,
+      "type": "path",
+      "move_mode": "swim",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": 737.769287109375,
+      "y": 509.43017578125,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)"
+    },
+    {
+      "id": 18,
+      "x": 738.0057373046875,
+      "y": 501.6171875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)"
+    }
+  ]
+}
