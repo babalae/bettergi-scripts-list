@@ -1,0 +1,59 @@
+{
+  "info": {
+    "name": "242璃月层岩地下无名遗迹（600_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 522.56201171875,
+      "y": 528.85009765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 533.5000632013271,
+      "y": 508.74954526109605,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 590.1290283203125,
+      "y": 410.315185546875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "300",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 595.0672607421875,
+      "y": 406.6549072265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 595.0672607421875,
+      "y": 406.6549072265625,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

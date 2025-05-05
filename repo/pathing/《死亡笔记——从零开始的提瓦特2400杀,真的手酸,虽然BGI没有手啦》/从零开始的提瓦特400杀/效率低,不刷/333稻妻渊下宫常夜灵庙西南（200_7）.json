@@ -1,17 +1,18 @@
 {
   "info": {
-    "name": "507枫丹幽林雾道（600_1，200_2）",
+    "name": "333稻妻渊下宫常夜灵庙西南（200_7）",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.42.3"
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": 3592.75122720561,
-      "y": 3258.0012572606684,
+      "x": -366.343994140625,
+      "y": 235.73876953125,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -19,62 +20,62 @@
     },
     {
       "id": 2,
-      "x": 3534.79296875,
-      "y": 3295.6328125,
-      "action": "fight",
-      "move_mode": "dash",
+      "x": -245.75041080862547,
+      "y": 223.93703010313266,
+      "action": "",
+      "move_mode": "fly",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 3,
-      "x": 3518.8154296875,
-      "y": 3307.571533203125,
+      "x": -226.244140625,
+      "y": 222.0137939453125,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -213.546630859375,
+      "y": 220.31298828125,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 4,
-      "x": 3474.3916015625,
-      "y": 3248.631103515625,
+      "id": 5,
+      "x": -210.49755859375,
+      "y": 219.798583984375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": -198.072265625,
+      "y": 271.1915283203125,
       "action": "",
       "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 5,
-      "x": 3459.5625,
-      "y": 3204.628386361139,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": 3455.3466796875,
-      "y": 3177.931396484375,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
       "id": 7,
-      "x": 3460.849609375,
-      "y": 3165.052734375,
-      "action": "",
+      "x": -204.993896484375,
+      "y": 223.871826171875,
+      "action": "fight",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 8,
-      "x": 3458.125,
-      "y": 3171.4687721330793,
+      "x": -221.45654296875,
+      "y": 220.4859619140625,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -82,30 +83,30 @@
     },
     {
       "id": 9,
-      "x": 3455.3466796875,
-      "y": 3177.931396484375,
+      "x": -264.0244140625,
+      "y": 192.5760498046875,
       "action": "",
-      "move_mode": "dash",
+      "move_mode": "fly",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 10,
-      "x": 3457.84375,
-      "y": 3193.7497786692074,
-      "action": "fight",
+      "x": -290.212646484375,
+      "y": 129.306396484375,
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "",
+      "action_params": "w(2),wait(3)",
       "type": "path"
     },
     {
       "id": 11,
-      "x": 3457.84375,
-      "y": 3193.7497786692074,
-      "action": "combat_script",
+      "x": -290.212646484375,
+      "y": 129.306396484375,
+      "action": "fight",
       "move_mode": "dash",
-      "action_params": "wait(1)",
-      "type": "orientation"
+      "action_params": "",
+      "type": "path"
     }
   ]
 }
