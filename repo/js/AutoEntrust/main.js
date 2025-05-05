@@ -135,7 +135,7 @@
       click(300, 350);
       click(300, 350);
       click(300, 350);
-      await sleep(300);
+      await sleep(100);
       log.info("已进入委托界面");
       return true;
 
@@ -360,7 +360,7 @@
         log.error("无法进入委托界面，脚本终止");
         return;
       }
-      await sleep(5000); // 增加延迟，确保界面完全加载
+      await sleep(1000); // 增加延迟，确保界面完全加载
       
       // 步骤1: 执行第一次OCR识别
       log.info("步骤1: 执行第一次OCR识别");
@@ -451,11 +451,13 @@
       await sleep(2000); // 等待滑动完成
       
       // 步骤4: 执行第二次OCR识别
-      log.info("步骤4: 执行第二次OCR识别");
+      log.info("步骤4: 执行第二次OCR识别({x}, {y}) ({width}, {height})", 
+      OCR_REGION_X, OCR_REGION_Y, OCR_REGION_X + OCR_REGION_WIDTH, OCR_REGION_Y + OCR_REGION_HEIGHT);
       captureRegion = captureGameRegion();
       let secondResults = captureRegion.findMulti(ocrRo);
       log.info("第二次OCR识别结果数量: {count}", secondResults.count);
       
+
       // 处理第二次识别结果
       let fourthCommission = null;
       for (let i = 0; i < secondResults.count; i++) {
@@ -472,7 +474,7 @@
           // 移除break，继续循环，取最后一个有效结果
         }
       }
-      
+
       // 步骤5: 点击委托4详情按钮
       if (fourthCommission) {
         log.info("步骤5: 点击委托4详情按钮");
@@ -487,7 +489,8 @@
         // 检测是否成功进入详情界面
         const detailStatus = await checkDetailPageEntered();
         log.info(`委托详情界面状态: ${detailStatus}`);
-        
+        const commission = firstCommissions[4];
+
         // 根据检测结果处理
         if (detailStatus === "已完成") {
           log.info("该委托已完成，跳过地点识别和退出操作");
@@ -496,12 +499,13 @@
           log.warn("无法确认是否进入详情界面，尝试继续执行");
           // 尝试识别委托地点
           const location = recognizeCommissionLocation();
+          commission.location = location;
+          log.info("委托 {name} 的地点: {location}", commission.name,commission.location);
+        } else {
+          log.info("1");
+          location = recognizeCommissionLocation();
           fourthCommission.location = location;
           log.info("委托 {name} 的地点: {location}", fourthCommission.name, location);
-        } else {
-          const location = recognizeCommissionLocation();
-          commission.location = location;
-          log.info("委托 {name} 的地点: {location}", commission.name, location);
         }
         
         // 如果不是已完成状态，需要执行退出操作
@@ -518,7 +522,7 @@
           keyUp("VK_ESCAPE");
           await sleep(1200);
         }
-      }
+      } 
       
       // 合并所有委托结果
       let allCommissions = [...firstCommissions];

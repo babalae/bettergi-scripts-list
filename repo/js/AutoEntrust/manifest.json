@@ -1,13 +1,13 @@
 {
   "manifest_version": 1,
   "name": "(Beta)全自动寻路蒙德地区每日委托",
-  "version": "0.9",
-  "bgi_version": "0.36.1",
-  "description": "识别原神每日委托并与支持列表比对，确定可执行的委托,请阅读根目录下的README.md",
+  "version": "0.92",
+  "bgi_version": "0.44.7",
+  "description": "基于BetterGI的原神自动化脚本，可自动识别每日委托内容、OCR识别委托地点和状态、自动追踪委托路径。目前支持蒙德地区委托，未来将支持全国家委托。使用前请阅读README.md获取详细说明和常见问题解答。如果发生错误，如不支持的战斗委托，请将脚本data/文件夹下面的数据,log/日志下今日日志，每日委托任务尽量包含地点截图。反馈给3302871403",
   "authors": [
     {
       "name": "LX666-666,换苏伟u",
-      "link": ""
+      "link": "https://github.com/LX666-666"
     }
   ],
   "settings_ui": "settings.json",
