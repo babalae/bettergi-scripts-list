@@ -1,18 +1,18 @@
 {
   "info": {
-    "name": "烬芯花13-花语会-2个",
+    "name": "冰雾花20-稻妻-神无冢-2个",
     "type": "collect",
     "author": "Tool_tingsu",
     "version": "1.0",
     "description": "",
     "bgiVersion": "0.42.3",
-    "tags": ["单手剑角色","大剑角色","长枪角色"]
+    "tags": [ "胡桃"]
   },
   "positions": [
     {
       "id": 1,
-      "x": 9587.43,
-      "y": -1279.24,
+      "x": -3234.083984375,
+      "y": -3155.5810546875,
       "type": "teleport",
       "move_mode": "walk",
       "action": "",
@@ -20,26 +20,26 @@
     },
     {
       "id": 2,
-      "x": 9571.65,
-      "y": -1287.37,
+      "x": -3236.908203125,
+      "y": -3107.2119140625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -3237.828125,
+      "y": -3053.662109375,
       "type": "path",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 3,
-      "x": 9555.55,
-      "y": -1327.0,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": ""
-    },
-    {
       "id": 4,
-      "x": 9532.56,
-      "y": -1340.69,
+      "x": -3252.9970703125,
+      "y": -3021.9970703125,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -47,8 +47,8 @@
     },
     {
       "id": 5,
-      "x": 9521.01,
-      "y": -1330.29,
+      "x": -3265.677734375,
+      "y": -2982.65234375,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -56,30 +56,21 @@
     },
     {
       "id": 6,
-      "x": 9496.05,
-      "y": -1335.97,
-      "type": "path",
+      "x": -3263.119140625,
+      "y": -2977.86328125,
+      "type": "target",
       "move_mode": "walk",
-      "action": "",
+      "action": "pyro_collect",
       "action_params": ""
     },
     {
       "id": 7,
-      "x": 9453.02,
-      "y": -1319.91,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 8,
-      "x": 9420.18,
-      "y": -1320.45,
+      "x": -3247.55078125,
+      "y": -2975.1083984375,
       "type": "target",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "attack(0.2)"
+      "action": "pyro_collect",
+      "action_params": ""
     }
   ]
 }

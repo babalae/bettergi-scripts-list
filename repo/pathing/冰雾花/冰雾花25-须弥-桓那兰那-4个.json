@@ -1,18 +1,18 @@
 {
   "info": {
-    "name": "烬芯花12-烟谜主右方-3个",
+    "name": "冰雾花25-须弥-桓那兰那-4个",
     "type": "collect",
     "author": "Tool_tingsu",
     "version": "1.0",
     "description": "",
     "bgiVersion": "0.42.3",
-    "tags": ["单手剑角色","大剑角色","长枪角色"]
+    "tags": [ "胡桃"]
   },
   "positions": [
     {
       "id": 1,
-      "x": 9229.53,
-      "y": -1729.56,
+      "x": 3254.3232421875,
+      "y": -189.58837890625,
       "type": "teleport",
       "move_mode": "walk",
       "action": "",
@@ -20,8 +20,8 @@
     },
     {
       "id": 2,
-      "x": 9248.08,
-      "y": -1732.88,
+      "x": 3239.125,
+      "y": -190.32470703125,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -29,8 +29,8 @@
     },
     {
       "id": 3,
-      "x": 9255.11,
-      "y": -1709.76,
+      "x": 3217.9345703125,
+      "y": -164.9990234375,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -38,35 +38,35 @@
     },
     {
       "id": 4,
-      "x": 9257.94,
-      "y": -1701.53,
+      "x": 3199.919921875,
+      "y": -158.49169921875,
       "type": "path",
-      "move_mode": "climb",
+      "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
       "id": 5,
-      "x": 9263.96,
-      "y": -1687.11,
+      "x": 3192.6005859375,
+      "y": -145.0810546875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 3183.861328125,
+      "y": -119.82421875,
       "type": "path",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 6,
-      "x": 9291.57,
-      "y": -1660.3,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "attack(0.2)"
-    },
-    {
       "id": 7,
-      "x": 9286.35,
-      "y": -1654.05,
+      "x": 3206.1787109375,
+      "y": -91.166015625,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -74,17 +74,17 @@
     },
     {
       "id": 8,
-      "x": 9299.15,
-      "y": -1630.86,
-      "type": "path",
+      "x": 3204.203125,
+      "y": -80.701171875,
+      "type": "target",
       "move_mode": "walk",
-      "action": "",
+      "action": "pyro_collect",
       "action_params": ""
     },
     {
       "id": 9,
-      "x": 9315.0,
-      "y": -1609.47,
+      "x": 3193.8525390625,
+      "y": -79.22314453125,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -92,26 +92,26 @@
     },
     {
       "id": 10,
-      "x": 9345.46,
-      "y": -1567.87,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "attack(0.2)"
-    },
-    {
-      "id": 11,
-      "x": 9355.1,
-      "y": -1562.49,
+      "x": 3189.8740234375,
+      "y": -68.97802734375,
       "type": "path",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
+      "id": 11,
+      "x": 3191.9169921875,
+      "y": -64.50439453125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
       "id": 12,
-      "x": 9376.09,
-      "y": -1534.45,
+      "x": 3194.0703125,
+      "y": -59.92919921875,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -119,26 +119,26 @@
     },
     {
       "id": 13,
-      "x": 9366.5,
-      "y": -1499.41,
+      "x": 3203.1787109375,
+      "y": -59.0283203125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 3211.3076171875,
+      "y": -59.48291015625,
       "type": "path",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 14,
-      "x": 9377.14,
-      "y": -1494.95,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "attack(0.2)"
-    },
-    {
       "id": 15,
-      "x": 9393.06,
-      "y": -1541.5,
+      "x": 3216.794921875,
+      "y": -69.275390625,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -146,11 +146,11 @@
     },
     {
       "id": 16,
-      "x": 9388.11,
-      "y": -1556.85,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
+      "x": 3214.7265625,
+      "y": -70.3544921875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pyro_collect",
       "action_params": ""
     }
   ]
