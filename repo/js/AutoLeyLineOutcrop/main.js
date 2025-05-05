@@ -302,6 +302,10 @@ async function executePathsUsingNodeData(position, settings) {
                 // 更新当前节点为下一个节点，继续检查
                 currentNode = nextNode;
                 currentNodePosition = { x: nextNode.position.x, y: nextNode.position.y };
+            } 
+            else{
+                log.info("当前路线完成，退出循环");
+                break;
             }
         }
     } catch (error) {
