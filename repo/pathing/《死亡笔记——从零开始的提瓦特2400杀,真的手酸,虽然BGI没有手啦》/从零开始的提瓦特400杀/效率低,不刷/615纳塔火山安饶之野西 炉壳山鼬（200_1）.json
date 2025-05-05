@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "615纳塔火山安饶之野西 炉壳山鼬（200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 10793.22265625,
+      "y": -3066.845703125,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 10761.2958984375,
+      "y": -2999.337890625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 10768.9658203125,
+      "y": -2970.375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

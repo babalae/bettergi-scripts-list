@@ -1,0 +1,138 @@
+{
+  "info": {
+    "name": "405须弥觉王之殿南（600_1，200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3591.7470703125,
+      "y": -787.65478515625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3587.499990124792,
+      "y": -788.3749621050911,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "玛薇卡 e(hold),wait(0.05),keydown(w),wait(0.01),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.1),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.3),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.9),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.5);",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3478.1879187087907,
+      "y": -808.3124545261098,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3480.1611328125,
+      "y": -813.02197265625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3472.187304762743,
+      "y": -822.0627469619167,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3476.6878346924386,
+      "y": -839.1248203913328,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3467.8125,
+      "y": -841.4999557338415,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3469.375,
+      "y": -837.624645870731,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3442.40625,
+      "y": -835.8193359375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 3428.875111564146,
+      "y": -830.0623203913328,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 3425.0003904745117,
+      "y": -834.3122754891665,
+      "action": "fight",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 3429.7498605448163,
+      "y": -823.7493713696658,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 3430.7498605448163,
+      "y": -826.7493713696658,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 3430.7498605448163,
+      "y": -826.7493713696658,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}
