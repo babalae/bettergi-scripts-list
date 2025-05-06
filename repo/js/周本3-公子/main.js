@@ -27,9 +27,22 @@ async function autoFightAndEndDetection() {
             await sleep(1800);
             keyUp("s");
             challengeNum++;
+            capture = captureGameRegion();
+            res1 = capture.find(region1);
+            res2 = capture.find(region2);
+            res3 = capture.find(region3);
+            hasText1 = !res1.isEmpty() && res1.text.trim().length > 0;
+            hasText2 = !res2.isEmpty() && res2.text.trim().length > 0;
+            hasText3 = !res3.isEmpty() && res3.text.trim().length > 0;
+            //二次检测避免无法启动战斗
+            if (hasText1 && !hasText2 && hasText3){
             log.info(`执行第${challengeNum}次战斗`);
-            challengeTime = challengeTime + 40;
+            challengeTime = challengeTime + 205;
             await dispatcher.runTask(new SoloTask("AutoFight"));
+            }
+
+
+
         } 
         // 情况2: 区域2有文字 且 区域1无文字 且 区域3有文字 → 结束循环
         else if (hasText2 && !hasText1 && hasText3) {
@@ -76,12 +89,12 @@ const autoNavigateToReward = async () => {
             log.info("已到达领奖点，检测到文字: " + rewardResult.text);
             return;
         }
-        else if(advanceNum > 30){
+        else if(advanceNum > 15){
         throw new Error('前进时间超时');
         }
                 // 前进一小步
         keyDown("w");
-        await sleep(700);
+        await sleep(500);
         keyUp("w");
         await sleep(100); // 等待角色移动稳定
     }
