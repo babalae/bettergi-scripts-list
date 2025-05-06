@@ -8,8 +8,8 @@ async function checkChallengeResults() {
     const region1 = RecognitionObject.ocr(785, 890, 340, 82);// 对话区域
         let capture = captureGameRegion();
         let res1 = capture.find(region1);
-        if (res1.test != "对局胜利"){
-            log.info("挑战失败");
+
+        if (1){
             await sleep(1000);
             click(960, 540);
             await sleep(500);
@@ -25,15 +25,7 @@ async function checkChallengeResults() {
             await sleep(1000);
             return;
         } 
-        else{
-            log.info("挑战成功");
-            await sleep(1000);    
-            click(754,915 );//退出挑战
-            await sleep(4000);     
-            await autoConversation();
-            await sleep(1000);
-            return;
-        }
+
 
 }
 
@@ -42,7 +34,7 @@ async function autoConversation() {
     const region1 = RecognitionObject.ocr(785, 890, 340, 82);// 对话区域
     const region2 = RecognitionObject.ocr(1250, 400, 660, 440);// 选项区域
     let talkTime = 0;
-    await sleep(500);//点击后等待一段时间避免误判
+    await sleep(2000);//点击后等待一段时间避免误判
     //最多10次对话
     while (talkTime < 20) {
         let capture = captureGameRegion();
@@ -72,7 +64,7 @@ async function autoConversation() {
 async function tpEndDetection() {
     const region = RecognitionObject.ocr(1690, 230, 75, 350);// 队伍名称区域
     let tpTime = 0;
-    await sleep(500);//点击传送后等待一段时间避免误判
+    await sleep(1500);//点击传送后等待一段时间避免误判
     //最多30秒传送时间
     while (tpTime < 300) {
         let capture = captureGameRegion();
@@ -332,7 +324,7 @@ keyDown("w");
 await sleep(1200);
 keyUp("d");
 keyUp("w");
-await sleep(700);
+await sleep(600);
     }
 //前往二号桌
     async function gotoTable2() {
