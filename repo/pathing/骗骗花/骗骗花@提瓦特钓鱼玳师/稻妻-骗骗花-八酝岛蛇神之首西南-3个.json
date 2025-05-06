@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "提瓦特钓鱼玳师",
     "version": "1.0",
-    "description": "骗骗花-3个\n稻妻-八酝岛蛇神之首西南",
+    "description": "骗骗花-3个\n稻妻-八酝岛蛇神之首西南\n经由Economy优化交互触发",
     "bgiVersion": "0.42.0"
   },
   "positions": [
@@ -41,7 +41,7 @@
       "y": -3940.19,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "type": "target"
     },
     {
@@ -59,7 +59,7 @@
       "y": -3961.42,
       "action": "combat_script",
       "move_mode": "run",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "type": "target"
     },
     {
@@ -77,7 +77,7 @@
       "y": -3958.19,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "type": "target"
     },
     {

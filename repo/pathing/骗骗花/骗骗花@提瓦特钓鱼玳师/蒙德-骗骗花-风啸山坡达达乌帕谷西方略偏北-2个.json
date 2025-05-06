@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "提瓦特钓鱼玳师",
     "version": "1.0",
-    "description": "骗骗花-2个\n蒙德-风啸山坡达达乌帕谷西方略偏北",
+    "description": "骗骗花-2个\n蒙德-风啸山坡达达乌帕谷西方略偏北\n经由Economy优化交互触发",
     "bgiVersion": "0.42.0"
   },
   "positions": [
@@ -41,7 +41,7 @@
       "y": 1549.62,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.5),keypress(f),wait(0.5),keypress(f),wait(0.5),keypress(f)",
+      "action_params": "wait(0.5),keypress(f),wait(0.5),keypress(f),wait(0.5),keypress(f),dash",
       "type": "target"
     },
     {
@@ -113,7 +113,7 @@
       "y": 1380.75,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.5),keypress(f),wait(0.5),keypress(f),wait(0.5),keypress(f)",
+      "action_params": "wait(0.5),keypress(f),wait(0.5),keypress(f),wait(0.5),keypress(f),dash",
       "type": "target"
     },
     {

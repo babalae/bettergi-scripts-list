@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "提瓦特钓鱼玳师",
     "version": "1.0",
-    "description": "骗骗花-2个\n稻妻-神无冢踏鞴砂西崖上",
+    "description": "骗骗花-2个\n稻妻-神无冢踏鞴砂西崖上\n经由Economy优化交互触发",
     "bgiVersion": "0.42.0"
   },
   "positions": [
@@ -33,7 +33,7 @@
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "attack(0.1),wait(2),wait(0.1),keypress(f),wait(0.1),keypress(f)"
+      "action_params": "attack(0.1),wait(2),wait(0.1),keypress(f),wait(0.1),keypress(f),dash"
     },
     {
       "id": 3,

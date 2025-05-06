@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "提瓦特钓鱼玳师",
     "version": "1.0",
-    "description": "骗骗花-2个\n稻妻-海祇岛望泷村西南方崖上",
+    "description": "骗骗花-2个\n稻妻-海祇岛望泷村西南方崖上\n经由Economy优化交互触发",
     "bgiVersion": "0.42.0"
   },
   "positions": [
@@ -51,7 +51,7 @@
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "locked": false
     },
     {
