@@ -1,0 +1,112 @@
+{
+  "info": {
+    "name": "333稻妻渊下宫常夜灵庙西南（200_7）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -366.343994140625,
+      "y": 235.73876953125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -245.75041080862547,
+      "y": 223.93703010313266,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -226.244140625,
+      "y": 222.0137939453125,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -213.546630859375,
+      "y": 220.31298828125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -210.49755859375,
+      "y": 219.798583984375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": -198.072265625,
+      "y": 271.1915283203125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -204.993896484375,
+      "y": 223.871826171875,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -221.45654296875,
+      "y": 220.4859619140625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -264.0244140625,
+      "y": 192.5760498046875,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -290.212646484375,
+      "y": 129.306396484375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "w(2),wait(3)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -290.212646484375,
+      "y": 129.306396484375,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

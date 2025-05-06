@@ -200,38 +200,113 @@ async function executePathsUsingNodeData(position, settings) {
         // 循环检查并执行当前节点的单一next路径，直到遇到没有next或有多个next的情况
         let currentNode = targetNode;
         
-        while (currentNode.next && currentNode.next.length === 1 && currentRunTimes < settings.timesValue) {
-            // 获取下一个节点的ID 和 路径，并在节点数据中找到下一个节点
-            const nextNodeId = currentNode.next[0].target;
-            const nextRoute = currentNode.next[0].route;
-            const nextNode = nodeData.node.find(node => node.id === nextNodeId);
-            
-            if (!nextNode) {
-                return;
+        while (currentNode.next && currentRunTimes < settings.timesValue) {
+            if(currentNode.next.length === 1){
+                // 获取下一个节点的ID 和 路径，并在节点数据中找到下一个节点
+                const nextNodeId = currentNode.next[0].target;
+                const nextRoute = currentNode.next[0].route;
+                const nextNode = nodeData.node.find(node => node.id === nextNodeId);
+
+                if (!nextNode) {
+                    return;
+                }
+
+                // 创建一个适合executePath函数的路径对象
+                const pathObject = {
+                    startNode: currentNode,
+                    targetNode: nextNode,
+                    routes: [nextRoute]
+                };
+
+                log.info(`直接执行下一个节点路径: ${nextRoute}`);
+                await executePath(pathObject, settings);
+
+                currentRunTimes++;
+
+                log.info(`完成节点 ID ${nextNodeId}, 已执行 ${currentRunTimes}/${settings.timesValue} 次`);
+                
+                // 更新当前节点为下一个节点，继续检查
+                currentNode = nextNode;
+                currentNodePosition = { x: nextNode.position.x, y: nextNode.position.y };
             }
-            
-            // 创建一个适合executePath函数的路径对象
-            const pathObject = {
-                startNode: currentNode,
-                targetNode: nextNode,
-                routes: [nextRoute]
-            };
-            
-            log.info(`直接执行下一个节点路径: ${nextRoute}`);
-            await executePath(pathObject, settings);
-            
-            currentRunTimes++;
-            
-            log.info(`完成节点 ID ${nextNodeId}, 已执行 ${currentRunTimes}/${settings.timesValue} 次`);
-            
-            // 如果达到刷取次数上限，退出循环
-            if (currentRunTimes >= settings.timesValue) {
-                return;
+            else if(currentNode.next.length > 1){
+                // 如果存在分支路线，先打开大地图判断下一个地脉花的位置，根据下一个地脉花的位置选择路线
+                log.info("检测到多个分支路线，开始查找下一个地脉花位置");
+                
+                // 备份当前地脉花坐标
+                const currentLeyLineX = leyLineX;
+                const currentLeyLineY = leyLineY;
+                
+                // 打开大地图
+                await genshin.returnMainUi();
+                keyPress("M");
+                await sleep(1000);
+                
+                // 查找下一个地脉花
+                const found = await locateLeyLineOutcrop(settings.leyLineOutcropType);
+                await genshin.returnMainUi();
+                
+                if (!found) {
+                    log.warn("无法在分支点找到下一个地脉花，退出本次循环");
+                    return;
+                }
+
+                log.info(`找到下一个地脉花，位置: (${leyLineX}, ${leyLineY})`);
+                
+                // 计算每个分支节点到地脉花的距离，选择最近的路径
+                let closestRoute = null;
+                let closestDistance = Infinity;
+                let closestNodeId = null;
+                
+                for (const nextRoute of currentNode.next) {
+                    const nextNodeId = nextRoute.target;
+                    const nextNode = nodeData.node.find(node => node.id === nextNodeId);
+                    
+                    if (!nextNode) continue;
+                    
+                    const distance = calculate2DDistance(
+                        leyLineX, leyLineY,
+                        nextNode.position.x, nextNode.position.y
+                    );
+                    
+                    log.info(`路线到地脉花距离: ID ${nextNodeId}, 距离: ${distance.toFixed(2)}`);
+                    
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        closestRoute = nextRoute.route;
+                        closestNodeId = nextNodeId;
+                    }
+                }
+                
+                if (!closestRoute) {
+                    log.error("无法找到合适的路线，终止执行");
+                    // 恢复原始坐标
+                    leyLineX = currentLeyLineX;
+                    leyLineY = currentLeyLineY;
+                    return;
+                }
+                
+                const nextNode = nodeData.node.find(node => node.id === closestNodeId);
+                log.info(`选择最近的路线: ${closestRoute}, 目标节点ID: ${closestNodeId}。`);
+                
+                // 创建路径对象并执行
+                const pathObject = {
+                    startNode: currentNode,
+                    targetNode: nextNode,
+                    routes: [closestRoute]
+                };
+                
+                await executePath(pathObject, settings);
+                currentRunTimes++;
+                
+                // 更新当前节点为下一个节点，继续检查
+                currentNode = nextNode;
+                currentNodePosition = { x: nextNode.position.x, y: nextNode.position.y };
+            } 
+            else{
+                log.info("当前路线完成，退出循环");
+                break;
             }
-            
-            // 更新当前节点为下一个节点，继续检查
-            currentNode = nextNode;
-            currentNodePosition = { x: nextNode.position.x, y: nextNode.position.y };
         }
     } catch (error) {
         log.error(`执行路径时出错: ${error.message}`);
@@ -573,9 +648,6 @@ function loadSettings() {
             if (num < 1) {
                 settingsData.timesValue = 1;
                 log.info(`⚠️ 次数 ${num} 小于1，已调整为1`);
-            } else if (num > 6) {
-                settingsData.timesValue = 6;
-                log.info(`⚠️ 次数 ${num} 大于6，已调整为6`);
             } else {
                 // 处理小数
                 if (!Number.isInteger(num)) {
@@ -746,6 +818,18 @@ function isNearPosition(x, y, targetX, targetY, threshold) {
     // 使用配置中的阈值或默认值50
     const errorThreshold = threshold || 50;
     return Math.abs(x - targetX) <= errorThreshold && Math.abs(y - targetY) <= errorThreshold;
+}
+
+/**
+ * 计算两点之间的二维欧几里得距离
+ * @param {number} x1 - 第一个点的X坐标
+ * @param {number} y1 - 第一个点的Y坐标
+ * @param {number} x2 - 第二个点的X坐标
+ * @param {number} y2 - 第二个点的Y坐标
+ * @returns {number} 两点之间的距离
+ */
+function calculate2DDistance(x1, y1, x2, y2) {
+    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 }
 
 /**
