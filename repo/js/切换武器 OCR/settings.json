@@ -2,17 +2,17 @@
     {
         "name": "Character",
         "type": "input-text",
-        "label": "角色名称（默认 纳西妲)"
+        "label": "角色（如 草神、奶奶)"
     },
     {
         "name": "Weapon",
         "type": "input-text",
-        "label": "武器名称（默认 试作金珀)"
+        "label": "武器（如 金珀、祭礼)"
     },
     {
         "name": "Element",
         "type": "select",
-        "label": "=============\n\n选元素缩范围 非必填\n元素（默认'物'=不选)",
+        "label": "=============\n选元素缩范围 非必填\n元素（默认'物'=不选)",
         "options": [
           "物",
           "火",

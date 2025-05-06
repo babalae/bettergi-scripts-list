@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "邪恶的扩张-北方向",
+    "type": "collect",
+    "author": "",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -430.7609643149008,
+      "y": 2600,
+      "action": "",
+      "move_mode": "run",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -413.25499409788426,
+      "y": 2648.25,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -417.74523290656543,
+      "y": 2701.5,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -429.3723326977215,
+      "y": 2704,
+      "move_mode": "fly",
+      "type": "path",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": -440.9994324888776,
+      "y": 2706.5,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": -461.74602742213756,
+      "y": 2717,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -498.49841096885575,
+      "y": 2745.5,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path"
+    }
+  ]
+}

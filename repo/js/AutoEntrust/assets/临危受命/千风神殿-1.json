@@ -1,0 +1,45 @@
+{
+  "info": {
+    "name": "临危受命-狂风2",
+    "type": "collect",
+    "author": "1",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1498.703010078998,
+      "y": 2265.75,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1543.6825796785615,
+      "y": 2222.5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1564.8733825932995,
+      "y": 2221.3125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1578.916575864887,
+      "y": 2236.75,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path"
+    }
+  ]
+}

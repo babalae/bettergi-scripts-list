@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { execSync } = require('child_process');
 
 // 在文件开头添加全局变量
 const pathingDirsWithoutIcon = new Set();
@@ -12,6 +13,26 @@ function calculateSHA1(filePath) {
     return hashSum.digest('hex');
 }
 
+function getGitTimestamp(filePath) {
+    try {
+        const time = execSync(`git log -1 --format="%ai" -- ${filePath}`).toString().trim();
+        if (!time) {
+            console.warn(`未找到文件 ${filePath} 的提交记录`);
+            return null;
+        }
+        return time;
+    } catch (e) {
+        console.warn(`无法通过 Git 获取时间: ${filePath}`, e);
+        return null;
+    }
+}
+
+function formatTime(timestamp) {
+    if (!timestamp) return null;
+    // 将 "2023-01-01 12:00:00 +0800" 格式化为 "20230101120000"
+    return timestamp.replace(/[-: ]/g, '').split('+')[0];
+}
+
 function convertNewlines(text) {
     return text.replace(/\\n/g, '\n');
 }
@@ -20,16 +41,23 @@ function extractInfoFromCombatFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf8');
     const authorMatch = content.match(/\/\/\s*作者\s*:(.*)/);
     const descriptionMatch = content.match(/\/\/\s*描述\s*:(.*)/);
+    const versionMatch = content.match(/\/\/\s*版本\s*:(.*)/);
     const characterMatches = content.match(/^(?!\/\/).*?(\S+)(?=\s|$)/gm);
 
     const tags = [...new Set(characterMatches || [])]
         .map(char => char.trim())
         .filter(char => char.length > 0 && !char.match(/^[,.]$/)); // 过滤掉单个逗号或句号
-
+    
+    // 优先使用文件中的版本号，其次使用提交时间，最后使用 SHA
+    const version = versionMatch ? versionMatch[1].trim() : 
+                   (getGitTimestamp(filePath) ? formatTime(getGitTimestamp(filePath)) : 
+                    calculateSHA1(filePath).substring(0, 7));
+    
     return {
         author: authorMatch ? authorMatch[1].trim() : '',
         description: descriptionMatch ? convertNewlines(descriptionMatch[1].trim()) : '',
-        tags: tags
+        tags: tags,
+        version: version
     };
 }
 
@@ -45,7 +73,7 @@ function extractInfoFromJSFolder(folderPath) {
                 version: manifest.version || '',
                 description: convertNewlines(combinedDescription),
                 author: manifest.authors && manifest.authors.length > 0 ? manifest.authors[0].name : '',
-                tags: []
+                tags: manifest.tags || []
             };
         } catch (error) {
             console.error(`解析 ${manifestPath} 时出错:`, error);
@@ -57,13 +85,11 @@ function extractInfoFromJSFolder(folderPath) {
 }
 
 function extractInfoFromPathingFile(filePath, parentFolders) {
-    // 读取文件内容
     let content = fs.readFileSync(filePath, 'utf8');
     
     // 检测并移除BOM
     if (content.charCodeAt(0) === 0xFEFF) {
         content = content.replace(/^\uFEFF/, '');
-        // 检测到BOM时，保存无BOM的版本
         try {
             fs.writeFileSync(filePath, content, 'utf8');
             console.log(`已移除文件BOM标记: ${filePath}`);
@@ -74,37 +100,38 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
     
     const contentObj = JSON.parse(content);
     
+    // 优先使用文件中的版本号，其次使用提交时间，最后使用 SHA
+    const version = contentObj.info?.version || 
+                   (getGitTimestamp(filePath) ? formatTime(getGitTimestamp(filePath)) : 
+                    calculateSHA1(filePath).substring(0, 7));
+    
+    // 从父文件夹获取默认标签
     let tags = parentFolders.slice(2)
         .filter(tag => !tag.includes('@'))
         .filter((tag, index, self) => self.indexOf(tag) === index);
 
-    // 检查positions数组中是否存在特定动作
-    if (contentObj.positions && Array.isArray(contentObj.positions)) {
-        const hasNahidaCollect = contentObj.positions.some(pos => pos.action === 'nahida_collect');
-        const hasHydroCollect = contentObj.positions.some(pos => pos.action === 'hydro_collect');
-        const hasAnemoCollect = contentObj.positions.some(pos => pos.action === 'anemo_collect');
-        const hasElectroCollect = contentObj.positions.some(pos => pos.action === 'electro_collect');
-        const hasUpDownGrabLeaf = contentObj.positions.some(pos => pos.action === 'up_down_grab_leaf');
-        if (hasNahidaCollect) {
-            tags.push('纳西妲');
-        }
-        if (hasHydroCollect) {
-            tags.push('水元素力收集');
-        }
-        if (hasAnemoCollect) {
-            tags.push('风元素力收集');
-        }
-        if (hasElectroCollect) {
-            tags.push('雷元素力收集');
-        }
-        if (hasUpDownGrabLeaf) {
-            tags.push('四叶印');
-        }
+    // 如果存在自定义标签，与默认标签合并
+    if (contentObj.info && contentObj.info.tags && Array.isArray(contentObj.info.tags)) {
+        tags = [...tags, ...contentObj.info.tags];
     }
 
+    if (contentObj.positions && Array.isArray(contentObj.positions)) {
+        const actions = contentObj.positions.map(pos => pos.action);
+        if (actions.includes('nahida_collect')) tags.push('纳西妲');
+        if (actions.includes('hydro_collect')) tags.push('水元素力收集');
+        if (actions.includes('anemo_collect')) tags.push('风元素力收集');
+        if (actions.includes('electro_collect')) tags.push('雷元素力收集');
+        if (actions.includes('up_down_grab_leaf')) tags.push('四叶印');
+        if (actions.includes('fight')) tags.push('战斗');
+    }
+
+    // 确保标签数组中没有重复项
+    tags = [...new Set(tags)];
+
     return {
-        author: contentObj.info && contentObj.info.author ? contentObj.info.author : '',
-        description: convertNewlines(contentObj.info && contentObj.info.description ? contentObj.info.description : ''),
+        author: contentObj.info.author || '',
+        description: convertNewlines(contentObj.info.description || ''),
+        version: version,
         tags: tags
     };
 }
@@ -113,6 +140,7 @@ function extractInfoFromTCGFile(filePath, parentFolder) {
     const content = fs.readFileSync(filePath, 'utf8');
     const authorMatch = content.match(/\/\/\s*作者:(.*)/);
     const descriptionMatch = content.match(/\/\/\s*描述:(.*)/);
+    const versionMatch = content.match(/\/\/\s*版本:(.*)/);
     const characterMatches = content.match(/角色\d+\s?=([^|\r\n{]+)/g);
 
     let tags = characterMatches
@@ -126,11 +154,17 @@ function extractInfoFromTCGFile(filePath, parentFolder) {
     if (filePath.includes('酒馆挑战')) {
         tags = ['酒馆挑战', ...tags];
     }
-
+    
+    // 优先使用文件中的版本号，其次使用提交时间，最后使用 SHA
+    const version = versionMatch ? versionMatch[1].trim() : 
+                   (getGitTimestamp(filePath) ? formatTime(getGitTimestamp(filePath)) : 
+                    calculateSHA1(filePath).substring(0, 7));
+    
     return {
         author: authorMatch ? authorMatch[1].trim() : '',
         description: descriptionMatch ? convertNewlines(descriptionMatch[1].trim()) : '',
-        tags: [...new Set(tags)]  // 去重
+        tags: [...new Set(tags)],  // 去重
+        version: version
     };
 }
 

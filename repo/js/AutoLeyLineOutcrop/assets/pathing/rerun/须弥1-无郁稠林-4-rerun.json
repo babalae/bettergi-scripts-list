@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "须弥1-无郁稠林-4-rerun",
+    "type": "collect",
+    "author": "寒烟",
+    "version": "1.0",
+    "description": "应对绕圈问题的备用",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2342.3173828125,
+      "y": -4.6728515625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 2331.8232421875,
+      "y": -12.52734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "up_down_grab_leaf",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 2333.0771484375,
+      "y": -42.0830078125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "up_down_grab_leaf",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 2272.0003617118837,
+      "y": -140.75125996522274,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 2265.499565945738,
+      "y": -146.4996220104331,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 2233.8076171875,
+      "y": -160.978515625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
