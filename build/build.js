@@ -27,8 +27,9 @@ try {
             const currentBranch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
             console.log(`当前分支: ${currentBranch}`);
             
-            // 获取此次变更的文件列表
-            const changedFiles = execSync(`git diff --name-only HEAD~1 HEAD`).toString().trim().split('\n');
+            // 获取此次变更的文件列表 - 使用更安全的方法
+            let cmd = 'git diff --name-only HEAD~1 HEAD';            
+            const changedFiles = execSync(cmd).toString().trim().split('\n');
             modifiedFiles = changedFiles.filter(file => file.startsWith('repo/'));
             console.log(`检测到 ${modifiedFiles.length} 个修改的文件:`);
             modifiedFiles.forEach(file => console.log(` - ${file}`));
@@ -56,7 +57,20 @@ function calculateSHA1(filePath) {
 
 function getGitTimestamp(filePath) {
     try {
-        const time = execSync(`git log -1 --format="%ai" -- ${filePath}`).toString().trim();
+        // 对路径进行特殊处理，处理路径中的特殊字符
+        const relativePath = path.relative(path.resolve(__dirname, '..'), filePath).replace(/\\/g, '/');
+        
+        let cmd;
+        if (process.platform === 'win32') {
+            // Windows平台使用双引号
+            cmd = `git log -1 --format="%ai" -- "${relativePath.replace(/"/g, '\\"')}"`;
+        } else {
+            // Linux/Mac平台使用单引号
+            const quotedPath = relativePath.replace(/'/g, "'\\''"); // 处理单引号
+            cmd = `git log -1 --format="%ai" -- '${quotedPath}'`;
+        }
+        
+        const time = execSync(cmd).toString().trim();
         if (!time) {
             console.warn(`未找到文件 ${filePath} 的提交记录`);
             return null;
@@ -64,7 +78,18 @@ function getGitTimestamp(filePath) {
         return time;
     } catch (e) {
         console.warn(`无法通过 Git 获取时间: ${filePath}`, e);
-        return null;
+        
+        // 出错时，尝试使用文件的修改时间作为替代
+        try {
+            const stats = fs.statSync(filePath);
+            const modTime = stats.mtime;
+            const formattedTime = modTime.toISOString().replace('T', ' ').replace(/\.\d+Z$/, ' +0800');
+            console.log(`使用文件修改时间作为替代: ${formattedTime}`);
+            return formattedTime;
+        } catch (fsErr) {
+            console.warn(`无法获取文件修改时间: ${filePath}`, fsErr);
+            return null;
+        }
     }
 }
 
@@ -76,7 +101,17 @@ function formatTime(timestamp) {
 
 // 格式化最后更新时间为标准的北京时间格式：YYYY-MM-DD HH:MM:SS
 function formatLastUpdated(timestamp) {
-    if (!timestamp) return null;
+    if (!timestamp) {
+        // 如果没有时间戳，使用当前时间作为默认值
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hour = String(now.getHours()).padStart(2, '0');
+        const minute = String(now.getMinutes()).padStart(2, '0');
+        const second = String(now.getSeconds()).padStart(2, '0');
+        return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+    }
     
     try {
         // 解析Git时间戳格式 (如: "2023-01-01 12:00:00 +0800")
@@ -85,6 +120,19 @@ function formatLastUpdated(timestamp) {
             const [_, year, month, day, hour, minute, second] = dateMatch;
             return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
         }
+        
+        // 尝试将时间戳解析为日期对象
+        const date = new Date(timestamp);
+        if (!isNaN(date.getTime())) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hour = String(date.getHours()).padStart(2, '0');
+            const minute = String(date.getMinutes()).padStart(2, '0');
+            const second = String(date.getSeconds()).padStart(2, '0');
+            return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+        }
+        
         return timestamp;
     } catch (e) {
         console.warn(`格式化时间戳出错 ${timestamp}:`, e);
@@ -134,9 +182,48 @@ function extractInfoFromJSFolder(folderPath) {
             const manifest = JSON.parse(manifestContent);
             const combinedDescription = `${manifest.name || ''}~|~${manifest.description || ''}`;
             
-            // 获取最后更新时间
-            const gitTimestamp = getGitTimestamp(manifestPath);
-            const lastUpdated = formatLastUpdated(gitTimestamp);
+            // 查找文件夹中所有文件
+            let lastUpdatedTimestamp = null;
+            let allFiles = [];
+            
+            // 递归获取所有文件
+            function getAllFiles(dir) {
+                const files = fs.readdirSync(dir);
+                files.forEach(file => {
+                    const filePath = path.join(dir, file);
+                    if (fs.statSync(filePath).isDirectory()) {
+                        getAllFiles(filePath);
+                    } else {
+                        allFiles.push(filePath);
+                    }
+                });
+            }
+            
+            getAllFiles(folderPath);
+            
+            // 获取每个文件的时间戳，找出最新的
+            for (const file of allFiles) {
+                const timestamp = getGitTimestamp(file);
+                if (timestamp) {
+                    if (!lastUpdatedTimestamp) {
+                        lastUpdatedTimestamp = timestamp;
+                    } else {
+                        // 比较时间戳，保留较新的
+                        try {
+                            const date1 = new Date(timestamp);
+                            const date2 = new Date(lastUpdatedTimestamp);
+                            if (date1 > date2) {
+                                lastUpdatedTimestamp = timestamp;
+                            }
+                        } catch (e) {
+                            console.warn(`比较时间戳出错: ${timestamp} vs ${lastUpdatedTimestamp}`, e);
+                        }
+                    }
+                }
+            }
+            
+            // 格式化最后更新时间
+            const lastUpdated = formatLastUpdated(lastUpdatedTimestamp);
             
             return {
                 version: manifest.version || '',
@@ -340,6 +427,7 @@ function generateDirectoryTree(dir, currentDepth = 0, parentFolders = []) {
                 info.author = jsInfo.author;
                 info.description = jsInfo.description;
                 info.tags = jsInfo.tags;
+                info.lastUpdated = jsInfo.lastUpdated;
             }
         } else {
             info.children = fs.readdirSync(dir)
