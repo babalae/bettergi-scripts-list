@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "提瓦特钓鱼玳师",
     "version": "1.0",
-    "description": "骗骗花-2个\n蒙德-坠星山谷望风角和摘星崖",
+    "description": "骗骗花-2个\n蒙德-坠星山谷望风角和摘星崖\n经由Economy优化交互触发",
     "bgiVersion": "0.42.0"
   },
   "positions": [
@@ -32,7 +32,7 @@
       "y": 2740.63,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.1),keypress(f),wait(0.1)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),dash",
       "type": "target",
       "locked": false
     },
@@ -42,7 +42,7 @@
       "y": 2744.81,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.1),keypress(f),wait(0.1)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),dash",
       "type": "target",
       "locked": false
     },
@@ -52,7 +52,7 @@
       "y": 2744.0,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.1),keypress(f),wait(0.1)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),dash",
       "type": "target",
       "locked": false
     },

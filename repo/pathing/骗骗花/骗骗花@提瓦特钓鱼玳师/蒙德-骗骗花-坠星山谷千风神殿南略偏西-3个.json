@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "提瓦特钓鱼玳师",
     "version": "1.0",
-    "description": "骗骗花-3个\n蒙德-坠星山谷千风神殿南略偏西",
+    "description": "骗骗花-3个\n蒙德-坠星山谷千风神殿南略偏西\n经由Economy优化交互触发",
     "bgiVersion": "0.42.0"
   },
   "positions": [
@@ -40,7 +40,7 @@
       "x": -1583.0,
       "y": 2048.25,
       "action": "combat_script",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "type": "target",
       "move_mode": "walk"
     },
@@ -49,7 +49,7 @@
       "x": -1582.75,
       "y": 2043.0,
       "action": "combat_script",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "type": "target",
       "move_mode": "walk"
     },
@@ -59,7 +59,7 @@
       "y": 2045.3,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "type": "target"
     },
     {

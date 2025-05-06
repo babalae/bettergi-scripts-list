@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "提瓦特钓鱼玳师",
     "version": "1.0",
-    "description": "骗骗花-1个\n蒙德-龙脊雪山",
+    "description": "骗骗花-1个\n蒙德-龙脊雪山\n经由Economy优化交互触发",
     "bgiVersion": "0.42.0"
   },
   "positions": [
@@ -23,7 +23,7 @@
       "y": 1590.62,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "type": "target",
       "locked": false
     },
@@ -33,7 +33,7 @@
       "y": 1593.81,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "type": "target",
       "locked": false
     },
@@ -43,7 +43,7 @@
       "y": 1592.0,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "type": "target",
       "locked": false
     },
@@ -82,7 +82,7 @@
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f)"
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash"
     },
     {
       "id": 9,

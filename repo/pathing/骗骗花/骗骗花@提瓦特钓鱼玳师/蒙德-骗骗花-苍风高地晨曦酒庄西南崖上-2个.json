@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "提瓦特钓鱼玳师",
     "version": "1.0",
-    "description": "骗骗花-2个\n蒙德-苍风高地晨曦酒庄西南崖上",
+    "description": "骗骗花-2个\n蒙德-苍风高地晨曦酒庄西南崖上\n经由Economy优化交互触发",
     "bgiVersion": "0.42.0"
   },
   "positions": [
@@ -59,7 +59,7 @@
       "y": 1485.62,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "type": "target"
     },
     {

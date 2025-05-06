@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "提瓦特钓鱼玳师",
     "version": "1.0",
-    "description": "骗骗花-2个\n璃月-碧水原奥藏山东北方传送锚点附近",
+    "description": "骗骗花-2个\n璃月-碧水原奥藏山东北方传送锚点附近\n经由Economy优化交互触发",
     "bgiVersion": "0.42.0"
   },
   "positions": [
@@ -24,7 +24,7 @@
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "locked": false
     },
     {
@@ -61,7 +61,7 @@
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "locked": false
     },
     {

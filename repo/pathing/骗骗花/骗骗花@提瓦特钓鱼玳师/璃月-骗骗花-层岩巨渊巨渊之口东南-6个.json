@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "提瓦特钓鱼玳师",
     "version": "1.0",
-    "description": "骗骗花-6个\n璃月-层岩巨渊巨渊之口东南",
+    "description": "骗骗花-6个\n璃月-层岩巨渊巨渊之口东南\n经由Economy优化交互触发",
     "bgiVersion": "0.42.0"
   },
   "positions": [
@@ -32,7 +32,7 @@
       "y": -877.48,
       "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "attack(0.1),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "action_params": "attack(0.1),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),dash",
       "type": "target"
     },
     {
@@ -104,7 +104,7 @@
       "y": -829.07,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "type": "target"
     },
     {
@@ -185,7 +185,7 @@
       "y": -846.25,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "type": "target",
       "locked": false
     },
@@ -204,7 +204,7 @@
       "y": -847.92,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "type": "target",
       "locked": false
     },
@@ -223,7 +223,7 @@
       "y": -849.24,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "type": "target"
     },
     {
@@ -259,7 +259,7 @@
       "y": -836.11,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "type": "target"
     },
     {
