@@ -1,5 +1,5 @@
 {
-  "time": "20250507234506",
+  "time": "20250508013539",
   "url": "https://github.com/babalae/bettergi-scripts-list/archive/refs/heads/main.zip",
   "file": "repo.json",
   "indexes": [
@@ -44636,14 +44636,24 @@
           "lastUpdated": "2024-12-11 18:00:24"
         },
         {
-          "name": "OCR摩拉log",
+          "name": "OCR切换武器",
           "type": "directory",
-          "hash": "eaca8c3c57d06eeb8ea1f7e7367d1840d4425f4e",
+          "hash": "71498eb1fe3f25db4004b794d9933690a4dd8150",
+          "version": "2.22",
+          "author": "吉吉喵",
+          "description": "选择角色和武器 ~|~OCR。默认四行为一页；v2.1增加模糊匹配，增加别名匹配。v2.22兼容未知角色、未知武器",
+          "tags": [],
+          "lastUpdated": "2025-05-08 01:32:15"
+        },
+        {
+          "name": "OCR读取当前摩拉记录并发送通知",
+          "type": "directory",
+          "hash": "20578dc144b01e27a2badccc2b4ec5d58dd3ca88",
           "version": "1.1",
           "author": "吉吉喵",
-          "description": "OCR摩拉log~|~至少0.44.3版本。OCR识别摩拉数值输出到本地",
+          "description": "读取当前摩拉记录并发送通知~|~至少0.44.3版本。OCR识别摩拉数值输出到本地",
           "tags": [],
-          "lastUpdated": "2025-04-12 10:15:21"
+          "lastUpdated": "2025-05-08 01:32:15"
         },
         {
           "name": "OCR购买食材",
@@ -44746,16 +44756,6 @@
           "lastUpdated": "2025-02-12 11:34:06"
         },
         {
-          "name": "TheTable",
-          "type": "directory",
-          "hash": "6f6cc2a7c6cb6f0a963f6465bf283fb3ebe4a82e",
-          "version": "1.1",
-          "author": "Lix",
-          "description": "传送到合成台~|~传送到枫丹合成台旁边，可搭配合成浓缩树脂",
-          "tags": [],
-          "lastUpdated": "2024-10-31 01:07:17"
-        },
-        {
           "name": "Tool_mint",
           "type": "directory",
           "hash": "7f0802454d4555de4530375292430e4a3c4526d3",
@@ -44764,16 +44764,6 @@
           "description": "薄荷采集~|~根据设置采集数量和执行时间自动采集薄荷",
           "tags": [],
           "lastUpdated": "2025-05-06 23:11:53"
-        },
-        {
-          "name": "Tzi-每日一条龙+副本晶蝶尘歌壶",
-          "type": "directory",
-          "hash": "d988a8afce00b0fe70d344a4f28396df5009cec7",
-          "version": "0.04",
-          "author": "T子",
-          "description": "Tzi-每日一条龙+副本晶蝶尘歌壶邮件~|~每日一条龙 包含每日任务 刷副本，分解狗粮，尘歌壶，抓晶蝶 自动下线。【自动副本】请先去独立任务中将自动秘境配置完成，【自动晶蝶】队伍需要携带早柚或瑶瑶。【尘歌壶】将快捷道具栏需装满4个，确保尘歌壶在第5位。运行前可以右键配置参数。主要适配枫丹凯瑟琳锚点。",
-          "tags": [],
-          "lastUpdated": "2025-01-27 00:42:36"
         },
         {
           "name": "YuanQin",
@@ -44874,16 +44864,6 @@
           "description": "自动晶蝶诱捕装置~|~自动晶蝶诱捕装置，安装位置纳塔圣火竞技场传送点",
           "tags": [],
           "lastUpdated": "2025-03-06 20:49:25"
-        },
-        {
-          "name": "切换武器 OCR",
-          "type": "directory",
-          "hash": "71498eb1fe3f25db4004b794d9933690a4dd8150",
-          "version": "2.22",
-          "author": "吉吉喵",
-          "description": "选择角色和武器 ~|~OCR。默认四行为一页；v2.1增加模糊匹配，增加别名匹配。v2.22兼容未知角色、未知武器",
-          "tags": [],
-          "lastUpdated": "2025-04-29 00:08:14"
         },
         {
           "name": "切换画质",
@@ -45046,16 +45026,6 @@
           "lastUpdated": "2025-05-06 19:48:27"
         },
         {
-          "name": "尘歌壶妙香林找阿圆",
-          "type": "directory",
-          "hash": "8d71612bcaeedfc49353e66871d86bd7b56928f8",
-          "version": "1.0",
-          "author": "风埠",
-          "description": "向右行走1.5秒，搭配进入尘歌壶可以到阿圆那领取洞天宝钱和好感值（这个成男角色容易掉下去比如那维莱特）~|~向右行走1.5秒",
-          "tags": [],
-          "lastUpdated": "2024-10-22 12:53:03"
-        },
-        {
           "name": "尘歌壶洞天百宝购买",
           "type": "directory",
           "hash": "453c1772ea547882d0b1b880ebc24a8c3893cadb",
@@ -45064,36 +45034,6 @@
           "description": "尘歌壶洞天百宝购买~|~用于每周一尘歌壶洞天百宝购买，可自定义配置购买须臾树脂，大英雄的经验，流浪者的经验，精锻用魔矿，摩拉，祝圣精华，祝圣油膏",
           "tags": [],
           "lastUpdated": "2025-03-06 20:49:25"
-        },
-        {
-          "name": "尘歌壶清琼岛找阿圆",
-          "type": "directory",
-          "hash": "4ad41397cea9a9cf5bab2e191fcf117a6aea3a24",
-          "version": "1.0",
-          "author": "风埠",
-          "description": "向左行走1.5秒，搭配进入尘歌壶可以到阿圆那领取洞天宝钱和好感值~|~向左行走1.5秒",
-          "tags": [],
-          "lastUpdated": "2024-10-22 04:29:15"
-        },
-        {
-          "name": "尘歌壶罗浮洞找阿圆",
-          "type": "directory",
-          "hash": "e06cf53fc71fbcd00f32cb44adc8ad130f70ad6b",
-          "version": "1.0",
-          "author": "风埠",
-          "description": "向右行走0.5秒，搭配进入尘歌壶可以到阿圆那领取洞天宝钱和好感值~|~向右行走0.5秒",
-          "tags": [],
-          "lastUpdated": "2024-10-22 04:29:15"
-        },
-        {
-          "name": "尘歌壶翠黛峰找阿圆",
-          "type": "directory",
-          "hash": "e06cf53fc71fbcd00f32cb44adc8ad130f70ad6b",
-          "version": "1.0",
-          "author": "风埠",
-          "description": "向右行走0.5秒，搭配进入尘歌壶可以到阿圆那领取洞天宝钱和好感值~|~向右行走0.5秒",
-          "tags": [],
-          "lastUpdated": "2024-10-22 04:29:15"
         },
         {
           "name": "平面镜-枫丹地脉花",
@@ -45174,19 +45114,6 @@
           "description": "烹饪熟练度一键拉满~|~如果总是差一点，请自行在js设置中加减合适的时间，烹饪不可用的时候，请选择合适的置信度。此外感谢万民堂对本脚本的大力支持。下面是一段广告：亲朋聚宴哪家强？吃虎岩找万民堂！璃月厨王掌厨房，菜品质量有保障！服务热情更在行，欢声笑语聚满堂！",
           "tags": [],
           "lastUpdated": "2025-04-14 10:22:33"
-        },
-        {
-          "name": "稻妻合成台",
-          "type": "directory",
-          "hash": "25ae49deafa5d65f099f72313ac676c66275c0e7",
-          "version": "1.0",
-          "author": "fengbu",
-          "description": "稻妻合成台~|~去稻妻合成台 那位莱特不行，他冲刺比其他成男角色远（成男角色冲刺右键8下，A左走5秒，跳跃找交互，停顿）",
-          "tags": [
-            "稻妻",
-            "合成台"
-          ],
-          "lastUpdated": "2025-05-06 03:28:48"
         },
         {
           "name": "等待到指定时间(默认凌晨4点)",
@@ -45287,16 +45214,6 @@
           "description": "购买四方八方之网~|~传送到稻妻白狐之野，找若紫买四方八方之网（基于路径追踪）",
           "tags": [],
           "lastUpdated": "2025-04-24 15:35:31"
-        },
-        {
-          "name": "进入尘歌壶",
-          "type": "directory",
-          "hash": "89cb2141693f861a1a79d2cff60f687fabdbf76e",
-          "version": "1.0",
-          "author": "风埠",
-          "description": "进入尘歌壶~|~用于进入尘歌壶",
-          "tags": [],
-          "lastUpdated": "2024-10-22 04:29:15"
         },
         {
           "name": "采集cd管理",
