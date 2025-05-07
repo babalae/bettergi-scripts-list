@@ -20,7 +20,7 @@ await genshin.tp(4939.90,3564.62);//安眠处2
 await sleep(1000);
 await keyMouseScript.runFile(`assets/安眠处地面5-6.json`);
 //3
-await genshin.tp(4259.14,2704.10,ture);//白松镇1
+await genshin.tp(4259.14,2704.10,true);//白松镇1
 await sleep(1000);
 await keyMouseScript.runFile(`assets/白松镇1-3.json`);
 //9
