@@ -5,22 +5,24 @@
     "author": "起个名字好难的喵",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.43.0"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": ["大剑"]
   },
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport",
       "x": 2323.88,
       "y": 1604.99,
-      "action_params": ""
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
-      "x": 2320.12,
-      "y": 1669.67,
+      "x": 2321.97,
+      "y": 1666.61,
       "type": "path",
       "move_mode": "fly",
       "action": "stop_flying",
@@ -28,8 +30,8 @@
     },
     {
       "id": 3,
-      "x": 2319.57,
-      "y": 1673.58,
+      "x": 2320.82,
+      "y": 1673.57,
       "type": "path",
       "move_mode": "walk",
       "action": "mining",
@@ -37,74 +39,11 @@
     },
     {
       "id": 4,
-      "x": 2325.7,
-      "y": 1674.42,
+      "x": 2325.07,
+      "y": 1674.11,
       "type": "path",
       "move_mode": "walk",
       "action": "mining",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": 2323.88,
-      "y": 1605.02,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 6,
-      "x": 2321.14,
-      "y": 1668.23,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": ""
-    },
-    {
-      "id": 7,
-      "x": 2322.24,
-      "y": 1672.29,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 8,
-      "x": 2320.12,
-      "y": 1674.06,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 9,
-      "x": 2320.17,
-      "y": 1675.18,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 10,
-      "x": 2325.99,
-      "y": 1675.3,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 11,
-      "x": 2327.16,
-      "y": 1675.42,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
       "action_params": ""
     }
   ]
