@@ -8,7 +8,7 @@
     "map_name": "Enkanomiya",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1746629039093
+    "last_modified_time": 1746699810125
   },
   "positions": [
     {
@@ -49,8 +49,8 @@
     },
     {
       "id": 5,
-      "x": -430.14013671875,
-      "y": 512.868896484375,
+      "x": -434.03141787852473,
+      "y": 516.9994543133155,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -69,57 +69,75 @@
       "id": 7,
       "x": -351.130615234375,
       "y": 472.7342529296875,
-      "action": "fight",
+      "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 8,
-      "x": -276.244384765625,
-      "y": 510.937744140625,
-      "action": "combat_script",
-      "move_mode": "fly",
-      "action_params": "attack(0.3),wait(2.5)",
+      "x": -343.4375434509125,
+      "y": 466.62521221148836,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 9,
-      "x": -299.879638671875,
-      "y": 490.210693359375,
+      "x": -320.565673828125,
+      "y": 485.8499755859375,
       "type": "path",
-      "move_mode": "run",
+      "move_mode": "fly",
       "action": "",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 10,
-      "x": -303.5341796875,
-      "y": 483.839599609375,
-      "action": "fight",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 11,
-      "x": -299.879638671875,
-      "y": 490.210693359375,
-      "type": "path",
-      "move_mode": "run",
-      "action": "fight",
       "action_params": ""
     },
     {
-      "id": 12,
-      "x": -303.5341796875,
-      "y": 483.839599609375,
+      "id": 10,
+      "x": -301.836669921875,
+      "y": 471.029541015625,
+      "type": "path",
+      "move_mode": "fly",
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(1)",
-      "type": "orientation"
+      "action_params": "attack(0.3),wait(5.5)"
+    },
+    {
+      "id": 11,
+      "x": -276.244384765625,
+      "y": 510.937744140625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -279.10791015624994,
+      "y": 493.064453125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": -279.10791015624994,
+      "y": 493.064453125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 14,
+      "x": -279.10791015624994,
+      "y": 493.064453125,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
     }
   ]
 }
