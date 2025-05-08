@@ -5,7 +5,9 @@
     "author": "起个名字好难的喵",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.43.0"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": ["大剑"]
   },
   "positions": [
     {
@@ -14,140 +16,78 @@
       "y": 1197.84,
       "action": "",
       "move_mode": "walk",
-      "type": "teleport",
-      "locked": false
+      "type": "teleport"
     },
     {
       "id": 2,
-      "x": 1973.17,
-      "y": 1197.83,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "3000",
+      "x": 1950.57,
+      "y": 1196.04,
       "type": "path",
-      "locked": false
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "3000"
     },
     {
       "id": 3,
-      "x": 1972.95,
-      "y": 1187.2,
-      "action": "mining",
+      "x": 1972.17,
+      "y": 1186.83,
+      "type": "path",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target",
-      "locked": false
+      "action": "mining",
+      "action_params": ""
     },
     {
       "id": 4,
-      "x": 1987.42,
-      "y": 1199.36,
-      "action": "mining",
+      "x": 1987.52,
+      "y": 1198.69,
+      "type": "path",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target",
-      "locked": false
+      "action": "mining",
+      "action_params": ""
     },
     {
       "id": 5,
-      "x": 2019.65,
-      "y": 1197.86,
-      "type": "target",
+      "x": 2023.23,
+      "y": 1194.63,
+      "type": "path",
       "move_mode": "walk",
-      "action": "mining",
-      "action_params": "",
-      "locked": false
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 6,
-      "x": 2029.94,
-      "y": 1193.0,
-      "action": "mining",
+      "x": 2028.34,
+      "y": 1191.26,
+      "type": "path",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target",
-      "locked": false
+      "action": "mining",
+      "action_params": ""
     },
     {
       "id": 7,
-      "x": 1904.58,
-      "y": 1196.95,
-      "type": "teleport",
+      "x": 2031.41,
+      "y": 1191.7,
+      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": "",
-      "locked": false
+      "action": "mining",
+      "action_params": ""
     },
     {
       "id": 8,
-      "x": 1973.17,
-      "y": 1197.83,
-      "action": "combat_script",
-      "move_mode": "fly",
-      "action_params": "wait(0.5),keypress(VK_SPACE),wait(3),click",
+      "x": 2029.72,
+      "y": 1194.0,
       "type": "path",
-      "locked": false
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
     },
     {
       "id": 9,
-      "x": 1972.12,
-      "y": 1186.36,
+      "x": 2020.54,
+      "y": 1198.47,
       "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 10,
-      "x": 1973.07,
-      "y": 1186.78,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 11,
-      "x": 1987.4,
-      "y": 1198.63,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 12,
-      "x": 2027.04,
-      "y": 1190.55,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 13,
-      "x": 2030.43,
-      "y": 1194.44,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 14,
-      "x": 2031.52,
-      "y": 1194.38,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 15,
-      "x": 2020.76,
-      "y": 1198.42,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
+      "action": "mining",
       "action_params": ""
     }
   ]

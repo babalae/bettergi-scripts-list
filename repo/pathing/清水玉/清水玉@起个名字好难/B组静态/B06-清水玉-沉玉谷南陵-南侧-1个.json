@@ -2,10 +2,12 @@
   "info": {
     "name": "B06-清水玉-沉玉谷南陵-南侧-1个",
     "type": "collect",
-    "author": "起个名字好难",
+    "author": "起个名字好难的喵",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.43.0"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": ["大剑"]
   },
   "positions": [
     {
@@ -18,20 +20,20 @@
     },
     {
       "id": 2,
-      "x": 2181.39,
-      "y": 1249.16,
-      "action": "mining",
+      "x": 2179.11,
+      "y": 1249.82,
+      "type": "path",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 3,
-      "x": 2181.68,
-      "y": 1252.71,
+      "x": 2183.0,
+      "y": 1252.18,
       "type": "target",
       "move_mode": "walk",
-      "action": "pick_around",
+      "action": "mining",
       "action_params": ""
     }
   ]
