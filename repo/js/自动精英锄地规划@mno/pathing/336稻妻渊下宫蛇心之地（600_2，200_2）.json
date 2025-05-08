@@ -6,9 +6,7 @@
     "version": "1.0",
     "description": "",
     "map_name": "Enkanomiya",
-    "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1746700142490
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -62,7 +60,7 @@
       "y": -324.7501136847259,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;芙宁娜 e;玛薇卡 e;attack(0.3)",
+      "action_params": "钟离 a(0.1),e(hold);芙宁娜 e;玛薇卡 e;attack(0.3)",
       "type": "path"
     },
     {
@@ -72,45 +70,45 @@
       "action": "",
       "move_mode": "jump",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 8,
       "x": 326.34373617470965,
       "y": -291.62471957767593,
-      "action": "combat_script",
+      "type": "path",
       "move_mode": "dash",
-      "action_params": "钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;wait(4.5),",
-      "type": "path"
+      "action": "combat_script",
+      "action_params": "wait(2.5)",
+      "locked": false
     },
     {
       "id": 9,
-      "x": 348.40632900165883,
-      "y": -300.40655315926915,
-      "action": "fight",
+      "x": 326.34373617470965,
+      "y": -291.62471957767593,
+      "type": "path",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action": "fight",
+      "action_params": ""
     },
     {
       "id": 10,
-      "x": 378.81689453125,
-      "y": -312.122802734375,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
+      "x": 348.40632900165883,
+      "y": -300.40655315926915,
       "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
       "locked": false
     },
     {
       "id": 11,
-      "x": 378.81689453125,
-      "y": -312.122802734375,
+      "x": 348.40632900165883,
+      "y": -300.40655315926915,
+      "type": "orientation",
+      "move_mode": "walk",
       "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "wait(1)",
-      "type": "orientation"
+      "action_params": "wait(1)"
     }
   ]
 }

@@ -1,11 +1,12 @@
 {
   "info": {
-    "name": "511枫丹苍晶区f6（600_1，200_11）",
+    "name": "511枫丹苍晶区f6（600_1，200_10）",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.42.3"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -105,8 +106,7 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 12,
@@ -119,42 +119,6 @@
     },
     {
       "id": 13,
-      "x": 5117.51708984375,
-      "y": 2543.40283203125,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
-    },
-    {
-      "id": 14,
-      "x": 5090.1298828125,
-      "y": 2578.458740234375,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 15,
-      "x": 5056.4501953125,
-      "y": 2586.17236328125,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 16,
-      "x": 5060.2490234375,
-      "y": 2575.7880859375,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 17,
       "x": 5117.587890625,
       "y": 2543.400390625,
       "action": "",
@@ -163,7 +127,7 @@
       "type": "teleport"
     },
     {
-      "id": 18,
+      "id": 14,
       "x": 5111.234375,
       "y": 2567.8935546875,
       "action": "",
@@ -172,7 +136,7 @@
       "type": "path"
     },
     {
-      "id": 19,
+      "id": 15,
       "x": 5149.01708984375,
       "y": 2602.673828125,
       "action": "fight",

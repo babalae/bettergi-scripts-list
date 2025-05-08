@@ -1,68 +1,74 @@
 {
   "info": {
-    "name": "001璃月沉玉谷南陵 传奇",
+    "name": "243璃月层岩地下崎岖石厅北（600_1）",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.42.3"
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": 1863.6435546875,
-      "y": 1591.0048828125,
+      "x": 304.252685546875,
+      "y": 506.531494140625,
       "action": "",
       "move_mode": "walk",
+      "action_params": "",
       "type": "teleport"
     },
     {
       "id": 2,
-      "x": 1915.291015625,
-      "y": 1573.32470703125,
+      "x": 296.7847900390625,
+      "y": 517.9776611328125,
       "action": "",
       "move_mode": "dash",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 3,
-      "x": 1945.8125278910375,
-      "y": 1609.4359957774159,
+      "x": 295.9376220703125,
+      "y": 536.494873046875,
       "action": "",
       "move_mode": "run",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 4,
-      "x": 1969.7451171875,
-      "y": 1619.7275390625,
+      "x": 310.4111328125,
+      "y": 559.014404296875,
       "action": "",
       "move_mode": "run",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 5,
-      "x": 1986,
-      "y": 1593.248849079875,
-      "action": "fight",
+      "x": 307.852783203125,
+      "y": 595.28515625,
+      "action": "",
       "move_mode": "run",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 6,
-      "x": 1986,
-      "y": 1593.248849079875,
+      "x": 315.765625,
+      "y": 635.3377685546875,
       "action": "fight",
       "move_mode": "run",
-      "type": "path",
-      "locked": false
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 7,
-      "x": 1986,
-      "y": 1593.248849079875,
+      "x": 315.765625,
+      "y": 635.3377685546875,
       "action": "combat_script",
-      "move_mode": "run",
+      "move_mode": "dash",
       "action_params": "wait(1)",
       "type": "orientation"
     }

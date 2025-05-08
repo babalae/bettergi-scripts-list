@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "332稻妻渊下宫常夜灵庙东北（600_2，200_7）",
+    "name": "338【水免】【高危】稻妻渊下宫蛇心之地南小岛（600_1，200_1）",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
@@ -11,8 +11,8 @@
   "positions": [
     {
       "id": 1,
-      "x": -409.09912109375,
-      "y": 575.40673828125,
+      "x": 480.38671875,
+      "y": -537.7490234375,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -20,17 +20,17 @@
     },
     {
       "id": 2,
-      "x": -405.787353515625,
-      "y": 572.0936279296875,
+      "x": 467.2386474609375,
+      "y": -534.717529296875,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 3,
-      "x": -402.796630859375,
-      "y": 538.228271484375,
+      "x": 440.7213134765625,
+      "y": -511.00439453125,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -38,17 +38,17 @@
     },
     {
       "id": 4,
-      "x": -426.207275390625,
-      "y": 507.6651611328125,
-      "action": "",
+      "x": 427.10302734375,
+      "y": -510.847412109375,
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "",
+      "action_params": "wait(3)",
       "type": "path"
     },
     {
       "id": 5,
-      "x": -430.14013671875,
-      "y": 512.868896484375,
+      "x": 427.10302734375,
+      "y": -510.847412109375,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -56,44 +56,44 @@
     },
     {
       "id": 6,
-      "x": -399.48974609375,
-      "y": 512.9776611328125,
+      "x": 423.1524658203125,
+      "y": -511.305908203125,
       "action": "",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 7,
-      "x": -351.130615234375,
-      "y": 472.7342529296875,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
+      "x": 411.9375474009953,
+      "y": -502.187757685379,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "w(8.5),keypress(x),keypress(x),attack(0.3)",
       "type": "path"
     },
     {
       "id": 8,
-      "x": -278.81216819303336,
-      "y": 504.8740450483019,
-      "action": "stop_flying",
-      "move_mode": "fly",
+      "x": 382.6258544921875,
+      "y": -478.466064453125,
+      "action": "fight",
+      "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 9,
-      "x": -303.5341796875,
-      "y": 483.839599609375,
+      "x": 382.6258544921875,
+      "y": -478.466064453125,
       "action": "fight",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "type": "orientation"
     },
     {
       "id": 10,
-      "x": -303.5341796875,
-      "y": 483.839599609375,
+      "x": 382.6258544921875,
+      "y": -478.466064453125,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "wait(1)",

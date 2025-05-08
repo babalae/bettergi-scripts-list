@@ -52,70 +52,58 @@
         dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     }
 
-    // 判断操作模式是否为“执行路径文件”
-    if (operationMode === "执行路径文件") {
-        const pathGroupName = `${requiredMonsterCount}${excludeWaterFree ? '排除水免' : '包含水免'}${excludeHighRisk ? '排除高危' : '包含高危'}权重${weight}.txt`;
-        const pathGroupFilePath = `route/${pathGroupName}`;
+    // 判断操作模式是否为“执行路径文件”，若是则执行路径文件
+if (operationMode === "执行路径文件") {
+    try {
+        // 定义路径组文件的路径，使用 outputFolderName
+        const pathGroupFilePath = `route/${outputFolderName}.txt`;
 
-        try {
-            const savedRoutesContent = await file.readText(pathGroupFilePath);
-            const savedRoutes = savedRoutesContent.trim().split('\n');
-            for (let i = 0; i < savedRoutes.length; i++) {
-                // 分离路线名称和时间戳
-                const routeWithTimestamp = savedRoutes[i].trim();
-                const [routeName, routeTimestamp] = routeWithTimestamp.split('::');
-                log.info(`当前任务为第 ${i + 1}/${savedRoutes.length} 个`);
+        const pathGroupContent = await file.readText(pathGroupFilePath);
+        const savedRoutes = pathGroupContent.trim().split('\n');
+        for (let i = 0; i < savedRoutes.length; i++) {
+            const routeWithTimestamp = savedRoutes[i].trim();
+            const [routeName, routeTimestamp] = routeWithTimestamp.split('::');
+            log.info(`当前任务为第 ${i + 1}/${savedRoutes.length} 个`);
+            const now = new Date(); // 获取开始时间
+            const startTime = now.toISOString();
+            if (enableCooldownCheck && startTime < routeTimestamp) {
+                log.info(`当前路线 ${routeName} 未刷新，跳过任务`);
+                continue; // 跳过当前循环
+            }
+            log.info(`当前路线 ${routeName} 已刷新或未启用CD检测，执行任务`);
 
-                // 获取开始时间
-                const startTime = new Date();
+            // 拼接路径文件的完整路径
+            const pathingFilePath = `pathing/${routeName}.json`;
+            // 执行路径文件
+            await pathingScript.runFile(pathingFilePath);
 
-                // 比较当前时间戳与路线的时间戳
-                if (enableCooldownCheck) {
-                    const routeDate = new Date(routeTimestamp);
-                    if (startTime <= routeDate) {
-                        log.info(`当前路线未刷新，跳过路线 ${routeName}`); // 修改后的日志输出
-                        continue; // 跳过当前路线
-                    }
-                }
+            // 如果启用了CD检测，获取结束时间并判断时间差
+            if (enableCooldownCheck) {
+                const endTime = new Date(); // 获取结束时间
+                const timeDiff = endTime - now; // 计算时间差（单位：毫秒）
+                if (timeDiff > 10000) { // 如果时间差大于10秒（10000毫秒）
+                    // 计算新的时间戳，增加12小时
+                    const newTimestamp = new Date(startTime).getTime() + 12 * 60 * 60 * 1000;
+                    const formattedNewTimestamp = new Date(newTimestamp).toISOString();
+                    const nextAvailableTime = new Date(formattedNewTimestamp).toLocaleString(); // 转换为本地时间格式
+                    log.info(`任务 ${routeName} 运行超过10秒且当前启用刷新CD检测，下一次可用时间为 ${nextAvailableTime}`);
+                    log.info(`新的时间戳为：${formattedNewTimestamp}`);
 
-                const pathingFilePath = `${pathingDir}${routeName}.json`;
-                try {
-                    await pathingScript.runFile(pathingFilePath);
-                    // 获取结束时间
-                    const endTime = new Date();
+                    // 更新 savedRoutes 中对应部分的时间戳
+                    savedRoutes[i] = `${routeName}::${formattedNewTimestamp}`;
 
-                    // 比较开始时间与结束时间
-                    const timeDiff = endTime.getTime() - startTime.getTime(); // 时间差（毫秒）
-                    if (enableCooldownCheck && timeDiff > 10000) { // 时间差大于10秒
-                        // 将路径组文件中对应的时间戳改为开始时间后12小时0分0秒
-                        const newTimestamp = new Date(startTime.getTime() + 12 * 60 * 60 * 1000).toISOString();
-                        const nextAvailableTime = new Date(newTimestamp).toLocaleString(); // 转换为本地时间格式
-
-                        // 更新路径组文件中的时间戳
-                        const updatedRoutes = savedRoutes.map(route => {
-                            const [name, timestamp] = route.split('::');
-                            if (name === routeName) {
-                                return `${name}::${newTimestamp}`;
-                            }
-                            return route;
-                        }).join('\n');
-
-                        await file.writeText(pathGroupFilePath, updatedRoutes);
-                        log.info(`本路线执行大于10秒，cd信息已更新，下一次可用时间为 ${nextAvailableTime}`);
-                    }
-                } catch (error) {
-                    log.error(`路径文件 ${pathingFilePath} 不存在，跳过该路径`);
+                    // 立即将更新后的内容写回文件
+                    const updatedContent = savedRoutes.join('\n');
+                    await file.writeText(pathGroupFilePath, updatedContent);
                 }
             }
-            log.info('所有路径运行完成');
-        } catch (error) {
-            log.error(`读取路径组文件 ${pathGroupFilePath} 时出错: ${error}`);
         }
-        log.info('脚本执行完成');
-        return; // 退出程序
+    } catch (error) {
+        log.error(`读取或写入路径组文件时出错: ${error}`);
     }
+}
 
-    // 筛选、排序并选取路线
+        // 筛选、排序并选取路线
     const indexPath = `index.txt`;
     try {
         const indexContent = await file.readText(indexPath);

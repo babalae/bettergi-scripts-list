@@ -162,8 +162,8 @@ await genshin.switchParty(partyNamesArray[groupNumber - 1])
 genshin.returnMainUi();
         
 try {
-            const pathGroupContent = await file.readText(pathGroupFilePath);
-            const pathGroupEntries = pathGroupContent.trim().split('\n');
+            let pathGroupContent = await file.readText(pathGroupFilePath);
+            let pathGroupEntries = pathGroupContent.trim().split('\n');
             for (let i = 0; i < pathGroupEntries.length; i++) {
                 const entryWithTimestamp = pathGroupEntries[i].trim();
                 const [entryName, entryTimestamp] = entryWithTimestamp.split('::');
@@ -206,7 +206,7 @@ try {
 
                 // 比较开始时间与结束时间
                 const timeDiff = endTime.getTime() - startTime.getTime(); // 时间差（毫秒）
-                if (timeDiff > 10000) { // 时间差大于10秒
+                if (timeDiff > 3000) { // 时间差大于3秒
                     // 获取当前路径组的 cdtype
 const currentCdType = pathGroupCdType[groupNumber - 1] || "未知类型";
 
@@ -284,17 +284,22 @@ switch (currentCdType) {
         break;
 }
 
-                    // 更新任务文件中的时间戳
-                    const updatedEntries = pathGroupEntries.map(entry => {
-                        const [name, timestamp] = entry.split('::');
-                        if (name === entryName) {
-                            return `${name}::${newTimestamp}`;
-                        }
-                        return entry;
-                    }).join('\n');
+// 更新任务文件中的时间戳
+// 首先根据newTimestamp修改pathGroupEntries中对应项
+pathGroupEntries = pathGroupEntries.map(entry => {
+    const [name, timestamp] = entry.split('::');
+    if (name === entryName) {
+        return `${name}::${newTimestamp}`;
+    }
+    return entry;
+});
 
-                    await file.writeText(pathGroupFilePath, updatedEntries);
-                    log.info(`本任务执行大于10秒，cd信息已更新，下一次可用时间为 ${nextAvailableTime}`);
+// 然后根据pathGroupEntries修改pathGroupContent
+pathGroupContent = pathGroupEntries.join('\n');
+
+// 最后将pathGroupContent写回原文件
+await file.writeText(pathGroupFilePath, pathGroupContent);
+log.info(`本任务执行大于10秒，cd信息已更新，下一次可用时间为 ${nextAvailableTime}`);
                 }
             }
             log.info(`路径组${groupNumber} 的所有任务运行完成`);
