@@ -2,109 +2,103 @@
   "info": {
     "name": "A01-清水玉-沉玉谷上谷-水面鼋背-6个",
     "type": "collect",
-    "author": "起个名字好难",
+    "author": "起个名字好难的喵",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.43.0"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": ["大剑"]
   },
   "positions": [
     {
       "id": 1,
-      "x": 2145.63,
+      "x": 2145.61,
       "y": 2412.93,
       "action": "",
       "move_mode": "walk",
+      "action_params": "",
       "type": "teleport"
     },
     {
       "id": 2,
-      "x": 2115.32,
-      "y": 2463.13,
+      "x": 2117.01,
+      "y": 2459.84,
       "action": "",
-      "move_mode": "fly",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 2112.68,
-      "y": 2477.5,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 2126.98,
-      "y": 2521.31,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 2154.88,
-      "y": 2548.37,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": 2200.28,
-      "y": 2647.14,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "2000",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": 2200.28,
-      "y": 2647.14,
-      "action": "mining",
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 8,
-      "x": 2204.14,
-      "y": 2654.48,
+      "id": 3,
+      "x": 2110.96,
+      "y": 2475.64,
       "action": "",
       "move_mode": "walk",
-      "type": "target"
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 2126.25,
+      "y": 2520.98,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 2161.7,
+      "y": 2550.56,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 2228.83,
+      "y": 2660.08,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 2227.47,
+      "y": 2659.95,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 2228.52,
+      "y": 2658.18,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
     },
     {
       "id": 9,
-      "x": 2193.22,
-      "y": 2656.87,
-      "action": "",
+      "x": 2231.25,
+      "y": 2659.42,
+      "type": "path",
       "move_mode": "walk",
-      "type": "path"
+      "action": "mining",
+      "action_params": ""
     },
     {
       "id": 10,
-      "x": 2190.69,
-      "y": 2644.54,
-      "action": "",
+      "x": 2229.12,
+      "y": 2661.49,
+      "type": "path",
       "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 11,
-      "x": 2199.19,
-      "y": 2641.07,
-      "action": "",
-      "move_mode": "walk",
-      "type": "target"
-    },
-    {
-      "id": 12,
-      "x": 2208.06,
-      "y": 2639.28,
-      "action": "pick_around",
-      "move_mode": "walk",
-      "type": "target"
+      "action": "mining",
+      "action_params": ""
     }
   ]
 }
