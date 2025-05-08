@@ -1,0 +1,113 @@
+{
+  "info": {
+    "name": "纳塔-辉龙像下-2肉×6",
+    "type": "collect",
+    "author": "",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9838.0703125,
+      "y": -2365.1416015625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9871.369140625,
+      "y": -2395.5869140625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9895.533203125,
+      "y": -2385.5400390625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(4),wait(0.2),keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9905.681640625,
+      "y": -2383.7998046875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9898.8134765625,
+      "y": -2381.6201171875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 9900.28125,
+      "y": -2387.12890625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 9904.28125,
+      "y": -2381.12890625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 9912.3359375,
+      "y": -2403.8818359375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 9903.1005859375,
+      "y": -2439.37109375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(4),wait(0.2),keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 9904.7119140625,
+      "y": -2446.3740234375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 9899.9970703125,
+      "y": -2441.169921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

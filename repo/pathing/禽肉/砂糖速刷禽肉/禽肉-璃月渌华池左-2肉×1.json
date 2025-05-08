@@ -1,0 +1,59 @@
+{
+  "info": {
+    "name": "璃月-渌华池左-2肉×1",
+    "type": "collect",
+    "author": "",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 837.484375,
+      "y": 235.13916015625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 842.0361328125,
+      "y": 232.33740234375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 848.7119140625,
+      "y": 233.37646484375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(4),wait(0.3),keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 858.0341796875001,
+      "y": 234.51806640625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 852.5810546875,
+      "y": 234.5908203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

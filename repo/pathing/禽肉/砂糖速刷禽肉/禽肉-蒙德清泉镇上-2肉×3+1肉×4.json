@@ -1,0 +1,139 @@
+{
+  "info": {
+    "name": "蒙德-清泉镇上-2肉×3+1肉×4",
+    "type": "collect",
+    "author": "",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -867.556640625,
+      "y": 1992.27587890625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -831.650390625,
+      "y": 2020.34716796875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -827.6083984375,
+      "y": 2022.90673828125,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -806.0390625,
+      "y": 2003.51220703125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(4),wait(0.3),keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -800.2998046875001,
+      "y": 1998.06201171875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -800.5234375,
+      "y": 2002.7548828125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -803.38671875,
+      "y": 1999.53662109375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -739.0078125,
+      "y": 1999.16748046875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -715.73828125,
+      "y": 1988.259765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -694.0888671875,
+      "y": 1985.1279296875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(4),wait(0.3),keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -686.435546875,
+      "y": 1981.6787109375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -686.15625,
+      "y": 1987.0107421875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -691.025390625,
+      "y": 1985.35302734375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -685.955078125,
+      "y": 1984.5791015625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
