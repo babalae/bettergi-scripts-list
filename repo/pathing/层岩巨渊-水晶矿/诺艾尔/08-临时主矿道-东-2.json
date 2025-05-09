@@ -56,8 +56,8 @@
     },
     {
       "id": 6,
-      "x": 466.6234130859375,
-      "y": 1004.4256591796875,
+      "x": 466.4375,
+      "y": 1004.78125,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
@@ -65,12 +65,22 @@
     },
     {
       "id": 7,
-      "x": 470.124755859375,
-      "y": 1007.201416015625,
-      "type": "target",
-      "move_mode": "walk",
+      "x": 470.03125,
+      "y": 1007.1875,
       "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)"
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 470.03125,
+      "y": 1007.1875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "target"
     }
   ]
 }

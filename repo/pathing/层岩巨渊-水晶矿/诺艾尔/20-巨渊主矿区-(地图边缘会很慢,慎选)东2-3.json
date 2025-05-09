@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "巨渊主矿区-(地图边缘会很慢)东2-3",
+    "name": "21-巨渊主矿区-(地图边缘会很慢,慎选)东2-3",
     "type": "collect",
     "author": "火山",
     "version": "1.0",
@@ -52,8 +52,7 @@
       "action": "",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 6,
@@ -62,8 +61,7 @@
       "action": "",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 7,
@@ -72,8 +70,7 @@
       "action": "",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 8,
@@ -88,22 +85,50 @@
       "id": 9,
       "x": 162.60546875,
       "y": 917.4652099609375,
-      "action": "combat_script",
+      "action": "",
       "move_mode": "walk",
-      "action_params": "诺艾尔 e,attack(0.2), attack(0.2),wait(0.3),attack(0.2),",
-      "type": "target"
+      "action_params": "",
+      "type": "orientation"
     },
     {
       "id": 10,
-      "x": 161.266845703125,
-      "y": 915.4884033203125,
+      "x": 162.60546875,
+      "y": 917.4652099609375,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "诺艾尔 e,attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "type": "target"
+      "action_params": "keypress(4),wait(0.15),attack(0.2),attack(0.2),wait(0.3),attack(0.2),wait(2)",
+      "type": "path"
     },
     {
       "id": 11,
+      "x": 163.35400390625,
+      "y": 918.0858154296875,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 163.35400390625,
+      "y": 918.0858154296875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    },
+    {
+      "id": 13,
+      "x": 161.266845703125,
+      "y": 915.4884033203125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 14,
       "x": 157.97705078125,
       "y": 911.529541015625,
       "action": "",
@@ -112,13 +137,41 @@
       "type": "path"
     },
     {
-      "id": 12,
+      "id": 15,
+      "x": 155.447021484375,
+      "y": 918.379638671875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 16,
       "x": 155.447021484375,
       "y": 918.379638671875,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "诺艾尔 e,attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "type": "target"
+      "action_params": "keypress(4),wait(0.15),attack(0.2),attack(0.2),wait(0.3),attack(0.2),wait(1.5)",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 156.041748046875,
+      "y": 918.768310546875,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 18,
+      "x": 156.041748046875,
+      "y": 918.768310546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1.5)"
     }
   ]
 }

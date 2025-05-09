@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "无名遗迹-南-3",
+    "name": "无名遗迹-南(有战斗)-3",
     "type": "collect",
     "author": "火山",
     "version": "1.0",
@@ -67,82 +67,100 @@
       "id": 7,
       "x": 583.190673828125,
       "y": 356.52685546875,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 8,
-      "x": 653.6697998046875,
-      "y": 391.1484375,
-      "type": "path",
+      "x": 644.25634765625,
+      "y": 381.5135498046875,
+      "action": "fight",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 9,
-      "x": 649.325927734375,
-      "y": 401.109375,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 653.6697998046875,
+      "y": 391.1484375,
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 10,
-      "x": 655.0245361328125,
-      "y": 421.3682861328125,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 649.325927734375,
+      "y": 401.109375,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 11,
-      "x": 670.232177734375,
-      "y": 424.7803955078125,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 655.0245361328125,
+      "y": 421.3682861328125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 12,
-      "x": 669.838134765625,
-      "y": 440.58984375,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 670.232177734375,
+      "y": 424.7803955078125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 13,
-      "x": 666.57763671875,
-      "y": 441.5029296875,
-      "type": "target",
+      "x": 669.838134765625,
+      "y": 440.58984375,
+      "action": "",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)"
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 14,
-      "x": 666.9632568359375,
-      "y": 441.868896484375,
-      "type": "target",
-      "move_mode": "walk",
+      "x": 666.57763671875,
+      "y": 441.5029296875,
       "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)"
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "type": "target"
     },
     {
       "id": 15,
+      "x": 666.9632568359375,
+      "y": 441.868896484375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 16,
       "x": 666.5986328125,
       "y": 436.9613037109375,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)"
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 17,
+      "x": 666.7986328125,
+      "y": 436.9613037109375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(2)",
+      "type": "target"
     }
   ]
 }
