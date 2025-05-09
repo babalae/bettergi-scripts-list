@@ -47,6 +47,7 @@
   
   async function prepareForLeyLineRun(settings) {
     // 开局传送到七天神像
+    await genshin.returnMainUi()
     await genshin.tpToStatueOfTheSeven();
     
     // 切换战斗队伍
@@ -498,11 +499,10 @@
         } else if (detailStatus === "未知" || detailStatus === "错误") {
           log.warn("无法确认是否进入详情界面，尝试继续执行");
           // 尝试识别委托地点
-          const location = recognizeCommissionLocation();
-          commission.location = location;
-          log.info("委托 {name} 的地点: {location}", commission.name,commission.location);
+          location = recognizeCommissionLocation();
+          fourthCommission.location = location;
+          log.info("委托 {name} 的地点: {location}", fourthCommission.name, location);
         } else {
-          log.info("1");
           location = recognizeCommissionLocation();
           fourthCommission.location = location;
           log.info("委托 {name} 的地点: {location}", fourthCommission.name, location);
