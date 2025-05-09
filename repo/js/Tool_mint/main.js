@@ -5,17 +5,29 @@ const MintRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Rec
 
 (async function main() {
 // 从设置文件中读取用户配置
-const targetMintCount = parseInt(settings.targetMintCount);
-if (isNaN(targetMintCount) || targetMintCount <= 0) {
-    notification.error("请输入有效的目标薄荷数量（正整数）");
-    return;
-}
-const isRefresh = settings.isRefresh;
-const executionTime = parseInt(settings.executionTime);
-if (isNaN(executionTime) || executionTime <= 0) {
-    notification.error("请输入有效的执行时间（正整数，单位：分钟）");
-    return;
-}
+    let targetMintCount = parseInt(settings.targetMintCount);
+    if (isNaN(targetMintCount) || targetMintCount <= 0) {
+        if (settings.targetMintCount === undefined || settings.targetMintCount === "") {
+            targetMintCount = 9999;
+            log.info("目标薄荷数量未设置，使用默认值：9999");
+        } else {
+            notification.error("请输入有效的目标薄荷数量（正整数）");
+            return;
+        }
+    }
+    
+    const isRefresh = settings.isRefresh;
+    
+    let executionTime = parseInt(settings.executionTime);
+    if (isNaN(executionTime) || executionTime <= 0) {
+        if (settings.executionTime === undefined || settings.executionTime === "") {
+            executionTime = 9999;
+            log.info("执行时间未设置，使用默认值：9999分钟");
+        } else {
+            notification.error("请输入有效的执行时间（正整数，单位：分钟）");
+            return;
+        }
+    }
 
 // 定义地图路线顺序的任务数据，从薄荷表格的sheet5获取整理
 const mapOrderTasks = [
