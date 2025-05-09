@@ -1,0 +1,112 @@
+{
+  "info": {
+    "name": "璃月-望舒客栈下-6鸟蛋",
+    "type": "collect",
+    "author": "灰林鸮",
+    "version": "1.0",
+    "description": "需要携带纳西妲",
+    "map_name": "Teyvat",
+    "bgi_version": "0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 341.375,
+      "y": 548.02978515625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 363.927734375,
+      "y": 559.4384765625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 389.55859375,
+      "y": 598.005859375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 393.685546875,
+      "y": 634.63623046875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 391.8056640625,
+      "y": 646.55908203125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 403.3447265625,
+      "y": 666.06787109375,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 367.9384765625,
+      "y": 676.37109375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 305.79296875,
+      "y": 735.69287109375,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 288.634765625,
+      "y": 746.33544921875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 196.9033203125,
+      "y": 751.9384765625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 181.771484375,
+      "y": 728.83056640625,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}
