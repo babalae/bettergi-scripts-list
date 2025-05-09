@@ -1,11 +1,14 @@
 {
   "info": {
-    "name": "320稻妻鹤馆惑饲滩（600_1，200_6~13）",
+    "name": "320稻妻鹤馆惑饲滩（600_1，400_2，200_8~15）",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.42.3"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1746706705436
   },
   "positions": [
     {
@@ -56,17 +59,16 @@
     {
       "id": 6,
       "x": -2784.9979918453664,
-      "y": -6472.500987847668,
+      "y": -6472.500987847667,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 7,
       "x": -2784.9979918453664,
-      "y": -6472.500987847668,
+      "y": -6472.500987847667,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "wait(1)",
@@ -115,8 +117,7 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 13,
@@ -216,6 +217,61 @@
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
+    },
+    {
+      "id": 24,
+      "x": -2363.625,
+      "y": -6364.344015596953,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 25,
+      "x": -2420.3134765625,
+      "y": -6311.62890625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 26,
+      "x": -2434.4111328125,
+      "y": -6286.69140625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 27,
+      "x": -2397.75,
+      "y": -6233.999070410668,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 28,
+      "x": -2397.03125,
+      "y": -6232.7493360076205,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 29,
+      "x": -2422.62890625,
+      "y": -6186.857421875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
     }
   ]
 }
