@@ -1,0 +1,129 @@
+{
+  "info": {
+    "name": "416须弥沙漠五绿洲的子遗地下（600_1，200_3）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "1遗迹重机 3元能构装体",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4693.9482421875,
+      "y": -262.0419921875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4715.40478515625,
+      "y": -268.5205078125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4746.626953125,
+      "y": -263.01904296875,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4746.626953125,
+      "y": -263.01904296875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4766.64306640625,
+      "y": -287.4130859375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4772.8125,
+      "y": -283.9998450684443,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4782.60693359375,
+      "y": -295.27490234375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4779.8388671875,
+      "y": -301.21875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4781.9072265625,
+      "y": -309.85400390625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(F),wait(0.3),keypress(F),keypress(F),wait(0.3),keypress(F)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 4782.9072265625,
+      "y": -310.85400390625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(F),wait(0.3),keypress(F),keypress(F),wait(0.3),keypress(F)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 4782.9072265625,
+      "y": -311.85400390625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(6)",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 4766.91455078125,
+      "y": -290.076171875,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 4771.914550781251,
+      "y": -285.076171875,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
