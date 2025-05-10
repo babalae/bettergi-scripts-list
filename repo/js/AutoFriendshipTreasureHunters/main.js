@@ -1,104 +1,11 @@
+const DEFAULT_RUNS = 10;
+const DEFAULT_PERIOD = 25;
+const DEFAULT_BASE_RUNS = 50;
+const BENCHMARK_HOUR = "T04:00:00";
+const OCR_TIME_OUT = settings.ocrTimeout ? settings.ocrTimeout * 1000 : 10000;
+const FIGHT_TIME_OUT = settings.fightTimeOut ? settings.fightTimeOut * 1000 : 120000;
+
 (async function () {
-    const DEFAULT_RUNS = 10;
-    const DEFAULT_PERIOD = 25;
-    const DEFAULT_BASE_RUNS = 50;
-    const BENCHMARK_HOUR = "T04:00:00";
-    const TELEPORT_COORDS = { x: 2297.60, y: -824.45 };
-	
-	// 执行 path 任务
-    async function AutoPath(locationName) {
-        try {
-            const filePath = `assets/AutoPath/${locationName}.json`;
-            await pathingScript.runFile(filePath);
-        } catch (error) {
-            log.error(`执行 ${locationName} 路径时发生错误: ${error.message}`);
-        }
-        await sleep(2000);
-    }
-
-	// 计算运行时长
-    function LogTimeTaken(startTimeParam) {
-        const currentTime = Date.now();
-        const totalTimeInSeconds = (currentTime - startTimeParam) / 1000;
-        const minutes = Math.floor(totalTimeInSeconds / 60);
-        const seconds = totalTimeInSeconds % 60;
-        const formattedTime = `${minutes} 分 ${seconds.toFixed(0).padStart(2, '0')} 秒`;
-        return formattedTime;
-    }
-
-	// 计算预估时间
-    function CalculateEstimatedCompletion(startTime, current, total) {
-        if (current === 0) return "计算中...";
-        
-        const elapsedTime = Date.now() - startTime;
-        const timePerTask = elapsedTime / current;
-        const remainingTasks = total - current;
-        const remainingTime = timePerTask * remainingTasks;        
-        const completionDate = new Date(Date.now() + remainingTime);
-        return `${completionDate.toLocaleTimeString()} (约 ${Math.round(remainingTime / 60000)} 分钟)`;
-    }
-
-    // 执行 N 次盗宝团任务并输出日志
-    async function AutoFriendshipDev(times) {
-        startFisrtTime = Date.now();
-        for (let i = 0; i < times; i++) {
-            await AutoPath('盗宝团');
-            const estimatedCompletion = CalculateEstimatedCompletion(startFisrtTime, i + 1, times);
-            const currentTime = LogTimeTaken(startFisrtTime);
-            log.info(`当前进度：${i + 1}/${times} (${((i + 1) / times * 100).toFixed(1)}%)`);
-            log.info(`当前运行总时长：${currentTime}`);
-            log.info(`预计完成时间：${estimatedCompletion}`);
-        }
-        log.info('盗宝团好感已完成');
-    }
-
-    // 验证输入是否是正整数
-	function isPositiveInteger(value) {
-        return Number.isInteger(value) && value > 0;
-    }
-
-    // 验证日期格式
-	function isValidDateFormat(dateStr) {
-        if (!dateStr) return false;
-        
-        // 检查格式是否为 YYYY-MM-DD
-        const regex = /^\d{4}-\d{2}-\d{2}$/;
-        if (!regex.test(dateStr)) return false;
-        
-        // 检查是否为有效日期
-        const date = new Date(dateStr);
-        return !isNaN(date.getTime());
-    }
-
-	function calculateWaitModeRuns(baseRuns, waitTimeModeDay, period) {
-        const now = new Date();
-        const benchmark = new Date(waitTimeModeDay + BENCHMARK_HOUR);
-        const timeDiff = now.getTime() - benchmark.getTime();
-        const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-        const daysNormalized = daysDiff >= 0 ? daysDiff : period - (Math.abs(daysDiff) % period);
-        const dayInCycle = (daysNormalized % period) + 1;
-        const baseRunsPerDay = Math.ceil(baseRuns / period);
-        return baseRunsPerDay * dayInCycle;
-    }
-
-	async function switchPartyIfNeeded(partyName) {
-        if (!partyName) {
-            await genshin.returnMainUi();
-            return;
-        }
-
-        try {
-            await genshin.tp(TELEPORT_COORDS.x, TELEPORT_COORDS.y);
-            await sleep(3000);
-            log.info(`正在尝试切换至：${partyName}`);
-            await genshin.switchParty(partyName);
-            log.info(`队伍切换成功，继续下一步任务`);
-        } catch (error) {
-            log.warn("队伍切换失败，可能处于联机模式或其他不可切换状态");
-            await genshin.returnMainUi();
-        }
-    }
-
     // 启用自动拾取的实时任务
     const startTime = Date.now();
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
@@ -156,3 +63,187 @@
 	await AutoFriendshipDev(runTimes);
 	log.info(`盗宝团好感运行总时长：${LogTimeTaken(startTime)}`);  
 })();
+
+
+// 执行 path 任务
+async function AutoPath(locationName) {
+    try {
+        const filePath = `assets/AutoPath/${locationName}.json`;
+        await pathingScript.runFile(filePath);
+    } catch (error) {
+        log.error(`执行 ${locationName} 路径时发生错误: ${error.message}`);
+    }
+    await sleep(2000);
+}
+
+// 计算运行时长
+function LogTimeTaken(startTimeParam) {
+    const currentTime = Date.now();
+    const totalTimeInSeconds = (currentTime - startTimeParam) / 1000;
+    const minutes = Math.floor(totalTimeInSeconds / 60);
+    const seconds = totalTimeInSeconds % 60;
+    return `${minutes} 分 ${seconds.toFixed(0).padStart(2, '0')} 秒`;
+}
+
+// 计算预估时间
+function CalculateEstimatedCompletion(startTime, current, total) {
+    if (current === 0) return "计算中...";
+
+    const elapsedTime = Date.now() - startTime;
+    const timePerTask = elapsedTime / current;
+    const remainingTasks = total - current;
+    const remainingTime = timePerTask * remainingTasks;
+    const completionDate = new Date(Date.now() + remainingTime);
+    return `${completionDate.toLocaleTimeString()} (约 ${Math.round(remainingTime / 60000)} 分钟)`;
+}
+
+// 执行 N 次盗宝团任务并输出日志
+async function AutoFriendshipDev(times) {
+    let startFirstTime = Date.now();    
+    for (let i = 0; i < times; i++) {
+        await AutoPath('触发点');
+        let ocrStatus = false;
+        let ocrStartTime = Date.now();
+        while (Date.now() - ocrStartTime < OCR_TIME_OUT && !ocrStatus) {
+            let captureRegion = captureGameRegion();
+            let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 200, 300, 300));
+            for (let o = 0; o < resList.count; o++) {
+                let res = resList[o];
+                if (res.text.includes("岛上") 
+                    || res.text.includes("无贼")
+                    || res.text.includes("消灭") 
+                    || res.text.includes("鬼鬼祟祟") 
+                    || res.text.includes("盗宝团")) {
+                    ocrStatus = true;
+                    break;
+                }
+                await sleep(1000);
+            }
+        }
+        if(ocrStatus){
+            log.info("检测到突发任务触发")
+            await AutoPath('盗宝团');            
+            try {
+                const cts = new CancellationTokenSource();
+                log.info("开始战斗...");
+                const battleTask = dispatcher.RunTask(new SoloTask("AutoFight"), cts);
+                
+                let fightResult = await recognizeTextInRegion(FIGHT_TIME_OUT) ? "成功" : "失败";
+                log.info(`战斗任务已结束，战斗结果：${fightResult}`);
+                cts.cancel();
+            } catch (error) {
+                log.error(`执行过程中出错: ${error}`);
+            }
+            const estimatedCompletion = CalculateEstimatedCompletion(startFirstTime, i + 1, times);
+            const currentTime = LogTimeTaken(startFirstTime);
+            log.info(`当前进度：${i + 1}/${times} (${((i + 1) / times * 100).toFixed(1)}%)`);
+            log.info(`当前运行总时长：${currentTime}`);
+            log.info(`预计完成时间：${estimatedCompletion}`);
+        } else {
+            notification.send(`未识别到突发任务（岛上无贼），盗宝团好感结束`);
+            log.info(`未识别到突发任务（岛上无贼），盗宝团好感结束`);
+            break;
+        }
+        
+    }
+    log.info('盗宝团好感已完成');
+}
+
+// 验证输入是否是正整数
+function isPositiveInteger(value) {
+    return Number.isInteger(value) && value > 0;
+}
+
+// 验证日期格式
+function isValidDateFormat(dateStr) {
+    if (!dateStr) return false;
+
+    // 检查格式是否为 YYYY-MM-DD
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!regex.test(dateStr)) return false;
+
+    // 检查是否为有效日期
+    const date = new Date(dateStr);
+    return !isNaN(date.getTime());
+}
+
+function calculateWaitModeRuns(baseRuns, waitTimeModeDay, period) {
+    const now = new Date();
+    const benchmark = new Date(waitTimeModeDay + BENCHMARK_HOUR);
+    const timeDiff = now.getTime() - benchmark.getTime();
+    const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    const daysNormalized = daysDiff >= 0 ? daysDiff : period - (Math.abs(daysDiff) % period);
+    const dayInCycle = (daysNormalized % period) + 1;
+    const baseRunsPerDay = Math.ceil(baseRuns / period);
+    return baseRunsPerDay * dayInCycle;
+}
+
+async function switchPartyIfNeeded(partyName) {
+    if (!partyName) {
+        await genshin.returnMainUi();
+        return;
+    }
+    try {
+        log.info("正在尝试切换至" + settings.partyName);
+        if(!await genshin.switchParty(settings.partyName)){
+            log.info("切换队伍失败，前往七天神像重试");
+            await genshin.tpToStatueOfTheSeven();
+            await genshin.switchParty(settings.partyName);
+        }
+    } catch {
+        log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
+        notification.error(`队伍切换失败，可能处于联机模式或其他不可切换状态`);
+        await genshin.returnMainUi();
+    }
+}
+
+async function recognizeTextInRegion(timeout = 2 * 60 * 1000) {
+    fightStartTime = Date.now();
+    const successKeywords = ["事件", "完成"];
+    const failureKeywords = ["失败"];
+    const eventKeyword = ["岛上", "无贼","消灭","鬼鬼祟祟","盗宝团"];
+    let notFind = 0;
+    while (Date.now() - fightStartTime < timeout) {
+        try {
+            let result = captureGameRegion().find(RecognitionObject.ocr(850, 150, 200, 80));
+            let result2 = captureGameRegion().find(RecognitionObject.ocr(0, 200, 300, 300));
+            let text = result.text;
+            let text2 = result2.text;
+            for (let keyword of successKeywords) {
+                if (text.includes(keyword)) {
+                    log.info("检测到战斗成功关键词: {0}", keyword);
+                    return true;
+                }
+            }
+            for (let keyword of failureKeywords) {
+                if (text.includes(keyword)) {
+                    log.warn("检测到战斗失败关键词: {0}", keyword);
+                    return false;
+                }
+            }
+            let find = 0;
+            for(let keyword of eventKeyword) {
+                if (text2.includes(keyword)) {
+                    find++;
+                }
+            }
+            if(find === 0) {
+                notFind++;
+                log.info("未检测到任务触发关键词：{0} 次", notFind);
+            }else{
+                notFind = 0;
+            }
+            if (notFind > 10) {
+                log.warn("不在任务触发区域，战斗失败");
+                return false;
+            }
+        }
+        catch (error) {
+            log.error("OCR过程中出错: {0}", error);
+        }
+        await sleep(1000);   // 检查间隔
+    }
+    log.warn("在超时时间内未检测到战斗结果");
+    return false;
+}
+
