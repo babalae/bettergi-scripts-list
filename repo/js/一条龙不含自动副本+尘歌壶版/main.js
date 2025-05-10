@@ -56,6 +56,7 @@
         log.info("冒险家协会任务执行完成");
     }
 
+    await genshin.returnMainUi();
    //0、设置不可加入
     log.info("请确保执行脚本时处于主界面");
     
