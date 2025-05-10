@@ -159,7 +159,7 @@ if (operationMode === "生成路径文件") {
         .join('\n');
 
     await file.writeText(pathGroupFilePath, resultContent);
-    log.info(`生成成功，共计 ${selectedRoutes.length} 条路线，路径组文件已保存到 ${pathGroupFilePath}`);
+    log.info(`生成成功，共计 ${selectedRoutes.length} 条路线，路径组文件已保存到 ${pathGroupFilePath}，请将js自定义配置中操作模式改为执行路径文件以执行`);
 } else if (operationMode === "输出地图追踪文件") {
     const pathingOutDir = `pathingout/${outputFolderName}/`; // 输出文件夹路径
 
