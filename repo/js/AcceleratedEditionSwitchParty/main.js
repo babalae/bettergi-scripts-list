@@ -87,7 +87,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 							}
 							if (res.text.includes(partyName)) {
 								log.info("目标队伍位置:({x},{y},{w},{h}), 识别结果：{text}", res.x, res.y, res.Width, res.Height, res.text);
-								click(res.x, Math.ceil(res.y + res.Height * 1.35));
+								click(Math.ceil(res.x + 360), res.y + Math.ceil(res.Height / 2));
 
 								// 找到目标队伍，点击确定、部署
 								await sleep(1500);
@@ -101,7 +101,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 								if (DeployButton.isExist()) {
 									log.info("识别到部署按钮:({x},{y},{w},{h})", DeployButton.x, DeployButton.y, DeployButton.Width, DeployButton.Height);
 									DeployButton.click();
-									notification.send(`寻找到目标队伍：${partyName}，点击部署`);
+									notification.send(`寻找到目标队伍：${partyName}`);
 									ConfigureStatue = true;
 									break;
 								}
