@@ -8,7 +8,7 @@
     "map_name": "Enkanomiya",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1746629273147
+    "last_modified_time": 1746888388152
   },
   "positions": [
     {
@@ -58,26 +58,26 @@
     },
     {
       "id": 6,
-      "x": 562.18115234375,
-      "y": 689.9678955078125,
-      "action": "combat_script",
+      "x": 539.1796875,
+      "y": 687.3106689453125,
+      "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "attack(0.3),wait(2.5)",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 7,
-      "x": 560.3958740234375,
-      "y": 683.9820556640625,
-      "type": "path",
-      "move_mode": "run",
+      "x": 591.207275390625,
+      "y": 682.7452392578125,
       "action": "combat_script",
-      "action_params": "芙宁娜 e;玛薇卡 e;"
+      "move_mode": "dash",
+      "action_params": "钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;wait(3)",
+      "type": "path"
     },
     {
       "id": 8,
-      "x": 539.0494384765625,
-      "y": 675.14990234375,
+      "x": 571.375,
+      "y": 686.6564713307935,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -86,21 +86,22 @@
     },
     {
       "id": 9,
-      "x": 539.0494384765625,
-      "y": 675.14990234375,
-      "action": "fight",
+      "x": 548.30419921875,
+      "y": 680.97216796875,
+      "type": "path",
       "move_mode": "dash",
+      "action": "fight",
       "action_params": "",
-      "type": "path"
+      "locked": false
     },
     {
       "id": 10,
-      "x": 539.0494384765625,
-      "y": 675.14990234375,
-      "action": "combat_script",
+      "x": 548.30419921875,
+      "y": 680.97216796875,
+      "type": "orientation",
       "move_mode": "dash",
-      "action_params": "wait(1)",
-      "type": "orientation"
+      "action": "combat_script",
+      "action_params": "wait(1)"
     }
   ]
 }

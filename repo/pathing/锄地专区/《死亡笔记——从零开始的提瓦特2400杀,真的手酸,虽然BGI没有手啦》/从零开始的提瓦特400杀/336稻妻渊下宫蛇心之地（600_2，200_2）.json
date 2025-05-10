@@ -8,7 +8,7 @@
     "map_name": "Enkanomiya",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1746700142490
+    "last_modified_time": 1746888630276
   },
   "positions": [
     {
@@ -72,8 +72,7 @@
       "action": "",
       "move_mode": "jump",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 8,
@@ -91,20 +90,29 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
       "id": 10,
+      "x": 348.40632900165883,
+      "y": -300.40655315926915,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
       "x": 378.81689453125,
       "y": -312.122802734375,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
-      "id": 11,
+      "id": 12,
       "x": 378.81689453125,
       "y": -312.122802734375,
       "action": "combat_script",
