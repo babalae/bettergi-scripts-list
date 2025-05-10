@@ -1,0 +1,49 @@
+[
+    {
+        "name": "operationType",
+        "type": "select",
+        "label": "操作模式（默认：生成路径组文件）",
+        "options": [
+            "生成路径组文件",
+            "执行路径组文件1",
+            "执行路径组文件2",
+            "执行路径组文件3",
+            "输出地图追踪文件"
+        ]
+    },
+    {
+        "name": "excludeTagsForPathGroup1",
+        "type": "input-text",
+        "label": "路径组1要排除的标签（传奇，水免，次数盾或高危）"
+    },
+    {
+        "name": "selectTagsForPathGroup2",
+        "type": "input-text",
+        "label": "路径组2要选择的标签（传奇，水免，次数盾或高危）"
+    },
+    {
+        "name": "selectTagsForPathGroup3",
+        "type": "input-text",
+        "label": "路径组3要选择的标签（传奇，水免，次数盾或高危）"
+    },
+    {
+        "name": "disableAutoPickup",
+        "type": "checkbox",
+        "label": "是否禁用自动拾取（默认不禁用）"
+    },
+    {
+        "name": "enableRouteCdCheck",
+        "type": "checkbox",
+        "label": "是否启用路线CD检测（默认不启用）"
+    },
+    {
+        "name": "requiredMonsterCount",
+        "type": "input-text",
+        "label": "目标怪物数量（默认405，必须为0以上整数）"
+    },
+    {
+        "name": "minSecPerMonster",
+        "type": "input-text",
+        "label": "最低秒均（秒均=摩拉/时间，默认0.1）"
+    }
+]

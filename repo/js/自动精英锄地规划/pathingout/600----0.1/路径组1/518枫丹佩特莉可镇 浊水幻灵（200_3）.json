@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "518枫丹佩特莉可镇 浊水幻灵（200_3）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "3浊水幻灵",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4200.2998046875,
+      "y": 1283.64404296875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4211.50390625,
+      "y": 1277.04052734375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4243.44189453125,
+      "y": 1323.0537109375,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

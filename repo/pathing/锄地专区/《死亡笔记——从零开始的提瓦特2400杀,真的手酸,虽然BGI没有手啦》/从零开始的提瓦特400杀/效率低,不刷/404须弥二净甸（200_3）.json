@@ -1,0 +1,129 @@
+{
+  "info": {
+    "name": "404须弥二净甸（200_3）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "3遗迹龙兽",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3252.8310546875,
+      "y": -591.3193359375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3250.806640625,
+      "y": -521.87548828125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3241.099609375,
+      "y": -526.36083984375,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3067.7890625,
+      "y": -713.76318359375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 5,
+      "x": 3051.0478515625,
+      "y": -642.7275390625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3034.7841796875,
+      "y": -636.9521484375,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3204.7060546875,
+      "y": -911.66845703125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 8,
+      "x": 3202.94140625,
+      "y": -903.70556640625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3203.8583984375,
+      "y": -890.14404296875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 3198.9765625,
+      "y": -848.4697265625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 3194.2275390625,
+      "y": -820.76806640625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 3195.81640625,
+      "y": -806.4521484375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 3203.361328125,
+      "y": -808.953125,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

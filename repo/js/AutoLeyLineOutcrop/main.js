@@ -302,6 +302,10 @@ async function executePathsUsingNodeData(position, settings) {
                 // 更新当前节点为下一个节点，继续检查
                 currentNode = nextNode;
                 currentNodePosition = { x: nextNode.position.x, y: nextNode.position.y };
+            } 
+            else{
+                log.info("当前路线完成，退出循环");
+                break;
             }
         }
     } catch (error) {
@@ -644,9 +648,6 @@ function loadSettings() {
             if (num < 1) {
                 settingsData.timesValue = 1;
                 log.info(`⚠️ 次数 ${num} 小于1，已调整为1`);
-            } else if (num > 6) {
-                settingsData.timesValue = 6;
-                log.info(`⚠️ 次数 ${num} 大于6，已调整为6`);
             } else {
                 // 处理小数
                 if (!Number.isInteger(num)) {

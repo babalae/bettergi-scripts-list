@@ -1,0 +1,29 @@
+{
+  "info": {
+    "name": "烬芯花07-水溶域-1个",
+    "type": "collect",
+    "author": "Tool_tingsu",
+    "version": "1.0",
+    "description": "感谢 @曦 老师的路线脚本",
+    "bgiVersion": "0.42.3",
+    "tags": ["单手剑角色","大剑角色","长枪角色"]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8637.67,
+      "y": -2446.62,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8590.74,
+      "y": -2400.36,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target"
+    }
+  ]
+}

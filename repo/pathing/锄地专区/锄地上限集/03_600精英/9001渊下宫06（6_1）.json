@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "9001渊下宫06（6_1）",
+    "type": "collect",
+    "author": "mfkvfhpdx",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 449.6942138671875,
+      "y": -122.20654296875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 454.4058837890625,
+      "y": -123.663330078125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 456.64599609375,
+      "y": -125.967529296875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 474.91357421875,
+      "y": -137.117431640625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 495.99365234375,
+      "y": -143.203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

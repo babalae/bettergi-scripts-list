@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "临时主矿道-东北(有战斗)-3",
+    "type": "collect",
+    "author": "火山",
+    "version": "1.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 663.8262939453125,
+      "y": 1058.856201171875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 585.3330078125,
+      "y": 1098.39990234375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 582.8162841796875,
+      "y": 1102.31494140625,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 555.3681640625,
+      "y": 1129.3397216796875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 548.64501953125,
+      "y": 1129.7091064453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 563.0115966796875,
+      "y": 1133.6572265625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)"
+    },
+    {
+      "id": 7,
+      "x": 566.8194580078125,
+      "y": 1136.014892578125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)"
+    },
+    {
+      "id": 8,
+      "x": 558.2158203125,
+      "y": 1138.6767578125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)"
+    }
+  ]
+}

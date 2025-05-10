@@ -1,0 +1,105 @@
+{
+  "info": {
+    "name": "338【水免】【高危】稻妻渊下宫蛇心之地南小岛（600_1，200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1746801175391
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 480.38671875,
+      "y": -537.7490234375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 467.2386474609375,
+      "y": -534.717529296875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 440.7213134765625,
+      "y": -511.00439453125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 427.10302734375,
+      "y": -510.847412109375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(4.5)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 427.10302734375,
+      "y": -510.847412109375,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 423.1524658203125,
+      "y": -511.305908203125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 405.75,
+      "y": -497.2495794714923,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "w(8.5),keypress(x),keypress(x),attack(0.3)"
+    },
+    {
+      "id": 8,
+      "x": 382.6258544921875,
+      "y": -478.466064453125,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 382.6258544921875,
+      "y": -478.466064453125,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 10,
+      "x": 382.6258544921875,
+      "y": -478.466064453125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}

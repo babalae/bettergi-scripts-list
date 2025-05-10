@@ -1,0 +1,106 @@
+{
+  "info": {
+    "name": "328稻妻渊下宫狭间之街到东北（600_1，200_3）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1746629273147
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 625.9588623046875,
+      "y": 621.8690185546875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 599.3990478515625,
+      "y": 625.8360595703125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 573.3211669921875,
+      "y": 645.85791015625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 530.328857421875,
+      "y": 648.072021484375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 523.8731689453125,
+      "y": 667.073486328125,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 562.18115234375,
+      "y": 689.9678955078125,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "attack(0.3),wait(2.5)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 560.3958740234375,
+      "y": 683.9820556640625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "芙宁娜 e;玛薇卡 e;"
+    },
+    {
+      "id": 8,
+      "x": 539.0494384765625,
+      "y": 675.14990234375,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 539.0494384765625,
+      "y": 675.14990234375,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 539.0494384765625,
+      "y": 675.14990234375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}

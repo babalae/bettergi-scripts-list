@@ -16,12 +16,12 @@
     {
         "name": "country",
         "type": "select",
-        "label": "国家",
+        "label": "国家（璃月和须弥路线不完整，仅测试使用）",
         "options": [
             "蒙德",
             "璃月",
             "稻妻",
-            //"须弥",
+            "须弥",
             "枫丹",
             "纳塔"
         ]
@@ -29,17 +29,12 @@
     {
         "name": "count",
         "type": "input-text",
-        "label": "刷取次数，默认6次\n目前该项暂无效果"
+        "label": "刷取次数，默认6次"
     },
     {
         "name": "team",
         "type": "input-text",
         "label": "战斗的队伍名称，不填表示不切换队伍"
-    },
-    {
-        "name": "reRun",
-        "type": "checkbox",
-        "label": "可重跑模式，开启后每个地脉花将从传送锚点处开始\n适用于低练度、容易阵亡的队伍\n相较于正常情况会花费更多的时间\n还没做完，请勿启用！"
     },
     {
        "name": "friendshipTeam",
