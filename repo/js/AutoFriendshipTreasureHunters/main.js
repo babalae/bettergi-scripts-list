@@ -2,8 +2,8 @@ const DEFAULT_RUNS = 10;
 const DEFAULT_PERIOD = 25;
 const DEFAULT_BASE_RUNS = 50;
 const BENCHMARK_HOUR = "T04:00:00";
-const OCR_TIME_OUT = settings.ocrTimeout ? settings.ocrTimeout * 1000 : 10000;
-const FIGHT_TIME_OUT = settings.fightTimeOut ? settings.fightTimeOut * 1000 : 120000;
+const DEFAULT_OCR_TIMEOUT_SECONDS = 10;
+const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 
 (async function () {
     // 启用自动拾取的实时任务
@@ -49,7 +49,7 @@ const FIGHT_TIME_OUT = settings.fightTimeOut ? settings.fightTimeOut * 1000 : 12
 	} else {
         log.info(`当前设置的运行次数: ${runTimes}`);
     }
-	
+    
 	await switchPartyIfNeeded(settings.partyName);
 
 	log.info('盗宝团好感开始...');
@@ -59,8 +59,12 @@ const FIGHT_TIME_OUT = settings.fightTimeOut ? settings.fightTimeOut * 1000 : 12
 		log.info(`清理原住民...`);
 		await AutoPath('清理原住民');
 	}	
+    // 验证超时设置
+    const ocrTimeout = validateTimeoutSetting(settings.ocrTimeout, DEFAULT_OCR_TIMEOUT_SECONDS, "OCR");
+    const fightTimeout = validateTimeoutSetting(settings.fightTimeout, DEFAULT_FIGHT_TIMEOUT_SECONDS, "战斗");
+	
     // 盗宝团好感循环开始	
-	await AutoFriendshipDev(runTimes);
+	await AutoFriendshipDev(runTimes, ocrTimeout, fightTimeout);
 	log.info(`盗宝团好感运行总时长：${LogTimeTaken(startTime)}`);  
 })();
 
@@ -98,13 +102,13 @@ function CalculateEstimatedCompletion(startTime, current, total) {
 }
 
 // 执行 N 次盗宝团任务并输出日志
-async function AutoFriendshipDev(times) {
+async function AutoFriendshipDev(times, ocrTimeout, fightTimeout) {
     let startFirstTime = Date.now();    
     for (let i = 0; i < times; i++) {
         await AutoPath('触发点');
         let ocrStatus = false;
         let ocrStartTime = Date.now();
-        while (Date.now() - ocrStartTime < OCR_TIME_OUT && !ocrStatus) {
+        while (Date.now() - ocrStartTime < ocrTimeout * 1000 && !ocrStatus) {
             let captureRegion = captureGameRegion();
             let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 200, 300, 300));
             for (let o = 0; o < resList.count; o++) {
@@ -128,7 +132,7 @@ async function AutoFriendshipDev(times) {
                 log.info("开始战斗...");
                 const battleTask = dispatcher.RunTask(new SoloTask("AutoFight"), cts);
                 
-                let fightResult = await recognizeTextInRegion(FIGHT_TIME_OUT) ? "成功" : "失败";
+                let fightResult = await waitForBattleResult(fightTimeout * 1000) ? "成功" : "失败";
                 log.info(`战斗任务已结束，战斗结果：${fightResult}`);
                 cts.cancel();
             } catch (error) {
@@ -184,11 +188,11 @@ async function switchPartyIfNeeded(partyName) {
         return;
     }
     try {
-        log.info("正在尝试切换至" + settings.partyName);
-        if(!await genshin.switchParty(settings.partyName)){
+        log.info("正在尝试切换至" + partyName);
+        if(!await genshin.switchParty(partyName)){
             log.info("切换队伍失败，前往七天神像重试");
             await genshin.tpToStatueOfTheSeven();
-            await genshin.switchParty(settings.partyName);
+            await genshin.switchParty(partyName);
         }
     } catch {
         log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
@@ -197,8 +201,8 @@ async function switchPartyIfNeeded(partyName) {
     }
 }
 
-async function recognizeTextInRegion(timeout = 2 * 60 * 1000) {
-    fightStartTime = Date.now();
+async function waitForBattleResult(timeout = 2 * 60 * 1000) {
+    let fightStartTime = Date.now();
     const successKeywords = ["事件", "完成"];
     const failureKeywords = ["失败"];
     const eventKeyword = ["岛上", "无贼","消灭","鬼鬼祟祟","盗宝团"];
@@ -245,5 +249,26 @@ async function recognizeTextInRegion(timeout = 2 * 60 * 1000) {
     }
     log.warn("在超时时间内未检测到战斗结果");
     return false;
+}
+
+/**
+ * 验证超时时间设置
+ * @param {number|string} value - 用户设置的超时时间（秒）
+ * @param {number} defaultValue - 默认超时时间（秒）
+ * @param {string} timeoutType - 超时类型名称
+ * @returns {number} - 验证后的超时时间（秒）
+ */
+function validateTimeoutSetting(value, defaultValue, timeoutType) {
+    // 转换为数字
+    const timeout = Number(value);
+    
+    // 检查是否为有效数字且大于0
+    if (!isFinite(timeout) || timeout <= 0) {
+        log.warn(`${timeoutType}超时设置无效，必须是大于0的数字，将使用默认值 ${defaultValue} 秒`);
+        return defaultValue;
+    }
+    
+    log.info(`${timeoutType}超时设置为 ${timeout} 秒`);
+    return timeout;
 }
 
