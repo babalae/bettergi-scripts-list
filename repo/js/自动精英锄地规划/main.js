@@ -286,7 +286,7 @@ for (const path of sortedRoutes) {
                 .map(path => `${path.name}::2000-01-01T00:00:00.000Z`); 
             const pathGroupContent = sortedPathNames.join('\n');
             await file.writeText(pathGroupFilePath, pathGroupContent);
-            log.info(`生成并刷新路径组${i + 1}文件成功，路径数：${sortedPathNames.length}`);
+            log.info(`生成并刷新路径组${i + 1}文件成功，路径数：${sortedPathNames.length}，请修改js自定义配置中的操作模式以执行文件`);
         }
     }
 } else if (operationType === "输出地图追踪文件") {
