@@ -1,5 +1,28 @@
 (async function () {//散兵
+//检测传送结束  await tpEndDetection();
+async function tpEndDetection() {
+    const region1 = RecognitionObject.ocr(1690, 230, 75, 350);// 队伍名称区域
+    const region2 = RecognitionObject.ocr(872, 681, 180, 30);// 点击任意处关闭
+    let tpTime = 0;
+    await sleep(1500);//点击传送后等待一段时间避免误判
+    //最多30秒传送时间
+    while (tpTime < 300) {
 
+        let capture = captureGameRegion();
+        let res1 = capture.find(region1);
+        let res2 = capture.find(region2);
+        if (!res1.isEmpty()|| !res2.isEmpty()){
+            log.info("传送完成");
+            await sleep(1000);//传送结束后有僵直
+            click(960, 810);//点击任意处
+            await sleep(500);
+            return;
+        } 
+        tpTime++;
+        await sleep(100);
+    }
+    throw new Error('传送时间超时');
+}
 //检测角色是否阵亡，并前往吃药复活
 async function resurgenceDetectionAndEatFood() {
 const region1 = RecognitionObject.ocr(1170, 780, 75, 35);// 复活料理区域
@@ -251,11 +274,9 @@ await sleep(300);
 click(1180, 760);//队伍等级偏低、体力不够可能会出弹窗
 await sleep(2000);
 click(1725, 1020);//开始挑战
-await sleep(15000);
+await tpEndDetection();
 
 //副本内前往BOSS处
-click(960, 810);//点击任意处
-await sleep(2000);
 await eatFood();//嗑药
 keyPress("1");
 await sleep(1000);//切回固定行走位

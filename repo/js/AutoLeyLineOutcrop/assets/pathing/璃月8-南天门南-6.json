@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "璃月8-南天门南-6",
+    "type": "collect",
+    "author": "火山",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 897.7470703125,
+      "y": 583.517578125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 884.4052734375,
+      "y": 573.41259765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(2)"
+    },
+    {
+      "id": 3,
+      "x": 880.8291015625,
+      "y": 564.0087890625,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 842.361328125,
+      "y": 565.14990234375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 812.931640625,
+      "y": 541.30322265625,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 790.314453125,
+      "y": 528.8564453125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 719.427734375,
+      "y": 527.4755859375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 683.3330078125,
+      "y": 529.05029296875,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

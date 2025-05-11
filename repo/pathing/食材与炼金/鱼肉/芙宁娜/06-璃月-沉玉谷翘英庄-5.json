@@ -1,0 +1,84 @@
+{
+  "info": {
+    "name": "06-璃月-沉玉谷翘英庄-5",
+    "type": "collect",
+    "author": "火山",
+    "version": "1.0",
+    "description": "璃月-沉玉谷翘英庄-5",
+    "bgi_version": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1458.36,
+      "y": 1997.25,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "combat_script",
+      "move_mode": "run",
+      "type": "path",
+      "x": 1467.37,
+      "y": 2005.75,
+      "action_params": "芙宁娜 wait(0.3),e"
+    },
+    {
+      "id": 3,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 1470.87,
+      "y": 2016.5,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 1476.07,
+      "y": 2018.32,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 1470.08,
+      "y": 2020.56,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 1481.48,
+      "y": 2032.69,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 1482.13,
+      "y": 2033.25,
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 1480.72,
+      "y": 2021.23,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

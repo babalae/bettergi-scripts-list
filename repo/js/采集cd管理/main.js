@@ -36,8 +36,6 @@ if (!userSettings.infoFileName) {
         userSettings.pathGroup2CdType,
         userSettings.pathGroup3CdType,
         userSettings.otherPathGroupsCdTypes,
-        userSettings.partyNames,
-        userSettings.skipTimeRanges
     ].join(".");
 }
 

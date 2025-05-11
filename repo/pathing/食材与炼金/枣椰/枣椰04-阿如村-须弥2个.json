@@ -1,0 +1,28 @@
+{
+  "info": {
+    "name": "枣椰04-阿如村-须弥2个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4096.05,
+      "y": -2025.98
+    },
+    {
+      "id": 2,
+      "x": 4108.11,
+      "y": -2000.13,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    }
+  ]
+}
