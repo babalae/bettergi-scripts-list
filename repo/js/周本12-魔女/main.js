@@ -1,4 +1,5 @@
-(async function () {//草龙
+(async function () {//魔女周本
+
 //检测传送结束  await tpEndDetection();
 async function tpEndDetection() {
     const region1 = RecognitionObject.ocr(1690, 230, 75, 350);// 队伍名称区域
@@ -77,7 +78,7 @@ const autoNavigateToReward = async () => {
             log.info("已到达领奖点，检测到文字: " + rewardResult.text);
             return;
         }
-        else if(advanceNum > 20){
+        else if(advanceNum > 30){
         throw new Error('前进时间超时');
         }
         // 2. 未到达领奖点，则调整视野
@@ -95,7 +96,7 @@ const autoNavigateToReward = async () => {
         await sleep(800);
         keyUp("a");
         keyDown("w");
-        await sleep(500);
+        await sleep(800);
         keyUp("w");
         }
         if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {    
@@ -116,7 +117,7 @@ const autoNavigateToReward = async () => {
     }
         // 3. 前进一小步
         keyDown("w");
-        await sleep(500);
+        await sleep(800);
         keyUp("w");
         await sleep(100); // 等待角色移动稳定
     }
@@ -157,8 +158,7 @@ async function autoFightAndEndDetection() {
             log.info(`执行第${challengeNum}次战斗`);
             challengeTime = challengeTime + 205;
             await dispatcher.runTask(new SoloTask("AutoFight"));
-            }
-        } 
+        }}
         // 情况2: 区域2有文字 且 区域1无文字 且 区域3有文字 → 结束循环
         else if (hasText2 && !hasText1 && hasText3) {
             log.info("检测到挑战成功");
@@ -167,11 +167,13 @@ async function autoFightAndEndDetection() {
         // 情况3: 区域2无文字区域1无文字区域3有文字 →BOSS二阶段，需要移动触发
         else if (!hasText2 && !hasText1 && hasText3) {
             log.info("检测到BOSS进入二阶段");
+            keyDown("w");
+            await sleep(1200);
+            keyUp("w");
             await dispatcher.runTask(new SoloTask("AutoFight"));
         }
         // 情况4: 三个区域均无文字，可能处于转场动画，尝试点击快进
         else if (!hasText1 && !hasText2 && !hasText3){
-
         log.info("进入过场动画尝试快进");
         await sleep(400);
         click(1765, 55);
@@ -192,10 +194,6 @@ await pathingScript.runFile("assets/recover.json");
 await sleep(5000);
 await pathingScript.runFile("assets/tp.json");
 await sleep(1000);
-keyDown("w");
-await sleep(2000);
-keyUp("w");
-await sleep(1000);
 keyPress("F");
 await sleep(2000);
 click(1725, 1020);//单人挑战
@@ -210,21 +208,8 @@ await eatFood();//嗑药
 keyPress("1");
 await sleep(1000);//切回固定行走位
 keyDown("w");
-await sleep(8500);
-keyUp("w");
-await sleep(6500);
-keyDown("e");
-await sleep(1000);//钟离开盾
-keyUp("e");
-keyDown("a");
 await sleep(2000);
-keyUp("a");
-keyDown("w");
-await sleep(3500);
 keyUp("w");
-keyDown("d");
-await sleep(3500);
-keyUp("d");
 
 //战斗和领奖
 await autoFightAndEndDetection();//一直战斗直到检测到结束
@@ -237,6 +222,5 @@ click(950, 750);//使用树脂
 await sleep(6000);
 click(975, 1000);//退出秘境
 await sleep(10000);
-
 
 })();

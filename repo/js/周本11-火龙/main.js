@@ -1,4 +1,5 @@
-(async function () {//草龙
+(async function () {//火龙
+
 //检测传送结束  await tpEndDetection();
 async function tpEndDetection() {
     const region1 = RecognitionObject.ocr(1690, 230, 75, 350);// 队伍名称区域
@@ -23,23 +24,26 @@ async function tpEndDetection() {
     }
     throw new Error('传送时间超时');
 }
+
 //吃料理
 async function eatFood() {
 let foodName = settings.foodName ?? 0;
 if(foodName){
+const foodSum = foodName.split('-');
 log.info("开始吃菜");
 await sleep(1000);
 keyPress("B");//打开背包
 await sleep(2000);
 click(863, 51);//选择食物
 await sleep(1000);
+for(let i = 0; i < foodSum.length; i++){
 click(170, 1020);//筛选
 await sleep(1000);
 click(195, 1020);//重置
 await sleep(1000);
 click(110, 110);//输入名字
 await sleep(1000);
-inputText(`${foodName}`);
+inputText(foodSum[i]);
 await sleep(500);
 click(490, 1020);//确认筛选
 await sleep(1000);
@@ -47,6 +51,7 @@ click(180, 180);//选择第一个食物
 await sleep(1000);
 click(1690, 1015);//使用
 await sleep(1000);
+}
 keyPress("ESCAPE");
 await sleep(1500);
 }}
@@ -77,7 +82,7 @@ const autoNavigateToReward = async () => {
             log.info("已到达领奖点，检测到文字: " + rewardResult.text);
             return;
         }
-        else if(advanceNum > 20){
+        else if(advanceNum > 30){
         throw new Error('前进时间超时');
         }
         // 2. 未到达领奖点，则调整视野
@@ -95,7 +100,7 @@ const autoNavigateToReward = async () => {
         await sleep(800);
         keyUp("a");
         keyDown("w");
-        await sleep(500);
+        await sleep(800);
         keyUp("w");
         }
         if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {    
@@ -145,25 +150,17 @@ async function autoFightAndEndDetection() {
         if (hasText1 && !hasText2 && hasText3) {
             challengeNum++;
             await sleep(500);//避免切人冷却，导致角色识别失败
-            capture = captureGameRegion();
-            res1 = capture.find(region1);
-            res2 = capture.find(region2);
-            res3 = capture.find(region3);
-            hasText1 = !res1.isEmpty() && res1.text.trim().length > 0;
-            hasText2 = !res2.isEmpty() && res2.text.trim().length > 0;
-            hasText3 = !res3.isEmpty() && res3.text.trim().length > 0;
-            //二次检测避免无法启动战斗
-            if (hasText1 && !hasText2 && hasText3){
             log.info(`执行第${challengeNum}次战斗`);
             challengeTime = challengeTime + 205;
+
             await dispatcher.runTask(new SoloTask("AutoFight"));
-            }
         } 
         // 情况2: 区域2有文字 且 区域1无文字 且 区域3有文字 → 结束循环
         else if (hasText2 && !hasText1 && hasText3) {
             log.info("检测到挑战成功");
             break;
         }
+/*
         // 情况3: 区域2无文字区域1无文字区域3有文字 →BOSS二阶段，需要移动触发
         else if (!hasText2 && !hasText1 && hasText3) {
             log.info("检测到BOSS进入二阶段");
@@ -171,14 +168,13 @@ async function autoFightAndEndDetection() {
         }
         // 情况4: 三个区域均无文字，可能处于转场动画，尝试点击快进
         else if (!hasText1 && !hasText2 && !hasText3){
-
         log.info("进入过场动画尝试快进");
         await sleep(400);
         click(1765, 55);
         await sleep(400);
         click(1765, 55);
         }
-
+*/
         challengeTime = challengeTime + 1;
         // 每次检测间隔100毫秒，避免CPU占用过高
         await sleep(100);
@@ -209,21 +205,36 @@ await tpEndDetection();
 await eatFood();//嗑药
 keyPress("1");
 await sleep(1000);//切回固定行走位
-keyDown("w");
-await sleep(8500);
-keyUp("w");
-await sleep(6500);
+
+//开盾
+keyDown("s");
+await sleep(200);
+keyUp("s");
 keyDown("e");
-await sleep(1000);//钟离开盾
-keyUp("e");
-keyDown("a");
-await sleep(2000);
-keyUp("a");
+await sleep(1000);
+keyDown("e");
+
 keyDown("w");
-await sleep(3500);
+await sleep(1000);
+keyDown("VK_SHIFT");
+await sleep(200);
+keyUp("VK_SHIFT");
+await sleep(1000);
+keyDown("VK_SHIFT");
+await sleep(200);
+keyUp("VK_SHIFT");
+await sleep(1000);
+keyDown("VK_SHIFT");
+await sleep(200);
+keyUp("VK_SHIFT");
+await sleep(1000);
+keyDown("VK_SHIFT");
+await sleep(200);
+keyUp("VK_SHIFT");
+await sleep(1000);
 keyUp("w");
 keyDown("d");
-await sleep(3500);
+await sleep(500);
 keyUp("d");
 
 //战斗和领奖
@@ -237,6 +248,7 @@ click(950, 750);//使用树脂
 await sleep(6000);
 click(975, 1000);//退出秘境
 await sleep(10000);
+
 
 
 })();
