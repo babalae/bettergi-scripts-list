@@ -1144,131 +1144,157 @@ async function openCustomMarks() {
     }
 }
 
+const paimonMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/paimon_menu.png"), 0, 0, genshin.width / 3.0, genshin.width / 5.0);
+const boxIconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/box.png"));
 /**
  * 自动导航到地脉花奖励点
  * @returns {Promise<void>}
  */
 async function autoNavigateToReward() {
     // 定义识别对象
-    const boxIconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/box.png"));
-    const rewardTextRo = RecognitionObject.Ocr(1210, 515, 200, 50); // 领奖区域检测
-    let advanceNum = 0; // 前进次数
+    
+    const cts = new CancellationTokenSource();
+    
+    try {
+        // 调整初始视角为俯视角
+        log.info("调整视角...");
+        middleButtonClick();
+        await sleep(300);
 
-    // 调整初始视角为俯视角
-    log.info("调整为俯视视角...");
-    middleButtonClick();
-    await sleep(1000);
-    moveMouseBy(0, 1030);
-    await sleep(500);
-    moveMouseBy(0, 920);
-    await sleep(500);
-    moveMouseBy(0, 710);
-    await sleep(500);
-
-    log.info("开始自动导航到地脉花...");
-    while (true) {
-        // 1. 优先检查是否已到达领奖点
-        let captureRegion = captureGameRegion();
-        let rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 50);
-        let ocrResults = rewardTextArea.findMulti(RecognitionObject.ocrThis);
-
-
-        if (advanceNum % 15 == 0 && advanceNum >= 10) {
-            log.warn("前进又超时15次啦，先往旁边挪挪再继续试试")
-            keyDown("s");
-            await sleep(500);
-            keyUp("s");
-            middleButtonClick();
-            await sleep(1000);
-            keyDown("w");
-            await sleep(1000);
-            keyUp("w");
-        }
-        else if (advanceNum > 45) {
-            throw new Error('前进时间超时');
-        }
-        // 检测到地脉之花文字则结束
-        else if (ocrResults.count > 0 && ocrResults[0].text.trim().length > 0) {
-            for (let i = 0; i < ocrResults.count; i++) {
-                if (ocrResults[i].text.includes("地脉之花")) {
-                    log.info("已到达领奖点，检测到文字: " + ocrResults[i].text);
-                    return;
-                }
-            }
-        }
-
-        // 2. 未到达领奖点，则调整视野
-        await adjustViewForReward(boxIconRo, advanceNum);
-
-        // 3. 前进一小步
-        keyDown("w");
-        await sleep(900);
+        log.info("开始自动导航到地脉花...");
+        
+        // 启动文字检测任务
+        let rewardDetectionPromise = startRewardTextDetection(cts);
+        
+        // 启动导航任务
+        navigateTowardReward(cts.token);
+        
+        // 等待文字检测任务完成
+        await rewardDetectionPromise;
+        
+        // 取消导航任务
+        cts.cancel();
         keyUp("w");
-        await sleep(100); // 等待角色移动稳定
-        advanceNum++;
+        log.info("已到达领奖点");
+    } catch (error) {
+        cts.cancel();
+        log.error(`导航过程中出错: ${error}`);
+        throw error;
+    }
+}
+
+/**
+ * 监测文字区域，检测到地脉之花文字时返回
+ * @param {CancellationTokenSource} cts - 取消令牌源
+ * @returns {Promise<boolean>} - 是否检测到文字
+ */
+async function startRewardTextDetection(cts) {
+    return new Promise((resolve, reject) => {
+        (async () => {
+            try {
+                while (!cts.token.isCancellationRequested) {
+                    let captureRegion = captureGameRegion();
+                    let rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 200);
+                    let ocrResults = rewardTextArea.findMulti(RecognitionObject.ocrThis);
+                    
+                    if (ocrResults.count > 0) {
+                        for (let i = 0; i < ocrResults.count; i++) {
+                            if (ocrResults[i].text.includes("接触")
+                            || ocrResults[i].text.includes("地脉")
+                            || ocrResults[i].text.includes("之花")
+                            ) {
+                                log.info("检测到文字: " + ocrResults[i].text);
+                                resolve(true);
+                                return;
+                            }
+                        }
+                    }
+                    
+                    await sleep(200);
+                }
+            } catch (error) {
+                reject(error);
+            }
+        })();
+    });
+}
+
+/**
+ * 导航向奖励点
+ * @param {CancellationToken} token - 取消令牌
+ * @returns {Promise<void>}
+ */
+async function navigateTowardReward(token) {
+    let advanceNum = 0; // 前进次数
+    
+    try {
+        while (!token.isCancellationRequested) {
+            if (advanceNum % 15 == 0 && advanceNum >= 10) {
+                log.warn("前进又超时15次啦，先往旁边挪挪再继续试试")
+                keyUp("w");
+                keyDown("s");
+                await sleep(1000);
+                keyUp("s");
+                keyDown("w"); // 恢复前进
+            }
+            else if (advanceNum > 45) {
+                keyUp("w");
+                throw new Error('前进时间超时');
+            }
+    
+            // 调整视野
+            await adjustViewForReward(boxIconRo, advanceNum);
+            keyDown("w");
+            // 小暂停让角色移动
+            await sleep(300);
+            advanceNum++;
+        }
+    } finally {
+        // 确保任何情况下都会释放按键
+        keyUp("w");
     }
 }
 
 /**
  * 调整视野直到图标位于正前方
  * @param {Object} boxIconRo - 宝箱图标识别对象
- * @param {number} advanceNum - 当前前进次数
  * @returns {Promise<void>}
  */
-async function adjustViewForReward(boxIconRo, advanceNum) {
-    for (let i = 0; i < 100; i++) {
-
-        // 每10次执行一轮异常页面检查
-        if (i % 10 == 0) {
-            // 识别误触发领取导致超时的情况
-            let resList = captureGameRegion().findMulti(RecognitionObject.ocrThis);
-            if (resList && resList.count > 0) {
-                for (let i = 0; i < resList.count; i++) {
-                    let res = resList[i];
-                    if (res.text.includes("原粹树脂")) {
-                        log.info("误触发领取页面，尝试关闭页面")
-                        keyPress("ESCAPE");
-                        await sleep(500);
-                        keyPress("ESCAPE");
-                        await sleep(500);
-                        await genshin.returnMainUi();
-                    }
-                }
-            }
-            // 识别误触发其他页面导致超时的情况
-            const paimonMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/paimon_menu.png"), 0, 0, genshin.width / 3.0, genshin.width / 5.0);
-            let res = captureGameRegion().Find(paimonMenuRo);
-            if (res.isEmpty()) {
-                log.info("误触发其他页面，尝试关闭页面")
-                click(960, 800);
-                keyPress("ESCAPE");
-                await sleep(500);
-                keyPress("ESCAPE");
-                await sleep(500);
+async function adjustViewForReward(boxIconRo) {
+    const screenCenterX = 960;
+    const screenCenterY = 540;
+    
+    let captureRegion = captureGameRegion();
+    let resList = captureRegion.findMulti(RecognitionObject.ocrThis)
+    if(captureRegion.Find(paimonMenuRo).IsEmpty()) {
+            log.info("误触发其他页面，尝试关闭页面")
+            await genshin.returnMainUi();
+    } else if(resList.count > 0) {
+        for (let i = 0; i < resList.count; i++) {
+            let res = resList[i];
+            if (res.text.includes("原粹树脂")) {
+                log.info("误触发领取页面，尝试关闭页面")
                 await genshin.returnMainUi();
             }
         }
-
-        let captureRegion = captureGameRegion();
-        let iconRes = captureRegion.Find(boxIconRo);
-
-        if (!iconRes) {
-            // 未找到图标，小幅度转动视角
-            moveMouseBy(20, 0);
-            await sleep(100);
-            continue;
-        }
-
-        if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {
-            log.info(`视野已调正，前进第 ${advanceNum} 次`);
-            return;
-        } else {
-            // 小幅度调整
-            let adjustAmount = iconRes.x < 920 ? -20 : 20;
-            let adjustAmount2 = iconRes.y < 540 ? 1 : 10;
-            moveMouseBy(adjustAmount * adjustAmount2, 0);
-            await sleep(100);
-        }
     }
-    // throw new Error('视野调整超时');
+    let iconRes = captureRegion.Find(boxIconRo);
+
+    if (!iconRes) {
+        throw new Error('未找到图标，没有地脉花');
+    }
+
+    // 检查图标是否位于中心正上方
+    const xOffset = iconRes.x - screenCenterX;
+    const horizontalTolerance = 40; 
+    const isHorizontallyAligned = Math.abs(xOffset) <= horizontalTolerance;
+    const isAboveCenter = iconRes.y < screenCenterY; 
+        
+    if (isHorizontallyAligned && isAboveCenter) {
+        return true;
+    } else {
+        moveMouseBy(xOffset, 0);
+        await sleep(100);
+    }
 }
+
