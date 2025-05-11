@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "105蒙德望风山地（200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1273.98046875,
+      "y": 2722.332763671875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1294.8623046875,
+      "y": 2687.79931640625,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "click,wait(0.2),click",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1281.259765625,
+      "y": 2681.071044921875,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

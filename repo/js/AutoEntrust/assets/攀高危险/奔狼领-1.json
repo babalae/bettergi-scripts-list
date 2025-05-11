@@ -1,38 +1,74 @@
 {
   "info": {
-    "name": "奔狼领-1.json",
+    "name": "D6-果酒湖攀高危险",
     "type": "collect",
-    "author": "LX666-666",
+    "author": "1",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.42.3"
+    "bgiVersion": "0.35.1"
   },
   "positions": [
     {
       "id": 1,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "teleport",
-      "x": -535.25,
-      "y": 2165.25,
+      "x": -510.04342623900266,
+      "y": 2193.182701647178,
       "action_params": ""
     },
     {
       "id": 2,
       "action": "fight",
-      "move_mode": "run",
-      "type": "target",
-      "x": -507.5,
-      "y": 2208.5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -510,
+      "y": 2210,
       "action_params": ""
     },
     {
       "id": 3,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -490.91842623900266,
+      "y": 2221.807701647178,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -497.41842623900266,
+      "y": 2235.307701647178,
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -510.79342623900266,
+      "y": 2235.682701647178,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -508.29342623900266,
+      "y": 2222.932701647178,
+      "action_params": ""
+    },
+    {
+      "id": 7,
       "action": "fight",
-      "move_mode": "run",
-      "type": "target",
-      "x": -485.25,
-      "y": 2222,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -500.91842623900266,
+      "y": 2228.682701647178,
       "action_params": ""
     }
   ]

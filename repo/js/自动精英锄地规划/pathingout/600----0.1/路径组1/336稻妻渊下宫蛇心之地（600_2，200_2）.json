@@ -1,0 +1,116 @@
+{
+  "info": {
+    "name": "336稻妻渊下宫蛇心之地（600_2，200_2）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1746700142490
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 386.8668212890625,
+      "y": -336.82763671875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 387.2264404296875,
+      "y": -325.209716796875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 387.2812539500828,
+      "y": -323.8748408413835,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 386.8668212890625,
+      "y": -336.82763671875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 5,
+      "x": 375.03127370049765,
+      "y": -321.65647736945175,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "800",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 384.3750691264513,
+      "y": -324.7501136847259,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;芙宁娜 e;玛薇卡 e;attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 378.81689453125,
+      "y": -312.122802734375,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 326.34373617470965,
+      "y": -291.62471957767593,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;wait(4.5),",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 348.40632900165883,
+      "y": -300.40655315926915,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 378.81689453125,
+      "y": -312.122802734375,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 378.81689453125,
+      "y": -312.122802734375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}

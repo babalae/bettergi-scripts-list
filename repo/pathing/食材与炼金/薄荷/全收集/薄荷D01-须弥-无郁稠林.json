@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "薄荷D01-须弥-无郁稠林",
+    "type": "collect",
+    "author": "Tool_tingsu",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2409.2099609375,
+      "y": 347.775390625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 2409.1376953125,
+      "y": 363.259765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 2412.982421875,
+      "y": 422.8701171875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 2431.8740234375,
+      "y": 438.29296875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 2416.1533203125,
+      "y": 470.38623046875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

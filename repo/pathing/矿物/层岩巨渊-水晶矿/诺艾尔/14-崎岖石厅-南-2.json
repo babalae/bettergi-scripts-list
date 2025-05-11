@@ -1,0 +1,86 @@
+{
+  "info": {
+    "name": "崎岖石厅-南-2",
+    "type": "collect",
+    "author": "火山",
+    "version": "1.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 357.887939453125,
+      "y": 176.586181640625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 356.853759765625,
+      "y": 181.706787109375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 356.4693603515625,
+      "y": 194.09130859375,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 360.3709716796875,
+      "y": 193.9537353515625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "2000",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 351.5157470703125,
+      "y": 188.1998291015625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 349.578369140625,
+      "y": 187.8953857421875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 350.27294921875,
+      "y": 184.93603515625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 350.27294921875,
+      "y": 184.93603515625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(2)",
+      "type": "target"
+    }
+  ]
+}
