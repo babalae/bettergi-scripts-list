@@ -1,0 +1,139 @@
+{
+  "info": {
+    "name": "日落果27-璃月港左-12个",
+    "type": "collect",
+    "author": "灰林鸮",
+    "version": "1.0",
+    "description": "需携带纳西妲，部分危险路径刚需盾位",,
+    "map_name": "Teyvat",
+    "bgi_version": "0.44.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 828.2509765625,
+      "y": -583.3447265625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 822.0009765625,
+      "y": -584.681640625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 765.076171875,
+      "y": -587.14404296875,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(space),wait(1.5),attack(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 764.4052734375,
+      "y": -589.86865234375,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 828.240234375,
+      "y": -583.384765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 6,
+      "x": 862.6904296875,
+      "y": -624.4228515625,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(space),wait(2.5),attack(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 896.802734375,
+      "y": -626.0322265625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 922.677734375,
+      "y": -626.39208984375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 930.205078125,
+      "y": -628.0830078125,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 936.2919921875,
+      "y": -631.9931640625,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 906.6650390625,
+      "y": -660.30810546875,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 1043.1484375,
+      "y": -558.04541015625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 1020.7158203125,
+      "y": -507.65087890625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 1027.9931640625,
+      "y": -501.27392578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

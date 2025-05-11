@@ -1,0 +1,77 @@
+{
+  "info": {
+    "name": "日落果28-璃月港南-6个",
+    "type": "collect",
+    "author": "灰林鸮",
+    "version": "1.0",
+    "description": "需携带纳西妲，部分危险路径刚需盾位",,
+    "map_name": "Teyvat",
+    "bgi_version": "0.44.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1128.49609375,
+      "y": -984.37939453125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1095.7529296875,
+      "y": -960.9521484375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 996.5439453125,
+      "y": -884.96630859375,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 996.5439453125,
+      "y": -884.96630859375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 953.2744140625,
+      "y": -890.55615234375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 881.1787109375,
+      "y": -919.7978515625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 823.259765625,
+      "y": -897.63037109375,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}
