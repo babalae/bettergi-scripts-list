@@ -1,5 +1,28 @@
 (async function () {
+//检测传送结束  await tpEndDetection();
+async function tpEndDetection() {
+    const region1 = RecognitionObject.ocr(1690, 230, 75, 350);// 队伍名称区域
+    const region2 = RecognitionObject.ocr(872, 681, 180, 30);// 点击任意处关闭
+    let tpTime = 0;
+    await sleep(1500);//点击传送后等待一段时间避免误判
+    //最多30秒传送时间
+    while (tpTime < 300) {
 
+        let capture = captureGameRegion();
+        let res1 = capture.find(region1);
+        let res2 = capture.find(region2);
+        if (!res1.isEmpty()|| !res2.isEmpty()){
+            log.info("传送完成");
+            await sleep(1000);//传送结束后有僵直
+            click(960, 810);//点击任意处
+            await sleep(500);
+            return;
+        } 
+        tpTime++;
+        await sleep(100);
+    }
+    throw new Error('传送时间超时');
+}
 /**
  * 根据两个区域的OCR检测结果执行不同操作的循环函数
  */
@@ -146,25 +169,22 @@ await sleep(300);
 click(1180, 760);//队伍等级偏低、体力不够可能会出弹窗
 await sleep(2000);
 click(1725, 1020);//开始挑战
-await sleep(15000);
-keyPress("1");
-await sleep(1000);//切回钟离
+await tpEndDetection();
 
 //副本内前往BOSS处
+await eatFood();//嗑药
+keyPress("1");
+await sleep(1000);//切1号位
 keyDown("s");
 await sleep(2400);
 keyUp("s");
-
 await autoFightAndEndDetection();//一直战斗直到检测到结束
-
 keyPress("1");
 await sleep(1000);//切回钟离
 keyDown("s");
 await sleep(2400);//再次校准位置
 keyUp("s");
 await autoNavigateToReward();//前往地脉之花
-
-
 
 await sleep(1000);
 keyPress("F");//领奖

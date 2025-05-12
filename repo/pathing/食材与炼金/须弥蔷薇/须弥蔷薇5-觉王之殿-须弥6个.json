@@ -1,0 +1,55 @@
+{
+  "info": {
+    "bgi_version": "0.34.5",
+    "version": "1.0",
+    "name": "须弥蔷薇5-觉王之殿-须弥6个",
+    "description": "",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "bgi_version": "0.42.0"
+  },
+  "positions": [
+    {
+      "x": 3591.7,
+      "y": -787.67,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "x": 3596.89,
+      "y": -804.37,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "x": 3597.98,
+      "y": -807.62,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "x": 3624.9,
+      "y": -912.66,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "x": 3624.51,
+      "y": -911.97,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "x": 3642.0,
+      "y": -897.91,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}
