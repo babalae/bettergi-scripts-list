@@ -6,9 +6,7 @@
     "version": "1.0",
     "description": "",
     "map_name": "TheChasm",
-    "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1746708779272
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -18,8 +16,7 @@
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "teleport",
-      "locked": false
+      "type": "teleport"
     },
     {
       "id": 2,
@@ -28,8 +25,7 @@
       "action": "",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 3,
@@ -53,56 +49,55 @@
       "id": 5,
       "x": 769.6875,
       "y": 293.125199197714,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 6,
       "x": 735.15625,
       "y": 299.81247786692074,
-      "type": "path",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "钟离 d(0.1),wait(0.2),e(hold);茜特菈莉 e;莱依拉 e;"
+      "move_mode": "dash",
+      "action_params": "钟离 d(0.1),wait(0.2),e(hold);茜特菈莉 e;莱依拉 e;",
+      "type": "path"
     },
     {
       "id": 7,
       "x": 730.21875,
       "y": 309.9375,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keypress(x),wait(0.2),keypress(x)"
+      "move_mode": "walk",
+      "action_params": "keypress(x),wait(0.2),keypress(x)",
+      "type": "path"
     },
     {
       "id": 8,
-      "x": 732.65625,
-      "y": 318.56352918818925,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 731.4375,
+      "y": 318.5312389334604,
       "action": "combat_script",
-      "action_params": "keypress(x),wait(0.2),keypress(x)"
+      "move_mode": "walk",
+      "action_params": "keypress(x),wait(0.2),keypress(x)",
+      "type": "path"
     },
     {
       "id": 9,
       "x": 735.5625,
       "y": 350.3135845208876,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
+      "move_mode": "dash",
       "action_params": "",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 10,
       "x": 735.5625,
       "y": 350.3135845208876,
-      "type": "orientation",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

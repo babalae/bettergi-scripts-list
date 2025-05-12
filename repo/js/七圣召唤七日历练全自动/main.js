@@ -8,8 +8,7 @@ async function checkChallengeResults() {
     const region1 = RecognitionObject.ocr(785, 890, 340, 82);// 对话区域
         let capture = captureGameRegion();
         let res1 = capture.find(region1);
-
-        if (1){
+        if (res1.isEmpty()){
             await sleep(1000);
             click(960, 540);
             await sleep(500);
@@ -25,16 +24,23 @@ async function checkChallengeResults() {
             await sleep(1000);
             return;
         } 
-
+        else{
+            await sleep(1000);    
+            click(754,915 );//退出挑战
+            await sleep(4000);     
+            await autoConversation();
+            await sleep(1000);
+            return;
+        }
 
 }
 
 //自动对话，直到出现选项框   await autoConversation();
-async function autoConversation() {      
+async function autoConversation() {    
+    await sleep(2000);//点击后等待一段时间避免误判
     const region1 = RecognitionObject.ocr(785, 890, 340, 82);// 对话区域
     const region2 = RecognitionObject.ocr(1250, 400, 660, 440);// 选项区域
     let talkTime = 0;
-    await sleep(2000);//点击后等待一段时间避免误判
     //最多10次对话
     while (talkTime < 20) {
         let capture = captureGameRegion();
@@ -43,15 +49,19 @@ async function autoConversation() {
         if (!res1.isEmpty() && res2.isEmpty()){
             talkTime++;
             keyPress("VK_SPACE"); 
-            await sleep(1500);
+            await sleep(500);
+            keyPress("VK_SPACE"); 
+            await sleep(500);
         } 
         else if(!res1.isEmpty() && !res2.isEmpty()){
         keyPress("F"); 
+        await sleep(1000);
         log.info("已选择谈话内容");
         return;
         }
         else if(res1.isEmpty() && !res2.isEmpty()){
         log.info("谈话完成");
+        await sleep(1000);
         return;
         }
         talkTime++;
@@ -64,7 +74,7 @@ async function autoConversation() {
 async function tpEndDetection() {
     const region = RecognitionObject.ocr(1690, 230, 75, 350);// 队伍名称区域
     let tpTime = 0;
-    await sleep(1500);//点击传送后等待一段时间避免误判
+    await sleep(500);//点击传送后等待一段时间避免误判
     //最多30秒传送时间
     while (tpTime < 300) {
         let capture = captureGameRegion();
@@ -209,6 +219,12 @@ async function captureAndStoreTexts() {
 
 //检查是否有对应的挑战对手
 async function searchAndClickTexts() {
+    middleButtonClick();
+    await sleep(800);
+    moveMouseBy(0, 1030);
+    await sleep(800);
+    moveMouseBy(0, 1030);
+    await sleep(800);
     // 限定区域坐标和大小
     const searchX = 1210;
     const searchY = 440;
@@ -298,6 +314,8 @@ await tpEndDetection();
 
 //函数：对话和打牌
    async function Playcards() {    
+await sleep(800);//略微俯视，避免名字出现在选项框附近，导致错误点击
+moveMouseBy(0, 1030);
 await sleep(1000);
 await autoConversation();
 log.info("对话完成");
@@ -324,7 +342,7 @@ keyDown("w");
 await sleep(1200);
 keyUp("d");
 keyUp("w");
-await sleep(600);
+await sleep(700);
     }
 //前往二号桌
     async function gotoTable2() {

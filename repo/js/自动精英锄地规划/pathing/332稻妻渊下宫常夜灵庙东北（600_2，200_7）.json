@@ -8,7 +8,7 @@
     "map_name": "Enkanomiya",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1746699810125
+    "last_modified_time": 1746888562883
   },
   "positions": [
     {
@@ -85,59 +85,57 @@
     },
     {
       "id": 9,
-      "x": -320.565673828125,
-      "y": 485.8499755859375,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 10,
-      "x": -301.836669921875,
-      "y": 471.029541015625,
+      "x": -311.75048828125,
+      "y": 511.520751953125,
       "type": "path",
       "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "attack(0.3),wait(5.5)"
+      "action_params": "attack(0.2),wait(1)"
     },
     {
-      "id": 11,
-      "x": -276.244384765625,
-      "y": 510.937744140625,
+      "id": 10,
+      "x": -311.538818359375,
+      "y": 495.1866455078125,
       "action": "",
       "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
     {
+      "id": 11,
+      "x": -254.515625,
+      "y": 498.9033203125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;wait(2)",
+      "type": "path"
+    },
+    {
       "id": 12,
-      "x": -279.10791015624994,
-      "y": 493.064453125,
-      "type": "path",
-      "move_mode": "run",
+      "x": -275.1875,
+      "y": 491.124867201524,
       "action": "fight",
+      "move_mode": "run",
       "action_params": "",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 13,
-      "x": -279.10791015624994,
+      "x": -279.10791015625,
       "y": 493.064453125,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
+      "move_mode": "dash",
       "action_params": "",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 14,
-      "x": -279.10791015624994,
+      "x": -279.10791015625,
       "y": 493.064453125,
-      "type": "orientation",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

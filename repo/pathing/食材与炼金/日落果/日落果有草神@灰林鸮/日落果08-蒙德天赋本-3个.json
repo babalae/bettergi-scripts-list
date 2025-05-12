@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "日落果08-蒙德天赋本-3个",
+    "type": "collect",
+    "author": "灰林鸮",
+    "version": "1.0",
+    "description": "需携带纳西妲，部分危险路径刚需盾位",,
+    "map_name": "Teyvat",
+    "bgi_version": "0.44.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -887.4970703125,
+      "y": 1679.1845703125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -876.5849609375,
+      "y": 1686.4580078125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -856.654296875,
+      "y": 1687.08447265625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -849.8359375,
+      "y": 1664.451171875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -843.7412109375,
+      "y": 1646.48681640625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

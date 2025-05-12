@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "日落果37【高危】-鸡哥西南-7个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "需携带纳西妲，部分危险路径刚需盾位",,
+    "map_name": "Teyvat",
+    "bgi_version": "0.44.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4042.4375,
+      "y": -238.44775390625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3978.6875,
+      "y": -355.8447265625,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(1),attack(0.5)"
+    },
+    {
+      "id": 3,
+      "x": 3978.6865234375,
+      "y": -355.83056640625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 3954.267578125,
+      "y": -361.72119140625,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 3946.759765625,
+      "y": -378.61572265625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}
