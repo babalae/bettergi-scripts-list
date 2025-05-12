@@ -3,8 +3,8 @@
         "name": "狗粮-须弥-须弥城-4个",
         "type": "collect",
         "author": "Yang-z",
-        "version": "1.1",
-        "bgiVersion": "0.42.0"
+        "version": "1.2",
+        "bgi_version": "0.42.0"
     },
 
     "positions": [
@@ -19,7 +19,6 @@
             "y": -301.87109375,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
             "#": "1"
         },
         {
@@ -27,7 +26,6 @@
             "y": -301.87109375,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
             "#": "1"
         },
 
@@ -55,7 +53,8 @@
             "y": -284.35888671875,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
+            "action": "combat_script",
+            "action_params": "wait(0.8)",
             "#": "2"
         },
         {
@@ -63,7 +62,6 @@
             "y": -284.35888671875,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
             "#": "2"
         },
 
@@ -72,8 +70,7 @@
         {
             "x": 2786.98974609375,
             "y": -503.11328125,
-            "type": "teleport",
-            "move_mode": "walk"
+            "type": "teleport"
         },
 
         {
@@ -94,7 +91,8 @@
             "y": -497.5625,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
+            "action": "combat_script",
+            "action_params": "wait(0.8)",
             "#": "3"
         },
         {
@@ -102,7 +100,6 @@
             "y": -496.85693359375,
             "type": "target",
             "move_mode": "walk",
-            "action": "",
             "#": "3"
         },
 
@@ -111,8 +108,7 @@
         {
             "x": 2694.0615234375,
             "y": -416.45068359375,
-            "type": "teleport",
-            "move_mode": "walk"
+            "type": "teleport"
         },
         {
             "x": 2703.462890625,
@@ -152,8 +148,7 @@
         {
             "x": 2694.087890625,
             "y": -416.45068359375,
-            "type": "teleport",
-            "move_mode": "walk"
+            "type": "teleport"
         },
         {
             "x": 2700.48828125,

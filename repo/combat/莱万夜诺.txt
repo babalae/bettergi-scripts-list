@@ -17,7 +17,7 @@
 万叶 e(hold), wait(0.1), attack, wait(1.1), attack, wait(0.2), attack, wait(0.2), attack, wait(0.4), attack, wait(0.4), attack, wait(1)
 诺艾尔 e, wait(0.2), charge(6.5), wait(0.6), s(2), w(0.5)
 
-// 第3轮：元素爆发，万叶按照命座数选择。
+// 第3轮：元素爆发。
 万叶 e(hold), wait(0.1), attack, wait(1.1)
 行秋 e, wait(1.4), q, wait(0.5)
 夜兰 e, wait(0.6), q, wait(0.8)
@@ -26,8 +26,5 @@
 万叶 attack, wait(0.2), attack, wait(0.2), attack, wait(0.4), attack, wait(0.4), attack, wait(1)
 万叶 attack, wait(0.2), attack, wait(0.2), attack, wait(0.4), attack, wait(0.4), attack, wait(1)
 万叶 attack, wait(0.2), attack, wait(0.2), attack, wait(0.4), attack, wait(0.4), attack, wait(1)
-// 万叶0命
 万叶 e(hold), wait(0.1), attack, wait(1.1), q, wait(0.5)
-// 万叶1+命
-// 万叶 e(hold), wait(0.1), attack, wait(1.1), q, wait(0.5), e(hold), wait(0.1), attack, wait(1.1)
 诺艾尔 q, wait(0.6), e, wait(0.2), charge(6.5), wait(0.6), s(2), w(0.5)
