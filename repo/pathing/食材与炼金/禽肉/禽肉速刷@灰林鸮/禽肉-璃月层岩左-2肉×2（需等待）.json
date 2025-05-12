@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "禽肉-稻妻名椎滩右-2肉×1",
+    "name": "禽肉-璃月层岩左-2肉×2（需等待）",
     "type": "collect",
     "author": "灰林鸮",
     "version": "1.0",
@@ -12,8 +12,8 @@
   "positions": [
     {
       "id": 1,
-      "x": -2738.2021484375,
-      "y": -3414.0380859375,
+      "x": 1998.0869140625,
+      "y": -678.5341796875,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -21,36 +21,27 @@
     },
     {
       "id": 2,
-      "x": -2724.3837890625,
-      "y": -3403.533203125,
+      "x": 1993.8056640625,
+      "y": -640.953125,
+      "type": "path",
+      "move_mode": "walk",
       "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "keypress(4),wait(0.3),keypress(e)",
-      "type": "path"
+      "action_params": "wait(18)"
     },
     {
       "id": 3,
-      "x": -2715.28515625,
-      "y": -3399.1962890625,
-      "action": "",
+      "x": 1995.2421875,
+      "y": -657.494140625,
+      "type": "path",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action": "combat_script",
+      "action_params": "keypress(4),wait(0.3),keypress(e)"
     },
     {
       "id": 4,
-      "x": -2722.1103515625,
-      "y": -3400.1630859375,
+      "x": 1995.2119140625,
+      "y": -664.01806640625,
       "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": -2714.9013671875,
-      "y": -3403.271484375,
-      "type": "path",
       "move_mode": "walk",
       "action": "",
       "action_params": ""

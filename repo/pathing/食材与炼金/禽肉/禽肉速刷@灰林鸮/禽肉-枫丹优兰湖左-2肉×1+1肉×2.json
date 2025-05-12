@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "禽肉-蒙德南风之狮 2肉×3",
+    "name": "禽肉-枫丹优兰湖左-2肉×1+1肉×2",
     "type": "collect",
     "author": "灰林鸮",
     "version": "1.0",
@@ -12,8 +12,8 @@
   "positions": [
     {
       "id": 1,
-      "x": -1427.7314453125,
-      "y": 1661.5419921875,
+      "x": 3618.24609375,
+      "y": 4057.939453125,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -21,53 +21,54 @@
     },
     {
       "id": 2,
-      "x": -1415.60546875,
-      "y": 1674.25,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": -1430.8339843749998,
-      "y": 1683.22021484375,
+      "x": 3621.171875,
+      "y": 4054.220458984375,
       "action": "combat_script",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action_params": "keypress(4),wait(0.3),keypress(e)",
       "type": "path"
     },
     {
-      "id": 4,
-      "x": -1436.685546875,
-      "y": 1686.6279296875,
+      "id": 3,
+      "x": 3626.216796875,
+      "y": 4049.48388671875,
       "action": "",
       "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3636.79296875,
+      "y": 4058.811767578125,
+      "action": "",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 5,
-      "x": -1433.6005859375,
-      "y": 1683.30419921875,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "x": 3629.90625,
+      "y": 4069.645751953125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(4),wait(0.3),keypress(e)",
+      "type": "path",
+      "locked": false
     },
     {
       "id": 6,
-      "x": -1438.0234375,
-      "y": 1686.4462890625,
+      "x": 3622.90625,
+      "y": 4076.645751953125,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "type": "target"
     },
     {
       "id": 7,
-      "x": -1430.30859375,
-      "y": 1685.91259765625,
+      "x": 3622.931640625,
+      "y": 4073.124755859375,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -75,12 +76,21 @@
     },
     {
       "id": 8,
-      "x": -1436.064453125,
-      "y": 1682.794921875,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 3624.9873046875,
+      "y": 4071.000732421875,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3624.40234375,
+      "y": 4077.302978515625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     }
   ]
 }

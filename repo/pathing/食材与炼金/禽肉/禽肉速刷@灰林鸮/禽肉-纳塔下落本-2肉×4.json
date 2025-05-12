@@ -1,13 +1,13 @@
 {
   "info": {
-    "name": "纳塔-下落本-2肉×4",
+    "name": "禽肉-纳塔下落本-2肉×4",
     "type": "collect",
     "author": "灰林鸮",
     "version": "1.0",
     "description": "队伍四号位必须是砂糖，且带着绮良良或埃洛伊！最好不要堆移速。注：禽类被杀死后12小时刷新，所以此脚本一天可以运行两次，但2肉鸟和1肉鸟的上限每天只有200只。",
     "map_name": "Teyvat",
     "bgi_version": "0.44.4",
-    "tags":  [ "砂糖" ,"禽肉" ,"绮良良/埃洛伊"]
+    "tags":  [ "砂糖" ,"禽肉" ,"绮良良","埃洛伊"]
   },
   "positions": [
     {
@@ -41,43 +41,52 @@
       "id": 4,
       "x": 10646.6640625,
       "y": -3325.5,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 5,
       "x": 10651.4814453125,
-      "y": -3313.494140625,
-      "type": "path",
-      "move_mode": "walk",
+      "y": -3314.494140625,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 6,
-      "x": 10643.4091796875,
+      "x": 10644.4091796875,
       "y": -3320.8779296875,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 7,
-      "x": 10656.775390625,
+      "x": 10655.775390625,
       "y": -3317.939453125,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 8,
-      "x": 10646.4609375,
+      "x": 10647.4609375,
       "y": -3316.140625,
-      "type": "path",
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 10647.478515625,
+      "y": -3322.708984375,
+      "type": "target",
       "move_mode": "walk",
       "action": "",
       "action_params": ""

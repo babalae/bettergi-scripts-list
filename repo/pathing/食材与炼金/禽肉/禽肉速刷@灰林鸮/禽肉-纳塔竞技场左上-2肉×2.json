@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "禽肉-稻妻名椎滩右-2肉×1",
+    "name": "禽肉-纳塔竞技场左上-2肉×2",
     "type": "collect",
     "author": "灰林鸮",
     "version": "1.0",
@@ -12,8 +12,8 @@
   "positions": [
     {
       "id": 1,
-      "x": -2738.2021484375,
-      "y": -3414.0380859375,
+      "x": 9229.4892578125,
+      "y": -1729.56982421875,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -21,8 +21,8 @@
     },
     {
       "id": 2,
-      "x": -2724.3837890625,
-      "y": -3403.533203125,
+      "x": 9251.17578125,
+      "y": -1733.15966796875,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "keypress(4),wait(0.3),keypress(e)",
@@ -30,30 +30,21 @@
     },
     {
       "id": 3,
-      "x": -2715.28515625,
-      "y": -3399.1962890625,
+      "x": 9257.69140625,
+      "y": -1731.95361328125,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "type": "target"
     },
     {
       "id": 4,
-      "x": -2722.1103515625,
-      "y": -3400.1630859375,
-      "type": "target",
-      "move_mode": "walk",
+      "x": 9257.20703125,
+      "y": -1737.0810546875,
       "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": -2714.9013671875,
-      "y": -3403.271484375,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "action_params": "",
+      "type": "target"
     }
   ]
 }
