@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "禽肉-稻妻名椎滩右-2肉×1",
+    "name": "禽肉-璃月层岩右-2肉×2",
     "type": "collect",
     "author": "灰林鸮",
     "version": "1.0",
@@ -12,8 +12,8 @@
   "positions": [
     {
       "id": 1,
-      "x": -2738.2021484375,
-      "y": -3414.0380859375,
+      "x": 1470.1083984375,
+      "y": -728.79541015625,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -21,39 +21,58 @@
     },
     {
       "id": 2,
-      "x": -2724.3837890625,
-      "y": -3403.533203125,
+      "x": 1491.4267578125,
+      "y": -720.9443359375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1501.4736328125002,
+      "y": -718.41162109375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 1515.4736328125002,
+      "y": -715.41162109375,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "keypress(4),wait(0.3),keypress(e)",
       "type": "path"
     },
     {
-      "id": 3,
-      "x": -2715.28515625,
-      "y": -3399.1962890625,
+      "id": 5,
+      "x": 1521.1318359375,
+      "y": -714.8486328125,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 4,
-      "x": -2722.1103515625,
-      "y": -3400.1630859375,
-      "type": "target",
-      "move_mode": "walk",
+      "id": 6,
+      "x": 1523.0830078125,
+      "y": -711.58056640625,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
-      "id": 5,
-      "x": -2714.9013671875,
-      "y": -3403.271484375,
-      "type": "path",
-      "move_mode": "walk",
+      "id": 7,
+      "x": 1520.333984375,
+      "y": -713.00390625,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     }
   ]
 }

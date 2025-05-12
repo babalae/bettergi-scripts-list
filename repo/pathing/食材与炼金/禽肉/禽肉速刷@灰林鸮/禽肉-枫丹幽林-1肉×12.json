@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "禽肉-蒙德星落湖-2肉×5",
+    "name": "禽肉-枫丹幽林-1肉×12",
     "type": "collect",
     "author": "灰林鸮",
     "version": "1.0",
@@ -12,8 +12,8 @@
   "positions": [
     {
       "id": 1,
-      "x": -1330.1162109375,
-      "y": 2563.945068359375,
+      "x": 3199.9130859375,
+      "y": 3433.373046875,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -21,17 +21,17 @@
     },
     {
       "id": 2,
-      "x": -1361.4677734375,
-      "y": 2567.269775390625,
-      "action": "",
-      "move_mode": "dash",
+      "x": 3181.2890625,
+      "y": 3396.303955078125,
+      "action": "stop_flying",
+      "move_mode": "fly",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 3,
-      "x": -1360.7822265625,
-      "y": 2547.225830078125,
+      "x": 3159.1611328125,
+      "y": 3372.1533203125,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "keypress(4),wait(0.3),keypress(e)",
@@ -39,8 +39,8 @@
     },
     {
       "id": 4,
-      "x": -1357.5146484375,
-      "y": 2537.87060546875,
+      "x": 3151.328125,
+      "y": 3367.43359375,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -48,8 +48,8 @@
     },
     {
       "id": 5,
-      "x": -1357.6513671875,
-      "y": 2543.38232421875,
+      "x": 3155.98828125,
+      "y": 3364.06298828125,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -57,8 +57,8 @@
     },
     {
       "id": 6,
-      "x": -1360.228515625,
-      "y": 2537.5478515625,
+      "x": 3157.7441406249995,
+      "y": 3369.91162109375,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -66,62 +66,63 @@
     },
     {
       "id": 7,
-      "x": -1360.228515625,
-      "y": 2544.5478515625,
+      "x": 3159.6748046875,
+      "y": 3366.92529296875,
+      "type": "path",
+      "move_mode": "walk",
       "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 8,
-      "x": -1358.228515625,
-      "y": 2531.5478515625,
-      "action": "",
+      "x": 3153.4501953125,
+      "y": 3362.820068359375,
+      "type": "target",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 9,
-      "x": -1340.22265625,
-      "y": 2524.7485351562495,
+      "x": 3199.892578125,
+      "y": 3433.679443359375,
       "action": "",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "type": "teleport"
     },
     {
       "id": 10,
-      "x": -1331.041015625,
-      "y": 2527.4389648437505,
-      "action": "combat_script",
+      "x": 3242.623046875,
+      "y": 3392.357666015625,
+      "action": "",
       "move_mode": "dash",
-      "action_params": "keypress(4),wait(0.3),keypress(e)",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 11,
-      "x": -1323.1708984375,
-      "y": 2526.1845703125,
+      "x": 3312.7001953125,
+      "y": 3400.91845703125,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 12,
-      "x": -1329.7314453125,
-      "y": 2531.4555664062505,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "x": 3322.2978515625005,
+      "y": 3392.8854980468745,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(4),wait(0.3),keypress(e)",
+      "type": "path",
+      "locked": false
     },
     {
       "id": 13,
-      "x": -1321.3681640625,
-      "y": 2529.044189453125,
+      "x": 3333.126953125,
+      "y": 3389.0009765625,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -129,8 +130,8 @@
     },
     {
       "id": 14,
-      "x": -1329.7861328125,
-      "y": 2529.2368164062495,
+      "x": 3324.4189453125,
+      "y": 3389.189208984375,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -138,8 +139,26 @@
     },
     {
       "id": 15,
-      "x": -1320.814453125,
-      "y": 2532.3408203125,
+      "x": 3331.444335937499,
+      "y": 3386.470458984375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 3324.0029296875005,
+      "y": 3387.281005859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 3331.002929687502,
+      "y": 3384.281005859375,
       "action": "",
       "move_mode": "walk",
       "action_params": "",

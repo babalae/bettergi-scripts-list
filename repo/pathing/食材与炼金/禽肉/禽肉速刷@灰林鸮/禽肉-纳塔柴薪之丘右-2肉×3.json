@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "禽肉-枫丹实验室左上-1肉×4",
+    "name": "禽肉-纳塔柴薪之丘右-2肉×3",
     "type": "collect",
     "author": "灰林鸮",
     "version": "1.0",
@@ -12,8 +12,8 @@
   "positions": [
     {
       "id": 1,
-      "x": 4001.1044921875,
-      "y": 4878.45068359375,
+      "x": 8706.4873046875,
+      "y": -1575.11279296875,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -21,8 +21,8 @@
     },
     {
       "id": 2,
-      "x": 4023.447265625,
-      "y": 4845.09375,
+      "x": 8650.078125,
+      "y": -1624.8896484375,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -30,8 +30,8 @@
     },
     {
       "id": 3,
-      "x": 4046.81640625,
-      "y": 4821.7216796875,
+      "x": 8615.48828125,
+      "y": -1689.08203125,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -39,8 +39,8 @@
     },
     {
       "id": 4,
-      "x": 4061.9873046875,
-      "y": 4802.06005859375,
+      "x": 8597.5869140625,
+      "y": -1685.27099609375,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "keypress(4),wait(0.3),keypress(e)",
@@ -48,8 +48,8 @@
     },
     {
       "id": 5,
-      "x": 4066.04296875,
-      "y": 4792.437988281249,
+      "x": 8591.0517578125,
+      "y": -1682.5224609375,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -57,8 +57,8 @@
     },
     {
       "id": 6,
-      "x": 4069.5029296875,
-      "y": 4798.078125,
+      "x": 8587.923828124998,
+      "y": -1688.609375,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -66,8 +66,8 @@
     },
     {
       "id": 7,
-      "x": 4063.5224609375,
-      "y": 4793.7412109375,
+      "x": 8592.4677734375,
+      "y": -1683.697265625,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -75,21 +75,57 @@
     },
     {
       "id": 8,
-      "x": 4062.2265625,
-      "y": 4796.0634765625,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 8590.5927734375,
+      "y": -1689.09814453125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 9,
-      "x": 4070.103515624999,
-      "y": 4794.05517578125,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 8565.44921875,
+      "y": -1680.10400390625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(4),wait(0.3),keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 8556.9599609375,
+      "y": -1675.85498046875,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 8561.6123046875,
+      "y": -1680.27587890625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 8556.8505859375,
+      "y": -1678.09033203125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 8559.9921875,
+      "y": -1681.08740234375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     }
   ]
 }
