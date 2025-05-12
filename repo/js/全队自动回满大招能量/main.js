@@ -45,9 +45,9 @@ const autoNavigateToReward = async () => {
         }
                 // 前进一小步
         keyDown("w");
-        await sleep(500);
+        await sleep(400);
         keyUp("w");
-        await sleep(100); // 等待角色移动稳定
+        await sleep(200); // 等待角色移动稳定
     }
 }
 
@@ -110,7 +110,9 @@ async function autoFightAndEndDetection() {
     }
 }
 
-await genshin.tp(-1559.08,2492.51);//传送到副本
+let recovery = settings.recovery ?? 0;
+await genshin.tp(2297.6201171875,-824.5869140625);
+await pathingScript.runFile("assets/tp.json");
 await sleep(1000);
 keyDown("w");
 await sleep(3000);
@@ -130,8 +132,7 @@ await autoNavigateToReward();
 keyPress("F"); 
 await autoFightAndEndDetection();//一直战斗直到检测到结束
 await sleep(1000);
-await pathingScript.runFile("assets/recover.json");
-await sleep(1000);
+await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
 log.info("能量充满，任务结束");
-
+await sleep(1000);
 })();
