@@ -76,6 +76,7 @@
 			if ((i + 1) % statueTimes === 0) { // 判断当前循环次数否达到去神像设置值
 				await genshin.tpToStatueOfTheSeven();
 				await AutoPath(`好感-张牙舞爪的恶党-触发位置(二净甸)`);
+				await sleep(delayTime);
 			} else if (!await comparePosition()) { // 对比触发位置坐标，如果不符合预期坐标则重新执行触发线路
 				log.info(`导航至突发任务（张牙舞爪的恶党）触发位置(二净甸)`);
 				await AutoPath(`好感-张牙舞爪的恶党-触发位置(二净甸)`);
@@ -99,7 +100,7 @@
 							ocrStatus = true;
 							break;
 						}
-						await sleep(1000);
+						await sleep(500);
 					}
 				}
 
