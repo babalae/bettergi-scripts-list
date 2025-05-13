@@ -192,6 +192,7 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout) {
         }
     }
     log.info('盗宝团好感已完成');
+    await genshin.tpToStatueOfTheSeven();  // 虽然不知道什么原因，但是不加这句会报错
 }
 
 // 验证输入是否是正整数
