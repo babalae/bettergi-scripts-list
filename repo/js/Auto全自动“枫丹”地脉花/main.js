@@ -285,7 +285,7 @@
         { line: 6, flower: 1, x: 0, y: 0 },//开始已经检测，不用复检
         { line: 6, flower: 2, x: 469, y: 369 },//315   54
         { line: 6, flower: 3, x: 400, y: 343 },//289
-        { line: 6, flower: 4, x: 371, y: 281 },//227
+        { line: 6, flower: 4, x: 371, y: 281 },//227  379 290
       ];
     
     // 快速寻路模式寻路
@@ -319,11 +319,11 @@
         await moveMouseTo(1275,601);
         await sleep(200);
         await leftButtonDown();
-        await sleep(200);
+        await sleep(300);
         await moveMouseTo(1275,651);
-        await sleep(200);
+        await sleep(300);
         await moveMouseTo(1275,300);
-        await sleep(200);
+        await sleep(300);
         await moveMouseTo(1272,18);
         await sleep(500);
         let XIAN123 = await imageRecognition(DIMAIHUA,1,0,0,0,0,1720,1080);
@@ -580,7 +580,7 @@
             if (uidNumbers && uidNumbers.length > 0) {
                 // 使用 for...of 循环遍历 uidNumbers 数组
                 for (let number of uidNumbers) {
-                    var UIDnow = "UID" + number;
+                    var UIDnow = number;
                     log.debug(`DEBUG:${UIDnow}`);
                     let UIDD = await Textocr(UIDnow, 1, 0, 0, 112,177, 190, 39);
                     if (UIDD.found) {
