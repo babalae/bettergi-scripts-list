@@ -1,7 +1,7 @@
 (async function () {
 
     //初始化配置======================================================================================
-    var actiontime = settings.actiontime != undefined && ~~settings.actiontime > 0 ? ~~settings.actiontime : 100;
+    var actiontime = settings.actiontime != undefined && ~~settings.actiontime > 0 ? ~~settings.actiontime : 150;
     var TEAM
     var AKF = settings.AKF !== undefined ? (
         settings.AKF === "是" ? 1 :
@@ -89,7 +89,7 @@ async function executeAttack(){
     await middleButtonClick();
     await sleep(1000);
     
-        log.info(`攻击动作开始，${actiontime}秒后超时退出！一般60秒左右完成！`)
+        log.info(`攻击动作开始，${actiontime}秒后超时退出！一般120秒左右完成！`)
         var startTime = new Date();
         await sleep(500);
         var NowTime = new Date();
@@ -113,11 +113,12 @@ async function executeAttack(){
                 }
             }
             leftButtonClick(); 
+            await sleep(50);
             NowTime = new Date();
         }
 
     await genshin.returnMainUi();
-    throw new Error(`${actiontimein}秒攻击动作超时，结束流程！`);
+    throw new Error(`${actiontime}秒攻击动作超时，结束流程！`);
 }
 
     let nowuidString = settings.nowuid ? settings.nowuid : "";
@@ -132,7 +133,7 @@ async function executeAttack(){
             if (uidNumbers && uidNumbers.length > 0) {
                 // 使用 for...of 循环遍历 uidNumbers 数组
                 for (let number of uidNumbers) {
-                    var UIDnow = "UID" + number;
+                    var UIDnow = number;
                     log.debug(`DEBUG:${UIDnow}`);
                     let UIDD = await textOCR(UIDnow, 1, 0, 0, 112,177, 190, 39);
                     if (UIDD.found) {

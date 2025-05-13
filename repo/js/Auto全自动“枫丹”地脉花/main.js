@@ -580,7 +580,7 @@
             if (uidNumbers && uidNumbers.length > 0) {
                 // 使用 for...of 循环遍历 uidNumbers 数组
                 for (let number of uidNumbers) {
-                    var UIDnow = "UID" + number;
+                    var UIDnow = number;
                     log.debug(`DEBUG:${UIDnow}`);
                     let UIDD = await Textocr(UIDnow, 1, 0, 0, 112,177, 190, 39);
                     if (UIDD.found) {
