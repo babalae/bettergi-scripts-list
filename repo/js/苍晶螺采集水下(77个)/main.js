@@ -7,6 +7,12 @@
     return
   }
 
+  // 切换跑图队伍
+  if (settings.team) {
+    log.info(`切换至队伍 ${settings.team},请确保双风少女体型！`);
+    await genshin.switchParty(settings.team);
+  }
+
   log.info('安眠处地面1，3个。');
   if (settings.selectAll || settings.annapausis1) {
     try {
