@@ -1,0 +1,132 @@
+{
+  "info": {
+    "name": "3501稻妻渊下蛇肠之路",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1580.98974609375,
+      "y": -112.631103515625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1575.552490234375,
+      "y": -97.7724609375,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1565.2509765625,
+      "y": -90.82470703125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 1509.77001953125,
+      "y": -98.918701171875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 1512.281982421875,
+      "y": -97.09423828125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 1542.2432861328125,
+      "y": -79.565185546875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 1552.0155029296875,
+      "y": -37.468505859375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 1552.5218505859375,
+      "y": 17.6246337890625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 1563.28466796875,
+      "y": 41.32958984375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 1580.9967041015625,
+      "y": -112.577880859375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 1553.1148681640625,
+      "y": -172.241943359375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 1545.12158203125,
+      "y": -187.456298828125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": 1545.12158203125,
+      "y": -187.456298828125,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}
