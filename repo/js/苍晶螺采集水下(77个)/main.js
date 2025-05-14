@@ -20,7 +20,7 @@
         await genshin.returnMainUi();
     }
   }
-
+dispatcher.addTimer(new RealtimeTimer("AutoPick"));
   log.info('安眠处地面1，3个。');
   if (settings.selectAll || settings.annapausis1) {
     try {
