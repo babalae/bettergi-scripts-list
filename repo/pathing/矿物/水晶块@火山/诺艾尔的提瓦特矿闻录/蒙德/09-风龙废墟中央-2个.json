@@ -1,0 +1,130 @@
+{
+  "info": {
+    "name": "09-风龙废墟中央-2个",
+    "type": "collect",
+    "author": "火山",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 177.1240234375,
+      "y": 2647.10595703125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 178.810546875,
+      "y": 2642.116943359375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 183.9384765625,
+      "y": 2601.4267578125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 200.9248046875,
+      "y": 2586.6162109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 219.62549431038678,
+      "y": 2600.5,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(3.5)"
+    },
+    {
+      "id": 6,
+      "x": 226.2470703125,
+      "y": 2661.601318359375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 234.841796875,
+      "y": 2678.83056640625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 231.0693359375,
+      "y": 2694.9169921875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 220.94921875,
+      "y": 2690.032470703125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 10,
+      "x": 227.453125,
+      "y": 2694.503173828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 246.9462890625,
+      "y": 2674.757080078125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 247.345703125,
+      "y": 2671.5615234375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "700"
+    },
+    {
+      "id": 13,
+      "x": 244.5546875,
+      "y": 2669.382568359375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    }
+  ]
+}
