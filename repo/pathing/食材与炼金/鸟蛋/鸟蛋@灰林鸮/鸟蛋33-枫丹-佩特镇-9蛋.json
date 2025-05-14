@@ -1,0 +1,103 @@
+{
+  "info": {
+    "name": "鸟蛋33-枫丹-佩特镇-9蛋",
+    "type": "collect",
+    "author": "灰林鸮",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4322.2763671875,
+      "y": 1172.8349609375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4331.9384765625,
+      "y": 1202.673828125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4326.82373046875,
+      "y": 1216.2685546875,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 4326.82373046875,
+      "y": 1216.2685546875,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 4365.46044921875,
+      "y": 1205.04248046875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4373.66650390625,
+      "y": 1204.484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 4373.6775390625,
+      "y": 1199.4243164062498,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 4373.46923828125,
+      "y": 1201.37451171875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4381.42626953125,
+      "y": 1211.66259765625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 4386.80615234375,
+      "y": 1194.64892578125,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

@@ -1,38 +1,38 @@
 {
   "info": {
-    "name": "璃月-琼玑野-2鸟蛋",
+    "name": "鸟蛋34-纳塔-坚岩隘谷-5蛋",
     "type": "collect",
     "author": "灰林鸮",
     "version": "1.0",
-    "description": "需要携带纳西妲",
+    "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.43.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": -255.01953125,
-      "y": 630.10498046875,
-      "action": "",
+      "x": 8597.2783203125,
+      "y": -1928.61376953125,
+      "type": "teleport",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
-    },
-    {
-      "id": 2,
-      "x": -249.7060546875,
-      "y": 615.26123046875,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
       "action_params": ""
     },
     {
+      "id": 2,
+      "x": 8490.009765625,
+      "y": -1936.8330078125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
       "id": 3,
-      "x": -253.0107421875,
-      "y": 613.99560546875,
+      "x": 8474.9111328125,
+      "y": -1926.619140625,
       "type": "target",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action": "nahida_collect",
       "action_params": ""
     }
