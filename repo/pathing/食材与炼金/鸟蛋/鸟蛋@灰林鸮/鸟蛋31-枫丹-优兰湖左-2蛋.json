@@ -1,0 +1,31 @@
+{
+  "info": {
+    "name": "鸟蛋31-枫丹-优兰湖左-2蛋",
+    "type": "collect",
+    "author": "灰林鸮",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3618.2880859375,
+      "y": 4057.924560546875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3641.5830078125,
+      "y": 4053.698486328125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

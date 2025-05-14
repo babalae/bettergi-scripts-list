@@ -1,18 +1,18 @@
 {
   "info": {
-    "name": "璃月-绝云间右-2鸟蛋",
+    "name": "鸟蛋22-稻妻-踏鞴砂-3蛋（死亡笔记会路过这个点所以可能没蛋）",
     "type": "collect",
     "author": "灰林鸮",
     "version": "1.0",
-    "description": "需要携带纳西妲",
+    "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.43.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": 897.8349609375,
-      "y": 583.4716796875,
+      "x": -3016.8359375,
+      "y": -3623.67578125,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -20,30 +20,30 @@
     },
     {
       "id": 2,
-      "x": 887.8486328125,
-      "y": 621.580078125,
-      "action": "",
-      "move_mode": "dash",
+      "x": -3007.8076171875,
+      "y": -3569.4208984375,
+      "action": "stop_flying",
+      "move_mode": "fly",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 3,
-      "x": 880.3447265625,
-      "y": 674.08642578125,
-      "action": "",
+      "x": -3022.513671875,
+      "y": -3531.30859375,
+      "action": "nahida_collect",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 4,
-      "x": 873.32421875,
-      "y": 688.11865234375,
+      "x": -3036.587890625,
+      "y": -3518.6591796875,
       "action": "nahida_collect",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action_params": "",
-      "type": "target"
+      "type": "path"
     }
   ]
 }
