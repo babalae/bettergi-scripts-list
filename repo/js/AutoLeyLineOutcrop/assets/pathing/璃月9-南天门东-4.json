@@ -4,24 +4,24 @@
     "type": "collect",
     "author": "寒烟",
     "version": "1.0",
-    "description": "",
+    "description": "河边的冰史莱姆",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0"
   },
   "positions": [
     {
       "id": 1,
+      "x": 1665.9267578125,
+      "y": 386.5966796875,
+      "type": "teleport",
+      "move_mode": "walk",
       "action": "",
-      "move_mode": "dash",
-      "type": "path",
-      "x": 1617.3212890625,
-      "y": 486.25146484375,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 1638.193359375,
-      "y": 508.67431640625,
+      "x": 1712.4541015625,
+      "y": 480.86376953125,
       "type": "path",
       "move_mode": "dash",
       "action": "",
@@ -29,20 +29,10 @@
     },
     {
       "id": 3,
-      "x": 1686.2080078125,
-      "y": 567.67822265625,
+      "x": 1686.6611328125,
+      "y": 567.546875,
       "type": "target",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": "800",
-      "locked": false
-    },
-    {
-      "id": 4,
-      "x": 1686.2080078125,
-      "y": 567.67822265625,
-      "type": "target",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action": "",
       "action_params": ""
     }

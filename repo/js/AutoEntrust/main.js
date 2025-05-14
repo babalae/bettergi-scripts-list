@@ -47,6 +47,7 @@
   
   async function prepareForLeyLineRun(settings) {
     // 开局传送到七天神像
+    await genshin.returnMainUi()
     await genshin.tpToStatueOfTheSeven();
     
     // 切换战斗队伍
@@ -56,15 +57,7 @@
     }
 }
 
-  async function loadConfig() {
-  try {
-      const configData = JSON.parse(await file.readText("config.json"));
-      return configData;
-  } catch (error) {
-      log.error(`加载配置文件失败: ${error.message}`);
-      throw new Error("配置文件加载失败，请检查config.json文件是否存在");
-  }
-}
+
   // 读取支持的委托列表
   function loadSupportedCommissions() {
     let supportedCommissions = [];
@@ -128,12 +121,7 @@
 
       // 点击委托界面
       log.info("点击委托界面");
-      await sleep(800);
-      click(300, 350);
-      click(300, 350);
-      click(300, 350);
-      click(300, 350);
-      click(300, 350);
+      await sleep(900);
       click(300, 350);
       await sleep(100);
       log.info("已进入委托界面");
@@ -498,11 +486,10 @@
         } else if (detailStatus === "未知" || detailStatus === "错误") {
           log.warn("无法确认是否进入详情界面，尝试继续执行");
           // 尝试识别委托地点
-          const location = recognizeCommissionLocation();
-          commission.location = location;
-          log.info("委托 {name} 的地点: {location}", commission.name,commission.location);
+          location = recognizeCommissionLocation();
+          fourthCommission.location = location;
+          log.info("委托 {name} 的地点: {location}", fourthCommission.name, location);
         } else {
-          log.info("1");
           location = recognizeCommissionLocation();
           fourthCommission.location = location;
           log.info("委托 {name} 的地点: {location}", fourthCommission.name, location);
@@ -857,7 +844,6 @@ async function loadCommissionsFromData() {
   }
 }
 
-// ... existing code ...
 
 /**
  * 执行委托追踪
@@ -925,6 +911,7 @@ async function executeCommissionTracking() {
             await file.readText(scriptPath);
             log.info("找到路径追踪脚本: {path}", scriptPath);
             scriptFound = true;
+            scriptExecuted = true;
           } catch (readError) {
             log.info("路径追踪脚本不存在: {path}", scriptPath);
             continue; // 尝试下一个脚本路径
@@ -940,7 +927,7 @@ async function executeCommissionTracking() {
           //log.info("委托 {name} 执行完成", commission.name);
           
           // 成功执行一个脚本后，跳出循环
-          break;
+          //break;
         } catch (scriptError) {
           log.error("执行路径追踪脚本时出错: {error}", scriptError);
         }
@@ -1011,7 +998,7 @@ async function executeCommissionTracking_old() {
       log.info("开始处理委托: {name} ({location})", commission.name, commission.location || "未知地点");
       
       // 执行委托追踪脚本
-      const success = await executeTrackingScript(commission);
+      //const success = await executeTrackingScript(commission);
       
       if (success) {
         log.info("委托 {name} 已成功完成", commission.name);
@@ -1037,15 +1024,14 @@ async function executeCommissionTracking_old() {
       log.info("跳过识别，直接加载数据");
     }else{
       await Identification();
-    }
-    if(!settings.team){
-      log.info("没有设置切换队伍");
-    }
+    }//识别委托
+
     // 开局准备
     await prepareForLeyLineRun(settings);
           
-    // 如果启用了自动追踪，执行追踪脚本
+    // 执行自动委托
     await executeCommissionTracking();
+    
     log.info("每日委托执行完成，前往安全地点");
     await genshin.tpToStatueOfTheSeven();
   }
