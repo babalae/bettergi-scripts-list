@@ -1,7 +1,4 @@
 (async function () {
-
-  dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
-
   if (!settings.enable) {
     log.error(`请打开「JS脚本自定义配置」，然后阅读并勾选第一个复选框。`);
     return
@@ -259,7 +256,5 @@
   } else {
     log.info('跳过。');
   }
-
-  dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
 
 })();
