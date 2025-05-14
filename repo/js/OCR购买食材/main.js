@@ -212,7 +212,6 @@ function performOcr(targetText, xRange, yRange, tolerance, timeout = 2000) {
                 let res = resList[i];
                 // 后处理：根据替换映射表检查和替换错误识别的字符
                 let correctedText = res.text;
-                const replacementMap = { /* 替换映射表，例如：'0': 'O', '1': 'l' */ };
                 for (let [wrongChar, correctChar] of Object.entries(replacementMap)) {
                     correctedText = correctedText.replace(new RegExp(wrongChar, 'g'), correctChar);
                 }
