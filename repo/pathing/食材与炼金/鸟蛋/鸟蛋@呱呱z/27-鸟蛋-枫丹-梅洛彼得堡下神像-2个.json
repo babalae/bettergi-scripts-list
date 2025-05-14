@@ -1,0 +1,31 @@
+{
+  "info": {
+    "name": "鸟蛋-枫丹-梅洛彼得堡下神像-2个",
+    "type": "collect",
+    "author": "呱呱z",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4545.51513671875,
+      "y": 4225.6103515625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4550.19482421875,
+      "y": 4225.85009765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}
