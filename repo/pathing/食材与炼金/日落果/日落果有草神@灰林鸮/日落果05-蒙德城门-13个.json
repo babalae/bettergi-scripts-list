@@ -1,0 +1,87 @@
+{
+  "info": {
+    "name": "日落果05-蒙德城门-13个",
+    "type": "collect",
+    "author": "灰林鸮",
+    "version": "1.0",
+    "description": "需携带纳西妲，部分危险路径刚需盾位",
+    "map_name": "Teyvat",
+    "bgi_version": "0.44.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1120.8076171875,
+      "y": 2190.427734375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1144.4189453125,
+      "y": 2174.6640625,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": -1144.4189453125,
+      "y": 2174.6640625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1120.8056640625,
+      "y": 2190.489990234375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1050.5771484375,
+      "y": 2198.06884765625,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -1054.8525390625,
+      "y": 2160.492919921875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -1045.259765625,
+      "y": 2141.65087890625,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": -1045.259765625,
+      "y": 2141.65087890625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

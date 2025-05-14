@@ -1,0 +1,78 @@
+{
+  "info": {
+    "name": "禽肉-璃月层岩右-2肉×2",
+    "type": "collect",
+    "author": "灰林鸮",
+    "version": "1.0",
+    "description": "队伍四号位必须是砂糖，且带着绮良良或埃洛伊！最好不要堆移速。注：禽类被杀死后12小时刷新，所以此脚本一天可以运行两次，但2肉鸟和1肉鸟的上限每天只有200只。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.44.4",
+    "tags":  [ "砂糖" ,"禽肉" ,"绮良良","埃洛伊"]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1470.1083984375,
+      "y": -728.79541015625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1491.4267578125,
+      "y": -720.9443359375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1501.4736328125002,
+      "y": -718.41162109375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 1515.4736328125002,
+      "y": -715.41162109375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(4),wait(0.3),keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1521.1318359375,
+      "y": -714.8486328125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1523.0830078125,
+      "y": -711.58056640625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 1520.333984375,
+      "y": -713.00390625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

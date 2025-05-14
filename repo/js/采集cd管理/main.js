@@ -2,6 +2,14 @@
 const recordFolder = "record"; // 存储记录文件的文件夹路径
 const timestamp = "::2000-01-01T00:00:00.000Z"; // 固定的时间戳
 
+    // 定义六个运行时变量，初始值分别为 2000、1000、0、0、0、0
+    let runtime1 = 2000;
+    let runtime2 = 1000;
+    let runtime3 = 0;
+    let runtime4 = 0;
+    let runtime5 = 0;
+    let runtime6 = 0;
+
 // 从 settings 中读取用户配置，并设置默认值
 const userSettings = {
     operationMode: settings.operationMode || "执行任务（若不存在索引文件则自动创建）",
@@ -36,8 +44,6 @@ if (!userSettings.infoFileName) {
         userSettings.pathGroup2CdType,
         userSettings.pathGroup3CdType,
         userSettings.otherPathGroupsCdTypes,
-        userSettings.partyNames,
-        userSettings.skipTimeRanges
     ].join(".");
 }
 
@@ -174,10 +180,29 @@ try {
                 // 获取开始时间
                 const startTime = new Date();
 
+// 更新 runtime 变量
+        runtime6 = runtime5;
+        runtime5 = runtime4;
+        runtime4 = runtime3;
+        runtime3 = runtime2;
+        runtime2 = runtime1;
+        runtime1 = startTime.getTime();
+
+        // 检查时间差条件
+        if ((runtime1 - runtime2) < 500 &&
+            (runtime2 - runtime3) < 500 &&
+            (runtime3 - runtime4) < 500 &&
+            (runtime4 - runtime5) < 500 &&
+            (runtime5 - runtime6) < 500) {
+            log.info(`连续五次时间差小于 500 毫秒，循环终止。`);
+            break; // 如果连续五次时间差小于 500 毫秒，退出循环
+        }
+
                 // 比较当前时间戳与任务的时间戳
                 const entryDate = new Date(entryTimestamp);
                 if (startTime <= entryDate) {
                     log.info(`当前任务 ${entryName} 未刷新，跳过任务 ${i + 1}/${pathGroupEntries.length} 个`);
+                    await sleep(500);
                     continue; // 跳过当前任务
                 }
 

@@ -270,7 +270,7 @@ jobs:
               # 确保 bgi_version 是有效的格式
               bgi_ver = parse_bgi_version(bgi_version)
               if not bgi_ver:
-                  validation_issues.append(f"无效的 bgiVersion 格式: {bgi_version}")
+                  validation_issues.append(f"无效的 bgi_version 格式: {bgi_version}")
                   return issues, validation_issues
           
               # 检查 action 兼容性
@@ -400,19 +400,19 @@ jobs:
               # 删除可能存在的 v 前缀
               if bgi_version.startswith('v'):
                   bgi_version = bgi_version.lstrip('v')
-                  corrections.append(f"bgiVersion 前缀 'v' 已删除")
+                  corrections.append(f"bgi_version 前缀 'v' 已删除")
           
               bgi_ver = parse_bgi_version(bgi_version)
           
               if not bgi_ver:
                   if auto_fix:
-                      corrections.append(f"bgiVersion {bgi_version} 格式无效，自动更新为 {DEFAULT_BGI_VERSION}")
+                      corrections.append(f"bgi_version {bgi_version} 格式无效，自动更新为 {DEFAULT_BGI_VERSION}")
                       return DEFAULT_BGI_VERSION, corrections
                   return bgi_version, []
           
               if bgi_ver < VersionInfo.parse(DEFAULT_BGI_VERSION):
                   if auto_fix:
-                      corrections.append(f"bgiVersion {bgi_version} 自动更新为 {DEFAULT_BGI_VERSION} (原版本低于要求)")
+                      corrections.append(f"bgi_version {bgi_version} 自动更新为 {DEFAULT_BGI_VERSION} (原版本低于要求)")
                       return DEFAULT_BGI_VERSION, corrections
           
               return bgi_version, corrections
@@ -447,9 +447,9 @@ jobs:
                   info["version"] = DEFAULT_VERSION
                   messages.append(f"⚠️ 文件缺少 version 字段，已设置为默认值: {DEFAULT_VERSION}")
           
-              if "bgiVersion" not in info:
-                  info["bgiVersion"] = DEFAULT_BGI_VERSION
-                  messages.append(f"⚠️ 文件缺少 bgiVersion 字段，已设置为默认值: {DEFAULT_BGI_VERSION}")
+              if "bgi_version" not in info:
+                  info["bgi_version"] = DEFAULT_BGI_VERSION
+                  messages.append(f"⚠️ 文件缺少 bgi_version 字段，已设置为默认值: {DEFAULT_BGI_VERSION}")
           
               if "positions" not in data:
                   data["positions"] = []
@@ -485,9 +485,9 @@ jobs:
               corrections = []
           
               # 首先检查并删除 v 前缀
-              if info["bgiVersion"].startswith('v'):
-                  info["bgiVersion"] = info["bgiVersion"].lstrip('v')
-                  corrections.append(f"bgiVersion 前缀 'v' 已删除")
+              if info["bgi_version"].startswith('v'):
+                  info["bgi_version"] = info["bgi_version"].lstrip('v')
+                  corrections.append(f"bgi_version 前缀 'v' 已删除")
           
               if auto_fix and compatibility_issues:
                   max_required = extract_required_version(compatibility_issues)
@@ -497,15 +497,15 @@ jobs:
                       max_required = max_required.lstrip('v')
           
                       try:
-                          current_bgi = parse_bgi_version(info["bgiVersion"])
+                          current_bgi = parse_bgi_version(info["bgi_version"])
                           if current_bgi and current_bgi < VersionInfo.parse(max_required):
-                              info["bgiVersion"] = max_required
-                              corrections.append(f"bgiVersion {info['bgiVersion']} 自动更新为 {max_required} 以兼容所有功能")
+                              info["bgi_version"] = max_required
+                              corrections.append(f"bgi_version {info['bgi_version']} 自动更新为 {max_required} 以兼容所有功能")
                               return [], corrections
                       except ValueError as e:
                           print(f"警告: 版本号解析失败 - {e}")
-                          info["bgiVersion"] = DEFAULT_BGI_VERSION
-                          corrections.append(f"bgiVersion 自动更新为 {DEFAULT_BGI_VERSION} (版本解析失败)")
+                          info["bgi_version"] = DEFAULT_BGI_VERSION
+                          corrections.append(f"bgi_version 自动更新为 {DEFAULT_BGI_VERSION} (版本解析失败)")
                           return [], corrections
           
               return compatibility_issues, corrections
@@ -534,10 +534,10 @@ jobs:
               corrections = ensure_required_fields(info, filename)
               all_corrections.extend(corrections)
           
-              # 检查并删除 bgiVersion 的 v 前缀
-              if "bgiVersion" in info and info["bgiVersion"].startswith('v'):
-                  info["bgiVersion"] = info["bgiVersion"].lstrip('v')
-                  all_corrections.append("bgiVersion 前缀 'v' 已删除")
+              # 检查并删除 bgi_version 的 v 前缀
+              if "bgi_version" in info and info["bgi_version"].startswith('v'):
+                  info["bgi_version"] = info["bgi_version"].lstrip('v')
+                  all_corrections.append("bgi_version 前缀 'v' 已删除")
           
               # 处理坐标
               coord_changed = process_coordinates(data["positions"])
@@ -545,9 +545,9 @@ jobs:
                   all_corrections.append("坐标值自动保留两位小数")
           
               # 检查 BGI 版本兼容性
-              bgi_version, corrections = check_bgi_version_compatibility(info["bgiVersion"], auto_fix)
+              bgi_version, corrections = check_bgi_version_compatibility(info["bgi_version"], auto_fix)
               if corrections:
-                  info["bgiVersion"] = bgi_version
+                  info["bgi_version"] = bgi_version
                   all_corrections.extend(corrections)
           
               # 检查位置字段 - 修改为接收三个返回值
@@ -556,7 +556,7 @@ jobs:
                   all_corrections.extend(pos_corrections)
           
               # 检查 action 兼容性
-              compatibility_issues, action_validation_issues = check_actions_compatibility(data["positions"], info["bgiVersion"])
+              compatibility_issues, action_validation_issues = check_actions_compatibility(data["positions"], info["bgi_version"])
               position_issues.extend(action_validation_issues)
           
               # 根据兼容性问题更新 BGI 版本

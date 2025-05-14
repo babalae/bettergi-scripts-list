@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "鸟蛋-枫丹-幽林雾道右上-6个",
+    "type": "collect",
+    "author": "呱呱z",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": 3199.78515625,
+      "y": 3433.782958984375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3196.9775390625,
+      "y": 3469.337890625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3187.5380859375,
+      "y": 3473.8173828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 3162.419921875,
+      "y": 3502.611328125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 3151.515625,
+      "y": 3512.30810546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 3199.7861328125,
+      "y": 3433.6533203125,
+      "type": "teleport",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 3174.50390625,
+      "y": 3415.9306640625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1000"
+    },
+    {
+      "id": 8,
+      "x": 3135.5625,
+      "y": 3374.865234375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

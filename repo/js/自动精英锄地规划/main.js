@@ -9,6 +9,15 @@
     const requiredMonsterCount = parseInt(settings.requiredMonsterCount, 10) || 405; // 目标怪物数量
     const minSecPerMonster = parseFloat(settings.minSecPerMonster) || 0.1; // 最低秒均
 
+    // 定义六个运行时变量，初始值分别为 2000、1000、0、0、0、0
+    let runtime1 = 2000;
+    let runtime2 = 1000;
+    let runtime3 = 0;
+    let runtime4 = 0;
+    let runtime5 = 0;
+    let runtime6 = 0;
+
+
     // 初始化文件路径（直接内置生成）
     const indexPath = 'index.txt';
     const pathingDir = 'pathing/';
@@ -77,11 +86,30 @@ try {
         const now = new Date();
         const startTime = now.toISOString(); // 获取开始时间
 
+// 更新 runtime 变量
+        runtime6 = runtime5;
+        runtime5 = runtime4;
+        runtime4 = runtime3;
+        runtime3 = runtime2;
+        runtime2 = runtime1;
+        runtime1 = now.getTime();
+
+        // 检查时间差条件
+        if ((runtime1 - runtime2) < 500 &&
+            (runtime2 - runtime3) < 500 &&
+            (runtime3 - runtime4) < 500 &&
+            (runtime4 - runtime5) < 500 &&
+            (runtime5 - runtime6) < 500) {
+            log.info(`连续五次时间差小于 500 毫秒，循环终止。`);
+            break; // 如果连续五次时间差小于 500 毫秒，退出循环
+        }
+
         // 如果启用了路线CD检测，检查当前时间是否不早于附加时间戳
         if (enableRouteCdCheck) {
             const pathCDDate = new Date(pathCD); // 将附加时间戳转换为Date对象
             if (now < pathCDDate) {
                 log.info(`当前路线 ${pathName} 为第 ${i + 1}/${pathLines.length} 个，当前路线未刷新，放弃该路径`);
+                await sleep(500);
                 continue; // 放弃该路径
             }
         }
@@ -286,7 +314,7 @@ for (const path of sortedRoutes) {
                 .map(path => `${path.name}::2000-01-01T00:00:00.000Z`); 
             const pathGroupContent = sortedPathNames.join('\n');
             await file.writeText(pathGroupFilePath, pathGroupContent);
-            log.info(`生成并刷新路径组${i + 1}文件成功，路径数：${sortedPathNames.length}`);
+            log.info(`生成并刷新路径组${i + 1}文件成功，路径数：${sortedPathNames.length}，请修改js自定义配置中的操作模式以执行文件`);
         }
     }
 } else if (operationType === "输出地图追踪文件") {
