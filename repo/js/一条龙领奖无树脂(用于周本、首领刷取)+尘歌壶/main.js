@@ -21,6 +21,7 @@ async function tpEndDetection() {
 }
 
     let teaPot = settings.teaPot ?? 0;
+    let favorTeamName = settings.favorTeamName ?? 0;
     let delay = 2000;
     let ksl = settings.kslSelect ?? "枫丹";
     async function kslAutoPath(location) {
@@ -31,7 +32,8 @@ async function tpEndDetection() {
     // 前往_凯瑟琳
     await kslAutoPath(ksl);
     await sleep(1000);
-
+    if(favorTeamName) await genshin.switchParty("好感队");
+    await sleep(1000);
     // 领取邮件
     keyPress("Escape");
     await sleep(1500);

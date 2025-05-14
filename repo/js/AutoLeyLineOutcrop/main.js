@@ -1274,6 +1274,10 @@ async function adjustViewForReward(boxIconRo) {
             let res = resList[i];
             if (res.text.includes("原粹树脂")) {
                 log.info("误触发领取页面，尝试关闭页面")
+                keyPress("ESCAPE");
+                await sleep(500);
+                keyPress("ESCAPE");
+                await sleep(500);
                 await genshin.returnMainUi();
             }
         }

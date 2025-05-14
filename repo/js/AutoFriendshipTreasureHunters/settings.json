@@ -2,7 +2,7 @@
   {
     "name": "qiuQiuRen",
     "type": "checkbox",
-    "label": "是否清理丘丘人【默认否，选是会清理丘丘人之后再开始盗宝团好感】"
+    "label": "是否清理丘丘人\n【默认否，选是会清理丘丘人之后再开始盗宝团好感】"
   },
   {
     "name": "partyName",
@@ -12,31 +12,31 @@
   {
     "name": "runTimes",
     "type": "input-text",
-    "label": "(选填)运行次数【默认10次，卡时间模式默认50次】"
+    "label": "(选填)运行次数\n【默认10次，卡时间模式默认50次】"
   },
   {
     "name": "waitTimeMode",
     "type": "checkbox",
-    "label": "卡时间模式【基于运行次数、基准日期、周期确定需要运行次数】"
+    "label": "卡时间模式\n【基于运行次数、基准日期、周期确定需要运行次数】"
   },
   {
     "name": "waitTimeModeDay",
     "type": "input-text",
-    "label": "卡时间模式基准日期【格式参考：2025-01-01】"
+    "label": "卡时间模式基准日期\n【格式参考：2025-01-01】"
   },
   {
     "name": "waitTimeModePeriod",
     "type": "input-text",
-    "label": "(选填)卡时间模式周期【默认：25天】"
+    "label": "(选填)卡时间模式周期\n【默认：25天】"
   },
   {
     "name": "ocrTimeout",
     "type": "input-text",
-    "label": "OCR超时时间（选填，默认为10秒）"
+    "label": "OCR超时时间\n【选填，默认为30秒，如果经常提前判定未识别到任务，请适当调大】"
   },
   {
     "name": "fightTimeOut",
     "type": "input-text",
-    "label": "战斗超时时间（选填，默认为120秒）"
+    "label": "战斗超时时间\n【选填，默认为120秒】"
   }
 ]

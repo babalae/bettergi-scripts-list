@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "鸟蛋-璃月-赤望台左-2个",
+    "type": "collect",
+    "author": "呱呱z",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2869.98046875,
+      "y": 1503.38720703125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 2861.1552734375,
+      "y": 1519.4716796875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 2852.0185546875,
+      "y": 1516.841796875,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 2844.1806640625,
+      "y": 1528.7470703125,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

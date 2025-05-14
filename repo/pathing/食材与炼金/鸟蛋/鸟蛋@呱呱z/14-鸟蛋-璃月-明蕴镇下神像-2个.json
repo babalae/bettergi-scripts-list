@@ -1,0 +1,28 @@
+{
+  "info": {
+    "name": "鸟蛋-明蕴镇(神像)-璃月2个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -255.05,
+      "y": 630.09
+    },
+    {
+      "id": 2,
+      "x": -240.98,
+      "y": 612.59,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

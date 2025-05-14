@@ -17,6 +17,15 @@
     let failCount = 0; // 失败复制的文件数量
     let routeIndex = 0; // 当前筛选的路线序号
 
+    // 定义六个运行时变量，初始值分别为 2000、1000、0、0、0、0
+    let runtime1 = 2000;
+    let runtime2 = 1000;
+    let runtime3 = 0;
+    let runtime4 = 0;
+    let runtime5 = 0;
+    let runtime6 = 0;
+
+
     // 日志输出配置参数
     log.info(
         `自动小怪锄地规划 - 配置信息：` +
@@ -66,8 +75,28 @@ if (operationMode === "执行路径文件") {
             log.info(`当前任务为第 ${i + 1}/${savedRoutes.length} 个`);
             const now = new Date(); // 获取开始时间
             const startTime = now.toISOString();
+
+// 更新 runtime 变量
+        runtime6 = runtime5;
+        runtime5 = runtime4;
+        runtime4 = runtime3;
+        runtime3 = runtime2;
+        runtime2 = runtime1;
+        runtime1 = now.getTime();
+
+        // 检查时间差条件
+        if ((runtime1 - runtime2) < 500 &&
+            (runtime2 - runtime3) < 500 &&
+            (runtime3 - runtime4) < 500 &&
+            (runtime4 - runtime5) < 500 &&
+            (runtime5 - runtime6) < 500) {
+            log.info(`连续五次时间差小于 500 毫秒，循环终止。`);
+            break; // 如果连续五次时间差小于 500 毫秒，退出循环
+        }
+
             if (enableCooldownCheck && startTime < routeTimestamp) {
                 log.info(`当前路线 ${routeName} 未刷新，跳过任务`);
+                await sleep(500);
                 continue; // 跳过当前循环
             }
             log.info(`当前路线 ${routeName} 已刷新或未启用CD检测，执行任务`);
