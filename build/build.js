@@ -290,7 +290,7 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
     tags = [...new Set(tags)];
 
     // 移除 "死亡笔记" 标签
-    tags = tags.filter(tag => tag !== '死亡笔记');
+    tags = tags.filter(tag => !tag.includes('死亡笔记'));
 
     return {
         author: contentObj.info.author || '',
