@@ -1,10 +1,10 @@
 // 作者:苍夏
-// 描述: 生存(钟离，茜特菈莉至少有一个),后台(八重,芙宁娜,玛薇卡,千织,千织绑定钟离)
+// 描述: 生存(钟离，茜特菈莉至少有一个),后台(八重,芙宁娜,爱可菲,玛薇卡,千织,千织绑定钟离)
 
 钟离 s(0.2),e(hold),w(0.3),q
 茜特菈莉 e,click(middle) ,q,click(middle) ,e,click(middle)
 
-千织 attack(0.1),click(middle),wait(0.2),keydown(e),wait(0.2),moveby(0,2000),wait(0.2),keyup(e),attack(1),wait(1),q
+千织 attack(0.1),click(middle),wait(0.2),keydown(e),wait(0.2),moveby(0,2000),wait(0.2),keyup(e),attack(1),q
 八重神子 e,wait(0.5),keydown(w),e,keyup(w),wait(0.6),keydown(a),keydown(s),e,keyup(a),keyup(s)
 芙宁娜 e,click(middle) ,q,click(middle) 
 爱可菲 e,q,click(middle) 
@@ -13,8 +13,8 @@
 钟离 e(hold),attack(3),q
 茜特菈莉 e,click(middle) ,q,click(middle),attack(1),e,click(middle)
 
-千织 attack(0.1),click(middle),wait(0.2),keydown(e),wait(0.2),moveby(0,2000),wait(0.2),keyup(e),attack(1),wait(1),q
+千织 attack(0.1),click(middle),wait(0.2),keydown(e),wait(0.2),moveby(0,2000),wait(0.2),keyup(e),attack(1),q
 八重神子 e,wait(0.5),keydown(w),e,keyup(w),wait(0.6),keydown(a),keydown(s),e,keyup(a),keyup(s)
-芙宁娜 e,click(middle) ,q,click(middle) 
+芙宁娜 e,click(middle) ,q,click(middle),e
 爱可菲 e,q,click(middle) 
 玛薇卡 e,click(middle) ,q,click(middle),keypress(2)
