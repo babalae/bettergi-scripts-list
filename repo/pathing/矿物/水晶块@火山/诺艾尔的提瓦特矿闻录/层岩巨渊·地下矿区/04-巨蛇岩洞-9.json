@@ -1,9 +1,9 @@
 {
   "info": {
-    "name": "04-巨蛇岩洞-9",
+    "name": "巨蛇岩洞-9",
     "type": "collect",
     "author": "火山",
-    "version": "1.1",
+    "version": "1.0",
     "description": "",
     "map_name": "TheChasm",
     "bgi_version": "0.45.0"
@@ -69,7 +69,7 @@
       "y": 696.7991943359375,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
       "type": "target"
     },
     {
@@ -94,31 +94,13 @@
       "id": 10,
       "x": 988.1875,
       "y": 782.125,
-      "action": "stop_flying",
+      "type": "path",
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "action": "stop_flying",
+      "action_params": ""
     },
     {
       "id": 11,
-      "x": 1006.534912109375,
-      "y": 783.28759765625,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "s(0.2),dash,wait(0.2),dash",
-      "type": "path"
-    },
-    {
-      "id": 12,
-      "x": 995.9072265625,
-      "y": 782.4613037109375,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 13,
       "x": 1015.4764404296875,
       "y": 783.7435302734375,
       "action": "combat_script",
@@ -127,16 +109,16 @@
       "type": "target"
     },
     {
-      "id": 14,
+      "id": 12,
       "x": 1021.6258544921875,
       "y": 783.7047119140625,
-      "action": "combat_script",
+      "type": "path",
       "move_mode": "dash",
-      "action_params": "s(0.2),dash",
-      "type": "path"
+      "action": "combat_script",
+      "action_params": "s(0.2),dash"
     },
     {
-      "id": 15,
+      "id": 13,
       "x": 1014.8978271484375,
       "y": 784.80908203125,
       "action": "",
@@ -145,16 +127,16 @@
       "type": "path"
     },
     {
-      "id": 16,
+      "id": 14,
       "x": 1023.21875,
       "y": 787.96875,
-      "action": "combat_script",
+      "type": "path",
       "move_mode": "walk",
-      "action_params": "s(0.2),dash,wait(0.2),dash",
-      "type": "path"
+      "action": "combat_script",
+      "action_params": "s(0.2),dash,wait(0.2),dash"
     },
     {
-      "id": 17,
+      "id": 15,
       "x": 1016.083740234375,
       "y": 784.2821044921875,
       "action": "",
@@ -163,7 +145,7 @@
       "type": "path"
     },
     {
-      "id": 18,
+      "id": 16,
       "x": 1029.34375,
       "y": 784.0625,
       "action": "combat_script",
@@ -172,7 +154,7 @@
       "type": "target"
     },
     {
-      "id": 19,
+      "id": 17,
       "x": 1025.6905517578125,
       "y": 786.046142578125,
       "action": "combat_script",
@@ -181,7 +163,7 @@
       "type": "target"
     },
     {
-      "id": 20,
+      "id": 18,
       "x": 1022.3040771484375,
       "y": 790.5615234375,
       "action": "combat_script",
@@ -190,12 +172,12 @@
       "type": "target"
     },
     {
-      "id": 21,
-      "x": 1017.4375,
-      "y": 787.71875,
+      "id": 19,
+      "x": 1017.218994140625,
+      "y": 787.588623046875,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
       "type": "target"
     }
   ]
