@@ -1,9 +1,9 @@
 {
   "info": {
-    "name": "地下水泽-东-7",
+    "name": "02-地下水泽-东-7",
     "type": "collect",
     "author": "火山",
-    "version": "1.0",
+    "version": "1.1",
     "description": "",
     "map_name": "TheChasm",
     "bgi_version": "0.45.0"
@@ -47,8 +47,8 @@
     },
     {
       "id": 5,
-      "x": 429.708251953125,
-      "y": 745.4071044921875,
+      "x": 438.7574074074073,
+      "y": 753.125,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -56,11 +56,11 @@
     },
     {
       "id": 6,
-      "x": 444.2547607421875,
-      "y": 759.0467529296875,
+      "x": 445.8137860082304,
+      "y": 760.15625,
       "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "keypress(VK_SPACE),wait(2),keypress(VK_SPACE)",
+      "action_params": "keypress(VK_SPACE),wait(1.8),keypress(VK_SPACE)",
       "type": "path"
     },
     {
@@ -85,13 +85,31 @@
       "id": 9,
       "x": 380.59912109375,
       "y": 702.277587890625,
-      "action": "fight",
+      "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 10,
+      "x": 390.9984130859375,
+      "y": 693.4398193359375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 386.9013671875,
+      "y": 710.675537109375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 12,
       "x": 360.255859375,
       "y": 693.1456298828125,
       "action": "combat_script",
@@ -100,7 +118,7 @@
       "type": "target"
     },
     {
-      "id": 11,
+      "id": 13,
       "x": 363.8828125,
       "y": 693.031005859375,
       "action": "combat_script",
@@ -109,7 +127,7 @@
       "type": "target"
     },
     {
-      "id": 12,
+      "id": 14,
       "x": 379.1131591796875,
       "y": 699.195556640625,
       "action": "",
@@ -118,7 +136,7 @@
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 15,
       "x": 420.1041259765625,
       "y": 747.4132080078125,
       "action": "",
@@ -127,7 +145,7 @@
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 16,
       "x": 447.46875,
       "y": 740.84375,
       "action": "",
@@ -136,7 +154,7 @@
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 17,
       "x": 488.2861328125,
       "y": 761.8082275390625,
       "action": "fight",
@@ -145,7 +163,7 @@
       "type": "path"
     },
     {
-      "id": 16,
+      "id": 18,
       "x": 502.8555908203125,
       "y": 764.5521240234375,
       "action": "",
@@ -154,7 +172,7 @@
       "type": "path"
     },
     {
-      "id": 17,
+      "id": 19,
       "x": 503.5628662109375,
       "y": 780.099609375,
       "action": "combat_script",
@@ -163,7 +181,7 @@
       "type": "target"
     },
     {
-      "id": 18,
+      "id": 20,
       "x": 507.451171875,
       "y": 781.3502197265625,
       "action": "combat_script",
@@ -172,7 +190,7 @@
       "type": "target"
     },
     {
-      "id": 19,
+      "id": 21,
       "x": 508.2421875,
       "y": 784.16162109375,
       "action": "combat_script",
@@ -181,17 +199,16 @@
       "type": "target"
     },
     {
-      "id": 20,
+      "id": 22,
       "x": 507.025390625,
       "y": 786.919677734375,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "type": "target",
-      "locked": false
+      "type": "target"
     },
     {
-      "id": 21,
+      "id": 23,
       "x": 507.025390625,
       "y": 786.919677734375,
       "action": "combat_script",

@@ -1,9 +1,9 @@
 {
   "info": {
-    "name": "地下水泽-南-6",
+    "name": "01-地下水泽-南-6",
     "type": "collect",
     "author": "火山",
-    "version": "1.0",
+    "version": "1.1",
     "description": "",
     "map_name": "TheChasm",
     "bgi_version": "0.45.0"
@@ -67,10 +67,10 @@
       "id": 7,
       "x": 585.5401611328125,
       "y": 849.5316162109375,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 8,
@@ -146,8 +146,8 @@
     },
     {
       "id": 16,
-      "x": 590.166259765625,
-      "y": 719.1737060546875,
+      "x": 591.1748046875,
+      "y": 718.3514404296875,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
@@ -211,10 +211,10 @@
       "id": 23,
       "x": 603.27685546875,
       "y": 715.966064453125,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 24,
@@ -223,28 +223,25 @@
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 25,
       "x": 603.670166015625,
       "y": 713.773193359375,
-      "action": "combat_script",
+      "action": "",
       "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "type": "path",
-      "locked": false
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 26,
-      "x": 603.670166015625,
-      "y": 713.773193359375,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(1)",
+      "x": 601.7076416015625,
+      "y": 717.146484375,
       "type": "path",
-      "locked": false
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
     }
   ]
 }
