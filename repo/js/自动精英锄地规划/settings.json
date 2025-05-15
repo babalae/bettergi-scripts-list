@@ -45,5 +45,10 @@
         "name": "minSecPerMonster",
         "type": "input-text",
         "label": "最低秒均（秒均=摩拉/时间，默认0.1）"
+    },
+    {
+        "name": "excludeTagsForAll",
+        "type": "input-text",
+        "label": "全局排除关键词（使用中文分号分隔）"
     }
 ]
