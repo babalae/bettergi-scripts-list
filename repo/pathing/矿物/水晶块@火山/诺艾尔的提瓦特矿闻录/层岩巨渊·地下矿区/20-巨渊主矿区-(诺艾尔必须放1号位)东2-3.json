@@ -1,9 +1,9 @@
 {
   "info": {
-    "name": "21-巨渊主矿区-(地图边缘会很慢,慎选)东2-3",
+    "name": "20-巨渊主矿区-(诺艾尔必须放1号位)东2-3",
     "type": "collect",
     "author": "火山",
-    "version": "1.0",
+    "version": "1.1",
     "description": "",
     "map_name": "TheChasm",
     "bgi_version": "0.45.0"
@@ -96,27 +96,26 @@
       "y": 917.4652099609375,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(4),wait(0.15),attack(0.2),attack(0.2),wait(0.3),attack(0.2),wait(2)",
+      "action_params": "keypress(1),wait(0.15),attack(0.2),attack(0.2),wait(0.3),attack(0.2),wait(2)",
       "type": "path"
     },
     {
       "id": 11,
       "x": 163.35400390625,
       "y": 918.0858154296875,
-      "type": "orientation",
-      "move_mode": "walk",
       "action": "",
+      "move_mode": "walk",
       "action_params": "",
-      "locked": false
+      "type": "orientation"
     },
     {
       "id": 12,
       "x": 163.35400390625,
       "y": 918.0858154296875,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
     },
     {
       "id": 13,
@@ -151,27 +150,26 @@
       "y": 918.379638671875,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(4),wait(0.15),attack(0.2),attack(0.2),wait(0.3),attack(0.2),wait(1.5)",
+      "action_params": "keypress(1),wait(0.15),attack(0.2),attack(0.2),wait(0.3),attack(0.2),wait(1.5)",
       "type": "path"
     },
     {
       "id": 17,
       "x": 156.041748046875,
       "y": 918.768310546875,
-      "type": "orientation",
-      "move_mode": "walk",
       "action": "",
+      "move_mode": "walk",
       "action_params": "",
-      "locked": false
+      "type": "orientation"
     },
     {
       "id": 18,
       "x": 156.041748046875,
       "y": 918.768310546875,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(1.5)"
+      "move_mode": "walk",
+      "action_params": "wait(1.5)",
+      "type": "path"
     }
   ]
 }

@@ -1,9 +1,9 @@
 {
   "info": {
-    "name": "荧光狭道-9",
+    "name": "18-荧光狭道-9",
     "type": "collect",
     "author": "火山",
-    "version": "1.0",
+    "version": "1.1",
     "description": "",
     "map_name": "TheChasm",
     "bgi_version": "0.45.0"
@@ -49,20 +49,19 @@
       "id": 5,
       "x": 814.655517578125,
       "y": 399.3074951171875,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
+      "move_mode": "walk",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "locked": false
+      "type": "target"
     },
     {
       "id": 6,
       "x": 814.655517578125,
       "y": 399.3074951171875,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(2.2)"
+      "move_mode": "walk",
+      "action_params": "wait(2.2)",
+      "type": "target"
     },
     {
       "id": 7,
@@ -165,15 +164,6 @@
     },
     {
       "id": 18,
-      "x": 709.5230712890625,
-      "y": 159.2803955078125,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "dash,wait(0.3),dash,wait(0.3),dash",
-      "type": "path"
-    },
-    {
-      "id": 19,
       "x": 696.6732177734375,
       "y": 151.18212890625,
       "action": "",
@@ -182,46 +172,54 @@
       "type": "path"
     },
     {
-      "id": 20,
+      "id": 19,
       "x": 697.239013671875,
       "y": 89.7943115234375,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 684.53125,
+      "y": 86.25,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(W),wait(0.3),keypress(VK_SPACE),wait(0.2),keypress(VK_SPACE),wait(0.2),keypress(VK_SPACE),wait(0.2),keypress(VK_SPACE),keyup(W)",
+      "type": "path"
     },
     {
       "id": 21,
       "x": 684.53125,
-      "y": 86.25,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keydown(W),wait(0.3),keypress(VK_SPACE),wait(0.2),keypress(VK_SPACE),wait(0.2),keypress(VK_SPACE),wait(0.2),keypress(VK_SPACE),keyup(W)",
-      "locked": false
+      "y": 87,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 22,
-      "x": 684.53125,
-      "y": 87,
-      "type": "path",
-      "move_mode": "jump",
+      "x": 675.3712158203125,
+      "y": 74.745849609375,
       "action": "",
-      "action_params": ""
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 23,
-      "x": 675.3712158203125,
-      "y": 74.745849609375,
-      "type": "path",
-      "move_mode": "jump",
-      "action": "",
-      "action_params": ""
+      "x": 683.8120884773662,
+      "y": 71.75,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 e,attack(0.8)",
+      "type": "target"
     },
     {
       "id": 24,
-      "x": 680.4122314453125,
-      "y": 67.3402099609375,
+      "x": 680.965087890625,
+      "y": 75.359619140625,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -233,16 +231,7 @@
       "y": 67.362060546875,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "type": "target"
-    },
-    {
-      "id": 26,
-      "x": 684.326171875,
-      "y": 71.5645751953125,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "action_params": "诺艾尔 attack(1.2)",
       "type": "target"
     }
   ]

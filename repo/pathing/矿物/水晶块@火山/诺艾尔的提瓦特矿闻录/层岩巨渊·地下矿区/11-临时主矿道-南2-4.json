@@ -3,7 +3,7 @@
     "name": "11-临时主矿道-南2-4",
     "type": "collect",
     "author": "火山",
-    "version": "1.1",
+    "version": "1.2",
     "description": "",
     "map_name": "TheChasm",
     "bgi_version": "0.45.0"
@@ -83,11 +83,11 @@
     },
     {
       "id": 9,
-      "x": 635.8734567901236,
-      "y": 926.65625,
-      "action": "combat_script",
+      "x": 598.6118312757201,
+      "y": 923.875,
+      "action": "",
       "move_mode": "dash",
-      "action_params": "keydown(w),wait(0.2),dash,wait(0.3),dash,wait(0.3),dash",
+      "action_params": "",
       "type": "path"
     },
     {
@@ -104,30 +104,39 @@
       "x": 653.926025390625,
       "y": 920.21630859375,
       "action": "",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 12,
-      "x": 681.84130859375,
-      "y": 904.01416015625,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 680.9993312757201,
+      "y": 905.6875,
       "action": "combat_script",
-      "action_params": "keydown(w),wait(0.2),dash,wait(0.3),dash,wait(0.3),dash"
+      "move_mode": "dash",
+      "action_params": "keydown(w),wait(0.2),dash,wait(0.3),dash,wait(0.3),dash",
+      "type": "path"
     },
     {
       "id": 13,
-      "x": 687.624755859375,
-      "y": 899.958251953125,
+      "x": 695.87548828125,
+      "y": 900.3223876953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 695.6941358024692,
+      "y": 896.875,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": 708.7144775390625,
       "y": 891.8040771484375,
       "action": "",
@@ -136,7 +145,7 @@
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": 716.549560546875,
       "y": 885.34130859375,
       "action": "",
@@ -145,16 +154,34 @@
       "type": "path"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": 726.919189453125,
       "y": 863.5360107421875,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "1000",
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
       "type": "path"
     },
     {
-      "id": 17,
+      "id": 18,
+      "x": 729.705078125,
+      "y": 858.497802734375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "x": 741.1318359375,
+      "y": 856.5882568359375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 20,
       "x": 736.7713623046875,
       "y": 857.0379638671875,
       "action": "combat_script",
@@ -163,7 +190,7 @@
       "type": "target"
     },
     {
-      "id": 18,
+      "id": 21,
       "x": 745.3641357421875,
       "y": 860.71728515625,
       "action": "combat_script",
@@ -172,16 +199,16 @@
       "type": "target"
     },
     {
-      "id": 19,
-      "x": 737.1695556640625,
-      "y": 864.150146484375,
-      "action": "combat_script",
+      "id": 22,
+      "x": 738.375,
+      "y": 864.6875,
+      "type": "target",
       "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "type": "target"
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
     },
     {
-      "id": 20,
+      "id": 23,
       "x": 738.3194580078125,
       "y": 858.676513671875,
       "action": "combat_script",
@@ -190,7 +217,7 @@
       "type": "target"
     },
     {
-      "id": 21,
+      "id": 24,
       "x": 738.3194580078125,
       "y": 858.676513671875,
       "action": "combat_script",
