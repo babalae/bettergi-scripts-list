@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "渊下宫-3只",
+    "type": "collect",
+    "author": "Vicissitude",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -362.479248046875,
+      "y": 238.3197021484375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -352.5390625,
+      "y": 243.3697509765625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -235.6640625,
+      "y": 230.0794677734375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -229.408203125,
+      "y": 224.3294677734375,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -215.177490234375,
+      "y": 220.496826171875,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

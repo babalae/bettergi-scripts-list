@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "稻妻-2只",
+    "type": "collect",
+    "author": "Vicissitude",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2556.3515625,
+      "y": -6007.515625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -2551.720703125,
+      "y": -6005.609375,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -2546.2333984375,
+      "y": -6001.7861328125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -2473.98828125,
+      "y": -6000.5908203125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -2474.0625,
+      "y": -6007.390625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
