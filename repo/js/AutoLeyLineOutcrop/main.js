@@ -12,6 +12,8 @@ let strategyName = "";    // 任务策略名称
 let retryCount = 0;       // 重试次数
 let marksStatus = true;   // 自定义标记状态
 let currentRunTimes = 0;  // 当前运行次数
+let isNotification = false; // 是否发送通知
+
 /**
  * 主函数 - 脚本入口点
  */
