@@ -1,0 +1,94 @@
+{
+  "info": {
+    "name": "鸟蛋03-蒙德-北风之狼-4蛋",
+    "type": "collect",
+    "author": "灰林鸮",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1638.5478515625,
+      "y": 2153.902587890625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1629.740234375,
+      "y": 2163.1513671875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1629.0302734375,
+      "y": 2171.001220703125,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1648.52734375,
+      "y": 2190.31298828125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1660.3896484375,
+      "y": 2211.87890625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -1663.232421875,
+      "y": 2217.9208984375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -1672.1279296875,
+      "y": 2216.690185546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -1677.1943359375,
+      "y": 2198.428466796875,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -1682.509765625,
+      "y": 2191.77587890625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

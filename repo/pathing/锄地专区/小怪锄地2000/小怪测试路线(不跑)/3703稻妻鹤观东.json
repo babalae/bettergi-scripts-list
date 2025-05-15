@@ -1,0 +1,77 @@
+{
+  "info": {
+    "name": "3703稻妻鹤观东",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -3103.6591796875,
+      "y": -6268.5458984375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -3083.634765625,
+      "y": -6263.0341796875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -3064.248046875,
+      "y": -6270.2060546875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -3034.2197265625,
+      "y": -6259.451171875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -3006.6318359375,
+      "y": -6273.8017578125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -2967.7392578125,
+      "y": -6273.4033203125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": -2967.7392578125,
+      "y": -6273.4033203125,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

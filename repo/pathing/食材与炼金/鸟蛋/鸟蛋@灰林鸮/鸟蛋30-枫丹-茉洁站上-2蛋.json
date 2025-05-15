@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "鸟蛋30-枫丹-茉洁站上-2蛋",
+    "type": "collect",
+    "author": "灰林鸮",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3635.4921875,
+      "y": 3801.417724609375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3626.322265625,
+      "y": 3816.885498046875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3626.322265625,
+      "y": 3816.885498046875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3623.537109375,
+      "y": 3829.287353515625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3628.9462890625,
+      "y": 3851.2841796875,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 3629.0048828125,
+      "y": 3851.336181640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

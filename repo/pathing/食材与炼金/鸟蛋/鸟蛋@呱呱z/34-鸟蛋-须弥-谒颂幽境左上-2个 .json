@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "鸟蛋-须弥-谒颂幽境-2个",
+    "type": "collect",
+    "author": "呱呱z",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3993.8076171875,
+      "y": -989.32861328125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4002.6240234375,
+      "y": -986.220703125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4001.5078125,
+      "y": -1020.2861328125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4002.5126953125,
+      "y": -1036.11669921875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

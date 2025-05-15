@@ -6,6 +6,11 @@
     "default": false
   },
   {
+        "name": "team",
+        "type": "input-text",
+        "label": "跑图的队伍名称，不填表示不切换队伍"
+  },
+  {
     "name": "selectAll",
     "type": "checkbox",
     "label": "无视后续选项，运行全部区域。",
@@ -92,8 +97,8 @@
   {
     "name": "courtOfFontaine1",
     "type": "checkbox",
-    "label": "枫丹廷区1，8个。",
-    "default": true
+    "label": "枫丹廷区1，8个，有概率卡住呜呜葡萄喂食。",
+    "default": false
   },
   {
     "name": "courtOfFontaine2",
