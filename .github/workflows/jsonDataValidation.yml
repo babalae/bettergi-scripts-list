@@ -62,10 +62,34 @@ jobs:
             mkdir -p build
           fi
 
-      - name: Setup Git and checkout branch
+      - name: Setup Git and repositories
         run: |
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "actions@github.com"
+          
+          # 确保远程仓库设置正确
+          echo "当前远程仓库配置:"
+          git remote -v
+          
+          # 设置上游仓库(upstream)和origin
+          UPSTREAM_REPO="https://github.com/${{ github.repository }}.git"
+          ORIGIN_REPO="https://github.com/${{ github.event.pull_request.head.repo.full_name || github.repository }}.git"
+          
+          echo "设置upstream指向主仓库: $UPSTREAM_REPO"
+          git remote remove upstream 2>/dev/null || true
+          git remote add upstream $UPSTREAM_REPO
+          
+          echo "确保origin指向正确的仓库: $ORIGIN_REPO"
+          git remote set-url origin $ORIGIN_REPO 2>/dev/null || git remote add origin $ORIGIN_REPO
+          
+          # 获取最新的主仓库和分支
+          echo "获取远程分支信息"
+          git fetch upstream
+          git fetch origin
+          
+          # 显示远程仓库配置
+          echo "更新后的远程仓库配置:"
+          git remote -v
           
           # 检查是否处于PR环境
           if [ -n "${{ github.event.pull_request.head.ref }}" ]; then
@@ -78,6 +102,19 @@ jobs:
             echo "创建临时分支"
             git checkout -b temp-validation-branch
           fi
+
+      - name: Prepare validation script
+        run: |  
+          git show upstream/main:build/validate.py > build/validate.py 2>/dev/null
+            
+          # 检查文件是否成功获取并且非空
+          if [ ! -s "build/validate.py" ]; then
+            echo "无法从上游仓库获取validate.py文件，终止流程"
+            exit 1
+          else
+            echo "成功获取validate.py"
+          fi
+
 
       - name: Get PR information
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.pr_number != '' }}
@@ -118,8 +155,9 @@ jobs:
         id: changed_files
         if: github.event_name == 'pull_request_target'
         run: |
-          CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | grep -E '^repo/pathing/.*\.json$' || true)
-          echo "Changed JSON files in repo/pathing:"
+          # 使用upstream/main作为比较基准
+          CHANGED_FILES=$(git diff --name-only upstream/main HEAD | grep -E '^repo/pathing/.*\.json$' || true)
+          echo "Changed JSON files in repo/pathing compared to upstream/main:"
           echo "$CHANGED_FILES"
           echo "changed_files=$CHANGED_FILES" >> $GITHUB_OUTPUT
           
