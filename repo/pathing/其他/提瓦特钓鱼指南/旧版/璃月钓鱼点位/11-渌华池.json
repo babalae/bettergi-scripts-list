@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "11-渌华池",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "需完成解谜“渌华池之影”并开启副本风场",
+    "bgi_version": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 524.0,
+      "y": 101.66,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 527.0,
+      "y": 106.75,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(2),keydown(Space),wait(0.1),keyup(Space),wait(0.2),keydown(Space),wait(0.1),keyup(Space),wait(5)"
+    },
+    {
+      "id": 3,
+      "action": "stop_flying",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 529.5,
+      "y": 128.5,
+      "action_params": ""
+    }
+  ]
+}

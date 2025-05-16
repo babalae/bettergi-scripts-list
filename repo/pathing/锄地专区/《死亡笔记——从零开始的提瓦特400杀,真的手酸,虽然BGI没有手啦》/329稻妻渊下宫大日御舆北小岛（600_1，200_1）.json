@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "329稻妻渊下宫大日御舆北小岛（600_1，200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 282.83,
+      "y": 421.01,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 270.26,
+      "y": 419.34,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 257.13,
+      "y": 423.3,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 238.42,
+      "y": 456.6,
+      "action": "fight",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 251.23,
+      "y": 478.74,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 266.5,
+      "y": 552.37,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "w(7),attack(0.2),wait(0.2),keydown(w),wait(0.01),keydown(LSHIFT),wait(3.5),keyup(LSHIFT),wait(0.1),keyup(w)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 280.75,
+      "y": 622.0,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 8,
+      "x": 280.5,
+      "y": 621.88,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}

@@ -10,8 +10,18 @@ on:
       - 'repo/**'
       - 'build/build.js'
       - '.github/workflows/**'
+  workflow_dispatch:
+    inputs:
+      force_update:
+        description: '强制执行全量更新'
+        required: false
+        type: boolean
+        default: false
+
 jobs:
   build:
+    # Skip this job if the repository is a fork
+    if: github.repository_owner == 'babalae'
     runs-on: ubuntu-latest
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
@@ -26,16 +36,27 @@ jobs:
     - uses: actions/checkout@v4
       with:
         ref: ${{ github.head_ref }}
+        fetch-depth: 0
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-    - run: node ./build/build.js
+    - name: Build repo.json
+      run: |
+        if [ "${{ github.event.inputs.force_update }}" = "true" ]; then
+          echo "执行强制全量更新"
+          node ./build/build.js --force
+        else
+          echo "执行增量更新"
+          node ./build/build.js
+        fi
     - uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: update repo.json
 
   upload:
+    # Skip this job if the repository is a fork
+    if: github.repository_owner == 'babalae'
     needs: build
     runs-on: ubuntu-latest
     environment: 

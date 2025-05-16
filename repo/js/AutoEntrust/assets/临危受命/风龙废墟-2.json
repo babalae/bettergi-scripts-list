@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "风龙废墟，遗迹守卫",
+    "type": "collect",
+    "author": "1",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -89.54637700899002,
+      "y": 2780.75,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -86.29785253790942,
+      "y": 2744.25,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -95.29376645782213,
+      "y": 2748.75,
+      "action_params": ""
+    }
+  ]
+}

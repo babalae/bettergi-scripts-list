@@ -1,0 +1,139 @@
+{
+  "info": {
+    "name": "6201--纳塔_奥奇_西北海岸_(8-1)",
+    "type": "collect",
+    "author": "Demo&汐&mno",
+    "version": "1.7",
+    "description": "",
+    "bgi_version": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 10275.4326171875,
+      "y": -202.51513671875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 10313.312705404313,
+      "y": -194.87446947127864,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 10315.063005610617,
+      "y": -188.1250151579634,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 10261.7255859375,
+      "y": -146.59716796875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 10285.68760665224,
+      "y": -100.93762126370802,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.3),keydown(d),keydown(w),wait(2),keyup(d),keyup(w)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 10268.687756755391,
+      "y": -84.1239237845939,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 10201.1796875,
+      "y": -48.8779296875,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 10268.187389397677,
+      "y": -85.40691695039277,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 10355.068359375,
+      "y": -83.44873046875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 10372.2470703125,
+      "y": -118.30419921875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 10384.500663613933,
+      "y": -124.99884799477695,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 10381.562685653898,
+      "y": -134.31290926501333,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 10380.3349609375,
+      "y": -165.1162109375,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 14,
+      "x": 10380.3349609375,
+      "y": -165.1162109375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}

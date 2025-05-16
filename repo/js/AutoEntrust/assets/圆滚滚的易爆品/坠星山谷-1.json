@@ -1,0 +1,70 @@
+{
+  "info": {
+    "name": "坠星山谷中间-圆滚滚易爆品-2.2",
+    "type": "collect",
+    "author": "1",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1502.4447244165985,
+      "y": 2276.5,
+      "action": "",
+      "move_mode": "run",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1508.9977299555067,
+      "y": 2257.5,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1505.6932488876773,
+      "y": 2238.75,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1504.1939299010264,
+      "y": 2170.25,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1472.708231181332,
+      "y": 2188.25,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1480.0013620266964,
+      "y": 2188.875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -1478.3840234268591,
+      "y": 2194.375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

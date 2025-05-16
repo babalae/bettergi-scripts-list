@@ -1,0 +1,61 @@
+[
+    {
+        "name": "Character",
+        "type": "select",
+        "label": "出战位号（默认4）",
+        "options": [
+          "1号位",
+          "2号位",
+          "3号位",
+          "4号位"
+    ]
+    },
+    {
+        "name": "pageScrollCount",
+        "type": "input-text",
+        "label": "默认：四行为一页\n滑页次数（默认0）"
+    },
+    {
+        "name": "rightOffset",
+        "type": "select",
+        "label": "----------------------\n武器按【等级排序】:\n位于第几列（默认1）",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4",
+    ]
+    },
+    {
+        "name": "downOffset",
+        "type": "select",
+        "label": "位于第几行（默认1）",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+    ]
+    },
+    {
+        "name": "Element",
+        "type": "select",
+        "label": "=============\n\n需选则出战外的角色时\n----------------------\n元素（默认'物'=无）\n选元素缩范围 非必填",
+        "options": [
+          "火",
+          "水",
+          "草",
+          "雷",
+          "风",
+          "冰",
+          "岩",
+          "物",
+    ]
+    },
+    {
+        "name": "Switching",
+        "type": "input-text",
+        "label": "----------------------\n切换次数（默认0）\n填入从出战位号\n向右切换多少次"
+    }
+]
