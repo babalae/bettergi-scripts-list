@@ -62,6 +62,11 @@ jobs:
             mkdir -p build
           fi
 
+      - name: Setup Git
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+
       - name: Get PR information
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.pr_number != '' }}
         id: pr_info
@@ -89,6 +94,20 @@ jobs:
               console.log(`获取 PR #${{ github.event.inputs.pr_number }} 信息失败: ${error.message}`);
               core.setOutput('found', 'false');
             }
+
+      - name: Get changed files
+        id: changed_files
+        if: github.event_name == 'pull_request_target'
+        run: |
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | grep -E '^repo/pathing/.*\.json$' || true)
+          echo "Changed JSON files in repo/pathing:"
+          echo "$CHANGED_FILES"
+          echo "changed_files=$CHANGED_FILES" >> $GITHUB_OUTPUT
+          
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "No JSON files changed in repo/pathing directory"
+          fi
+
       - name: Run validation and correction
         env:
           GITHUB_ACTOR: ${{ github.actor }}
@@ -98,14 +117,34 @@ jobs:
           PR_REPO: ${{ github.event.pull_request.head.repo.full_name || steps.pr_info.outputs.head_repo || github.repository }}
           VALIDATE_PATH: ${{ github.event.inputs.path || 'repo/pathing' }}
           AUTO_FIX: ${{ github.event.inputs.auto_fix || 'true' }}
-        run: |          
+          CHANGED_FILES: ${{ steps.changed_files.outputs.changed_files }}
+        run: |
           # 根据触发方式决定验证路径和是否自动修复
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "手动触发模式，验证路径: ${VALIDATE_PATH}"
             python build/validate.py ${VALIDATE_PATH} $([[ "${AUTO_FIX}" == "true" ]] && echo "--fix")
           else
-            echo "PR 触发模式，验证修改的 JSON 文件"
-            python build/validate.py repo/pathing --fix
+            echo "PR 触发模式，仅验证修改的 JSON 文件"
+            if [ -z "$CHANGED_FILES" ]; then
+              echo "没有找到修改的 JSON 文件，跳过验证"
+              exit 0
+            fi
+            
+            # 单独验证每个修改的文件
+            for file in $CHANGED_FILES; do
+              echo "验证文件: $file"
+              python build/validate.py "$file" --fix
+            done
+          fi
+          
+          # 检查是否有文件被修改
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "发现修改，提交更改"
+            git add .
+            git commit -m "自动修复 JSON 格式和版本号 [ci skip]"
+            git push
+          else
+            echo "没有文件被修改，无需提交"
           fi
           
       - name: Add PR comment
@@ -128,10 +167,26 @@ jobs:
               });
             } else {
               console.log("没有发现 validation_notes.md 文件");
+              
+              // 检查是否有文件被修改并提交
+              const { execSync } = require('child_process');
+              let commitMessage = '';
+              
+              try {
+                const lastCommit = execSync('git log -1 --pretty=%B').toString().trim();
+                if (lastCommit.includes('自动修复')) {
+                  commitMessage = '✅ 校验完成并自动修复了一些问题。修改已提交到PR中。';
+                } else {
+                  commitMessage = '✅ 校验完成，没有发现需要修复的问题';
+                }
+              } catch (error) {
+                commitMessage = '✅ 校验完成，没有发现需要修复的问题';
+              }
+              
               await github.rest.issues.createComment({
                 issue_number: pr_number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                body: "✅ 校验完成，没有发现问题"
+                body: commitMessage
               });
             }
