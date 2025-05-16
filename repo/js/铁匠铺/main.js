@@ -53,24 +53,17 @@
     function recognizeImage(imagePath, x, y, searchWidth, searchHeight) {
         try {
             let template = file.ReadImageMatSync(imagePath);
-            let recognitionObject = RecognitionObject.TemplateMatch(
-                template,
-                x,
-                y,
-                searchWidth,
-                searchHeight
-            );
+            let recognitionObject = RecognitionObject.TemplateMatch(template, x, y, searchWidth, searchHeight);
 
             // 设置识别阈值和通道
-            recognitionObject.threshold = 0.9; // 设置识别阈值
+            /* prettier-ignore */
+            recognitionObject.threshold    = 0.85; // 设置识别阈值
             recognitionObject.Use3Channels = true; // 使用三通道匹配
 
             let result = captureGameRegion().find(recognitionObject);
             return result.isExist() ? result : null;
         } catch (error) {
-            log.error(
-                `图像识别失败，路径: ${imagePath}, 错误: ${error.message}`
-            );
+            log.error(`图像识别失败，路径: ${imagePath}, 错误: ${error.message}`);
             return null;
         }
     }
@@ -102,31 +95,27 @@
 
     // 锻造矿石操作
     const forgeOre = async function (smithyName) {
-        await sleep(1000);
-        keyPress("F");
-        await sleep(1000); // 开始交互
-        await click(960, 600);
-        await sleep(1000); // 跳过第一个对话
-        await click(960, 600);
-        await sleep(1000); // 跳过第一个对话
-        await click(1375, 500);
-        await sleep(1000);
-        await click(960, 600);
-        await sleep(1000); // 跳过第二个对话
-        await click(960, 600);
-        await sleep(1000); // 跳过第二个对话
+        // 对话
+        /* prettier-ignore */
+        {
+            await sleep(1000);keyPress("F");                            // 开始交互
+            await sleep(1000);await click(960, 600);                    // 
+            await sleep(1000);await click(960, 600);                    // 跳过第一个对话
+            await sleep(1000);await click(1375, 500);                   // 跳过第一个对话
+            await sleep(1000);await click(960, 600);await sleep(1000);  // 跳过第二个对话
+            await click(960, 600);await sleep(1000);                    // 跳过第二个对话
+        }
 
         log.info("已进入锻造界面，准备锻造");
         // 锻造领取
-        await click(520, 140);
-        await sleep(1000); // 选择锻造队列
-        await click(170, 1010);
-        await sleep(1000); // 领取全部
-        await click(960, 900);
-        await sleep(1000); // 确认
+        /* prettier-ignore */
+        {
+            await click(520, 140);await sleep(1000);   // 选择锻造队列
+            await click(170, 1010);await sleep(1000);  // 领取全部
+            await click(960, 900);await sleep(1000);   // 确认
+            click(220, 150);await sleep(1000);         // 点击"配方"
+        }
 
-        click(220, 150);
-        await sleep(1000); // 点击"配方"
         determineOre();
 
         // 根据用户选择的矿石进行锻造
@@ -141,27 +130,18 @@
             for (const coordinate of gridCoordinates) {
                 const scanX = coordinate.x + scanOffset.x;
                 const scanY = coordinate.y + scanOffset.y;
+                const imageResult = recognizeImage(imagePath, scanX, scanY, 70, 70);
 
-                const imageResult = recognizeImage(
-                    imagePath,
-                    scanX,
-                    scanY,
-                    70,
-                    70
-                );
                 if (imageResult) {
                     log.info(`通过图像识别找到矿石: ${chineseDescription}`);
                     imageResult.click();
                     await sleep(2000); // 等待点击生效
                     foundIngredient = true;
 
+                    /* prettier-ignore */
                     // 点击“开始锻造”3次
-                    click(1645, 1015);
-                    await sleep(1500);
-                    click(1645, 1015);
-                    await sleep(1500);
-                    click(1645, 1015);
-                    await sleep(1500);
+                    { await sleep(1000); click(1645, 1015); await sleep(1000); click(1645, 1015); await sleep(1000); }
+
                     break; // 找到矿石后退出循环
                 }
             }
@@ -174,12 +154,11 @@
         log.info("锻造结束，退出界面");
         keyPress("ESCAPE");
     };
-    await autoSmithy(smithyName); //寻路函数
-    await forgeOre(smithyName);
 
+    await autoSmithy(smithyName); // 寻路函数
+    await forgeOre(smithyName); // 锻造函数
     await genshin.returnMainUi(); // 返回主界面
-    keyDown("S");
-    await sleep(1000);
-    keyUp("S");
-    await sleep(1000);
+
+    /* prettier-ignore */
+    {keyDown("S");await sleep(1000);keyUp("S");await sleep(1000); } // 后退两步
 })();

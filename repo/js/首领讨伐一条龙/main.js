@@ -34,7 +34,7 @@ const autoNavigateToReward = async () => {
             log.info("已到达领奖点，检测到文字: " + rewardResult.text);
             return;
         }
-        else if(advanceNum > 80){
+        else if(advanceNum > 40){
         throw new Error('前进时间超时');
         }
         // 2. 未到达领奖点，则调整视野
@@ -69,13 +69,13 @@ const autoNavigateToReward = async () => {
             moveMouseBy(adjustAmount * adjustAmount2, 0);
             await sleep(100);
         }     
-  if(i > 97) throw new Error('视野调整超时');
+  if(i > 50) throw new Error('视野调整超时');
     }
         // 3. 前进一小步
         keyDown("w");
-        await sleep(800);
+        await sleep(500);
         keyUp("w");
-        await sleep(100); // 等待角色移动稳定
+        await sleep(200); // 等待角色移动稳定
     }
 }
 

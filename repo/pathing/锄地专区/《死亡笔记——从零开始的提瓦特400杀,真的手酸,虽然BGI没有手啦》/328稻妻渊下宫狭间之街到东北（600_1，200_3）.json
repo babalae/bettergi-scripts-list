@@ -1,0 +1,107 @@
+{
+  "info": {
+    "name": "328稻妻渊下宫狭间之街到东北（600_1，200_3）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1746888388152
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 625.96,
+      "y": 621.87,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 599.4,
+      "y": 625.84,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 573.32,
+      "y": 645.86,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 530.33,
+      "y": 648.07,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 523.87,
+      "y": 667.07,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 539.18,
+      "y": 687.31,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 591.21,
+      "y": 682.75,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;wait(3)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 571.38,
+      "y": 686.66,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 548.3,
+      "y": 680.97,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 548.3,
+      "y": 680.97,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

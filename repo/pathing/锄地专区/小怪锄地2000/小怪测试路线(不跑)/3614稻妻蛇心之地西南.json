@@ -1,0 +1,59 @@
+{
+  "info": {
+    "name": "3614稻妻蛇心之地西南",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 480.66,
+      "y": -538.1,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 475.16,
+      "y": -599.81,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(2)"
+    },
+    {
+      "id": 3,
+      "x": 527.1,
+      "y": -598.88,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 534.63,
+      "y": -591.1,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 534.63,
+      "y": -591.1,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}
