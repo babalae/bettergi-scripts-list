@@ -96,6 +96,8 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "actions@github.com"
+          # 设置Git处理中文等特殊字符
+          git config --global core.quotepath false
           
           # 确保远程仓库设置正确
           echo "当前远程仓库配置:"
@@ -278,9 +280,10 @@ jobs:
           fi
           
           # 输出结果
-          echo "changed_files=$CHANGED_FILES" >> $GITHUB_OUTPUT
           echo "最终找到的修改文件:"
           echo "$CHANGED_FILES"
+          # 使用base64编码保存文件列表，避免特殊字符问题
+          echo "changed_files=$(echo "$CHANGED_FILES" | base64 -w 0)" >> $GITHUB_OUTPUT
 
       - name: Run validation for PR trigger
         if: ${{ steps.set_env.outputs.trigger_type == 'pr' }}
@@ -290,8 +293,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_REF: ${{ steps.set_env.outputs.head_ref }}
           PR_REPO: ${{ steps.set_env.outputs.head_repo || github.repository }}
-          CHANGED_FILES: ${{ steps.changed_files.outputs.changed_files }}
+          CHANGED_FILES_B64: ${{ steps.changed_files.outputs.changed_files }}
         run: |
+          # 使用base64解码文件列表
+          CHANGED_FILES=$(echo "$CHANGED_FILES_B64" | base64 --decode)
+          
           echo "PR 触发模式，验证修改的 JSON 文件"
           if [ -z "$CHANGED_FILES" ]; then
             echo "没有找到修改的 JSON 文件，跳过验证"
@@ -303,11 +309,18 @@ jobs:
             echo "验证整个目录: repo/pathing"
             python build/validate.py "repo/pathing" --fix
           else
-            # 单独验证每个修改的文件
-            for file in $CHANGED_FILES; do
+            # 创建一个临时文件来存储文件列表
+            echo "$CHANGED_FILES" > temp_file_list.txt
+            # 单独验证每个修改的文件，使用while读取避免文件名中的空格和特殊字符问题
+            while IFS= read -r file; do
               echo "验证文件: $file"
-              python build/validate.py "$file" --fix
-            done
+              if [ -f "$file" ]; then
+                python build/validate.py "$file" --fix
+              else
+                echo "警告: 文件不存在 - $file"
+              fi
+            done < temp_file_list.txt
+            rm temp_file_list.txt
           fi
           
           # 检查是否有文件被修改
@@ -349,7 +362,8 @@ jobs:
           AUTO_FIX: ${{ steps.set_env.outputs.auto_fix }}
         run: |
           echo "手动触发模式，验证路径: ${VALIDATE_PATH}"
-          python build/validate.py ${VALIDATE_PATH} $([[ "${AUTO_FIX}" == "true" ]] && echo "--fix")
+          # 使用引号包裹路径，处理特殊字符
+          python build/validate.py "${VALIDATE_PATH}" $([[ "${AUTO_FIX}" == "true" ]] && echo "--fix")
           
           # 如果关联了PR，尝试提交更改
           if [ -n "$PR_NUMBER" ] && [ -n "$HEAD_REF" ] && [ -n "$(git status --porcelain)" ]; then
