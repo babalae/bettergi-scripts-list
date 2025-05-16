@@ -166,15 +166,8 @@ jobs:
             echo "build/validate.py不存在，跳过获取步骤"
           else
             echo "build/validate.py已存在，检查文件头部"
-            head -n 10 build/validate.py
+            head -n 5 build/validate.py
           fi
-
-          # 检查文件执行权限
-          chmod +x build/validate.py
-          
-          # 检查文件编码
-          echo "检查文件编码:"
-          file build/validate.py
 
       - name: Get PR information for workflow_dispatch
         if: ${{ steps.set_env.outputs.trigger_type == 'manual' && steps.set_env.outputs.pr_number != '' }}
