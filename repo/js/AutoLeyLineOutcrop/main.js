@@ -84,7 +84,7 @@ function logSettings(settings) {
     log.info(`刷取次数：${settings.timesValue}`);
 
     if (isNotification) {
-        notification.info("全自动地脉花开始运行，以下是本次运行的配置：\n\n地脉花类型：{1}\n国家：{2}\n刷取次数：{3}", settings.leyLineOutcropType, settings.country, settings.timesValue);
+        notification.send("全自动地脉花开始运行，以下是本次运行的配置：\n\n地脉花类型：{1}\n国家：{2}\n刷取次数：{3}", settings.leyLineOutcropType, settings.country, settings.timesValue);
     }
 }
 
@@ -125,6 +125,20 @@ async function runLeyLineChallenges(config, settings) {
             handleNoStrategyFound();
             return;
         }
+    }
+}
+
+/**
+ * 切换指定的队伍
+ * @param {string} teamName - 队伍名称
+ * @returns {Promise<void>}
+ */
+async function switchTeam(teamName) {
+    try {
+        await genshin.switchParty(teamName);
+    } catch (error) {
+        log.error(`切换队伍时出错: ${error.message}`);
+        return false;
     }
 }
 
@@ -542,7 +556,6 @@ async function executePath(path, settings) {
         // 处理地脉花
     log.info(`处理地脉花: ${targetPath}`);
     await processLeyLineOutcrop(settings.timeout, targetPath);
-    await switchToFriendshipTeamIfNeeded(settings);
     await attemptReward(settings);
 }
 
@@ -567,8 +580,14 @@ async function switchToFriendshipTeamIfNeeded(settings) {
         keyPress("ESCAPE");
         await sleep(500);
         await genshin.returnMainUi();
-        log.info(`重新切换至队伍 ${settings.friendshipTeam}`);
-        await genshin.switchParty(settings.friendshipTeam);
+        log.info(`再次切换至队伍 ${settings.friendshipTeam}`);
+        try {
+            await genshin.switchParty(settings.friendshipTeam);
+        } catch (error) {
+            // 如果切换队伍失败,记录日志并继续执行
+            log.warn(`切换队伍失败: ${error.message}`);
+            log.warn("跳过切换队伍，直接领取奖励");
+        }
     }
 }
 
@@ -862,13 +881,16 @@ async function processLeyLineOutcrop(timeout, targetPath, retries = 0) {
         // await openOutcrop(targetPath);
         keyPress("F");
         await autoFight(timeout);
+        await switchToFriendshipTeamIfNeeded(settings);
         await autoNavigateToReward();
     } else if (ocr && ocr.text.includes("打倒所有敌人")) {
         log.info("地脉花已经打开，直接战斗");
         await autoFight(timeout);
+        await switchToFriendshipTeamIfNeeded(settings);
         await autoNavigateToReward();
     } else if (ocr && ocr.text.includes("地脉之花")) {
         log.info("识别到地脉之花");
+        await switchToFriendshipTeamIfNeeded(settings);
     } else {
         log.warn(`未识别到地脉花文本，当前重试次数: ${retries + 1}/${MAX_RETRIES}`);
         try {
@@ -931,7 +953,12 @@ async function attemptReward(settings) {
             click(Math.round(originalResin.x + originalResin.width / 2), Math.round(originalResin.y + originalResin.height / 2));
             if (settings.friendshipTeam) {
                 log.info("切换回战斗队伍");
-                await genshin.switchParty(settings.team);
+                const switchSuccess = await switchTeam(settings.team);
+                if (!switchSuccess) {
+                    log.warn("切换队伍失败，返回七天神像切换");
+                    await genshin.tpToStatueOfTheSeven();
+                    await genshin.switchParty(settings.team);
+                }
             }
             return;
         } else if (condensedResin) {
@@ -939,7 +966,12 @@ async function attemptReward(settings) {
             click(Math.round(condensedResin.x + condensedResin.width / 2), Math.round(condensedResin.y + condensedResin.height / 2));
             if (settings.friendshipTeam) {
                 log.info("切换回战斗队伍");
-                await genshin.switchParty(settings.team);
+                const switchSuccess = await switchTeam(settings.team);
+                if (!switchSuccess) {
+                    log.warn("切换队伍失败，返回七天神像切换");
+                    await genshin.tpToStatueOfTheSeven();
+                    await genshin.switchParty(settings.team);
+                }
             }
             return;
         } else if (originalResin) {
@@ -947,7 +979,12 @@ async function attemptReward(settings) {
             click(Math.round(originalResin.x + originalResin.width / 2), Math.round(originalResin.y + originalResin.height / 2));
             if (settings.friendshipTeam) {
                 log.info("切换回战斗队伍");
-                await genshin.switchParty(settings.team);
+                const switchSuccess = await switchTeam(settings.team);
+                if (!switchSuccess) {
+                    log.warn("切换队伍失败，返回七天神像切换");
+                    await genshin.tpToStatueOfTheSeven();
+                    await genshin.switchParty(settings.team);
+                }
             }
             return;
         } else if (isResinEmpty) {
@@ -1080,6 +1117,29 @@ async function recognizeTextInRegion(ocrRegion, timeout) {
             for (let keyword of failureKeywords) {
                 if (text.includes(keyword)) {
                     log.warn("检测到战斗失败关键词: {0}", keyword);
+                    return false;
+                }
+            }
+
+            // 检测是否有"打倒所有敌人"文字
+            let noTextCount = 0;
+            let foundText = false;
+            if (result.count > 0) {
+                for (let i = 0; i < results.count; i++) {
+                    if (results[i].text.includes("打倒所有敌人")) {
+                        foundText = true;
+                        noTextCount = 0;
+                        break;
+                    }
+                }
+            }
+
+            if (!foundText) {
+                noTextCount++;
+                log.info(`检测到可能离开战斗区域，当前计数: ${noTextCount}/5`);
+                
+                if (noTextCount >= 5) {
+                    log.warn("已离开战斗区域");
                     return false;
                 }
             }
