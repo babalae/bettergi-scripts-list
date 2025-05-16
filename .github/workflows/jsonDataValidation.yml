@@ -162,14 +162,21 @@ jobs:
         run: |
           # 尝试从upstream/main获取validate.py
           echo "尝试从上游仓库获取validate.py文件"
-          git show upstream/main:build/validate.py > build/validate.py 2>/dev/null
+          git show upstream/main:build/validate.py > build/validate.py.tmp 2>/dev/null
             
           # 检查文件是否成功获取并且非空
-          if [ ! -s "build/validate.py" ]; then
+          if [ ! -s "build/validate.py.tmp" ]; then
             echo "无法从上游仓库获取validate.py文件，终止流程"
             exit 1
           else
             echo "成功获取validate.py"
+            
+            # 添加编码声明到文件开头
+            echo '#!/usr/bin/env python3
+            
+            # 添加原始文件内容
+            cat build/validate.py.tmp >> build/validate.py
+            rm build/validate.py.tmp
             
             # 替换origin/main为upstream/main
             sed -i 's/origin\/main/upstream\/main/g' build/validate.py
@@ -177,6 +184,14 @@ jobs:
             sed -i 's/"git"/"upstream"/g' build/validate.py
             # 修改提示信息
             sed -i 's/本地文件/PR提交的文件/g' build/validate.py
+            
+            # 检查文件编码
+            echo "检查文件编码:"
+            file build/validate.py
+            
+            # 显示文件开头部分确认编码声明已添加
+            echo "验证脚本开头内容:"
+            head -n 5 build/validate.py
           fi
 
       - name: Get PR information for workflow_dispatch
@@ -303,6 +318,10 @@ jobs:
             echo "没有找到修改的 JSON 文件，跳过验证"
             exit 0
           fi
+          
+          # 检查Python解释器编码设置
+          echo "Python编码设置:"
+          python -c "import sys; print(sys.getdefaultencoding())"
           
           # 检查CHANGED_FILES是否包含整个目录
           if [ "$CHANGED_FILES" = "repo/pathing" ]; then
