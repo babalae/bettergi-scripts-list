@@ -172,7 +172,8 @@ jobs:
             echo "成功获取validate.py"
             
             # 添加编码声明到文件开头
-            echo '#!/usr/bin/env python3
+            echo '#!/usr/bin/env python3' > build/validate.py
+            echo '# -*- coding: utf-8 -*-' >> build/validate.py
             
             # 添加原始文件内容
             cat build/validate.py.tmp >> build/validate.py
