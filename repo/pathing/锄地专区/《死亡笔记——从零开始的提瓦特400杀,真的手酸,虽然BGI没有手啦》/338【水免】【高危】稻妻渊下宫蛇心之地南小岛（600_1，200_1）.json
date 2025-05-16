@@ -3,12 +3,10 @@
     "name": "338【水免】【高危】稻妻渊下宫蛇心之地南小岛（600_1，200_1）",
     "type": "collect",
     "author": "汐",
-    "version": "1.0",
+    "version": "1.1",
     "description": "",
     "map_name": "Enkanomiya",
-    "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1746801175391
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -58,21 +56,21 @@
     },
     {
       "id": 6,
-      "x": 423.15,
-      "y": -511.31,
-      "action": "",
+      "x": 421.37,
+      "y": -507.06,
+      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "",
+      "action_params": "wait(0.2)",
       "type": "path"
     },
     {
       "id": 7,
       "x": 405.75,
       "y": -497.25,
-      "type": "path",
-      "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "w(8.5),keypress(x),keypress(x),attack(0.3)"
+      "move_mode": "fly",
+      "action_params": "w(8),keypress(x),keypress(x),attack(0.3),s(0.8)",
+      "type": "path"
     },
     {
       "id": 8,
