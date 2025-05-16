@@ -62,10 +62,22 @@ jobs:
             mkdir -p build
           fi
 
-      - name: Setup Git
+      - name: Setup Git and checkout branch
         run: |
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "actions@github.com"
+          
+          # 检查是否处于PR环境
+          if [ -n "${{ github.event.pull_request.head.ref }}" ]; then
+            echo "检测到PR，切换到PR分支: ${{ github.event.pull_request.head.ref }}"
+            git checkout "${{ github.event.pull_request.head.ref }}"
+          elif [ -n "${{ github.ref_name }}" ]; then
+            echo "切换到分支: ${{ github.ref_name }}"
+            git checkout "${{ github.ref_name }}"
+          else
+            echo "创建临时分支"
+            git checkout -b temp-validation-branch
+          fi
 
       - name: Get PR information
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.pr_number != '' }}
@@ -90,6 +102,13 @@ jobs:
               console.log(`Head SHA: ${pr.data.head.sha}`);
               console.log(`Head Ref: ${pr.data.head.ref}`);
               console.log(`Head Repo: ${pr.data.head.repo.full_name}`);
+              
+              // 如果找到PR，切换到PR分支
+              const exec = require('child_process').execSync;
+              if (pr.data.head.ref) {
+                console.log(`切换到PR分支: ${pr.data.head.ref}`);
+                exec(`git checkout ${pr.data.head.ref}`);
+              }
             } catch (error) {
               console.log(`获取 PR #${{ github.event.inputs.pr_number }} 信息失败: ${error.message}`);
               core.setOutput('found', 'false');
@@ -142,7 +161,24 @@ jobs:
             echo "发现修改，提交更改"
             git add .
             git commit -m "自动修复 JSON 格式和版本号 [ci skip]"
-            git push
+            
+            # 确定当前分支
+            CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+            echo "当前分支: ${CURRENT_BRANCH}"
+            
+            if [ "$CURRENT_BRANCH" = "HEAD" ]; then
+              # 如果在detached HEAD状态，使用正确的方式推送
+              if [ -n "${HEAD_REF}" ]; then
+                echo "在detached HEAD状态，使用HEAD_REF推送: ${HEAD_REF}"
+                git push origin HEAD:${HEAD_REF}
+              else
+                echo "无法确定目标分支，跳过推送"
+              fi
+            else
+              # 常规推送
+              echo "推送到分支: ${CURRENT_BRANCH}"
+              git push origin ${CURRENT_BRANCH}
+            fi
           else
             echo "没有文件被修改，无需提交"
           fi
