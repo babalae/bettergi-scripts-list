@@ -71,15 +71,25 @@ jobs:
           echo "当前远程仓库配置:"
           git remote -v
           
-          # 设置上游仓库(upstream)和origin
-          UPSTREAM_REPO="https://github.com/${{ github.repository }}.git"
-          ORIGIN_REPO="https://github.com/${{ github.event.pull_request.head.repo.full_name || github.repository }}.git"
+          # 设置变量
+          MAIN_REPO="${{ github.repository }}"
+          PR_REPO="${{ github.event.pull_request.head.repo.full_name || github.repository }}"
           
+          # 设置上游仓库(upstream)指向主仓库
+          UPSTREAM_REPO="https://github.com/${MAIN_REPO}.git"
           echo "设置upstream指向主仓库: $UPSTREAM_REPO"
           git remote remove upstream 2>/dev/null || true
           git remote add upstream $UPSTREAM_REPO
           
-          echo "确保origin指向正确的仓库: $ORIGIN_REPO"
+          # 确保origin指向PR的fork仓库
+          if [ "$PR_REPO" != "$MAIN_REPO" ] && [ "${{ github.event_name }}" = "pull_request_target" ]; then
+            ORIGIN_REPO="https://github.com/${PR_REPO}.git"
+            echo "PR来自fork仓库，设置origin指向: $ORIGIN_REPO"
+          else
+            ORIGIN_REPO=$UPSTREAM_REPO
+            echo "PR来自同一仓库或非PR触发，origin与upstream相同: $ORIGIN_REPO"
+          fi
+          
           git remote set-url origin $ORIGIN_REPO 2>/dev/null || git remote add origin $ORIGIN_REPO
           
           # 获取最新的主仓库和分支
@@ -91,20 +101,33 @@ jobs:
           echo "更新后的远程仓库配置:"
           git remote -v
           
-          # 检查是否处于PR环境
+          # 检查是否处于PR环境并切换到正确的分支
           if [ -n "${{ github.event.pull_request.head.ref }}" ]; then
             echo "检测到PR，切换到PR分支: ${{ github.event.pull_request.head.ref }}"
-            git checkout "${{ github.event.pull_request.head.ref }}"
+            if [ "$PR_REPO" != "$MAIN_REPO" ]; then
+              # fork仓库的PR，需要先创建本地分支追踪fork的远程分支
+              git checkout -b "${{ github.event.pull_request.head.ref }}" --track "origin/${{ github.event.pull_request.head.ref }}"
+            else
+              # 同一仓库的PR
+              git checkout "${{ github.event.pull_request.head.ref }}"
+            fi
           elif [ -n "${{ github.ref_name }}" ]; then
             echo "切换到分支: ${{ github.ref_name }}"
-            git checkout "${{ github.ref_name }}"
+            if [[ "${{ github.ref_name }}" == "main" ]]; then
+              # main分支需要明确指定
+              git checkout upstream/main -b main
+            else
+              git checkout "${{ github.ref_name }}"
+            fi
           else
             echo "创建临时分支"
             git checkout -b temp-validation-branch
           fi
 
       - name: Prepare validation script
-        run: |  
+        run: |
+          # 尝试从upstream/main获取validate.py
+          echo "尝试从上游仓库获取validate.py文件"
           git show upstream/main:build/validate.py > build/validate.py 2>/dev/null
             
           # 检查文件是否成功获取并且非空
@@ -113,8 +136,17 @@ jobs:
             exit 1
           else
             echo "成功获取validate.py"
+            
+            # 替换origin/main为upstream/main
+            sed -i 's/origin\/main/upstream\/main/g' build/validate.py
+            # 替换git来源标识
+            sed -i 's/"git"/"upstream"/g' build/validate.py
+            # 修改提示信息
+            sed -i 's/本地文件/PR提交的文件/g' build/validate.py
+            
+            echo "验证脚本内容预览:"
+            head -n 20 build/validate.py
           fi
-
 
       - name: Get PR information
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.pr_number != '' }}
