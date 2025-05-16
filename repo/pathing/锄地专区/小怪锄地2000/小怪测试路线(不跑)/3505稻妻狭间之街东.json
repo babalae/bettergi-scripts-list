@@ -1,0 +1,176 @@
+{
+  "info": {
+    "name": "3505稻妻狭间之街东",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 625.8792724609375,
+      "y": 622.061767578125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 612.4332275390625,
+      "y": 666.0537109375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 607.59716796875,
+      "y": 673.04638671875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 602.8134765625,
+      "y": 675.6890869140625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 602.8134765625,
+      "y": 675.6890869140625,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 602.567626953125,
+      "y": 704.5882568359375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 595.5849609375,
+      "y": 724.87890625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 590.5576171875,
+      "y": 728.0908203125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.1),dash"
+    },
+    {
+      "id": 9,
+      "x": 587.1839599609375,
+      "y": 731.4390869140625,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 10,
+      "x": 562.41357421875,
+      "y": 765.1324462890625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 552.8590087890625,
+      "y": 757.3226318359375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 547.345703125,
+      "y": 749.2772216796875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 533.0989990234375,
+      "y": 728.683837890625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.1),dash"
+    },
+    {
+      "id": 14,
+      "x": 532.99951171875,
+      "y": 729.39501953125,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 15,
+      "x": 526.725830078125,
+      "y": 738.9053955078125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 526.5533447265625,
+      "y": 755.7919921875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "700",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 532.673828125,
+      "y": 764.731689453125,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 532.673828125,
+      "y": 764.731689453125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "path"
+    }
+  ]
+}

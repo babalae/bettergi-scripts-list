@@ -1,30 +1,37 @@
+const PlusButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/PlusButton.png"), 1000, 0, 300, 100);
+const FragileResinRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/FragileResin.png"), 800, 400, 200, 200);
+const ConfirmButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/ConfirmButton.png"), 900, 700, 200, 200);
+const QuickUsePlusButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/QuickUsePlusButton.png"), 1200, 600, 200, 100);
+
+/**
+ * @returns {Promise<void>}
+ */
+
 (async function () {
-    const defaultTime = 1
 
-    setGameMetrics(3840, 2160, 1.5); // 设置游戏窗口大小和DPI
-
+    await genshin.returnMainUi();
     keyPress("M");//打开地图
     await sleep(1200);
-    click(2475, 95);// 点击添加体力
+    captureGameRegion().find(PlusButtonRo).click();// 点击添加体力
     await sleep(600);
-    click(1660, 950)// 选择脆弱树脂
+    captureGameRegion().find(FragileResinRo).click();// 选择脆弱树脂
     await sleep(600);
-    click(2350, 1550);// 点击使用
+    captureGameRegion().find(ConfirmButtonRo).click();// 点击使用
     await sleep(600);
 
-    if (isNaN(settings.times || settings.times <= 0)) {
-        times = defaultTime
+    let QuickUsePlusButton = captureGameRegion().find(QuickUsePlusButtonRo);
+    if (isNaN(settings.times || settings.numberPerUse <= 0)) {
+        number = 1
     }else{
-        for (let i = 1; i < settings.times; ++i) {
-            click(2585, 1295);// 点击使用数量
-            await sleep(600);
+        for (let i = 1; i < settings.numberPerUse; ++i) {
+            QuickUsePlusButton.click();// 点击使用数量
+            await sleep(300);
         }
     }
 
-    click(2350, 1550);// 点击使用
+    captureGameRegion().find(ConfirmButtonRo).click();// 点击使用
     await sleep(600);
-    click(1920, 1500);// 点击空白处
-    await sleep(600);
-    keyPress("VK_ESCAPE");//关闭地图
+    click(960, 1000);// 点击空白处
+    await genshin.returnMainUi();
 
 })();

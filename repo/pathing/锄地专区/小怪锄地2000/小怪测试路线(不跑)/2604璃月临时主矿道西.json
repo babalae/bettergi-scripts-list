@@ -1,0 +1,59 @@
+{
+  "info": {
+    "name": "2604璃月临时主矿道西",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 895.638671875,
+      "y": 1020.92724609375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 902.3992919921875,
+      "y": 940.2542724609375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1500"
+    },
+    {
+      "id": 3,
+      "x": 884.64501953125,
+      "y": 933.5767822265625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 857.563232421875,
+      "y": 918.4354248046875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 857.563232421875,
+      "y": 918.4354248046875,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

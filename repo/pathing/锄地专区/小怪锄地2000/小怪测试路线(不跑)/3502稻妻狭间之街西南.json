@@ -1,0 +1,40 @@
+{
+  "info": {
+    "name": "3502稻妻狭间之街西南",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 852.7762451171875,
+      "y": 339.674560546875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 890.0645751953125,
+      "y": 306.6201171875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 879.434814453125,
+      "y": 311.6123046875,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

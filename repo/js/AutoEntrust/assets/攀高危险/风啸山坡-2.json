@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "F4山底部攀高危险",
+    "type": "collect",
+    "author": "1",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1124.1362061807995,
+      "y": 1594.0666294075218,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1154.6362061807995,
+      "y": 1591.3166294075218,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1185.8862061807995,
+      "y": 1565.8166294075218,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1177.1362061807995,
+      "y": 1549.0666294075218,
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1184.1362061807995,
+      "y": 1549.5666294075218,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1180.1362061807995,
+      "y": 1565.3166294075218,
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "info": {
+    "name": "鸟蛋20-璃月-层岩巨渊-2蛋",
+    "type": "collect",
+    "author": "灰林鸮",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.43.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1917.892578125,
+      "y": -760.8916015625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1895.2197265625,
+      "y": -716.21435546875,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1893.6982421875,
+      "y": -713.51806640625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

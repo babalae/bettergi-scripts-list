@@ -1,0 +1,130 @@
+{
+  "info": {
+    "name": "07-巨渊主矿区-西北-3",
+    "type": "collect",
+    "author": "火山",
+    "version": "1.1",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 338.7540283203125,
+      "y": 975.020263671875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 341.7359619140625,
+      "y": 982.7069091796875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 357.6270751953125,
+      "y": 984.592041015625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 379.9227294921875,
+      "y": 1007.063232421875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 373.9776611328125,
+      "y": 1010.2679443359375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 375.944580078125,
+      "y": 1015.533935546875,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 374.5,
+      "y": 1013.71875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1500",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 371.536376953125,
+      "y": 1022.184814453125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 369.84375,
+      "y": 1029.28125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 372.9375,
+      "y": 1029.34375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 374.8125,
+      "y": 1025.65625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 374.74989711934154,
+      "y": 1025.875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": 374.8125,
+      "y": 1025.65625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "target"
+    }
+  ]
+}

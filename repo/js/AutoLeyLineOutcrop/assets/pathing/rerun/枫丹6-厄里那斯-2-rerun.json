@@ -1,17 +1,17 @@
 {
   "info": {
-    "name": "枫丹6-厄里那斯-2",
+    "name": "枫丹6-厄里那斯-2-rerun",
     "type": "collect",
     "author": "平面镜",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.35.1"
+    "bgi_version": "0.42.3"
   },
   "positions": [
     {
       "id": 1,
-      "x": 4689.61181640625,
-      "y": 2429.431884765625,
+      "x": 4689.61,
+      "y": 2429.43,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -19,8 +19,8 @@
     },
     {
       "id": 2,
-      "x": 4631.0048828125,
-      "y": 2468.979736328125,
+      "x": 4631.0,
+      "y": 2468.98,
       "action": "",
       "move_mode": "fly",
       "action_params": "",
@@ -28,56 +28,10 @@
     },
     {
       "id": 3,
-      "x": 4653.67138671875,
-      "y": 2531.894287109375,
-      "action": "combat_script",
+      "x": 4653.67,
+      "y": 2531.89,
+      "action": "",
       "move_mode": "dash",
-      "action_params": "keypress(F)",
-      "type": "target"
-    },
-    {
-      "id": 4,
-      "x": 4653.67138671875,
-      "y": 2531.894287109375,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keypress(F)",
-      "type": "target"
-    },
-    {
-      "id": 5,
-      "x": 4653.67138671875,
-      "y": 2531.894287109375,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 6,
-      "x": 4653.67138671875,
-      "y": 2531.894287109375,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": 4652.3,
-      "y": 2531.6,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 8,
-      "x": 4652.3,
-      "y": 2531.6,
-      "action": "",
-      "move_mode": "walk",
       "action_params": "",
       "type": "target"
     }

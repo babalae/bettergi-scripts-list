@@ -5,7 +5,7 @@
     "author": "ddaodan",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.42.3"
+    "bgi_version": "0.42.3"
   },
   "positions": [
     {
@@ -13,14 +13,14 @@
       "action": "",
       "move_mode": "walk",
       "type": "path",
-      "x": -279.7900390625,
-      "y": 2318.056396484375,
+      "x": -279.79,
+      "y": 2318.06,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": -243.1435546875,
-      "y": 2348.14794921875,
+      "x": -243.14,
+      "y": 2348.15,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -28,8 +28,8 @@
     },
     {
       "id": 3,
-      "x": -233.1875,
-      "y": 2388.01708984375,
+      "x": -233.19,
+      "y": 2388.02,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -37,32 +37,13 @@
     },
     {
       "id": 4,
-      "x": -205.4931640625,
-      "y": 2429.072021484375,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keypress(f)",
-      "locked": false
-    },
-    {
-      "id": 5,
-      "x": -204.4931640625,
-      "y": 2430.072021484375,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 6,
-      "x": -205.4931640625,
-      "y": 2429.072021484375,
+      "x": -205.49,
+      "y": 2429.07,
       "type": "target",
       "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "locked": false
     }
   ]
 }

@@ -1,11 +1,11 @@
 {
   "info": {
-    "name": "枫丹3-新枫丹科学院-4",
+    "name": "枫丹3-新枫丹科学院-4-rerun",
     "type": "collect",
     "author": "平面镜",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.35.1"
+    "bgi_version": "0.42.3"
   },
   "positions": [
     {
@@ -13,14 +13,14 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 4624.37255859375,
-      "y": 4951.841796875,
+      "x": 4624.37,
+      "y": 4951.84,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 4635.6494140625,
-      "y": 4951.49755859375,
+      "x": 4635.65,
+      "y": 4951.5,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -28,8 +28,8 @@
     },
     {
       "id": 3,
-      "x": 4665.64501953125,
-      "y": 4970.13671875,
+      "x": 4665.65,
+      "y": 4970.14,
       "type": "path",
       "move_mode": "dash",
       "action": "",
@@ -37,62 +37,13 @@
     },
     {
       "id": 4,
-      "x": 4679.46875,
-      "y": 4977.8310546875,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keypress(F)",
-      "locked": false
-    },
-    {
-      "id": 5,
-      "x": 4679.46875,
-      "y": 4977.8310546875,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keypress(F)",
-      "locked": false
-    },
-    {
-      "id": 6,
-      "x": 4679.46875,
-      "y": 4977.8310546875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 7,
-      "x": 4679.46875,
-      "y": 4977.8310546875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 8,
-      "x": 4679.5,
-      "y": 4977.6,
+      "x": 4679.47,
+      "y": 4977.83,
       "type": "target",
       "move_mode": "walk",
       "action": "",
       "action_params": "",
       "locked": false
-    },
-    {
-      "id": 9,
-      "x": 4679.5,
-      "y": 4977.6,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
     }
   ]
 }

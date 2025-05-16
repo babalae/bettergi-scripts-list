@@ -1,0 +1,50 @@
+{
+  "info": {
+    "name": "鸟蛋-璃月-石门上-2个",
+    "type": "collect",
+    "author": "呱呱z",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 207.419921875,
+      "y": 1572.98779296875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 187.6435546875,
+      "y": 1560.10546875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 177.224609375,
+      "y": 1553.7822265625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "500",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 177.7216796875,
+      "y": 1557.83056640625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

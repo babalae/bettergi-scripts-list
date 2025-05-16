@@ -5,13 +5,13 @@
     "author": "ddaodan",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.42.3"
+    "bgi_version": "0.42.3"
   },
   "positions": [
     {
       "id": 1,
-      "x": -321.5546875,
-      "y": 1473.3349609375,
+      "x": -321.55,
+      "y": 1473.33,
       "type": "teleport",
       "move_mode": "walk",
       "action": "",
@@ -19,8 +19,8 @@
     },
     {
       "id": 2,
-      "x": -249.96484375,
-      "y": 1517.271484375,
+      "x": -249.96,
+      "y": 1517.27,
       "type": "path",
       "move_mode": "dash",
       "action": "",
@@ -28,8 +28,8 @@
     },
     {
       "id": 3,
-      "x": -219.7705078125,
-      "y": 1516.07470703125,
+      "x": -219.77,
+      "y": 1516.07,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -37,8 +37,8 @@
     },
     {
       "id": 4,
-      "x": -162.2021484375,
-      "y": 1517.8330078125,
+      "x": -162.2,
+      "y": 1517.83,
       "type": "path",
       "move_mode": "dash",
       "action": "",
@@ -46,8 +46,8 @@
     },
     {
       "id": 5,
-      "x": -126.7705078125,
-      "y": 1517.03466796875,
+      "x": -126.77,
+      "y": 1517.03,
       "type": "path",
       "move_mode": "dash",
       "action": "",
@@ -55,8 +55,8 @@
     },
     {
       "id": 6,
-      "x": -72.8896484375,
-      "y": 1547.08984375,
+      "x": -72.89,
+      "y": 1547.09,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -64,32 +64,13 @@
     },
     {
       "id": 7,
-      "x": -12.625,
-      "y": 1566.50830078125,
-      "action": "combat_script",
-      "move_mode": "fly",
-      "action_params": "keypress(f)",
-      "type": "target",
-      "locked": false
-    },
-    {
-      "id": 8,
-      "x": -12.625,
-      "y": 1566.50830078125,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target",
-      "locked": false
-    },
-    {
-      "id": 9,
-      "x": -12.625,
-      "y": 1566.50830078125,
+      "x": -12.62,
+      "y": 1566.51,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "fly",
       "action_params": "",
-      "type": "target"
+      "type": "target",
+      "locked": false
     }
   ]
 }

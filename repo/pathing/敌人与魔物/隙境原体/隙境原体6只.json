@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "隙境原体6只",
+    "type": "collect",
+    "author": "Vicissitude",
+    "version": "1.0",
+    "description": "枫丹隙境原体，建议使用水神或者火神队伍，效率较快",
+    "bgi_version": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5113.63525390625,
+      "y": 2998.2333984375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 5087.75830078125,
+      "y": 3013.80322265625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 5084.35888671875,
+      "y": 3053.546630859375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 5091.2138671875,
+      "y": 3103.682373046875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 5083.40234375,
+      "y": 3145.29833984375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

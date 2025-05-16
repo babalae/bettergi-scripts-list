@@ -5,13 +5,13 @@
     "author": "ddaodan",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.42.3"
+    "bgi_version": "0.42.3"
   },
   "positions": [
     {
       "id": 1,
-      "x": -1099.5380859375,
-      "y": 1972.50537109375,
+      "x": -1099.54,
+      "y": 1972.51,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -19,8 +19,8 @@
     },
     {
       "id": 2,
-      "x": -1087.7255859375,
-      "y": 1971.8603515625,
+      "x": -1087.73,
+      "y": 1971.86,
       "type": "path",
       "move_mode": "jump",
       "action": "",
@@ -28,8 +28,8 @@
     },
     {
       "id": 3,
-      "x": -1070.5908203125,
-      "y": 1950.04345703125,
+      "x": -1070.59,
+      "y": 1950.04,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -37,8 +37,8 @@
     },
     {
       "id": 4,
-      "x": -1068.73046875,
-      "y": 1947.2373046875,
+      "x": -1068.73,
+      "y": 1947.24,
       "type": "path",
       "move_mode": "jump",
       "action": "",
@@ -46,8 +46,8 @@
     },
     {
       "id": 5,
-      "x": -1065.4482421875,
-      "y": 1943.380859375,
+      "x": -1065.45,
+      "y": 1943.38,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -55,8 +55,8 @@
     },
     {
       "id": 6,
-      "x": -1059.6005859375,
-      "y": 1938.6630859375,
+      "x": -1059.6,
+      "y": 1938.66,
       "type": "path",
       "move_mode": "jump",
       "action": "",
@@ -64,30 +64,10 @@
     },
     {
       "id": 7,
-      "x": -1041.908203125,
-      "y": 1927.0654296875,
+      "x": -1041.91,
+      "y": 1927.07,
       "type": "target",
       "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "keypress(F)",
-      "locked": false
-    },
-    {
-      "id": 8,
-      "x": -1040.908203125,
-      "y": 1927.0654296875,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 9,
-      "x": -1041.908203125,
-      "y": 1927.0654296875,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
       "action_params": ""
     }

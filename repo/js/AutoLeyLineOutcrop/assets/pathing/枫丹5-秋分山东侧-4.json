@@ -5,7 +5,7 @@
     "author": "平面镜",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.35.1"
+    "bgi_version": "0.42.3"
   },
   "positions": [
     {
@@ -13,14 +13,14 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 3917.2783203125,
-      "y": 2576.334716796875,
+      "x": 3917.28,
+      "y": 2576.33,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 3917.228515625,
-      "y": 2573.301025390625,
+      "x": 3917.23,
+      "y": 2573.3,
       "type": "target",
       "move_mode": "walk",
       "action": "",
@@ -28,8 +28,8 @@
     },
     {
       "id": 3,
-      "x": 3907.2451171875,
-      "y": 2607.017333984375,
+      "x": 3907.25,
+      "y": 2607.02,
       "type": "path",
       "move_mode": "fly",
       "action": "stop_flying",
@@ -37,58 +37,8 @@
     },
     {
       "id": 4,
-      "x": 3921.345703125,
-      "y": 2617.813232421875,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keypress(F)",
-      "locked": false
-    },
-    {
-      "id": 5,
-      "x": 3921.345703125,
-      "y": 2617.813232421875,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keypress(F)",
-      "locked": false
-    },
-    {
-      "id": 6,
-      "x": 3921.345703125,
-      "y": 2617.813232421875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 7,
-      "x": 3921.345703125,
-      "y": 2617.813232421875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 8,
-      "x": 3921.3,
-      "y": 2617.8,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 9,
-      "x": 3921.3,
-      "y": 2617.8,
+      "x": 3921.35,
+      "y": 2617.81,
       "type": "target",
       "move_mode": "walk",
       "action": "",

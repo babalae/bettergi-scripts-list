@@ -1,0 +1,31 @@
+{
+  "info": {
+    "name": "须弥4-水天丛林-2",
+    "type": "collect",
+    "author": "秋云",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3368.759765625,
+      "y": -1243.01611328125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3355.8154296875,
+      "y": -1318.1767578125,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "500"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "aa03奥藏山风核（2）",
+    "type": "collect",
+    "author": "111",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1604.48,
+      "y": 1039.72,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1612.46,
+      "y": 1045.13,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1612.83,
+      "y": 1051.5,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 1637.51,
+      "y": 1180.66,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 1623.2,
+      "y": 1212.05,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 1623.16,
+      "y": 1212.76,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

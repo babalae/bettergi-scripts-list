@@ -1,14 +1,103 @@
 (async function () {
 
-    // 定义识别对象 - 玩家卡片图片
+// 存储挑战玩家信息
+let textArray = [];
+let skipNum = 0;
+//检查挑战结果   await checkChallengeResults();
+async function checkChallengeResults() {      
+    const region1 = RecognitionObject.ocr(785, 890, 340, 82);// 对话区域
+        let capture = captureGameRegion();
+        let res1 = capture.find(region1);
+        if (res1.isEmpty()){
+            await sleep(1000);
+            click(960, 540);
+            await sleep(500);
+            click(1860,50 );//避免失败卡死
+            await sleep(1000);    
+            click(1600,260 );
+            await sleep(1000);    
+            click(1180,756 );
+            await sleep(6000);    
+            click(754,915 );//退出挑战
+            await sleep(4000);     
+            await autoConversation();
+            await sleep(1000);
+            return;
+        } 
+        else{
+            await sleep(1000);    
+            click(754,915 );//退出挑战
+            await sleep(4000);     
+            await autoConversation();
+            await sleep(1000);
+            return;
+        }
+
+}
+
+//自动对话，直到出现选项框   await autoConversation();
+async function autoConversation() {    
+    await sleep(2000);//点击后等待一段时间避免误判
+    const region1 = RecognitionObject.ocr(785, 890, 340, 82);// 对话区域
+    const region2 = RecognitionObject.ocr(1250, 400, 660, 440);// 选项区域
+    let talkTime = 0;
+    //最多10次对话
+    while (talkTime < 20) {
+        let capture = captureGameRegion();
+        let res1 = capture.find(region1);
+        let res2 = capture.find(region2);
+        if (!res1.isEmpty() && res2.isEmpty()){
+            talkTime++;
+            keyPress("VK_SPACE"); 
+            await sleep(500);
+            keyPress("VK_SPACE"); 
+            await sleep(500);
+        } 
+        else if(!res1.isEmpty() && !res2.isEmpty()){
+        keyPress("F"); 
+        await sleep(1000);
+        log.info("已选择谈话内容");
+        return;
+        }
+        else if(res1.isEmpty() && !res2.isEmpty()){
+        log.info("谈话完成");
+        await sleep(1000);
+        return;
+        }
+        talkTime++;
+        await sleep(1500);
+    }
+    throw new Error('对话时间超时');
+}
+
+//检测传送结束
+async function tpEndDetection() {
+    const region = RecognitionObject.ocr(1690, 230, 75, 350);// 队伍名称区域
+    let tpTime = 0;
+    await sleep(500);//点击传送后等待一段时间避免误判
+    //最多30秒传送时间
+    while (tpTime < 300) {
+        let capture = captureGameRegion();
+        let res = capture.find(region);
+        if (!res.isEmpty()){
+            log.info("传送完成");
+            await sleep(1200);//传送结束后有僵直
+            return;
+        } 
+        tpTime++;
+        await sleep(100);
+    }
+    throw new Error('传送时间超时');
+}
+
+
+
+// 打开地图，查看玩家位置，并前往相应位置
 const cardPlayerRo = RecognitionObject.TemplateMatch( file.ReadImageMatSync("assets/cardPlayer.png"));
-/**
- * 检测指定点位是否有玩家卡片，发现后调用对应的函数
- * @returns {Promise<boolean>} 是否找到并处理了卡片
- */
 const detectCardPlayer = async () => {
     // 定义要检测的6个点位及对应的处理函数
 let i =0;
+let findNum = 0;
     const checkPoints = [
         { x: 640, y: 750, action: async () => await gotoTable1() },    // 点位1
         { x: 810, y: 790, action: async () => await gotoTable2() },    // 点位2
@@ -18,20 +107,23 @@ let i =0;
         { x: 290, y: 530, action: async () => await gotoTable6() }      // 点位6
     ];
 
-    await openMap();
-   keyPress("M"); 
+
+ keyPress("M"); 
 await sleep(1200);
 click(48, 441);//放大地图
-await sleep(500);
+await sleep(300);
 click(48, 441);//放大地图
-await sleep(500);
+await sleep(300);
 click(48, 441);//放大地图
-await sleep(500);
-click(48, 441);//放大地图
-await sleep(500);
-click(48, 441);//放大地图
+await sleep(300);
 
-await sleep(500);
+//地图拖动到指定位置
+moveMouseTo(200,200 );
+leftButtonDown(); await sleep(500);
+moveMouseTo(170,288 );await sleep(500);
+moveMouseTo(104,1000 );await sleep(500);
+leftButtonUp();await sleep(500);
+
 
     // 获取游戏区域截图
     const captureRegion = captureGameRegion();
@@ -52,26 +144,25 @@ const cropRegion = captureRegion.DeriveCrop(
         
         // 如果找到卡片
         if (!result.IsEmpty()) {
-            log.info(`在点位${i}找到玩家卡片，执行对应操作`);
-
-            await sleep(1000);
-            keyPress("ESCAPE"); 
-            await sleep(1500);
-            await point.action();  // 调用该点位对应的函数
-            return true;          // 返回true表示已找到并处理
-
+            findNum++;
+            if (findNum - skipNum == 1) {
+                log.info(`在点位${i}找到玩家，执行对应操作`);
+                await sleep(1000);
+                keyPress("ESCAPE"); 
+                await sleep(1500);
+                await point.action();  // 调用该点位对应的函数
+                return true;          // 返回true表示已找到并处理
+            }
         }
+        
     }
     
     // 所有点位都未找到
-    log.info("未在任何检测点找到玩家卡片");
+    log.info("未在任何检测点找到玩家");
     textArray.length = 0;
     return false;
 }
 
-
-// 存储识别到的文本信息
-let textArray = [];
 
 //获取挑战对象名称
 async function captureAndStoreTexts() {
@@ -120,13 +211,20 @@ async function captureAndStoreTexts() {
         }
     }
     
-    log.info(`已存储的文本数量: ${textArray.length}`);
+    log.info(`剩余挑战人数:${textArray.length}`);
     keyPress("ESCAPE");
     await sleep(1000);
+
 }
 
-//局部搜索并点击匹配的文本
+//检查是否有对应的挑战对手
 async function searchAndClickTexts() {
+    middleButtonClick();
+    await sleep(800);
+    moveMouseBy(0, 1030);
+    await sleep(800);
+    moveMouseBy(0, 1030);
+    await sleep(800);
     // 限定区域坐标和大小
     const searchX = 1210;
     const searchY = 440;
@@ -152,7 +250,7 @@ async function searchAndClickTexts() {
             // 找到匹配项，点击对应位置
        
             log.info(`找到匹配文本: ${resText}`);
-            
+             skipNum = 0;
             // 点击存储的位置
           await keyMouseScript.runFile(`assets/ALT点击.json`);
            await sleep(500);
@@ -167,12 +265,15 @@ async function searchAndClickTexts() {
             return true;
         }
     }
+    log.info(`未找到匹配文本`);
+    skipNum++;
     return false;
 }
 
 //函数：打开地图前往猫尾酒馆
     async function gotoTavern() {
-
+const tavernRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/tavern.png"));
+await genshin.returnMainUi();
 await sleep(1000);
 keyPress("m");
 await sleep(1500);
@@ -190,49 +291,45 @@ click(48, 441);//放大地图
 await sleep(400);
 click(48, 441);//放大地图
 await sleep(400);
-click(1000, 645);//猫尾酒馆
-await sleep(600);
-click(1345, 690);//猫尾酒馆
-await sleep(600);
-click(1707, 1010);//猫尾酒馆
-await sleep(7000);
+let tavern = captureGameRegion().find(tavernRo);
+if (tavern.isExist()) {
+        tavern.click();
+        await sleep(500);
+        }
+ else{
+           throw new Error('未能找到猫尾酒馆');  
+          }
+tavern = captureGameRegion().find(tavernRo);
+if (tavern.isExist()) {
+        tavern.click();
+        await sleep(500);
+        }
+ else{
+           throw new Error('未能找到猫尾酒馆');  
+          }
+click(1707, 1010);//确认传送
+await sleep(1000);
+await tpEndDetection();
     }
 
 //函数：对话和打牌
    async function Playcards() {    
-for (let i = 0;i < 5; i++) {
-keyPress("VK_SPACE");
-await sleep(500);
-keyPress("VK_SPACE");//对话
+await sleep(800);//略微俯视，避免名字出现在选项框附近，导致错误点击
+moveMouseBy(0, 1030);
 await sleep(1000);
-         }
-keyPress("F"); 
+await autoConversation();
+log.info("对话完成");
 await sleep(1500);
 click(1610,900 );//点击挑战
 await sleep(8000);
 await dispatcher.runTask(new SoloTask("AutoGeniusInvokation"));
 await sleep(3000);
-click(960, 540);
-await sleep(500);
-click(1860,50 );//避免失败卡死：点击设置
-await sleep(1000);    
-click(1600,260 );//避免失败卡死：退出对局
-await sleep(1000);    
-click(1180,756 );//避免失败卡死：确认
-await sleep(6000);    
-click(754,915 );//退出挑战
-await sleep(10000);     
-for (let i = 0;i < 3; i++) {
-keyPress("VK_SPACE");
-await sleep(500);
-keyPress("VK_SPACE");//对话
-await sleep(900);
-         }
+await checkChallengeResults();
+await sleep(1000);
     }
 
 //前往一号桌
     async function gotoTable1() {
-await gotoTavern();
 log.info(`前往1号桌`);
 keyDown("d");
 await sleep(1500);
@@ -249,7 +346,6 @@ await sleep(700);
     }
 //前往二号桌
     async function gotoTable2() {
-await gotoTavern();
 log.info(`前往2号桌`);
 keyDown("d");
 await sleep(1500);
@@ -269,7 +365,6 @@ await sleep(700);
     }
 //前往三号桌
     async function gotoTable3() {
-await gotoTavern();
 log.info(`前往3号桌`);
 keyDown("w");
 await sleep(2000);
@@ -284,7 +379,6 @@ await sleep(700);
     }
 //前往四号桌
     async function gotoTable4() {
-await gotoTavern();
 log.info(`前往4号桌`);
 keyDown("w");
 await sleep(2000);
@@ -305,7 +399,6 @@ await sleep(700);
     }
 //前往一号包间
     async function gotoTable5() {
-await gotoTavern();
 log.info(`前往1号包间`);
 keyDown("w");
 await sleep(2500);
@@ -325,7 +418,6 @@ await sleep(700);
     }
 //前往二号包间
     async function gotoTable6() {
-await gotoTavern();
 log.info(`前往2号包间`);
 await sleep(1500);
 keyDown("d");
@@ -367,18 +459,19 @@ await sleep(700);
 
 
 //主流程
-await genshin.returnMainUi();
+log.info(`前往猫尾酒馆`);
 await gotoTavern();
-await sleep(4000);
 await captureAndStoreTexts();
-    for (let i = 0;i < 6; i++) {//六次循环兜底，避免多次挑战不过
-
-if (textArray.length === 0) break;
+if (textArray.length != 0){
 await detectCardPlayer();
 await searchAndClickTexts();
-
+}
+    for (let i = 0;i < 20; i++) {//循环兜底，避免角色未到达指定位置
+if (textArray.length === 0) break;
+await gotoTavern();
+await detectCardPlayer();
+await searchAndClickTexts();
          }
-
 await genshin.returnMainUi();
     await sleep(500);
     keyPress("F6")

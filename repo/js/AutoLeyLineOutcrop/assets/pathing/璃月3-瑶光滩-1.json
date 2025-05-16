@@ -5,7 +5,7 @@
     "author": "ddaodan",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.42.3"
+    "bgi_version": "0.42.3"
   },
   "positions": [
     {
@@ -13,36 +13,16 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": -57.408203125,
-      "y": 656.93505859375,
+      "x": -57.41,
+      "y": 656.94,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": -55.2685546875,
-      "y": 603.84423828125,
+      "x": -55.27,
+      "y": 603.84,
       "type": "target",
       "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "keypress(f)",
-      "locked": false
-    },
-    {
-      "id": 3,
-      "x": -55.2685546875,
-      "y": 603.84423828125,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 4,
-      "x": -55.2685546875,
-      "y": 603.84423828125,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
       "action_params": "",
       "locked": false
