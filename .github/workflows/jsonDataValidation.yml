@@ -49,6 +49,19 @@ jobs:
         run: |
           pip install packaging semver
 
+      - name: Debug file structure
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "List files in root:"
+          ls -la
+          echo "List files in build directory (if exists):"
+          if [ -d "build" ]; then
+            ls -la build/
+          else
+            echo "build directory does not exist"
+            mkdir -p build
+          fi
+
       - name: Get PR information
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.pr_number != '' }}
         id: pr_info
