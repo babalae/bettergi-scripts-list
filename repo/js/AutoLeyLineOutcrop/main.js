@@ -13,6 +13,7 @@ let retryCount = 0;       // 重试次数
 let marksStatus = true;   // 自定义标记状态
 let currentRunTimes = 0;  // 当前运行次数
 let isNotification = false; // 是否发送通知
+let settings = {};        // 用户设置对象
 
 /**
  * 主函数 - 脚本入口点
@@ -42,17 +43,17 @@ async function runLeyLineOutcropScript() {
     
     // 加载配置和设置并校验
     const config = await loadConfig();
-    const settings = loadSettings();
+    loadSettings();
     retryCount = 0;
     
     // 显示设置信息
-    logSettings(settings);
+    logSettings();
     
     // 开局准备
-    await prepareForLeyLineRun(settings);
+    await prepareForLeyLineRun();
     
     // 执行地脉花挑战
-    await runLeyLineChallenges(config, settings);
+    await runLeyLineChallenges(config);
     
     // 完成后恢复自定义标记
     if (!marksStatus) { 
@@ -71,9 +72,8 @@ async function initializeGame() {
 
 /**
  * 记录设置信息到日志
- * @param {Object} settings - 用户设置对象
  */
-function logSettings(settings) {
+function logSettings() {
     log.info(`地脉花类型：${settings.leyLineOutcropType}`);
     log.info(`国家：${settings.country}`);
     
@@ -90,10 +90,9 @@ function logSettings(settings) {
 
 /**
  * 执行地脉花挑战前的准备工作
- * @param {Object} settings - 用户设置对象
  * @returns {Promise<void>}
  */
-async function prepareForLeyLineRun(settings) {
+async function prepareForLeyLineRun() {
     // 开局传送到七天神像
     await genshin.tpToStatueOfTheSeven();
     
@@ -107,18 +106,15 @@ async function prepareForLeyLineRun(settings) {
 /**
  * 执行地脉花挑战的主要逻辑
  * @param {Object} config - 配置对象
- * @param {Object} settings - 用户设置对象
  * @returns {Promise<void>}
  */
-async function runLeyLineChallenges(config, settings) {
-    
-    
+async function runLeyLineChallenges(config) {
     while (currentRunTimes < settings.timesValue) {
         // 寻找地脉花位置
         await findLeyLineOutcrop(settings.country, settings.leyLineOutcropType);
         
         // 查找并执行对应的策略
-        const foundStrategy = await executeMatchingStrategy(config, settings);
+        const foundStrategy = await executeMatchingStrategy(config);
         
         // 未找到策略的错误处理
         if (!foundStrategy) {
@@ -145,10 +141,9 @@ async function switchTeam(teamName) {
 /**
  * 执行匹配的地脉花策略
  * @param {Object} config - 配置对象
- * @param {Object} settings - 用户设置对象
  * @returns {Promise<boolean>} 是否找到并执行了策略
  */
-async function executeMatchingStrategy(config, settings) {
+async function executeMatchingStrategy(config) {
     let foundStrategy = false;
     
     // 从配置中查找匹配的位置和策略
@@ -163,7 +158,7 @@ async function executeMatchingStrategy(config, settings) {
                 log.info(`找到匹配的地脉花策略：${strategyName}，次序：${order}`);
                 
                 // 使用 LeyLineOutcropData.json 数据处理路径
-                await executePathsUsingNodeData(position, settings);
+                await executePathsUsingNodeData(position);
                 break;
             }
         }
@@ -175,10 +170,9 @@ async function executeMatchingStrategy(config, settings) {
 /**
  * 使用节点数据执行路径
  * @param {Object} position - 位置对象
- * @param {Object} settings - 用户设置对象
  * @returns {Promise<void>}
  */
-async function executePathsUsingNodeData(position, settings) {
+async function executePathsUsingNodeData(position) {
     try {
         const nodeData = await loadNodeData();        
         let currentNodePosition = position;
@@ -201,7 +195,7 @@ async function executePathsUsingNodeData(position, settings) {
         log.info(`选择了含有 ${optimalPath.routes.length} 个路径点的最优路径`);
         
         // 执行路径
-        await executePath(optimalPath, settings);            
+        await executePath(optimalPath);            
         currentRunTimes++;
         
         // 如果达到刷取次数上限，退出循环
@@ -231,7 +225,7 @@ async function executePathsUsingNodeData(position, settings) {
                 };
 
                 log.info(`直接执行下一个节点路径: ${nextRoute}`);
-                await executePath(pathObject, settings);
+                await executePath(pathObject);
 
                 currentRunTimes++;
 
@@ -308,7 +302,7 @@ async function executePathsUsingNodeData(position, settings) {
                     routes: [closestRoute]
                 };
                 
-                await executePath(pathObject, settings);
+                await executePath(pathObject);
                 currentRunTimes++;
                 
                 // 更新当前节点为下一个节点，继续检查
@@ -531,10 +525,9 @@ function selectOptimalPath(paths) {
 /**
  * 执行路径
  * @param {Object} path - 路径对象
- * @param {Object} settings - 用户设置对象
  * @returns {Promise<void>}
  */
-async function executePath(path, settings) {
+async function executePath(path) {
     log.info(`开始执行路径，起始点ID: ${path.startNode.id}, 目标点ID: ${path.targetNode.id}`);
     log.info(`路径包含 ${path.routes.length} 个路径段`);
     
@@ -553,18 +546,17 @@ async function executePath(path, settings) {
     }
     const routePath = path.routes[path.routes.length - 1];
     const targetPath = routePath.replace('assets/pathing/', 'assets/pathing/target/').replace('-rerun', '');
-        // 处理地脉花
+    // 处理地脉花
     log.info(`处理地脉花: ${targetPath}`);
     await processLeyLineOutcrop(settings.timeout, targetPath);
-    await attemptReward(settings);
+    await attemptReward();
 }
 
 /**
  * 如果需要，切换到好感队
- * @param {Object} settings - 用户设置对象
  * @returns {Promise<void>}
  */
-async function switchToFriendshipTeamIfNeeded(settings) {
+async function switchToFriendshipTeamIfNeeded() {
     if (!settings.friendshipTeam) {
         return;
     }
@@ -629,7 +621,7 @@ async function loadConfig() {
 function loadSettings() {
     try {
         // 从全局settings加载用户设置
-        const settingsData = {
+        settings = {
             start: settings.start,
             leyLineOutcropType: settings.leyLineOutcropType,
             country: settings.country,
@@ -641,46 +633,47 @@ function loadSettings() {
         };
 
         // 验证必要的设置
-        if (!settingsData.start) {
+        if (!settings.start) {
             throw new Error("请仔细阅读脚本介绍，并在{1}内进行配置，如果你是直接运行的脚本，请将脚本加入{1}内运行！", "调度器");
         }
 
-        if (!settingsData.leyLineOutcropType) {
+        if (!settings.leyLineOutcropType) {
             throw new Error("请在游戏中确认地脉花的类型，然后在js设置中选择地脉花的类型。");
         }
 
-        if (!settingsData.country) {
+        if (!settings.country) {
             throw new Error("请在游戏中确认地脉花的第一个点的位置，然后在js设置中选择地脉花所在的国家。");
         }
 
-        if (settingsData.friendshipTeam && !settingsData.team) {
+        if (settings.friendshipTeam && !settings.team) {
             throw new Error("未配置战斗队伍！当配置了好感队时必须配置战斗队伍！");
         }
 
         // 处理刷取次数
-        if (!/^-?\d+\.?\d*$/.test(settingsData.count)) {
-            log.warn(`刷取次数 ${settingsData.count} 不是数字，使用默认次数6次`);
-            settingsData.timesValue = 6;
+        if (!/^-?\d+\.?\d*$/.test(settings.count)) {
+            log.warn(`刷取次数 ${settings.count} 不是数字，使用默认次数6次`);
+            settings.timesValue = 6;
         } else {
             // 转换为数字
-            const num = parseFloat(settingsData.count);
+            const num = parseFloat(settings.count);
 
             // 范围检查
             if (num < 1) {
-                settingsData.timesValue = 1;
+                settings.timesValue = 1;
                 log.info(`⚠️ 次数 ${num} 小于1，已调整为1`);
             } else {
                 // 处理小数
                 if (!Number.isInteger(num)) {
-                    settingsData.timesValue = Math.floor(num);
-                    log.info(`⚠️ 次数 ${num} 不是整数，已向下取整为 ${settingsData.timesValue}`);
+                    settings.timesValue = Math.floor(num);
+                    log.info(`⚠️ 次数 ${num} 不是整数，已向下取整为 ${settings.timesValue}`);
                 } else {
-                    settingsData.timesValue = num;
+                    settings.timesValue = num;
                 }
             }
         }
-
-        return settingsData;
+        
+        // 设置通知状态
+        isNotification = settings.isNotification;
     } catch (error) {
         log.error(`加载设置失败: ${error.message}`);
         throw error;
@@ -881,16 +874,16 @@ async function processLeyLineOutcrop(timeout, targetPath, retries = 0) {
         // await openOutcrop(targetPath);
         keyPress("F");
         await autoFight(timeout);
-        await switchToFriendshipTeamIfNeeded(settings);
+        await switchToFriendshipTeamIfNeeded();
         await autoNavigateToReward();
     } else if (ocr && ocr.text.includes("打倒所有敌人")) {
         log.info("地脉花已经打开，直接战斗");
         await autoFight(timeout);
-        await switchToFriendshipTeamIfNeeded(settings);
+        await switchToFriendshipTeamIfNeeded();
         await autoNavigateToReward();
     } else if (ocr && ocr.text.includes("地脉之花")) {
         log.info("识别到地脉之花");
-        await switchToFriendshipTeamIfNeeded(settings);
+        await switchToFriendshipTeamIfNeeded();
     } else {
         log.warn(`未识别到地脉花文本，当前重试次数: ${retries + 1}/${MAX_RETRIES}`);
         try {
@@ -904,10 +897,9 @@ async function processLeyLineOutcrop(timeout, targetPath, retries = 0) {
 
 /**
  * 尝试领取地脉花奖励
- * @param {Object} settings - 设置对象，包含friendshipTeam
  * @returns {Promise<void>}
  */
-async function attemptReward(settings) {
+async function attemptReward() {
     const MAX_RETRY = 5;
 
     // 超时处理
@@ -1001,7 +993,7 @@ async function attemptReward(settings) {
         await sleep(1000);
         retryCount++;
         await autoNavigateToReward();
-        await attemptReward(settings);
+        await attemptReward();
     }
 }
 
