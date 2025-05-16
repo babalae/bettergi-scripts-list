@@ -642,7 +642,7 @@ function loadSettings() {
 
         // 验证必要的设置
         if (!settingsData.start) {
-            throw new Error("请仔细阅读脚本介绍，并在调度器内进行配置，如果你是直接运行的脚本，请将脚本加入调度器内运行！");
+            throw new Error("请仔细阅读脚本介绍，并在{1}内进行配置，如果你是直接运行的脚本，请将脚本加入{1}内运行！", "调度器");
         }
 
         if (!settingsData.leyLineOutcropType) {
