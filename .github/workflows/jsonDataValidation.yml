@@ -89,10 +89,10 @@ jobs:
           # 根据触发方式决定验证路径和是否自动修复
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "手动触发模式，验证路径: ${VALIDATE_PATH}"
-            python bulid/validate.py ${VALIDATE_PATH} $([[ "${AUTO_FIX}" == "true" ]] && echo "--fix")
+            python build/validate.py ${VALIDATE_PATH} $([[ "${AUTO_FIX}" == "true" ]] && echo "--fix")
           else
             echo "PR 触发模式，验证修改的 JSON 文件"
-            python bulid/validate.py repo/pathing --fix
+            python build/validate.py repo/pathing --fix
           fi
           
       - name: Add PR comment
