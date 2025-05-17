@@ -4,8 +4,9 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "6玄文兽",
-    "bgi_version": "0.42.3"
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -54,28 +55,28 @@
       "id": 6,
       "x": 1904.5419921875,
       "y": 1196.94091796875,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 7,
       "x": 1881.8720703125,
       "y": 1205.41845703125,
-      "type": "path",
+      "action": "stop_flying",
       "move_mode": "fly",
-      "action": "combat_script",
-      "action_params": "keypress(VK_SPACE),wait(2),click"
+      "action_params": "2300",
+      "type": "path"
     },
     {
       "id": 8,
       "x": 1857.9736328125,
       "y": 1186.87353515625,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     }
   ]
 }
