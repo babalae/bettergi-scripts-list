@@ -1118,7 +1118,7 @@ async function recognizeTextInRegion(ocrRegion, timeout) {
             let foundText = false;
             if (result.count > 0) {
                 for (let i = 0; i < result.count; i++) {
-                    if (result[i].text.includes("打倒所有敌人")) {
+                    if (result[i].text.includes("打倒") || result[i].text.includes("所有") || result[i].text.includes("敌人")) {
                         foundText = true;
                         noTextCount = 0;
                         break;
