@@ -2,13 +2,6 @@
  * 原神地脉花自动化脚本 (Genshin Impact Ley Line Outcrop Automation Script)
  *
  * 功能：自动寻找并完成地脉花挑战，领取奖励
- *
- * 术语对照表：
- * 中文 - 英文：
- * 地脉之花 - Ley Line Outcrop
- * 地脉 - Ley Line
- * 启示之花 - Blossom of Revelation (蓝花，产出经验书)
- * 藏金之花 - Blossom of Wealth (黄花，产出摩拉)
  */
 
 // 全局变量
@@ -19,6 +12,8 @@ let strategyName = "";    // 任务策略名称
 let retryCount = 0;       // 重试次数
 let marksStatus = true;   // 自定义标记状态
 let currentRunTimes = 0;  // 当前运行次数
+let isNotification = false; // 是否发送通知
+
 /**
  * 主函数 - 脚本入口点
  */
@@ -28,6 +23,9 @@ let currentRunTimes = 0;  // 当前运行次数
         await runLeyLineOutcropScript();
     } catch (error) {
         log.error("出错了！ {error}", error.message);
+        if (isNotification) {
+            notification.error("出错了！ {error}", error.message);
+        }
         if (!marksStatus) { 
             await openCustomMarks(); 
         }
@@ -84,9 +82,9 @@ function logSettings(settings) {
     }
     
     log.info(`刷取次数：${settings.timesValue}`);
-    
-    if (settings.reRun) {
-        log.info("已开启可重跑模式，将选择可重跑路线");
+
+    if (isNotification) {
+        notification.info("全自动地脉花开始运行，以下是本次运行的配置：\n\n地脉花类型：{1}\n国家：{2}\n刷取次数：{3}", settings.leyLineOutcropType, settings.country, settings.timesValue);
     }
 }
 
@@ -126,7 +124,7 @@ async function runLeyLineChallenges(config, settings) {
         if (!foundStrategy) {
             handleNoStrategyFound();
             return;
-        }        
+        }
     }
 }
 
@@ -577,10 +575,14 @@ async function switchToFriendshipTeamIfNeeded(settings) {
 /**
  * 处理未找到策略的情况
  */
-function handleNoStrategyFound() {
+async function handleNoStrategyFound() {
     log.error("未找到对应的地脉花策略，请再次运行脚本");
     log.error("如果仍然不行，请截图{1}游戏界面，并反馈给作者！", "*完整的*");
     log.error("完整的游戏界面！完整的游戏界面！完整的游戏界面！");
+    if (isNotification) {
+        notification.error("未找到对应的地脉花策略");
+        await genshin.returnMainUi();
+    }
 }
 
 /**
@@ -613,15 +615,15 @@ function loadSettings() {
             leyLineOutcropType: settings.leyLineOutcropType,
             country: settings.country,
             team: settings.team,
-            reRun: settings.reRun,
             friendshipTeam: settings.friendshipTeam,
             timeout: settings.timeout * 1000 ? settings.timeout * 1000 : 120000,
-            count: settings.count ? settings.count : "6"
+            count: settings.count ? settings.count : "6",
+            isNotification: settings.isNotification
         };
 
         // 验证必要的设置
         if (!settingsData.start) {
-            throw new Error("请仔细阅读脚本介绍，并在调度器内进行配置，如果你是直接运行的脚本，请将脚本加入调度器内运行！");
+            throw new Error("请仔细阅读脚本介绍，并在{1}内进行配置，如果你是直接运行的脚本，请将脚本加入{1}内运行！", "调度器");
         }
 
         if (!settingsData.leyLineOutcropType) {
@@ -698,7 +700,6 @@ async function findLeyLineOutcrop(country, type) {
         const found = await locateLeyLineOutcrop(type);
 
         if (found) {
-            // log.info("成功找到地脉花！");
             return; // 找到就直接结束
         }
 

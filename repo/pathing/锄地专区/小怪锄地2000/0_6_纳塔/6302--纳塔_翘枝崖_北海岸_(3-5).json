@@ -5,13 +5,13 @@
     "author": "Demo&汐&mno",
     "version": "1.1",
     "description": "",
-    "bgiVersion": "0.42.3"
+    "bgi_version": "0.42.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": 9548.26171875,
-      "y": -1116.56103515625,
+      "x": 9548.26,
+      "y": -1116.56,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -19,8 +19,8 @@
     },
     {
       "id": 2,
-      "x": 9550.65625,
-      "y": -1113.59033203125,
+      "x": 9550.66,
+      "y": -1113.59,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "keypress(t),wait(2.5),keydown(d),wait(2),keyup(d),keypress(VK_SPACE),wait(0.5),keypress(VK_SPACE)",
@@ -28,8 +28,8 @@
     },
     {
       "id": 3,
-      "x": 9444.033203125,
-      "y": -1170.794921875,
+      "x": 9444.03,
+      "y": -1170.79,
       "action": "combat_script",
       "move_mode": "run",
       "action_params": "charge(4.5),keydown(q),wait(1.5),keyup(q),attack(0.3)",
@@ -37,8 +37,8 @@
     },
     {
       "id": 4,
-      "x": 9440.2421875,
-      "y": -1172.59130859375,
+      "x": 9440.24,
+      "y": -1172.59,
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
@@ -46,8 +46,8 @@
     },
     {
       "id": 5,
-      "x": 9400.470703125,
-      "y": -1201.66845703125,
+      "x": 9400.47,
+      "y": -1201.67,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -55,8 +55,8 @@
     },
     {
       "id": 6,
-      "x": 9408.9892578125,
-      "y": -1210.98876953125,
+      "x": 9408.99,
+      "y": -1210.99,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "attack(0.5)",
@@ -64,8 +64,8 @@
     },
     {
       "id": 7,
-      "x": 9390.240234375,
-      "y": -1199.36083984375,
+      "x": 9390.24,
+      "y": -1199.36,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -73,8 +73,8 @@
     },
     {
       "id": 8,
-      "x": 9354.937503950083,
-      "y": -1222.1250303159268,
+      "x": 9354.94,
+      "y": -1222.13,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -82,8 +82,8 @@
     },
     {
       "id": 9,
-      "x": 9255.0986328125,
-      "y": -1128.2724609375,
+      "x": 9255.1,
+      "y": -1128.27,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -92,8 +92,8 @@
     },
     {
       "id": 10,
-      "x": 9255.0986328125,
-      "y": -1128.2724609375,
+      "x": 9255.1,
+      "y": -1128.27,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "wait(1)",

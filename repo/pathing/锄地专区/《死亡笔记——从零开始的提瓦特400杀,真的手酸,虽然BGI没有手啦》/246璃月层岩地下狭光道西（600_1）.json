@@ -1,0 +1,113 @@
+{
+  "info": {
+    "name": "246璃月层岩地下狭光道西（600_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.1",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1207.14,
+      "y": 508.64,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 1206.87,
+      "y": 522.0,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 1163.83,
+      "y": 513.48,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 1151.68,
+      "y": 478.16,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 1148.29,
+      "y": 440.39,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 1139.63,
+      "y": 422.37,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 1137.35,
+      "y": 397.31,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 1127.83,
+      "y": 367.81,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 1068.55,
+      "y": 377.52,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 1068.55,
+      "y": 377.52,
+      "type": "orientation",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "locked": false
+    }
+  ]
+}

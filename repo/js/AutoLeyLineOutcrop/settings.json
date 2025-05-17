@@ -16,7 +16,7 @@
     {
         "name": "country",
         "type": "select",
-        "label": "国家（璃月和须弥路线不完整，仅测试使用）",
+        "label": "国家（璃月和须弥路线不完整，仅供测试，不推荐使用）",
         "options": [
             "蒙德",
             "璃月",
@@ -45,6 +45,11 @@
         "name": "timeout",
         "type": "input-text",
         "label": "战斗超时时间，单位秒，默认120秒"
+    },
+    {
+        "name": "isNotification",
+        "type": "checkbox",
+        "label": "通过BGI通知系统发送详细通知"
     }
 ]
   

@@ -10,17 +10,17 @@ on:
   workflow_dispatch:
     inputs:
       path:
-        description: '要验证的路径 (例如: repo/pathing 或 repo/pathing/某文件.json)'
+        description: '要验证的路径'
         required: true
         default: 'repo/pathing'
         type: string
       auto_fix:
         description: '是否自动修复问题'
         required: false
-        default: 'true'
+        default: true
         type: boolean
       pr_number:
-        description: '关联的 PR 号 (留空则不关联)'
+        description: '关联的 PR 号'
         required: false
         type: string
 
@@ -30,10 +30,34 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-      id-token: write
-      issues: write
     
     steps:
+      - name: Set environment variables based on trigger type
+        id: set_env
+        run: |
+          # 根据触发类型设置环境变量
+          if [ "${{ github.event_name }}" = "pull_request_target" ]; then
+            echo "触发类型: PR触发"
+            echo "trigger_type=pr" >> $GITHUB_OUTPUT
+            echo "validate_path=pr_files" >> $GITHUB_OUTPUT
+            echo "auto_fix=true" >> $GITHUB_OUTPUT
+            echo "pr_number=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+            echo "head_ref=${{ github.event.pull_request.head.ref }}" >> $GITHUB_OUTPUT
+            echo "head_repo=${{ github.event.pull_request.head.repo.full_name }}" >> $GITHUB_OUTPUT
+            echo "base_ref=${{ github.event.pull_request.base.ref }}" >> $GITHUB_OUTPUT
+            echo "base_sha=${{ github.event.pull_request.base.sha }}" >> $GITHUB_OUTPUT
+          else
+            echo "触发类型: 手动触发"
+            echo "trigger_type=manual" >> $GITHUB_OUTPUT
+            echo "validate_path=${{ github.event.inputs.path }}" >> $GITHUB_OUTPUT
+            echo "auto_fix=${{ github.event.inputs.auto_fix }}" >> $GITHUB_OUTPUT
+            echo "pr_number=${{ github.event.inputs.pr_number }}" >> $GITHUB_OUTPUT
+            echo "head_ref=" >> $GITHUB_OUTPUT
+            echo "head_repo=" >> $GITHUB_OUTPUT
+            echo "base_ref=main" >> $GITHUB_OUTPUT
+            echo "base_sha=" >> $GITHUB_OUTPUT
+          fi
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -51,8 +75,102 @@ jobs:
         run: |
           pip install packaging semver
 
-      - name: Get PR information
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.pr_number != '' }}
+      - name: Debug file structure
+        run: |
+          echo "触发类型: ${{ steps.set_env.outputs.trigger_type }}"
+          echo "验证路径: ${{ steps.set_env.outputs.validate_path }}"
+          echo "自动修复: ${{ steps.set_env.outputs.auto_fix }}"
+          echo "PR号: ${{ steps.set_env.outputs.pr_number }}"
+          echo "Current directory: $(pwd)"
+          echo "List files in root:"
+          ls -la
+          echo "List files in build directory (if exists):"
+          if [ -d "build" ]; then
+            ls -la build/
+          else
+            echo "build directory does not exist"
+            mkdir -p build
+          fi
+
+      - name: Setup Git and repositories
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+          # 设置Git处理中文等特殊字符
+          git config --global core.quotepath false
+          
+          # 确保远程仓库设置正确
+          echo "当前远程仓库配置:"
+          git remote -v
+          
+          # 设置变量
+          MAIN_REPO="${{ github.repository }}"
+          PR_REPO="${{ github.event.pull_request.head.repo.full_name || github.repository }}"
+          
+          # 设置上游仓库(upstream)指向主仓库
+          UPSTREAM_REPO="https://github.com/${MAIN_REPO}.git"
+          echo "设置upstream指向主仓库: $UPSTREAM_REPO"
+          git remote remove upstream 2>/dev/null || true
+          git remote add upstream $UPSTREAM_REPO
+          
+          # 确保origin指向PR的fork仓库
+          if [ "$PR_REPO" != "$MAIN_REPO" ] && [ "${{ steps.set_env.outputs.trigger_type }}" = "pr" ]; then
+            ORIGIN_REPO="https://github.com/${PR_REPO}.git"
+            echo "PR来自fork仓库，设置origin指向: $ORIGIN_REPO"
+          else
+            ORIGIN_REPO=$UPSTREAM_REPO
+            echo "PR来自同一仓库或非PR触发，origin与upstream相同: $ORIGIN_REPO"
+          fi
+          
+          git remote set-url origin $ORIGIN_REPO 2>/dev/null || git remote add origin $ORIGIN_REPO
+          
+          # 获取最新的主仓库和分支
+          echo "获取远程分支信息"
+          git fetch upstream
+          git fetch origin
+          
+          # 显示远程仓库配置
+          echo "更新后的远程仓库配置:"
+          git remote -v
+          
+          # 检查是否处于PR环境并切换到正确的分支
+          if [ "${{ steps.set_env.outputs.trigger_type }}" = "pr" ] && [ -n "${{ steps.set_env.outputs.head_ref }}" ]; then
+            echo "检测到PR，切换到PR分支: ${{ steps.set_env.outputs.head_ref }}"
+            if [ "$PR_REPO" != "$MAIN_REPO" ]; then
+              # fork仓库的PR，需要先创建本地分支追踪fork的远程分支
+              git checkout -b "${{ steps.set_env.outputs.head_ref }}" --track "origin/${{ steps.set_env.outputs.head_ref }}" || \
+              git checkout -b "${{ steps.set_env.outputs.head_ref }}" --no-track && \
+              git push --set-upstream origin "${{ steps.set_env.outputs.head_ref }}"
+            else
+              # 同一仓库的PR
+              git checkout "${{ steps.set_env.outputs.head_ref }}" || git checkout -b "${{ steps.set_env.outputs.head_ref }}"
+            fi
+          elif [ -n "${{ github.ref_name }}" ]; then
+            echo "切换到分支: ${{ github.ref_name }}"
+            if [[ "${{ github.ref_name }}" == "main" ]]; then
+              # main分支需要明确指定
+              git checkout upstream/main -b main
+            else
+              git checkout "${{ github.ref_name }}" || git checkout -b "${{ github.ref_name }}"
+            fi
+          else
+            echo "创建临时分支"
+            git checkout -b temp-validation-branch
+          fi
+
+      - name: Prepare validation script
+        run: |
+          # 检查build目录和validate.py文件是否存在
+          mkdir -p build
+          if [ ! -f "build/validate.py" ]; then
+            echo "build/validate.py不存在，跳过获取步骤"
+          else
+            echo "build/validate.py已存在，检查文件头部"
+            head -n 5 build/validate.py
+          fi
+
+      - name: Get PR information for workflow_dispatch
+        if: ${{ steps.set_env.outputs.trigger_type == 'manual' && steps.set_env.outputs.pr_number != '' }}
         id: pr_info
         uses: actions/github-script@v6
         with:
@@ -62,7 +180,7 @@ jobs:
               const pr = await github.rest.pulls.get({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                pull_number: parseInt(${{ github.event.inputs.pr_number }})
+                pull_number: parseInt(${{ steps.set_env.outputs.pr_number }})
               });
               
               core.setOutput('head_sha', pr.data.head.sha);
@@ -70,637 +188,242 @@ jobs:
               core.setOutput('head_repo', pr.data.head.repo.full_name);
               core.setOutput('found', 'true');
               
-              console.log(`找到 PR #${{ github.event.inputs.pr_number }}`);
+              console.log(`找到 PR #${{ steps.set_env.outputs.pr_number }}`);
               console.log(`Head SHA: ${pr.data.head.sha}`);
               console.log(`Head Ref: ${pr.data.head.ref}`);
               console.log(`Head Repo: ${pr.data.head.repo.full_name}`);
+              
+              // 如果找到PR，切换到PR分支
+              const exec = require('child_process').execSync;
+              if (pr.data.head.ref) {
+                console.log(`切换到PR分支: ${pr.data.head.ref}`);
+                exec(`git checkout ${pr.data.head.ref} || git checkout -b ${pr.data.head.ref}`);
+              }
             } catch (error) {
-              console.log(`获取 PR #${{ github.event.inputs.pr_number }} 信息失败: ${error.message}`);
+              console.log(`获取 PR #${{ steps.set_env.outputs.pr_number }} 信息失败: ${error.message}`);
               core.setOutput('found', 'false');
             }
-      - name: Run validation and correction
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          PR_NUMBER: ${{ github.event.pull_request.number || github.event.inputs.pr_number }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HEAD_REF: ${{ github.event.pull_request.head.ref || steps.pr_info.outputs.head_ref || '' }}
-          PR_REPO: ${{ github.event.pull_request.head.repo.full_name || steps.pr_info.outputs.head_repo || github.repository }}
-          VALIDATE_PATH: ${{ github.event.inputs.path || 'repo/pathing' }}
-          AUTO_FIX: ${{ github.event.inputs.auto_fix || 'true' }}
+
+      - name: Get changed files for PR trigger
+        id: changed_files
+        if: ${{ steps.set_env.outputs.trigger_type == 'pr' }}
         run: |
-          cat << 'EOF' > validate.py
-          import json
-          import os
-          import sys
-          import subprocess
-          import re
-          from packaging.version import parse
-          from semver import VersionInfo
-          
-          # ==================== 配置和常量 ====================
-          
-          # 定义有效的 type 和 move_mode 值
-          VALID_TYPES = ["teleport", "path", "target", "orientation"]
-          VALID_MOVE_MODES = ["swim", "walk", "fly", "climb", "run", "dash", "jump"]
-          
-          # 定义 action 和 action_params 的最低兼容版本
-          ACTION_VERSION_MAP = {
-              "fight": "0.42.0",
-              "mining": "0.43.0",
-              "fishing": "0.43.0",
-              "force_tp": "0.42.0",
-              "log_output": "0.42.0",
-              "anemo_collect": "0.42.0",
-              "combat_script": "0.42.0",
-              "hydro_collect": "0.42.0",
-              "pick_around": "0.42.0",
-              "pyro_collect": "0.43.0",
-              "stop_flying": "0.42.0",
-              "normal_attack": "0.42.0",
-              "electro_collect": "0.42.0",
-              "nahida_collect": "0.42.0",
-              "up_down_grab_leaf": "0.42.0"
-          }
-          
-          # 定义 action_params 的最低兼容版本和正则表达式验证
-          ACTION_PARAMS_VERSION_MAP = {            
-              "stop_flying": {
-                  "params": {"version": "0.44.0", "regex": r"^\d+(\.\d+)?$"}
-              },
-              "pick_around": {
-                  "params": {"version": "0.42.0", "regex": r"^\d+$"}
-              },
-              "combat_script": {
-                  "params": {"version": "0.42.0", "regex": r"^.+$"}  # 任意非空字符串
-              },
-              "log_output": {
-                  "params": {"version": "0.42.0", "regex": r"^.+$"}  # 任意非空字符串
-              }
-              # 其他 action 类型没有明确的 action_params 格式要求
-          }
-          
-          # 默认版本号
-          DEFAULT_BGI_VERSION = "0.42.0"
-          DEFAULT_VERSION = "1.0"
-          
-          # ==================== 文件操作 ====================
-          
-          def get_original_file(file_path):
-              """从 git 仓库获取原始文件内容，如果失败则尝试从本地备份获取"""
-              # 返回值增加一个来源标识: "git", "backup", "current", None
-          
-              # 首先尝试从 git 仓库获取
-              try:
-                  result = subprocess.run(['git', 'show', f'origin/main:{file_path}'], 
-                                      capture_output=True, text=True, encoding='utf-8')
-                  if result.returncode == 0:
-                      print("从 git 仓库成功获取原始文件")
-                      return json.loads(result.stdout), "git"
-              except Exception as e:
-                  print(f"从 git 仓库获取原始文件失败: {str(e)}")
-          
-              # 如果 git 获取失败，尝试从本地备份目录获取
-              try:
-                  # 假设有一个备份目录，存放原始文件
-                  backup_dir = os.path.join(os.path.dirname(os.path.dirname(file_path)), "backups")
-                  backup_file = os.path.join(backup_dir, os.path.basename(file_path))
-          
-                  if os.path.exists(backup_file):
-                      print(f"从本地备份获取原始文件: {backup_file}")
-                      with open(backup_file, 'r', encoding='utf-8') as f:
-                          return json.load(f), "backup"
-              except Exception as e:
-                  print(f"从本地备份获取原始文件失败: {str(e)}")
-          
-              # 如果都失败了，尝试使用当前文件的副本作为原始文件
-              try:
-                  print("尝试使用当前文件作为原始文件")
-                  with open(file_path, 'r', encoding='utf-8') as f:
-                      current_data = json.load(f)
-                      # 创建一个副本，避免引用相同的对象
-                      return json.loads(json.dumps(current_data)), "current"
-              except Exception as e:
-                  print(f"使用当前文件作为原始文件失败: {str(e)}")
-          
-              print("无法获取任何形式的原始文件")
-              return None, None
-          def load_json_file(file_path):
-              """加载 JSON 文件"""
-              try:
-                  with open(file_path, encoding='utf-8') as f:
-                      return json.load(f), None
-              except Exception as e:
-                  return None, f"❌ JSON 格式错误: {str(e)}"
-          
-          def save_json_file(file_path, data):
-              """保存 JSON 文件"""
-              try:
-                  with open(file_path, 'w', encoding='utf-8') as f:
-                      json.dump(data, f, indent=2, ensure_ascii=False)
-                  return True
-              except Exception as e:
-                  print(f"保存文件失败: {str(e)}")
-                  return False
-          
-          # ==================== 版本处理 ====================
-          
-          def process_version(current, original, is_new):
-              """处理版本号更新逻辑"""
-              if is_new:
-                  return DEFAULT_VERSION
-          
-              if not original:
-                  return DEFAULT_VERSION
-          
-              try:
-                  cv = parse(current)
-                  ov = parse(original)
-                  # 强制更新版本号，无论当前版本是否大于原始版本
-                  return f"{ov.major}.{ov.minor + 1}"
-              except Exception:
-                  # 如果解析失败，尝试简单的数字处理
-                  parts = original.split('.')
-                  if len(parts) >= 2:
-                      try:
-                          major = int(parts[0])
-                          minor = int(parts[1])
-                          return f"{major}.{minor + 1}"
-                      except ValueError:
-                          pass
-                  return f"{original}.1"
-          
-          def extract_required_version(compatibility_issues):
-              """从兼容性问题中提取所需的最高版本号"""
-              required_versions = []
-              for issue in compatibility_issues:
-                  parts = issue.split(">=")
-                  if len(parts) > 1:
-                      version_part = parts[1].split(",")[0].strip()
-                      version_match = re.search(r'(\d+\.\d+\.\d+)', version_part)
-                      if version_match:
-                          required_versions.append(version_match.group(1))
-          
-              if not required_versions:
-                  return None
-          
-              try:
-                  return max(required_versions, key=lambda v: VersionInfo.parse(v))
-              except ValueError:
-                  return None
-          
-          def parse_bgi_version(version_str):
-              """解析 BGI 版本号"""
-              try:
-                  # 确保删除 v 前缀
-                  return VersionInfo.parse(version_str.lstrip('v'))
-              except ValueError:
-                  return None
-          
-          # ==================== 字段验证 ====================
-          
-          def check_action_compatibility(action_type, action_params, bgi_version):
-              """检查 action 和 action_params 与 BGI 版本的兼容性"""
-              issues = []
-              validation_issues = []
-          
-              # 如果 action_type 为空，则跳过检查
-              if not action_type:
-                  return issues, validation_issues
-          
-              # 确保 bgi_version 是有效的格式
-              bgi_ver = parse_bgi_version(bgi_version)
-              if not bgi_ver:
-                  validation_issues.append(f"无效的 bgi_version 格式: {bgi_version}")
-                  return issues, validation_issues
-          
-              # 检查 action 兼容性
-              if action_type in ACTION_VERSION_MAP:
-                  min_version = ACTION_VERSION_MAP[action_type]
-                  try:
-                      if bgi_ver < VersionInfo.parse(min_version):
-                          issues.append(f"action '{action_type}' 需要 BGI 版本 >= {min_version}，当前为 {bgi_version}")
-                  except ValueError:
-                      validation_issues.append(f"无法比较版本: {min_version} 与 {bgi_version}")
-              else:
-                  validation_issues.append(f"未知的 action 类型: '{action_type}'，已知类型: {', '.join(sorted(ACTION_VERSION_MAP.keys()))}")
-          
-              # 检查 action_params 兼容性和格式
-              if action_type in ACTION_PARAMS_VERSION_MAP and action_params:
-                  param_info = ACTION_PARAMS_VERSION_MAP[action_type]["params"]
-                  min_version = param_info["version"]
-                  regex_pattern = param_info["regex"]
-          
-                  # 版本兼容性检查
-                  try:
-                      if bgi_ver < VersionInfo.parse(min_version):
-                          issues.append(f"action '{action_type}' 的参数需要 BGI 版本 >= {min_version}，当前为 {bgi_version}")
-                  except ValueError:
-                      validation_issues.append(f"无法比较版本: {min_version} 与 {bgi_version}")
-          
-                  # 参数格式验证
-                  if not re.match(regex_pattern, str(action_params)):
-                      validation_issues.append(f"action '{action_type}' 的参数格式不正确: '{action_params}'，应匹配模式: {regex_pattern}")
-          
-              return issues, validation_issues
-          
-          def process_coordinates(positions):
-              """统一处理坐标保留两位小数逻辑"""
-              coord_changed = False
-              for pos in positions:
-                  for axis in ['x', 'y']:
-                      if axis in pos and isinstance(pos[axis], (int, float)):
-                          original = pos[axis]
-                          pos[axis] = round(float(pos[axis]), 2)
-                          if original != pos[axis]:
-                              coord_changed = True
-              return coord_changed
-          
-          def ensure_required_fields(info, filename):
-              """统一处理必要字段检查逻辑"""
-              corrections = []
-          
-              if info["name"] != filename:
-                  info["name"] = filename
-                  corrections.append(f"name 自动修正为 {filename}")
-          
-              if info["type"] not in ["collect", "fight"]:
-                  info["type"] = "collect"
-                  corrections.append("type 自动修正为 collect")
-          
-              if not info["author"]:
-                  info["author"] = os.getenv("GITHUB_ACTOR", "未知作者")
-                  corrections.append(f"author 自动设置为 {info['author']}")
-          
-              return corrections
-          
-          def check_position_fields(positions):
-              """检查位置字段的有效性
-          
-              自动修复功能:
-              1. 缺少 type 字段时，自动设置为 'path'
-              2. type 字段无效时，自动修正为 'path'
-              3. 当 type 为 'path' 或 'target' 且缺少 move_mode 时，自动设置为 'walk'
-              4. move_mode 字段无效时，自动修正为 'walk'
-              """
-              validation_issues = []
-              notices = []
-              corrections = []  # 添加修正列表
-          
-              for idx, pos in enumerate(positions):
-                  # 检查必需字段
-                  required_fields = ["x", "y", "type"]
-                  missing_fields = [field for field in required_fields if field not in pos]
-          
-                  if missing_fields:
-                      validation_issues.append(f"位置 {idx+1} 缺少必需字段: {', '.join(missing_fields)}")
-                      # 自动添加缺失的 type 字段
-                      if "type" in missing_fields:
-                          pos["type"] = "path"  # 自动修复：缺少 type 字段时设置为 path
-                          corrections.append(f"位置 {idx+1} 缺少 type 字段，已设置为默认值 'path'")
-                          # 如果添加了 path 类型，也需要添加 move_mode
-                          if "move_mode" not in pos:
-                              pos["move_mode"] = "walk"  # 自动修复：为 path 类型添加默认 move_mode
-                              corrections.append(f"位置 {idx+1} 缺少 move_mode 字段，已设置为默认值 'walk'")
-                      # 移除 continue，确保后续检查能够执行
-                      # continue
-          
-                  # 验证 type 字段
-                  if "type" in pos:
-                      pos_type = pos["type"]
-                      if pos_type not in VALID_TYPES:
-                          validation_issues.append(f"位置 {idx+1}: type '{pos_type}' 无效，有效值为: {', '.join(VALID_TYPES)}")
-                          # 自动修正无效的 type 字段
-                          pos["type"] = "path"  # 自动修复：无效 type 修正为 path
-                          corrections.append(f"位置 {idx+1} 的 type '{pos_type}' 无效，已修正为 'path'")
-                          pos_type = "path"  # 更新 pos_type 以便后续检查
-          
-                      # 当 type 为 path 或 target 时，验证 move_mode
-                      if pos_type in ["path", "target"]:
-                          if "move_mode" not in pos:
-                              validation_issues.append(f"位置 {idx+1}: type 为 '{pos_type}' 时必须指定 move_mode")
-                              # 自动添加缺失的 move_mode
-                              pos["move_mode"] = "walk"  # 自动修复：缺少 move_mode 时设置为 walk
-                              corrections.append(f"位置 {idx+1} 缺少 move_mode 字段，已设置为默认值 'walk'")
-                          elif pos["move_mode"] not in VALID_MOVE_MODES:
-                              validation_issues.append(f"位置 {idx+1}: move_mode '{pos['move_mode']}' 无效，有效值为: {', '.join(VALID_MOVE_MODES)}")
-                              # 自动修正无效的 move_mode
-                              pos["move_mode"] = "walk"  # 自动修复：无效 move_mode 修正为 walk
-                              corrections.append(f"位置 {idx+1} 的 move_mode '{pos['move_mode']}' 无效，已修正为 'walk'")
-          
-                  # 检查第一个位置是否为 teleport
-                  if idx == 0 and pos.get("type") != "teleport":
-                      notices.append("⚠️ 第一个 position 的 type 不是 teleport")
-          
-              return validation_issues, notices, corrections
-          
-          def check_bgi_version_compatibility(bgi_version, auto_fix=False):
-              """检查 BGI 版本兼容性"""
-              corrections = []
-          
-              # 删除可能存在的 v 前缀
-              if bgi_version.startswith('v'):
-                  bgi_version = bgi_version.lstrip('v')
-                  corrections.append(f"bgi_version 前缀 'v' 已删除")
-          
-              bgi_ver = parse_bgi_version(bgi_version)
-          
-              if not bgi_ver:
-                  if auto_fix:
-                      corrections.append(f"bgi_version {bgi_version} 格式无效，自动更新为 {DEFAULT_BGI_VERSION}")
-                      return DEFAULT_BGI_VERSION, corrections
-                  return bgi_version, []
-          
-              if bgi_ver < VersionInfo.parse(DEFAULT_BGI_VERSION):
-                  if auto_fix:
-                      corrections.append(f"bgi_version {bgi_version} 自动更新为 {DEFAULT_BGI_VERSION} (原版本低于要求)")
-                      return DEFAULT_BGI_VERSION, corrections
-          
-              return bgi_version, corrections
-          
-          # ==================== 主验证逻辑 ====================
-          
-          def initialize_data(data, file_path):
-              """初始化数据结构，确保必要字段存在"""
-              messages = []
-          
-              if "info" not in data:
-                  data["info"] = {}
-                  messages.append(f"⚠️ 文件缺少 info 字段，已添加默认值")
-          
-              info = data["info"]
-              filename = os.path.splitext(os.path.basename(file_path))[0]
-          
-              # 检查并添加必要的字段
-              if "name" not in info:
-                  info["name"] = filename
-                  messages.append(f"⚠️ 文件缺少 name 字段，已设置为文件名: {info['name']}")
-          
-              if "type" not in info:
-                  info["type"] = "collect"
-                  messages.append(f"⚠️ 文件缺少 type 字段，已设置为默认值: collect")
-          
-              if "author" not in info:
-                  info["author"] = os.getenv("GITHUB_ACTOR", "未知作者")
-                  messages.append(f"⚠️ 文件缺少 author 字段，已设置为: {info['author']}")
-          
-              if "version" not in info:
-                  info["version"] = DEFAULT_VERSION
-                  messages.append(f"⚠️ 文件缺少 version 字段，已设置为默认值: {DEFAULT_VERSION}")
-          
-              if "bgi_version" not in info:
-                  info["bgi_version"] = DEFAULT_BGI_VERSION
-                  messages.append(f"⚠️ 文件缺少 bgi_version 字段，已设置为默认值: {DEFAULT_BGI_VERSION}")
-          
-              if "positions" not in data:
-                  data["positions"] = []
-                  messages.append(f"⚠️ 文件缺少 positions 字段，已添加空数组")
-          
-              for message in messages:
-                  print(message)
-          
-              return data
-          
-          def check_actions_compatibility(positions, bgi_version):
-              """检查所有位置的 action 兼容性"""
-              compatibility_issues = []
-              validation_issues = []
-          
-              for idx, pos in enumerate(positions):
-                  action_type = pos.get("action", "")
-                  action_params = pos.get("params", "")
-          
-                  if action_type:
-                      compat_issues, valid_issues = check_action_compatibility(action_type, action_params, bgi_version)
-          
-                      for issue in compat_issues:
-                          compatibility_issues.append(f"位置 {idx+1}: {issue}")
-          
-                      for issue in valid_issues:
-                          validation_issues.append(f"位置 {idx+1}: {issue}")
-          
-              return compatibility_issues, validation_issues
-          
-          def update_bgi_version_for_compatibility(info, compatibility_issues, auto_fix):
-              """根据兼容性问题更新 BGI 版本"""
-              corrections = []
-          
-              # 首先检查并删除 v 前缀
-              if info["bgi_version"].startswith('v'):
-                  info["bgi_version"] = info["bgi_version"].lstrip('v')
-                  corrections.append(f"bgi_version 前缀 'v' 已删除")
-          
-              if auto_fix and compatibility_issues:
-                  max_required = extract_required_version(compatibility_issues)
-          
-                  if max_required:
-                      # 确保 max_required 没有 v 前缀
-                      max_required = max_required.lstrip('v')
-          
-                      try:
-                          current_bgi = parse_bgi_version(info["bgi_version"])
-                          if current_bgi and current_bgi < VersionInfo.parse(max_required):
-                              info["bgi_version"] = max_required
-                              corrections.append(f"bgi_version {info['bgi_version']} 自动更新为 {max_required} 以兼容所有功能")
-                              return [], corrections
-                      except ValueError as e:
-                          print(f"警告: 版本号解析失败 - {e}")
-                          info["bgi_version"] = DEFAULT_BGI_VERSION
-                          corrections.append(f"bgi_version 自动更新为 {DEFAULT_BGI_VERSION} (版本解析失败)")
-                          return [], corrections
-          
-              return compatibility_issues, corrections
-          
-          def validate_file(file_path, auto_fix=False):
-              """验证并修复 JSON 文件"""
-              # 加载文件
-              data, error = load_json_file(file_path)
-              if error:
-                  print(error)
-                  return []
-          
-              # 获取原始文件
-              original_data, source = get_original_file(file_path) if auto_fix else (None, None)
-              is_new = not original_data if auto_fix else True
-          
-              # 初始化数据结构
-              data = initialize_data(data, file_path)
-              info = data["info"]
-              filename = os.path.splitext(os.path.basename(file_path))[0]
-          
-              # 收集所有修正 - 修复：添加了这一行来定义 all_corrections 变量
-              all_corrections = []
-          
-              # 检查必要字段
-              corrections = ensure_required_fields(info, filename)
-              all_corrections.extend(corrections)
-          
-              # 检查并删除 bgi_version 的 v 前缀
-              if "bgi_version" in info and info["bgi_version"].startswith('v'):
-                  info["bgi_version"] = info["bgi_version"].lstrip('v')
-                  all_corrections.append("bgi_version 前缀 'v' 已删除")
-          
-              # 处理坐标
-              coord_changed = process_coordinates(data["positions"])
-              if coord_changed:
-                  all_corrections.append("坐标值自动保留两位小数")
-          
-              # 检查 BGI 版本兼容性
-              bgi_version, corrections = check_bgi_version_compatibility(info["bgi_version"], auto_fix)
-              if corrections:
-                  info["bgi_version"] = bgi_version
-                  all_corrections.extend(corrections)
-          
-              # 检查位置字段 - 修改为接收三个返回值
-              position_issues, notices, pos_corrections = check_position_fields(data["positions"])
-              if auto_fix and pos_corrections:
-                  all_corrections.extend(pos_corrections)
-          
-              # 检查 action 兼容性
-              compatibility_issues, action_validation_issues = check_actions_compatibility(data["positions"], info["bgi_version"])
-              position_issues.extend(action_validation_issues)
-          
-              # 根据兼容性问题更新 BGI 版本
-              compatibility_issues, corrections = update_bgi_version_for_compatibility(info, compatibility_issues, auto_fix)
-              all_corrections.extend(corrections)
-          
-              # 更新版本号 - 只有从 git 获取的文件才更新版本号
-              if auto_fix:
-                  has_original_version = False
-                  original_version = None
-          
-                  if original_data and "info" in original_data and "version" in original_data["info"]:
-                      original_version = original_data["info"]["version"]
-                      has_original_version = True
-                      print(f"成功获取原始版本号: {original_version}")
-                  else:
-                      print("未找到原始版本号，将视为新文件处理")
-          
-                  # 只有在没有原始版本号时才视为新文件
-                  is_new = not has_original_version
-          
-                  print(f"原始版本号: {original_version}, 当前版本号: {info['version']}, 是否新文件: {is_new}, 来源: {source}")
-          
-                  # 只有当文件来源是 git 时才更新版本号
-                  if source == "git":
-                      new_version = process_version(info["version"], original_version, is_new)
-                      if new_version != info["version"]:
-                          info["version"] = new_version
-                          all_corrections.append(f"version 自动更新为 {new_version}")
-                          print(f"版本号已更新: {info['version']}")
-                      else:
-                          print(f"版本号未变化: {info['version']}")
-                  else:
-                      print(f"本地文件，保持版本号不变: {info['version']}")
-          
-              # 合并所有通知
-              for issue in compatibility_issues:
-                  notices.append(issue)
-          
-              for issue in position_issues:
-                  notices.append(issue)
-          
-              # 保存修正
-              if auto_fix:
-                  # 无论是否有问题，都打印所有自动修正项
-                  if all_corrections:
-                      print("🔧 自动修正:")
-                      for correction in all_corrections:
-                          print(f"  - {correction}")
-                  else:
-                      print("✅ 没有需要自动修正的项目")
-          
-                  # 只有在有修正或问题时才保存文件
-                  if all_corrections or position_issues:
-                      if save_json_file(file_path, data):
-                          print("✅ 文件已保存")
-                      else:
-                          notices.append("❌ 保存文件失败")
-          
-              return notices
-          
-          def main():
-              import argparse
-          
-              parser = argparse.ArgumentParser(description='校验 BetterGI 脚本文件')
-              parser.add_argument('path', help='要校验的文件或目录路径')
-              parser.add_argument('--fix', action='store_true', help='自动修复问题')
-              args = parser.parse_args()
-          
-              path = args.path
-              auto_fix = args.fix
-              all_notices = []  # 初始化 all_notices 变量
-          
-              if os.path.isfile(path) and path.endswith('.json'):
-                  print(f"\n🔍 校验文件: {path}")
-                  notices = validate_file(path, auto_fix)
-                  if notices:
-                      all_notices.extend([f"{path}: {n}" for n in notices])  # 添加到 all_notices
-                      print("\n校验注意事项:")
-                      for notice in notices:
-                          print(f"- {notice}")
-                  else:
-                      print("✅ 校验完成，没有发现问题")
-              elif os.path.isdir(path):
-                  for root, _, files in os.walk(path):
-                      for file in files:
-                          if file.endswith('.json'):
-                              file_path = os.path.join(root, file)
-                              print(f"\n🔍 校验文件: {file_path}")
-                              notices = validate_file(file_path, auto_fix)
-                              if notices:
-                                  all_notices.extend([f"{file_path}: {n}" for n in notices])
-          
-                  if all_notices:
-                      print("\n所有校验注意事项:")
-                      for notice in all_notices:
-                          print(f"- {notice}")
-                  else:
-                      print("\n✅ 所有文件校验完成，没有发现问题")
-              else:
-                  print(f"❌ 无效的路径: {path}")
-          
-              # 生成提醒信息
-              if all_notices:
-                  with open('validation_notes.md', 'w') as f:
-                      f.write("## 校验注意事项\n\n" + "\n".join(f"- {n}" for n in all_notices))
-          
-          if __name__ == "__main__":
-              main()
-          EOF
-          
-          # 根据触发方式决定验证路径和是否自动修复
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "手动触发模式，验证路径: ${VALIDATE_PATH}"
-            python validate.py ${VALIDATE_PATH} $([[ "${AUTO_FIX}" == "true" ]] && echo "--fix")
+          # 输出分支信息便于调试
+          echo "当前分支: $(git branch --show-current)"
+          echo "HEAD指向: $(git rev-parse HEAD)"
+          echo "PR基础分支: ${{ steps.set_env.outputs.base_ref }}"
+          
+          # 确保有upstream/main分支
+          git fetch upstream main
+          echo "Upstream/main SHA: $(git rev-parse upstream/main)"
+          
+          # 创建临时变量来存储修改的文件列表
+          CHANGED_FILES=""
+          
+          # 方法1：尝试使用git diff检测变化
+          echo "检测方法1: 使用git diff检测"
+          FILES_METHOD_1=$(git diff --name-only upstream/main HEAD | grep -E '^repo/pathing/.*\.json$' || true)
+          if [ -n "$FILES_METHOD_1" ]; then
+            echo "方法1找到的JSON文件:"
+            echo "$FILES_METHOD_1"
+            CHANGED_FILES="$FILES_METHOD_1"
           else
-            echo "PR 触发模式，验证修改的 JSON 文件"
-            python validate.py repo/pathing --fix
+            echo "方法1未找到修改的JSON文件"
           fi
           
-          - name: Add PR comment
-            if: ${{ github.event_name == 'pull_request_target' || (github.event_name == 'workflow_dispatch' && github.event.inputs.pr_number != '' && steps.pr_info.outputs.found == 'true') }}
-            continue-on-error: true
-            uses: actions/github-script@v6
-            with:
-              github-token: ${{ secrets.GITHUB_TOKEN }}
-              script: |
-                const fs = require('fs');
-                const pr_number = ${{ github.event.pull_request.number || github.event.inputs.pr_number }};
-                
-                if (fs.existsSync('validation_notes.md')) {
-                  const message = fs.readFileSync('validation_notes.md', 'utf8');
-                  await github.rest.issues.createComment({
-                    issue_number: pr_number,
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    body: message
-                  });
+          # 方法2：如果方法1失败，尝试直接查询PR API获取修改的文件
+          if [ -z "$CHANGED_FILES" ] && [ -n "${{ steps.set_env.outputs.pr_number }}" ]; then
+            echo "检测方法2: 使用GitHub API检测"
+            PR_FILES=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+                        "https://api.github.com/repos/${{ github.repository }}/pulls/${{ steps.set_env.outputs.pr_number }}/files" | \
+                      jq -r '.[] | select(.filename | test("^repo/pathing/.*\\.json$")) | .filename')
+            
+            if [ -n "$PR_FILES" ]; then
+              echo "方法2找到的JSON文件:"
+              echo "$PR_FILES"
+              CHANGED_FILES="$PR_FILES"
+            else
+              echo "方法2未找到修改的JSON文件"
+            fi
+          fi
+          
+          # 方法3：如果前两种方法都失败，列出所有repo/pathing中的JSON文件，但限制在最近修改的
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "检测方法3: 列出最近修改的JSON文件"
+            # 列出过去5次提交中修改的JSON文件
+            RECENT_FILES=$(git log -n 5 --name-only --pretty=format: | grep -E '^repo/pathing/.*\.json$' | sort -u || true)
+            
+            if [ -n "$RECENT_FILES" ]; then
+              echo "最近修改的JSON文件:"
+              echo "$RECENT_FILES"
+              CHANGED_FILES="$RECENT_FILES"
+              echo "⚠️ 警告: 使用最近修改的文件作为回退方案"
+            else
+              echo "方法3未找到最近修改的JSON文件"
+            fi
+          fi
+          
+          # 最后回退方案：直接指定验证目录
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "⚠️ 警告: 所有方法均未检测到修改的JSON文件，将验证整个repo/pathing目录"
+            CHANGED_FILES="repo/pathing"
+          fi
+          
+          # 输出结果
+          echo "最终找到的修改文件:"
+          echo "$CHANGED_FILES"
+          # 使用base64编码保存文件列表，避免特殊字符问题
+          echo "changed_files=$(echo "$CHANGED_FILES" | base64 -w 0)" >> $GITHUB_OUTPUT
+
+      - name: Run validation for PR trigger
+        if: ${{ steps.set_env.outputs.trigger_type == 'pr' }}
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          PR_NUMBER: ${{ steps.set_env.outputs.pr_number }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_REF: ${{ steps.set_env.outputs.head_ref }}
+          PR_REPO: ${{ steps.set_env.outputs.head_repo || github.repository }}
+          CHANGED_FILES_B64: ${{ steps.changed_files.outputs.changed_files }}
+        run: |
+          # 使用base64解码文件列表
+          CHANGED_FILES=$(echo "$CHANGED_FILES_B64" | base64 --decode)
+          
+          echo "PR 触发模式，验证修改的 JSON 文件"
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "没有找到修改的 JSON 文件，跳过验证"
+            exit 0
+          fi
+          
+          # 检查Python解释器编码设置
+          echo "Python编码设置:"
+          python -c "import sys; print(sys.getdefaultencoding())"
+          
+          # 检查CHANGED_FILES是否包含整个目录
+          if [ "$CHANGED_FILES" = "repo/pathing" ]; then
+            echo "验证整个目录: repo/pathing"
+            python build/validate.py "repo/pathing" --fix
+          else
+            # 创建一个临时文件来存储文件列表
+            echo "$CHANGED_FILES" > temp_file_list.txt
+            # 单独验证每个修改的文件，使用while读取避免文件名中的空格和特殊字符问题
+            while IFS= read -r file; do
+              echo "验证文件: $file"
+              if [ -f "$file" ]; then
+                python build/validate.py "$file" --fix
+              else
+                echo "警告: 文件不存在 - $file"
+              fi
+            done < temp_file_list.txt
+            rm temp_file_list.txt
+          fi
+          
+          # 检查是否有文件被修改
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "发现修改，提交更改"
+            git add .
+            git commit -m "自动修复 JSON 格式和版本号 [ci skip]"
+            
+            # 确定当前分支
+            CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+            echo "当前分支: ${CURRENT_BRANCH}"
+            
+            if [ "$CURRENT_BRANCH" = "HEAD" ]; then
+              # 如果在detached HEAD状态，使用正确的方式推送
+              if [ -n "${HEAD_REF}" ]; then
+                echo "在detached HEAD状态，使用HEAD_REF推送: ${HEAD_REF}"
+                git push origin HEAD:${HEAD_REF}
+              else
+                echo "无法确定目标分支，跳过推送"
+              fi
+            else
+              # 常规推送
+              echo "推送到分支: ${CURRENT_BRANCH}"
+              git push origin ${CURRENT_BRANCH}
+            fi
+          else
+            echo "没有文件被修改，无需提交"
+          fi
+
+      - name: Run validation for manual trigger
+        if: ${{ steps.set_env.outputs.trigger_type == 'manual' }}
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          PR_NUMBER: ${{ steps.set_env.outputs.pr_number }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_REF: ${{ steps.pr_info.outputs.head_ref || '' }}
+          PR_REPO: ${{ steps.pr_info.outputs.head_repo || github.repository }}
+          VALIDATE_PATH: ${{ steps.set_env.outputs.validate_path }}
+          AUTO_FIX: ${{ steps.set_env.outputs.auto_fix }}
+        run: |
+          echo "手动触发模式，验证路径: ${VALIDATE_PATH}"
+          # 使用引号包裹路径，处理特殊字符
+          python build/validate.py "${VALIDATE_PATH}" $([[ "${AUTO_FIX}" == "true" ]] && echo "--fix")
+          
+          # 如果关联了PR，尝试提交更改
+          if [ -n "$PR_NUMBER" ] && [ -n "$HEAD_REF" ] && [ -n "$(git status --porcelain)" ]; then
+            echo "发现修改，提交更改到PR: #$PR_NUMBER"
+            git add .
+            git commit -m "自动修复 JSON 格式和版本号 [ci skip]"
+            
+            # 确定当前分支
+            CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+            echo "当前分支: ${CURRENT_BRANCH}"
+            
+            if [ "$CURRENT_BRANCH" = "HEAD" ]; then
+              # 如果在detached HEAD状态，使用正确的方式推送
+              echo "在detached HEAD状态，使用HEAD_REF推送: ${HEAD_REF}"
+              git push origin HEAD:${HEAD_REF}
+            else
+              # 常规推送
+              echo "推送到分支: ${CURRENT_BRANCH}"
+              git push origin ${CURRENT_BRANCH}
+            fi
+          elif [ -n "$(git status --porcelain)" ]; then
+            echo "发现修改，但未关联PR或无法确定分支，跳过提交"
+          else
+            echo "没有文件被修改，无需提交"
+          fi
+          
+      - name: Add PR comment
+        if: ${{ (steps.set_env.outputs.trigger_type == 'pr') || (steps.set_env.outputs.trigger_type == 'manual' && steps.set_env.outputs.pr_number != '' && steps.pr_info.outputs.found == 'true') }}
+        continue-on-error: true
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const pr_number = ${{ steps.set_env.outputs.pr_number }};
+            
+            if (fs.existsSync('validation_notes.md')) {
+              const message = fs.readFileSync('validation_notes.md', 'utf8');
+              await github.rest.issues.createComment({
+                issue_number: pr_number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: message
+              });
+            } else {
+              console.log("没有发现 validation_notes.md 文件");
+              
+              // 检查是否有文件被修改并提交
+              const { execSync } = require('child_process');
+              let commitMessage = '';
+              
+              try {
+                const lastCommit = execSync('git log -1 --pretty=%B').toString().trim();
+                if (lastCommit.includes('自动修复')) {
+                  commitMessage = '✅ 校验完成并自动修复了一些问题。修改已提交到PR中。';
                 } else {
-                  console.log("没有发现 validation_notes.md 文件");
-                  await github.rest.issues.createComment({
-                    issue_number: pr_number,
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    body: "✅ 校验完成，没有发现问题"
-                  });
+                  commitMessage = '✅ 校验完成，没有发现需要修复的问题';
                 }
+              } catch (error) {
+                commitMessage = '✅ 校验完成，没有发现需要修复的问题';
+              }
+              
+              await github.rest.issues.createComment({
+                issue_number: pr_number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: commitMessage
+              });
+            }
