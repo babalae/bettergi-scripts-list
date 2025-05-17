@@ -6,8 +6,12 @@
     },
     {
         "name": "getMeatMode",
-        "type": "checkbox",
-        "label": "开启刷兽肉模式【勾选才拾取兽肉】"
+        "type": "select",
+        "label": "开启刷兽肉模式【勾选才拾取兽肉】",
+        "options": [
+        "通用拾取",
+        "万叶拾取"
+                ]
     },
     {
         "name": "inputValue",
