@@ -232,9 +232,9 @@ def generate_ley_line_data():
         target_x = format_coord(float(last_pos["x"]))
         target_y = format_coord(float(last_pos["y"]))
         
-        # Determine node type - default to blossom if type is not specified or is target
+        # Determine node type - default to blossom for target or if not specified
         node_type = last_pos.get("type", "blossom")
-        if node_type == "target":
+        if node_type == "path":
             node_type = "blossom"
         
         # Check if we already have a nearby node of the same type
@@ -262,7 +262,6 @@ def generate_ley_line_data():
             "node": blossom_node,
             "file_path": file_path
         }
-    
     # Special handling for files with only target positions (like 纳塔4-溶水域-2.json)
     for file_path in pathing_files:
         file_name = os.path.basename(file_path)
@@ -331,27 +330,29 @@ def generate_ley_line_data():
         
         # For teleport source type, connect to destination
         if first_pos.get("type") == "teleport":
-            # Find teleport node
+            # 查找第一个点（传送点）
             x = format_coord(float(first_pos["x"]))
             y = format_coord(float(first_pos["y"]))
             teleport_node = find_nearby_node(nodes, x, y, "teleport")
             
-            # Find destination node
+            # 查找最后一个点（目标点，通常是blossom）
             dest_x = format_coord(float(last_pos["x"]))
             dest_y = format_coord(float(last_pos["y"]))
             
-            # Determine node type, default to blossom for target or if not specified
+            # 确定节点类型，默认为blossom
             dest_type = last_pos.get("type", "blossom")
-            if dest_type == "target":
+            if dest_type == "target" or dest_type == "path":
                 dest_type = "blossom"
                 
+            # 查找目标节点
             dest_node = find_nearby_node(nodes, dest_x, dest_y, dest_type)
             
+            # 如果找到了传送点和目标节点，则建立连接
             if teleport_node and dest_node:
-                # Add connection
+                # 添加相对路径
                 relative_path = generate_relative_path(file_path, script_dir)
                 
-                # Add destination to teleport's next array if not already there
+                # 将目标添加到传送点的next数组中（如果尚未添加）
                 route_exists = False
                 for route in teleport_node["next"]:
                     if route["target"] == dest_node["id"]:
@@ -364,9 +365,18 @@ def generate_ley_line_data():
                         "route": relative_path
                     })
                 
-                # Add teleport to destination's prev array if not already there
+                # 将传送点添加到目标的prev数组中（如果尚未添加）
                 if teleport_node["id"] not in dest_node["prev"]:
                     dest_node["prev"].append(teleport_node["id"])
+                    
+            # 输出调试信息，帮助排查问题
+            else:
+                debug_info = f"无法连接传送点到目标: 文件={file_name}"
+                if not teleport_node:
+                    debug_info += f", 未找到传送点({x},{y})"
+                if not dest_node:
+                    debug_info += f", 未找到目标点({dest_x},{dest_y}, 类型={dest_type})"
+                print(debug_info)
     
     # Fourth pass: Connect nodes based on numerical sequence and handle branch paths
     for region_area, num_to_target in region_area_num_to_target.items():

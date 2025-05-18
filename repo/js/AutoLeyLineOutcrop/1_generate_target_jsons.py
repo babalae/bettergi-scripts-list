@@ -52,7 +52,7 @@ def create_target_jsons():
                 'id': 1,
                 'x': last_position['x'],
                 'y': last_position['y'],
-                'type': last_position.get('type', 'target'),  # Keep type, default to 'target' if not present
+                'type': 'target',  # Keep type, default to 'target' if not present
                 'move_mode': 'walk'
             }
             new_data['positions'] = [simplified_position]
