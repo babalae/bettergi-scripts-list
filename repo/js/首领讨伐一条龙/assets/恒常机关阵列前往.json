@@ -1,1 +1,22 @@
-﻿{"info":{"name":"","type":""},"positions":[{"x":-4352.80078125,"y":-2142.396484375,"type":"teleport","move_mode":"walk"}]}
+{
+  "info": {
+    "name": "未命名路径",
+    "type": "collect",
+    "author": "柒叶子",
+    "version": "1.0",
+    "description": "传送到BOSS处",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5141.61,
+      "y": -2778.84,
+      "action_params": ""
+    }
+  ]
+}

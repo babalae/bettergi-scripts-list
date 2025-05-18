@@ -1,0 +1,109 @@
+{
+  "info": {
+    "name": "禽肉-枫丹实验室上-1肉×6",
+    "type": "collect",
+    "author": "灰林鸮",
+    "version": "1.0",
+    "description": "队伍四号位必须是砂糖，且带着绮良良或埃洛伊！最好不要堆移速。注：禽类被杀死后12小时刷新，所以此脚本一天可以运行两次，但2肉鸟和1肉鸟的上限每天只有200只。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.44.4",
+    "tags": [
+      "砂糖",
+      "禽肉",
+      "绮良良",
+      "埃洛伊"
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3811.68,
+      "y": 4952.6,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3832.62,
+      "y": 4974.83,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3825.9,
+      "y": 4981.45,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "砂糖 e",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3817.99,
+      "y": 4984.29,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3818.64,
+      "y": 4987.08,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3825.52,
+      "y": 4983.75,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3825.39,
+      "y": 4986.23,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3816.74,
+      "y": 4985.56,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3822.45,
+      "y": 4979.27,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 3821.33,
+      "y": 4984.04,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

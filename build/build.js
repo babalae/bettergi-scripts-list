@@ -289,6 +289,9 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
     // 确保标签数组中没有重复项
     tags = [...new Set(tags)];
 
+    // 移除 "死亡笔记" 标签
+    tags = tags.filter(tag => !tag.includes('死亡笔记'));
+
     return {
         author: contentObj.info.author || '',
         description: convertNewlines(contentObj.info.description || ''),

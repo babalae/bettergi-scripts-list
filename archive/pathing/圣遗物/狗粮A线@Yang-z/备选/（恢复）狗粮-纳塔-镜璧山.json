@@ -1,0 +1,40 @@
+{
+    "info": {
+        "name": "（恢复）狗粮-纳塔-镜璧山",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgi_version": "0.42.0"
+    },
+    "positions": [
+        {
+            "x": 9540.5810546875,
+            "y": -1784.55322265625,
+            "type": "teleport",
+            "move_mode": "walk",
+            "action": "force_tp"
+        },
+        {
+            "x": 9521.27734375,
+            "y": -1780.1748046875,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
+        },
+        {
+            "x": 9519.666015625,
+            "y": -1779.1064453125,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
+        },
+        {
+            "x": 9516.986328125,
+            "y": -1781.73828125,
+            "type": "path",
+            "move_mode": "walk"
+        }
+    ]
+}

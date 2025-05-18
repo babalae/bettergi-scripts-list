@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "大伟丘-璃月-明蕴镇",
+    "type": "collect",
+    "author": "起个名字好难",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -255.1,
+      "y": 630.09
+    },
+    {
+      "id": 2,
+      "x": -266.28,
+      "y": 633.36,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -381.52,
+      "y": 658.58,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": -386.91,
+      "y": 655.57,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

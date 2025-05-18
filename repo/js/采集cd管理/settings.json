@@ -11,7 +11,7 @@
     {
         "name": "pathGroup1CdType",
         "type": "select",
-        "label": "选择路径组1 CD类型",
+        "label": "选择路径组1CD类型，不选不运行该路径组",
         "options": [
             "", // 增加一个空选项
             "1次0点刷新",
@@ -26,7 +26,7 @@
     {
         "name": "pathGroup2CdType",
         "type": "select",
-        "label": "选择路径组2 CD类型",
+        "label": "选择路径组2CD类型，不选不运行该路径组",
         "options": [
             "", // 增加一个空选项
             "1次0点刷新",
@@ -41,7 +41,7 @@
     {
         "name": "pathGroup3CdType",
         "type": "select",
-        "label": "选择路径组3 CD类型",
+        "label": "选择路径组3CD类型，不选不运行该路径组",
         "options": [
             "", // 增加一个空选项
             "1次0点刷新",
@@ -56,17 +56,17 @@
     {
         "name": "otherPathGroupsCdTypes",
         "type": "input-text",
-        "label": "依次输入更多路径组的CD类型（存在时才输入，英文分号;分隔）"
+        "label": "依次输入更多路径组的CD类型\n需要更多路径组才输入，用英文分号;分隔\n例如要使用路径组4和5时输入\n1次0点刷新;46小时刷新"
     },
     {
         "name": "partyNames",
         "type": "input-text",
-        "label": "依次输入各个路径组使用的配队名称（英文分号;分隔）"
+        "label": "依次输入各个路径组使用的配队名称\n有几个填几个，用英文分号;分隔\n如：采集;挖矿;奶龙"
     },
     {
         "name": "skipTimeRanges",
         "type": "input-text",
-        "label": "输入不在某时执行（整数）"
+        "label": "输入不在某时执行（整数）\n如输入4则当小时数为4会终止运行"
     },
     {
         "name": "infoFileName",

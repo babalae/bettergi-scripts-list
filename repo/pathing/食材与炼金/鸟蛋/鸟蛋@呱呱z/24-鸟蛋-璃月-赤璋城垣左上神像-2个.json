@@ -1,0 +1,31 @@
+{
+  "info": {
+    "name": "24-鸟蛋-璃月-赤璋城垣左上神像-2个",
+    "type": "collect",
+    "author": "呱呱z",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2323.87,
+      "y": 1605.02,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 2304.24,
+      "y": 1620.34,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}
