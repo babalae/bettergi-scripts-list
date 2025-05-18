@@ -1,7 +1,7 @@
 (async function () {
     // 初始化所有用到的参数
     const operationMode = settings.operationMode || "生成路径文件"; // 默认值为“生成路径文件”
-    const requiredMonsterCount = parseInt(settings.requiredMonsterCount || 1800, 10); // 默认值为1800
+    const requiredMonsterCount = parseInt(settings.requiredMonsterCount || 1750, 10); // 默认值为1800
     const excludeWaterFree = !!settings.excludeWaterFree; // 默认值为false（默认不排除）
     const excludeHighRisk = !!settings.excludeHighRisk; // 默认值为false（默认不排除）
     const weight = parseFloat(settings.weight || 2); // 默认值为2
@@ -30,7 +30,7 @@
     log.info(
         `自动小怪锄地规划 - 配置信息：` +
         `操作模式=${operationMode}（默认：生成路径文件），` +
-        `怪物数量=${requiredMonsterCount}（默认1800），` +
+        `怪物数量=${requiredMonsterCount}（默认1750），` +
         `${excludeWaterFree ? '排除水免（默认：不排除）' : '包含水免（默认）'}，` +
         `${excludeHighRisk ? '排除高危（默认：不排除）' : '包含高危（默认）'}，` +
         `权重=${weight}（默认2），` +
@@ -41,10 +41,10 @@
     if (
         isNaN(requiredMonsterCount) ||
         requiredMonsterCount < 0 ||
-        requiredMonsterCount > 2000 ||
+        requiredMonsterCount > 3000 ||
         !Number.isInteger(requiredMonsterCount)
     ) {
-        log.warn(`怪物数量 ${requiredMonsterCount} 不符合要求，必须为0到2000之间的整数`);
+        log.warn(`怪物数量 ${requiredMonsterCount} 不符合要求，必须为0到3000之间的整数`);
         return;
     }
     if (isNaN(weight) || weight < 0) {
