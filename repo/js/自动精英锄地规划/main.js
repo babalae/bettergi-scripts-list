@@ -25,29 +25,24 @@
     const enableRouteCdCheck = !disableRouteCdCheck; // 如果 disableRouteCdCheck 为 true，则 enableRouteCdCheck 为 false，反之亦然
 
     // 新增校验：检查所有配置是否都是默认状态
-    const isDefaultOperationType = operationType === "生成路径组文件";
-    const isDefaultExcludeTagsForPathGroup1 = excludeTagsForPathGroup1 === "";
-    const isDefaultSelectTagsForPathGroup2 = selectTagsForPathGroup2 === "";
-    const isDefaultSelectTagsForPathGroup3 = selectTagsForPathGroup3 === "";
-    const isDefaultDisableAutoPickup = disableAutoPickup === false;
-    const isDefaultDisableRouteCdCheck = disableRouteCdCheck === false;
-    const isDefaultRequiredMonsterCount = requiredMonsterCount === 405;
-    const isDefaultMinSecPerMonster = minSecPerMonster === 0.1;
-    const isDefaultAccountName = accountName === "一个账户名";
-    const isDefaultExcludeTagsForAll = excludeTagsForAll === "";
+    const defaultSettings = {
+        operationType: "生成路径组文件",
+        excludeTagsForPathGroup1: "",
+        selectTagsForPathGroup2: "",
+        selectTagsForPathGroup3: "",
+        disableAutoPickup: false,
+        disableRouteCdCheck: false,
+        requiredMonsterCount: 405,
+        minSecPerMonster: 0.1,
+        accountName: "一个账户名",
+        excludeTagsForAll: ""
+    };
 
-    if (
-        isDefaultOperationType &&
-        isDefaultExcludeTagsForPathGroup1 &&
-        isDefaultSelectTagsForPathGroup2 &&
-        isDefaultSelectTagsForPathGroup3 &&
-        isDefaultDisableAutoPickup &&
-        isDefaultDisableRouteCdCheck &&
-        isDefaultRequiredMonsterCount &&
-        isDefaultMinSecPerMonster &&
-        isDefaultAccountName &&
-        isDefaultExcludeTagsForAll
-    ) {
+    const isAllDefault = Object.entries(defaultSettings).every(([key, defaultValue]) => {
+        return settings[key] === undefined || settings[key] === defaultValue;
+    });
+
+    if (isAllDefault) {
         log.warn("所有配置项均为默认状态，请检查是否需要调整配置你没有修改自定义配置，请在配置组界面中右键本js以修改自定义配置。");
     }
 
