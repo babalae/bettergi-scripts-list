@@ -5,20 +5,46 @@
     let selectTagsForPathGroup2 = settings.selectTagsForPathGroup2 || ""; // 路径组2选择标签
     let selectTagsForPathGroup3 = settings.selectTagsForPathGroup3 || ""; // 路径组3选择标签
     const disableAutoPickup = settings.disableAutoPickup || false; // 是否禁用自动拾取
-    const enableRouteCdCheck = settings.enableRouteCdCheck || false; // 是否启用路线CD检测
+    const disableRouteCdCheck = settings.disableRouteCdCheck || false; // 是否禁用路线CD检测
     const requiredMonsterCount = parseInt(settings.requiredMonsterCount, 10) || 405; // 目标怪物数量
     const minSecPerMonster = parseFloat(settings.minSecPerMonster) || 0.1; // 最低秒均
+    const accountName = settings.accountName || "一个账户名"; // 账户名
 
     // 新增全局排除关键词的配置
     const excludeTagsForAll = settings.excludeTagsForAll || ""; // 全局排除关键词
     const excludeTagsForAllArray = excludeTagsForAll.split('；').map(tag => tag.trim()).filter(tag => tag !== "");
 
-    // 生成默认的文件夹/文件名
-    let outputFolderName = `${requiredMonsterCount}-${excludeTagsForPathGroup1}-${selectTagsForPathGroup2}-${selectTagsForPathGroup3}-${minSecPerMonster}`;
+    // 生成默认的文件夹/文件名，现在默认为 accountName
+    let outputFolderName = accountName;
 
     // 日志输出配置信息
-    log.info(`配置信息：操作类型=${operationType}, 路径组1排除标签=${excludeTagsForPathGroup1}, 路径组2选择标签=${selectTagsForPathGroup2}, 路径组3选择标签=${selectTagsForPathGroup3}, 是否禁用自动拾取=${disableAutoPickup}, 是否启用路线CD检测=${enableRouteCdCheck}, 目标怪物数量=${requiredMonsterCount}, 最低秒均=${minSecPerMonster}, 全局排除关键词=${excludeTagsForAll}`);
+    log.info(`配置信息：操作类型=${operationType}, 路径组1排除标签=${excludeTagsForPathGroup1}, 路径组2选择标签=${selectTagsForPathGroup2}, 路径组3选择标签=${selectTagsForPathGroup3}, 是否禁用自动拾取=${disableAutoPickup}, 是否禁用路线CD检测=${disableRouteCdCheck}, 目标怪物数量=${requiredMonsterCount}, 最低秒均=${minSecPerMonster}, 全局排除关键词=${excludeTagsForAll}, 账户名=${accountName}`);
     log.info(`解析的全局排除关键词：${excludeTagsForAllArray.join(', ')}`);
+
+    // 根据 disableRouteCdCheck 的值设置 enableRouteCdCheck
+    const enableRouteCdCheck = !disableRouteCdCheck; // 如果 disableRouteCdCheck 为 true，则 enableRouteCdCheck 为 false，反之亦然
+
+    // 新增校验：检查所有配置是否都是默认状态
+    const defaultSettings = {
+        operationType: "生成路径组文件",
+        excludeTagsForPathGroup1: "",
+        selectTagsForPathGroup2: "",
+        selectTagsForPathGroup3: "",
+        disableAutoPickup: false,
+        disableRouteCdCheck: false,
+        requiredMonsterCount: 405,
+        minSecPerMonster: 0.1,
+        accountName: "一个账户名",
+        excludeTagsForAll: ""
+    };
+
+    const isAllDefault = Object.entries(defaultSettings).every(([key, defaultValue]) => {
+        return settings[key] === undefined || settings[key] === defaultValue;
+    });
+
+    if (isAllDefault) {
+        log.warn("所有配置项均为默认状态，请检查是否需要调整配置你没有修改自定义配置，请在配置组界面中右键本js以修改自定义配置。");
+    }
 
     // 定义六个运行时变量，初始值分别为 2000、1000、0、0、0、0
     let runtime1 = 2000;
@@ -342,7 +368,7 @@
                 }
                 log.info(`路径组${i + 1}复制完成：成功 ${successCount} 个，失败 ${failCount} 个`);
             }
-           log.info(`怪物总数${totalMonsterCount}，请前往pathingout文件夹提取文件`); 
+            log.info(`怪物总数${totalMonsterCount}，请前往pathingout文件夹提取文件`);
         }
     } catch (error) {
         log.error(`读取索引文件失败：${error}`);
