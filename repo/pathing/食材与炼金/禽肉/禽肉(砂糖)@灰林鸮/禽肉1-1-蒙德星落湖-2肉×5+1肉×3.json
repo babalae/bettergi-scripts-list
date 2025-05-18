@@ -1,0 +1,194 @@
+{
+  "info": {
+    "name": "禽肉-蒙德星落湖-2肉×5+1肉×3",
+    "type": "collect",
+    "author": "灰林鸮",
+    "version": "1.0",
+    "description": "1、队伍二号位必须是砂糖或林尼，且带着绮良良或埃洛伊，别带双风，别用成男跑图；2、不需要生存位，生存位放技能容易惊动鸟；3、运行其它地图追踪会吓跑这里的鸟，建议优先运行此追踪；4、杀死的鸟在12小时后刷新，被吓跑的鸟0点或12点刷新，1肉鸟和2肉鸟每日上限各200只。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.44.4",
+    "tags":  [ "砂糖" ,"禽肉" ,"绮良良","埃洛伊"]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1330.1162109375,
+      "y": 2563.945068359375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1361.4677734375,
+      "y": 2567.269775390625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1360.7822265625,
+      "y": 2547.2258300781245,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(2),wait(0.3),keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1357.5146484375,
+      "y": 2538.87060546875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1357.6513671875,
+      "y": 2543.3823242187505,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1360.228515625,
+      "y": 2538.5478515625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -1360.228515625,
+      "y": 2544.5478515625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -1358.228515625,
+      "y": 2531.5478515625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -1340.22265625,
+      "y": 2524.7485351562495,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -1333.741015625,
+      "y": 2527.4389648437505,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(2),wait(0.3),keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -1323.1708984375,
+      "y": 2526.1845703125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -1329.7314453125,
+      "y": 2531.4555664062505,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -1321.3681640625,
+      "y": 2529.044189453125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -1329.7861328125,
+      "y": 2529.2368164062495,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -1320.814453125,
+      "y": 2532.3408203125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -1352.52734375,
+      "y": 2507.2685546875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -1361.6416015625,
+      "y": 2495.4086914062495,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(2),wait(0.3),keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": -1365.2939453125,
+      "y": 2491.85693359375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": -1362.5830078125,
+      "y": 2490.177734375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": -1360.546875,
+      "y": 2491.522216796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

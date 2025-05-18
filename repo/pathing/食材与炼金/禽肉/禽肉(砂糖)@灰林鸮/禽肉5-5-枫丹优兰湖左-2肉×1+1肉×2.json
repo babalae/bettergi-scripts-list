@@ -1,0 +1,96 @@
+{
+  "info": {
+    "name": "禽肉-枫丹优兰湖左-2肉×1+1肉×2",
+    "type": "collect",
+    "author": "灰林鸮",
+    "version": "1.0",
+    "description": "1、队伍二号位必须是砂糖或林尼，且带着绮良良或埃洛伊，别带双风，别用成男跑图；2、不需要生存位，生存位放技能容易惊动鸟；3、运行其它地图追踪会吓跑这里的鸟，建议优先运行此追踪；4、杀死的鸟在12小时后刷新，被吓跑的鸟0点或12点刷新，1肉鸟和2肉鸟每日上限各200只。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.44.4",
+    "tags":  [ "砂糖" ,"禽肉" ,"绮良良","埃洛伊"]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3618.24609375,
+      "y": 4057.939453125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3621.171875,
+      "y": 4054.220458984375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(2),wait(0.3),keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3626.216796875,
+      "y": 4049.48388671875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3636.79296875,
+      "y": 4058.811767578125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3629.90625,
+      "y": 4069.645751953125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(2),wait(0.3),keypress(e)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 3622.90625,
+      "y": 4076.645751953125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 3622.931640625,
+      "y": 4073.124755859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3624.9873046875,
+      "y": 4071.000732421875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3624.40234375,
+      "y": 4077.302978515625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

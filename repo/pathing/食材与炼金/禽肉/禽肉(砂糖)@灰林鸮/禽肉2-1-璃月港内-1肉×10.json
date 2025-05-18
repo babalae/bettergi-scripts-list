@@ -1,0 +1,185 @@
+{
+  "info": {
+    "name": "禽肉2-1-璃月港内-1肉×10",
+    "type": "collect",
+    "author": "灰林鸮",
+    "version": "1.0",
+    "description": "1、队伍二号位必须是砂糖或林尼，且带着绮良良或埃洛伊，别带双风，别用成男跑图；2、不需要生存位，生存位放技能容易惊动鸟；3、运行其它地图追踪会吓跑这里的鸟，建议优先运行此追踪；4、杀死的鸟在12小时后刷新，被吓跑的鸟0点或12点刷新，1肉鸟和2肉鸟每日上限各200只。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.44.4",
+    "tags":  [ "砂糖" ,"禽肉" ,"绮良良","埃洛伊"]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 267.9306640625,
+      "y": -665.13623046875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 269.0947265625,
+      "y": -666.63916015625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 264.796875,
+      "y": -661.38671875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(2),wait(0.3),keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 260.91796875,
+      "y": -661.53125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 265.8046875,
+      "y": -656.68310546875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 258.341796875,
+      "y": -658.96630859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 265.396484375,
+      "y": -653.5361328125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 259.458984375,
+      "y": -662.25341796875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 255.1728515625,
+      "y": -651.44775390625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 257.4501953125,
+      "y": -622.40185546875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 254.740234375,
+      "y": -613.021484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 268.455078125,
+      "y": -612.21728515625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 272.3310546875,
+      "y": -608.4208984375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(2),wait(0.3),keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 279.9892578125,
+      "y": -605.12255859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 276.1875,
+      "y": -604.22021484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 280.71875,
+      "y": -602.90283203125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 277.9931640625,
+      "y": -602.111328125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 280.5654296875,
+      "y": -599.55322265625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 276.1171875,
+      "y": -603.79833984375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}
