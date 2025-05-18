@@ -1,0 +1,135 @@
+{
+  "info": {
+    "name": "F4山底部攀高危险",
+    "type": "collect",
+    "author": "1",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1124.1362061807995,
+      "y": 1594.0666294075218,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1154.6362061807995,
+      "y": 1591.3166294075218,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1185.8862061807995,
+      "y": 1565.8166294075218,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": -1177.1362061807995,
+      "y": 1549.0666294075218,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": -1184.1362061807995,
+      "y": 1549.5666294075218,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1180.1362061807995,
+      "y": 1565.3166294075218,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -1187.021484375,
+      "y": 1559.15625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -1186.6123046875,
+      "y": 1558.61572265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.52),attack(5.5),wait(0.1),attack(5.5),wait(0.1),attack(5.5),wait(0.1),attack(5.5),",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": -1186.6123046875,
+      "y": 1558.61572265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.52),attack(5.5),wait(0.1),attack(5.5),wait(0.1),attack(5.5),wait(0.1),attack(5.5),"
+    },
+    {
+      "id": 10,
+      "x": -1179.708984375,
+      "y": 1542.95263671875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.52),attack(5.5),wait(0.1),attack(5.5),wait(0.1),attack(5.5),wait(0.1),attack(5.5),",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": -1176.9609375,
+      "y": 1545.6044921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.52),attack(5.5),wait(0.1),attack(5.5),wait(0.1),attack(5.5),wait(0.1),attack(5.5),",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": -1179.708984375,
+      "y": 1542.95263671875,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": -1176.9609375,
+      "y": 1545.6044921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.52),attack(5.5),wait(0.1),attack(5.5),wait(0.1),attack(5.5),wait(0.1),attack(5.5),"
+    }
+  ]
+}
