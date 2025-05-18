@@ -20,9 +20,9 @@
         "label": "是否排除高危路线（默认：不排除）"
     },
     {
-        "name": "enableCooldownCheck",
+        "name": "disableCooldownCheck",
         "type": "checkbox",
-        "label": "是否启用刷新CD检测（默认：不启用）"
+        "label": "是否禁用刷新CD检测（默认：不禁用）"
     },
     {
         "name": "disableAutoPick",
@@ -32,11 +32,16 @@
     {
         "name": "requiredMonsterCount",
         "type": "input-text",
-        "label": "所需怪物数量（0-2000，默认1800）"
+        "label": "所需怪物数量（0-2000，默认1750）"
     },
     {
         "name": "weight",
         "type": "input-text",
         "label": "权重（数值越大越强调效率而不是总收益，默认2）"
+    },
+    {
+        "name": "accountName",
+        "type": "input-text",
+        "label": "账户名，用于区分不同账号的信息"
     }
 ]
