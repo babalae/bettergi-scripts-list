@@ -813,6 +813,7 @@ async function processLeyLineOutcrop(timeout, targetPath, retries = 0) {
         try {
             await pathingScript.runFile(targetPath);
             await processLeyLineOutcrop(timeout, targetPath, retries + 1);
+            return;
         } catch (error) {
             throw new Error(`未识别到地脉花: ${error.message}`);
         }
