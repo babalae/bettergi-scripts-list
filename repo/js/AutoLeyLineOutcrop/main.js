@@ -696,15 +696,17 @@ async function findLeyLineOutcrop(country, type) {
 
     const positions = config.mapPositions[country];
     await genshin.moveMapTo(positions[0].x, positions[0].y, country);
+    const found = await locateLeyLineOutcrop(type);
+    await sleep(1000); // 移动后等一下
+    if (found) return;
     for (let retryCount = 1; retryCount < positions.length; retryCount++) {
-        const found = await locateLeyLineOutcrop(type);
-        if (found) return;
         const position = positions[retryCount];
         log.info(`第 ${retryCount + 1} 次尝试定位地脉花`);
         log.info(`移动到位置：(${position.x}, ${position.y}), ${position.name || '未命名位置'}`);
         await genshin.moveMapTo(position.x, position.y);
-
-        await sleep(1000); // 移动后等一下
+        
+        const found = await locateLeyLineOutcrop(type);
+        if (found) return;
     }
 
     // 如果到这里还没找到
