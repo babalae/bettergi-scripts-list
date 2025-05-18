@@ -359,27 +359,37 @@ jobs:
           # 使用引号包裹路径，处理特殊字符
           python build/validate.py "${VALIDATE_PATH}" $([[ "${AUTO_FIX}" == "true" ]] && echo "--fix")
           
-          # 如果关联了PR，尝试提交更改
-          if [ -n "$PR_NUMBER" ] && [ -n "$HEAD_REF" ] && [ -n "$(git status --porcelain)" ]; then
-            echo "发现修改，提交更改到PR: #$PR_NUMBER"
+          # 检查是否有文件被修改
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "发现修改，提交更改"
             git add .
             git commit -m "自动修复 JSON 格式和版本号 [ci skip]"
             
-            # 确定当前分支
-            CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-            echo "当前分支: ${CURRENT_BRANCH}"
-            
-            if [ "$CURRENT_BRANCH" = "HEAD" ]; then
-              # 如果在detached HEAD状态，使用正确的方式推送
-              echo "在detached HEAD状态，使用HEAD_REF推送: ${HEAD_REF}"
-              git push origin HEAD:${HEAD_REF}
+            # 如果关联了PR，尝试提交更改到PR
+            if [ -n "$PR_NUMBER" ] && [ -n "$HEAD_REF" ]; then
+              echo "提交更改到PR: #$PR_NUMBER"
+              
+              # 确定当前分支
+              CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+              echo "当前分支: ${CURRENT_BRANCH}"
+              
+              if [ "$CURRENT_BRANCH" = "HEAD" ]; then
+                # 如果在detached HEAD状态，使用正确的方式推送
+                echo "在detached HEAD状态，使用HEAD_REF推送: ${HEAD_REF}"
+                git push origin HEAD:${HEAD_REF}
+              else
+                # 常规推送
+                echo "推送到分支: ${CURRENT_BRANCH}"
+                git push origin ${CURRENT_BRANCH}
+              fi
             else
-              # 常规推送
-              echo "推送到分支: ${CURRENT_BRANCH}"
-              git push origin ${CURRENT_BRANCH}
+              # 未关联PR或无法确定分支，直接提交到main分支
+              echo "未关联PR或无法确定分支，直接提交到main分支"
+              git fetch upstream main
+              git checkout upstream/main -b temp-main
+              git cherry-pick ORIG_HEAD
+              git push upstream temp-main:main
             fi
-          elif [ -n "$(git status --porcelain)" ]; then
-            echo "发现修改，但未关联PR或无法确定分支，跳过提交"
           else
             echo "没有文件被修改，无需提交"
           fi
