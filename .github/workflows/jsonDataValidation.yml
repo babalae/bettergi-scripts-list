@@ -385,9 +385,22 @@ jobs:
             else
               # 未关联PR或无法确定分支，直接提交到main分支
               echo "未关联PR或无法确定分支，直接提交到main分支"
+              # 保存当前的修改
+              TEMP_COMMIT=$(git rev-parse HEAD)
+              echo "当前提交: ${TEMP_COMMIT}"
+              
+              # 切换到main分支
               git fetch upstream main
-              git checkout upstream/main -b temp-main
-              git cherry-pick ORIG_HEAD
+              git checkout -b temp-main upstream/main
+              
+              # 应用修改到main分支
+              # 方法1: 使用git diff和apply
+              git diff ${TEMP_COMMIT} --binary > /tmp/changes.patch
+              git apply /tmp/changes.patch
+              
+              # 提交并推送
+              git add .
+              git commit -m "自动修复 JSON 格式和版本号 [ci skip]"
               git push upstream temp-main:main
             fi
           else
