@@ -73,7 +73,7 @@
             if (notice) {
                 notification.error(`图像识别失败，路径: ${imagePath}, 错误: ${error.message}`);
             } else {
-                log.info(`图像识别失败，路径: ${imagePath}, 错误: ${error.message}`);
+                log.error(`图像识别失败，路径: ${imagePath}, 错误: ${error.message}`);
             }
             return null;
         }
