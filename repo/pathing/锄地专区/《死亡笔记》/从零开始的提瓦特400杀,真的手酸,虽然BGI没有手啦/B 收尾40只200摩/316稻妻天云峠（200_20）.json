@@ -5,7 +5,8 @@
     "author": "汐",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.3"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -56,9 +57,9 @@
       "id": 6,
       "x": -4225.81,
       "y": -4733.19,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "run",
-      "action_params": "",
+      "action_params": "玛薇卡 e;芙宁娜 e;钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;",
       "type": "path"
     },
     {
@@ -82,9 +83,9 @@
       "id": 9,
       "x": -4315.06,
       "y": -4718.57,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "run",
-      "action_params": "",
+      "action_params": "玛薇卡 e;芙宁娜 e;钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;",
       "type": "path"
     },
     {
@@ -106,15 +107,24 @@
     },
     {
       "id": 12,
-      "x": -4236.0,
-      "y": -4643.13,
-      "action": "fight",
+      "x": -4248.25,
+      "y": -4644.63,
+      "action": "",
       "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 13,
+      "x": -4238.13,
+      "y": -4633.35,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 14,
       "x": -4247.97,
       "y": -4647.88,
       "action": "",
@@ -123,7 +133,7 @@
       "type": "target"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": -4249.97,
       "y": -4657.19,
       "action": "combat_script",
@@ -132,7 +142,7 @@
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": -4258.94,
       "y": -4691.94,
       "action": "",
@@ -141,7 +151,7 @@
       "type": "path"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": -4278.0,
       "y": -4680.94,
       "action": "",
@@ -150,7 +160,7 @@
       "type": "path"
     },
     {
-      "id": 17,
+      "id": 18,
       "x": -4278.88,
       "y": -4672.03,
       "action": "fight",
@@ -159,7 +169,7 @@
       "type": "path"
     },
     {
-      "id": 18,
+      "id": 19,
       "x": -4275.34,
       "y": -4661.47,
       "action": "",
@@ -168,25 +178,25 @@
       "type": "path"
     },
     {
-      "id": 19,
-      "x": -4254.41,
-      "y": -4672.12,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
-    },
-    {
       "id": 20,
       "x": -4254.41,
-      "y": -4670.12,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
+      "y": -4672.12,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "attack(0.3),wait(1),keypress(x)",
       "type": "path"
     },
     {
       "id": 21,
+      "x": -4254.41,
+      "y": -4670.12,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(x)",
+      "type": "path"
+    },
+    {
+      "id": 22,
       "x": -4255.53,
       "y": -4659.03,
       "action": "combat_script",
@@ -195,7 +205,7 @@
       "type": "path"
     },
     {
-      "id": 22,
+      "id": 23,
       "x": -4256.5,
       "y": -4639.01,
       "action": "combat_script",
@@ -204,7 +214,7 @@
       "type": "path"
     },
     {
-      "id": 23,
+      "id": 24,
       "x": -4272.25,
       "y": -4644.5,
       "action": "",
@@ -212,7 +222,7 @@
       "type": "path"
     },
     {
-      "id": 24,
+      "id": 25,
       "x": -4286.62,
       "y": -4656.5,
       "action": "",
@@ -220,7 +230,7 @@
       "type": "path"
     },
     {
-      "id": 25,
+      "id": 26,
       "x": -4285.38,
       "y": -4674.31,
       "action": "fight",
@@ -229,7 +239,7 @@
       "type": "path"
     },
     {
-      "id": 26,
+      "id": 27,
       "x": -4285.31,
       "y": -4660.13,
       "action": "",
@@ -237,7 +247,7 @@
       "type": "path"
     },
     {
-      "id": 27,
+      "id": 28,
       "x": -4280.06,
       "y": -4654.87,
       "action": "",
@@ -246,7 +256,7 @@
       "type": "path"
     },
     {
-      "id": 28,
+      "id": 29,
       "x": -4261.62,
       "y": -4653.12,
       "action": "stop_flying",
@@ -255,7 +265,7 @@
       "type": "path"
     },
     {
-      "id": 29,
+      "id": 30,
       "x": -4235.0,
       "y": -4648.37,
       "action": "fight",

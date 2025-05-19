@@ -3,10 +3,12 @@
     "name": "338【水免】【高危】稻妻渊下宫蛇心之地南小岛（600_1，200_1）",
     "type": "collect",
     "author": "汐",
-    "version": "1.1",
+    "version": "1.0",
     "description": "",
     "map_name": "Enkanomiya",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1747666441060
   },
   "positions": [
     {
@@ -47,7 +49,7 @@
     },
     {
       "id": 5,
-      "x": 427.1,
+      "x": 425.1,
       "y": -510.85,
       "action": "fight",
       "move_mode": "dash",
@@ -58,33 +60,57 @@
       "id": 6,
       "x": 421.37,
       "y": -507.06,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(0.2)",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": 405.75,
-      "y": -497.25,
-      "action": "combat_script",
-      "move_mode": "fly",
-      "action_params": "w(8),keypress(x),keypress(x),attack(0.3),s(0.8)",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": 382.63,
-      "y": -478.47,
-      "action": "fight",
+      "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
+      "id": 7,
+      "x": 365.0,
+      "y": -478.75,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized",
+            "pathTooFar"
+          ],
+          "handling_mode": "mapRecognition",
+          "arrival_time": 0
+        },
+        "description": "",
+        "monster_tag": ""
+      }
+    },
+    {
+      "id": 8,
+      "x": 365.0,
+      "y": -478.75,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized",
+            "pathTooFar"
+          ],
+          "handling_mode": "mapRecognition",
+          "arrival_time": 0
+        },
+        "description": "",
+        "monster_tag": ""
+      }
+    },
+    {
       "id": 9,
-      "x": 382.63,
-      "y": -478.47,
+      "x": 365.0,
+      "y": -478.75,
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
@@ -92,8 +118,8 @@
     },
     {
       "id": 10,
-      "x": 382.63,
-      "y": -478.47,
+      "x": 365.0,
+      "y": -478.75,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "wait(1)",
