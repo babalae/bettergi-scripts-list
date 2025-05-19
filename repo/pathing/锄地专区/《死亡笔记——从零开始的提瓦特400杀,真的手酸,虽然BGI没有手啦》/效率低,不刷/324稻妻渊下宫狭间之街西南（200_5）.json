@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "324稻妻渊下宫狭间之街西南（200_5）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 851.06,
+      "y": 340.24,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 844.06,
+      "y": 302.81,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "w(6),wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 844.06,
+      "y": 302.81,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 4,
+      "x": 851.06,
+      "y": 340.24,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 5,
+      "x": 888.51,
+      "y": 362.04,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 920.38,
+      "y": 368.19,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

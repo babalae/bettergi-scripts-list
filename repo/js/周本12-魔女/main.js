@@ -117,9 +117,9 @@ const autoNavigateToReward = async () => {
     }
         // 3. 前进一小步
         keyDown("w");
-        await sleep(800);
+        await sleep(500);
         keyUp("w");
-        await sleep(100); // 等待角色移动稳定
+        await sleep(200); // 等待角色移动稳定
     }
 }
 

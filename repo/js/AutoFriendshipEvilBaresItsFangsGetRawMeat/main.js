@@ -76,6 +76,7 @@
 			if ((i + 1) % statueTimes === 0) { // 判断当前循环次数否达到去神像设置值
 				await genshin.tpToStatueOfTheSeven();
 				await AutoPath(`好感-张牙舞爪的恶党-触发位置(二净甸)`);
+				await sleep(delayTime);
 			} else if (!await comparePosition()) { // 对比触发位置坐标，如果不符合预期坐标则重新执行触发线路
 				log.info(`导航至突发任务（张牙舞爪的恶党）触发位置(二净甸)`);
 				await AutoPath(`好感-张牙舞爪的恶党-触发位置(二净甸)`);
@@ -99,7 +100,7 @@
 							ocrStatus = true;
 							break;
 						}
-						await sleep(1000);
+						await sleep(500);
 					}
 				}
 
@@ -111,7 +112,19 @@
 						"forceInteraction": true
 					}));
 
-					await AutoPath(`好感-张牙舞爪的恶党-循环${getMeatMode ? '(二净甸刷肉版)' : '(二净甸)'}`);
+					//原版逻辑 await AutoPath(`好感-张牙舞爪的恶党-循环${getMeatMode ? '(二净甸刷肉版)' : '(二净甸)'}`);
+					//多种拾取模式
+					if (getMeatMode == "算了我不捡了") {
+						await AutoPath(`好感-张牙舞爪的恶党-循环(二净甸)`);
+					} else if (getMeatMode == "通用拾取") {
+						await AutoPath(`好感-张牙舞爪的恶党-循环(二净甸刷肉版)`);
+					} else if (getMeatMode == "万叶拾取") {
+						await AutoPath(`万叶版前往`);
+						await keyMouseScript.runFile(`assets/万叶拾取.json`);
+						await AutoPath(`万叶版返回`);
+					} else {
+						await AutoPath(`好感-张牙舞爪的恶党-循环(二净甸)`);
+					}
 
 					// 关闭急速拾取
 					dispatcher.addTimer(new RealtimeTimer("AutoPick", {
@@ -195,7 +208,7 @@
 	if (!!settings.partyName) {
 		try {
 			log.info("正在尝试切换至" + settings.partyName);
-			if(!await genshin.switchParty(settings.partyName)){
+			if (!await genshin.switchParty(settings.partyName)) {
 				log.info("切换队伍失败，前往七天神像重试");
 				await genshin.tpToStatueOfTheSeven();
 				await genshin.switchParty(settings.partyName);
