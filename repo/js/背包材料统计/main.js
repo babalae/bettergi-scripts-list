@@ -1019,28 +1019,29 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
 
         // 从路径文件中提取材料名
         const resourceNames = pathEntries
-            .map(entry => entry.resourceName)
-            .filter(name => name);
+            ?.map(entry => entry.resourceName)
+            .filter(name => name) || []; // 确保 resourceNames 是一个数组
 
         // 生成材料与分类的映射对象
         const materialCategoryMap = resourceNames.reduce((acc, resourceName) => {
             const category = matchImageAndGetCategory(resourceName, imagesDir); // 获取材料的分类
             if (category) {
-        // 初始化分类键（如果不存在）
+                // 初始化分类键（如果不存在）
                 if (!acc[category]) acc[category] = [];
                 // 将材料名加入对应分类数组（避免重复）
                 if (!acc[category].includes(resourceName)) {
                     acc[category].push(resourceName);
                 }
             }
-            // 检查是否需要初始化选中的分类
-            selected_materials_array.forEach(selectedCategory => {
-                if (!acc[selectedCategory]) {
-                    acc[selectedCategory] = [];
-                }
-            });
             return acc;
         }, {});
+
+        // 确保 selected_materials_array 中的分类被初始化为空数组
+        selected_materials_array.forEach(selectedCategory => {
+            if (!materialCategoryMap[selectedCategory]) {
+                materialCategoryMap[selectedCategory] = [];
+            }
+        });
         // log.info(JSON.stringify(materialCategoryMap, null, 2));
 
         // 调用背包材料统计
