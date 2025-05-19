@@ -1,7 +1,15 @@
 (async function () {
-    // 设置游戏基础参数
+    // 设置通知状态
+    let notice = settings.notice ?? false;
+
+
+
+    // 设置游戏基础参数/初始化
     setGameMetrics(1920, 1080, 1.25); // 设置编写脚本环境的游戏分辨率和DPI缩放
     await genshin.returnMainUi(); // 返回主界面
+    if (notice) {
+        notification.send("自动锻造矿石脚本开始");
+    }
 
     ///
     // 读取用户配置
@@ -56,14 +64,19 @@
             let recognitionObject = RecognitionObject.TemplateMatch(template, x, y, searchWidth, searchHeight);
 
             // 设置识别阈值和通道
-            /* prettier-ignore */
-            recognitionObject.threshold    = 0.85; // 设置识别阈值
+            recognitionObject.threshold = 0.85; // 设置识别阈值
             recognitionObject.Use3Channels = true; // 使用三通道匹配
 
             let result = captureGameRegion().find(recognitionObject);
             return result.isExist() ? result : null;
         } catch (error) {
-            log.error(`图像识别失败，路径: ${imagePath}, 错误: ${error.message}`);
+
+            if (notice) {
+                notification.error(`图像识别失败，路径: ${imagePath}, 错误: ${error.message}`);
+            } else {
+                log.info(`图像识别失败，路径: ${imagePath}, 错误: ${error.message}`);
+            }
+
             return null;
         }
     }
@@ -71,26 +84,46 @@
     // 自动前往铁匠铺
     async function autoSmithy(smithyName) {
         log.info(`自动前往 ${smithyName}`);
+
         try {
             let filePath = `assets/Pathing/${smithyName}.json`;
             await pathingScript.runFile(filePath);
+            if (notice) {
+                notification.send(`已抵达 ${smithyName}`);
+            } else {
+                log.info(`已抵达 ${smithyName}`);
+            }
+
+
         } catch (error) {
-            log.error(`执行 ${smithyName} 路径时发生错误`);
-            log.error(error.toString());
+            if (notice) {
+                notification.error(`执行 ${smithyName} 路径时发生错误`);
+            } else {
+                log.error(`执行 ${smithyName} 路径时发生错误`);
+            }
+            if (notice) {
+                notification.error(error.toString());
+            } else {
+                log.error(error.toString());
+            }
+
         }
     }
 
     // 确认使用矿石
     function determineOre() {
-        if (ore == "水晶块") {
-            log.info("将使用 水晶块 锻造矿石");
-        } else if (ore == "紫晶块") {
-            log.info("将使用 紫晶块 锻造矿石");
-        } else if (ore == "萃凝晶") {
-            log.info("将使用 萃凝晶 锻造矿石");
+        let message;
+        if (ore === "水晶块") {
+            message = "将使用 水晶块 锻造矿石";
+        } else if (ore === "紫晶块") {
+            message = "将使用 紫晶块 锻造矿石";
+        } else if (ore === "萃凝晶") {
+            message = "将使用 萃凝晶 锻造矿石";
         } else {
-            log.info("无指定矿石,将使用 水晶块 锻造矿石");
+            message = "无指定矿石,将使用 水晶块 锻造矿石";
         }
+        log.info(message);
+        return message;
     }
 
     // 锻造矿石操作
@@ -98,29 +131,35 @@
         // 对话
         /* prettier-ignore */
         {
-            await sleep(1000);keyPress("F");                            // 开始交互
-            await sleep(1000);await click(960, 600);                    // 
-            await sleep(1000);await click(960, 600);                    // 跳过第一个对话
-            await sleep(1000);await click(1375, 500);                   // 跳过第一个对话
-            await sleep(1000);await click(960, 600);await sleep(1000);  // 跳过第二个对话
-            await click(960, 600);await sleep(1000);                    // 跳过第二个对话
+            await sleep(1000); keyPress("F");                             // 开始交互
+            await sleep(1000); await click(960, 600);                     // 
+            await sleep(1000); await click(960, 600);                     // 跳过第一个对话
+            await sleep(1000); await click(1375, 500);                    // 跳过第一个对话
+            await sleep(1000); await click(960, 600); await sleep(1000);  // 跳过第二个对话
+            await click(960, 600); await sleep(1000);                     // 跳过第二个对话
         }
 
         log.info("已进入锻造界面，准备锻造");
         // 锻造领取
         /* prettier-ignore */
         {
-            await click(520, 140);await sleep(1000);   // 选择锻造队列
-            await click(170, 1010);await sleep(1000);  // 领取全部
-            await click(960, 900);await sleep(1000);   // 确认
-            click(220, 150);await sleep(1000);         // 点击"配方"
+            await click(520, 140); await sleep(1000);   // 选择锻造队列
+            await click(170, 1010); await sleep(1000);  // 领取全部
+            await click(960, 900); await sleep(1000);   // 确认
+            click(220, 150); await sleep(1000);         // 点击"配方"
         }
 
         determineOre();
 
+
         // 根据用户选择的矿石进行锻造
         if (!imagePath) {
-            log.error(`未找到矿石图像路径: ${chineseDescription}`);
+            if (notice) {
+                notification.error(`未找到矿石图像路径: ${chineseDescription}`);
+            } else {
+                log.error(`未找到矿石图像路径: ${chineseDescription}`);
+            }
+
         } else {
             log.info(`开始识别矿石: ${chineseDescription}`);
 
@@ -133,9 +172,15 @@
                 const imageResult = recognizeImage(imagePath, scanX, scanY, 70, 70);
 
                 if (imageResult) {
-                    log.info(`通过图像识别找到矿石: ${chineseDescription}`);
                     imageResult.click();
                     await sleep(2000); // 等待点击生效
+                    if (notice) {
+                        notification.send(`通过图像识别找到矿石: ${chineseDescription}`);
+                    } else {
+                        log.info(`通过图像识别找到矿石: ${chineseDescription}`);
+                    }
+
+
                     foundIngredient = true;
 
                     /* prettier-ignore */
@@ -146,19 +191,33 @@
                 }
             }
             if (!foundIngredient) {
-                log.error(`未能识别到矿石: ${chineseDescription}`);
+                if (notice) {
+                    notification.error(`未能识别到矿石: ${chineseDescription}`);
+                } else {
+                    log.error(`未能识别到矿石: ${chineseDescription}`);
+                }
             }
         }
 
         // 退出锻造界面
-        log.info("锻造结束，退出界面");
+        await click(520, 140); await sleep(1000);   // 选择锻造队列
+        if (notice) {
+            notification.error("锻造结束，退出界面");
+        } else {
+            log.info("锻造结束，退出界面");
+        }
         keyPress("ESCAPE");
     };
 
-    await autoSmithy(smithyName); // 寻路函数
-    await forgeOre(smithyName); // 锻造函数
-    await genshin.returnMainUi(); // 返回主界面
+    await autoSmithy(smithyName);  // 寻路函数
+    await forgeOre(smithyName);    // 锻造函数
+    await genshin.returnMainUi();  // 返回主界面
 
     /* prettier-ignore */
-    {keyDown("S");await sleep(1000);keyUp("S");await sleep(1000); } // 后退两步
+    { keyDown("S"); await sleep(1000); keyUp("S"); await sleep(1000); } // 后退两步
+
+    if (notice) {
+        notification.send("自动锻造矿石脚本结束");
+    }
+
 })();
