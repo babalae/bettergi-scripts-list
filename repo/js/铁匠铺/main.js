@@ -94,14 +94,9 @@
             }
         } catch (error) {
             if (notice) {
-                notification.error(`执行 ${smithyName} 路径时发生错误`);
+                notification.error(`执行 ${smithyName} 路径时发生错误: ${error.toString()}`);
             } else {
-                log.error(`执行 ${smithyName} 路径时发生错误`);
-            }
-            if (notice) {
-                notification.error(error.toString());
-            } else {
-                log.error(error.toString());
+                log.error(`执行 ${smithyName} 路径时发生错误: ${error.toString()}`);
             }
         }
     }
