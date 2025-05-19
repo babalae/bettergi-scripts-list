@@ -186,7 +186,7 @@
         // 退出锻造界面
         await click(520, 140); await sleep(1000);   // 选择锻造队列
         if (notice) {
-            notification.error("锻造结束，退出界面");
+            notification.send("锻造结束，退出界面");
         } else {
             log.info("锻造结束，退出界面");
         }
