@@ -291,15 +291,9 @@ click(48, 441);//放大地图
 await sleep(400);
 click(48, 441);//放大地图
 await sleep(400);
+click(1000, 645);//猫尾酒馆
+await sleep(600);
 let tavern = captureGameRegion().find(tavernRo);
-if (tavern.isExist()) {
-        tavern.click();
-        await sleep(500);
-        }
- else{
-           throw new Error('未能找到猫尾酒馆');  
-          }
-tavern = captureGameRegion().find(tavernRo);
 if (tavern.isExist()) {
         tavern.click();
         await sleep(500);
