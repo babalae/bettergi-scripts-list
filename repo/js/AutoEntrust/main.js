@@ -894,7 +894,8 @@ async function executeCommissionTracking() {
       const location = commission.location.trim();
       const scriptPaths = [
         `assets/${commission.name}/${location}-1.json`,
-        `assets/${commission.name}/${location}-2.json`
+        `assets/${commission.name}/${location}-2.json`,
+        `assets/${commission.name}/${location}-3.json`,
       ];
       
       let scriptFound = false;

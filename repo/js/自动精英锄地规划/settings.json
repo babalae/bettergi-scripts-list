@@ -32,9 +32,9 @@
         "label": "是否禁用自动拾取（默认不禁用）"
     },
     {
-        "name": "enableRouteCdCheck",
+        "name": "disableRouteCdCheck",
         "type": "checkbox",
-        "label": "是否启用路线CD检测（默认不启用）"
+        "label": "是否禁用路线CD检测（默认不禁用）"
     },
     {
         "name": "requiredMonsterCount",
@@ -50,5 +50,10 @@
         "name": "excludeTagsForAll",
         "type": "input-text",
         "label": "全局排除关键词（使用中文分号分隔）"
+    },
+    {
+        "name": "accountName",
+        "type": "input-text",
+        "label": "账户名，用于区分不同的账户"
     }
 ]

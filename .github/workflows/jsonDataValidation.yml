@@ -166,15 +166,8 @@ jobs:
             echo "build/validate.py不存在，跳过获取步骤"
           else
             echo "build/validate.py已存在，检查文件头部"
-            head -n 10 build/validate.py
+            head -n 5 build/validate.py
           fi
-
-          # 检查文件执行权限
-          chmod +x build/validate.py
-          
-          # 检查文件编码
-          echo "检查文件编码:"
-          file build/validate.py
 
       - name: Get PR information for workflow_dispatch
         if: ${{ steps.set_env.outputs.trigger_type == 'manual' && steps.set_env.outputs.pr_number != '' }}
@@ -366,27 +359,67 @@ jobs:
           # 使用引号包裹路径，处理特殊字符
           python build/validate.py "${VALIDATE_PATH}" $([[ "${AUTO_FIX}" == "true" ]] && echo "--fix")
           
-          # 如果关联了PR，尝试提交更改
-          if [ -n "$PR_NUMBER" ] && [ -n "$HEAD_REF" ] && [ -n "$(git status --porcelain)" ]; then
-            echo "发现修改，提交更改到PR: #$PR_NUMBER"
+          # 检查是否有文件被修改
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "发现修改，提交更改"
             git add .
             git commit -m "自动修复 JSON 格式和版本号 [ci skip]"
             
-            # 确定当前分支
-            CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-            echo "当前分支: ${CURRENT_BRANCH}"
-            
-            if [ "$CURRENT_BRANCH" = "HEAD" ]; then
-              # 如果在detached HEAD状态，使用正确的方式推送
-              echo "在detached HEAD状态，使用HEAD_REF推送: ${HEAD_REF}"
-              git push origin HEAD:${HEAD_REF}
+            # 如果关联了PR，尝试提交更改到PR
+            if [ -n "$PR_NUMBER" ] && [ -n "$HEAD_REF" ]; then
+              echo "提交更改到PR: #$PR_NUMBER"
+              
+              # 确定当前分支
+              CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+              echo "当前分支: ${CURRENT_BRANCH}"
+              
+              if [ "$CURRENT_BRANCH" = "HEAD" ]; then
+                # 如果在detached HEAD状态，使用正确的方式推送
+                echo "在detached HEAD状态，使用HEAD_REF推送: ${HEAD_REF}"
+                git push origin HEAD:${HEAD_REF}
+              else
+                # 常规推送
+                echo "推送到分支: ${CURRENT_BRANCH}"
+                git push origin ${CURRENT_BRANCH}
+              fi
             else
-              # 常规推送
-              echo "推送到分支: ${CURRENT_BRANCH}"
-              git push origin ${CURRENT_BRANCH}
+              # 未关联PR或无法确定分支，直接提交到main分支
+              echo "未关联PR或无法确定分支，直接提交到main分支"
+              
+              # 保存修改的文件列表
+              MODIFIED_FILES=$(git status --porcelain | grep -E "^ M|^M" | awk '{print $2}')
+              echo "已修改的文件:"
+              echo "$MODIFIED_FILES"
+              
+              # 将修改的文件保存到临时目录
+              TEMP_DIR=$(mktemp -d)
+              echo "创建临时目录: $TEMP_DIR"
+              for file in $MODIFIED_FILES; do
+                # 确保目标目录存在
+                mkdir -p "$TEMP_DIR/$(dirname "$file")"
+                # 复制修改后的文件到临时目录
+                cp "$file" "$TEMP_DIR/$file"
+                echo "已复制文件: $file"
+              done
+              
+              # 切换到main分支
+              git fetch upstream main
+              git checkout -b temp-main upstream/main
+              
+              # 从临时目录复制修改后的文件到main分支
+              for file in $MODIFIED_FILES; do
+                # 确保目标目录存在
+                mkdir -p "$(dirname "$file")"
+                # 复制文件
+                cp "$TEMP_DIR/$file" "$file"
+                echo "已应用修改到main分支: $file"
+              done
+              
+              # 提交并推送
+              git add .
+              git commit -m "自动修复 JSON 格式和版本号 [ci skip]"
+              git push upstream temp-main:main
             fi
-          elif [ -n "$(git status --porcelain)" ]; then
-            echo "发现修改，但未关联PR或无法确定分支，跳过提交"
           else
             echo "没有文件被修改，无需提交"
           fi
