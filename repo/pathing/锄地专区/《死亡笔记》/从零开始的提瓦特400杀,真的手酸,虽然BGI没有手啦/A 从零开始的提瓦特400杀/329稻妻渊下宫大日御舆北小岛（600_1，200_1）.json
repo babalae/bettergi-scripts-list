@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "329稻妻渊下宫大日御舆北小岛（600_1，200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 282.8294677734375,
+      "y": 421.0054931640625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 270.62493679867293,
+      "y": 414.5626212637078,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 256.1873261963508,
+      "y": 425.24957557702305,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 235.74997234941952,
+      "y": 453.4380760026115,
+      "action": "fight",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 252.68759085190754,
+      "y": 484.6235751514346,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 260.1876066522393,
+      "y": 522.8750151579634,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "w(10.5),attack(0.2),wait(0.2),keydown(w),wait(0.01),keydown(LSHIFT),wait(4.5),keyup(LSHIFT),wait(0.1),keyup(w)"
+    },
+    {
+      "id": 7,
+      "x": 280.74984989684845,
+      "y": 622.0002728433424,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 8,
+      "x": 280.5003397071325,
+      "y": 621.8760610574423,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}
