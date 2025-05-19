@@ -64,25 +64,24 @@
             let recognitionObject = RecognitionObject.TemplateMatch(template, x, y, searchWidth, searchHeight);
 
             // 设置识别阈值和通道
-            recognitionObject.threshold = 0.85; // 设置识别阈值
-            recognitionObject.Use3Channels = true; // 使用三通道匹配
+            recognitionObject.threshold = 0.85;  // 设置识别阈值
+            recognitionObject.Use3Channels = true;  // 使用三通道匹配
 
             let result = captureGameRegion().find(recognitionObject);
             return result.isExist() ? result : null;
         } catch (error) {
-
             if (notice) {
                 notification.error(`图像识别失败，路径: ${imagePath}, 错误: ${error.message}`);
             } else {
                 log.info(`图像识别失败，路径: ${imagePath}, 错误: ${error.message}`);
             }
-
             return null;
         }
     }
 
     // 自动前往铁匠铺
     async function autoSmithy(smithyName) {
+
         log.info(`自动前往 ${smithyName}`);
 
         try {
@@ -93,8 +92,6 @@
             } else {
                 log.info(`已抵达 ${smithyName}`);
             }
-
-
         } catch (error) {
             if (notice) {
                 notification.error(`执行 ${smithyName} 路径时发生错误`);
@@ -106,7 +103,6 @@
             } else {
                 log.error(error.toString());
             }
-
         }
     }
 
@@ -129,28 +125,21 @@
     // 锻造矿石操作
     const forgeOre = async function (smithyName) {
         // 对话
-        /* prettier-ignore */
-        {
-            await sleep(1000); keyPress("F");                             // 开始交互
-            await sleep(1000); await click(960, 600);                     // 
-            await sleep(1000); await click(960, 600);                     // 跳过第一个对话
-            await sleep(1000); await click(1375, 500);                    // 跳过第一个对话
-            await sleep(1000); await click(960, 600); await sleep(1000);  // 跳过第二个对话
-            await click(960, 600); await sleep(1000);                     // 跳过第二个对话
-        }
+        await sleep(1000); keyPress("F");                             // 开始交互
+        await sleep(1000); await click(960, 600);                     // 
+        await sleep(1000); await click(960, 600);                     // 跳过第一个对话
+        await sleep(1000); await click(1375, 500);                    // 跳过第一个对话
+        await sleep(1000); await click(960, 600); await sleep(1000);  // 跳过第二个对话
+        await click(960, 600); await sleep(1000);                     // 跳过第二个对话
 
         log.info("已进入锻造界面，准备锻造");
         // 锻造领取
-        /* prettier-ignore */
-        {
-            await click(520, 140); await sleep(1000);   // 选择锻造队列
-            await click(170, 1010); await sleep(1000);  // 领取全部
-            await click(960, 900); await sleep(1000);   // 确认
-            click(220, 150); await sleep(1000);         // 点击"配方"
-        }
+        await click(520, 140); await sleep(1000);   // 选择锻造队列
+        await click(170, 1010); await sleep(1000);  // 领取全部
+        await click(960, 900); await sleep(1000);   // 确认
+        click(220, 150); await sleep(1000);         // 点击"配方"
 
         determineOre();
-
 
         // 根据用户选择的矿石进行锻造
         if (!imagePath) {
@@ -159,7 +148,6 @@
             } else {
                 log.error(`未找到矿石图像路径: ${chineseDescription}`);
             }
-
         } else {
             log.info(`开始识别矿石: ${chineseDescription}`);
 
@@ -179,14 +167,10 @@
                     } else {
                         log.info(`通过图像识别找到矿石: ${chineseDescription}`);
                     }
-
-
                     foundIngredient = true;
 
-                    /* prettier-ignore */
                     // 点击“开始锻造”3次
                     { await sleep(1000); click(1645, 1015); await sleep(1000); click(1645, 1015); await sleep(1000); }
-
                     break; // 找到矿石后退出循环
                 }
             }
@@ -213,11 +197,9 @@
     await forgeOre(smithyName);    // 锻造函数
     await genshin.returnMainUi();  // 返回主界面
 
-    /* prettier-ignore */
     { keyDown("S"); await sleep(1000); keyUp("S"); await sleep(1000); } // 后退两步
 
     if (notice) {
         notification.send("自动锻造矿石脚本结束");
     }
-
 })();
