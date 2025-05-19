@@ -1,3 +1,39 @@
+// 切换到指定的队伍
+async function switchCardTeam(Name) {
+    let captureRegion = captureGameRegion();
+    let teamName = captureRegion.find(RecognitionObject.ocr(1305, 793, 206, 46));
+    log.info('当前队伍名称: {text}', teamName.text);
+    if (teamName.text != Name) {
+        click(1312, 812); //点击队伍名称的糟糕UI
+        await sleep(1000);
+
+        moveMouseTo(100, 200);
+        leftButtonDown();
+        // 不能一次移动太多,否则会丢拖动
+        for (let i = 1; i <= 9; i++) {
+            await sleep(50);
+            moveMouseTo(200 * i, 200);
+        }
+        await sleep(200);
+        leftButtonUp();
+        await sleep(1000);
+
+        captureRegion = captureGameRegion();
+        for (let i = 0; i < 4; i++) {
+            let x = 135 + 463 * i;
+            let res = captureRegion.find(RecognitionObject.ocr(x, 762, 230, 46));
+            if (res.text == Name) {
+                log.info('切换至队伍: {text}', res.text);
+                res.click();
+                await sleep(500);
+                click(1164, 1016); // 选择
+                await sleep(4000); // 等待"出战牌组"的强制延时框消失
+                break;
+            }
+        }
+    }
+}
+
 (async function () {
 
 // 存储挑战玩家信息
@@ -314,6 +350,9 @@ await sleep(1000);
 await autoConversation();
 log.info("对话完成");
 await sleep(1500);
+if (settings.partyName != undefined) {
+    await switchCardTeam(settings.partyName);
+}
 click(1610,900 );//点击挑战
 await sleep(8000);
 await dispatcher.runTask(new SoloTask("AutoGeniusInvokation"));
