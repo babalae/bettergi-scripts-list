@@ -22,10 +22,7 @@ async function fakeLog(name, isJs, isStart, duration) {
         log.error("参数 'isStart' 必须是布尔型！");
         return;
     }
-    if (typeof currentTime !== 'number' || !Number.isInteger(currentTime)) {
-        log.error("参数 'currentTime' 必须是整数！");
-        return;
-    }
+// Removed redundant type and integer checks for `currentTime`.
     if (typeof duration !== 'number' || !Number.isInteger(duration)) {
         log.error("参数 'duration' 必须是整数！");
         return;
