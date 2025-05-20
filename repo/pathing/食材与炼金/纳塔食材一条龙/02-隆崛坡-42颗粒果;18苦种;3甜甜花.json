@@ -1,0 +1,693 @@
+{
+  "info": {
+    "name": "02-隆崛坡",
+    "type": "collect",
+    "author": "灰林鸮",
+    "version": "1.0",
+    "description": "请携带盾辅作为生存位",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "颗粒果",
+      "苦种",
+      "甜甜花"
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 7759.3037109375,
+      "y": -1401.439453125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 7732.361328125,
+      "y": -1408.9208984375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 7733.3671875,
+      "y": -1411.9033203125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.2),keypress(t),wait(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 7729.2509765625,
+      "y": -1409.91064453125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.2),keypress(f),wait(5)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 7722.767578125,
+      "y": -1426.59375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.2),keypress(e),wait(1),keydown(q),wait(0.6),keyup(q)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 7710.84423828125,
+      "y": -1436.5341796875,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 7667.10107421875,
+      "y": -1422.2138671875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 7665.9072265625,
+      "y": -1442.6708984375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 7664.76611328125,
+      "y": -1450.73291015625,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 7657.16259765625,
+      "y": -1462.9951171875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 7651.73095703125,
+      "y": -1462.54052734375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 7643.349609375,
+      "y": -1473.017578125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 7631.865234375,
+      "y": -1467.25244140625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 7627.64013671875,
+      "y": -1469.048828125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 7628.95654296875,
+      "y": -1496.55908203125,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 7620.203125,
+      "y": -1515.4267578125,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(space),wait(1),attack(0.1)",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 7620.203125,
+      "y": -1515.42626953125,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 7576.4443359375,
+      "y": -1544.2919921875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 7564.798828125,
+      "y": -1575.529296875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 7514.0029296875,
+      "y": -1583.61083984375,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 7491.26318359375,
+      "y": -1630.69140625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": 7477.794921875,
+      "y": -1676.7685546875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": 7486.90625,
+      "y": -1680.1640625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 24,
+      "x": 7481.6201171875,
+      "y": -1687.62158203125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 25,
+      "x": 7483.02392578125,
+      "y": -1691.39599609375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 26,
+      "x": 7482.5390625,
+      "y": -1687.10498046875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 27,
+      "x": 7488.50830078125,
+      "y": -1685.078125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 28,
+      "x": 7488.50830078125,
+      "y": -1685.078125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.8)",
+      "type": "path"
+    },
+    {
+      "id": 29,
+      "x": 7759.31787109375,
+      "y": -1401.3876953125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 30,
+      "x": 7758.8408203125,
+      "y": -1407.771484375,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 31,
+      "x": 7791.18310546875,
+      "y": -1466.3251953125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 32,
+      "x": 7783.0703125,
+      "y": -1472.95263671875,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 33,
+      "x": 7792.759765625,
+      "y": -1492.947265625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 34,
+      "x": 7788.3720703125,
+      "y": -1504.51171875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 35,
+      "x": 7780.51025390625,
+      "y": -1502.7080078125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 36,
+      "x": 7829.509765625,
+      "y": -1518.37353515625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 37,
+      "x": 7849.078125,
+      "y": -1550.6611328125,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 38,
+      "x": 7830.916015625,
+      "y": -1534.1455078125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 39,
+      "x": 7829.1025390625,
+      "y": -1590.00146484375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 40,
+      "x": 7809.38916015625,
+      "y": -1619.5361328125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 41,
+      "x": 7838.95703125,
+      "y": -1637.67529296875,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 42,
+      "x": 7839.6181640625,
+      "y": -1670.224609375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 43,
+      "x": 7860.138671875,
+      "y": -1712.08984375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 44,
+      "x": 7873.10498046875,
+      "y": -1678.783203125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 45,
+      "x": 7897.47998046875,
+      "y": -1668.9375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 46,
+      "x": 7906.14404296875,
+      "y": -1703.40087890625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 47,
+      "x": 7959.36181640625,
+      "y": -1745.833984375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 48,
+      "x": 7945.37548828125,
+      "y": -1751.03125,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 49,
+      "x": 7973.25390625,
+      "y": -1774.85791015625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.8)",
+      "type": "path"
+    },
+    {
+      "id": 50,
+      "x": 7633.86376953125,
+      "y": -1646.63818359375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 51,
+      "x": 7637.84619140625,
+      "y": -1650.66943359375,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 52,
+      "x": 7594.7880859375,
+      "y": -1647.49853515625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 53,
+      "x": 7584.99462890625,
+      "y": -1649.4150390625,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 54,
+      "x": 7592.3994140625,
+      "y": -1679.6484375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 55,
+      "x": 7593.15869140625,
+      "y": -1683.9326171875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 56,
+      "x": 7603.736328125,
+      "y": -1665.23583984375,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 57,
+      "x": 7616.7548828125,
+      "y": -1663.7294921875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 58,
+      "x": 7629.8759765625,
+      "y": -1705.42041015625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 59,
+      "x": 7617.2734375,
+      "y": -1732.98681640625,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 60,
+      "x": 7637.158203125,
+      "y": -1753.4287109375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 61,
+      "x": 7632.45068359375,
+      "y": -1800.6484375,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 62,
+      "x": 7610.96240234375,
+      "y": -1824.287109375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 63,
+      "x": 7615.29931640625,
+      "y": -1875.48779296875,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 64,
+      "x": 7601.4140625,
+      "y": -1871.0322265625,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 65,
+      "x": 7633.84130859375,
+      "y": -1646.65185546875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 66,
+      "x": 7649.7470703125,
+      "y": -1589.86767578125,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(space),wait(2),attack(0.1)",
+      "type": "path"
+    },
+    {
+      "id": 67,
+      "x": 7652.7177734375,
+      "y": -1590.056640625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 68,
+      "x": 7664.4462890625,
+      "y": -1595.943359375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 69,
+      "x": 7664.828125,
+      "y": -1608.1552734375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 70,
+      "x": 7670.7099609375,
+      "y": -1607.77001953125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 71,
+      "x": 7695.6337890625,
+      "y": -1636.28515625,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 72,
+      "x": 7680.53662109375,
+      "y": -1674.8232421875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 73,
+      "x": 7712.07958984375,
+      "y": -1695.80712890625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 74,
+      "x": 7700.783203125,
+      "y": -1717.62353515625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 75,
+      "x": 7718.611328125,
+      "y": -1740.26171875,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
