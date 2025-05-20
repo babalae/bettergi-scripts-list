@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "04-灵矩关南(有战斗)-3个",
+    "name": "05-天衡山北(有战斗)-4个",
     "type": "collect",
     "author": "火山",
     "version": "1.0",
@@ -14,14 +14,14 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 1043.1904296875,
-      "y": -558.04443359375,
+      "x": 611.6640625,
+      "y": -284.68896484375,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 1045.765625,
-      "y": -567.90380859375,
+      "x": 659.1874485596709,
+      "y": -270.875,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -29,17 +29,17 @@
     },
     {
       "id": 3,
-      "x": 1099.9267578125,
-      "y": -656.1044921875,
+      "x": 702.71875,
+      "y": -268.544921875,
       "type": "path",
       "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "500"
+      "action_params": "2500"
     },
     {
       "id": 4,
-      "x": 1098.8154296875,
-      "y": -647.3310546875,
+      "x": 702.19921875,
+      "y": -271.41943359375,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -47,26 +47,26 @@
     },
     {
       "id": 5,
-      "x": 1098.732421875,
-      "y": -660.16845703125,
+      "x": 691.9228515625,
+      "y": -311.41015625,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action": "fight",
       "action_params": ""
     },
     {
       "id": 6,
-      "x": 1092.66015625,
-      "y": -653.2529296875,
-      "type": "target",
+      "x": 692.0859375,
+      "y": -307.720703125,
+      "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 7,
-      "x": 1091.5009765625,
-      "y": -655.87158203125,
+      "x": 702.802734375,
+      "y": -310.6796875,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
@@ -74,8 +74,35 @@
     },
     {
       "id": 8,
-      "x": 1088.9306640625,
-      "y": -657.17041015625,
+      "x": 687.99609375,
+      "y": -297.841796875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 9,
+      "x": 693.8466796875,
+      "y": -289.77734375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 10,
+      "x": 704.876953125,
+      "y": -279.8212890625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 11,
+      "x": 696.373046875,
+      "y": -267.24072265625,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
