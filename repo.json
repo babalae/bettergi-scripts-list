@@ -1,5 +1,5 @@
 {
-  "time": "20250520230914",
+  "time": "20250520234405",
   "url": "https://github.com/babalae/bettergi-scripts-list/archive/refs/heads/main.zip",
   "file": "repo.json",
   "indexes": [
@@ -18,8 +18,8 @@
                 {
                   "name": "README.md",
                   "type": "file",
-                  "hash": "a5fea34981e221a156b89fdf7c3b8e6c2dedb04d",
-                  "version": "a5fea34",
+                  "hash": "1e94bb47a0759295a74f5de91ac6b10e4ba350c8",
+                  "version": "1e94bb4",
                   "error": "Unexpected number in JSON at position 1"
                 },
                 {
@@ -1162,21 +1162,6 @@
                           "lastUpdated": "2025-05-20 00:22:39"
                         },
                         {
-                          "name": "339稻妻渊下宫蛇心之地南（200_2）.json",
-                          "type": "file",
-                          "hash": "27d48674d6c7b95633db4954d3b329a4b3abda49",
-                          "version": "1.0",
-                          "author": "汐",
-                          "description": "",
-                          "tags": [
-                            "锄地专区",
-                            "从零开始的提瓦特400杀,真的手酸,虽然BGI没有手啦",
-                            "A 从零开始的提瓦特400杀",
-                            "战斗"
-                          ],
-                          "lastUpdated": "2025-05-20 00:22:39"
-                        },
-                        {
                           "name": "401须弥降诸魔山神像（600_1）.json",
                           "type": "file",
                           "hash": "13b211c679a1ab0e362a9a40ec95ce92cdb3069b",
@@ -1539,7 +1524,7 @@
                         {
                           "name": "606纳塔奥奇（400_2，200_2）次数盾.json",
                           "type": "file",
-                          "hash": "74804e397f021c9eb46ef5f603623908e3235f71",
+                          "hash": "b28ec11370e4de2c9e0de13a3912d7649b40c4aa",
                           "version": "1.0",
                           "author": "汐",
                           "description": "",
@@ -1549,7 +1534,7 @@
                             "A 从零开始的提瓦特400杀",
                             "战斗"
                           ],
-                          "lastUpdated": "2025-05-20 00:22:39"
+                          "lastUpdated": "2025-05-20 23:33:21"
                         },
                         {
                           "name": "607纳塔奥奇东南岛（200_2）.json",
@@ -47490,6 +47475,16 @@
           "lastUpdated": "2025-05-11 17:05:54"
         },
         {
+          "name": "伪造日志测试",
+          "type": "directory",
+          "hash": "7a7a5025e2c90aafbff08d9022f82bfa3c7f71c0",
+          "version": "1.0",
+          "author": "mno",
+          "description": "伪造日志测试~|~",
+          "tags": [],
+          "lastUpdated": "2025-05-20 23:43:14"
+        },
+        {
           "name": "使用料理",
           "type": "directory",
           "hash": "7bc80d653a4321a8dcf4ec64bc298b400bebc2c1",
@@ -47724,12 +47719,12 @@
         {
           "name": "消耗复活料理",
           "type": "directory",
-          "hash": "8d1ae3bde8033d1656757fcc67816398d8d4a988",
-          "version": "1.0",
+          "hash": "90eb6893e4acfa52e37a37a387872f6424c5767d",
+          "version": "1.1",
           "author": "mno",
-          "description": "消耗复活料理@mno~|~通过信仰之跃消耗放在食品袋中的复活料理，注意，使用前请确保要消耗的复活料理在食品袋中并且装备食品袋小道具，目前存在一个已知的bug导致结束配置组时将花费过长的时间，建议直接关闭bgi程序来关闭本配置组",
+          "description": "消耗复活料理~|~通过信仰之跃消耗放在食品袋中的复活料理，注意，使用前请确保要消耗的复活料理在食品袋中并且装备食品袋小道具，并且不要开启行走位，生存位等配置，也不要开启循环使用小道具",
           "tags": [],
-          "lastUpdated": "2025-05-14 18:11:27"
+          "lastUpdated": "2025-05-20 23:43:14"
         },
         {
           "name": "烹饪熟练度一键拉满",
@@ -47778,22 +47773,22 @@
         {
           "name": "自动小怪锄地规划",
           "type": "directory",
-          "hash": "e6379eeb1beec9859c349946b61bf201f0cebf63",
-          "version": "1.0",
+          "hash": "ba7a657a96e6dac2fcf75a6deac33fafbac9498b",
+          "version": "1.1",
           "author": "mno",
           "description": "自动小怪锄地规划~|~该脚本支持根据用户配置生成路径组文件、运行路径组或输出地图追踪文件。用户可以通过自定义配置设置所需怪物数量、筛选条件（如是否排除水免路线或高危路线）以及效率计算权重。脚本会根据这些条件自动筛选出符合条件的路线，此外，支持刷新cd检测，启用后未刷新的路线在运行时将被跳过。注意，第一次使用时要先生成路径组文件后再执行路径组文件，之后的每次运行无需再次生成路径组文件，将根据自定义配置中的内容自动寻找对应的路径组文件，当你需要强制刷新cd或更改筛选条件时可以重新生成路径组文件",
           "tags": [],
-          "lastUpdated": "2025-05-19 00:41:56"
+          "lastUpdated": "2025-05-20 23:43:14"
         },
         {
           "name": "自动精英锄地规划",
           "type": "directory",
-          "hash": "ce15bfaac4650ffb0f72e2d8aeb5aeab01b3d160",
-          "version": "1.0",
+          "hash": "8ddf5d60205861789b0335ed503dc1e922a0840d",
+          "version": "1.1",
           "author": "mno",
           "description": "自动精英锄地规划~|~脚本名称：自动精英锄地规划\n该脚本支持根据用户配置生成路径组文件、运行路径组或执行路径文件。用户可以通过配置文件设置所需怪物数量、筛选条件（如是否包含传奇路线、水免路线、次数盾路线、高危路线）以及最低秒均值。脚本还支持禁用自动拾取功能和启用路线CD检测。脚本会根据这些条件筛选出符合条件的路线，并生成路径组文件或直接运行路径文件，直到满足所需怪物数量。",
           "tags": [],
-          "lastUpdated": "2025-05-19 00:41:56"
+          "lastUpdated": "2025-05-20 23:43:14"
         },
         {
           "name": "自动领取成就奖励",
