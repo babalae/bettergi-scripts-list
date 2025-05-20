@@ -1,0 +1,129 @@
+{
+  "info": {
+    "name": "338【水免】【高危】稻妻渊下宫蛇心之地南小岛（600_1，200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1747666441060
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 480.39,
+      "y": -537.75,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 467.24,
+      "y": -534.72,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 440.72,
+      "y": -511.0,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 427.1,
+      "y": -510.85,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(4.5)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 425.1,
+      "y": -510.85,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 421.37,
+      "y": -507.06,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 365.0,
+      "y": -478.75,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized",
+            "pathTooFar"
+          ],
+          "handling_mode": "mapRecognition",
+          "arrival_time": 0
+        },
+        "description": "",
+        "monster_tag": ""
+      }
+    },
+    {
+      "id": 8,
+      "x": 365.0,
+      "y": -478.75,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized",
+            "pathTooFar"
+          ],
+          "handling_mode": "mapRecognition",
+          "arrival_time": 0
+        },
+        "description": "",
+        "monster_tag": ""
+      }
+    },
+    {
+      "id": 9,
+      "x": 365.0,
+      "y": -478.75,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 10,
+      "x": 365.0,
+      "y": -478.75,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}

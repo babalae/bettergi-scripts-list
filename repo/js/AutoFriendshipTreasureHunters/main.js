@@ -176,6 +176,7 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout) {
                 let fightResult = await waitForBattleResult(fightTimeout * 1000) ? "成功" : "失败";
                 log.info(`战斗任务已结束，战斗结果：${fightResult}`);
                 cts.cancel();
+                await battleTask;
             } catch (error) {
                 cts.cancel();
                 log.error(`执行过程中出错: ${error}`);
