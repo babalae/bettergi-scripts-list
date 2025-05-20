@@ -165,7 +165,10 @@
                     foundIngredient = true;
 
                     // 点击“开始锻造”3次
-                    { await sleep(1000); click(1645, 1015); await sleep(1000); click(1645, 1015); await sleep(1000); }
+                    { 
+                     await sleep(1000); click(1645, 1015); 
+                     await sleep(1000); click(1645, 1015); 
+                     await sleep(1000); click(1645, 1015);}
                     break; // 找到矿石后退出循环
                 }
             }
