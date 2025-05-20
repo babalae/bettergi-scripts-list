@@ -1,3 +1,86 @@
+// fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
+//在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);
+//在js结尾处伪造该js开始运行的日志信息，如 await fakeLog("js脚本", true, false, 2333);
+//duration项目仅在伪造结束信息时有效，且无实际作用，可以任意填写，当你需要在日志中输出特定值时才需要，单位为毫秒
+//在调用地图追踪前伪造该地图追踪开始运行的日志信息，如 await fakeLog(`地图追踪.json`, false, true, 0);
+//在调用地图追踪后伪造该地图追踪结束运行的日志信息，如 await fakeLog(`地图追踪.json`, false, false, 0);
+//如此便可以在js运行过程中伪造地图追踪的日志信息，可以在日志分析等中查看
+
+async function fakeLog(name, isJs, isStart, duration) {
+    await sleep(10);
+    const currentTime = Date.now();
+    // 参数检查
+    if (typeof name !== 'string') {
+        log.error("参数 'name' 必须是字符串类型！");
+        return;
+    }
+    if (typeof isJs !== 'boolean') {
+        log.error("参数 'isJs' 必须是布尔型！");
+        return;
+    }
+    if (typeof isStart !== 'boolean') {
+        log.error("参数 'isStart' 必须是布尔型！");
+        return;
+    }
+// Removed redundant type and integer checks for `currentTime`.
+    if (typeof duration !== 'number' || !Number.isInteger(duration)) {
+        log.error("参数 'duration' 必须是整数！");
+        return;
+    }
+
+    // 将 currentTime 转换为 Date 对象并格式化为 HH:mm:ss.sss
+    const date = new Date(currentTime);
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    const milliseconds = String(date.getMilliseconds()).padStart(3, '0');
+    const formattedTime = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+
+    // 将 duration 转换为分钟和秒，并保留三位小数
+    const durationInSeconds = duration / 1000; // 转换为秒
+    const durationMinutes = Math.floor(durationInSeconds / 60);
+    const durationSeconds = (durationInSeconds % 60).toFixed(3); // 保留三位小数
+
+    // 使用四个独立的 if 语句处理四种情况
+    if (isJs && isStart) {
+        // 处理 isJs = true 且 isStart = true 的情况
+        const logMessage = `正在伪造js开始的日志记录\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `------------------------------\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `→ 开始执行JS脚本: "${name}"`;
+        log.info(logMessage);
+    }
+    if (isJs && !isStart) {
+        // 处理 isJs = true 且 isStart = false 的情况
+        const logMessage = `正在伪造js结束的日志记录\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `------------------------------`;
+        log.info(logMessage);
+    }
+    if (!isJs && isStart) {
+        // 处理 isJs = false 且 isStart = true 的情况
+        const logMessage = `正在伪造地图追踪开始的日志记录\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `------------------------------\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `→ 开始执行地图追踪任务: "${name}"`;
+        log.info(logMessage);
+    }
+    if (!isJs && !isStart) {
+        // 处理 isJs = false 且 isStart = false 的情况
+        const logMessage = `正在伪造地图追踪结束的日志记录\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `------------------------------`;
+        log.info(logMessage);
+    }
+}
+
+
 (async function () {
     // 初始化配置
     const operationType = settings.operationType || "生成路径组文件"; // 操作模式
@@ -24,35 +107,22 @@
     // 根据 disableRouteCdCheck 的值设置 enableRouteCdCheck
     const enableRouteCdCheck = !disableRouteCdCheck; // 如果 disableRouteCdCheck 为 true，则 enableRouteCdCheck 为 false，反之亦然
 
-    // 新增校验：检查所有配置是否都是默认状态
-    const defaultSettings = {
-        operationType: "生成路径组文件",
-        excludeTagsForPathGroup1: "",
-        selectTagsForPathGroup2: "",
-        selectTagsForPathGroup3: "",
-        disableAutoPickup: false,
-        disableRouteCdCheck: false,
-        requiredMonsterCount: 405,
-        minSecPerMonster: 0.1,
-        accountName: "一个账户名",
-        excludeTagsForAll: ""
-    };
-
-    const isAllDefault = Object.entries(defaultSettings).every(([key, defaultValue]) => {
-        return settings[key] === undefined || settings[key] === defaultValue;
-    });
-
-    if (isAllDefault) {
-        log.warn("所有配置项均为默认状态，请检查是否需要调整配置你没有修改自定义配置，请在配置组界面中右键本js以修改自定义配置。");
+    //当用户所有自定义配置均为默认时警告用户
+    if (
+        operationType === "生成路径组文件" &&
+        excludeTagsForPathGroup1 === "" &&
+        selectTagsForPathGroup2 === "" &&
+        selectTagsForPathGroup3 === "" &&
+        disableAutoPickup === false &&
+        disableRouteCdCheck === false &&
+        requiredMonsterCount === 405 &&
+        minSecPerMonster === 0.1 &&
+        accountName === "一个账户名" &&
+        excludeTagsForAll === ""
+    ) {
+        log.warn("所有配置项均为默认状态，请检查是否需要调整配置。你没有修改自定义配置，请在配置组界面中右键本js以修改自定义配置。");
     }
 
-    // 定义六个运行时变量，初始值分别为 2000、1000、0、0、0、0
-    let runtime1 = 2000;
-    let runtime2 = 1000;
-    let runtime3 = 0;
-    let runtime4 = 0;
-    let runtime5 = 0;
-    let runtime6 = 0;
 
     // 初始化文件路径（直接内置生成）
     const indexPath = 'index.txt';
@@ -94,6 +164,9 @@
             log.warn("自动拾取已禁用");
         }
 
+        //伪造js结束的记录
+        await fakeLog("自动精英锄地规划", true, false, 1);
+
         // 根据 executePathGroupMode 获取路径组编号
         const pathGroupNumber = executePathGroupMode;
 
@@ -116,63 +189,60 @@
                 const now = new Date();
                 const startTime = now.toISOString(); // 获取开始时间
 
-                // 更新 runtime 变量
-                runtime6 = runtime5;
-                runtime5 = runtime4;
-                runtime4 = runtime3;
-                runtime3 = runtime2;
-                runtime2 = runtime1;
-                runtime1 = now.getTime();
-
-                // 检查时间差条件
-                if ((runtime1 - runtime2) < 500 &&
-                    (runtime2 - runtime3) < 500 &&
-                    (runtime3 - runtime4) < 500 &&
-                    (runtime4 - runtime5) < 500 &&
-                    (runtime5 - runtime6) < 500) {
-                    log.info(`连续五次时间差小于 500 毫秒，循环终止。`);
-                    break; // 如果连续五次时间差小于 500 毫秒，退出循环
-                }
-
                 // 如果启用了路线CD检测，检查当前时间是否不早于附加时间戳
                 if (enableRouteCdCheck) {
                     const pathCDDate = new Date(pathCD); // 将附加时间戳转换为Date对象
                     if (now < pathCDDate) {
                         log.info(`当前路线 ${pathName} 为第 ${i + 1}/${pathLines.length} 个，当前路线未刷新，放弃该路径`);
-                        await sleep(500);
+                        await sleep(10);
                         continue; // 放弃该路径
                     }
                 }
 
                 log.info(`当前路线 ${pathName} 为第 ${i + 1}/${pathLines.length} 个，当前路线已刷新或未启用cd检测，执行路径`);
 
+                //伪造地图追踪开始的日志记录
+                await fakeLog(pathName + ".json", false, true, 0); // 开始时 duration 通常为 0
+
                 // 执行路径文件
                 await pathingScript.runFile(pathFilePath);
+
+                //捕获任务取消的错误并跳出循环
+                try {
+                    await sleep(10); 
+                } catch (error) {
+                    log.error(`发生错误: ${error}`);
+                    break; // 终止循环
+                }
 
                 // 获取结束时间
                 const endTime = new Date();
                 const endTimeISO = endTime.toISOString(); // 获取结束时间
 
-                // 检查执行时间是否超过10秒
+                // 检查执行时间是否超过3秒
                 const executionTime = endTime.getTime() - now.getTime();
 
-                // 如果启用了CD检测，且结束时间与开始时间相差超过10秒，则更新附加时间戳为开始时间后的第一个凌晨四点
-                if (enableRouteCdCheck && executionTime > 10000) {
-                    // 计算开始时间后的第一个晚上八点
-                    const nextEveningEight = new Date(startTime);
-                    nextEveningEight.setHours(4, 0, 0, 0); // 设置时间为凌晨四点0分0秒0毫秒
-                    if (nextEveningEight <= new Date(startTime)) {
-                        // 如果设置的时间小于等于开始时间，说明需要取下一个晚上八点
-                        nextEveningEight.setHours(4 + 24, 0, 0, 0); // 设置时间为下一个晚上八点0分0秒0毫秒
+                //伪造地图追踪结束的记录
+                await fakeLog(pathName + ".json", false, false, executionTime);
+
+
+                // 如果启用了CD检测，且结束时间与开始时间相差超过3秒，则更新附加时间戳为开始时间后的第一个凌晨四点
+                if (enableRouteCdCheck && executionTime > 3000) {
+                    // 计算开始时间后的第一个凌晨四点
+                    const nextFourClock = new Date(startTime);
+                    nextFourClock.setHours(4, 0, 0, 0); // 设置时间为凌晨四点
+                    if (nextFourClock <= new Date(startTime)) {
+                        // 如果设置的时间小于等于开始时间，说明需要取下一个凌晨四点
+                        nextFourClock.setHours(4 + 24, 0, 0, 0); // 设置时间为下一个凌晨四点
                     }
 
                     // 转换为北京时间（UTC+8）
-                    const nextEveningEightBeijing = new Date(nextEveningEight.getTime() + 8 * 3600 * 1000);
-                    const nextEveningEightBeijingFormatted = `${nextEveningEightBeijing.getFullYear()}-${String(nextEveningEightBeijing.getMonth() + 1).padStart(2, '0')}-${String(nextEveningEightBeijing.getDate()).padStart(2, '0')} ${String(nextEveningEightBeijing.getHours()).padStart(2, '0')}:${String(nextEveningEightBeijing.getMinutes()).padStart(2, '0')}:${String(nextEveningEightBeijing.getSeconds()).padStart(2, '0')}`;
+                    const nextFourClockBeijing = new Date(nextFourClock.getTime());
+                    const nextFourClockFormatted = `${nextFourClockBeijing.getFullYear()}-${String(nextFourClockBeijing.getMonth() + 1).padStart(2, '0')}-${String(nextFourClockBeijing.getDate()).padStart(2, '0')} ${String(nextFourClockBeijing.getHours()).padStart(2, '0')}:${String(nextFourClockBeijing.getMinutes()).padStart(2, '0')}:${String(nextFourClockBeijing.getSeconds()).padStart(2, '0')}`;
 
                     // 更新路径组文件中的附加时间戳
-                    pathLines[i] = `${pathName}::${nextEveningEight.toISOString()}`;
-                    log.info(`当前路线 ${pathName} 执行完成，下一次可用时间更新为：${nextEveningEightBeijingFormatted}`);
+                    pathLines[i] = `${pathName}::${nextFourClock.toISOString()}`;
+                    log.info(`当前路线 ${pathName} 执行完成，可用时间更新为：${nextFourClockFormatted}`);
 
                     // 将更新后的内容写回路径组文件
                     const updatedPathGroupContent = pathLines.join('\n');
@@ -183,8 +253,11 @@
             }
         } catch (error) {
             log.error(`读取路径组文件失败：${error}`);
-            process.exit(1); // 退出程序
+            return;
         }
+
+        //伪造一个js开始的记录
+        await fakeLog("自动精英锄地规划", true, true, 0);
 
         // 执行完成后退出程序
         return;

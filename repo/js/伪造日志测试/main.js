@@ -83,67 +83,32 @@ async function fakeLog(name, isJs, isStart, duration) {
     }
 }
 
+// 主函数，用于示例该函数的使用
+async function main() {
+    // 定义变量
+    const name1 = "伪造日志测试";
+    const name2 = "伪造地图追踪.json";
 
-(async function () {
+    // 调用 fakeLog 函数，输出 JavaScript 的结尾日志，耗时 1.234 秒
+    const duration1 = 1234; // 1.234 秒
+    await fakeLog(name1, true, false, duration1);
 
-    //伪造js结束的日志记录
-    await fakeLog("消耗复活料理", true, false, 2333);
+    // 输出地图追踪开始的日志
+    const duration2 = 0; // 地图追踪开始时，耗时为 0
+    await fakeLog(name2, false, true, duration2);
 
-    // 从 settings 中获取最大循环次数，如果未配置则默认为 2000
-    const maxLoopCount = parseInt(settings.maxLoopCount || 2000, 10);
+    // 等待5秒
+    await sleep(5000);
+    log.info('模拟地图追踪运行完成')
 
-    // 从 settings 中获取排除时间（小时数），如果未配置则默认为 4
-    const excludeHour = parseInt(settings.excludeTimeRange || 4, 10);
+    // 调用 fakeLog 函数，输出地图追踪结束的日志，耗时 5.000 秒
+    const duration3 = 5000; // 5.000 秒
+    await fakeLog(name2, false, false, duration3);
 
-    // 检查最大循环次数是否为有效数字
-    if (isNaN(maxLoopCount) || maxLoopCount <= 0) {
-        log.error("无效的最大循环次数，请输入一个正整数");
-        return; // 退出整个程序
-    }
+    // 调用 fakeLog 函数，输出 JavaScript 开始的日志
+    const duration4 = 0; // JS 开始时，耗时为 0
+    await fakeLog(name1, true, true, duration4);
+}
 
-    // 检查排除时间是否为有效数字
-    if (isNaN(excludeHour) || excludeHour < 0 || excludeHour > 23) {
-        log.error("无效的排除时间，请输入一个0到23之间的整数");
-        return; // 退出整个程序
-    }
-
-    // 定义路径文件名
-    const pathFileName = "信仰之跃.json";
-
-    // 执行循环
-    for (let i = 0; i < maxLoopCount; i++) {
-        // 获取当前时间
-        const now = new Date();
-        const currentHour = now.getHours(); // 获取当前时间的小时数
-        const currentTime = now.toLocaleString(); // 获取完整的当前时间字符串
-
-        // 如果当前时间的小时数与排除时间相同，则退出循环
-        if (currentHour === excludeHour) {
-            log.info(`当前时间是 ${currentTime}，与排除时间小时数相同，将退出循环`);
-            break; // 退出循环
-        }
-
-        // 记录当前时间
-        log.info(`正在执行循环第 ${i + 1} 次，总共 ${maxLoopCount} 次，当前时间: ${currentTime}`);
-
-        await fakeLog(`第${i + 1}次信仰之跃.json`, false, true, 0);
-
-        // 运行路径追踪任务
-        await pathingScript.runFile(pathFileName);
-
-        await fakeLog(`第${i + 1}次信仰之跃.json`, false, false, 0);
-
-        //捕获任务结束的信息，同时等待95秒用来卡时间
-        try {
-            log.info('正在等待复活料理cd')
-            await sleep(95000);
-        } catch (error) {
-            log.error(`发生错误: ${error}`);
-            break; // 终止循环
-        }
-    }
-
-    //伪造一个js开始的日志记录
-    await fakeLog("消耗复活料理", true, true, 0);
-
-})();
+// 调用主函数
+main();
