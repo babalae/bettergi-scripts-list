@@ -1,5 +1,5 @@
 
-const targetCount = Math.min(9999, Math.max(0, Math.floor(Number(settings.targetCount) || 5000))); // OCR基准时长
+const targetCount = Math.min(9999, Math.max(0, Math.floor(Number(settings.targetCount) || 5000))); // 设定的目标数量
 const OCRdelay = Math.min(50, Math.max(0, Math.floor(Number(settings.OcrDelay) || 10))); // OCR基准时长
 // 定义映射表"unselected": "反选材料分类",
 const material_mapping = {
