@@ -5,7 +5,8 @@
     "author": "汐",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.3"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -77,7 +78,7 @@
       "y": -1228.72,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "keypress(t),wait(1)",
+      "action_params": "芙宁娜 e;玛薇卡 e;keypress(t)",
       "type": "path"
     },
     {
@@ -91,12 +92,22 @@
     },
     {
       "id": 10,
-      "x": 4740.0,
-      "y": -1118.75,
-      "action": "fight",
+      "x": 4745.16,
+      "y": -1111.34,
+      "type": "path",
       "move_mode": "dash",
+      "action": "fight",
       "action_params": "",
-      "type": "path"
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 4745.16,
+      "y": -1111.34,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
     }
   ]
 }
