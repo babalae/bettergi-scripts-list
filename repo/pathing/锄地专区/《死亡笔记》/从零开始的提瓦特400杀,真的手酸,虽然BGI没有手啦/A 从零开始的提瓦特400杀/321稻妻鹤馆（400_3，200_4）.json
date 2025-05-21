@@ -4,14 +4,15 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "3大流血狗 3兽境幼兽 1丘丘暴徒\n",
-    "bgi_version": "0.42.3"
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": -2595.99,
-      "y": -6697.75,
+      "x": -2595.9945333568285,
+      "y": -6697.750179608667,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -19,17 +20,17 @@
     },
     {
       "id": 2,
-      "x": -2649.0,
-      "y": -6747.25,
-      "action": "",
+      "x": -2649.0046856941462,
+      "y": -6747.249730587,
+      "action": "combat_script",
       "move_mode": "run",
-      "action_params": "",
+      "action_params": "芙宁娜 e;",
       "type": "path"
     },
     {
       "id": 3,
-      "x": -2696.75,
-      "y": -6754.25,
+      "x": -2696.7502231282924,
+      "y": -6754.249371369666,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -37,8 +38,8 @@
     },
     {
       "id": 4,
-      "x": -2719.75,
-      "y": -6754.75,
+      "x": -2719.7503346924386,
+      "y": -6754.749191760999,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -46,48 +47,78 @@
     },
     {
       "id": 5,
-      "x": -2743.25,
-      "y": -6746.25,
+      "x": -2743.2525659753665,
+      "y": -6746.250359217334,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": -2743.2525659753665,
+      "y": -6746.250359217334,
       "action": "",
       "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 6,
-      "x": -2731.25,
-      "y": -6752.0,
+      "id": 7,
+      "x": -2731.1249920998343,
+      "y": -6740.1278800130585,
       "action": "fight",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action_params": "",
-      "type": "target"
+      "type": "path",
+      "locked": false
     },
     {
-      "id": 7,
-      "x": -2595.99,
-      "y": -6697.75,
+      "id": 8,
+      "x": -2731.1249920998343,
+      "y": -6740.1278800130585,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    },
+    {
+      "id": 9,
+      "x": -2595.9945333568285,
+      "y": -6697.750179608667,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "teleport"
     },
     {
-      "id": 8,
-      "x": -2573.75,
-      "y": -6664.25,
+      "id": 10,
+      "x": -2573.7510040773177,
+      "y": -6664.249550978333,
       "action": "fight",
       "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 9,
-      "x": -2570.5,
-      "y": -6619.99,
+      "id": 11,
+      "x": -2570.5024544112202,
+      "y": -6619.986529349986,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": -2570.5024544112202,
+      "y": -6619.986529349986,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

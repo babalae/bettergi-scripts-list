@@ -4,14 +4,15 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "2大流血狗 2小狗",
-    "bgi_version": "0.42.3"
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": 4046.04,
-      "y": -739.91,
+      "x": 4046.0374855531754,
+      "y": -739.9090807445373,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -19,8 +20,8 @@
     },
     {
       "id": 2,
-      "x": 3996.25,
-      "y": -709.5,
+      "x": 3996.2549088224405,
+      "y": -709.4994611739994,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -28,8 +29,8 @@
     },
     {
       "id": 3,
-      "x": 3978.25,
-      "y": -706.0,
+      "x": 3977.1249288985073,
+      "y": -707.9995149451688,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -37,12 +38,22 @@
     },
     {
       "id": 4,
-      "x": 3930.04,
-      "y": -699.0,
+      "x": 3930.035031141955,
+      "y": -698.9956893919953,
       "action": "fight",
-      "move_mode": "run",
+      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 3930.035031141955,
+      "y": -698.9956893919953,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

@@ -5,13 +5,14 @@
     "author": "汐",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.3"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": 4777.3,
-      "y": -1434.58,
+      "x": 4777.298828125,
+      "y": -1434.5771484375,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -20,7 +21,7 @@
     {
       "id": 2,
       "x": 4814.5,
-      "y": -1393.93,
+      "y": -1393.9346448327651,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -28,8 +29,8 @@
     },
     {
       "id": 3,
-      "x": 4802.68,
-      "y": -1338.4,
+      "x": 4802.6845703125,
+      "y": -1338.404296875,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -37,8 +38,8 @@
     },
     {
       "id": 4,
-      "x": 4791.77,
-      "y": -1303.74,
+      "x": 4791.7685546875,
+      "y": -1303.73681640625,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -46,8 +47,8 @@
     },
     {
       "id": 5,
-      "x": 4762.05,
-      "y": -1277.95,
+      "x": 4762.048828125,
+      "y": -1277.9501953125,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -55,8 +56,8 @@
     },
     {
       "id": 6,
-      "x": 4741.89,
-      "y": -1239.21,
+      "x": 4741.89306640625,
+      "y": -1239.208984375,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -64,8 +65,8 @@
     },
     {
       "id": 7,
-      "x": 4739.8,
-      "y": -1232.68,
+      "x": 4739.7978515625,
+      "y": -1232.67822265625,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -73,16 +74,16 @@
     },
     {
       "id": 8,
-      "x": 4736.98,
-      "y": -1228.72,
+      "x": 4736.97509765625,
+      "y": -1228.71533203125,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "keypress(t),wait(1)",
+      "action_params": "芙宁娜 e;玛薇卡 e;keypress(t)",
       "type": "path"
     },
     {
       "id": 9,
-      "x": 4684.26,
+      "x": 4684.264858007222,
       "y": -1177.75,
       "action": "fight",
       "move_mode": "dash",
@@ -91,12 +92,22 @@
     },
     {
       "id": 10,
-      "x": 4740.0,
-      "y": -1118.75,
-      "action": "fight",
+      "x": 4745.162109375,
+      "y": -1111.33642578125,
+      "type": "path",
       "move_mode": "dash",
+      "action": "fight",
       "action_params": "",
-      "type": "path"
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 4745.162109375,
+      "y": -1111.33642578125,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
     }
   ]
 }
