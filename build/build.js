@@ -144,13 +144,23 @@ function convertNewlines(text) {
     return text.replace(/\\n/g, '\n');
 }
 
+// 过滤长标签的通用函数，一个汉字算两个字符
+function filterLongTags(tags) {
+    return tags.filter(tag => {
+        // 计算字符串的真实长度，一个汉字算两个字符
+        const realLength = [...tag].reduce((acc, c) => {
+            return acc + (c.charCodeAt(0) > 127 ? 2 : 1);
+        }, 0);
+        return realLength <= 10; // 过滤掉超过10个字符的标签
+    });
+}
+
 function extractInfoFromCombatFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf8');
     const authorMatch = content.match(/\/\/\s*作者\s*:(.*)/);
     const descriptionMatch = content.match(/\/\/\s*描述\s*:(.*)/);
     const versionMatch = content.match(/\/\/\s*版本\s*:(.*)/);
-    const characterMatches = content.match(/^(?!\/\/).*?(\S+)(?=\s|$)/gm);
-
+    const characterMatches = content.match(/^(?!\/\/).*?(\S+)(?=\s|$)/gm);    
     const tags = [...new Set(characterMatches || [])]
         .map(char => char.trim())
         .filter(char => char.length > 0 && !char.match(/^[,.]$/)); // 过滤掉单个逗号或句号
@@ -167,7 +177,7 @@ function extractInfoFromCombatFile(filePath) {
     return {
         author: authorMatch ? authorMatch[1].trim() : '',
         description: descriptionMatch ? convertNewlines(descriptionMatch[1].trim()) : '',
-        tags: tags,
+        tags: filterLongTags(tags),
         version: version,
         lastUpdated: lastUpdated
     };
@@ -224,16 +234,14 @@ function extractInfoFromJSFolder(folderPath) {
             
             // 格式化最后更新时间
             const lastUpdated = formatLastUpdated(lastUpdatedTimestamp);
-            
-            return {
+              return {
                 version: manifest.version || '',
                 description: convertNewlines(combinedDescription),
                 author: manifest.authors && manifest.authors.length > 0 ? manifest.authors[0].name : '',
-                tags: manifest.tags || [],
+                tags: filterLongTags(manifest.tags || []),
                 lastUpdated: lastUpdated
             };
-        } catch (error) {
-            console.error(`解析 ${manifestPath} 时出错:`, error);
+        } catch (error) {            console.error(`解析 ${manifestPath} 时出错:`, error);
             console.error('文件内容:', fs.readFileSync(manifestPath, 'utf8'));
             return { version: '', description: '', author: '', tags: [], lastUpdated: null };
         }
@@ -284,13 +292,14 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
         if (actions.includes('electro_collect')) tags.push('雷元素力收集');
         if (actions.includes('up_down_grab_leaf')) tags.push('四叶印');
         if (actions.includes('fight')) tags.push('战斗');
-    }
-
-    // 确保标签数组中没有重复项
+    }    // 确保标签数组中没有重复项
     tags = [...new Set(tags)];
 
     // 移除 "死亡笔记" 标签
-    tags = tags.filter(tag => !tag.includes('死亡笔记'));
+    // tags = tags.filter(tag => !tag.includes('死亡笔记'));
+    
+    // 过滤掉超过10个字符的标签
+    tags = filterLongTags(tags);
 
     return {
         author: contentObj.info.author || '',
@@ -328,11 +337,10 @@ function extractInfoFromTCGFile(filePath, parentFolder) {
     const version = versionMatch ? versionMatch[1].trim() : 
                    (gitTimestamp ? formatTime(gitTimestamp) : 
                     calculateSHA1(filePath).substring(0, 7));
-    
-    return {
+      return {
         author: authorMatch ? authorMatch[1].trim() : '',
         description: descriptionMatch ? convertNewlines(descriptionMatch[1].trim()) : '',
-        tags: [...new Set(tags)],  // 去重
+        tags: filterLongTags([...new Set(tags)]),  // 去重并过滤长标签
         version: version,
         lastUpdated: lastUpdated
     };

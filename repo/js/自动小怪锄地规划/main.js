@@ -100,7 +100,7 @@ async function fakeLog(name, isJs, isStart, duration) {
     // 初始化全局排除关键词配置
     let globalExclusionKeywords = settings.globalExclusionKeywords || "不跑"; // 默认为不跑
 
-    const exclusionKeywordsArray = globalExclusionKeywords.split("；").map(keyword => keyword.trim()); // 使用中文分号分隔，并去除空格
+    const exclusionKeywordsArray = globalExclusionKeywords.split("；").map(keyword => keyword.trim()).filter(Boolean); // 使用中文分号分隔，并去除空格和空字符串
 
     // 初始化用于计数的变量
     let outputFolderName = accountName; // 初始化为空
