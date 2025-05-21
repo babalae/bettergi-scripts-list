@@ -37,7 +37,7 @@
 
     // 行列数的排列组合
     const rows = [1, 2, 3];
-    const cols = [1, 2, 3, 4, 5];
+    const cols = [1, 2];
     const gridCoordinates = [];
 
     for (const row of rows) {
