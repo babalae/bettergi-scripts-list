@@ -4,10 +4,11 @@
         "type": "select",
         "label": "操作模式（默认：生成路径文件）",
         "options": [
-            "生成路径文件",
+            "强制刷新路径文件",
             "执行路径文件",
             "输出地图追踪文件"
-        ]
+        ],
+        "default": "执行路径文件"
     },
     {
         "name": "excludeWaterFree",

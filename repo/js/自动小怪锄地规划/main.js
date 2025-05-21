@@ -84,10 +84,16 @@ async function fakeLog(name, isJs, isStart, duration) {
 }
 
 
+// 定义自定义函数 basename，用于获取文件名
+function basename(filePath) {
+    const lastSlashIndex = filePath.lastIndexOf('\\'); // 或者使用 '/'，取决于你的路径分隔符
+    return filePath.substring(lastSlashIndex + 1);
+}
+
 (async function () {
     // 初始化所有用到的参数
-    const operationMode = settings.operationMode || "生成路径文件"; // 默认值为“生成路径文件”
-    const requiredMonsterCount = parseInt(settings.requiredMonsterCount || 1750, 10); // 默认值为1800
+    const operationMode = settings.operationMode || "执行路径文件"; // 默认值为“执行路径文件”
+    const requiredMonsterCount = parseInt(settings.requiredMonsterCount || 1750, 10); // 默认值为1750
     const excludeWaterFree = !!settings.excludeWaterFree; // 默认值为false（默认不排除）
     const excludeHighRisk = !!settings.excludeHighRisk; // 默认值为false（默认不排除）
     const weight = parseFloat(settings.weight || 2); // 默认值为2
@@ -100,7 +106,7 @@ async function fakeLog(name, isJs, isStart, duration) {
     // 初始化全局排除关键词配置
     let globalExclusionKeywords = settings.globalExclusionKeywords || "不跑"; // 默认为不跑
 
-    const exclusionKeywordsArray = globalExclusionKeywords.split("；").map(keyword => keyword.trim()).filter(Boolean); // 使用中文分号分隔，并去除空格和空字符串
+    const exclusionKeywordsArray = globalExclusionKeywords.split("；").map(keyword => keyword.trim()); // 使用中文分号分隔，并去除空格
 
     // 初始化用于计数的变量
     let outputFolderName = accountName; // 初始化为空
@@ -126,31 +132,13 @@ async function fakeLog(name, isJs, isStart, duration) {
     // 在日志中输出全局排除关键词配置信息
     log.info(`全局排除关键词=${globalExclusionKeywords ? exclusionKeywordsArray.join("；") : "无"}`);
 
-    // 检查是否所有配置都是默认状态
-    const isDefaultConfig = (
-        operationMode === "生成路径文件" &&
-        requiredMonsterCount === 1750 &&
-        !excludeWaterFree &&
-        !excludeHighRisk &&
-        weight === 2 &&
-        !disableAutoPick &&
-        enableCooldownCheck &&
-        accountName === "一个账户名"
-    );
-
-    if (isDefaultConfig) {
-        log.warn(`你没有修改自定义配置，请在配置组界面中右键本js以修改自定义配置`);
-    }
-
-
     // 验证配置参数
     if (
         isNaN(requiredMonsterCount) ||
         requiredMonsterCount < 0 ||
-        requiredMonsterCount > 3000 ||
         !Number.isInteger(requiredMonsterCount)
     ) {
-        log.warn(`怪物数量 ${requiredMonsterCount} 不符合要求，必须为0到3000之间的整数`);
+        log.warn(`怪物数量 ${requiredMonsterCount} 不符合要求，必须为0以上的整数`);
         return;
     }
     if (isNaN(weight) || weight < 0) {
@@ -158,10 +146,137 @@ async function fakeLog(name, isJs, isStart, duration) {
         return;
     }
 
+    // 检查是否所有配置都是默认状态
+    const isDefaultConfig = (
+        operationMode === "执行路径文件" &&
+        requiredMonsterCount === 1750 &&
+        !excludeWaterFree &&
+        !excludeHighRisk &&
+        weight === 2 &&
+        !disableAutoPick &&
+        enableCooldownCheck &&
+        accountName === "一个账户名" &&
+        globalExclusionKeywords === "不跑"
+    );
+
+    if (isDefaultConfig) {
+        log.warn(`你没有修改自定义配置，请在配置组界面中右键本js以修改自定义配置`);
+        await sleep(5000);
+    }
+
     // 根据自定义配置，如果没有禁用自动拾取，则启用自动拾取
     if (!disableAutoPick) {
         log.info("启用自动拾取的实时任务");
         dispatcher.addTimer(new RealtimeTimer("AutoPick"));
+    }
+
+
+    const routeDir = 'route/'; // 文件夹路径
+
+    // 读取routeDir文件夹中的所有文件路径
+    const filesInRouteDir = file.ReadPathSync(routeDir);
+
+    // 检查路径组文件是否存在
+    let doGenerate = true;
+    for (const filePath of filesInRouteDir) {
+        const fileName = basename(filePath); // 提取文件名
+        if (fileName === `${outputFolderName}.txt`) {
+            doGenerate = false;
+            break;
+        }
+    }
+
+    if (doGenerate) {
+        log.warn('路径组文件不存在，尝试重新生成');
+        await sleep(5000);
+    }
+
+    if (operationMode !== "执行路径文件" || doGenerate) {
+        // 筛选、排序并选取路线
+        const indexPath = `index.txt`;
+        try {
+            const indexContent = await file.readText(indexPath);
+            const pathingFiles = indexContent.trim().split('\n').map(line => {
+                const parts = line.trim().split('\t');
+                return {
+                    name: parts[0],
+                    monsterCount: parseFloat(parts[1]),
+                    secPerMonster: parseFloat(parts[2]),
+                    monsterPerSec: parseFloat(parts[3]),
+                    isWaterFree: parseInt(parts[4], 10) === 1,
+                    isHighRisk: parseInt(parts[5], 10) === 1,
+                    efficiency: weight >= 5 ? parseFloat(parts[2]) : Math.pow(parseFloat(parts[2]), weight) * parseFloat(parts[3]),
+                    selected: 0
+                };
+            }).filter(route => !isNaN(route.monsterCount) && route.monsterCount > 0 && Number.isInteger(route.monsterCount));
+
+            const sortedPathingFiles = [...pathingFiles];
+            sortedPathingFiles.sort((a, b) => b.efficiency - a.efficiency || a.monsterCount - b.monsterCount);
+
+            for (const route of sortedPathingFiles) {
+                routeIndex++; // 每次循环时递增
+                const meetsKeywordCondition = exclusionKeywordsArray.every(keyword => !route.name.toLowerCase().includes(keyword));
+                const meetsWaterFreeCondition = !excludeWaterFree || !route.isWaterFree;
+                const meetsHighRiskCondition = !excludeHighRisk || !route.isHighRisk;
+
+                // 修改后的日志输出，增加当前路线的序号
+                log.debug(`筛选路线 ${routeIndex}（${route.name}）：关键词条件 ${meetsKeywordCondition}，水免条件 ${meetsWaterFreeCondition}，高危条件 ${meetsHighRiskCondition}`);
+
+                if (meetsKeywordCondition && meetsWaterFreeCondition && meetsHighRiskCondition) {
+                    totalMonsterCount += route.monsterCount;
+                    route.selected = 1;
+                    selectedRoutes.push(route.name);
+                    if (totalMonsterCount >= requiredMonsterCount) break;
+                }
+            }
+
+
+            if (totalMonsterCount < requiredMonsterCount) {
+                log.warn(`数量不足，最多可以包含 ${totalMonsterCount} 只怪物，不满足所需的 ${requiredMonsterCount} 只怪物`);
+            }
+
+            // 根据操作模式执行相应的操作
+            if (operationMode === "强制刷新路径文件" || doGenerate) {
+                // 使用 outputFolderName 作为路径组文件的名称，并添加 .txt 扩展名
+                const pathGroupName = `${outputFolderName}.txt`;
+                const pathGroupFilePath = `route/${pathGroupName}`;
+
+
+                // 初始化CD信息的时间戳
+                const initialCDTimestamp = "::2000-01-01T00:00:00.000Z";
+
+                // 按照 index.txt 中的顺序依次检验每个路线是否需要写入文件
+                const resultContent = pathingFiles
+                    .filter(route => selectedRoutes.includes(route.name))
+                    .map(route => `${route.name}${initialCDTimestamp}`)
+                    .join('\n');
+
+                await file.writeText(pathGroupFilePath, resultContent);
+                log.info(`生成成功，共计 ${selectedRoutes.length} 条路线，路径组文件已保存到 ${pathGroupFilePath}`);
+            } else if (operationMode === "输出地图追踪文件") {
+                const pathingOutDir = `pathingout/${outputFolderName}/`; // 输出文件夹路径
+
+                // 将选中的地图追踪文件复制到对应的输出文件夹
+                for (const routeName of selectedRoutes) {
+                    const sourceFilePath = `${pathingDir}${routeName}.json`;
+                    const targetFilePath = `${pathingOutDir}${routeName}.json`;
+                    try {
+                        const fileContent = await file.readText(sourceFilePath);
+                        await file.writeText(targetFilePath, fileContent);
+                        // log.debug(`文件 ${routeName}.json 已复制到 ${pathingOutDir}`);
+                        successCount++;
+                    } catch (error) {
+                        log.warn(`复制文件 ${routeName}.json 时出错: ${error}`);
+                        failCount++;
+                    }
+                }
+
+                log.info(`筛选完成，共计 ${selectedRoutes.length} 条路线。`);
+                log.info(`文件复制完成：成功 ${successCount} 个，失败 ${failCount} 个。`);
+            }
+        } catch (error) {
+            log.error(`读取路径文件索引文件 ${indexPath} 时出错: ${error}`);
+        }
     }
 
     // 判断操作模式是否为“执行路径文件”，若是则执行路径文件
@@ -235,95 +350,6 @@ async function fakeLog(name, isJs, isStart, duration) {
         }
 
         //伪造一个js开始的记录（实际上没必要）
-        //await fakeLog("自动精英锄地规划", true, true, 0);
-        return;
+        await fakeLog("自动精英锄地规划", true, true, 0);
     }
-
-    // 筛选、排序并选取路线
-    const indexPath = `index.txt`;
-    try {
-        const indexContent = await file.readText(indexPath);
-        const pathingFiles = indexContent.trim().split('\n').map(line => {
-            const parts = line.trim().split('\t');
-            return {
-                name: parts[0],
-                monsterCount: parseFloat(parts[1]),
-                secPerMonster: parseFloat(parts[2]),
-                monsterPerSec: parseFloat(parts[3]),
-                isWaterFree: parseInt(parts[4], 10) === 1,
-                isHighRisk: parseInt(parts[5], 10) === 1,
-                efficiency: weight >= 5 ? parseFloat(parts[2]) : Math.pow(parseFloat(parts[2]), weight) * parseFloat(parts[3]),
-                selected: 0
-            };
-        }).filter(route => !isNaN(route.monsterCount) && route.monsterCount > 0 && Number.isInteger(route.monsterCount));
-
-        const sortedPathingFiles = [...pathingFiles];
-        sortedPathingFiles.sort((a, b) => b.efficiency - a.efficiency || a.monsterCount - b.monsterCount);
-
-        for (const route of sortedPathingFiles) {
-            routeIndex++; // 每次循环时递增
-            const meetsKeywordCondition = exclusionKeywordsArray.every(keyword => !route.name.toLowerCase().includes(keyword));
-            const meetsWaterFreeCondition = !excludeWaterFree || !route.isWaterFree;
-            const meetsHighRiskCondition = !excludeHighRisk || !route.isHighRisk;
-
-            // 修改后的日志输出，增加当前路线的序号
-            log.debug(`筛选路线 ${routeIndex}（${route.name}）：关键词条件 ${meetsKeywordCondition}，水免条件 ${meetsWaterFreeCondition}，高危条件 ${meetsHighRiskCondition}`);
-
-            if (meetsKeywordCondition && meetsWaterFreeCondition && meetsHighRiskCondition) {
-                totalMonsterCount += route.monsterCount;
-                route.selected = 1;
-                selectedRoutes.push(route.name);
-                if (totalMonsterCount >= requiredMonsterCount) break;
-            }
-        }
-
-
-        if (totalMonsterCount < requiredMonsterCount) {
-            log.warn(`数量不足，最多可以包含 ${totalMonsterCount} 只怪物，不满足所需的 ${requiredMonsterCount} 只怪物`);
-        }
-
-        // 根据操作模式执行相应的操作
-        if (operationMode === "生成路径文件") {
-            // 使用 outputFolderName 作为路径组文件的名称，并添加 .txt 扩展名
-            const pathGroupName = `${outputFolderName}.txt`;
-            const pathGroupFilePath = `route/${pathGroupName}`;
-
-
-            // 初始化CD信息的时间戳
-            const initialCDTimestamp = "::2000-01-01T00:00:00.000Z";
-
-            // 按照 index.txt 中的顺序依次检验每个路线是否需要写入文件
-            const resultContent = pathingFiles
-                .filter(route => selectedRoutes.includes(route.name))
-                .map(route => `${route.name}${initialCDTimestamp}`)
-                .join('\n');
-
-            await file.writeText(pathGroupFilePath, resultContent);
-            log.info(`生成成功，共计 ${selectedRoutes.length} 条路线，路径组文件已保存到 ${pathGroupFilePath}，请将js自定义配置中操作模式改为执行路径文件以执行`);
-        } else if (operationMode === "输出地图追踪文件") {
-            const pathingOutDir = `pathingout/${outputFolderName}/`; // 输出文件夹路径
-
-            // 将选中的地图追踪文件复制到对应的输出文件夹
-            for (const routeName of selectedRoutes) {
-                const sourceFilePath = `${pathingDir}${routeName}.json`;
-                const targetFilePath = `${pathingOutDir}${routeName}.json`;
-                try {
-                    const fileContent = await file.readText(sourceFilePath);
-                    await file.writeText(targetFilePath, fileContent);
-                    // log.debug(`文件 ${routeName}.json 已复制到 ${pathingOutDir}`);
-                    successCount++;
-                } catch (error) {
-                    log.warn(`复制文件 ${routeName}.json 时出错: ${error}`);
-                    failCount++;
-                }
-            }
-
-            log.info(`筛选完成，共计 ${selectedRoutes.length} 条路线。`);
-            log.info(`文件复制完成：成功 ${successCount} 个，失败 ${failCount} 个。`);
-        }
-    } catch (error) {
-        log.error(`读取路径文件索引文件 ${indexPath} 时出错: ${error}`);
-    }
-
-    log.info('脚本执行完成');
 })();
