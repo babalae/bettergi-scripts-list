@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "05-天衡山北(有战斗)-4个",
+    "name": "23-孤云阁北(待修复)-5个",
     "type": "collect",
     "author": "火山",
     "version": "1.0",
@@ -11,62 +11,62 @@
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
+      "x": -632.142578125,
+      "y": -103.65234375,
       "type": "teleport",
-      "x": 611.6640625,
-      "y": -284.68896484375,
+      "move_mode": "walk",
+      "action": "",
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 659.1874485596709,
-      "y": -270.875,
+      "x": -694.666015625,
+      "y": -82.716796875,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action": "",
       "action_params": ""
     },
     {
       "id": 3,
-      "x": 702.71875,
-      "y": -268.544921875,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": "2500"
+      "x": -695.4970703125,
+      "y": -81.20166015625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
     },
     {
       "id": 4,
-      "x": 702.19921875,
-      "y": -271.41943359375,
-      "type": "path",
+      "x": -698.9228515625,
+      "y": -81.80419921875,
+      "type": "target",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
     },
     {
       "id": 5,
-      "x": 691.9228515625,
-      "y": -311.41015625,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "fight",
-      "action_params": ""
+      "x": -700.560546875,
+      "y": -77.84716796875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
     },
     {
       "id": 6,
-      "x": 692.0859375,
-      "y": -307.720703125,
-      "type": "path",
+      "x": -699.8876953125,
+      "y": -73.5712890625,
+      "type": "target",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
     },
     {
       "id": 7,
-      "x": 702.802734375,
-      "y": -310.6796875,
+      "x": -698.0810546875,
+      "y": -74.154296875,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
@@ -74,8 +74,8 @@
     },
     {
       "id": 8,
-      "x": 687.99609375,
-      "y": -297.841796875,
+      "x": -695.4970703125,
+      "y": -73.9248046875,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
@@ -83,26 +83,8 @@
     },
     {
       "id": 9,
-      "x": 693.8466796875,
-      "y": -289.77734375,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
-    },
-    {
-      "id": 10,
-      "x": 704.876953125,
-      "y": -279.8212890625,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
-    },
-    {
-      "id": 11,
-      "x": 696.373046875,
-      "y": -267.24072265625,
+      "x": -692.3367798353902,
+      "y": -73.4375,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
