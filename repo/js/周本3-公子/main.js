@@ -191,7 +191,6 @@ let res2 = capture.find(region2);
             await sleep(1000);
             await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
             throw new Error('战斗失败');
-            return;
         }
         else if (!res1.isEmpty() && res2.isEmpty()) {
             log.info("检测到阵亡角色……复活吧！我的爱人！！！");
