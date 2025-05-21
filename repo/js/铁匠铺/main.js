@@ -43,7 +43,7 @@ const ForgeRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/Re
     };
 
     // 行列数的排列组合
-    const rows = [1, 2, 3, 4]; // 行数
+    const rows = [1, 2, 3]; // 行数
     const cols = [1, 2, 3, 4, 5]; // 列数
     const gridCoordinates = [];
 
