@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "13-庆云顶南-3个",
+    "name": "18-绝云间北-3个",
     "type": "collect",
     "author": "火山",
     "version": "1.0",
@@ -14,14 +14,14 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 1474.5654296875,
-      "y": 763.65966796875,
+      "x": 1045.54296875,
+      "y": 950.63330078125,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 1473.7197265625,
-      "y": 758.74072265625,
+      "x": 1047.4755859375,
+      "y": 948.6416015625,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -29,8 +29,8 @@
     },
     {
       "id": 3,
-      "x": 1471.9990234375,
-      "y": 757.9921875,
+      "x": 1046.8671875,
+      "y": 943.48681640625,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -38,98 +38,89 @@
     },
     {
       "id": 4,
-      "x": 1484.2783203125,
-      "y": 686.74951171875,
+      "x": 1050.1865234375,
+      "y": 937.1572265625,
       "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": "3000"
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 5,
-      "x": 1484.294921875,
-      "y": 686.73486328125,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "x": 1048.720703125,
+      "y": 933.8330078125,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 6,
-      "x": 1488.34375,
-      "y": 681.9072265625,
+      "x": 1053.1416015625,
+      "y": 925.392578125,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "jump",
       "action": "",
       "action_params": ""
     },
     {
       "id": 7,
-      "x": 1459.8662109375,
-      "y": 661.84521484375,
+      "x": 1058.861328125,
+      "y": 919.38671875,
       "type": "path",
-      "move_mode": "dash",
+      "move_mode": "jump",
       "action": "",
       "action_params": ""
     },
     {
       "id": 8,
-      "x": 1440.583984375,
-      "y": 668.9013671875,
+      "x": 1062.8203125,
+      "y": 914.7783203125,
       "type": "target",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action": "combat_script",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
     },
     {
       "id": 9,
-      "x": 1438.7666015625,
-      "y": 666.49169921875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 10,
-      "x": 1395.6962890625,
-      "y": 672.63330078125,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 11,
-      "x": 1379.3466796875,
-      "y": 673.50244140625,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 12,
-      "x": 1377.4638671875,
-      "y": 673.58935546875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 13,
-      "x": 1372.029296875,
-      "y": 656.55078125,
+      "x": 1037.7373046875,
+      "y": 1008.49755859375,
       "type": "path",
       "move_mode": "fly",
       "action": "stop_flying",
       "action_params": ""
     },
     {
-      "id": 14,
-      "x": 1373.98046875,
-      "y": 658.9033203125,
+      "id": 10,
+      "x": 1037.671875,
+      "y": 1008.51953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 11,
+      "x": 1037.3779296875,
+      "y": 1005.7646484375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 1002.7587890625,
+      "y": 954.02587890625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 1004.271484375,
+      "y": 954.31982421875,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",

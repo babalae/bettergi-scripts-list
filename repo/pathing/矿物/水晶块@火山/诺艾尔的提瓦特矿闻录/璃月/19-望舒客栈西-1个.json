@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "08-天遒谷东-2个",
+    "name": "19-望舒客栈西-1个",
     "type": "collect",
     "author": "火山",
     "version": "1.0",
@@ -14,41 +14,41 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 1152.6298828125,
-      "y": 142.34423828125,
+      "x": 730.630859375,
+      "y": 1062.92529296875,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 1059.6259765625,
-      "y": 130.27587890625,
+      "x": 711.92578125,
+      "y": 981.544921875,
       "type": "path",
       "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "wait(2)"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 3,
-      "x": 1052.130859375,
-      "y": 131.6474609375,
+      "x": 689.125,
+      "y": 980.6083984375,
       "type": "path",
-      "move_mode": "jump",
+      "move_mode": "dash",
       "action": "",
       "action_params": ""
     },
     {
       "id": 4,
-      "x": 1029.791015625,
-      "y": 135.06005859375,
+      "x": 696.6748046875,
+      "y": 981.1435546875,
       "type": "path",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
       "id": 5,
-      "x": 1030.3837890625,
-      "y": 135.65478515625,
+      "x": 698.419921875,
+      "y": 981.83203125,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
@@ -56,8 +56,17 @@
     },
     {
       "id": 6,
-      "x": 1030.0126953125,
-      "y": 138.435546875,
+      "x": 698.349609375,
+      "y": 981.70947265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 700.140625,
+      "y": 977.802734375,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
