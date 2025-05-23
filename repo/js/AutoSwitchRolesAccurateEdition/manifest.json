@@ -1,0 +1,20 @@
+{
+  "manifest_version": 1,
+  "name": "配对界面切换角色-精确版",
+  "version": "1.0",
+  "bgi_version": "0.45.1",
+  "tags": ["队伍配置"],
+  "description": "在配对界面切换指定位置的指定角色，感谢Tool_tingsu提供的源代码，在其基础上修改了部分代码，现在支持任意角色精准切换到指定位置，即使该角色已在场上的其它位置，缺点是需要四个位置都设置角色（留空小概率出错），再次感谢Tool_tingsu提供的源代码。",
+  "authors": [
+    {
+      "name": "两夢三醒",
+      "link": ""
+    },
+    {
+      "name": "Tool_tingsu",
+      "link": ""
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js"
+}
