@@ -5,13 +5,13 @@
     "author": "Demo&汐&mno",
     "version": "1.1",
     "description": "",
-    "bgiVersion": "0.42.3"
+    "bgi_version": "0.42.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": 7746.55419921875,
-      "y": -2250.6083984375,
+      "x": 7746.55,
+      "y": -2250.61,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -19,8 +19,8 @@
     },
     {
       "id": 2,
-      "x": 7661.03466796875,
-      "y": -2306.724609375,
+      "x": 7661.03,
+      "y": -2306.72,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
@@ -28,16 +28,16 @@
     },
     {
       "id": 3,
-      "x": 7668.0263671875,
-      "y": -2297.15625,
+      "x": 7668.03,
+      "y": -2297.16,
       "action": "",
       "move_mode": "walk",
       "type": "path"
     },
     {
       "id": 4,
-      "x": 7675.01806640625,
-      "y": -2287.587890625,
+      "x": 7675.02,
+      "y": -2287.59,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -45,8 +45,8 @@
     },
     {
       "id": 5,
-      "x": 7678.15478515625,
-      "y": -2291.5703125,
+      "x": 7678.15,
+      "y": -2291.57,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "attack(0.3)",
@@ -54,8 +54,8 @@
     },
     {
       "id": 6,
-      "x": 7689.968556445936,
-      "y": -2278.281083262402,
+      "x": 7689.97,
+      "y": -2278.28,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "attack(0.3)",
@@ -63,8 +63,8 @@
     },
     {
       "id": 7,
-      "x": 7681.8037109375,
-      "y": -2285.982421875,
+      "x": 7681.8,
+      "y": -2285.98,
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
@@ -72,8 +72,8 @@
     },
     {
       "id": 8,
-      "x": 7679.3359375,
-      "y": -2270.3681640625,
+      "x": 7679.34,
+      "y": -2270.37,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -81,8 +81,8 @@
     },
     {
       "id": 9,
-      "x": 7658.63916015625,
-      "y": -2260.83203125,
+      "x": 7658.64,
+      "y": -2260.83,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -91,8 +91,8 @@
     },
     {
       "id": 10,
-      "x": 7658.63916015625,
-      "y": -2260.83203125,
+      "x": 7658.64,
+      "y": -2260.83,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "wait(1)",

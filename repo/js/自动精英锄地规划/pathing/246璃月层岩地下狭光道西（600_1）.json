@@ -1,0 +1,113 @@
+{
+  "info": {
+    "name": "246璃月层岩地下狭光道西（600_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1207.140625,
+      "y": 508.640869140625,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 1206.8749960499172,
+      "y": 521.9996816827675,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 1163.8333740234375,
+      "y": 513.478271484375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 1151.6829833984375,
+      "y": 478.16455078125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 1148.28857421875,
+      "y": 440.39208984375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 1139.633056640625,
+      "y": 422.3743896484375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 1137.3505859375,
+      "y": 397.31201171875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 1127.830810546875,
+      "y": 367.8052978515625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 1068.54931640625,
+      "y": 377.52197265625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 1068.54931640625,
+      "y": 377.52197265625,
+      "type": "orientation",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "locked": false
+    }
+  ]
+}
