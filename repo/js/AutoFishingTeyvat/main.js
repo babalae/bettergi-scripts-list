@@ -505,6 +505,7 @@
                 }
 
                 await run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight, block_tsurumi, auto_skip);
+                await sleep(100); 
             } catch (error) {
                 const file_name = `${path_msg["area"]}-${path_msg["type"]}-${path_msg["detail"]}`;
                 log.info(`路径: ${file_name} 执行时出错，已跳过...\n错误信息: ${error}`)
