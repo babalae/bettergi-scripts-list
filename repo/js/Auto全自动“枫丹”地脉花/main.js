@@ -436,7 +436,7 @@
     }
 
     async function isOnRewardPage() {
-        const rewardText = await Textocr("地脉之花", 0.5, 0, 0, 861,265, 194, 265);
+        const rewardText = await Textocr("地脉之花", 0.2, 0, 0, 861,265, 194, 265);
         return rewardText.found;
     }
 
@@ -447,7 +447,7 @@
      * @param timeout 超时时间，单位为毫秒，默认值为1000毫秒
      * @returns 无返回值
      */
-    async function checkRewardPage(timeout = 1000) {
+    async function checkRewardPage(timeout = 2000) {
 
         if (!shouldContinueChecking) {
             return; // 如果不应该继续检测，则直接返回
@@ -464,6 +464,103 @@
         }
     }
 
+    //异步检测战斗，来自D捣蛋&秋云佬的全自动地脉花的代码
+    async function autoFight(Fighttimeout) {
+        const cts = new CancellationTokenSource();
+        log.info("开始战斗");
+        dispatcher.RunTask(new SoloTask("AutoFight"), cts);
+        let fightResult = await recognizeTextInRegion(Fighttimeout);
+        logFightResult = fightResult ? "成功" : "失败";
+        log.info(`战斗结束，战斗结果：${logFightResult}`);
+        cts.cancel();
+        return fightResult;
+    }
+
+    function recognizeFightText(captureRegion) {
+        try {
+            let result = captureRegion.find(ocrRo2);
+            let text = result.text;
+            keywords = ["打倒", "所有", "敌人"];
+            for (let keyword of keywords) {
+                if (text.includes(keyword)) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (error) {
+            log.error("OCR过程中出错: {0}", error);
+        }
+    }
+
+    const ocrRegion2 = { x: 0, y: 200, width: 300, height: 300 };     // 追踪任务区域
+    const ocrRo2 = RecognitionObject.ocr(ocrRegion2.x, ocrRegion2.y, ocrRegion2.width, ocrRegion2.height);
+    const ocrRegion1 = { x: 800, y: 200, width: 300, height: 100 };   // 中心区域
+    const ocrRo1 = RecognitionObject.ocr(ocrRegion1.x, ocrRegion1.y, ocrRegion1.width, ocrRegion1.height);
+    async function recognizeTextInRegion(Fighttimeout) {
+        return new Promise((resolve, reject) => {
+            (async () => {
+                try {
+                    let startTime = Date.now();
+                    let noTextCount = 0;
+                    const successKeywords = ["挑战达成", "战斗胜利", "挑战成功"];
+                    const failureKeywords = ["挑战失败"];
+    
+                    // 循环检测直到超时
+                    while (Date.now() - startTime < Fighttimeout) {
+                        try {
+                            let captureRegion = captureGameRegion();
+                            let result = captureRegion.find(ocrRo1);
+                            let text = result.text;
+    
+                            // 检查成功关键词
+                            for (let keyword of successKeywords) {
+                                if (text.includes(keyword)) {
+                                    log.info("检测到战斗成功关键词: {0}", keyword);
+                                    resolve(true);
+                                    return;
+                                }
+                            }
+    
+                            // 检查失败关键词
+                            for (let keyword of failureKeywords) {
+                                if (text.includes(keyword)) {
+                                    log.warn("检测到战斗失败关键词: {0}", keyword);
+                                    resolve(false);
+                                    return;
+                                }
+                            }
+    
+                            //战斗区域
+                            let foundText = recognizeFightText(captureRegion);
+                            if (!foundText) {
+                                noTextCount++;
+                                log.info(`检测到可能离开战斗区域，当前计数: ${noTextCount}`);
+    
+                                if (noTextCount >= 10) {
+                                    log.warn("已离开战斗区域");
+                                    resolve(false);
+                                    return;
+                                }
+                            }
+                            else {
+                                noTextCount = 0; // 重置计数
+                            }
+                        }
+                        catch (error) {
+                            log.error("OCR过程中出错: {0}", error);
+                        }
+    
+                        await sleep(1000); // 检查间隔
+                    }
+    
+                    log.warn("在超时时间内未检测到战斗结果");
+                    resolve(false);
+                } catch (error) {
+                    reject(error);
+                }
+            })();
+        });
+    }    
 
     async function Veinfligt() {
          // 定义路线常量
@@ -516,10 +613,18 @@
             await sleep(1000);
             dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
            
-            //执行自动战斗,配置器中的设置建议填你的队伍打一次大概得时间
-            await dispatcher.runTask(new SoloTask("AutoFight"));
-            await sleep(2000);
-            await dispatcher.runTask(new SoloTask("AutoFight"));//公版BETTERGI战斗两次可能触发已经出现的地脉花
+            if (!Fightquick){           
+                await dispatcher.runTask(new SoloTask("AutoFight")); //固定执行两次战斗，执行自动战斗,配置器中的设置建议填你的队伍打一次大概得时间
+                await sleep(2000);
+                await dispatcher.runTask(new SoloTask("AutoFight"));
+            }else
+            {
+                shouldContinueChecking = false;
+                if(!await autoFight(Fighttimeout)){
+                    log.warn("战斗失败,测试寻找地脉花入口");
+                }
+                shouldContinueChecking = true;
+            }
            
             //执行到地脉花地点的寻路脚本
             log.info(`开始执行寻找地脉花奖励：${jsonFile2}`);
@@ -559,6 +664,9 @@
     var tolerance = 25;
     var position ={};
     var Lastexecution = false;//线路执行标志，用于判断上一线路是否执行。
+    var Fightquick = settings.Fightquick ? settings.Fightquick : false; 
+    var Fighttimeout = settings.timeout = settings.timeout * 1000 || 120000;
+
 
 
 
