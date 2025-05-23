@@ -665,7 +665,7 @@ function loadSettings() {
         isNotification = settings.isNotification;
 
         if (isNotification) {
-            notification.send("全自动地脉花开始运行，以下是本次运行的配置：\n\n地脉花类型：{1}\n国家：{2}\n刷取次数：{3}", settings.leyLineOutcropType, settings.country, settings.timesValue);
+            notification.send(`全自动地脉花开始运行，以下是本次运行的配置：\n\n地脉花类型：${settings.leyLineOutcropType}\n国家：${settings.country}\n刷取次数：${settings.timesValue}`);
         }
     } catch (error) {
         log.error(`加载设置失败: ${error.message}`);
