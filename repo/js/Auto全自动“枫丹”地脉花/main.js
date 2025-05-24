@@ -665,7 +665,8 @@
     var position ={};
     var Lastexecution = false;//线路执行标志，用于判断上一线路是否执行。
     var Fightquick = settings.Fightquick ? settings.Fightquick : false; 
-    var Fighttimeout = settings.timeout = settings.timeout * 1000 || 120000;
+    settings.timeout = settings.timeout ?? 120; // Default to 120 seconds if undefined or null
+    var Fighttimeout = settings.timeout * 1000; // Convert to milliseconds
 
 
 
