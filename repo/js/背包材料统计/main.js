@@ -925,7 +925,7 @@ function calculatePerTime(resourceName, pathName, recordDir) {
                     const quantityChangeLine = lines[i + 4]; // 假设数量变化在路径名后的第五行
 
                     if (runTimeLine.startsWith('运行时间: ') && quantityChangeLine.startsWith('数量变化: ')) {
-                        const runTime = parseInt(runTimeLine.split('运行时间: ')[1].split('秒')[0], 10);
+                        const runTime = parseFloat(runTimeLine.split('运行时间: ')[1].split('秒')[0]);
                         const quantityChange = JSON.parse(quantityChangeLine.split('数量变化: ')[1]);
 
                         // 检查数量变化是否有效
