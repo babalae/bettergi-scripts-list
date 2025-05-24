@@ -808,6 +808,7 @@ async function processLeyLineOutcrop(timeout, targetPath, retries = 0) {
     if (result2.text.includes("地脉溢口")) {
         log.info("识别到地脉溢口");
         keyPress("F");
+        await sleep(500);
     } else if (result.text.includes("打倒所有敌人")) {
         log.info("地脉花已经打开，直接战斗");
     } else {
