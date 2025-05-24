@@ -62,34 +62,45 @@
             await sleep(100);
         }   
     }
+   
+    //初始化
+    var SMODEL = settings.SMODEL ? settings.SMODEL : false; // false 公版BETTERGI，true 自编译版本LCB
+    var SHUOVER=0 //0初始状态，1队伍配置标志，2结束线路，3线路出错
+    var haoganq=0 //0初始状态，1好感队伍配置标志
+    var SHUV = settings.shuv ? settings.shuv : 1; // 1 单线路，2 树脂耗尽
+    var Rewards = settings.Rewards ? settings.Rewards : false; // ture 领取冒险点奖励，false 不领取冒险点奖励
+    var Fligtin = false;  //领取冒险点奖励标志。
+    var FINDagin = 0; //地脉花寻找标志。lv.1.2新增，用于判断是否找线路余下地脉花。
+    var tolerance = 25;
+    var position ={};
+    var Lastexecution = false;//线路执行标志，用于判断上一线路是否执行。
+    var Fightquick = settings.Fightquick ? settings.Fightquick : false; 
+    var Fighttimeout = settings.timeout = settings.timeout * 1000 || 120000;
+    const ocrRegion2 = { x: 0, y: 200, width: 300, height: 300 };     // 追踪任务区域
+    const ocrRo2 = RecognitionObject.ocr(ocrRegion2.x, ocrRegion2.y, ocrRegion2.width, ocrRegion2.height);
+    const ocrRegion1 = { x: 800, y: 200, width: 300, height: 100 };   // 中心区域
+    const ocrRo1 = RecognitionObject.ocr(ocrRegion1.x, ocrRegion1.y, ocrRegion1.width, ocrRegion1.height);
 
-    // //容错检测函数，备用
-    // function checkOverlap() {
-    //     const overlappingPoints = [];
-    
-    //     for (let i = 0; i < allFlowerCoords.length; i++) {
-    //         for (let j = i + 1; j < allFlowerCoords.length; j++) {
-    //             const point1 = allFlowerCoords[i];
-    //             const point2 = allFlowerCoords[j];
-    
-    //             const dx = Math.abs(point1.x - point2.x);
-    //             const dy = Math.abs(point1.y - point2.y);
-    
-    //             if (dx <= tolerance && dy <= tolerance) {
-    //                 overlappingPoints.push({
-    //                     point1: { line: point1.line, flower: point1.flower, x: point1.x, y: point1.y },
-    //                     point2: { line: point2.line, flower: point2.flower, x: point2.x, y: point2.y }
-    //                 });
-    //             }
-    //         }
-    //     }
-    //     overlappingPoints.forEach((point, index) => {
-    //         log.info(`重叠点 ${index + 1}：${JSON.stringify(point)}`);
-    //       });
+    log.debug(`DEBUG:${SHUV}.${color}.${rawTimes}`);//调试LOG
+    if (Rewards){log.warn("结束后领励练点和提交每日！");if(settings.nh === undefined || settings.nh === "") {log.warn("好感队未配置，领奖励时不切换队伍")}}
+    if (settings.nh === undefined || settings.nh === "") { log.warn("好感队禁用！");haoganq=0}else{var haogandui = settings.nh;haoganq=1;if(settings.n === undefined ) {throw new Error("好感队已经设置，请填战斗队伍！")}}
+    if (settings.n === undefined || settings.n === "") { log.warn("队伍名称未配置，不更换队伍！");SHUOVER=1;}
+    if (SHUV == 1) {log.warn("线路模式 ：'单线路！'");}else{log.warn("线路模式 ：'树脂耗尽模式，强制打完整体线路！'");rawTimes=12}
+    if (color == 1) {log.warn("地脉类型 ：'蓝色-经验书花！'");}else{log.warn("地脉类型 ：'黄色-摩拉花！'")}  
+    let nowuidString = settings.nowuid ? settings.nowuid : "";
 
-    //     return overlappingPoints;
-    //     // await checkOverlap(allFlowerCoords,tolerance);
-    // }
+    filePath = ""
+    // 读取原始次数配置   
+    var rawTimes = settings.times*2 ? settings.times : "12";
+    var color = settings.color ? settings.color : 1;
+    var BIAOZZ = "assets/model/BIAOZ.bmp"
+
+  
+    if  (color == 2){var DIMAIHUA = "assets/model/DIMAIHUA-huank.bmp";}
+    else if (color == 1){var DIMAIHUA = "assets/model/DIMAIHUA-lank.bmp";}
+    else{var DIMAIHUA = "assets/model/DIMAIHUA-lank.bmp";}
+
+
 
     setGameMetrics(1920, 1080, 1);
     //================= 1.设定路线 =================
@@ -192,51 +203,7 @@
         "路线5 新枫丹科学院左锚点": folder5,
         "路线6 芒索斯山东麓": folder6
     };
-
-    filePath = ""
-    // 读取原始次数配置
-    var LOOOKING  = 0 
-    var rawTimes = settings.times*2 ? settings.times : "12";
-    var color = settings.color ? settings.color : 1;
-    var BIAOZZ = "assets/model/BIAOZ.bmp"
-
-    if (LOOOKING == 0) {
-        if  (color == 2){var DIMAIHUA = "assets/model/DIMAIHUA-huank.bmp";}
-        else if (color == 1){var DIMAIHUA = "assets/model/DIMAIHUA-lank.bmp";}
-        else{var DIMAIHUA = "assets/model/DIMAIHUA-lank.bmp";}
-
-    } else if (LOOOKING == 1) {
-        if  (color == 2){var DIMAIHUA = "assets/model/DIMAIHUA-huan.bmp";}
-        else if (color == 1){var DIMAIHUA = "assets/model/DIMAIHUA-lan.bmp";}
-        else{var DIMAIHUA = "assets/model/DIMAIHUA-lan.bmp";}
-    }
-
-    // // 验证是否为数字
-    // var timesValue; 
-    // if (!/^-?\d+\.?\d*$/.test(rawTimes)) { // 匹配整数和小数
-    //     timesValue = 12
-    //    // log.info("⚠️ 刷本次数设置不为数字，改为默认值12");
-    // } else {
-    //     // 转换为数字
-    //     const num = parseFloat(rawTimes*2); // 乘以2，因为每次战斗两次（一次战斗两次掉落）
-    //     // 范围检查
-    //     if (num < 1) {
-    //         timesValue = 1;
-    //       //log.info(`⚠️ 次数 ${num} 小于1，已调整为1`);
-    //     } else if (num > 12) {
-    //         timesValue = 12;
-    //        // log.info(`⚠️ 次数 ${num} 大于12，已调整为12`);
-    //     } else {
-    //         // 处理小数
-    //         if (!Number.isInteger(num)) {
-    //             timesValue = Math.floor(num);
-    //            // log.info(`⚠️ 次数 ${num} 不是整数，已向下取整为 ${timesValue}`);
-    //         } else {
-    //             timesValue = num;
-    //         }
-    //     }
-    // }
-    // var timesConfig = { value: timesValue };
+  
 
     var timesValue = 12; // 设置默认值
     var num = parseFloat(rawTimes) * 2; // 直接计算乘以2后的值，并尝试转换为浮点数
@@ -244,14 +211,9 @@
     // 如果输入是有效的数字，并且在合理范围内，则更新timesValue
     if (/^-?\d+\.?\d*$/.test(rawTimes) && num >= 1 && num <= 24) {
         timesValue = Math.max(1, Math.min(12, Math.floor(num))); // 确保值在1到12之间，并向下取整
-    }
-    
-    // 如果num大于12（因为乘以2了，所以实际上是原始值大于6），则设置为最大值12
-    // 注意：这里不需要额外检查，因为Math.min已经处理了上限
-    
+    }  
+
     var timesConfig = { value: timesValue };
-
-
     const allFlowerCoords = [
         // 线路1
         { line: 1, flower: 1, x: 773, y: 669 },
@@ -288,7 +250,7 @@
         { line: 6, flower: 4, x: 371, y: 281 },//227  379 290
       ];
     
-    // 快速寻路模式寻路
+
     // 输出选择的线路
     async function PathCheak1() {
         await genshin.returnMainUi();
@@ -444,7 +406,7 @@
     /**
      * 异步检查领奖页面的函数
      *
-     * @param timeout 超时时间，单位为毫秒，默认值为2000毫秒
+     * @param timeout 超时时间，单位为毫秒，默认值为1000毫秒
      * @returns 无返回值
      */
     async function checkRewardPage(timeout = 2000) {
@@ -492,10 +454,6 @@
         }
     }
 
-    const ocrRegion2 = { x: 0, y: 200, width: 300, height: 300 };     // 追踪任务区域
-    const ocrRo2 = RecognitionObject.ocr(ocrRegion2.x, ocrRegion2.y, ocrRegion2.width, ocrRegion2.height);
-    const ocrRegion1 = { x: 800, y: 200, width: 300, height: 100 };   // 中心区域
-    const ocrRo1 = RecognitionObject.ocr(ocrRegion1.x, ocrRegion1.y, ocrRegion1.width, ocrRegion1.height);
     async function recognizeTextInRegion(Fighttimeout) {
         return new Promise((resolve, reject) => {
             (async () => {
@@ -604,7 +562,6 @@
                   if(position.line==2 && (i+position.flower*2-2)==8){await pathingScript.runFile("assets/枫丹地脉花-路线2 秋分山西侧锚点左下/线路修复/枫丹地脉花-路线2 秋分山西侧锚点左下-5：秋分山左左下下1-线路修复.json");}
                   else{await pathingScript.runFile(`${selectedFolder}${jsonFile1}`);}
             }
-
  
             // 寻找地脉溢口，文字识别不到转圈寻找，不管有没找到都执行战斗，最后领取奖励判断是否继续执行
             shouldContinueChecking = true;
@@ -631,7 +588,7 @@
             await pathingScript.runFile(`${selectedFolder}${jsonFile2}`);
             await sleep(3000);
             // 领取奖励，开始找地脉口
-            log.info(`开始第 ${executedCount/2} 朵花的奖励领取`);
+            log.info(`开始第 ${executedCount/2+1} 朵花的奖励领取`);
             if (haoganq==1){log.info(`切换好感队伍：'${haogandui}'`);await genshin.returnMainUi(); await sleep(1000);await genshin.SwitchParty(haogandui);}
             shouldContinueChecking = false;
             await sleep(2000);
@@ -650,34 +607,7 @@
         }
         FINDagin = 0; //重置地脉花寻找标志。lv.1.2新增，用于判断是否找线路余下地脉花。
         return true;// 线路完成
-    }
-
-
-    //初始化
-    var SMODEL = settings.SMODEL ? settings.SMODEL : false; // false 公版BETTERGI，true 自编译版本LCB
-    var SHUOVER=0 //0初始状态，1队伍配置标志，2结束线路，3线路出错
-    var haoganq=0 //0初始状态，1好感队伍配置标志
-    var SHUV = settings.shuv ? settings.shuv : 1; // 1 单线路，2 树脂耗尽
-    var Rewards = settings.Rewards ? settings.Rewards : false; // ture 领取冒险点奖励，false 不领取冒险点奖励
-    var Fligtin = false;  //领取冒险点奖励标志。
-    var FINDagin = 0; //地脉花寻找标志。lv.1.2新增，用于判断是否找线路余下地脉花。
-    var tolerance = 25;
-    var position ={};
-    var Lastexecution = false;//线路执行标志，用于判断上一线路是否执行。
-    var Fightquick = settings.Fightquick ? settings.Fightquick : false; 
-    settings.timeout = settings.timeout ?? 120; // Default to 120 seconds if undefined or null
-    var Fighttimeout = settings.timeout * 1000; // Convert to milliseconds
-
-
-
-
-    log.debug(`DEBUG:${SHUV}.${color}.${rawTimes}`);//调试LOG
-    if (Rewards){log.warn("结束后领励练点和提交每日！");if(settings.nh === undefined || settings.nh === "") {log.warn("好感队未配置，领奖励时不切换队伍")}}
-    if (settings.nh === undefined || settings.nh === "") { log.warn("好感队禁用！");haoganq=0}else{var haogandui = settings.nh;haoganq=1;if(settings.n === undefined ) {throw new Error("好感队已经设置，请填战斗队伍！")}}
-    if (settings.n === undefined || settings.n === "") { log.warn("队伍名称未配置，不更换队伍！");SHUOVER=1;}
-    if (SHUV == 1) {log.warn("线路模式 ：'单线路！'");}else{log.warn("线路模式 ：'树脂耗尽模式，强制打完整体线路！'");rawTimes=12}
-    if (color == 1) {log.warn("地脉类型 ：'蓝色-经验书花！'");}else{log.warn("地脉类型 ：'黄色-摩拉花！'")}  
-    let nowuidString = settings.nowuid ? settings.nowuid : "";
+    }    
 
     // UID获取存在概率不成功，慎用！请更换背景纯色的名片提高OCR成功率
     let uidNumbers = nowuidString.match(/\d+/g);
