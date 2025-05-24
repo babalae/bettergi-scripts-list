@@ -883,11 +883,12 @@ async function attemptReward() {
             click(Math.round(originalResin.x + originalResin.width / 2), Math.round(originalResin.y + originalResin.height / 2));
         } else if (isResinEmpty) {
             log.error("识别到补充原粹树脂，看来树脂用完了呢");
-            await keyPress("VK_ESCAPE");
+            keyPress("VK_ESCAPE");
             throw new Error("树脂已用完");
         }
         if (settings.friendshipTeam) {
             log.info("切换回战斗队伍");
+            await sleep(500);
             const switchSuccess = await switchTeam(settings.team);
             // if (!switchSuccess) {
             //     log.warn("切换队伍失败，返回七天神像切换");
