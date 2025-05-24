@@ -444,7 +444,7 @@
     /**
      * 异步检查领奖页面的函数
      *
-     * @param timeout 超时时间，单位为毫秒，默认值为1000毫秒
+     * @param timeout 超时时间，单位为毫秒，默认值为2000毫秒
      * @returns 无返回值
      */
     async function checkRewardPage(timeout = 2000) {
