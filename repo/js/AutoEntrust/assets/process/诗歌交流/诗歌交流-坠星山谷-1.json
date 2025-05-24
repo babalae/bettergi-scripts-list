@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "诗歌交流-坠星山谷-1",
+    "type": "collect",
+    "author": "11",
+    "version": "1.0",
+    "description": "诗歌交流-坠星山谷-1",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1536.81640625,
+      "y": 1978.66552734375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1536.109375,
+      "y": 1982.35986328125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1502.8125,
+      "y": 2070.242431640625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1472.19140625,
+      "y": 2081.34033203125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1474.841796875,
+      "y": 2133.108154296875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -1473.66796875,
+      "y": 2144.080078125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

@@ -665,7 +665,7 @@ function loadSettings() {
         isNotification = settings.isNotification;
 
         if (isNotification) {
-            notification.send("全自动地脉花开始运行，以下是本次运行的配置：\n\n地脉花类型：{1}\n国家：{2}\n刷取次数：{3}", settings.leyLineOutcropType, settings.country, settings.timesValue);
+            notification.send(`全自动地脉花开始运行，以下是本次运行的配置：\n\n地脉花类型：${settings.leyLineOutcropType}\n国家：${settings.country}\n刷取次数：${settings.timesValue}`);
         }
     } catch (error) {
         log.error(`加载设置失败: ${error.message}`);
@@ -808,6 +808,7 @@ async function processLeyLineOutcrop(timeout, targetPath, retries = 0) {
     if (result2.text.includes("地脉溢口")) {
         log.info("识别到地脉溢口");
         keyPress("F");
+        await sleep(500);
     } else if (result.text.includes("打倒所有敌人")) {
         log.info("地脉花已经打开，直接战斗");
     } else {
@@ -883,11 +884,12 @@ async function attemptReward() {
             click(Math.round(originalResin.x + originalResin.width / 2), Math.round(originalResin.y + originalResin.height / 2));
         } else if (isResinEmpty) {
             log.error("识别到补充原粹树脂，看来树脂用完了呢");
-            await keyPress("VK_ESCAPE");
+            keyPress("VK_ESCAPE");
             throw new Error("树脂已用完");
         }
         if (settings.friendshipTeam) {
             log.info("切换回战斗队伍");
+            await sleep(500);
             const switchSuccess = await switchTeam(settings.team);
             // if (!switchSuccess) {
             //     log.warn("切换队伍失败，返回七天神像切换");

@@ -22,10 +22,10 @@
       "id": 2,
       "x": -332.78,
       "y": 238.03,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
@@ -58,9 +58,9 @@
       "id": 6,
       "x": -288.36,
       "y": 282.98,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "",
+      "action_params": "wait(0.2),keypress(VK_SPACE)",
       "type": "path"
     },
     {
@@ -74,21 +74,22 @@
     },
     {
       "id": 8,
-      "x": -275.05,
-      "y": 320.77,
-      "action": "fight",
+      "x": -274.57,
+      "y": 334.49,
+      "type": "path",
       "move_mode": "dash",
+      "action": "fight",
       "action_params": "",
-      "type": "path"
+      "locked": false
     },
     {
       "id": 9,
-      "x": -275.05,
-      "y": 320.77,
-      "action": "combat_script",
+      "x": -274.57,
+      "y": 334.49,
+      "type": "orientation",
       "move_mode": "dash",
-      "action_params": "wait(1)",
-      "type": "orientation"
+      "action": "combat_script",
+      "action_params": "wait(1)"
     }
   ]
 }
