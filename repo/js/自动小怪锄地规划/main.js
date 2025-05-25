@@ -350,6 +350,6 @@ function basename(filePath) {
         }
 
         //伪造一个js开始的记录（实际上没必要）
-        await fakeLog("自动精英锄地规划", true, true, 0);
+        await fakeLog("自动小怪锄地规划", true, true, 0);
     }
 })();
