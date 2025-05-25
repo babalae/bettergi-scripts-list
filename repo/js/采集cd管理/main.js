@@ -414,7 +414,7 @@ function removeJsonSuffix(fileName) {
             log.info('所有路径组的任务运行完成');
 
             //伪造js开始的日志
-            await fakeLog("采集cd管路", true, true, 0);
+            await fakeLog("采集cd管理", true, true, 0);
         }
     } catch (error) {
         log.error(`操作失败: ${error}`);
