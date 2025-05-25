@@ -1,8 +1,18 @@
 [
   {
+    "name": "enemyType",
+    "type": "select",
+    "label": "选择敌人类型",
+    "options": [
+      "盗宝团",
+      "愚人众"
+    ],
+    "default": "盗宝团"
+  },
+  {
     "name": "qiuQiuRen",
     "type": "checkbox",
-    "label": "是否清理丘丘人\n【默认否，选是会清理丘丘人之后再开始盗宝团好感】"
+    "label": "是否清理丘丘人\n【默认否，仅对盗宝团有效，选是会清理丘丘人之后再开始任务】"
   },
   {
     "name": "partyName",
@@ -35,7 +45,7 @@
     "label": "OCR超时时间\n【选填，默认为30秒，如果经常提前判定未识别到任务，请适当调大】"
   },
   {
-    "name": "fightTimeOut",
+    "name": "fightTimeout",
     "type": "input-text",
     "label": "战斗超时时间\n【选填，默认为120秒】"
   }

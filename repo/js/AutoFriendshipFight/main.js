@@ -49,23 +49,29 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 	} else {
         log.info(`当前设置的运行次数: ${runTimes}`);
     }
-    
-	await switchPartyIfNeeded(settings.partyName);
+    await switchPartyIfNeeded(settings.partyName);
 
-	log.info('盗宝团好感开始...');
+	// 获取敌人类型设置，默认为盗宝团
+	const enemyType = settings.enemyType || "盗宝团";
+	log.info(`当前选择的敌人类型: ${enemyType}`);
+	log.info(`${enemyType}好感开始...`);
 	
-	// 清理丘丘人
-	if(settings.qiuQiuRen){
+	// 清理丘丘人（仅盗宝团需要）
+	if(settings.qiuQiuRen && enemyType === "盗宝团"){
 		log.info(`清理原住民...`);
-		await AutoPath('清理原住民');
+		await AutoPath('盗宝团-准备');
 	}	
-    // 验证超时设置
+    if(enemyType === "愚人众"){
+        log.info(`导航到愚人众触发点...`);
+        await AutoPath('愚人众-准备');
+    }
+	// 验证超时设置
     const ocrTimeout = validateTimeoutSetting(settings.ocrTimeout, DEFAULT_OCR_TIMEOUT_SECONDS, "OCR");
     const fightTimeout = validateTimeoutSetting(settings.fightTimeout, DEFAULT_FIGHT_TIMEOUT_SECONDS, "战斗");
 	
-    // 盗宝团好感循环开始	
-	await AutoFriendshipDev(runTimes, ocrTimeout, fightTimeout);
-	log.info(`盗宝团好感运行总时长：${LogTimeTaken(startTime)}`);  
+    // 好感循环开始	
+	await AutoFriendshipDev(runTimes, ocrTimeout, fightTimeout, enemyType);
+	log.info(`${enemyType}好感运行总时长：${LogTimeTaken(startTime)}`);  
 })();
 
 
@@ -100,13 +106,16 @@ function CalculateEstimatedCompletion(startTime, current, total) {
     return `${completionDate.toLocaleTimeString()} (约 ${Math.round(remainingTime / 60000)} 分钟)`;
 }
 
-// 执行 N 次盗宝团任务并输出日志
-async function AutoFriendshipDev(times, ocrTimeout, fightTimeout) {
+// 执行 N 次好感任务并输出日志
+async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "盗宝团") {
     let startFirstTime = Date.now();    
     for (let i = 0; i < times; i++) {
-        await AutoPath('触发点');
+        await AutoPath(`${enemyType}-触发点`);
         // 启动路径导航任务
-        let pathTaskPromise = AutoPath('盗宝团');
+        let pathTaskPromise = AutoPath(`${enemyType}-战斗点`);
+        
+        // 根据敌人类型设置不同的OCR检测关键词
+        const ocrKeywords = getOcrKeywords(enemyType);
         
         // OCR检测
         let ocrStatus = false;
@@ -116,15 +125,14 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout) {
             let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 200, 300, 300));
             for (let o = 0; o < resList.count; o++) {
                 let res = resList[o];
-                if (res.text.includes("岛上") 
-                    || res.text.includes("无贼")
-                    || res.text.includes("消灭") 
-                    || res.text.includes("鬼鬼祟祟") 
-                    || res.text.includes("盗宝团")) {
-                    ocrStatus = true;
-                    log.info("检测到突发任务触发");
-                    break;
+                for (let keyword of ocrKeywords) {
+                    if (res.text.includes(keyword)) {
+                        ocrStatus = true;
+                        log.info("检测到突发任务触发");
+                        break;
+                    }
                 }
+                if (ocrStatus) break;
             }
             if (!ocrStatus) {
                 await sleep(1000);
@@ -133,14 +141,12 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout) {
         
         if(ocrStatus){
             const cts = new CancellationTokenSource();
-            try {
-                // 设置最大等待时间为15秒
+            try {                // 设置最大等待时间为15秒
                 const maxWaitTime = 15000;
                 const waitStartTime = Date.now();
                 
-                // 校验距离，如果距离小于10米，则认为已经到达目的地
-                const targetX = -2756.67;
-                const targetY = -3467.63;
+                // 根据敌人类型设置不同的目标坐标
+                const targetCoords = getTargetCoordinates(enemyType);
                 const maxDistance = 10; // 10米距离判定
                 
                 // 等待角色到达指定位置附近
@@ -155,12 +161,11 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout) {
                     pathTaskFinished = true;
                     log.error(`路径任务出错: ${error}`);
                 });
-                
-                // 等待角色到达目标位置或超时
+                  // 等待角色到达目标位置或超时
                 while (!isNearTarget && !pathTaskFinished && (Date.now() - waitStartTime < maxWaitTime)) {
                     const pos = genshin.getPositionFromMap();
                     if (pos) {
-                        const distance = Math.sqrt(Math.pow(pos.x - targetX, 2) + Math.pow(pos.y - targetY, 2));
+                        const distance = Math.sqrt(Math.pow(pos.x - targetCoords.x, 2) + Math.pow(pos.y - targetCoords.y, 2));
                         if (distance <= maxDistance) {
                             isNearTarget = true;
                             log.info(`已到达目标点附近，距离: ${distance.toFixed(2)}米`);
@@ -168,37 +173,66 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout) {
                         }
                     }
                     await sleep(1000);
-                }                
-                
-                log.info("开始战斗...");
+                }                log.info("开始战斗...");
                 const battleTask = dispatcher.RunTask(new SoloTask("AutoFight"), cts);
+                const fightResultPromise = waitForBattleResult(fightTimeout * 1000, enemyType, cts);
                 
-                let fightResult = await waitForBattleResult(fightTimeout * 1000) ? "成功" : "失败";
-                log.info(`战斗任务已结束，战斗结果：${fightResult}`);
+                // 使用 Promise.all 等待两个任务完成
+                const [battleResult, fightResult] = await Promise.all([
+                    battleTask.catch(error => {
+                        return { success: false, error: error };
+                    }),
+                    fightResultPromise // 不捕获超时错误，让它直接抛到外层
+                ]);
                 cts.cancel();
-                await battleTask;
             } catch (error) {
                 cts.cancel();
+                if (error.message && error.message.includes("战斗超时")) {
+                    log.error(`战斗超时，终止整个任务: ${error.message}`);
+                    await genshin.tpToStatueOfTheSeven(); // 超时回到七天神像终止任务
+                    throw error; // 重新抛出超时错误，终止整个任务
+                }
                 log.error(`执行过程中出错: ${error}`);
             }
             const estimatedCompletion = CalculateEstimatedCompletion(startFirstTime, i + 1, times);
             const currentTime = LogTimeTaken(startFirstTime);
             log.info(`当前进度：${i + 1}/${times} (${((i + 1) / times * 100).toFixed(1)}%)`);
-            log.info(`当前运行总时长：${currentTime}`);
+            log.info(`当前运行总时长：${currentTime}`);            
             log.info(`预计完成时间：${estimatedCompletion}`);
         } else {
-            notification.send(`未识别到突发任务（岛上无贼），盗宝团好感结束`);
-            log.info(`未识别到突发任务（岛上无贼），盗宝团好感结束`);
+            notification.send(`未识别到突发任务，${enemyType}好感结束`);
+            log.info(`未识别到突发任务，${enemyType}好感结束`);
             break;
         }
     }
-    log.info('盗宝团好感已完成');
-    await genshin.tpToStatueOfTheSeven();  // 虽然不知道什么原因，但是不加这句会报错
+    log.info(`${enemyType}好感已完成`);
+    // await genshin.tpToStatueOfTheSeven();  // 虽然不知道什么原因，但是不加这句会报错
 }
 
 // 验证输入是否是正整数
 function isPositiveInteger(value) {
     return Number.isInteger(value) && value > 0;
+}
+
+// 根据敌人类型获取OCR关键词
+function getOcrKeywords(enemyType) {
+    if (enemyType === "愚人众") {
+        return ["买卖", "不成", "正义存", "愚人众","禁止","危险","运输","打倒","盗宝团"];
+    } 
+    else if (enemyType === "盗宝团") {
+        return ["岛上", "无贼", "消灭", "鬼鬼祟祟", "盗宝团"];
+    }
+}
+
+// 根据敌人类型获取目标战斗点坐标
+function getTargetCoordinates(enemyType) {
+    if (enemyType === "愚人众") {
+        // 愚人众战斗点坐标（需要根据实际位置调整）
+        return { x: 4840.55, y: -3078.01 }; // 这里需要替换为实际的愚人众战斗点坐标
+    } else {
+        // 盗宝团战斗点坐标
+        return { x: -2756.67, y: -3467.63 };
+    }
 }
 
 // 验证日期格式
@@ -244,11 +278,11 @@ async function switchPartyIfNeeded(partyName) {
     }
 }
 
-async function waitForBattleResult(timeout = 2 * 60 * 1000) {
+async function waitForBattleResult(timeout = 2 * 60 * 1000, enemyType = "盗宝团", cts = new CancellationTokenSource()) {
     let fightStartTime = Date.now();
     const successKeywords = ["事件", "完成"];
     const failureKeywords = ["失败"];
-    const eventKeyword = ["岛上", "无贼","消灭","鬼鬼祟祟","盗宝团"];
+    const eventKeywords = getOcrKeywords(enemyType);
     let notFind = 0;
     
     while (Date.now() - fightStartTime < timeout) {
@@ -263,6 +297,8 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000) {
             for (let keyword of successKeywords) {
                 if (text.includes(keyword)) {
                     log.info("检测到战斗成功关键词: {0}", keyword);
+                    log.info("战斗结果：成功");
+                    cts.cancel(); // 取消任务
                     return true;
                 }
             }
@@ -271,13 +307,19 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000) {
             for (let keyword of failureKeywords) {
                 if (text.includes(keyword)) {
                     log.warn("检测到战斗失败关键词: {0}", keyword);
+                    log.warn("战斗结果：失败，回到七天神像重试");
+                    cts.cancel(); // 取消任务
+                    await genshin.tpToStatueOfTheSeven();
+                    if(enemyType=== "愚人众"){
+                        await AutoPath('愚人众-准备'); 
+                    }
                     return false;
                 }
             }
             
             // 检查事件关键词
             let find = 0;
-            for(let keyword of eventKeyword) {
+            for(let keyword of eventKeywords) {
                 if (text2.includes(keyword)) {
                     find++;
                 }
@@ -292,7 +334,13 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000) {
             
             if (notFind > 10) {
                 log.warn("不在任务触发区域，战斗失败");
+                cts.cancel(); // 取消任务
+                if(enemyType=== "愚人众"){
+                    log.warn("回到愚人众准备点");
+                    await AutoPath('愚人众-准备'); 
+                }
                 return false;
+                
             }
         }
         catch (error) {
@@ -305,7 +353,8 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000) {
     }
     
     log.warn("在超时时间内未检测到战斗结果");
-    return false;
+    cts.cancel(); // 取消任务
+    throw new Error("战斗超时，未检测到结果");
 }
 
 /**
