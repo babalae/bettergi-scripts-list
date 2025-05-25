@@ -1105,7 +1105,7 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
         const materialCategories = readMaterialCategories(materialDir);
 
         // 递归读取路径信息文件夹
-        const pathingFilePaths = readAllFilePaths(pathingDir, 0, 1, ['.json']);
+        const pathingFilePaths = readAllFilePaths(pathingDir, 0, 3, ['.json']);
 
 
         // 将路径和资源名绑定，避免重复提取
