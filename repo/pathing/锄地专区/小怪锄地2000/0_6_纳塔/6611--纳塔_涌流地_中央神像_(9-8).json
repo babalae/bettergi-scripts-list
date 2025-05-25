@@ -2,10 +2,11 @@
   "info": {
     "name": "6611--纳塔_涌流地_中央神像_(9-8)",
     "type": "collect",
-    "author": "Demo&汐",
+    "author": "Demo&汐&mno",
     "version": "1.1",
     "description": "",
-    "bgi_version": "0.42.0"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -20,7 +21,7 @@
     {
       "id": 2,
       "x": 8599.75,
-      "y": -2661.0,
+      "y": -2661,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -28,7 +29,7 @@
     },
     {
       "id": 3,
-      "x": 8651.0,
+      "x": 8651,
       "y": -2638.88,
       "action": "combat_script",
       "move_mode": "dash",
@@ -46,7 +47,7 @@
     },
     {
       "id": 5,
-      "x": 8666.0,
+      "x": 8666,
       "y": -2667.5,
       "action": "",
       "move_mode": "dash",
@@ -60,10 +61,20 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
       "id": 7,
+      "x": 8676.21,
+      "y": -2697.67,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    },
+    {
+      "id": 8,
       "x": 8582.01,
       "y": -2675.21,
       "action": "",
@@ -72,7 +83,7 @@
       "type": "teleport"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": 8548.25,
       "y": -2679.79,
       "action": "",
@@ -81,7 +92,7 @@
       "type": "path"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": 8542.25,
       "y": -2696.51,
       "action": "",
@@ -90,7 +101,7 @@
       "type": "path"
     },
     {
-      "id": 10,
+      "id": 11,
       "x": 8510.06,
       "y": -2714.13,
       "action": "combat_script",
@@ -99,7 +110,7 @@
       "type": "path"
     },
     {
-      "id": 11,
+      "id": 12,
       "x": 8499.71,
       "y": -2721.06,
       "action": "",
@@ -108,7 +119,7 @@
       "type": "path"
     },
     {
-      "id": 12,
+      "id": 13,
       "x": 8489.63,
       "y": -2685.56,
       "action": "fight",
@@ -117,7 +128,7 @@
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 14,
       "x": 8489.12,
       "y": -2720.57,
       "action": "",
@@ -126,22 +137,32 @@
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": 8431.56,
-      "y": -2791.0,
+      "y": -2791,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "attack(0.5)",
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": 8439.32,
       "y": -2772.84,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 17,
+      "x": 8439.32,
+      "y": -2772.84,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }
