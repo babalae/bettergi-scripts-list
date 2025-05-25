@@ -184,6 +184,7 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "�
                     }),
                     fightResultPromise // 不捕获超时错误，让它直接抛到外层
                 ]);
+                await pathTaskPromise; // 等待路径任务完成
                 cts.cancel();
             } catch (error) {
                 cts.cancel();
