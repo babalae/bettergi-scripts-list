@@ -5,40 +5,34 @@
     "author": "HZYgrandma",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.0"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": -2740.6,
-      "y": -3410.69,
+      "x": -2740.6000000000004,
+      "y": -3410.6900000000005,
       "action": "",
       "move_mode": "walk",
       "type": "teleport"
     },
     {
       "id": 2,
-      "x": -2739.48,
-      "y": -3437.85,
+      "x": -2764.4062480249577,
+      "y": -3465.687530315927,
       "action": "",
       "move_mode": "dash",
       "type": "path"
     },
     {
       "id": 3,
-      "x": -2764.44,
-      "y": -3465.81,
-      "action": "",
+      "x": -2770.4169921875,
+      "y": -3450.8349609375,
+      "type": "path",
       "move_mode": "dash",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": -2771.27,
-      "y": -3453.23,
       "action": "fight",
-      "move_mode": "dash",
-      "type": "path"
+      "action_params": ""
     }
   ]
 }
