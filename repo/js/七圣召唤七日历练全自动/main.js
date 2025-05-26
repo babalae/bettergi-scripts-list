@@ -71,7 +71,7 @@ async function checkChallengeResults() {
 
 //自动对话，直到出现选项框   await autoConversation();
 async function autoConversation() {
-    await sleep(2000); //点击后等待一段时间避免误判
+    await sleep(2500); //点击后等待一段时间避免误判
     const region1 = RecognitionObject.ocr(785, 890, 340, 82); // 对话区域
     const region2 = RecognitionObject.ocr(1250, 400, 660, 440); // 选项区域
     let talkTime = 0;
@@ -87,8 +87,10 @@ async function autoConversation() {
             keyPress("VK_SPACE");
             await sleep(500);
         } else if (!res1.isEmpty() && !res2.isEmpty()) {
-            keyPress("F");
             await sleep(1000);
+            keyPress("F");
+            await sleep(400);
+            keyPress("F");
             log.info("已选择谈话内容");
             return;
         } else if (res1.isEmpty() && !res2.isEmpty()) {
