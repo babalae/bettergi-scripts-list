@@ -89,7 +89,8 @@ async function autoConversation() {
         } else if (!res1.isEmpty() && !res2.isEmpty()) {
             await sleep(1000);
             keyPress("F");
-            await sleep(1000);
+            await sleep(400);
+            keyPress("F");
             log.info("已选择谈话内容");
             return;
         } else if (res1.isEmpty() && !res2.isEmpty()) {
