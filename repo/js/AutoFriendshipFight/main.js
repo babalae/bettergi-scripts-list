@@ -232,7 +232,7 @@ function getTargetCoordinates(enemyType) {
         return { x: 4840.55, y: -3078.01 }; // 这里需要替换为实际的愚人众战斗点坐标
     } else {
         // 盗宝团战斗点坐标
-        return { x: -2756.67, y: -3467.63 };
+        return { x: -2757.281, y: -3468.437 };
     }
 }
 
