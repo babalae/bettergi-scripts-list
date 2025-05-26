@@ -1233,7 +1233,7 @@ async function adjustViewForReward(boxIconRo, token) {
         let captureRegion = captureGameRegion();
         let iconRes = captureRegion.Find(boxIconRo);
 
-        if (!iconRes) {
+        if (!iconRes.isExist()) {
             throw new Error('未找到图标，没有地脉花');
         }
 
@@ -1291,7 +1291,7 @@ async function closeCustomMarks() {
     await sleep(600);
 
     let button = captureGameRegion().find(openRo);
-    if (button) {
+    if (button.isExist()) {
         marksStatus = false;
         log.info("关闭自定义标记");
         click(Math.round(button.x + button.width / 2), Math.round(button.y + button.height / 2));
@@ -1311,8 +1311,8 @@ async function openCustomMarks() {
     click(60, 1020);
     await sleep(600);
 
-    let button = captureGameRegion().findMulti(closeRo);
-    if (button) {
+    let button = captureGameRegion().find(closeRo);
+    if (button.isExist()) {
         for (let i = 0; i < button.count; i++) {
             let b = button[i];
             if (b.y > 280 && b.y < 350) {
