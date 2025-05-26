@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "纳塔10-溶水域东南-2",
+    "type": "collect",
+    "author": "寒烟",
+    "version": "1.1",
+    "description": "附身水龙",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8362.50390625,
+      "y": -2995.0439453125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 8419.5087890625,
+      "y": -2989.955078125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 8431.556640625,
+      "y": -2982.6142578125,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(t)"
+    },
+    {
+      "id": 4,
+      "x": 8496.0732421875,
+      "y": -3018.3984375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(q),wait(0.6),keyup(q)"
+    }
+  ]
+}

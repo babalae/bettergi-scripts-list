@@ -1,0 +1,93 @@
+{
+  "info": {
+    "name": "未命名路径",
+    "type": "collect",
+    "author": "柒叶子",
+    "version": "1.0",
+    "description": "前往狼王",
+    "bgi_version": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -251.5966796875,
+      "y": 2256.586181640625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -239.8662109375,
+      "y": 2235.255859375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -243.6318359375,
+      "y": 2219.89599609375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -250.318359375,
+      "y": 2200.3515625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -263.7783203125,
+      "y": 2142.494140625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -266.06640625,
+      "y": 2100.711669921875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -273.099609375,
+      "y": 2053.126220703125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -276.521484375,
+      "y": 2028.33837890625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -280.3447265625,
+      "y": 1999.419921875,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

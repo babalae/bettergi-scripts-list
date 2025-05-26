@@ -1,0 +1,17 @@
+[
+    {
+        "name": "targetMintCount",
+        "type": "input-text",
+        "label": "目标薄荷采集数量（空则默认9999）"
+    },
+    {
+        "name": "isRefresh",
+        "type": "checkbox",
+        "label": "是否刷新（薄荷每天0时刷新）"
+    },
+    {
+        "name": "executionTime",
+        "type": "input-text",
+        "label": "运行时间（单位：分钟）（空则默认9999）"
+    }
+]

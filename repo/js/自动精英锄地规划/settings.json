@@ -1,0 +1,61 @@
+[
+    {
+        "name": "operationType",
+        "type": "select",
+        "label": "操作模式（默认：执行路径组文件1）",
+        "options": [
+            "强制刷新路径组文件",
+            "执行路径组文件1",
+            "执行路径组文件2",
+            "执行路径组文件3",
+            "输出地图追踪文件"
+        ],
+        "default":"执行路径组文件1"
+    },
+    {
+        "name": "excludeTagsForPathGroup1",
+        "type": "input-text",
+        "label": "路径组1要排除的标签（传奇，水免，次数盾或高危）"
+    },
+    {
+        "name": "selectTagsForPathGroup2",
+        "type": "input-text",
+        "label": "路径组2要选择的标签（传奇，水免，次数盾或高危）"
+    },
+    {
+        "name": "selectTagsForPathGroup3",
+        "type": "input-text",
+        "label": "路径组3要选择的标签（传奇，水免，次数盾或高危）"
+    },
+    {
+        "name": "disableAutoPickup",
+        "type": "checkbox",
+        "label": "是否禁用自动拾取（默认不禁用）"
+    },
+    {
+        "name": "disableRouteCdCheck",
+        "type": "checkbox",
+        "label": "是否禁用路线CD检测（默认不禁用）"
+    },
+    {
+        "name": "requiredMonsterCount",
+        "type": "input-text",
+        "label": "目标怪物数量（默认405，必须为0以上整数）"
+    },
+    {
+        "name": "minSecPerMonster",
+        "type": "input-text",
+        "label": "最低秒均（秒均=摩拉/时间，默认0.1）"
+    },
+    {
+        "name": "excludeTagsForAll",
+        "type": "input-text",
+        "label": "全局排除关键词（使用中文分号分隔）",
+        "default": "不跑"
+    },
+    {
+        "name": "accountName",
+        "type": "input-text",
+        "label": "账户名，用于区分不同的账户"
+    }
+]

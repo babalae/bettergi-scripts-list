@@ -1,0 +1,60 @@
+[
+    {
+      "name": "n",
+      "type": "input-text",
+      "label": "选填，战斗队伍，默认不更换队伍，如需好感队则必填"
+  },    
+  {
+    "name": "nh",
+    "type": "input-text",
+    "label": "选填，好感队伍，如设定领奖前切换，同时战斗队伍必填"
+},
+    {
+        "name": "times",
+        "type": "input-text",
+        "label": "选填，单路线刷取次数（可填1-6）,默认6次，打完整条线"
+    },
+    {
+        "name": "shuv",
+        "type": "select",
+        "label": "选填，默认：“1”为只打一条线路，选“2”为耗尽树脂模式",
+        "options": [
+          "1",
+          "2"
+      ]
+    },
+    {
+        "name": "color",
+        "type": "select",
+        "label": "选填，默认：蓝花(经验花)选“1” / 黄花填(摩拉花)选“2”",
+        "options": [
+          "1",
+          "2"
+      ]
+    },
+    {
+        "name": "nowuid",
+        "type": "input-text",
+        "label": "慎用，禁止特定UID刷地脉花，用 / 隔开，如12345/99999"
+    },
+    {
+        "name": "Rewards",
+        "type": "checkbox",
+        "label": "勾选后，打完地脉花后，领取历练点并提交每日任务"
+    },
+    {
+        "name": "SMODEL",
+        "type": "checkbox",
+        "label": "直跑模式：如下个花近直跑过去，不传送，测试慎用，要求44.8版本！"
+    },
+    {
+        "name": "Fightquick",
+        "type": "checkbox",
+        "label": "更快检测结束战斗，开启后下方的超时时间才有效"
+    },
+    {
+        "name": "timeout",
+        "type": "input-text",
+        "label": "更快检测结束战斗的战斗超时时间，单位秒，默认120秒"
+    }
+]

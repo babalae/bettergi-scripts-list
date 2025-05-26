@@ -68,7 +68,7 @@
             try {
                 log.info(`开始地图追踪：${element}`);
 
-                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
+                dispatcher.addTimer(new RealtimeTimer("AutoPick"));
                 let file_path = base_path + element;
                 await pathingScript.runFile(file_path);
 

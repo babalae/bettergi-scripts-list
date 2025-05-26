@@ -1,0 +1,469 @@
+name: JSON Data Validation
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, edited]
+    branches:
+      - main
+    paths:
+      - 'repo/pathing/**/*.json'
+  workflow_dispatch:
+    inputs:
+      path:
+        description: '要验证的路径'
+        required: true
+        default: 'repo/pathing'
+        type: string
+      auto_fix:
+        description: '是否自动修复问题'
+        required: false
+        default: true
+        type: boolean
+      pr_number:
+        description: '关联的 PR 号'
+        required: false
+        type: string
+
+jobs:
+  validate-json:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+      - name: Set environment variables based on trigger type
+        id: set_env
+        run: |
+          # 根据触发类型设置环境变量
+          if [ "${{ github.event_name }}" = "pull_request_target" ]; then
+            echo "触发类型: PR触发"
+            echo "trigger_type=pr" >> $GITHUB_OUTPUT
+            echo "validate_path=pr_files" >> $GITHUB_OUTPUT
+            echo "auto_fix=true" >> $GITHUB_OUTPUT
+            echo "pr_number=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+            echo "head_ref=${{ github.event.pull_request.head.ref }}" >> $GITHUB_OUTPUT
+            echo "head_repo=${{ github.event.pull_request.head.repo.full_name }}" >> $GITHUB_OUTPUT
+            echo "base_ref=${{ github.event.pull_request.base.ref }}" >> $GITHUB_OUTPUT
+            echo "base_sha=${{ github.event.pull_request.base.sha }}" >> $GITHUB_OUTPUT
+          else
+            echo "触发类型: 手动触发"
+            echo "trigger_type=manual" >> $GITHUB_OUTPUT
+            echo "validate_path=${{ github.event.inputs.path }}" >> $GITHUB_OUTPUT
+            echo "auto_fix=${{ github.event.inputs.auto_fix }}" >> $GITHUB_OUTPUT
+            echo "pr_number=${{ github.event.inputs.pr_number }}" >> $GITHUB_OUTPUT
+            echo "head_ref=" >> $GITHUB_OUTPUT
+            echo "head_repo=" >> $GITHUB_OUTPUT
+            echo "base_ref=main" >> $GITHUB_OUTPUT
+            echo "base_sha=" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install packaging semver
+
+      - name: Debug file structure
+        run: |
+          echo "触发类型: ${{ steps.set_env.outputs.trigger_type }}"
+          echo "验证路径: ${{ steps.set_env.outputs.validate_path }}"
+          echo "自动修复: ${{ steps.set_env.outputs.auto_fix }}"
+          echo "PR号: ${{ steps.set_env.outputs.pr_number }}"
+          echo "Current directory: $(pwd)"
+          echo "List files in root:"
+          ls -la
+          echo "List files in build directory (if exists):"
+          if [ -d "build" ]; then
+            ls -la build/
+          else
+            echo "build directory does not exist"
+            mkdir -p build
+          fi
+
+      - name: Setup Git and repositories
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+          # 设置Git处理中文等特殊字符
+          git config --global core.quotepath false
+          
+          # 确保远程仓库设置正确
+          echo "当前远程仓库配置:"
+          git remote -v
+          
+          # 设置变量
+          MAIN_REPO="${{ github.repository }}"
+          PR_REPO="${{ github.event.pull_request.head.repo.full_name || github.repository }}"
+          
+          # 设置上游仓库(upstream)指向主仓库
+          UPSTREAM_REPO="https://github.com/${MAIN_REPO}.git"
+          echo "设置upstream指向主仓库: $UPSTREAM_REPO"
+          git remote remove upstream 2>/dev/null || true
+          git remote add upstream $UPSTREAM_REPO
+          
+          # 确保origin指向PR的fork仓库
+          if [ "$PR_REPO" != "$MAIN_REPO" ] && [ "${{ steps.set_env.outputs.trigger_type }}" = "pr" ]; then
+            ORIGIN_REPO="https://github.com/${PR_REPO}.git"
+            echo "PR来自fork仓库，设置origin指向: $ORIGIN_REPO"
+          else
+            ORIGIN_REPO=$UPSTREAM_REPO
+            echo "PR来自同一仓库或非PR触发，origin与upstream相同: $ORIGIN_REPO"
+          fi
+          
+          git remote set-url origin $ORIGIN_REPO 2>/dev/null || git remote add origin $ORIGIN_REPO
+          
+          # 获取最新的主仓库和分支
+          echo "获取远程分支信息"
+          git fetch upstream
+          git fetch origin
+          
+          # 显示远程仓库配置
+          echo "更新后的远程仓库配置:"
+          git remote -v
+          
+          # 检查是否处于PR环境并切换到正确的分支
+          if [ "${{ steps.set_env.outputs.trigger_type }}" = "pr" ] && [ -n "${{ steps.set_env.outputs.head_ref }}" ]; then
+            echo "检测到PR，切换到PR分支: ${{ steps.set_env.outputs.head_ref }}"
+            if [ "$PR_REPO" != "$MAIN_REPO" ]; then
+              # fork仓库的PR，需要先创建本地分支追踪fork的远程分支
+              git checkout -b "${{ steps.set_env.outputs.head_ref }}" --track "origin/${{ steps.set_env.outputs.head_ref }}" || \
+              git checkout -b "${{ steps.set_env.outputs.head_ref }}" --no-track && \
+              git push --set-upstream origin "${{ steps.set_env.outputs.head_ref }}"
+            else
+              # 同一仓库的PR
+              git checkout "${{ steps.set_env.outputs.head_ref }}" || git checkout -b "${{ steps.set_env.outputs.head_ref }}"
+            fi
+          elif [ -n "${{ github.ref_name }}" ]; then
+            echo "切换到分支: ${{ github.ref_name }}"
+            if [[ "${{ github.ref_name }}" == "main" ]]; then
+              # main分支需要明确指定
+              git checkout upstream/main -b main
+            else
+              git checkout "${{ github.ref_name }}" || git checkout -b "${{ github.ref_name }}"
+            fi
+          else
+            echo "创建临时分支"
+            git checkout -b temp-validation-branch
+          fi
+
+      - name: Prepare validation script
+        run: |
+          # 检查build目录和validate.py文件是否存在
+          mkdir -p build
+          if [ ! -f "build/validate.py" ]; then
+            echo "build/validate.py不存在，跳过获取步骤"
+          else
+            echo "build/validate.py已存在，检查文件头部"
+            head -n 5 build/validate.py
+          fi
+
+      - name: Get PR information for workflow_dispatch
+        if: ${{ steps.set_env.outputs.trigger_type == 'manual' && steps.set_env.outputs.pr_number != '' }}
+        id: pr_info
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            try {
+              const pr = await github.rest.pulls.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: parseInt(${{ steps.set_env.outputs.pr_number }})
+              });
+              
+              core.setOutput('head_sha', pr.data.head.sha);
+              core.setOutput('head_ref', pr.data.head.ref);
+              core.setOutput('head_repo', pr.data.head.repo.full_name);
+              core.setOutput('found', 'true');
+              
+              console.log(`找到 PR #${{ steps.set_env.outputs.pr_number }}`);
+              console.log(`Head SHA: ${pr.data.head.sha}`);
+              console.log(`Head Ref: ${pr.data.head.ref}`);
+              console.log(`Head Repo: ${pr.data.head.repo.full_name}`);
+              
+              // 如果找到PR，切换到PR分支
+              const exec = require('child_process').execSync;
+              if (pr.data.head.ref) {
+                console.log(`切换到PR分支: ${pr.data.head.ref}`);
+                exec(`git checkout ${pr.data.head.ref} || git checkout -b ${pr.data.head.ref}`);
+              }
+            } catch (error) {
+              console.log(`获取 PR #${{ steps.set_env.outputs.pr_number }} 信息失败: ${error.message}`);
+              core.setOutput('found', 'false');
+            }
+
+      - name: Get changed files for PR trigger
+        id: changed_files
+        if: ${{ steps.set_env.outputs.trigger_type == 'pr' }}
+        run: |
+          # 输出分支信息便于调试
+          echo "当前分支: $(git branch --show-current)"
+          echo "HEAD指向: $(git rev-parse HEAD)"
+          echo "PR基础分支: ${{ steps.set_env.outputs.base_ref }}"
+          
+          # 确保有upstream/main分支
+          git fetch upstream main
+          echo "Upstream/main SHA: $(git rev-parse upstream/main)"
+          
+          # 创建临时变量来存储修改的文件列表
+          CHANGED_FILES=""
+          
+          # 方法1：尝试使用git diff检测变化
+          echo "检测方法1: 使用git diff检测"
+          FILES_METHOD_1=$(git diff --name-only upstream/main HEAD | grep -E '^repo/pathing/.*\.json$' || true)
+          if [ -n "$FILES_METHOD_1" ]; then
+            echo "方法1找到的JSON文件:"
+            echo "$FILES_METHOD_1"
+            CHANGED_FILES="$FILES_METHOD_1"
+          else
+            echo "方法1未找到修改的JSON文件"
+          fi
+          
+          # 方法2：如果方法1失败，尝试直接查询PR API获取修改的文件
+          if [ -z "$CHANGED_FILES" ] && [ -n "${{ steps.set_env.outputs.pr_number }}" ]; then
+            echo "检测方法2: 使用GitHub API检测"
+            PR_FILES=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+                        "https://api.github.com/repos/${{ github.repository }}/pulls/${{ steps.set_env.outputs.pr_number }}/files" | \
+                      jq -r '.[] | select(.filename | test("^repo/pathing/.*\\.json$")) | .filename')
+            
+            if [ -n "$PR_FILES" ]; then
+              echo "方法2找到的JSON文件:"
+              echo "$PR_FILES"
+              CHANGED_FILES="$PR_FILES"
+            else
+              echo "方法2未找到修改的JSON文件"
+            fi
+          fi
+          
+          # 方法3：如果前两种方法都失败，列出所有repo/pathing中的JSON文件，但限制在最近修改的
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "检测方法3: 列出最近修改的JSON文件"
+            # 列出过去5次提交中修改的JSON文件
+            RECENT_FILES=$(git log -n 5 --name-only --pretty=format: | grep -E '^repo/pathing/.*\.json$' | sort -u || true)
+            
+            if [ -n "$RECENT_FILES" ]; then
+              echo "最近修改的JSON文件:"
+              echo "$RECENT_FILES"
+              CHANGED_FILES="$RECENT_FILES"
+              echo "⚠️ 警告: 使用最近修改的文件作为回退方案"
+            else
+              echo "方法3未找到最近修改的JSON文件"
+            fi
+          fi
+          
+          # 最后回退方案：直接指定验证目录
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "⚠️ 警告: 所有方法均未检测到修改的JSON文件，将验证整个repo/pathing目录"
+            CHANGED_FILES="repo/pathing"
+          fi
+          
+          # 输出结果
+          echo "最终找到的修改文件:"
+          echo "$CHANGED_FILES"
+          # 使用base64编码保存文件列表，避免特殊字符问题
+          echo "changed_files=$(echo "$CHANGED_FILES" | base64 -w 0)" >> $GITHUB_OUTPUT
+
+      - name: Run validation for PR trigger
+        if: ${{ steps.set_env.outputs.trigger_type == 'pr' }}
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          PR_NUMBER: ${{ steps.set_env.outputs.pr_number }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_REF: ${{ steps.set_env.outputs.head_ref }}
+          PR_REPO: ${{ steps.set_env.outputs.head_repo || github.repository }}
+          CHANGED_FILES_B64: ${{ steps.changed_files.outputs.changed_files }}
+        run: |
+          # 使用base64解码文件列表
+          CHANGED_FILES=$(echo "$CHANGED_FILES_B64" | base64 --decode)
+          
+          echo "PR 触发模式，验证修改的 JSON 文件"
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "没有找到修改的 JSON 文件，跳过验证"
+            exit 0
+          fi
+          
+          # 检查Python解释器编码设置
+          echo "Python编码设置:"
+          python -c "import sys; print(sys.getdefaultencoding())"
+          
+          # 检查CHANGED_FILES是否包含整个目录
+          if [ "$CHANGED_FILES" = "repo/pathing" ]; then
+            echo "验证整个目录: repo/pathing"
+            python build/validate.py "repo/pathing" --fix
+          else
+            # 创建一个临时文件来存储文件列表
+            echo "$CHANGED_FILES" > temp_file_list.txt
+            # 单独验证每个修改的文件，使用while读取避免文件名中的空格和特殊字符问题
+            while IFS= read -r file; do
+              echo "验证文件: $file"
+              if [ -f "$file" ]; then
+                python build/validate.py "$file" --fix
+              else
+                echo "警告: 文件不存在 - $file"
+              fi
+            done < temp_file_list.txt
+            rm temp_file_list.txt
+          fi
+          
+          # 检查是否有文件被修改
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "发现修改，提交更改"
+            git add .
+            git commit -m "自动修复 JSON 格式和版本号 [ci skip]"
+            
+            # 确定当前分支
+            CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+            echo "当前分支: ${CURRENT_BRANCH}"
+            
+            if [ "$CURRENT_BRANCH" = "HEAD" ]; then
+              # 如果在detached HEAD状态，使用正确的方式推送
+              if [ -n "${HEAD_REF}" ]; then
+                echo "在detached HEAD状态，使用HEAD_REF推送: ${HEAD_REF}"
+                git push origin HEAD:${HEAD_REF}
+              else
+                echo "无法确定目标分支，跳过推送"
+              fi
+            else
+              # 常规推送
+              echo "推送到分支: ${CURRENT_BRANCH}"
+              git push origin ${CURRENT_BRANCH}
+            fi
+          else
+            echo "没有文件被修改，无需提交"
+          fi
+
+      - name: Run validation for manual trigger
+        if: ${{ steps.set_env.outputs.trigger_type == 'manual' }}
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          PR_NUMBER: ${{ steps.set_env.outputs.pr_number }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_REF: ${{ steps.pr_info.outputs.head_ref || '' }}
+          PR_REPO: ${{ steps.pr_info.outputs.head_repo || github.repository }}
+          VALIDATE_PATH: ${{ steps.set_env.outputs.validate_path }}
+          AUTO_FIX: ${{ steps.set_env.outputs.auto_fix }}
+        run: |
+          echo "手动触发模式，验证路径: ${VALIDATE_PATH}"
+          # 使用引号包裹路径，处理特殊字符
+          python build/validate.py "${VALIDATE_PATH}" $([[ "${AUTO_FIX}" == "true" ]] && echo "--fix")
+          
+          # 检查是否有文件被修改
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "发现修改，提交更改"
+            git add .
+            git commit -m "自动修复 JSON 格式和版本号 [ci skip]"
+            
+            # 如果关联了PR，尝试提交更改到PR
+            if [ -n "$PR_NUMBER" ] && [ -n "$HEAD_REF" ]; then
+              echo "提交更改到PR: #$PR_NUMBER"
+              
+              # 确定当前分支
+              CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+              echo "当前分支: ${CURRENT_BRANCH}"
+              
+              if [ "$CURRENT_BRANCH" = "HEAD" ]; then
+                # 如果在detached HEAD状态，使用正确的方式推送
+                echo "在detached HEAD状态，使用HEAD_REF推送: ${HEAD_REF}"
+                git push origin HEAD:${HEAD_REF}
+              else
+                # 常规推送
+                echo "推送到分支: ${CURRENT_BRANCH}"
+                git push origin ${CURRENT_BRANCH}
+              fi
+            else
+              # 未关联PR或无法确定分支，直接提交到main分支
+              echo "未关联PR或无法确定分支，直接提交到main分支"
+              
+              # 保存修改的文件列表
+              MODIFIED_FILES=$(git status --porcelain | grep -E "^ M|^M" | awk '{print $2}')
+              echo "已修改的文件:"
+              echo "$MODIFIED_FILES"
+              
+              # 将修改的文件保存到临时目录
+              TEMP_DIR=$(mktemp -d)
+              echo "创建临时目录: $TEMP_DIR"
+              for file in $MODIFIED_FILES; do
+                # 确保目标目录存在
+                mkdir -p "$TEMP_DIR/$(dirname "$file")"
+                # 复制修改后的文件到临时目录
+                cp "$file" "$TEMP_DIR/$file"
+                echo "已复制文件: $file"
+              done
+              
+              # 切换到main分支
+              git fetch upstream main
+              git checkout -b temp-main upstream/main
+              
+              # 从临时目录复制修改后的文件到main分支
+              for file in $MODIFIED_FILES; do
+                # 确保目标目录存在
+                mkdir -p "$(dirname "$file")"
+                # 复制文件
+                cp "$TEMP_DIR/$file" "$file"
+                echo "已应用修改到main分支: $file"
+              done
+              
+              # 提交并推送
+              git add .
+              git commit -m "自动修复 JSON 格式和版本号 [ci skip]"
+              git push upstream temp-main:main
+            fi
+          else
+            echo "没有文件被修改，无需提交"
+          fi
+          
+      - name: Add PR comment
+        if: ${{ (steps.set_env.outputs.trigger_type == 'pr') || (steps.set_env.outputs.trigger_type == 'manual' && steps.set_env.outputs.pr_number != '' && steps.pr_info.outputs.found == 'true') }}
+        continue-on-error: true
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const pr_number = ${{ steps.set_env.outputs.pr_number }};
+            
+            if (fs.existsSync('validation_notes.md')) {
+              const message = fs.readFileSync('validation_notes.md', 'utf8');
+              await github.rest.issues.createComment({
+                issue_number: pr_number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: message
+              });
+            } else {
+              console.log("没有发现 validation_notes.md 文件");
+              
+              // 检查是否有文件被修改并提交
+              const { execSync } = require('child_process');
+              let commitMessage = '';
+              
+              try {
+                const lastCommit = execSync('git log -1 --pretty=%B').toString().trim();
+                if (lastCommit.includes('自动修复')) {
+                  commitMessage = '✅ 校验完成并自动修复了一些问题。修改已提交到PR中。';
+                } else {
+                  commitMessage = '✅ 校验完成，没有发现需要修复的问题';
+                }
+              } catch (error) {
+                commitMessage = '✅ 校验完成，没有发现需要修复的问题';
+              }
+              
+              await github.rest.issues.createComment({
+                issue_number: pr_number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: commitMessage
+              });
+            }
