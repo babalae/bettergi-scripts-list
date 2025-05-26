@@ -41,24 +41,36 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 			await sleep(100);
 		}
 	}
-
 	// 切换队伍
 	async function SwitchParty(partyName) {
 		let ConfigureStatue = false;
-		keyPress("VK_L");
-
-		for (let i = 0; i < 10; i++) {
-			let QuickSetupButton = captureGameRegion().find(QuickSetupButtonRo);
-			if (QuickSetupButton.isExist()) {
-				log.info("已进入队伍配置页面");
-				break;
-			} else {
-				await sleep(1000);
+		
+		let foundQuickSetup = false;		
+		for (let j = 0; j < 2; j++) {  // 尝试两次
+			keyPress("VK_L");
+			for (let i = 0; i < 3; i++) {
+				let QuickSetupButton = captureGameRegion().find(QuickSetupButtonRo);
+				if (QuickSetupButton.isExist()) {
+					log.info("已进入队伍配置页面");
+					foundQuickSetup = true;
+					break;
+				} else {
+					await sleep(1000);
+				}
+			}
+			if (foundQuickSetup) {
+				break;  // 第一次找到就退出循环
 			}
 		}
-		// 识别当前队伍
+		
+		if (!foundQuickSetup) {
+			log.error("两次尝试都未能进入队伍配置页面");
+			return false;
+		}		// 识别当前队伍
 		let captureRegion = captureGameRegion();
 		let resList = captureRegion.findMulti(RecognitionObject.ocr(100, 900, 300, 180));
+		let currentPartyFound = false;
+		
 		for (let i = 0; i < resList.count; i++) {
 			let res = resList[i];
 			log.info("当前队伍名称位置:({x},{y},{w},{h}), 识别结果：{text}", res.x, res.y, res.Width, res.Height, res.text);
@@ -67,81 +79,104 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 				notification.send(`当前队伍即为目标队伍：${partyName}，无需切换`);
 				keyPress("VK_ESCAPE");
 				await sleep(500);
-			} else {
-				await sleep(1000);
-				let ConfigureTeamButton = captureGameRegion().find(ConfigureTeamButtonRo);
-				if (ConfigureTeamButton.isExist()) {
-					log.info("识别到配置队伍按钮");
-					ConfigureTeamButton.click();
-					await sleep(500);
-					await pageTop(LeftSliderTopRo);
-
-					for (let p = 0; p < 4; p++) {
-						// 识别当前页
-						let captureRegion = captureGameRegion();
-						let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 100, 400, 900));
-						for (let i = 0; i < resList.count; i++) {
-							let res = resList[i];
-							if (settings.enableDebug) {
-								log.info("文本位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
-							}
-							if (res.text.includes(partyName)) {
-								log.info("目标队伍位置:({x},{y},{w},{h}), 识别结果：{text}", res.x, res.y, res.Width, res.Height, res.text);
-								click(Math.ceil(res.x + 360), res.y + Math.ceil(res.Height / 2));
-
-								// 找到目标队伍，点击确定、部署
-								await sleep(1500);
-								let ConfirmButton = captureGameRegion().find(ConfirmDeployButtonRo);
-								if (ConfirmButton.isExist()) {
-									log.info("识别到确定按钮:({x},{y},{w},{h})", ConfirmButton.x, ConfirmButton.y, ConfirmButton.Width, ConfirmButton.Height);
-									ConfirmButton.click();
-								}
-								await sleep(1500);
-								let DeployButton = captureGameRegion().find(ConfirmDeployButtonRo);
-								if (DeployButton.isExist()) {
-									log.info("识别到部署按钮:({x},{y},{w},{h})", DeployButton.x, DeployButton.y, DeployButton.Width, DeployButton.Height);
-									DeployButton.click();
-									notification.send(`寻找到目标队伍：${partyName}`);
-									ConfigureStatue = true;
-									break;
-								}
-							}
-						}
-						if (ConfigureStatue) {
-							await genshin.returnMainUi();
-							break;
-						} else {
-							await pageDown(LeftSliderBottomRo);
-						}
-					}
-					if (!ConfigureStatue) {
-						log.error("\n\n队伍切换失败,可能是：\n1.处于联机模式 \n2.无法正确识别\n3.JS自定义配置中的队伍名称设置错误，请检查!\n");
-						notification.error("队伍切换失败,可能是：\n1.处于联机模式 \n2.无法正确识别\n3.JS自定义配置中的队伍名称设置错误，请检查!");
-						await genshin.returnMainUi();
-						break;
-					}
-				}
+				currentPartyFound = true;
+				break;
 			}
 		}
-	}
+				if (!currentPartyFound) {
+			await sleep(1000);
+			let ConfigureTeamButton = captureGameRegion().find(ConfigureTeamButtonRo);
+			if (ConfigureTeamButton.isExist()) {
+				log.info("识别到配置队伍按钮");
+				ConfigureTeamButton.click();
+				await sleep(500);
+				await pageTop(LeftSliderTopRo);
 
-	// Main
-	if (!!settings.partyName) {
-		// try {
-		if (!settings.disableGoStatue) {
-			log.info("正在传送回七天神像切换队伍");
-			await genshin.TpToStatueOfTheSeven();
-			log.info("正在尝试切换至" + settings.partyName);
-			await SwitchParty(settings.partyName);
+				for (let p = 0; p < 4; p++) {
+					// 识别当前页
+					let captureRegion = captureGameRegion();
+					let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 100, 400, 900));
+					for (let i = 0; i < resList.count; i++) {
+						let res = resList[i];
+						if (settings.enableDebug) {
+							log.info("文本位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
+						}
+						if (res.text.includes(partyName)) {
+							log.info("目标队伍位置:({x},{y},{w},{h}), 识别结果：{text}", res.x, res.y, res.Width, res.Height, res.text);
+							click(Math.ceil(res.x + 360), res.y + Math.ceil(res.Height / 2));
+
+							// 找到目标队伍，点击确定、部署
+							await sleep(1500);
+							let ConfirmButton = captureGameRegion().find(ConfirmDeployButtonRo);
+							if (ConfirmButton.isExist()) {
+								log.info("识别到确定按钮:({x},{y},{w},{h})", ConfirmButton.x, ConfirmButton.y, ConfirmButton.Width, ConfirmButton.Height);
+								ConfirmButton.click();
+							}
+							await sleep(1500);
+							let DeployButton = captureGameRegion().find(ConfirmDeployButtonRo);
+							if (DeployButton.isExist()) {
+								log.info("识别到部署按钮:({x},{y},{w},{h})", DeployButton.x, DeployButton.y, DeployButton.Width, DeployButton.Height);
+								DeployButton.click();
+								notification.send(`寻找到目标队伍：${partyName}`);
+								ConfigureStatue = true;
+								break;
+							}
+						}
+					}
+					if (ConfigureStatue) {
+						await genshin.returnMainUi();
+						break;
+					} else {
+						await pageDown(LeftSliderBottomRo);
+					}
+				}
+				if (!ConfigureStatue) {
+					// 没找到指定队伍名称的队伍，抛出异常
+					log.error(`没有找到指定队伍名称：${partyName}`);
+					notification.error(`没有找到指定队伍名称：${partyName}`);
+					await genshin.returnMainUi();
+					throw new Error(`没有找到指定队伍名称：${partyName}`);
+				}
+			} else {
+				// 没找到配置队伍按钮，抛出异常
+				log.error("没有找到配置队伍按钮");
+				notification.error("没有找到配置队伍按钮");
+				await genshin.returnMainUi();
+				throw new Error("没有找到配置队伍按钮");
+			}
 		} else {
-			await genshin.returnMainUi();
-			log.info("正在尝试切换至" + settings.partyName);
-			await SwitchParty(settings.partyName);
+			// 当前队伍就是目标队伍，设置成功状态
+			ConfigureStatue = true;
 		}
-		// } catch {
-		// 	log.warn("队伍切换失败，可能处于联机模式或其他不可切换状态");
-		// 	await genshin.returnMainUi();
-		// }
+		return ConfigureStatue;
+	}	// Main
+	if (!!settings.partyName) {
+		try {
+			if (settings.forceGoStatue) {
+				// 强制去七天神像换队
+				log.info("强制传送到七天神像切换队伍");
+				await genshin.TpToStatueOfTheSeven();
+				log.info("正在尝试切换至" + settings.partyName);
+				await SwitchParty(settings.partyName);
+			} else {
+				// 先尝试在当前位置换队
+				await genshin.returnMainUi();
+				log.info("正在尝试切换至" + settings.partyName);
+				let switchResult = await SwitchParty(settings.partyName);
+				
+				if (!switchResult) {
+					// 如果当前位置换队失败，去七天神像再试一次
+					log.info("当前位置换队失败，传送到七天神像重试");
+					await genshin.TpToStatueOfTheSeven();
+					log.info("正在七天神像重新尝试切换至" + settings.partyName);
+					await SwitchParty(settings.partyName);
+				}
+			}
+		} catch (error) {
+			log.error("队伍切换失败：" + error.message);
+			notification.error("队伍切换失败：" + error.message);
+			await genshin.returnMainUi();
+		}
 	} else {
 		log.error("没有设置切换队伍");
 		notification.error("没有设置切换队伍");
