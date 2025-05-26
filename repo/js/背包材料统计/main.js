@@ -925,7 +925,7 @@ function calculatePerTime(resourceName, pathName, recordDir) {
                     const quantityChangeLine = lines[i + 4]; // 假设数量变化在路径名后的第五行
 
                     if (runTimeLine.startsWith('运行时间: ') && quantityChangeLine.startsWith('数量变化: ')) {
-                        const runTime = parseFloat(runTimeLine.split('运行时间: ')[1].split('秒')[0]);
+                        const runTime = parseInt(runTimeLine.split('运行时间: ')[1].split('秒')[0], 10);
                         const quantityChange = JSON.parse(quantityChangeLine.split('数量变化: ')[1]);
 
                         // 检查数量变化是否有效
@@ -1226,7 +1226,13 @@ normalPaths.sort((a, b) => {
 
                         // 调用路径文件
                         await pathingScript.runFile(pathingFilePath);
-                        await sleep(1000);
+                        await sleep(100);
+
+                        // 记录结束时间
+                        const endTime = new Date().toLocaleString();
+
+                        // 计算运行时间
+                        const runTime = (new Date(endTime) - new Date(startTime)) / 1000; // 秒
 
                     // 根据 materialCategoryMap 构建 resourceCategoryMap
                     const resourceCategoryMap = {};
@@ -1269,12 +1275,6 @@ normalPaths.sort((a, b) => {
 
                         // 打印数量差值
                         log.info(`数量变化: ${JSON.stringify(materialCountDifferences, null, 2)}`);
-
-                        // 记录结束时间
-                        const endTime = new Date().toLocaleString();
-
-                        // 计算运行时间
-                        const runTime = (new Date(endTime) - new Date(startTime)) / 1000; // 秒
 
                         // 记录运行时间到材料对应的文件中
                         recordRunTime(resourceName, pathName, startTime, endTime, runTime, recordDir, materialCountDifferences);
