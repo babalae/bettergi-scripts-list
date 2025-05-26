@@ -152,7 +152,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 	}	// Main
 	if (!!settings.partyName) {
 		try {
-			if (settings.forceGoStatue) {
+			if (!settings.disableGoStatue) {
 				// 强制去七天神像换队
 				log.info("强制传送到七天神像切换队伍");
 				await genshin.TpToStatueOfTheSeven();
