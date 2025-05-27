@@ -1,0 +1,38 @@
+{
+  "info": {
+    "name": "盗宝团-准备",
+    "type": "collect",
+    "author": "HZYgrandma",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2740.6000000000004,
+      "y": -3410.6900000000005,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -2764.4062480249577,
+      "y": -3465.687530315927,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -2770.4169921875,
+      "y": -3450.8349609375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

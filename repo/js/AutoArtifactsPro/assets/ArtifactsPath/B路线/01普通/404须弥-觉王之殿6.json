@@ -1,0 +1,150 @@
+{
+  "info": {
+    "name": "须弥-觉王之殿6",
+    "type": "collect",
+    "author": "汐",
+    "version": "",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3592.20458984375,
+      "y": -786.109375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3583.609375,
+      "y": -754.2177734375,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3592.33984375,
+      "y": -734.76708984375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3592.33984375,
+      "y": -734.76708984375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 3608.279296875,
+      "y": -729.24072265625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 3623.935546875,
+      "y": -762.58984375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3625.6474609375,
+      "y": -764.0546875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 3643.86328125,
+      "y": -781.35302734375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "click,wait(0.5),click,wait(0.5),click,wait(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 3646.6868027240853,
+      "y": -796.3140940269186,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(t),wait(0.5),keypress(t)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 3659.6223224604873,
+      "y": -834.251347065001,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(t),wait(0.5),keypress(t)wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 3673.01953125,
+      "y": -863.3125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 3673.45361328125,
+      "y": -867.6865234375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": 3690.87352177506,
+      "y": -857.2512348095843,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 3730.468819727592,
+      "y": -827.1561489701253,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 3739.7431640625,
+      "y": -822.091796875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 3737.0048828125,
+      "y": -825.27001953125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}
