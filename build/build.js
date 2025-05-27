@@ -307,7 +307,7 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
         if (actions.includes('pick_around')) tags.push('转圈拾取');
         if (actions.includes('fishing')) tags.push('钓鱼');
         if (actions.includes('set_time')) tag.push('时间调整');
-        const move_modes = contentObj.positions.map(pos => pos.move_modes);
+        const move_modes = contentObj.positions.map(pos => pos.move_mode);
         if (move_modes.includes('climb')) tags.push("有攀爬");
         
     }
