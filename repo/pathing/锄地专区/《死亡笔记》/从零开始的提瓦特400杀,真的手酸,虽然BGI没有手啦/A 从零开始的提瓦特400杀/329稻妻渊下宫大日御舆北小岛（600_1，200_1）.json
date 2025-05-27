@@ -11,8 +11,8 @@
   "positions": [
     {
       "id": 1,
-      "x": 282.83,
-      "y": 421.01,
+      "x": 282.8294677734375,
+      "y": 421.0054931640625,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -20,62 +20,71 @@
     },
     {
       "id": 2,
-      "x": 270.62,
-      "y": 414.56,
+      "x": 246.56226299502373,
+      "y": 416.18774252741537,
+      "type": "path",
+      "move_mode": "dash",
       "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 3,
-      "x": 256.19,
-      "y": 425.25,
+      "x": 253.0380859375,
+      "y": 431.064208984375,
+      "type": "path",
+      "move_mode": "run",
       "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 4,
-      "x": 235.75,
-      "y": 453.44,
-      "action": "fight",
+      "x": 245.06235384693127,
+      "y": 453.5625,
+      "type": "path",
       "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 243.5004898102843,
+      "y": 458.74871157310577,
+      "action": "fight",
+      "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 5,
-      "x": 252.69,
-      "y": 484.62,
+      "id": 6,
+      "x": 252.68759085190754,
+      "y": 484.6235751514346,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 6,
-      "x": 260.19,
-      "y": 522.88,
-      "type": "path",
-      "move_mode": "fly",
+      "id": 7,
+      "x": 260.1876066522393,
+      "y": 522.8750151579634,
       "action": "combat_script",
-      "action_params": "w(10.5),attack(0.2),wait(0.2),keydown(w),wait(0.01),keydown(LSHIFT),wait(4.5),keyup(LSHIFT),wait(0.1),keyup(w)"
+      "move_mode": "fly",
+      "action_params": "w(10.5),attack(0.2),wait(0.2),keydown(w),wait(0.5),keydown(LSHIFT),wait(4.5),keyup(LSHIFT),wait(0.1),keyup(w)",
+      "type": "path"
     },
     {
-      "id": 7,
-      "x": 280.75,
-      "y": 622.0,
+      "id": 8,
+      "x": 280.74984989684845,
+      "y": 622.0002728433424,
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
       "type": "orientation"
     },
     {
-      "id": 8,
-      "x": 280.5,
-      "y": 621.88,
+      "id": 9,
+      "x": 280.5003397071325,
+      "y": 621.8760610574423,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "wait(1)",
