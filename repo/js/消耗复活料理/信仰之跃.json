@@ -13,29 +13,38 @@
       "id": 1,
       "x": 508.03515625,
       "y": -630.49072265625,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 2,
-      "x": 499.87890625,
-      "y": -686.18310546875,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": "10000",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport",
       "locked": false
     },
     {
+      "id": 2,
+      "x": 508.03515625,
+      "y": -630.49072265625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(1)",
+      "type": "path"
+    },
+    {
       "id": 3,
+      "x": 499.87890625,
+      "y": -686.18310546875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "10000",
+      "type": "path"
+    },
+    {
+      "id": 4,
       "x": 501.3095703125,
       "y": -683.6240234375,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keypress(z),wait(5),keypress(1),wait(90)"
+      "move_mode": "walk",
+      "action_params": "wait(5),keypress(z)",
+      "type": "path"
     }
   ]
 }

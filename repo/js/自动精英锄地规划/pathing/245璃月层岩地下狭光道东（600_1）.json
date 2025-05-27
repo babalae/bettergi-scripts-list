@@ -1,83 +1,72 @@
 {
   "info": {
-    "name": "245璃月层岩地下狭光道东南（600_1）",
+    "name": "245璃月层岩地下狭光道东（600_1）",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
     "description": "",
     "map_name": "TheChasm",
-    "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1746711337670
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport",
       "x": 594.8543701171875,
       "y": 211.841796875,
-      "action_params": ""
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
       "x": 610.364501953125,
       "y": 159.2076416015625,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
       "x": 624.525390625,
       "y": 140.258544921875,
-      "type": "path",
-      "move_mode": "run",
       "action": "",
-      "action_params": ""
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 4,
-      "x": 640.2745361328125,
-      "y": 134.5643310546875,
+      "x": 639.05,
+      "y": 138.98000000000002,
       "type": "path",
       "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "action": "combat_script",
+      "action_params": "wait(0.3),keypress(VK_SPACE),wait(2.3),click"
     },
     {
       "id": 5,
-      "x": 638.52685546875,
-      "y": 129.4267578125,
+      "x": 624.6799999999998,
+      "y": 141.83999999999992,
       "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": "2100"
+      "action": "combat_script",
+      "action_params": "wait(0.3),keypress(VK_SPACE),wait(3.6),click"
     },
     {
       "id": 6,
-      "x": 626.65625,
-      "y": 145.68730080228602,
+      "x": 607.1556396484375,
+      "y": 140.1121826171875,
       "type": "path",
       "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "3500"
+      "action_params": "2500"
     },
     {
       "id": 7,
-      "x": 612.1363525390625,
-      "y": 153.2384033203125,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": "2400"
-    },
-    {
-      "id": 8,
-      "x": 609.6602783203125,
-      "y": 123.6968994140625,
+      "x": 604.9375,
+      "y": 125.56204627187367,
       "type": "path",
       "move_mode": "dash",
       "action": "fight",
@@ -85,9 +74,9 @@
       "locked": false
     },
     {
-      "id": 9,
-      "x": 609.6602783203125,
-      "y": 123.6968994140625,
+      "id": 8,
+      "x": 604.9375,
+      "y": 125.53150453041235,
       "type": "orientation",
       "move_mode": "dash",
       "action": "combat_script",

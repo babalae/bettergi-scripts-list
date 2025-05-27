@@ -212,10 +212,10 @@ def generate_ley_line_data():
     # Second pass: Process all target points to create blossom nodes
     # Also maintain a map from file info to target nodes
     region_area_num_to_target = {}
-    
+
     for file_path, path_data in file_data.items():
         _, last_pos = get_first_and_last_positions(path_data)
-        if not last_pos or last_pos.get("type") != "target":
+        if not last_pos:
             continue
         
         # Extract region from filename
@@ -228,18 +228,23 @@ def generate_ley_line_data():
         if not region or not area or not num:
             continue
         
-        # Process target points as blossom nodes
+        # Process last points as blossom nodes (regardless of type)
         target_x = format_coord(float(last_pos["x"]))
         target_y = format_coord(float(last_pos["y"]))
         
-        # Check if we already have a nearby blossom node
-        blossom_node = find_nearby_node(nodes, target_x, target_y, "blossom")
+        # Determine node type - default to blossom for target or if not specified
+        node_type = last_pos.get("type", "blossom")
+        if node_type == "path":
+            node_type = "blossom"
+        
+        # Check if we already have a nearby node of the same type
+        blossom_node = find_nearby_node(nodes, target_x, target_y, node_type)
         
         if not blossom_node:
-            # Create new blossom node
+            # Create new node
             blossom_node = {
                 "id": next_node_id,
-                "type": "blossom",
+                "type": node_type,
                 "region": region,
                 "position": {"x": target_x, "y": target_y},
                 "prev": [],
@@ -249,7 +254,7 @@ def generate_ley_line_data():
             node_map[next_node_id] = blossom_node
             next_node_id += 1
         
-        # Store the blossom node in our region-area-num map
+        # Store the node in our region-area-num map
         key = f"{region}-{area}"
         if key not in region_area_num_to_target:
             region_area_num_to_target[key] = {}
@@ -257,7 +262,6 @@ def generate_ley_line_data():
             "node": blossom_node,
             "file_path": file_path
         }
-    
     # Special handling for files with only target positions (like 纳塔4-溶水域-2.json)
     for file_path in pathing_files:
         file_name = os.path.basename(file_path)
@@ -275,45 +279,45 @@ def generate_ley_line_data():
                 target_data = read_pathing_file(target_path)
                 
                 if target_data and "positions" in target_data and target_data["positions"]:
-                    # Create blossom node from the target file
+                    # Create node from the target file
                     target_pos = target_data["positions"][0]
-                    if target_pos.get("type") == "target":
-                        target_x = format_coord(float(target_pos["x"]))
-                        target_y = format_coord(float(target_pos["y"]))
-                        
-                        # Check if we already have a nearby blossom node
-                        blossom_node = find_nearby_node(nodes, target_x, target_y, "blossom")
-                        
-                        if not blossom_node:
-                            # Create new blossom node
-                            blossom_node = {
-                                "id": next_node_id,
-                                "type": "blossom",
-                                "region": region,
-                                "position": {"x": target_x, "y": target_y},
-                                "prev": [],
-                                "next": []
-                            }
-                            nodes.append(blossom_node)
-                            node_map[next_node_id] = blossom_node
-                            next_node_id += 1
-                        
-                        # Add to region_area_num_to_target map
-                        if key not in region_area_num_to_target:
-                            region_area_num_to_target[key] = {}
-                        region_area_num_to_target[key][num] = {
-                            "node": blossom_node,
-                            "file_path": file_path
+                    # Determine node type - default to blossom if type is not specified or is target
+                    node_type = target_pos.get("type", "blossom")
+                    if node_type == "target":
+                        node_type = "blossom"
+                    
+                    target_x = format_coord(float(target_pos["x"]))
+                    target_y = format_coord(float(target_pos["y"]))
+                    
+                    # Check if we already have a nearby node of the same type
+                    blossom_node = find_nearby_node(nodes, target_x, target_y, node_type)
+                    
+                    if not blossom_node:
+                        # Create new node
+                        blossom_node = {
+                            "id": next_node_id,
+                            "type": node_type,
+                            "region": region,
+                            "position": {"x": target_x, "y": target_y},
+                            "prev": [],
+                            "next": []
                         }
+                        nodes.append(blossom_node)
+                        node_map[next_node_id] = blossom_node
+                        next_node_id += 1
+                    
+                    # Add to region_area_num_to_target map
+                    if key not in region_area_num_to_target:
+                        region_area_num_to_target[key] = {}
+                    region_area_num_to_target[key][num] = {
+                        "node": blossom_node,
+                        "file_path": file_path
+                    }
     
-    # Third pass: Connect teleport points to their target blossoms
+    # Third pass: Connect teleport points to their destination nodes
     for file_path, path_data in file_data.items():
         first_pos, last_pos = get_first_and_last_positions(path_data)
         if not first_pos or not last_pos:
-            continue
-        
-        # Skip if this isn't a valid target
-        if last_pos.get("type") != "target":
             continue
         
         # Extract file info
@@ -324,38 +328,55 @@ def generate_ley_line_data():
         if not region or not area or not num:
             continue
         
-        # For teleport source type, connect to target
+        # For teleport source type, connect to destination
         if first_pos.get("type") == "teleport":
-            # Find teleport node
+            # 查找第一个点（传送点）
             x = format_coord(float(first_pos["x"]))
             y = format_coord(float(first_pos["y"]))
             teleport_node = find_nearby_node(nodes, x, y, "teleport")
             
-            # Find target blossom node
-            target_x = format_coord(float(last_pos["x"]))
-            target_y = format_coord(float(last_pos["y"]))
-            target_node = find_nearby_node(nodes, target_x, target_y, "blossom")
+            # 查找最后一个点（目标点，通常是blossom）
+            dest_x = format_coord(float(last_pos["x"]))
+            dest_y = format_coord(float(last_pos["y"]))
             
-            if teleport_node and target_node:
-                # Add connection
+            # 确定节点类型，默认为blossom
+            dest_type = last_pos.get("type", "blossom")
+            if dest_type == "target" or dest_type == "path":
+                dest_type = "blossom"
+                
+            # 查找目标节点
+            dest_node = find_nearby_node(nodes, dest_x, dest_y, dest_type)
+            
+            # 如果找到了传送点和目标节点，则建立连接
+            if teleport_node and dest_node:
+                # 添加相对路径
                 relative_path = generate_relative_path(file_path, script_dir)
                 
-                # Add target to teleport's next array if not already there
+                # 将目标添加到传送点的next数组中（如果尚未添加）
                 route_exists = False
                 for route in teleport_node["next"]:
-                    if route["target"] == target_node["id"]:
+                    if route["target"] == dest_node["id"]:
                         route_exists = True
                         break
                 
                 if not route_exists:
                     teleport_node["next"].append({
-                        "target": target_node["id"],
+                        "target": dest_node["id"],
                         "route": relative_path
                     })
                 
-                # Add teleport to target's prev array if not already there
-                if teleport_node["id"] not in target_node["prev"]:
-                    target_node["prev"].append(teleport_node["id"])
+                # 将传送点添加到目标的prev数组中（如果尚未添加）
+                if teleport_node["id"] not in dest_node["prev"]:
+                    dest_node["prev"].append(teleport_node["id"])
+                    
+            # 输出调试信息，帮助排查问题
+            else:
+                debug_info = f"无法连接传送点到目标: 文件={file_name}"
+                if not teleport_node:
+                    debug_info += f", 未找到传送点({x},{y})"
+                if not dest_node:
+                    debug_info += f", 未找到目标点({dest_x},{dest_y}, 类型={dest_type})"
+                print(debug_info)
     
     # Fourth pass: Connect nodes based on numerical sequence and handle branch paths
     for region_area, num_to_target in region_area_num_to_target.items():
@@ -433,14 +454,14 @@ def generate_ley_line_data():
             if current_node["id"] not in next_node["prev"]:
                 next_node["prev"].append(current_node["id"])
     
-    # Fifth pass: Connect "path" type sources to their targets
+    # Fifth pass: Connect "path" type sources to their destinations
     for file_path, path_data in file_data.items():
         first_pos, last_pos = get_first_and_last_positions(path_data)
         if not first_pos or not last_pos:
             continue
         
-        # Skip if not a path type or not a valid target
-        if first_pos.get("type") != "path" or last_pos.get("type") != "target":
+        # Skip if not a path type
+        if first_pos.get("type") != "path":
             continue
         
         # Extract file info
@@ -451,38 +472,44 @@ def generate_ley_line_data():
         if not region or not area or not num:
             continue
         
-        # Try to find the source in previous route target
+        # Try to find the source in previous route 
         prev_num = num - 1
         key = f"{region}-{area}"
         if key in region_area_num_to_target and prev_num in region_area_num_to_target[key]:
             prev_info = region_area_num_to_target[key][prev_num]
             prev_node = prev_info["node"]
             
-            # Find the current target node
-            target_x = format_coord(float(last_pos["x"]))
-            target_y = format_coord(float(last_pos["y"]))
-            target_node = find_nearby_node(nodes, target_x, target_y, "blossom")
+            # Find the current destination node
+            dest_x = format_coord(float(last_pos["x"]))
+            dest_y = format_coord(float(last_pos["y"]))
             
-            if prev_node and target_node:
-                # Add connection from previous target to current target
+            # Determine node type, default to blossom for target or if not specified
+            dest_type = last_pos.get("type", "blossom")
+            if dest_type == "target":
+                dest_type = "blossom"
+                
+            dest_node = find_nearby_node(nodes, dest_x, dest_y, dest_type)
+            
+            if prev_node and dest_node:
+                # Add connection from previous node to current destination
                 relative_path = generate_relative_path(file_path, script_dir)
                 
-                # Add target to previous node's next array if not already there
+                # Add destination to previous node's next array if not already there
                 route_exists = False
                 for route in prev_node["next"]:
-                    if route["target"] == target_node["id"]:
+                    if route["target"] == dest_node["id"]:
                         route_exists = True
                         break
                 
                 if not route_exists:
                     prev_node["next"].append({
-                        "target": target_node["id"],
+                        "target": dest_node["id"],
                         "route": relative_path
                     })
                 
-                # Add previous node to target's prev array if not already there
-                if prev_node["id"] not in target_node["prev"]:
-                    target_node["prev"].append(prev_node["id"])
+                # Add previous node to destination's prev array if not already there
+                if prev_node["id"] not in dest_node["prev"]:
+                    dest_node["prev"].append(prev_node["id"])
     
     # Save to JSON file
     ley_line_data = {"node": nodes}
@@ -496,4 +523,4 @@ def generate_ley_line_data():
 
 
 if __name__ == "__main__":
-    generate_ley_line_data() 
+    generate_ley_line_data()

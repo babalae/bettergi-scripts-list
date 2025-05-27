@@ -2,14 +2,15 @@
     {
         "name": "operationType",
         "type": "select",
-        "label": "操作模式（默认：生成路径组文件）",
+        "label": "操作模式（默认：执行路径组文件1）",
         "options": [
-            "生成路径组文件",
+            "强制刷新路径组文件",
             "执行路径组文件1",
             "执行路径组文件2",
             "执行路径组文件3",
             "输出地图追踪文件"
-        ]
+        ],
+        "default":"执行路径组文件1"
     },
     {
         "name": "excludeTagsForPathGroup1",
@@ -32,9 +33,9 @@
         "label": "是否禁用自动拾取（默认不禁用）"
     },
     {
-        "name": "enableRouteCdCheck",
+        "name": "disableRouteCdCheck",
         "type": "checkbox",
-        "label": "是否启用路线CD检测（默认不启用）"
+        "label": "是否禁用路线CD检测（默认不禁用）"
     },
     {
         "name": "requiredMonsterCount",
@@ -49,6 +50,12 @@
     {
         "name": "excludeTagsForAll",
         "type": "input-text",
-        "label": "全局排除关键词（使用中文分号分隔）"
+        "label": "全局排除关键词（使用中文分号分隔）",
+        "default": "不跑"
+    },
+    {
+        "name": "accountName",
+        "type": "input-text",
+        "label": "账户名，用于区分不同的账户"
     }
 ]

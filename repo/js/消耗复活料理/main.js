@@ -1,11 +1,93 @@
+// fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
+//在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);
+//在js结尾处伪造该js开始运行的日志信息，如 await fakeLog("js脚本", true, false, 2333);
+//duration项目仅在伪造结束信息时有效，且无实际作用，可以任意填写，当你需要在日志中输出特定值时才需要，单位为毫秒
+//在调用地图追踪前伪造该地图追踪开始运行的日志信息，如 await fakeLog(`地图追踪.json`, false, true, 0);
+//在调用地图追踪后伪造该地图追踪结束运行的日志信息，如 await fakeLog(`地图追踪.json`, false, false, 0);
+//如此便可以在js运行过程中伪造地图追踪的日志信息，可以在日志分析等中查看
+
+async function fakeLog(name, isJs, isStart, duration) {
+    await sleep(10);
+    const currentTime = Date.now();
+    // 参数检查
+    if (typeof name !== 'string') {
+        log.error("参数 'name' 必须是字符串类型！");
+        return;
+    }
+    if (typeof isJs !== 'boolean') {
+        log.error("参数 'isJs' 必须是布尔型！");
+        return;
+    }
+    if (typeof isStart !== 'boolean') {
+        log.error("参数 'isStart' 必须是布尔型！");
+        return;
+    }
+    if (typeof currentTime !== 'number' || !Number.isInteger(currentTime)) {
+        log.error("参数 'currentTime' 必须是整数！");
+        return;
+    }
+    if (typeof duration !== 'number' || !Number.isInteger(duration)) {
+        log.error("参数 'duration' 必须是整数！");
+        return;
+    }
+
+    // 将 currentTime 转换为 Date 对象并格式化为 HH:mm:ss.sss
+    const date = new Date(currentTime);
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    const milliseconds = String(date.getMilliseconds()).padStart(3, '0');
+    const formattedTime = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+
+    // 将 duration 转换为分钟和秒，并保留三位小数
+    const durationInSeconds = duration / 1000; // 转换为秒
+    const durationMinutes = Math.floor(durationInSeconds / 60);
+    const durationSeconds = (durationInSeconds % 60).toFixed(3); // 保留三位小数
+
+    // 使用四个独立的 if 语句处理四种情况
+    if (isJs && isStart) {
+        // 处理 isJs = true 且 isStart = true 的情况
+        const logMessage = `正在伪造js开始的日志记录\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `------------------------------\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `→ 开始执行JS脚本: "${name}"`;
+        log.info(logMessage);
+    }
+    if (isJs && !isStart) {
+        // 处理 isJs = true 且 isStart = false 的情况
+        const logMessage = `正在伪造js结束的日志记录\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `------------------------------`;
+        log.info(logMessage);
+    }
+    if (!isJs && isStart) {
+        // 处理 isJs = false 且 isStart = true 的情况
+        const logMessage = `正在伪造地图追踪开始的日志记录\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `------------------------------\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `→ 开始执行地图追踪任务: "${name}"`;
+        log.info(logMessage);
+    }
+    if (!isJs && !isStart) {
+        // 处理 isJs = false 且 isStart = false 的情况
+        const logMessage = `正在伪造地图追踪结束的日志记录\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `------------------------------`;
+        log.info(logMessage);
+    }
+}
+
+
 (async function () {
-    // 定义六个运行时变量，初始值分别为 2000、1000、0、0、0、0
-    let runtime1 = 2000;
-    let runtime2 = 1000;
-    let runtime3 = 0;
-    let runtime4 = 0;
-    let runtime5 = 0;
-    let runtime6 = 0;
+
+    //伪造js结束的日志记录
+    await fakeLog("消耗复活料理", true, false, 2333);
 
     // 从 settings 中获取最大循环次数，如果未配置则默认为 2000
     const maxLoopCount = parseInt(settings.maxLoopCount || 2000, 10);
@@ -35,24 +117,6 @@
         const currentHour = now.getHours(); // 获取当前时间的小时数
         const currentTime = now.toLocaleString(); // 获取完整的当前时间字符串
 
-        // 更新 runtime 变量
-        runtime6 = runtime5;
-        runtime5 = runtime4;
-        runtime4 = runtime3;
-        runtime3 = runtime2;
-        runtime2 = runtime1;
-        runtime1 = now.getTime();
-
-        // 检查时间差条件
-        if ((runtime1 - runtime2) < 500 &&
-            (runtime2 - runtime3) < 500 &&
-            (runtime3 - runtime4) < 500 &&
-            (runtime4 - runtime5) < 500 &&
-            (runtime5 - runtime6) < 500) {
-            log.info(`连续五次时间差小于 500 毫秒，循环终止。`);
-            break; // 如果连续五次时间差小于 500 毫秒，退出循环
-        }
-
         // 如果当前时间的小时数与排除时间相同，则退出循环
         if (currentHour === excludeHour) {
             log.info(`当前时间是 ${currentTime}，与排除时间小时数相同，将退出循环`);
@@ -62,7 +126,24 @@
         // 记录当前时间
         log.info(`正在执行循环第 ${i + 1} 次，总共 ${maxLoopCount} 次，当前时间: ${currentTime}`);
 
+        await fakeLog(`第${i + 1}次信仰之跃.json`, false, true, 0);
+
         // 运行路径追踪任务
         await pathingScript.runFile(pathFileName);
+
+        await fakeLog(`第${i + 1}次信仰之跃.json`, false, false, 0);
+
+        //捕获任务结束的信息，同时等待95秒用来卡时间
+        try {
+            log.info('正在等待复活料理cd')
+            await sleep(95000);
+        } catch (error) {
+            log.error(`发生错误: ${error}`);
+            break; // 终止循环
+        }
     }
+
+    //伪造一个js开始的日志记录
+    await fakeLog("消耗复活料理", true, true, 0);
+
 })();

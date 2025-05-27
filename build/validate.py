@@ -551,10 +551,5 @@ def main():
     else:
         print(f"❌ 无效的路径: {path}")
 
-    # 生成提醒信息
-    if all_notices:
-        with open('validation_notes.md', 'w') as f:
-            f.write("## 校验注意事项\n\n" + "\n".join(f"- {n}" for n in all_notices))
-
 if __name__ == "__main__":
     main()
