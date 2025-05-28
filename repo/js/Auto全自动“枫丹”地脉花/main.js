@@ -88,9 +88,9 @@
     var color = settings.color ? settings.color : 1;
     var BIAOZZ = "assets/model/BIAOZ.bmp"
 
-    if  (color == 2){var DIMAIHUA = "assets/model/DIMAIHUA-huank.bmp";}
-    else if (color == 1){var DIMAIHUA = "assets/model/DIMAIHUA-lank.bmp";}
-    else{var DIMAIHUA = "assets/model/DIMAIHUA-lank.bmp";}
+    if  (color == 2){log.warn("2222"); var DIMAIHUA = "assets/model/DIMAIHUA-huank.bmp";}
+    else if (color == 1){log.warn("1111"); var DIMAIHUA = "assets/model/DIMAIHUA-lank.bmp";}
+    else{log.warn("3333");var DIMAIHUA = "assets/model/DIMAIHUA-lank.bmp";}
 
 
     log.debug(`DEBUG:${SHUV}.${color}.${rawTimes}`);//调试LOG
@@ -279,6 +279,7 @@
         await click(1844,1021);
         await sleep(500);
         await click(1446,350);
+        await sleep(500);
         let XIAN6 = await imageRecognition(DIMAIHUA,1,0,0,387,0,700,200);if (XIAN6.found){
             log.info("地脉花位置: X:"+XIAN6.x+" Y:"+XIAN6.y);
             position = {line:6,flower:1};
