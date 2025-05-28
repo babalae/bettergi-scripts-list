@@ -251,10 +251,14 @@ async function runArtifactsPaths(runRouteA) {
             }
         }
 
+        let currentTask = 0; // 当前任务计数器
+
         // 执行普通路线的地图追踪文件
         for (const fileName of jsonFileNames) {
             const fullPath = fileName;
             await fakeLog(fileName, false, true, 0);
+            currentTask += 1; // 更新当前任务计数器
+            log.info(`当前进度：普通${folderName}第${currentTask}/${jsonFileNames.length}个`);
             await pathingScript.runFile(fullPath);
             //捕获任务取消的信息并跳出循环
             try {
@@ -280,10 +284,14 @@ async function runArtifactsPaths(runRouteA) {
             }
         }
 
+        let currentTask = 0; // 当前任务计数器
+
         // 执行收尾路线的地图追踪文件
         for (const fileName of jsonFileNames) {
             const fullPath = fileName;
             await fakeLog(fileName, false, true, 0);
+            currentTask += 1; // 更新当前任务计数器
+            log.info(`当前进度：收尾${folderName}第${currentTask}/${jsonFileNames.length}个`);
             await pathingScript.runFile(fullPath);
             //捕获任务取消的信息并跳出循环
             try {
@@ -309,10 +317,14 @@ async function runArtifactsPaths(runRouteA) {
             }
         }
 
+        let currentTask = 0; // 当前任务计数器
+
         // 执行额外路线的地图追踪文件
         for (const fileName of jsonFileNames) {
             const fullPath = fileName;
             await fakeLog(fileName, false, true, 0);
+            currentTask += 1; // 更新当前任务计数器
+            log.info(`当前进度：额外${folderName}第${currentTask}/${jsonFileNames.length}个`);
             await pathingScript.runFile(fullPath);
             //捕获任务取消的信息并跳出循环
             try {
