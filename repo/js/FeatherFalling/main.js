@@ -11,7 +11,14 @@ tpBagRo.Use3Channels = true;
 swimStateRo.threshold = 0.60;
 
 (async function () {
-    await FeatherFailing();
+    try {
+        await FeatherFailing();
+    } catch (error) {
+        log.error("程序执行出现异常: " + error.message);
+        keyUp("W");
+        keyUp("VK_LCONTROL");
+        throw error; // 重新抛出异常
+    }
 })();
 
 async function switchPartyIfNeeded(partyName) {
@@ -39,14 +46,14 @@ async function PlacePortableWaypoint() {
     log.info("正在放置锚点");
     await genshin.returnMainUi();
     await sleep(500);
-    keyPress("B");    
+    keyPress("B");
     await sleep(500);
     click(1050, 50);
     await sleep(50);
     click(1050, 50);
     await sleep(1000);
     let result = captureGameRegion().find(tpBagRo);
-    if(result.isExist()) {
+    if (result.isExist()) {
         result.click();
         await sleep(1000);
         click(1680, 990);
@@ -70,7 +77,7 @@ async function FeatherFailing() {
     if (result.isExist()) {
         log.info("传送点图标已识别，点击传送");
         result.click();
-        await sleep(1000); 
+        await sleep(1000);
         if (settings.autoPortableWaypoint) {
             let result = captureGameRegion().find(ocrRo);
             log.info("识别到锚点文字: " + result.text);
@@ -133,7 +140,7 @@ async function FeatherFailing() {
     }
 
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 30; i++) {
         keyDown("W");
         await sleep(50);
         keyUp("W");
@@ -142,6 +149,13 @@ async function FeatherFailing() {
         if (result.isExist()) {
             log.info("已进入游泳状态");
             break;
+        }
+        if (i === 29) {
+            log.error("未进入游泳状态");
+            log.error("可能是键鼠模拟出现偏差，或锚点位置偏差");
+            log.error("可以手动放置锚点在水面正后方，确保小碎步可以到达");
+            await sleep(5000);
+            throw new Error("未进入游泳状态，请检查设置或手动操作");
         }
     }
     keyDown("VK_LCONTROL");
@@ -155,10 +169,20 @@ async function FeatherFailing() {
         }
     }
     await pathingScript.runFile("assets/pathing/原始胎海.json");
-    await sleep(25000);
+    await sleep(200);
+    middleButtonClick();
+    for (let i = 0; i < 100; i++) {
+        result = captureGameRegion().find(swimStateRo);
+        if (!result.isExist()) {
+            log.info("已退出游泳状态");
+            break;
+        }
+        await sleep(200);
+    }
     keyUp("VK_LCONTROL");
+    await sleep(10000);
     log.info("我已无敌！");
-    if (settings.Test) {
+    if (settings.test) {
         await pathingScript.runFile("assets/pathing/信仰之跃.json");
     }
 }
