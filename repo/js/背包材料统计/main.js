@@ -114,9 +114,9 @@ const selected_materials_array = Object.keys(finalSettings)
 
         const replacementMap = {
             "O": "0", "o": "0", "Q": "0", "０": "0",
-            "I": "1", "l": "1", "i": "1", "１": "1",
-            "Z": "2", "z": "2", "２": "2",
-            "E": "3", "e": "3", "３": "3",
+            "I": "1", "l": "1", "i": "1", "１": "1", "一": "1",
+            "Z": "2", "z": "2", "２": "2", "二": "2",
+            "E": "3", "e": "3", "３": "3", "三": "3",
             "A": "4", "a": "4", "４": "4",
             "S": "5", "s": "5", "５": "5",
             "G": "6", "b": "6", "６": "6",
@@ -446,7 +446,7 @@ ${Array.from(unmatchedMaterialNames).join(",")}
     await writeLog(latestFilePath, logContent);
 
     // 返回结果
-    return filterLowCountMaterials(materialInfo, materialCategoryMap);
+    return materialInfo;
 }
 
 async function writeLog(filePath, logContent) {
@@ -502,12 +502,12 @@ const specialMaterials = [
     "水晶块", "魔晶块", "星银矿石", "紫晶块", "萃凝晶", "铁块", "白铁块",
     "精锻用魔矿", "精锻用良矿", "精锻用杂矿"
 ];
-function filterLowCountMaterials(materialInfo, materialCategoryMap) {
+function filterLowCountMaterials(pathingMaterialCounts, materialCategoryMap) {
     // 将 materialCategoryMap 中的所有材料名提取出来
     const allMaterials = Object.values(materialCategoryMap).flat();
 
-    // 筛选 materialInfo 中的材料，只保留 materialCategoryMap 中定义的材料，并且数量低于 targetCount 或 count 为 "?" 或 name 在 specialMaterials 中
-    return materialInfo
+    // 筛选 pathingMaterialCounts 中的材料，只保留 materialCategoryMap 中定义的材料，并且数量低于 targetCount 或 count 为 "?" 或 name 在 specialMaterials 中
+    return pathingMaterialCounts
         .filter(item =>
             allMaterials.includes(item.name) &&
             (item.count < targetCount || item.count === "?")
@@ -1107,7 +1107,6 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
         // 递归读取路径信息文件夹
         const pathingFilePaths = readAllFilePaths(pathingDir, 0, 3, ['.json']);
 
-
         // 将路径和资源名绑定，避免重复提取
         const pathEntries = pathingFilePaths.map(path => ({
             path,
@@ -1139,60 +1138,67 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
                 materialCategoryMap[selectedCategory] = [];
             }
         });
+
         // 如果 isOnlyPathing 为 true，移除 materialCategoryMap 中的空数组
-if (isOnlyPathing) {
-    Object.keys(materialCategoryMap).forEach(category => {
-        if (materialCategoryMap[category].length === 0) {
-            delete materialCategoryMap[category];
+        if (isOnlyPathing) {
+            Object.keys(materialCategoryMap).forEach(category => {
+                if (materialCategoryMap[category].length === 0) {
+                    delete materialCategoryMap[category];
+                }
+            });
         }
-    });
-}
-        log.info(JSON.stringify(materialCategoryMap, null, 2));
+
+        // log.info(JSON.stringify(materialCategoryMap, null, 2));
 
         // 调用背包材料统计
-        const lowCountMaterialsFiltered = await MaterialPath(materialCategoryMap);
+        const pathingMaterialCounts = await MaterialPath(materialCategoryMap);
 
+        // log.info(`路径中的材料信息: ${JSON.stringify(pathingMaterialCounts, null, 2)}`);
+        // 调用 filterLowCountMaterials 过滤材料信息,先将嵌套数组展平，然后再进行筛选
+        const lowCountMaterialsFiltered = filterLowCountMaterials(pathingMaterialCounts.flat(), materialCategoryMap);
+
+        // log.info(`筛选后的低数量材料信息: ${JSON.stringify(lowCountMaterialsFiltered, null, 2)}`);
         // 展平数组并按数量从小到大排序
-        const flattenedLowCountMaterials = lowCountMaterialsFiltered
-          .flat()
-          .sort((a, b) => parseInt(a.count, 10) - parseInt(b.count, 10));
+        let flattenedLowCountMaterials = lowCountMaterialsFiltered
+            .flat()
+            .sort((a, b) => parseInt(a.count, 10) - parseInt(b.count, 10));
 
-        // log.info(`筛选后的低数量材料信息: ${JSON.stringify(flattenedLowCountMaterials, null, 2)}`);
+        // log.info(`筛选后的低数量材料信息排序: ${JSON.stringify(flattenedLowCountMaterials, null, 2)}`);
 
-// 提取低数量材料的名称
-const lowCountMaterialNames = flattenedLowCountMaterials.map(material => material.name);
+        // 提取低数量材料的名称
+        const lowCountMaterialNames = flattenedLowCountMaterials.map(material => material.name);
 
-// 将路径文件按是否为目标材料分类
-const prioritizedPaths = [];
-const normalPaths = [];
+        // 将路径文件按是否为目标材料分类
+        const prioritizedPaths = [];
+        const normalPaths = [];
 
-for (const { path, resourceName } of pathEntries) {
-    if (!resourceName) {
-        log.warn(`无法提取材料名：${path}`);
-        continue;
-    }
+        for (const { path, resourceName } of pathEntries) {
+            if (!resourceName) {
+                log.warn(`无法提取材料名：${path}`);
+                continue;
+            }
 
-    // 检查当前 resourceName 是否在 targetResourceNames 中
-    if (targetResourceNames.includes(resourceName)) {
-        prioritizedPaths.push({ path, resourceName });
-    } else if (lowCountMaterialNames.includes(resourceName)) {
-        // 只有当 resourceName 不在 targetResourceNames 中时，才将其加入到 normalPaths
-        normalPaths.push({ path, resourceName });
-    }
-}
-// 按照 flattenedLowCountMaterials 的顺序对 normalPaths 进行排序
-normalPaths.sort((a, b) => {
-    const indexA = lowCountMaterialNames.indexOf(a.resourceName);
-    const indexB = lowCountMaterialNames.indexOf(b.resourceName);
-    return indexA - indexB;
-});
+            // 检查当前 resourceName 是否在 targetResourceNames 中
+            if (targetResourceNames.includes(resourceName)) {
+                prioritizedPaths.push({ path, resourceName });
+            } else if (lowCountMaterialNames.includes(resourceName)) {
+                // 只有当 resourceName 不在 targetResourceNames 中时，才将其加入到 normalPaths
+                normalPaths.push({ path, resourceName });
+            }
+        }
 
+        // 按照 flattenedLowCountMaterials 的顺序对 normalPaths 进行排序
+        normalPaths.sort((a, b) => {
+            const indexA = lowCountMaterialNames.indexOf(a.resourceName);
+            const indexB = lowCountMaterialNames.indexOf(b.resourceName);
+            return indexA - indexB;
+        });
         // log.info(`优先路径数组 (prioritizedPaths): ${JSON.stringify(prioritizedPaths, null, 2)}`);
         // log.info(`普通路径数组 (normalPaths): ${JSON.stringify(normalPaths, null, 2)}`);
 
         // 合并优先路径和普通路径
         const allPaths = prioritizedPaths.concat(normalPaths);
-        log.info(`最终路径数组 (allPaths): ${JSON.stringify(allPaths, null, 2)}`);
+        // log.info(`最终路径数组 (allPaths): ${JSON.stringify(allPaths, null, 2)}`);
 
         dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
 
@@ -1216,71 +1222,78 @@ normalPaths.sort((a, b) => {
                         // 计算效率
                         const perTime = calculatePerTime(resourceName, pathName, recordDir);
 
-                            log.info(`路径文件：${pathName}单个材料耗时：${perTime}秒`);
+                        log.info(`路径文件：${pathName}单个材料耗时：${perTime}秒`);
                         // 判断是否可以运行脚本
                         if (canRunPathingFile(currentTime, lastEndTime, refreshCD, pathName) && (perTime === null || perTime <= timeCost)) {
                             log.info(`可调用路径文件：${pathName}`);
 
-                        // 记录开始时间
-                        const startTime = new Date().toLocaleString();
+                            // 记录开始时间
+                            const startTime = new Date().toLocaleString();
 
-                        // 调用路径文件
-                        await pathingScript.runFile(pathingFilePath);
-                        await sleep(100);
+                            // 调用路径文件
+                            await pathingScript.runFile(pathingFilePath);
+                            await sleep(500);
 
-                        // 记录结束时间
-                        const endTime = new Date().toLocaleString();
+                            // 记录结束时间
+                            const endTime = new Date().toLocaleString();
 
-                        // 计算运行时间
-                        const runTime = (new Date(endTime) - new Date(startTime)) / 1000; // 秒
+                            // 计算运行时间
+                            const runTime = (new Date(endTime) - new Date(startTime)) / 1000; // 秒
 
-                    // 根据 materialCategoryMap 构建 resourceCategoryMap
-                    const resourceCategoryMap = {};
-                    for (const [materialCategory, materialList] of Object.entries(materialCategoryMap)) {
-                        if (materialList.includes(resourceName)) {
-                            resourceCategoryMap[materialCategory] = [resourceName];
-                            break;
-                        }
-                    }
+                            // 根据 materialCategoryMap 构建 resourceCategoryMap
+                            const resourceCategoryMap = {};
+                            for (const [materialCategory, materialList] of Object.entries(materialCategoryMap)) {
+                                if (materialList.includes(resourceName)) {
+                                    resourceCategoryMap[materialCategory] = [resourceName];
+                                    break;
+                                }
+                            }
 
-                    // 输出 resourceCategoryMap 以供调试
-                    log.info(`resourceCategoryMap: ${JSON.stringify(resourceCategoryMap, null, 2)}`);
+                            // 输出 resourceCategoryMap 以供调试
+                            log.info(`resourceCategoryMap: ${JSON.stringify(resourceCategoryMap, null, 2)}`);
 
-                    // 调用背包材料统计（获取调用路径文件后的材料数量）
-                    const updatedMaterialCounts = await MaterialPath(resourceCategoryMap);
+                            // 调用背包材料统计（获取调用路径文件后的材料数量）
+                            const updatedLowCountMaterials = await MaterialPath(resourceCategoryMap);
 
-                        // 展平数组并按数量从小到大排序
-                        const flattenedUpdatedMaterialCounts = updatedMaterialCounts
-                          .flat()
-                          .sort((a, b) => parseInt(a.count, 10) - parseInt(b.count, 10));
+                            // 展平数组并按数量从小到大排序
+                            const flattenedUpdatedMaterialCounts = updatedLowCountMaterials
+                                .flat()
+                                .sort((a, b) => parseInt(a.count, 10) - parseInt(b.count, 10));
 
-                        // 提取更新后的低数量材料的名称
-                        const updatedLowCountMaterialNames = flattenedUpdatedMaterialCounts.map(material => material.name);
+                            // 提取更新后的低数量材料的名称
+                            const updatedLowCountMaterialNames = flattenedUpdatedMaterialCounts.map(material => material.name);
 
-                        // 创建一个映射，用于存储更新前后的数量差值
-                        const materialCountDifferences = {};
+                            // 创建一个映射，用于存储更新前后的数量差值
+                            const materialCountDifferences = {};
 
-                        // 遍历更新后的材料数量，计算差值
-                        flattenedUpdatedMaterialCounts.forEach(updatedMaterial => {
-                            const originalMaterial = flattenedLowCountMaterials.find(material => material.name === updatedMaterial.name);
+                            // 遍历更新后的材料数量，计算差值
+                            flattenedUpdatedMaterialCounts.forEach(updatedMaterial => {
+                                const originalMaterial = flattenedLowCountMaterials.find(material => material.name === updatedMaterial.name);
                                 if (originalMaterial) {
                                     const originalCount = parseInt(originalMaterial.count, 10);
                                     const updatedCount = parseInt(updatedMaterial.count, 10);
                                     const difference = updatedCount - originalCount;
-                                            if (difference !== 0) { // 只记录数量变化不为0的材料
-                                                materialCountDifferences[updatedMaterial.name] = difference;
-                                            }
+                                    materialCountDifferences[updatedMaterial.name] = difference;
                                 }
-                        });
+                            });
+                            // 更新 flattenedLowCountMaterials 为最新的材料数量
+                            flattenedLowCountMaterials = flattenedLowCountMaterials.map(material => {
+                                // 找到对应的更新后的材料数量
+                                const updatedMaterial = flattenedUpdatedMaterialCounts.find(updated => updated.name === material.name);
+                                if (updatedMaterial) {
+                                    return { ...material, count: updatedMaterial.count }; // 更新数量
+                                }
+                                return material;
+                            });
 
-                        // 打印数量差值
-                        log.info(`数量变化: ${JSON.stringify(materialCountDifferences, null, 2)}`);
+                            // 打印数量差值
+                            log.info(`数量变化: ${JSON.stringify(materialCountDifferences, null, 2)}`);
 
-                        // 记录运行时间到材料对应的文件中
-                        recordRunTime(resourceName, pathName, startTime, endTime, runTime, recordDir, materialCountDifferences);
-                        log.info(`当前材料名: ${JSON.stringify(resourceName, null, 2)}`);
+                            // 记录运行时间到材料对应的文件中
+                            recordRunTime(resourceName, pathName, startTime, endTime, runTime, recordDir, materialCountDifferences);
+                            log.info(`当前材料名: ${JSON.stringify(resourceName, null, 2)}`);
 
-                        categoryFound = true;
+                            categoryFound = true;
 
                             break;
                         } else {
@@ -1299,4 +1312,5 @@ normalPaths.sort((a, b) => {
         log.error(`操作失败: ${error}`);
     }
 })();
+
 
