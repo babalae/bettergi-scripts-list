@@ -407,7 +407,7 @@
     async function VeinEntrance() {
         for (let i = 0;i < 2;i++) {
             let JIECHU = await Textocr("接触地脉溢口",3,2,0,1188,358,200,400);
-            if (JIECHU.found){await keyPress("F");await dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));await keyPress("F");break;}else{if(i = 1){
+            if (JIECHU.found){await keyPress("F");await dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));await keyPress("F");break;}else{if(i == 1){
                 log.warn("没找到地脉花，尝试强制转圈寻找，不管有没找到都执行战斗...");  
                 dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
                 await keyDown("W");await sleep(500);await keyUp("W"); 
