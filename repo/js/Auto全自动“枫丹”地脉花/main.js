@@ -71,7 +71,7 @@
     var Rewards = settings.Rewards ? settings.Rewards : false; // ture 领取冒险点奖励，false 不领取冒险点奖励
     var Fligtin = false;  //领取冒险点奖励标志。
     var FINDagin = 0; //地脉花寻找标志。lv.1.2新增，用于判断是否找线路余下地脉花。
-    var tolerance = 25;
+    var tolerance = 30;
     var position ={};
     var Lastexecution = false;//线路执行标志，用于判断上一线路是否执行。
     var Fightquick = settings.Fightquick ? settings.Fightquick : false; 
@@ -233,7 +233,7 @@
         { line: 2, flower: 3, x: 1117, y: 801 },
         { line: 2, flower: 4, x: 1082, y: 896 },
         { line: 2, flower: 5, x: 1013, y: 883 },
-        // 线路3
+        // 线路3√
         { line: 3, flower: 1, x: 1216, y: 661 },
         { line: 3, flower: 2, x: 1239, y: 685 },
         { line: 3, flower: 3, x: 1282, y: 642 },
@@ -298,7 +298,7 @@
             log.info("地脉花位置: X:"+XIAN123.x+" Y:"+XIAN123.y);
             const recognizedCoord = { x: XIAN123.x, y: XIAN123.y };
             position = findFlowerPositionWithTolerance(recognizedCoord, tolerance);
-            if (position.line==3){position = findFlowerPositionWithTolerance(recognizedCoord, 20);}
+            if (position.line==3){position = findFlowerPositionWithTolerance(recognizedCoord, tolerance);}
             if (position) {
                 return true;
               } else {
@@ -335,58 +335,79 @@
         }else{throw new Error("线路出错，退出！")}        
     }
 
-
-    // 函数：根据坐标查找花朵位置，并返回容差范围内距离最小的花朵；若无匹配项，则返回全局最近的花朵
     function findFlowerPositionWithTolerance(coord, tolerance) {
-        let matchedFlowers = []; // 用于存储匹配的地脉花位置及其Y轴距离
-        let allDistances = []; // 用于存储所有地脉花的Y轴距离，以便在未找到匹配项时返回Y轴最近的花朵
-    
-        // 遍历所有地脉花坐标，查找匹配项并计算Y轴距离
+        let closestFlower = null; // 用于记录最近的花朵
+        let closestDistance = Infinity; // 初始化最近距离为无穷大
+        let matches = []; // 用于存储所有匹配的花朵
+
+        // 遍历所有花朵坐标，检查是否在容错范围内
         for (let i = 0; i < allFlowerCoords.length; i++) {
             const flower = allFlowerCoords[i];
-            const dy = Math.abs(flower.y - coord.y); // 计算Y轴距离
-    
-            allDistances.push({ flower: flower, distanceY: dy }); // 存储所有地脉花的Y轴距离
-    
-            if (dy <= tolerance) {
-                matchedFlowers.push({ flower: flower, distanceY: dy });
-            }
-        }
-    
-        // 如果没有找到匹配项，返回Y轴距离最近的地脉花
-        if (matchedFlowers.length === 0) {
-            let minDistanceFlower = allDistances[0];
-            for (let i = 1; i < allDistances.length; i++) {
-                if (allDistances[i].distanceY < minDistanceFlower.distanceY) {
-                    minDistanceFlower = allDistances[i];
+            const distance = Math.sqrt(Math.pow(flower.x - coord.x, 2) + Math.pow(flower.y - coord.y, 2));
+
+            if (distance <= tolerance) {
+                matches.push(flower); // 在容错范围内，添加到匹配列表
+            } else {
+                // 如果不在容错范围内，则检查是否是当前最近的花朵
+                if (distance < closestDistance) {
+                    closestFlower = flower;
+                    closestDistance = distance;
                 }
             }
-            return { line: minDistanceFlower.flower.line, flower: minDistanceFlower.flower.flower };
         }
-    
-        // 如果找到一个匹配项，直接返回该匹配项
-        if (matchedFlowers.length === 1) {
-            return { line: matchedFlowers[0].flower.line, flower: matchedFlowers[0].flower.flower };
-        }
-    
-        // 如果找到多个匹配项，选择Y轴距离最小的那个，如果Y轴距离相同，则选择X轴距离最小的
-        let minDistanceFlower = matchedFlowers[0];
-        for (let i = 1; i < matchedFlowers.length; i++) {
-            const dx = Math.abs(matchedFlowers[i].flower.x - coord.x); // 计算X轴距离
-            if (matchedFlowers[i].distanceY < minDistanceFlower.distanceY ||
-                (matchedFlowers[i].distanceY === minDistanceFlower.distanceY && dx < Math.abs(minDistanceFlower.flower.x - coord.x))) {
-                minDistanceFlower = matchedFlowers[i];
+
+        // 根据匹配情况返回结果
+        if (matches.length === 1) {
+            // 找到一个符合项，返回这个项
+            log.warn("找到了一个匹配的花朵！", matches[0].line,matches[0].flower);
+            return { line: matches[0].line, flower: matches[0].flower,x: matches[0].x, y: matches[0].y };
+        } else if (matches.length > 1) {
+            // 找到多个符合项，处理逻辑
+            let minXDiff = Infinity;
+            let minYDiff = Infinity;
+            let minXFlower = null;
+            let minYFlower = null;
+
+            for (let i = 0; i < matches.length; i++) {
+                const diffX = Math.abs(matches[i].x - coord.x);
+                const diffY = Math.abs(matches[i].y - coord.y);
+
+                if (diffX < minXDiff) {
+                    minXDiff = diffX;
+                    minXFlower = matches[i];
+                }
+
+                if (diffY < minYDiff) {
+                    minYDiff = diffY;
+                    minYFlower = matches[i];
+                }
+            }
+
+            // 比对X轴和Y轴的最小差距，返回对应的花朵
+            if (minXDiff < minYDiff) {
+                log.warn("找到了多个匹配的花朵，选择X轴差距最小的花朵！", minXFlower.line,minXFlower.flower);
+                return { line: minXFlower.line, flower: minXFlower.flower,x: minXFlower.x, y: minXFlower.y };
+            } else {
+                log.warn("找到了多个匹配的花朵，选择Y轴差距最小的花朵！", minYFlower.line,minYFlower.flower);
+                return { line: minYFlower.line, flower: minYFlower.flower,x: minYFlower.x, y: minYFlower.y };
+            }
+        } else {
+            // 没有找到符合项，返回全局最近的花朵
+            if (closestFlower) {
+                log.warn("没有找到地脉花，返回最近地脉花！", closestFlower.line,closestFlower.flower);
+                return { line: closestFlower.line, flower: closestFlower.flower,x: closestFlower.x, y: closestFlower.y };
+            } else {
+                // 如果没有找到任何花朵，返回一个默认值或抛出错误（根据实际需求决定）
+                throw new Error("未找到任何花朵");
             }
         }
-    
-        return { line: minDistanceFlower.flower.line, flower: minDistanceFlower.flower.flower };
     }
 
     //寻找地脉溢口，文字识别不到转圈寻找，不管有没找到都执行战斗，最后领取奖励判断是否继续执行
     async function VeinEntrance() {
         for (let i = 0;i < 2;i++) {
             let JIECHU = await Textocr("接触地脉溢口",3,2,0,1188,358,200,400);
-            if (JIECHU.found){await keyPress("F");await dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));break;}else{if(i = 1){
+            if (JIECHU.found){await keyPress("F");await dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));await keyPress("F");break;}else{if(i = 1){
                 log.warn("没找到地脉花，尝试强制转圈寻找，不管有没找到都执行战斗...");  
                 dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
                 await keyDown("W");await sleep(500);await keyUp("W"); 
