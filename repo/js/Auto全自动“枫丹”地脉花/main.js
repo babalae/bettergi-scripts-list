@@ -71,7 +71,7 @@
     var Rewards = settings.Rewards ? settings.Rewards : false; // ture 领取冒险点奖励，false 不领取冒险点奖励
     var Fligtin = false;  //领取冒险点奖励标志。
     var FINDagin = 0; //地脉花寻找标志。lv.1.2新增，用于判断是否找线路余下地脉花。
-    var tolerance = 25;
+    var tolerance = 30;
     var position ={};
     var Lastexecution = false;//线路执行标志，用于判断上一线路是否执行。
     var Fightquick = settings.Fightquick ? settings.Fightquick : false; 
@@ -81,6 +81,18 @@
     const ocrRegion1 = { x: 800, y: 200, width: 300, height: 100 };   // 中心区域
     const ocrRo1 = RecognitionObject.ocr(ocrRegion1.x, ocrRegion1.y, ocrRegion1.width, ocrRegion1.height);
 
+
+    filePath = ""
+    // 读取原始次数配置   
+    var rawTimes = settings.times*2 ? settings.times : "12";
+    var color = settings.color ? settings.color : 1;
+    var BIAOZZ = "assets/model/BIAOZ.bmp"
+
+    if  (color == 2){ var DIMAIHUA = "assets/model/DIMAIHUA-huank.bmp";}
+    else if (color == 1){var DIMAIHUA = "assets/model/DIMAIHUA-lank.bmp";}
+    else{var DIMAIHUA = "assets/model/DIMAIHUA-lank.bmp";}
+
+
     log.debug(`DEBUG:${SHUV}.${color}.${rawTimes}`);//调试LOG
     if (Rewards){log.warn("结束后领励练点和提交每日！");if(settings.nh === undefined || settings.nh === "") {log.warn("好感队未配置，领奖励时不切换队伍")}}
     if (settings.nh === undefined || settings.nh === "") { log.warn("好感队禁用！");haoganq=0}else{var haogandui = settings.nh;haoganq=1;if(settings.n === undefined ) {throw new Error("好感队已经设置，请填战斗队伍！")}}
@@ -89,16 +101,9 @@
     if (color == 1) {log.warn("地脉类型 ：'蓝色-经验书花！'");}else{log.warn("地脉类型 ：'黄色-摩拉花！'")}  
     let nowuidString = settings.nowuid ? settings.nowuid : "";
 
-    filePath = ""
-    // 读取原始次数配置   
-    var rawTimes = settings.times*2 ? settings.times : "12";
-    var color = settings.color ? settings.color : 1;
-    var BIAOZZ = "assets/model/BIAOZ.bmp"
+
 
   
-    if  (color == 2){var DIMAIHUA = "assets/model/DIMAIHUA-huank.bmp";}
-    else if (color == 1){var DIMAIHUA = "assets/model/DIMAIHUA-lank.bmp";}
-    else{var DIMAIHUA = "assets/model/DIMAIHUA-lank.bmp";}
 
 
 
@@ -228,14 +233,14 @@
         { line: 2, flower: 3, x: 1117, y: 801 },
         { line: 2, flower: 4, x: 1082, y: 896 },
         { line: 2, flower: 5, x: 1013, y: 883 },
-        // 线路3
+        // 线路3√
         { line: 3, flower: 1, x: 1216, y: 661 },
         { line: 3, flower: 2, x: 1239, y: 685 },
         { line: 3, flower: 3, x: 1282, y: 642 },
         { line: 3, flower: 4, x: 1335, y: 639 },
         // 线路4
-        { line: 4, flower: 1, x: 983, y: 672 },
-        { line: 4, flower: 2, x: 932, y: 660 },
+        { line: 4, flower: 1, x: 965, y: 672 },
+        { line: 4, flower: 2, x: 921, y: 660 },
         { line: 4, flower: 3, x: 886, y: 660 },
         { line: 4, flower: 4, x: 876, y: 625 },
         // 线路5
@@ -274,6 +279,7 @@
         await click(1844,1021);
         await sleep(500);
         await click(1446,350);
+        await sleep(500);
         let XIAN6 = await imageRecognition(DIMAIHUA,1,0,0,387,0,700,200);if (XIAN6.found){
             log.info("地脉花位置: X:"+XIAN6.x+" Y:"+XIAN6.y);
             position = {line:6,flower:1};
@@ -293,15 +299,16 @@
             log.info("地脉花位置: X:"+XIAN123.x+" Y:"+XIAN123.y);
             const recognizedCoord = { x: XIAN123.x, y: XIAN123.y };
             position = findFlowerPositionWithTolerance(recognizedCoord, tolerance);
-            if (position.line==3){position = findFlowerPositionWithTolerance(recognizedCoord, 20);}
+            if (position.line==3){position = findFlowerPositionWithTolerance(recognizedCoord, tolerance);}
             if (position) {
                 return true;
               } else {
                 log.info(`无法找到花朵位置（在容错范围内）。`);return false;
               }
         }
-        await moveMouseTo(132,783);
         await sleep(500);
+        await moveMouseTo(132,783);
+        await sleep(800);
         let XIAN4 = await imageRecognition(DIMAIHUA,1,0,0);
          if (XIAN4.found){
             log.info("地脉花位置: X:"+XIAN4.x+" Y:"+XIAN4.y);
@@ -313,6 +320,7 @@
                 log.info(`无法找到花朵位置（在容错范围内）。`);return false;
               }
         }
+        await sleep(500);
         await moveMouseTo(1064,1079);
         await sleep(200);
         let XIAN66 = await imageRecognition(DIMAIHUA,1,0,0);
@@ -328,22 +336,79 @@
         }else{throw new Error("线路出错，退出！")}        
     }
 
-    // 函数：根据坐标查找花朵位置
     function findFlowerPositionWithTolerance(coord, tolerance) {
+        let closestFlower = null; // 用于记录最近的花朵
+        let closestDistance = Infinity; // 初始化最近距离为无穷大
+        let matches = []; // 用于存储所有匹配的花朵
+
+        // 遍历所有花朵坐标，检查是否在容错范围内
         for (let i = 0; i < allFlowerCoords.length; i++) {
-        const flower = allFlowerCoords[i];
-        if (Math.abs(flower.x - coord.x) <= tolerance && Math.abs(flower.y - coord.y) <= tolerance) {
-            return { line: flower.line, flower: flower.flower };
+            const flower = allFlowerCoords[i];
+            const distance = Math.sqrt(Math.pow(flower.x - coord.x, 2) + Math.pow(flower.y - coord.y, 2));
+
+            if (distance <= tolerance) {
+                matches.push(flower); // 在容错范围内，添加到匹配列表
+            } else {
+                // 如果不在容错范围内，则检查是否是当前最近的花朵
+                if (distance < closestDistance) {
+                    closestFlower = flower;
+                    closestDistance = distance;
+                }
+            }
         }
+
+        // 根据匹配情况返回结果
+        if (matches.length === 1) {
+            // 找到一个符合项，返回这个项
+            log.warn("找到了一个匹配的花朵！", matches[0].line,matches[0].flower);
+            return { line: matches[0].line, flower: matches[0].flower,x: matches[0].x, y: matches[0].y };
+        } else if (matches.length > 1) {
+            // 找到多个符合项，处理逻辑
+            let minXDiff = Infinity;
+            let minYDiff = Infinity;
+            let minXFlower = null;
+            let minYFlower = null;
+
+            for (let i = 0; i < matches.length; i++) {
+                const diffX = Math.abs(matches[i].x - coord.x);
+                const diffY = Math.abs(matches[i].y - coord.y);
+
+                if (diffX < minXDiff) {
+                    minXDiff = diffX;
+                    minXFlower = matches[i];
+                }
+
+                if (diffY < minYDiff) {
+                    minYDiff = diffY;
+                    minYFlower = matches[i];
+                }
+            }
+
+            // 比对X轴和Y轴的最小差距，返回对应的花朵
+            if (minXDiff < minYDiff) {
+                log.warn("找到了多个匹配的花朵，选择X轴差距最小的花朵！", minXFlower.line,minXFlower.flower);
+                return { line: minXFlower.line, flower: minXFlower.flower,x: minXFlower.x, y: minXFlower.y };
+            } else {
+                log.warn("找到了多个匹配的花朵，选择Y轴差距最小的花朵！", minYFlower.line,minYFlower.flower);
+                return { line: minYFlower.line, flower: minYFlower.flower,x: minYFlower.x, y: minYFlower.y };
+            }
+        } else {
+            // 没有找到符合项，返回全局最近的花朵
+            if (closestFlower) {
+                log.warn("没有找到地脉花，返回最近地脉花！", closestFlower.line,closestFlower.flower);
+                return { line: closestFlower.line, flower: closestFlower.flower,x: closestFlower.x, y: closestFlower.y };
+            } else {
+                // 如果没有找到任何花朵，返回一个默认值或抛出错误（根据实际需求决定）
+                throw new Error("未找到任何花朵");
+            }
         }
-        return null; // 如果没有找到匹配的坐标，返回null
     }
 
     //寻找地脉溢口，文字识别不到转圈寻找，不管有没找到都执行战斗，最后领取奖励判断是否继续执行
     async function VeinEntrance() {
         for (let i = 0;i < 2;i++) {
             let JIECHU = await Textocr("接触地脉溢口",3,2,0,1188,358,200,400);
-            if (JIECHU.found){await keyPress("F");await dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));break;}else{if(i = 1){
+            if (JIECHU.found){await keyPress("F");await dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));await keyPress("F");break;}else{if(i == 1){
                 log.warn("没找到地脉花，尝试强制转圈寻找，不管有没找到都执行战斗...");  
                 dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
                 await keyDown("W");await sleep(500);await keyUp("W"); 
@@ -575,12 +640,10 @@
                 await sleep(2000);
                 await dispatcher.runTask(new SoloTask("AutoFight"));
             }else
-            {
-                shouldContinueChecking = false;
+            {                
                 if(!await autoFight(Fighttimeout)){
-                    log.warn("战斗失败,测试寻找地脉花入口");
-                }
-                shouldContinueChecking = true;
+                    log.warn("战斗失败,尝试寻找地脉花入口");
+                }                
             }
            
             //执行到地脉花地点的寻路脚本
