@@ -1,0 +1,70 @@
+{
+  "info": {
+    "name": "璃月-奥藏山右下2",
+    "type": "collect",
+    "author": "汐",
+    "version": "",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1451.4638671875,
+      "y": 1028.59423828125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1488.1298828125,
+      "y": 1045.87060546875,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1495.365234375,
+      "y": 1048.619140625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 1496.275390625,
+      "y": 1046.14794921875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1505.380859375,
+      "y": 1040.8408203125,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1509.775390625,
+      "y": 1042.98046875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "orientation"
+    },
+    {
+      "id": 7,
+      "x": 1510.87890625,
+      "y": 1044.0966796875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "target"
+    }
+  ]
+}

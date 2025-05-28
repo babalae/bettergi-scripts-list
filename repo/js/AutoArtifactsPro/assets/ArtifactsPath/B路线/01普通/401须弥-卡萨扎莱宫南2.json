@@ -1,0 +1,88 @@
+{
+  "info": {
+    "name": "须弥-卡萨扎莱宫南2",
+    "type": "collect",
+    "author": "汐",
+    "version": "",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2531.99609375,
+      "y": -144.71728515625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2587.1318359375,
+      "y": -124.6181640625,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2594.72607421875,
+      "y": -119.916015625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 2595.1875,
+      "y": -119.6875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 2597.29296875,
+      "y": -116.5322265625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 2639.771484375,
+      "y": -135.43994140625,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 2652.158203125,
+      "y": -146.6689453125,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 2653.005859375,
+      "y": -147.19140625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f)",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 2650.6064453125,
+      "y": -148.19384765625003,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f)",
+      "type": "path"
+    }
+  ]
+}

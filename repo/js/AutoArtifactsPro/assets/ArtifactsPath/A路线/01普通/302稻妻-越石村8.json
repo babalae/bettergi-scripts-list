@@ -1,0 +1,202 @@
+{
+  "info": {
+    "name": "稻妻-越石村8",
+    "type": "collect",
+    "author": "汐",
+    "version": "",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4031.6212626010965,
+      "y": -4436.377694130002,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -3994.875037525788,
+      "y": -4451.062143787858,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -3989.0626145524056,
+      "y": -4453.437704632506,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -3977.187470374378,
+      "y": -4453.625075789818,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": -3973.2333984375,
+      "y": -4438.943359375,
+      "action": "stop_flying",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -3977.71875,
+      "y": -4438.30078125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -3983.2648437499993,
+      "y": -4437.3515625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": -3980.82421875,
+      "y": -4437.59375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -3970.37890625,
+      "y": -4439.1357421875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": -3967.6484375,
+      "y": -4434.41796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -3965.548828125,
+      "y": -4436.5126953125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.3),keypress(f),wait(0.2),keypress(f),keypress(x),wait(0.1),keypress(x)"
+    },
+    {
+      "id": 12,
+      "x": -3967.103515625,
+      "y": -4432.42578125,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -3967.0341796875,
+      "y": -4425.7958984375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -3972.595703125,
+      "y": -4425.369140625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 15,
+      "x": -3978.779296875,
+      "y": -4424.4921875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),w(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 16,
+      "x": -3969.3749721089625,
+      "y": -4428.937668383125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -3968.156319727592,
+      "y": -4426.656126519041,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": -3966.5627789103655,
+      "y": -4422.530610144124,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": -3966.5625,
+      "y": -4419.377368239489,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": -3966.6826171875,
+      "y": -4402.9052734375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 21,
+      "x": -3968.7187677753736,
+      "y": -4383.468803052872,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(0.2)keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),"
+    },
+    {
+      "id": 22,
+      "x": -3970.3125256755393,
+      "y": -4383.34362115731,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f)"
+    }
+  ]
+}
