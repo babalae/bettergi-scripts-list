@@ -794,7 +794,7 @@ async function processLeyLineOutcrop(timeout, targetPath, retries = 0) {
     if (retries >= MAX_RETRIES) {
         log.error(`打开地脉花失败，已重试${MAX_RETRIES}次，终止处理`);
         log.error("我辣么大一个地脉花哪去了？");
-        return;
+        throw new Error("我辣么大一个地脉花哪去了？");
     }
 
     let captureRegion = captureGameRegion();
@@ -808,6 +808,8 @@ async function processLeyLineOutcrop(timeout, targetPath, retries = 0) {
     if (result2.text.includes("地脉溢口")) {
         log.info("识别到地脉溢口");
         keyPress("F");
+        await sleep(300);
+        keyPress("F");     // 两次重试避免开花失败
         await sleep(500);
     } else if (result.text.includes("打倒所有敌人")) {
         log.info("地脉花已经打开，直接战斗");
