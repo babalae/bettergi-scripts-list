@@ -51,7 +51,7 @@ const ocrRoThis = RecognitionObject.ocrThis;
  */
 async function runLeyLineOutcropScript() {
     // 初始化加载配置和设置并校验
-    await initializeGame();
+    await initialize();
     await loadConfig();
     loadSettings();
     retryCount = 0;
@@ -68,12 +68,32 @@ async function runLeyLineOutcropScript() {
 }
 
 /**
- * 初始化游戏状态
+ * 初始化
  * @returns {Promise<void>}
  */
-async function initializeGame() {
+async function initialize() {
     await genshin.returnMainUi();
     setGameMetrics(1920, 1080, 1);
+    try {
+        eval(file.readTextSync("utils/attemptReward.js"));
+        log.debug("utils/attemptReward.js 加载成功");
+        eval(file.readTextSync("utils/breadthFirstPathSearch.js"));
+        log.debug("utils/breadthFirstPathSearch.js 加载成功");
+        eval(file.readTextSync("utils/executePathsUsingNodeData.js"));
+        log.debug("utils/executePathsUsingNodeData.js 加载成功");
+        eval(file.readTextSync("utils/findLeyLineOutcrop.js"));
+        log.debug("utils/findLeyLineOutcrop.js 加载成功");
+        eval(file.readTextSync("utils/loadSettings.js"));
+        log.debug("utils/loadSettings.js 加载成功");
+        eval(file.readTextSync("utils/locateLeyLineOutcrop.js"));
+        log.debug("utils/locateLeyLineOutcrop.js 加载成功");
+        eval(file.readTextSync("utils/processLeyLineOutcrop.js"));
+        log.debug("utils/processLeyLineOutcrop.js 加载成功");
+        eval(file.readTextSync("utils/recognizeTextInRegion.js"));
+        log.debug("utils/recognizeTextInRegion.js 加载成功");
+    } catch (error) {
+        throw new Error(`JS文件缺失，请重新安装脚本！ ${error.message}`); 
+    }
 }
 
 
@@ -155,163 +175,6 @@ async function executeMatchingStrategy() {
 }
 
 /**
- * 使用节点数据执行路径
- * @param {Object} position - 位置对象
- * @returns {Promise<void>}
- */
-async function executePathsUsingNodeData(position) {
-    try {
-        const nodeData = await loadNodeData();
-        let currentNodePosition = position;
-        const targetNode = findTargetNodeByPosition(nodeData, currentNodePosition.x, currentNodePosition.y);
-
-        if (!targetNode) {
-            log.error(`未找到与坐标(${currentNodePosition.x}, ${currentNodePosition.y})匹配的目标节点`);
-            return;
-        }
-        // log.info(`找到目标节点: ID ${targetNode.id}, 位置(${targetNode.position.x}, ${targetNode.position.y})`);
-        const paths = findPathsToTarget(nodeData, targetNode);
-
-        if (paths.length === 0) {
-            log.error(`未找到通向目标节点(ID: ${targetNode.id})的路径`);
-            return;
-        }
-
-        // 选择最短的路径执行
-        const optimalPath = selectOptimalPath(paths);
-        // log.info(`选择了含有 ${optimalPath.routes.length} 个路径点的最优路径`);
-
-        // 执行路径
-        await executePath(optimalPath);
-        currentRunTimes++;
-
-        // 如果达到刷取次数上限，退出循环
-        if (currentRunTimes >= settings.timesValue) {
-            return;
-        }
-
-        // 循环检查并执行当前节点的单一next路径，直到遇到没有next或有多个next的情况
-        let currentNode = targetNode;
-
-        while (currentNode.next && currentRunTimes < settings.timesValue) {
-            if (currentNode.next.length === 1) {
-                // 获取下一个节点的ID 和 路径，并在节点数据中找到下一个节点
-                const nextNodeId = currentNode.next[0].target;
-                const nextRoute = currentNode.next[0].route;
-                const nextNode = nodeData.node.find(node => node.id === nextNodeId);
-
-                if (!nextNode) {
-                    return;
-                }
-                const pathObject = {
-                    startNode: currentNode,
-                    targetNode: nextNode,
-                    routes: [nextRoute]
-                };
-
-                log.info(`直接执行下一个节点路径: ${nextRoute}`);
-                await executePath(pathObject);
-
-                currentRunTimes++;
-
-                log.info(`完成节点 ID ${nextNodeId}, 已执行 ${currentRunTimes}/${settings.timesValue} 次`);
-
-                // 更新当前节点为下一个节点，继续检查
-                currentNode = nextNode;
-                currentNodePosition = { x: nextNode.position.x, y: nextNode.position.y };
-            }
-            else if (currentNode.next.length > 1) {
-                // 如果存在分支路线，先打开大地图判断下一个地脉花的位置，根据下一个地脉花的位置选择路线
-                log.info("检测到多个分支路线，开始查找下一个地脉花位置");
-
-                // 备份当前地脉花坐标
-                const currentLeyLineX = leyLineX;
-                const currentLeyLineY = leyLineY;
-
-                // 打开大地图
-                await genshin.returnMainUi();
-                keyPress("M");
-                await sleep(1000);
-
-                // 查找下一个地脉花
-                const found = await locateLeyLineOutcrop(settings.leyLineOutcropType);
-                await genshin.returnMainUi();
-
-                if (!found) {
-                    log.warn("无法在分支点找到下一个地脉花，退出本次循环");
-                    return;
-                }
-
-                log.info(`找到下一个地脉花，位置: (${leyLineX}, ${leyLineY})`);
-
-                // 计算每个分支节点到地脉花的距离，选择最近的路径
-                let closestRoute = null;
-                let closestDistance = Infinity;
-                let closestNodeId = null;
-
-                for (const nextRoute of currentNode.next) {
-                    const nextNodeId = nextRoute.target;
-                    const nextNode = nodeData.node.find(node => node.id === nextNodeId);
-
-                    if (!nextNode) continue;
-
-                    const distance = calculate2DDistance(
-                        leyLineX, leyLineY,
-                        nextNode.position.x, nextNode.position.y
-                    );
-
-                    log.info(`路线到地脉花距离: ID ${nextNodeId}, 距离: ${distance.toFixed(2)}`);
-
-                    if (distance < closestDistance) {
-                        closestDistance = distance;
-                        closestRoute = nextRoute.route;
-                        closestNodeId = nextNodeId;
-                    }
-                }
-
-                if (!closestRoute) {
-                    log.error("无法找到合适的路线，终止执行");
-                    // 恢复原始坐标
-                    leyLineX = currentLeyLineX;
-                    leyLineY = currentLeyLineY;
-                    return;
-                }
-
-                const nextNode = nodeData.node.find(node => node.id === closestNodeId);
-                log.info(`选择最近的路线: ${closestRoute}, 目标节点ID: ${closestNodeId}。`);
-
-                // 创建路径对象并执行
-                const pathObject = {
-                    startNode: currentNode,
-                    targetNode: nextNode,
-                    routes: [closestRoute]
-                };
-
-                await executePath(pathObject);
-                currentRunTimes++;
-
-                // 更新当前节点为下一个节点，继续检查
-                currentNode = nextNode;
-                currentNodePosition = { x: nextNode.position.x, y: nextNode.position.y };
-            }
-            else {
-                log.info("当前路线完成，退出循环");
-                break;
-            }
-        }
-    }
-    catch (error) {
-        if(error.message.includes("战斗失败")) {
-            log.error("战斗失败，重新寻找地脉花后重试");
-            return;
-        }
-        // 其他错误需要向上传播
-        log.error(`执行路径时出错: ${error.message}`);
-        throw error;
-    }
-}
-
-/**
  * 加载节点数据
  * @returns {Promise<Object>} 节点数据对象
  */
@@ -363,81 +226,6 @@ function findPathsToTarget(nodeData, targetNode) {
 
     // 采用广度优先搜索查找所有可能路径
     return breadthFirstPathSearch(nodeData, targetNode, nodeMap);
-}
-
-/**
- * 使用广度优先搜索算法查找从传送点到目标的所有路径
- * @param {Object} nodeData - 节点数据
- * @param {Object} targetNode - 目标节点
- * @param {Object} nodeMap - 节点映射
- * @returns {Array} 找到的所有可行路径
- */
-function breadthFirstPathSearch(nodeData, targetNode, nodeMap) {
-    // 存储找到的所有有效路径
-    const validPaths = [];
-
-    // 获取所有传送点作为起点
-    const teleportNodes = nodeData.node.filter(node => node.type === "teleport");
-    //log.info(`找到 ${teleportNodes.length} 个传送点作为可能的起点`);
-
-    // 对每个传送点，尝试查找到目标的路径
-    for (const startNode of teleportNodes) {
-        // 初始化队列，每个元素包含 [当前节点, 路径信息]
-        const queue = [[startNode, {
-            startNode: startNode,
-            routes: [],
-            visitedNodes: new Set([startNode.id])
-        }]];
-
-        // 广度优先搜索
-        while (queue.length > 0) {
-            const [currentNode, pathInfo] = queue.shift();
-
-            // 如果已经到达目标节点
-            if (currentNode.id === targetNode.id) {
-                validPaths.push({
-                    startNode: pathInfo.startNode,
-                    targetNode: targetNode,
-                    routes: [...pathInfo.routes]
-                });
-                continue; // 找到一条路径，继续搜索其他可能路径
-            }
-
-            // 检查当前节点的下一个连接
-            if (currentNode.next && currentNode.next.length > 0) {
-                for (const nextRoute of currentNode.next) {
-                    const nextNodeId = nextRoute.target;
-
-                    // 避免循环
-                    if (pathInfo.visitedNodes.has(nextNodeId)) {
-                        continue;
-                    }
-
-                    const nextNode = nodeMap[nextNodeId];
-                    if (!nextNode) {
-                        continue;
-                    }
-
-                    // 创建新的路径信息
-                    const newPathInfo = {
-                        startNode: pathInfo.startNode,
-                        routes: [...pathInfo.routes, nextRoute.route],
-                        visitedNodes: new Set([...pathInfo.visitedNodes, nextNodeId])
-                    };
-
-                    // 加入队列
-                    queue.push([nextNode, newPathInfo]);
-                }
-            }
-        }
-    }
-
-    // 检查是否存在反向路径
-    const reversePaths = findReversePathsIfNeeded(nodeData, targetNode, nodeMap, validPaths);
-    validPaths.push(...reversePaths);
-
-    log.info(`共找到 ${validPaths.length} 条有效路径`);
-    return validPaths;
 }
 
 /**
@@ -600,153 +388,8 @@ async function loadConfig() {
 }
 
 /**
- * 加载、验证、输出用户设置
- * @returns {Object} 处理过的设置对象
- */
-function loadSettings() {
-    try {
-        // 直接使用全局settings对象而不是重新创建
-        // 这样能保留原始设置内容
-
-        // 验证必要的设置
-        if (!settings.start) {
-            throw new Error("请仔细阅读脚本介绍，并在{0}内进行配置，如果你是直接运行的脚本，请将脚本加入{0}内运行！", "调度器");
-        }
-
-        if (!settings.leyLineOutcropType) {
-            throw new Error("请选择你要刷取的地脉花类型（经验书/摩拉）");
-        }
-
-        if (!settings.country) {
-            throw new Error("请在游戏中确认地脉花的第一个点的位置，然后在js设置中选择地脉花所在的国家。");
-        }
-
-        if (settings.friendshipTeam && !settings.team) {
-            throw new Error("未配置战斗队伍！当配置了好感队时必须配置战斗队伍！");
-        }
-
-        // 为了向后兼容，确保某些设置有默认值
-        settings.timeout = settings.timeout * 1000 || 120000;
-
-        // 处理刷取次数
-        if (!settings.count || !/^-?\d+\.?\d*$/.test(settings.count)) {
-            log.warn(`刷取次数 ${settings.count} 不是数字，使用默认次数6次`);
-            settings.timesValue = 6;
-        } else {
-            // 转换为数字
-            const num = parseFloat(settings.count);
-
-            // 范围检查
-            if (num < 1) {
-                settings.timesValue = 1;
-                log.info(`⚠️ 次数 ${num} 小于1，已调整为1`);
-            } else {
-                // 处理小数
-                if (!Number.isInteger(num)) {
-                    settings.timesValue = Math.floor(num);
-                    log.info(`⚠️ 次数 ${num} 不是整数，已向下取整为 ${settings.timesValue}`);
-                } else {
-                    settings.timesValue = num;
-                }
-            }
-        }
-
-        // 记录使用的设置
-        log.info(`地脉花类型：${settings.leyLineOutcropType}`);
-        log.info(`国家：${settings.country}`);
-
-        if (settings.friendshipTeam) {
-            log.info(`好感队：${settings.friendshipTeam}`);
-        }
-
-        log.info(`刷取次数：${settings.timesValue}`);
-
-        // 设置通知状态
-        isNotification = settings.isNotification;
-
-        if (isNotification) {
-            notification.send(`全自动地脉花开始运行，以下是本次运行的配置：\n\n地脉花类型：${settings.leyLineOutcropType}\n国家：${settings.country}\n刷取次数：${settings.timesValue}`);
-        }
-    } catch (error) {
-        log.error(`加载设置失败: ${error.message}`);
-        throw error;
-    }
-}
-
-/**
  * 地脉花寻找和定位相关函数
  */
-
-/**
- * 查找地脉花位置
- * @param {string} country - 国家名称
- * @param {string} type - 地脉花类型
- * @returns {Promise<void>}
- */
-async function findLeyLineOutcrop(country, type) {
-    currentFlower = null;
-    keyPress("M");
-    await sleep(1000);
-    await closeCustomMarks();
-    await sleep(1000);
-    log.info("开始寻找地脉花");
-    if (!config.mapPositions[country] || config.mapPositions[country].length === 0) {
-        throw new Error(`未找到国家 ${country} 的位置信息`);
-    }
-
-    const positions = config.mapPositions[country];
-    await genshin.moveMapTo(positions[0].x, positions[0].y, country);
-    const found = await locateLeyLineOutcrop(type);
-    await sleep(1000); // 移动后等一下
-    if (found) return;
-    for (let retryCount = 1; retryCount < positions.length; retryCount++) {
-        const position = positions[retryCount];
-        log.info(`第 ${retryCount + 1} 次尝试定位地脉花`);
-        log.info(`移动到位置：(${position.x}, ${position.y}), ${position.name || '未命名位置'}`);
-        await genshin.moveMapTo(position.x, position.y);
-        
-        const found = await locateLeyLineOutcrop(type);
-        if (found) return;
-    }
-
-    // 如果到这里还没找到
-    throw new Error("寻找地脉花失败，已达最大重试次数");
-}
-
-
-/**
- * 在地图上定位地脉花
- * @param {string} type - 地脉花类型
- * @returns {Promise<boolean>} 是否找到地脉花
- */
-async function locateLeyLineOutcrop(type) {
-    await sleep(500); // 确保画面稳定
-    await genshin.setBigMapZoomLevel(3.0);
-
-    const iconPath = type === "蓝花（经验书）"
-        ? "assets/icon/Blossom_of_Revelation.png"
-        : "assets/icon/Blossom_of_Wealth.png";
-
-    const flowerList = captureGameRegion().findMulti(RecognitionObject.TemplateMatch(file.ReadImageMatSync(iconPath)));
-
-    if (flowerList && flowerList.count > 0) {
-        currentFlower = flowerList[0];
-        const flowerType = type === "蓝花（经验书）" ? "经验" : "摩拉";
-
-        const center = genshin.getPositionFromBigMap();
-        const mapZoomLevel = genshin.getBigMapZoomLevel();
-        const mapScaleFactor = 2.361;
-
-        leyLineX = (960 - currentFlower.x - 25) * mapZoomLevel / mapScaleFactor + center.x;
-        leyLineY = (540 - currentFlower.y - 25) * mapZoomLevel / mapScaleFactor + center.y;
-
-        log.info(`找到地脉花的坐标：(${leyLineX}, ${leyLineY})`);
-        return true;
-    } else {
-        log.warn("未找到地脉花");
-        return false;
-    }
-}
 
 /**
  * 判断坐标是否在指定位置附近（误差范围内）
@@ -778,140 +421,6 @@ function calculate2DDistance(x1, y1, x2, y2) {
 /**
  * 奖励和战斗相关函数
  */
-
-/**
- * 判断是否为地脉花并处理
- * @param {number} timeout - 超时时间
- * @param {string} targetPath - 目标路径
- * @param {number} [retries=0] - 当前函数内重试次数
- * @returns {Promise<void>}
- */
-async function processLeyLineOutcrop(timeout, targetPath, retries = 0) {
-    // 设置最大重试次数，防止死循环
-    const MAX_RETRIES = 3;
-
-    // 如果超过最大重试次数，记录错误并返回，避免死循环
-    if (retries >= MAX_RETRIES) {
-        log.error(`打开地脉花失败，已重试${MAX_RETRIES}次，终止处理`);
-        log.error("我辣么大一个地脉花哪去了？");
-        throw new Error("我辣么大一个地脉花哪去了？");
-    }
-
-    let captureRegion = captureGameRegion();
-    let result = captureRegion.find(ocrRo2);
-    let result2 = captureRegion.find(ocrRo3);
-    if (result2.text.includes("地脉之花")) {
-        log.info("识别到地脉之花");
-        await switchToFriendshipTeamIfNeeded();
-        return;
-    }
-    if (result2.text.includes("地脉溢口")) {
-        log.info("识别到地脉溢口");
-        keyPress("F");
-        await sleep(300);
-        keyPress("F");     // 两次重试避免开花失败
-        await sleep(500);
-    } else if (result.text.includes("打倒所有敌人")) {
-        log.info("地脉花已经打开，直接战斗");
-    } else {
-        log.warn(`未识别到地脉花文本，当前重试次数: ${retries + 1}/${MAX_RETRIES}`);
-        try {
-            await pathingScript.runFile(targetPath);
-            await processLeyLineOutcrop(timeout, targetPath, retries + 1);
-            return;
-        } catch (error) {
-            throw new Error(`未识别到地脉花: ${error.message}`);
-        }
-    }
-    if(!await autoFight(timeout)){
-        throw new Error("战斗失败");
-    }
-    await switchToFriendshipTeamIfNeeded();
-    await autoNavigateToReward();
-}
-
-/**
- * 尝试领取地脉花奖励
- * @returns {Promise<void>}
- */
-async function attemptReward() {
-    const MAX_RETRY = 5;
-
-    // 超时处理
-    if (retryCount >= MAX_RETRY) {
-        retryCount = 0;
-        throw new Error("超过最大重试次数，领取奖励失败");
-    }
-
-    log.info("领取奖励，优先使用浓缩树脂");
-    keyPress("F");
-    await sleep(500);
-
-    // 识别是否为地脉之花界面
-    let resList = captureGameRegion().findMulti(ocrRoThis); // 使用预定义的ocrRoThis对象
-    let isValid = false;
-    let condensedResin = null;
-    let originalResin = null;
-    let isResinEmpty = false;
-    let dobuleReward = false;
-
-    if (resList && resList.count > 0) {
-        // 分析识别到的文本
-        for (let i = 0; i < resList.count; i++) {
-            let res = resList[i];
-            if (res.text.includes("使用浓缩树脂")) {
-                isValid = true;
-                condensedResin = res;
-            } else if (res.text.includes("使用原粹树脂")) {
-                isValid = true;
-                originalResin = res;
-            } else if (res.text.includes("补充原粹树脂")) {
-                isValid = true;
-                isResinEmpty = true;
-            } else if (res.text.includes("产出")) {
-                isValid = true;
-                dobuleReward = true;
-            }
-        }
-
-        // 处理不同的树脂情况
-        if (originalResin && dobuleReward == true) {
-            log.info("选择使用原粹树脂，获得双倍产出");
-            click(Math.round(originalResin.x + originalResin.width / 2), Math.round(originalResin.y + originalResin.height / 2));
-        } else if (condensedResin) {
-            log.info("选择使用浓缩树脂");
-            click(Math.round(condensedResin.x + condensedResin.width / 2), Math.round(condensedResin.y + condensedResin.height / 2));
-        } else if (originalResin) {
-            log.info("选择使用原粹树脂");
-            click(Math.round(originalResin.x + originalResin.width / 2), Math.round(originalResin.y + originalResin.height / 2));
-        } else if (isResinEmpty) {
-            log.error("识别到补充原粹树脂，看来树脂用完了呢");
-            keyPress("VK_ESCAPE");
-            throw new Error("树脂已用完");
-        }
-        if (settings.friendshipTeam) {
-            log.info("切换回战斗队伍");
-            await sleep(500);
-            const switchSuccess = await switchTeam(settings.team);
-            // if (!switchSuccess) {
-            //     log.warn("切换队伍失败，返回七天神像切换");
-            //     await genshin.tpToStatueOfTheSeven();
-            //     await genshin.switchParty(settings.team);
-            //     throw new Error("切换队伍失败");
-            // }
-        }
-    }
-
-    // 界面不正确，尝试重试
-    if (!isValid) {
-        log.info("当前界面不是地脉之花界面，重试");
-        await genshin.returnMainUi();
-        await sleep(1000);
-        retryCount++;
-        await autoNavigateToReward();
-        await attemptReward();
-    }
-}
 
 /**
  * 打开地脉花
@@ -973,83 +482,6 @@ async function autoFight(timeout) {
     cts.cancel();
     return fightResult;
 }
-
-/**
- * 识别战斗结果
- * @param {number} timeout - 超时时间
- * @returns {Promise<boolean>} 战斗是否成功
- */
-async function recognizeTextInRegion(timeout) {
-    return new Promise((resolve, reject) => {
-        (async () => {
-            try {
-                let startTime = Date.now();
-                let noTextCount = 0;
-                const successKeywords = ["挑战达成", "战斗胜利", "挑战成功"];
-                const failureKeywords = ["挑战失败"];
-
-                // 循环检测直到超时
-                while (Date.now() - startTime < timeout) {
-                    try {
-                        let captureRegion = captureGameRegion();
-                        let result = captureRegion.find(ocrRo1);
-                        let text = result.text;
-
-                        // 检查成功关键词
-                        for (let keyword of successKeywords) {
-                            if (text.includes(keyword)) {
-                                log.info("检测到战斗成功关键词: {0}", keyword);
-                                resolve(true);
-                                return;
-                            }
-                        }
-
-                        // 检查失败关键词
-                        for (let keyword of failureKeywords) {
-                            if (text.includes(keyword)) {
-                                log.warn("检测到战斗失败关键词: {0}", keyword);
-                                resolve(false);
-                                return;
-                            }
-                        }
-
-
-                        let foundText = recognizeFightText(captureRegion);
-                        if (!foundText) {
-                            noTextCount++;
-                            log.info(`检测到可能离开战斗区域，当前计数: ${noTextCount}`);
-
-                            if (noTextCount >= 10) {
-                                log.warn("已离开战斗区域");
-                                resolve(false);
-                                return;
-                            }
-                        }
-                        else {
-                            noTextCount = 0; // 重置计数
-                        }
-                    }
-                    catch (error) {
-                        log.error("OCR过程中出错: {0}", error);
-                    }
-
-                    await sleep(1000); // 检查间隔
-                }
-
-                log.warn("在超时时间内未检测到战斗结果");
-                resolve(false);
-            } catch (error) {
-                reject(error);
-            }
-        })();
-    });
-}
-
-
-
-
-
-
 
 // 地脉花奖励相关函数
 /**
@@ -1301,6 +733,7 @@ async function closeCustomMarks() {
         keyPress("ESCAPE");
     } else {
         log.error("未找到开关按钮");
+        keyPress("ESCAPE");
     }
 }
 
@@ -1325,5 +758,6 @@ async function openCustomMarks() {
         }
     } else {
         log.error("未找到开关按钮");
+        keyPress("ESCAPE");
     }
 }
