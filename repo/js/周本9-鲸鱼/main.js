@@ -1,5 +1,28 @@
 (async function () {//鲸鱼周本
+//检测传送结束  await tpEndDetection();
+async function tpEndDetection() {
+    const region1 = RecognitionObject.ocr(1690, 230, 75, 350);// 队伍名称区域
+    const region2 = RecognitionObject.ocr(872, 681, 180, 30);// 点击任意处关闭
+    let tpTime = 0;
+    await sleep(1500);//点击传送后等待一段时间避免误判
+    //最多30秒传送时间
+    while (tpTime < 300) {
 
+        let capture = captureGameRegion();
+        let res1 = capture.find(region1);
+        let res2 = capture.find(region2);
+        if (!res1.isEmpty()|| !res2.isEmpty()){
+            log.info("传送完成");
+            await sleep(1000);//传送结束后有僵直
+            click(960, 810);//点击任意处
+            await sleep(500);
+            return;
+        } 
+        tpTime++;
+        await sleep(100);
+    }
+    throw new Error('传送时间超时');
+}
 //吃料理
 async function eatFood() {
 let foodName = settings.foodName ?? 0;
@@ -54,7 +77,7 @@ const autoNavigateToReward = async () => {
             log.info("已到达领奖点，检测到文字: " + rewardResult.text);
             return;
         }
-        else if(advanceNum > 80){
+        else if(advanceNum > 30){
         throw new Error('前进时间超时');
         }
         // 2. 未到达领奖点，则调整视野
@@ -93,7 +116,7 @@ const autoNavigateToReward = async () => {
     }
         // 3. 前进一小步
         keyDown("w");
-        await sleep(800);
+        await sleep(500);
         keyUp("w");
         await sleep(100); // 等待角色移动稳定
     }
@@ -122,10 +145,19 @@ async function autoFightAndEndDetection() {
         if (hasText1 && !hasText2 && hasText3) {
             challengeNum++;
             await sleep(500);//避免切人冷却，导致角色识别失败
+            capture = captureGameRegion();
+            res1 = capture.find(region1);
+            res2 = capture.find(region2);
+            res3 = capture.find(region3);
+            hasText1 = !res1.isEmpty() && res1.text.trim().length > 0;
+            hasText2 = !res2.isEmpty() && res2.text.trim().length > 0;
+            hasText3 = !res3.isEmpty() && res3.text.trim().length > 0;
+            //二次检测避免无法启动战斗
+            if (hasText1 && !hasText2 && hasText3){
             log.info(`执行第${challengeNum}次战斗`);
             challengeTime = challengeTime + 205;
-
             await dispatcher.runTask(new SoloTask("AutoFight"));
+            }
         } 
         // 情况2: 区域2有文字 且 区域1无文字 且 区域3有文字 → 结束循环
         else if (hasText2 && !hasText1 && hasText3) {
@@ -170,11 +202,9 @@ await sleep(300);
 click(1180, 760);//队伍等级偏低、体力不够可能会出弹窗
 await sleep(2000);
 click(1725, 1020);//开始挑战
-await sleep(15000);
+await tpEndDetection();
 
 //副本内前往BOSS处
-click(960, 810);//点击任意处
-await sleep(2000);
 await eatFood();//嗑药
 keyPress("1");
 await sleep(1000);//切回固定行走位

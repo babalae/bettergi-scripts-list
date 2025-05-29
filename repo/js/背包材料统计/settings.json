@@ -1,0 +1,82 @@
+[
+    {
+        "name": "targetresourceName",
+        "type": "input-text",
+        "label": "js目录下默认扫描的文件结构：\n./📁BetterGI/📁User/📁JsScript/\n📁背包材料统计/\n    📁pathing/\n        📁 薄荷/\n            📄 薄荷1.json\n            📁 薄荷效率/\n                📄 薄荷-吉吉喵.json\n        📁 苹果/\n            📄 旅行者的果园.json\n-----------------\n优先级材料名，不受目标数量影响。"
+    },
+    {
+        "name": "targetCount",
+        "type": "input-text",
+        "label": "如填入 甜甜花，薄荷,苹果\n-----------------\n\n目标数量，默认5000"
+    },
+    {
+        "name": "unselected",
+        "type": "checkbox",
+        "label": "上2项可不填\n=============\n反选材料分类"
+    },
+    {
+        "name": "Smithing",
+        "type": "checkbox",
+        "label": "-----------------\n锻造素材"
+    },
+    {
+        "name": "Drops",
+        "type": "checkbox",
+        "label": "如：矿石、原胚\n-----------------\n怪物掉落素材"
+    },
+    {
+        "name": "ForagedFood",
+        "type": "checkbox",
+        "label": "-----------------\n采集食物，食用回血"
+    },
+    {
+        "name": "General",
+        "type": "checkbox",
+        "label": "如：苹果、日落果、泡泡桔\n-----------------\n一般素材"
+    },
+    {
+        "name": "CookingIngs",
+        "type": "checkbox",
+        "label": "如：特产、非食用素材\n-----------------\n烹饪用食材"
+    },
+    {
+        "name": "Weekly",
+        "type": "checkbox",
+        "label": "-----------------\n\n周本素材"
+    },
+    {
+        "name": "Wood",
+        "type": "checkbox",
+        "label": "-----------------\n\n木材"
+    },
+    {
+        "name": "CharAscension",
+        "type": "checkbox",
+        "label": "-----------------\n\n角色突破素材"
+    },
+    {
+        "name": "Fishing",
+        "type": "checkbox",
+        "label": "-----------------\n\n鱼饵鱼类"
+    },
+    {
+        "name": "Gems",
+        "type": "checkbox",
+        "label": "-----------------\n\n宝石"
+    },
+    {
+        "name": "Talent",
+        "type": "checkbox",
+        "label": "-----------------\n\n角色天赋素材"
+    },
+    {
+        "name": "WeaponAscension",
+        "type": "checkbox",
+        "label": "-----------------\n\n武器突破素材"
+    },
+    {
+        "name": "OcrDelay",
+        "type": "input-text",
+        "label": "数字太小可能无法识别，用?代替\n=============\nOCR基准时间（默认:10 毫秒)"
+    }
+]

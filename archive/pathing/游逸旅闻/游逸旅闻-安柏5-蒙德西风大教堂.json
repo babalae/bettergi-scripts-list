@@ -1,0 +1,102 @@
+{
+  "info": {
+    "name": "游逸旅闻-安柏5-蒙德西风大教堂",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "爬墙时可能会被卡住，且因为是攀爬策略不会触发脱离卡死",
+    "bgi_version": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -749.43,
+      "y": 2263.0,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -719.59,
+      "y": 2316.44,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -700.69,
+      "y": 2336.44,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -687.48,
+      "y": 2342.51,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -680.81,
+      "y": 2338.24,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -672.26,
+      "y": 2343.15,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -678.43,
+      "y": 2358.58,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -657.56,
+      "y": 2368.89,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -651.13,
+      "y": 2370.88,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -652.5,
+      "y": 2371.06,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f)"
+    }
+  ]
+}

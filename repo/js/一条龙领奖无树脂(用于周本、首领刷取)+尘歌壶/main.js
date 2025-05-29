@@ -1,5 +1,27 @@
 (async function () {
     
+//检测传送结束  await tpEndDetection();
+async function tpEndDetection() {
+    const region = RecognitionObject.ocr(1690, 230, 75, 350);// 队伍名称区域
+    let tpTime = 0;
+    await sleep(3000);//点击传送后等待一段时间避免误判
+    //最多30秒传送时间
+    while (tpTime < 300) {
+        let capture = captureGameRegion();
+        let res = capture.find(region);
+        if (!res.isEmpty()){
+            log.info("传送完成");
+            await sleep(1200);//传送结束后有僵直
+            return;
+        } 
+        tpTime++;
+        await sleep(100);
+    }
+    throw new Error('传送时间超时');
+}
+
+    let teaPot = settings.teaPot ?? 0;
+    let favorTeamName = settings.favorTeamName ?? 0;
     let delay = 2000;
     let ksl = settings.kslSelect ?? "枫丹";
     async function kslAutoPath(location) {
@@ -10,7 +32,8 @@
     // 前往_凯瑟琳
     await kslAutoPath(ksl);
     await sleep(1000);
-
+    if(favorTeamName) await genshin.switchParty("好感队");
+    await sleep(1000);
     // 领取邮件
     keyPress("Escape");
     await sleep(1500);
@@ -89,11 +112,7 @@
     await sleep(delay);
 
 await pathingScript.runFile("assets/recover.json");
-await sleep(5000);//前往神像，避免茶壶放不出来
-
-
- let teaPot = settings.teaPot ?? 0;
-    await sleep(1000); 
+await sleep(500);//前往神像，避免茶壶放不出来
 
 if(teaPot){
     keyPress("B");     
@@ -105,8 +124,8 @@ if(teaPot){
     click(1700, 1018); //放置
     await sleep(1500);
     keyPress("F");    //进入
-    await sleep(20000); 
-
+    await tpEndDetection();
+    await sleep(1500);
     if (teaPot == "璃月"){
         keyDown("D");
         await sleep(500);

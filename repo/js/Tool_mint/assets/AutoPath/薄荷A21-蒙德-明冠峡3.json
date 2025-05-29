@@ -5,67 +5,68 @@
     "author": "Tool_tingsu",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.42.3"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": -251.67,
-      "y": 2256.62,
-      "action": "",
+      "x": -440.142578125,
+      "y": 2580.88037109375,
+      "type": "teleport",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 2,
-      "x": -249.42,
-      "y": 2284.72,
-      "action": "",
+      "x": -400.79296875,
+      "y": 2568.148681640625,
+      "type": "path",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 3,
-      "x": -251.27,
-      "y": 2295.77,
+      "x": -380.6220703125,
+      "y": 2552.85498046875,
+      "type": "path",
+      "move_mode": "walk",
       "action": "",
-      "move_mode": "climb",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 4,
-      "x": -250.54,
-      "y": 2352.56,
-      "action": "",
+      "x": -370.8076171875,
+      "y": 2548.44921875,
+      "type": "path",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 5,
-      "x": -231.54,
-      "y": 2391.9,
-      "action": "",
+      "x": -364.0693359375,
+      "y": 2535.2724609375,
+      "type": "path",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 6,
-      "x": -215.79,
-      "y": 2436.06,
-      "action": "",
+      "x": -344.1904296875,
+      "y": 2521.273193359375,
+      "type": "path",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 7,
-      "x": -243.36,
-      "y": 2431.38,
+      "x": -328.2275390625,
+      "y": 2522.244873046875,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -73,8 +74,8 @@
     },
     {
       "id": 8,
-      "x": -261.08,
-      "y": 2437.18,
+      "x": -326.4306640625,
+      "y": 2513.15283203125,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -82,24 +83,42 @@
     },
     {
       "id": 9,
-      "x": -268.83,
-      "y": 2440.84,
+      "x": -317.2490234375,
+      "y": 2502.53515625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -310.4482421875,
+      "y": 2491.531005859375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -294.9150390625,
+      "y": 2466.17626953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": -279.05,
+      "y": 2466.09,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 10,
-      "x": -279.05,
-      "y": 2466.09,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 11,
+      "id": 13,
       "x": -270.78,
       "y": 2507.98,
       "action": "",
@@ -108,7 +127,7 @@
       "type": "path"
     },
     {
-      "id": 12,
+      "id": 14,
       "x": -269.66,
       "y": 2537.67,
       "action": "",
@@ -117,7 +136,7 @@
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 15,
       "x": -266.97,
       "y": 2556.29,
       "action": "",
@@ -126,7 +145,7 @@
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 16,
       "x": -265.27,
       "y": 2568.74,
       "action": "",
@@ -135,7 +154,7 @@
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 17,
       "x": -256.91,
       "y": 2581.72,
       "action": "",
@@ -144,7 +163,7 @@
       "type": "path"
     },
     {
-      "id": 16,
+      "id": 18,
       "x": -259.93,
       "y": 2614.9,
       "action": "",
@@ -153,7 +172,7 @@
       "type": "path"
     },
     {
-      "id": 17,
+      "id": 19,
       "x": -287.46,
       "y": 2628.11,
       "action": "",
@@ -162,7 +181,7 @@
       "type": "path"
     },
     {
-      "id": 18,
+      "id": 20,
       "x": -263.5,
       "y": 2677.97,
       "action": "",
@@ -171,7 +190,7 @@
       "type": "path"
     },
     {
-      "id": 19,
+      "id": 21,
       "x": -230.68,
       "y": 2698.15,
       "action": "stop_flying",
@@ -180,7 +199,7 @@
       "type": "path"
     },
     {
-      "id": 20,
+      "id": 22,
       "x": -225.78,
       "y": 2701.85,
       "action": "",
@@ -189,7 +208,7 @@
       "type": "path"
     },
     {
-      "id": 21,
+      "id": 23,
       "x": -212.28,
       "y": 2729.48,
       "action": "",
@@ -198,7 +217,7 @@
       "type": "path"
     },
     {
-      "id": 22,
+      "id": 24,
       "x": -209.64,
       "y": 2738.66,
       "action": "",
@@ -207,7 +226,7 @@
       "type": "path"
     },
     {
-      "id": 23,
+      "id": 25,
       "x": -294.46,
       "y": 2778.69,
       "action": "",
@@ -216,7 +235,7 @@
       "type": "path"
     },
     {
-      "id": 24,
+      "id": 26,
       "x": -352.03,
       "y": 2781.22,
       "action": "",
@@ -225,7 +244,7 @@
       "type": "path"
     },
     {
-      "id": 25,
+      "id": 27,
       "x": -369.51,
       "y": 2785.65,
       "action": "",
@@ -234,7 +253,7 @@
       "type": "path"
     },
     {
-      "id": 26,
+      "id": 28,
       "x": -383.05,
       "y": 2766.02,
       "action": "stop_flying",
@@ -243,7 +262,7 @@
       "type": "path"
     },
     {
-      "id": 27,
+      "id": 29,
       "x": -403.28,
       "y": 2787.14,
       "action": "",
@@ -252,7 +271,7 @@
       "type": "path"
     },
     {
-      "id": 28,
+      "id": 30,
       "x": -453.97,
       "y": 2771.95,
       "action": "",
@@ -261,7 +280,7 @@
       "type": "path"
     },
     {
-      "id": 29,
+      "id": 31,
       "x": -493.24,
       "y": 2769.43,
       "action": "stop_flying",
