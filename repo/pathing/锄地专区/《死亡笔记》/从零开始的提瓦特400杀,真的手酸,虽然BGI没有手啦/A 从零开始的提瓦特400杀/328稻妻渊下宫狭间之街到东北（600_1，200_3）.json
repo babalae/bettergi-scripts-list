@@ -6,9 +6,7 @@
     "version": "1.0",
     "description": "",
     "map_name": "Enkanomiya",
-    "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1746888388152
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -58,12 +56,12 @@
     },
     {
       "id": 6,
-      "x": 539.18,
-      "y": 687.31,
-      "action": "stop_flying",
+      "x": 536.93,
+      "y": 689.91,
+      "type": "path",
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "action": "stop_flying",
+      "action_params": ""
     },
     {
       "id": 7,
@@ -81,27 +79,25 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 9,
       "x": 548.3,
       "y": 680.97,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
+      "move_mode": "dash",
       "action_params": "",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 10,
       "x": 548.3,
       "y": 680.97,
-      "type": "orientation",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

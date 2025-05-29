@@ -1,0 +1,301 @@
+{
+  "info": {
+    "name": "须弥-二净甸上营地11",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4042.4677734375,
+      "y": -238.4619140625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4033,
+      "y": -285.7486720152401,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4022.72265625,
+      "y": -336.61767578125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4010.5478515625,
+      "y": -373.82470703125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 4009.43359375,
+      "y": -380.46044921875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4017.8125,
+      "y": -380.0624225342226,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 4009.43359375,
+      "y": -380.46044921875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4008.333984375,
+      "y": -371.90380859375,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3997.86328125,
+      "y": -382.9482421875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 3996.3125,
+      "y": -388.7814381311746,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 3987.08203125,
+      "y": -406.43994140625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 3991.5673828125,
+      "y": -407.9794921875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(x),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": 3991.474609375,
+      "y": -409.5224609375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(x)",
+      "type": "target"
+    },
+    {
+      "id": 14,
+      "x": 3986.357421875,
+      "y": -422.2919921875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 4000.09375,
+      "y": -424.24986720152356,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 4003.0625,
+      "y": -424.59033203125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "玛薇卡 e;迪希雅 e;keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 4007.9599609375,
+      "y": -425.8642578125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f)",
+      "type": "target"
+    },
+    {
+      "id": 18,
+      "x": 4002.15625,
+      "y": -423.500121263708,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 3986.357421875,
+      "y": -422.2919921875,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 3988.357421875,
+      "y": -412.2919921875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 3990.16015625,
+      "y": -375.32763671875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": 3981.375,
+      "y": -361.68747786692074,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": 3979.8681640625,
+      "y": -359.89111328125,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(f),w(0.2),keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 24,
+      "x": 3979.0693359375,
+      "y": -359.05029296875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),",
+      "type": "path"
+    },
+    {
+      "id": 25,
+      "x": 3948.25,
+      "y": -365.28564453125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 26,
+      "x": 3939.5576171875,
+      "y": -363.486328125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "玛薇卡 e;迪希雅 e;",
+      "type": "path"
+    },
+    {
+      "id": 27,
+      "x": 3940.8037109375,
+      "y": -360.8662109375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 28,
+      "x": 3939.224609375,
+      "y": -360.37158203125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 29,
+      "x": 3937.521484375,
+      "y": -360.1904296875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 30,
+      "x": 3938.125019750414,
+      "y": -356.81293200195887,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),keypress(e),",
+      "type": "path"
+    },
+    {
+      "id": 31,
+      "x": 3923.4375,
+      "y": -346.749734403048,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 32,
+      "x": 3919.4375,
+      "y": -343.749734403048,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),w(0.2),keypress(f)",
+      "type": "target"
+    }
+  ]
+}

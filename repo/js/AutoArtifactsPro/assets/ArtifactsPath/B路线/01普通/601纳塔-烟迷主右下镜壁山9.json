@@ -1,0 +1,178 @@
+{
+  "info": {
+    "name": "纳塔-烟迷主右下镜壁山9",
+    "type": "collect",
+    "author": "汐",
+    "version": "",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9638.033203125,
+      "y": -1854.703125,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9596.3798828125,
+      "y": -1884.70263671875,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9584.599609375,
+      "y": -1951.9957031249996,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9584.1943359375,
+      "y": -1954.76025390625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 9589.08203125,
+      "y": -1952.6337890625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 9587.0478515625,
+      "y": -1959.26318359375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(x)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 9586.87890625,
+      "y": -1959.71240234375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 9584.09765625,
+      "y": -1961.30859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 9577.4677734375,
+      "y": -1956.6142578125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 9576.99609375,
+      "y": -1957.61181640625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 9576.17578125,
+      "y": -1960.8349609375,
+      "action": "",
+      "move_mode": "fly",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 9577.805468749999,
+      "y": -1957.60302734375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(x)",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 9578.9921875,
+      "y": -1961.9375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 9638.0859375,
+      "y": -1854.6728515625,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 15,
+      "x": 9615.999609525488,
+      "y": -1845.4998203913328,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 9617.1337890625,
+      "y": -1843.072265625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 17,
+      "x": 9616.623046875,
+      "y": -1837.8388671875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 18,
+      "x": 9605.40625,
+      "y": -1763.8310546875,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 9616.625,
+      "y": -1752.906338532317,
+      "action": "",
+      "move_mode": "dash",
+      "type": "target"
+    },
+    {
+      "id": 20,
+      "x": 9616.375139455184,
+      "y": -1750.4995958804993,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}
