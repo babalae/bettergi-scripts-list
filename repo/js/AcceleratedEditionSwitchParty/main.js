@@ -48,7 +48,8 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 		let foundQuickSetup = false;		
 		for (let j = 0; j < 2; j++) {  // 尝试两次
 			keyPress("VK_L");
-			for (let i = 0; i < 3; i++) {
+			await sleep(2000);
+			for (let i = 0; i < 2; i++) {
 				let QuickSetupButton = captureGameRegion().find(QuickSetupButtonRo);
 				if (QuickSetupButton.isExist()) {
 					log.info("已进入队伍配置页面");
