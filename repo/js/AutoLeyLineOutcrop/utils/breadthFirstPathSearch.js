@@ -12,7 +12,7 @@ function (nodeData, targetNode, nodeMap) {
 
     // 获取所有传送点作为起点
     const teleportNodes = nodeData.node.filter(node => node.type === "teleport");
-    //log.info(`找到 ${teleportNodes.length} 个传送点作为可能的起点`);
+    log.debug(`找到 ${teleportNodes.length} 个传送点作为可能的起点`);
 
     // 对每个传送点，尝试查找到目标的路径
     for (const startNode of teleportNodes) {
@@ -70,6 +70,6 @@ function (nodeData, targetNode, nodeMap) {
     const reversePaths = findReversePathsIfNeeded(nodeData, targetNode, nodeMap, validPaths);
     validPaths.push(...reversePaths);
 
-    log.info(`共找到 ${validPaths.length} 条有效路径`);
+    log.debug(`共找到 ${validPaths.length} 条有效路径`);
     return validPaths;
 }
