@@ -23,7 +23,7 @@ async function (timeout) {
                         // 检查成功关键词
                         for (let keyword of successKeywords) {
                             if (text.includes(keyword)) {
-                                log.info("检测到战斗成功关键词: {0}", keyword);
+                                log.debug("检测到战斗成功关键词: {0}", keyword);
                                 resolve(true);
                                 return;
                             }
@@ -32,7 +32,7 @@ async function (timeout) {
                         // 检查失败关键词
                         for (let keyword of failureKeywords) {
                             if (text.includes(keyword)) {
-                                log.warn("检测到战斗失败关键词: {0}", keyword);
+                                log.debug("检测到战斗失败关键词: {0}", keyword);
                                 resolve(false);
                                 return;
                             }
