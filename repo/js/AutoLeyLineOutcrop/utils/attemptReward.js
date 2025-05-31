@@ -12,7 +12,7 @@ async function () {
         throw new Error("超过最大重试次数，领取奖励失败");
     }
 
-    log.info("领取奖励，优先使用浓缩树脂");
+    log.info("开始领取地脉奖励");
     keyPress("F");
     await sleep(500);
 
@@ -62,12 +62,6 @@ async function () {
             log.info("切换回战斗队伍");
             await sleep(500);
             const switchSuccess = await switchTeam(settings.team);
-            // if (!switchSuccess) {
-            //     log.warn("切换队伍失败，返回七天神像切换");
-            //     await genshin.tpToStatueOfTheSeven();
-            //     await genshin.switchParty(settings.team);
-            //     throw new Error("切换队伍失败");
-            // }
         }
     }
 

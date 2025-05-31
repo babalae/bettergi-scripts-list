@@ -14,7 +14,7 @@ async function (position) {
             log.error(`未找到与坐标(${currentNodePosition.x}, ${currentNodePosition.y})匹配的目标节点`);
             return;
         }
-        // log.info(`找到目标节点: ID ${targetNode.id}, 位置(${targetNode.position.x}, ${targetNode.position.y})`);
+        log.debug(`找到目标节点: ID ${targetNode.id}, 位置(${targetNode.position.x}, ${targetNode.position.y})`);
         const paths = findPathsToTarget(nodeData, targetNode);
 
         if (paths.length === 0) {
@@ -24,7 +24,7 @@ async function (position) {
 
         // 选择最短的路径执行
         const optimalPath = selectOptimalPath(paths);
-        // log.info(`选择了含有 ${optimalPath.routes.length} 个路径点的最优路径`);
+        log.debug(`选择了含有 ${optimalPath.routes.length} 个路径点的最优路径`);
 
         // 执行路径
         await executePath(optimalPath);

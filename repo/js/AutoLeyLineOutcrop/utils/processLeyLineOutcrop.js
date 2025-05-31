@@ -12,9 +12,9 @@ async function (timeout, targetPath, retries = 0) {
 
     // 如果超过最大重试次数，记录错误并返回，避免死循环
     if (retries >= MAX_RETRIES) {
-        log.error(`打开地脉花失败，已重试${MAX_RETRIES}次，终止处理`);
+        log.error(`开启地脉花失败，已重试${MAX_RETRIES}次，终止处理`);
         log.error("我辣么大一个地脉花哪去了？");
-        throw new Error("我辣么大一个地脉花哪去了？");
+        throw new Error("开启地脉花失败");
     }
 
     let captureRegion = captureGameRegion();
