@@ -204,7 +204,7 @@ async function captureAndStoreTexts() {
 
     // 截取区域大小
     const width = 240;
-    const height = 100;
+    const height = 56;
     await sleep(500);
     keyPress("F6");
     await sleep(1000);
