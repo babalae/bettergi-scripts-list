@@ -1104,7 +1104,10 @@
         // 检测界面
         if (!is_food_page()) return false;
         // 二次验证食材名
-        if (food_dic[food_name]["belonging"] === "无") { // 普通料理
+        if (!Object.keys(food_dic).includes(food_name)) {
+            log.warn(`food_dic内未找到名为-${food_name}-的料理，料理名称传入错误错误或料理数据需要更新`);
+            return false;
+        } else if (food_dic[food_name]["belonging"] === "无") { // 普通料理
             if (current_item_name === food_name) {
                 log.info(`二次验证成功: ${food_name}`);
             } else {
@@ -1611,9 +1614,12 @@
                     await sleep(500);
                     click(491, 1019); // 确认筛选
                     await sleep(1500);
-                    let current_item_name = await recognize_item_name();
-                    while (current_item_name) {
+                    let current_item_name;
+                    while (true) {
                         current_item_name = await recognize_item_name();
+                        if (current_item_name === false) { // 【DEBUG】此处考虑完成后识别为空的情况（待测，目前没有筛选后为空的素材）
+                            break;
+                        }
                         let cooking_result = await auto_cooking(current_item_name, setting_dic); // 自动烹饪方法
                         if (cooking_result) {
                             log.info(`${current_item_name} 完成！`);
@@ -1621,7 +1627,12 @@
                         } else {
                             log.warn(`${current_item_name} 料理过程中出错...`);
                         }
+                        while (!(await is_food_page()) && is_cooking_page()) {
+                            keyPress("Escape");
+                            await sleep(2000);
+                        }
                     }
+
                 } else {
                     for (const [food_name, num] of Object.entries(setting_dic["cooking"])) {
                         // 此处应加一个检测到主界面重新进入料理界面的逻辑
