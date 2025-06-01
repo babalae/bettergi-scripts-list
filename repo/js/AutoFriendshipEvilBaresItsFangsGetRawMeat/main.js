@@ -109,51 +109,138 @@
 
 					// 开启急速拾取
 					dispatcher.addTimer(new RealtimeTimer("AutoPick", {
-						"forceInteraction": true
-					}));
+						
+            if (i === 0) {
+               
+                // 首次到达目标位置，先以5秒超时进行OCR识别是否触发好感任务
+                let ocrStatus = false;
+                let ocrStartTime = Date.now();
+                while (Date.now() - ocrStartTime < 3000 && !ocrStatus) {
+                    let captureRegion = captureGameRegion();
+                    let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 200, 300, 300));
+                    for (let o = 0; o < resList.count; o++) {
+                        let res = resList[o];
+                        if (
+                            res.text.includes("张牙") ||
+                            res.text.includes("舞爪") ||
+                            res.text.includes("恶党") ||
+                            res.text.includes("打倒") ||
+                            res.text.includes("所有") ||
+                            res.text.includes("鳄鱼")
+                        ) {
+                            ocrStatus = true;
+                            break;
+                        }
+                        await sleep(500);
+                    }
+                }
+                if (!ocrStatus) {
+                    log.info("首次未识别到好感任务，执行重登刷新任务状态");
+                    await genshin.relogin();
+                    // 重登后使用原先的超时时间进行OCR识别
+                    ocrStatus = false;
+                    let ocrStartTimeFull = Date.now();
+                    while (Date.now() - ocrStartTimeFull < ocrTimeout && !ocrStatus) {
+                        let captureRegion = captureGameRegion();
+                        let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 200, 300, 300));
+                        for (let o = 0; o < resList.count; o++) {
+                            let res = resList[o];
+                            if (
+                                res.text.includes("张牙") ||
+                                res.text.includes("舞爪") ||
+                                res.text.includes("恶党") ||
+                                res.text.includes("打倒") ||
+                                res.text.includes("所有") ||
+                                res.text.includes("鳄鱼")
+                            ) {
+                                ocrStatus = true;
+                                break;
+                            }
+                            await sleep(500);
+                        }
+                    }
+                    if (!ocrStatus) {
+                        notification.send(`未识别到突发任务（张牙舞爪的恶党），兽肉好感结束`);
+                        break;
+                    }
+                }
+            } else {
+                await genshin.relogin(); // 后续轮次直接重登刷新任务状态
+                let ocrStatus = false;
+                let ocrStartTime = Date.now();
+                while (Date.now() - ocrStartTime < ocrTimeout && !ocrStatus) {
+                    let captureRegion = captureGameRegion();
+                    let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 200, 300, 300));
+                    for (let o = 0; o < resList.count; o++) {
+                        let res = resList[o];
+                        if (
+                            res.text.includes("张牙") ||
+                            res.text.includes("舞爪") ||
+                            res.text.includes("恶党") ||
+                            res.text.includes("打倒") ||
+                            res.text.includes("所有") ||
+                            res.text.includes("鳄鱼")
+                        ) {
+                            ocrStatus = true;
+                            break;
+                        }
+                        await sleep(500);
+                    }
+                }
+                if (!ocrStatus) {
+                    notification.send(`未识别到突发任务（张牙舞爪的恶党），兽肉好感结束`);
+                    break;
+                }
+            }
 
-					//原版逻辑 await AutoPath(`好感-张牙舞爪的恶党-循环${getMeatMode ? '(二净甸刷肉版)' : '(二净甸)'}`);
-					//多种拾取模式
-					if (getMeatMode == "算了我不捡了") {
-						await AutoPath(`好感-张牙舞爪的恶党-循环(二净甸)`);
-					} else if (getMeatMode == "通用拾取") {
-						await AutoPath(`好感-张牙舞爪的恶党-循环(二净甸刷肉版)`);
-					} else if (getMeatMode == "万叶拾取") {
-						await AutoPath(`万叶版前往`);
-						await keyMouseScript.runFile(`assets/万叶拾取.json`);
-						await AutoPath(`万叶版返回`);
-					} else {
-						await AutoPath(`好感-张牙舞爪的恶党-循环(二净甸)`);
-					}
-
-					// 关闭急速拾取
-					dispatcher.addTimer(new RealtimeTimer("AutoPick", {
-						"forceInteraction": false
-					}));
-
-					// 根据是否回到触发位置，判定本轮循环是否执行完毕
-					if (await comparePosition()) {
-						log.info(`已完成次数：${i + 1}/${runTimes}`);
-					} else {
-						i = i - 1; // 退回这次次数
-						log.warn(`判定本轮循环执行失败，退回本轮执行次数：${i + 1}/${runTimes}`);
-					}
-				} else {
-					notification.send(`未识别到突发任务（张牙舞爪的恶党），兽肉好感结束`);
-					break;
-				}
-			} else {
-				i = i - 1; // 退回这次次数
-				log.warn(`判定本轮循环执行失败，退回本轮执行次数：${i + 1}/${runTimes}`);
-			}
+            // 进入任务执行阶段
+            log.info(`当前次数：${i + 1}/${runTimes}`);
 
 
-			const estimatedCompletion = calculateEstimatedCompletion(startTime, i + 1, runTimes);
-			logTimeTaken(startTime);
-			log.info(`预计完成时间：${estimatedCompletion}`);
-		}
-		log.info('兽肉好感已完成');
-	}
+            // 开启急速拾取
+            dispatcher.addTimer(
+                new RealtimeTimer("AutoPick", {
+                    forceInteraction: true,
+                })
+            );
+
+            //原版逻辑 await AutoPath(`好感-张牙舞爪的恶党-循环${getMeatMode ? '(二净甸刷肉版)' : '(二净甸)'}`);
+            //多种拾取模式
+            if (getMeatMode == "算了我不捡了") {
+                await AutoPath(`好感-张牙舞爪的恶党-循环(二净甸)`);
+            } else if (getMeatMode == "通用拾取") {
+                await AutoPath(`好感-张牙舞爪的恶党-循环(二净甸刷肉版)`);
+            } else if (getMeatMode == "万叶拾取") {
+                await AutoPath(`万叶版前往`);
+                await keyMouseScript.runFile(`assets/万叶拾取.json`);
+                await AutoPath(`万叶版返回`);
+            } else {
+                await AutoPath(`好感-张牙舞爪的恶党-循环(二净甸)`);
+            }
+
+            // 关闭急速拾取
+            dispatcher.addTimer(
+                new RealtimeTimer("AutoPick", {
+                    forceInteraction: false,
+                })
+            );
+
+            // 根据是否回到触发位置，判定本轮循环是否执行完毕
+            if (await comparePosition()) {
+                log.info(`已完成次数：${i + 1}/${runTimes}`);
+            } else {
+                i = i - 1; // 退回这次次数
+                log.warn(`判定本轮循环执行失败，退回本轮执行次数：${i + 1}/${runTimes}`);
+            }
+
+            const estimatedCompletion = calculateEstimatedCompletion(startTime, i + 1, runTimes);
+            logTimeTaken(startTime);
+            log.info(`预计完成时间：${estimatedCompletion}`);
+        }
+        log.info("兽肉好感已完成");
+    }
+
+
 
 	// 刷肉相关参数
 	let getMeatMode = settings.getMeatMode ? settings.getMeatMode : false;
