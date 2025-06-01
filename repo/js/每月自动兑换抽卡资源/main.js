@@ -106,13 +106,13 @@ async function isTaskRefreshed(filePath, options = {}) {
         }
         
         if (shouldRefresh) {
-            notification.send(`任务已刷新，执行脚本`);
+            notification.send(`任务已刷新，执行每月兑换抽卡资源`);
             await exchangeGoods();
             // 更新最后完成时间
             await file.writeText(filePath, nowTime.toISOString());
             return true;
         } else {
-            notification.send(`任务未刷新，跳过脚本`);
+            notification.send(`任务未刷新，跳过每月兑换抽卡资源`);
             return false;
         }
         
@@ -194,7 +194,7 @@ notification.send(`商城抽卡资源兑换完成`);
 }
 
 
-notification.send(`开始执行每月兑换抽卡资源`);
+    
 await isTaskRefreshed("assets/monthly.txt", {
     refreshType: 'monthly',
     monthlyDay: 1,    // 每月第1天（默认值，可省略）
