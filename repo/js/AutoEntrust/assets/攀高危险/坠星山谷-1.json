@@ -2,16 +2,17 @@
   "info": {
     "name": "坠星山谷-1",
     "type": "collect",
-    "author": "1",
+    "author": "星野",
     "version": "",
     "description": "",
-    "bgi_version": "0.42.3"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
       "id": 1,
       "x": -1536.75,
-      "y": 1978.66,
+      "y": 1978.6599999999999,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
@@ -19,8 +20,8 @@
     },
     {
       "id": 2,
-      "x": -1531.85,
-      "y": 1989.93,
+      "x": -1531.5419921875,
+      "y": 1990.71240234375,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
@@ -28,76 +29,47 @@
     },
     {
       "id": 3,
-      "x": -1518.41,
-      "y": 1993.52,
+      "x": -1505.109375,
+      "y": 1994.671875,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "dash",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 4,
-      "x": -1506.54,
-      "y": 1996.81,
+      "x": -1482.9208984375,
+      "y": 1986.97314453125,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "dash",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 5,
-      "x": -1499.14,
-      "y": 1998.92,
-      "action": "",
+      "x": -1467.96484375,
+      "y": 1978.60009765625,
+      "action": "fight",
       "move_mode": "walk",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 6,
-      "x": -1492.21,
-      "y": 1999.46,
-      "action": "fight",
-      "move_mode": "walk",
+      "x": -1477.75,
+      "y": 1988.5,
+      "action": "",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 7,
-      "x": -1501.38,
-      "y": 1991.94,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": -1488.15,
-      "y": 1990.18,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": -1478.8,
-      "y": 1988.12,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 10,
-      "x": -1470.07,
-      "y": 1977.84,
+      "x": -1490.609375,
+      "y": 1996.587890625,
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 11,
-      "x": -1471.99,
-      "y": 1998.49,
-      "action": "",
-      "move_mode": "walk",
       "type": "path"
     }
   ]

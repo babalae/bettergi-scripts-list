@@ -5,35 +5,36 @@
     "author": "LX666-666",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.3"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
       "id": 1,
+      "x": -1332,
+      "y": 2559.5,
       "action": "",
       "move_mode": "walk",
-      "type": "teleport",
-      "x": -1332.0,
-      "y": 2559.5,
-      "action_params": ""
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
+      "x": -1296.5,
+      "y": 2549,
       "action": "",
       "move_mode": "fly",
-      "type": "path",
-      "x": -1296.5,
-      "y": 2549.0,
-      "action_params": ""
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
-      "action": "fight",
-      "move_mode": "run",
-      "type": "path",
       "x": -1108.62,
       "y": 2459.38,
-      "action_params": ""
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     }
   ]
 }
