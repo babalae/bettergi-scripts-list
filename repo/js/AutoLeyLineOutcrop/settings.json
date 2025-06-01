@@ -24,12 +24,14 @@
             "须弥",
             "枫丹",
             "纳塔"
-        ]
+        ],
+        "default": "稻妻"
     },
     {
         "name": "count",
         "type": "input-text",
-        "label": "刷取次数，默认6次"
+        "label": "刷取次数，默认6次",
+        "default": "6"
     },
     {
         "name": "team",
@@ -44,7 +46,8 @@
     {
         "name": "timeout",
         "type": "input-text",
-        "label": "战斗超时时间，单位秒，默认120秒"
+        "label": "战斗超时时间，单位秒，默认120秒",
+        "default": 120
     },
     {
         "name": "isNotification",
