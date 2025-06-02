@@ -75,22 +75,20 @@ async function initialize() {
     await genshin.returnMainUi();
     setGameMetrics(1920, 1080, 1);
     try {
-        eval(file.readTextSync("utils/attemptReward.js"));
-        log.debug("utils/attemptReward.js 加载成功");
-        eval(file.readTextSync("utils/breadthFirstPathSearch.js"));
-        log.debug("utils/breadthFirstPathSearch.js 加载成功");
-        eval(file.readTextSync("utils/executePathsUsingNodeData.js"));
-        log.debug("utils/executePathsUsingNodeData.js 加载成功");
-        eval(file.readTextSync("utils/findLeyLineOutcrop.js"));
-        log.debug("utils/findLeyLineOutcrop.js 加载成功");
-        eval(file.readTextSync("utils/loadSettings.js"));
-        log.debug("utils/loadSettings.js 加载成功");
-        eval(file.readTextSync("utils/locateLeyLineOutcrop.js"));
-        log.debug("utils/locateLeyLineOutcrop.js 加载成功");
-        eval(file.readTextSync("utils/processLeyLineOutcrop.js"));
-        log.debug("utils/processLeyLineOutcrop.js 加载成功");
-        eval(file.readTextSync("utils/recognizeTextInRegion.js"));
-        log.debug("utils/recognizeTextInRegion.js 加载成功");
+        const utils = [
+            "attemptReward.js",
+            "breadthFirstPathSearch.js",
+            "executePathsUsingNodeData.js",
+            "findLeyLineOutcrop.js",
+            "loadSettings.js",
+            "locateLeyLineOutcrop.js",
+            "processLeyLineOutcrop.js",
+            "recognizeTextInRegion.js"
+        ];
+        for (const fileName of utils) {
+            eval(file.readTextSync(`utils/${fileName}`));
+            log.debug(`utils/${fileName} 加载成功`);
+        }
     } catch (error) {
         throw new Error(`JS文件缺失，请重新安装脚本！ ${error.message}`); 
     }
@@ -292,9 +290,9 @@ function selectOptimalPath(paths) {
 
     // 记录路径选择日志
     for (let i = 0; i < Math.min(paths.length, 3); i++) {
-        // log.info(`路径选项 ${i + 1}: 起点ID ${paths[i].startNode.id}, ${paths[i].routes.length} 段路径`);
+        log.debug(`路径选项 ${i + 1}: 起点ID ${paths[i].startNode.id}, ${paths[i].routes.length} 段路径`);
         for (let j = 0; j < paths[i].routes.length; j++) {
-            // log.info(`  - 路径 ${j + 1}: ${paths[i].routes[j]}`);
+            log.debug(`  - 路径 ${j + 1}: ${paths[i].routes[j]}`);
         }
     }
 
@@ -567,7 +565,7 @@ async function startRewardTextDetection(cts) {
 
                     // 检查是否误触发其他页面
                     if (captureRegion.Find(paimonMenuRo).IsEmpty()) {
-                        log.info("误触发其他页面，尝试关闭页面");
+                        log.debug("误触发其他页面，尝试关闭页面");
                         await genshin.returnMainUi();
                         await sleep(300);
                         continue;
@@ -578,7 +576,7 @@ async function startRewardTextDetection(cts) {
                     if (resList && resList.count > 0) {
                         for (let i = 0; i < resList.count; i++) {
                             if (resList[i].text.includes("原粹树脂")) {
-                                log.info("已到达领取页面，可以领奖");
+                                log.debug("已到达领取页面，可以领奖");
                                 resolve(true);
                                 return;
                             }
@@ -592,7 +590,7 @@ async function startRewardTextDetection(cts) {
                             if (ocrResults[i].text.includes("接触") ||
                                 ocrResults[i].text.includes("地脉") ||
                                 ocrResults[i].text.includes("之花")) {
-                                log.info("检测到文字: " + ocrResults[i].text);
+                                log.debug("检测到文字: " + ocrResults[i].text);
                                 resolve(true);
                                 return;
                             }
@@ -683,10 +681,10 @@ async function adjustViewForReward(boxIconRo, token) {
         const isAboveCenter = iconRes.y < screenCenterY;
         const isWithinAngle = angleInDegrees <= maxAngle;
 
-        log.info(`图标位置: (${iconRes.x}, ${iconRes.y}), 角度: ${angleInDegrees.toFixed(2)}°`);
+        log.debug(`图标位置: (${iconRes.x}, ${iconRes.y}), 角度: ${angleInDegrees.toFixed(2)}°`);
 
         if (isAboveCenter && isWithinAngle) {
-            log.info(`视野调整成功，图标角度: ${angleInDegrees.toFixed(2)}°，在${maxAngle}°范围内`);
+            log.debug(`视野调整成功，图标角度: ${angleInDegrees.toFixed(2)}°，在${maxAngle}°范围内`);
             return true;
         } else {
             keyUp("w"); // 确保停止前进

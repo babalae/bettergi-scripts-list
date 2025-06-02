@@ -5,7 +5,8 @@
     "author": "汐",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.3"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -73,15 +74,24 @@
     },
     {
       "id": 8,
-      "x": -887.1875158003313,
-      "y": -158.18789410704994,
-      "type": "path",
-      "move_mode": "dash",
+      "x": -885.8749170482588,
+      "y": -156.68786379112316,
       "action": "fight",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 9,
+      "x": -891.41015625,
+      "y": -145.4775390625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
       "x": -906.0263671875,
       "y": -123.974609375,
       "action": "",
@@ -90,22 +100,22 @@
       "type": "path"
     },
     {
-      "id": 10,
+      "id": 11,
       "x": -908.626953125,
       "y": -102.06591796875,
-      "type": "path",
-      "move_mode": "run",
       "action": "",
-      "action_params": ""
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
     },
     {
-      "id": 11,
+      "id": 12,
       "x": -895.013671875,
       "y": -81.2919921875,
-      "type": "path",
-      "move_mode": "run",
       "action": "fight",
-      "action_params": ""
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
     }
   ]
 }

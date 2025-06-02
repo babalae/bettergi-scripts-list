@@ -4,8 +4,9 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "3大流血狗 3兽境幼兽 1丘丘暴徒\n",
-    "bgi_version": "0.42.3"
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -21,9 +22,9 @@
       "id": 2,
       "x": -2649.0046856941462,
       "y": -6747.249730587,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "run",
-      "action_params": "",
+      "action_params": "芙宁娜 e;",
       "type": "path"
     },
     {
@@ -51,19 +52,39 @@
       "action": "",
       "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
       "id": 6,
-      "x": -2731.245983690731,
-      "y": -6751.999281565333,
-      "action": "fight",
-      "move_mode": "walk",
+      "x": -2743.2525659753665,
+      "y": -6746.250359217334,
+      "action": "",
+      "move_mode": "run",
       "action_params": "",
-      "type": "target"
+      "type": "path"
     },
     {
       "id": 7,
+      "x": -2731.1249920998343,
+      "y": -6740.1278800130585,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": -2731.1249920998343,
+      "y": -6740.1278800130585,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    },
+    {
+      "id": 9,
       "x": -2595.9945333568285,
       "y": -6697.750179608667,
       "action": "",
@@ -72,7 +93,7 @@
       "type": "teleport"
     },
     {
-      "id": 8,
+      "id": 10,
       "x": -2573.7510040773177,
       "y": -6664.249550978333,
       "action": "fight",
@@ -81,13 +102,23 @@
       "type": "path"
     },
     {
-      "id": 9,
+      "id": 11,
       "x": -2570.5024544112202,
       "y": -6619.986529349986,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": -2570.5024544112202,
+      "y": -6619.986529349986,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

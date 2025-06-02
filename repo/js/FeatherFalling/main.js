@@ -78,6 +78,7 @@ async function FeatherFailing() {
         log.info("传送点图标已识别，点击传送");
         result.click();
         await sleep(1000);
+        let totalHours = 999;
         if (settings.autoPortableWaypoint) {
             let result = captureGameRegion().find(ocrRo);
             log.info("识别到锚点文字: " + result.text);
@@ -85,8 +86,6 @@ async function FeatherFailing() {
             // 使用正则表达式匹配不同的时间格式
             const dayHourPattern = /(\d+)天(\d+)小时/;  // X天X小时格式
             const hourOnlyPattern = /(\d+)小时/;       // X小时格式
-
-            let totalHours = 0;
             let dayMatch = result.text.match(dayHourPattern);
             let hourMatch = result.text.match(hourOnlyPattern);
 
@@ -103,19 +102,19 @@ async function FeatherFailing() {
             } else {
                 log.warn("无法解析锚点剩余时间格式，本次不放置锚点");
             }
-
-            // 判断是否需要放置锚点
-            if (totalHours < settings.autoPortableWaypointHours) {
-                await PlacePortableWaypoint();
-            } else {
-                log.info(`剩余时间${totalHours}小时，大于设定阈值${settings.autoPortableWaypointHours}小时，不放置锚点`);
-            }
         }
         result = captureGameRegion().find(goTeleportRo);
         result.click();
         await sleep(1000);
         await genshin.returnMainUi();
         await sleep(1000);
+        if (settings.autoPortableWaypoint) {
+            if (totalHours < settings.autoPortableWaypointHours) {
+                await PlacePortableWaypoint();
+            } else {
+                log.info(`剩余时间${totalHours}小时，大于设定阈值${settings.autoPortableWaypointHours}小时，不放置锚点`);
+            }
+        }
     } else {
         log.warn("传送点图标未识别，没有放置传送点");
         await genshin.tp(3347.59, 2756.12);
@@ -136,9 +135,7 @@ async function FeatherFailing() {
         if (settings.autoPortableWaypoint) {
             await PlacePortableWaypoint();
         }
-
     }
-
 
     for (let i = 0; i < 30; i++) {
         keyDown("W");
