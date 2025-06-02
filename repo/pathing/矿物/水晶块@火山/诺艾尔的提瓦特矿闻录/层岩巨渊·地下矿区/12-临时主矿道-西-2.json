@@ -1,9 +1,9 @@
 {
   "info": {
-    "name": "12-临时主矿道-西)-2",
+    "name": "12-临时主矿道-西-2",
     "type": "collect",
     "author": "火山",
-    "version": "1.0",
+    "version": "1.1",
     "description": "",
     "map_name": "TheChasm",
     "bgi_version": "0.45.0"
@@ -56,6 +56,15 @@
     },
     {
       "id": 6,
+      "x": 955.19,
+      "y": 1046.67,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
       "x": 948.47,
       "y": 1052.23,
       "action": "",
@@ -64,18 +73,9 @@
       "type": "path"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": 941.47,
       "y": 1056.03,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": 930.57,
-      "y": 1056.95,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -92,6 +92,15 @@
     },
     {
       "id": 10,
+      "x": 930.57,
+      "y": 1056.95,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
       "x": 926.75,
       "y": 1063.41,
       "action": "combat_script",
@@ -100,7 +109,7 @@
       "type": "target"
     },
     {
-      "id": 11,
+      "id": 12,
       "x": 922.65,
       "y": 1066.88,
       "action": "combat_script",
