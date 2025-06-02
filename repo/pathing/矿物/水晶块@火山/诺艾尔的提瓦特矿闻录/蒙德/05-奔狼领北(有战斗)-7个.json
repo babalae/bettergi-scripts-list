@@ -3,7 +3,7 @@
     "name": "05-奔狼领北(有战斗)-7个",
     "type": "collect",
     "author": "火山",
-    "version": "1.0",
+    "version": "1.1",
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0"
@@ -11,175 +11,183 @@
   "positions": [
     {
       "id": 1,
+      "x": -386.259765625,
+      "y": 2297.60400390625,
       "action": "",
       "move_mode": "walk",
-      "type": "teleport",
-      "x": -386.26,
-      "y": 2297.6,
-      "action_params": ""
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
-      "x": -421.29,
-      "y": 2306.51,
-      "type": "target",
-      "move_mode": "dash",
+      "x": -421.287109375,
+      "y": 2306.51416015625,
       "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "move_mode": "dash",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "target"
     },
     {
       "id": 3,
-      "x": -420.93,
-      "y": 2302.59,
-      "type": "path",
-      "move_mode": "walk",
+      "x": -420.9287109375,
+      "y": 2302.587158203125,
       "action": "",
+      "move_mode": "walk",
       "action_params": "",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 4,
-      "x": -420.69,
-      "y": 2302.07,
-      "type": "target",
-      "move_mode": "walk",
+      "x": -420.689453125,
+      "y": 2302.0693359375,
       "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "target"
     },
     {
       "id": 5,
-      "x": -420.56,
-      "y": 2303.0,
+      "x": -420.5625,
+      "y": 2303,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -421.6640625,
+      "y": 2305.4462890625,
       "type": "path",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 6,
-      "x": -425.13,
-      "y": 2303.98,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
-    },
-    {
       "id": 7,
-      "x": -427.91,
-      "y": 2303.9,
+      "x": -424.310546875,
+      "y": 2304.717041015625,
       "type": "target",
-      "move_mode": "walk",
+      "move_mode": "jump",
       "action": "combat_script",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
     },
     {
       "id": 8,
-      "x": -430.9,
-      "y": 2302.89,
-      "type": "target",
-      "move_mode": "walk",
+      "x": -427.9072265625,
+      "y": 2303.89599609375,
       "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "target"
     },
     {
       "id": 9,
-      "x": -386.3,
-      "y": 2297.61,
-      "type": "teleport",
+      "x": -430.8955078125,
+      "y": 2302.89013671875,
+      "action": "combat_script",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "target"
     },
     {
       "id": 10,
-      "x": -367.37,
-      "y": 2342.32,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "wait(2)"
+      "x": -386.296875,
+      "y": 2297.614013671875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 11,
-      "x": -350.0,
-      "y": 2357.38,
-      "type": "path",
+      "x": -367.365234375,
+      "y": 2342.31640625,
+      "action": "combat_script",
       "move_mode": "dash",
-      "action": "fight",
-      "action_params": ""
+      "action_params": "wait(2)",
+      "type": "path"
     },
     {
       "id": 12,
-      "x": -332.03,
-      "y": 2376.68,
-      "type": "path",
+      "x": -349.9970703125,
+      "y": 2357.37890625,
+      "action": "fight",
       "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 13,
-      "x": -332.53,
-      "y": 2378.55,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -332.033203125,
+      "y": 2376.67578125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "path"
     },
     {
       "id": 14,
-      "x": -331.02,
-      "y": 2378.6,
-      "type": "target",
+      "x": -332.525390625,
+      "y": 2378.5498046875,
+      "action": "",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 15,
-      "x": -330.38,
-      "y": 2380.02,
-      "type": "target",
-      "move_mode": "walk",
+      "x": -331.01953125,
+      "y": 2378.596923828125,
       "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "target"
     },
     {
       "id": 16,
-      "x": -332.15,
-      "y": 2386.93,
-      "type": "target",
-      "move_mode": "walk",
+      "x": -330.376953125,
+      "y": 2380.02099609375,
       "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "target"
     },
     {
       "id": 17,
-      "x": -334.43,
-      "y": 2383.42,
-      "type": "target",
-      "move_mode": "walk",
+      "x": -332.1533203125,
+      "y": 2386.932373046875,
       "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "target"
     },
     {
       "id": 18,
-      "x": -340.39,
-      "y": 2388.62,
-      "type": "path",
-      "move_mode": "jump",
-      "action": "",
-      "action_params": ""
+      "x": -334.4296875,
+      "y": 2383.41796875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "target"
     },
     {
       "id": 19,
-      "x": -343.94,
-      "y": 2450.07,
-      "type": "target",
-      "move_mode": "dash",
+      "x": -340.39453125,
+      "y": 2388.622314453125,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": -343.9365234375,
+      "y": 2450.0654296875,
       "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "move_mode": "dash",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "target"
     }
   ]
 }

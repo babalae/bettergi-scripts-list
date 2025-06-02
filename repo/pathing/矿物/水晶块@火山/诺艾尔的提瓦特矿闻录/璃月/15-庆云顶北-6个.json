@@ -1,0 +1,193 @@
+{
+  "info": {
+    "name": "15-庆云顶北-6个",
+    "type": "collect",
+    "author": "火山",
+    "version": "1.1",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1433.41015625,
+      "y": 837.1083984375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1434.73828125,
+      "y": 838.5595703125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1364.234375,
+      "y": 925.302734375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "2000",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1363.8994140625,
+      "y": 925.0771484375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 1364.94140625,
+      "y": 925.30126953125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1384.6005859375,
+      "y": 938.4345703125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "500",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 1383.6923828125,
+      "y": 938.767578125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 1430.974609375,
+      "y": 942.97802734375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 1442.0830078125,
+      "y": 979.619140625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 1435.408203125,
+      "y": 965.65087890625,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 1424.5546875,
+      "y": 948.93798828125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 1418.4013671875,
+      "y": 970.03759765625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": 1449.6484375,
+      "y": 968.083984375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 1463.501953125,
+      "y": 982.34326171875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 1462.087890625,
+      "y": 972.1064453125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 1499.1884765625,
+      "y": 965.08642578125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 1500.5498046875,
+      "y": 969.873046875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "target"
+    },
+    {
+      "id": 18,
+      "x": 1433.40234375,
+      "y": 837.10302734375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 19,
+      "x": 1358.427734375,
+      "y": 1019.25732421875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "4000",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 1358.5341796875,
+      "y": 1019.34716796875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "target"
+    }
+  ]
+}

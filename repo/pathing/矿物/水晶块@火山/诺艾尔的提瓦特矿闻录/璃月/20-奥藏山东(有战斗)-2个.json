@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "05-暝垣山北-3个",
+    "name": "20-奥藏山东(有战斗)-2个",
     "type": "collect",
     "author": "火山",
     "version": "1.1",
@@ -11,8 +11,8 @@
   "positions": [
     {
       "id": 1,
-      "x": 2614.2294921875,
-      "y": 2375.403564453125,
+      "x": 1106.6689453125,
+      "y": 1195.2763671875,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -20,62 +20,80 @@
     },
     {
       "id": 2,
-      "x": 2615.0400390625,
-      "y": 2380.660400390625,
+      "x": 1115.3505859375,
+      "y": 1203.56298828125,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 3,
-      "x": 2621.0380859375,
-      "y": 2393.489990234375,
+      "x": 1088.5986328125,
+      "y": 1213.19873046875,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 4,
-      "x": 2616.974609375,
-      "y": 2517.255126953125,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "3000",
+      "x": 1076.0615234375,
+      "y": 1215.35546875,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 5,
-      "x": 2620.67578125,
-      "y": 2510.822265625,
+      "x": 1048.8115234375,
+      "y": 1202.86376953125,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
       "type": "target"
     },
     {
       "id": 6,
-      "x": 2619.498046875,
-      "y": 2504.974365234375,
+      "x": 1042.8408203125,
+      "y": 1204.49462890625,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
       "type": "target"
     },
     {
       "id": 7,
-      "x": 2616.0537109375,
-      "y": 2503.19873046875,
+      "x": 1036.193359375,
+      "y": 1186.8369140625,
       "type": "path",
       "move_mode": "dash",
-      "action": "",
+      "action": "fight",
       "action_params": ""
     },
     {
       "id": 8,
-      "x": 2615.9580078125,
-      "y": 2502.10009765625,
+      "x": 1037.529296875,
+      "y": 1199.84130859375,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 9,
+      "x": 1051.4814453125,
+      "y": 1198.810546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 1051.810546875,
+      "y": 1197.232421875,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
