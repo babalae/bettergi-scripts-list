@@ -3,7 +3,7 @@
     "name": "03-奔狼领-5个",
     "type": "collect",
     "author": "火山",
-    "version": "1.0",
+    "version": "1.1",
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
@@ -14,39 +14,39 @@
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport",
       "x": -521.55,
       "y": 2181.32,
-      "action_params": ""
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
       "x": -580.53,
       "y": 2151.68,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
       "x": -582.57,
       "y": 2152.01,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "诺艾尔 attack,wait(1)"
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack,wait(1)",
+      "type": "path"
     },
     {
       "id": 4,
       "x": -582.18,
       "y": 2151.51,
-      "type": "path",
-      "move_mode": "walk",
       "action": "mining",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "path"
     },
     {
       "x": -582.18,
@@ -60,10 +60,10 @@
       "id": 5,
       "x": -583.65,
       "y": 2148.86,
-      "type": "path",
-      "move_mode": "walk",
       "action": "mining",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "path"
     },
     {
       "x": -583.65,
@@ -75,16 +75,16 @@
     },
     {
       "id": 6,
-      "x": -581.24,
-      "y": 2148.35,
+      "x": -581.96,
+      "y": 2147.8,
       "type": "path",
       "move_mode": "walk",
       "action": "mining",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
     },
     {
-      "x": -581.24,
-      "y": 2148.35,
+      "x": -581.96,
+      "y": 2147.8,
       "action": "combat_script",
       "action_params": "wait(1)",
       "type": "path",
@@ -94,10 +94,10 @@
       "id": 7,
       "x": -584.92,
       "y": 2145.81,
-      "type": "path",
-      "move_mode": "walk",
       "action": "mining",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "path"
     },
     {
       "x": -584.92,
@@ -111,19 +111,19 @@
       "id": 8,
       "x": -587.75,
       "y": 2143.6,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "诺艾尔 attack,wait(1)"
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack,wait(1)",
+      "type": "path"
     },
     {
       "id": 9,
       "x": -589.85,
       "y": 2145.07,
-      "type": "path",
-      "move_mode": "walk",
       "action": "mining",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "path"
     },
     {
       "x": -589.85,
@@ -137,37 +137,37 @@
       "id": 10,
       "x": -521.59,
       "y": 2181.4,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 11,
       "x": -473.73,
       "y": 2180.97,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 12,
       "x": -472.92,
       "y": 2175.18,
-      "type": "path",
-      "move_mode": "jump",
       "action": "",
-      "action_params": ""
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 13,
       "x": -467.7,
       "y": 2171.62,
-      "type": "path",
-      "move_mode": "walk",
       "action": "mining",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(2)"
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(2)",
+      "type": "path"
     }
   ]
 }
