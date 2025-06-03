@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "07-巨渊主矿区-西北-3",
+    "name": "12-临时主矿道-西-2",
     "type": "collect",
     "author": "火山",
     "version": "1.1",
@@ -14,8 +14,8 @@
   "positions": [
     {
       "id": 1,
-      "x": 338.75,
-      "y": 975.02,
+      "x": 895.56,
+      "y": 1020.93,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -23,26 +23,26 @@
     },
     {
       "id": 2,
-      "x": 341.74,
-      "y": 982.71,
+      "x": 906.07,
+      "y": 1018.54,
       "action": "",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 3,
-      "x": 357.63,
-      "y": 984.59,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
+      "x": 939.65,
+      "y": 1002.85,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "2000",
       "type": "path"
     },
     {
       "id": 4,
-      "x": 379.92,
-      "y": 1007.06,
+      "x": 951.99,
+      "y": 1016.83,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -50,8 +50,8 @@
     },
     {
       "id": 5,
-      "x": 373.98,
-      "y": 1010.27,
+      "x": 956.89,
+      "y": 1030.46,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -59,53 +59,53 @@
     },
     {
       "id": 6,
-      "x": 375.94,
-      "y": 1015.53,
+      "x": 955.19,
+      "y": 1046.67,
+      "type": "path",
+      "move_mode": "dash",
       "action": "",
-      "move_mode": "fly",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 948.47,
+      "y": 1052.23,
+      "action": "",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 7,
-      "x": 374.5,
-      "y": 1013.72,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "1500",
-      "type": "path"
-    },
-    {
       "id": 8,
-      "x": 371.54,
-      "y": 1022.18,
-      "action": "mining",
-      "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "x": 941.47,
+      "y": 1056.03,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 9,
-      "x": 369.84,
-      "y": 1029.28,
+      "x": 930.57,
+      "y": 1056.95,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 10,
-      "x": 372.94,
-      "y": 1029.34,
-      "action": "mining",
+      "x": 930.57,
+      "y": 1056.95,
+      "action": "",
       "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 11,
-      "x": 374.81,
-      "y": 1025.66,
+      "x": 926.75,
+      "y": 1063.41,
       "action": "mining",
       "move_mode": "walk",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
@@ -113,11 +113,11 @@
     },
     {
       "id": 12,
-      "x": 374.81,
-      "y": 1025.66,
-      "action": "combat_script",
+      "x": 922.65,
+      "y": 1066.88,
+      "action": "mining",
       "move_mode": "walk",
-      "action_params": "wait(0.5)",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
       "type": "path"
     }
   ]
