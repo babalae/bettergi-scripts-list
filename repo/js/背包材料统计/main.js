@@ -578,13 +578,14 @@ async function MaterialPath(materialCategoryMap) {
                 break;
 
             case 1: // 打开背包界面
-                log.info("打开背包界面");
+                // log.info("打开背包界面");
                 keyPress("B"); // 打开背包界面
                 await sleep(1000);
+                await imageClick()
 
                 let backpackResult = await recognizeImage(BagpackRo, 2000);
                 if (backpackResult.success) {
-                    log.info("成功识别背包图标");
+                    // log.info("成功识别背包图标");
                     stage = 2; // 进入下一阶段
                 } else {
                     log.warn("未识别到背包图标，重新尝试");
@@ -701,7 +702,7 @@ function pathExists(path) {
     }
 }
 // 递归读取目录下的所有文件路径，并排除特定后缀的文件
-function readAllFilePaths(dirPath, currentDepth = 0, maxDepth = 3, includeExtensions = ['.png', '.json', '.txt']) {
+function readAllFilePaths(dirPath, currentDepth = 0, maxDepth = 3, includeExtensions = ['.png', '.json', '.txt'], includeDirs = false) {
     // log.info(`开始递归读取目录：${dirPath}，当前深度：${currentDepth}`);
     if (!pathExists(dirPath)) {
         log.error(`目录 ${dirPath} 不存在`);
@@ -717,10 +718,16 @@ function readAllFilePaths(dirPath, currentDepth = 0, maxDepth = 3, includeExtens
             const isDirectory = pathExists(entry); // 如果路径存在且返回的是数组，则认为是目录
             // log.info(`处理条目：${entry}，是否为目录：${isDirectory}`);
 
-            if (isDirectory && currentDepth < maxDepth) {
-                // log.info(`递归读取子目录：${entry}`);
-                filePaths.push(...readAllFilePaths(entry, currentDepth + 1, maxDepth, includeExtensions)); // 递归读取子目录
-            } else if (!isDirectory) {
+            if (isDirectory) {
+                if (includeDirs) {
+                    // log.info(`添加目录路径：${entry}`);
+                    filePaths.push(entry); // 添加目录路径
+                }
+                if (currentDepth < maxDepth) {
+                    // log.info(`递归读取子目录：${entry}`);
+                    filePaths.push(...readAllFilePaths(entry, currentDepth + 1, maxDepth, includeExtensions, includeDirs)); // 递归读取子目录
+                }
+            } else {
                 const fileExtension = entry.substring(entry.lastIndexOf('.'));
                 if (includeExtensions.includes(fileExtension.toLowerCase())) {
                     // log.info(`添加文件路径：${entry}`);
@@ -843,37 +850,61 @@ function readMaterialCategories(materialDir) {
     // log.info(`完成材料分类信息读取，分类信息：${JSON.stringify(materialCategories, null, 2)}`);
     return materialCategories;
 }
+
 // 获取当前时间（以小时为单位）
 function getCurrentTimeInHours() {
     const now = new Date();
     return now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600;
 }
-// 记录运行时间到材料对应的文件中
+
+// 辅助函数：写入内容到文件
+function writeContentToFile(filePath, content) {
+    try {
+        // 读取文件现有内容
+        let existingContent = '';
+        try {
+            existingContent = file.readTextSync(filePath); // 读取文件内容
+        } catch (readError) {
+            // 如果文件不存在或读取失败，existingContent 保持为空字符串
+            log.warn(`文件读取失败或文件不存在: ${filePath}`);
+        }
+
+        // 将新的记录内容插入到最前面
+        const updatedContent = content + existingContent;
+
+        // 将更新后的内容写回文件
+        const result = file.writeTextSync(filePath, updatedContent, false); // 覆盖写入
+        if (result) {
+            log.info(`记录成功: ${filePath}`);
+        } else {
+            log.error(`记录失败: ${filePath}`);
+        }
+    } catch (error) {
+        log.error(`记录失败: ${error}`);
+    }
+}
+
 function recordRunTime(resourceName, pathName, startTime, endTime, runTime, recordDir, materialCountDifferences = {}) {
-    const recordPath = `${recordDir}/${resourceName}.txt`; // 记录文件路径，以材料名命名
-    const content = `路径名: ${pathName}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: ${runTime}秒\n数量变化: ${JSON.stringify(materialCountDifferences)}\n\n`;
+    const recordPath = `${recordDir}/${resourceName}.txt`; // 正常记录文件路径
+    const normalContent = `路径名: ${pathName}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: ${runTime}秒\n数量变化: ${JSON.stringify(materialCountDifferences)}\n\n`;
 
     try {
         // 只有当运行时间大于或等于3秒时，才记录运行时间
         if (runTime >= 3) {
-            // 读取文件现有内容
-            let existingContent = '';
-            try {
-                existingContent = file.readTextSync(recordPath); // 读取文件内容
-            } catch (readError) {
-                // 如果文件不存在或读取失败，existingContent 保持为空字符串
-                log.warn(`文件读取失败或文件不存在: ${readError}`);
+            // 检查 materialCountDifferences 中是否存在材料数目为 0 的情况
+            for (const [material, count] of Object.entries(materialCountDifferences)) {
+                if (count === 0) {
+                    // 如果材料数目为 0，记录到单独的文件
+                    const zeroMaterialPath = `${recordDir}/${material}-0.txt`; // 材料数目为0的记录文件路径
+                    const zeroMaterialContent = `路径名: ${pathName}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: ${runTime}秒\n数量变化: ${JSON.stringify(materialCountDifferences)}\n\n`;
+                    writeContentToFile(zeroMaterialPath, zeroMaterialContent); // 写入材料数目为0的记录
+                }
             }
 
-            // 将新的记录内容插入到最前面
-            const updatedContent = content + existingContent;
-
-            // 将更新后的内容写回文件
-            const result = file.writeTextSync(recordPath, updatedContent, false); // 覆盖写入
-            if (result) {
-                log.info(`记录运行时间成功: ${recordPath}`);
-            } else {
-                log.error(`记录运行时间失败: ${recordPath}`);
+            // 检查是否需要记录正常内容
+            if (!(Object.values(materialCountDifferences).includes(0) && finalCumulativeDistance === 0)) {
+                // 写入正常记录的内容
+                writeContentToFile(recordPath, normalContent);
             }
         } else {
             log.info(`运行时间小于3秒，请检查路径要求: ${recordPath}`);
@@ -882,6 +913,7 @@ function recordRunTime(resourceName, pathName, startTime, endTime, runTime, reco
         log.error(`记录运行时间失败: ${error}`);
     }
 }
+
 // 读取材料对应的文件，获取上次运行的结束时间
 function getLastRunEndTime(resourceName, pathName, recordDir) {
     const recordPath = `${recordDir}/${resourceName}.txt`; // 记录文件路径，以材料名命名
@@ -1202,115 +1234,283 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
 
         dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
 
-        // 遍历所有路径文件
-        for (const { path: pathingFilePath, resourceName } of allPaths) {
-            const pathName = basename(pathingFilePath); // 假设路径文件名即为材料路径
-            // log.info(`处理路径文件：${pathingFilePath}，材料名：${resourceName}，材料路径：${pathName}`);
+//  假设 flattenedLowCountMaterials 是一个全局变量或在外部定义的变量
+let currentMaterialName = null; // 用于记录当前材料名
 
-            // 查找材料对应的CD分类
-            let categoryFound = false;
-            for (const [category, materials] of Object.entries(materialCategories)) {
-                for (const [refreshCDKey, materialList] of Object.entries(materials)) {
-                    const refreshCD = JSON.parse(refreshCDKey);
-                    if (materialList.includes(resourceName)) {
-                        // 获取当前时间
-                        const currentTime = getCurrentTimeInHours();
+// 遍历所有路径文件
+for (const { path: pathingFilePath, resourceName } of allPaths) {
+    const pathName = basename(pathingFilePath); // 假设路径文件名即为材料路径
+    // log.info(`处理路径文件：${pathingFilePath}，材料名：${resourceName}，材料路径：${pathName}`);
 
-                        // 读取上次运行的结束时间
-                        const lastEndTime = getLastRunEndTime(resourceName, pathName, recordDir);
+    // 查找材料对应的CD分类
+    let categoryFound = false;
+    for (const [category, materials] of Object.entries(materialCategories)) {
+        for (const [refreshCDKey, materialList] of Object.entries(materials)) {
+            const refreshCD = JSON.parse(refreshCDKey);
+            if (materialList.includes(resourceName)) {
+                // 获取当前时间
+                const currentTime = getCurrentTimeInHours();
 
-                        // 计算效率
-                        const perTime = calculatePerTime(resourceName, pathName, recordDir);
+                // 读取上次运行的结束时间
+                const lastEndTime = getLastRunEndTime(resourceName, pathName, recordDir);
 
-                        log.info(`路径文件：${pathName}单个材料耗时：${perTime}秒`);
-                        // 判断是否可以运行脚本
-                        if (canRunPathingFile(currentTime, lastEndTime, refreshCD, pathName) && (perTime === null || perTime <= timeCost)) {
-                            log.info(`可调用路径文件：${pathName}`);
+                // 计算效率
+                const perTime = calculatePerTime(resourceName, pathName, recordDir);
 
-                            // 记录开始时间
-                            const startTime = new Date().toLocaleString();
+                log.info(`路径文件：${pathName} 单个材料耗时：${perTime}秒`);
+                // 判断是否可以运行脚本
+                if (canRunPathingFile(currentTime, lastEndTime, refreshCD, pathName) && (perTime === null || perTime <= timeCost)) {
+                    log.info(`可调用路径文件：${pathName}`);
 
-                            // 调用路径文件
-                            await pathingScript.runFile(pathingFilePath);
-                            await sleep(500);
+    // 根据 materialCategoryMap 构建 resourceCategoryMap
+    const resourceCategoryMap = {};
+    for (const [materialCategory, materialList] of Object.entries(materialCategoryMap)) {
+        if (materialList.includes(resourceName)) {
+            resourceCategoryMap[materialCategory] = [resourceName];
+            break;
+        }
+    }
 
-                            // 记录结束时间
-                            const endTime = new Date().toLocaleString();
+    // 输出 resourceCategoryMap 以供调试
+    log.info(`resourceCategoryMap: ${JSON.stringify(resourceCategoryMap, null, 2)}`);
 
-                            // 计算运行时间
-                            const runTime = (new Date(endTime) - new Date(startTime)) / 1000; // 秒
+    // 如果材料名发生变化，更新 flattenedLowCountMaterials
+    if (currentMaterialName !== resourceName) {
+        currentMaterialName = resourceName; // 更新当前材料名
+        // 调用背包材料统计（获取当前材料数量）
+        const updatedLowCountMaterials = await MaterialPath(resourceCategoryMap);
+        // 展平数组并按数量从小到大排序
+        flattenedLowCountMaterials = updatedLowCountMaterials
+            .flat()
+            .sort((a, b) => parseInt(a.count, 10) - parseInt(b.count, 10));
+        log.info(`材料名变更，更新了 flattenedLowCountMaterials`);
+    }
 
-                            // 根据 materialCategoryMap 构建 resourceCategoryMap
-                            const resourceCategoryMap = {};
-                            for (const [materialCategory, materialList] of Object.entries(materialCategoryMap)) {
-                                if (materialList.includes(resourceName)) {
-                                    resourceCategoryMap[materialCategory] = [resourceName];
-                                    break;
-                                }
-                            }
+                    // 记录开始时间
+                    const startTime = new Date().toLocaleString();
 
-                            // 输出 resourceCategoryMap 以供调试
-                            log.info(`resourceCategoryMap: ${JSON.stringify(resourceCategoryMap, null, 2)}`);
+                    // 在路径执行前执行一次位移监测
+                    const initialPosition = genshin.getPositionFromMap();
+                    let initialCumulativeDistance = 0;
 
-                            // 调用背包材料统计（获取调用路径文件后的材料数量）
-                            const updatedLowCountMaterials = await MaterialPath(resourceCategoryMap);
+                    // 调用路径文件
+                    await pathingScript.runFile(pathingFilePath);
 
-                            // 展平数组并按数量从小到大排序
-                            const flattenedUpdatedMaterialCounts = updatedLowCountMaterials
-                                .flat()
-                                .sort((a, b) => parseInt(a.count, 10) - parseInt(b.count, 10));
+                    // 在路径执行后执行一次位移监测
+                    const finalPosition = genshin.getPositionFromMap();
+                    const finalCumulativeDistance = calculateDistance(initialPosition, finalPosition);
 
-                            // 提取更新后的低数量材料的名称
-                            const updatedLowCountMaterialNames = flattenedUpdatedMaterialCounts.map(material => material.name);
+                    // 记录结束时间
+                    const endTime = new Date().toLocaleString();
 
-                            // 创建一个映射，用于存储更新前后的数量差值
-                            const materialCountDifferences = {};
+                    // 计算运行时间
+                    const runTime = (new Date(endTime) - new Date(startTime)) / 1000; // 秒
 
-                            // 遍历更新后的材料数量，计算差值
-                            flattenedUpdatedMaterialCounts.forEach(updatedMaterial => {
-                                const originalMaterial = flattenedLowCountMaterials.find(material => material.name === updatedMaterial.name);
-                                if (originalMaterial) {
-                                    const originalCount = parseInt(originalMaterial.count, 10);
-                                    const updatedCount = parseInt(updatedMaterial.count, 10);
-                                    const difference = updatedCount - originalCount;
-                                    materialCountDifferences[updatedMaterial.name] = difference;
-                                }
-                            });
-                            // 更新 flattenedLowCountMaterials 为最新的材料数量
-                            flattenedLowCountMaterials = flattenedLowCountMaterials.map(material => {
-                                // 找到对应的更新后的材料数量
-                                const updatedMaterial = flattenedUpdatedMaterialCounts.find(updated => updated.name === material.name);
-                                if (updatedMaterial) {
-                                    return { ...material, count: updatedMaterial.count }; // 更新数量
-                                }
-                                return material;
-                            });
+                    // 调用背包材料统计（获取调用路径文件后的材料数量）
+                    const updatedLowCountMaterials = await MaterialPath(resourceCategoryMap);
 
-                            // 打印数量差值
-                            log.info(`数量变化: ${JSON.stringify(materialCountDifferences, null, 2)}`);
+                    // 展平数组并按数量从小到大排序
+                    const flattenedUpdatedMaterialCounts = updatedLowCountMaterials
+                        .flat()
+                        .sort((a, b) => parseInt(a.count, 10) - parseInt(b.count, 10));
 
-                            // 记录运行时间到材料对应的文件中
-                            recordRunTime(resourceName, pathName, startTime, endTime, runTime, recordDir, materialCountDifferences);
-                            log.info(`当前材料名: ${JSON.stringify(resourceName, null, 2)}`);
+                    // 提取更新后的低数量材料的名称
+                    const updatedLowCountMaterialNames = flattenedUpdatedMaterialCounts.map(material => material.name);
 
-                            categoryFound = true;
+                    // 创建一个映射，用于存储更新前后的数量差值
+                    const materialCountDifferences = {};
 
-                            break;
-                        } else {
-                            if (perTime !== null && perTime > timeCost) {
-                                log.info(`路径文件 ${pathName} 的单个材料耗时大于 ${timeCost} ，不执行`);
-                            } else {
-                                log.info(`路径文件 ${pathName} 未能执行！`);
-                            }
+                    // 遍历更新后的材料数量，计算差值
+                    flattenedUpdatedMaterialCounts.forEach(updatedMaterial => {
+                        const originalMaterial = flattenedLowCountMaterials.find(material => material.name === updatedMaterial.name);
+                        if (originalMaterial) {
+                            const originalCount = parseInt(originalMaterial.count, 10);
+                            const updatedCount = parseInt(updatedMaterial.count, 10);
+                            const difference = updatedCount - originalCount;
+                            materialCountDifferences[updatedMaterial.name] = difference;
                         }
+                    });
+
+                    // 更新 flattenedLowCountMaterials 为最新的材料数量
+                    flattenedLowCountMaterials = flattenedLowCountMaterials.map(material => {
+                        // 找到对应的更新后的材料数量
+                        const updatedMaterial = flattenedUpdatedMaterialCounts.find(updated => updated.name === material.name);
+                        if (updatedMaterial) {
+                            return { ...material, count: updatedMaterial.count }; // 更新数量
+                        }
+                        return material;
+                    });
+
+                    // 打印数量差值
+                    log.info(`数量变化: ${JSON.stringify(materialCountDifferences, null, 2)}`);
+
+                    // 记录运行时间到材料对应的文件中
+                    recordRunTime(resourceName, pathName, startTime, endTime, runTime, recordDir, materialCountDifferences, finalCumulativeDistance);
+                    log.info(`当前材料名: ${JSON.stringify(resourceName, null, 2)}`);
+
+                    categoryFound = true;
+
+                    break;
+                } else {
+                    if (perTime !== null && perTime > timeCost) {
+                        log.info(`路径文件 ${pathName} 的单个材料耗时大于 ${timeCost} ，不执行`);
+                    } else {
+                        log.info(`路径文件 ${pathName} 未能执行！`);
                     }
                 }
-                if (categoryFound) break;
             }
         }
+        if (categoryFound) break;
+    }
+}
     } catch (error) {
         log.error(`操作失败: ${error}`);
     }
 })();
 
+// 辅助函数：计算两点之间的距离
+function calculateDistance(initialPosition, finalPosition) {
+    const deltaX = finalPosition.X - initialPosition.X;
+    const deltaY = finalPosition.Y - initialPosition.Y;
+    return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+}
+// 修改后的位移监测函数
+async function monitorDisplacement(monitoring, resolve) {
+    // 获取对象的实际初始位置
+    let lastPosition = genshin.getPositionFromMap();
+    let cumulativeDistance = 0; // 初始化累计位移量
+    let lastUpdateTime = Date.now(); // 记录上一次位置更新的时间
 
+    while (monitoring) {
+        const currentPosition = genshin.getPositionFromMap(); // 获取当前位置
+        const currentTime = Date.now(); // 获取当前时间
+
+        // 计算位移量
+        const deltaX = currentPosition.X - lastPosition.X;
+        const deltaY = currentPosition.Y - lastPosition.Y;
+        let distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+        // 如果位移量小于0.5，则视为0
+        if (distance < 0.5) {
+            distance = 0;
+        }
+
+        // 如果有位移，更新累计位移量和最后更新时间
+        if (distance > 0) {
+            cumulativeDistance += distance; // 累计位移量
+            lastUpdateTime = currentTime; // 更新最后更新时间
+        }
+
+        // 检测是否超过5秒没有位移
+        if (currentTime - lastUpdateTime >= 5000) {
+            // 触发跳跃
+            keyPress(VK_SPACE);
+            lastUpdateTime = currentTime; // 重置最后更新时间
+        }
+
+        // 输出位移信息和累计位移量
+        log.info(`时间：${(currentTime - lastUpdateTime) / 1000}秒，位移信息: X=${currentPosition.X}, Y=${currentPosition.Y}, 当前位移量=${distance.toFixed(2)}, 累计位移量=${cumulativeDistance.toFixed(2)}`);
+
+        // 更新最后位置
+        lastPosition = currentPosition;
+
+        // 等待1秒再次检查
+        await sleep(1000);
+    }
+
+    // 当监测结束时，返回累计位移量
+    resolve(cumulativeDistance);
+}
+
+// 识图点击主逻辑
+async function imageClick() {
+
+    // 定义包含多个文件夹的根目录
+    const rootDir = "assets/imageClick";
+
+    // 获取根目录下的所有子目录路径，深度为 1
+    const subDirs = readAllFilePaths(rootDir, 0, 0, [], true);
+
+    // 遍历子目录
+    for (const subDir of subDirs) {
+
+        // 从 subDir 中找到 icon 和 Picture 文件夹
+        const entries = readAllFilePaths(subDir, 0, 1, [], true); // 获取当前子目录下的所有条目
+
+        // 筛选出 icon 和 Picture 文件夹
+        const iconDir = entries.find(entry => entry.endsWith('\icon'));
+        const pictureDir = entries.find(entry => entry.endsWith('\Picture'));
+
+        if (!iconDir) {
+            // log.warn(`未找到 icon 文件夹，跳过分类文件夹：${subDir}`);
+            continue;
+        }
+
+        if (!pictureDir) {
+            // log.warn(`未找到 Picture 文件夹，跳过分类文件夹：${subDir}`);
+            continue;
+        }
+
+        // 读取 icon 文件夹下的所有文件路径
+        const iconFilePaths = readAllFilePaths(iconDir, 0, 0, ['.png', '.jpg', '.jpeg']);
+        // 读取 Picture 文件夹下的所有文件路径
+        const pictureFilePaths = readAllFilePaths(pictureDir, 0, 0, ['.png', '.jpg', '.jpeg']);
+
+        // 创建图标的 RecognitionObject
+        const iconRecognitionObjects = [];
+        for (const filePath of iconFilePaths) {
+            const mat = file.readImageMatSync(filePath);
+            if (mat.empty()) {
+                log.error(`加载图标失败：${filePath}`);
+                continue; // 跳过当前文件
+            }
+            const recognitionObject = RecognitionObject.TemplateMatch(mat, 0, 0, 1920, 1080);
+            iconRecognitionObjects.push({ name: basename(filePath), ro: recognitionObject });
+        }
+
+        // 创建图库的 ImageRegion，以获取图标的X，Y，W，H
+        const pictureRegions = [];
+        for (const filePath of pictureFilePaths) {
+            const mat = file.readImageMatSync(filePath);
+            if (mat.empty()) {
+                log.error(`加载图库失败：${filePath}`);
+                continue; // 跳过当前文件
+            }
+            pictureRegions.push({ name: basename(filePath), region: new ImageRegion(mat, 0, 0) });
+        }
+
+        // 在每张图片中查找图标的位置信息
+        const foundRegions = [];
+        for (const picture of pictureRegions) {
+            for (const icon of iconRecognitionObjects) {
+                const foundRegion = picture.region.find(icon.ro);
+                if (foundRegion.isExist()) {
+                    foundRegions.push({
+                        pictureName: picture.name,
+                        iconName: icon.name,
+                        region: foundRegion
+                    });
+                }
+            }
+        }
+
+        // 在屏幕上查找并点击图标
+        for (const foundRegion of foundRegions) {
+            const tolerance = 1; // 容错区间
+            const iconMat = file.readImageMatSync(`${iconDir}/${foundRegion.iconName}`);
+            const recognitionObject = RecognitionObject.TemplateMatch(iconMat, foundRegion.region.x - tolerance, foundRegion.region.y - tolerance, foundRegion.region.width + 2 * tolerance, foundRegion.region.height + 2 * tolerance);
+            recognitionObject.threshold = 0.9; // 设置识别阈值为 0.9
+            const result = captureGameRegion().find(recognitionObject);
+            if (result.isExist()) {
+                const x = Math.round(foundRegion.region.x + foundRegion.region.width / 2);
+                const y = Math.round(foundRegion.region.y + foundRegion.region.height / 2);
+                log.info(`即将点击图标：${foundRegion.iconName}，位置: (${x}, ${y})`);
+                await click(x, y); // 假设 click 是一个可用的点击函数
+                log.info(`点击 ${foundRegion.iconName}成功，位置: (${x}, ${y})`);
+                await sleep(500); // 等待一段时间
+            } else {
+                log.warn(`未找到背包弹窗：${foundRegion.iconName}`);
+            }
+        }
+    }
+}
