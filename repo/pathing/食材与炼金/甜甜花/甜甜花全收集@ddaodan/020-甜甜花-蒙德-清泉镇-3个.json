@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "020-甜甜花-蒙德-清泉镇-3个",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "甜甜花"
+    ],
+    "last_modified_time": 1748849555874
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -867.5322265625,
+      "y": 1992.197265625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -892.82421875,
+      "y": 2002.58935546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 3,
+      "x": -891.552734375,
+      "y": 2023.578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 4,
+      "x": -867.5390625,
+      "y": 1992.1943359375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -856.16015625,
+      "y": 1990.1318359375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    }
+  ]
+}
