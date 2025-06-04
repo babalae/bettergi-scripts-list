@@ -6,33 +6,33 @@
     "version": "1.0",
     "description": "",
     "map_name": "Enkanomiya",
-    "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1747666441060
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": 480.39,
-      "y": -537.75,
+      "x": 480.38671875,
+      "y": -537.7490234375,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "locked": false
     },
     {
       "id": 2,
-      "x": 467.24,
-      "y": -534.72,
+      "x": 467.2386474609375,
+      "y": -534.717529296875,
       "action": "",
       "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
       "id": 3,
-      "x": 440.72,
-      "y": -511.0,
+      "x": 440.7213134765625,
+      "y": -511.00439453125,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -40,8 +40,8 @@
     },
     {
       "id": 4,
-      "x": 427.1,
-      "y": -510.85,
+      "x": 425.74996444925364,
+      "y": -508.7811969471277,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "wait(4.5)",
@@ -49,8 +49,8 @@
     },
     {
       "id": 5,
-      "x": 425.1,
-      "y": -510.85,
+      "x": 425.37501580033177,
+      "y": -508.68803052872136,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -58,68 +58,62 @@
     },
     {
       "id": 6,
-      "x": 421.37,
-      "y": -507.06,
+      "x": 480.38671875,
+      "y": -537.7490234375,
       "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 7,
+      "x": 467.2386474609375,
+      "y": -534.717529296875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 442.49996642429505,
+      "y": -522.0625530528723,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 364.9985779701426,
+      "y": -478.7521827467385,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 364.9985779701426,
+      "y": -478.7521827467385,
+      "action": "fight",
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 7,
-      "x": 365.0,
-      "y": -478.75,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path",
-      "point_ext_params": {
-        "misidentification": {
-          "type": [
-            "unrecognized",
-            "pathTooFar"
-          ],
-          "handling_mode": "mapRecognition",
-          "arrival_time": 0
-        },
-        "description": "",
-        "monster_tag": ""
-      }
-    },
-    {
-      "id": 8,
-      "x": 365.0,
-      "y": -478.75,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path",
-      "point_ext_params": {
-        "misidentification": {
-          "type": [
-            "unrecognized",
-            "pathTooFar"
-          ],
-          "handling_mode": "mapRecognition",
-          "arrival_time": 0
-        },
-        "description": "",
-        "monster_tag": ""
-      }
-    },
-    {
-      "id": 9,
-      "x": 365.0,
-      "y": -478.75,
+      "id": 11,
+      "x": 364.9985779701426,
+      "y": -478.7521827467385,
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
       "type": "orientation"
     },
     {
-      "id": 10,
-      "x": 365.0,
-      "y": -478.75,
+      "id": 12,
+      "x": 364.9985779701426,
+      "y": -478.7521827467385,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "wait(1)",
