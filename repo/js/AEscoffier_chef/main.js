@@ -962,7 +962,7 @@
             task_dic["cooking"][setting_dic["food_Chill_Cost_Reduction"]] = setting_dic["food_num_Chill_Cost_Reduction"];
         }
         if (setting_dic["food_Crit_Damage_Boost"] == "全部料理") {
-            for (let i = 0; i < sort_dic["CCrit_Damage_Boost"].length; i++) {
+            for (let i = 0; i < sort_dic["Crit_Damage_Boost"].length; i++) {
                 task_dic["cooking"][sort_dic["Crit_Damage_Boost"][i]] = setting_dic["food_num_Crit_Damage_Boost"];
             }
         } else if (setting_dic["food_Crit_Damage_Boost"] !== "无(默认)") {
@@ -1630,7 +1630,7 @@
         // 调整分辨率和dpi，适应屏幕操作
         setGameMetrics(1920, 1080);
         // 解析料理数据
-        parse_food_data();
+        await parse_food_data();
         // 读取JS脚本配置
         let setting = get_js_settings();
         // 解析JS脚本配置
