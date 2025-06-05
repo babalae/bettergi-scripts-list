@@ -1,0 +1,76 @@
+{
+  "info": {
+    "name": "璃月-石门1",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 204.841796875,
+      "y": 1569.77685546875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 221.865234375,
+      "y": 1580.9755859375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 231.224609375,
+      "y": 1573.94384765625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 238.5312361747092,
+      "y": 1573.6564546325062,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 254.4658203125,
+      "y": 1566.7412109375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 258.142578125,
+      "y": 1568.1181640625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "d(0.2)"
+    },
+    {
+      "id": 7,
+      "x": 257.673828125,
+      "y": 1568.357421875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2),w(0.3)"
+    }
+  ]
+}
