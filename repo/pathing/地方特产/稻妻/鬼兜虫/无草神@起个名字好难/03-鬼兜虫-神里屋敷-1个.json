@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "鬼兜虫-绀田村-1个(纳西妲)",
+    "name": "03-鬼兜虫-神里屋敷-1个",
     "type": "collect",
     "author": "起个名字好难",
     "version": "1.0",
@@ -13,14 +13,14 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": -4124.46,
-      "y": -2759.89,
+      "x": -4578.76,
+      "y": -2577.72,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": -4097.8,
-      "y": -2749.81,
+      "x": -4584.24,
+      "y": -2523.72,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -28,30 +28,20 @@
     },
     {
       "id": 3,
-      "x": -4089.03,
-      "y": -2763.98,
+      "x": -4614.52,
+      "y": -2482.83,
       "type": "path",
-      "move_mode": "jump",
-      "action": "",
-      "action_params": ""
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "2000"
     },
     {
       "id": 4,
-      "x": -4084.57,
-      "y": -2764.43,
+      "x": -4610.57,
+      "y": -2481.96,
       "type": "target",
       "move_mode": "walk",
-      "action": "nahida_collect",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 5,
-      "x": -4084.57,
-      "y": -2764.43,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "nahida_collect",
+      "action": "",
       "action_params": ""
     }
   ]

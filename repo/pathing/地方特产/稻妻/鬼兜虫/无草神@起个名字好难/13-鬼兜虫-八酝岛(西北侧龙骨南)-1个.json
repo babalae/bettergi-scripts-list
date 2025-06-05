@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "鬼兜虫09-八酝岛(西北侧龙骨北)-1个",
+    "name": "13-鬼兜虫-八酝岛(西北侧龙骨南)-1个",
     "type": "collect",
     "author": "起个名字好难",
     "version": "1.0",
@@ -9,25 +9,33 @@
   },
   "positions": [
     {
-      "id": 21,
-      "x": -2404.9,
-      "y": -3921.68,
+      "id": 17,
+      "x": -2404.94,
+      "y": -3922.6,
       "action": "",
       "move_mode": "walk",
       "type": "teleport"
     },
     {
-      "id": 22,
-      "x": -2252.73,
-      "y": -3876.15,
+      "id": 18,
+      "x": -2388.44,
+      "y": -3912.94,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": -2291.76,
+      "y": -3907.77,
       "action": "stop_flying",
       "move_mode": "fly",
       "type": "path"
     },
     {
-      "id": 23,
-      "x": -2257.77,
-      "y": -3885.98,
+      "id": 20,
+      "x": -2289.15,
+      "y": -3903.51,
       "action": "",
       "move_mode": "walk",
       "type": "target"
