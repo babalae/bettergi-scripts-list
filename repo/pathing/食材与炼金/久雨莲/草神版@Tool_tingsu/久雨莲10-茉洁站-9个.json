@@ -1,0 +1,132 @@
+{
+  "info": {
+    "name": "久雨莲10-茉洁站-9个",
+    "type": "collect",
+    "author": "Tool_tingsu",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1749120119795
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3659.4287109375,
+      "y": 3785.68505859375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3624.5634765625,
+      "y": 3771.21240234375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3632.744140625,
+      "y": 3762.94384765625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 3628.9287109375,
+      "y": 3738.97265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 3633.7451171875,
+      "y": 3728.8388671875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 3642.4931640625,
+      "y": 3719.161865234375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 3634.78515625,
+      "y": 3711.78076171875,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 3637.9501953125,
+      "y": 3705.394775390625,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 3649.5791015625,
+      "y": 3698.119384765625,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 3660.458984375,
+      "y": 3697.294677734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 3699.12109375,
+      "y": 3702.569091796875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 3728.72265625,
+      "y": 3722.992431640625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 3733.2138671875,
+      "y": 3713.7138671875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "纳西妲 e"
+    }
+  ]
+}
