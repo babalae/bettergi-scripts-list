@@ -1,0 +1,103 @@
+{
+  "info": {
+    "name": "须弥罐子激活",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4403.0673828125,
+      "y": -1870.4541015625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4390.72265625,
+      "y": -1875.52783203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4357.32275390625,
+      "y": -1876.34716796875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "up_down_grab_leaf",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4334.36962890625,
+      "y": -1883.01611328125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "up_down_grab_leaf",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4302.42431640625,
+      "y": -1889.50146484375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "up_down_grab_leaf",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4240.0224609375,
+      "y": -1850.310546875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 4215.19921875,
+      "y": -1831.75830078125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "up_down_grab_leaf",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 4157.42041015625,
+      "y": -1827.27734375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 4118.60546875,
+      "y": -1832.16015625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 4116.48876953125,
+      "y": -1832.42333984375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "迪希雅 e;万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);"
+    }
+  ]
+}

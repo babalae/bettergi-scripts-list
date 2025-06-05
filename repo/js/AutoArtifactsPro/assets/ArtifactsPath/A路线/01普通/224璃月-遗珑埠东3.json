@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "璃月-遗珑埠东3",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2145.6650390625,
+      "y": 2412.899658203125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2114.1248577970146,
+      "y": 2462.499530103132,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2124.9375118502485,
+      "y": 2544.1249014732366,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),d(0.2),keypress(f),w(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 2128.718744074875,
+      "y": 2545.500075789818,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),w(0.2),keypress(f),a(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 2130.0380859375,
+      "y": 2543.780517578125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 2138.703125,
+      "y": 2553.333740234375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 2212.412109375,
+      "y": 2592.9951171875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1000",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 2257.96484375,
+      "y": 2607.431884765625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.3),keypress(f),",
+      "type": "target"
+    }
+  ]
+}
