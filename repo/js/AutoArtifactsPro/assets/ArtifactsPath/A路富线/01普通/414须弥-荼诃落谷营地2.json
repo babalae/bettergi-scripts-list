@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "须弥-荼诃落谷营地2",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4211.0703125,
+      "y": -2715.4990234375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4175.13818359375,
+      "y": -2726.234375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4134.73095703125,
+      "y": -2740.3564453125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4135.749956549088,
+      "y": -2742.343674210184,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.4),keypress(f),w(0.5),",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 4118.843785550746,
+      "y": -2702.406295473891,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),w(0.2),keypress(f),s(0.4),keypress(f),",
+      "type": "target"
+    }
+  ]
+}
