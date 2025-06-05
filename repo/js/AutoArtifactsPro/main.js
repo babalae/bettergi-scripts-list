@@ -2,9 +2,6 @@ const DEFAULT_OCR_TIMEOUT_SECONDS = 10;
 const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 
 (async function () {
-    // 启用自动拾取的实时任务
-    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
-
     //伪造js结束记录
     await fakeLog("自动狗粮重制版", true, true, 0);
 
@@ -14,6 +11,36 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     const waitTimePeriod = settings.waitTimePeriod;
     const friendshipPartyName = settings.friendshipPartyName;
     const grindPartyName = settings.grindPartyName;
+    const operationType = settings.operationType || "盗宝团";
+
+    //处理操作模式信息
+    switch (operationType) {
+        case "盗宝团好感卡时间":
+            enemyType = "盗宝团";
+            break;
+
+        case "愚人众好感卡时间":
+            enemyType = "愚人众";
+            break;
+
+        case "鳄鱼好感卡时间":
+            enemyType = "鳄鱼";
+            break;
+
+        case "干等卡时间":
+            // 干等卡时间的逻辑
+            break;
+
+        case "不卡时间，ab交替运行":
+            // 不卡时间，ab交替运行的逻辑
+            break;
+
+        default:
+            // 其他情况的逻辑
+            log.error("未知的操作类型: " + operationType);
+            break;
+    }
+
 
     //处理卡时间信息
     // 异步读取文件内容
@@ -70,12 +97,12 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 
     // 如果当前时间减去 lastRunMidnight 小于 24 小时（24 * 60 * 60 * 1000 毫秒），则终止程序运行
     if (timeDifference < 24 * 60 * 60 * 1000) {
-        log.info("今日已经运行完成狗粮路线，终止程序运行");
+        log.info("今日已经运行过狗粮路线，终止程序运行");
         return; // 提前退出函数
     }
 
     // 如果时间差大于或等于 24 小时，程序继续运行
-    log.info("今日还没有运行完成狗粮路线，程序继续运行");
+    log.info("今日还没有运行过狗粮路线，程序运行");
 
     let endTime = await getEndTime(minIntervalTime, lastEndTime);
 
@@ -112,51 +139,107 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     }
 
     // 检查 lastRunRoute 是否为 "B"
-    if (lastRunRoute === "B") {
+    if (lastRunRoute === "B" && operationType !== "不卡时间，ab交替运行") {
         // 如果 lastRunRoute 为 "B"，则将 endTime 改为当天的开始时间
         endTime = new Date(waitStartTime);
         // 同时将 runRouteA 改为 true
         runRouteA = true;
     }
 
-    // 输出结果
-    log.info(`预期开始狗粮时间: ${endTime.toTimeString().slice(0, 8)}`);
+    if (operationType === "不卡时间，ab交替运行" && lastRunRoute === "A") {
+        runRouteA = false;
+    }
 
-    // 获取敌人类型设置，默认为盗宝团
-    const enemyType = "盗宝团";
-
-    // 检查当前时间是否晚于 endTime
-    if (timeNow > endTime) {
-        log.warn('无需好感卡时间')
-    } else {
-        // 清理丘丘人（仅盗宝团需要）
+    // 根据 runRouteA 的值给 runningRoute 赋值
+    const runningRoute = runRouteA ? "A" : "B";
+    const folderName = `${runningRoute}路线`;
+    const filePathPreparation = `assets/ArtifactsPath/${folderName}/00准备`;
+    // 运行准备路线
+    {
         //切换至好感队
         await switchPartyIfNeeded(friendshipPartyName);
-        log.info(endTime.toLocaleString());
-        log.info(`清理原住民...`);
-        await AutoPath('盗宝团-准备');
-        //好感卡时间
 
-        // 验证超时设置
-        const ocrTimeout = validateTimeoutSetting(settings.ocrTimeout, DEFAULT_OCR_TIMEOUT_SECONDS, "OCR");
-        const fightTimeout = validateTimeoutSetting(settings.fightTimeout, DEFAULT_FIGHT_TIMEOUT_SECONDS, "战斗");
+        // 读取文件夹中的文件名并处理
+        const filePaths = file.readPathSync(filePathPreparation);
+        const jsonFileNames = [];
 
-        // 好感循环开始	
-        await AutoFriendshipDev(50, ocrTimeout, fightTimeout, enemyType, endTime);
+        for (const filePath of filePaths) {
+            const fileName = basename(filePath); // 提取文件名
+            if (fileName.endsWith('.json')) { // 检查文件名是否以 .json 结尾
+                jsonFileNames.push(fileName); // 存储文件名
+            }
+        }
+
+        let currentTask = 0; // 当前任务计数器
+
+        // 执行准备路线的地图追踪文件
+        for (const fileName of jsonFileNames) {
+            const fullPath = fileName;
+            await fakeLog(fileName, false, true, 0);
+            currentTask += 1; // 更新当前任务计数器
+            log.info(`当前进度：准备${folderName}第${currentTask}/${jsonFileNames.length}个`);
+            await pathingScript.runFile(fullPath);
+            //捕获任务取消的信息并跳出循环
+            try {
+                await sleep(10); // 假设 sleep 是一个异步函数，休眠 10 毫秒
+            } catch (error) {
+                log.error(`发生错误: ${error}`);
+                return false; // 终止循环
+            }
+            await fakeLog(fileName, false, false, 0);
+        }
     }
 
-    // 获取当前时间
-    const waitStartNow = new Date();
+    // 启用自动拾取的实时任务
+    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
 
-    // 计算 endTime 与当前时间的差值（单位：毫秒）,以防好感度运行完了还没到时间
-    const timeDiff = endTime - waitStartNow;
-    if (timeDiff > 0) {
-        log.info(`当前时间与预期时间的差值为 ${timeDiff} 毫秒，等待该时间`);
-        await sleep(timeDiff);
-    } else {
-        log.info("当前时间已晚于预期时间，无需等待");
+
+    if (operationType !== "不卡时间，ab交替运行") {
+        // 输出结果
+        log.info(`预期开始狗粮时间: ${endTime.toTimeString().slice(0, 8)}`);
+
+        // 检查当前时间是否晚于 endTime
+        if (timeNow > endTime) {
+            log.warn('无需卡时间')
+            didPreparation = false;
+        } else {
+            if (operationType !== "干等卡时间") {
+                //准备环节
+                if (enemyType === "盗宝团") {
+                    log.info(`清理原住民...`);
+                    await AutoPath('盗宝团-准备');
+                }
+                if (enemyType === "愚人众") {
+                    log.info(`导航到愚人众触发点...`);
+                    await AutoPath('愚人众-准备');
+                }
+                if (enemyType === "鳄鱼") {
+                    log.info(`导航到盗宝团触发点...`);
+                    await AutoPath('鳄鱼-准备');
+                }
+                //好感卡时间
+
+                // 验证超时设置
+                const ocrTimeout = validateTimeoutSetting(settings.ocrTimeout, DEFAULT_OCR_TIMEOUT_SECONDS, "OCR");
+                const fightTimeout = validateTimeoutSetting(settings.fightTimeout, DEFAULT_FIGHT_TIMEOUT_SECONDS, "战斗");
+
+                // 好感循环开始	
+                await AutoFriendshipDev(50, ocrTimeout, fightTimeout, enemyType, endTime);
+            }
+        }
+
+        // 获取当前时间
+        const waitStartNow = new Date();
+
+        // 计算 endTime 与当前时间的差值（单位：毫秒）,以防好感度运行完了还没到时间
+        const timeDiff = endTime - waitStartNow;
+        if (timeDiff > 0) {
+            log.info(`当前时间与预期时间的差值为 ${timeDiff} 毫秒，等待该时间`);
+            await sleep(timeDiff);
+        } else {
+            log.info("当前时间已晚于预期时间，无需等待");
+        }
     }
-
     //切换至狗粮队
     await switchPartyIfNeeded(grindPartyName);
 
@@ -192,12 +275,26 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     }
 
     //完成剩下好感
+
     if (settings.completeRemainingFriendship) {
         //切换至好感队
         await switchPartyIfNeeded(friendshipPartyName);
         // 验证超时设置
         const ocrTimeout = validateTimeoutSetting(settings.ocrTimeout, DEFAULT_OCR_TIMEOUT_SECONDS, "OCR");
         const fightTimeout = validateTimeoutSetting(settings.fightTimeout, DEFAULT_FIGHT_TIMEOUT_SECONDS, "战斗");
+        //准备环节
+        if (enemyType === "盗宝团") {
+            log.info(`清理原住民...`);
+            await AutoPath('盗宝团-准备');
+        }
+        if (enemyType === "愚人众") {
+            log.info(`导航到愚人众触发点...`);
+            await AutoPath('愚人众-准备');
+        }
+        if (enemyType === "鳄鱼") {
+            log.info(`导航到盗宝团触发点...`);
+            await AutoPath('鳄鱼-准备');
+        }
         // 好感循环开始	
         await AutoFriendshipDev(50, ocrTimeout, fightTimeout, enemyType, endTime + 24 * 60 * 60 * 1000);
     }
@@ -234,6 +331,7 @@ async function runArtifactsPaths(runRouteA) {
 
     // 定义文件夹路径
     const folderName = `${runningRoute}路线`;
+
     const filePathNormal = `assets/ArtifactsPath/${folderName}/01普通`;
     const filePathEnding = `assets/ArtifactsPath/${folderName}/02收尾`;
     const filePathExtra = `assets/ArtifactsPath/${folderName}/03额外`;
@@ -459,7 +557,7 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "�
             break;
         }
 
-        await fakeLog(`第${i + 1}次盗宝团好感`, false, true, 0);
+        await fakeLog(`第${i + 1}次好感`, false, true, 0);
 
         await AutoPath(`${enemyType}-触发点`);
         // 启动路径导航任务
@@ -552,7 +650,12 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "�
             return false;
         }
 
-        await fakeLog(`第${i + 1}次盗宝团好感`, false, false, 0);
+        // 特殊处理：鳄鱼战斗后需要拾取
+        if (enemyType === "鳄鱼") {
+            await AutoPath('鳄鱼-拾取');
+        }
+
+        await fakeLog(`第${i + 1}次好感`, false, false, 0);
     }
     log.info(`${enemyType}好感已完成`);
     await genshin.tpToStatueOfTheSeven();
