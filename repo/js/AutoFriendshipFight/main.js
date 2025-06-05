@@ -43,7 +43,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 // 执行 path 任务
 async function AutoPath(locationName) {
     try {
-        const filePath = `assets/AutoPath/${locationName}.json`;
+        const filePath = `assets/AutoPath/${locationName}.json`;  
         await pathingScript.runFile(filePath);
     } catch (error) {
         log.error(`执行 ${locationName} 路径时发生错误: ${error.message}`);
@@ -217,32 +217,14 @@ async function executeBattleTasks(fightTimeout, enemyType, cts) {
     }
 }
 
-// 执行单次好感任务循环
-async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout, enemyType) {
-    // 导航到触发点
-    await navigateToTriggerPoint(enemyType);
-    if (roundIndex === 0 && enemyType === "鳄鱼") {
-        await sleep(5000);
-    }
 
-    // 重新登录
-    await genshin.relogin();
-
-    // 启动路径导航任务（异步）
+// 执行战斗流程
+async function processBattleSequence(enemyType, fightTimeout) {
     let pathTask = AutoPath(`${enemyType}-战斗点`);
-    const ocrStatus = await detectTaskTrigger(ocrTimeout, enemyType);
-
-    if (!ocrStatus) {
-        notification.send(`未识别到突发任务，${enemyType}好感结束`);
-        log.info(`未识别到突发任务，${enemyType}好感结束`);
-        await pathTask;  // 防止报错
-        return false; // 返回 false 表示需要终止循环
-    }
+    const targetCoords = getTargetCoordinates(enemyType);
+    await waitForTargetPosition(pathTask, targetCoords);
 
     const cts = new CancellationTokenSource();
-
-    const targetCoords = getTargetCoordinates(enemyType);
-    await waitForTargetPosition(pathTask, targetCoords); 
     await executeBattleTasks(fightTimeout, enemyType, cts);
     await pathTask;
 
@@ -250,6 +232,49 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
     if (enemyType === "鳄鱼") {
         await AutoPath('鳄鱼-拾取');
     }
+}
+
+// 执行单次好感任务循环
+async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout, enemyType) {
+    // 导航到触发点
+    await navigateToTriggerPoint(enemyType);
+
+    // 第一次到达触发点后进行 3 秒检测
+    if (roundIndex === 0) {
+        let initialDetected = false;
+        const detectStart = Date.now();
+        while (Date.now() - detectStart < 3000 && !initialDetected) {
+            // 使用 1 秒短超时检测轮询
+            initialDetected = await detectTaskTrigger(1, enemyType);
+            if (!initialDetected) {
+                await sleep(500);
+            }
+        }
+        if (initialDetected) {
+            notification.send(`首次到触发点识别到突发任务，${enemyType}好感开始`);
+            log.info(`首次到触发点识别到突发任务，${enemyType}好感开始`);
+            await processBattleSequence(enemyType, fightTimeout);
+            return true;
+        }
+    }
+
+    // 如果首次检测未识别到好感任务，继续以下流程
+
+    // 重新登录
+    await genshin.relogin();
+
+    // 启动战斗流程
+    let pathTask = AutoPath(`${enemyType}-战斗点`);
+    const ocrStatus = await detectTaskTrigger(ocrTimeout, enemyType);
+
+    if (!ocrStatus) {
+        notification.send(`未识别到突发任务，${enemyType}好感结束`);
+        log.info(`未识别到突发任务，${enemyType}好感结束`);
+        await pathTask;  // 防止路径任务报错
+        return false; // 返回 false 表示需要终止循环
+    }
+
+    await processBattleSequence(enemyType, fightTimeout);
 
     // 返回 true 表示成功完成这一轮
     return true;
@@ -258,7 +283,7 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
 // 记录进度信息
 function logProgress(startTime, currentRound, totalRounds) {
     const estimatedCompletion = CalculateEstimatedCompletion(startTime, currentRound + 1, totalRounds);
-    const currentTime = LogTimeTaken(startTime);
+    const currentTime = LogTimeTaken(startTime);  
     log.info(`当前进度：${currentRound + 1}/${totalRounds} (${((currentRound + 1) / totalRounds * 100).toFixed(1)}%)`);
     log.info(`当前运行总时长：${currentTime}`);
     log.info(`预计完成时间：${estimatedCompletion}`);
