@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "赤念果12",
+    "name": "09-赤念果-丰饶绿洲东侧-2个",
     "type": "collect",
     "country": "须弥",
     "author": "½",
@@ -11,40 +11,32 @@
   "positions": [
     {
       "id": 1,
-      "x": 4691.22,
-      "y": -2345.83,
+      "x": 4451.1,
+      "y": -2455.68,
       "action": "",
       "move_mode": "walk",
       "type": "teleport"
     },
     {
       "id": 2,
-      "x": 4698.92,
-      "y": -2340.17,
-      "action": "nahida_collect",
+      "x": 4459.99,
+      "y": -2488.1,
+      "action": "",
       "move_mode": "walk",
-      "type": "target"
+      "type": "path"
     },
     {
       "id": 3,
-      "x": 4727.03,
-      "y": -2366.6,
-      "action": "",
-      "move_mode": "walk",
+      "x": 4460.44,
+      "y": -2499.24,
+      "action": "stop_flying",
+      "move_mode": "fly",
       "type": "path"
     },
     {
       "id": 4,
-      "x": 4763.3,
-      "y": -2433.98,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 4767.28,
-      "y": -2454.39,
+      "x": 4476.98,
+      "y": -2494.58,
       "action": "nahida_collect",
       "move_mode": "walk",
       "type": "target"

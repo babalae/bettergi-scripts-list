@@ -1,74 +1,73 @@
 {
   "info": {
-    "name": "赤念果10",
+    "name": "11-赤念果-丰饶绿洲南侧2-2个",
     "type": "collect",
-    "country": "须弥",
     "author": "½",
     "version": "1.0",
-    "description": "需要纳西妲",
+    "description": "",
     "bgi_version": "0.42.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": 4451.95,
-      "y": -2454.03,
+      "x": 4809.84,
+      "y": -2733.83,
       "action": "",
       "move_mode": "walk",
       "type": "teleport"
     },
     {
       "id": 2,
-      "x": 4416.71,
-      "y": -2483.57,
+      "x": 4803.98,
+      "y": -2764.65,
       "action": "",
       "move_mode": "walk",
       "type": "path"
     },
     {
       "id": 3,
-      "x": 4394.45,
-      "y": -2462.05,
-      "action": "",
+      "x": 4796.87,
+      "y": -2800.11,
+      "action": "up_down_grab_leaf",
       "move_mode": "walk",
       "type": "path"
     },
     {
       "id": 4,
-      "x": 4399.74,
-      "y": -2460.5,
+      "x": 4776.91,
+      "y": -2822.39,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4751.11,
+      "y": -2854.16,
       "action": "nahida_collect",
       "move_mode": "walk",
       "type": "target"
     },
     {
-      "id": 5,
-      "x": 4422.27,
-      "y": -2514.11,
+      "id": 6,
+      "x": 4662.71,
+      "y": -2825.85,
       "action": "",
       "move_mode": "walk",
       "type": "path"
     },
     {
-      "id": 6,
-      "x": 4436.11,
-      "y": -2527.38,
+      "id": 7,
+      "x": 4614.24,
+      "y": -2788.81,
       "action": "stop_flying",
       "move_mode": "fly",
       "type": "path"
     },
     {
-      "id": 7,
-      "x": 4436.36,
-      "y": -2527.58,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
       "id": 8,
-      "x": 4439.2,
-      "y": -2519.23,
+      "x": 4598.79,
+      "y": -2781.19,
       "action": "nahida_collect",
       "move_mode": "walk",
       "type": "target"
