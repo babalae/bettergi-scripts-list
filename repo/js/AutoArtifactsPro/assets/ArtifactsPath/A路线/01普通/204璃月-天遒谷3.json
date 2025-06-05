@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "璃月-天遒谷3",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1152.470703125,
+      "y": 141.98388671875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1118.3120417903792,
+      "y": 234.43208860704453,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1085.515625,
+      "y": 301.208984375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),w(0.3)"
+    },
+    {
+      "id": 4,
+      "x": 1082.8095703125,
+      "y": 300.794921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 1067.531259875208,
+      "y": 353.28129547389017,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1068.624990124792,
+      "y": 354.6873181044384,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 1047.9365234375,
+      "y": 318.71826171875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 1045.4453125,
+      "y": 319.9306640625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),d(0.5)",
+      "type": "target"
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "info": {
+    "name": "【激活程序】稻妻踏鞴砂大炮点",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -3393.0732421875,
+      "y": -3556.0546875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -3399.1279296875,
+      "y": -3551.3095703125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -3402.28125,
+      "y": -3551.4999557338415,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -3400.9541015625,
+      "y": -3547.1630859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -3399.5615234375,
+      "y": -3544.98046875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -3397.78125,
+      "y": -3543.3434401368886,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -3397.03125,
+      "y": -3543.21871680038,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "w(0.3),a(0.2),wait(0.3),keypress(f),wait(0.4),keypress(RETURN),wait(3.5),keypress(a),wait(3.5),keypress(a),wait(3.5),keypress(RETURN),wait(3.5),keypress(d),wait(3.5),keypress(s),wait(3.5),keypress(s),wait(3.5),keypress(RETURN),wait(3.5),keypress(w),wait(3.5),keypress(w),wait(3.5),keypress(d),wait(0.5),keypress(ESCAPE)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -3472.9677734375,
+      "y": -3754.984375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 9,
+      "x": -3466.6142578125,
+      "y": -3750.021484375,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(x)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -3462.9921875,
+      "y": -3727.884765625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -3463.4140625,
+      "y": -3725.75390625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -3466.568359375,
+      "y": -3729.3876953125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -3460.1875,
+      "y": -3731.1250442661585,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": -3457.490234375,
+      "y": -3731.8310546875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "w(0.4),a(0.2),wait(0.3),keypress(f),wait(0.4),keypress(RETURN),wait(3.5),keypress(w),wait(3.5),keypress(d),wait(3.5),keypress(d),wait(3.5),keypress(d),wait(3.5),keypress(RETURN),wait(3.5),keypress(a),wait(3.5),keypress(a),wait(3.5),keypress(a),wait(3.5),keypress(s),wait(0.5),keypress(ESCAPE),wait(2)"
+    }
+  ]
+}

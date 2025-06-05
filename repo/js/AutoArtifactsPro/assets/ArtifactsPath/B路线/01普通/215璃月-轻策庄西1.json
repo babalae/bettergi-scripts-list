@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "璃月-轻策庄西1",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 800.640625,
+      "y": 1790.82421875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 822.5966796875,
+      "y": 1779.2041015625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 838.712890625,
+      "y": 1773.7890625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 862.4404296875,
+      "y": 1759.04150390625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 867.9062440748748,
+      "y": 1741.1876212637071,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 869.1250079001657,
+      "y": 1739.9063030528723,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.4),keypress(f),"
+    }
+  ]
+}
