@@ -1,5 +1,18 @@
 [
   {
+    "name": "operationType",
+    "type": "select",
+    "label": "卡时间模式",
+    "options": [
+      "盗宝团好感卡时间",
+      "愚人众好感卡时间",
+      "鳄鱼好感卡时间",
+      "干等卡时间",
+      "不卡时间，ab交替运行"
+    ],
+    "default": "盗宝团卡时间"
+  },
+  {
     "name": "friendshipPartyName",
     "type": "input-text",
     "label": "好感队名称\n【请输入好感队的队伍名称】"
