@@ -27,7 +27,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
         await AutoPath('愚人众-准备');
     }
     if (enemyType === "鳄鱼") {
-        log.info(`导航到盗宝团触发点...`);
+        log.info(`导航到鳄鱼触发点...`);
         await AutoPath('鳄鱼-准备');
     }
     // 验证超时设置
