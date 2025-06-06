@@ -52,7 +52,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `------------------------------\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `→ 开始执行JS脚本: "${name}"`;
-        log.info(logMessage);
+        log.debug(logMessage);
     }
     if (isJs && !isStart) {
         // 处理 isJs = true 且 isStart = false 的情况
@@ -61,7 +61,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `------------------------------`;
-        log.info(logMessage);
+        log.debug(logMessage);
     }
     if (!isJs && isStart) {
         // 处理 isJs = false 且 isStart = true 的情况
@@ -70,7 +70,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `------------------------------\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `→ 开始执行地图追踪任务: "${name}"`;
-        log.info(logMessage);
+        log.debug(logMessage);
     }
     if (!isJs && !isStart) {
         // 处理 isJs = false 且 isStart = false 的情况
@@ -79,7 +79,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `------------------------------`;
-        log.info(logMessage);
+        log.debug(logMessage);
     }
 }
 
