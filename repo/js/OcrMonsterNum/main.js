@@ -45,6 +45,7 @@
     // 4. 循环处理怪物识别
     // 读取 name.txt 文件中的怪物名称列表
     const monsterList = file.readTextSync("name.txt").split('\n').filter(name => name.trim()!== '');
+    let monsterNum = 1;
 
     for (const monsterId of monsterList) {
         let pageTurns = 0;
@@ -100,7 +101,8 @@
         }
 
         // 4c. 输出日志
-        log.info(`怪物名称: ${monsterId.trim()}, 数量: ${monsterCount}`);
+        log.info(`NO.${monsterNum} 怪物名称: ${monsterId.trim()}, 数量: ${monsterCount}`);
+        monsterNum++;
 
         // 4d. 存储结果到文件
         const writeContent = `${monsterId.trim()},${monsterCount}\n`;
