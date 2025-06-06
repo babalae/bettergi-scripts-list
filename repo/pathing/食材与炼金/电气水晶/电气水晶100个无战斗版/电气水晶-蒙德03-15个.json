@@ -1,0 +1,535 @@
+{
+  "info": {
+    "name": "电气水晶-蒙德03-15个",
+    "type": "collect",
+    "author": "今天下雨w",
+    "version": "1.0",
+    "description": "必需：钟离。建议火元素：班尼特。因为电气水晶具有攻击性...",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 265.66015625,
+      "y": 2914.818603515625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 255.0693359375,
+      "y": 2917.184814453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 250.1875,
+      "y": 2926.064453125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 274.0322265625,
+      "y": 2994.224609375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 272.6279296875,
+      "y": 3011.418701171875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 274.7197265625,
+      "y": 3021.339599609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 265.6416015625,
+      "y": 2914.80419921875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 336.021484375,
+      "y": 2868.17333984375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 347.8525390625,
+      "y": 2873.602294921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 344.6162109375,
+      "y": 2862.559814453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 325.388671875,
+      "y": 2783.408203125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 315.08203125,
+      "y": 2741.759033203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 323.1357421875,
+      "y": 2735.352783203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 310.8974609375,
+      "y": 2734.5009765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 253.3935546875,
+      "y": 2727.0634765625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": 241.5400390625,
+      "y": 2715.70361328125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": 241.1787109375,
+      "y": 2707.7294921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": 338.267578125,
+      "y": 2581.1171875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "x": 342.05859375,
+      "y": 2582.298828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 20,
+      "x": 355.4208984375,
+      "y": 2572.1337890625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 21,
+      "x": 386.6826171875,
+      "y": 2575.6728515625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 22,
+      "x": 380.74609375,
+      "y": 2588.049072265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 23,
+      "x": 396.0390625,
+      "y": 2596.09423828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 24,
+      "x": 387.6181640625,
+      "y": 2589.03564453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 25,
+      "x": 372.7314453125,
+      "y": 2552.520751953125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 26,
+      "x": 350.8671875,
+      "y": 2533.757080078125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 27,
+      "x": 348.72265625,
+      "y": 2530.053466796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 28,
+      "x": 346.6796875,
+      "y": 2533.654541015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 29,
+      "x": 331.806640625,
+      "y": 2508.5322265625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 30,
+      "x": 327.220703125,
+      "y": 2499.328857421875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 31,
+      "x": 323.79296875,
+      "y": 2503.05908203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 32,
+      "x": 310.7646484375,
+      "y": 2493.508056640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 33,
+      "x": 323.3037109375,
+      "y": 2484.95166015625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 34,
+      "x": 373.0625,
+      "y": 2484.5380859375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 35,
+      "x": 384.1025390625,
+      "y": 2485.0185546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 36,
+      "x": 389.2490234375,
+      "y": 2498.7734375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 37,
+      "x": 394.54296875,
+      "y": 2524.97900390625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 38,
+      "x": 412.8701171875,
+      "y": 2528.112060546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 39,
+      "x": 420.341796875,
+      "y": 2527.516845703125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 40,
+      "x": 448.8544921875,
+      "y": 2530.716796875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 41,
+      "x": 452.7607421875,
+      "y": 2524.740234375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 42,
+      "x": 450.8037109375,
+      "y": 2529.509765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 43,
+      "x": 473.08984375,
+      "y": 2539.2353515625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 44,
+      "x": 494.4501953125,
+      "y": 2585.750732421875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 45,
+      "x": 499.4111328125,
+      "y": 2597.298095703125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 46,
+      "x": 496.513671875,
+      "y": 2600.9072265625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 47,
+      "x": 499.6708984375,
+      "y": 2602.578369140625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 48,
+      "x": 498.1787109375,
+      "y": 2604.98046875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 49,
+      "x": 490.0361328125,
+      "y": 2605.72412109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 50,
+      "x": 493.4384765625,
+      "y": 2622.579345703125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 51,
+      "x": 36.7001953125,
+      "y": 2380.838134765625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 52,
+      "x": 40.0439453125,
+      "y": 2388.47998046875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 53,
+      "x": 50.2890625,
+      "y": 2406.85546875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 54,
+      "x": 101.48046875,
+      "y": 2409.749267578125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 55,
+      "x": 126.74609375,
+      "y": 2416.655029296875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 56,
+      "x": 148.2001953125,
+      "y": 2430.611328125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 57,
+      "x": 149.369140625,
+      "y": 2436.824462890625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 58,
+      "x": 150.62109375,
+      "y": 2434.15869140625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    }
+  ]
+}
