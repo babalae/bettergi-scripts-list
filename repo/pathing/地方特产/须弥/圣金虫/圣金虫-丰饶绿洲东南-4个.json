@@ -1,10 +1,10 @@
 {
   "info": {
-    "name": "劫波莲 觉王之殿上方",
+    "name": "圣金虫-丰饶绿洲东南-4个",
     "type": "collect",
-    "author": "jbcaaa",
+    "author": "Tim",
     "version": "1.0",
-    "description": "",
+    "description": "少一个点要用四叶印",
     "bgi_version": "0.42.0"
   },
   "positions": [
@@ -13,78 +13,79 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 3705.6,
-      "y": -497.4
+      "x": 4444.74,
+      "y": -2469.82
     },
     {
       "id": 2,
-      "x": 3587.88,
-      "y": -416.36,
-      "type": "target",
+      "x": 4466.78,
+      "y": -2484.88,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 4475.18,
+      "y": -2500.47,
+      "type": "path",
       "move_mode": "fly",
       "action": "stop_flying"
     },
     {
-      "id": 3,
-      "x": 3567.5,
-      "y": -417.75,
-      "move_mode": "fly",
-      "type": "path"
-    },
-    {
       "id": 4,
-      "x": 3556.25,
-      "y": -414.75,
+      "x": 4490.76,
+      "y": -2524.32,
       "type": "target",
-      "move_mode": "climb",
+      "move_mode": "walk",
       "action": ""
     },
     {
       "id": 5,
-      "x": 3548.96,
-      "y": -411.76,
+      "x": 4555.47,
+      "y": -2517.54,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 6,
-      "x": 3537.98,
-      "y": -421.03,
-      "type": "path",
+      "x": 4572.78,
+      "y": -2507.33,
+      "type": "target",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 7,
-      "x": 3544.92,
-      "y": -421.84,
+      "x": 4595.47,
+      "y": -2525.26,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 8,
-      "x": 3546.12,
-      "y": -422.26,
-      "type": "path",
+      "x": 4604.97,
+      "y": -2534.18,
+      "type": "target",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 9,
-      "x": 3561.11,
-      "y": -434.72,
+      "x": 4631.9,
+      "y": -2558.35,
       "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying"
+      "move_mode": "walk",
+      "action": ""
     },
     {
       "id": 10,
-      "x": 3551.55,
-      "y": -439.74,
+      "x": 4639.02,
+      "y": -2569.34,
       "type": "target",
-      "move_mode": "climb",
+      "move_mode": "walk",
       "action": ""
     }
   ]

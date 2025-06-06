@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "009劫波莲 觉王之殿北边5个",
+    "name": "04-劫波莲-维摩庄西南-7个",
     "type": "collect",
     "author": "lifrom",
     "version": "1.0",
@@ -13,56 +13,48 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 3707.46,
-      "y": -484.41
+      "x": 2794.43,
+      "y": -1219.84
     },
     {
       "id": 2,
       "action": "stop_flying",
       "move_mode": "fly",
-      "type": "target",
-      "x": 3598.91,
-      "y": -435.43
+      "type": "path",
+      "x": 2735.5,
+      "y": -1309.33
     },
     {
       "id": 3,
-      "x": 3598.91,
-      "y": -435.43,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect"
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target",
+      "x": 2719.49,
+      "y": -1318.32
     },
     {
       "id": 4,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "type": "path",
-      "x": 3547.88,
-      "y": -441.43
-    },
-    {
-      "id": 5,
       "action": "nahida_collect",
       "move_mode": "walk",
       "type": "target",
-      "x": 3554.44,
-      "y": -441.22
+      "x": 2710.99,
+      "y": -1327.91
+    },
+    {
+      "id": 5,
+      "x": 2662.94,
+      "y": -1291.22,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
     },
     {
       "id": 6,
-      "x": 3560.31,
-      "y": -434.73,
+      "x": 2662.94,
+      "y": -1291.22,
       "type": "target",
       "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 7,
-      "x": 3554.44,
-      "y": -441.22,
-      "type": "target",
-      "move_mode": "walk",
-      "action": ""
+      "action": "nahida_collect"
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
   "info": {
-    "name": "007劫波莲 觉王之殿3个",
+    "name": "圣金虫-丰饶绿洲南-1个",
     "type": "collect",
-    "author": "lifrom",
+    "author": "Tim",
     "version": "1.0",
     "description": "",
     "bgi_version": "0.42.0"
@@ -13,16 +13,24 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 3484.48,
-      "y": -608.26
+      "x": 4795.58,
+      "y": -2576.35
     },
     {
       "id": 2,
-      "action": "nahida_collect",
+      "x": 4803.38,
+      "y": -2621.38,
+      "type": "path",
       "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 4806.74,
+      "y": -2632.69,
       "type": "target",
-      "x": 3451.4,
-      "y": -628.92
+      "move_mode": "walk",
+      "action": ""
     }
   ]
 }

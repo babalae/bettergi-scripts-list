@@ -1,8 +1,8 @@
 {
   "info": {
-    "name": "003劫波莲 降诸魔山2个",
+    "name": "圣金虫-秘仪圣殿北-1个",
     "type": "collect",
-    "author": "lifrom",
+    "author": "Tim",
     "version": "1.0",
     "description": "",
     "bgi_version": "0.42.0"
@@ -13,24 +13,24 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 2241.63,
-      "y": -1686.13
+      "x": 4994.08,
+      "y": -2161.74
     },
     {
       "id": 2,
-      "action": "",
-      "move_mode": "walk",
+      "x": 4987.95,
+      "y": -2190.6,
       "type": "path",
-      "x": 2237.47,
-      "y": -1662.94
+      "move_mode": "fly",
+      "action": "stop_flying"
     },
     {
       "id": 3,
-      "action": "nahida_collect",
-      "move_mode": "walk",
+      "x": 4977.11,
+      "y": -2224.54,
       "type": "target",
-      "x": 2179.95,
-      "y": -1681.93
+      "move_mode": "walk",
+      "action": ""
     }
   ]
 }
