@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "璃月-华光林2",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1604.439453125,
+      "y": 1039.6806640625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1638.3544921875,
+      "y": 938.25634765625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1638.26953125,
+      "y": 941.33544921875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.3),keypress(f),"
+    },
+    {
+      "id": 4,
+      "x": 1641.5126953125,
+      "y": 939.21435546875,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 1647.97265625,
+      "y": 939.07763671875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 1649.3115234375,
+      "y": 939.68701171875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),a(0.3),keypress(f),"
+    }
+  ]
+}

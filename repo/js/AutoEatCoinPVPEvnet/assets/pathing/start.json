@@ -1,0 +1,40 @@
+{
+  "info": {
+    "name": "pvp_event",
+    "type": "collect",
+    "author": "修改我的qq昵称",
+    "version": "1.0",
+    "description": "走到5.6联机吃金币pvp活动点.",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 7234.3056640625,
+      "y": -1433.24609375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 7316.3564453125,
+      "y": -1441.080078125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 7354.68017578125,
+      "y": -1428.5908203125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

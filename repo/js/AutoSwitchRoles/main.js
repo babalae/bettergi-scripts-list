@@ -17,15 +17,13 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
 
 // 读取别名文件
 function readAliases() {
-    const aliasText = file.ReadTextSync('aliases.txt');
+    const combatText = file.ReadTextSync('combat_avatar.json');
+    const combatData = JSON.parse(combatText);
     const aliases = {};
-    const lines = aliasText.split('\n');
-    for (const line of lines) {
-        const [name, aliasListStr] = line.split('=');
-        if (name && aliasListStr) {
-            const aliasList = aliasListStr.replace('[', '').replace(']', '').split('，').map(alias => alias.trim());
-            for (const alias of aliasList) {
-                aliases[alias] = name;
+    for (const character of combatData) {
+        if (character.alias && character.name) {
+            for (const alias of character.alias) {
+                aliases[alias] = character.name;
             }
         }
     }
@@ -37,9 +35,12 @@ function readAliases() {
     setGameMetrics(1920, 1080, 1);
     // 返回主界面
     await genshin.returnMainUi();
+   //切换配对
+   if (settings.switchPartyName) {
+     await genshin.switchParty(settings.switchPartyName);
+   }
 
     const option = settings.option;
-
     if (option === '推荐-非快速配对模式 @Tool_tingsu') {
         // main.js 的逻辑
         const positionCoordinates = [

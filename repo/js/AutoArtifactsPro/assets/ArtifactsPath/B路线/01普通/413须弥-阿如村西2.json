@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "须弥-阿如村西2",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4402.7373046875,
+      "y": -1870.81005859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4376.8349609375,
+      "y": -1903.736328125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4369.650390625,
+      "y": -1911.4462890625,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4360.843769750415,
+      "y": -1910.156052946475,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "2000",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4359.015625,
+      "y": -1909.84619140625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),s(0.3),dash",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 4360.6962890625,
+      "y": -1943.77783203125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 4339.562523700498,
+      "y": -1955.3748484203652,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4336.1650390625,
+      "y": -1957.27783203125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),a(0.3)",
+      "type": "target"
+    }
+  ]
+}
