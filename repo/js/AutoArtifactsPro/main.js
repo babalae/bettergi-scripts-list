@@ -146,8 +146,12 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
         runRouteA = true;
     }
 
-    if (operationType === "不卡时间，ab交替运行" && lastRunRoute === "A") {
-        runRouteA = false;
+    if (operationType === "不卡时间，ab交替运行") {
+        // 定义 1970-01-01T20:00:00.000Z 的时间对象
+        const epochTime = new Date('1970-01-01T20:00:00.000Z');
+
+        // 根据当前时间与 1970-01-01T20:00:00.000Z 的天数差的奇偶性给布尔变量 runRouteA 赋值
+        runRouteA = Math.floor((now - epochTime) / (24 * 60 * 60 * 1000)) % 2 === 0;
     }
 
     // 根据 runRouteA 的值给 runningRoute 赋值
@@ -292,7 +296,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
             await AutoPath('愚人众-准备');
         }
         if (enemyType === "鳄鱼") {
-            log.info(`导航到盗宝团触发点...`);
+            log.info(`导航到鳄鱼触发点...`);
             await AutoPath('鳄鱼-准备');
         }
         // 好感循环开始	
@@ -671,21 +675,29 @@ function isPositiveInteger(value) {
 // 根据敌人类型获取OCR关键词
 function getOcrKeywords(enemyType) {
     if (enemyType === "愚人众") {
-        return ["买卖", "不成", "正义存", "愚人众", "禁止", "危险", "运输", "打倒", "盗宝团"];
+        return ["买卖", "不成", "正义存", "愚人众", "禁止", "危险", "运输", "打倒", "盗宝团", "丘丘人", "今晚", "伙食", "所有人"];
     }
     else if (enemyType === "盗宝团") {
         return ["岛上", "无贼", "消灭", "鬼鬼祟祟", "盗宝团"];
+    }
+    else if (enemyType === "鳄鱼") {
+        return ["张牙", "舞爪", "恶党", "鳄鱼", "打倒", "所有", "鳄鱼"];
+    }
+    else {
+        return ["突发", "任务", "打倒", "消灭", "敌人", "所有"]; // 兜底关键词
     }
 }
 
 // 根据敌人类型获取目标战斗点坐标
 function getTargetCoordinates(enemyType) {
     if (enemyType === "愚人众") {
-        // 愚人众战斗点坐标（需要根据实际位置调整）
-        return { x: 4840.55, y: -3078.01 }; // 这里需要替换为实际的愚人众战斗点坐标
-    } else {
+        return { x: 4840.55, y: -3078.01 };
+    } else if (enemyType === "盗宝团") {
         // 盗宝团战斗点坐标
-        return { x: -2757.281, y: -3468.437 };
+        return { x: -2757.28, y: -3468.43 };
+    } else if (enemyType === "鳄鱼") {
+        // 鳄鱼战斗点坐标
+        return { x: 3578.08, y: -500.75 };
     }
 }
 
