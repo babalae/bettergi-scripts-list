@@ -496,6 +496,7 @@
             // 路径详细信息
             const path_msg = get_pathing_msg(path_filter[i]);
             try {
+                await sleep(100);
                 let current_msg = `${path_msg["area"]}-${path_msg["detail"]}`
                 log.info(`当前钓鱼点: ${current_msg}(进度: ${i + 1}/${path_filter.length})`);
                 if (path_continue === current_msg) {
