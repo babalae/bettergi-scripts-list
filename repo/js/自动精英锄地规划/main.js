@@ -120,6 +120,9 @@ function basename(filePath) {
     const pathingDir = 'pathing/';
     const routeDir = 'route/';
 
+    // 根据用户队伍的实际效率更新的索引文件
+    const dynamicIndexPath = 'dynamic_index.txt';
+
     // 定义需要检查的字段
     const tags = ["水免", "次数盾", "传奇", "高危"];
 
@@ -193,7 +196,13 @@ function basename(filePath) {
             // 不为执行模式或路径组文件不存在，进行排序、筛选和选取路径
             let totalMonsterCount = 0;
             try {
-                const indexContent = await file.readText(indexPath);
+                let indexContent = "";
+                try {
+                    log.info("使用基于实际运行效率生成的数据文件 {file}", dynamicIndexPath);
+                    indexContent = await file.readText(dynamicIndexPath);
+                } catch (error) {
+                    indexContent = await file.readText(indexPath);
+                }
                 const pathingFiles = indexContent.trim().split('\n').slice(1).map(line => {
                     const data = line.trim().split('\t');
                     if (data.length !== 11) { // 列数为11
