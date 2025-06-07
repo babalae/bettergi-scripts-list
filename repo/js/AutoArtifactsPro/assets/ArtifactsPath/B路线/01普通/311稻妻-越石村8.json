@@ -1,11 +1,12 @@
 {
   "info": {
-    "name": "稻妻-越石村8",
+    "name": "311稻妻-越石村8",
     "type": "collect",
     "author": "汐",
     "version": "",
     "description": "",
-    "bgiVersion": "0.42.3"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -20,10 +21,10 @@
       "id": 2,
       "x": -3994.875037525788,
       "y": -4451.062143787858,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
@@ -89,19 +90,19 @@
       "id": 10,
       "x": -3967.6484375,
       "y": -4434.41796875,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 11,
       "x": -3965.548828125,
       "y": -4436.5126953125,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.3),keypress(f),wait(0.2),keypress(f),keypress(x),wait(0.1),keypress(x)"
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.3),keypress(f),wait(0.2),keypress(f),keypress(x),wait(0.1),keypress(x)",
+      "type": "target"
     },
     {
       "id": 12,
@@ -182,21 +183,30 @@
     },
     {
       "id": 21,
-      "x": -3968.7187677753736,
-      "y": -4383.468803052872,
+      "x": -3971.15625,
+      "y": -4382.593827465778,
       "type": "path",
-      "move_mode": "fly",
-      "action": "combat_script",
-      "action_params": "wait(0.2)keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),"
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 22,
-      "x": -3970.3125256755393,
-      "y": -4383.34362115731,
-      "type": "target",
-      "move_mode": "walk",
+      "x": -3969.84375,
+      "y": -4382.656006536126,
       "action": "combat_script",
-      "action_params": "keypress(f)"
+      "move_mode": "walk",
+      "action_params": "keypress(f)",
+      "type": "target"
+    },
+    {
+      "id": 23,
+      "x": -3968.0625,
+      "y": -4384.656670528508,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "path"
     }
   ]
 }
