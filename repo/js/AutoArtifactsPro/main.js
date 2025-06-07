@@ -11,7 +11,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     const waitTimePeriod = settings.waitTimePeriod;
     const friendshipPartyName = settings.friendshipPartyName;
     const grindPartyName = settings.grindPartyName;
-    const operationType = settings.operationType || "盗宝团";
+    const operationType = settings.operationType || "不卡时间，ab交替运行";
 
     //处理操作模式信息
     switch (operationType) {
@@ -41,7 +41,6 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
             break;
     }
 
-
     //处理卡时间信息
     // 异步读取文件内容
     const content = await file.readText("record.txt");
@@ -50,9 +49,11 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     let lastRunDate = "未知"; // 默认值
     let lastEndTime = new Date(); // 默认值为当前时间
     let lastRunRoute = "未知"; // 默认值
+    let records = new Array(7).fill("");
 
     // 按行分割内容
     const lines = content.split('\n');
+    let recordIndex = 0;
 
     // 逐行处理
     for (const line of lines) {
@@ -77,12 +78,18 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
         if (line.startsWith("上次运行路线:")) {
             lastRunRoute = line.substring("上次运行路线:".length).trim();
         }
+
+        if (line.startsWith("日期") && recordIndex < records.length) {
+            records[recordIndex] = line.trim(); // 直接使用 line.trim()
+            recordIndex++;
+        }
     }
 
     // 输出变量值
     log.info(`上次运行完成日期: ${lastRunDate}`);
     log.info(`上次狗粮开始时间: ${lastEndTime.toISOString()}`);
     log.info(`上次运行路线: ${lastRunRoute}`);
+
     // 拆分 lastRunDate 为年、月、日
     const [year, month, day] = lastRunDate.split('/').map(Number);
 
@@ -95,14 +102,12 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     // 计算当前时间与 lastRunMidnight 之间的时间差（单位：毫秒）
     const timeDifference = now - lastRunMidnight;
 
-    // 如果当前时间减去 lastRunMidnight 小于 24 小时（24 * 60 * 60 * 1000 毫秒），则终止程序运行
+    // 如果当前时间减去 lastRunMidnight 小于 24 小时（24 * 60 * 60 * 1000 毫秒），则终止狗粮程序运行
+    let runnedToday = false;
     if (timeDifference < 24 * 60 * 60 * 1000) {
-        log.info("今日已经运行过狗粮路线，终止程序运行");
-        return; // 提前退出函数
+        log.info("今日已经运行过狗粮路线，跳过运行狗粮程序");
+        runnedToday = true;
     }
-
-    // 如果时间差大于或等于 24 小时，程序继续运行
-    log.info("今日还没有运行过狗粮路线，程序运行");
 
     let endTime = await getEndTime(minIntervalTime, lastEndTime);
 
@@ -159,7 +164,10 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     const folderName = `${runningRoute}路线`;
     const filePathPreparation = `assets/ArtifactsPath/${folderName}/00准备`;
     // 运行准备路线
-    {
+    prepare: {
+        if (runnedToday) {
+            break prepare;
+        }
         //切换至好感队
         await switchPartyIfNeeded(friendshipPartyName);
 
@@ -198,57 +206,62 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
 
 
-    if (operationType !== "不卡时间，ab交替运行") {
-        // 输出结果
-        log.info(`预期开始狗粮时间: ${endTime.toTimeString().slice(0, 8)}`);
+    wait: {
+        if (runnedToday) {
+            break wait;
+        }
+        if (operationType !== "不卡时间，ab交替运行") {
+            // 输出结果
+            log.info(`预期开始狗粮时间: ${endTime.toTimeString().slice(0, 8)}`);
 
-        // 检查当前时间是否晚于 endTime
-        if (timeNow > endTime) {
-            log.warn('无需卡时间')
-            didPreparation = false;
-        } else {
-            if (operationType !== "干等卡时间") {
-                //准备环节
-                if (enemyType === "盗宝团") {
-                    log.info(`清理原住民...`);
-                    await AutoPath('盗宝团-准备');
-                }
-                if (enemyType === "愚人众") {
-                    log.info(`导航到愚人众触发点...`);
-                    await AutoPath('愚人众-准备');
-                }
-                if (enemyType === "鳄鱼") {
-                    log.info(`导航到盗宝团触发点...`);
-                    await AutoPath('鳄鱼-准备');
-                }
-                //好感卡时间
+            // 检查当前时间是否晚于 endTime
+            if (timeNow > endTime) {
+                log.warn('无需卡时间')
+            } else {
+                if (operationType !== "干等卡时间") {
+                    //准备环节
+                    if (enemyType === "盗宝团") {
+                        log.info(`清理原住民...`);
+                        await AutoPath('盗宝团-准备');
+                    }
+                    if (enemyType === "愚人众") {
+                        log.info(`导航到愚人众触发点...`);
+                        await AutoPath('愚人众-准备');
+                    }
+                    if (enemyType === "鳄鱼") {
+                        log.info(`导航到盗宝团触发点...`);
+                        await AutoPath('鳄鱼-准备');
+                    }
+                    //好感卡时间
 
-                // 验证超时设置
-                const ocrTimeout = validateTimeoutSetting(settings.ocrTimeout, DEFAULT_OCR_TIMEOUT_SECONDS, "OCR");
-                const fightTimeout = validateTimeoutSetting(settings.fightTimeout, DEFAULT_FIGHT_TIMEOUT_SECONDS, "战斗");
+                    // 验证超时设置
+                    const ocrTimeout = validateTimeoutSetting(settings.ocrTimeout, DEFAULT_OCR_TIMEOUT_SECONDS, "OCR");
+                    const fightTimeout = validateTimeoutSetting(settings.fightTimeout, DEFAULT_FIGHT_TIMEOUT_SECONDS, "战斗");
 
-                // 好感循环开始	
-                await AutoFriendshipDev(50, ocrTimeout, fightTimeout, enemyType, endTime);
+                    // 好感循环开始	
+                    await AutoFriendshipDev(50, ocrTimeout, fightTimeout, enemyType, endTime);
+                }
+            }
+
+            // 获取当前时间
+            const waitStartNow = new Date();
+
+            // 计算 endTime 与当前时间的差值（单位：毫秒）,以防好感度运行完了还没到时间
+            const timeDiff = endTime - waitStartNow;
+            if (timeDiff > 0) {
+                log.info(`当前时间与预期时间的差值为 ${timeDiff} 毫秒，等待该时间`);
+                await sleep(timeDiff);
+            } else {
+                log.info("当前时间已晚于预期时间，无需等待");
             }
         }
-
-        // 获取当前时间
-        const waitStartNow = new Date();
-
-        // 计算 endTime 与当前时间的差值（单位：毫秒）,以防好感度运行完了还没到时间
-        const timeDiff = endTime - waitStartNow;
-        if (timeDiff > 0) {
-            log.info(`当前时间与预期时间的差值为 ${timeDiff} 毫秒，等待该时间`);
-            await sleep(timeDiff);
-        } else {
-            log.info("当前时间已晚于预期时间，无需等待");
-        }
     }
-    //切换至狗粮队
-    await switchPartyIfNeeded(grindPartyName);
 
     //更新运行数据
-    {
+    refresh: {
+        if (runnedToday) {
+            break refresh;
+        }
         // 获取当前日期和时间
         const finishDate = new Date();
 
@@ -268,14 +281,39 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
         log.info(`今日运行狗粮路线：${runRouteA ? 'A' : 'B'}，开始时间：${lastEndTime.toLocaleString()}`);
     }
 
-    // 开始运行狗粮路线
-    let runArtifactsResult = true;
-    runArtifactsResult = await runArtifactsPaths(runRouteA);
+    //运行前按自定义配置清理狗粮
+    const result1 = await decomposeArtifacts(settings.keep4Star, false);
 
-    if (runArtifactsResult) {
-        //修改文件内容
-        log.info('尝试修改记录文件');
-        await writeRecordFile(lastRunDate, lastEndTime, lastRunRoute);
+    artifacts: {
+        if (runnedToday) {
+            break artifacts;
+        }
+        // 开始运行狗粮路线
+        //切换至狗粮队
+        await switchPartyIfNeeded(grindPartyName);
+        let runArtifactsResult = true;
+        runArtifactsResult = await runArtifactsPaths(runRouteA);
+
+        const result2 = await decomposeArtifacts(settings.keep4Star, settings.doDecompose);
+        // 计算 mora 和 artifactExperience 的差值
+        const moraDiff = Number(result2.mora) - Number(result1.mora); // 将字符串转换为数字后计算差值
+        const artifactExperienceDiff = result2.artifactExperience - result1.artifactExperience;
+
+        log.info(`狗粮路线获取摩拉: ${moraDiff}`);
+        log.info(`狗粮路线获取狗粮经验: ${artifactExperienceDiff}`);
+
+        //修改records
+        for (let i = records.length - 1; i > 0; i--) {
+            records[i] = records[i - 1];
+        }
+        records[0] = `日期:${lastRunDate}，运行路线${lastRunRoute}，狗粮经验${artifactExperienceDiff}，摩拉${moraDiff}`;
+
+
+        if (runArtifactsResult) {
+            //修改文件内容
+            log.info('尝试修改记录文件');
+            await writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records);
+        }
     }
 
     //完成剩下好感
@@ -302,19 +340,21 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
         // 好感循环开始	
         await AutoFriendshipDev(50, ocrTimeout, fightTimeout, enemyType, endTime + 24 * 60 * 60 * 1000);
     }
+
     //伪造js开始记录
     await fakeLog("自动狗粮重制版", true, false, 0);
 })();
 
 // 异步函数，用于将变量内容写回到文件
-async function writeRecordFile(lastRunDate, lastEndTime, lastRunRoute) {
+async function writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records) {
     try {
         // 构造要写入文件的内容
         const content = [
             `上次运行完成日期: ${lastRunDate}`,
             `上次结束时间: ${lastEndTime.toISOString()}`,
-            `上次运行路线: ${lastRunRoute}`
-        ].join('\n');
+            `上次运行路线: ${lastRunRoute}`,
+            "历史收益："
+        ].concat(records).join('\n');
 
         // 异步写入文件
         const result = await file.writeText("record.txt", content, false); // 覆盖写入
@@ -496,7 +536,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `------------------------------\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `→ 开始执行JS脚本: "${name}"`;
-        log.debug(logMessage);
+        log.info(logMessage);
     }
     if (isJs && !isStart) {
         // 处理 isJs = true 且 isStart = false 的情况
@@ -505,7 +545,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `------------------------------`;
-        log.debug(logMessage);
+        log.info(logMessage);
     }
     if (!isJs && isStart) {
         // 处理 isJs = false 且 isStart = true 的情况
@@ -514,7 +554,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `------------------------------\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `→ 开始执行地图追踪任务: "${name}"`;
-        log.debug(logMessage);
+        log.info(logMessage);
     }
     if (!isJs && !isStart) {
         // 处理 isJs = false 且 isStart = false 的情况
@@ -523,7 +563,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `------------------------------`;
-        log.debug(logMessage);
+        log.info(logMessage);
     }
 }
 
@@ -820,5 +860,266 @@ function validateTimeoutSetting(value, defaultValue, timeoutType) {
 
     log.info(`${timeoutType}超时设置为 ${timeout} 秒`);
     return timeout;
+}
+
+// 定义替换映射表
+const replacementMap = {
+    "监": "盐",
+    "卵": "卯"
+};
+
+// 定义所有图标的图像识别对象，每个图片都有自己的识别区域
+let CharacterMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/CharacterMenu.png"), 60, 991, 38, 38);
+
+// 定义一个函数用于识别图像
+async function recognizeImage(recognitionObject, timeout = 5000) {
+    let startTime = Date.now();
+    while (Date.now() - startTime < timeout) {
+        try {
+            // 尝试识别图像
+            let imageResult = captureGameRegion().find(recognitionObject);
+            if (imageResult) {
+                // log.info(`成功识别图像，坐标: x=${imageResult.x}, y=${imageResult.y}`);
+                // log.info(`图像尺寸: width=${imageResult.width}, height=${imageResult.height}`);
+                return { success: true, x: imageResult.x, y: imageResult.y };
+            }
+        } catch (error) {
+            log.error(`识别图像时发生异常: ${error.message}`);
+        }
+        await sleep(500); // 短暂延迟，避免过快循环
+    }
+    log.warn(`经过多次尝试，仍然无法识别图像`);
+    return { success: false };
+}
+
+// 定义一个函数用于识别文字并点击
+async function recognizeTextAndClick(targetText, ocrRegion, timeout = 5000) {
+    let startTime = Date.now();
+    let retryCount = 0; // 重试计数
+    while (Date.now() - startTime < timeout) {
+        try {
+            // 尝试 OCR 识别
+            let resList = captureGameRegion().findMulti(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height)); // 指定识别区域
+            // 遍历识别结果，检查是否找到目标文本
+            for (let res of resList) {
+                // 后处理：根据替换映射表检查和替换错误识别的字符
+                let correctedText = res.text;
+                for (let [wrongChar, correctChar] of Object.entries(replacementMap)) {
+                    correctedText = correctedText.replace(new RegExp(wrongChar, 'g'), correctChar);
+                }
+
+                if (correctedText.includes(targetText)) {
+                    // 如果找到目标文本，计算并点击文字的中心坐标
+                    let centerX = res.x + res.width / 2;
+                    let centerY = res.y + res.height / 2;
+                    await click(centerX, centerY);
+                    await sleep(500); // 确保点击后有足够的时间等待
+                    return { success: true, x: centerX, y: centerY };
+                }
+            }
+        } catch (error) {
+            retryCount++; // 增加重试计数
+            log.warn(`页面标志识别失败，正在进行第 ${retryCount} 次重试...`);
+        }
+        await sleep(1000); // 短暂延迟，避免过快循环
+    }
+    log.warn(`经过多次尝试，仍然无法识别文字: ${targetText}`);
+    return { success: false };
+}
+
+// 定义一个独立的函数用于在指定区域进行 OCR 识别并输出识别内容
+async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
+    let startTime = Date.now();
+    let retryCount = 0; // 重试计数
+    while (Date.now() - startTime < timeout) {
+        try {
+            // 在指定区域进行 OCR 识别
+            let ocrResult = captureGameRegion().find(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height));
+            if (ocrResult) {
+                // 后处理：根据替换映射表检查和替换错误识别的字符
+                let correctedText = ocrResult.text;
+                for (let [wrongChar, correctChar] of Object.entries(replacementMap)) {
+                    correctedText = correctedText.replace(new RegExp(wrongChar, 'g'), correctChar);
+                }
+                return correctedText; // 返回识别到的内容
+            } else {
+                log.warn(`OCR 识别区域未找到内容`);
+                return null; // 如果 OCR 未识别到内容，返回 null
+            }
+        } catch (error) {
+            retryCount++; // 增加重试计数
+            log.warn(`OCR 摩拉数识别失败，正在进行第 ${retryCount} 次重试...`);
+        }
+        await sleep(500); // 短暂延迟，避免过快循环
+    }
+    log.warn(`经过多次尝试，仍然无法在指定区域识别到文字`);
+    return null; // 如果未识别到文字，返回 null
+}
+
+async function decomposeArtifacts(keep4Star, doDecompose) {
+    setGameMetrics(1920, 1080, 1);
+    await genshin.returnMainUi();
+
+    // 按下 C 键
+    keyPress("C");
+    await sleep(1500);
+
+    let recognized = false;
+
+    // 识别“角色菜单”图标或“天赋”文字
+    let startTime = Date.now();
+    while (Date.now() - startTime < 5000) {
+        // 尝试识别“角色菜单”图标
+        let characterMenuResult = await recognizeImage(CharacterMenuRo, 5000);
+        if (characterMenuResult.success) {
+            await click(177, 433);
+            await sleep(500);
+            recognized = true;
+            break;
+        }
+
+        // 尝试识别“天赋”文字
+        let targetText = "天赋";
+        let ocrRegion = { x: 133, y: 395, width: 115, height: 70 }; // 设置对应的识别区域
+        let talentResult = await recognizeTextAndClick(targetText, ocrRegion);
+        if (talentResult.success) {
+            log.info(`点击天赋文字，坐标: x=${talentResult.x}, y=${talentResult.y}`);
+            recognized = true;
+            break;
+        }
+
+        await sleep(1000); // 短暂延迟，避免过快循环
+    }
+
+    let recognizedText = "";
+
+    // 如果识别到了“角色菜单”或“天赋”，则识别“摩拉数值”
+    if (recognized) {
+        let ocrRegionMora = { x: 1620, y: 25, width: 152, height: 46 }; // 设置对应的识别区域
+        recognizedText = await recognizeTextInRegion(ocrRegionMora);
+        if (recognizedText) {
+            log.info(`成功识别到摩拉数值: ${recognizedText}`);
+
+        } else {
+            log.warn("未能识别到摩拉数值。");
+        }
+    } else {
+        log.warn("未能识别到角色菜单或天赋，跳过摩拉数值识别。");
+    }
+    await sleep(500);
+    await genshin.returnMainUi();
+
+    keyPress("B");
+    await sleep(1000);
+    await click(670, 45);
+    await sleep(500);
+
+    await recognizeTextAndClick("分解", { x: 635, y: 991, width: 81, height: 57 });
+    await sleep(1000);
+
+    //识别已储存经验（1570-880-1650-930）
+    let regionToCheck1 = { x: 1570, y: 880, width: 80, height: 50 };
+    let initialNum = await recognizeTextInRegion(regionToCheck1);
+    let initialValue = 0;
+
+    if (initialNum && !isNaN(parseInt(initialNum, 10))) {
+        initialValue = parseInt(initialNum, 10);
+        log.info(`已储存经验识别成功: ${initialValue}`);
+    } else {
+        log.warn(`在指定区域未识别到有效数字: ${initialValue}`);
+    }
+
+    await recognizeTextAndClick("快速选择", { x: 248, y: 996, width: 121, height: 49 });
+    moveMouseTo(960, 540);
+    await sleep(1000);
+
+    await click(370, 1020); // 点击“确认选择”按钮
+    await sleep(1500);
+
+    let regionToCheck3 = { x: 100, y: 885, width: 170, height: 50 };
+    let decomposedNum = await recognizeTextInRegion(regionToCheck3);
+    let firstNumber = 0;
+    let firstNumber2 = 0;
+
+    // 使用正则表达式提取第一个数字
+    const match = decomposedNum.match(/已选(\d+)/);
+
+    // 检查是否匹配成功
+    if (match) {
+        // 将匹配到的第一个数字转换为数字类型并存储在变量中
+        firstNumber = Number(match[1]);
+    } else {
+        log.info("识别失败");
+    }
+    keyPress("VK_ESCAPE");
+
+    await recognizeTextAndClick("分解", { x: 635, y: 991, width: 81, height: 57 });
+    await sleep(1000);
+
+    await recognizeTextAndClick("快速选择", { x: 248, y: 996, width: 121, height: 49 });
+    moveMouseTo(960, 540);
+    await sleep(1000);
+
+    if (keep4Star) {
+        await click(370, 370);//取消选择四星
+        await sleep(1000);
+    }
+    await click(370, 1020); // 点击“确认选择”按钮
+    await sleep(1500);
+
+    let decomposedNum2 = await recognizeTextInRegion(regionToCheck3);
+
+    // 使用正则表达式提取第一个数字
+    const match2 = decomposedNum2.match(/已选(\d+)/);
+
+    // 检查是否匹配成功
+    if (match2) {
+        // 将匹配到的第一个数字转换为数字类型并存储在变量中
+        firstNumber2 = Number(match2[1]);
+        log.info(`分解总数是: ${firstNumber2}`);
+    } else {
+        log.info("识别失败");
+    }
+    //识别当前总经验
+    let regionToCheck2 = { x: 1500, y: 900, width: 150, height: 100 };
+    let newNum = await recognizeTextInRegion(regionToCheck2);
+    let newValue = 0;
+
+    if (newNum && !isNaN(parseInt(newNum, 10))) {
+        newValue = parseInt(newNum, 10);
+        log.info(`当前总经验识别成功: ${newValue}`);
+    } else {
+        log.warn(`在指定区域未识别到有效数字: ${newValue}`);
+    }
+
+    if (doDecompose) {
+        // 根据用户配置，分解狗粮
+        await sleep(500);
+        await click(1620, 1020); // 点击分解按钮
+        await sleep(500);
+
+        // 4. 识别"进行分解"按钮
+        await recognizeTextAndClick("分解", { x: 1120, y: 740, width: 130, height: 40 });
+
+        await sleep(1000);
+
+        // 5. 关闭确认界面
+        await click(1620, 1020);
+        await sleep(1000);
+    }
+
+    // 7. 计算分解获得经验=总经验-上次剩余
+    const resinExperience = Math.max(newValue - initialValue, 0);
+    log.info(`分解可获得经验: ${resinExperience}`);
+    let fourStarNum = firstNumber - firstNumber2;
+    if (settings.keep4Star) {
+        log.info(`保留的四星数量: ${fourStarNum}`);
+    }
+    const result = {
+        mora: recognizedText, // 将 recognizedText 赋值给 mora
+        artifactExperience: resinExperience + 2520 * fourStarNum // 计算并赋值给 artifactExperience
+    };
+    await genshin.returnMainUi();
+    return result;
 }
 
