@@ -271,11 +271,7 @@ const detectCardPlayer = async () => {
 
     keyPress("M");
     await sleep(1200);
-    click(48, 441); //放大地图
-    await sleep(300);
-    click(48, 441); //放大地图
-    await sleep(300);
-    click(48, 441); //放大地图
+    await genshin.setBigMapZoomLevel(1.0);  //放大地图
     await sleep(300);
 
     //地图拖动到指定位置
@@ -435,15 +431,8 @@ async function gotoTavern() {
     await sleep(1000);
     click(1460, 140); //蒙德
     await sleep(1200);
-    click(48, 441); //放大地图
-    await sleep(400);
-    click(48, 441); //放大地图
-    await sleep(400);
-    click(48, 441); //放大地图
-    await sleep(400);
-    click(48, 441); //放大地图
-    await sleep(400);
-    click(48, 441); //放大地图
+    //放大地图
+    await genshin.setBigMapZoomLevel(1.0);
     await sleep(400);
 
     click(1000, 645); //猫尾酒馆
@@ -460,6 +449,28 @@ async function gotoTavern() {
     await tpEndDetection();
 }
 
+async function waitOrCheckMaxCoin(wait_time_ms) {
+    const startTime = new Date().getTime();
+    while (new Date().getTime() - startTime < wait_time_ms) {
+        let captureRegion = captureGameRegion();
+        let result = captureRegion.find(RecognitionObject.ocr(578, 600, 763, 41));
+        // 道具已达到容量上限，无法获取对应奖励且挑战目标无法完成，是否继续进行挑战
+        if (!result.isEmpty() && result.text.includes("道具已达到容量上限")) {
+            let coin = "?";
+            let result2 = captureRegion.find(RecognitionObject.ocr(916, 530, 89, 41));
+            if (!result2.isEmpty()) {
+                coin = result2.text.trim();
+            }
+            click(733, 730); //点击取消
+            await sleep(1000);
+            click(1860, 250); //点击右上角X，退出打牌对话界面
+            throw new Error(`幸运牌币${coin}，已达到容量上限，无法获取对应奖励且挑战目标无法完成`);
+        }
+        await sleep(1000);
+        // 无break，以确保牌币未满时延时行为与此前一致
+    }
+}
+
 //函数：对话和打牌
 async function Playcards() {
     await sleep(800); //略微俯视，避免名字出现在选项框附近，导致错误点击
@@ -472,7 +483,7 @@ async function Playcards() {
         await switchCardTeam(settings.partyName);
     }
     click(1610, 900); //点击挑战
-    await sleep(8000);
+    await waitOrCheckMaxCoin(8000);
     await dispatcher.runTask(new SoloTask("AutoGeniusInvokation"));
     await sleep(3000);
     await checkChallengeResults();
