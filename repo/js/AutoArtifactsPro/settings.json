@@ -10,7 +10,7 @@
       "干等卡时间",
       "不卡时间，ab交替运行"
     ],
-    "default": "盗宝团卡时间"
+    "default": "不卡时间，ab交替运行"
   },
   {
     "name": "friendshipPartyName",
@@ -21,6 +21,16 @@
     "name": "grindPartyName",
     "type": "input-text",
     "label": "狗粮队名称\n【请输入狗粮队的队伍名称】"
+  },
+  {
+    "name": "doDecompose",
+    "type": "checkbox",
+    "label": "是否分解狗粮（默认不分解）"
+  },
+  {
+    "name": "keep4Star",
+    "type": "checkbox",
+    "label": "是否保留四星（默认不保留）"
   },
   {
     "name": "minIntervalTime",
@@ -50,6 +60,6 @@
     "name": "completeRemainingFriendship",
     "type": "checkbox",
     "label": "是否在狗粮路线结束后完成剩余盗宝团好感\n【勾选后将在狗粮路线结束后继续完成剩余的好感任务】",
-    "default": true
+    "default": false
   }
 ]
