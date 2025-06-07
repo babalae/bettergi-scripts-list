@@ -68,7 +68,7 @@
       "y": -1561.328125,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(VK_SPACE),wait(3),mousedown,wait(0.5),moveby(-350,-1250),wait(1.0),mouseup,wait(0.5),keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE)",
+      "action_params": "keypress(VK_SPACE),wait(3),mousedown,wait(0.5),moveby(-350,-1250),wait(1.0),mouseup,wait(0.5),click(middle),keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE)",
       "type": "path"
     },
     {
@@ -77,7 +77,7 @@
       "y": -1552.6640625,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "mousedown,wait(0.5),moveby(-100,3600),wait(1.0),mouseup",
+      "action_params": "mousedown,wait(0.5),moveby(-100,2900),wait(1.0),mouseup",
       "type": "path"
     },
     {
@@ -103,7 +103,7 @@
       "y": -1649.75,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.2),keypress(t),wait(2.3)",
+      "action_params": "wait(0.2),keypress(t),wait(1)",
       "type": "path"
     },
     {
@@ -138,7 +138,7 @@
       "y": -1683.6904296875,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.2),keypress(t),wait(0.2),keypress(t),wait(2.8)",
+      "action_params": "wait(0.2),keypress(t),wait(0.2),keypress(t),wait(1)",
       "type": "path"
     },
     {
@@ -198,7 +198,7 @@
       "y": -1566.92529296875,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.2),keypress(t),wait(0.2),keypress(t),wait(2.8)",
+      "action_params": "wait(0.2),keypress(t),wait(0.2),keypress(t),wait(1)",
       "type": "path"
     },
     {
@@ -308,7 +308,7 @@
       "y": -91.89111328125,
       "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "keypress(VK_SPACE),wait(0.5),click,wait(1),keypress(t),wait(1),keypress(t),wait(2.8),mousedown,wait(0.5),moveby(3000,400),wait(1.0),mouseup",
+      "action_params": "keypress(VK_SPACE),wait(0.5),click,wait(1),keypress(t),wait(1),keypress(t),wait(2.8),mousedown,wait(0.5),moveby(2900,400),wait(1.0),mouseup",
       "type": "path"
     },
     {

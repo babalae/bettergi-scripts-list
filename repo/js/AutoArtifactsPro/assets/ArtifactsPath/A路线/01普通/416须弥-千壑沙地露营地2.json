@@ -1,0 +1,91 @@
+{
+  "info": {
+    "name": "须弥-千壑沙地露营地2",
+    "type": "collect",
+    "author": "汐",
+    "version": "",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5063.70263671875,
+      "y": -1587.78515625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 5061.875280455889,
+      "y": -1570.1250303159268,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 5060.94921875,
+      "y": -1562.26318359375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "2000",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 5062.658203125,
+      "y": -1577.85498046875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 5063.9814453125,
+      "y": -1580.47705078125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),w(0.2),keypress(f),d(0.3),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 5065.32080078125,
+      "y": -1579.23681640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 5119.218759875207,
+      "y": -1572.7506138975205,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 5119.65625,
+      "y": -1569.8749004011433,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 5122.73681640625,
+      "y": -1568.61767578125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f)",
+      "type": "path"
+    }
+  ]
+}

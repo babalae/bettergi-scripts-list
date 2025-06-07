@@ -74,6 +74,14 @@ repo/pathing/
 ### 其他
 因早期对脚本管理较为宽松，因此仓库有部分脚本并不符合命名规范，欢迎通过 PR 规范这些名称。
 
+## Contributors
+<a href="https://next.ossinsight.io/widgets/official/compose-recent-active-contributors?repo_id=866958830&limit=30" target="_blank" style="display: block" align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://next.ossinsight.io/widgets/official/compose-recent-active-contributors/thumbnail.png?repo_id=866958830&limit=30&image_size=auto&color_scheme=dark" width="655" height="auto">
+    <img alt="Active Contributors of babalae/bettergi-scripts-list - Last 28 days" src="https://next.ossinsight.io/widgets/official/compose-recent-active-contributors/thumbnail.png?repo_id=866958830&limit=30&image_size=auto&color_scheme=light" width="655" height="auto">
+  </picture>
+</a>
+
 ## 相关源码
 
 脚本仓库页面的源码：[bettergi-scripts-web](https://github.com/huiyadanli/bettergi-scripts-web)
