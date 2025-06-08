@@ -5,7 +5,8 @@
     "author": "Yang-z",
     "version": "",
     "description": "",
-    "bgiVersion": "0.35.1"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -29,8 +30,9 @@
       "id": 3,
       "x": 9662.5947265625,
       "y": 183.833984375,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
       "type": "target"
     },
     {
@@ -53,8 +55,9 @@
       "id": 6,
       "x": 9664.0224609375,
       "y": 230.787109375,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "run",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
       "type": "target"
     },
     {
@@ -70,24 +73,27 @@
       "id": 8,
       "x": 9684.16796875,
       "y": 230.54736328125,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "run",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
       "type": "target"
     },
     {
       "id": 9,
       "x": 9687.234375,
       "y": 230.724609375,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
       "type": "target"
     },
     {
       "id": 10,
       "x": 9695.21875,
       "y": 220.2810176026669,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
       "type": "target"
     },
     {
@@ -130,17 +136,17 @@
       "x": 9602.125,
       "y": 161.3109285513674,
       "action": "stop_flying",
-      "action_params": "",
       "move_mode": "fly",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 16,
       "x": 9587.40625,
       "y": 171.59380533269814,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
       "type": "target"
     }
   ]

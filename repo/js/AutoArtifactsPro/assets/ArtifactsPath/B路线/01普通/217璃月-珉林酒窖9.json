@@ -5,7 +5,8 @@
     "author": "汐",
     "version": "",
     "description": "",
-    "bgiVersion": "0.42.3"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -243,20 +244,21 @@
       "y": 831.14892578125,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),a(0.3)",
       "type": "target"
     },
     {
       "id": 30,
-      "x": 649.0009765625,
-      "y": 831.3779296875,
-      "action": "",
+      "x": 647.5126953125,
+      "y": 830.99462890625,
+      "type": "target",
       "move_mode": "walk",
-      "type": "target"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 31,
-      "x": 647.8515625,
+      "x": 646.8515625,
       "y": 833.2529296875,
       "action": "",
       "move_mode": "walk",
