@@ -53,6 +53,18 @@
         "name": "isNotification",
         "type": "checkbox",
         "label": "通过BGI通知系统发送详细通知"
-    }
+    },
+    [
+  {
+    "name": "isRecognizeResin",
+    "type": "checkbox",
+    "label": "树脂耗尽模式\n开启后脚本会在树脂耗尽时停止运行【开发中】"
+  },
+  {
+    "name": "isGoToSynthesizer",
+    "type": "select",
+    "label": "是否前往合成台合成浓缩树脂\n 体力大于40时自动合成浓缩树脂【开发中】"
+  }
+]
 ]
   
