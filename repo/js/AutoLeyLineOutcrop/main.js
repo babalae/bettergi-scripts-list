@@ -666,7 +666,10 @@ async function adjustViewForReward(boxIconRo, token) {
         let iconRes = captureRegion.Find(boxIconRo);
 
         if (!iconRes.isExist()) {
-            throw new Error('未找到图标，没有地脉花');
+            log.warn("未找到图标，等待一下");
+            await sleep(1000); 
+            continue; // 没有找到图标等一秒再继续
+            // throw new Error('未找到图标，没有地脉花');
         }
 
         // 计算图标相对于屏幕中心的位置
