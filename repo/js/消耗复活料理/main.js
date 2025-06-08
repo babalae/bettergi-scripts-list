@@ -52,7 +52,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `------------------------------\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `→ 开始执行JS脚本: "${name}"`;
-        log.debug(logMessage);
+        log.info(logMessage);
     }
     if (isJs && !isStart) {
         // 处理 isJs = true 且 isStart = false 的情况
@@ -61,7 +61,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `------------------------------`;
-        log.debug(logMessage);
+        log.info(logMessage);
     }
     if (!isJs && isStart) {
         // 处理 isJs = false 且 isStart = true 的情况
@@ -70,7 +70,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `------------------------------\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `→ 开始执行地图追踪任务: "${name}"`;
-        log.debug(logMessage);
+        log.info(logMessage);
     }
     if (!isJs && !isStart) {
         // 处理 isJs = false 且 isStart = false 的情况
@@ -79,7 +79,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `------------------------------`;
-        log.debug(logMessage);
+        log.info(logMessage);
     }
 }
 
@@ -133,10 +133,10 @@ async function fakeLog(name, isJs, isStart, duration) {
 
         await fakeLog(`第${i + 1}次信仰之跃.json`, false, false, 0);
 
-        //捕获任务结束的信息，同时等待95秒用来卡时间
+        //捕获任务结束的信息，同时等待115秒用来卡时间
         try {
             log.info('正在等待复活料理cd')
-            await sleep(95000);
+            await sleep(115000);
         } catch (error) {
             log.error(`发生错误: ${error}`);
             break; // 终止循环
