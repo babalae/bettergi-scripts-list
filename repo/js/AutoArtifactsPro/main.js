@@ -239,7 +239,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
                     const fightTimeout = validateTimeoutSetting(settings.fightTimeout, DEFAULT_FIGHT_TIMEOUT_SECONDS, "战斗");
 
                     // 好感循环开始	
-                    await AutoFriendshipDev(50, ocrTimeout, fightTimeout, enemyType, endTime);
+                    const runnedTimes = await AutoFriendshipDev(50, ocrTimeout, fightTimeout, enemyType, endTime);
                 }
             }
 
@@ -323,7 +323,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 
     //完成剩下好感
 
-    if (settings.completeRemainingFriendship) {
+    if (runnedTimes < settings.minTimesForFirendship) {
         //切换至好感队
         await switchPartyIfNeeded(friendshipPartyName);
         // 验证超时设置
@@ -343,7 +343,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
             await AutoPath('鳄鱼-准备');
         }
         // 好感循环开始	
-        await AutoFriendshipDev(50, ocrTimeout, fightTimeout, enemyType, endTime + 24 * 60 * 60 * 1000);
+        await AutoFriendshipDev(settings.minTimesForFirendship - runnedTimes, ocrTimeout, fightTimeout, enemyType, endTime + 24 * 60 * 60 * 1000);
     }
 
     //伪造js开始记录
@@ -706,10 +706,10 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "�
 
         await fakeLog(`第${i + 1}次好感`, false, false, 0);
     }
-    log.info(`${enemyType}好感已完成`);
+    log.info(`${enemyType}好感运行了${i + 1}次`);
     await genshin.tpToStatueOfTheSeven();
 
-    return true;
+    return i + 1;
 }
 
 // 验证输入是否是正整数
@@ -777,8 +777,9 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000, enemyType = "盗宝�
     while (Date.now() - fightStartTime < timeout) {
         try {
             // 简化OCR检测，只使用一个try-catch块
-            let result = captureGameRegion().find(RecognitionObject.ocr(850, 150, 200, 80));
-            let result2 = captureGameRegion().find(RecognitionObject.ocr(0, 200, 300, 300));
+            let captureRegion = captureGameRegion();
+            let result = captureRegion.find(RecognitionObject.ocr(850, 150, 200, 80));
+            let result2 = captureRegion.find(RecognitionObject.ocr(0, 200, 300, 300));
             let text = result.text;
             let text2 = result2.text;
 

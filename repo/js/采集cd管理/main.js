@@ -86,7 +86,7 @@ async function fakeLog(name, isJs, isStart, duration) {
 
 // 定义目标文件夹路径和记录文件路径
 const recordFolder = "record"; // 存储记录文件的文件夹路径
-const timestamp = "::2000-01-01T00:00:00.000Z"; // 固定的时间戳
+const defaultTimeStamp = "2000-01-01T00:00:00.000Z"; // 固定的时间戳
 
 // 从 settings 中读取用户配置，并设置默认值
 const userSettings = {
@@ -159,25 +159,25 @@ function removeJsonSuffix(fileName) {
         }
         log.debug(`路径组1.txt 是否存在: ${indexDoExist}`);
 
-        // 根据用户配置选择操作模式
-        if (userSettings.operationMode === "重新生成索引文件（用于强制刷新CD或更新文件）" || !indexDoExist) {
-            if (userSettings.operationMode === "重新生成索引文件（用于强制刷新CD或更新文件）") {
+        {
+            if (userSettings.operationMode === "重新生成索引文件（用于强制刷新CD）") {
                 log.info("重新生成索引文件模式，将覆盖现有索引文件");
-            } else {
-                log.info("路径组1.txt 文件不存在，将生成文件");
+            }
+            if (!indexDoExist) {
+                log.info("路径组1.txt 文件不存在，将尝试生成索引文件");
             }
 
             // 循环处理多个路径组
             for (let i = 1; ; i++) {
-                const targetFolder = `pathing/路径组${i}`; // 动态生成目标文件夹路径
-                const filePaths = file.ReadPathSync(targetFolder);
-
                 // 检查当前路径组的 cdtype 是否为空
                 const currentCdType = pathGroupCdType[i - 1] || "";
                 if (!currentCdType) {
                     log.info(`路径组${i} 的 cdtype 为空，停止处理`);
                     break;
                 }
+
+                const targetFolder = `pathing/路径组${i}`; // 动态生成目标文件夹路径
+                const filePaths = file.ReadPathSync(targetFolder);
 
                 // 如果文件夹为空，退出循环
                 if (filePaths.length === 0) {
@@ -187,13 +187,37 @@ function removeJsonSuffix(fileName) {
 
                 // 用于存储符合条件的文件名的数组
                 const jsonFileNames = [];
+                const entryMap = {};
+                // 如果 indexDoExist 为 true，则读取对应的原文件
+                if (indexDoExist) {
+                    const pathGroupFilePath = `${subFolderPath}/路径组${i}.txt`; // 使用外层循环的变量 i
+                    let pathGroupContent = await file.readText(pathGroupFilePath);
+                    let pathGroupEntries = pathGroupContent.trim().split('\n');
+
+                    // 创建一个对象来存储 entryName 和 entryTimestamp 的映射
+                    for (let j = 0; j < pathGroupEntries.length; j++) {
+                        const entryWithTimestamp = pathGroupEntries[j].trim();
+                        const [entryName, entryTimestamp] = entryWithTimestamp.split('::');
+                        entryMap[entryName] = entryTimestamp;
+                    }
+                }
 
                 // 遍历文件路径数组并提取文件名
                 for (const filePath of filePaths) {
                     const fileName = basename(filePath); // 提取文件名
                     if (fileName.endsWith('.json')) { // 检查文件名是否以 .json 结尾
                         const fileNameWithoutSuffix = removeJsonSuffix(fileName); // 移除 .json 后缀
-                        jsonFileNames.push(`${fileNameWithoutSuffix}${timestamp}`); // 添加时间戳并存储
+
+                        // 给 routeTimeStamp 赋值为 defaultTimeStamp
+                        let routeTimeStamp = defaultTimeStamp;
+
+                        if (indexDoExist && userSettings.operationMode !== "重新生成索引文件（用于强制刷新CD）" && entryMap[fileNameWithoutSuffix]) {
+                            routeTimeStamp = entryMap[fileNameWithoutSuffix];
+                        }
+
+                        routeTimeStamp = `::${routeTimeStamp}`;
+                        // 添加时间戳并存储
+                        jsonFileNames.push(`${fileNameWithoutSuffix}${routeTimeStamp}`);
                     }
                 }
 
@@ -218,9 +242,6 @@ function removeJsonSuffix(fileName) {
                     log.error(`写入文件失败: ${recordFilePath}`);
                 }
             }
-        } else {
-            // 如果用户选择的不是“重新生成索引文件”且文件已存在，则输出特定日志信息
-            log.debug("奶龙");
         }
 
         // 新增逻辑：当选择“执行任务（若不存在索引文件则自动创建）”时，执行类似路径执行的逻辑
@@ -414,7 +435,7 @@ function removeJsonSuffix(fileName) {
             log.info('所有路径组的任务运行完成');
 
             //伪造js开始的日志
-            await fakeLog("采集cd管理", true, true, 0);
+            await fakeLog("采集cd管路", true, true, 0);
         }
     } catch (error) {
         log.error(`操作失败: ${error}`);

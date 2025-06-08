@@ -57,9 +57,9 @@
     "default": "120"
   },
   {
-    "name": "completeRemainingFriendship",
-    "type": "checkbox",
-    "label": "是否在狗粮路线结束后完成剩余盗宝团好感\n【勾选后将在狗粮路线结束后继续完成剩余的好感任务】",
-    "default": false
+    "name": "minTimesForFirendship",
+    "type": "input-text",
+    "label": "好感任务最低运行次数\n【若卡时间好感次数不足该次数，则在狗粮结束后补齐】",
+    "default": "10"
   }
 ]
