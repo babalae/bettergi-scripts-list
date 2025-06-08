@@ -282,7 +282,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     }
 
     //运行前按自定义配置清理狗粮
-    const result1 = await decomposeArtifacts(settings.keep4Star, false);
+    const result1 = await decomposeArtifacts(settings.keep4Star, settings.doDecompose);
 
     artifacts: {
         if (runnedToday) {
@@ -293,11 +293,16 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
         await switchPartyIfNeeded(grindPartyName);
         let runArtifactsResult = true;
         runArtifactsResult = await runArtifactsPaths(runRouteA);
-
         const result2 = await decomposeArtifacts(settings.keep4Star, settings.doDecompose);
         // 计算 mora 和 artifactExperience 的差值
         const moraDiff = Number(result2.mora) - Number(result1.mora); // 将字符串转换为数字后计算差值
-        const artifactExperienceDiff = result2.artifactExperience - result1.artifactExperience;
+        let artifactExperienceDiff;
+        if (!settings.doDecompose) {
+            artifactExperienceDiff = result2.artifactExperience - result1.artifactExperience;
+        } else {
+            artifactExperienceDiff = result2.artifactExperience;
+        }
+
 
         log.info(`狗粮路线获取摩拉: ${moraDiff}`);
         log.info(`狗粮路线获取狗粮经验: ${artifactExperienceDiff}`);
@@ -536,7 +541,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `------------------------------\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `→ 开始执行JS脚本: "${name}"`;
-        log.info(logMessage);
+        log.debug(logMessage);
     }
     if (isJs && !isStart) {
         // 处理 isJs = true 且 isStart = false 的情况
@@ -545,7 +550,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `------------------------------`;
-        log.info(logMessage);
+        log.debug(logMessage);
     }
     if (!isJs && isStart) {
         // 处理 isJs = false 且 isStart = true 的情况
@@ -554,7 +559,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `------------------------------\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `→ 开始执行地图追踪任务: "${name}"`;
-        log.info(logMessage);
+        log.debug(logMessage);
     }
     if (!isJs && !isStart) {
         // 处理 isJs = false 且 isStart = false 的情况
@@ -563,7 +568,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `------------------------------`;
-        log.info(logMessage);
+        log.debug(logMessage);
     }
 }
 
@@ -893,7 +898,7 @@ async function recognizeImage(recognitionObject, timeout = 5000) {
 }
 
 // 定义一个函数用于识别文字并点击
-async function recognizeTextAndClick(targetText, ocrRegion, timeout = 5000) {
+async function recognizeTextAndClick(targetText, ocrRegion, timeout = 3000) {
     let startTime = Date.now();
     let retryCount = 0; // 重试计数
     while (Date.now() - startTime < timeout) {
@@ -910,8 +915,8 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 5000) {
 
                 if (correctedText.includes(targetText)) {
                     // 如果找到目标文本，计算并点击文字的中心坐标
-                    let centerX = res.x + res.width / 2;
-                    let centerY = res.y + res.height / 2;
+                    let centerX = Math.round(res.x + res.width / 2);
+                    let centerY = Math.round(res.y + res.height / 2);
                     await click(centerX, centerY);
                     await sleep(500); // 确保点击后有足够的时间等待
                     return { success: true, x: centerX, y: centerY };
@@ -923,7 +928,11 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 5000) {
         }
         await sleep(1000); // 短暂延迟，避免过快循环
     }
-    log.warn(`经过多次尝试，仍然无法识别文字: ${targetText}`);
+    log.warn(`经过多次尝试，仍然无法识别文字: ${targetText},尝试点击默认中心位置`);
+    let centerX = Math.round(ocrRegion.x + ocrRegion.width / 2);
+    let centerY = Math.round(ocrRegion.y + ocrRegion.height / 2);
+    await click(centerX, centerY);
+    await sleep(1000);
     return { success: false };
 }
 
@@ -1028,34 +1037,37 @@ async function decomposeArtifacts(keep4Star, doDecompose) {
     } else {
         log.warn(`在指定区域未识别到有效数字: ${initialValue}`);
     }
-
-    await recognizeTextAndClick("快速选择", { x: 248, y: 996, width: 121, height: 49 });
-    moveMouseTo(960, 540);
-    await sleep(1000);
-
-    await click(370, 1020); // 点击“确认选择”按钮
-    await sleep(1500);
-
     let regionToCheck3 = { x: 100, y: 885, width: 170, height: 50 };
     let decomposedNum = await recognizeTextInRegion(regionToCheck3);
     let firstNumber = 0;
     let firstNumber2 = 0;
 
-    // 使用正则表达式提取第一个数字
-    const match = decomposedNum.match(/已选(\d+)/);
+    if (keep4Star) {
+        await recognizeTextAndClick("快速选择", { x: 248, y: 996, width: 121, height: 49 });
+        moveMouseTo(960, 540);
+        await sleep(1000);
 
-    // 检查是否匹配成功
-    if (match) {
-        // 将匹配到的第一个数字转换为数字类型并存储在变量中
-        firstNumber = Number(match[1]);
-    } else {
-        log.info("识别失败");
+        await click(370, 1020); // 点击“确认选择”按钮
+        await sleep(1500);
+
+
+
+        // 使用正则表达式提取第一个数字
+        const match = decomposedNum.match(/已选(\d+)/);
+
+        // 检查是否匹配成功
+        if (match) {
+            // 将匹配到的第一个数字转换为数字类型并存储在变量中
+            firstNumber = Number(match[1]);
+        } else {
+            log.info("识别失败");
+        }
+        keyPress("VK_ESCAPE");
+
+
+        await recognizeTextAndClick("分解", { x: 635, y: 991, width: 81, height: 57 });
+        await sleep(1000);
     }
-    keyPress("VK_ESCAPE");
-
-    await recognizeTextAndClick("分解", { x: 635, y: 991, width: 81, height: 57 });
-    await sleep(1000);
-
     await recognizeTextAndClick("快速选择", { x: 248, y: 996, width: 121, height: 49 });
     moveMouseTo(960, 540);
     await sleep(1000);
@@ -1093,19 +1105,23 @@ async function decomposeArtifacts(keep4Star, doDecompose) {
     }
 
     if (doDecompose) {
+        log.info(`用户选择了分解，执行分解`);
         // 根据用户配置，分解狗粮
-        await sleep(500);
+        await sleep(1000);
         await click(1620, 1020); // 点击分解按钮
-        await sleep(500);
+        await sleep(1000);
 
         // 4. 识别"进行分解"按钮
-        await recognizeTextAndClick("分解", { x: 1120, y: 740, width: 130, height: 40 });
+        await click(1340, 755); // 点击进行分解按钮
 
         await sleep(1000);
 
         // 5. 关闭确认界面
-        await click(1620, 1020);
+        await click(1340, 755);
         await sleep(1000);
+    }
+    else {
+        log.info(`用户未选择分解，不执行分解`);
     }
 
     // 7. 计算分解获得经验=总经验-上次剩余
