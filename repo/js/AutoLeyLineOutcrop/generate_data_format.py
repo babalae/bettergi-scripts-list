@@ -32,6 +32,30 @@ def get_region_sort_key(region_name):
         return REGION_ORDER.get(base_region, 99)
     return 99
 
+def normalize_region_name(region_name, region_num, route_num, route_sub_num=None):
+    """规范化区域名称，确保命名一致性
+    例如：
+    - 标准格式: 蒙德3, 奔狼领, 2 -> 蒙德3-2
+    - 特殊格式: 蒙德2, 清泉镇, 4, 1 -> 蒙德2-4-1
+    """
+    if route_sub_num is not None:
+        # 特殊格式
+        return f"{region_name}{region_num}-{route_num}-{route_sub_num}"
+    else:
+        # 标准格式
+        return f"{region_name}{region_num}-{route_num}"
+
+def is_same_region_base(region1, region2):
+    """检查两个区域名称是否属于同一基本区域
+    例如，"蒙德2-4-1"和"蒙德2-4-2"属于同一基本区域"蒙德2-4"
+    """
+    # 提取区域名称的基本部分（例如从"蒙德2-4-1"提取"蒙德2-4"）
+    base_region1 = re.match(r"^([^-]+-\d+)", region1)
+    base_region2 = re.match(r"^([^-]+-\d+)", region2)
+    
+    return (base_region1 and base_region2 and 
+            base_region1.group(1) == base_region2.group(1))
+
 def parse_region_area_number(filename):
     """从文件名解析区域、地区和编号
     支持两种格式:
@@ -40,28 +64,27 @@ def parse_region_area_number(filename):
     """
     # 先尝试匹配特殊格式（带有额外连字符的格式）
     special_pattern = r"^([^0-9]+)(\d+)-(.+)-(\d+)-(\d+(?:\.\d+)?)\.json$"
-    match2 = re.match(special_pattern, filename)
-    standard_pattern = r"^([^0-9]+)(\d+)-(.+)-(\d+(?:\.\d+)?)\.json$"
-    match1 = re.match(standard_pattern, filename)
-    if match1:
-        region_name = match1.group(1)
-        region_num = int(match1.group(2))
-        area = match1.group(3)
-        route_num = int(match1.group(4))
-
-        return region_name, region_num, area, route_num, 0
-
-    elif match2:
-        region_name = match2.group(1)
-        region_num = int(match2.group(2))
-        area = match2.group(3)
-        route_num = float(match2.group(4))
-        route_sub_num = int(match1.group(5))
+    match = re.match(special_pattern, filename)
+    if match:
+        region_name = match.group(1)
+        region_num = int(match.group(2))
+        area = match.group(3)
+        route_num = int(match.group(4))
+        route_sub_num = int(match.group(5))
         return region_name, region_num, area, route_num, route_sub_num
-    else:
-        # 如果都不匹配，返回默认值
-        print(f"警告：无法解析文件名 {filename}")
     
+    # 如果不是特殊格式，尝试匹配标准格式
+    standard_pattern = r"^([^0-9]+)(\d+)-(.+)-(\d+(?:\.\d+)?)\.json$"
+    match = re.match(standard_pattern, filename)
+    if match:
+        region_name = match.group(1)
+        region_num = int(match.group(2))
+        area = match.group(3)
+        route_num = int(match.group(4))
+        return region_name, region_num, area, route_num
+    
+    # 如果都不匹配，返回默认值
+    print(f"警告：无法解析文件名 {filename}")
     return None, None, None, None
 
 def generate_new_data_structure_from_pathing():
@@ -87,7 +110,7 @@ def generate_new_data_structure_from_pathing():
     }
       # 创建独立的ID计数器和节点映射
     next_teleport_id = 1  # 传送点专用ID计数器
-    next_blossom_id = 1   # 地脉花专用ID计数器
+    next_blossom_id = 1000   # 地脉花专用ID计数器
     teleport_nodes = {}   # 按坐标存储传送点节点 (x, y) -> node_id
     target_nodes = {}     # 按坐标存储目标点节点 (x, y) -> node_id
     
@@ -163,37 +186,53 @@ def generate_new_data_structure_from_pathing():
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 target_data = json.load(f)
-            
-            # 检查文件是否有position数据
+              # 检查文件是否有position数据
             if "positions" not in target_data or not target_data["positions"]:
                 continue
-              # 获取第一个位置点（通常是目标点）
+                
+            # 获取第一个位置点（通常是目标点）
             target_pos = target_data["positions"][0]
             x = format_coord(target_pos["x"])
-            y = format_coord(target_pos["y"])            # 解析区域信息
+            y = format_coord(target_pos["y"])              
             result = parse_region_area_number(file)
             if len(result) == 5:  # 特殊格式
                 region_name, region_num, area, route_num, route_sub_num = result
+                # 使用规范化函数来生成区域名
+                region = normalize_region_name(region_name, region_num, route_num, route_sub_num)
             else:  # 标准格式或无法解析
                 region_name, region_num, area, route_num = result
-                route_sub_num = None            # 地脉花显示为区域名称加编号（如"枫丹1-1"）
-            if region_name and region_num and route_num:
-                # 检查是否是特殊格式（有子编号）
-                if route_sub_num is not None:
-                    # 特殊格式显示为: 蒙德2-5-1 (区域名-区域编号-路线编号-路线子编号)
-                    region = f"{region_name}{region_num}-{int(route_num)}-{int(route_sub_num)}"
-                else:
-                    # 标准格式显示为: 枫丹1-1 (区域名-区域编号-路线编号)
-                    region = f"{region_name}{region_num}-{int(route_num)}"
-            else:
-                region = "未知区域"# 检查是否已存在相同坐标的目标点
+                # 使用规范化函数来生成区域名
+                region = normalize_region_name(region_name, region_num, route_num) if region_name and region_num and route_num else "未知区域"            # 检查是否已存在相同坐标的目标点和相同区域名
             existing_node = False
+            existing_node_id = None
             for coord, node_id in target_nodes.items():
-                if calculate_distance(coord[0], coord[1], x, y) < 10:  # 将阈值从50降低到10
-                    existing_node = True
-                    break
+                if calculate_distance(coord[0], coord[1], x, y) < 10:  # 阈值为10
+                    # 找到这个节点，检查它的区域是否与当前区域相同
+                    for blossom in new_data["blossoms"]:
+                        if blossom["id"] == node_id:
+                            # 检查区域名完全相同
+                            if blossom["region"] == region:
+                                existing_node = True
+                                existing_node_id = node_id
+                                break
+                            
+                            # 检查区域名基本部分是否相同（如"蒙德2-4"和"蒙德2-4-2"）
+                            # 提取区域名称的基本部分（例如从"蒙德2-4-1"提取"蒙德2-4"）
+                            current_base_region = re.match(r"^([^-]+-\d+)", region)
+                            existing_base_region = re.match(r"^([^-]+-\d+)", blossom["region"])
+                            
+                            if (current_base_region and existing_base_region and 
+                                current_base_region.group(1) == existing_base_region.group(1)):
+                                print(f"    注意: 坐标 ({x}, {y}) 与已存在节点 '{blossom['region']}' 区域基本部分相同，视为同一节点")
+                                existing_node = True
+                                existing_node_id = node_id
+                                break
+                    
+                    if not existing_node:
+                        print(f"    注意: 坐标 ({x}, {y}) 附近有另一个区域的节点，但将创建新节点")
             
-            if not existing_node:                # 创建新的目标点节点
+            if not existing_node:
+                # 创建新的目标点节点
                 target_node = {
                     "id": next_blossom_id,
                     "region": region,
@@ -275,7 +314,7 @@ def generate_new_data_structure_from_pathing():
                             "source": source_id,
                             "target": target_id,
                             "route": file_paths[file],
-                            # 保存原始位置信息，用于在排序后更新ID
+                            # 保存原始位置信息，用于在排序后更新ID（稍后会删除）
                             "sourcePosition": {
                                 "x": source_x,
                                 "y": source_y
@@ -447,13 +486,12 @@ def generate_new_data_structure_from_pathing():
     
     # 对地脉花按区域排序
     new_data["blossoms"] = sorted(new_data["blossoms"], key=lambda x: get_region_sort_key(x["region"]))
-    
-    # 更新排序后的ID（可选）
+      # 更新排序后的ID（可选）
     for i, teleport in enumerate(new_data["teleports"]):
         teleport["id"] = i + 1
     
     for i, blossom in enumerate(new_data["blossoms"]):
-        blossom["id"] = i + 1
+        blossom["id"] = i + 1000
       # 更新边的引用
     for edge in new_data["edges"]:
         # 查找新的source ID
@@ -469,6 +507,25 @@ def generate_new_data_structure_from_pathing():
                                  edge["targetPosition"]["x"], edge["targetPosition"]["y"]) < 10:
                 edge["target"] = blossom["id"]
                 break
+    
+    # 在更新ID后删除位置信息
+    print("\n删除边数据中的位置信息...")
+    for edge in new_data["edges"]:
+        if "sourcePosition" in edge:
+            del edge["sourcePosition"]
+        if "targetPosition" in edge:
+            del edge["targetPosition"]
+    
+    # 按照target的顺序排列edges
+    print("\n按照目标节点(target)的顺序排列边...")
+    new_data["edges"] = sorted(new_data["edges"], key=lambda x: x["target"])
+    
+    # 创建节点到节点的顺序边
+    sequential_edges_count = create_sequential_edges(new_data)
+    
+    # 重新排序所有边（包括新的顺序边）
+    print("\n重新排序所有边...")
+    new_data["edges"] = sorted(new_data["edges"], key=lambda x: (x.get("type", "teleport"), x["target"]))
     
     # 重建索引
     new_data["indexes"] = {
@@ -489,15 +546,18 @@ def generate_new_data_structure_from_pathing():
         new_data["indexes"]["edgesByTarget"][str(target_id)].append(source_id)
     
     # 保存新数据结构
-    output_file = os.path.join(script_dir, "LeyLineOutcropDataNew.json")
+    output_file = os.path.join(script_dir, "LeyLineOutcropData.json")
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(new_data, f, ensure_ascii=False, indent=2)
     print(f"\n已生成新的数据结构: {output_file}")
     print(f"传送点数量: {len(new_data['teleports'])}")
     print(f"地脉花数量: {len(new_data['blossoms'])}")
     print(f"总节点数量: {len(new_data['teleports']) + len(new_data['blossoms'])}")
-    print(f"边数量: {len(new_data['edges'])}")
-    print(f"区域排序顺序: {', '.join([k for k, v in sorted(REGION_ORDER.items(), key=lambda item: item[1]) if v < 99])}")    # 报告孤立目标点
+    print(f"传送点到地脉花边数量: {len([e for e in new_data['edges'] if e.get('type', 'teleport') == 'teleport'])}")
+    print(f"节点间顺序边数量: {sequential_edges_count}")
+    print(f"总边数量: {len(new_data['edges'])}")
+    print(f"区域排序顺序: {', '.join([k for k, v in sorted(REGION_ORDER.items(), key=lambda item: item[1]) if v < 99])}")
+    # 报告孤立目标点
     remaining_orphans = 0
     orphaned_blossoms = []
     for blossom in new_data["blossoms"]:
@@ -537,6 +597,215 @@ def generate_new_data_structure_from_pathing():
         print("\n✓ 所有目标点都至少有一条入边")
     
     return new_data
+
+def create_sequential_edges(new_data):
+    """创建节点到节点的顺序边，实现正确的分支逻辑
+    
+    正确的分支规则：
+    1. 主路线到分支: 蒙德2-3 → 蒙德2-4-1, 蒙德2-4-2 
+    2. 分支到同序号分支: 蒙德2-4-1 → 蒙德2-5-1 (优先) → 蒙德2-5 (备选) → 终点
+    3. 分支到同序号分支: 蒙德2-4-2 → 蒙德2-5-2 (优先) → 蒙德2-5 (备选) → 终点
+    4. 分支内部不连接: 蒙德2-4-1 和 蒙德2-4-2 之间不相互连接
+    5. 主路线到主路线: 当没有分支时的直接连接
+    
+    基于实际路径文件查找对应的路线
+    """
+    print("\n创建节点到节点的顺序边...")
+    
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    pathing_dir = os.path.join(script_dir, "assets", "pathing")
+    
+    # 按基本区域分组地脉花节点（区域名+区域编号，如"蒙德2"）
+    region_groups = {}
+    for blossom in new_data["blossoms"]:
+        region = blossom["region"]
+        parts = region.split("-")
+        if len(parts) >= 2:
+            # 提取基本区域名：区域名+区域编号（如"蒙德2"）
+            import re
+            match = re.match(r'^([^0-9]+)(\d+)', parts[0])
+            if match:
+                region_name = match.group(1)  # 如 "蒙德"
+                region_num = match.group(2)   # 如 "2"
+                base_region = region_name + region_num  # 如 "蒙德2"
+                if base_region not in region_groups:
+                    region_groups[base_region] = []
+                region_groups[base_region].append(blossom)
+    
+    # 创建地脉花节点的映射：region -> blossom
+    region_to_blossom = {}
+    for blossom in new_data["blossoms"]:
+        region_to_blossom[blossom["region"]] = blossom
+    
+    # 收集所有存在的路径文件
+    available_routes = {}
+    for root, _, files in os.walk(pathing_dir):
+        for file in sorted(files):
+            if not file.endswith('.json') or 'rerun' in file or 'rerun' in root:
+                continue
+            if "target" in root.split(os.path.sep):
+                continue
+            
+            relative_path = os.path.relpath(os.path.join(root, file), script_dir)
+            relative_path = relative_path.replace("\\", "/")
+            available_routes[file] = relative_path
+    
+    sequential_edges = []
+    
+    # 为每个区域创建顺序边
+    for base_region, blossoms in region_groups.items():
+        print(f"\n处理区域: {base_region}")
+        
+        # 将节点分为主路线和分支路线
+        main_routes = {}  # {route_num: blossom}
+        branch_routes = {}  # {route_num: {branch_num: blossom}}
+        
+        for blossom in blossoms:
+            region = blossom["region"]
+            parts = region.split("-")
+            
+            if len(parts) == 2:  # 主路线格式："蒙德2-3" 
+                try:
+                    route_num = int(parts[1])
+                    main_routes[route_num] = blossom
+                    print(f"  主路线: {region} (路线{route_num})")
+                except ValueError:
+                    print(f"    警告：无法解析主路线编号: {region}")
+                    
+            elif len(parts) == 3:  # 分支路线格式："蒙德2-4-1"
+                try:
+                    route_num = int(parts[1])
+                    branch_num = int(parts[2])
+                    if route_num not in branch_routes:
+                        branch_routes[route_num] = {}
+                    branch_routes[route_num][branch_num] = blossom
+                    print(f"  分支路线: {region} (路线{route_num}, 分支{branch_num})")
+                except ValueError:
+                    print(f"    警告：无法解析分支路线编号: {region}")
+        
+        print(f"  找到 {len(main_routes)} 个主路线，{len(branch_routes)} 个分支组")
+          # 辅助函数：查找路径文件
+        def find_route_file(source_region, target_region):
+            # 从目标区域推断文件名
+            result = None
+            print(f"    查找路径文件: {source_region} → {target_region}")
+            
+            for blossom in new_data["blossoms"]:
+                if blossom["region"] == target_region:
+                    # 尝试通过目标区域构造文件名
+                    parts = target_region.split("-")
+                    print(f"      目标区域部分: {parts}")
+                    
+                    if len(parts) == 2:  # 主路线
+                        # 例如: 蒙德2-3 -> 蒙德2-xxx-3.json
+                        pattern = f"-{parts[1]}.json"
+                        print(f"      主路线模式: {pattern}")
+                        for filename in available_routes.keys():
+                            if pattern in filename and parts[0] in filename:
+                                result = available_routes[filename]
+                                print(f"      找到匹配文件: {filename} -> {result}")
+                                break
+                    elif len(parts) == 3:  # 分支路线
+                        # 例如: 蒙德2-4-1 -> 蒙德2-xxx-4-1.json
+                        pattern = f"-{parts[1]}-{parts[2]}.json"
+                        print(f"      分支路线模式: {pattern}")
+                        for filename in available_routes.keys():
+                            if pattern in filename and parts[0] in filename:
+                                result = available_routes[filename]
+                                print(f"      找到匹配文件: {filename} -> {result}")
+                                break
+                    
+                    if not result:
+                        print(f"      警告：未找到匹配的路径文件")
+                        print(f"      可用文件: {list(available_routes.keys())[:10]}...")  # 只显示前10个
+                    break
+            return result# 1. 创建主路线到分支路线的连接
+        for main_route_num, main_blossom in main_routes.items():
+            # 找到下一个路线号，看是否有分支
+            next_route_num = main_route_num + 1
+            
+            if next_route_num in branch_routes:
+                # 连接到下一个路线号的所有分支
+                for branch_num, branch_blossom in branch_routes[next_route_num].items():
+                    route_file = find_route_file(main_blossom["region"], branch_blossom["region"])
+                    
+                    if route_file:
+                        edge = {
+                            "source": main_blossom["id"],
+                            "target": branch_blossom["id"],
+                            "route": route_file
+                        }
+                        sequential_edges.append(edge)
+                        print(f"    主路线到分支: {main_blossom['region']} → {branch_blossom['region']}")
+        
+        # 2. 创建分支到下一个分支的连接（同序号优先）
+        for route_num, branches in branch_routes.items():
+            next_route_num = route_num + 1
+            
+            for branch_num, branch_blossom in branches.items():
+                # 优先连接到同序号的下一个分支
+                target_found = False
+                
+                # 第一优先级：同序号分支 (蒙德2-4-1 → 蒙德2-5-1)
+                if next_route_num in branch_routes and branch_num in branch_routes[next_route_num]:
+                    target_blossom = branch_routes[next_route_num][branch_num]
+                    route_file = find_route_file(branch_blossom["region"], target_blossom["region"])
+                    
+                    if route_file:
+                        edge = {
+                            "source": branch_blossom["id"],
+                            "target": target_blossom["id"],
+                            "route": route_file
+                        }
+                        sequential_edges.append(edge)
+                        print(f"    分支到同序号分支: {branch_blossom['region']} → {target_blossom['region']}")
+                        target_found = True
+                
+                # 第二优先级：主路线 (蒙德2-4-1 → 蒙德2-5)
+                if not target_found and next_route_num in main_routes:
+                    target_blossom = main_routes[next_route_num]
+                    route_file = find_route_file(branch_blossom["region"], target_blossom["region"])
+                    
+                    if route_file:
+                        edge = {
+                            "source": branch_blossom["id"],
+                            "target": target_blossom["id"],
+                            "route": route_file
+                        }
+                        sequential_edges.append(edge)
+                        print(f"    分支到主路线: {branch_blossom['region']} → {target_blossom['region']}")
+                        target_found = True
+                
+                # 如果没有找到目标，则为路线终点
+                if not target_found:
+                    print(f"    分支终点: {branch_blossom['region']} (无下一个目标)")
+        
+        # 3. 创建主路线到主路线的连接（当没有分支时）
+        sorted_main_routes = sorted(main_routes.keys())
+        for i in range(len(sorted_main_routes) - 1):
+            current_route = sorted_main_routes[i]
+            next_route = sorted_main_routes[i + 1]
+            
+            # 只有在下一个路线没有分支时，才创建主路线到主路线的连接
+            if next_route not in branch_routes:
+                source_blossom = main_routes[current_route]
+                target_blossom = main_routes[next_route]
+                route_file = find_route_file(source_blossom["region"], target_blossom["region"])
+                
+                if route_file:
+                    edge = {
+                        "source": source_blossom["id"],
+                        "target": target_blossom["id"],
+                        "route": route_file
+                    }
+                    sequential_edges.append(edge)
+                    print(f"    主路线连接: {source_blossom['region']} → {target_blossom['region']}")
+    
+    # 将新的顺序边添加到数据中
+    new_data["edges"].extend(sequential_edges)
+    print(f"\n总共创建了 {len(sequential_edges)} 条顺序边")
+    
+    return len(sequential_edges)
 
 def test_filename_parsing():
     """测试文件名解析功能，确保能正确处理各种格式"""

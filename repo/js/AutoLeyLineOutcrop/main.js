@@ -179,11 +179,70 @@ async function executeMatchingStrategy() {
 async function loadNodeData() {
     try {
         const nodeDataText = await file.readText("LeyLineOutcropData.json");
-        return JSON.parse(nodeDataText);
+        const rawData = JSON.parse(nodeDataText);
+        
+        // 适配数据结构：将原始数据转换为代码期望的格式
+        return adaptNodeData(rawData);
     } catch (error) {
         log.error(`加载节点数据失败: ${error.message}`);
         throw new Error("无法加载 LeyLineOutcropData.json 文件");
     }
+}
+
+/**
+ * 适配数据结构：将原始数据转换为代码期望的格式
+ * @param {Object} rawData - 原始JSON数据
+ * @returns {Object} 适配后的节点数据
+ */
+function adaptNodeData(rawData) {
+    const adaptedData = {
+        node: [],
+        indexes: rawData.indexes
+    };
+    
+    // 添加传送点，设置type为"teleport"
+    if (rawData.teleports) {
+        for (const teleport of rawData.teleports) {
+            adaptedData.node.push({
+                ...teleport,
+                type: "teleport",
+                next: [],
+                prev: []
+            });
+        }
+    }
+    
+    // 添加地脉花节点，设置type为"blossom"
+    if (rawData.blossoms) {
+        for (const blossom of rawData.blossoms) {
+            adaptedData.node.push({
+                ...blossom,
+                type: "blossom",
+                next: [],
+                prev: []
+            });
+        }
+    }
+    
+    // 根据edges构建next和prev关系
+    if (rawData.edges) {
+        for (const edge of rawData.edges) {
+            const sourceNode = adaptedData.node.find(node => node.id === edge.source);
+            const targetNode = adaptedData.node.find(node => node.id === edge.target);
+            
+            if (sourceNode && targetNode) {
+                sourceNode.next.push({
+                    target: edge.target,
+                    route: edge.route
+                });
+                targetNode.prev.push(edge.source);
+            }
+        }
+    }
+    
+    log.debug(`适配数据完成：传送点 ${rawData.teleports ? rawData.teleports.length : 0} 个，地脉花 ${rawData.blossoms ? rawData.blossoms.length : 0} 个，边缘 ${rawData.edges ? rawData.edges.length : 0} 个`);
+    
+    return adaptedData;
 }
 
 /**
