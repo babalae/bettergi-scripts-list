@@ -777,8 +777,9 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000, enemyType = "盗宝�
     while (Date.now() - fightStartTime < timeout) {
         try {
             // 简化OCR检测，只使用一个try-catch块
-            let result = captureGameRegion().find(RecognitionObject.ocr(850, 150, 200, 80));
-            let result2 = captureGameRegion().find(RecognitionObject.ocr(0, 200, 300, 300));
+            let captureRegion = captureGameRegion();
+            let result = captureRegion.find(RecognitionObject.ocr(850, 150, 200, 80));
+            let result2 = captureRegion.find(RecognitionObject.ocr(0, 200, 300, 300));
             let text = result.text;
             let text2 = result2.text;
 
