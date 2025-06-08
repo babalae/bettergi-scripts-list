@@ -1012,6 +1012,7 @@ function calculatePerTime(resourceName, pathName, recordDir) {
                             if (quantityChange[resourceName] !== 0) {
                                 // 保留两位小数
                                 perTime = parseFloat((runTime / quantityChange[resourceName]).toFixed(2));
+                            } else {
                                 perTime = Infinity; // 数量变化为 0 时，设置为 Infinity
                             }
                             completeRecords.push(perTime);
