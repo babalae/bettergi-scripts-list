@@ -654,7 +654,6 @@ async function adjustViewForReward(boxIconRo, token) {
     const screenCenterX = 960;
     const screenCenterY = 540;
     const maxAngle = 10; // 最大允许偏离角度（度）
-
     for (let i = 0; i < 20; i++) {
         // 检查是否取消操作
         if (token && token.isCancellationRequested) {
