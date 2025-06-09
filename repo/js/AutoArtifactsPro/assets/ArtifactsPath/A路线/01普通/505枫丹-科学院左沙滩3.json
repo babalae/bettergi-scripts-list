@@ -21,10 +21,10 @@
       "id": 2,
       "x": 4457.119140625,
       "y": 4627.5830078125,
-      "type": "path",
-      "move_mode": "run",
       "action": "",
-      "action_params": ""
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
@@ -107,12 +107,12 @@
     },
     {
       "id": 12,
-      "x": 4432.734375,
-      "y": 4568.124994466729,
+      "x": 4431.9375,
+      "y": 4563.843575683421,
       "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "orientation",
+      "locked": false
     },
     {
       "id": 13,
@@ -126,10 +126,11 @@
     {
       "id": 14,
       "x": 4431.9375,
-      "y": 4563.125420528508,
+      "y": 4563.843575683421,
       "action": "",
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "locked": false
     }
   ]
 }
