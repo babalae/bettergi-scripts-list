@@ -1,17 +1,17 @@
 {
     "info": {
-        "name": "璃月-禽肉-沉玉谷·上谷灵濛山北-2个-下落2肉2",
+        "name": "璃月-禽肉-沉玉谷·南陵赤望台东-1个-下落2肉1",
         "type": "collect",
         "author": "提瓦特钓鱼玳师",
         "version": "1.0",
-        "description": "地区: 璃月\n类型: 禽肉\n详细位置: 沉玉谷·上谷灵濛山北\n数目: 2\n附加信息: 2禽肉鸟共2只\n注意: 使用前请将游戏时间调到白天，跑图位建议使用绮良良或埃洛伊",
-    "bgi_version": "0.43.1"
+        "description": "地区: 璃月\n类型: 禽肉\n详细位置: 沉玉谷·南陵赤望台东\n数目: 1\n附加信息: 2禽肉鸟共1只\n注意: 使用前请将游戏时间调到白天，跑图位建议使用绮良良或埃洛伊",
+        "bgi_version": "0.43.1"
     },
     "positions": [
         {
             "id": 1,
-            "x": 2145.69,
-            "y": 2412.9,
+            "x": 2870.04,
+            "y": 1503.27,
             "action": "",
             "move_mode": "walk",
             "action_params": "",
@@ -19,80 +19,80 @@
         },
         {
             "id": 2,
-            "x": 2139.65,
-            "y": 2419.85,
+            "x": 2813.17,
+            "y": 1480.43,
             "action": "",
-            "move_mode": "run",
+            "move_mode": "dash",
             "action_params": "",
             "type": "path"
         },
         {
             "id": 3,
-            "x": 2115.42,
-            "y": 2462.49,
+            "x": 2785.1,
+            "y": 1469.35,
             "action": "",
-            "move_mode": "fly",
+            "move_mode": "walk",
             "action_params": "",
             "type": "path"
         },
         {
             "id": 4,
-            "x": 2112.89,
-            "y": 2475.43,
+            "x": 2785.81,
+            "y": 1457.65,
             "action": "",
-            "move_mode": "dash",
+            "move_mode": "walk",
             "action_params": "",
             "type": "path"
         },
         {
             "id": 5,
-            "x": 2123.51,
-            "y": 2512.02,
+            "x": 2766.47,
+            "y": 1447.99,
             "action": "",
-            "move_mode": "dash",
-            "action_params": "",
-            "type": "path"
-        },
-        {
-            "id": 6,
-            "x": 2135.33,
-            "y": 2523.88,
-            "action": "",
-            "move_mode": "walk",
-            "action_params": "",
-            "type": "path"
-        },
-        {
-            "id": 7,
-            "x": 2139.24,
-            "y": 2521.28,
-            "action": "",
-            "move_mode": "walk",
-            "action_params": "",
-            "type": "path"
-        },
-        {
-            "id": 8,
-            "x": 2139.18,
-            "y": 2503.61,
-            "action": "",
-            "move_mode": "walk",
-            "action_params": "",
-            "type": "path"
-        },
-        {
-            "id": 9,
-            "x": 2176.44,
-            "y": 2437.53,
-            "action": "stop_flying",
             "move_mode": "fly",
             "action_params": "",
             "type": "path"
         },
         {
+            "id": 6,
+            "x": 2685.86,
+            "y": 1459.72,
+            "action": "combat_script",
+            "move_mode": "fly",
+            "action_params": "keypress(space),wait(2),attack(0.1)",
+            "type": "target"
+        },
+        {
+            "id": 7,
+            "x": 2685.06,
+            "y": 1459.03,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "target"
+        },
+        {
+            "id": 8,
+            "x": 2685.99,
+            "y": 1459.14,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "target"
+        },
+        {
+            "id": 9,
+            "x": 2688.26,
+            "y": 1456.92,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "target"
+        },
+        {
             "id": 10,
-            "x": 2180.02,
-            "y": 2439.41,
+            "x": 2687,
+            "y": 1455.59,
             "action": "",
             "move_mode": "walk",
             "action_params": "",
@@ -100,8 +100,8 @@
         },
         {
             "id": 11,
-            "x": 2178.38,
-            "y": 2435.83,
+            "x": 2685.06,
+            "y": 1455.13,
             "action": "",
             "move_mode": "walk",
             "action_params": "",
