@@ -46,8 +46,8 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 5000) {
 
                 if (correctedText.includes(targetText)) {
                     // 如果找到目标文本，计算并点击文字的中心坐标
-                    let centerX = res.x + res.width / 2;
-                    let centerY = res.y + res.height / 2;
+                    let centerX = Math.round(res.x + res.width / 2);
+                    let centerY = Math.round(res.y + res.height / 2);
                     await click(centerX, centerY);
                     await sleep(500); // 确保点击后有足够的时间等待
                     return { success: true, x: centerX, y: centerY };
