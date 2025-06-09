@@ -1,17 +1,17 @@
 {
     "info": {
-        "name": "璃月-禽肉-沉玉谷·南陵赤望台东北-1个-下落2肉1",
+        "name": "璃月-禽肉-琼玑野瑶光滩西北-2个-下落2肉2",
         "type": "collect",
         "author": "提瓦特钓鱼玳师",
         "version": "1.0",
-        "description": "地区: 璃月\n类型: 禽肉\n详细位置: 沉玉谷·南陵赤望台东北\n数目: 1\n附加信息: 2禽肉鸟共1只\n注意: 使用前请将游戏时间调到白天，跑图位建议使用绮良良或埃洛伊",
-    "bgi_version": "0.43.1"
+        "description": "地区: 璃月\n类型: 禽肉\n详细位置: 琼玑野瑶光滩西北\n数目: 2\n附加信息: 2禽肉鸟共2只\n注意: 使用前请将游戏时间调到白天，跑图位建议使用绮良良或埃洛伊",
+        "bgi_version": "0.43.1"
     },
     "positions": [
         {
             "id": 1,
-            "x": 2628.09,
-            "y": 1528.56,
+            "x": -255.01,
+            "y": 630.04,
             "type": "teleport",
             "move_mode": "walk",
             "action": "",
@@ -19,26 +19,26 @@
         },
         {
             "id": 2,
-            "x": 2604.98,
-            "y": 1538.94,
-            "type": "target",
-            "move_mode": "fly",
-            "action": "stop_flying",
-            "action_params": ""
-        },
-        {
-            "id": 3,
-            "x": 2603.7,
-            "y": 1537.26,
-            "type": "target",
+            "x": -251.64,
+            "y": 627.92,
+            "type": "path",
             "move_mode": "walk",
             "action": "",
             "action_params": ""
         },
         {
+            "id": 3,
+            "x": -85.28,
+            "y": 568.97,
+            "type": "target",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(space),wait(1.5),attack(0.1)"
+        },
+        {
             "id": 4,
-            "x": 2607.24,
-            "y": 1540.95,
+            "x": -83.55,
+            "y": 569.48,
             "type": "target",
             "move_mode": "walk",
             "action": "",
@@ -46,8 +46,8 @@
         },
         {
             "id": 5,
-            "x": 2601.29,
-            "y": 1542.84,
+            "x": -87.19,
+            "y": 568.79,
             "type": "target",
             "move_mode": "walk",
             "action": "",
@@ -55,8 +55,8 @@
         },
         {
             "id": 6,
-            "x": 2598.84,
-            "y": 1540.04,
+            "x": -87.65,
+            "y": 570.97,
             "type": "target",
             "move_mode": "walk",
             "action": "",
@@ -64,8 +64,8 @@
         },
         {
             "id": 7,
-            "x": 2596.64,
-            "y": 1543.06,
+            "x": -85.74,
+            "y": 567.56,
             "type": "target",
             "move_mode": "walk",
             "action": "",
