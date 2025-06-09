@@ -205,6 +205,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     // 启用自动拾取的实时任务
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
 
+    let runnedTimes = 0;
 
     wait: {
         if (runnedToday) {
@@ -239,7 +240,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
                     const fightTimeout = validateTimeoutSetting(settings.fightTimeout, DEFAULT_FIGHT_TIMEOUT_SECONDS, "战斗");
 
                     // 好感循环开始	
-                    const runnedTimes = await AutoFriendshipDev(50, ocrTimeout, fightTimeout, enemyType, endTime);
+                    runnedTimes = await AutoFriendshipDev(50, ocrTimeout, fightTimeout, enemyType, endTime);
                 }
             }
 
@@ -595,6 +596,7 @@ async function AutoPath(locationName) {
 
 //好感度任务的逻辑
 async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "盗宝团", endTime) {
+    let friendTimes = 0;
     for (let i = 0; i < times; i++) {
 
         // 获取当前时间
@@ -607,7 +609,7 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "�
         }
 
         await fakeLog(`第${i + 1}次好感`, false, true, 0);
-
+        friendTimes = friendTimes + 1;
         await AutoPath(`${enemyType}-触发点`);
         // 启动路径导航任务
         let pathTaskPromise = AutoPath(`${enemyType}-战斗点`);
@@ -709,7 +711,7 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "�
     log.info(`${enemyType}好感运行了${i + 1}次`);
     await genshin.tpToStatueOfTheSeven();
 
-    return i + 1;
+    return friendTimes;
 }
 
 // 验证输入是否是正整数
@@ -1132,9 +1134,11 @@ async function decomposeArtifacts(keep4Star, doDecompose) {
     if (settings.keep4Star) {
         log.info(`保留的四星数量: ${fourStarNum}`);
     }
+    const resultExperience = resinExperience + (settings.keep4Star ? 2520 * fourStarNum : 0);
+    log.info(`计入四星的经验: ${resultExperience}`);
     const result = {
         mora: recognizedText, // 将 recognizedText 赋值给 mora
-        artifactExperience: resinExperience + 2520 * fourStarNum // 计算并赋值给 artifactExperience
+        artifactExperience: resultExperience
     };
     await genshin.returnMainUi();
     return result;
