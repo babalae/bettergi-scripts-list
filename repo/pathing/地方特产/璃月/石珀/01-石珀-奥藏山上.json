@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "石珀-05纯水",
+    "name": "01-石珀-奥藏山上",
     "type": "collect",
     "author": "爱凑热闹",
     "version": "1.0",
@@ -13,57 +13,55 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 283.85,
-      "y": 1668.6
+      "x": 1271.85,
+      "y": 1563.18
     },
     {
       "id": 2,
-      "x": 279.56,
-      "y": 1653.75,
+      "x": 1230.55,
+      "y": 1531.3,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1230.55,
+      "y": 1531.3,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 1157.15,
+      "y": 1552.6,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
-      "id": 3,
-      "x": 268.61,
-      "y": 1649.55,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": 268.61,
-      "y": 1649.55,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "pick_around",
-      "action_params": ""
-    },
-    {
       "id": 5,
-      "x": 268.79,
-      "y": 1641.34,
+      "x": 1108.29,
+      "y": 1586.23,
       "type": "path",
       "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
+      "action": ""
     },
     {
       "id": 6,
-      "x": 268.79,
-      "y": 1641.34,
+      "x": 1089.58,
+      "y": 1602.84,
       "type": "path",
       "move_mode": "walk",
-      "action": "pick_around",
-      "action_params": ""
+      "action": ""
     },
     {
       "id": 7,
-      "x": 277.12,
-      "y": 1644.42,
+      "x": 1082.1,
+      "y": 1598.61,
       "type": "path",
       "move_mode": "walk",
       "action": "mining",
@@ -71,8 +69,8 @@
     },
     {
       "id": 8,
-      "x": 277.12,
-      "y": 1644.42,
+      "x": 1082.1,
+      "y": 1598.61,
       "type": "path",
       "move_mode": "walk",
       "action": "pick_around",
@@ -80,21 +78,11 @@
     },
     {
       "id": 9,
-      "x": 282.22,
-      "y": 1631.66,
+      "x": 1073.43,
+      "y": 1594.47,
       "type": "path",
       "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
-    },
-    {
-      "id": 10,
-      "x": 282.22,
-      "y": 1631.66,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "pick_around",
-      "action_params": ""
+      "action": ""
     }
   ]
 }

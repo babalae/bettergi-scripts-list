@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "石珀-01奥藏山上",
+    "name": "05-石珀-纯水",
     "type": "collect",
     "author": "爱凑热闹",
     "version": "1.0",
@@ -13,55 +13,57 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 1271.85,
-      "y": 1563.18
+      "x": 283.85,
+      "y": 1668.6
     },
     {
       "id": 2,
-      "x": 1230.55,
-      "y": 1531.3,
+      "x": 279.56,
+      "y": 1653.75,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 268.61,
+      "y": 1649.55,
       "type": "path",
       "move_mode": "walk",
       "action": "mining",
       "action_params": ""
     },
     {
-      "id": 3,
-      "x": 1230.55,
-      "y": 1531.3,
+      "id": 4,
+      "x": 268.61,
+      "y": 1649.55,
       "type": "path",
       "move_mode": "walk",
       "action": "pick_around",
       "action_params": ""
     },
     {
-      "id": 4,
-      "x": 1157.15,
-      "y": 1552.6,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
       "id": 5,
-      "x": 1108.29,
-      "y": 1586.23,
+      "x": 268.79,
+      "y": 1641.34,
       "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "action": "mining",
+      "action_params": ""
     },
     {
       "id": 6,
-      "x": 1089.58,
-      "y": 1602.84,
+      "x": 268.79,
+      "y": 1641.34,
       "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "action": "pick_around",
+      "action_params": ""
     },
     {
       "id": 7,
-      "x": 1082.1,
-      "y": 1598.61,
+      "x": 277.12,
+      "y": 1644.42,
       "type": "path",
       "move_mode": "walk",
       "action": "mining",
@@ -69,8 +71,8 @@
     },
     {
       "id": 8,
-      "x": 1082.1,
-      "y": 1598.61,
+      "x": 277.12,
+      "y": 1644.42,
       "type": "path",
       "move_mode": "walk",
       "action": "pick_around",
@@ -78,11 +80,21 @@
     },
     {
       "id": 9,
-      "x": 1073.43,
-      "y": 1594.47,
+      "x": 282.22,
+      "y": 1631.66,
       "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 282.22,
+      "y": 1631.66,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
     }
   ]
 }
