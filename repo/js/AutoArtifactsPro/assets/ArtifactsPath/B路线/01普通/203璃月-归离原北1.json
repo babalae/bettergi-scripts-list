@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "璃月-归离原北1",
+    "name": "203璃月-归离原北1",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
@@ -11,39 +11,39 @@
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport",
       "x": 339.4609375,
       "y": 542.95458984375,
-      "action_params": ""
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
       "x": 334.7451171875,
       "y": 564.48828125,
-      "type": "path",
-      "move_mode": "run",
       "action": "",
-      "action_params": ""
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
       "x": 340.984375,
       "y": 634.91748046875,
-      "type": "path",
-      "move_mode": "run",
       "action": "",
-      "action_params": ""
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 4,
-      "x": 347.421875,
-      "y": 668.94384765625,
+      "x": 346.5224609375,
+      "y": 667.8447265625,
       "type": "target",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),"
     }
   ]
 }

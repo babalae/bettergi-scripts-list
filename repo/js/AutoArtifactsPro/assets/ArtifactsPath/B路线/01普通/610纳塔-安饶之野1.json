@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "纳塔-安饶之野1",
+    "name": "610纳塔-安饶之野1",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
@@ -38,12 +38,21 @@
     },
     {
       "id": 4,
-      "x": 9606.9619140625,
-      "y": -2188.9716796875,
+      "x": 9607.53125197504,
+      "y": -2187.468954632506,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),w(0.4),keypress(f),a(0.3),keypress(f),",
+      "action_params": "keypress(f),w(0.5),keypress(f),d(0.4),keypress(f),",
       "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 9610.2353515625,
+      "y": -2189.056640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
     }
   ]
 }
