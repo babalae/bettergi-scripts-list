@@ -205,6 +205,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     // 启用自动拾取的实时任务
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
 
+    let runnedTimes = 0;
 
     wait: {
         if (runnedToday) {
@@ -239,7 +240,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
                     const fightTimeout = validateTimeoutSetting(settings.fightTimeout, DEFAULT_FIGHT_TIMEOUT_SECONDS, "战斗");
 
                     // 好感循环开始	
-                    const runnedTimes = await AutoFriendshipDev(50, ocrTimeout, fightTimeout, enemyType, endTime);
+                    runnedTimes = await AutoFriendshipDev(50, ocrTimeout, fightTimeout, enemyType, endTime);
                 }
             }
 
@@ -1133,9 +1134,11 @@ async function decomposeArtifacts(keep4Star, doDecompose) {
     if (settings.keep4Star) {
         log.info(`保留的四星数量: ${fourStarNum}`);
     }
+    const resultExperience = resinExperience + (settings.keep4Star ? 2520 * fourStarNum : 0);
+    log.info(`计入四星的经验: ${resultExperience}`);
     const result = {
         mora: recognizedText, // 将 recognizedText 赋值给 mora
-        artifactExperience: resinExperience + 2520 * fourStarNum // 计算并赋值给 artifactExperience
+        artifactExperience: resultExperience
     };
     await genshin.returnMainUi();
     return result;
