@@ -1,3 +1,8 @@
+/*
+    代码迁移中，还未完成适配
+*/
+
+
 const CondensedRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/Condensed Resin.png"));
 const FragileRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/Fragile Resin.png"));
 const TemporaryRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/5.png"));
@@ -6,7 +11,9 @@ CondensedRo.Use3Channels = true;
 FragileRo.threshold = 0.70;
 FragileRo.Use3Channels = true;
 
-(async function () {
+this.recognitionResin = 
+async function() {
+    let totalRunNum = 0;
 	await genshin.returnMainUi();
 	await sleep(2000);
 	keyPress("m");
@@ -34,9 +41,8 @@ FragileRo.Use3Channels = true;
 
 				if (staminaValue >= 40) {
 					IsOver = true;
-					log.info("体力值大于40");
-					// 可以在这里添加 break; 如果需要提前退出循环
 				}
+                break;
 			} else {
 				log.warn("无效的数字格式");
 			}
@@ -140,7 +146,4 @@ FragileRo.Use3Channels = true;
 			log.info("不需要前往合成台");
 		}
 	}
-
-
-	// 所有的代码必须由 async function 包裹
-})();
+}

@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "璃月-天遒谷3",
+    "name": "204璃月-天遒谷3",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
@@ -29,42 +29,51 @@
     },
     {
       "id": 3,
-      "x": 1082.7392578125,
-      "y": 301.5029296875,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 1084.7255859375,
-      "y": 302.64208984375,
+      "x": 1085.515625,
+      "y": 301.208984375,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),w(0.3),keypress(f),s(0.6),keypress(f),d(0.3),keypress(f),s(0.3),keypress(f),d(1.2)",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),w(0.3),s(0.5)",
       "type": "target"
     },
     {
-      "id": 5,
-      "x": 1067.375,
-      "y": 353.4689159980953,
+      "id": 4,
+      "x": 1087.187456549087,
+      "y": 304.4373484203652,
+      "type": "path",
+      "move_mode": "walk",
       "action": "",
-      "move_mode": "dash",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 1082.8095703125,
+      "y": 300.794921875,
+      "action": "",
+      "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 6,
-      "x": 1068.624990124792,
-      "y": 354.6873181044384,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),",
-      "type": "target"
+      "x": 1068.333984375,
+      "y": 353.74951171875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 7,
+      "x": 1069.3271484375,
+      "y": 355.3740234375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),"
+    },
+    {
+      "id": 8,
       "x": 1047.9365234375,
       "y": 318.71826171875,
       "action": "",
@@ -73,7 +82,7 @@
       "type": "path"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": 1045.4453125,
       "y": 319.9306640625,
       "action": "combat_script",
