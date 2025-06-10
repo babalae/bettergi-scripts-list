@@ -59,20 +59,11 @@
       "y": -3199.281492527416,
       "action": "combat_script",
       "move_mode": "run",
-      "action_params": "attack(1.4)",
+      "action_params": "迪希雅 e;万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);玛薇卡 e;砂糖 e;早柚 charge;珐露珊 q;琳妮特 q;蓝砚 charge;流浪者 e,attack(0.2);charge,",
       "type": "path"
     },
     {
       "id": 7,
-      "x": -3959.250023700497,
-      "y": -3196.0625606318536,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 8,
       "x": -3958.9072265625,
       "y": -3198.037109375,
       "action": "combat_script",
@@ -81,7 +72,25 @@
       "type": "target"
     },
     {
+      "id": 8,
+      "x": -3956.0263671875,
+      "y": -3196.255859375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
       "id": 9,
+      "x": -3958.937480249586,
+      "y": -3195.1877122114893,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
       "x": -3955.57421875,
       "y": -3210.712890625,
       "action": "",
@@ -90,7 +99,7 @@
       "type": "path"
     },
     {
-      "id": 10,
+      "id": 11,
       "x": -3942.7177734375,
       "y": -3233.16796875,
       "action": "",
@@ -99,7 +108,7 @@
       "type": "path"
     },
     {
-      "id": 11,
+      "id": 12,
       "x": -3930.874980249586,
       "y": -3259.5312348420375,
       "action": "",
@@ -108,7 +117,7 @@
       "type": "path"
     },
     {
-      "id": 12,
+      "id": 13,
       "x": -3929.2500118502485,
       "y": -3267.656204526109,
       "action": "combat_script",
@@ -117,7 +126,7 @@
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 14,
       "x": -3928.8750019750423,
       "y": -3269.718477156657,
       "action": "combat_script",
@@ -126,7 +135,7 @@
       "type": "target"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": -3949.755859375,
       "y": -3266.130859375,
       "action": "combat_script",
@@ -135,7 +144,7 @@
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": -3986.44921875,
       "y": -3238.53515625,
       "action": "",
@@ -144,13 +153,31 @@
       "type": "path"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": -3988.970703125,
       "y": -3228.0615234375,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "action_params": "keypress(f),attack(0.2),keypress(f),wait(0.2),keypress(f),",
       "type": "target"
+    },
+    {
+      "id": 18,
+      "x": -3988.908203125,
+      "y": -3226.37109375,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "w(0.6)"
+    },
+    {
+      "id": 19,
+      "x": -3993.1563586272805,
+      "y": -3227.8435226305483,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "w(1.3)"
     }
   ]
 }
