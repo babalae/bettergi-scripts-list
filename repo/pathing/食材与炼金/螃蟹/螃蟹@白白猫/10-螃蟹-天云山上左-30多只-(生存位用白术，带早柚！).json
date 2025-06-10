@@ -1,0 +1,886 @@
+{
+  "info": {
+    "name": "螃蟹10-天云山上左-30多只-白白喵",
+    "type": "collect",
+    "author": "白白喵",
+    "version": "1.0",
+    "description": "建议双风配队，一定要带早柚，生存位必须带放技能不攻击周围的角色，白术最佳，不带生存位太容易被怪打死了。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4170.55078125,
+      "y": -4571.349609375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4167.296875,
+      "y": -4573.6884765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4169.328125,
+      "y": -4573.1025390625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -4223.6484375,
+      "y": -4563.01171875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(6),attack(0.1),wait(3)"
+    },
+    {
+      "id": 5,
+      "x": -4203.20703125,
+      "y": -4551.6259765625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -4203.296875,
+      "y": -4577.412109375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -4176.154296875,
+      "y": -4598.783203125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -4152.77734375,
+      "y": -4593.7939453125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -4125.681640625,
+      "y": -4617.451171875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -4107.466796875,
+      "y": -4629.4326171875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -4102.935546875,
+      "y": -4624.0888671875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": -4085.384765625,
+      "y": -4633.57421875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": -4068.7412109375,
+      "y": -4670.3837890625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": -4049.3046875,
+      "y": -4698.796875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": -4046.05078125,
+      "y": -4707.1826171875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": -4045.8486328125,
+      "y": -4730.5224609375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": -4046.5654296875,
+      "y": -4731.4365234375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": -4036.5146484375,
+      "y": -4735.0537109375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "x": -4012.119140625,
+      "y": -4709.921875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 20,
+      "x": -4012,
+      "y": -4663.923828125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 21,
+      "x": -4015.5576171875,
+      "y": -4661.564453125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 22,
+      "x": -4015.0087890625,
+      "y": -4650.5244140625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 23,
+      "x": -4018.6083984375,
+      "y": -4636.0126953125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 24,
+      "x": -4014.6357421875,
+      "y": -4624.1103515625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 25,
+      "x": -4026.19140625,
+      "y": -4609.1181640625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 26,
+      "x": -4034.3017578125,
+      "y": -4604.5361328125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 27,
+      "x": -4037.775390625,
+      "y": -4598.640625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 28,
+      "x": -4028.3515625,
+      "y": -4595.751953125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 29,
+      "x": -4006.1640625,
+      "y": -4603.3994140625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 30,
+      "x": -4006.1962890625,
+      "y": -4617.9931640625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 31,
+      "x": -3982.6171875,
+      "y": -4628.6904296875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 32,
+      "x": -3972.693359375,
+      "y": -4644.5625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 33,
+      "x": -3976.1025390625,
+      "y": -4660.796875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 34,
+      "x": -3976.1962890625,
+      "y": -4682.875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 35,
+      "x": -3956.4150390625,
+      "y": -4693.3349609375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 36,
+      "x": -3945.14453125,
+      "y": -4726.2822265625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 37,
+      "x": -3920.3203125,
+      "y": -4738.6630859375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 38,
+      "x": -3925.3857421875,
+      "y": -4763.087890625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 39,
+      "x": -3915.669921875,
+      "y": -4777.22265625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 40,
+      "x": -3911.419921875,
+      "y": -4806.1689453125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 41,
+      "x": -3913.9326171875,
+      "y": -4830.177734375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 42,
+      "x": -3915.9267578125,
+      "y": -4831.7705078125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 43,
+      "x": -3940.2763671875,
+      "y": -4868.515625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 44,
+      "x": -3907.2724609375,
+      "y": -4869.2978515625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 45,
+      "x": -3889.345703125,
+      "y": -4879.96875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 46,
+      "x": -3865.6044921875,
+      "y": -4879.7080078125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 47,
+      "x": -3866.7412109375,
+      "y": -4889.37109375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 48,
+      "x": -3788.009765625,
+      "y": -4908.12109375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 49,
+      "x": -3848.421875,
+      "y": -4907.296875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 50,
+      "x": -3876.798828125,
+      "y": -4945.0625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 51,
+      "x": -3879.3046875,
+      "y": -4954.84375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 52,
+      "x": -3918.89453125,
+      "y": -4953.69140625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 53,
+      "x": -3933.2880859375,
+      "y": -4911.111328125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 54,
+      "x": -3928.69921875,
+      "y": -4883.7080078125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 55,
+      "x": -3953.306640625,
+      "y": -4885.859375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 56,
+      "x": -3985.5966796875,
+      "y": -4914.81640625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 57,
+      "x": -4027.9375,
+      "y": -4933.0791015625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 58,
+      "x": -4037.8779296875,
+      "y": -4937.130859375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 59,
+      "x": -4062.041015625,
+      "y": -4963.076171875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 60,
+      "x": -4064.4306640625,
+      "y": -4982.84765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 61,
+      "x": -4079.6572265625,
+      "y": -5001.048828125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 62,
+      "x": -4090.8525390625,
+      "y": -5007.533203125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 63,
+      "x": -4102.640625,
+      "y": -5015.6787109375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 64,
+      "x": -4111.775390625,
+      "y": -5036.7919921875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 65,
+      "x": -4135.2265625,
+      "y": -5060.314453125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 66,
+      "x": -4155.57421875,
+      "y": -5080.8125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 67,
+      "x": -4173.615234375,
+      "y": -5083.08984375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 68,
+      "x": -4195.439453125,
+      "y": -5094.0009765625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 69,
+      "x": -4210.306640625,
+      "y": -5107.599609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 70,
+      "x": -4254.212890625,
+      "y": -5106.23046875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 71,
+      "x": -4289.1875,
+      "y": -5091.5478515625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 72,
+      "x": -4301.42578125,
+      "y": -5078.6767578125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 73,
+      "x": -4318.013671875,
+      "y": -5052.4033203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 74,
+      "x": -4302.107421875,
+      "y": -5029.0693359375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 75,
+      "x": -4295.109375,
+      "y": -5016.0849609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 76,
+      "x": -4286.80078125,
+      "y": -4990.681640625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 77,
+      "x": -4270.228515625,
+      "y": -4987.8349609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 78,
+      "x": -4220.001953125,
+      "y": -4987.1328125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 79,
+      "x": -4184.126953125,
+      "y": -5003.841796875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 80,
+      "x": -4130.50390625,
+      "y": -5011.0146484375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 81,
+      "x": -4219.052734375,
+      "y": -4981.658203125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 82,
+      "x": -4216.671875,
+      "y": -4957.3994140625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 83,
+      "x": -4214.90234375,
+      "y": -4919.2001953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 84,
+      "x": -4225.869140625,
+      "y": -4901.0087890625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 85,
+      "x": -4243.49926797946,
+      "y": -4910.499373214325,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 86,
+      "x": -4259.365234375,
+      "y": -4905.26171875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 87,
+      "x": -4224.746421232914,
+      "y": -4898.007863311192,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 88,
+      "x": -4179.025390625,
+      "y": -4925.2939453125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 89,
+      "x": -4164.630859375,
+      "y": -4919.189453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 90,
+      "x": -4145.537109375,
+      "y": -4891.4521484375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 91,
+      "x": -4128.1171875,
+      "y": -4878.61328125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 92,
+      "x": -4120.974609375,
+      "y": -4853.50390625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 93,
+      "x": -4100.43359375,
+      "y": -4839.4248046875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 94,
+      "x": -4087.0625,
+      "y": -4805.8564453125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 95,
+      "x": -4078.7001953125,
+      "y": -4804.3720703125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 96,
+      "x": -4079.740234375,
+      "y": -4789.3330078125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 97,
+      "x": -4045.6484375,
+      "y": -4731.0048828125,
+      "type": "target",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
