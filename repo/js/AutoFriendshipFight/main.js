@@ -224,9 +224,14 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
     if (roundIndex === 0 && enemyType === "鳄鱼") {
         await sleep(5000);
     }
-
-    // 重新登录
-    await genshin.relogin();
+    let initialDetected = false;
+    if (roundIndex === 0) {
+        initialDetected = await detectTaskTrigger(3, enemyType);
+    }
+    if(!initialDetected || roundIndex > 0) {
+        await genshin.relogin();
+    }
+    
 
     // 启动路径导航任务（异步）
     let pathTask = AutoPath(`${enemyType}-战斗点`);
