@@ -61,7 +61,8 @@ async function (position) {
                 log.info(`完成节点 ID ${nextNodeId}, 已执行 ${currentRunTimes}/${settings.timesValue} 次`);                // 更新当前节点为下一个节点，继续检查
                 currentNode = nextNode;
                 currentNodePosition = { x: nextNode.position.x, y: nextNode.position.y };
-            }            else if (currentNode.next.length > 1) {
+            }            
+            else if (currentNode.next.length > 1) {
                 // 如果存在分支路线，先打开大地图判断下一个地脉花的位置，然后结合顺序边缘数据选择最优路线
                 log.info("检测到多个分支路线，开始查找下一个地脉花位置");
 
@@ -81,71 +82,31 @@ async function (position) {
                 if (!found) {
                     log.warn("无法在分支点找到下一个地脉花，退出本次循环");
                     return;
-                }
-
+                }                
                 log.info(`找到下一个地脉花，位置: (${leyLineX}, ${leyLineY})`);
 
-                // 优先使用顺序边缘数据来选择路径，如果没有则回退到距离计算
-                const sequentialEdges = nodeData.indexes?.edgesBySource;
+                // 直接比较所有分支节点到地脉花的距离，选择最近的路径
                 let selectedRoute = null;
                 let selectedNodeId = null;
+                let closestDistance = Infinity;
 
-                if (sequentialEdges) {
-                    const currentNodeIdStr = currentNode.id.toString();
-                    const nextTargetIds = sequentialEdges[currentNodeIdStr];
+                for (const nextRoute of currentNode.next) {
+                    const nextNodeId = nextRoute.target;
+                    const nextNode = nodeData.node.find(node => node.id === nextNodeId);
 
-                    if (nextTargetIds && nextTargetIds.length > 0) {
-                        const nextTargetId = nextTargetIds[0];
-                        log.info(`从顺序边缘数据中找到推荐的下一个目标节点ID: ${nextTargetId}`);
+                    if (!nextNode) continue;
 
-                        // 在当前节点的分支中查找通向推荐目标节点的路径
-                        for (const nextRoute of currentNode.next) {
-                            const nextNodeId = nextRoute.target;
-                            
-                            // 检查这个路径是否通向推荐的目标节点（直接匹配或通过后续路径）
-                            if (nextNodeId === nextTargetId) {
-                                selectedRoute = nextRoute.route;
-                                selectedNodeId = nextNodeId;
-                                log.info(`使用顺序边缘数据：找到直接路径到推荐节点ID: ${nextTargetId}`);
-                                break;
-                            } else {
-                                // 检查这个中间节点是否能通向推荐的目标节点
-                                const intermediateNodeIdStr = nextNodeId.toString();
-                                const intermediateNextTargets = sequentialEdges[intermediateNodeIdStr];
-                                
-                                if (intermediateNextTargets && intermediateNextTargets.includes(nextTargetId)) {
-                                    selectedRoute = nextRoute.route;
-                                    selectedNodeId = nextNodeId;
-                                    log.info(`使用顺序边缘数据：找到通过中间节点ID ${nextNodeId} 到达推荐节点ID ${nextTargetId} 的路径`);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
+                    const distance = calculate2DDistance(
+                        leyLineX, leyLineY,
+                        nextNode.position.x, nextNode.position.y
+                    );
 
-                // 如果顺序边缘数据没有找到合适的路径，回退到距离计算
-                if (!selectedRoute) {
-                    log.info("顺序边缘数据未找到合适路径，使用距离计算方法选择路径");
-                    
-                    let closestDistance = Infinity;                    for (const nextRoute of currentNode.next) {
-                        const nextNodeId = nextRoute.target;
-                        const nextNode = nodeData.node.find(node => node.id === nextNodeId);
+                    log.info(`分支节点ID ${nextNodeId} 到地脉花距离: ${distance.toFixed(2)}`);
 
-                        if (!nextNode) continue;
-
-                        const distance = calculate2DDistance(
-                            leyLineX, leyLineY,
-                            nextNode.position.x, nextNode.position.y
-                        );
-
-                        log.info(`路线到地脉花距离: ID ${nextNodeId}, 距离: ${distance.toFixed(2)}`);
-
-                        if (distance < closestDistance) {
-                            closestDistance = distance;
-                            selectedRoute = nextRoute.route;
-                            selectedNodeId = nextNodeId;
-                        }
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        selectedRoute = nextRoute.route;
+                        selectedNodeId = nextNodeId;
                     }
                 }
 
@@ -155,7 +116,8 @@ async function (position) {
                     leyLineX = currentLeyLineX;
                     leyLineY = currentLeyLineY;
                     return;
-                }                const nextNode = nodeData.node.find(node => node.id === selectedNodeId);
+                }                
+                const nextNode = nodeData.node.find(node => node.id === selectedNodeId);
                 if (!nextNode) {
                     log.error(`未找到节点ID ${selectedNodeId}，终止执行`);
                     // 恢复原始坐标
@@ -175,7 +137,7 @@ async function (position) {
 
                 await executePath(pathObject);
                 currentRunTimes++;
-
+                log.info(`完成节点 ID ${nextNodeId}, 已执行 ${currentRunTimes}/${settings.timesValue} 次`);
                 // 更新当前节点为下一个节点，继续检查
                 currentNode = nextNode;
                 currentNodePosition = { x: nextNode.position.x, y: nextNode.position.y };
