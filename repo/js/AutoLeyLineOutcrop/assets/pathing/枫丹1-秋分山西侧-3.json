@@ -2,65 +2,30 @@
   "info": {
     "name": "枫丹1-秋分山西侧-3",
     "type": "collect",
-    "author": "平面镜",
-    "version": "1.1",
+    "author": "寒烟",
+    "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.3"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": 4375.5,
-      "y": 2280.05,
+      "x": 4197.61962890625,
+      "y": 2418.38623046875,
+      "type": "path",
+      "move_mode": "run",
       "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "action_params": ""
     },
     {
       "id": 2,
-      "x": 4334.42,
-      "y": 2337.57,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 4327.22,
-      "y": 2345.84,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 4,
-      "x": 4280.2,
-      "y": 2342.5,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 4264.16,
-      "y": 2357.42,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": 4246.28,
-      "y": 2374.05,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "x": 4246.259765625,
+      "y": 2373.880126953125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "500"
     }
   ]
 }
