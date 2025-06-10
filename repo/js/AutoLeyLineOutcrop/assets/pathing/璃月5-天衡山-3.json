@@ -3,47 +3,29 @@
     "name": "璃月5-天衡山-3",
     "type": "collect",
     "author": "寒烟",
-    "version": "1.1",
-    "description": "加一点位以防卡在桥下",
+    "version": "1.0",
+    "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": 935.24,
-      "y": -770.38,
-      "type": "path",
-      "move_mode": "dash",
+      "x": 1043.1357421875,
+      "y": -558.02490234375,
+      "type": "teleport",
+      "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 978.82,
-      "y": -766.75,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 3,
-      "x": 1036.23,
-      "y": -757.27,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 4,
       "x": 1063.54,
       "y": -727.34,
       "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "200"
     }
   ]
 }
