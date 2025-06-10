@@ -1,0 +1,130 @@
+{
+  "info": {
+    "name": "清心06-庆云顶-5朵-白白喵",
+    "type": "collect",
+    "author": "白白喵",
+    "version": "1.0",
+    "description": "时间:1分01秒; 无角色要求，带双风配队+安柏或者柯莱，飞起来更平稳",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1474.6025390625,
+      "y": 763.65185546875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1470.583984375,
+      "y": 764.80517578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1468.1767578125,
+      "y": 761.6640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 1470.01171875,
+      "y": 759.35302734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 1474.765625,
+      "y": 759.34375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 1474.240234375,
+      "y": 763.44287109375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 1433.4091796875,
+      "y": 837.11865234375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 1434.7333984375,
+      "y": 833.388671875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 1432.7001953125,
+      "y": 837.0966796875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 1403.0068359375,
+      "y": 872.9365234375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(2.5),attack(0.1),wait(2)"
+    },
+    {
+      "id": 11,
+      "x": 1406.642578125,
+      "y": 876.74560546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 1403.1572265625,
+      "y": 875.009765625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 1279.76953125,
+      "y": 864.07080078125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    }
+  ]
+}
