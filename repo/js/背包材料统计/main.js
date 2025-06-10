@@ -902,10 +902,10 @@ function checkPathNameFrequency(recordDir, resourceName, pathName) {
             }
         }
 
-        // 如果路径名出现次数超过3次，返回 false
-        if (totalCount > 3) {
-            return false;
+        // 如果路径名出现次数超过2次，返回 false
+        if (totalCount > 2) {
             log.info(`路径文件: ${pathName}, 多次0采集，请检查后，删除记录再执行`);
+            return false;
         }
 
         // 如果路径名出现次数不超过3次，返回 true
