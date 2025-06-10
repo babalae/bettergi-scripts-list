@@ -30,6 +30,10 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
         log.info(`导航到鳄鱼触发点...`);
         await AutoPath('鳄鱼-准备');
     }
+    if (enemyType === "蕈兽") {
+        log.info(`导航到蕈兽触发点...`);
+        await AutoPath('蕈兽-准备');
+    }
     // 验证超时设置
     const ocrTimeout = validateTimeoutSetting(settings.ocrTimeout, DEFAULT_OCR_TIMEOUT_SECONDS, "OCR");
     const fightTimeout = validateTimeoutSetting(settings.fightTimeout, DEFAULT_FIGHT_TIMEOUT_SECONDS, "战斗");
@@ -255,6 +259,16 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
     if (enemyType === "鳄鱼") {
         await AutoPath('鳄鱼-拾取');
     }
+    if(enemyType === "蕈兽") {
+        await AutoPath('蕈兽-对话');
+        await sleep(50);
+        keyPress("F");
+        await sleep(50);
+        keyPress("F");
+        await sleep(500);
+        await genshin.chooseTalkOption("下次");
+        await sleep(500);
+    }
 
     // 返回 true 表示成功完成这一轮
     return true;
@@ -353,7 +367,11 @@ function getOcrKeywords(enemyType) {
     else if (enemyType === "鳄鱼") {
         return ["张牙", "舞爪", "恶党", "鳄鱼", "打倒", "所有", "鳄鱼"];
     }
-    else {
+    else if (enemyType === "蕈兽") {
+        return ["实验家", "变成", "实验品", "击败", "所有", "魔物"];
+    }
+    else
+    {
         return ["突发", "任务", "打倒", "消灭", "敌人", "所有"]; // 兜底关键词
     }
 }
@@ -368,6 +386,8 @@ function getTargetCoordinates(enemyType) {
     } else if (enemyType === "鳄鱼") {
         // 鳄鱼战斗点坐标
         return { x: 3578.08, y: -500.75 };
+    } else if (enemyType === "蕈兽") {
+        return { x: 3794.55, y: -350.60 };
     }
 }
 
@@ -380,6 +400,8 @@ function getTriggerPoint(enemyType) {
     }
     else if (enemyType === "鳄鱼") {
         return { x: 3614.63, y: -521.60 }; // 鳄鱼触发点坐标
+    } else if (enemyType === "蕈兽") {
+        return { x: 3749.38, y: -391.91 }; // 蕈兽触发点坐标
     }
 }
 
@@ -436,8 +458,9 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000, enemyType = "盗宝�
     while (Date.now() - fightStartTime < timeout) {
         try {
             // 简化OCR检测，只使用一个try-catch块
-            let result = captureGameRegion().find(RecognitionObject.ocr(850, 150, 200, 80));
-            let result2 = captureGameRegion().find(RecognitionObject.ocr(0, 200, 300, 300));
+            let capture = captureGameRegion();
+            let result = capture.find(RecognitionObject.ocr(850, 150, 200, 80));
+            let result2 = capture.find(RecognitionObject.ocr(0, 200, 300, 300));
             let text = result.text;
             let text2 = result2.text;
 
@@ -447,6 +470,11 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000, enemyType = "盗宝�
                     log.info("检测到战斗成功关键词: {0}", keyword);
                     log.info("战斗结果：成功");
                     cts.cancel(); // 取消任务
+                    return true;
+                }
+                if(enemyType=="蕈兽" && text2.includes("维沙瓦")){
+                    log.info("战斗结果：成功");
+                    cts.cancel(); 
                     return true;
                 }
             }
@@ -464,36 +492,37 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000, enemyType = "盗宝�
                     return false;
                 }
             }
-
-            // 检查事件关键词
-            let find = 0;
-            for (let keyword of eventKeywords) {
-                if (text2.includes(keyword)) {
-                    find++;
+            if(enemyType !== "蕈兽") {
+                // 检查事件关键词
+                let find = 0;
+                for (let keyword of eventKeywords) {
+                    if (text2.includes(keyword)) {
+                        find++;
+                    }
                 }
-            }
 
-            if (find === 0) {
-                notFind++;
-                log.info("未检测到任务触发关键词：{0} 次", notFind);
-            } else {
-                notFind = 0;
-            }
-
-            if (notFind > 10) {
-                log.warn("不在任务触发区域，战斗失败");
-                cts.cancel(); // 取消任务
-                if (enemyType === "愚人众") {
-                    log.warn("回到愚人众准备点");
-                    await AutoPath('愚人众-准备');
+                if (find === 0) {
+                    notFind++;
+                    log.info("未检测到任务触发关键词：{0} 次", notFind);
+                } else {
+                    notFind = 0;
                 }
-                if (enemyType === "鳄鱼") {
-                    log.warn("回到鳄鱼准备点");
-                    await AutoPath('鳄鱼-准备');
-                    await sleep(5000);
-                }
-                return false;
 
+                if (notFind > 10) {
+                    log.warn("不在任务触发区域，战斗失败");
+                    cts.cancel(); // 取消任务
+                    if (enemyType === "愚人众") {
+                        log.warn("回到愚人众准备点");
+                        await AutoPath('愚人众-准备');
+                    }
+                    if (enemyType === "鳄鱼") {
+                        log.warn("回到鳄鱼准备点");
+                        await AutoPath('鳄鱼-准备');
+                        await sleep(5000);
+                    }
+                    return false;
+
+                }
             }
         }
         catch (error) {
