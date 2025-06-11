@@ -708,7 +708,7 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "�
 
         await fakeLog(`第${i + 1}次好感`, false, false, 0);
     }
-    log.info(`${enemyType}好感运行了${i + 1}次`);
+    log.info(`${enemyType}好感运行了${friendTimes}次`);
     await genshin.tpToStatueOfTheSeven();
 
     return friendTimes;
