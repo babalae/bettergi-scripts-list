@@ -86,17 +86,20 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
 
     // 如果识别到了“常驻祈愿”图标，则识别“原石以及纠缠之缘到数值”
     if (recognized) {
-        //纠缠之缘
-        let ocrRegionInterwinedFate = { x: 1510, y: 30, width: 100, height: 36 }; // 设置对应的识别区域
-        let recognizedText1 = await recognizeTextInRegion(ocrRegionInterwinedFate);
         //原石
-        let ocrRegionYuanShi = { x: 1725, y: 30, width: 60, height: 36 }; // 设置对应的识别区域
-        let recognizedText2 = await recognizeTextInRegion(ocrRegionYuanShi);
+        let ocrRegionYuanShi = { x: 1480, y: 30, width: 160, height: 36 }; // 设置对应的识别区域
+        let recognizedText1 = await recognizeTextInRegion(ocrRegionYuanShi);
+        //纠缠之缘
+        let ocrRegionInterwinedFate = { x: 1660, y: 30, width: 120, height: 36 }; // 设置对应的识别区域
+        let recognizedText2 = await recognizeTextInRegion(ocrRegionInterwinedFate);
 
 
         if (recognizedText1 && recognizedText2) {
+            recognizedText1 = recognizedText1.replace(/\D/g, '');
+            recognizedText2 = recognizedText2.replace(/\D/g, '');
             log.info(`成功识别到原石数值: ${recognizedText1} `);
             log.info(`成功识别到纠缠之缘数值: ${recognizedText2} `);
+            log.info(`总价值: ${parseInt(recognizedText2, 10) * 160 + parseInt(recognizedText1, 10)}原石   ————  ${parseInt(recognizedText2, 10) + (parseInt(recognizedText1, 10) / 160) | 0}抽`);
             if (notify) {
                 notification.Send(`原石数值: ${recognizedText1}`);
                 notification.Send(`纠缠之缘数值: ${recognizedText2}`);
