@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "云岩裂叶-火山西-7个",
+    "name": "02-云岩裂叶-石火坠陨处-8个",
     "type": "collect",
     "author": "ddaodan",
     "version": "1.0",
@@ -10,8 +10,8 @@
   "positions": [
     {
       "id": 1,
-      "x": 10793.8,
-      "y": -3070.03,
+      "x": 10595.19,
+      "y": -2654.35,
       "action": "force_tp",
       "move_mode": "walk",
       "action_params": "",
@@ -19,44 +19,44 @@
     },
     {
       "id": 2,
-      "x": 10819.86,
-      "y": -3111.14,
-      "action": "stop_flying",
-      "move_mode": "fly",
+      "x": 10593.16,
+      "y": -2607.25,
+      "action": "",
+      "move_mode": "dash",
       "action_params": "",
-      "type": "target"
+      "type": "path"
     },
     {
       "id": 3,
-      "x": 10819.85,
-      "y": -3111.12,
+      "x": 10589.92,
+      "y": -2580.79,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action_params": "",
       "type": "target"
     },
     {
       "id": 4,
-      "x": 10793.8,
-      "y": -3070.03,
-      "action": "force_tp",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
-    },
-    {
-      "id": 5,
-      "x": 10819.27,
-      "y": -3033.16,
+      "x": 10585.37,
+      "y": -2578.24,
       "action": "",
-      "move_mode": "fly",
+      "move_mode": "walk",
       "action_params": "",
       "type": "target"
     },
     {
+      "id": 5,
+      "x": 10550.64,
+      "y": -2562.2,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
       "id": 6,
-      "x": 10812.9,
-      "y": -3023.4,
+      "x": 10517.09,
+      "y": -2565.01,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -64,35 +64,35 @@
     },
     {
       "id": 7,
-      "x": 10791.41,
-      "y": -3017.46,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": 10775.21,
-      "y": -3009.37,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": 10756.83,
-      "y": -2994.19,
+      "x": 10489.81,
+      "y": -2551.89,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "target"
     },
     {
+      "id": 8,
+      "x": 10595.28,
+      "y": -2654.41,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 9,
+      "x": 10605.1,
+      "y": -2664.25,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
       "id": 10,
-      "x": 10760.56,
-      "y": -2981.05,
+      "x": 10627.57,
+      "y": -2668.98,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -100,12 +100,30 @@
     },
     {
       "id": 11,
-      "x": 10756.61,
-      "y": -2969.47,
+      "x": 10629.86,
+      "y": -2671.3,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 10639.44,
+      "y": -2710.5,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 10660.16,
+      "y": -2752.45,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
     }
   ]
 }
