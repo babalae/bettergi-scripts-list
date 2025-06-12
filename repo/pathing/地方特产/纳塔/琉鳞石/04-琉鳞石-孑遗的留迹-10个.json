@@ -1,17 +1,17 @@
 {
   "info": {
-    "name": "琉鳞石-石火坠陨处-10个",
+    "name": "04-琉鳞石-孑遗的留迹-10个",
     "type": "collect",
     "author": "ddaodan",
     "version": "1.1",
-    "description": "需要战斗，请配置好战斗策略\n1.1 调整可能卡住的点位",
+    "description": "需要战斗，请配置好战斗策略\n1.1 调整可能遗漏的点位",
     "bgi_version": "0.43.5"
   },
   "positions": [
     {
       "id": 1,
-      "x": 10595.32,
-      "y": -2654.48,
+      "x": 9923.64,
+      "y": -3277.63,
       "action": "force_tp",
       "move_mode": "walk",
       "action_params": "",
@@ -19,8 +19,8 @@
     },
     {
       "id": 2,
-      "x": 10581.53,
-      "y": -2657.22,
+      "x": 9959.08,
+      "y": -3281.44,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -28,8 +28,8 @@
     },
     {
       "id": 3,
-      "x": 10556.34,
-      "y": -2677.22,
+      "x": 10001.86,
+      "y": -3214.82,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -37,26 +37,26 @@
     },
     {
       "id": 4,
-      "x": 10546.15,
-      "y": -2678.13,
-      "action": "electro_collect",
+      "x": 10008.98,
+      "y": -3183.69,
+      "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "type": "path"
     },
     {
       "id": 5,
-      "x": 10535.51,
-      "y": -2682.54,
-      "action": "electro_collect",
+      "x": 10010.1,
+      "y": -3166.69,
+      "action": "fight",
       "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "type": "path"
     },
     {
       "id": 6,
-      "x": 10530.91,
-      "y": -2696.99,
+      "x": 10020.53,
+      "y": -3165.95,
       "action": "electro_collect",
       "move_mode": "walk",
       "action_params": "",
@@ -64,8 +64,8 @@
     },
     {
       "id": 7,
-      "x": 10532.0,
-      "y": -2697.29,
+      "x": 10023.64,
+      "y": -3168.09,
       "action": "electro_collect",
       "move_mode": "walk",
       "action_params": "",
@@ -73,8 +73,8 @@
     },
     {
       "id": 8,
-      "x": 10525.06,
-      "y": -2695.63,
+      "x": 10021.65,
+      "y": -3165.3,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -82,8 +82,8 @@
     },
     {
       "id": 9,
-      "x": 10518.46,
-      "y": -2697.48,
+      "x": 10009.44,
+      "y": -3164.08,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -91,46 +91,44 @@
     },
     {
       "id": 10,
-      "x": 10505.27,
-      "y": -2710.93,
-      "action": "",
+      "x": 10011.25,
+      "y": -3158.07,
+      "action": "electro_collect",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "type": "target"
     },
     {
       "id": 11,
-      "x": 10504.05,
-      "y": -2725.25,
+      "x": 9997.79,
+      "y": -3177.2,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 9997.54,
+      "y": -3174.0,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 12,
-      "x": 10516.64,
-      "y": -2739.72,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path",
-      "locked": false
-    },
-    {
       "id": 13,
-      "x": 10518.64,
-      "y": -2738.72,
-      "action": "",
+      "x": 9994.35,
+      "y": -3171.22,
+      "action": "electro_collect",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "target"
     },
     {
       "id": 14,
-      "x": 10516.34,
-      "y": -2741.22,
+      "x": 9991.39,
+      "y": -3169.88,
       "action": "electro_collect",
       "move_mode": "walk",
       "action_params": "",
@@ -138,8 +136,8 @@
     },
     {
       "id": 15,
-      "x": 10517.09,
-      "y": -2741.14,
+      "x": 9993.66,
+      "y": -3171.9,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -147,27 +145,26 @@
     },
     {
       "id": 16,
-      "x": 10519.92,
-      "y": -2744.01,
-      "action": "electro_collect",
+      "x": 9992.76,
+      "y": -3161.67,
+      "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "target"
     },
     {
       "id": 17,
-      "x": 10521.61,
-      "y": -2748.6,
-      "action": "electro_collect",
+      "x": 9978.83,
+      "y": -3151.01,
+      "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "target",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 18,
-      "x": 10521.61,
-      "y": -2748.6,
+      "x": 9980.14,
+      "y": -3148.06,
       "action": "electro_collect",
       "move_mode": "walk",
       "action_params": "",
@@ -175,8 +172,17 @@
     },
     {
       "id": 19,
-      "x": 10524.67,
-      "y": -2746.83,
+      "x": 9971.04,
+      "y": -3162.29,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 20,
+      "x": 9968.34,
+      "y": -3163.58,
       "action": "electro_collect",
       "move_mode": "walk",
       "action_params": "",
