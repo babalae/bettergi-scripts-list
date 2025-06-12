@@ -1,0 +1,20 @@
+// 丝滑版本
+// 本战斗策略在原作者基础上优化了手感，减少大招少能量的卡顿感
+// 作者 未知_
+
+
+// 注意
+// 注意本战斗策略最好不要开启“更快检查战斗结束”，这样会导致因为长技能cd而导致卡手
+
+// 在打2000小怪或者其他小怪时
+// 奶奶带祭礼往1000精通靠拢，其他几人有西风带西风，没有带其他充能武器或者输出武器就行了
+
+// 在打精英怪时
+// 奶奶要求不变，芙芙带输出武器或者西风武器都可以，爱可非带西风170充能，带其他武器200充能，万叶也可以带西风。
+
+
+茜特菈莉 e, attack, click(middle) , q, click(middle), e, click(middle) 
+芙宁娜 e, wait(0.5), keypress(q)
+爱可菲 e, wait(0.5), keypress(q)
+枫原万叶 e(hold), wait(0.6), attack, click(middle), wait(0.6) ,wait(0.5), keypress(q)
+茜特菈莉 charge, wait(1), keydown(VK_SPACE),  wait(0.6), keyup(VK_SPACE), wait(1), attack
