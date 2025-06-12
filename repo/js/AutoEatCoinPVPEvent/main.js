@@ -123,7 +123,7 @@
         await sleep(1000);
 
         // 7. 等待并确认匹配
-        let matchFound = false;
+        let matchFound = false,matchFound_1st = false;
         for (let i = 0; i < 60; i++) { // 最多等待60秒
             const confirmRegion = captureGameRegion().deriveCrop(
                 1037,
@@ -136,21 +136,39 @@
             const confirmResults = confirmRegion.findMulti(RecognitionObject.ocrThis);
             log.info("匹配确认区域OCR识别结果数量: {count}", confirmResults.count);
 
-            // 遍历所有识别结果
-            for (let j = 0; j < confirmResults.count; j++) {
-                const region = confirmResults[j];
-                // log.info("匹配确认区域OCR结果:位置({x},{y},{w},{h}), 文本: {text}",
-                //     region.x, region.y, region.width, region.height, region.text);
+            /*处理联机确认按钮
+                执行逻辑:（如有报错，自己改 或者 反馈naralan0502@gmail.com）
+                    如果OCR识别结果数量等于0，判断是否已经点击过确认按钮（通过变量matchFound_1st确认）
+                        是：设置matchFound为true，跳出循环
+                        否：继续循环
+                    如果OCR识别结果数量大于0，遍历所有识别结果
+                        如果存在确认按钮，设置变量matchFound_1st = true
+            */
+            if(confirmResults.count){
+                // 遍历所有识别结果
+                for (let j = 0; j < confirmResults.count; j++) {
+                    const region = confirmResults[j];
+                    // log.info("匹配确认区域OCR结果:位置({x},{y},{w},{h}), 文本: {text}",
+                    //     region.x, region.y, region.width, region.height, region.text);
 
-                if (region.text.includes("接受")) {
-                    log.info("匹配成功, 点击接受");
-                    click(1182, 737); // 点击确认按钮
+                    if (region.text.includes("接受")) {
+                        click(1182, 737); // 点击确认按钮
+                        matchFound_1st = true;
+                        break;
+                    }
+                }
+            }
+            else{
+                if(matchFound_1st) {
                     matchFound = true;
                     break;
                 }
             }
 
-            if (matchFound) break;
+            if (matchFound) {
+                log.info("匹配成功, 点击接受");
+                break;
+            }
             await sleep(1000);
         }
 
