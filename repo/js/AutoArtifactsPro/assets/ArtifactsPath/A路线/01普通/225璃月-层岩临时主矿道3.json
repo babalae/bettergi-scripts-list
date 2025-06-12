@@ -60,7 +60,7 @@
       "y": 1053.031333368799,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f)",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),wait(0.2),keypress(x)",
       "type": "target"
     },
     {
@@ -78,7 +78,7 @@
       "y": 1064.1561817891645,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),keypress(x),wait(0.2),keypress(f),wait(0.2),keypress(f),keypress(f),keypress(x),s(0.3),keypress(f),wait(0.3),keypress(f)",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),keypress(x),wait(0.2),keypress(f),wait(0.2),keypress(f),keypress(f),keypress(x),wait(0.2),keypress(f),w(0.2),keypress(f)",
       "type": "path"
     },
     {
@@ -92,11 +92,20 @@
     },
     {
       "id": 10,
+      "x": 894.8753662109375,
+      "y": 1030.003662109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
       "x": 899.559814453125,
       "y": 1034.537841796875,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "dash,keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),wait(0.2),s(0.3)",
+      "action_params": "dash,keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),wait(0.2)",
       "type": "path"
     }
   ]

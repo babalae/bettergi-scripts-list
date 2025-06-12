@@ -902,10 +902,10 @@ function checkPathNameFrequency(recordDir, resourceName, pathName) {
             }
         }
 
-        // 如果路径名出现次数超过3次，返回 false
-        if (totalCount > 3) {
-            return false;
+        // 如果路径名出现次数超过2次，返回 false
+        if (totalCount > 2) {
             log.info(`路径文件: ${pathName}, 多次0采集，请检查后，删除记录再执行`);
+            return false;
         }
 
         // 如果路径名出现次数不超过3次，返回 true
@@ -1012,6 +1012,7 @@ function calculatePerTime(resourceName, pathName, recordDir) {
                             if (quantityChange[resourceName] !== 0) {
                                 // 保留两位小数
                                 perTime = parseFloat((runTime / quantityChange[resourceName]).toFixed(2));
+                            } else {
                                 perTime = Infinity; // 数量变化为 0 时，设置为 Infinity
                             }
                             completeRecords.push(perTime);

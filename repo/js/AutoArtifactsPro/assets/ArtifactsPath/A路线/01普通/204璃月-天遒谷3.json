@@ -32,21 +32,30 @@
       "x": 1085.515625,
       "y": 301.208984375,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),w(0.3),s(0.5)",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.3),keypress(f),w(0.3),s(0.5),a(0.5)",
       "type": "target"
     },
     {
       "id": 4,
       "x": 1087.187456549087,
       "y": 304.4373484203652,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 5,
+      "x": 1083.5625,
+      "y": 305.87513279847644,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
       "x": 1082.8095703125,
       "y": 300.794921875,
       "action": "",
@@ -55,25 +64,25 @@
       "type": "path"
     },
     {
-      "id": 6,
+      "id": 7,
       "x": 1068.333984375,
       "y": 353.74951171875,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 7,
-      "x": 1069.3271484375,
-      "y": 355.3740234375,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),"
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 8,
+      "x": 1069.3271484375,
+      "y": 355.3740234375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 9,
       "x": 1047.9365234375,
       "y": 318.71826171875,
       "action": "",
@@ -82,7 +91,7 @@
       "type": "path"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": 1045.4453125,
       "y": 319.9306640625,
       "action": "combat_script",

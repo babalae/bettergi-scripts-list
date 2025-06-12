@@ -47,21 +47,21 @@
     },
     {
       "id": 5,
-      "x": 3243.59375,
-      "y": -669.6561946673019,
+      "x": 3242.906206549087,
+      "y": -670.6247650515661,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.5)",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),",
       "type": "target"
     },
     {
       "id": 6,
       "x": 3243.083984375,
       "y": -667.75537109375,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     }
   ]
 }
