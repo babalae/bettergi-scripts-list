@@ -1,0 +1,88 @@
+{
+  "info": {
+    "name": "206璃月-绝云间3",
+    "type": "collect",
+    "author": "汐",
+    "version": "",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1182.685546875,
+      "y": 626.04638671875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1188.5419921875,
+      "y": 620.3544921875,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1171.875,
+      "y": 574.1242032091441,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1170.0234375,
+      "y": 568.9345703125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 1161.830078125,
+      "y": 562.78857421875,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1159.61328125,
+      "y": 557.107421875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 1155.384765625,
+      "y": 558.2109375,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 1147.169921875,
+      "y": 561.39208984375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 1143.7186808735478,
+      "y": 561.8749317891643,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "a(0.8),keypress(f)",
+      "type": "path"
+    }
+  ]
+}

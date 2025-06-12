@@ -46,5 +46,15 @@
         "name": "SMODEL",
         "type": "checkbox",
         "label": "直跑模式：如下个花近直跑过去，不传送，测试慎用，要求44.8版本！"
+    },
+    {
+        "name": "Fightquick",
+        "type": "checkbox",
+        "label": "更快检测结束战斗，开启后下方的超时时间才有效"
+    },
+    {
+        "name": "timeout",
+        "type": "input-text",
+        "label": "更快检测结束战斗的战斗超时时间，单位秒，默认120秒"
     }
 ]

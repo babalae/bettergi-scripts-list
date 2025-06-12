@@ -1,0 +1,148 @@
+{
+  "info": {
+    "name": "99【复位程序】稻妻踏鞴砂大炮点",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -3393.0732421875,
+      "y": -3556.0546875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -3399.1279296875,
+      "y": -3551.3095703125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -3402.28125,
+      "y": -3551.4999557338415,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -3400.9541015625,
+      "y": -3547.1630859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -3399.5615234375,
+      "y": -3544.98046875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -3397.78125,
+      "y": -3543.3434401368886,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -3396.562470374378,
+      "y": -3543.374962105092,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "w(0.3),a(0.2),wait(0.3),keypress(f),wait(0.4),keypress(w),wait(3.5),keypress(w),keypress(d),wait(3.5),keypress(w),keypress(d),wait(3.5),keypress(w),keypress(d),wait(3.5),keypress(d),wait(3.5),keypress(d),wait(3.5),keypress(s),wait(3.5),keypress(a),wait(3.5),keypress(a),wait(3.5),keypress(a),wait(0.5),keypress(ESCAPE)",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": -3472.9677734375,
+      "y": -3754.984375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 9,
+      "x": -3471.005859375,
+      "y": -3743.349609375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -3462.5361328125,
+      "y": -3726.7958984375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f)",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": -3464.279296875,
+      "y": -3726.3232421875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -3466.568359375,
+      "y": -3729.3876953125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -3460.1875,
+      "y": -3731.1250442661585,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -3373.5302734375,
+      "y": -3745.4794921875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "w(0.8)",
+      "type": "orientation"
+    },
+    {
+      "id": 15,
+      "x": -3373.5302734375,
+      "y": -3745.4794921875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "w(0.4),a(0.2),wait(0.3),keypress(f),wait(0.4),keypress(a),keypress(w),wait(3.5),keypress(a),keypress(w),wait(3.5),keypress(a),keypress(w),wait(3.5),keypress(a),keypress(w),wait(3.5),keypress(s),wait(0.5),keypress(ESCAPE),wait(1),s(0.2),dash,click,s(0.2),dash,click,s(0.2),dash,click,s(0.2),dash,click,s(0.2),dash,click,",
+      "type": "orientation"
+    }
+  ]
+}

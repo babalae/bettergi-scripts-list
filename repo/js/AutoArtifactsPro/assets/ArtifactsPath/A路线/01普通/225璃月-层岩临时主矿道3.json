@@ -1,0 +1,112 @@
+{
+  "info": {
+    "name": "225璃月-层岩临时主矿道3",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 899.0400390625,
+      "y": 1018.702392578125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 928.3634033203125,
+      "y": 1012.807861328125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1000",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 950.457763671875,
+      "y": 1011.907470703125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 952.0184326171875,
+      "y": 1016.24169921875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芙宁娜 charge;",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 962.9375237004976,
+      "y": 1049.7184241037855,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 968.6874861747096,
+      "y": 1053.031333368799,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),wait(0.2),keypress(x)",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 961.52001953125,
+      "y": 1057.462890625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 951.4687065490878,
+      "y": 1064.1561817891645,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),keypress(x),wait(0.2),keypress(f),wait(0.2),keypress(f),keypress(f),keypress(x),wait(0.2),keypress(f),w(0.2),keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 899.0400390625,
+      "y": 1018.702392578125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 10,
+      "x": 894.8753662109375,
+      "y": 1030.003662109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 899.559814453125,
+      "y": 1034.537841796875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "dash,keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),wait(0.2)",
+      "type": "path"
+    }
+  ]
+}

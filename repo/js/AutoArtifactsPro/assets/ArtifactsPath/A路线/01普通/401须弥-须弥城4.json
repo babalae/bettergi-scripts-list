@@ -1,0 +1,135 @@
+{
+  "info": {
+    "name": "401须弥-须弥城4",
+    "type": "collect",
+    "author": "汐",
+    "version": "",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2786.98974609375,
+      "y": -503.11328125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2755.4521484375,
+      "y": -497.287109375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2751.71484375,
+      "y": -497.24267578125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),w(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 2694.0654296875,
+      "y": -416.4150390625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 5,
+      "x": 2705.2353515625,
+      "y": -414.3623046875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 2719.357421875,
+      "y": -413.69287109375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 2728.6562045740466,
+      "y": -415.8438636847259,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 2877.02099609375,
+      "y": -292.10693359375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 9,
+      "x": 2864.701171875,
+      "y": -302.3623046875,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 2862.1875,
+      "y": -299.15567453993754,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 2838.09375,
+      "y": -291.7492474753026,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 2812.4677734375,
+      "y": -297.35205078125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 2787.7812717254565,
+      "y": -283.21889400065265,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.3),keypress(VK_SPACE),w(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 14,
+      "x": 2785.781253950083,
+      "y": -285.84360599934735,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f)",
+      "type": "target"
+    }
+  ]
+}

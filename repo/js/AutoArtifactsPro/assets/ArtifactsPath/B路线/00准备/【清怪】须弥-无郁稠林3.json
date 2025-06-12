@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "【清怪】须弥-无郁稠林3",
+    "type": "collect",
+    "author": "汐",
+    "version": "",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2399.96240234375,
+      "y": 143.5400390625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2364.2734375,
+      "y": 118.9912109375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2349.8037109375,
+      "y": 108.33984375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 2352.3984375,
+      "y": 126.07177734375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

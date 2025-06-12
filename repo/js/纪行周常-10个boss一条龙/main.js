@@ -27,7 +27,7 @@
             let challengeName = settings.bossSelection;
             let attempt = 1;
             let battleSuccess = false;
-            log.info(`开始第${round}次讨伐`);
+            log.info(`当前进度：纪行周常-讨伐『${challengeName}』第${round}次`);
             while (attempt <= 3 && !battleSuccess) {
                 log.info(`执行前往『${challengeName}』的路线`);
                 await pathingScript.runFile(`assets/${challengeName}前往.json`);

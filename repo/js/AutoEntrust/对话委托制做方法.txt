@@ -1,0 +1,59 @@
+编写方法
+创建 JSON 文件
+使用文本编辑器创建一个新的 JSON 文件process.json。
+根据需要定义对话委托流程的各个步骤，每个步骤包含type（类型）和data（数据）等属性，可选地添加note（注释）属性来描述步骤。
+定义流程步骤类型
+地图追踪 ：设置type为"地图追踪"，data为地图追踪文件的路径。
+键鼠脚本 ：设置type为"键鼠脚本"，data为键鼠脚本文件的路径。
+对话 ：设置type为"对话"，可选地在data中指定跳过对话的次数（默认为10）。
+按键 ：设置type为"按键"，data为按键值（如"F"）；也可以是复杂按键操作对象，包含action（动作，如"down"、"up"、"press"）和key（按键值）。
+传送 ：设置type为"tp"，data为一个数组，包含传送的目标坐标（x、y）以及可选的强制传送标志。
+组织流程步骤
+将所有步骤组织成一个数组，按照执行顺序排列。
+可以在每个步骤中添加note属性，用于记录步骤的详细说明或备注信息。
+[
+  {
+    "type": "地图追踪",
+    "data": "assets/process/example/tracking1.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+  {
+    "type": "对话",
+    "note": "执行对话步骤，默认跳过10次对话"
+  },
+  {
+    "type": "按键",
+    "data": "F",
+    "note": "按下F键"
+  },
+  {
+    "type": "按键",
+    "data": {
+      "action": "press",
+      "key": "E"
+    },
+    "note": "点击E键"
+  },
+  {
+    "type": "tp",
+    "data": [100, 200, true],
+    "note": "传送到坐标(100, 200)，强制传送"
+  },
+  {
+    "type": "键鼠脚本",
+    "data": "assets/process/example/script1.js",
+    "note": "执行键鼠脚本"
+  }
+]
+
+我不会json
+可以用简单版
+格式如下
+XXX-1.json
+F
+XXX-2.json
+F
+XXX-3.json
+
+XXX-1.json：地图追踪 
+F：对话 

@@ -1,0 +1,100 @@
+{
+  "info": {
+    "name": "03-海露花-幽林雾道-5个",
+    "type": "collect",
+    "author": "曦",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3367.07,
+      "y": 3294.13,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3418.66,
+      "y": 3299.14,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3448.5,
+      "y": 3267.92,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3454.35,
+      "y": 3273.69,
+      "action": "hydro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 3450.28,
+      "y": 3235.8,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3437.53,
+      "y": 3189.89,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3442.63,
+      "y": 3151.45,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 3471.07,
+      "y": 3138.39,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3487.22,
+      "y": 3145.9,
+      "action": "hydro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 3487.85,
+      "y": 3141.46,
+      "action": "hydro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 3500.57,
+      "y": 3149.91,
+      "action": "hydro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

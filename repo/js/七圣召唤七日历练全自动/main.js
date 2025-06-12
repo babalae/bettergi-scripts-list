@@ -35,9 +35,139 @@ async function switchCardTeam(Name) {
 }
 
 (async function () {
+
+
     // 存储挑战玩家信息
     let textArray = [];
     let skipNum = 0;
+
+/**
+ * 判断任务是否已刷新
+ * @param {string} filePath - 存储最后完成时间的文件路径
+ * @param {object} options - 配置选项
+ * @param {string} [options.refreshType] - 刷新类型: 'hourly'|'daily'|'weekly'|'monthly'|'custom'
+ * @param {number} [options.customHours] - 自定义小时数(用于'custom'类型)
+ * @param {number} [options.dailyHour=4] - 每日刷新的小时(0-23)
+ * @param {number} [options.weeklyDay=1] - 每周刷新的星期(0-6, 0是周日)
+ * @param {number} [options.weeklyHour=4] - 每周刷新的小时(0-23)
+ * @param {number} [options.monthlyDay=1] - 每月刷新的日期(1-31)
+ * @param {number} [options.monthlyHour=4] - 每月刷新的小时(0-23)
+ * @returns {Promise<boolean>} - 是否已刷新
+ */
+async function isTaskRefreshed(filePath, options = {}) {
+    const {
+        refreshType = 'hourly', // 默认每小时刷新
+        customHours = 24,       // 自定义刷新小时数默认24
+        dailyHour = 4,          // 每日刷新默认凌晨4点
+        weeklyDay = 1,          // 每周刷新默认周一(0是周日)
+        weeklyHour = 4,         // 每周刷新默认凌晨4点
+        monthlyDay = 1,         // 每月刷新默认第1天
+        monthlyHour = 4          // 每月刷新默认凌晨4点
+    } = options;
+
+    try {
+        // 读取文件内容
+        let content = await file.readText(filePath);
+        const lastTime = new Date(content);
+        const nowTime = new Date();
+        
+
+        let shouldRefresh = false;
+        
+
+        switch (refreshType) {
+            case 'hourly': // 每小时刷新
+                shouldRefresh = (nowTime - lastTime) >= 3600 * 1000;
+                break;
+                
+            case 'daily': // 每天固定时间刷新
+                // 检查是否已经过了当天的刷新时间
+                const todayRefresh = new Date(nowTime);
+                todayRefresh.setHours(dailyHour, 0, 0, 0);
+                
+                // 如果当前时间已经过了今天的刷新时间，检查上次完成时间是否在今天刷新之前
+                if (nowTime >= todayRefresh) {
+                    shouldRefresh = lastTime < todayRefresh;
+                } else {
+                    // 否则检查上次完成时间是否在昨天刷新之前
+                    const yesterdayRefresh = new Date(todayRefresh);
+                    yesterdayRefresh.setDate(yesterdayRefresh.getDate() - 1);
+                    shouldRefresh = lastTime < yesterdayRefresh;
+                }
+                break;
+                
+            case 'weekly': // 每周固定时间刷新
+                // 获取本周的刷新时间
+                const thisWeekRefresh = new Date(nowTime);
+                // 计算与本周指定星期几的差值
+                const dayDiff = (thisWeekRefresh.getDay() - weeklyDay + 7) % 7;
+                thisWeekRefresh.setDate(thisWeekRefresh.getDate() - dayDiff);
+                thisWeekRefresh.setHours(weeklyHour, 0, 0, 0);
+                
+                // 如果当前时间已经过了本周的刷新时间
+                if (nowTime >= thisWeekRefresh) {
+                    shouldRefresh = lastTime < thisWeekRefresh;
+                } else {
+                    // 否则检查上次完成时间是否在上周刷新之前
+                    const lastWeekRefresh = new Date(thisWeekRefresh);
+                    lastWeekRefresh.setDate(lastWeekRefresh.getDate() - 7);
+                    shouldRefresh = lastTime < lastWeekRefresh;
+                }
+                break;
+                
+            case 'monthly': // 每月固定时间刷新
+                // 获取本月的刷新时间
+                const thisMonthRefresh = new Date(nowTime);
+                // 设置为本月指定日期的凌晨
+                thisMonthRefresh.setDate(monthlyDay);
+                thisMonthRefresh.setHours(monthlyHour, 0, 0, 0);
+                
+                // 如果当前时间已经过了本月的刷新时间
+                if (nowTime >= thisMonthRefresh) {
+                    shouldRefresh = lastTime < thisMonthRefresh;
+                } else {
+                    // 否则检查上次完成时间是否在上月刷新之前
+                    const lastMonthRefresh = new Date(thisMonthRefresh);
+                    lastMonthRefresh.setMonth(lastMonthRefresh.getMonth() - 1);
+                    shouldRefresh = lastTime < lastMonthRefresh;
+                }
+                break;
+
+            case 'custom': // 自定义小时数刷新
+                shouldRefresh = (nowTime - lastTime) >= customHours * 3600 * 1000;
+                break;
+                
+            default:
+                throw new Error(`未知的刷新类型: ${refreshType}`);
+        }
+        
+        // 如果文件内容无效或不存在，视为需要刷新
+        if (!content || isNaN(lastTime.getTime())) {
+            await file.writeText(filePath, '');
+            shouldRefresh = true;
+        }
+        
+        if (shouldRefresh) {
+            notification.send(`任务已经刷新，执行脚本`);
+
+            
+            return true;
+        } else {
+            notification.send(`任务未刷新，跳过脚本`);
+            return false;
+        }
+        
+    } catch (error) {
+        // 如果文件不存在，创建新文件并返回true(视为需要刷新)
+        const createResult = await file.writeText(filePath, '');
+        if (createResult) {
+            log.info("创建新文件成功");
+         await isTaskRefreshed(filePath, options = {});
+        }
+    }
+}
+
+
 
 //检查挑战结果   await checkChallengeResults();
 async function checkChallengeResults() {
@@ -71,7 +201,7 @@ async function checkChallengeResults() {
 
 //自动对话，直到出现选项框   await autoConversation();
 async function autoConversation() {
-    await sleep(2000); //点击后等待一段时间避免误判
+    await sleep(2500); //点击后等待一段时间避免误判
     const region1 = RecognitionObject.ocr(785, 890, 340, 82); // 对话区域
     const region2 = RecognitionObject.ocr(1250, 400, 660, 440); // 选项区域
     let talkTime = 0;
@@ -87,8 +217,10 @@ async function autoConversation() {
             keyPress("VK_SPACE");
             await sleep(500);
         } else if (!res1.isEmpty() && !res2.isEmpty()) {
-            keyPress("F");
             await sleep(1000);
+            keyPress("F");
+            await sleep(400);
+            keyPress("F");
             log.info("已选择谈话内容");
             return;
         } else if (res1.isEmpty() && !res2.isEmpty()) {
@@ -139,11 +271,7 @@ const detectCardPlayer = async () => {
 
     keyPress("M");
     await sleep(1200);
-    click(48, 441); //放大地图
-    await sleep(300);
-    click(48, 441); //放大地图
-    await sleep(300);
-    click(48, 441); //放大地图
+    await genshin.setBigMapZoomLevel(1.0);  //放大地图
     await sleep(300);
 
     //地图拖动到指定位置
@@ -202,7 +330,7 @@ async function captureAndStoreTexts() {
 
     // 截取区域大小
     const width = 240;
-    const height = 100;
+    const height = 56;
     await sleep(500);
     keyPress("F6");
     await sleep(1000);
@@ -303,15 +431,8 @@ async function gotoTavern() {
     await sleep(1000);
     click(1460, 140); //蒙德
     await sleep(1200);
-    click(48, 441); //放大地图
-    await sleep(400);
-    click(48, 441); //放大地图
-    await sleep(400);
-    click(48, 441); //放大地图
-    await sleep(400);
-    click(48, 441); //放大地图
-    await sleep(400);
-    click(48, 441); //放大地图
+    //放大地图
+    await genshin.setBigMapZoomLevel(1.0);
     await sleep(400);
 
     click(1000, 645); //猫尾酒馆
@@ -328,6 +449,28 @@ async function gotoTavern() {
     await tpEndDetection();
 }
 
+async function waitOrCheckMaxCoin(wait_time_ms) {
+    const startTime = new Date().getTime();
+    while (new Date().getTime() - startTime < wait_time_ms) {
+        let captureRegion = captureGameRegion();
+        let result = captureRegion.find(RecognitionObject.ocr(578, 600, 763, 41));
+        // 道具已达到容量上限，无法获取对应奖励且挑战目标无法完成，是否继续进行挑战
+        if (!result.isEmpty() && result.text.includes("道具已达到容量上限")) {
+            let coin = "?";
+            let result2 = captureRegion.find(RecognitionObject.ocr(916, 530, 89, 41));
+            if (!result2.isEmpty()) {
+                coin = result2.text.trim();
+            }
+            click(733, 730); //点击取消
+            await sleep(1000);
+            click(1860, 250); //点击右上角X，退出打牌对话界面
+            throw new Error(`幸运牌币${coin}，已达到容量上限，无法获取对应奖励且挑战目标无法完成`);
+        }
+        await sleep(1000);
+        // 无break，以确保牌币未满时延时行为与此前一致
+    }
+}
+
 //函数：对话和打牌
 async function Playcards() {
     await sleep(800); //略微俯视，避免名字出现在选项框附近，导致错误点击
@@ -340,7 +483,7 @@ async function Playcards() {
         await switchCardTeam(settings.partyName);
     }
     click(1610, 900); //点击挑战
-    await sleep(8000);
+    await waitOrCheckMaxCoin(8000);
     await dispatcher.runTask(new SoloTask("AutoGeniusInvokation"));
     await sleep(3000);
     await checkChallengeResults();
@@ -463,19 +606,9 @@ async function gotoTable6() {
     await sleep(500);
 }
 
-async function openMap() {
-    await gotoTavern();
-    keyDown("w");
-    await sleep(2000);
-    keyUp("w");
-    keyDown("d");
-    await sleep(5000);
-    keyUp("d");
-    await sleep(700);
-}
-
-
+async function main() {
 //主流程
+const nowTime = new Date();
 log.info(`前往猫尾酒馆`);
 await gotoTavern();
 await captureAndStoreTexts();
@@ -491,11 +624,23 @@ for (let i = 0; i < 20; i++) {
     await searchAndClickTexts();
 }
 await genshin.returnMainUi();
-await sleep(500);
-keyPress("F6");
-await sleep(1000);
-click(300, 370); //点击七日历练
-await sleep(1000);
-log.info(`打牌结束`);
+await captureAndStoreTexts();
+notification.send(`打牌结束、剩余挑战人数:${textArray.length}`);
+// 更新最后完成时间
+if(textArray.length === 0) await file.writeText("assets/weekly.txt", nowTime.toISOString());
+           
+          
+}
+
+
+if( await isTaskRefreshed("assets/weekly.txt", {
+    refreshType: 'weekly',
+    weeklyDay: 1, // 周一
+    weeklyHour: 4 // 凌晨4点
+})){
+await main();
+}
+
+
 
 })();

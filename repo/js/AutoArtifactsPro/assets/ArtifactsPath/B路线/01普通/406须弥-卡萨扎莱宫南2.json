@@ -1,0 +1,99 @@
+{
+  "info": {
+    "name": "406须弥-卡萨扎莱宫南2",
+    "type": "collect",
+    "author": "汐",
+    "version": "",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2531.99609375,
+      "y": -144.71728515625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2587.1318359375,
+      "y": -124.6181640625,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2594.72607421875,
+      "y": -119.916015625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 2595.1875,
+      "y": -119.6875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f)",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 2595.68359375,
+      "y": -117.46630859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 2597.375003950083,
+      "y": -120.93643894255729,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芙宁娜 e;",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 2643.7502528053083,
+      "y": -137.49949978720542,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 2652.8359375,
+      "y": -146.64208984375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.3),keypress(f)",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 2655.576171875,
+      "y": -147.93994140625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 2649.9794921875,
+      "y": -146.8349609375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f)",
+      "type": "path"
+    }
+  ]
+}

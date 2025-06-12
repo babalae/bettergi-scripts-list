@@ -242,5 +242,5 @@ for (const char of sausageNum) {
 click(1190, 755);//确认
 await sleep(1000);
 };
-
+genshin.returnMainUi();
 })();
