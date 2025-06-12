@@ -1,0 +1,63 @@
+{
+  "info": {
+    "name": "龙脊雪山-1",
+    "type": "collect",
+    "author": "1",
+    "version": "",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -705.4453125,
+      "y": 925.67822265625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -697.6552734375,
+      "y": 943.56298828125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -683.9091796875,
+      "y": 941.57080078125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -674.86328125,
+      "y": 940.53515625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -666.1064453125,
+      "y": 940.07421875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(F),keypress(F),keypress(F)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -661.376953125,
+      "y": 939.9765625,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

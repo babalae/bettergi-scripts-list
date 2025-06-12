@@ -205,6 +205,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     // 启用自动拾取的实时任务
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
 
+    let runnedTimes = 0;
 
     wait: {
         if (runnedToday) {
@@ -239,7 +240,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
                     const fightTimeout = validateTimeoutSetting(settings.fightTimeout, DEFAULT_FIGHT_TIMEOUT_SECONDS, "战斗");
 
                     // 好感循环开始	
-                    await AutoFriendshipDev(50, ocrTimeout, fightTimeout, enemyType, endTime);
+                    runnedTimes = await AutoFriendshipDev(50, ocrTimeout, fightTimeout, enemyType, endTime);
                 }
             }
 
@@ -282,7 +283,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     }
 
     //运行前按自定义配置清理狗粮
-    const result1 = await decomposeArtifacts(settings.keep4Star, false);
+    const result1 = await decomposeArtifacts(settings.keep4Star, settings.doDecompose);
 
     artifacts: {
         if (runnedToday) {
@@ -293,11 +294,16 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
         await switchPartyIfNeeded(grindPartyName);
         let runArtifactsResult = true;
         runArtifactsResult = await runArtifactsPaths(runRouteA);
-
         const result2 = await decomposeArtifacts(settings.keep4Star, settings.doDecompose);
         // 计算 mora 和 artifactExperience 的差值
         const moraDiff = Number(result2.mora) - Number(result1.mora); // 将字符串转换为数字后计算差值
-        const artifactExperienceDiff = result2.artifactExperience - result1.artifactExperience;
+        let artifactExperienceDiff;
+        if (!settings.doDecompose) {
+            artifactExperienceDiff = result2.artifactExperience - result1.artifactExperience;
+        } else {
+            artifactExperienceDiff = result2.artifactExperience;
+        }
+
 
         log.info(`狗粮路线获取摩拉: ${moraDiff}`);
         log.info(`狗粮路线获取狗粮经验: ${artifactExperienceDiff}`);
@@ -318,7 +324,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 
     //完成剩下好感
 
-    if (settings.completeRemainingFriendship) {
+    if (runnedTimes < settings.minTimesForFirendship) {
         //切换至好感队
         await switchPartyIfNeeded(friendshipPartyName);
         // 验证超时设置
@@ -338,7 +344,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
             await AutoPath('鳄鱼-准备');
         }
         // 好感循环开始	
-        await AutoFriendshipDev(50, ocrTimeout, fightTimeout, enemyType, endTime + 24 * 60 * 60 * 1000);
+        await AutoFriendshipDev(settings.minTimesForFirendship - runnedTimes, ocrTimeout, fightTimeout, enemyType, endTime + 24 * 60 * 60 * 1000);
     }
 
     //伪造js开始记录
@@ -536,7 +542,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `------------------------------\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `→ 开始执行JS脚本: "${name}"`;
-        log.info(logMessage);
+        log.debug(logMessage);
     }
     if (isJs && !isStart) {
         // 处理 isJs = true 且 isStart = false 的情况
@@ -545,7 +551,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `------------------------------`;
-        log.info(logMessage);
+        log.debug(logMessage);
     }
     if (!isJs && isStart) {
         // 处理 isJs = false 且 isStart = true 的情况
@@ -554,7 +560,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `------------------------------\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `→ 开始执行地图追踪任务: "${name}"`;
-        log.info(logMessage);
+        log.debug(logMessage);
     }
     if (!isJs && !isStart) {
         // 处理 isJs = false 且 isStart = false 的情况
@@ -563,7 +569,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `------------------------------`;
-        log.info(logMessage);
+        log.debug(logMessage);
     }
 }
 
@@ -590,6 +596,7 @@ async function AutoPath(locationName) {
 
 //好感度任务的逻辑
 async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "盗宝团", endTime) {
+    let friendTimes = 0;
     for (let i = 0; i < times; i++) {
 
         // 获取当前时间
@@ -602,7 +609,7 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "�
         }
 
         await fakeLog(`第${i + 1}次好感`, false, true, 0);
-
+        friendTimes = friendTimes + 1;
         await AutoPath(`${enemyType}-触发点`);
         // 启动路径导航任务
         let pathTaskPromise = AutoPath(`${enemyType}-战斗点`);
@@ -701,10 +708,10 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "�
 
         await fakeLog(`第${i + 1}次好感`, false, false, 0);
     }
-    log.info(`${enemyType}好感已完成`);
+    log.info(`${enemyType}好感运行了${friendTimes}次`);
     await genshin.tpToStatueOfTheSeven();
 
-    return true;
+    return friendTimes;
 }
 
 // 验证输入是否是正整数
@@ -772,8 +779,9 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000, enemyType = "盗宝�
     while (Date.now() - fightStartTime < timeout) {
         try {
             // 简化OCR检测，只使用一个try-catch块
-            let result = captureGameRegion().find(RecognitionObject.ocr(850, 150, 200, 80));
-            let result2 = captureGameRegion().find(RecognitionObject.ocr(0, 200, 300, 300));
+            let captureRegion = captureGameRegion();
+            let result = captureRegion.find(RecognitionObject.ocr(850, 150, 200, 80));
+            let result2 = captureRegion.find(RecognitionObject.ocr(0, 200, 300, 300));
             let text = result.text;
             let text2 = result2.text;
 
@@ -893,7 +901,7 @@ async function recognizeImage(recognitionObject, timeout = 5000) {
 }
 
 // 定义一个函数用于识别文字并点击
-async function recognizeTextAndClick(targetText, ocrRegion, timeout = 5000) {
+async function recognizeTextAndClick(targetText, ocrRegion, timeout = 3000) {
     let startTime = Date.now();
     let retryCount = 0; // 重试计数
     while (Date.now() - startTime < timeout) {
@@ -910,8 +918,8 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 5000) {
 
                 if (correctedText.includes(targetText)) {
                     // 如果找到目标文本，计算并点击文字的中心坐标
-                    let centerX = res.x + res.width / 2;
-                    let centerY = res.y + res.height / 2;
+                    let centerX = Math.round(res.x + res.width / 2);
+                    let centerY = Math.round(res.y + res.height / 2);
                     await click(centerX, centerY);
                     await sleep(500); // 确保点击后有足够的时间等待
                     return { success: true, x: centerX, y: centerY };
@@ -923,7 +931,11 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 5000) {
         }
         await sleep(1000); // 短暂延迟，避免过快循环
     }
-    log.warn(`经过多次尝试，仍然无法识别文字: ${targetText}`);
+    log.warn(`经过多次尝试，仍然无法识别文字: ${targetText},尝试点击默认中心位置`);
+    let centerX = Math.round(ocrRegion.x + ocrRegion.width / 2);
+    let centerY = Math.round(ocrRegion.y + ocrRegion.height / 2);
+    await click(centerX, centerY);
+    await sleep(1000);
     return { success: false };
 }
 
@@ -1028,34 +1040,37 @@ async function decomposeArtifacts(keep4Star, doDecompose) {
     } else {
         log.warn(`在指定区域未识别到有效数字: ${initialValue}`);
     }
-
-    await recognizeTextAndClick("快速选择", { x: 248, y: 996, width: 121, height: 49 });
-    moveMouseTo(960, 540);
-    await sleep(1000);
-
-    await click(370, 1020); // 点击“确认选择”按钮
-    await sleep(1500);
-
     let regionToCheck3 = { x: 100, y: 885, width: 170, height: 50 };
     let decomposedNum = await recognizeTextInRegion(regionToCheck3);
     let firstNumber = 0;
     let firstNumber2 = 0;
 
-    // 使用正则表达式提取第一个数字
-    const match = decomposedNum.match(/已选(\d+)/);
+    if (keep4Star) {
+        await recognizeTextAndClick("快速选择", { x: 248, y: 996, width: 121, height: 49 });
+        moveMouseTo(960, 540);
+        await sleep(1000);
 
-    // 检查是否匹配成功
-    if (match) {
-        // 将匹配到的第一个数字转换为数字类型并存储在变量中
-        firstNumber = Number(match[1]);
-    } else {
-        log.info("识别失败");
+        await click(370, 1020); // 点击“确认选择”按钮
+        await sleep(1500);
+
+
+
+        // 使用正则表达式提取第一个数字
+        const match = decomposedNum.match(/已选(\d+)/);
+
+        // 检查是否匹配成功
+        if (match) {
+            // 将匹配到的第一个数字转换为数字类型并存储在变量中
+            firstNumber = Number(match[1]);
+        } else {
+            log.info("识别失败");
+        }
+        keyPress("VK_ESCAPE");
+
+
+        await recognizeTextAndClick("分解", { x: 635, y: 991, width: 81, height: 57 });
+        await sleep(1000);
     }
-    keyPress("VK_ESCAPE");
-
-    await recognizeTextAndClick("分解", { x: 635, y: 991, width: 81, height: 57 });
-    await sleep(1000);
-
     await recognizeTextAndClick("快速选择", { x: 248, y: 996, width: 121, height: 49 });
     moveMouseTo(960, 540);
     await sleep(1000);
@@ -1093,19 +1108,23 @@ async function decomposeArtifacts(keep4Star, doDecompose) {
     }
 
     if (doDecompose) {
+        log.info(`用户选择了分解，执行分解`);
         // 根据用户配置，分解狗粮
-        await sleep(500);
+        await sleep(1000);
         await click(1620, 1020); // 点击分解按钮
-        await sleep(500);
+        await sleep(1000);
 
         // 4. 识别"进行分解"按钮
-        await recognizeTextAndClick("分解", { x: 1120, y: 740, width: 130, height: 40 });
+        await click(1340, 755); // 点击进行分解按钮
 
         await sleep(1000);
 
         // 5. 关闭确认界面
-        await click(1620, 1020);
+        await click(1340, 755);
         await sleep(1000);
+    }
+    else {
+        log.info(`用户未选择分解，不执行分解`);
     }
 
     // 7. 计算分解获得经验=总经验-上次剩余
@@ -1115,9 +1134,11 @@ async function decomposeArtifacts(keep4Star, doDecompose) {
     if (settings.keep4Star) {
         log.info(`保留的四星数量: ${fourStarNum}`);
     }
+    const resultExperience = resinExperience + (settings.keep4Star ? 2520 * fourStarNum : 0);
+    log.info(`计入四星的经验: ${resultExperience}`);
     const result = {
         mora: recognizedText, // 将 recognizedText 赋值给 mora
-        artifactExperience: resinExperience + 2520 * fourStarNum // 计算并赋值给 artifactExperience
+        artifactExperience: resultExperience
     };
     await genshin.returnMainUi();
     return result;

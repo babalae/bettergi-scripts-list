@@ -133,10 +133,10 @@ async function fakeLog(name, isJs, isStart, duration) {
 
         await fakeLog(`第${i + 1}次信仰之跃.json`, false, false, 0);
 
-        //捕获任务结束的信息，同时等待95秒用来卡时间
+        //捕获任务结束的信息，同时等待115秒用来卡时间
         try {
             log.info('正在等待复活料理cd')
-            await sleep(95000);
+            await sleep(115000);
         } catch (error) {
             log.error(`发生错误: ${error}`);
             break; // 终止循环
