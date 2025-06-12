@@ -34,14 +34,15 @@ async function (position) {
         if (currentRunTimes >= settings.timesValue) {
             return;
         }
-
-        // 循环检查并执行当前节点的单一next路径，直到遇到没有next或有多个next的情况
         let currentNode = targetNode;
+        log.debug(`开始处理节点链，目标节点ID: ${targetNode.id}, next数量: ${targetNode.next ? targetNode.next.length : 'undefined'}`);
 
         while (currentNode.next && currentRunTimes < settings.timesValue) {
+            log.debug(`当前节点ID: ${currentNode.id}, next数量: ${currentNode.next.length}`);
             if (currentNode.next.length === 1) {                // 获取下一个节点的ID 和 路径，并在节点数据中找到下一个节点
                 const nextNodeId = currentNode.next[0].target;
                 const nextRoute = currentNode.next[0].route;
+                log.debug(`单一路径: 从节点${currentNode.id}到节点${nextNodeId}, 路径: ${nextRoute}`);
                 const nextNode = nodeData.node.find(node => node.id === nextNodeId);
 
                 if (!nextNode) {
@@ -89,24 +90,23 @@ async function (position) {
                 let selectedRoute = null;
                 let selectedNodeId = null;
                 let closestDistance = Infinity;
-
                 for (const nextRoute of currentNode.next) {
-                    const nextNodeId = nextRoute.target;
-                    const nextNode = nodeData.node.find(node => node.id === nextNodeId);
+                    const branchNodeId = nextRoute.target;
+                    const branchNode = nodeData.node.find(node => node.id === branchNodeId);
 
-                    if (!nextNode) continue;
+                    if (!branchNode) continue;
 
                     const distance = calculate2DDistance(
                         leyLineX, leyLineY,
-                        nextNode.position.x, nextNode.position.y
+                        branchNode.position.x, branchNode.position.y
                     );
 
-                    log.info(`分支节点ID ${nextNodeId} 到地脉花距离: ${distance.toFixed(2)}`);
+                    log.info(`分支节点ID ${branchNodeId} 到地脉花距离: ${distance.toFixed(2)}`);
 
                     if (distance < closestDistance) {
                         closestDistance = distance;
                         selectedRoute = nextRoute.route;
-                        selectedNodeId = nextNodeId;
+                        selectedNodeId = branchNodeId;
                     }
                 }
 
@@ -134,10 +134,9 @@ async function (position) {
                     targetNode: nextNode,
                     routes: [selectedRoute]
                 };
-
                 await executePath(pathObject);
                 currentRunTimes++;
-                log.info(`完成节点 ID ${nextNodeId}, 已执行 ${currentRunTimes}/${settings.timesValue} 次`);
+                log.info(`完成节点 ID ${selectedNodeId}, 已执行 ${currentRunTimes}/${settings.timesValue} 次`);
                 // 更新当前节点为下一个节点，继续检查
                 currentNode = nextNode;
                 currentNodePosition = { x: nextNode.position.x, y: nextNode.position.y };
