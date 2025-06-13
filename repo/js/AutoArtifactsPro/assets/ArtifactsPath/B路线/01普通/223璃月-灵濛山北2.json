@@ -31,10 +31,10 @@
       "id": 3,
       "x": 2133.419921875,
       "y": 2390.991943359375,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "2000"
+      "move_mode": "fly",
+      "action_params": "2000",
+      "type": "path"
     },
     {
       "id": 4,
@@ -47,6 +47,15 @@
     },
     {
       "id": 5,
+      "x": 2131.978515625,
+      "y": 2390.355224609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
       "x": 2130.203125,
       "y": 2393.094482421875,
       "action": "",
@@ -55,7 +64,7 @@
       "type": "path"
     },
     {
-      "id": 6,
+      "id": 7,
       "x": 2116.3671875,
       "y": 2382.858642578125,
       "action": "",
@@ -64,7 +73,7 @@
       "type": "path"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": 2079.669921875,
       "y": 2334.06005859375,
       "action": "",
@@ -73,7 +82,7 @@
       "type": "path"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": 2072.9999506239637,
       "y": 2323.8127122114893,
       "action": "",
@@ -82,13 +91,22 @@
       "type": "path"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": 2077.6250612262847,
       "y": 2320.343825789818,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),s(0.3),keypress(f),",
+      "action_params": "keypress(f),wait(0.2),keypress(f)",
       "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 2075.384765625,
+      "y": 2322.300537109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
     }
   ]
 }

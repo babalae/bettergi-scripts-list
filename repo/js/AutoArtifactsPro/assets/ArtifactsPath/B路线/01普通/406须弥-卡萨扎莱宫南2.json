@@ -39,17 +39,17 @@
       "y": -119.6875,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f)",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),w(0.3),keypress(f),w(0.3),keypress(f),",
       "type": "target"
     },
     {
       "id": 5,
-      "x": 2595.68359375,
-      "y": -117.46630859375,
+      "x": 2596.5,
+      "y": -116.90605080228579,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "type": "target"
     },
     {
       "id": 6,
@@ -81,10 +81,10 @@
       "id": 9,
       "x": 2655.576171875,
       "y": -147.93994140625,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 10,
