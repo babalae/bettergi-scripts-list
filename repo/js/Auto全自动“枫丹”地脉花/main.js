@@ -87,7 +87,7 @@
 
     filePath = ""
     // 读取原始次数配置   
-    var rawTimes = settings.times*2 ? settings.times : "12";
+    var rawTimes = settings.times*2 ? settings.times : "6";
     var color = settings.color ? settings.color : 1;
     var BIAOZZ = "assets/model/BIAOZ.bmp"
 
