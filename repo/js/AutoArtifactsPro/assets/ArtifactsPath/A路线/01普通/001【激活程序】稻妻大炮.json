@@ -20,12 +20,12 @@
     },
     {
       "id": 2,
-      "x": -3399.1279296875,
-      "y": -3551.3095703125,
+      "x": -3399.2500079001657,
+      "y": -3551.84362115731,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "keypress(f)",
-      "type": "path"
+      "action_params": "keypress(f),w(0.3),keypress(f),",
+      "type": "target"
     },
     {
       "id": 3,
@@ -56,21 +56,21 @@
     },
     {
       "id": 6,
-      "x": -3397.78125,
-      "y": -3543.3434401368886,
-      "action": "",
+      "x": -3378.6982421875,
+      "y": -3545.421875,
+      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action_params": "w(1.1),",
+      "type": "orientation"
     },
     {
       "id": 7,
-      "x": -3396.562470374378,
-      "y": -3543.374962105092,
+      "x": -3378.6982421875,
+      "y": -3545.421875,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.3),keypress(f),wait(0.3),keypress(f),wait(0.4),keypress(RETURN),wait(3.5),keypress(a),wait(3.5),keypress(a),wait(3.5),keypress(RETURN),wait(3.5),keypress(d),wait(3.5),keypress(s),wait(3.5),keypress(s),wait(3.5),keypress(RETURN),wait(3.5),keypress(w),wait(3.5),keypress(w),wait(3.5),keypress(d),wait(0.5),keypress(ESCAPE)",
-      "type": "target"
+      "action_params": "wait(1),keypress(f),wait(0.3),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(0.5),keypress(ESCAPE)",
+      "type": "orientation"
     },
     {
       "id": 8,
@@ -119,8 +119,8 @@
     },
     {
       "id": 13,
-      "x": -3460.1875,
-      "y": -3731.1250442661585,
+      "x": -3462.1875,
+      "y": -3730.7498672015245,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -132,9 +132,8 @@
       "y": -3745.4794921875,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "w(0.8)",
-      "type": "orientation",
-      "locked": false
+      "action_params": "w(1.5)",
+      "type": "orientation"
     },
     {
       "id": 15,
@@ -142,7 +141,7 @@
       "y": -3745.4794921875,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.3),keypress(f),wait(0.4),keypress(RETURN),wait(3.5),keypress(w),wait(3.5),keypress(d),wait(3.5),keypress(d),wait(3.5),keypress(d),wait(3.5),keypress(RETURN),wait(3.5),keypress(a),wait(3.5),keypress(a),wait(3.5),keypress(a),wait(3.5),keypress(s),wait(0.5),keypress(ESCAPE),wait(1),s(0.3),dash,s(0.3),dash,s(0.3),dash,s(0.3),dash",
+      "action_params": "wait(1),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(0.5),keypress(ESCAPE),wait(1),s(0.3),dash,s(0.3),dash,s(0.3),dash,s(0.3),dash",
       "type": "orientation"
     }
   ]

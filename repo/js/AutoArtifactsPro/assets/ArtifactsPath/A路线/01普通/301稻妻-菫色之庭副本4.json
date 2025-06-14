@@ -59,7 +59,7 @@
       "y": -3199.281492527416,
       "action": "combat_script",
       "move_mode": "run",
-      "action_params": "迪希雅 e;万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);玛薇卡 e;砂糖 e;早柚 charge;珐露珊 q;琳妮特 q;蓝砚 charge;流浪者 e,attack(0.2);charge,",
+      "action_params": "迪希雅 e;玛薇卡 e;砂糖 e;早柚 charge;珐露珊 q;琳妮特 q;蓝砚 charge;流浪者 e,attack(0.2);charge;万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
       "type": "path"
     },
     {
@@ -82,12 +82,12 @@
     },
     {
       "id": 9,
-      "x": -3958.937480249586,
-      "y": -3195.1877122114893,
+      "x": -3959.58203125,
+      "y": -3195.154296875,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "type": "target"
     },
     {
       "id": 10,
@@ -129,10 +129,10 @@
       "id": 14,
       "x": -3927.462890625,
       "y": -3269.36328125,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "attack(0.5),keypress(f),wait(0.2),keypress(f)"
+      "move_mode": "walk",
+      "action_params": "attack(0.5),keypress(f),wait(0.2),keypress(f)",
+      "type": "path"
     },
     {
       "id": 15,
