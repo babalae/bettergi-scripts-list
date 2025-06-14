@@ -189,7 +189,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
             const fullPath = fileName;
             await fakeLog(fileName, false, true, 0);
             currentTask += 1; // 更新当前任务计数器
-            log.info(`当前进度：准备${folderName}第${currentTask}/${jsonFileNames.length}个`);
+            log.info(`当前进度：${fullPath}为准备${folderName}第${currentTask}/${jsonFileNames.length}个`);
             await pathingScript.runFile(fullPath);
             //捕获任务取消的信息并跳出循环
             try {
@@ -406,7 +406,7 @@ async function runArtifactsPaths(runRouteA) {
             const fullPath = fileName;
             await fakeLog(fileName, false, true, 0);
             currentTask += 1; // 更新当前任务计数器
-            log.info(`当前进度：普通${folderName}第${currentTask}/${jsonFileNames.length}个`);
+            log.info(`当前进度：${fullPath}为普通${folderName}第${currentTask}/${jsonFileNames.length}个`);
             await pathingScript.runFile(fullPath);
             //捕获任务取消的信息并跳出循环
             try {
@@ -439,7 +439,7 @@ async function runArtifactsPaths(runRouteA) {
             const fullPath = fileName;
             await fakeLog(fileName, false, true, 0);
             currentTask += 1; // 更新当前任务计数器
-            log.info(`当前进度：收尾${folderName}第${currentTask}/${jsonFileNames.length}个`);
+            log.info(`当前进度：${fullPath}为收尾${folderName}第${currentTask}/${jsonFileNames.length}个`);
             await pathingScript.runFile(fullPath);
             //捕获任务取消的信息并跳出循环
             try {
@@ -472,7 +472,7 @@ async function runArtifactsPaths(runRouteA) {
             const fullPath = fileName;
             await fakeLog(fileName, false, true, 0);
             currentTask += 1; // 更新当前任务计数器
-            log.info(`当前进度：额外${folderName}第${currentTask}/${jsonFileNames.length}个`);
+            log.info(`当前进度：${fullPath}为额外${folderName}第${currentTask}/${jsonFileNames.length}个`);
             await pathingScript.runFile(fullPath);
             //捕获任务取消的信息并跳出循环
             try {
