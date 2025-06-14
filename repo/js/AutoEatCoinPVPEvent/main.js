@@ -123,7 +123,9 @@
         await sleep(1000);
 
         // 7. 等待并确认匹配
-        let matchFound = false,matchFound_1st = false;
+        let matchFound = false,matchFound_1st = false;  //matchFound_1st：确认按钮是否点击过
+        let matchTimeout = 0;    //联机确认按钮超时等待（单位：秒）
+        let beRefusedCount = 0;    //被拒绝次数
         for (let i = 0; i < 60; i++) { // 最多等待60秒
             const confirmRegion = captureGameRegion().deriveCrop(
                 1037,
@@ -139,10 +141,10 @@
             /*处理联机确认按钮
                 执行逻辑:（如有报错，自己改 或者 反馈naralan0502@gmail.com）
                     如果OCR识别结果数量等于0，判断是否已经点击过确认按钮（通过变量matchFound_1st确认）
-                        是：设置matchFound为true，跳出循环
+                        是：超时等待时长matchTimeout++，若超时等待时长==13，设置matchFound为true，跳出循环
                         否：继续循环
                     如果OCR识别结果数量大于0，遍历所有识别结果
-                        如果存在确认按钮，设置变量matchFound_1st = true
+                        如果存在确认按钮，设置变量matchFound_1st = true，超时等待t=0
             */
             if(confirmResults.count){
                 // 遍历所有识别结果
@@ -153,22 +155,22 @@
 
                     if (region.text.includes("接受")) {
                         click(1182, 737); // 点击确认按钮
+                        if(matchFound_1st && (++beRefusedCount >= 3))    log.info("兄啊有点点背，被拒绝了{count}次诶", beRefusedCount);
                         matchFound_1st = true;
+                        log.info("匹配成功, 点击接受");
+                        matchTimeout = 0;
                         break;
                     }
                 }
             }
             else{
-                if(matchFound_1st) {
+                if(matchFound_1st && (++matchTimeout == 13)) {   //超时等待13s（游戏内联机确认超时时长10s+冷却CD3s）
                     matchFound = true;
+                    log.info("点击确认成功");
                     break;
                 }
             }
 
-            if (matchFound) {
-                log.info("匹配成功, 点击接受");
-                break;
-            }
             await sleep(1000);
         }
 
