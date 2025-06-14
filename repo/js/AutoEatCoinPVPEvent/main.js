@@ -107,7 +107,7 @@
             return;
         }
         log.info("积分状态: {current}/{max}", currentScore, maxScore);
-        if (1 >= maxScore) {
+        if (currentScore >= maxScore) {
             log.info("PVP活动已完成");
             // notification.send("PVP活动已完成");
             await genshin.returnMainUi();
