@@ -2,25 +2,28 @@
   "info": {
     "name": "枫丹4-柔灯港-1",
     "type": "collect",
-    "author": "平面镜",
-    "version": "1.1",
+    "author": "寒烟",
+    "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.3"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1749820281812
   },
   "positions": [
     {
       "id": 1,
-      "x": 2873.54,
-      "y": 3512.04,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2873.5380859375,
+      "y": 3512.013671875,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 2890.51,
-      "y": 3532.46,
+      "x": 2912.4931640625,
+      "y": 3552.21533203125,
       "type": "path",
       "move_mode": "dash",
       "action": "",
@@ -28,31 +31,21 @@
     },
     {
       "id": 3,
-      "x": 2904.51,
-      "y": 3545.62,
-      "type": "path",
-      "move_mode": "climb",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": 2929.82,
-      "y": 3563.57,
+      "x": 2912.126953125,
+      "y": 3590.98486328125,
       "type": "path",
       "move_mode": "dash",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 5,
-      "x": 2932.47,
-      "y": 3583.9,
+      "id": 4,
+      "x": 2932.1982421875,
+      "y": 3584.871826171875,
       "type": "path",
       "move_mode": "walk",
       "action": "",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     }
   ]
 }
