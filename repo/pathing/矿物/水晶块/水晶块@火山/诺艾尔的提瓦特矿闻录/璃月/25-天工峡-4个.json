@@ -1,0 +1,94 @@
+{
+  "info": {
+    "name": "25-天工峡-4个",
+    "type": "collect",
+    "author": "火山",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1759.5546875,
+      "y": -874.185546875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1779.126953125,
+      "y": -887.37548828125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1773.1748046875,
+      "y": -891.54052734375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2),wait(0.3)"
+    },
+    {
+      "id": 4,
+      "x": 1773.076171875,
+      "y": -893.92431640625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 5,
+      "x": 1772.8828125,
+      "y": -897.14501953125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2),wait(0.3)"
+    },
+    {
+      "id": 6,
+      "x": 1778.28515625,
+      "y": -902.0576171875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 7,
+      "x": 1779.376953125,
+      "y": -900.2548828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 1779.693359375,
+      "y": -898.232421875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 9,
+      "x": 1778.333984375,
+      "y": -896.21728515625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2),wait(0.3)"
+    }
+  ]
+}
