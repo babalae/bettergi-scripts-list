@@ -1,0 +1,99 @@
+{
+  "info": {
+    "name": "龙脊雪山-1",
+    "type": "collect",
+    "author": "星野",
+    "version": "1.0",
+    "description": "龙脊雪山-1",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -705.4453125,
+      "y": 925.67822265625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -697.6552734375,
+      "y": 943.56298828125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -683.9091796875,
+      "y": 941.57080078125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -674.86328125,
+      "y": 940.53515625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -666.1064453125,
+      "y": 940.07421875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack,wait(1),keypress(F),wait(0.3),keypress(F),",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": -666.1064453125,
+      "y": 940.07421875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack,wait(0.3),keypress(E),wait(0.5),attack,wait(0.3),keypress(Q),wait(2),keypress(2),wait(0.3),keypress(E),wait(0.4),attack,wait(0.3),keypress(Q),wait(2.1),keypress(3),wait(0.3),keypress(E),wait(0.3),attack(1),wait(0.3),keypress(Q),wait(2.1),keypress(4),wait(0.3),keypress(E),wait(0.3),attack(1),wait(0.3),keypress(Q),wait(2.1),keypress(1),wait(0.3),keypress(E),wait(0.3),keypress(Q),wait(2.1),",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -666.1064453125,
+      "y": 940.07421875,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -667.728515625,
+      "y": 933.53369140625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack,wait(0.3),keypress(E),wait(0.5),attack,wait(0.3),keypress(Q),wait(2),keypress(2),wait(0.3),keypress(E),wait(0.4),attack,wait(0.3),keypress(Q),wait(2.1),keypress(3),wait(0.3),keypress(E),wait(0.3),attack(1),wait(0.3),keypress(Q),wait(2.1),keypress(4),wait(0.3),keypress(E),wait(0.3),attack(1),wait(0.3),keypress(Q),wait(2.1),keypress(1),wait(0.3),keypress(E),wait(0.3),keypress(Q),wait(2.1),",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -676.0673828125,
+      "y": 935.01806640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "attack,wait(0.3),keypress(E),wait(0.5),attack,wait(0.3),keypress(Q),wait(2),keypress(2),wait(0.3),keypress(E),wait(0.4),attack,wait(0.3),keypress(Q),wait(2.1),keypress(3),wait(0.3),keypress(E),wait(0.3),attack(1),wait(0.3),keypress(Q),wait(2.1),keypress(4),wait(0.3),keypress(E),wait(0.3),attack(1),wait(0.3),keypress(Q),wait(2.1),keypress(1),wait(0.3),keypress(E),wait(0.3),keypress(Q),wait(2.1),"
+    },
+    {
+      "id": 10,
+      "x": -672.5791015625,
+      "y": 948.53173828125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack,wait(0.3),keypress(E),wait(0.5),attack,wait(0.3),keypress(Q),wait(2),keypress(2),wait(0.3),keypress(E),wait(0.4),attack,wait(0.3),keypress(Q),wait(2.1),keypress(3),wait(0.3),keypress(E),wait(0.3),attack(1),wait(0.3),keypress(Q),wait(2.1),keypress(4),wait(0.3),keypress(E),wait(0.3),attack(1),wait(0.3),keypress(Q),wait(2.1),keypress(1),wait(0.3),keypress(E),wait(0.3),keypress(Q),wait(2.1),",
+      "type": "path"
+    }
+  ]
+}
