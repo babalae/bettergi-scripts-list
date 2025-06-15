@@ -57,7 +57,7 @@
       "y": 4743.53121680038,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
@@ -92,7 +92,7 @@
       "y": 4827.3154296875,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
@@ -119,7 +119,7 @@
       "y": 4847.8017578125,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(1)",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(1);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     }
   ]
