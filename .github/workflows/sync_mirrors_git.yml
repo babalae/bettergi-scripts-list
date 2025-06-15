@@ -1,8 +1,10 @@
 name: Sync to Mirror Repositories
 
 on:
-  push:
-    branches: [ main ]
+  workflow_run:
+    workflows: ["Build repo.json"]
+    types:
+      - completed  # 当第一个工作流完成时触发
   workflow_dispatch:  # 允许手动触发
 
 jobs:
