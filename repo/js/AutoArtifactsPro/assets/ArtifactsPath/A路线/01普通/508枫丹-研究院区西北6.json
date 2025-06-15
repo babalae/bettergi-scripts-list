@@ -33,7 +33,7 @@
       "type": "target",
       "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),"
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);"
     },
     {
       "id": 4,
@@ -67,7 +67,7 @@
       "y": 4998.781022630548,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "path"
     },
     {
@@ -112,7 +112,7 @@
       "y": 4932.6865234375,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keydown(d),wait(0.2),keydown(s),keyup(d),wait(0.5),keyup(s)",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keydown(d),wait(0.2),keydown(s),keyup(d),wait(0.5),keyup(s);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
@@ -147,7 +147,7 @@
       "y": 4902.6748046875,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
@@ -164,7 +164,7 @@
       "y": 4912.71875,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.2),keypress(x),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.1),keydown(s),wait(0.3),keydown(a),wait(0.1),keyup(s),wait(1.2),keyup(a)",
+      "action_params": "wait(0.2),keypress(x),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.1);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);keydown(s),wait(0.3),keydown(a),wait(0.1),keyup(s),wait(1.2),keyup(a)",
       "type": "target"
     },
     {
@@ -182,7 +182,7 @@
       "y": 4899.99755859375,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "path"
     },
     {
