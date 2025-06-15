@@ -107,15 +107,16 @@ class ReachStopTime extends Error {
     }
     const runMode = settings.runMode;
 
-    const scriptName = getScriptItselfName();
-    // 结束真正由BGI产生的那次开始记录
-    startTime = fakeLogCore(scriptName, true);
-
     log.info("当前运行模式:{0}", runMode);
     if (runMode === "扫描文件夹更新可选材料列表") {
         await runScanMode();
     } else if (runMode === "采集选中的材料") {
+        const scriptName = getScriptItselfName();
+        // 配对关闭真正由BGI产生的那次开始记录
+        startTime = fakeLogCore(scriptName, true);
         await runGatherMode();
+        // 重新开始一条记录，与BGI产生的结束记录配对
+        fakeLogCore(scriptName, true, startTime);
     } else if (runMode === "清除运行记录（重置材料刷新时间）") {
         await runClearMode();
     } else {
@@ -123,8 +124,6 @@ class ReachStopTime extends Error {
         await sleep(3000);
         await runScanMode();
     }
-    // 重新开始一条记录，与BGI产生的结束记录配对
-    fakeLogCore(scriptName, true, startTime);
 })();
 
 // 扫描文件夹更新可选材料列表
@@ -137,19 +136,31 @@ async function runScanMode() {
     const templateText = file.readTextSync("settings.template.json");
     let config = JSON.parse(templateText);
 
+    // 将地方特产按照国家顺序排序
+    const countryList = ["蒙德", "璃月", "稻妻", "须弥", "枫丹", "纳塔", "至冬"];
+    const sortedList = pathList.slice().sort((a, b) => {
+        const getRegion = p => p.split("\\")[2];
+        const aIndex = countryList.indexOf(getRegion(a));
+        const bIndex = countryList.indexOf(getRegion(b));
+        return (aIndex === -1 ? Infinity : aIndex) - (bIndex === -1 ? Infinity : bIndex);
+    });
+
     // 3. 处理每个路径
     let count = 0;
-    for (const path of pathList) {
+    for (const path of sortedList) {
         const info = getCooldownInfoFromPath(path);
-        if (info.coolType !== CooldownType.Unknown) {
+        const jsonFiles = filterFilesInTaskDir(info.label);
+        if (jsonFiles.length === 0) {
+            log.info("{0}内无json文件，跳过", path);
+        } else if (info.coolType === CooldownType.Unknown) {
+            log.warn("路径{0}未找到对应的刷新机制，跳过", path);
+        } else {
             config.push({
                 name: info.name,
                 label: "⬇️ " + info.label,
                 type: "checkbox"
             });
             count += 1;
-        } else {
-            log.warn("路径{0}未找到对应的刷新机制，跳过", path);
         }
     }
     // 4. 写入新的配置（格式化输出）
@@ -221,7 +232,7 @@ async function runClearMode() {
     const resetTime = strftime(baseTime);
     let account = await getCurrentAccount();
     for (const pathTask of selectedMaterials) {
-        const jsonFiles = filterFilesInTaskDir(pathTask);
+        const jsonFiles = filterFilesInTaskDir(pathTask.label);
         const recordFile = getRecordFilePath(account, pathTask);
         const lines = jsonFiles.map((filePath) => {
             return `${basename(filePath)}\t${resetTime}`;
@@ -238,8 +249,7 @@ function getRecordFilePath(account, pathTask) {
     return `record/${account}/${taskName}.txt`;
 }
 
-function filterFilesInTaskDir(pathTask, ext=".json") {
-    const taskDir = pathTask.label;
+function filterFilesInTaskDir(taskDir, ext=".json") {
     const allFilesRaw = file.ReadPathSync("pathing\\" + taskDir);
     const extFiles = [];
 
@@ -255,7 +265,7 @@ function filterFilesInTaskDir(pathTask, ext=".json") {
 
 async function runPathTaskIfCooldownExpired(account, pathTask) {
     const recordFile = getRecordFilePath(account, pathTask);
-    const jsonFiles = filterFilesInTaskDir(pathTask);
+    const jsonFiles = filterFilesInTaskDir(pathTask.label);
 
     log.info("{0}共有{1}条路线", pathTask.label, jsonFiles.length);
 
