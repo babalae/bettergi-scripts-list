@@ -1,0 +1,166 @@
+{
+  "info": {
+    "name": "208璃月-望舒客栈4",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 329.0791015625,
+      "y": 877.49609375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 353.5537109375,
+      "y": 891.04248046875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 368.515625,
+      "y": 912.556640625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 394.412109375,
+      "y": 934.935546875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "800",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 397.8437776505798,
+      "y": 937.4998938942554,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.3),keypress(f),w(0.4),keypress(f),s(0.6),keypress(f),d(0.3),keypress(f),s(0.3)",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 329.0791015625,
+      "y": 877.49609375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 7,
+      "x": 312.1874288985073,
+      "y": 884.5002273694517,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 290.40622629950303,
+      "y": 898.6560453674929,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1000",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 294.107421875,
+      "y": 899.50439453125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 299.26171875,
+      "y": 949.154296875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 356.7494864892178,
+      "y": 1019.9400010639711,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 337.6884765625,
+      "y": 1085.052734375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 331.7734375,
+      "y": 1097.400390625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 336.501953125,
+      "y": 1104.72900390625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 338.3388671875,
+      "y": 1100.716796875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),w(0.1),keypress(f),keypress(x),wait(0.2),keypress(x),wait(0.1),keypress(x)",
+      "type": "target"
+    },
+    {
+      "id": 16,
+      "x": 345.375,
+      "y": 1101.02294921875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 348.3994140625,
+      "y": 1099.451171875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),w(0.1),keypress(f),",
+      "type": "target"
+    }
+  ]
+}

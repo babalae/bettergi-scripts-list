@@ -147,8 +147,8 @@ function convertNewlines(text) {
 // 过滤长标签的通用函数，一个汉字算两个字符
 function filterLongTags(tags) {
     return tags.filter(tag => {
-        // 特殊处理以bgi>=开头的版本标签，不论长度都保留
-        if (tag && tag.startsWith('bgi>=')) {
+        // 特殊处理以bgi≥开头的版本标签，不论长度都保留
+        if (tag && tag.startsWith('bgi≥')) {
             return true;
         }
         // 计算字符串的真实长度，一个汉字算两个字符
@@ -162,17 +162,17 @@ function filterLongTags(tags) {
 // 提取最低版本要求并格式化为标签
 function formatMinVersionTag(minVersion) {
     if (!minVersion) return null;
-    // 统一格式化为 bgi>=x.xx.xx
-    return `bgi>=${minVersion.trim()}`;
+    // 统一格式化为 bgi≥x.xx.xx
+    return `bgi≥${minVersion.trim()}`;
 }
 
 // 将版本标签置于标签列表首位
 function prioritizeVersionTag(tags) {
     if (!tags || !Array.isArray(tags)) return [];
     
-    // 查找 bgi>= 开头的标签
-    const versionTags = tags.filter(tag => tag && tag.startsWith('bgi>='));
-    const otherTags = tags.filter(tag => !tag || !tag.startsWith('bgi>='));
+    // 查找 bgi≥ 开头的标签
+    const versionTags = tags.filter(tag => tag && tag.startsWith('bgi≥'));
+    const otherTags = tags.filter(tag => !tag || !tag.startsWith('bgi≥'));
     
     // 如果有多个版本标签，只保留第一个
     if (versionTags.length > 0) {
@@ -301,7 +301,15 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
         if (actions.includes('anemo_collect')) tags.push('风元素力收集');
         if (actions.includes('electro_collect')) tags.push('雷元素力收集');
         if (actions.includes('up_down_grab_leaf')) tags.push('四叶印');
+        if (actions.includes('mining')) tags.push('挖矿');
         if (actions.includes('fight')) tags.push('战斗');
+        if (actions.includes('log_output')) tags.push('有日志');
+        if (actions.includes('pick_around')) tags.push('转圈拾取');
+        if (actions.includes('fishing')) tags.push('钓鱼');
+        if (actions.includes('set_time')) tag.push('时间调整');
+        const move_modes = contentObj.positions.map(pos => pos.move_mode);
+        if (move_modes.includes('climb')) tags.push("有攀爬");
+        
     }
     // 确保标签数组中没有重复项
     tags = [...new Set(tags)];

@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "201璃月-天衡山西1",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 829.34375,
+      "y": -585.19775390625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 833.2373046875,
+      "y": -632.80908203125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 838.71875,
+      "y": -663.095703125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 839.875,
+      "y": -659.0937721330793,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 837.669921875,
+      "y": -656.798828125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),"
+    },
+    {
+      "id": 6,
+      "x": 836.03125,
+      "y": -656.974609375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

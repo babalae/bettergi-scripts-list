@@ -1,0 +1,27 @@
+[
+  {
+    "name": "runMode",
+    "type": "select",
+    "label": "运行模式",
+    "options": [
+      "扫描文件夹更新可选材料列表",
+      "采集选中的材料",
+      "清除运行记录（重置材料刷新时间）"
+    ]
+  },
+  {
+    "name": "partyName",
+    "type": "input-text",
+    "label": "设置要使用的队伍名称（留空则不进行切换）"
+  },
+  {
+    "name": "stopAtTime",
+    "type": "input-text",
+    "label": "停止运行时间（HH:mm，24小时制。例如09:28为上午9点28分）"
+  },
+  {
+    "name": "iHaveMultipleAccounts",
+    "type": "checkbox",
+    "label": "我肝的账号不止一个（选中后将分账号维护对应的材料刷新时间）"
+  }
+]

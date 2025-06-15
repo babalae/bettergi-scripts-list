@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "222璃月-翘英庄西1",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1746.59765625,
+      "y": 2325.111328125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1762.951171875,
+      "y": 2329.72998046875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1871.34392380365,
+      "y": 2366.187530315927,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1875.1250316006626,
+      "y": 2367.3749848420357,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1875.8124920998343,
+      "y": 2364.750075789818,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),a(0.2),keypress(f),",
+      "type": "target"
+    }
+  ]
+}

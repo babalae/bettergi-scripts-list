@@ -1,0 +1,67 @@
+[
+  {
+    "name": "operationType",
+    "type": "select",
+    "label": "卡时间模式",
+    "options": [
+      "盗宝团好感卡时间",
+      "愚人众好感卡时间",
+      "鳄鱼好感卡时间",
+      "干等卡时间",
+      "不卡时间，ab交替运行"
+    ],
+    "default": "不卡时间，ab交替运行"
+  },
+  {
+    "name": "friendshipPartyName",
+    "type": "input-text",
+    "label": "好感队名称\n【请输入好感队的队伍名称】",
+    "default": "好感"
+  },
+  {
+    "name": "grindPartyName",
+    "type": "input-text",
+    "label": "狗粮队名称\n【请输入狗粮队的队伍名称】",
+    "default": "狗粮"
+  },
+  {
+    "name": "doDecompose",
+    "type": "checkbox",
+    "label": "是否分解狗粮（默认不分解）"
+  },
+  {
+    "name": "keep4Star",
+    "type": "checkbox",
+    "label": "是否保留四星（默认不保留）"
+  },
+  {
+    "name": "minIntervalTime",
+    "type": "input-text",
+    "label": "最短间隔时间（分钟）\n【默认值为5分钟】",
+    "default": "5"
+  },
+  {
+    "name": "waitTimePeriod",
+    "type": "input-text",
+    "label": "卡时间时间段\n【格式参考：4:05-4:45，默认为4:05-4:45】",
+    "default": "4:05-4:45"
+  },
+  {
+    "name": "ocrTimeout",
+    "type": "input-text",
+    "label": "OCR超时时间（秒）\n【选填，默认为10秒，如果经常提前判定未识别到任务，请适当调大】",
+    "default": "10"
+  },
+  {
+    "name": "fightTimeout",
+    "type": "input-text",
+    "label": "战斗超时时间（秒）\n【选填，默认为120秒】",
+    "default": "120"
+  },
+  {
+    "name": "minTimesForFirendship",
+    "type": "input-text",
+    "label": "好感任务最低运行次数\n【若卡时间好感次数不足该次数，则在狗粮结束后补齐】",
+    "default": "10"
+  }
+]

@@ -1,0 +1,92 @@
+{
+  "info": {
+    "name": "402须弥-化城郭西2",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2701.53076171875,
+      "y": -761.8154296875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2684.93743284859,
+      "y": -835.4375,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2683.91015625,
+      "y": -839.9404296875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.5)",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 2652.8749486489214,
+      "y": -843.0627880013062,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 2645.1874881497515,
+      "y": -843.8128789490866,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 2594.6298828125,
+      "y": -852.58935546875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 2594.6875019750423,
+      "y": -857.4373711573107,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 2594.84375,
+      "y": -861.0311514732375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 2595.6328125,
+      "y": -861.23046875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),w(0.3),keypress(f),a(0.3),keypress(f),",
+      "type": "target"
+    }
+  ]
+}

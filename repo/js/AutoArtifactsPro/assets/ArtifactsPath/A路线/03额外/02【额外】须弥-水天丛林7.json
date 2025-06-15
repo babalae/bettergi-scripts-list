@@ -1,0 +1,241 @@
+{
+  "info": {
+    "name": "02【额外】须弥-水天丛林7",
+    "type": "collect",
+    "author": "汐",
+    "version": "",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3128.6962890625,
+      "y": -1734.62841796875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3162.83740234375,
+      "y": -1776.4501953125,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(VK_SPACE),wait(5),click",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3162.83740234375,
+      "y": -1776.4501953125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 3165.9248046875,
+      "y": -1770.85107421875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3175.1484375,
+      "y": -1776.59130859375,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3178.7470703125,
+      "y": -1766.18896484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 3185.72119140625,
+      "y": -1755.3798828125,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3175.1171875,
+      "y": -1734.619140625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3177.01318359375,
+      "y": -1719.6650390625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(e)",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 3210.4833984375,
+      "y": -1727.45556640625,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 3238.64013671875,
+      "y": -1669.9541015625,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 3243.9375118502485,
+      "y": -1676.0623635783286,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),keypress(e)",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": 3247.74853515625,
+      "y": -1670.6923828125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 3246.3749881497515,
+      "y": -1667.9063182108357,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 15,
+      "x": 3280.98681640625,
+      "y": -1663.34814453125,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 3303.05859375,
+      "y": -1658.505859375,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(e)",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 3326.64697265625,
+      "y": -1620.5849609375,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 3333.64697265625,
+      "y": -1609.584960937501,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),keypress(e)",
+      "type": "target"
+    },
+    {
+      "id": 19,
+      "x": 3341.15234375,
+      "y": -1621.7734375,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 3352.87890625,
+      "y": -1650.6552734375,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 3343.59326171875,
+      "y": -1723.4775390625,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": 3330.30322265625,
+      "y": -1734.029296875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 23,
+      "x": 3300.36376953125,
+      "y": -1788.787109375,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 24,
+      "x": 3282.2421875,
+      "y": -1822.77490234375,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 25,
+      "x": 3234.1875,
+      "y": -1829.9999336007622,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 26,
+      "x": 3223.75,
+      "y": -1830.7515050493948,
+      "action": "",
+      "move_mode": "jump",
+      "type": "path"
+    },
+    {
+      "id": 27,
+      "x": 3205.5625,
+      "y": -1832.1875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "target"
+    }
+  ]
+}

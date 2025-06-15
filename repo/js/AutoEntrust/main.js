@@ -1,4 +1,4 @@
-(function () {
+(async function () {
   // 定义常量
   const OCR_REGION_X = 750;
   const OCR_REGION_Y = 250;
@@ -51,19 +51,22 @@
 
   // 获取设置
   const skipRecognition = settings.skipRecognition || false;
-  const debugMode = settings.debugMode || false;
+  //const debugMode = settings.debugMode || false;
   const minTextLength = parseInt(settings.minTextLength || "4");
   const team = settings.team || "";
+      
+    // 存储当前委托位置
+    let currentPlayerPosition = null;
   
-  async function prepareForLeyLineRun(settings) {
+  async function prepareForLeyLineRun() {
     // 开局传送到七天神像
     await genshin.returnMainUi()
     await genshin.tpToStatueOfTheSeven();
-    
+    dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
     // 切换战斗队伍
-    if (settings.team) {
-        log.info(`切换至队伍 ${settings.team}`);
-        await genshin.switchParty(settings.team);
+    if (team) {
+        log.info(`切换至队伍 ${team}`);
+        await genshin.switchParty(team);
     }
 }
 
@@ -80,7 +83,7 @@ async function detectCommissionStatusByImage(buttonIndex) {
       return "unknown";
     }
     
-    log.info("检测委托{id}的完成状态（图像识别）", button.id);
+    //log.info("检测委托{id}的完成状态（图像识别）", button.id);
     
     // 截图
     let captureRegion = captureGameRegion();
@@ -127,7 +130,7 @@ async function detectCommissionStatusByImage(buttonIndex) {
       return "uncompleted";
     }
     
-    // 尝试使用更低的阈值再次检测
+    /* 尝试使用更低的阈值再次检测
     log.info("使用更低阈值再次检测委托{id}状态", button.id);
     completedRo.threshold = 0.6;
     uncompletedRo.threshold = 0.6;
@@ -142,7 +145,7 @@ async function detectCommissionStatusByImage(buttonIndex) {
     if (!uncompletedResult2.isEmpty()) {
       log.info("委托{id}未完成（低阈值检测）", button.id);
       return "uncompleted";
-    }
+    }*/
     
     log.warn("委托{id}状态识别失败", button.id);
     return "unknown";
@@ -387,7 +390,7 @@ async function detectCommissionStatusByImage(buttonIndex) {
   // 检测是否进入委托详情界面
   async function checkDetailPageEntered() {
     try {
-      log.info("检测是否进入委托详情界面...");
+      //log.info("检测是否进入委托详情界面...");
       
       // 创建OCR识别对象 - 检测区域(1480,100)到(1535,130)
       const detailOcrRo = RecognitionObject.Ocr(
@@ -407,7 +410,7 @@ async function detectCommissionStatusByImage(buttonIndex) {
           // 检查OCR结果
           for (let j = 0; j < results.count; j++) {
             const text = results[j].text.trim();
-            log.info(`检测到文本: "${text}"`);
+            //log.info(`检测到文本: "${text}"`);
             
             // 如果有"蒙德"，表示进入了详情界面
             if (text.includes("蒙德")) {
@@ -477,8 +480,6 @@ async function Identification() {
       OCR_REGION_WIDTH, 
       OCR_REGION_HEIGHT
     );
-    
-    await sleep(2000);
     
     // 第一次截图识别
     log.info("执行第一次OCR识别 ({x}, {y}) ({width}, {height})", 
@@ -559,13 +560,21 @@ async function Identification() {
         log.info("委托 {name} 的地点: {location}", commission.name, location);
       }
       
-      // 退出详情页面
+      // 退出详情页面并获取地图坐标
       if (detailStatus !== "未知") {
         log.info("退出详情页面 - 按ESC");
         keyDown("VK_ESCAPE");
         await sleep(300);
         keyUp("VK_ESCAPE");
         await sleep(1200);
+
+        // 获取地图坐标并保存
+        const bigMapPosition = genshin.getPositionFromBigMap();
+        if (bigMapPosition) {
+          currentPlayerPosition = bigMapPosition;
+          commission.playerPosition = bigMapPosition;
+          log.info("当前委托位置: ({x}, {y})", bigMapPosition.x, bigMapPosition.y);
+        }
         
         keyDown("VK_ESCAPE");
         await sleep(300);
@@ -649,13 +658,21 @@ async function Identification() {
           log.info("委托 {name} 的地点: {location}", fourthCommission.name, location);
         }
         
-        // 退出详情页面
+        // 退出详情页面并获取地图坐标
         if (detailStatus !== "未知") {
           log.info("退出详情页面 - 按ESC");
           keyDown("VK_ESCAPE");
           await sleep(300);
           keyUp("VK_ESCAPE");
           await sleep(1200);
+
+        // 获取地图坐标并保存
+        const bigMapPosition = genshin.getPositionFromBigMap();
+        if (bigMapPosition) {
+          currentPlayerPosition = bigMapPosition;
+          fourthCommission.playerPosition = bigMapPosition;
+          log.info("当前委托位置: ({x}, {y})", bigMapPosition.x, bigMapPosition.y);
+        }
           
           keyDown("VK_ESCAPE");
           await sleep(300);
@@ -690,8 +707,398 @@ async function Identification() {
   }
 }
 
+  /**
+   * 计算两点之间的距离
+   * @param {Object} pos1 - 位置1 {x, y}
+   * @param {Object} pos2 - 位置2 {x, y}
+   * @returns {number} 距离
+   */
+  function calculateDistance(point1, point2) {
+    if (!point1 || !point2 || !point1.X || !point1.Y || !point2.x || !point2.y) {
+      log.warn("无效的位置数据");
+      return Infinity;
+    }
+    return Math.sqrt(Math.pow(point1.X - point2.x, 2) + Math.pow(point1.Y - point2.y, 2));
+  }
+
+  /**
+   * 获取委托的目标坐标（从路径追踪文件中获取最后一个坐标）
+   * @param {string} scriptPath - 委托的脚本路径
+   * @returns {Object|null} 目标坐标 {x, y} 或 null
+   */
+  async function getCommissionTargetPosition(scriptPath) {
+    try {
+      const scriptContent = await file.readText(scriptPath);
+      const pathData = JSON.parse(scriptContent);
+
+      if (!pathData.positions || pathData.positions.length === 0) {
+        log.warn("路径追踪文件 {path} 中没有有效的坐标数据", scriptPath);
+        return null;
+      }
+
+      const lastPosition = pathData.positions[pathData.positions.length - 1];
+      if (!lastPosition.x || !lastPosition.y) {
+        log.warn("路径追踪文件 {path} 的最后一个路径点缺少坐标数据", scriptPath);
+        return null;
+      }
+
+      log.debug("从脚本路径 {path} 获取到目标坐标: ({x}, {y})", scriptPath, lastPosition.x, lastPosition.y);
+      return {
+        x: lastPosition.x,
+        y: lastPosition.y
+      };
+    } catch (error) {
+      log.error("获取委托目标位置时出错: {error}", error);
+      return null;
+    }
+  }
+
+  /**
+   * 统一的对话委托流程处理器
+   * @param {Array} processSteps - 处理步骤数组
+   * @param {string} commissionName - 委托名称
+   * @param {string} location - 委托地点
+   * @returns {Promise<boolean>} - 执行结果
+   */
+  async function executeUnifiedTalkProcess(processSteps, commissionName, location) {
+    try {
+      log.info("执行统一对话委托流程: {name}", commissionName);
+      
+      // 加载优先选项和白名单NPC名称的默认值
+      let priorityOptions = [];
+      let npcWhiteList = [];
+      let clickedExtractedName = false;
+      
+      // 定义识别对象
+      const paimonMenuRo = RecognitionObject.TemplateMatch(
+        file.ReadImageMatSync("Data/RecognitionObject/paimon_menu.png"), 
+        0, 0, genshin.width / 3.0, genshin.width / 5.0
+      );
+      
+      // 判断是否在主界面的函数
+      const isInMainUI = () => {
+        let captureRegion = captureGameRegion();
+        let res = captureRegion.Find(paimonMenuRo);
+        return !res.isEmpty();
+      };
+      
+      // 人名提取函数
+      const extractName = (text) => {
+        const patterns = [
+          /与(.+?)对话/, /与(.+?)一起/, /同(.+?)交谈/, /向(.+?)打听/, /向(.+?)回报/,
+          /陪同(.+?)\S+/, /找到(.+?)\S+/, /询问(.+?)\S+/, /拜访(.+?)\S+/, /寻找(.+?)\S+/,
+          /告诉(.+?)\S+/, /带(.+?)去\S+/, /跟随(.+?)\S+/, /协助(.+?)\S+/, /请教(.+?)\S+/,
+          /拜托(.+?)\S+/, /委托(.+?)\S+/
+        ];
+        
+        for (const pattern of patterns) {
+          const match = text.match(pattern);
+          if (match && match[1]) {
+            return match[1].trim();
+          }
+        }
+        return null;
+      };
+      
+      // 自动剧情函数
+      const executeOptimizedAutoTalk = async (
+        extractedName = null,
+        skipCount = 5, 
+        customPriorityOptions = null, 
+        customNpcWhiteList = null
+      ) => {
+        // 使用传入的参数，不再加载默认配置
+        const effectivePriorityOptions = customPriorityOptions || [];
+        const effectiveNpcWhiteList = customNpcWhiteList || [];
+        
+        // 初始化
+        keyPress("V");
+        
+        // 初始触发剧情 - 识别人名并点击
+        extractedName = [];
+        let captureRegion = captureGameRegion();
+        let nameArea = captureRegion.DeriveCrop(75, 240, 225, 60); // 人名区域
+        let nameOcrRo = RecognitionObject.Ocr(0, 0, nameArea.width, nameArea.height);
+        let nameResults = nameArea.FindMulti(nameOcrRo);
+        // 尝试提取任务人名
+        for (let i = 0; i < nameResults.count; i++) {
+            let text = nameResults[i].text;
+            log.info(`任务区域识别文本: ${text}`);
+            
+            // 尝试提取任务人名
+            let name = extractName(text);
+            if (name) {
+                extractedName = name;
+                log.info(`提取到人名: ${extractedName}`);
+                break;
+            }
+        }
+
+        nameArea = captureRegion.DeriveCrop(1150, 300, 350, 400); 
+        //nameArea = captureRegion.DeriveCrop(0, 0, 1920, 1080);
+        nameOcrRo = RecognitionObject.Ocr(0, 0, nameArea.width, nameArea.height);
+        nameResults = nameArea.FindMulti(nameOcrRo);
+        let clickedWhitelistNPC=false;
+
+        
+        // 处理人名区域的OCR结果
+        if (nameResults.count > 0) {
+            log.info(`人名区域识别到 ${nameResults.count} 个文本`);
+            
+            // 首先尝试点击白名单中的NPC
+            for (let i = 0; i < nameResults.count; i++) {
+                let text = nameResults[i].text;
+                let res = nameResults[i];
+                log.info("人名区域识别到{text}:位置({x},{y},{h},{w})",  res.text,res.x, res.y, res.width, res.Height);
+                // 检查是否包含白名单中的NPC名称
+                for (let j = 0; j < effectiveNpcWhiteList.length; j++) {
+                    if (text.includes(effectiveNpcWhiteList[j])) {
+                        log.info(`找到白名单NPC: ${effectiveNpcWhiteList[j]}，点击该NPC`);
+                        keyDown("VK_MENU");
+                        await sleep(500);
+                        click(res.x+1150, res.y+300);
+                        leftButtonClick(); 
+                        keyUp("VK_MENU");
+                        clickedWhitelistNPC = true;
+                        break;
+                    }
+                }
+                if (clickedWhitelistNPC) break;
+            }
+
+            // 如果没有点击白名单NPC，尝试点击包含提取到的人名的选项
+            if (!clickedWhitelistNPC && extractedName) {
+                for (let i = 0; i < nameResults.count; i++) {
+                    let text = nameResults[i].text;
+                    let res = nameResults[i];
+                    if (text.includes(extractedName)) {
+                        log.info(`点击包含提取到任务人名的选项: ${text}`);
+                        keyDown("VK_MENU");
+                        await sleep(500);
+                        click(res.x+1150, res.y+300);
+                        leftButtonClick(); 
+                        keyUp("VK_MENU");
+                        clickedExtractedName = true;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        // 如果没有找到NPC，使用默认触发
+        if (!clickedWhitelistNPC && !clickedExtractedName) {
+            log.info("未找到匹配的NPC，使用默认触发方式");
+            keyPress("F"); // 默认触发剧情
+            await sleep(500);
+        }
+        
+        // 重复执行自动剧情，直到返回主界面
+        let maxAttempts = 100; // 设置最大尝试次数，防止无限循环
+        let attempts = 0;
+        await sleep(1000);
+        log.info("开始执行自动剧情");
+        
+        while (!isInMainUI() && attempts < maxAttempts) {
+            attempts++;
+            
+            // 正常跳过对话
+            await genshin.chooseTalkOption("纳西妲美貌举世无双", skipCount, false);
+            
+            if (isInMainUI()) {
+                log.info("检测到已返回主界面，结束循环");
+                break;
+            }
+
+            // 每skipCount次跳过后，进行OCR识别
+            if (true) {
+                //log.info("执行OCR识别对话选项");
+                
+                // 检查是否有匹配的优先选项
+                let foundPriorityOption = false;
+
+                // 获取对话区域截图并进行OCR识别
+                let captureRegion = captureGameRegion();
+                let dialogArea = captureRegion.DeriveCrop(1250, 450, 550, 400); // 对话选项区域 1250,450 到 1800,850
+                
+                // 创建OCR识别对象并识别文本
+                let ocrRo = RecognitionObject.Ocr(0, 0, dialogArea.width, dialogArea.height);
+                let ocrResults = dialogArea.FindMulti(ocrRo);
+                if(ocrResults.count>0){
+                log.info(`识别到 ${ocrResults.count} 个选项`);
+                
+                for (let i = 0; i < ocrResults.count; i++) {
+                    let ocrText = ocrResults[i].text;
+                    
+                    // 检查是否在优先选项列表中
+                    for (let j = 0; j < effectivePriorityOptions.length; j++) {
+                        if (ocrText.includes(effectivePriorityOptions[j])) {
+                            log.info(`找到优先选项: ${effectivePriorityOptions[j]}，点击该选项`);
+                            // 点击该选项
+                            ocrResults[i].click();
+                            await sleep(500);
+                            foundPriorityOption = true;
+                            break;
+                        }
+                    }
+                    
+                    if (foundPriorityOption) break;
+                }
+                
+                // 如果没有找到优先选项，则使用默认跳过
+                if (!foundPriorityOption) {
+                    await genshin.chooseTalkOption("", 1, false);
+                }
+                }
+            }
+            
+            // 检查是否已返回主界面
+            if (isInMainUI()) {
+                log.info("检测到已返回主界面，结束循环");
+                break;
+            }
+        }
+        
+        if (isInMainUI()) {
+            log.info("已返回主界面，自动剧情执行完成");
+            keyPress("V");
+        } else {
+            log.warn(`已达到最大尝试次数 ${maxAttempts}，但未检测到返回主界面`);
+        }
+        
+    }
+
+      // 执行处理步骤
+      for (let i = 0; i < processSteps.length; i++) {
+        const step = processSteps[i];
+        log.info("执行流程步骤 {step}: {type}", i + 1, step.type || step);
+        
+        // 重置为默认值
+        priorityOptions = [];
+        npcWhiteList = [];
+        
+        // 如果步骤中包含自定义的优先选项和NPC白名单，则使用它们
+        if (step.data && typeof step.data === "object") {
+          if (Array.isArray(step.data.priorityOptions)) {
+            priorityOptions = step.data.priorityOptions;
+            log.info("使用自定义优先选项: {options}", priorityOptions.join(", "));
+          }
+          if (Array.isArray(step.data.npcWhiteList)) {
+            npcWhiteList = step.data.npcWhiteList;
+            log.info("使用自定义NPC白名单: {npcs}", npcWhiteList.join(", "));
+          }
+        }
+        
+        if (typeof step === "string") {
+          // 简单格式处理
+          if (step.endsWith(".json")) {
+            // 地图追踪文件
+            const trackingPath = `${TALK_PROCESS_BASE_PATH}/${commissionName}/${location}/${step}`;
+            log.info("执行地图追踪: {path}", trackingPath);
+            try {
+              await pathingScript.runFile(trackingPath);
+              log.info("地图追踪执行完成");
+            } catch (error) {
+              log.error("执行地图追踪时出错: {error}", error);
+            }
+          } else if (step === "F") {
+            // 按F键并执行优化的自动剧情
+            log.info("执行自动剧情");
+            await executeOptimizedAutoTalk(null, 5, priorityOptions, npcWhiteList);
+          }
+        } else if (typeof step === "object") {
+          // JSON格式处理
+          if (step.note) {
+            log.info("步骤说明: {note}", step.note);
+          }
+          
+          switch (step.type) {
+            case "地图追踪":
+              log.info("执行地图追踪: {path}", step.data);
+              try {
+                const fullPath = `${TALK_PROCESS_BASE_PATH}/${commissionName}/${location}/${step.data}`;
+                await pathingScript.runFile(fullPath);
+                log.info("地图追踪执行完成");
+              } catch (error) {
+                log.error("执行地图追踪时出错: {error}", error);
+              }
+              break;
+              
+            case "键鼠脚本":
+              log.info("执行键鼠脚本: {path}", step.data);
+              try {
+                const fullPath = `${TALK_PROCESS_BASE_PATH}/${commissionName}/${location}/${step.data}`;
+                await keyMouseScript.runFile(fullPath);
+                log.info("键鼠脚本执行完成");
+              } catch (error) {
+                log.error("执行键鼠脚本时出错: {error}", error.message);
+              }
+              break;
+              
+            case "对话":
+              log.info("执行对话");
+              let skipCount = 5; // 默认跳过5次
+              
+              // 处理对话选项
+              if (typeof step.data === "number") {
+                // 兼容旧版本，如果data是数字，则视为skipCount
+                skipCount = step.data;
+              } else if (typeof step.data === "object" && step.data.skipCount) {
+                // 新版本，data是对象，包含skipCount
+                skipCount = step.data.skipCount;
+              }
+              
+              // 执行对话，使用当前步骤的优先选项和NPC白名单
+              await executeOptimizedAutoTalk(null, skipCount, priorityOptions, npcWhiteList);
+              break;
+              
+            case "按键":
+              if (typeof step.data === "string") {
+                log.info("执行按键: {key}", step.data);
+                keyPress(step.data);
+              } else if (typeof step.data === "object") {
+                if (step.data.action === "down") {
+                  log.info("按下按键: {key}", step.data.key);
+                  keyDown(step.data.key);
+                } else if (step.data.action === "up") {
+                  log.info("释放按键: {key}", step.data.key);
+                  keyUp(step.data.key);
+                } else if (step.data.action === "press") {
+                  log.info("点击按键: {key}", step.data.key);
+                  keyPress(step.data.key);
+                }
+              }
+              break;
+              
+            case "tp":
+              if (Array.isArray(step.data) && step.data.length >= 2) {
+                log.info("执行传送: {x}, {y}", step.data[0], step.data[1]);
+                const force = step.data.length > 2 ? step.data[2] : false;
+                await genshin.tp(step.data[0], step.data[1], force);
+                log.info("传送完成");
+              } else {
+                log.error("传送参数格式错误");
+              }
+              break;
+              
+            default:
+              log.warn("未知的流程类型: {type}", step.type);
+          }
+        }
+        
+        // 每个步骤之间等待一段时间
+        await sleep(2000);
+      }
+      
+      log.info("统一对话委托流程执行完成: {name}", commissionName);
+      return true;
+    } catch (error) {
+      log.error("执行统一对话委托流程时出错: {error}", error.message);
+      return false;
+    }
+  }
+
 /**
- * 执行对话委托流程
+ * 执行对话委托流程（优化版）
  * @param {string} commissionName - 委托名称
  * @param {string} location - 委托地点
  * @returns {Promise<boolean>} - 执行结果
@@ -700,51 +1107,38 @@ async function executeTalkCommission(commissionName, location) {
   try {
     log.info("开始执行对话委托: {name} ({location})", commissionName, location);
     
-    // 构建可能的流程文件路径
-    const processBasePath = `${TALK_PROCESS_BASE_PATH}/${commissionName}`;
-    const processFilePaths = [
-      `${processBasePath}/process.json`,
-      `${processBasePath}/${location}/process.json`
-    ];
+    // 优化的文件路径：固定使用 ${processBasePath}/${location}/process.json
+    const processBasePath = TALK_PROCESS_BASE_PATH;
+    const processFilePath = `${processBasePath}/${commissionName}/${location}/process.json`;
     
-    let processFilePath = null;
-    
-    // 查找流程文件
-    for (const path of processFilePaths) {
-      try {
-        await file.readText(path);
-        processFilePath = path;
-        log.info("找到对话委托流程文件: {path}", path);
-        break;
-      } catch (error) {
-        log.info("对话委托流程文件不存在: {path}", path);
-      }
-    }
-    
-    if (!processFilePath) {
-      log.warn("未找到对话委托 {name} 在 {location} 的流程文件", commissionName, location);
+    let processContent;
+    try {
+      processContent = await file.readText(processFilePath);
+      log.info("找到对话委托流程文件: {path}", processFilePath);
+    } catch (error) {
+      log.warn("未找到对话委托 {name} 在 {location} 的流程文件: {path}", commissionName, location, processFilePath);
       return false;
     }
     
-    // 读取流程文件内容
-    const processContent = await file.readText(processFilePath);
-    
-    // 判断是简单格式还是JSON格式
-    let isJsonFormat = false;
+    // 解析流程内容
+    let processSteps;
     try {
-      JSON.parse(processContent);
-      isJsonFormat = true;
-    } catch (error) {
-      isJsonFormat = false;
+      // 尝试解析为JSON格式
+      const jsonData = JSON.parse(processContent);
+      if (Array.isArray(jsonData)) {
+        processSteps = jsonData;
+      } else {
+        log.error("JSON流程格式错误，应为数组");
+        return false;
+      }
+    } catch (jsonError) {
+      // 如果不是JSON格式，按简单格式处理
+      const lines = processContent.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+      processSteps = lines;
     }
     
-    if (isJsonFormat) {
-      // 处理JSON格式的流程
-      return await executeJsonProcess(processContent, commissionName, location);
-    } else {
-      // 处理简单格式的流程
-      return await executeSimpleProcess(processContent, commissionName, location);
-    }
+    // 使用统一的处理器执行流程
+    return await executeUnifiedTalkProcess(processSteps, commissionName, location);
     
   } catch (error) {
     log.error("执行对话委托时出错: {error}", error);
@@ -753,364 +1147,39 @@ async function executeTalkCommission(commissionName, location) {
 }
 
 /**
- * 执行简单格式的对话委托流程
- * @param {string} processContent - 流程内容
- * @param {string} commissionName - 委托名称
- * @param {string} location - 委托地点
- * @returns {Promise<boolean>} - 执行结果
+ * 检查委托状态
+ * @param buttonIndex — 按钮索引（1-4）
+ * @returns — 返回 ture,false
  */
-async function executeSimpleProcess(processContent, commissionName, location) {
-  try {
-    log.info("执行简单格式的对话委托流程: {name}", commissionName);
-    
-    // 按行分割流程内容
-    const lines = processContent.split('\n').map(line => line.trim()).filter(line => line.length > 0);
-    
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-      log.info("执行流程步骤 {step}: {line}", i + 1, line);
-      
-      if (line.endsWith(".json")) {
-        // 地图追踪文件
-        const trackingPath = `assets/process/${commissionName}/${line}`;
-        log.info("执行地图追踪: {path}", trackingPath);
-        try {
-          await pathingScript.runFile(trackingPath);
-          log.info("地图追踪执行完成");
-        } catch (error) {
-          log.error("执行地图追踪时出错: {error}", error);
-        }
-      } else if (line === "F") {
-        // 按F键并等待对话结束
-        log.info("按下F键并等待对话结束");
-        keyPress("F");
-        
-        // 定义识别对象
-        const paimonMenuRo = RecognitionObject.TemplateMatch(
-          file.ReadImageMatSync("Data/RecognitionObject/paimon_menu.png"), 
-          0, 0, genshin.width / 3.0, genshin.width / 5.0
-        );
-        
-        // 判断是否在主界面的函数
-        const isInMainUI = () => {
-          let captureRegion = captureGameRegion();  // 获取一张截图
-          let res = captureRegion.Find(paimonMenuRo);
-          return !res.isEmpty();
-        };
-        
-        // 重复执行自动剧情，直到返回主界面
-        let maxAttempts = 100; // 设置最大尝试次数，防止无限循环
-        let attempts = 0;
-        await sleep(1000);
-        log.info("开始执行自动剧情循环");
-        
-        while (!isInMainUI() && attempts < maxAttempts) {
-          attempts++;
-          log.info(`执行第 ${attempts} 次自动剧情选择`);
-          await genshin.chooseTalkOption("", 10, false);
-          
-          // 检查是否已返回主界面
-          if (isInMainUI()) {
-            log.info("检测到已返回主界面，结束循环");
-            break;
-          }
-        }
-        
-        if (isInMainUI()) {
-          log.info("已返回主界面，自动剧情执行完成");
-        } else {
-          log.warn(`已达到最大尝试次数 ${maxAttempts}，但未检测到返回主界面`);
-        }
-      } else {
-        // 其他未知命令
-        log.warn("未知的流程命令: {command}", line);
-      }
-      
-      // 每个步骤之间等待一段时间
-      await sleep(2000);
-    }
-    
-    log.info("简单格式的对话委托流程执行完成: {name}", commissionName);
-    return true;
-  } catch (error) {
-    log.error("执行简单格式的对话委托流程时出错: {error}", error);
+async function iscompleted(buttonIndex)  {
+  const enterSuccess = await enterCommissionScreen();
+  if (!enterSuccess) {
+    log.error("无法进入委托界面，脚本终止");
     return false;
-  }
-}
-
-/**
- * 执行JSON格式的对话委托流程
- * @param {string} processContent - 流程内容
- * @param {string} commissionName - 委托名称
- * @param {string} location - 委托地点
- * @returns {Promise<boolean>} - 执行结果
- */
-async function executeJsonProcess(processContent, commissionName, location) {
-  try {
-    log.info("执行JSON格式的对话委托流程: {name}", commissionName);
-    
-    // 解析JSON内容
-    const processSteps = JSON.parse(processContent);
-    
-    // 如果是数组，则按顺序执行每个步骤
-    if (Array.isArray(processSteps)) {
-      for (let i = 0; i < processSteps.length; i++) {
-        const step = processSteps[i];
-        log.info("执行流程步骤 {step}: {type}", i + 1, step.type);
-        
-        // 如果有注释，输出注释
-        if (step.note) {
-          log.info("步骤说明: {note}", step.note);
-        }
-        
-        switch (step.type) {
-          case "地图追踪":
-            // 执行地图追踪
-            log.info("执行地图追踪: {path}", step.data);
-            try {
-              await pathingScript.runFile(step.data);
-              log.info("地图追踪执行完成");
-            } catch (error) {
-              log.error("执行地图追踪时出错: {error}", error);
-            }
-            break;
-            
-          case "键鼠脚本":
-            // 执行键鼠脚本
-            log.info("执行键鼠脚本: {path}", step.data);
-            try {
-              await runFile(step.data);
-              log.info("键鼠脚本执行完成");
-            } catch (error) {
-              log.error("执行键鼠脚本时出错: {error}", error);
-            }
-            break;
-            
-          case "对话":
-            // 执行对话
-            log.info("执行对话流程");
-            keyPress("F");
-            
-            // 定义识别对象
-            const paimonMenuRo = RecognitionObject.TemplateMatch(
-              file.ReadImageMatSync("Data/RecognitionObject/paimon_menu.png"), 
-              0, 0, genshin.width / 3.0, genshin.width / 5.0
-            );
-            
-            // 判断是否在主界面的函数
-            const isInMainUI = () => {
-              let captureRegion = captureGameRegion();  // 获取一张截图
-              let res = captureRegion.Find(paimonMenuRo);
-              return !res.isEmpty();
-            };
-            
-            // 重复执行自动剧情，直到返回主界面
-            let maxAttempts = 100; // 设置最大尝试次数，防止无限循环
-            let attempts = 0;
-            await sleep(1000);
-            log.info("开始执行自动剧情循环");
-            
-            const skipCount = step.data || 10; // 默认跳过10次对话
-            
-            while (!isInMainUI() && attempts < maxAttempts) {
-              attempts++;
-              log.info(`执行第 ${attempts} 次自动剧情选择`);
-              await genshin.chooseTalkOption("", skipCount, false);
-              
-              // 检查是否已返回主界面
-              if (isInMainUI()) {
-                log.info("检测到已返回主界面，结束循环");
-                break;
-              }
-            }
-            
-            if (isInMainUI()) {
-              log.info("已返回主界面，自动剧情执行完成");
-            } else {
-              log.warn(`已达到最大尝试次数 ${maxAttempts}，但未检测到返回主界面`);
-            }
-            break;
-            
-          case "按键":
-            // 执行按键操作
-            if (typeof step.data === "string") {
-              // 单个按键
-              log.info("执行按键: {key}", step.data);
-              keyPress(step.data);
-            } else if (typeof step.data === "object") {
-              // 复杂按键操作
-              if (step.data.action === "down") {
-                log.info("按下按键: {key}", step.data.key);
-                keyDown(step.data.key);
-              } else if (step.data.action === "up") {
-                log.info("释放按键: {key}", step.data.key);
-                keyUp(step.data.key);
-              } else if (step.data.action === "press") {
-                log.info("点击按键: {key}", step.data.key);
-                keyPress(step.data.key);
-              }
-            }
-            break;
-            
-          case "tp":
-            // 执行传送
-            if (Array.isArray(step.data) && step.data.length >= 2) {
-              log.info("执行传送: {x}, {y}", step.data[0], step.data[1]);
-              const force = step.data.length > 2 ? step.data[2] : false;
-              await genshin.tp(step.data[0], step.data[1], force);
-              log.info("传送完成");
-            } else {
-              log.error("传送参数格式错误");
-            }
-            break;
-            
-          default:
-            log.warn("未知的流程类型: {type}", step.type);
-        }
-        
-        // 每个步骤之间等待一段时间
-        await sleep(2000);
-      }
+  }/*
+  if (buttonIndex >= 2 && buttonIndex < 4) {
+    const status = await detectCommissionStatusByImage(buttonIndex-2);
+    if (status === "completed") {
+      return true;
     } else {
-      log.error("JSON流程格式错误，应为数组");
       return false;
     }
-    
-    log.info("JSON格式的对话委托流程执行完成: {name}", commissionName);
-    return true;
-  } catch (error) {
-    log.error("执行JSON格式的对话委托流程时出错: {error}", error);
-    return false;
-  }
+  }else{*/
+    await PageScroll(1);
+    const status = await detectCommissionStatusByImage(3);
+    if (status === "completed") {
+      return true;
+    } else {
+      return false;
+    }
 }
 
 /**
- * 执行委托追踪
- * 新版本：执行所有委托而不检测触发状态
- */
-async function executeCommissionTracking_old() {
-  try {
-    log.info("开始执行委托追踪 - 全部执行模式");
-    
-    // 获取已识别的委托列表
-    let commissions = [];
-    try {
-      const commissionsData = JSON.parse(file.readTextSync(`${OUTPUT_DIR}/commissions_data.json`));
-      commissions = commissionsData.commissions.filter(c => c.supported);
-      log.info("已加载支持的委托数据，共 {count} 个", commissions.length);
-    } catch (error) {
-      log.error("读取委托数据失败: {error}", error);
-      return false;
-    }
-    
-    if (commissions.length === 0) {
-      log.warn("没有找到支持的委托，请先运行识别脚本");
-      return false;
-    }
-    
-    // 确保回到主界面
-    await genshin.returnMainUi();
-    
-    // 执行每个委托
-    let completedCount = 0;
-    for (const commission of commissions) {
-      // 跳过已完成的委托
-      if (commission.location === "已完成") {
-        log.info("委托 {name} 已完成，跳过", commission.name);
-        completedCount++;
-        continue;
-      }
-      
-      // 跳过没有地点信息的委托
-      if (!commission.location || commission.location === "未知地点" || commission.location === "识别失败") {
-        log.warn("委托 {name} 缺少地点信息，跳过", commission.name);
-        continue;
-      }
-      
-      log.info("开始执行委托: {name} ({location}) [{type}]", 
-        commission.name, commission.location, commission.type || "未知类型");
-      
-      // 根据委托类型执行不同的处理逻辑
-      if (commission.type === COMMISSION_TYPE.TALK) {
-        // 执行对话委托
-        const success = await executeTalkCommission(commission.name, commission.location);
-        if (success) {
-          completedCount++;
-          log.info("对话委托 {name} 执行完成", commission.name);
-        } else {
-          log.warn("对话委托 {name} 执行失败", commission.name);
-        }
-      } else {
-        // 默认执行战斗委托
-        // 构建可能的路径追踪脚本路径
-        const location = commission.location.trim();
-        const scriptPaths = [
-          `assets/${commission.name}/${location}-1.json`,
-          `assets/${commission.name}/${location}-2.json`,
-          `assets/${commission.name}/${location}-3.json`,
-        ];
-        
-        let scriptFound = false;
-        let scriptExecuted = false;
-        
-        // 尝试执行每个可能的脚本路径
-        for (const scriptPath of scriptPaths) {
-          try {
-            // 检查脚本文件是否存在
-            log.info("检查路径追踪脚本: {path}", scriptPath);
-            
-            try {
-              // 尝试读取文件内容来检查是否存在
-              await file.readText(scriptPath);
-              log.info("找到路径追踪脚本: {path}", scriptPath);
-              scriptFound = true;
-              scriptExecuted = true;
-            } catch (readError) {
-              log.info("路径追踪脚本不存在: {path}", scriptPath);
-              continue; // 尝试下一个脚本路径
-            }
-            
-            // 执行路径追踪脚本
-            log.info("开始执行路径追踪脚本: {path}", scriptPath);
-            
-            // 执行脚本并等待完成
-            await pathingScript.runFile(scriptPath);
-            log.info("路径追踪脚本执行完成");
-          } catch (scriptError) {
-            log.error("执行路径追踪脚本时出错: {error}", scriptError);
-          }
-        }
-        
-        if (!scriptFound) {
-          log.warn("未找到委托 {name} 在 {location} 的路径追踪脚本", commission.name, location);
-        } else if (scriptExecuted) {
-          completedCount++;
-          log.info("战斗委托 {name} 执行完成", commission.name);
-        }
-      }
-      
-      // 每个委托之间等待一段时间
-      log.info("等待5秒后执行下一个委托...");
-      await sleep(5000);
-    }
-    
-    log.info("委托追踪全部执行完成，共执行 {count}/{total} 个委托", 
-      completedCount, commissions.length);
-    
-    return completedCount > 0;
-  } catch (error) {
-    log.error("执行委托追踪时出错: {error}", error);
-    return false;
-  }
-}
-
-/**
- * 执行委托追踪
- * 新版本：执行所有委托而不检测触发状态
+ * 执行委托追踪（优化版 - 按距离排序）
  */
 async function executeCommissionTracking() {
   try {
-    log.info("开始执行委托追踪 - 全部执行模式");
+    log.info("开始执行委托追踪 - 按距离排序模式");
     
     // 获取已识别的委托列表
     let commissions = [];
@@ -1149,11 +1218,15 @@ async function executeCommissionTracking() {
       
       log.info("开始执行委托: {name} ({location}) [{type}]", 
         commission.name, commission.location, commission.type || "未知类型");
+
+      log.info("当前委托位置: ({x}, {y})", commission.playerPosition.X, commission.playerPosition.Y);
+
+      let success = false;
       
       // 根据委托类型执行不同的处理逻辑
       if (commission.type === COMMISSION_TYPE.TALK) {
         // 执行对话委托
-        const success = await executeTalkCommission(commission.name, commission.location);
+        success = await executeTalkCommission(commission.name, commission.location);
         if (success) {
           completedCount++;
           log.info("对话委托 {name} 执行完成", commission.name);
@@ -1161,22 +1234,63 @@ async function executeCommissionTracking() {
           log.warn("对话委托 {name} 执行失败", commission.name);
         }
       } else {
+
+        //dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
+
         // 默认执行战斗委托
-        // 构建可能的路径追踪脚本路径
         const location = commission.location.trim();
+        
+        // 脚本路径
         const scriptPaths = [
           `assets/${commission.name}/${location}-1.json`,
           `assets/${commission.name}/${location}-2.json`,
-          `assets/${commission.name}/${location}-3.json`,
+          `assets/${commission.name}/${location}-3.json`
         ];
         
-        let scriptFound = false;
-        let scriptExecuted = false;
-        
-        // 尝试执行每个可能的脚本路径
+        // 获取每个脚本对应的目标位置和距离
+        const scriptInfo = [];
         for (const scriptPath of scriptPaths) {
           try {
-            // 检查脚本文件是否存在
+          await file.readText(scriptPath);
+          const targetPos = await getCommissionTargetPosition(scriptPath);
+          if (targetPos) {
+            const distance = calculateDistance(commission.playerPosition, targetPos);
+            scriptInfo.push({
+              path: scriptPath,
+              distance: distance,
+              valid: true
+            });
+            log.info("委托 {name} 目标位置: ({x}, {y})，距离: {distance}", 
+              scriptPath, targetPos.x, targetPos.y, distance);
+          } else {
+            log.warn("委托 {name} 无法获取距离", scriptPath);
+            scriptInfo.push({
+              path: scriptPath,
+              distance: Infinity,
+              valid: false
+            });
+          }
+        } catch (readError) {
+          log.info("路径追踪脚本不存在: {path}", scriptPath);
+          continue;
+        }
+        }
+        
+        // 按距离从小到大排序
+        scriptInfo.sort((a, b) => a.distance - b.distance);
+        
+        // 输出排序结果
+        log.info("排序后的脚本执行顺序:");
+        scriptInfo.forEach((info, index) => {
+          log.info("{index}. 脚本: {path}, 距离: {distance}", index + 1, info.path, info.distance);
+        });
+
+        // 尝试执行排序后的脚本路径
+        let executed = false;
+        for (const info of scriptInfo) {
+          const scriptPath = info.path;
+          try {
+            /* 检查脚本文件是否存在
             log.info("检查路径追踪脚本: {path}", scriptPath);
             
             try {
@@ -1184,28 +1298,31 @@ async function executeCommissionTracking() {
               await file.readText(scriptPath);
               log.info("找到路径追踪脚本: {path}", scriptPath);
               scriptFound = true;
-              scriptExecuted = true;
             } catch (readError) {
               log.info("路径追踪脚本不存在: {path}", scriptPath);
               continue; // 尝试下一个脚本路径
-            }
+            }*/
             
             // 执行路径追踪脚本
             log.info("开始执行路径追踪脚本: {path}", scriptPath);
-            
-            // 执行脚本并等待完成
             await pathingScript.runFile(scriptPath);
             log.info("路径追踪脚本执行完成");
+            if(await iscompleted(commission.id)){
+              log.info("委托 {name} 已完成", commission.name);
+              completedCount++;
+              success = true;
+              break;
+            }else{
+              log.info("委托 {name} 未完成，尝试下一个脚本", commission.name);
+            }
           } catch (scriptError) {
             log.error("执行路径追踪脚本时出错: {error}", scriptError);
+            break;
           }
         }
         
-        if (!scriptFound) {
-          log.warn("未找到委托 {name} 在 {location} 的路径追踪脚本", commission.name, location);
-        } else if (scriptExecuted) {
-          completedCount++;
-          log.info("战斗委托 {name} 执行完成", commission.name);
+        if (!success) {
+          log.warn("委托 {name} 执行失败", commission.name);
         }
       }
       
@@ -1219,7 +1336,7 @@ async function executeCommissionTracking() {
     
     return completedCount > 0;
   } catch (error) {
-    log.error("执行委托追踪时出错: {error}", error);
+    log.error("执行委托追踪时出错: {error}", error.message);
     return false;
   }
 }
@@ -1228,15 +1345,15 @@ async function executeCommissionTracking() {
   async function main() {
 
     //await Identification();
-    
-    if(settings.skipRecognition){
+
+    if(skipRecognition){
       log.info("跳过识别，直接加载数据");
     }else{
       await Identification();
     }//识别委托
 
     // 开局准备
-    await prepareForLeyLineRun(settings);
+    await prepareForLeyLineRun();
           
     // 执行自动委托
     await executeCommissionTracking();
@@ -1244,7 +1361,7 @@ async function executeCommissionTracking() {
     log.info("每日委托执行完成，前往安全地点");
     await genshin.tpToStatueOfTheSeven();
   }
-  // 修改这里：使用 Promise 包装 main 函数的执行
+  // 使用 Promise 包装 main 函数的执行
   return main();
   //log.info("");
 })();

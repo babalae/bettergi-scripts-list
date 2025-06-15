@@ -1,0 +1,112 @@
+{
+  "info": {
+    "name": "212璃月-石门东1",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 204.833984375,
+      "y": 1569.88671875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 189.396484375,
+      "y": 1558.46337890625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 169.525390625,
+      "y": 1527.8369140625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 164.232421875,
+      "y": 1484.203125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 171.9111328125,
+      "y": 1461.98486328125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 141.537109375,
+      "y": 1433.52197265625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 127.3056640625,
+      "y": 1422.6220703125,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 121.2587890625,
+      "y": 1430.466796875,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 113.1806640625,
+      "y": 1468.9912109375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 108.103515625,
+      "y": 1474.7109375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 111.599609375,
+      "y": 1476.80810546875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.2),keypress(VK_SPACE),wait(0.5),keypress(VK_SPACE),keydown(a),wait(0.2),keypress(VK_SPACE),wait(0.5),keypress(VK_SPACE),keyup(a)",
+      "type": "target"
+    }
+  ]
+}

@@ -13,29 +13,20 @@
       "id": 1,
       "x": -2738.38,
       "y": -3414.45,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "action_params": "wait(1)",
+      "type": "orientation"
     },
     {
       "id": 2,
-      "x": -2736.6005859375,
-      "y": -3415.4443359375,
-      "type": "path",
+      "x": -2738.38,
+      "y": -3414.45,
+      "action": "",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)",
+      "action_params": "",
+      "type": "teleport",
       "locked": false
-    },
-    {
-      "id": 3,
-      "x": -2736.6005859375,
-      "y": -3415.4443359375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "exit_and_relogin",
-      "action_params": ""
     }
   ]
 }
