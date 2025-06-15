@@ -1,11 +1,14 @@
 {
   "info": {
-    "name": "04-帕蒂沙兰-卡萨扎莱宫",
+    "name": "04-帕蒂沙兰-卡萨扎莱宫-11个",
     "type": "collect",
     "author": "jbcaaa",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.0"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1749983386763
   },
   "positions": [
     {
@@ -19,10 +22,10 @@
     {
       "id": 2,
       "x": 2500.75,
-      "y": 20.0,
-      "type": "path",
+      "y": 20,
+      "action": "",
       "move_mode": "run",
-      "action": ""
+      "type": "path"
     },
     {
       "id": 3,
@@ -62,7 +65,7 @@
       "y": 84.07,
       "action": "",
       "move_mode": "walk",
-      "type": "path"
+      "type": "target"
     },
     {
       "id": 8,
@@ -109,24 +112,24 @@
       "x": 2617.38,
       "y": 80.89,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "target"
     },
     {
       "id": 14,
       "x": 2612.75,
-      "y": 88.0,
+      "y": 88,
       "action": "",
-      "move_mode": "fly",
+      "move_mode": "jump",
       "type": "target"
     },
     {
       "id": 15,
-      "x": 2603.0,
-      "y": 87.0,
-      "type": "path",
+      "x": 2603,
+      "y": 87,
+      "action": "",
       "move_mode": "walk",
-      "action": ""
+      "type": "path"
     },
     {
       "id": 16,
@@ -163,7 +166,7 @@
     {
       "id": 20,
       "x": 2625.75,
-      "y": 78.0,
+      "y": 78,
       "action": "",
       "move_mode": "run",
       "type": "path"
@@ -171,7 +174,7 @@
     {
       "id": 21,
       "x": 2624.25,
-      "y": 56.0,
+      "y": 56,
       "action": "stop_flying",
       "move_mode": "fly",
       "type": "path"
@@ -181,16 +184,16 @@
       "x": 2630.36,
       "y": 51.5,
       "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "move_mode": "dash",
+      "type": "target"
     },
     {
       "id": 23,
       "x": 2616.46,
       "y": 47.55,
       "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "move_mode": "dash",
+      "type": "target"
     }
   ]
 }
