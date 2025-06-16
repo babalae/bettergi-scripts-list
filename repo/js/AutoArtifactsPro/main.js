@@ -13,6 +13,8 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     const grindPartyName = settings.grindPartyName;
     const operationType = settings.operationType || "不卡时间，ab交替运行";
 
+    let enemyType = "无";
+
     //处理操作模式信息
     switch (operationType) {
         case "盗宝团好感卡时间":
@@ -598,6 +600,11 @@ async function AutoPath(locationName) {
 async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "盗宝团", endTime) {
     let friendTimes = 0;
     for (let i = 0; i < times; i++) {
+
+        if (enemyType === "无") {
+            log.info(`不进行好感`);
+            return 0;
+        }
 
         // 获取当前时间
         const now = new Date();
