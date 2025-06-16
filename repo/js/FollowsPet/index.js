@@ -1,3 +1,30 @@
+// src/index.ts
+async function mouseSmoothMove(sx, sy, ex, ey, duration) {
+  const steps = Math.max(Math.floor(duration / (1e3 / 60)), 20);
+  const points = [];
+  points.push([sx, sy]);
+  for (let i = 1; i < steps - 1; i++) {
+    const t = i / (steps - 1);
+    const x = (1 - t) * sx + t * ex;
+    const y = (1 - t) * sy + t * ey;
+    points.push([x, y]);
+  }
+  points.push([ex, ey]);
+  const interval = duration / steps;
+  for (const [x, y] of points) {
+    moveMouseTo(Math.floor(x), Math.floor(y));
+    await sleep(Math.floor(interval));
+  }
+}
+async function mouseSmoothDrag(sx, sy, ex, ey, duration) {
+  moveMouseTo(sx, sy);
+  leftButtonDown();
+  await sleep(50);
+  await mouseSmoothMove(sx, sy, ex, ey, duration - 300);
+  await sleep(250);
+  leftButtonUp();
+}
+
 // 最多尝试 2 次拖动屏幕
 const DRAG_SCREEN_MAX = 2;
 // 宠物与模板的对应关系
@@ -18,25 +45,6 @@ const PETS = [
     { name: '「式小将」', file: 'assets/shiki_koshou.png' },
 ];
 /**
- * 垂直拖动屏幕
- * @param x 初始 x 坐标
- * @param yStart 起始 y 坐标
- * @param yEnd 终点 y 坐标
- * @param step 步长
- */
-async function verticalDragScreen(x, yStart, yEnd, step = 20) {
-    moveMouseTo(x, yStart);
-    await sleep(100);
-    leftButtonDown();
-    const yStep = (yEnd - yStart) / step;
-    for (let i = 1; i <= step; i++) {
-        await sleep(50);
-        moveMouseTo(x, Math.floor(yStart + yStep * i));
-    }
-    await sleep(1000);
-    leftButtonUp();
-}
-/**
  * 装备宠物
  * @param pet 宠物
  */
@@ -54,7 +62,7 @@ async function equipPet(pet) {
         const petRegion = gameRegion.find(petRo);
         if (!petRegion.isExist()) {
             // 未找到宠物，尝试拖动屏幕
-            await verticalDragScreen(1200, 842, 117);
+            await mouseSmoothDrag(1200, 890, 1200, 186, 2000);
             continue;
         }
         petRegion.click();
@@ -75,7 +83,7 @@ async function equipPet(pet) {
  * 卸下宠物
  */
 async function removePet() {
-    const pets = PETS.map(pet => {
+    const pets = PETS.map((pet) => {
         const ro = RecognitionObject.templateMatch(file.readImageMatSync(pet.file));
         ro.threshold = 0.97;
         ro.use3Channels = true;
@@ -97,7 +105,7 @@ async function removePet() {
             await sleep(1000);
             return log.info(`已卸下宠物：${pet.name}`);
         }
-        await verticalDragScreen(1200, 842, 117);
+        await mouseSmoothDrag(1200, 890, 1200, 186, 2000);
     }
     log.warn('未找到装备中的宠物');
 }

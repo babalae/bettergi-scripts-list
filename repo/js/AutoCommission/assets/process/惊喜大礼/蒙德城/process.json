@@ -1,0 +1,24 @@
+[
+  {
+    "type": "地图追踪",
+    "data": "去往蒙德大教堂.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+  {
+    "type": "按键",
+    "data": "F",
+    "note": "按下F键"
+  },
+  {
+    "type": "isinMainUi",
+    "note": "等待返回主界面"
+  },
+  {
+    "type": "追踪委托",
+    "data": {
+      "npc": "鲁道夫",
+      "iconType": "task"
+    },
+    "note": "追踪委托"
+  }
+]

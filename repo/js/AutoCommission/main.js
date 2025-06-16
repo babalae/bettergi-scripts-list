@@ -1,4 +1,4 @@
-// V0.97
+// V0.97.2
 (async function () {
   // 定义常量
   const OCR_REGION_X = 750;
@@ -75,16 +75,18 @@
  * @param {string} iconType - 图标类型 ("task"或"bigmap")
  * @returns {Promise<void>}
  */
-const autoNavigateToTalk = async (npcName = "", iconType = "bigmap") => {
+const autoNavigateToTalk = async (npcName = "", iconType = "") => {
   // 设置目标NPC名称
   const textArray = [npcName];
-  
+  //log.info(npcName + iconType);
   // 根据图标类型选择不同的识别对象
   let boxIconRo;
   if (iconType === "task") {
     boxIconRo = RecognitionObject.TemplateMatch(
       file.ReadImageMatSync("Data/RecognitionObject/IconTaskCommission.png")
+      
     );
+    log.info("使用任务图标");
   } else { // 默认使用大地图图标
     boxIconRo = RecognitionObject.TemplateMatch(
       file.ReadImageMatSync("Data/RecognitionObject/IconBigmapCommission.jpg")
@@ -113,6 +115,11 @@ const autoNavigateToTalk = async (npcName = "", iconType = "bigmap") => {
     for (let i = 0; i < 100; i++) {
       captureRegion = captureGameRegion();
       let iconRes = captureRegion.Find(boxIconRo);
+      log.info(
+        "检测到委托图标位置 ({x}, {y})",
+        iconRes.x,
+        iconRes.y
+      )
       let climbTextArea = captureRegion.DeriveCrop(1808, 1030, 25, 25);
       let climbResult = climbTextArea.find(RecognitionObject.ocrThis);
       // 检查是否处于攀爬状态
@@ -1649,13 +1656,20 @@ const autoNavigateToTalk = async (npcName = "", iconType = "bigmap") => {
       // 确保回到主界面
       await genshin.returnMainUi();
 
-      // 执行每个委托
+      // 统计已完成委托
       let completedCount = 0;
+      for (const commission of commissions) {
+        if (commission.location === "已完成") {
+          completedCount++;
+          continue;
+        }
+      }
+
+      // 执行每个委托
       for (const commission of commissions) {
         // 跳过已完成的委托
         if (commission.location === "已完成") {
           log.info("委托 {name} 已完成，跳过", commission.name);
-          completedCount++;
           continue;
         }
 
@@ -1683,8 +1697,7 @@ const autoNavigateToTalk = async (npcName = "", iconType = "bigmap") => {
             commission.CommissionPosition.Y
           );
         } catch (error) {
-          log.warn("委托 {name} 缺少坐标信息，跳过", commission.name);
-          continue; 
+          log.warn("委托 {name} 缺少坐标信息，尝试全部执行", commission.name);
         }
 
         let success = false;
@@ -1696,7 +1709,8 @@ const autoNavigateToTalk = async (npcName = "", iconType = "bigmap") => {
             commission.name,
             commission.location
           );
-          if (success) {
+          let completed = await iscompleted(completedCount);
+          if (success && completed) {
             completedCount++;
             log.info("对话委托 {name} 执行完成", commission.name);
           } else {
@@ -1829,6 +1843,9 @@ const autoNavigateToTalk = async (npcName = "", iconType = "bigmap") => {
   async function main() {
 
     //await Identification();
+    //setGameMetrics(1920, 1080, 1);
+    //await genshin.returnMainUi();
+    //await autoNavigateToTalk("盖伊","task");
 
     if (skipRecognition) {
       log.info("跳过识别，直接加载数据");
