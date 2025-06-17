@@ -21,22 +21,32 @@
       "id": 2,
       "x": 4607.82421875,
       "y": 4931.5205078125,
-      "type": "target",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 3,
       "x": 4604.51806640625,
       "y": 4934.22802734375,
-      "type": "target",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);"
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "type": "target",
+      "locked": false
     },
     {
       "id": 4,
+      "x": 4605.51806640625,
+      "y": 4935.22802734375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "type": "path"
+    },
+    {
+      "id": 5,
       "x": 4695.14013671875,
       "y": 4995.1630859375,
       "action": "",
@@ -44,7 +54,7 @@
       "type": "path"
     },
     {
-      "id": 5,
+      "id": 6,
       "x": 4680.468819126451,
       "y": 5005.531219684073,
       "action": "",
@@ -53,7 +63,7 @@
       "type": "path"
     },
     {
-      "id": 6,
+      "id": 7,
       "x": 4679.468801351079,
       "y": 5002.406090841383,
       "action": "",
@@ -62,7 +72,7 @@
       "type": "path"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": 4677.8437618502485,
       "y": 4998.781022630548,
       "action": "combat_script",
@@ -71,7 +81,7 @@
       "type": "path"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": 4696.999982224626,
       "y": 4976.343810631854,
       "action": "",
@@ -80,7 +90,7 @@
       "type": "path"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": 4722.281459354395,
       "y": 4946.312318104439,
       "action": "",
@@ -89,7 +99,7 @@
       "type": "path"
     },
     {
-      "id": 10,
+      "id": 11,
       "x": 4720.4013671875,
       "y": 4931.0986328125,
       "action": "stop_flying",
@@ -98,7 +108,7 @@
       "type": "path"
     },
     {
-      "id": 11,
+      "id": 12,
       "x": 4722.196533203125,
       "y": 4931.892578125,
       "action": "",
@@ -107,7 +117,7 @@
       "type": "path"
     },
     {
-      "id": 12,
+      "id": 13,
       "x": 4723.99169921875,
       "y": 4932.6865234375,
       "action": "combat_script",
@@ -116,7 +126,7 @@
       "type": "target"
     },
     {
-      "id": 13,
+      "id": 14,
       "x": 4720.4013671875,
       "y": 4931.0986328125,
       "action": "",
@@ -125,7 +135,7 @@
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": 4731.343757900166,
       "y": 4906.187333262402,
       "action": "",
@@ -134,7 +144,7 @@
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": 4734.6562381497515,
       "y": 4903.343636315274,
       "action": "",
@@ -142,7 +152,7 @@
       "type": "path"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": 4735.62841796875,
       "y": 4902.6748046875,
       "action": "combat_script",
@@ -151,7 +161,7 @@
       "type": "target"
     },
     {
-      "id": 17,
+      "id": 18,
       "x": 4749.156392202985,
       "y": 4913.249719577676,
       "action": "",
@@ -159,16 +169,16 @@
       "type": "path"
     },
     {
-      "id": 18,
+      "id": 19,
       "x": 4752.42041015625,
       "y": 4912.71875,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.2),keypress(x),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.1);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);keydown(s),wait(0.3),keydown(a),wait(0.1),keyup(s),wait(1.2),keyup(a)",
+      "action_params": "wait(0.2),keypress(x),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.1),s(0.3);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);keydown(s),wait(0.3),keydown(a),wait(0.1),keyup(s),wait(1.2),keyup(a)",
       "type": "target"
     },
     {
-      "id": 19,
+      "id": 20,
       "x": 4750.0390625,
       "y": 4904.76904296875,
       "action": "",
@@ -177,7 +187,7 @@
       "type": "path"
     },
     {
-      "id": 20,
+      "id": 21,
       "x": 4758.86865234375,
       "y": 4899.99755859375,
       "action": "combat_script",
@@ -186,7 +196,7 @@
       "type": "path"
     },
     {
-      "id": 21,
+      "id": 22,
       "x": 4760.750047400995,
       "y": 4899.968757578981,
       "action": "",
