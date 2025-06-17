@@ -59,8 +59,8 @@
     },
     {
       "id": 6,
-      "x": 4751.919921875,
-      "y": 3833.587890625,
+      "x": 4751.92,
+      "y": 3833.59,
       "type": "path",
       "move_mode": "run",
       "action": "fight",
@@ -69,8 +69,8 @@
     },
     {
       "id": 7,
-      "x": 4748.001953125,
-      "y": 3840.677734375,
+      "x": 4748.0,
+      "y": 3840.68,
       "type": "path",
       "move_mode": "walk",
       "action": "mining",
@@ -78,26 +78,27 @@
       "locked": false
     },
     {
-      "x": 4748.001953125,
-      "y": 3840.677734375,
+      "id": 8,
+      "x": 4748.0,
+      "y": 3840.68,
       "action": "combat_script",
       "action_params": "wait(1)",
       "type": "path",
       "move_mode": "walk"
     },
     {
-      "id": 8,
-      "x": 4747.29541015625,
-      "y": 3841.0712890625,
+      "id": 9,
+      "x": 4747.3,
+      "y": 3841.07,
       "type": "path",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 9,
-      "x": 4746.8681640625,
-      "y": 3844.011474609375,
+      "id": 10,
+      "x": 4746.87,
+      "y": 3844.01,
       "type": "path",
       "move_mode": "walk",
       "action": "mining",
@@ -105,36 +106,9 @@
       "locked": true
     },
     {
-      "x": 4746.8681640625,
-      "y": 3844.011474609375,
-      "action": "combat_script",
-      "action_params": "wait(1)",
-      "type": "path",
-      "move_mode": "walk"
-    },
-    {
-      "id": 10,
-      "x": 4744.458984375,
-      "y": 3834.861083984375,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": "",
-      "locked": false
-    },
-    {
       "id": 11,
-      "x": 4740.96044921875,
-      "y": 3838.026611328125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
-      "locked": false
-    },
-    {
-      "x": 4740.96044921875,
-      "y": 3838.026611328125,
+      "x": 4746.87,
+      "y": 3844.01,
       "action": "combat_script",
       "action_params": "wait(1)",
       "type": "path",
@@ -142,6 +116,35 @@
     },
     {
       "id": 12,
+      "x": 4744.46,
+      "y": 3834.86,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": 4740.96,
+      "y": 3838.03,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "locked": false
+    },
+    {
+      "id": 14,
+      "x": 4740.96,
+      "y": 3838.03,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 15,
       "x": 4741.55,
       "y": 3828.41,
       "action": "",
@@ -150,7 +153,7 @@
       "locked": false
     },
     {
-      "id": 13,
+      "id": 16,
       "x": 4705.48,
       "y": 3794.74,
       "action": "",
@@ -159,75 +162,48 @@
       "locked": false
     },
     {
-      "id": 14,
-      "x": 4702.2587890625,
-      "y": 3793.353515625,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 15,
-      "x": 4698.62939453125,
-      "y": 3795.002197265625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
-      "locked": false
-    },
-    {
-      "x": 4698.62939453125,
-      "y": 3795.002197265625,
-      "action": "combat_script",
-      "action_params": "wait(1)",
-      "type": "path",
-      "move_mode": "walk"
-    },
-    {
-      "id": 16,
-      "x": 4704.58544921875,
-      "y": 3789.20556640625,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": "",
-      "locked": false
-    },
-    {
       "id": 17,
-      "x": 4702.83544921875,
-      "y": 3787.89599609375,
+      "x": 4702.26,
+      "y": 3793.35,
       "type": "path",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
       "locked": false
-    },
-    {
-      "x": 4702.83544921875,
-      "y": 3787.89599609375,
-      "action": "combat_script",
-      "action_params": "wait(1)",
-      "type": "path",
-      "move_mode": "walk"
     },
     {
       "id": 18,
-      "x": 4705.58740234375,
-      "y": 3782.88232421875,
+      "x": 4698.63,
+      "y": 3795.0,
       "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": "",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
       "locked": false
     },
     {
       "id": 19,
-      "x": 4704.15673828125,
-      "y": 3780.972412109375,
+      "x": 4698.63,
+      "y": 3795.0,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 20,
+      "x": 4704.59,
+      "y": 3789.21,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 21,
+      "x": 4702.84,
+      "y": 3787.9,
       "type": "path",
       "move_mode": "walk",
       "action": "mining",
@@ -235,8 +211,38 @@
       "locked": false
     },
     {
-      "x": 4704.15673828125,
-      "y": 3780.972412109375,
+      "id": 22,
+      "x": 4702.84,
+      "y": 3787.9,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 23,
+      "x": 4705.59,
+      "y": 3782.88,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 24,
+      "x": 4704.16,
+      "y": 3780.97,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "locked": false
+    },
+    {
+      "id": 25,
+      "x": 4704.16,
+      "y": 3780.97,
       "action": "combat_script",
       "action_params": "wait(1)",
       "type": "path",

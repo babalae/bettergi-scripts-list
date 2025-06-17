@@ -30,8 +30,8 @@
     },
     {
       "id": 3,
-      "x": 3672.6083984375,
-      "y": 4969.4091796875,
+      "x": 3672.61,
+      "y": 4969.41,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -40,33 +40,17 @@
     },
     {
       "id": 4,
-      "x": 3672.6083984375,
-      "y": 4970.4091796875,
+      "x": 3672.61,
+      "y": 4970.41,
       "type": "path",
       "move_mode": "walk",
       "action": "mining",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
-    },
-    {
-      "x": 3672.6083984375,
-      "y": 4970.4091796875,
-      "action": "combat_script",
-      "action_params": "wait(1)",
-      "type": "path",
-      "move_mode": "walk"
     },
     {
       "id": 5,
-      "x": 3674.6689453125,
-      "y": 4972.89013671875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
-    },
-    {
-      "x": 3674.6689453125,
-      "y": 4972.89013671875,
+      "x": 3672.61,
+      "y": 4970.41,
       "action": "combat_script",
       "action_params": "wait(1)",
       "type": "path",
@@ -74,16 +58,35 @@
     },
     {
       "id": 6,
-      "x": 3664.1025390625,
-      "y": 4970.318359375,
+      "x": 3674.67,
+      "y": 4972.89,
       "type": "path",
       "move_mode": "walk",
       "action": "mining",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
     },
     {
-      "x": 3664.1025390625,
-      "y": 4970.318359375,
+      "id": 7,
+      "x": 3674.67,
+      "y": 4972.89,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 8,
+      "x": 3664.1,
+      "y": 4970.32,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 9,
+      "x": 3664.1,
+      "y": 4970.32,
       "action": "combat_script",
       "action_params": "wait(1)",
       "type": "path",
