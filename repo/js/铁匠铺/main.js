@@ -156,7 +156,7 @@ async function tryForgeOre(oreType, skipCheckOres = []) {
                 const ocrRegion = { x: 660, y: 495, width: 1250 - 660, height: 550 - 495 };
                 let clickAttempts = 0;
                 let forgingTriggered = false;
-                while (clickAttempts < 3 && !forgingTriggered) {
+                while (clickAttempts < 4 && !forgingTriggered) {
                     let ConfirmButton = captureGameRegion().find(ConfirmDeployButtonRo);
                     if (ConfirmButton.isExist()) {
                         ConfirmButton.click();
@@ -190,7 +190,7 @@ async function tryForgeOre(oreType, skipCheckOres = []) {
                             return false; // 跳过当前矿石
                         }
                     }
-                    if (clickAttempts === 3) {
+                    if (clickAttempts === 4) {
                         return true; // 达到点击上限，终止锻造流程
                     }
                 }
