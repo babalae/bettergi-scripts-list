@@ -65,53 +65,43 @@ async function () {
         // 分析识别到的文本
         for (let i = 0; i < resList.count; i++) {
             let res = resList[i];
-            if (res.text.includes("浓缩树脂")) {
+            if (res.text.includes("使用浓缩树脂")) {
                 isValid = true;
                 condensedResin = res;
-            } else if (res.text.includes("原粹树脂")) {
+            } else if (res.text.includes("使用原粹树脂")) {
                 isValid = true;
                 originalResin = res;
-            } else if (res.text.includes("脆弱树脂") && settings.fragileResin) {
-                isValid = true;
-                fragileResin = res;
-            } else if (res.text.includes("双倍掉落")) {
-                isValid = true;
-                dobuleReward = true;
-            } else {
+            } else if (res.text.includes("补充原粹树脂")) {
                 isValid = true;
                 isResinEmpty = true;
+            } else if (res.text.includes("产出")) {
+                isValid = true;
+                dobuleReward = true;
             }
         }        // 处理不同的树脂情况
-        if (originalResin && dobuleReward) {
+        if (originalResin && dobuleReward == true) {
             log.info("选择使用原粹树脂，获得双倍产出");
             await clickWithVerification(
-                Math.round(originalResin.x + originalResin.width / 2) + 400, 
+                Math.round(originalResin.x + originalResin.width / 2), 
                 Math.round(originalResin.y + originalResin.height / 2),
-                "使用"
+                "树脂"
             );
         } else if (condensedResin) {
             log.info("选择使用浓缩树脂");
             await clickWithVerification(
-                Math.round(condensedResin.x + condensedResin.width / 2) + 400, 
+                Math.round(condensedResin.x + condensedResin.width / 2), 
                 Math.round(condensedResin.y + condensedResin.height / 2),
-                "使用"
+                "树脂"
             );
         } else if (originalResin) {
             log.info("选择使用原粹树脂");
             await clickWithVerification(
-                Math.round(originalResin.x + originalResin.width / 2) + 400, 
+                Math.round(originalResin.x + originalResin.width / 2), 
                 Math.round(originalResin.y + originalResin.height / 2),
-                "使用"
-            );
-        } else if (fragileResin) {
-            log.info("选择使用脆弱树脂");
-            await clickWithVerification(
-                Math.round(fragileResin.x + fragileResin.width / 2) + 400,
-                Math.round(fragileResin.y + fragileResin.height / 2),
-                "使用"
+                "树脂"
             );
         } else if (isResinEmpty) {
-            log.error("树脂用完了呢");
+            log.error("识别到补充原粹树脂，看来树脂用完了呢");
             keyPress("VK_ESCAPE");
             throw new Error("树脂已用完");
         }
