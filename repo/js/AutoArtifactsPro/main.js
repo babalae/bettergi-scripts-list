@@ -52,8 +52,6 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     // 检查记录文件是否存在
     let indexDoExist = false;
     for (const filePath of filesInSubFolder) {
-        log.info(filePath);
-        log.info(`records\\${accountName}.txt`);
         if (filePath === `records\\${accountName}.txt`) {
             indexDoExist = true;
             break;
@@ -217,49 +215,6 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 
         // 根据当前时间与 1970-01-01T20:00:00.000Z 的天数差的奇偶性给布尔变量 runRouteA 赋值
         runRouteA = Math.floor((now - epochTime) / (24 * 60 * 60 * 1000)) % 2 === 0;
-    }
-
-    // 根据 runRouteA 的值给 runningRoute 赋值
-    const runningRoute = runRouteA ? "A" : "B";
-    const folderName = `${runningRoute}路线`;
-    const filePathPreparation = `assets/ArtifactsPath/${folderName}/00准备`;
-    // 运行准备路线
-    prepare: {
-        if (runnedToday) {
-            break prepare;
-        }
-        //切换至好感队
-        await switchPartyIfNeeded(friendshipPartyName);
-
-        // 读取文件夹中的文件名并处理
-        const filePaths = file.readPathSync(filePathPreparation);
-        const jsonFileNames = [];
-
-        for (const filePath of filePaths) {
-            const fileName = basename(filePath); // 提取文件名
-            if (fileName.endsWith('.json')) { // 检查文件名是否以 .json 结尾
-                jsonFileNames.push(fileName); // 存储文件名
-            }
-        }
-
-        let currentTask = 0; // 当前任务计数器
-
-        // 执行准备路线的地图追踪文件
-        for (const fileName of jsonFileNames) {
-            const fullPath = fileName;
-            await fakeLog(fileName, false, true, 0);
-            currentTask += 1; // 更新当前任务计数器
-            log.info(`当前进度：${fullPath}为准备${folderName}第${currentTask}/${jsonFileNames.length}个`);
-            await pathingScript.runFile(fullPath);
-            //捕获任务取消的信息并跳出循环
-            try {
-                await sleep(10); // 假设 sleep 是一个异步函数，休眠 10 毫秒
-            } catch (error) {
-                log.error(`发生错误: ${error}`);
-                return false; // 终止循环
-            }
-            await fakeLog(fileName, false, false, 0);
-        }
     }
 
     // 启用自动拾取的实时任务
@@ -446,7 +401,43 @@ async function runArtifactsPaths(runRouteA) {
     const filePathNormal = `assets/ArtifactsPath/${folderName}/01普通`;
     const filePathEnding = `assets/ArtifactsPath/${folderName}/02收尾`;
     const filePathExtra = `assets/ArtifactsPath/${folderName}/03额外`;
+    const filePathPreparation = `assets/ArtifactsPath/${folderName}/00准备`;
 
+    // 运行准备路线（关闭拾取）
+    dispatcher.ClearAllTriggers();
+    {
+        // 读取文件夹中的文件名并处理
+        const filePaths = file.readPathSync(filePathPreparation);
+        const jsonFileNames = [];
+
+        for (const filePath of filePaths) {
+            const fileName = basename(filePath); // 提取文件名
+            if (fileName.endsWith('.json')) { // 检查文件名是否以 .json 结尾
+                jsonFileNames.push(fileName); // 存储文件名
+            }
+        }
+
+        let currentTask = 0; // 当前任务计数器
+
+        // 执行准备路线的地图追踪文件
+        for (const fileName of jsonFileNames) {
+            const fullPath = fileName;
+            await fakeLog(fileName, false, true, 0);
+            currentTask += 1; // 更新当前任务计数器
+            log.info(`当前进度：${fullPath}为准备${folderName}第${currentTask}/${jsonFileNames.length}个`);
+            await pathingScript.runFile(fullPath);
+            //捕获任务取消的信息并跳出循环
+            try {
+                await sleep(10); // 假设 sleep 是一个异步函数，休眠 10 毫秒
+            } catch (error) {
+                log.error(`发生错误: ${error}`);
+                return false; // 终止循环
+            }
+            await fakeLog(fileName, false, false, 0);
+        }
+    }
+    // 启用自动拾取的实时任务
+    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     // 运行普通路线
     {
         // 读取文件夹中的文件名并处理
