@@ -319,8 +319,10 @@ async function readFolder(folderPath, onlyJson) {
                         for (let i = 0; i < pathGroupEntries.length; i++) {
                             const entryWithTimestamp = pathGroupEntries[i].trim();
                             const [entryName, entryTimestamp] = entryWithTimestamp.split('::');
+
                             // 查找对应的完整路径
-                            const pathingFilePath = files.find(file => file.fileName === entryName);
+                            const fileEntry = files.find(file => file.fileName === `${entryName}.json`);
+                            const pathingFilePath = fileEntry.fullPath;
 
                             // 获取开始时间
                             const startTime = new Date();
