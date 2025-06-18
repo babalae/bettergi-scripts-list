@@ -13,6 +13,18 @@
     "default": "不卡时间，ab交替运行"
   },
   {
+    "name": "minTimesForFirendship",
+    "type": "input-text",
+    "label": "好感任务最低运行次数\n【若卡时间好感次数不足该次数，则在狗粮结束后补齐】",
+    "default": "10"
+  },
+  {
+    "name": "accountName",
+    "type": "input-text",
+    "label": "账户名称\n用于多用户运行时区分不同账户\n单用户无需修改",
+    "default": "默认账户"
+  },
+  {
     "name": "friendshipPartyName",
     "type": "input-text",
     "label": "好感队名称\n【请输入好感队的队伍名称】",
@@ -37,7 +49,7 @@
   {
     "name": "minIntervalTime",
     "type": "input-text",
-    "label": "最短间隔时间（分钟）\n【默认值为5分钟】",
+    "label": "最短间隔时间（分钟）\n【默认值为5分钟，过低可能导致狗粮收益下降】",
     "default": "5"
   },
   {
@@ -57,11 +69,5 @@
     "type": "input-text",
     "label": "战斗超时时间（秒）\n【选填，默认为120秒】",
     "default": "120"
-  },
-  {
-    "name": "minTimesForFirendship",
-    "type": "input-text",
-    "label": "好感任务最低运行次数\n【若卡时间好感次数不足该次数，则在狗粮结束后补齐】",
-    "default": "10"
   }
 ]

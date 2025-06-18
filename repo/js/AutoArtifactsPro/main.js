@@ -6,13 +6,11 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     await fakeLog("自动狗粮重制版", true, true, 0);
 
     //预处理
-    //settings 获取自定义配置
     const minIntervalTime = settings.minIntervalTime;
     const waitTimePeriod = settings.waitTimePeriod;
     const friendshipPartyName = settings.friendshipPartyName;
     const grindPartyName = settings.grindPartyName;
     const operationType = settings.operationType || "不卡时间，ab交替运行";
-
     let enemyType = "无";
 
     //处理操作模式信息
@@ -43,9 +41,50 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
             break;
     }
 
+    //处理记录文件路径
+    // 获取子文件夹路径
+    const accountName = settings.accountName;
+    log.info(`当前账户名：${accountName}`);
+    let subFolderPath = `records/`;
+    let recordFilePath = `records/${accountName}.txt`;
+    // 读取子文件夹中的所有文件路径
+    const filesInSubFolder = file.ReadPathSync(subFolderPath);
+    // 检查记录文件是否存在
+    let indexDoExist = false;
+    for (const filePath of filesInSubFolder) {
+        log.info(filePath);
+        log.info(`records\\${accountName}.txt`);
+        if (filePath === `records\\${accountName}.txt`) {
+            indexDoExist = true;
+            break;
+        }
+    }
+    if (indexDoExist) {
+        log.info(`records\\${accountName}.txt 存在`);
+    } else {
+        recordFilePath = `record.txt`;
+        subFolderPath = ``;
+        // 读取子文件夹中的所有文件路径
+        const filesInSubFolder = file.ReadPathSync(subFolderPath);
+        // 检查记录文件是否存在
+        for (const filePath of filesInSubFolder) {
+            if (filePath === `record.txt`) {
+                indexDoExist = true;
+                break;
+            }
+        }
+        if (indexDoExist) {
+            log.info(`record.txt 存在`);
+        } else {
+            log.warn(`无记录文件，将使用默认数据`);
+            recordFilePath = `assets\\BackUp\\record.txt`;
+        }
+    }
+    await sleep(1000);
+
     //处理卡时间信息
     // 异步读取文件内容
-    const content = await file.readText("record.txt");
+    const content = await file.readText(recordFilePath);
 
     // 初始化变量并赋予默认值
     let lastRunDate = "未知"; // 默认值
@@ -91,6 +130,25 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     log.info(`上次运行完成日期: ${lastRunDate}`);
     log.info(`上次狗粮开始时间: ${lastEndTime.toISOString()}`);
     log.info(`上次运行路线: ${lastRunRoute}`);
+    let version = "default";
+
+    try {
+        // 读取 manifest.json 文件的内容
+        const content = await file.readText("manifest.json");
+
+        // 解析 JSON 内容为对象
+        const manifest = JSON.parse(content);
+
+        // 获取 version 字段的值
+        version = manifest.version;
+
+        log.info(`当前js版本：${version}`);
+
+    } catch (error) {
+        // 如果发生错误，记录错误信息
+        log.error("读取或解析 manifest.json 文件时出错:", error);
+    }
+
 
     // 拆分 lastRunDate 为年、月、日
     const [year, month, day] = lastRunDate.split('/').map(Number);
@@ -320,7 +378,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
         if (runArtifactsResult) {
             //修改文件内容
             log.info('尝试修改记录文件');
-            await writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records);
+            await writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records, `records/${accountName}.txt`, version);
         }
     }
 
@@ -354,18 +412,19 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 })();
 
 // 异步函数，用于将变量内容写回到文件
-async function writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records) {
+async function writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records, recordFilePath, version) {
     try {
         // 构造要写入文件的内容
         const content = [
             `上次运行完成日期: ${lastRunDate}`,
             `上次结束时间: ${lastEndTime.toISOString()}`,
             `上次运行路线: ${lastRunRoute}`,
+            `js版本: ${version}`,
             "历史收益："
         ].concat(records).join('\n');
 
         // 异步写入文件
-        const result = await file.writeText("record.txt", content, false); // 覆盖写入
+        const result = await file.writeText(recordFilePath, content, false); // 覆盖写入
         if (result) {
             log.info("文件写入成功");
         } else {
