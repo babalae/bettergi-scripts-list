@@ -8,20 +8,56 @@
     await genshin.tpToStatueOfTheSeven();
 
     await find();
-    
-    if (isNearPosition(characterX, characterY, 2843, -384)) {
-        pathingName = "柯莱-1";
-        hasKeyMouse = true;
-    } else if (isNearPosition(characterX, characterY, 4197, 4805)) {
-        pathingName = "林尼-1";
+    log.info(`找到角色头像，正在查找对应角色...`);
+    const characterPositions = [
+        { name: "柯莱-1", x: 2843, y: -384, hasKeyMouse: true },
+        { name: "林尼-1", x: 4197, y: 4805 },
+        { name: "夏沃蕾-1", x: 4356, y: 3707 },
+        { name: "菲米尼-1", x: 4202, y: 3037, hasKeyMouse: true },
+        { name: "夏洛蒂-1", x: 4618, y: 3518},
+        { name: "绮良良-1", x: 231, y: -672 },
+        { name: "鹿野院平藏-1", x: -4459, y: -3141 },
+        { name: "鹿野院平藏-2", x: -4467, y: -3127 },
+        { name: "梦见月瑞希-1", x: -4458, y: -3111, hasKeyMouse: true },
+        { name: "八重神子-1", x: -4424, y: -2475 },
+    ];
+
+    hasKeyMouse = false;
+    let found = false;
+    for (const pos of characterPositions) {
+        if (config[pos.name] === true) {
+            continue;
+        }
+        if (isNearPosition(characterX, characterY, pos.x, pos.y)) {
+            pathingName = pos.name;
+            hasKeyMouse = !!pos.hasKeyMouse;
+            found = true;
+            log.info(`找到角色：${pos.name}`);
+            break;
+        }
     }
+    if (!found) {
+        log.error("未找到角色，或者角色未被收录");
+        log.error("也有可能是配置文件中该角色已经对话过，请手动修改或清空config.json后重试");
+        return;
+    }
+    log.info(`执行路线：${pathingName}`);
     await pathingScript.runFile(`assets/pathing/${pathingName}.json`)
     keyPress("F");
+    log.info("开始对话...");
     await sleep(3000);
     await waitToMain();
     if (hasKeyMouse) {
+        log.info("执行对应键鼠脚本");
         await keyMouseScript.runFile(`assets/keymouse/${pathingName}.json`)
+        keyPress("F");
+        log.info("开始对话...");
+        await sleep(3000);
+        await waitToMain();
     }
+    config[pathingName] = true;
+    await file.writeText("config.json", JSON.stringify(config, null, 4));
+    log.info(`任务完成，已更新配置文件`);
 })();
 
 /**
@@ -31,9 +67,10 @@
 async function loadData() {
     try {
         data = JSON.parse(await file.readText("data.json"));
+        config = JSON.parse(await file.readText("config.json"));
     } catch (error) {
         log.error(`加载配置文件失败: ${error.message}`);
-        throw new Error("配置文件加载失败，请检查data.json文件是否存在");
+        throw new Error("配置文件加载失败，请检查对应文件文件是否存在");
     }
 }
 /**
@@ -42,7 +79,7 @@ async function loadData() {
  * @returns {Promise<void>}
  */
 async function find() {
-    log.info("开始寻找...");
+    log.info("开始寻找角色...");
     const positions = data.mapPositions;
     for (let retryCount = 0; retryCount < positions.length; retryCount++) {
         const position = positions[retryCount];
@@ -58,7 +95,7 @@ async function find() {
 
 async function locate() {
     await sleep(500); // 确保画面稳定
-    await genshin.setBigMapZoomLevel(6.0);
+    await genshin.setBigMapZoomLevel(3.0);
 
     const character = captureGameRegion().findMulti(RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/三个点.png")));
     if (character && character.count > 0) {
@@ -68,8 +105,8 @@ async function locate() {
         const mapZoomLevel = genshin.getBigMapZoomLevel();
         const mapScaleFactor = 2.361;
 
-        characterX = (960 - avatar.x - 13) * mapZoomLevel / mapScaleFactor + center.x;
-        characterY = (540 - avatar.y - 13) * mapZoomLevel / mapScaleFactor + center.y;
+        characterX = (960 - avatar.x - 13) * mapZoomLevel / mapScaleFactor + center.x + 20;
+        characterY = (540 - avatar.y - 13) * mapZoomLevel / mapScaleFactor + center.y + 20;
 
         log.info(`找到角色的大致坐标：(${characterX}, ${characterY})`);
         return true;
@@ -87,7 +124,7 @@ async function locate() {
 async function waitToMain() {
     log.info("等待返回主界面...");
     const paimonMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/paimon_menu.png"), 0, 0, genshin.width / 3.0, genshin.width / 5.0);
-    const maxRetries = 30; // 设置最大重试次数以防止无限循环
+    const maxRetries = 180; // 设置最大重试次数以防止无限循环
     let retries = 0;
     while (captureGameRegion().Find(paimonMenuRo).isEmpty()) {
         if (retries >= maxRetries) {
