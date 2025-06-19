@@ -469,7 +469,7 @@
 
         await sleep(500);
 
-        for (let i = 0;i < 2;i++) {
+        for (let i = 0;j < 2;j++) {
  
             for (let i = 0;i < rewards.length;i++) {
                 let SHU =  await Textocr(resinTypeMap[rewards[i]],0.5,0,0,510,380,640,600);
