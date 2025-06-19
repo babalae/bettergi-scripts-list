@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "610纳塔-安饶之野1",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9517.609375,
+      "y": -2209.5849609375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9531.189453125,
+      "y": -2212.1142578125,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "attack(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9604.021484375,
+      "y": -2193.7431640625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9607.53125197504,
+      "y": -2187.468954632506,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),w(0.5),keypress(f),d(0.4),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 9610.2353515625,
+      "y": -2189.056640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

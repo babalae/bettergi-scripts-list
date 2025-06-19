@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "221璃月-沉玉上谷神像东1",
+    "type": "collect",
+    "author": "汐",
+    "version": "",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1114.80859375,
+      "y": 1948.03759765625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1145.3203125,
+      "y": 1945.294921875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1152.080078125,
+      "y": 1940.72802734375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1152.6416015625,
+      "y": 1941.66064453125,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "wait(0.5),keypress(VK_SPACE);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "type": "target"
+    }
+  ]
+}

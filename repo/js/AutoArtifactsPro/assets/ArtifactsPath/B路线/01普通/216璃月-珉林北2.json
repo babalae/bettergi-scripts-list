@@ -1,0 +1,81 @@
+{
+  "info": {
+    "name": "216璃月-珉林北2",
+    "type": "collect",
+    "author": "汐",
+    "version": "",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1121.0517578125,
+      "y": 1190.40087890625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1126.859375,
+      "y": 1206.17333984375,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1149.5205078125,
+      "y": 1261.96435546875,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1143.5537109375,
+      "y": 1266.68212890625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1141.517578125,
+      "y": 1274.34228515625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.3),keypress(f),w(0.3),keypress(f),",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1140.18743284859,
+      "y": 1279.6245907349858,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 1124.4688211014927,
+      "y": 1290.218901579634,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "芙宁娜 e;",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 1115.0312341996687,
+      "y": 1284.2187727369455,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),keypress(x),s(0.3),a(0.3),dash",
+      "type": "target"
+    }
+  ]
+}

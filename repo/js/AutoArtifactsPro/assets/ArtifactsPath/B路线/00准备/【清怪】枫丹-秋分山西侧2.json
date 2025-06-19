@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "【清怪】枫丹-秋分山西侧2",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4145.95849609375,
+      "y": 2603.3515625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4198.9794921875,
+      "y": 2519.48681640625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4229.437582951742,
+      "y": 2495.6871210509144,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4268.64697265625,
+      "y": 2465.026123046875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4297.000142202985,
+      "y": 2443.625242527416,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

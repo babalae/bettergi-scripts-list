@@ -1,0 +1,295 @@
+{
+  "info": {
+    "name": "217璃月-珉林酒窖9",
+    "type": "collect",
+    "author": "汐",
+    "version": "",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 730.2568359375,
+      "y": 1062.2294921875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 743.71875,
+      "y": 1064.4684069372706,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 772.3125,
+      "y": 1068.3750221330793,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 772.15625,
+      "y": 1064.2810286692074,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 771.5625,
+      "y": 1062.25035412927,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 730.482421875,
+      "y": 1062.408203125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 7,
+      "x": 716.625,
+      "y": 1044.7507525246983,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 669.5,
+      "y": 1009.7496901368895,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 634.7490234375,
+      "y": 947.455078125,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 640.8125888768664,
+      "y": 942.6877576853785,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 642.1728515625,
+      "y": 941.576171875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 625.1875,
+      "y": 927.0615234375,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 582.587890625,
+      "y": 908.26318359375,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 578.025390625,
+      "y": 907.7900390625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 15,
+      "x": 579.1728515625,
+      "y": 913.19921875,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 558.625,
+      "y": 907.3749778669207,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 546.697265625,
+      "y": 893.28857421875,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 541.2587890625,
+      "y": 893.3466796875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 529.9072265625,
+      "y": 901.82958984375,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 524.1337890625,
+      "y": 907.4951171875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 21,
+      "x": 525.5087890625,
+      "y": 906.32080078125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": 534.4443359375,
+      "y": 897.138671875,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": 565.125,
+      "y": 884.8754426615869,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 24,
+      "x": 578.77734375,
+      "y": 894.572265625,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 25,
+      "x": 629.001953125,
+      "y": 848.5849609375,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 26,
+      "x": 631.0849609375,
+      "y": 845.2314453125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 27,
+      "x": 643.9921875,
+      "y": 841.00927734375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 28,
+      "x": 648.8515625,
+      "y": 839.12109375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 29,
+      "x": 649.0966796875,
+      "y": 831.14892578125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),a(0.3)",
+      "type": "target"
+    },
+    {
+      "id": 30,
+      "x": 647.5126953125,
+      "y": 830.99462890625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 31,
+      "x": 646.8515625,
+      "y": 833.2529296875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 32,
+      "x": 645.453125,
+      "y": 835.6357421875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 33,
+      "x": 645.79296875,
+      "y": 832.70556640625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.2),keypress(x)",
+      "type": "target"
+    },
+    {
+      "id": 34,
+      "x": 645.3515625,
+      "y": 834.46533203125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "type": "path"
+    }
+  ]
+}

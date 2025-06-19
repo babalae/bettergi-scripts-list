@@ -1,0 +1,92 @@
+{
+  "info": {
+    "name": "402须弥-化城郭西2",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2701.53076171875,
+      "y": -761.8154296875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2684.93743284859,
+      "y": -835.4375,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2683.91015625,
+      "y": -839.9404296875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.5)",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 2652.8749486489214,
+      "y": -843.0627880013062,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 2645.1874881497515,
+      "y": -843.8128789490866,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 2615.9609375,
+      "y": -851.2197265625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 2604.0625158003313,
+      "y": -863.1249090522197,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 2593.455078125,
+      "y": -862.8232421875,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "attack(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 2596.345703125,
+      "y": -862.07470703125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "type": "target"
+    }
+  ]
+}
