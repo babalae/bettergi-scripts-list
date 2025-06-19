@@ -11,48 +11,57 @@
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport",
       "x": 333.7164306640625,
       "y": 975.9010009765625,
-      "action_params": ""
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
       "x": 293.12629167712043,
       "y": 972.0627501063971,
-      "type": "path",
-      "move_mode": "fly",
       "action": "",
-      "action_params": ""
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
       "x": 271.9374980249586,
       "y": 973.0315758962145,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "move_mode": "fly",
+      "action_params": "800",
+      "type": "path"
     },
     {
       "id": 4,
-      "x": 271.0936828485901,
-      "y": 975.7815758962145,
-      "type": "path",
+      "x": 276.78125,
+      "y": 960.65224391264,
+      "action": "combat_script",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "action_params": "wait(0.8),keydown(w),attack(0.2),keypress(f),attack(0.2),keyup(w),keypress(f),keydown(s),attack(0.2),keypress(f),keyup(s);万叶 s(0.1),attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "orientation"
     },
     {
       "id": 5,
-      "x": 273.5311630981753,
-      "y": 971.9686287362924,
-      "type": "target",
-      "move_mode": "walk",
+      "x": 289,
+      "y": 970.9370573384133,
       "action": "combat_script",
-      "action_params": "keydown(w),attack(0.2),keypress(f),attack(0.2),keypress(f),keypress(f),wait(0.4),keyup(w),attack(0.2),wait(1.5)"
+      "move_mode": "walk",
+      "action_params": "keydown(w),attack(0.2),keypress(f),attack(0.2),keyup(w),keypress(f),keydown(s),keypress(f),attack(0.3),keyup(s),s(0.3)",
+      "type": "orientation"
+    },
+    {
+      "id": 6,
+      "x": 253,
+      "y": 954.497963756701,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(w),attack(0.4),keypress(f),attack(0.6),keypress(f),keypress(f),keyup(w),keydown(s),keypress(f),attack(0.2),keyup(s),wait(0.3);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "orientation"
     }
   ]
 }

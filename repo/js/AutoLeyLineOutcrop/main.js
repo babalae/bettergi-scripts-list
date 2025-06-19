@@ -773,13 +773,13 @@ async function adjustViewForReward(boxIconRo, token) {
  */
 
 /**
- * 关闭自定义标记，使用前确保在地图界面
+ * 关闭自定义标记
  * @returns {Promise<void>}
  */
 async function closeCustomMarks() {
-    // await genshin.returnMainUi();
-    // keyPress("M");
-    await sleep(600);
+    await genshin.returnMainUi();
+    keyPress("M");
+    await sleep(1000);
     click(60, 1020);
     await sleep(600);
 
@@ -797,11 +797,13 @@ async function closeCustomMarks() {
 }
 
 /**
- * 打开自定义标记，使用前确保在地图界面
+ * 打开自定义标记
  * @returns {Promise<void>}
  */
 async function openCustomMarks() {
-    await sleep(600);
+    await genshin.returnMainUi();
+    keyPress("M");
+    await sleep(1000);
     click(60, 1020);
     await sleep(600);
 

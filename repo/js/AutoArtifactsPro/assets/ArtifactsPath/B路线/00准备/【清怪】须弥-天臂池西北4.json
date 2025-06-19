@@ -38,17 +38,36 @@
     },
     {
       "id": 4,
-      "x": 3123.5625,
-      "y": -463.05322265625,
+      "x": 3125.3994140625,
+      "y": -463.982421875,
       "type": "path",
-      "move_mode": "fly",
+      "move_mode": "dash",
       "action": "",
       "action_params": ""
     },
     {
       "id": 5,
-      "x": 3108.375,
-      "y": -459.72705078125,
+      "x": 3116,
+      "y": -458.7484728175259,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3102.775390625,
+      "y": -462.54833984375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 3102.775390625,
+      "y": -462.54833984375,
       "type": "path",
       "move_mode": "dash",
       "action": "fight",

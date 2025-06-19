@@ -21,28 +21,28 @@
       "id": 2,
       "x": -164.48828125,
       "y": 1218.1357421875,
-      "type": "path",
-      "move_mode": "run",
       "action": "",
-      "action_params": ""
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
       "x": -152.3046875,
       "y": 1246.486328125,
-      "type": "path",
-      "move_mode": "run",
       "action": "",
-      "action_params": ""
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 4,
       "x": -124.8994140625,
       "y": 1250.87744140625,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 5,
@@ -84,7 +84,7 @@
       "y": 1238.69384765625,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f)",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "path"
     }
   ]

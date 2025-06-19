@@ -1,4 +1,4 @@
-// V0.97.1
+// V0.97.2
 (async function () {
   // 定义常量
   const OCR_REGION_X = 750;
@@ -1854,7 +1854,7 @@ const autoNavigateToTalk = async (npcName = "", iconType = "") => {
     } //识别委托
 
     // 开局准备
-    await prepareForLeyLineRun();`
+    await prepareForLeyLineRun();
 
     // 执行自动委托
     await executeCommissionTracking();

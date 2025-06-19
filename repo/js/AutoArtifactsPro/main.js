@@ -6,12 +6,12 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     await fakeLog("自动狗粮重制版", true, true, 0);
 
     //预处理
-    //settings 获取自定义配置
     const minIntervalTime = settings.minIntervalTime;
     const waitTimePeriod = settings.waitTimePeriod;
     const friendshipPartyName = settings.friendshipPartyName;
     const grindPartyName = settings.grindPartyName;
     const operationType = settings.operationType || "不卡时间，ab交替运行";
+    let enemyType = "无";
 
     //处理操作模式信息
     switch (operationType) {
@@ -41,9 +41,48 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
             break;
     }
 
+    //处理记录文件路径
+    // 获取子文件夹路径
+    const accountName = settings.accountName;
+    log.info(`当前账户名：${accountName}`);
+    let subFolderPath = `records/`;
+    let recordFilePath = `records/${accountName}.txt`;
+    // 读取子文件夹中的所有文件路径
+    const filesInSubFolder = file.ReadPathSync(subFolderPath);
+    // 检查记录文件是否存在
+    let indexDoExist = false;
+    for (const filePath of filesInSubFolder) {
+        if (filePath === `records\\${accountName}.txt`) {
+            indexDoExist = true;
+            break;
+        }
+    }
+    if (indexDoExist) {
+        log.info(`records\\${accountName}.txt 存在`);
+    } else {
+        recordFilePath = `record.txt`;
+        subFolderPath = ``;
+        // 读取子文件夹中的所有文件路径
+        const filesInSubFolder = file.ReadPathSync(subFolderPath);
+        // 检查记录文件是否存在
+        for (const filePath of filesInSubFolder) {
+            if (filePath === `record.txt`) {
+                indexDoExist = true;
+                break;
+            }
+        }
+        if (indexDoExist) {
+            log.info(`record.txt 存在`);
+        } else {
+            log.warn(`无记录文件，将使用默认数据`);
+            recordFilePath = `assets\\BackUp\\record.txt`;
+        }
+    }
+    await sleep(1000);
+
     //处理卡时间信息
     // 异步读取文件内容
-    const content = await file.readText("record.txt");
+    const content = await file.readText(recordFilePath);
 
     // 初始化变量并赋予默认值
     let lastRunDate = "未知"; // 默认值
@@ -89,6 +128,25 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     log.info(`上次运行完成日期: ${lastRunDate}`);
     log.info(`上次狗粮开始时间: ${lastEndTime.toISOString()}`);
     log.info(`上次运行路线: ${lastRunRoute}`);
+    let version = "default";
+
+    try {
+        // 读取 manifest.json 文件的内容
+        const content = await file.readText("manifest.json");
+
+        // 解析 JSON 内容为对象
+        const manifest = JSON.parse(content);
+
+        // 获取 version 字段的值
+        version = manifest.version;
+
+        log.info(`当前js版本：${version}`);
+
+    } catch (error) {
+        // 如果发生错误，记录错误信息
+        log.error("读取或解析 manifest.json 文件时出错:", error);
+    }
+
 
     // 拆分 lastRunDate 为年、月、日
     const [year, month, day] = lastRunDate.split('/').map(Number);
@@ -157,49 +215,6 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 
         // 根据当前时间与 1970-01-01T20:00:00.000Z 的天数差的奇偶性给布尔变量 runRouteA 赋值
         runRouteA = Math.floor((now - epochTime) / (24 * 60 * 60 * 1000)) % 2 === 0;
-    }
-
-    // 根据 runRouteA 的值给 runningRoute 赋值
-    const runningRoute = runRouteA ? "A" : "B";
-    const folderName = `${runningRoute}路线`;
-    const filePathPreparation = `assets/ArtifactsPath/${folderName}/00准备`;
-    // 运行准备路线
-    prepare: {
-        if (runnedToday) {
-            break prepare;
-        }
-        //切换至好感队
-        await switchPartyIfNeeded(friendshipPartyName);
-
-        // 读取文件夹中的文件名并处理
-        const filePaths = file.readPathSync(filePathPreparation);
-        const jsonFileNames = [];
-
-        for (const filePath of filePaths) {
-            const fileName = basename(filePath); // 提取文件名
-            if (fileName.endsWith('.json')) { // 检查文件名是否以 .json 结尾
-                jsonFileNames.push(fileName); // 存储文件名
-            }
-        }
-
-        let currentTask = 0; // 当前任务计数器
-
-        // 执行准备路线的地图追踪文件
-        for (const fileName of jsonFileNames) {
-            const fullPath = fileName;
-            await fakeLog(fileName, false, true, 0);
-            currentTask += 1; // 更新当前任务计数器
-            log.info(`当前进度：${fullPath}为准备${folderName}第${currentTask}/${jsonFileNames.length}个`);
-            await pathingScript.runFile(fullPath);
-            //捕获任务取消的信息并跳出循环
-            try {
-                await sleep(10); // 假设 sleep 是一个异步函数，休眠 10 毫秒
-            } catch (error) {
-                log.error(`发生错误: ${error}`);
-                return false; // 终止循环
-            }
-            await fakeLog(fileName, false, false, 0);
-        }
     }
 
     // 启用自动拾取的实时任务
@@ -318,7 +333,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
         if (runArtifactsResult) {
             //修改文件内容
             log.info('尝试修改记录文件');
-            await writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records);
+            await writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records, `records/${accountName}.txt`, version);
         }
     }
 
@@ -352,18 +367,19 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 })();
 
 // 异步函数，用于将变量内容写回到文件
-async function writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records) {
+async function writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records, recordFilePath, version) {
     try {
         // 构造要写入文件的内容
         const content = [
             `上次运行完成日期: ${lastRunDate}`,
             `上次结束时间: ${lastEndTime.toISOString()}`,
             `上次运行路线: ${lastRunRoute}`,
+            `js版本: ${version}`,
             "历史收益："
         ].concat(records).join('\n');
 
         // 异步写入文件
-        const result = await file.writeText("record.txt", content, false); // 覆盖写入
+        const result = await file.writeText(recordFilePath, content, false); // 覆盖写入
         if (result) {
             log.info("文件写入成功");
         } else {
@@ -385,7 +401,43 @@ async function runArtifactsPaths(runRouteA) {
     const filePathNormal = `assets/ArtifactsPath/${folderName}/01普通`;
     const filePathEnding = `assets/ArtifactsPath/${folderName}/02收尾`;
     const filePathExtra = `assets/ArtifactsPath/${folderName}/03额外`;
+    const filePathPreparation = `assets/ArtifactsPath/${folderName}/00准备`;
 
+    // 运行准备路线（关闭拾取）
+    dispatcher.ClearAllTriggers();
+    {
+        // 读取文件夹中的文件名并处理
+        const filePaths = file.readPathSync(filePathPreparation);
+        const jsonFileNames = [];
+
+        for (const filePath of filePaths) {
+            const fileName = basename(filePath); // 提取文件名
+            if (fileName.endsWith('.json')) { // 检查文件名是否以 .json 结尾
+                jsonFileNames.push(fileName); // 存储文件名
+            }
+        }
+
+        let currentTask = 0; // 当前任务计数器
+
+        // 执行准备路线的地图追踪文件
+        for (const fileName of jsonFileNames) {
+            const fullPath = fileName;
+            await fakeLog(fileName, false, true, 0);
+            currentTask += 1; // 更新当前任务计数器
+            log.info(`当前进度：${fullPath}为准备${folderName}第${currentTask}/${jsonFileNames.length}个`);
+            await pathingScript.runFile(fullPath);
+            //捕获任务取消的信息并跳出循环
+            try {
+                await sleep(10); // 假设 sleep 是一个异步函数，休眠 10 毫秒
+            } catch (error) {
+                log.error(`发生错误: ${error}`);
+                return false; // 终止循环
+            }
+            await fakeLog(fileName, false, false, 0);
+        }
+    }
+    // 启用自动拾取的实时任务
+    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     // 运行普通路线
     {
         // 读取文件夹中的文件名并处理
@@ -598,6 +650,11 @@ async function AutoPath(locationName) {
 async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "盗宝团", endTime) {
     let friendTimes = 0;
     for (let i = 0; i < times; i++) {
+
+        if (enemyType === "无") {
+            log.info(`不进行好感`);
+            return 0;
+        }
 
         // 获取当前时间
         const now = new Date();

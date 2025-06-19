@@ -42,7 +42,7 @@
       "y": -3544.4013671875,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
@@ -87,7 +87,7 @@
       "y": -3571.280939261749,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),,keypress(x)",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),keypress(x);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
@@ -132,7 +132,7 @@
       "y": -3477.156219684073,
       "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
@@ -191,8 +191,8 @@
     },
     {
       "id": 21,
-      "x": -3266.7497945956875,
-      "y": -3868.34493232115,
+      "x": -3273.0625,
+      "y": -3879.003762623488,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
@@ -213,7 +213,7 @@
       "y": -3918.000037894908,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "path"
     }
   ]

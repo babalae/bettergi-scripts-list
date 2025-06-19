@@ -20,3 +20,7 @@
    + 迷你仙灵·薄红
    + 迷你仙灵·露草
    + 嫣朵拉
+
+## 问题反馈
+
+[GitHub issues](https://github.com/ftnfurina/bettergi-js-repo/issues)
