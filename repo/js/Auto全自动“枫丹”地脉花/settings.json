@@ -8,7 +8,7 @@
     "name": "nh",
     "type": "input-text",
     "label": "选填，好感队伍，如设定领奖前切换，同时战斗队伍必填"
-},
+    },
     {
         "name": "times",
         "type": "input-text",
@@ -33,14 +33,14 @@
       ]
     },
     {
+        "name": "Rewardsuse",
+        "type": "input-text",
+        "label": "树脂顺序,1=浓缩树脂/2=原粹树脂/3=脆弱树脂/4=须臾树脂\n用`/`隔开，填写对应的树脂数字即可,默认：1/2\n表示先使用浓缩树脂，再使用原粹树脂，不填的不使用"
+    },
+    {
         "name": "nowuid",
         "type": "input-text",
         "label": "禁止特定UID刷地脉花，用 / 隔开，如12345/99999"
-    },
-    {
-        "name": "firstresin",
-        "type": "checkbox",
-        "label": "默认优先使用浓缩，勾选后优先使用原粹树脂"
     },
     {
         "name": "Rewards",
