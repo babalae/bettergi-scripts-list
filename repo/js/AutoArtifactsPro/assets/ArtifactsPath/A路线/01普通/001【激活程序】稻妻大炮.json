@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "99【复位程序】稻妻踏鞴砂大炮点",
+    "name": "001【激活程序】稻妻大炮",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
@@ -60,7 +60,7 @@
       "y": -3545.421875,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "w(1.3),wait(1),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(w),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(w),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(w),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(0.5),keypress(ESCAPE)",
+      "action_params": "w(1.3),wait(1),keypress(f),wait(0.3),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(0.5),keypress(ESCAPE)",
       "type": "orientation"
     },
     {
@@ -110,12 +110,12 @@
     },
     {
       "id": 12,
-      "x": -3451.853515625,
-      "y": -3731.9248046875,
-      "action": "combat_script",
+      "x": -3460.05859375,
+      "y": -3731.9326171875,
+      "type": "path",
       "move_mode": "walk",
-      "action_params": "w(1.5)",
-      "type": "orientation"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 13,
@@ -123,7 +123,7 @@
       "y": -3745.4794921875,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "w(1),wait(1),keypress(f),wait(0.4),keypress(a),keypress(w),wait(6),keypress(f),wait(1.4),keypress(a),keypress(w),wait(6),keypress(f),wait(1.4),keypress(a),keypress(w),wait(6),keypress(f),wait(1.4),keypress(a),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(a),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(0.5),keypress(ESCAPE),wait(1),s(0.2),dash,click,s(0.2),dash,click,s(0.2),dash,click,s(0.2),dash,click,s(0.2),dash,click,",
+      "action_params": "w(1.5),wait(1),keypress(f),wait(0.4),keypress(RETURN),wait(6),keypress(f),wait(1.4),keypress(w),wait(6),keypress(f),wait(1.4),keypress(d),wait(6),keypress(f),wait(1.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(0.5),keypress(ESCAPE),wait(1),s(0.3),dash,s(0.3),dash,s(0.3),dash,s(0.3),dash",
       "type": "orientation"
     }
   ]
