@@ -1,26 +1,51 @@
 (async function () {
-    // 首先检查配置项是否存在
+    // 定义状态文件路径
+    const STATE_FILE = "redeem_state.json";
+    
+    // 1. 检查配置项是否存在
     if (typeof settings === 'undefined' || typeof settings.redeemCodes === 'undefined') {
         log.error("兑换码配置项不存在，脚本终止运行");
         return;
     }
     
-    // 检查兑换码是否为空
-    const codesText = settings.redeemCodes || "";
-    const codes = codesText.split(/\s+/).filter(code => code.trim() !== "");
+    // 2. 获取当前兑换码配置
+    const currentCodesText = settings.redeemCodes || "";
+    const currentCodes = currentCodesText.split(/\s+/).filter(code => code.trim() !== "");
     
-    if (codes.length === 0) {
+    if (currentCodes.length === 0) {
         log.info("未检测到兑换码，脚本终止运行");
         return;
     }
     
-    log.info(`开始处理兑换码: ${codesText}`);
+    // 3. 读取上次兑换状态（使用 try-catch 替代 existsSync）
+    let lastRunCodes = [];
+    try {
+        // 直接尝试读取文件，如果文件不存在会抛出异常
+        const stateData = file.readTextSync(STATE_FILE);
+        lastRunCodes = JSON.parse(stateData);
+        log.info(`读取到上次兑换码配置: ${lastRunCodes.join(" ")}`);
+    } catch (error) {
+        // 文件不存在是正常情况，不需要警告
+        if (!error.message.includes("文件不存在")) {
+            log.warning(`读取状态文件失败: ${error.message}`);
+        }
+    }
+    
+    // 4. 检查兑换码是否变化
+    const hasChanged = !arraysEqual(currentCodes, lastRunCodes);
+    
+    if (!hasChanged) {
+        log.info("兑换码配置未变化，脚本终止运行");
+        return;
+    }
+    
+    log.info(`检测到新兑换码配置: ${currentCodesText}`);
     setGameMetrics(1920, 1080, 1);    
-    // 1. 返回主界面，等待1秒
+    // 5. 返回主界面，等待1秒
     await genshin.returnMainUi();
     await sleep(1000);
 
-    // 2. 通过keyPress点按esc键(VK_ESCAPE)，等待2秒。ocr识别设置图片并点击，等待2秒。识别账户图片并点击，等待0.5秒，识别前往兑换图片并点击，等待0.5秒
+    // 6. 通过keyPress点按esc键(VK_ESCAPE)，等待2秒
     keyPress("ESCAPE");
     await sleep(2000);
 
@@ -46,7 +71,7 @@
     await sleep(500);
 
     try {
-        for (const code of codes) {
+        for (const code of currentCodes) {
             log.info(`处理兑换码: ${code}`);
             
             // b. 识别输入兑换码图片并点击
@@ -111,8 +136,33 @@
         }
     } catch (error) {
         log.error(`处理兑换码时出错: ${error}`);
+        return; // 出错时不更新状态
     }
 
-    // 4. 所有兑换码兑换完成后返回主界面
+    // 7. 所有兑换码兑换完成后返回主界面
     await genshin.returnMainUi();
+    
+    // 8. 保存当前兑换码到状态文件
+    try {
+        file.writeTextSync(STATE_FILE, JSON.stringify(currentCodes));
+        log.info("兑换码状态已更新");
+    } catch (error) {
+        log.error(`保存状态文件失败: ${error}`);
+    }
 })();
+
+// 辅助函数：比较两个数组是否相同
+function arraysEqual(a, b) {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (a.length !== b.length) return false;
+    
+    // 创建副本避免修改原数组
+    const sortedA = [...a].sort();
+    const sortedB = [...b].sort();
+    
+    for (let i = 0; i < sortedA.length; i++) {
+        if (sortedA[i] !== sortedB[i]) return false;
+    }
+    return true;
+}
