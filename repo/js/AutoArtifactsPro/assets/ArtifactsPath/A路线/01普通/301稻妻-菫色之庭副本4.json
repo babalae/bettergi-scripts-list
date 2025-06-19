@@ -139,7 +139,7 @@
       "x": -3928.8750019750423,
       "y": -3269.718477156657,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
@@ -149,7 +149,7 @@
       "y": -3266.130859375,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "keypress(e),keypress(e)",
+      "action_params": "keypress(f);芙宁娜 e;",
       "type": "path"
     },
     {
@@ -157,7 +157,7 @@
       "x": -3986.44921875,
       "y": -3238.53515625,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },

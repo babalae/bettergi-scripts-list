@@ -54,38 +54,38 @@
     },
     {
       "id": 6,
-      "x": 2594.6298828125,
-      "y": -852.58935546875,
+      "x": 2615.9609375,
+      "y": -851.2197265625,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
-      "type": "target"
+      "type": "path"
     },
     {
       "id": 7,
-      "x": 2594.6875019750423,
-      "y": -857.4373711573107,
+      "x": 2604.0625158003313,
+      "y": -863.1249090522197,
       "action": "",
-      "move_mode": "jump",
+      "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 8,
-      "x": 2594.84375,
-      "y": -861.0311514732375,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
+      "x": 2593.455078125,
+      "y": -862.8232421875,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "attack(0.2)",
       "type": "path"
     },
     {
       "id": 9,
-      "x": 2595.6328125,
-      "y": -861.23046875,
+      "x": 2596.345703125,
+      "y": -862.07470703125,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),w(0.3),keypress(f),a(0.3),keypress(f),",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     }
   ]

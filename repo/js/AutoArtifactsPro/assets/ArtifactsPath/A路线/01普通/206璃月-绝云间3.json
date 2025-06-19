@@ -15,10 +15,19 @@
       "y": 626.04638671875,
       "action": "",
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "locked": false
     },
     {
       "id": 2,
+      "x": 1182.685546875,
+      "y": 626.04638671875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 3,
       "x": 1188.5419921875,
       "y": 620.3544921875,
       "action": "",
@@ -26,7 +35,7 @@
       "type": "path"
     },
     {
-      "id": 3,
+      "id": 4,
       "x": 1171.875,
       "y": 574.1242032091441,
       "action": "",
@@ -34,16 +43,16 @@
       "type": "path"
     },
     {
-      "id": 4,
+      "id": 5,
       "x": 1170.0234375,
       "y": 568.9345703125,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
-      "id": 5,
+      "id": 6,
       "x": 1161.830078125,
       "y": 562.78857421875,
       "action": "",
@@ -52,32 +61,32 @@
       "type": "path"
     },
     {
-      "id": 6,
+      "id": 7,
       "x": 1159.61328125,
       "y": 557.107421875,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": 1155.384765625,
       "y": 558.2109375,
       "action": "",
-      "move_mode": "fly",
+      "move_mode": "walk",
       "type": "path"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": 1147.169921875,
       "y": 561.39208984375,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "target"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": 1143.7186808735478,
       "y": 561.8749317891643,
       "action": "combat_script",

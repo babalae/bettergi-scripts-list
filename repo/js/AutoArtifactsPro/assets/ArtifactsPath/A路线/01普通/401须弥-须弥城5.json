@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "401须弥-须弥城4",
+    "name": "401须弥-须弥城5",
     "type": "collect",
     "author": "汐",
     "version": "",
@@ -119,7 +119,7 @@
       "y": -283.21889400065265,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.3),keypress(VK_SPACE),w(0.2)",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),w(0.3),keypress(VK_SPACE),w(0.2)",
       "type": "target"
     },
     {
@@ -130,6 +130,68 @@
       "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
+    },
+    {
+      "id": 15,
+      "x": 2877.02099609375,
+      "y": -292.10693359375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 16,
+      "x": 2902.6484375,
+      "y": -281.61865234375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 2954.908203125,
+      "y": -271.97705078125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 2988.5546875,
+      "y": -275.0009765625,
+      "action": "up_down_grab_leaf",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 19,
+      "x": 2991.0624683993374,
+      "y": -271.1250151579634,
+      "action": "stop_flying",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 3009.25017380365,
+      "y": -242.87583368799005,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 3011.923828125,
+      "y": -245.77734375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);"
     }
   ]
 }
