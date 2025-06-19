@@ -70,7 +70,6 @@
     var SHUV = settings.shuv ? settings.shuv : 1; // 1 单线路，2 树脂耗尽
     var Rewards = settings.Rewards ? settings.Rewards : false; // ture 领取冒险点奖励，false 不领取冒险点奖励
     var Fligtin = false;  //领取冒险点奖励标志。
-    var FINDagin = 0; //地脉花寻找标志。lv.1.2新增，用于判断是否找线路余下地脉花。
     var tolerance = 30;
     var position ={};
     var Lastexecution = false;//线路执行标志，用于判断上一线路是否执行。
@@ -80,9 +79,28 @@
     const ocrRo2 = RecognitionObject.ocr(ocrRegion2.x, ocrRegion2.y, ocrRegion2.width, ocrRegion2.height);
     const ocrRegion1 = { x: 800, y: 200, width: 300, height: 100 };   // 中心区域
     const ocrRo1 = RecognitionObject.ocr(ocrRegion1.x, ocrRegion1.y, ocrRegion1.width, ocrRegion1.height);
-    var firstresin = settings.firstresin ? settings.firstresin : false;
-    var onerewards = firstresin ? "使用原粹树脂" : "使用浓缩树脂";
-    var secendrewards = firstresin ? "使用浓缩树脂" : "使用原粹树脂";
+    var Rewardsuse = settings.Rewardsuse ? settings.Rewardsuse : "1/2";
+    var resinTypes = Rewardsuse.split("/");
+    var rewards = [];
+    var onerewards, secendrewards, threendrewards, fourdrewards;  
+    for (var i = 0; i < resinTypes.length; i++) {
+        var resinType = parseInt(resinTypes[i]);
+        if (isNaN(resinType) || resinType < 1 || resinType > 4) {
+            throw new Error("设定的树脂类型无效或缺失，请重新配置");
+        }
+        rewards.push(resinType);
+    }
+    const resinTypeMap = ["","使用1个浓缩树脂，获取2倍产出", "使用20个原粹树脂", "使用1个脆弱树脂，获取3倍产出", "使用1个须臾树脂，获取3倍产出"];
+    // 根据 rewards 数组长度，依次赋值给对应的变量
+    if (rewards.length > 0) onerewards = resinTypeMap[rewards[0]];
+    if (rewards.length > 1) secendrewards = resinTypeMap[rewards[1]];
+    if (rewards.length > 2) threendrewards = resinTypeMap[rewards[2]];
+    if (rewards.length > 3) fourdrewards = resinTypeMap[rewards[3]];    
+
+    log.info(`使用树脂类型数量：${rewards.length}`);
+    log.info(`优先使用的树脂类型：${onerewards} --> ${secendrewards} --> ${threendrewards} --> ${fourdrewards}`);
+
+    // return
     var doneCount = 0;
 
     filePath = ""
@@ -110,11 +128,7 @@
     if (settings.n === undefined || settings.n === "") { log.warn("队伍名称未配置，不更换队伍！");SHUOVER=1;}
     if (SHUV == 1) {log.warn(`线路模式 ：' 按次数刷取 ${timesConfig.value/2} 次' `);}else{log.warn("线路模式 ：' 浓缩和原粹树脂耗尽模式（最多99次） '");timesConfig.value = 198;}
     if (color == 1) {log.warn("地脉类型 ：' 蓝色-经验书花！'");}else{log.warn("地脉类型 ：' 黄色-摩拉花！'")}  
-    let nowuidString = settings.nowuid ? settings.nowuid : "";  
-    
-    
-
-
+    let nowuidString = settings.nowuid ? settings.nowuid : "";      
 
     setGameMetrics(1920, 1080, 1);
     //================= 1.设定路线 =================
@@ -217,9 +231,6 @@
         "路线5 新枫丹科学院左锚点": folder5,
         "路线6 芒索斯山东麓": folder6
     };
-  
-
-  
 
     const allFlowerCoords = [
         // 线路1
@@ -237,7 +248,7 @@
         { line: 2, flower: 5, x: 1013, y: 883 },
         // 线路3√
         { line: 3, flower: 1, x: 1216, y: 661 },
-        { line: 3, flower: 2, x: 1239, y: 685 },
+        { line: 3, flower: 2, x: 1230, y: 685 },
         { line: 3, flower: 3, x: 1282, y: 642 },
         { line: 3, flower: 4, x: 1335, y: 639 },
         // 线路4
@@ -455,20 +466,32 @@
                 dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
                 }
         }
+
         await sleep(500);
-        let SHUN =  await Textocr(onerewards,1,1,0,566,656,819,170);
-        let SHUY =  await Textocr(secendrewards,1,1,0,566,656,819,170);
-        await sleep(1000);
-        let SHUB =  await Textocr("补充原粹树脂",1,0,0,566,656,819,170);
-            if  (SHUB.found){log.warn("树脂消耗完毕，结束任务");await keyPress("VK_ESCAPE");FINDagin=0;await sleep(1000);SHUOVER=2;return false;}
-            else if (SHUN.found || SHUY.found) {
-                log.info("找到树脂，已经使用...");FINDagin=0;dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: true })); return true;
-            }else{
-                log.warn("未找到树脂，尝试领取奖励...");
-                let SHUN =  await Textocr(onerewards,0.5,1,0,566,656,819,170);
-                let SHUY =  await Textocr(secendrewards,0.5,1,0,566,656,819,170);
-                if (SHUN.found || SHUY.found) {FINDagin=0; return true;}else{log.warn("领取错误，退出！");if (FINDagin===1){SHUOVER=1;log.warn("模糊模式，地脉不在初始位置，继续寻找！");return true}else{SHUOVER=2;return false;}}//SHUOVER=2
+
+        for (let i = 0;i < 2;i++) {
+ 
+            for (let i = 0;i < rewards.length;i++) {
+                let SHU =  await Textocr(resinTypeMap[rewards[i]],0.5,0,0,510,380,640,600);
+                if (SHU.found){
+                    if (resinTypeMap[rewards[i]] == "使用20个原粹树脂")
+                    {
+                        if(await Textocr("补充",0.5,0,0,1150,440,210,130)) continue;                
+                    }
+                    await click(SHU.x+550,SHU.y)
+                    log.info(` ${resinTypeMap[rewards[i]]} 获取奖励...`);
+                    dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: true }));
+                    return true;
+                }            
             }
+            await sleep(500);  
+        }
+        log.warn("未找到树脂，结束地脉花...");
+        await sleep(1000);        
+        await keyPress("VK_ESCAPE");
+        await sleep(1000);
+        SHUOVER=2;
+        return false;           
     }
 
     async function isOnRewardPage() {
@@ -594,12 +617,13 @@
         });
     }    
 
+    var executedCount = 0;
     async function Veinfligt() {
          // 定义路线常量
          var selectedPath = pathingMap[`路线${position.line} ${['厄里那斯', '秋分山西侧锚点左下', '秋分山西侧锚点右', '柔灯港上锚点', '新枫丹科学院左锚点', '芒索斯山东麓'][position.line - 1]}`]
          var selectedFolder = folderMap[`路线${position.line} ${['厄里那斯', '秋分山西侧锚点左下', '秋分山西侧锚点右', '柔灯港上锚点', '新枫丹科学院左锚点', '芒索斯山东麓'][position.line - 1]}`]
 
-         var executedCount = (position.flower-1)*2+0;         
+         executedCount = (position.flower-1)*2+0;         
          Lastexecution = false;
 
          log.info(`开始执行第 ${position.line} 线路的第 ${executedCount/2 + 1}/${selectedPath.length/2} 朵地脉花...`);
@@ -607,6 +631,8 @@
         for (let i = 0; i < selectedPath.length; i += 2){
 
             if (executedCount/2 + 1 > selectedPath.length/2) {
+                // if (executedCount>99) {log.info("未找到地脉花，重新尝试..."); return true;}
+
                 log.info("本线路执行完毕...");
                 break;}  
                 
@@ -715,7 +741,6 @@
             executedCount=executedCount+2;   
             doneCount++;          
         }
-        FINDagin = 0; //重置地脉花寻找标志。lv.1.2新增，用于判断是否找线路余下地脉花。
         return true;// 线路完成
     }    
 
