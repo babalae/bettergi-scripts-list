@@ -6,58 +6,76 @@
 
     // 前往七天神像
     await genshin.tpToStatueOfTheSeven();
+    let runCount = 0;
+    const maxRuns = 5;
+    while (runCount < maxRuns) {
+        log.info(`第${runCount + 1}次运行，当前进度：${runCount}/${maxRuns}`);
+        await find();
+        log.info(`找到角色头像，正在查找对应角色...`);
+        const characterPositions = [
+            { name: "柯莱-1", x: 2843, y: -384, hasKeyMouse: true },
+            { name: "迪希雅-1", x: 3771, y: 3608 },
+            { name: "赛诺-1", x: 3062, y: -268 },
+            { name: "林尼-1", x: 4197, y: 4805 },
+            { name: "夏沃蕾-1", x: 4356, y: 3707 },
+            { name: "菲米尼-1", x: 4202, y: 3037, hasKeyMouse: true },
+            { name: "夏洛蒂-1", x: 4618, y: 3518},
+            { name: "绮良良-1", x: 231, y: -672 },
+            { name: "绮良良-2", x: 231, y: -672 },
+            { name: "鹿野院平藏-1", x: -4459, y: -3141 },
+            { name: "鹿野院平藏-2", x: -4467, y: -3127 },
+            { name: "托马-1", x: -4399, y: -3130},
+            { name: "梦见月瑞希-1", x: -4458, y: -3111, hasKeyMouse: true },
+            { name: "梦见月瑞希-2", x: -4458, y: -3111, hasKeyMouse: true },
+            { name: "八重神子-1", x: -4424, y: -2475 },
+            { name: "那维莱特-1", x: 3600, y: 3804 },
+            { name: "神里绫人-1", x: -4473, y: -3132 }
+        ];
 
-    await find();
-    log.info(`找到角色头像，正在查找对应角色...`);
-    const characterPositions = [
-        { name: "柯莱-1", x: 2843, y: -384, hasKeyMouse: true },
-        { name: "林尼-1", x: 4197, y: 4805 },
-        { name: "夏沃蕾-1", x: 4356, y: 3707 },
-        { name: "菲米尼-1", x: 4202, y: 3037, hasKeyMouse: true },
-        { name: "夏洛蒂-1", x: 4618, y: 3518},
-        { name: "绮良良-1", x: 231, y: -672 },
-        { name: "鹿野院平藏-1", x: -4459, y: -3141 },
-        { name: "鹿野院平藏-2", x: -4467, y: -3127 },
-        { name: "梦见月瑞希-1", x: -4458, y: -3111, hasKeyMouse: true },
-        { name: "八重神子-1", x: -4424, y: -2475 },
-    ];
-
-    hasKeyMouse = false;
-    let found = false;
-    for (const pos of characterPositions) {
-        if (config[pos.name] === true) {
-            continue;
+        hasKeyMouse = false;
+        let found = false;
+        for (const pos of characterPositions) {
+            if (config[pos.name] === true) {
+                continue;
+            }
+            if (isNearPosition(characterX, characterY, pos.x, pos.y)) {
+                pathingName = pos.name;
+                hasKeyMouse = !!pos.hasKeyMouse;
+                found = true;
+                log.info(`找到角色，执行路线：${pathingName}`);
+                break;
+            }
         }
-        if (isNearPosition(characterX, characterY, pos.x, pos.y)) {
-            pathingName = pos.name;
-            hasKeyMouse = !!pos.hasKeyMouse;
-            found = true;
-            log.info(`找到角色：${pos.name}`);
-            break;
+        if (!found) {
+            log.error("未找到角色，或者角色未被收录");
+            log.error("也有可能是配置文件中该角色已经对话过，请手动修改或清空config.json后重试");
+            return;
         }
-    }
-    if (!found) {
-        log.error("未找到角色，或者角色未被收录");
-        log.error("也有可能是配置文件中该角色已经对话过，请手动修改或清空config.json后重试");
-        return;
-    }
-    log.info(`执行路线：${pathingName}`);
-    await pathingScript.runFile(`assets/pathing/${pathingName}.json`)
-    keyPress("F");
-    log.info("开始对话...");
-    await sleep(3000);
-    await waitToMain();
-    if (hasKeyMouse) {
-        log.info("执行对应键鼠脚本");
-        await keyMouseScript.runFile(`assets/keymouse/${pathingName}.json`)
-        keyPress("F");
-        log.info("开始对话...");
+        log.info(`正在前往 ${pathingName} 所在位置...`);
+        await pathingScript.runFile(`assets/pathing/${pathingName}.json`)
+        if (!hasKeyMouse) {
+            keyPress("F");
+            log.info("开始对话...");
+        }
         await sleep(3000);
         await waitToMain();
+        if (hasKeyMouse) {
+            log.info("执行对应键鼠脚本");
+            await keyMouseScript.runFile(`assets/keymouse/${pathingName}.json`)
+            keyPress("F");
+            log.info("开始对话...");
+            await sleep(3000);
+            await waitToMain();
+        }
+        config[pathingName] = true;
+        await file.writeText("config.json", JSON.stringify(config, null, 4));
+        log.info(`任务完成，已更新配置文件`);
+        runCount++;
+        if (runCount < maxRuns) {
+            log.info(`第${runCount}次运行完成`);
+        }
     }
-    config[pathingName] = true;
-    await file.writeText("config.json", JSON.stringify(config, null, 4));
-    log.info(`任务完成，已更新配置文件`);
+    log.info(`已对话${maxRuns}次，今日对话次数已达到上限。`);
 })();
 
 /**
@@ -95,7 +113,7 @@ async function find() {
 
 async function locate() {
     await sleep(500); // 确保画面稳定
-    await genshin.setBigMapZoomLevel(3.0);
+    await genshin.setBigMapZoomLevel((data && typeof data.zoom === "number") ? data.zoom : 6.0);
 
     const character = captureGameRegion().findMulti(RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/三个点.png")));
     if (character && character.count > 0) {
