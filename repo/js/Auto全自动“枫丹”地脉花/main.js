@@ -476,7 +476,7 @@
                 if (SHU.found){
                     if (resinTypeMap[rewards[i]] == "使用20个原粹树脂")
                     {
-                        let BUC =  await Textocr("补充",0.5,0,0,1150,440,210,130);
+                      let BUC =  await Textocr("补充",0.5,0,0,1150,440,210,130);
                         if (BUC.found) {continue;}                                           
                     }
                     await click(SHU.x+550,SHU.y)
