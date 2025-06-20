@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "14-石珀-庆云顶",
+    "name": "14-石珀-珉林-庆云顶-2个",
     "type": "collect",
     "author": "爱凑热闹",
     "version": "1.0",
@@ -30,7 +30,8 @@
       "y": 619.44,
       "type": "path",
       "move_mode": "fly",
-      "action": ""
+      "action": "stop_flying",
+      "action_params": "2500"
     },
     {
       "id": 4,
@@ -47,7 +48,7 @@
       "y": 627.36,
       "type": "path",
       "move_mode": "walk",
-      "action": "pick_around",
+      "action": "",
       "action_params": ""
     },
     {
