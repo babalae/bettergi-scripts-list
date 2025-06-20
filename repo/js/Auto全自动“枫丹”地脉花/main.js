@@ -126,7 +126,7 @@
     if (Rewards){log.warn("结束后领励练点和提交每日！");if(settings.nh === undefined || settings.nh === "") {log.warn("好感队未配置，领奖励时不切换队伍")}}
     if (settings.nh === undefined || settings.nh === "") { log.warn("好感队禁用！");haoganq=0}else{var haogandui = settings.nh;haoganq=1;if(settings.n === undefined ) {throw new Error("好感队已经设置，请填战斗队伍！")}}
     if (settings.n === undefined || settings.n === "") { log.warn("队伍名称未配置，不更换队伍！");SHUOVER=1;}
-    if (SHUV == 1) {log.warn(`线路模式 ：' 按次数刷取 ${timesConfig.value/2} 次' `);}else{log.warn("线路模式 ：' 浓缩和原粹树脂耗尽模式（最多99次） '");timesConfig.value = 198;}
+    if (SHUV == 1) {log.warn(`线路模式 ：' 按次数刷取 ${timesConfig.value/2} 次' `);}else{log.warn("线路模式 ：' 设定使用的树脂类型耗尽模式（最多99次） '");timesConfig.value = 198;}
     if (color == 1) {log.warn("地脉类型 ：' 蓝色-经验书花！'");}else{log.warn("地脉类型 ：' 黄色-摩拉花！'")}  
     let nowuidString = settings.nowuid ? settings.nowuid : "";      
 
@@ -469,14 +469,15 @@
 
         await sleep(500);
 
-        for (let i = 0;j < 2;j++) {
+        for (let j = 0;j < 2;j++) {
  
             for (let i = 0;i < rewards.length;i++) {
                 let SHU =  await Textocr(resinTypeMap[rewards[i]],0.5,0,0,510,380,640,600);
                 if (SHU.found){
                     if (resinTypeMap[rewards[i]] == "使用20个原粹树脂")
                     {
-                        if(await Textocr("补充",0.5,0,0,1150,440,210,130)) continue;                
+                      let BUC =  await Textocr("补充",0.5,0,0,1150,440,210,130);
+                        if (BUC.found) {continue;}                                           
                     }
                     await click(SHU.x+550,SHU.y)
                     log.info(` ${resinTypeMap[rewards[i]]} 获取奖励...`);
