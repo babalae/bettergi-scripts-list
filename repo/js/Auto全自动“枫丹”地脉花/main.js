@@ -126,7 +126,7 @@
     if (Rewards){log.warn("结束后领励练点和提交每日！");if(settings.nh === undefined || settings.nh === "") {log.warn("好感队未配置，领奖励时不切换队伍")}}
     if (settings.nh === undefined || settings.nh === "") { log.warn("好感队禁用！");haoganq=0}else{var haogandui = settings.nh;haoganq=1;if(settings.n === undefined ) {throw new Error("好感队已经设置，请填战斗队伍！")}}
     if (settings.n === undefined || settings.n === "") { log.warn("队伍名称未配置，不更换队伍！");SHUOVER=1;}
-    if (SHUV == 1) {log.warn(`线路模式 ：' 按次数刷取 ${timesConfig.value/2} 次' `);}else{log.warn("线路模式 ：' 浓缩和原粹树脂耗尽模式（最多99次） '");timesConfig.value = 198;}
+    if (SHUV == 1) {log.warn(`线路模式 ：' 按次数刷取 ${timesConfig.value/2} 次' `);}else{log.warn("线路模式 ：' 设定使用的树脂类型耗尽模式（最多99次） '");timesConfig.value = 198;}
     if (color == 1) {log.warn("地脉类型 ：' 蓝色-经验书花！'");}else{log.warn("地脉类型 ：' 黄色-摩拉花！'")}  
     let nowuidString = settings.nowuid ? settings.nowuid : "";      
 
