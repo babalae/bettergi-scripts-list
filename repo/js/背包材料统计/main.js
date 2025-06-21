@@ -18,8 +18,11 @@ const material_mapping = {
     "Talent": "角色天赋素材",
     "WeaponAscension": "武器突破素材"
 }
-const isOnlyPathing = settings.onlyPathing === "否" ? false : true;
+const isOnlyPathing = settings.onlyPathing === "是" ? true : false;
 
+if (isOnlyPathing) {
+    log.warn("已开启路径专注模式，将忽略勾选的分类");
+}
 // 初始化 settings，将 material_mapping 中的所有键设置为 false
 const initialSettings = Object.keys(material_mapping).reduce((acc, key) => {
     acc[key] = false;
@@ -93,17 +96,6 @@ const selected_materials_array = Object.keys(finalSettings)
         "武器突破素材": 6,
     };
 
-
-
-    // 提前计算所有动态坐标
-    // 物品区左顶处物品左上角坐标(117,121)
-    // 物品图片大小(123,152)
-    // 物品间隔(24,24)
-    // 第一点击区位置:123/2+117=178.5; 152/2+121=197
-    // const menuClickX = Math.round(575 + (Number(menuOffset) - 1) * 96.25); // 背包菜单的 X 坐标
-
-    // log.info(`材料分类: ${materialsCategory}, 菜单偏移值: ${menuOffset}, 计算出的点击 X 坐标: ${menuClickX}`);
-
     // OCR识别文本
     async function recognizeText(ocrRegion, timeout = 10000, retryInterval = 20, maxAttempts = 10, maxFailures = 3) {
         let startTime = Date.now();
@@ -112,7 +104,7 @@ const selected_materials_array = Object.keys(finalSettings)
         // const results = [];
         const frequencyMap = {}; // 用于记录每个结果的出现次数
 
-        const replacementMap = {
+        const numberReplaceMap = {
             "O": "0", "o": "0", "Q": "0", "０": "0",
             "I": "1", "l": "1", "i": "1", "１": "1", "一": "1",
             "Z": "2", "z": "2", "２": "2", "二": "2",
@@ -149,7 +141,7 @@ const selected_materials_array = Object.keys(finalSettings)
 
             for (let res of resList) {
                 let text = res.text;
-                text = text.split('').map(char => replacementMap[char] || char).join('');
+                text = text.split('').map(char => numberReplaceMap[char] || char).join('');
                 // results.push(text);
 
                 if (!frequencyMap[text]) {
@@ -377,7 +369,7 @@ async function scanMaterials(materialsCategory, materialCategoryMap) {
 
         // 每2秒输出一句俏皮话
         const phrasesTime = Date.now();
-        if (phrasesTime - phrasesStartTime >= 2000) {
+        if (phrasesTime - phrasesStartTime >= 5000) {
             const selectedPhrase = tempPhrases.shift();
             log.info(selectedPhrase);
             if (tempPhrases.length === 0) {
@@ -486,8 +478,6 @@ async function recognizeImage(recognitionObject, timeout = 5000) {
             // 尝试识别图像
             const imageResult = captureGameRegion().find(recognitionObject);
             if (imageResult.isExist() && imageResult.x !== 0 && imageResult.y !== 0) {
-                // log.info(`成功识别图像，坐标: x=${imageResult.x}, y=${imageResult.y}`);
-                // log.info(`图像尺寸: width=${imageResult.width}, height=${imageResult.height}`);
                 return { success: true, x: imageResult.x, y: imageResult.y };
             }
         } catch (error) {
@@ -563,7 +553,6 @@ async function MaterialPath(materialCategoryMap) {
     const allLowCountMaterials = []; // 用于存储所有识别到的低数量材料信息
 
     const sortedGroups = dynamicMaterialGrouping(materialCategoryMap);
-// log.info("材料 动态[分组]结果:");
     sortedGroups.forEach(group => {
     log.info(`类型 ${group.type} | 包含分类: ${group.categories.join(', ')}`);
 });
@@ -578,14 +567,12 @@ async function MaterialPath(materialCategoryMap) {
                 break;
 
             case 1: // 打开背包界面
-                // log.info("打开背包界面");
                 keyPress("B"); // 打开背包界面
                 await sleep(1000);
                 await imageClick()
 
                 let backpackResult = await recognizeImage(BagpackRo, 2000);
                 if (backpackResult.success) {
-                    // log.info("成功识别背包图标");
                     stage = 2; // 进入下一阶段
                 } else {
                     log.warn("未识别到背包图标，重新尝试");
@@ -601,7 +588,6 @@ async function MaterialPath(materialCategoryMap) {
                         materialsCategory = group.categories[currentCategoryIndex];
                         const offset = materialTypeMap[materialsCategory];
                         const menuClickX = Math.round(575 + (offset - 1) * 96.25);
-                        // log.info(`点击坐标 (${menuClickX},75)`);
                         click(menuClickX, 75);
 
                         await sleep(500);
@@ -703,7 +689,6 @@ function pathExists(path) {
 }
 // 递归读取目录下的所有文件路径，并排除特定后缀的文件
 function readAllFilePaths(dirPath, currentDepth = 0, maxDepth = 3, includeExtensions = ['.png', '.json', '.txt'], includeDirs = false) {
-    // log.info(`开始递归读取目录：${dirPath}，当前深度：${currentDepth}`);
     if (!pathExists(dirPath)) {
         log.error(`目录 ${dirPath} 不存在`);
         return [];
@@ -711,34 +696,27 @@ function readAllFilePaths(dirPath, currentDepth = 0, maxDepth = 3, includeExtens
 
     try {
         const entries = file.readPathSync(dirPath); // 读取目录内容，返回的是完整路径
-        // log.info(`目录 ${dirPath} 下的条目：${JSON.stringify(entries)}`);
 
         const filePaths = [];
         for (const entry of entries) {
             const isDirectory = pathExists(entry); // 如果路径存在且返回的是数组，则认为是目录
-            // log.info(`处理条目：${entry}，是否为目录：${isDirectory}`);
 
             if (isDirectory) {
                 if (includeDirs) {
-                    // log.info(`添加目录路径：${entry}`);
                     filePaths.push(entry); // 添加目录路径
                 }
                 if (currentDepth < maxDepth) {
-                    // log.info(`递归读取子目录：${entry}`);
                     filePaths.push(...readAllFilePaths(entry, currentDepth + 1, maxDepth, includeExtensions, includeDirs)); // 递归读取子目录
                 }
             } else {
                 const fileExtension = entry.substring(entry.lastIndexOf('.'));
                 if (includeExtensions.includes(fileExtension.toLowerCase())) {
-                    // log.info(`添加文件路径：${entry}`);
                     filePaths.push(entry); // 添加文件路径
                 } else {
-                    // log.info(`跳过文件（不在包含的后缀中）：${entry}`);
                 }
             }
         }
 
-        // log.info(`完成目录 ${dirPath} 的递归读取，共找到 ${filePaths.length} 个文件`);
         return filePaths;
     } catch (error) {
         log.error(`读取目录 ${dirPath} 时发生错误: ${error}`);
@@ -749,7 +727,6 @@ function readAllFilePaths(dirPath, currentDepth = 0, maxDepth = 3, includeExtens
 
 // 解析文件内容，提取材料信息
 function parseMaterialContent(content) {
-    // log.info(`开始解析文件内容：\n${content}`);
     if (!content) {
         log.warn(`文件内容为空`);
         return {}; // 如果内容为空，直接返回空对象
@@ -759,15 +736,12 @@ function parseMaterialContent(content) {
     const materialCDInfo = {};
 
     lines.forEach(line => {
-        // log.info(`处理行：${line}`);
         if (!line.includes('：')) {
-            // log.warn(`跳过无效行：${line}`);
             return;
         }
 
         const [refreshCD, materials] = line.split('：');
         if (!refreshCD || !materials) {
-            // log.warn(`跳过无效行：${line}`);
             return;
         }
 
@@ -803,21 +777,8 @@ function parseMaterialContent(content) {
 
         materialCDInfo[JSON.stringify(refreshCDInHours)] = materials.split('，').map(material => material.trim()).filter(material => material !== '');
 
-/*        // 改进日志记录，更清晰地显示对象内容
-        if (typeof refreshCDInHours === 'object') {
-            if (refreshCDInHours.type === 'midnight') {
-                log.info(`解析结果：刷新时间 ${refreshCDInHours.type} ${refreshCDInHours.times}次，材料 ${materialList}`);
-            } else if (refreshCDInHours.type === 'specific') {
-                log.info(`解析结果：刷新时间 ${refreshCDInHours.type} ${refreshCDInHours.hour}点，材料 ${materialList}`);
-            } else if (refreshCDInHours.type === 'instant') {
-                log.info(`解析结果：刷新时间 ${refreshCDInHours.type}，材料 ${materialList}`);
-            }
-        } else {
-            log.info(`解析结果：刷新时间 ${refreshCDInHours}小时，材料 ${materialList}`);
-        }*/
     });
 
-    // log.info(`完成文件内容解析，结果：${JSON.stringify(materialCDInfo, null, 2)}`);
     return materialCDInfo;
 }
 
@@ -833,7 +794,6 @@ function extractResourceNameFromPath(filePath) {
 }
 // 从 materials 文件夹中读取分类信息
 function readMaterialCategories(materialDir) {
-    // log.info(`开始读取材料分类信息：${materialDir}`);
     const materialFilePaths = readAllFilePaths(materialDir, 0, 1, ['.txt']);
     const materialCategories = {};
 
@@ -847,7 +807,6 @@ function readMaterialCategories(materialDir) {
         const sourceCategory = basename(filePath).replace('.txt', ''); // 去掉文件扩展名
         materialCategories[sourceCategory] = parseMaterialContent(content);
     }
-    // log.info(`完成材料分类信息读取，分类信息：${JSON.stringify(materialCategories, null, 2)}`);
     return materialCategories;
 }
 
@@ -902,8 +861,8 @@ function checkPathNameFrequency(recordDir, resourceName, pathName) {
             }
         }
 
-        // 如果路径名出现次数超过2次，返回 false
-        if (totalCount > 2) {
+        // 如果路径名出现次数超过3次，返回 false
+        if (totalCount >= 3) {
             log.info(`路径文件: ${pathName}, 多次0采集，请检查后，删除记录再执行`);
             return false;
         }
@@ -1024,7 +983,7 @@ function calculatePerTime(resourceName, pathName, recordDir) {
 
         // 如果完整记录少于3条，返回 null
         if (completeRecords.length < 3) {
-            log.warn(` ${pathName}完整记录不足3条，无法计算有效的时间成本: ${recordPath}`);
+            log.warn(` ${pathName}有效记录不足3条，无法计算平均时间成本: ${recordPath}`);
             return null;
         }
 
@@ -1082,7 +1041,6 @@ function canRunPathingFile(currentTime, lastEndTime, refreshCD, pathName) {
             const canRun = currentDate >= nextRunTime;
 
             log.info(`路径文件${pathName}上次运行时间：${lastEndTimeDate.toLocaleString()}，下次运行时间：${nextRunTime.toLocaleString()}`);
-            // log.info(`是否可以运行：${canRun}`);
             return canRun;
         } else if (refreshCD.type === 'specific') {
             // 处理“具体时间点”这样的特殊规则
@@ -1141,8 +1099,6 @@ const createImageCategoryMap = (imagesDir) => {
             map[imageName] = pathParts[2];
         }
     }
-    
-    // log.info(JSON.stringify({ dir: imagesDir, entries: map }, null, 2));
     return map;
 };
 // 模块级去重集合（新增）
@@ -1160,7 +1116,6 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
 
     // Set 去重逻辑
     if (!loggedResources.has(processedName)) {
-        // log.info(JSON.stringify({ entries: { [processedName]: result } }, null, 2));
         loggedResources.add(processedName);
     }
     
@@ -1220,11 +1175,15 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
         }, {});
 
         // 确保 selected_materials_array 中的分类被初始化为空数组
-        selected_materials_array.forEach(selectedCategory => {
-            if (!materialCategoryMap[selectedCategory]) {
-                materialCategoryMap[selectedCategory] = [];
-            }
-        });
+        if (Object.keys(selected_materials_array).length === 0) {
+            log.warn("==================\n                未选择【材料分类】！\n               ==================");
+        } else {
+            selected_materials_array.forEach(selectedCategory => {
+                if (!materialCategoryMap[selectedCategory]) {
+                    materialCategoryMap[selectedCategory] = [];
+                }
+            });
+        }
 
         // 如果 isOnlyPathing 为 true，移除 materialCategoryMap 中的空数组
         if (isOnlyPathing) {
@@ -1235,22 +1194,16 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
             });
         }
 
-        // log.info(JSON.stringify(materialCategoryMap, null, 2));
-
         // 调用背包材料统计
         const pathingMaterialCounts = await MaterialPath(materialCategoryMap);
 
-        // log.info(`路径中的材料信息: ${JSON.stringify(pathingMaterialCounts, null, 2)}`);
         // 调用 filterLowCountMaterials 过滤材料信息,先将嵌套数组展平，然后再进行筛选
         const lowCountMaterialsFiltered = filterLowCountMaterials(pathingMaterialCounts.flat(), materialCategoryMap);
 
-        // log.info(`筛选后的低数量材料信息: ${JSON.stringify(lowCountMaterialsFiltered, null, 2)}`);
         // 展平数组并按数量从小到大排序
         let flattenedLowCountMaterials = lowCountMaterialsFiltered
             .flat()
             .sort((a, b) => parseInt(a.count, 10) - parseInt(b.count, 10));
-
-        // log.info(`筛选后的低数量材料信息排序: ${JSON.stringify(flattenedLowCountMaterials, null, 2)}`);
 
         // 提取低数量材料的名称
         const lowCountMaterialNames = flattenedLowCountMaterials.map(material => material.name);
@@ -1280,12 +1233,8 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
             const indexB = lowCountMaterialNames.indexOf(b.resourceName);
             return indexA - indexB;
         });
-        // log.info(`优先路径数组 (prioritizedPaths): ${JSON.stringify(prioritizedPaths, null, 2)}`);
-        // log.info(`普通路径数组 (normalPaths): ${JSON.stringify(normalPaths, null, 2)}`);
-
         // 合并优先路径和普通路径
         const allPaths = prioritizedPaths.concat(normalPaths);
-        // log.info(`最终路径数组 (allPaths): ${JSON.stringify(allPaths, null, 2)}`);
 
         dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
 
@@ -1295,7 +1244,6 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
         // 遍历所有路径文件
         for (const { path: pathingFilePath, resourceName } of allPaths) {
             const pathName = basename(pathingFilePath); // 假设路径文件名即为材料路径
-            // log.info(`处理路径文件：${pathingFilePath}，材料名：${resourceName}，材料路径：${pathName}`);
 
             // 查找材料对应的CD分类
             let categoryFound = false;
@@ -1501,12 +1449,10 @@ async function imageClick() {
         const pictureDir = entries.find(entry => entry.endsWith('\Picture'));
 
         if (!iconDir) {
-            // log.warn(`未找到 icon 文件夹，跳过分类文件夹：${subDir}`);
             continue;
         }
 
         if (!pictureDir) {
-            // log.warn(`未找到 Picture 文件夹，跳过分类文件夹：${subDir}`);
             continue;
         }
 
@@ -1568,7 +1514,7 @@ async function imageClick() {
                 log.info(`点击 ${foundRegion.iconName}成功，位置: (${x}, ${y})`);
                 await sleep(500); // 等待一段时间
             } else {
-                log.warn(`未找到背包弹窗：${foundRegion.iconName}`);
+                // log.info(`无过期材料弹窗：${foundRegion.iconName}，正常跳过`);
             }
         }
     }
