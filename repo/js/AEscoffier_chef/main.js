@@ -364,7 +364,10 @@
         let ocr = captureGameRegion().FindMulti(ocrRo); // 当前页面OCR
         if (ocr.count !== 0) {
             for (let i = 0; i < ocr.count; i++) {
-                if (findClosestMatch(ocr[i].text, Object.keys(food_dic)) === food_name) { // 【DEBUG】
+                let food_name_deal = await Promise.all(
+                    Object.keys(food_dic).map(async (x) => await deal_string(x))
+                );
+                if (findClosestMatch(ocr[i].text, food_name_deal) === food_name) { // 【DEBUG】
                     log.info(`找到了 ${food_name} ！`);
                     ocr[i].Click();
                     return true;
@@ -1033,12 +1036,12 @@
                 task_dic["character"] = {};
             } else if (setting_dic["food_character_select"] === "全部角色") {
                 for (let i = 0; i < name_character_food.length; i++) {
-                    task_dic["character"][name_character_food[i]] = setting_dic["food_character_num"];
+                    task_dic["cooking"][name_character_food[i]] = setting_dic["food_character_num"];
                 }
             } else {
                 for (const [name, detail] of Object.entries(food_dic)) {
                     if (detail["character"] === setting_dic["food_character_select"]) {
-                        task_dic["character"][name] = setting_dic["food_character_num"];
+                        task_dic["cooking"][name] = setting_dic["food_character_num"];
                     }
                 }
             }
@@ -1059,7 +1062,7 @@
                 let all_character = Object.keys(character_detail_dic);
                 for (const [name, detail] of Object.entries(food_dic)) {
                     if (all_character.includes(detail["character"])) {
-                        task_dic["character"][name] = character_detail_dic[detail["character"]];
+                        task_dic["cooking"][name] = character_detail_dic[detail["character"]];
                     }
                 }
             }
@@ -1205,7 +1208,8 @@
         food_name = findClosestMatch(food_name, Object.keys(food_dic)); // 【DEBUG】
         let current_item_name = findClosestMatch(await recognize_item_name(), Object.keys(food_dic));
         if (typeof(setting_dic["cooking"][food_name]) === "undefined") {
-            log.err(`请确保JS脚本配置中输入了正确的料理名称: ${food_name} 匹配错误`);
+            log.error(`请确保JS脚本配置中输入了正确的料理名称: ${food_name} 匹配错误`);
+            log.info(`${Object.keys(setting_dic["cooking"]).join("|")}`);
             return false;
         }
         // 检测界面
