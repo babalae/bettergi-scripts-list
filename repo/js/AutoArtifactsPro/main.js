@@ -903,7 +903,6 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000, enemyType = "盗宝�
 
     log.warn("在超时时间内未检测到战斗结果");
     cts.cancel(); // 取消任务
-    throw new Error("战斗超时，未检测到结果");
 }
 
 /**
