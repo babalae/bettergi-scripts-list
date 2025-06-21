@@ -218,15 +218,24 @@ let progress = {
     lastRunDate: null // 记录上次运行的日期
 };
 
+// 获取本地日期（YYYY-MM-DD 格式）
+function getLocalDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // 月份从 0 开始，需要加 1
+    const date = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${date}`;
+}
 // 读取进度
 async function loadProgress() {
     try {
         const content = await file.readText(progressFile);
         const loadedProgress = JSON.parse(content);
 
-        // 检查日期是否一致
-        const now = new Date();
-        const today = now.toISOString().split('T')[0]; // 当前日期（YYYY-MM-DD）
+        // 获取本地日期
+        const today = getLocalDate();
+
+        // 获取保存的日期
         const lastRunDate = loadedProgress.lastRunDate;
 
         if (lastRunDate && lastRunDate === today) {
@@ -239,23 +248,30 @@ async function loadProgress() {
             progress.completedTasks = [];
         }
 
-        progress.lastRunDate = today; // 更新当前日期
-        log.info("加载进度成功:", progress);
+        // 更新当前日期
+        progress.lastRunDate = today;
+        // 日志输出
+        log.info(`加载进度成功: ${JSON.stringify(progress)}`);
     } catch (error) {
         log.error("加载进度失败:", error);
     }
 }
-
 // 保存进度
 async function saveProgress() {
     try {
-        progress.lastRunDate = new Date().toISOString().split('T')[0]; // 更新当前日期
+        // 获取本地日期
+        const today = getLocalDate();
+
+        // 更新进度并保存
+        progress.lastRunDate = today;
         await file.writeText(progressFile, JSON.stringify(progress));
-        log.info("进度已保存。");
+
+        log.info(`进度已保存，当前日期: ${today}`);
     } catch (error) {
         log.error("保存进度失败:", error);
     }
 }
+
 
 let count = 0; // 用于记录分解圣遗物的次数
 
