@@ -74,7 +74,7 @@
     var position ={};
     var Lastexecution = false;//线路执行标志，用于判断上一线路是否执行。
     var Fightquick = settings.Fightquick ? settings.Fightquick : false; 
-    var Fighttimeout = settings.timeout = settings.timeout * 1000 || 240000;
+    var Fighttimeout = settings.timeout * 1000 ? settings.timeout * 1000 : 240000;//战斗超时时间，默认为240秒
     const ocrRegion2 = { x: 0, y: 200, width: 300, height: 300 };     // 追踪任务区域
     const ocrRo2 = RecognitionObject.ocr(ocrRegion2.x, ocrRegion2.y, ocrRegion2.width, ocrRegion2.height);
     const ocrRegion1 = { x: 800, y: 200, width: 300, height: 100 };   // 中心区域
