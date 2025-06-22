@@ -1,0 +1,87 @@
+{
+  "info": {
+    "name": "荒岛朝圣指南_路线1",
+    "type": "collect",
+    "author": "花见木易",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1750597203971
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2215.935546875,
+      "y": -3709.5615234375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -2212.0947265625,
+      "y": -3725.083984375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -2191.9384765625,
+      "y": -3739.2392578125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -2184.931640625,
+      "y": -3751.54296875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -2190.5859375,
+      "y": -3765.365234375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -2188.55859375,
+      "y": -3768.185546875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -2187.8828125,
+      "y": -3794.4306640625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -2190.6220703125,
+      "y": -3795.341796875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f)",
+      "type": "target"
+    }
+  ]
+}
