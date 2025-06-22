@@ -13,6 +13,11 @@
     "default": "不卡时间，ab交替运行"
   },
   {
+    "name": "useABE",
+    "type": "checkbox",
+    "label": "是否使用用时更短，收益更低的老abe路线\n默认使用新路线"
+  },
+  {
     "name": "minTimesForFirendship",
     "type": "input-text",
     "label": "好感任务最低运行次数\n【若卡时间好感次数不足该次数，则在狗粮结束后补齐】",
