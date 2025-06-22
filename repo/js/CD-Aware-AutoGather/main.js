@@ -360,11 +360,59 @@ function getSelectedMaterials() {
 
     for (const entry of config) {
         if (entry.name && entry.name.startsWith("OPT_") && entry.type === "checkbox") {
-            if (settings[entry.name] === true) {
+            if (settings.selectAllMaterials || settings[entry.name] === true) {
                 let index = entry.label.indexOf(" ");
                 entry.label = entry.label.slice(index + 1); // 去除⬇️指示
                 selectedMaterials.push(entry);
             }
+        }
+    }
+
+    const materialDict = {};
+    selectedMaterials.forEach((item) => {
+        const label = item.label;
+        const match = label.match(/\\(.*?)\\\1/); // \落落莓\落落莓@Author
+        let materialName;
+
+        if (match) {
+            materialName = match[1];
+        } else {
+            const parts = label.split("\\");
+            materialName = parts[parts.length - 1];
+        }
+
+        if (!materialDict[materialName]) {
+            materialDict[materialName] = [];
+        }
+        materialDict[materialName].push(item);
+    });
+
+    const firstRoutes = [];
+    const multiRoutes = {};
+    for (const materialName in materialDict) {
+        const routes = materialDict[materialName];
+        if (routes.length > 0) {
+            firstRoutes.push(routes[0]);
+            if (materialDict[materialName].length > 1) {
+                multiRoutes[materialName] = materialDict[materialName];
+            }
+        }
+    }
+    const countOfMultiRoutes = Object.keys(multiRoutes).length;
+    if (countOfMultiRoutes > 0) {
+        let text = `${countOfMultiRoutes}种材料存在多个版本的路线:\n`;
+        for (const [key, values] of Object.entries(multiRoutes)) {
+            text += `${key}\n`;
+            for (const v of values) {
+                text += `  ${v.label}\n`;
+            }
+        }
+        log.debug(text);
+        if (settings.acceptMultiplePathOfSameMaterial) {
+            log.warn("{0}种材料选中了多个版本的路线（详见日志文件），根据脚本设置，将执行全部版本", countOfMultiRoutes);
+        } else {
+            log.warn("{0}种材料选中了多个版本的路线（详见日志文件），默认只执行第一个版本", countOfMultiRoutes);
+            return firstRoutes;
         }
     }
 
