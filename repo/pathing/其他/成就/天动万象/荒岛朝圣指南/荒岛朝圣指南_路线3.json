@@ -1,0 +1,51 @@
+{
+  "info": {
+    "name": "荒岛朝圣指南_路线3",
+    "type": "collect",
+    "author": "花见木易",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1750598060893
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2405.7939453125,
+      "y": -3913.0185546875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -2383.7646484375,
+      "y": -3908.599609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -2359.095703125,
+      "y": -3921.3203125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "2000"
+    },
+    {
+      "id": 4,
+      "x": -2362.541015625,
+      "y": -3917.11328125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f)"
+    }
+  ]
+}
