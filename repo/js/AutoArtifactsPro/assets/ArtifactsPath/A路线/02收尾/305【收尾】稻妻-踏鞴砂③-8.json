@@ -35,17 +35,17 @@
     },
     {
       "id": 4,
-      "x": -3128.7255859375,
-      "y": -3755.45703125,
+      "x": -3129.3125355507473,
+      "y": -3750.688652005223,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(0.2),charge,keypress(e),wait(0.5),keypress(e)",
+      "action_params": "wait(0.2),charge",
       "type": "path"
     },
     {
       "id": 5,
-      "x": -3143.5517578125,
-      "y": -3746.591796875,
+      "x": -3141.124845946766,
+      "y": -3739.3142583237604,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
@@ -53,19 +53,19 @@
     },
     {
       "id": 6,
-      "x": -3136.029296875,
-      "y": -3744.3037109375,
+      "x": -3122.5940660066353,
+      "y": -3748.937848633159,
       "action": "combat_script",
-      "move_mode": "climb",
-      "action_params": "wait(0.2),keypress(e)",
+      "move_mode": "fly",
+      "action_params": "wait(0.3),j,wait(1),j",
       "type": "path"
     },
     {
       "id": 7,
-      "x": -3126.9375,
-      "y": -3740.6867474753017,
-      "action": "",
-      "move_mode": "dash",
+      "x": -3122.7138671875,
+      "y": -3735.26171875,
+      "action": "stop_flying",
+      "move_mode": "fly",
       "action_params": "",
       "type": "path"
     },
@@ -82,8 +82,9 @@
       "id": 9,
       "x": -3119.4423828125,
       "y": -3733.85546875,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "walk",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;",
       "type": "path"
     },
     {
