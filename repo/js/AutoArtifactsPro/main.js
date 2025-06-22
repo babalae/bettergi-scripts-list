@@ -220,6 +220,9 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     // 启用自动拾取的实时任务
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
 
+    //切换至好感队
+    await switchPartyIfNeeded(friendshipPartyName);
+
     let runnedTimes = 0;
 
     wait: {
@@ -229,7 +232,6 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
         if (operationType !== "不卡时间，ab交替运行") {
             // 输出结果
             log.info(`预期开始狗粮时间: ${endTime.toTimeString().slice(0, 8)}`);
-
             // 检查当前时间是否晚于 endTime
             if (timeNow > endTime) {
                 log.warn('无需卡时间')
@@ -305,10 +307,8 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
             break artifacts;
         }
         // 开始运行狗粮路线
-        //切换至狗粮队
-        await switchPartyIfNeeded(grindPartyName);
         let runArtifactsResult = true;
-        runArtifactsResult = await runArtifactsPaths(runRouteA);
+        runArtifactsResult = await runArtifactsPaths(runRouteA, grindPartyName);
         const result2 = await decomposeArtifacts(settings.keep4Star, settings.doDecompose);
         // 计算 mora 和 artifactExperience 的差值
         const moraDiff = Number(result2.mora) - Number(result1.mora); // 将字符串转换为数字后计算差值
@@ -340,8 +340,10 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     //完成剩下好感
 
     if (runnedTimes < settings.minTimesForFirendship) {
+
         //切换至好感队
         await switchPartyIfNeeded(friendshipPartyName);
+
         // 验证超时设置
         const ocrTimeout = validateTimeoutSetting(settings.ocrTimeout, DEFAULT_OCR_TIMEOUT_SECONDS, "OCR");
         const fightTimeout = validateTimeoutSetting(settings.fightTimeout, DEFAULT_FIGHT_TIMEOUT_SECONDS, "战斗");
@@ -391,7 +393,7 @@ async function writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records, 
 }
 
 //运行狗粮路线的逻辑
-async function runArtifactsPaths(runRouteA) {
+async function runArtifactsPaths(runRouteA, grindPartyName) {
     // 根据 runRouteA 的值给 runningRoute 赋值
     const runningRoute = runRouteA ? "A" : "B";
 
@@ -438,6 +440,10 @@ async function runArtifactsPaths(runRouteA) {
     }
     // 启用自动拾取的实时任务
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
+
+    //切换至狗粮队
+    await switchPartyIfNeeded(grindPartyName);
+
     // 运行普通路线
     {
         // 读取文件夹中的文件名并处理
@@ -1097,7 +1103,7 @@ async function decomposeArtifacts(keep4Star, doDecompose) {
         log.warn(`在指定区域未识别到有效数字: ${initialValue}`);
     }
     let regionToCheck3 = { x: 100, y: 885, width: 170, height: 50 };
-    let decomposedNum = await recognizeTextInRegion(regionToCheck3);
+    let decomposedNum = 0;
     let firstNumber = 0;
     let firstNumber2 = 0;
 
@@ -1109,7 +1115,7 @@ async function decomposeArtifacts(keep4Star, doDecompose) {
         await click(370, 1020); // 点击“确认选择”按钮
         await sleep(1500);
 
-
+        decomposedNum = await recognizeTextInRegion(regionToCheck3);
 
         // 使用正则表达式提取第一个数字
         const match = decomposedNum.match(/已选(\d+)/);
@@ -1118,6 +1124,7 @@ async function decomposeArtifacts(keep4Star, doDecompose) {
         if (match) {
             // 将匹配到的第一个数字转换为数字类型并存储在变量中
             firstNumber = Number(match[1]);
+            log.info(`1-4星总数量: ${firstNumber}`);
         } else {
             log.info("识别失败");
         }
