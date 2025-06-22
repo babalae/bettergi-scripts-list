@@ -12,7 +12,12 @@
   {
     "name": "partyName",
     "type": "input-text",
-    "label": "设置要使用的队伍名称（留空则不进行切换）"
+    "label": "设置首选队伍名称（留空则不进行切换）"
+  },
+  {
+    "name": "partyName2nd",
+    "type": "input-text",
+    "label": "设置备选队伍名称（首选队伍缺少对应的采集角色时使用）"
   },
   {
     "name": "stopAtTime",
