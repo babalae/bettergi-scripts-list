@@ -92,6 +92,15 @@
     },
     {
       "id": 10,
+      "x": 8786.7646484375,
+      "y": -2263.4990234375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
       "x": 8788.140625,
       "y": -2262.1162109375,
       "action": "",
@@ -100,7 +109,7 @@
       "type": "path"
     },
     {
-      "id": 11,
+      "id": 12,
       "x": 8793.216796875,
       "y": -2255.5380859375,
       "action": "",
@@ -109,12 +118,12 @@
       "type": "path"
     },
     {
-      "id": 12,
+      "id": 13,
       "x": 8791.251953125,
       "y": -2255.7900390625,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),w(0.2),wait(0.2),w(0.2),d(0.6),keypress(f),wait(0.8),keypress(f),wait(0.8),keypress(f),wait(0.8),keypress(f),attack(3.5);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "action_params": "keypress(f),w(0.2),wait(0.2),w(0.2),keypress(f),keypress(x),s(0.5),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     }
   ]

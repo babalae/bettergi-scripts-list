@@ -76,10 +76,28 @@
       "id": 8,
       "x": 8057.00244140625,
       "y": -1714.8203125,
+      "action": "log_output",
+      "move_mode": "walk",
+      "action_params": "[激活路径]激活完\"超限点\"不拾取!!!                                             \"超限点\"不拾取!!!                                             \"超限点\"不拾取!!!                                             别再狗叫为什么漏了!!!",
+      "type": "orientation"
+    },
+    {
+      "id": 9,
+      "x": 8057.00244140625,
+      "y": -1714.8203125,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.5),attack(0.4),wait(0.3),keypress(f),wait(0.5),attack(0.4),wait(0.3),keypress(f),wait(0.1),s(0.3),dash,s(0.3)",
+      "action_params": "keypress(f),wait(0.5),attack(0.25),j,wait(0.5),keypress(f),attack(0.25),j,wait(1),s(0.1),wait(0.2),keypress(f),s(0.1),dash,s(0.3)",
       "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 8057.00244140625,
+      "y": -1714.8203125,
+      "action": "log_output",
+      "move_mode": "walk",
+      "action_params": "[激活路径]激活完\"超限点\"不拾取!!!                                             \"超限点\"不拾取!!!                                             \"超限点\"不拾取!!!                                             别再狗叫为什么漏了!!!",
+      "type": "orientation"
     }
   ]
 }

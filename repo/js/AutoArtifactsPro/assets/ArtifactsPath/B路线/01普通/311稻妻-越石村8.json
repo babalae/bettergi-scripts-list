@@ -65,8 +65,8 @@
       "x": -3983.2648437499993,
       "y": -4437.3515625,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.3);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
@@ -100,7 +100,7 @@
       "x": -3965.548828125,
       "y": -4436.5126953125,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "keypress(f),wait(0.3),keypress(f),wait(0.2),keypress(f),keypress(x),wait(0.1),keypress(x);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
@@ -134,7 +134,7 @@
       "x": -3978.779296875,
       "y": -4424.4921875,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "keypress(f),w(0.2),keypress(f),wait(0.2),keypress(f),",
       "type": "target"
     },
@@ -185,17 +185,17 @@
       "id": 21,
       "x": -3966.236328125,
       "y": -4385.0654296875,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 22,
       "x": -3968.84375,
       "y": -4383.624900401142,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),w(0.3),keypress(f),w(0.3),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
@@ -203,10 +203,10 @@
       "id": 23,
       "x": -3969.064453125,
       "y": -4385.2763671875,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     }
   ]
 }

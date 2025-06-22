@@ -16,8 +16,7 @@
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "teleport",
-      "locked": false
+      "type": "teleport"
     },
     {
       "id": 2,
@@ -26,8 +25,7 @@
       "action": "",
       "move_mode": "run",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 3,
@@ -78,28 +76,28 @@
       "id": 8,
       "x": 442.5,
       "y": -522.06,
-      "type": "path",
+      "action": "",
       "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 413.41,
+      "y": -505.3,
+      "type": "path",
+      "move_mode": "fly",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 9,
-      "x": 365.0,
-      "y": -478.75,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
-    },
-    {
       "id": 10,
-      "x": 365.0,
-      "y": -478.75,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "x": 359.85,
+      "y": -474.15,
+      "type": "orientation",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "w(7),attack(0.3)"
     },
     {
       "id": 11,
@@ -108,10 +106,20 @@
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
-      "type": "orientation"
+      "type": "path"
     },
     {
       "id": 12,
+      "x": 365.0,
+      "y": -478.75,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 13,
       "x": 365.0,
       "y": -478.75,
       "action": "combat_script",
