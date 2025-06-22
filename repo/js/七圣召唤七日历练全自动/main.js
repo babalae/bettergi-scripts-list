@@ -148,12 +148,12 @@ async function isTaskRefreshed(filePath, options = {}) {
         }
         
         if (shouldRefresh) {
-            notification.send(`任务已经刷新，执行脚本`);
+            notification.send(`七圣召唤七日历练周期已经刷新，执行脚本`);
 
             
             return true;
         } else {
-            notification.send(`任务未刷新，跳过脚本`);
+            notification.send(`七圣召唤七日历练周期未刷新，冷却还有${(nowTime - lastTime)/3600}小时`);
             return false;
         }
         
