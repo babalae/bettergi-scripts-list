@@ -311,8 +311,10 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
         if (runnedToday) {
             break artifacts;
         }
+
         // 开始运行狗粮路线
         let runArtifactsResult = true;
+
         runArtifactsResult = await runArtifactsPaths(runRouteA, grindPartyName, settings.useABE);
         const result2 = await decomposeArtifacts(settings.keep4Star, settings.doDecompose);
         // 计算 mora 和 artifactExperience 的差值
@@ -405,11 +407,12 @@ async function runArtifactsPaths(runRouteA, grindPartyName, useABE) {
     // 定义文件夹路径
     const folderName = `${runningRoute}路线`;
 
+    let ArtifactsPath = "abeArtifactsPath";
+
     if (!useABE) {
-        const ArtifactsPath = "ArtifactsPath";
+        ArtifactsPath = "ArtifactsPath";
         log.info("使用新路线中");
     } else {
-        const ArtifactsPath = "abeArtifactsPath";
         log.warn("使用老abe路线中");
     }
 
