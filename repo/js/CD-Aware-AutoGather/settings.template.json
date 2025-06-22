@@ -12,7 +12,12 @@
   {
     "name": "partyName",
     "type": "input-text",
-    "label": "设置要使用的队伍名称（留空则不进行切换）"
+    "label": "设置首选队伍名称（留空则不进行切换）"
+  },
+  {
+    "name": "partyName2nd",
+    "type": "input-text",
+    "label": "设置备选队伍名称（首选队伍缺少对应的采集角色时使用）"
   },
   {
     "name": "stopAtTime",
@@ -23,5 +28,15 @@
     "name": "iHaveMultipleAccounts",
     "type": "checkbox",
     "label": "我肝的账号不止一个（选中后将分账号维护对应的材料刷新时间）"
+  },
+  {
+    "name": "selectAllMaterials",
+    "type": "checkbox",
+    "label": "采集扫描到的所有材料（选中后将无视后面的每个材料⬇️是否选中）"
+  },
+  {
+    "name": "acceptMultiplePathOfSameMaterial",
+    "type": "checkbox",
+    "label": "即使同一种材料有多个版本的路线，也全都执行采集"
   }
 ]
