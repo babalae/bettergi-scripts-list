@@ -289,6 +289,11 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
         // 根据 runRouteA 的值更新 lastRunRoute
         lastRunRoute = runRouteA ? "A" : "B";
 
+        if (settings.useABE) {
+            lastRunRoute = `abe${lastRunRoute}`;
+        }
+
+
         // 更新 lastRunDate 为当前日期
         lastRunDate = currentDateString;
 
@@ -308,7 +313,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
         }
         // 开始运行狗粮路线
         let runArtifactsResult = true;
-        runArtifactsResult = await runArtifactsPaths(runRouteA, grindPartyName);
+        runArtifactsResult = await runArtifactsPaths(runRouteA, grindPartyName, settings.useABE);
         const result2 = await decomposeArtifacts(settings.keep4Star, settings.doDecompose);
         // 计算 mora 和 artifactExperience 的差值
         const moraDiff = Number(result2.mora) - Number(result1.mora); // 将字符串转换为数字后计算差值
@@ -393,17 +398,25 @@ async function writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records, 
 }
 
 //运行狗粮路线的逻辑
-async function runArtifactsPaths(runRouteA, grindPartyName) {
+async function runArtifactsPaths(runRouteA, grindPartyName, useABE) {
     // 根据 runRouteA 的值给 runningRoute 赋值
     const runningRoute = runRouteA ? "A" : "B";
 
     // 定义文件夹路径
     const folderName = `${runningRoute}路线`;
 
-    const filePathNormal = `assets/ArtifactsPath/${folderName}/01普通`;
-    const filePathEnding = `assets/ArtifactsPath/${folderName}/02收尾`;
-    const filePathExtra = `assets/ArtifactsPath/${folderName}/03额外`;
-    const filePathPreparation = `assets/ArtifactsPath/${folderName}/00准备`;
+    if (!useABE) {
+        const ArtifactsPath = "ArtifactsPath";
+        log.info("使用新路线中");
+    } else {
+        const ArtifactsPath = "abeArtifactsPath";
+        log.warn("使用老abe路线中");
+    }
+
+    const filePathNormal = `assets/${ArtifactsPath}/${folderName}/01普通`;
+    const filePathEnding = `assets/${ArtifactsPath}/${folderName}/02收尾`;
+    const filePathExtra = `assets/${ArtifactsPath}/${folderName}/03额外`;
+    const filePathPreparation = `assets/${ArtifactsPath}/${folderName}/00准备`;
 
     // 运行准备路线（关闭拾取）
     dispatcher.ClearAllTriggers();
