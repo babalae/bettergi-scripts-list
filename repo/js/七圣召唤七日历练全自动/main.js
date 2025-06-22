@@ -153,7 +153,7 @@ async function isTaskRefreshed(filePath, options = {}) {
             
             return true;
         } else {
-            notification.send(`七圣召唤七日历练周期未刷新，冷却还有${(nowTime - lastTime)/3600}小时`);
+            notification.send(`七圣召唤七日历练未刷新，冷却还有${((nowTime - lastTime)/3600).toFixed(1)}小时`);
             return false;
         }
         
