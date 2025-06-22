@@ -1103,7 +1103,7 @@ async function decomposeArtifacts(keep4Star, doDecompose) {
         log.warn(`在指定区域未识别到有效数字: ${initialValue}`);
     }
     let regionToCheck3 = { x: 100, y: 885, width: 170, height: 50 };
-    let decomposedNum = await recognizeTextInRegion(regionToCheck3);
+    let decomposedNum = 0;
     let firstNumber = 0;
     let firstNumber2 = 0;
 
@@ -1115,7 +1115,7 @@ async function decomposeArtifacts(keep4Star, doDecompose) {
         await click(370, 1020); // 点击“确认选择”按钮
         await sleep(1500);
 
-
+        decomposedNum = await recognizeTextInRegion(regionToCheck3);
 
         // 使用正则表达式提取第一个数字
         const match = decomposedNum.match(/已选(\d+)/);
@@ -1124,6 +1124,7 @@ async function decomposeArtifacts(keep4Star, doDecompose) {
         if (match) {
             // 将匹配到的第一个数字转换为数字类型并存储在变量中
             firstNumber = Number(match[1]);
+            log.info(`1-4星总数量: ${firstNumber}`);
         } else {
             log.info("识别失败");
         }
