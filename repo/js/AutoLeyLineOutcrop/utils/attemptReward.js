@@ -8,6 +8,7 @@
  */
 this.clickWithVerification = async function(x, y, targetText, maxRetries = 20) {
     for (let i = 0; i < maxRetries; i++) {
+        keyUp("LBUTTON");
         click(x, y);
         await sleep(400); 
         
@@ -58,6 +59,7 @@ async function () {
     let isValid = false;
     let condensedResin = null;
     let originalResin = null;
+    let fragileResin = null;
     let isResinEmpty = false;
     let dobuleReward = false;
 
