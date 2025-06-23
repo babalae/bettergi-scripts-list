@@ -6,10 +6,10 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     await fakeLog("自动狗粮重制版", true, true, 0);
 
     //预处理
-    const minIntervalTime = settings.minIntervalTime;
-    const waitTimePeriod = settings.waitTimePeriod;
-    const friendshipPartyName = settings.friendshipPartyName;
-    const grindPartyName = settings.grindPartyName;
+    const minIntervalTime = settings.minIntervalTime || "5";
+    const waitTimePeriod = settings.waitTimePeriod || "4:05-4:45";
+    const friendshipPartyName = settings.friendshipPartyName || "好感";
+    const grindPartyName = settings.grindPartyName || "狗粮";
     const operationType = settings.operationType || "不卡时间，ab交替运行";
     let enemyType = "无";
 
@@ -43,8 +43,63 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 
     //处理记录文件路径
     // 获取子文件夹路径
+
     const accountName = settings.accountName;
-    log.info(`当前账户名：${accountName}`);
+
+    // Windows文件名非法字符列表
+    const illegalCharacters = /[\\/:*?"<>|]/;
+    // Windows保留设备名称列表
+    const reservedNames = [
+        "CON", "PRN", "AUX", "NUL",
+        "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
+        "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
+    ];
+
+    // 检查accountName是否为空字符串
+    if (accountName === "") {
+        log.error(`账户名 "${accountName}" 不合法，为空字符串。`);
+        log.error(`将终止程序，请使用合法的名称`);
+        await sleep(5000);
+        return;
+    }
+    // 检查accountName是否以空格开头
+    else if (accountName.startsWith(" ")) {
+        log.error(`账户名 "${accountName}" 不合法，以空格开头。`);
+        log.error(`将终止程序，请使用合法的名称`);
+        await sleep(5000);
+        return;
+    }
+    // 检查accountName是否以空格结尾
+    else if (accountName.endsWith(" ")) {
+        log.error(`账户名 "${accountName}" 不合法，以空格结尾。`);
+        log.error(`将终止程序，请使用合法的名称`);
+        await sleep(5000);
+        return;
+    }
+    // 检查accountName是否包含非法字符
+    else if (illegalCharacters.test(accountName)) {
+        log.error(`账户名 "${accountName}" 不合法，包含非法字符。`);
+        log.error(`将终止程序，请使用合法的名称`);
+        await sleep(5000);
+        return;
+    }
+    // 检查accountName是否是保留设备名称
+    else if (reservedNames.includes(accountName.toUpperCase())) {
+        log.error(`账户名 "${accountName}" 不合法，是保留设备名称。`);
+        log.error(`将终止程序，请使用合法的名称`);
+        await sleep(5000);
+        return;
+    }
+    // 检查accountName长度是否超过255字符
+    else if (accountName.length > 255) {
+        log.error(`账户名 "${accountName}" 不合法，账户名过长。`);
+        log.error(`将终止程序，请使用合法的名称`);
+        await sleep(5000);
+        return;
+    }
+    else {
+        log.info(`账户名 "${accountName}" 合法。`);
+    }
     let subFolderPath = `records/`;
     let recordFilePath = `records/${accountName}.txt`;
     // 读取子文件夹中的所有文件路径
@@ -1213,7 +1268,10 @@ async function decomposeArtifacts(keep4Star, doDecompose) {
     if (settings.keep4Star) {
         log.info(`保留的四星数量: ${fourStarNum}`);
     }
-    const resultExperience = resinExperience + (settings.keep4Star ? 2520 * fourStarNum : 0);
+    let resultExperience = resinExperience + (settings.keep4Star ? 2520 * fourStarNum : 0);
+    if (resultExperience === 0) {
+        resultExperience = initialValue;
+    }
     log.info(`计入四星的经验: ${resultExperience}`);
     const result = {
         mora: recognizedText, // 将 recognizedText 赋值给 mora
