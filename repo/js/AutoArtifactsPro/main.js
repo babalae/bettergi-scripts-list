@@ -476,28 +476,26 @@ async function runArtifactsPaths(runRouteA, grindPartyName, useABE) {
     const filePathExtra = `assets/${ArtifactsPath}/${folderName}/03额外`;
     const filePathPreparation = `assets/${ArtifactsPath}/${folderName}/00准备`;
 
-    // 运行准备路线（关闭拾取）
-    dispatcher.ClearAllTriggers();
-    {
+    // 将每组路线的逻辑抽取为公用函数
+    async function runPathGroups(filePathDir, subTaskName) {
         // 读取文件夹中的文件名并处理
-        const filePaths = file.readPathSync(filePathPreparation);
-        const jsonFileNames = [];
+        const filePaths = file.readPathSync(filePathDir);
+        const jsonFilePaths = [];
 
         for (const filePath of filePaths) {
-            const fileName = basename(filePath); // 提取文件名
-            if (fileName.endsWith('.json')) { // 检查文件名是否以 .json 结尾
-                jsonFileNames.push(fileName); // 存储文件名
+            if (filePath.endsWith('.json')) { // 检查文件名是否以 .json 结尾
+                jsonFilePaths.push(filePath); // 存储文件名
             }
         }
 
         let currentTask = 0; // 当前任务计数器
 
         // 执行准备路线的地图追踪文件
-        for (const fileName of jsonFileNames) {
+        for (const fileName of jsonFilePaths) {
             const fullPath = fileName;
             await fakeLog(fileName, false, true, 0);
             currentTask += 1; // 更新当前任务计数器
-            log.info(`当前进度：${fullPath}为准备${folderName}第${currentTask}/${jsonFileNames.length}个`);
+            log.info(`当前进度：${fullPath}为${subTaskName}${folderName}第${currentTask}/${jsonFilePaths.length}个`);
             await pathingScript.runFile(fullPath);
             //捕获任务取消的信息并跳出循环
             try {
@@ -509,6 +507,11 @@ async function runArtifactsPaths(runRouteA, grindPartyName, useABE) {
             await fakeLog(fileName, false, false, 0);
         }
     }
+
+    // 运行准备路线（关闭拾取）
+    dispatcher.ClearAllTriggers();
+    await runPathGroups(filePathPreparation, "准备");
+
     // 启用自动拾取的实时任务
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
 
@@ -516,103 +519,13 @@ async function runArtifactsPaths(runRouteA, grindPartyName, useABE) {
     await switchPartyIfNeeded(grindPartyName);
 
     // 运行普通路线
-    {
-        // 读取文件夹中的文件名并处理
-        const filePaths = file.readPathSync(filePathNormal);
-        const jsonFileNames = [];
-
-        for (const filePath of filePaths) {
-            const fileName = basename(filePath); // 提取文件名
-            if (fileName.endsWith('.json')) { // 检查文件名是否以 .json 结尾
-                jsonFileNames.push(fileName); // 存储文件名
-            }
-        }
-
-        let currentTask = 0; // 当前任务计数器
-
-        // 执行普通路线的地图追踪文件
-        for (const fileName of jsonFileNames) {
-            const fullPath = fileName;
-            await fakeLog(fileName, false, true, 0);
-            currentTask += 1; // 更新当前任务计数器
-            log.info(`当前进度：${fullPath}为普通${folderName}第${currentTask}/${jsonFileNames.length}个`);
-            await pathingScript.runFile(fullPath);
-            //捕获任务取消的信息并跳出循环
-            try {
-                await sleep(10); // 假设 sleep 是一个异步函数，休眠 10 毫秒
-            } catch (error) {
-                log.error(`发生错误: ${error}`);
-                return false; // 终止循环
-            }
-            await fakeLog(fileName, false, false, 0);
-        }
-    }
+    await runPathGroups(filePathNormal, "普通");
 
     // 运行收尾路线
-    {
-        // 读取文件夹中的文件名并处理
-        const filePaths = file.readPathSync(filePathEnding);
-        const jsonFileNames = [];
-
-        for (const filePath of filePaths) {
-            const fileName = basename(filePath); // 提取文件名
-            if (fileName.endsWith('.json')) { // 检查文件名是否以 .json 结尾
-                jsonFileNames.push(fileName); // 存储文件名
-            }
-        }
-
-        let currentTask = 0; // 当前任务计数器
-
-        // 执行收尾路线的地图追踪文件
-        for (const fileName of jsonFileNames) {
-            const fullPath = fileName;
-            await fakeLog(fileName, false, true, 0);
-            currentTask += 1; // 更新当前任务计数器
-            log.info(`当前进度：${fullPath}为收尾${folderName}第${currentTask}/${jsonFileNames.length}个`);
-            await pathingScript.runFile(fullPath);
-            //捕获任务取消的信息并跳出循环
-            try {
-                await sleep(10); // 假设 sleep 是一个异步函数，休眠 10 毫秒
-            } catch (error) {
-                log.error(`发生错误: ${error}`);
-                return false; // 终止循环
-            }
-            await fakeLog(fileName, false, false, 0);
-        }
-    }
+    await runPathGroups(filePathEnding, "收尾");
 
     // 运行额外路线
-    {
-        // 读取文件夹中的文件名并处理
-        const filePaths = file.readPathSync(filePathExtra);
-        const jsonFileNames = [];
-
-        for (const filePath of filePaths) {
-            const fileName = basename(filePath); // 提取文件名
-            if (fileName.endsWith('.json')) { // 检查文件名是否以 .json 结尾
-                jsonFileNames.push(fileName); // 存储文件名
-            }
-        }
-
-        let currentTask = 0; // 当前任务计数器
-
-        // 执行额外路线的地图追踪文件
-        for (const fileName of jsonFileNames) {
-            const fullPath = fileName;
-            await fakeLog(fileName, false, true, 0);
-            currentTask += 1; // 更新当前任务计数器
-            log.info(`当前进度：${fullPath}为额外${folderName}第${currentTask}/${jsonFileNames.length}个`);
-            await pathingScript.runFile(fullPath);
-            //捕获任务取消的信息并跳出循环
-            try {
-                await sleep(10); // 假设 sleep 是一个异步函数，休眠 10 毫秒
-            } catch (error) {
-                log.error(`发生错误: ${error}`);
-                return false; // 终止循环
-            }
-            await fakeLog(fileName, false, false, 0);
-        }
-    }
+    await runPathGroups(filePathExtra, "额外");
 
     return true;
 }
@@ -700,11 +613,6 @@ async function fakeLog(name, isJs, isStart, duration) {
             `------------------------------`;
         log.debug(logMessage);
     }
-}
-
-// 辅助函数：提取文件名
-function basename(filePath) {
-    return filePath.split('/').pop();
 }
 
 //用于获取结束时间
