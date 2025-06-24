@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "04-绯樱绣球-荒海-10个",
+    "name": "04-绯樱绣球-荒海-8个",
     "type": "collect",
     "author": "起个名字好难",
     "version": "1.0",
@@ -191,12 +191,30 @@
       "id": 22,
       "x": -4237.95,
       "y": -2346.99,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "丽莎 attack,wait(0.5),attack,wait(1); 瓦雷莎 charge,wait(2); 八重神子 charge",
+      "type": "target"
+    },
+    {
+      "id": 23,
+      "x": -4237.95,
+      "y": -2346.99,
       "action": "electro_collect",
       "move_mode": "walk",
       "type": "target"
     },
     {
-      "id": 23,
+      "id": 24,
+      "x": -4218.33,
+      "y": -2343.69,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "丽莎 attack,wait(0.5),attack,wait(1); 瓦雷莎 charge,wait(2); 八重神子 charge",
+      "type": "target"
+    },
+    {
+      "id": 25,
       "x": -4218.33,
       "y": -2343.69,
       "action": "electro_collect",
