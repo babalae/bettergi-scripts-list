@@ -5,7 +5,8 @@
     "author": "汐",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.3"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -15,8 +16,7 @@
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "teleport",
-      "locked": false
+      "type": "teleport"
     },
     {
       "id": 2,
@@ -88,43 +88,30 @@
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "teleport",
-      "locked": false
+      "type": "teleport"
     },
     {
       "id": 10,
-      "x": 2448.94,
-      "y": 1521.69,
+      "x": 2447.31,
+      "y": 1519.38,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 11,
-      "x": 2444.53,
-      "y": 1518.63,
-      "action": "",
-      "move_mode": "climb",
-      "action_params": "",
-      "type": "path",
-      "locked": false
+      "x": 2376.25,
+      "y": 1504.25,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(w),wait(0.1),keydown(LSHIFT),wait(8.4),keyup(w),keyup(LSHIFT),dash,",
+      "type": "orientation"
     },
     {
       "id": 12,
-      "x": 2438.37,
-      "y": 1517.6,
-      "action": "combat_script",
-      "move_mode": "climb",
-      "action_params": "wait(0.1),keydown(w),wait(0.1),keydown(LSHIFT),wait(8.3),keyup(w),keyup(LSHIFT)",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 13,
-      "x": 2438.37,
-      "y": 1517.6,
+      "x": 2376.25,
+      "y": 1504.25,
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",

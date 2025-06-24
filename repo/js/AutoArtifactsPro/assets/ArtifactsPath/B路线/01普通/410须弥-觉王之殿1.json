@@ -29,42 +29,33 @@
     },
     {
       "id": 3,
-      "x": 3489.396484375,
-      "y": -740.625,
-      "action": "up_down_grab_leaf",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "orientation"
-    },
-    {
-      "id": 4,
-      "x": 3476,
-      "y": -744.650390625,
+      "x": 3476.8310546875,
+      "y": -758.32861328125,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 5,
+      "id": 4,
       "x": 3445.7119140625,
       "y": -753.26806640625,
-      "action": "up_down_grab_leaf",
+      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "",
+      "action_params": "moveby(0,-500),wait(0.5),keypress(t)",
       "type": "orientation"
     },
     {
-      "id": 6,
-      "x": 3440.888671875,
-      "y": -755.091796875,
+      "id": 5,
+      "x": 3440.7138671875,
+      "y": -755.0478515625,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "attack(0.3);芙宁娜 e;迪希雅 e;",
+      "move_mode": "climb",
+      "action_params": "attack(0.2),wait(0.3);芙宁娜 attack(0.1),e;迪希雅 e;",
       "type": "path"
     },
     {
-      "id": 7,
+      "id": 6,
       "x": 3445.412109375,
       "y": -751.23388671875,
       "action": "combat_script",
