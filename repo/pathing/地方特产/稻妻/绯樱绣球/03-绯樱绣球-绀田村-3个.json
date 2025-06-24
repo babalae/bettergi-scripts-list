@@ -4,10 +4,12 @@
     "type": "collect",
     "author": "起个名字好难",
     "version": "1.0",
-    "description": "久歧忍可采集全，引战导致雷元素法师漏采集1个",
+    "description": "久歧忍可采集全，引战可能导致雷元素法师漏采集最后1个",
     "bgi_version": "0.42.0",
     "tags": [
-      "久岐忍"
+      "久岐忍",
+      "八重神子",
+      "瓦雷莎"
     ]
   },
   "positions": [
@@ -51,6 +53,15 @@
       "move_mode": "walk",
       "type": "target"
     },
+      {
+      "id": 5,
+      "x": -4231.19,
+      "y": -2796.5,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "type": "path",
+      "action_params": "wait(1)"
+    },
     {
       "id": 6,
       "x": -4050.07,
@@ -74,6 +85,15 @@
       "action": "",
       "move_mode": "walk",
       "type": "path"
+    },
+    {
+      "id": 18,
+      "x": -4188.49,
+      "y": -2651.3,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "瓦雷莎 charge,wait(2); 八重神子 charge",
+      "type": "target"
     },
     {
       "id": 9,

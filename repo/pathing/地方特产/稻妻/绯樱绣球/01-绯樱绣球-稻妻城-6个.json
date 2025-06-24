@@ -4,10 +4,12 @@
     "type": "collect",
     "author": "起个名字好难",
     "version": "1.0",
-    "description": "丽莎可采集全，久歧忍漏第4个(大部分路径是久岐忍(二命行走/治疗位)可采集全，可两个都带，久岐忍序号排前)",
+    "description": "丽莎、八重神子、瓦雷莎(不稳定)可采第4个，久歧忍漏第4个(大部分路径是久岐忍(二命行走/治疗位)可采集全，可带雷法器角色之一和久歧忍，久岐忍序号排前)",
     "bgi_version": "0.42.3",
     "tags": [
-      "丽莎"
+      "丽莎",
+      "八重神子",
+      "瓦雷莎"
     ]
   },
   "positions": [
@@ -148,6 +150,15 @@
       "type": "path"
     },
     {
+      "id": 18,
+      "x": -4418.54,
+      "y": -2987.94,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "丽莎 attack,wait(0.5),attack,wait(1); 瓦雷莎 charge,wait(2); 八重神子 charge",
+      "type": "target"
+    },
+    {
       "id": 17,
       "x": -4418.54,
       "y": -2987.94,
@@ -162,7 +173,7 @@
       "y": -2987.94,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "丽莎 attack,wait(0.5),attack,wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE)",
+      "action_params": "keypress(VK_SPACE),wait(1),keypress(VK_SPACE)",
       "type": "target"
     },
     {

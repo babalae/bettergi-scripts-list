@@ -200,7 +200,16 @@
       "y": -2819.58,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "丽莎 attack,wait(0.5),attack,wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE)",
+      "action_params": "丽莎 attack,wait(0.5),attack,wait(1); 瓦雷莎 charge,wait(2); 八重神子 charge",
+      "type": "target"
+    },
+    {
+      "id": 22,
+      "x": -4314.38,
+      "y": -2819.58,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(VK_SPACE),wait(1),keypress(VK_SPACE)",
       "type": "target"
     }
   ]
