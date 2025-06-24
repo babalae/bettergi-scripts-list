@@ -420,6 +420,9 @@ function basename(filePath) {
                         //伪造地图追踪开始的日志记录
                         await fakeLog(pathName + ".json", false, true, 0); // 开始时 duration 通常为 0
 
+                        // 输出进度让autoBGI匹配
+                        log.info(`当前进度：${pathName} 为第 ${i + 1}/${pathLines.length} 个`);
+
                         // 执行路径文件
                         await pathingScript.runFile(pathFilePath);
 
