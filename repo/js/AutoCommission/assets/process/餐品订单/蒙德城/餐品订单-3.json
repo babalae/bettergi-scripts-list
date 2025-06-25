@@ -1,0 +1,31 @@
+{
+  "info": {
+    "name": "餐品订单-3",
+    "type": "collect",
+    "author": "小鹰划船不用桨",
+    "version": "1.0",
+    "description": "寻路+自动战斗",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -906.3720703125,
+      "y": 1856.09228515625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -840.013671875,
+      "y": 1825.50830078125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

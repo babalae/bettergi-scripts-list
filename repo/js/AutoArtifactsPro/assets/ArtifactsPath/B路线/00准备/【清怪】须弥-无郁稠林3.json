@@ -37,12 +37,32 @@
     },
     {
       "id": 4,
-      "x": 2352.3984375,
-      "y": 126.07177734375,
-      "type": "path",
+      "x": 2347.2158203125,
+      "y": 132.392578125,
+      "action": "log_output",
       "move_mode": "dash",
+      "action_params": "\n[清怪路径]清怪完不拾取!!!\n[清怪路径]清怪完不拾取!!!\n[清怪路径]清怪完不拾取!!!\n[清怪路径]别再狗叫为什么漏了!!!",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 2347.2158203125,
+      "y": 132.392578125,
       "action": "fight",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 2347.2158203125,
+      "y": 132.392578125,
+      "action": "log_output",
+      "move_mode": "dash",
+      "action_params": "\n[清怪路径]清怪完不拾取!!!\n[清怪路径]清怪完不拾取!!!\n[清怪路径]清怪完不拾取!!!\n[清怪路径]别再狗叫为什么漏了!!!",
+      "type": "orientation"
     }
   ]
 }

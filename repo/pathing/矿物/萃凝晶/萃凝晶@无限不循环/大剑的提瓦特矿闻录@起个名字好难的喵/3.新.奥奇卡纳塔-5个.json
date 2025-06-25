@@ -1,0 +1,160 @@
+{
+  "info": {
+    "name": "3.新.奥奇卡纳塔-5个",
+    "type": "collect",
+    "author": "无限不循环",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "双手剑"
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10273.61,
+      "y": -192.19,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 10265.18,
+      "y": -135.39,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 10275.76,
+      "y": -124.83,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 10279.24,
+      "y": -121.13,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 5,
+      "x": 10279.24,
+      "y": -121.13,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 6,
+      "x": 10280.1,
+      "y": -119.09,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 7,
+      "x": 10280.1,
+      "y": -119.09,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 8,
+      "x": 10274.43,
+      "y": -116.3,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 10272.24,
+      "y": -115.11,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 10,
+      "x": 10272.24,
+      "y": -115.11,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 11,
+      "x": 10276.85,
+      "y": -113.0,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 10274.31,
+      "y": -111.49,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 13,
+      "x": 10274.31,
+      "y": -111.49,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 14,
+      "x": 10275.68,
+      "y": -109.46,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 10274.1,
+      "y": -108.86,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 16,
+      "x": 10274.1,
+      "y": -108.86,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    }
+  ]
+}

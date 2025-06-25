@@ -1,0 +1,152 @@
+{
+  "info": {
+    "name": "28.修.纳塔奥奇卡纳塔右边小岛01",
+    "type": "collect",
+    "author": "mfkvfhdx",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "双手剑"
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9424.41,
+      "y": -354.64,
+      "action": "force_tp",
+      "move_mode": "fly",
+      "type": "teleport",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 9230.53,
+      "y": -339.5,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 9194.36,
+      "y": -333.8,
+      "type": "path",
+      "move_mode": "swim",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 9169.23,
+      "y": -310.66,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 9174.46,
+      "y": -310.55,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 6,
+      "x": 9174.46,
+      "y": -310.55,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 7,
+      "x": 9169.73,
+      "y": -310.52,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 9171.58,
+      "y": -309.11,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 9,
+      "x": 9171.58,
+      "y": -309.11,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 10,
+      "x": 9170.68,
+      "y": -305.4,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 9172.92,
+      "y": -305.61,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 12,
+      "x": 9172.92,
+      "y": -305.61,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 13,
+      "x": 9171.27,
+      "y": -298.55,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 9174.66,
+      "y": -298.85,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 15,
+      "x": 9174.66,
+      "y": -298.85,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    }
+  ]
+}

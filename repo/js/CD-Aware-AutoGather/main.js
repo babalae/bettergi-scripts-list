@@ -1,121 +1,38 @@
-const CooldownType = {
-    Unknown: "未配置刷新机制",
-    Every1DayMidnight: "每1天的0点",
-    Every2DaysMidnight: "每2天的0点",
-    Every3DaysMidnight: "每3天的0点",
-    Daily4AM: "每天凌晨4点",
-    Every12Hours: "12小时刷新",
-    Every24Hours: "24小时刷新",
-    Every46Hours: "46小时刷新",
-};
-
-const CooldownDataBase = {
-    沉玉仙茗: CooldownType.Every24Hours,
-    发光髓: CooldownType.Every12Hours,
-    蝴蝶翅膀: CooldownType.Every12Hours,
-    晶核: CooldownType.Every12Hours,
-    鳗肉: CooldownType.Every12Hours,
-    螃蟹: CooldownType.Every12Hours,
-    禽肉: CooldownType.Every12Hours,
-    青蛙: CooldownType.Every12Hours,
-    鳅鳅宝玉: CooldownType.Every12Hours,
-    神秘的肉: CooldownType.Every12Hours,
-    兽肉: CooldownType.Every12Hours,
-    蜥蜴尾巴: CooldownType.Every12Hours,
-    鱼肉: CooldownType.Every12Hours,
-    白萝卜: CooldownType.Every1DayMidnight,
-    薄荷: CooldownType.Every1DayMidnight,
-    澄晶实: CooldownType.Every1DayMidnight,
-    墩墩桃: CooldownType.Every1DayMidnight,
-    海草: CooldownType.Every1DayMidnight,
-    红果果菇: CooldownType.Every1DayMidnight,
-    胡萝卜: CooldownType.Every1DayMidnight,
-    金鱼草: CooldownType.Every1DayMidnight,
-    堇瓜: CooldownType.Every1DayMidnight,
-    烬芯花: CooldownType.Every1DayMidnight,
-    久雨莲: CooldownType.Every1DayMidnight,
-    颗粒果: CooldownType.Every1DayMidnight,
-    苦种: CooldownType.Every1DayMidnight,
-    莲蓬: CooldownType.Every1DayMidnight,
-    烈焰花花蕊: CooldownType.Every1DayMidnight,
-    马尾: CooldownType.Every1DayMidnight,
-    蘑菇: CooldownType.Every1DayMidnight,
-    茉洁草: CooldownType.Every1DayMidnight,
-    鸟蛋: CooldownType.Every1DayMidnight,
-    泡泡桔: CooldownType.Every1DayMidnight,
-    苹果: CooldownType.Every1DayMidnight,
-    日落果: CooldownType.Every1DayMidnight,
-    树莓: CooldownType.Every1DayMidnight,
-    松果: CooldownType.Every1DayMidnight,
-    松茸: CooldownType.Every1DayMidnight,
-    甜甜花: CooldownType.Every1DayMidnight,
-    汐藻: CooldownType.Every1DayMidnight,
-    香辛果: CooldownType.Every1DayMidnight,
-    星蕈: CooldownType.Every1DayMidnight,
-    须弥蔷薇: CooldownType.Every1DayMidnight,
-    枣椰: CooldownType.Every1DayMidnight,
-    竹笋: CooldownType.Every1DayMidnight,
-    烛伞蘑菇: CooldownType.Every1DayMidnight,
-    沉玉仙茗: CooldownType.Every24Hours,
-    晶蝶: CooldownType.Daily4AM,
-
-    铁块: CooldownType.Every1DayMidnight,
-    白铁块: CooldownType.Every2DaysMidnight,
-    电气水晶: CooldownType.Every2DaysMidnight,
-    星银矿石: CooldownType.Every2DaysMidnight,
-    萃凝晶: CooldownType.Every3DaysMidnight,
-    水晶块: CooldownType.Every3DaysMidnight,
-    紫晶块: CooldownType.Every3DaysMidnight,
-    奇异的龙牙: CooldownType.Every46Hours,
-    冰雾花: CooldownType.Every46Hours,
-    烈焰花: CooldownType.Every46Hours,
-    地方特产: CooldownType.Every46Hours,
-};
+eval(file.readTextSync("lib/lib.js"));
 
 const settingFile = "settings.json";
-const baseTime = getBaseTime();
+const defaultTime = getDefaultTime();
+const CooldownDataBase = readRefreshInfo("CooldownData.txt");
 
-const baseTimeStr = baseTime.toISOString();
-const timeOffset = Date.parse(baseTimeStr) - Date.parse(baseTimeStr.slice(0, -1)); // 计算时区偏移量
-const timeOffsetStr = offsetToTimezone(timeOffset);
 let stopTime = null;
+let currentParty = null;
 
 class ReachStopTime extends Error {
-  constructor(message) {
-    super(message);
-    this.name = "ReachStopTime";
-  }
+    constructor(message) {
+        super(message);
+        this.name = "ReachStopTime";
+    }
 }
 
 (async function () {
-    if (! file.IsFolder("pathing")) {
+    if (!file.IsFolder("pathing")) {
         let batFile = "SymLink.bat";
-        try {
-            file.readTextSync(`Ayaka-Main-${Math.random()}.txt`);
-        } catch (error) {
-            const err_msg = error.toString();
-            const match = err_msg.match(/'([^']+)'/);
-            const fullPath = match ? match[1] : null;
-            const folderPath = fullPath ? fullPath.replace(/\\[^\\]+$/, '') : null;
-            if (folderPath) {
-                batFile = `${folderPath}\\${batFile}`;
-            }
+        const folderPath = getScriptDirPath();
+        if (folderPath) {
+            batFile = `${folderPath}\\${batFile}`;
         }
-
         log.error("{0}文件夹不存在，请双击运行下列位置的脚本以创建文件夹链接\n{1}", "pathing", batFile);
         return;
     }
     const runMode = settings.runMode;
 
-    const scriptName = getScriptItselfName();
-    // 结束真正由BGI产生的那次开始记录
-    startTime = fakeLogCore(scriptName, true);
-
     log.info("当前运行模式:{0}", runMode);
     if (runMode === "扫描文件夹更新可选材料列表") {
         await runScanMode();
     } else if (runMode === "采集选中的材料") {
+        let startTime = logFakeScriptStart();
         await runGatherMode();
+        logFakeScriptEnd({ startTime: startTime });
     } else if (runMode === "清除运行记录（重置材料刷新时间）") {
         await runClearMode();
     } else {
@@ -123,41 +40,59 @@ class ReachStopTime extends Error {
         await sleep(3000);
         await runScanMode();
     }
-    // 重新开始一条记录，与BGI产生的结束记录配对
-    fakeLogCore(scriptName, true, startTime);
 })();
 
 // 扫描文件夹更新可选材料列表
 async function runScanMode() {
     // 1. 扫描所有最底层路径
     const focusFolders = ["地方特产", "矿物", "食材与炼金"];
-    const pathList = focusFolders.flatMap(fd => getLeafFolders(`pathing/${fd}`));
+    const pathList = focusFolders.flatMap((fd) => getLeafFolders(`pathing/${fd}`));
 
     // 2. 读取配置模板
     const templateText = file.readTextSync("settings.template.json");
     let config = JSON.parse(templateText);
 
+    // 将地方特产按照国家顺序排序
+    const countryList = ["蒙德", "璃月", "稻妻", "须弥", "枫丹", "纳塔", "至冬"];
+    const sortedList = pathList.slice().sort((a, b) => {
+        const getRegion = (p) => p.split("\\")[2];
+        const aIndex = countryList.indexOf(getRegion(a));
+        const bIndex = countryList.indexOf(getRegion(b));
+        return (aIndex === -1 ? Infinity : aIndex) - (bIndex === -1 ? Infinity : bIndex);
+    });
+
     // 3. 处理每个路径
     let count = 0;
-    for (const path of pathList) {
+    actions_map = {};
+    for (const path of sortedList) {
         const info = getCooldownInfoFromPath(path);
-        if (info.coolType !== CooldownType.Unknown) {
+        const jsonFiles = filterFilesInTaskDir(info.label);
+
+        if (jsonFiles.length === 0) {
+            log.info("{0}内无json文件，跳过", path);
+        } else if (info.coolType === null) {
+            log.warn("路径{0}未匹配到对应的刷新机制，跳过", path);
+        } else {
             config.push({
                 name: info.name,
                 label: "⬇️ " + info.label,
-                type: "checkbox"
+                type: "checkbox",
             });
             count += 1;
-        } else {
-            log.warn("路径{0}未找到对应的刷新机制，跳过", path);
+
+            const actions = scanSpecialCollectMethod(jsonFiles);
+            if (actions.length > 0) {
+                actions_map[path] = actions;
+            }
         }
     }
     // 4. 写入新的配置（格式化输出）
     file.writeTextSync(settingFile, JSON.stringify(config, null, 2));
     log.info("共{0}组有效路线，请在脚本配置中勾选需要采集的材料", count);
-
+    // 5. 分析所需角色信息
+    analysisCharacterRequirement(actions_map);
+    await sleep(3000);
 }
-
 
 // 采集选中的材料
 async function runGatherMode() {
@@ -167,33 +102,22 @@ async function runGatherMode() {
         log.error("未选择任何材料，请在脚本配置中勾选所需项目");
         return;
     }
-    if (settings.stopAtTime) {
-        stopTime = calcStopTime(settings.stopAtTime);
-        log.info("脚本已被配置为达到{0}后停止运行", strftime(stopTime, true));
+    if (settings.Time) {
+        stopTime = settings.stopAtTime;
+        log.info("脚本已被配置为达到{0}后停止运行", stopTime);
     }
 
     log.info("共{0}组材料路线待执行:", selectedMaterials.length);
     for (const item of selectedMaterials) {
         const info = getCooldownInfoFromPath(item.label);
-        log.info(` - {0} (${info.coolType})`, item.label || item.name);
+        log.info(` - {0} (${info.coolType}刷新)`, item.label || item.name);
     }
 
-    let account = await getCurrentAccount();
+    let account = await getGameAccount(settings.iHaveMultipleAccounts);
     log.info("为{0}采集材料并管理CD", account);
 
-    if (settings.partyName) {
-        try {
-            if (!(await genshin.switchParty(settings.partyName))) {
-                log.info("切换队伍失败，前往七天神像重试");
-                await genshin.tpToStatueOfTheSeven();
-                await sleep(1000);
-                await genshin.switchParty(settings.partyName);
-            }
-        } catch {
-            log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
-            await genshin.returnMainUi();
-        }
-    }
+    await switchPartySafely(settings.partyName);
+    currentParty = settings.partyName;
 
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     // 可在此处继续处理 selectedMaterials 列表
@@ -203,13 +127,12 @@ async function runGatherMode() {
         }
     } catch (e) {
         if (e instanceof ReachStopTime) {
-            log.info("达到设置的停止时间 {0}，终止运行", strftime(stopTime, true));
+            log.info("达到设置的停止时间 {0}，终止运行", stopTime);
         } else {
             throw e;
         }
     }
 }
-
 
 // 清除运行记录（重置材料刷新时间）
 async function runClearMode() {
@@ -218,13 +141,13 @@ async function runClearMode() {
     if (selectedMaterials.length === 0) {
         log.error("未选择任何材料，请在脚本配置中勾选所需项目");
     }
-    const resetTime = strftime(baseTime);
-    let account = await getCurrentAccount();
+    const resetTimeStr = formatDateTime(getDefaultTime());
+    let account = await getGameAccount(settings.iHaveMultipleAccounts);
     for (const pathTask of selectedMaterials) {
-        const jsonFiles = filterFilesInTaskDir(pathTask);
+        const jsonFiles = filterFilesInTaskDir(pathTask.label);
         const recordFile = getRecordFilePath(account, pathTask);
         const lines = jsonFiles.map((filePath) => {
-            return `${basename(filePath)}\t${resetTime}`;
+            return `${basename(filePath)}\t${resetTimeStr}`;
         });
         const content = lines.join("\n");
         file.writeTextSync(recordFile, content);
@@ -233,29 +156,97 @@ async function runClearMode() {
     log.info("已重置{0}组刷新时间。如需重置所有材料刷新时间，请直接删除record目录下对应账号的文件夹", selectedMaterials.length);
 }
 
+function scanSpecialCollectMethod(jsonFiles) {
+    const actions = jsonFiles.flatMap((filePath) => {
+        const data = JSON.parse(file.readTextSync(filePath));
+        return data.positions.map((p) => p.action).filter((a) => a);
+    });
+    return [...new Set(actions)];
+}
+
+function readRefreshInfo(filePath) {
+    const lines = file.readTextSync(filePath).split(/\r?\n/);
+    const dict = {};
+    for (const line of lines) {
+        if (!line.trim()) continue; // 跳过空行
+        const [key, value] = line.split(":");
+        dict[key.trim()] = value ? value.trim() : "";
+    }
+    return dict;
+}
+
+function analysisCharacterRequirement(actions_map) {
+    const result = {};
+    for (const [key, values] of Object.entries(actions_map)) {
+        const newKey = key.replace(/^pathing\\/, "");
+        for (const v of values) {
+            if (!result[v]) {
+                result[v] = [];
+            }
+            result[v].push(newKey);
+        }
+    }
+    let collect_methods = {};
+    for (const [key, value] of Object.entries(result)) {
+        if (key.endsWith("_collect") || key === "fight" || key === "combat_script") {
+            collect_methods[key] = value;
+        }
+    }
+
+    collect_methods = Object.fromEntries(Object.entries(collect_methods).sort((a, b) => b[1].length - a[1].length));
+
+    log.info(
+        "角色需求: {1}条路线需要纳西妲，{2}条路线需要水元素，{3}条路线需要雷元素，{4}条路线需要风元素，{5}条路线需要火元素；{6}条路线需要执行自动战斗；{7}条路线使用了战斗策略脚本(含挖矿等非战斗用途)",
+        collect_methods["nahida_collect"]?.length || 0,
+        collect_methods["hydro_collect"]?.length || 0,
+        collect_methods["electro_collect"]?.length || 0,
+        collect_methods["anemo_collect"]?.length || 0,
+        collect_methods["pyro_collect"]?.length || 0,
+        collect_methods["fight"]?.length || 0,
+        collect_methods["combat_script"]?.length || 0
+    );
+
+    const nameMap = {
+        nahida_collect: "纳西妲",
+        hydro_collect: "水元素",
+        electro_collect: "雷元素",
+        anemo_collect: "风元素",
+        pyro_collect: "火元素",
+        fight: "自动战斗",
+        combat_script: "战斗策略脚本",
+    };
+
+    let analysisResult = {};
+    for (const [key, value] of Object.entries(collect_methods)) {
+        const name = nameMap[key] || key;
+        analysisResult[name] = value;
+    }
+
+    const outFile = `${getScriptDirPath()}\\各条路线所需角色.txt`;
+    let text = "";
+    // text = JSON.stringify(analysisResult, null, 2);
+    for (const [key, values] of Object.entries(analysisResult)) {
+        text += `${key}\n`;
+        for (const v of values) {
+            text += `  ${v}\n`;
+        }
+    }
+    file.writeTextSync(outFile, text);
+    log.info("详细路线需求见{x}，可考虑组两支队伍{0}和{1}以满足采集需要", outFile, "钟纳水雷", "钟纳火风");
+}
+
 function getRecordFilePath(account, pathTask) {
     const taskName = pathTask.name.replace(/^OPT_/, "");
     return `record/${account}/${taskName}.txt`;
 }
 
-function filterFilesInTaskDir(pathTask, ext=".json") {
-    const taskDir = pathTask.label;
-    const allFilesRaw = file.ReadPathSync("pathing\\" + taskDir);
-    const extFiles = [];
-
-    for (const filePath of allFilesRaw) {
-        if (filePath.endsWith(ext)) {
-            extFiles.push(filePath);
-        }
-    }
-
-    return extFiles;
+function filterFilesInTaskDir(taskDir) {
+    return getFilesByExtension("pathing\\" + taskDir, ".json");
 }
-
 
 async function runPathTaskIfCooldownExpired(account, pathTask) {
     const recordFile = getRecordFilePath(account, pathTask);
-    const jsonFiles = filterFilesInTaskDir(pathTask);
+    const jsonFiles = filterFilesInTaskDir(pathTask.label);
 
     log.info("{0}共有{1}条路线", pathTask.label, jsonFiles.length);
 
@@ -277,44 +268,51 @@ async function runPathTaskIfCooldownExpired(account, pathTask) {
     for (let i = 0; i < jsonFiles.length; i++) {
         const jsonPath = jsonFiles[i];
         const fileName = basename(jsonPath);
-        const lastTime = recordMap[fileName] || baseTime;
         const pathName = fileName.split(".")[0];
+        const lastTime = recordMap[fileName] || defaultTime;
         const progress = `[${i + 1}/${jsonFiles.length}]`;
 
-        if (stopTime && Date.now() >= stopTime) {
+        if (settings.Time && isTargetTimeReached(stopTime)) {
             throw new ReachStopTime("达到设置的停止时间，终止运行");
         }
 
         if (Date.now() > lastTime) {
-            let pathStart = addFakePathLog(fileName);
+            let pathStart = logFakePathStart(fileName);
             log.info(`${progress}{0}: 开始执行`, pathName);
 
             let pathStartTime = new Date();
             try {
                 await pathingScript.runFile(jsonPath);
             } catch (error) {
-                log.error(`${progress}{0}: 文件不存在或执行失败: {1}`, pathName, error.toString());
-                addFakePathLog(fileName, pathStart);
+                log.error(`${progress}{0}: 文件不存在或执行失败: {1}`, jsonPath, error.toString());
+                logFakePathEnd(fileName, pathStart);
                 continue; // 跳过当前任务
             }
 
-            // 更新记录
-            if (new Date() - pathStartTime > 5000) {
+            let diffTime = new Date() - pathStartTime;
+            if (diffTime < 500) {
+                // "队伍中没有对应元素角色"的错误不会抛出为异常，只能通过路径文件迅速结束来推测
+                if (settings.partyName && settings.partyName2nd) {
+                    let newParty = (currentParty === settings.partyName) ? settings.partyName2nd : settings.partyName;
+                    log.info("当前队伍{0}缺少该路线所需角色，尝试切换到{1}", currentParty, newParty);
+                    await switchPartySafely(newParty);
+                    await pathingScript.runFile(jsonPath);
+                }
+            } else if (diffTime > 5000) {
                 recordMap[fileName] = calculateNextRunTime(new Date(), jsonPath);
                 const lines = [];
-                
                 for (const [p, t] of Object.entries(recordMap)) {
-                    lines.push(`${p}\t${strftime(t)}`);
+                    lines.push(`${p}\t${formatDateTime(t)}`);
                 }
                 const content = lines.join("\n");
                 file.writeTextSync(recordFile, content);
-                log.info(`${progress}{0}: 已完成，下次刷新: ${strftime(recordMap[fileName], true)}`, pathName);
+                log.info(`${progress}{0}: 已完成，下次刷新: ${formatDateTimeShort(recordMap[fileName])}`, pathName);
             } else {
                 log.info(`${progress}{0}: 执行时间过短，不更新记录`, pathName);
             }
-            addFakePathLog(fileName, pathStart);
+            logFakePathEnd(fileName, pathStart);
         } else {
-            log.info(`${progress}{0}: 已跳过 (${strftime(recordMap[fileName], true)}刷新)`, pathName);
+            log.info(`${progress}{0}: 已跳过 (${formatDateTimeShort(recordMap[fileName])}刷新)`, pathName);
         }
     }
 }
@@ -326,7 +324,7 @@ async function runPathTaskIfCooldownExpired(account, pathTask) {
  */
 function getCooldownInfoFromPath(fullPath) {
     const parts = fullPath.split(/[\\/]/); // 支持 \ 或 / 分隔符
-    let cooldown = CooldownType.Unknown;
+    let cooldown = null;
     let cleanPart = "";
 
     for (const part of parts) {
@@ -349,121 +347,9 @@ function getCooldownInfoFromPath(fullPath) {
 }
 
 function calculateNextRunTime(base, fullPath) {
-    const {coolType} = getCooldownInfoFromPath(fullPath);
-    let nextTime = baseTime;
-
-    switch (coolType) {
-        case CooldownType.Every1DayMidnight: {
-            const next = new Date(base.getTime() + 1 * 24 * 60 * 60 * 1000);
-            next.setHours(0, 0, 0, 0);
-            nextTime = next;
-            break;
-        }
-
-        case CooldownType.Every2DaysMidnight: {
-            const next = new Date(base.getTime() + 2 * 24 * 60 * 60 * 1000);
-            next.setHours(0, 0, 0, 0);
-            nextTime = next;
-            break;
-        }
-
-        case CooldownType.Every3DaysMidnight: {
-            const next = new Date(base.getTime() + 3 * 24 * 60 * 60 * 1000);
-            next.setHours(0, 0, 0, 0);
-            nextTime = next;
-            break;
-        }
-
-        case CooldownType.Daily4AM: {
-            const next = new Date(base);
-            next.setHours(4, 0, 0, 0);
-            if (base.getHours() >= 4) {
-                // 如果已过今天凌晨4点，则设为明天的4点
-                next.setDate(next.getDate() + 1);
-            }
-            nextTime = next;
-            break;
-        }
-
-        case CooldownType.Every12Hours: {
-            nextTime = new Date(base.getTime() + 12 * 60 * 60 * 1000);
-            break;
-        }
-
-        case CooldownType.Every24Hours: {
-            nextTime = new Date(base.getTime() + 24 * 60 * 60 * 1000);
-            break;
-        }
-
-        case CooldownType.Every46Hours: {
-            nextTime = new Date(base.getTime() + 46 * 60 * 60 * 1000);
-            break;
-        }
-
-        default:
-            throw new Error(`未识别的冷却类型: ${coolType}`);
-    }
-
+    const { coolType } = getCooldownInfoFromPath(fullPath);
+    let nextTime = calculateNextRefreshTime(base, coolType);
     return nextTime;
-}
-
-
-/**
- * 获取指定路径下所有最底层的文件夹（即不包含任何子文件夹的文件夹）
- * @param {string} folderPath - 要遍历的根文件夹路径
- * @param {string[]} result - 用于收集最底层文件夹路径的数组
- * @returns {Promise<string[]>} 所有最底层文件夹的路径
- */
-function getLeafFolders(folderPath, result = []) {
-    const filesInSubFolder = file.ReadPathSync(folderPath);
-    let hasSubFolder = false;
-
-    for (const filePath of filesInSubFolder) {
-        if (file.IsFolder(filePath)) {
-            hasSubFolder = true;
-            // 递归查找子文件夹
-            getLeafFolders(filePath, result);
-        }
-    }
-
-    // 如果没有发现任何子文件夹，则当前为最底层文件夹
-    if (!hasSubFolder) {
-        result.push(folderPath);
-    }
-
-    return result;
-}
-
-async function getCurrentAccount() {
-    let account = "默认账号";
-
-    if (settings.iHaveMultipleAccounts) {
-        // 打开背包避免界面背景干扰
-        await genshin.returnMainUi();
-        keyPress("B");
-        await sleep(1000);
-
-        const region = captureGameRegion();
-        const ocrResults = RecognitionObject.ocr(region.width * 0.75, region.height * 0.75, region.width * 0.25, region.height * 0.25);
-        const resList = region.findMulti(ocrResults);
-
-        for (let i = 0; i < resList.count; i++) {
-            const text = resList[i].text;
-            if (text.includes("UID")) {
-                const match = text.match(/\d+/);
-                if (match) {
-                    account = match[0];
-                }
-                break;
-            }
-        }
-
-        if (account === "默认账号") {
-            log.error("未能提取到UID");
-        }
-    }
-
-    return account;
 }
 
 function getSelectedMaterials() {
@@ -473,120 +359,62 @@ function getSelectedMaterials() {
     const selectedMaterials = [];
 
     for (const entry of config) {
-        if (
-            entry.name &&
-            entry.name.startsWith("OPT_") &&
-            entry.type === "checkbox"
-        ) {
-            if (settings[entry.name] === true) {
-                entry.label = entry.label.split(" ")[1]; // 去除⬇️指示
+        if (entry.name && entry.name.startsWith("OPT_") && entry.type === "checkbox") {
+            if (settings.selectAllMaterials || settings[entry.name] === true) {
+                let index = entry.label.indexOf(" ");
+                entry.label = entry.label.slice(index + 1); // 去除⬇️指示
                 selectedMaterials.push(entry);
             }
         }
     }
 
+    const materialDict = {};
+    selectedMaterials.forEach((item) => {
+        const label = item.label;
+        const match = label.match(/\\(.*?)\\\1/); // \落落莓\落落莓@Author
+        let materialName;
+
+        if (match) {
+            materialName = match[1];
+        } else {
+            const parts = label.split("\\");
+            materialName = parts[parts.length - 1];
+        }
+
+        if (!materialDict[materialName]) {
+            materialDict[materialName] = [];
+        }
+        materialDict[materialName].push(item);
+    });
+
+    const firstRoutes = [];
+    const multiRoutes = {};
+    for (const materialName in materialDict) {
+        const routes = materialDict[materialName];
+        if (routes.length > 0) {
+            firstRoutes.push(routes[0]);
+            if (materialDict[materialName].length > 1) {
+                multiRoutes[materialName] = materialDict[materialName];
+            }
+        }
+    }
+    const countOfMultiRoutes = Object.keys(multiRoutes).length;
+    if (countOfMultiRoutes > 0) {
+        let text = `${countOfMultiRoutes}种材料存在多个版本的路线:\n`;
+        for (const [key, values] of Object.entries(multiRoutes)) {
+            text += `${key}\n`;
+            for (const v of values) {
+                text += `  ${v.label}\n`;
+            }
+        }
+        log.debug(text);
+        if (settings.acceptMultiplePathOfSameMaterial) {
+            log.warn("{0}种材料选中了多个版本的路线（详见日志文件），根据脚本设置，将执行全部版本", countOfMultiRoutes);
+        } else {
+            log.warn("{0}种材料选中了多个版本的路线（详见日志文件），默认只执行第一个版本", countOfMultiRoutes);
+            return firstRoutes;
+        }
+    }
+
     return selectedMaterials;
-}
-
-
-// Happy Birthday
-function getBaseTime() {
-  const now = new Date();
-  const year = now.getFullYear() - 18;
-  return new Date(year, 8, 28, 0, 0, 0); // 9月是month=8（0起始）
-}
-
-
-function strftime(dateObj, shortFormat = false) {
-  const timestamp = dateObj.getTime() + timeOffset;
-  const newDate = new Date(timestamp);
-  let s = newDate.toISOString();
-  s = s.replace("Z", timeOffsetStr);
-
-  if (shortFormat) {
-    // 截取出 MM-DD HH:MM:SS
-    const [datePart, timePart] = s.split("T");
-    const [year, month, day] = datePart.split("-");
-    const time = timePart.split(".")[0]; // 去掉毫秒部分
-    s = `${month}-${day} ${time}`;
-  }
-
-  return s;
-}
-
-function basename(filePath) {
-    const lastSlashIndex = filePath.lastIndexOf('\\');
-    return filePath.substring(lastSlashIndex + 1);
-}
-
-function offsetToTimezone(offsetMs) {
-  const totalMinutes = offsetMs / (1000 * 60);
-  const sign = totalMinutes >= 0 ? "+" : "-";
-  const absMinutes = Math.abs(totalMinutes);
-  const hours = String(Math.floor(absMinutes / 60)).padStart(2, "0");
-  const minutes = String(absMinutes % 60).padStart(2, "0");
-  return `${sign}${hours}:${minutes}`;
-}
-
-function calcStopTime(timeStr) {
-  const match = timeStr.match(/\b\d{2}[:：]\d{2}\b/); // 匹配 HH:mm
-  if (!match) {
-    return new Date(0xFFFFFFFF * 1000); // 不停止
-  }
-
-  const [hour, minute] = match[0].split(":").map(Number);
-  const now = new Date();
-  const next = new Date(now);
-
-  next.setHours(hour, minute, 0, 0);
-  if (next <= now) {
-    next.setDate(next.getDate() + 1);
-  }
-
-  return next;
-}
-
-function getScriptItselfName() {
-    const content = file.readTextSync("manifest.json");
-    const manifest = JSON.parse(content);
-    return manifest.name;
-}
-
-// 参考了 mno 大佬的函数
-
-function fakeLogCore(name, isJs = true, dateIn = null) {
-    const isStart = (isJs === (dateIn !== null));
-    const lastRun = isJs ? new Date() : dateIn;
-    const task = isJs ? "JS脚本" : "地图追踪任务";
-    let logMessage = "";
-    let logTime = new Date();
-    if (isJs && isStart) {
-        logTime = dateIn;
-    }
-
-    const logTimeWithOffset = new Date(logTime.getTime() + timeOffset);
-    const formattedTime = logTimeWithOffset.toISOString().split("T")[1].replace("Z", "");
-
-    if (isStart) {
-        logMessage = `正在伪造开始的日志记录\n\n` +
-            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
-            `------------------------------\n\n` +
-            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
-            `→ 开始执行${task}: "${name}"`;
-    } else {
-        const durationInSeconds = (logTime.getTime() - lastRun.getTime()) / 1000;
-        const durationMinutes = Math.floor(durationInSeconds / 60);
-        const durationSeconds = (durationInSeconds % 60).toFixed(3); // 保留三位小数
-        logMessage = `正在伪造结束的日志记录\n\n` +
-            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
-            `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
-            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
-            `------------------------------`;
-    }
-    log.debug(logMessage);
-    return logTime;
-}
-
-function addFakePathLog(name, lastRun = null) {
-    return fakeLogCore(name, false, lastRun);
 }

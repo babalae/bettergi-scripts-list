@@ -65,8 +65,8 @@
       "x": -3983.2648437499993,
       "y": -4437.3515625,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.3);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
@@ -100,8 +100,8 @@
       "x": -3965.548828125,
       "y": -4436.5126953125,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.3),keypress(f),wait(0.2),keypress(f),keypress(x),wait(0.1),keypress(x)",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.3),keypress(f),wait(0.2),keypress(f),keypress(x),wait(0.1),keypress(x);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
@@ -134,7 +134,7 @@
       "x": -3978.779296875,
       "y": -4424.4921875,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "keypress(f),w(0.2),keypress(f),wait(0.2),keypress(f),",
       "type": "target"
     },
@@ -183,29 +183,29 @@
     },
     {
       "id": 21,
-      "x": -3971.15625,
-      "y": -4382.593827465778,
-      "type": "path",
-      "move_mode": "dash",
+      "x": -3966.236328125,
+      "y": -4385.0654296875,
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 22,
-      "x": -3969.84375,
-      "y": -4382.656006536126,
+      "x": -3968.84375,
+      "y": -4383.624900401142,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keypress(f)",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),w(0.3),keypress(f),w(0.3),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
       "id": 23,
-      "x": -3968.0625,
-      "y": -4384.656670528508,
-      "action": "combat_script",
+      "x": -3969.064453125,
+      "y": -4385.2763671875,
+      "action": "",
       "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "action_params": "",
       "type": "path"
     }
   ]

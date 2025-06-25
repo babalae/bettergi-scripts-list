@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "须弥-镔铁沙丘1",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4268.99072265625,
+      "y": -516.08251953125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4252.56103515625,
+      "y": -521.33642578125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4254.42919921875,
+      "y": -573.15869140625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4260.68994140625,
+      "y": -608.3671875,
+      "action": "up_down_grab_leaf",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 5,
+      "x": 4279.8125,
+      "y": -623.6982421875,
+      "action": "up_down_grab_leaf",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 6,
+      "x": 4292.91015625,
+      "y": -635.34375,
+      "action": "up_down_grab_leaf",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 7,
+      "x": 4304.80859375,
+      "y": -663.07177734375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4304.80859375,
+      "y": -663.07177734375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "type": "target"
+    }
+  ]
+}

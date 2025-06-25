@@ -2,8 +2,8 @@
   "info": {
     "name": "6401--纳塔_万火之瓯_竞技场_(14-17)",
     "type": "collect",
-    "author": "Demo&汐@mno",
-    "version": "1.2",
+    "author": "Demo&汐",
+    "version": "1.1",
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0"
@@ -65,8 +65,8 @@
     },
     {
       "id": 7,
-      "x": 9007.75,
-      "y": -1596.22,
+      "x": 9011.54,
+      "y": -1596.0,
       "action": "",
       "move_mode": "jump",
       "action_params": "",
@@ -92,8 +92,8 @@
     },
     {
       "id": 10,
-      "x": 8992.56,
-      "y": -1593.19,
+      "x": 8993.66,
+      "y": -1593.34,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -101,20 +101,20 @@
     },
     {
       "id": 11,
-      "x": 8997.95,
-      "y": -1607.26,
-      "action": "combat_script",
+      "x": 8996.93,
+      "y": -1607.07,
+      "type": "path",
       "move_mode": "fly",
-      "action_params": "wait(1)",
-      "type": "path"
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
     },
     {
       "id": 12,
       "x": 9003.04,
       "y": -1626.08,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "",
+      "action_params": "wait(1)",
       "type": "path"
     },
     {
@@ -146,8 +146,8 @@
     },
     {
       "id": 16,
-      "x": 9111.06,
-      "y": -1640.86,
+      "x": 9104.06,
+      "y": -1646.86,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
@@ -155,10 +155,10 @@
     },
     {
       "id": 17,
-      "x": 9111.06,
-      "y": -1640.86,
+      "x": 9105.09,
+      "y": -1645.81,
       "action": "fight",
-      "move_mode": "fly",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
@@ -200,8 +200,8 @@
     },
     {
       "id": 22,
-      "x": 9060.41,
-      "y": -1719.56,
+      "x": 9059.75,
+      "y": -1720.75,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -236,34 +236,15 @@
     },
     {
       "id": 26,
-      "x": 8989.75,
-      "y": -1805.41,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 27,
       "x": 8975.29,
       "y": -1810.02,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
-      "id": 28,
-      "x": 8975.29,
-      "y": -1810.02,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "wait(1)",
-      "type": "orientation"
-    },
-    {
-      "id": 29,
+      "id": 27,
       "x": 8978.32,
       "y": -1872.34,
       "action": "",
@@ -272,7 +253,7 @@
       "type": "teleport"
     },
     {
-      "id": 30,
+      "id": 28,
       "x": 8949.95,
       "y": -1877.03,
       "action": "",
@@ -281,7 +262,7 @@
       "type": "path"
     },
     {
-      "id": 31,
+      "id": 29,
       "x": 8934.26,
       "y": -1882.6,
       "action": "stop_flying",
@@ -290,7 +271,7 @@
       "type": "path"
     },
     {
-      "id": 32,
+      "id": 30,
       "x": 8907.06,
       "y": -1895.2,
       "action": "combat_script",
@@ -299,23 +280,13 @@
       "type": "path"
     },
     {
-      "id": 33,
+      "id": 31,
       "x": 8901.88,
       "y": -1883.71,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 34,
-      "x": 8901.88,
-      "y": -1883.71,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "wait(1)",
-      "type": "orientation"
+      "type": "path"
     }
   ]
 }

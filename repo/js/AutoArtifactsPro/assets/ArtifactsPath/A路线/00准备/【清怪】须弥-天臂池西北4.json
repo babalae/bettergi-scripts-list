@@ -38,21 +38,59 @@
     },
     {
       "id": 4,
-      "x": 3123.5625,
-      "y": -463.05322265625,
-      "type": "path",
-      "move_mode": "fly",
+      "x": 3125.3994140625,
+      "y": -463.982421875,
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 5,
-      "x": 3108.375,
-      "y": -459.72705078125,
-      "type": "path",
+      "x": 3116,
+      "y": -458.7484728175259,
+      "action": "combat_script",
       "move_mode": "dash",
+      "action_params": "钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3102.775390625,
+      "y": -462.54833984375,
+      "action": "log_output",
+      "move_mode": "dash",
+      "action_params": "\n[清怪路径]清怪完不拾取!!!\n[清怪路径]清怪完不拾取!!!\n[清怪路径]清怪完不拾取!!!\n[清怪路径]别再狗叫为什么漏了!!!",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 3102.775390625,
+      "y": -462.54833984375,
       "action": "fight",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3102.775390625,
+      "y": -462.54833984375,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 3102.775390625,
+      "y": -462.54833984375,
+      "action": "log_output",
+      "move_mode": "dash",
+      "action_params": "\n[清怪路径]清怪完不拾取!!!\n[清怪路径]清怪完不拾取!!!\n[清怪路径]清怪完不拾取!!!\n[清怪路径]别再狗叫为什么漏了!!!",
+      "type": "orientation"
     }
   ]
 }

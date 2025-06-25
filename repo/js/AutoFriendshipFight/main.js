@@ -34,6 +34,10 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
         log.info(`导航到蕈兽触发点...`);
         await AutoPath('蕈兽-准备');
     }
+    if (enemyType === "雷萤术士") {
+        log.info(`导航到雷萤术士触发点...`);
+        await AutoPath('雷萤术士-准备');
+    }
     // 验证超时设置
     const ocrTimeout = validateTimeoutSetting(settings.ocrTimeout, DEFAULT_OCR_TIMEOUT_SECONDS, "OCR");
     const fightTimeout = validateTimeoutSetting(settings.fightTimeout, DEFAULT_FIGHT_TIMEOUT_SECONDS, "战斗");
@@ -370,6 +374,9 @@ function getOcrKeywords(enemyType) {
     else if (enemyType === "蕈兽") {
         return ["实验家", "变成", "实验品", "击败", "所有", "魔物"];
     }
+    else if (enemyType === "雷萤术士") {
+        return ["雷萤", "术士","圆滚滚", "不可食用", "威撼", "攀岩", "消灭", "准备", "打倒", "所有", "魔物","盗宝团","击败","成员","盗亦无道"];
+    }
     else
     {
         return ["突发", "任务", "打倒", "消灭", "敌人", "所有"]; // 兜底关键词
@@ -388,6 +395,8 @@ function getTargetCoordinates(enemyType) {
         return { x: 3578.08, y: -500.75 };
     } else if (enemyType === "蕈兽") {
         return { x: 3794.55, y: -350.60 };
+    } else if (enemyType === "雷萤术士") {
+        return {x:  883.91,  y:656.63};
     }
 }
 
@@ -402,6 +411,8 @@ function getTriggerPoint(enemyType) {
         return { x: 3614.63, y: -521.60 }; // 鳄鱼触发点坐标
     } else if (enemyType === "蕈兽") {
         return { x: 3749.38, y: -391.91 }; // 蕈兽触发点坐标
+    } else if (enemyType === "雷萤术士") {
+        return {x:881.92, y: 616.85}; // 雷萤术士触发点坐标
     }
 }
 

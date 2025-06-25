@@ -47,8 +47,9 @@
       "id": 5,
       "x": 4561.50537109375,
       "y": 4743.1923828125,
-      "action": "",
-      "move_mode": "walk",
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
       "type": "path"
     },
     {
@@ -56,8 +57,8 @@
       "x": 4562.875,
       "y": 4743.53121680038,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
@@ -65,7 +66,7 @@
       "x": 4566.9375,
       "y": 4743.937688131175,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "path"
     },
     {
@@ -91,14 +92,14 @@
       "x": 4569.7080078125,
       "y": 4827.3154296875,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),",
+      "move_mode": "climb",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
       "id": 11,
-      "x": 4538.7021484375,
-      "y": 4847.806640625,
+      "x": 4545.5316825340815,
+      "y": 4845.81298505483,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -106,11 +107,11 @@
     },
     {
       "id": 12,
-      "x": 4534.343702599005,
-      "y": 4849.250053052872,
+      "x": 4534.437505925124,
+      "y": 4848.71887884269,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f)",
+      "move_mode": "run",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
@@ -118,7 +119,7 @@
       "x": 4532.8095703125,
       "y": 4847.8017578125,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(1)",
       "type": "target"
     }

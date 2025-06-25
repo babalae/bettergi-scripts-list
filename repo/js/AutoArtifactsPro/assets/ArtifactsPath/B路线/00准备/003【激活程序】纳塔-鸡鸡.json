@@ -29,15 +29,24 @@
     },
     {
       "id": 3,
-      "x": 7978.90625,
-      "y": -1570.8124778669207,
-      "action": "",
+      "x": 7975.40673828125,
+      "y": -1569.509765625,
+      "type": "path",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 4,
+      "x": 7977.4716796875,
+      "y": -1573.080078125,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
       "x": 7980.658203125,
       "y": -1578.44384765625,
       "action": "",
@@ -46,7 +55,7 @@
       "type": "path"
     },
     {
-      "id": 5,
+      "id": 6,
       "x": 7998.83056640625,
       "y": -1611.9853515625,
       "action": "",
@@ -55,7 +64,7 @@
       "type": "path"
     },
     {
-      "id": 6,
+      "id": 7,
       "x": 8031.78125,
       "y": -1646.9997454695877,
       "action": "",
@@ -64,7 +73,7 @@
       "type": "path"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": 8054.437575051576,
       "y": -1708.4374545261098,
       "action": "stop_flying",
@@ -73,13 +82,31 @@
       "type": "path"
     },
     {
-      "id": 8,
+      "id": 9,
+      "x": 8057.00244140625,
+      "y": -1714.8203125,
+      "action": "log_output",
+      "move_mode": "walk",
+      "action_params": "\n[激活路径]激活完\"超限点\"不拾取!!!\n[激活路径]\"超限点\"不拾取!!!\n[激活路径]不拾取!!!\n[激活路径]别再狗叫为什么漏了!!!",
+      "type": "orientation"
+    },
+    {
+      "id": 10,
       "x": 8057.00244140625,
       "y": -1714.8203125,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.5),attack(0.4),wait(0.3),keypress(f),wait(0.5),attack(0.4),wait(0.3),keypress(f),wait(0.1),s(0.3),dash,s(0.3)",
+      "action_params": "keypress(f),wait(0.5),attack(0.25),j,wait(0.8),keypress(f),attack(0.25),j,wait(0.5),attack(0.25),j,wait(1),s(0.1),wait(0.2),keypress(f),s(0.1),dash,s(0.3)",
       "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 8057.00244140625,
+      "y": -1714.8203125,
+      "action": "log_output",
+      "move_mode": "walk",
+      "action_params": "\n[激活路径]激活完\"超限点\"不拾取!!!\n[激活路径]\"超限点\"不拾取!!!\n[激活路径]不拾取!!!\n[激活路径]别再狗叫为什么漏了!!!",
+      "type": "orientation"
     }
   ]
 }

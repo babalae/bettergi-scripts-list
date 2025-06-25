@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "504枫丹-学术会堂2",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4146.99658203125,
+      "y": 4423.7021484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4146.1298828125,
+      "y": 4417.9384765625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": 4122.57373046875,
+      "y": 4400.28173828125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4086.83203125,
+      "y": 4377.154296875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4086.322265625,
+      "y": 4336.2119140625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4093.1025390625,
+      "y": 4336.5693359375,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4095.5283203125,
+      "y": 4325.9931640625,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.5),j,wait(0.5),j,wait(0.5),j,wait(2.5),keypress(ESCAPE),wait(0.5),keypress(ESCAPE)"
+    },
+    {
+      "id": 8,
+      "x": 4097.7529296875,
+      "y": 4324.61376953125,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "keypress(ESCAPE),wait(0.5),keypress(ESCAPE),wait(0.5);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);"
+    }
+  ]
+}

@@ -15,7 +15,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
  * @returns {Promise<void>}
  */
 
-(async function() {
+(async function () {
 	// 翻页
 	async function pageDown(SliderBottomRo) {
 		let SliderBottom = captureGameRegion().find(SliderBottomRo);
@@ -44,8 +44,8 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 	// 切换队伍
 	async function SwitchParty(partyName) {
 		let ConfigureStatue = false;
-		
-		let foundQuickSetup = false;		
+
+		let foundQuickSetup = false;
 		for (let j = 0; j < 2; j++) {  // 尝试两次
 			keyPress("VK_L");
 			await sleep(2000);
@@ -63,7 +63,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 				break;  // 第一次找到就退出循环
 			}
 		}
-		
+
 		if (!foundQuickSetup) {
 			log.error("两次尝试都未能进入队伍配置页面");
 			return false;
@@ -71,7 +71,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 		let captureRegion = captureGameRegion();
 		let resList = captureRegion.findMulti(RecognitionObject.ocr(100, 900, 300, 180));
 		let currentPartyFound = false;
-		
+
 		for (let i = 0; i < resList.count; i++) {
 			let res = resList[i];
 			log.info("当前队伍名称位置:({x},{y},{w},{h}), 识别结果：{text}", res.x, res.y, res.Width, res.Height, res.text);
@@ -84,7 +84,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 				break;
 			}
 		}
-				if (!currentPartyFound) {
+		if (!currentPartyFound) {
 			await sleep(1000);
 			let ConfigureTeamButton = captureGameRegion().find(ConfigureTeamButtonRo);
 			if (ConfigureTeamButton.isExist()) {
@@ -164,7 +164,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 				await genshin.returnMainUi();
 				log.info("正在尝试切换至" + settings.partyName);
 				let switchResult = await SwitchParty(settings.partyName);
-				
+
 				if (!switchResult) {
 					// 如果当前位置换队失败，去七天神像再试一次
 					log.info("当前位置换队失败，传送到七天神像重试");

@@ -5,7 +5,8 @@
     "author": "汐",
     "version": "",
     "description": "",
-    "bgiVersion": "0.42.3"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -29,8 +30,8 @@
       "x": 1495.365234375,
       "y": 1048.619140625,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
@@ -43,27 +44,19 @@
     },
     {
       "id": 5,
-      "x": 1505.380859375,
-      "y": 1040.8408203125,
+      "x": 1507.84375,
+      "y": 1039.9684401368886,
       "action": "",
       "move_mode": "run",
       "type": "path"
     },
     {
       "id": 6,
-      "x": 1509.775390625,
-      "y": 1042.98046875,
-      "action": "",
-      "move_mode": "walk",
-      "type": "orientation"
-    },
-    {
-      "id": 7,
       "x": 1510.87890625,
       "y": 1044.0966796875,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     }
   ]

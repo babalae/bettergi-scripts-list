@@ -34,6 +34,12 @@
         "default": "6"
     },
     {
+        "name": "useFragileResin",
+        "type": "checkbox",
+        "label": "是否使用脆弱树脂\n开启后会在其他树脂用完后使用",
+        "default": false
+    },
+    {
         "name": "team",
         "type": "input-text",
         "label": "战斗的队伍名称，不填表示不切换队伍"
@@ -48,6 +54,11 @@
         "type": "input-text",
         "label": "战斗超时时间，单位秒，默认120秒",
         "default": 120
+    },
+    {
+        "name": "useAdventurerHandbook",
+        "type": "checkbox",
+        "label": "是否使用冒险之证寻找地脉花【开发中】"
     },
     {
         "name": "isNotification",

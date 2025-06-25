@@ -148,12 +148,12 @@ async function isTaskRefreshed(filePath, options = {}) {
         }
         
         if (shouldRefresh) {
-            notification.send(`任务已经刷新，执行脚本`);
+            notification.send(`七圣召唤七日历练周期已经刷新，执行脚本`);
 
             
             return true;
         } else {
-            notification.send(`任务未刷新，跳过脚本`);
+            notification.send(`七圣召唤七日历练未刷新，冷却还有${((nowTime - lastTime)/3600).toFixed(1)}小时`);
             return false;
         }
         
@@ -199,7 +199,7 @@ async function checkChallengeResults() {
     }
 }
 
-//自动对话，直到出现选项框   await autoConversation();
+//通过f和空格自动对话，对话区域为空，选项区域为真时停止   await autoConversation();
 async function autoConversation() {
     await sleep(2500); //点击后等待一段时间避免误判
     const region1 = RecognitionObject.ocr(785, 890, 340, 82); // 对话区域
@@ -217,19 +217,18 @@ async function autoConversation() {
             keyPress("VK_SPACE");
             await sleep(500);
         } else if (!res1.isEmpty() && !res2.isEmpty()) {
-            await sleep(1000);
+            await sleep(500);
             keyPress("F");
             await sleep(400);
             keyPress("F");
-            log.info("已选择谈话内容");
-            return;
+            log.info("已选择第一个对话选项");
         } else if (res1.isEmpty() && !res2.isEmpty()) {
             log.info("谈话完成");
             await sleep(1000);
             return;
         }
         talkTime++;
-        await sleep(1500);
+        await sleep(1200);
     }
     throw new Error("对话时间超时");
 }

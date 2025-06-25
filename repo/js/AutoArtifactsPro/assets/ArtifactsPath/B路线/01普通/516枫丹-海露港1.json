@@ -1,0 +1,31 @@
+{
+  "info": {
+    "name": "516枫丹-海露港1",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5002.76611328125,
+      "y": 1664.58984375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4980.93505859375,
+      "y": 1715.63916015625,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "j,wait(0.5),j,wait(0.5),j,wait(0.8);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(1.5);"
+    }
+  ]
+}

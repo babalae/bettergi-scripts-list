@@ -1,0 +1,76 @@
+{
+  "info": {
+    "name": "西风骑士的基础知识-1",
+    "type": "collect",
+    "author": "云闲vsv",
+    "version": "1.0",
+    "description": "西风骑士的基础知识-1",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -867.7001953125,
+      "y": 2281.36279296875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -873.7607421875,
+      "y": 2274.4951171875,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -877.1376953125,
+      "y": 2271.03173828125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -896.2724609375,
+      "y": 2247.0341796875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -933.8310546875,
+      "y": 2228.99560546875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -951.7802734375,
+      "y": 2221.7314453125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -947.359375,
+      "y": 2218.5927734375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

@@ -24,7 +24,7 @@
       "y": 1012.807861328125,
       "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "1000",
+      "action_params": "1300",
       "type": "path"
     },
     {
@@ -41,17 +41,17 @@
       "x": 952.0184326171875,
       "y": 1016.24169921875,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "芙宁娜 charge;",
+      "move_mode": "climb",
+      "action_params": "keypress(f);芙宁娜 charge;",
       "type": "path"
     },
     {
       "id": 5,
       "x": 962.9375237004976,
       "y": 1049.7184241037855,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "run",
-      "action_params": "",
+      "action_params": "keypress(f);迪希雅 w(0.2),e;",
       "type": "path"
     },
     {
@@ -59,14 +59,14 @@
       "x": 968.6874861747096,
       "y": 1053.031333368799,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),wait(0.2),keypress(x)",
       "type": "target"
     },
     {
       "id": 7,
-      "x": 961.52001953125,
-      "y": 1057.462890625,
+      "x": 962.53125,
+      "y": 1057.2186614676828,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -78,7 +78,7 @@
       "y": 1064.1561817891645,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),keypress(x),wait(0.2),keypress(f),wait(0.2),keypress(f),keypress(f),keypress(x),wait(0.2),keypress(f),w(0.2),keypress(f)",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),keypress(x),wait(0.2),keypress(f),wait(0.2),keypress(f),keypress(f),keypress(x),wait(0.2),keypress(f),w(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "path"
     },
     {
@@ -94,10 +94,10 @@
       "id": 10,
       "x": 894.8753662109375,
       "y": 1030.003662109375,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 11,
@@ -105,8 +105,8 @@
       "y": 1034.537841796875,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "dash,keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),wait(0.2)",
-      "type": "path"
+      "action_params": "dash,keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "type": "target"
     }
   ]
 }

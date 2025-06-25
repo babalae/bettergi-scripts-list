@@ -1,0 +1,127 @@
+{
+  "info": {
+    "name": "3.修.中央实验室基地东南",
+    "type": "collect",
+    "author": "cy",
+    "version": "1.0",
+    "description": "1.0",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "双手剑"
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3628.52,
+      "y": 4447.65,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 3628.53,
+      "y": 4447.58,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 3634.75,
+      "y": 4473.54,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 3622.23,
+      "y": 4494.82,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 3630.85,
+      "y": 4510.76,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 3636.45,
+      "y": 4510.32,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 3636.45,
+      "y": 4510.32,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 8,
+      "x": 3625.07,
+      "y": 4566.18,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 3624.73,
+      "y": 4562.46,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 10,
+      "x": 3624.73,
+      "y": 4562.46,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 11,
+      "x": 3630.25,
+      "y": 4562.86,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 12,
+      "x": 3630.25,
+      "y": 4562.86,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    }
+  ]
+}

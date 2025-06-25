@@ -7,8 +7,6 @@
 this.findLeyLineOutcrop = 
 async function (country, type) {
     currentFlower = null;
-    keyPress("M");
-    await sleep(1000);
     await closeCustomMarks();
     await sleep(1000);
     log.info("开始寻找地脉花");

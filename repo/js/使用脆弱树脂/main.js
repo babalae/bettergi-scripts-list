@@ -22,7 +22,7 @@ const QuickUsePlusButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSy
     let QuickUsePlusButton = captureGameRegion().find(QuickUsePlusButtonRo);
     if (isNaN(settings.times || settings.numberPerUse <= 0)) {
         number = 1
-    }else{
+    } else {
         for (let i = 1; i < settings.numberPerUse; ++i) {
             QuickUsePlusButton.click();// 点击使用数量
             await sleep(300);

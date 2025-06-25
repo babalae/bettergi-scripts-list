@@ -1,0 +1,98 @@
+{
+  "info": {
+    "name": "18.修.纳塔万火之欧01",
+    "type": "collect",
+    "author": "mfkvfhpdx",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "双手剑"
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8598.1,
+      "y": -1925.07,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8603.05,
+      "y": -1894.42,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 8604.6,
+      "y": -1889.5,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 8604.6,
+      "y": -1889.5,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 5,
+      "x": 8604.6,
+      "y": -1889.5,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 8608.29,
+      "y": -1891.53,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 8608.71,
+      "y": -1890.66,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 8608.71,
+      "y": -1890.66,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 9,
+      "x": 8608.71,
+      "y": -1890.66,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    }
+  ]
+}
