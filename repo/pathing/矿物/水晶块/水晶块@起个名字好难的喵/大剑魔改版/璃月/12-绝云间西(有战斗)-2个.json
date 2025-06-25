@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "20-奥藏山东-2个",
+    "name": "12-绝云间西(有战斗)-2个",
     "type": "collect",
     "author": "火山",
     "version": "1.0",
@@ -17,23 +17,23 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 1106.67,
-      "y": 1195.28,
+      "x": 1182.66,
+      "y": 626.08,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 1115.35,
-      "y": 1203.56,
+      "x": 1204.37,
+      "y": 638.0,
       "type": "path",
-      "move_mode": "run",
+      "move_mode": "dash",
       "action": "",
       "action_params": ""
     },
     {
       "id": 3,
-      "x": 1088.6,
-      "y": 1213.2,
+      "x": 1253.2,
+      "y": 648.0,
       "type": "path",
       "move_mode": "dash",
       "action": "",
@@ -41,48 +41,75 @@
     },
     {
       "id": 4,
-      "x": 1076.06,
-      "y": 1215.36,
+      "x": 1257.81,
+      "y": 645.85,
       "type": "path",
-      "move_mode": "jump",
+      "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
       "id": 5,
-      "x": 1048.81,
-      "y": 1202.86,
+      "x": 1262.73,
+      "y": 646.48,
       "type": "path",
-      "move_mode": "dash",
-      "action": "mining",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 6,
-      "x": 1048.81,
-      "y": 1202.86,
-      "action": "combat_script",
-      "action_params": "wait(1)",
+      "x": 1298.75,
+      "y": 633.31,
       "type": "path",
-      "move_mode": "dash"
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 7,
-      "x": 1042.84,
-      "y": 1204.49,
+      "x": 1286.38,
+      "y": 626.35,
       "type": "path",
       "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 1278.75,
+      "y": 612.35,
+      "type": "path",
+      "move_mode": "walk",
       "action": "mining",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
     },
     {
-      "id": 8,
-      "x": 1042.84,
-      "y": 1204.49,
+      "id": 9,
+      "x": 1278.75,
+      "y": 612.35,
       "action": "combat_script",
       "action_params": "wait(1)",
       "type": "path",
-      "move_mode": "dash"
+      "move_mode": "walk"
+    },
+    {
+      "id": 10,
+      "x": 1284.82,
+      "y": 613.36,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 11,
+      "x": 1284.82,
+      "y": 613.36,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
     }
   ]
 }
