@@ -4,7 +4,7 @@ const settingFile = "settings.json";
 const defaultTime = getDefaultTime();
 const CooldownDataBase = readRefreshInfo("CooldownData.txt");
 
-let stopTime = null;
+let stopAtTime = null;
 let currentParty = null;
 
 class ReachStopTime extends Error {
@@ -96,15 +96,16 @@ async function runScanMode() {
 
 // 采集选中的材料
 async function runGatherMode() {
+    if (settings.stopAtTime) {
+        stopAtTime = settings.stopAtTime;
+        log.info("脚本已被配置为达到{0}后停止运行", stopAtTime);
+    }
+
     const selectedMaterials = getSelectedMaterials();
 
     if (selectedMaterials.length === 0) {
         log.error("未选择任何材料，请在脚本配置中勾选所需项目");
         return;
-    }
-    if (settings.Time) {
-        stopTime = settings.stopAtTime;
-        log.info("脚本已被配置为达到{0}后停止运行", stopTime);
     }
 
     log.info("共{0}组材料路线待执行:", selectedMaterials.length);
@@ -127,7 +128,7 @@ async function runGatherMode() {
         }
     } catch (e) {
         if (e instanceof ReachStopTime) {
-            log.info("达到设置的停止时间 {0}，终止运行", stopTime);
+            log.info("达到设置的停止时间 {0}，终止运行", stopAtTime);
         } else {
             throw e;
         }
@@ -272,7 +273,7 @@ async function runPathTaskIfCooldownExpired(account, pathTask) {
         const lastTime = recordMap[fileName] || defaultTime;
         const progress = `[${i + 1}/${jsonFiles.length}]`;
 
-        if (settings.Time && isTargetTimeReached(stopTime)) {
+        if (stopAtTime && isTargetTimeReached(stopAtTime)) {
             throw new ReachStopTime("达到设置的停止时间，终止运行");
         }
 
