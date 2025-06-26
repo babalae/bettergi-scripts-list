@@ -1,0 +1,89 @@
+{
+  "info": {
+    "name": "04-紫晶矿-渊下宫-蛇心之地左上01(有战斗)-5个",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "双手剑"
+    ],
+    "last_modified_time": 1750936261868
+  },
+  "positions": [
+    {
+      "id": 13,
+      "x": 449.640380859375,
+      "y": -122.142578125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 400.559326171875,
+      "y": -120.173095703125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 15,
+      "x": 318.0853271484375,
+      "y": -103.3369140625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(1.8),keypress(VK_SPACE)"
+    },
+    {
+      "id": 16,
+      "x": 327.883056640625,
+      "y": -111.779541015625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": 336.5089111328125,
+      "y": -121.915283203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": 341.1309814453125,
+      "y": -119.609375,
+      "type": "target",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "x": 341.25,
+      "y": -120.20,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "x": 341.25,
+      "y": -120.20,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}
