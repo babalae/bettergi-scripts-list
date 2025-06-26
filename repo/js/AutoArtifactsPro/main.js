@@ -44,7 +44,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     //处理记录文件路径
     // 获取子文件夹路径
 
-    const accountName = settings.accountName;
+    const accountName = settings.accountName || "默认账户";
 
     // Windows文件名非法字符列表
     const illegalCharacters = /[\\/:*?"<>|]/;
@@ -490,7 +490,7 @@ async function runArtifactsPaths(runRouteA, grindPartyName, useABE) {
 
         let currentTask = 0; // 当前任务计数器
 
-        // 执行准备路线的地图追踪文件
+        // 执行地图追踪文件
         for (const fileName of jsonFilePaths) {
             const fullPath = fileName;
             await fakeLog(fileName, false, true, 0);
@@ -520,6 +520,8 @@ async function runArtifactsPaths(runRouteA, grindPartyName, useABE) {
 
     // 运行普通路线
     await runPathGroups(filePathNormal, "普通");
+
+    await genshin.tpToStatueOfTheSeven();
 
     // 运行收尾路线
     await runPathGroups(filePathEnding, "收尾");
