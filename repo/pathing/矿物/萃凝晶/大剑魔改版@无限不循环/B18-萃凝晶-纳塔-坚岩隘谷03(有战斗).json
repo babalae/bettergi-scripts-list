@@ -1,0 +1,96 @@
+{
+  "info": {
+    "name": "23.战.纳塔坚岩缢谷03",
+    "type": "collect",
+    "author": "mfkvfhpdx",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "双手剑"
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8670.95,
+      "y": -1269.61,
+      "action": "",
+      "move_mode": "fly",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8665.8466796875,
+      "y": -1354.1884765625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "2500",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 8665.8466796875,
+      "y": -1354.1884765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 8666.869140625,
+      "y": -1350.23779296875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 8671.5703125,
+      "y": -1343.2802734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "x": 8671.5703125,
+      "y": -1343.2802734375,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 6,
+      "x": 8672.5498046875,
+      "y": -1341.10009765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "locked": false
+    },
+    {
+      "x": 8672.5498046875,
+      "y": -1341.10009765625,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 7,
+      "x": 8672.5498046875,
+      "y": -1341.10009765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    }
+  ]
+}
