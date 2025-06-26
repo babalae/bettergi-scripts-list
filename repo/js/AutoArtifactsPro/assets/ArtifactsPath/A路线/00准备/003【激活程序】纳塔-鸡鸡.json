@@ -6,7 +6,9 @@
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1750879353745
   },
   "positions": [
     {
@@ -22,28 +24,28 @@
       "id": 2,
       "x": 7974.1123046875,
       "y": -1565.7958984375,
-      "action": "",
+      "action": "set_time",
       "move_mode": "walk",
-      "action_params": "",
+      "action_params": "06:00",
       "type": "path"
     },
     {
       "id": 3,
       "x": 7975.40673828125,
       "y": -1569.509765625,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 4,
       "x": 7977.4716796875,
       "y": -1573.080078125,
-      "type": "path",
-      "move_mode": "jump",
       "action": "",
-      "action_params": ""
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 5,

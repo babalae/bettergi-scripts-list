@@ -6,7 +6,9 @@
     "version": "",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1750965162048
   },
   "positions": [
     {
@@ -37,8 +39,8 @@
     },
     {
       "id": 4,
-      "x": 4604.4375217254565,
-      "y": 4934.812644000653,
+      "x": 4604.1249782745435,
+      "y": 4934.468704526109,
       "action": "combat_script",
       "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
@@ -99,8 +101,8 @@
     },
     {
       "id": 11,
-      "x": 4722.281459354395,
-      "y": 4946.312318104439,
+      "x": 4724.962890625,
+      "y": 4950.3291015625,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -108,19 +110,19 @@
     },
     {
       "id": 12,
-      "x": 4720.4013671875,
-      "y": 4931.0986328125,
+      "x": 4721.41650390625,
+      "y": 4933.25634765625,
       "action": "combat_script",
-      "move_mode": "fly",
+      "move_mode": "jump",
       "action_params": "attack(0.2),wait(0.5)",
       "type": "path"
     },
     {
       "id": 13,
-      "x": 4722.196533203125,
-      "y": 4931.892578125,
+      "x": 4720.4013671875,
+      "y": 4931.0986328125,
       "action": "",
-      "move_mode": "climb",
+      "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
@@ -130,11 +132,20 @@
       "y": 4932.6865234375,
       "action": "combat_script",
       "move_mode": "climb",
+      "action_params": "w(0.1)",
+      "type": "orientation"
+    },
+    {
+      "id": 15,
+      "x": 4723.99169921875,
+      "y": 4932.6865234375,
+      "action": "combat_script",
+      "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),d(0.15);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);s(0.5)",
       "type": "target"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": 4720.4013671875,
       "y": 4931.0986328125,
       "action": "",
@@ -143,7 +154,7 @@
       "type": "path"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": 4731.343757900166,
       "y": 4906.187333262402,
       "action": "",
@@ -152,24 +163,24 @@
       "type": "path"
     },
     {
-      "id": 17,
-      "x": 4735.593809251244,
-      "y": 4902.687659158617,
+      "id": 18,
+      "x": 4736.562624427613,
+      "y": 4902.468803052872,
       "action": "",
       "move_mode": "walk",
       "type": "path"
     },
     {
-      "id": 18,
-      "x": 4735.62841796875,
-      "y": 4902.6748046875,
+      "id": 19,
+      "x": 4736.406299376036,
+      "y": 4902.500045473891,
       "action": "combat_script",
       "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),d(0.15);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
-      "id": 19,
+      "id": 20,
       "x": 4749.156392202985,
       "y": 4913.249719577676,
       "action": "",
@@ -177,15 +188,16 @@
       "type": "path"
     },
     {
-      "id": 20,
-      "x": 4750.156392202985,
-      "y": 4913.249719577676,
+      "id": 21,
+      "x": 4752.42041015625,
+      "y": 4912.71875,
       "action": "",
       "move_mode": "climb",
-      "type": "path"
+      "action_params": "",
+      "type": "orientation"
     },
     {
-      "id": 21,
+      "id": 22,
       "x": 4752.42041015625,
       "y": 4912.71875,
       "action": "combat_script",
@@ -194,7 +206,7 @@
       "type": "target"
     },
     {
-      "id": 22,
+      "id": 23,
       "x": 4750.0390625,
       "y": 4904.76904296875,
       "action": "",
@@ -203,16 +215,16 @@
       "type": "path"
     },
     {
-      "id": 23,
+      "id": 24,
       "x": 4758.86865234375,
       "y": 4899.99755859375,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "path"
     },
     {
-      "id": 24,
+      "id": 25,
       "x": 4760.750047400995,
       "y": 4899.968757578981,
       "action": "",

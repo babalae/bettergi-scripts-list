@@ -6,7 +6,9 @@
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1750967752616
   },
   "positions": [
     {
@@ -49,22 +51,31 @@
       "id": 5,
       "x": -3400.755859375,
       "y": -3544.443359375,
-      "type": "target",
+      "action": "",
       "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -3397.9658203125,
+      "y": -3544.044921875,
+      "type": "target",
+      "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 6,
+      "id": 7,
       "x": -3275.9990234375,
       "y": -3552.625,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "w(1.2),a(0.1),wait(1),keypress(f),wait(0.3),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(0.5),keypress(ESCAPE)",
+      "action_params": "w(0.5),a(0.1),wait(1),keypress(f),wait(0.3),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(0.5),keypress(ESCAPE)",
       "type": "orientation"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": -3275.9990234375,
       "y": -3552.625,
       "action": "log_output",
@@ -73,7 +84,7 @@
       "type": "orientation"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": -3472.9677734375,
       "y": -3754.984375,
       "action": "",
@@ -82,7 +93,7 @@
       "type": "teleport"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": -3471.005859375,
       "y": -3743.349609375,
       "action": "",
@@ -91,7 +102,7 @@
       "type": "path"
     },
     {
-      "id": 10,
+      "id": 11,
       "x": -3462.5361328125,
       "y": -3726.7958984375,
       "action": "combat_script",
@@ -100,7 +111,7 @@
       "type": "target"
     },
     {
-      "id": 11,
+      "id": 12,
       "x": -3467.1845703125,
       "y": -3732.5537109375,
       "action": "",
@@ -109,7 +120,7 @@
       "type": "target"
     },
     {
-      "id": 12,
+      "id": 13,
       "x": -3285.267578125,
       "y": -3732.4169921875,
       "action": "combat_script",
@@ -118,7 +129,7 @@
       "type": "orientation"
     },
     {
-      "id": 13,
+      "id": 14,
       "x": -3285.267578125,
       "y": -3732.4169921875,
       "action": "combat_script",
@@ -127,7 +138,7 @@
       "type": "orientation"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": -3285.267578125,
       "y": -3731.4169921875,
       "action": "log_output",
