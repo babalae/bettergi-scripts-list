@@ -1,0 +1,219 @@
+{
+  "info": {
+    "name": "06-紫晶矿-渊下宫-蛇心之地右-6个",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "双手剑"
+    ],
+    "last_modified_time": 1750947271609
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 198.89697265625,
+      "y": -182.96240234375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 185.68701171875,
+      "y": -184.1923828125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 155.545654296875,
+      "y": -190.256103515625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 147.388916015625,
+      "y": -195.715087890625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 155.26904296875,
+      "y": -189.44091796875,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 148.39404296875,
+      "y": -197.43896484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 151.2547607421875,
+      "y": -197.18603515625,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 148.39404296875,
+      "y": -197.43896484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 149.571533203125,
+      "y": -201.452880859375,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 149.571533203125,
+      "y": -201.452880859375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 198.8980712890625,
+      "y": -182.958251953125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 202.552001953125,
+      "y": -171.302001953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 205.682861328125,
+      "y": -155.41064453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 212.7625732421875,
+      "y": -82.69775390625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 210.5186767578125,
+      "y": -74.40625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": 212.8594970703125,
+      "y": -75.532958984375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 17,
+      "x": 212.8594970703125,
+      "y": -75.532958984375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    },
+    {
+      "id": 18,
+      "x": 208.441650390625,
+      "y": -75.20068359375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 19,
+      "x": 208.441650390625,
+      "y": -75.20068359375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    },
+    {
+      "id": 20,
+      "x": 201.21435546875,
+      "y": -76.464599609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 21,
+      "x": 200.9647216796875,
+      "y": -81.712158203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 22,
+      "x": 200.9647216796875,
+      "y": -81.712158203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

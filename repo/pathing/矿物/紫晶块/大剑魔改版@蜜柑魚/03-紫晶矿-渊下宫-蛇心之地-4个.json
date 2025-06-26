@@ -1,0 +1,126 @@
+{
+  "info": {
+    "name": "03-紫晶矿-渊下宫-蛇心之地-4个",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "双手剑"
+    ],
+    "last_modified_time": 1750934819820
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 386.9697265625,
+      "y": -334.876708984375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 385.6304931640625,
+      "y": -333.527099609375,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 365.467041015625,
+      "y": -315.958251953125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(5.5)"
+    },
+    {
+      "id": 4,
+      "x": 356.2259521484375,
+      "y": -303.519287109375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(2)"
+    },
+    {
+      "id": 5,
+      "x": 346.237060546875,
+      "y": -299.40625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(2)"
+    },
+    {
+      "id": 6,
+      "x": 334.630859375,
+      "y": -291.656494140625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 335.00341796875,
+      "y": -289.7939453125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 327.91796875,
+      "y": -288.718017578125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 325.5726318359375,
+      "y": -296.35986328125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 326.7939453125,
+      "y": -298.2900390625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 326.3509521484375,
+      "y": -300.320068359375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 326.7939453125,
+      "y": -298.2900390625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
