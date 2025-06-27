@@ -1,0 +1,32 @@
+[   
+  {
+    "name": "challengeName",
+    "type": "select",
+    "label": "必填：请选择第几个Boss挑战关卡",
+    "options": [
+      "1",  
+      "2",  
+      "3" 
+    ]
+  },
+  {
+    "name": "challengeNum",
+    "type": "input-text",
+    "label": "挑战次数,默认15次，期间树脂耗尽会自动结束"
+  },
+{
+    "name": "Rewardsuse",
+    "type": "input-text",
+    "label": "树脂顺序，1=浓缩树脂/2=原粹树脂/3=脆弱树脂/4=须臾树脂\n用`/`隔开，填写对应的树脂数字即可，默认：1/2\n表示先使用浓缩树脂，再使用原粹树脂，不填的不使用"
+},
+    {
+        "name": "Fighttimeout",
+        "type": "input-text",
+        "label": "最长战斗超时时间，单位秒，默认240秒"
+    },
+    {
+        "name": "Startforward",
+        "type": "input-text",
+        "label": "开始战斗后，向前移动的时间，默认1秒（注意单位：秒）"
+    }
+]
