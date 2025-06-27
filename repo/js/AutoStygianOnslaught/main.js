@@ -74,7 +74,7 @@
                 let res = resList[i];
                 res1=res.text
                 if (res.text===wenzi) {
-                    log.info(`·${res1}·找到`);
+                    log.info(`识别到 ·${res1}·`);
                     if (debugcode===1){if (x===0 & y===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);return result = { text: res.text, x: res.x, y: res.y, found: true }}}else{if (x===0 & y===0){log.info("文本OCR完成'{text}'", res.text);}}
                     if (clickocr===1){await sleep(1000);click(res.x, res.y);}else{}  
                     if (clickocr===2){await sleep(100);keyPress("F");}else{}
@@ -82,7 +82,7 @@
                 }
             }
             const NowTime = new Date();
-            if (Math.abs(NowTime - startTime)>chaotime*1000){if (x===0 & y===0){log.info(`${chaotime}秒超时退出，"${wenzi}"未找到`);}return result = {found: false };}else{ii=8;if (x !== 861){await keyPress("VK_W");};}
+            if (Math.abs(NowTime - startTime)>chaotime*1000){if (x===0 & y===0){log.info(`${chaotime}秒超时退出，"${wenzi}"未找到`);}return result = {found: false };}else{ii=8;if (x !== 861){if(debugcode!==3){await keyPress("VK_W");}};}
             await sleep(100);
         }   
     }
@@ -94,7 +94,7 @@
             captureRegion = captureGameRegion();  // 获取一张截图
             res = captureRegion.DeriveCrop(xa, ya, wa, ha).Find(Imagidentify);
         if (res.isEmpty()) {
-            if (debugmodel===1 & xa===0 & ya===0){log.info("识别图片中")};
+            if (debugmodel===1 & xa===0 & ya===0){log.info("识别页面元素")};
         } else {
           if (afterBehavior===1){if (xa===0 & ya===0){log.info("点击模式:开");}await sleep(1000);click(res.x+xa, res.y+ya);}else{if (debugmodel===1 & xa===0 & ya===0){log.info("点击模式:关")}}
           if (afterBehavior===2){if (xa===0 & ya===0){log.info("F模式:开");}await sleep(1000);keyPress("F");}else{if (debugmodel===1 & xa===0 & ya===0){log.info("F模式:关")}}
@@ -197,26 +197,20 @@
             var startTime = new Date();
             await sleep(500);
             var NowTime = new Date();
-            var getshu = 0;
-            var lastIncrementTime = 0; // 上次增加getshu的时间
-            const intervalTime = 500; // 3秒的时间间隔，单位为毫秒
+            keyDown("w");   
             while ((NowTime - startTime)<10*1000){
-                const result = await Textocr("战斗准备",0.1,0,0,1198,492,150,80);
-                const result2 = await Textocr("开始挑战",0.1,0,0,1554,970,360, 105);
+                const result = await Textocr("战斗准备",0.1,0,3,1198,492,150,80);
+                const result2 = await Textocr("开始挑战",0.1,0,3,1554,970,360, 105);
                 if (result.found || result2.found) {
-                    await keyPress("F");await sleep(200); await keyPress("F");
-                    const currentTime = new Date().getTime();
-                    if (currentTime - lastIncrementTime >= intervalTime) {
-                        getshu++;
-                        lastIncrementTime = currentTime;        
-                    }            
+                    await keyUp("w");
+                    await keyPress("F");await sleep(200); await keyPress("F");        
                     return true;  
                 }
-                await keyDown("w");
-                await sleep(200);
-                await keyUp("w");
+                keyDown("w"); 
+                keyPress("F");    
                 NowTime = new Date();
             }
+        await keyUp("w");
         await genshin.returnMainUi();
         return false
     }
