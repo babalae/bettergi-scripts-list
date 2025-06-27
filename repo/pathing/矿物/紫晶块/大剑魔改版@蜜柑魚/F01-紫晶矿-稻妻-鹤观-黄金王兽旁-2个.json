@@ -1,16 +1,16 @@
 {
   "info": {
-    "name": "F01-紫晶矿-渊下宫-蛇肠之路下-2个",
+    "name": "F01-紫晶矿-稻妻-鹤观-黄金王兽旁-2个",
     "type": "collect",
     "author": "蜜柑魚",
     "version": "1.0",
     "description": "",
-    "map_name": "Enkanomiya",
+    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [
       "双手剑"
     ],
-    "last_modified_time": 1750929882396
+    "last_modified_time": 1751019136276
   },
   "positions": [
     {
@@ -18,14 +18,14 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 1580.99,
-      "y": -112.64,
+      "x": -2598.38,
+      "y": -6690.46,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 1597.07,
-      "y": -121.32,
+      "x": -2594.94,
+      "y": -6686.08,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -33,8 +33,8 @@
     },
     {
       "id": 3,
-      "x": 1625.43,
-      "y": -195.73,
+      "x": -2573.91,
+      "y": -6696.48,
       "type": "path",
       "move_mode": "dash",
       "action": "",
@@ -42,26 +42,26 @@
     },
     {
       "id": 4,
-      "x": 1600.52,
-      "y": -279.15,
+      "x": -2563.02,
+      "y": -6691.17,
       "type": "path",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
       "id": 5,
-      "x": 1574.57,
-      "y": -314.37,
+      "x": -2555.34,
+      "y": -6644.17,
       "type": "path",
-      "move_mode": "dash",
-      "action": "",
+      "move_mode": "fly",
+      "action": "stop_flying",
       "action_params": ""
     },
     {
       "id": 6,
-      "x": 1557.3,
-      "y": -276.06,
+      "x": -2557.27,
+      "y": -6638.22,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -69,57 +69,50 @@
     },
     {
       "id": 7,
-      "x": 1586.33,
-      "y": -247.21,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 8,
-      "x": 1581.97,
-      "y": -239.77,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 9,
-      "x": 1579.96,
-      "y": -241.71,
+      "x": -2558.85,
+      "y": -6639.65,
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
-      "action_params": ""
+      "action_params": "",
+      "locked": false
     },
     {
-      "id": 10,
-      "x": 1579.96,
-      "y": -241.71,
+      "id": 8,
+      "x": -2558.85,
+      "y": -6639.65,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
       "action_params": "wait(1)"
     },
     {
-      "id": 11,
-      "x": 1579.75,
-      "y": -241.08,
-      "type": "target",
+      "id": 9,
+      "x": -2565.23,
+      "y": -6633.62,
+      "type": "path",
       "move_mode": "walk",
-      "action": "mining",
+      "action": "",
       "action_params": ""
     },
     {
-      "id": 12,
-      "x": 1580.98,
-      "y": -241.52,
+      "id": 10,
+      "x": -2566.17,
+      "y": -6635.02,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": -2566.17,
+      "y": -6635.02,
       "type": "path",
       "move_mode": "walk",
-      "action": "pick_around",
-      "action_params": ""
+      "action": "combat_script",
+      "action_params": "wait(1)"
     }
   ]
 }

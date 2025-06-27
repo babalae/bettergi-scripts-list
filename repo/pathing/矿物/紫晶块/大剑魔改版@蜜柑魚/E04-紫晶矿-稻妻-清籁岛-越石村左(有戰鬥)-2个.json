@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "E01-紫晶矿-稻妻-鶴觀-黃金王獸旁-2个",
+    "name": "E04-紫晶矿-稻妻-清籁岛-越石村左(有戰鬥)-2个",
     "type": "collect",
     "author": "蜜柑魚",
     "version": "1.0",
@@ -10,22 +10,22 @@
     "tags": [
       "双手剑"
     ],
-    "last_modified_time": 1751019136276
+    "last_modified_time": 1751036169216
   },
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
+      "x": -4185.85,
+      "y": -4383.65,
       "type": "teleport",
-      "x": -2598.38,
-      "y": -6690.46,
+      "move_mode": "walk",
+      "action": "",
       "action_params": ""
     },
     {
       "id": 2,
-      "x": -2594.94,
-      "y": -6686.08,
+      "x": -4162.71,
+      "y": -4383.69,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -33,72 +33,55 @@
     },
     {
       "id": 3,
-      "x": -2573.91,
-      "y": -6696.48,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": -2563.02,
-      "y": -6691.17,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": -2555.34,
-      "y": -6644.17,
+      "x": -4146.75,
+      "y": -4374.2,
       "type": "path",
       "move_mode": "fly",
       "action": "stop_flying",
       "action_params": ""
     },
     {
-      "id": 6,
-      "x": -2557.27,
-      "y": -6638.22,
+      "id": 4,
+      "x": -4150.7,
+      "y": -4376.53,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": -4150.7,
+      "y": -4376.53,
       "type": "path",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -4156.67,
+      "y": -4376.74,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
     },
     {
       "id": 7,
-      "x": -2558.85,
-      "y": -6639.65,
-      "type": "target",
+      "x": -4156.67,
+      "y": -4376.74,
+      "type": "path",
       "move_mode": "walk",
-      "action": "mining",
-      "action_params": "",
-      "locked": false
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
     },
     {
       "id": 8,
-      "x": -2558.85,
-      "y": -6639.65,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(1)"
-    },
-    {
-      "id": 9,
-      "x": -2565.23,
-      "y": -6633.62,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 10,
-      "x": -2566.17,
-      "y": -6635.02,
+      "x": -4160.66,
+      "y": -4384.43,
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
@@ -106,13 +89,13 @@
       "locked": false
     },
     {
-      "id": 11,
-      "x": -2566.17,
-      "y": -6635.02,
+      "id": 9,
+      "x": -4160.66,
+      "y": -4384.43,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "action_params": "wait(0.5)"
     }
   ]
 }
