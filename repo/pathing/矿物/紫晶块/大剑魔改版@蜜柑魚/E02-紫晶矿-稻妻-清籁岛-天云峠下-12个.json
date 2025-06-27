@@ -1,0 +1,365 @@
+{
+  "info": {
+    "name": "E02-紫晶矿-稻妻-清籁岛-天云峠下-12个",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "双手剑"
+    ],
+    "last_modified_time": 1751030285677
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4251.859375,
+      "y": -4785.4697265625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4256.431640625,
+      "y": -4801.0830078125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4350.255859375,
+      "y": -4973.515625,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": -4350.255859375,
+      "y": -4973.515625,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(7.5),keypress(VK_SPACE),keypress(VK_LBUTTON)"
+    },
+    {
+      "id": 5,
+      "x": -4347.328125,
+      "y": -4979.4951171875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -4348.552734375,
+      "y": -4979.3994140625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 7,
+      "x": -4331.3046875,
+      "y": -4986.6826171875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -4331.3046875,
+      "y": -4986.681640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 9,
+      "x": -4341.64,
+      "y": -4997.34,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -4336.982421875,
+      "y": -4994.4755859375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": -4336.982421875,
+      "y": -4994.4755859375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    },
+    {
+      "id": 12,
+      "x": -4339.8359375,
+      "y": -5023.4697265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": -4294.18359375,
+      "y": -5069.2919921875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": -4268.958984375,
+      "y": -5084.4306640625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": -4211.583984375,
+      "y": -5092.9775390625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 16,
+      "x": -4168.380859375,
+      "y": -5092.0576171875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 17,
+      "x": -4163.12890625,
+      "y": -5078.748046875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(3)"
+    },
+    {
+      "id": 18,
+      "x": -4168.380859375,
+      "y": -5092.0576171875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "x": -4211.583984375,
+      "y": -5092.9775390625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 20,
+      "x": -4206.90625,
+      "y": -5086.16015625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 21,
+      "x": -4206.77734375,
+      "y": -5087.10546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 22,
+      "x": -4197.80078125,
+      "y": -5087.9443359375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 23,
+      "x": -4200.345703125,
+      "y": -5083.150546875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 24,
+      "x": -4200.345703125,
+      "y": -5083.810546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 25,
+      "x": -4194.810546875,
+      "y": -5095.3486328125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 26,
+      "x": -4194.4296875,
+      "y": -5090.935546875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 27,
+      "x": -4194.4296875,
+      "y": -5090.935546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 28,
+      "x": -4177.755859375,
+      "y": -5094.515625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 29,
+      "x": -4133.921875,
+      "y": -5046.0029296875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 30,
+      "x": -4133.623046875,
+      "y": -5038.8349609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 31,
+      "x": -4131.806640625,
+      "y": -5039.0966796875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 32,
+      "x": -4126.021484375,
+      "y": -5033.9365234375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 33,
+      "x": -4128.9375,
+      "y": -5038.0439453125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 34,
+      "x": -4125.630859375,
+      "y": -5041.302734375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 35,
+      "x": -4128.455078125,
+      "y": -5042.873046875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 36,
+      "x": -4124.51171875,
+      "y": -5047.5859375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 37,
+      "x": -4125.798828125,
+      "y": -5045.4873046875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 38,
+      "x": -4123.12,
+      "y": -5042.63,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    }
+  ]
+}
