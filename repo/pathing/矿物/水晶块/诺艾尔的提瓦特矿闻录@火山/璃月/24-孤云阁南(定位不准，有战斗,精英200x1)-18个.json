@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "24-孤云阁南(定位不准，有战斗)-18个",
+    "name": "24-孤云阁南(定位不准，有战斗,精英200x1)-18个",
     "type": "collect",
     "author": "火山",
     "version": "1.0",
@@ -295,7 +295,18 @@
       "type": "path",
       "move_mode": "dash",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "幼岩龙蜥",
+        "monster_tag": "elite"
+      }
     },
     {
       "id": 33,

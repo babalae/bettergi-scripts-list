@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "02-地下水泽-东-7",
+    "name": "02-地下水泽-东(有战斗,精英200x1,小怪)-7个",
     "type": "collect",
     "author": "火山",
     "version": "1.1",
@@ -103,10 +103,21 @@
       "id": 11,
       "x": 386.9,
       "y": 710.68,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "幼岩龙蜥*1",
+        "monster_tag": "elite"
+      }
     },
     {
       "id": 12,
@@ -160,7 +171,17 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "path","point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "蕈兽",
+        "monster_tag": "normal"
+      }
     },
     {
       "id": 18,

@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "03-天衡山西(有战斗)-5个",
+    "name": "03-天衡山西(有战斗,冰免,精英200x1)-5个",
     "type": "collect",
     "author": "火山",
     "version": "1.1",
@@ -88,7 +88,18 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "火深渊法师",
+        "monster_tag": "elite"
+      }
     },
     {
       "id": 10,

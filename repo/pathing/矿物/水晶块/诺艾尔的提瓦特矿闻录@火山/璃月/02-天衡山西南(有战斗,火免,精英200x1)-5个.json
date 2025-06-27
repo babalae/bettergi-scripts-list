@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "02-天衡山西南(有战斗,高危)-5个",
+    "name": "02-天衡山西南(有战斗,火免,精英200x1)-5个",
     "type": "collect",
     "author": "火山",
     "version": "1.1",
@@ -70,7 +70,18 @@
       "type": "path",
       "move_mode": "jump",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "火深渊法师",
+        "monster_tag": "elite"
+      }
     },
     {
       "id": 8,

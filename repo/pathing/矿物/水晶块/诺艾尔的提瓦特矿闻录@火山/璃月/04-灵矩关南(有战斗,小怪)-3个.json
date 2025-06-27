@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "05-天衡山北(有战斗)-4个",
+    "name": "04-灵矩关南(有战斗,小怪)-3个",
     "type": "collect",
     "author": "火山",
     "version": "1.1",
@@ -11,8 +11,8 @@
   "positions": [
     {
       "id": 1,
-      "x": 611.66,
-      "y": -284.69,
+      "x": 1043.19,
+      "y": -558.04,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -20,8 +20,8 @@
     },
     {
       "id": 2,
-      "x": 659.19,
-      "y": -270.88,
+      "x": 1045.77,
+      "y": -567.9,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -29,17 +29,17 @@
     },
     {
       "id": 3,
-      "x": 702.72,
-      "y": -268.54,
+      "x": 1099.93,
+      "y": -656.1,
       "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "2500",
+      "action_params": "500",
       "type": "path"
     },
     {
       "id": 4,
-      "x": 702.2,
-      "y": -271.42,
+      "x": 1098.82,
+      "y": -647.33,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -47,26 +47,36 @@
     },
     {
       "id": 5,
-      "x": 691.92,
-      "y": -311.41,
+      "x": 1098.73,
+      "y": -660.17,
       "action": "fight",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "type": "path","point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "史莱姆",
+        "monster_tag": "normal"
+      }
     },
     {
       "id": 6,
-      "x": 692.09,
-      "y": -307.72,
+      "x": 1092.86,
+      "y": -652.76,
+      "type": "target",
+      "move_mode": "dash",
       "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 7,
-      "x": 702.8,
-      "y": -310.68,
+      "x": 1092.66,
+      "y": -653.25,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
@@ -74,8 +84,8 @@
     },
     {
       "id": 8,
-      "x": 688.0,
-      "y": -297.84,
+      "x": 1091.5,
+      "y": -655.87,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
@@ -83,8 +93,8 @@
     },
     {
       "id": 9,
-      "x": 693.85,
-      "y": -289.78,
+      "x": 1088.93,
+      "y": -657.17,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
@@ -92,30 +102,21 @@
     },
     {
       "id": 10,
-      "x": 704.88,
-      "y": -279.82,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
-      "type": "target"
-    },
-    {
-      "id": 11,
-      "x": 701.92,
-      "y": -278.43,
+      "x": 1086.72,
+      "y": -663.5,
       "type": "path",
       "move_mode": "walk",
-      "action": "fight",
+      "action": "",
       "action_params": ""
     },
     {
-      "id": 12,
-      "x": 696.37,
-      "y": -267.24,
-      "action": "combat_script",
+      "id": 11,
+      "x": 1090.63,
+      "y": -663.65,
+      "type": "path",
       "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
-      "type": "target"
+      "action": "",
+      "action_params": ""
     }
   ]
 }
