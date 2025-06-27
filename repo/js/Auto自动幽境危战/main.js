@@ -6,7 +6,7 @@
         if (challengeName === undefined || challengeName === ""){throw new Error("挑战Boss未配置，请在JS配置中选择...")}
         let Startforward = settings.Startforward*1000 ? settings.Startforward*1000 : 1000;
         var Fighttimeout = settings.timeout * 1000 ? settings.timeout * 1000 : 240000;//战斗超时时间，默认为240秒
-        const ocrRegion1 = { x: 643, y: 58, width: 800, height: 400 };   // 上方挑战成功区域
+        const ocrRegion1 = { x: 643, y: 58, width: 800, height: 800 };   // 上方挑战成功区域
         const ocrRegion2 = { x: 780, y: 406, width: 370, height: 135 };   // 中间挑战失败区域
         const ocrRo1 = RecognitionObject.ocr(ocrRegion1.x, ocrRegion1.y, ocrRegion1.width, ocrRegion1.height);
         const ocrRo2 = RecognitionObject.ocr(ocrRegion2.x, ocrRegion2.y, ocrRegion2.width, ocrRegion2.height);
@@ -35,6 +35,30 @@
         var advanceNum = 0;//前进次数
         var verticalNum = 0;
 
+        var Artifacts = settings.Artifacts ? settings.Artifacts : "长夜之誓 / 深廊终曲"; 
+
+        //建立一个数值映射所有圣遗物对应需要识别的图片
+        var artifactImageMap = {            
+            "长夜之誓 / 深廊终曲": "assets/Artifacts/artifact_1.bmp",
+            "黑曜秘典 / 烬城勇者绘卷": "assets/Artifacts/artifact_2.bmp",
+            "谐律异想断章 / 未竟的遐思": "assets/Artifacts/artifact_3.bmp",
+            "回声之林夜话 / 昔时之歌": "assets/Artifacts/artifact_4.bmp",
+            "逐影猎人 / 黄金剧团": "assets/Artifacts/artifact_5.bmp",
+            "水仙之梦 / 花海甘露之光": "assets/Artifacts/artifact_6.bmp",
+            "乐园遗落之花 / 沙上楼阁史话": "assets/Artifacts/artifact_7.bmp",
+            "深林的记忆 / 饰金之梦": "assets/Artifacts/artifact_8.bmp",
+            "来歆余响 / 辰砂往生录": "assets/Artifacts/artifact_9.bmp",
+            "华馆梦醒形骸记 / 海染砗磲": "assets/Artifacts/artifact_10.bmp",
+            "绝缘之旗印 / 追忆之注连": "assets/Artifacts/artifact_11.bmp",
+            "昔日宗室之仪 / 染血的骑士道": "assets/Artifacts/artifact_12.bmp",
+            "渡过烈火的贤人 / 炽烈的炎之魔女": "assets/Artifacts/artifact_13.bmp",
+            "悠古的磐岩 / 逆飞的流星": "assets/Artifacts/artifact_14.bmp",
+            "千岩牢固 / 苍白之火": "assets/Artifacts/artifact_15.bmp",
+            "冰风迷途的勇士 / 沉沦之心": "assets/Artifacts/artifact_16.bmp",
+            "翠绿之影 / 被怜爱的少女": "assets/Artifacts/artifact_17.bmp",
+            "如雷的盛怒 / 平息鸣雷的尊者": "assets/Artifacts/artifact_18.bmp"        
+        };
+
     async function Textocr(wenzi="空参数",chaotime=10,clickocr=0,debugcode=0,x=0,y=0,w=1920,h=1080) {
         const startTime = new Date();
         for (let ii = 0; ii < 10; ii++) 
@@ -61,6 +85,27 @@
             if (Math.abs(NowTime - startTime)>chaotime*1000){if (x===0 & y===0){log.info(`${chaotime}秒超时退出，"${wenzi}"未找到`);}return result = {found: false };}else{ii=8;if (x !== 861){await keyPress("VK_W");};}
             await sleep(100);
         }   
+    }
+
+    async function imageRecognition(imagefilePath="空参数",timeout=10,afterBehavior=0,debugmodel=0,xa=0,ya=0,wa=1920,ha=1080) {
+        const startTime = new Date();
+        const Imagidentify = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagefilePath));
+        for (let ii = 0; ii < 10; ii++) {    
+            captureRegion = captureGameRegion();  // 获取一张截图
+            res = captureRegion.DeriveCrop(xa, ya, wa, ha).Find(Imagidentify);
+        if (res.isEmpty()) {
+            if (debugmodel===1 & xa===0 & ya===0){log.info("识别图片中")};
+        } else {
+          if (afterBehavior===1){if (xa===0 & ya===0){log.info("点击模式:开");}await sleep(1000);click(res.x+xa, res.y+ya);}else{if (debugmodel===1 & xa===0 & ya===0){log.info("点击模式:关")}}
+          if (afterBehavior===2){if (xa===0 & ya===0){log.info("F模式:开");}await sleep(1000);keyPress("F");}else{if (debugmodel===1 & xa===0 & ya===0){log.info("F模式:关")}}
+          if (debugmodel===1 & xa===0 & ya===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x+xa, res.y+ya, res.width+wa, res.Height+ha);}else{ log.info("识别到图片");}
+          return result = { x: res.x+xa, y: res.y+ya, w:res.width+wa,h:res.Height+ha,found: true }
+        }
+        const NowTime = new Date();
+        if ((NowTime - startTime)>timeout*1000){if (debugmodel===1 & xa===0 & ya===0){log.info(`${timeout}秒超时退出，未找到图片`);}return result = {found: false };}else{ii=8}
+        await sleep(200); 
+        }
+        await sleep(1200); 
     }
 
     //征讨之花领奖
@@ -193,8 +238,7 @@
             (async () => {
                 try {
                     let startTime = Date.now();
-                    let noTextCount = 0;
-                    const successKeywords = ["挑战完成"];
+                    const successKeywords = ["挑战完成","战斗完成"];
                     const failureKeywords = ["战斗失败"];
 
                     // 循环检测直到超时
@@ -215,7 +259,7 @@
                                 }
                             }
 
-                            // 检查失败关键词--待写
+                            // 检查失败关键词--
                             for (let keyword of failureKeywords) {
                                 if (text2.includes(keyword)) {
                                     log.warn("检测到战斗失败关键词: {0}", keyword);
@@ -238,7 +282,70 @@
                 }
             })();
         });
-    }    
+    } 
+
+
+    
+    // 领取奖励更换
+    async function selectionHolyRelics() { 
+
+        let artifactImagePath = artifactImageMap[Artifacts];
+        // 检查artifactImagePath是否存在
+        if (!artifactImagePath) {
+            throw new Error(`未找到与Artifacts值'${Artifacts}'对应的图片路径`);
+        }
+        let modifiedPath = artifactImagePath.slice(0, -4);
+        let newImagePath = modifiedPath + "in.bmp";
+
+        await sleep(500);
+        await click(116,980) // 领取奖励切换按钮
+        await sleep(100);
+        await click(116,980) // 领取奖励切换按钮
+        await sleep(100);
+        
+        let rewardSettings  = await Textocr("奖励设置",15,0,0,882,34,161,52);//这个时候有人申请进入世界会遮住，真是尴尬啊，不过不影响大局。
+        if (!rewardSettings.found) {await genshin.returnMainUi();return false;}
+        await click(1642,159);
+        await sleep(100);
+        await click(1642,159);
+        await sleep(100);
+        
+        let YOffset = 0; // Y轴偏移量，根据需要调整
+
+         //滚轮预操作
+         await moveMouseTo(1642,159);
+         await sleep(100);
+         await leftButtonDown();
+         await sleep(100);
+         await moveMouseTo(1642,155);
+         
+         const maxRetries = 15; // 最大重试次数
+         let retries = 0; // 当前重试次数
+         while (retries < maxRetries) {
+             let result1 = await imageRecognition(newImagePath, 1, 0, 0,1178,148,87,857);//
+             if (result1.found) {
+                 await leftButtonUp();
+                 await sleep(500);
+                 await click(result.x-200,result.y); 
+                 await sleep(1000);
+                 await  keyPress("VK_ESCAPE");
+                 return true   
+             }
+             retries++; // 重试次数加1
+             //滚轮操作
+             YOffset += 200;
+             if (retries === maxRetries || retries+YOffset > 1920) {
+                await leftButtonUp();
+                await sleep(100); 
+                await  keyPress("VK_ESCAPE");
+                await genshin.returnMainUi(); 
+                return false;}
+             await moveMouseTo(1642,155+YOffset);
+             await sleep(500);              
+        }              
+
+        return true;
+    }
 
     async function claimRewards() {
         log.info(`尝试领取奖励，优先${onerewards}'`);
@@ -318,11 +425,11 @@
     }
    
     var resinAgain = false;
-    log.warn("使用前请在 <<幽境危战>> 中配置好战斗队伍...");
-    log.warn("使用前请在 <<幽境危战>> 中配置指定 <<奖励设置>>...");
     log.warn("根目录下有建议加的黑名单的名称，建议加入自动拾取黑名单...");
     log.warn("请保证队伍战斗实力，目前战斗失败会自动退出秘境...");
-    log.warn("最好关闭自动拾取功能...");    
+    log.warn("使用前请在 <<幽境危战>> 中配置好战斗队伍...");
+    log.warn("最好关闭自动拾取功能...");  
+    log.info(`圣遗物奖励选择：'${Artifacts}'`);  
 
     // for (let j = 0;j < 2;j++) {
 
@@ -331,25 +438,46 @@
         await VeinEntrance();
     
         try{    
-                //进入
+                // 进入-选择难道
                 let intoAction  = await Textocr("单人挑战",10,0,0,1554,970,360, 105);
                 if (!intoAction.found) {await genshin.returnMainUi();throw new Error("未进入挑战页面，停止执行...")}
                 let adjustmentType  = await Textocr("常规挑战", 2, 0, 0,797,144,223,84);
                 if (!adjustmentType.found) {
-                    await click(890,191)
-                    await sleep(1000); 
-                    await click(1096,186);
-                    await sleep(1000); 
-                    await click(1093,399);
-                    await sleep(1000); 
+                    log.warn("未找到常规挑战，尝试切换...")
+                    await sleep(500);
+                    await click(890,191)                    
                 }
-                await sleep(1000);
+                let hardMode  = await Textocr("困难", 2, 0, 0,1049,157,72,47);
+                if (!hardMode.found) {
+                    log.warn("未找到困难模式，尝试切换...")
+                    await sleep(500); 
+                    await click(1096,186);
+                    await sleep(500); 
+                    await click(1093,399);                  
+                }
+
+                //圣遗物奖励选择
+                
+                if (Artifacts != "保持圣遗物奖励不变"){                   
+                    let artifact = await imageRecognition(artifactImageMap[Artifacts],0.2,0,0,186,972,71,71);
+                    if (!artifact.found) {
+                        log.warn("圣遗物奖励和设定不一致，尝试切换...")
+                        if (!await selectionHolyRelics()) {throw new Error("圣遗物奖励设置错误，停止执行...")}
+                    }
+                    else
+                    {                        
+                        log.warn("圣遗物奖励一致，无需切换...")
+                    }                    
+                }
+
+                //多点击一次，保证进入挑战页面
+                await sleep(500);
                 await click(intoAction.x,intoAction.y)
                 await sleep(1000);
                 await click(intoAction.x,intoAction.y)
 
                 //进入秘境
-                let enter  = await Textocr("Enter",5,0,0,18,990,156,80);
+                let enter  = await Textocr("Enter",10,0,0,18,990,156,71,71);
                 if (!enter.found) {await genshin.returnMainUi();throw new Error("未进入秘境，停止执行...")}//退出待写
 
                 //向前走进入挑战
@@ -371,8 +499,12 @@
                         await click(227,713);
                         break;
                     default:
-                        throw new Error("未知的挑战怪兽类型");
+                        throw new Error("未知的挑战Boss类型");
                 }
+
+                //选择队员-苏婷老师-待写
+                // log.warn("队伍选择功能等伟大的苏苏老师考完试做...")
+
                 await Textocr("开始挑战",1,1,0,1554,970,360, 105);               
 
                 var resinexhaustion = false; // 条件1：树脂耗尽
@@ -473,6 +605,7 @@
         catch (error) {
             log.error(`执行过程中发生错误：${error.message}`);
         }finally{ 
+            await genshin.returnMainUi(); 
             log.info(`Auto自动幽境危战结束...`);
         }
     // }
