@@ -25,7 +25,7 @@
           if (afterBehavior===1){if (xa===0 & ya===0){log.info("点击模式:开");}await sleep(1000);click(res.x+xa, res.y+ya);}else{if (debugmodel===1 & xa===0 & ya===0){log.info("点击模式:关")}}
           if (afterBehavior===2){if (xa===0 & ya===0){log.info("F模式:开");}await sleep(1000);keyPress("F");}else{if (debugmodel===1 & xa===0 & ya===0){log.info("F模式:关")}}
           if (debugmodel===1 & xa===0 & ya===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);}else{ log.info("识别到图片");}
-          return result = { x: res.x, y: res.y, w:res.width,h:res.Height,found: true }
+          return result = { x: res.x+xa, y: res.y+ya, w:res.width,h:res.Height,found: true }
         }
         const NowTime = new Date();
         if ((NowTime - startTime)>timeout*1000){if (debugmodel===1 & xa===0 & ya===0){log.info(`${timeout}秒超时退出，未找到图片`);}return result = {found: false };}else{ii=8}
@@ -56,6 +56,10 @@
                     if (clickocr===2){await sleep(100);keyPress("F");}else{log.info("F模式:关");}
                      return result = { text: res.text, x: res.x, y: res.y, found: true }
                  }
+                 if (debugcode===2 && !res.isEmpty()){
+                    // log.info("({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);
+                    return result = { text: res.text, x: res.x, y: res.y, found: true }
+                }
             }
             const NowTime = new Date();
             if (Math.abs(NowTime - startTime)>chaotime*1000){if (x===0 & y===0){log.info(`${chaotime}秒超时退出，"${wenzi}"未找到`);}return result = {found: false };}else{ii=8;if (x !== 861){await keyPress("VK_W");}log.info(`"${wenzi}"识别中……`);}
@@ -121,6 +125,9 @@
     if  (color == 2){ var DIMAIHUA = "assets/model/DIMAIHUA-huank.bmp";}
     else if (color == 1){var DIMAIHUA = "assets/model/DIMAIHUA-lank.bmp";}
     else{var DIMAIHUA = "assets/model/DIMAIHUA-lank.bmp";}
+    var condensedResin = "assets/model/condensed_resin_count.png";
+    var originalResin = "assets/model/original_resin_count.png";
+    var fragileResin = "assets/model/fragile_resin_count.png";
 
     log.debug(`DEBUG:${SHUV}.${color}.${rawTimes}`);//调试LOG
     if (Rewards){log.warn("结束后领励练点和提交每日！");if(settings.nh === undefined || settings.nh === "") {log.warn("好感队未配置，领奖励时不切换队伍")}}
@@ -466,7 +473,8 @@
                 dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
                 }
         }
-
+        
+        await Textocr("地脉之花", 1, 1, 0, 861,265, 194, 265);
         await sleep(500);
 
         for (let j = 0;j < 2;j++) {
@@ -479,9 +487,36 @@
                       let BUC =  await Textocr("补充",0.5,0,0,1150,440,210,130);
                         if (BUC.found) {continue;}                                           
                     }
+
+                    let { condensedResinCount, originalResinCount, fragileResinCount } = await getRemainResinStatus(); 
+
+                    let shouldExit = true;
+
+                    if (resinTypes.includes("1"))
+                    {
+                        shouldExit &= (parseInt(condensedResinCount, 10) <= 1);
+                    }
+                    if (resinTypes.includes("2"))
+                    {
+                        shouldExit &= (parseInt(originalResinCount, 10) < 40);
+                    }
+                    if (resinTypes.includes("3"))
+                    {
+                        shouldExit &= (parseInt(fragileResinCount, 10)  <= 1);
+                    }
+
                     await click(SHU.x+550,SHU.y)
                     log.info(` ${resinTypeMap[rewards[i]]} 获取奖励...`);
-                    dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: true }));
+                    dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: true }));    
+                    
+                    if (shouldExit) 
+                    {
+                        log.warn("树脂耗尽，停止执行...");
+                        await sleep(1000);          
+                        SHUOVER=2;  
+                        return false;     
+                    } 
+
                     return true;
                 }            
             }
@@ -493,6 +528,77 @@
         await sleep(1000);
         SHUOVER=2;
         return false;           
+    }
+
+    async function getRemainResinStatus() {
+        var condensedResinCount = 0; // 浓缩树脂
+        var originalResinCount = 0; // 原粹树脂
+        var fragileResinCount = 0; // 脆弱树脂  
+
+        // 浓缩树脂
+        var condensedResinCountRa = await imageRecognition(condensedResin,0, 0, 0,1190,0,400,80);
+        if (condensedResinCountRa.found) {  
+            //  await moveMouseTo(condensedResinCountRa.x,condensedResinCountRa.y);    
+            let countArea = await Textocr("",1, 0, 2,condensedResinCountRa.x+condensedResinCountRa.w,condensedResinCountRa.y,condensedResinCountRa.w*2-5,condensedResinCountRa.h-5);//
+            if (countArea.found){
+                // log.info("浓缩树脂识别数量结果： "+ countArea.text);
+                condensedResinCount = countArea.text
+            }
+            else
+            {
+                log.info("浓缩树脂识别数量结果：无");
+            }
+
+        } else {
+            log.info("未检测到浓缩树脂图标");        
+        }
+
+        var originalResinCountRa = await imageRecognition(originalResin,0, 0, 0,1555,0,75,80);
+        if (originalResinCountRa.found) {  
+            // await moveMouseTo(originalResinCountRa.x,originalResinCountRa.y);   
+            let countArea = await Textocr("",1, 1, 2,originalResinCountRa.x+originalResinCountRa.w,originalResinCountRa.y,originalResinCountRa.w*3,originalResinCountRa.h);//
+            if (countArea.found){
+                log.info("原粹树脂识别数量结果："+ countArea.text);
+                let match = countArea.text.match(/(\d+)\s*[/1]\s*(2|20|200)/);
+                if (match) {
+                    originalResinCount = match[1];
+                    // log.info("脆弱树脂识别数量提取："+ originalResinCount);
+                }
+                else
+                {
+                    log.info("原粹树脂识别数量提取失败");
+                }                
+            }
+            else
+            {
+                log.info("原粹树脂识别数量结果：：无");
+            }
+
+        } else {
+            log.info("未检测到原粹树脂图标");
+        }
+
+
+        var fragileResinCountRa = await imageRecognition(fragileResin,0, 0, 1,1190,0,400,80);
+        if (fragileResinCountRa.found) {  
+        //    await moveMouseTo(fragileResinCountRa.x,fragileResinCountRa.y);   
+            let countArea = await Textocr("",1, 1, 2,fragileResinCountRa.x+fragileResinCountRa.w,fragileResinCountRa.y,fragileResinCountRa.w*2,fragileResinCountRa.h);//
+            if (countArea.found){
+                // log.info("脆弱树脂识别数量结果："+ countArea.text);
+                fragileResinCount = countArea.text
+            }
+            else
+            {
+                log.info("脆弱树脂识别数量结果：：无");
+                
+            }
+
+        } else {
+            log.info("未检测到脆弱树脂图标");
+        }
+
+        log.info("树脂状态：浓缩{0} 原粹{1} 脆弱{2} ", condensedResinCount, originalResinCount, fragileResinCount)
+        return {condensedResinCount,originalResinCount,fragileResinCount}
     }
 
     async function isOnRewardPage() {
@@ -672,9 +778,9 @@
                 else
                 {                     
                     let pathDic = JSON.parse(file.readTextSync(choicePath));
-                    if (pathDic["positions"].length > 3) 
+                    if (pathDic["positions"].length > 1) 
                     {
-                        pathDic["positions"] = pathDic["positions"].slice(-3);
+                        pathDic["positions"] = pathDic["positions"].slice(-1);
                     }
                     await pathingScript.run(JSON.stringify(pathDic));
                 }
@@ -743,7 +849,7 @@
             doneCount++;          
         }
         return true;// 线路完成
-    }    
+    }   
 
     // UID获取存在概率不成功，慎用！请更换背景纯色的名片提高OCR成功率
     let uidNumbers = nowuidString.match(/\d+/g);
