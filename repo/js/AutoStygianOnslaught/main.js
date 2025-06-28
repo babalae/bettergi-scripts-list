@@ -61,6 +61,8 @@
             "如雷的盛怒 / 平息鸣雷的尊者": "assets/Artifacts/artifact_18.bmp"        
         };
 
+
+
     async function Textocr(wenzi="空参数",chaotime=10,clickocr=0,debugcode=0,x=0,y=0,w=1920,h=1080) {
         const startTime = new Date();
         for (let ii = 0; ii < 10; ii++) 
@@ -82,6 +84,10 @@
                     if (clickocr===2){await sleep(100);keyPress("F");}else{}
                     return result = { text: res.text, x: res.x, y: res.y, found: true }
                 }
+                if (debugcode===2 && !res.isEmpty()){
+                    // log.info("({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);
+                    return result = { text: res.text, x: res.x, y: res.y, found: true }
+                }
             }
             const NowTime = new Date();
             if (Math.abs(NowTime - startTime)>chaotime*1000){if (x===0 & y===0){log.info(`${chaotime}秒超时退出，"${wenzi}"未找到`);}return result = {found: false };}else{ii=8;if (x !== 861){if(debugcode!==3){await keyPress("VK_W");}};}
@@ -100,8 +106,9 @@
         } else {
           if (afterBehavior===1){if (xa===0 & ya===0){log.info("点击模式:开");}await sleep(1000);click(res.x+xa, res.y+ya);}else{if (debugmodel===1 & xa===0 & ya===0){log.info("点击模式:关")}}
           if (afterBehavior===2){if (xa===0 & ya===0){log.info("F模式:开");}await sleep(1000);keyPress("F");}else{if (debugmodel===1 & xa===0 & ya===0){log.info("F模式:关")}}
-          if (debugmodel===1 & xa===0 & ya===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x+xa, res.y+ya, res.width+wa, res.Height+ha);}else{ log.info("识别到页面元素");}
-          return result = { x: res.x+xa, y: res.y+ya, w:res.width+wa,h:res.Height+ha,found: true }
+          if (debugmodel===1 & xa===0 & ya===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x+xa, res.y+ya, res.width, res.Height);}else{ log.info("识别到页面元素");}
+          
+          return result = { x: res.x+xa, y: res.y+ya, w:res.width,h:res.Height,found: true }
         }
         const NowTime = new Date();
         if ((NowTime - startTime)>timeout*1000){if (debugmodel===1 & xa===0 & ya===0){log.info(`${timeout}秒超时退出，未找到图片`);}return result = {found: false };}else{ii=8}
@@ -109,6 +116,83 @@
         }
         await sleep(1200); 
     }
+
+    var condensedResin = "assets/condensed_resin_count.png";
+    var originalResin = "assets/original_resin_count.png";
+    var fragileResin = "assets/fragile_resin_count.png";
+
+    async function getRemainResinStatus() {
+        var condensedResinCount = 0; // 浓缩树脂
+        var originalResinCount = 0; // 原粹树脂
+        var fragileResinCount = 0; // 脆弱树脂  
+
+        // 浓缩树脂
+        var condensedResinCountRa = await imageRecognition(condensedResin,0, 0, 0,960,0,800,100);
+        if (condensedResinCountRa.found) {  
+            // await moveMouseTo(condensedResinCountRa.x,condensedResinCountRa.y);   
+            let countArea = await Textocr("",0.5, 1, 2,condensedResinCountRa.x+condensedResinCountRa.w,condensedResinCountRa.y,condensedResinCountRa.w,condensedResinCountRa.h);//
+            if (countArea.found){
+                // log.info("浓缩树脂识别数量结果： "+ countArea.text);
+                condensedResinCount = countArea.text
+            }
+            else
+            {
+                condensedResinCount = "1";
+                log.info("浓缩树脂识别数量结果：1");//1无法识别，0是不显示图标的，所以就当时1了，反正也没啥影响
+            }
+
+        } else {
+            log.info("未检测到浓缩树脂图标");
+        }
+
+        var originalResinCountRa = await imageRecognition(originalResin,0, 0, 0,1500,0,200,90);
+        if (originalResinCountRa.found) {  
+            // await moveMouseTo(originalResinCountRa.x,originalResinCountRa.y);   
+            let countArea = await Textocr("",1, 1, 2,originalResinCountRa.x+originalResinCountRa.w,originalResinCountRa.y,originalResinCountRa.w*3,originalResinCountRa.h);//
+            if (countArea.found){
+                log.info("原粹树脂识别数量结果："+ countArea.text);
+                let match = countArea.text.match(/(\d+)\s*[/1]\s*(2|20|200)/);
+                if (match) {
+                    originalResinCount = match[1];
+                    // log.info("脆弱树脂识别数量提取："+ originalResinCount);
+                }
+                else
+                {
+                    log.info("原粹树脂识别数量提取失败");
+                }                
+            }
+            else
+            {
+                log.info("原粹树脂识别数量结果：：无");
+            }
+
+        } else {
+            log.info("未检测到原粹树脂图标");
+        }
+
+
+        var fragileResinCountRa = await imageRecognition(fragileResin,0, 0, 1,1170,0,350,100);
+        if (fragileResinCountRa.found) {  
+           // await moveMouseTo(fragileResinCountRa.x,fragileResinCountRa.y);   
+            let countArea = await Textocr("",1, 1, 2,fragileResinCountRa.x+fragileResinCountRa.w,fragileResinCountRa.y,fragileResinCountRa.w*2,fragileResinCountRa.h);//
+            if (countArea.found){
+                // log.info("脆弱树脂识别数量结果："+ countArea.text);
+                fragileResinCount = countArea.text
+            }
+            else
+            {
+                log.info("脆弱树脂识别数量结果：：无");
+                
+            }
+
+        } else {
+            log.info("未检测到脆弱树脂图标");
+        }
+
+        log.info("树脂状态：浓缩{0} 原粹{1} 脆弱{2} ", condensedResinCount, originalResinCount, fragileResinCount)
+        return {condensedResinCount,originalResinCount,fragileResinCount}
+    }
+    
 
     //征讨之花领奖
     const autoNavigateToReward = async () => {
@@ -313,30 +397,31 @@
          await sleep(100);
          await moveMouseTo(1642,155);
          
-         const maxRetries = 15; // 最大重试次数
+         const maxRetries = 9; // 最大重试次数
          let retries = 0; // 当前重试次数
          while (retries < maxRetries) {
-             let result1 = await imageRecognition(newImagePath, 1, 0, 0,1178,148,87,857);//
+             let result1 = await imageRecognition(newImagePath,1, 0, 0,1166,141,210,857);//
              if (result1.found) {
                  await leftButtonUp();
                  await sleep(500);
-                 await click(result.x-200,result.y); 
+                 await click(result.x-500,result.y); 
                  await sleep(1000);
                  await  keyPress("VK_ESCAPE");
                  return true   
              }
              retries++; // 重试次数加1
              //滚轮操作
-             YOffset += 200;
-             if (retries === maxRetries || retries+YOffset > 1920) {
+             YOffset += 100;
+             if (retries === maxRetries || retries+YOffset > 1080) {
                 await leftButtonUp();
                 await sleep(100); 
                 await  keyPress("VK_ESCAPE");
                 await genshin.returnMainUi(); 
-                return false;}
+                return false;
+            }
              await moveMouseTo(1642,155+YOffset);
              await sleep(500);              
-        }              
+         }              
 
         return true;
     }
@@ -344,7 +429,7 @@
     async function claimRewards() {
         log.info(`尝试领取奖励，优先${onerewards}'`);
         let SHUN01 = await Textocr("激活地脉之花",0.6,2,0,1188,358,200,400);
-        let SHUN02 = await Textocr("地脉之花", 0.2, 0, 0, 861,265, 194, 265);
+        let SHUN02 = await Textocr("地脉之花", 0.2, 1, 0, 861,265, 194, 265);
         if (SHUN01.found || SHUN02.found) {
             log.info("找到地脉之花，开始领取奖励...");
         }
@@ -355,7 +440,7 @@
             await keyPress("F");      
         }
 
-        await sleep(300);
+        await sleep(300);        
 
         for (let j = 0;j < 2;j++) {
 
@@ -373,17 +458,40 @@
                     await click(SHU.x+550,SHU.y)
                     await sleep(300);
                     log.info(` ${resinTypeMap[rewards[i]]} 获取奖励...`);
-                    // dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: true }));
-                    dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
+                    
+                    await Textocr("锁定辅助",10,0,0,1768,0,115,90);
+                    let { condensedResinCount, originalResinCount, fragileResinCount } = await getRemainResinStatus();                        
+                    let shouldExit = true;
+                
+                    if (resinTypes.includes("1"))
+                    {
+                        shouldExit &= (parseInt(condensedResinCount, 10) == 0);
+                    }
+                    if (resinTypes.includes("2"))
+                    {
+                        shouldExit &= (parseInt(originalResinCount, 10) < 20);
+                    }
+                    if (resinTypes.includes("3"))
+                    {
+                        shouldExit &= (parseInt(fragileResinCount, 10)  == 0);
+                    }                
+                    if (shouldExit) 
+                    {
+                        log.warn("树脂耗尽，停止执行...");
+                        await sleep(1000);        
+                        await keyPress("VK_ESCAPE"); 
+                        await sleep(1000);      
+                        return false;     
+                    }               
+                    log.warn("还有树脂...");          
                     return true;
-                }            
+                }        
             }
             await sleep(500);  
         }
         log.warn("未找到树脂，结束领取奖励...");
-        dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
         await sleep(1000);        
-        await keyPress("VK_ESCAPE");  //退出待写
+        await keyPress("VK_ESCAPE"); 
         await sleep(1000);      
         return false;           
     }
@@ -393,38 +501,33 @@
             let JIECHU = await Textocr("F",2,2,0,1098,519,35,32);
             if (JIECHU.found)
             {
-                await keyPress("F");await dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));await keyPress("F");
-                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
+                await keyPress("F");
+                await keyPress("F");
                 break;
             }
-            else{
-                if(i == 1)
-                {
+            else
+            {
+                if(i == 1){
                 log.warn("没找入口，尝试强制转圈寻找...");  
-                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
-                await keyDown("W");await sleep(500);await keyUp("W"); 
-                await keyDown("D");await sleep(500);await keyUp("D");
-                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
-                await keyDown("S");await sleep(500);await keyUp("S");
-                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
-                await keyDown("A");await sleep(500);await keyUp("A");
-                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
-                await keyDown("W");await sleep(500);await keyUp("W");
-                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
+                await keyDown("W");keyPress("F");await sleep(500);keyPress("F");await keyUp("W"); 
+                await keyDown("D");keyPress("F");await sleep(500);keyPress("F");await keyUp("D");
+                await keyDown("S");keyPress("F");await sleep(500);keyPress("F");await keyUp("S");
+                await keyDown("A");keyPress("F");await sleep(500);keyPress("F");await keyUp("A");
+                await keyDown("W");keyPress("F");await sleep(500);keyPress("F");await keyUp("W");
                 break;
-            }
+                }
             }
         }
-        dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
     }
    
     var resinAgain = false;
-    log.warn("根目录下有建议加的黑名单的名称，建议加入自动拾取黑名单...");
+    log.warn("自动幽境危战版本：v1.4");
+    log.warn("根目录下有建议加的黑名单的名称，建议加入自动 <<拾取黑名单>> ...");
     log.warn("请保证队伍战斗实力，战斗失败或执行错误，会重试一次...");
     log.warn("使用前请在 <<幽境危战>> 中配置好战斗队伍...");
     log.warn("最好关闭自动拾取功能...");  
     log.info(`圣遗物奖励选择：'${Artifacts}'`);  
-
+    
     //重试两次
     for (let j = 0;j < 2;j++) {  
 
@@ -438,19 +541,25 @@
                 // 进入-选择难道
                 let intoAction  = await Textocr("单人挑战",10,0,0,1554,970,360, 105);
                 if (!intoAction.found) {await genshin.returnMainUi();throw new Error("未进入挑战页面，停止执行...")}
-                let adjustmentType  = await Textocr("常规挑战", 2, 0, 0,797,144,223,84);
-                if (!adjustmentType.found) {
-                    log.warn("未找到常规挑战，尝试切换...")
+                let adjustmentType  = await Textocr("至危挑战", 1, 0, 0,797,144,223,84);
+                if (adjustmentType.found) {
+                    log.warn("找到至危挑战，尝试切换...")
                     await sleep(500);
-                    await click(890,191)                    
+                    await click(890,191) 
+                    await sleep(500);                    
                 }
-                let hardMode  = await Textocr("困难", 2, 0, 0,1049,157,72,47);
-                if (!hardMode.found) {
+                let hardMode  = await Textocr("困难", 0.3, 0, 0,1049,157,72,47);
+                let hardMode2  = await Textocr("困难", 0.2, 0, 0,805,156,83,47);
+                if (hardMode.found || hardMode2.found) {
+                    log.warn("确认困难模式...")
+                }
+                else
+                {
                     log.warn("未找到困难模式，尝试切换...")
                     await sleep(500); 
                     await click(1096,186);
                     await sleep(500); 
-                    await click(1093,399);                  
+                    await click(1093,399);  
                 }
 
                 //圣遗物奖励选择                
@@ -511,7 +620,7 @@
                     let battleBegins  = await Textocr("战斗开始",20,0,0,877,235,164,50);     
                     if (!battleBegins.found){await genshin.returnMainUi();throw new Error("未进入战斗环境，停止执行...")}//退出待写
                     
-                    log.info(`进入战斗环境，开始第${i+1}次战斗`);
+                    log.info(`进入战斗环境，开始第 ${i+1} 次战斗`);
 
                     await keyDown("w");
                     await sleep(Startforward);
@@ -546,7 +655,7 @@
                             await sleep(1000);
                         }  
 
-                        log.info(`第${i+1}次领奖`);
+                        log.info(`第 ${i+1} 次领奖`);
 
                         if(!(await autoNavigateToReward())){verticalNum++;continue;}
                     
@@ -559,8 +668,19 @@
                         else
                         {
                             if (challengeNum != i+1) 
-                            {
-                                let challengeAgian  = await Textocr("再次挑战",10,1,0,1094,958,200,70);
+                            {   
+                                let challengeAgian  = await Textocr("再次挑战",10,0,0,1094,958,200,70);
+                                if (!challengeAgian.found){await genshin.returnMainUi();throw new Error("未找到·再次挑战·按键，停止执行...")}//退出待写
+                                for (let retry = 0; retry < 5 && challengeAgian.found; retry++) 
+                                {
+                                    challengeAgian  = await Textocr("再次挑战",0.2,0,0,1094,958,200,70);
+                                    if (challengeAgian.found){                                    
+                                    await sleep(500);  
+                                    await click(challengeAgian.x, challengeAgian.y);
+                                    await sleep(1000);  
+                                    } 
+                                    await sleep(200);                                                                                          
+                                }                                
                             }
                         }
                     }
@@ -568,7 +688,7 @@
                     //是否继续
                     if (challengeNum == i+1 || resinexhaustion == true){
                         log.info (`完成 ${i+1} 次战斗或树脂耗尽，退出挑战...`);
-                        dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false }));
+                        await sleep(1000); 
                         await keyPress("VK_ESCAPE"); 
                         await sleep(1000); 
 
@@ -592,6 +712,7 @@
                         if (resinAgain == true){throw new Error("执行错误，重试一次...")}        
                         return true;
                     }
+
                     await sleep(500);   
                 }      
             }
