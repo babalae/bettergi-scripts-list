@@ -8,8 +8,10 @@
         var Fighttimeout = settings.timeout * 1000 ? settings.timeout * 1000 : 240000;//战斗超时时间，默认为240秒
         const ocrRegion1 = { x: 643, y: 58, width: 800, height: 800 };   // 上方挑战成功区域
         const ocrRegion2 = { x: 780, y: 406, width: 370, height: 135 };   // 中间挑战失败区域
+        // const ocrRegion3 = { x: 1782, y: 1023, width: 64, height: 29 };   // 右下角space区域
         const ocrRo1 = RecognitionObject.ocr(ocrRegion1.x, ocrRegion1.y, ocrRegion1.width, ocrRegion1.height);
         const ocrRo2 = RecognitionObject.ocr(ocrRegion2.x, ocrRegion2.y, ocrRegion2.width, ocrRegion2.height);
+        // const ocrRo3 = RecognitionObject.ocr(ocrRegion3.x, ocrRegion3.y, ocrRegion3.width, ocrRegion3.height);
         var Rewardsuse = settings.Rewardsuse ? settings.Rewardsuse : "1/2";
         var resinTypes = Rewardsuse.split("/");
         var rewards = [];
@@ -35,7 +37,7 @@
         var advanceNum = 0;//前进次数
         var verticalNum = 0;
 
-        var Artifacts = settings.Artifacts ? settings.Artifacts : "长夜之誓 / 深廊终曲"; 
+        var Artifacts = settings.Artifacts ? settings.Artifacts : "保持圣遗物奖励不变"; 
 
         //建立一个数值映射所有圣遗物对应需要识别的图片
         var artifactImageMap = {            
@@ -94,11 +96,11 @@
             captureRegion = captureGameRegion();  // 获取一张截图
             res = captureRegion.DeriveCrop(xa, ya, wa, ha).Find(Imagidentify);
         if (res.isEmpty()) {
-            if (debugmodel===1 & xa===0 & ya===0){log.info("识别页面元素")};
+            if (debugmodel===1 & xa===0 & ya===0){log.info("未识别页面元素")};
         } else {
           if (afterBehavior===1){if (xa===0 & ya===0){log.info("点击模式:开");}await sleep(1000);click(res.x+xa, res.y+ya);}else{if (debugmodel===1 & xa===0 & ya===0){log.info("点击模式:关")}}
           if (afterBehavior===2){if (xa===0 & ya===0){log.info("F模式:开");}await sleep(1000);keyPress("F");}else{if (debugmodel===1 & xa===0 & ya===0){log.info("F模式:关")}}
-          if (debugmodel===1 & xa===0 & ya===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x+xa, res.y+ya, res.width+wa, res.Height+ha);}else{ log.info("识别到图片");}
+          if (debugmodel===1 & xa===0 & ya===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x+xa, res.y+ya, res.width+wa, res.Height+ha);}else{ log.info("识别到页面元素");}
           return result = { x: res.x+xa, y: res.y+ya, w:res.width+wa,h:res.Height+ha,found: true }
         }
         const NowTime = new Date();
@@ -233,7 +235,7 @@
                 try {
                     let startTime = Date.now();
                     const successKeywords = ["挑战完成","战斗完成"];
-                    const failureKeywords = ["战斗失败"];
+                    const failureKeywords = ["战斗失败","挑战失败"];
 
                     // 循环检测直到超时
                     while (Date.now() - startTime < timeout) {
@@ -251,7 +253,7 @@
                                     resolve(true);
                                     return;
                                 }
-                            }
+                            }                          
 
                             // 检查失败关键词--
                             for (let keyword of failureKeywords) {
@@ -277,8 +279,6 @@
             })();
         });
     } 
-
-
     
     // 领取奖励更换
     async function selectionHolyRelics() { 
@@ -373,14 +373,14 @@
                     await click(SHU.x+550,SHU.y)
                     await sleep(300);
                     log.info(` ${resinTypeMap[rewards[i]]} 获取奖励...`);
-                    dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: true }));
+                    // dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: true }));
                     dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
                     return true;
                 }            
             }
             await sleep(500);  
         }
-        log.warn("未找到树脂，结束地脉花...");
+        log.warn("未找到树脂，结束领取奖励...");
         dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
         await sleep(1000);        
         await keyPress("VK_ESCAPE");  //退出待写
@@ -420,18 +420,21 @@
    
     var resinAgain = false;
     log.warn("根目录下有建议加的黑名单的名称，建议加入自动拾取黑名单...");
-    log.warn("请保证队伍战斗实力，目前战斗失败会自动退出秘境...");
+    log.warn("请保证队伍战斗实力，战斗失败或执行错误，会重试一次...");
     log.warn("使用前请在 <<幽境危战>> 中配置好战斗队伍...");
     log.warn("最好关闭自动拾取功能...");  
     log.info(`圣遗物奖励选择：'${Artifacts}'`);  
 
-    // for (let j = 0;j < 2;j++) {
+    //重试两次
+    for (let j = 0;j < 2;j++) {  
 
-        await genshin.returnMainUi(); 
-        await pathingScript.runFile(`assets/全自动幽境危战.json`);
-        await VeinEntrance();
-    
+        resinAgain = false; //重试标志
+
         try{    
+                await genshin.returnMainUi(); 
+                await pathingScript.runFile(`assets/全自动幽境危战.json`);
+                await VeinEntrance();
+
                 // 进入-选择难道
                 let intoAction  = await Textocr("单人挑战",10,0,0,1554,970,360, 105);
                 if (!intoAction.found) {await genshin.returnMainUi();throw new Error("未进入挑战页面，停止执行...")}
@@ -450,13 +453,12 @@
                     await click(1093,399);                  
                 }
 
-                //圣遗物奖励选择
-                
+                //圣遗物奖励选择                
                 if (Artifacts != "保持圣遗物奖励不变"){                   
                     let artifact = await imageRecognition(artifactImageMap[Artifacts],0.2,0,0,186,972,71,71);
                     if (!artifact.found) {
                         log.warn("圣遗物奖励和设定不一致，尝试切换...")
-                        if (!await selectionHolyRelics()) {throw new Error("圣遗物奖励设置错误，停止执行...")}
+                        if (!await selectionHolyRelics()){throw new Error("圣遗物奖励设置错误，停止执行...")}
                     }
                     else
                     {                        
@@ -522,48 +524,47 @@
                             await keyPress("VK_ESCAPE"); 
                             await sleep(1000);
                              await keyPress("VK_ESCAPE"); 
-                            await sleep(1000);
-                            resinAgain = true;//待开发重试
+                            await sleep(1000);                           
                             let exitChallenge = await Textocr("退出挑战",2,1,0,866,719,274,86);
-                            return false;
+                            await sleep(1000); 
+                            throw new Error("战斗失败，停止执行...");
                         }   
                     } catch (error) {
-                        log.info(`挑战失败，再来一次`);
-                        if(!await autoFight(Fighttimeout)){
-                            log.warn("战斗超时失败,尝试寻找地脉花入口");
-                        }  
+                        resinAgain = true;
+                        if (j==0)log.info(`挑战失败，再来一次...`);
                     }    
 
-                    // if (resinAgain == true) 
-
-                    await sleep(1000);
-                    await keyPress("VK_ESCAPE"); 
-                    await sleep(1000);
-
-                    while((await Textocr("Enter",5,0,0,18,990,156,80).found) == false)
-                    {
+                    if (resinAgain != true) {   
+                        
+                        await sleep(1000);
                         await keyPress("VK_ESCAPE"); 
                         await sleep(1000);
-                    }  
 
-                    log.info(`第${i+1}次领奖`);
-
-                    if(!(await autoNavigateToReward())){verticalNum++;continue;}
-                
-                    await sleep(1000);
-                
-                    if (!(await claimRewards())) {
-                        log.warn("树脂消耗完毕，结束任务");        
-                        resinexhaustion = true;
-                    }
-                    else
-                    {
-                        if (challengeNum != i+1) 
+                        while((await Textocr("Enter",5,0,0,18,990,156,80).found) == false)
                         {
-                            let challengeAgian  = await Textocr("再次挑战",10,1,0,1094,958,200,70);
+                            await keyPress("VK_ESCAPE"); 
+                            await sleep(1000);
+                        }  
+
+                        log.info(`第${i+1}次领奖`);
+
+                        if(!(await autoNavigateToReward())){verticalNum++;continue;}
+                    
+                        await sleep(1000);
+                    
+                        if (!(await claimRewards())) {
+                            log.warn("树脂消耗完毕，结束任务");        
+                            resinexhaustion = true;
+                        }
+                        else
+                        {
+                            if (challengeNum != i+1) 
+                            {
+                                let challengeAgian  = await Textocr("再次挑战",10,1,0,1094,958,200,70);
+                            }
                         }
                     }
-                    
+
                     //是否继续
                     if (challengeNum == i+1 || resinexhaustion == true){
                         log.info (`完成 ${i+1} 次战斗或树脂耗尽，退出挑战...`);
@@ -572,36 +573,37 @@
                         await sleep(1000); 
 
                         var exitTimeout = 0;
-                        while(exitTimeout < 20)
-                        {
+                        while(exitTimeout < 20) {
                         let exitChallenge = await Textocr("退出挑战",0.3,0,0,866,719,274,86);
                         if (exitChallenge.found) {
-                            await sleep(600);  
+                            await sleep(1500);  
                             await click(exitChallenge.x, exitChallenge.y);
                             await sleep(500);  
                             break;
                             } 
                             let exitChallenge2 = await Textocr("退出挑战",0.3,1,0,866,719,274,86);               
                             log.info("尝试退出挑战...");
-                            await sleep(1000);  
+                            await sleep(1500);  
                             await keyPress("VK_ESCAPE"); 
                             await sleep(1000);  
                             exitTimeout++; 
                         }                        
-                        await genshin.returnMainUi();            
-                        return false;
+                        await genshin.returnMainUi(); 
+                        if (resinAgain == true){throw new Error("执行错误，重试一次...")}        
+                        return true;
                     }
-
                     await sleep(500);   
-                }    
-            
-        }
-        catch (error) {
+                }      
+            }
+        catch (error) {            
             log.error(`执行过程中发生错误：${error.message}`);
-        }finally{ 
+            resinAgain = true;
             await genshin.returnMainUi(); 
-            log.info(`Auto自动幽境危战结束...`);
+            continue;
+        }finally{ 
+            await genshin.returnMainUi();
+            if (resinAgain == false) log.info(`Auto自动幽境危战结束...`);
         }
-    // }
+    }
 
 })();
