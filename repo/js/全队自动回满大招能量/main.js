@@ -40,7 +40,7 @@ const autoNavigateToReward = async () => {
             await sleep(100);
             return;
         }
-        else if(advanceNum > 30){
+        else if(advanceNum > 15){
         throw new Error('前进时间超时');
         }
                 // 前进一小步
@@ -48,6 +48,7 @@ const autoNavigateToReward = async () => {
         await sleep(400);
         keyUp("w");
         await sleep(200); // 等待角色移动稳定
+        advanceNum++;
     }
 }
 
@@ -75,43 +76,55 @@ async function autoFightAndEndDetection() {
             await sleep(500);
             leftButtonClick();
             await sleep(400);
-            keyPress("e"); 
-            await sleep(1000);
+            keyDown("e"); 
+            await sleep(400);
+            keyUp("e"); 
+            await sleep(600);
             keyPress("2"); 
             await sleep(500);
             leftButtonClick();
             await sleep(400);
-            keyPress("e"); 
-            await sleep(1000);
+            keyDown("e"); 
+            await sleep(400);
+            keyUp("e"); 
+            await sleep(600);
             keyPress("3"); 
             await sleep(500);
             leftButtonClick();
             await sleep(400);
-            keyPress("e"); 
-            await sleep(1000);
+            keyDown("e"); 
+            await sleep(400);
+            keyUp("e"); 
+            await sleep(600);
             keyPress("4"); 
             await sleep(500);
             leftButtonClick();
             await sleep(400);
-            keyPress("e"); 
-            await sleep(1000);
+            keyDown("e"); 
+            await sleep(400);
+            keyUp("e"); 
+            await sleep(600);
             challengeTime = challengeTime + 200;
         } 
         // 情况2: 区域2有文字且 区域3有文字 → 结束循环
         else if (hasText2 && hasText3) {
             log.info("检测到挑战成功");
-            break;
+            log.info("能量充满，任务结束");
+            return;
         }
-
-
         challengeTime = challengeTime + 1;
         // 每次检测间隔100毫秒，避免CPU占用过高
         await sleep(100);
     }
+log.info("挑战超时，可能充能失败");
 }
 
 let recovery = settings.recovery ?? 0;
+let teamName = settings.teamName ?? 0;
 await genshin.tp(2297.6201171875,-824.5869140625);
+await genshin.returnMainUi();
+//切换队伍
+if(teamName) await genshin.switchParty(teamName);
 await pathingScript.runFile("assets/tp.json");
 await sleep(1000);
 keyDown("w");
@@ -133,6 +146,6 @@ keyPress("F");
 await autoFightAndEndDetection();//一直战斗直到检测到结束
 await sleep(1000);
 await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
-log.info("能量充满，任务结束");
 await sleep(1000);
+
 })();
