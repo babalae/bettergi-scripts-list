@@ -194,19 +194,25 @@ let failed = false;
             await genshin.tp(2871, -377);
         }
         await pathingScript.runFile(`assets/pathing/${pathingName}.json`)
+        await sleep(500);
+        keyPress("F");
+        await sleep(500);
         keyPress("F");
         if (!hasKeyMouse) {
             log.info("开始对话...");
         }
         await sleep(3000);
-        await waitToMain(hasKeyMouse);
+        await waitToMain(pathingName, hasKeyMouse);
         if (hasKeyMouse) {
             log.info("执行对应键鼠脚本");
             await keyMouseScript.runFile(`assets/keymouse/${pathingName}.json`)
+            await sleep(500);
+            keyPress("F");
+            await sleep(500);
             keyPress("F");
             log.info("开始对话...");
             await sleep(3000);
-            await waitToMain(hasKeyMouse);
+            await waitToMain(pathingName, hasKeyMouse);
         }
         if (failed) {
             log.info("本次运行结果不会被保存");
@@ -270,17 +276,19 @@ async function find() {
     const positions = data.mapPositions; // 读取data.json中的点位数据
     for (let retryCount = 0; retryCount < positions.length; retryCount++) {
         const position = positions[retryCount];
-
         log.info(`第 ${retryCount + 1} 次尝试定位...`);
         log.info(`移动到位置：(${position.x}, ${position.y}), ${position.name || '未命名位置'}`);
-
         await genshin.moveMapTo(position.x, position.y, position.country);
+        log.info(`缩放等级为${(position.zoom && typeof position.zoom === "number") ? position.zoom : 6.0}`);
+        await genshin.setBigMapZoomLevel((position.zoom && typeof position.zoom === "number") ? position.zoom : 6.0);
+        await sleep(1000); // 确保画面稳定
         try {
             const detectedNames = await locate();
             if (detectedNames && detectedNames.length > 0) {
                 return detectedNames; // 保持兼容性，设置全局变量
             }
         } catch (error) {
+            await genshin.setBigMapZoomLevel(3.0);
             continue;
         }
     }
@@ -294,11 +302,8 @@ async function find() {
  * @returns {Promise<string[]>} 检测到的角色名字数组
  */
 async function locate() {
-    await sleep(500); // 确保画面稳定
-    await genshin.setBigMapZoomLevel((data && typeof data.zoom === "number") ? data.zoom : 6.0);
-
-    let character = captureGameRegion().findMulti(RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/三个点.png")));
-
+    let character = await captureGameRegion().findMulti(RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/三个点.png")));
+    await sleep(500);
     if (character && character.count > 0) {
         avatar = character[0];
 
@@ -336,10 +341,9 @@ async function locate() {
         keyPress("VK_ESCAPE"); // 关闭菜单
         await sleep(1000); // 等待菜单关闭
         return foundNames;
-    } else {
-        log.warn("未找到角色");
-        throw new Error("未找到角色，当前位置没有角色");
     }
+    log.warn("未找到角色");
+    throw new Error("未找到角色，当前位置没有角色");
 }
 
 /**
@@ -348,10 +352,10 @@ async function locate() {
  * @param {boolean} hasKeyMouse - 是否需要执行键鼠操作
  * @returns {Promise<boolean>} - 如果检测到主菜单，则返回 true，否则在超时时返回 false。
  */
-async function waitToMain(hasKeyMouse = false) {
+async function waitToMain(pathingName, hasKeyMouse = false) {
     log.info("等待返回主界面...");
     const paimonMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/paimon_menu.png"), 0, 0, genshin.width / 3.0, genshin.width / 5.0);
-    const maxRetries = 180; // 设置最大重试次数以防止无限循环
+    const maxRetries = 60; // 设置最大重试次数以防止无限循环
     let retries = 0;
     let enteredLoop = false;
     while (captureGameRegion().Find(paimonMenuRo).isEmpty()) {
@@ -360,7 +364,10 @@ async function waitToMain(hasKeyMouse = false) {
             log.error("返回主界面超时");
             return false;
         }
-        await sleep(1000);
+        if (pathingName === "八重神子-1") {
+            await click(960, 540); // 点击解签
+        }
+        await sleep(3000);
         retries++;
     }
     if (!enteredLoop && !hasKeyMouse) {
