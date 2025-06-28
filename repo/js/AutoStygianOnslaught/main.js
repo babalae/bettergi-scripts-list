@@ -373,7 +373,7 @@
                     await click(SHU.x+550,SHU.y)
                     await sleep(300);
                     log.info(` ${resinTypeMap[rewards[i]]} 获取奖励...`);
-                    dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: true }));
+                    // dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: true }));
                     dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
                     return true;
                 }            
