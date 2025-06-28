@@ -373,15 +373,12 @@
                     await click(SHU.x+550,SHU.y)
                     await sleep(300);
                     log.info(` ${resinTypeMap[rewards[i]]} 获取奖励...`);
-                    // dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: true }));
-                    dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
                     return true;
                 }            
             }
             await sleep(500);  
         }
         log.warn("未找到树脂，结束领取奖励...");
-        dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
         await sleep(1000);        
         await keyPress("VK_ESCAPE");  //退出待写
         await sleep(1000);      
@@ -393,32 +390,27 @@
             let JIECHU = await Textocr("F",2,2,0,1098,519,35,32);
             if (JIECHU.found)
             {
-                await keyPress("F");await dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));await keyPress("F");
-                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
+                await keyPress("F");
+                await keyPress("F");
                 break;
             }
-            else{
-                if(i == 1)
-                {
+            else
+            {
+                if(i == 1){
                 log.warn("没找入口，尝试强制转圈寻找...");  
-                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
-                await keyDown("W");await sleep(500);await keyUp("W"); 
-                await keyDown("D");await sleep(500);await keyUp("D");
-                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
-                await keyDown("S");await sleep(500);await keyUp("S");
-                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
-                await keyDown("A");await sleep(500);await keyUp("A");
-                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
-                await keyDown("W");await sleep(500);await keyUp("W");
-                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
+                await keyDown("W");keyPress("F");await sleep(500);keyPress("F");await keyUp("W"); 
+                await keyDown("D");keyPress("F");await sleep(500);keyPress("F");await keyUp("D");
+                await keyDown("S");keyPress("F");await sleep(500);keyPress("F");await keyUp("S");
+                await keyDown("A");keyPress("F");await sleep(500);keyPress("F");await keyUp("A");
+                await keyDown("W");keyPress("F");await sleep(500);keyPress("F");await keyUp("W");
                 break;
-            }
+                }
             }
         }
-        dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
     }
    
     var resinAgain = false;
+    log.warn("自动幽境危战版本：v1.4");
     log.warn("根目录下有建议加的黑名单的名称，建议加入自动拾取黑名单...");
     log.warn("请保证队伍战斗实力，战斗失败或执行错误，会重试一次...");
     log.warn("使用前请在 <<幽境危战>> 中配置好战斗队伍...");
@@ -559,8 +551,19 @@
                         else
                         {
                             if (challengeNum != i+1) 
-                            {
-                                let challengeAgian  = await Textocr("再次挑战",10,1,0,1094,958,200,70);
+                            {   
+                                let challengeAgian  = await Textocr("再次挑战",10,0,0,1094,958,200,70);
+                                if (!challengeAgian.found){await genshin.returnMainUi();throw new Error("未找到·再次挑战·按键，停止执行...")}//退出待写
+                                for (let retry = 0; retry < 5 && challengeAgian.found; retry++) 
+                                {
+                                    challengeAgian  = await Textocr("再次挑战",0.2,0,0,1094,958,200,70);
+                                    if (challengeAgian.found){                                    
+                                    await sleep(500);  
+                                    await click(challengeAgian.x, challengeAgian.y);
+                                    await sleep(1000);  
+                                    } 
+                                    await sleep(200);                                                                                          
+                                }                                
                             }
                         }
                     }
@@ -568,7 +571,7 @@
                     //是否继续
                     if (challengeNum == i+1 || resinexhaustion == true){
                         log.info (`完成 ${i+1} 次战斗或树脂耗尽，退出挑战...`);
-                        dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false }));
+                        await sleep(1000); 
                         await keyPress("VK_ESCAPE"); 
                         await sleep(1000); 
 
@@ -592,6 +595,7 @@
                         if (resinAgain == true){throw new Error("执行错误，重试一次...")}        
                         return true;
                     }
+
                     await sleep(500);   
                 }      
             }
