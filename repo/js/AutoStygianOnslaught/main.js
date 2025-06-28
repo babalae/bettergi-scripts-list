@@ -1,100 +1,18 @@
 (async function () {
 
-        let challengeNum = settings.challengeNum;//挑战次数
-        if (challengeNum === undefined || challengeNum === ""){challengeNum = 15; }
-        let challengeName = settings.challengeName;//挑战BOSS
-        if (challengeName === undefined || challengeName === ""){throw new Error("挑战Boss未配置，请在JS配置中选择...")}
-        let Startforward = settings.Startforward*1000 ? settings.Startforward*1000 : 1000;
-        var Fighttimeout = settings.timeout * 1000 ? settings.timeout * 1000 : 240000;//战斗超时时间，默认为240秒
-        const ocrRegion1 = { x: 643, y: 58, width: 800, height: 800 };   // 上方挑战成功区域
-        const ocrRegion2 = { x: 780, y: 406, width: 370, height: 135 };   // 中间挑战失败区域
-        // const ocrRegion3 = { x: 1782, y: 1023, width: 64, height: 29 };   // 右下角space区域
-        const ocrRo1 = RecognitionObject.ocr(ocrRegion1.x, ocrRegion1.y, ocrRegion1.width, ocrRegion1.height);
-        const ocrRo2 = RecognitionObject.ocr(ocrRegion2.x, ocrRegion2.y, ocrRegion2.width, ocrRegion2.height);
-        // const ocrRo3 = RecognitionObject.ocr(ocrRegion3.x, ocrRegion3.y, ocrRegion3.width, ocrRegion3.height);
-        var Rewardsuse = settings.Rewardsuse ? settings.Rewardsuse : "1/2";
-        var resinTypes = Rewardsuse.split("/");
-        var rewards = [];
-        var onerewards, secendrewards, threendrewards, fourdrewards;  
-        for (var i = 0; i < resinTypes.length; i++) {
-            var resinType = parseInt(resinTypes[i]);
-            if (isNaN(resinType) || resinType < 1 || resinType > 4) {
-                throw new Error("设定的树脂类型无效或缺失，请重新配置");
-            }
-            rewards.push(resinType);
-        }
-        const resinTypeMap = ["","使用1个浓缩树脂，获取2倍产出", "使用20个原粹树脂", "使用1个脆弱树脂，获取3倍产出", "使用1个须臾树脂，获取3倍产出"];
-        // 根据 rewards 数组长度，依次赋值给对应的变量
-        if (rewards.length > 0) onerewards = resinTypeMap[rewards[0]];
-        if (rewards.length > 1) secendrewards = resinTypeMap[rewards[1]];
-        if (rewards.length > 2) threendrewards = resinTypeMap[rewards[2]];
-        if (rewards.length > 3) fourdrewards = resinTypeMap[rewards[3]];    
-
-        log.info(`使用树脂类型数量：${rewards.length}`);
-        log.info(`优先使用的树脂类型：${onerewards} --> ${secendrewards??"无"} --> ${threendrewards??"无"} --> ${fourdrewards??"无"}`);
-
-        const rewardTextRo = RecognitionObject.Ocr(1210, 515, 200, 50);//领奖区域检测
-        var advanceNum = 0;//前进次数
-        var verticalNum = 0;
-
-        var Artifacts = settings.Artifacts ? settings.Artifacts : "保持圣遗物奖励不变"; 
-
-        //建立一个数值映射所有圣遗物对应需要识别的图片
-        var artifactImageMap = {            
-            "长夜之誓 / 深廊终曲": "assets/Artifacts/artifact_1.bmp",
-            "黑曜秘典 / 烬城勇者绘卷": "assets/Artifacts/artifact_2.bmp",
-            "谐律异想断章 / 未竟的遐思": "assets/Artifacts/artifact_3.bmp",
-            "回声之林夜话 / 昔时之歌": "assets/Artifacts/artifact_4.bmp",
-            "逐影猎人 / 黄金剧团": "assets/Artifacts/artifact_5.bmp",
-            "水仙之梦 / 花海甘露之光": "assets/Artifacts/artifact_6.bmp",
-            "乐园遗落之花 / 沙上楼阁史话": "assets/Artifacts/artifact_7.bmp",
-            "深林的记忆 / 饰金之梦": "assets/Artifacts/artifact_8.bmp",
-            "来歆余响 / 辰砂往生录": "assets/Artifacts/artifact_9.bmp",
-            "华馆梦醒形骸记 / 海染砗磲": "assets/Artifacts/artifact_10.bmp",
-            "绝缘之旗印 / 追忆之注连": "assets/Artifacts/artifact_11.bmp",
-            "昔日宗室之仪 / 染血的骑士道": "assets/Artifacts/artifact_12.bmp",
-            "渡过烈火的贤人 / 炽烈的炎之魔女": "assets/Artifacts/artifact_13.bmp",
-            "悠古的磐岩 / 逆飞的流星": "assets/Artifacts/artifact_14.bmp",
-            "千岩牢固 / 苍白之火": "assets/Artifacts/artifact_15.bmp",
-            "冰风迷途的勇士 / 沉沦之心": "assets/Artifacts/artifact_16.bmp",
-            "翠绿之影 / 被怜爱的少女": "assets/Artifacts/artifact_17.bmp",
-            "如雷的盛怒 / 平息鸣雷的尊者": "assets/Artifacts/artifact_18.bmp"        
-        };
-
-
-
-    async function Textocr(wenzi="空参数",chaotime=10,clickocr=0,debugcode=0,x=0,y=0,w=1920,h=1080) {
-        const startTime = new Date();
-        for (let ii = 0; ii < 10; ii++) 
-        {    
-            // 获取一张截图
-            let captureRegion = captureGameRegion();
-            let  res1
-            // 对整个区域进行 OCR
-            let resList = captureRegion.findMulti(RecognitionObject.ocr(x,y,w,h));
-            //log.info("OCR 全区域识别结果数量 {len}", resList.count);   
-            for (let i = 0; i < resList.count; i++) 
-            { // 遍历的是 C# 的 List 对象，所以要用 count，而不是 length
-                let res = resList[i];
-                res1=res.text
-                if (res.text===wenzi) {
-                    log.info(`识别到 ·${res1}·`);
-                    if (debugcode===1){if (x===0 & y===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);return result = { text: res.text, x: res.x, y: res.y, found: true }}}else{if (x===0 & y===0){log.info("文本OCR完成'{text}'", res.text);}}
-                    if (clickocr===1){await sleep(1000);click(res.x, res.y);}else{}  
-                    if (clickocr===2){await sleep(100);keyPress("F");}else{}
-                    return result = { text: res.text, x: res.x, y: res.y, found: true }
-                }
-                if (debugcode===2 && !res.isEmpty()){
-                    // log.info("({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);
-                    return result = { text: res.text, x: res.x, y: res.y, found: true }
-                }
-            }
-            const NowTime = new Date();
-            if (Math.abs(NowTime - startTime)>chaotime*1000){if (x===0 & y===0){log.info(`${chaotime}秒超时退出，"${wenzi}"未找到`);}return result = {found: false };}else{ii=8;if (x !== 861){if(debugcode!==3){await keyPress("VK_W");}};}
-            await sleep(100);
-        }   
-    }
-
+    /**
+     * 封装函数，执行图片识别及点击操作（测试中，未封装完成，后续会优化逻辑）
+     *
+     * @param imagefilePath 图片路径，默认为"空参数"
+     * @param timeout 超时时间，单位为秒，默认为10秒
+     * @param afterBehavior 点击模式，0为关闭点击，1为开启点击，2为开启F键点击，默认为0
+     * @param debugmodel 调试代码模式，0为关闭调试模式，1为开启调试模式，默认为0
+     * @param xa 识别区域的x轴偏移量，默认为0
+     * @param ya 识别区域的y轴偏移量，默认为0
+     * @param wa 识别区域的宽度，默认为1920
+     * @param ha 识别区域的高度，默认为1080
+     * @returns 返回识别结果，包括图片的x轴坐标、y轴坐标、宽度、高度及是否找到图片
+     */
     async function imageRecognition(imagefilePath="空参数",timeout=10,afterBehavior=0,debugmodel=0,xa=0,ya=0,wa=1920,ha=1080) {
         const startTime = new Date();
         const Imagidentify = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagefilePath));
@@ -102,12 +20,11 @@
             captureRegion = captureGameRegion();  // 获取一张截图
             res = captureRegion.DeriveCrop(xa, ya, wa, ha).Find(Imagidentify);
         if (res.isEmpty()) {
-            if (debugmodel===1 & xa===0 & ya===0){log.info("未识别页面元素")};
+            if (debugmodel===1 & xa===0 & ya===0){log.info("识别图片中")};
         } else {
           if (afterBehavior===1){if (xa===0 & ya===0){log.info("点击模式:开");}await sleep(1000);click(res.x+xa, res.y+ya);}else{if (debugmodel===1 & xa===0 & ya===0){log.info("点击模式:关")}}
           if (afterBehavior===2){if (xa===0 & ya===0){log.info("F模式:开");}await sleep(1000);keyPress("F");}else{if (debugmodel===1 & xa===0 & ya===0){log.info("F模式:关")}}
-          if (debugmodel===1 & xa===0 & ya===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x+xa, res.y+ya, res.width, res.Height);}else{ log.info("识别到页面元素");}
-          
+          if (debugmodel===1 & xa===0 & ya===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);}else{ log.info("识别到图片");}
           return result = { x: res.x+xa, y: res.y+ya, w:res.width,h:res.Height,found: true }
         }
         const NowTime = new Date();
@@ -117,9 +34,501 @@
         await sleep(1200); 
     }
 
-    var condensedResin = "assets/condensed_resin_count.png";
-    var originalResin = "assets/original_resin_count.png";
-    var fragileResin = "assets/fragile_resin_count.png";
+
+    async function Textocr(wenzi="空参数",chaotime=10,clickocr=0,debugcode=0,x=0,y=0,w=1920,h=1080) {
+        const startTime = new Date();
+        for (let ii = 0; ii < 10; ii++) 
+        {    
+             // 获取一张截图
+            let captureRegion = captureGameRegion();
+            let  res1
+            // 对整个区域进行 OCR
+            let resList = captureRegion.findMulti(RecognitionObject.ocr(x,y,w,h));
+            //log.info("OCR 全区域识别结果数量 {len}", resList.count);   
+             for (let i = 0; i < resList.count; i++) 
+             { // 遍历的是 C# 的 List 对象，所以要用 count，而不是 length
+                 let res = resList[i];
+                 res1=res.text
+                 if (res.text===wenzi) {
+                    log.info(`“${res1}”找到`);
+                    if (debugcode===1){if (x===0 & y===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);return result = { text: res.text, x: res.x, y: res.y, found: true }}}else{if (x===0 & y===0){log.info("文本OCR完成'{text}'", res.text);}}
+                    if (clickocr===1){await sleep(1000);click(res.x, res.y);}else{log.info("点击模式:关")}  
+                    if (clickocr===2){await sleep(100);keyPress("F");}else{log.info("F模式:关");}
+                     return result = { text: res.text, x: res.x, y: res.y, found: true }
+                 }
+                 if (debugcode===2 && !res.isEmpty()){
+                    // log.info("({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);
+                    return result = { text: res.text, x: res.x, y: res.y, found: true }
+                }
+            }
+            const NowTime = new Date();
+            if (Math.abs(NowTime - startTime)>chaotime*1000){if (x===0 & y===0){log.info(`${chaotime}秒超时退出，"${wenzi}"未找到`);}return result = {found: false };}else{ii=8;if (x !== 861){await keyPress("VK_W");}log.info(`"${wenzi}"识别中……`);}
+            await sleep(100);
+        }   
+    }
+   
+    //初始化
+    var SMODEL = settings.SMODEL ? settings.SMODEL : false; // false 公版BETTERGI，true 自编译版本LCB
+    var SHUOVER=0 //0初始状态，1队伍配置标志，2结束线路，3线路出错
+    var haoganq=0 //0初始状态，1好感队伍配置标志
+    var SHUV = settings.shuv ? settings.shuv : 1; // 1 单线路，2 树脂耗尽
+    var Rewards = settings.Rewards ? settings.Rewards : false; // ture 领取冒险点奖励，false 不领取冒险点奖励
+    var Fligtin = false;  //领取冒险点奖励标志。
+    var tolerance = 30;
+    var position ={};
+    var Lastexecution = false;//线路执行标志，用于判断上一线路是否执行。
+    var Fightquick = settings.Fightquick ? settings.Fightquick : false; 
+    var Fighttimeout = settings.timeout * 1000 ? settings.timeout * 1000 : 240000;//战斗超时时间，默认为240秒
+    const ocrRegion2 = { x: 0, y: 200, width: 300, height: 300 };     // 追踪任务区域
+    const ocrRo2 = RecognitionObject.ocr(ocrRegion2.x, ocrRegion2.y, ocrRegion2.width, ocrRegion2.height);
+    const ocrRegion1 = { x: 800, y: 200, width: 300, height: 100 };   // 中心区域
+    const ocrRo1 = RecognitionObject.ocr(ocrRegion1.x, ocrRegion1.y, ocrRegion1.width, ocrRegion1.height);
+    var Rewardsuse = settings.Rewardsuse ? settings.Rewardsuse : "1/2";
+    var resinTypes = Rewardsuse.split("/");
+    var rewards = [];
+    var onerewards, secendrewards, threendrewards, fourdrewards;  
+    for (var i = 0; i < resinTypes.length; i++) {
+        var resinType = parseInt(resinTypes[i]);
+        if (isNaN(resinType) || resinType < 1 || resinType > 4) {
+            throw new Error("设定的树脂类型无效或缺失，请重新配置");
+        }
+        rewards.push(resinType);
+    }
+    const resinTypeMap = ["","使用1个浓缩树脂，获取2倍产出", "使用20个原粹树脂", "使用1个脆弱树脂，获取3倍产出", "使用1个须臾树脂，获取3倍产出"];
+    // 根据 rewards 数组长度，依次赋值给对应的变量
+    if (rewards.length > 0) onerewards = resinTypeMap[rewards[0]];
+    if (rewards.length > 1) secendrewards = resinTypeMap[rewards[1]];
+    if (rewards.length > 2) threendrewards = resinTypeMap[rewards[2]];
+    if (rewards.length > 3) fourdrewards = resinTypeMap[rewards[3]];    
+
+    log.info(`使用树脂类型数量：${rewards.length}`);
+    log.info(`优先使用的树脂类型：${onerewards} --> ${secendrewards} --> ${threendrewards} --> ${fourdrewards}`);
+
+    // return
+    var doneCount = 0;
+
+    filePath = ""
+    // 读取原始次数配置   
+    var rawTimes = settings.times*2 ? settings.times : "6";
+    var color = settings.color ? settings.color : 1;
+    var BIAOZZ = "assets/model/BIAOZ.bmp"
+
+    var timesValue = 12; // 设置默认值
+    var num = parseFloat(rawTimes) * 2; // 直接计算乘以2后的值，并尝试转换为浮点数
+    
+    // 如果输入是有效的数字，并且在合理范围内，则更新timesValue
+    if (/^-?\d+\.?\d*$/.test(rawTimes) && num >= 1 && num <= 198) {
+        timesValue = Math.max(1, Math.min(198, Math.floor(num))); // 确保timesValue为整数，并且不超过上限
+    }  
+    var timesConfig = { value: timesValue };
+
+    if  (color == 2){ var DIMAIHUA = "assets/model/DIMAIHUA-huank.bmp";}
+    else if (color == 1){var DIMAIHUA = "assets/model/DIMAIHUA-lank.bmp";}
+    else{var DIMAIHUA = "assets/model/DIMAIHUA-lank.bmp";}
+    var condensedResin = "assets/model/condensed_resin_count.png";
+    var originalResin = "assets/model/original_resin_count.png";
+    var fragileResin = "assets/model/fragile_resin_count.png";
+
+    log.debug(`DEBUG:${SHUV}.${color}.${rawTimes}`);//调试LOG
+    if (Rewards){log.warn("结束后领励练点和提交每日！");if(settings.nh === undefined || settings.nh === "") {log.warn("好感队未配置，领奖励时不切换队伍")}}
+    if (settings.nh === undefined || settings.nh === "") { log.warn("好感队禁用！");haoganq=0}else{var haogandui = settings.nh;haoganq=1;if(settings.n === undefined ) {throw new Error("好感队已经设置，请填战斗队伍！")}}
+    if (settings.n === undefined || settings.n === "") { log.warn("队伍名称未配置，不更换队伍！");SHUOVER=1;}
+    if (SHUV == 1) {log.warn(`线路模式 ：' 按次数刷取 ${timesConfig.value/2} 次' `);}else{log.warn("线路模式 ：' 设定使用的树脂类型耗尽模式（最多99次） '");timesConfig.value = 198;}
+    if (color == 1) {log.warn("地脉类型 ：' 蓝色-经验书花！'");}else{log.warn("地脉类型 ：' 黄色-摩拉花！'")}  
+    let nowuidString = settings.nowuid ? settings.nowuid : "";      
+
+    setGameMetrics(1920, 1080, 1);
+    //================= 1.设定路线 =================
+
+    const folder1 = 'assets/枫丹地脉花-路线1 厄里那斯/';
+    const folder2 = 'assets/枫丹地脉花-路线2 秋分山西侧锚点左下/';
+    const folder3 = 'assets/枫丹地脉花-路线3 秋分山西侧锚点右/';
+    const folder4 = 'assets/枫丹地脉花-路线4 柔灯港上锚点/';
+    const folder5 = 'assets/枫丹地脉花-路线5 新枫丹科学院左锚点/';
+    const folder6 = 'assets/枫丹地脉花-路线6 芒索斯山东麓/';
+
+    const pathing1 = [
+        "枫丹地脉花-路线1 厄里那斯-1：厄里那斯神像下1.json",
+        "枫丹地脉花-路线1 厄里那斯-1：厄里那斯神像下2.json",
+        "枫丹地脉花-路线1 厄里那斯-2：厄里那斯神像右下1.json",
+        "枫丹地脉花-路线1 厄里那斯-2：厄里那斯神像右下2.json",
+        "枫丹地脉花-路线1 厄里那斯-3：厄里那斯神像右下_1.json",
+        "枫丹地脉花-路线1 厄里那斯-3：厄里那斯神像右下_2.json",
+        "枫丹地脉花-路线1 厄里那斯-4：厄里那斯神像右下下下1.json",
+        "枫丹地脉花-路线1 厄里那斯-4：厄里那斯神像右下下下2.json",
+        "枫丹地脉花-路线1 厄里那斯-5：厄里那斯神像下下下下1.json",
+        "枫丹地脉花-路线1 厄里那斯-5：厄里那斯神像下下下下2.json",
+        "枫丹地脉花-路线1 厄里那斯-6：厄里那斯神像下下下1.json",
+        "枫丹地脉花-路线1 厄里那斯-6：厄里那斯神像下下下2.json",
+    ]; 
+
+    const pathing2 = [
+        "枫丹地脉花-路线2 秋分山西侧锚点左下-1：秋分山左下1.json",
+        "枫丹地脉花-路线2 秋分山西侧锚点左下-1：秋分山左下2.json",
+        "枫丹地脉花-路线2 秋分山西侧锚点左下-2：秋分山左下+1.json",
+        "枫丹地脉花-路线2 秋分山西侧锚点左下-2：秋分山左下+2.json",
+        "枫丹地脉花-路线2 秋分山西侧锚点左下-3：秋分山左下下1.json",
+        "枫丹地脉花-路线2 秋分山西侧锚点左下-3：秋分山左下下2.json",
+        "枫丹地脉花-路线2 秋分山西侧锚点左下-4：秋分山左下下下1.json",
+        "枫丹地脉花-路线2 秋分山西侧锚点左下-4：秋分山左下下下2.json",
+        "枫丹地脉花-路线2 秋分山西侧锚点左下-5：秋分山左左下下1.json",
+        "枫丹地脉花-路线2 秋分山西侧锚点左下-5：秋分山左左下下2.json",
+    ]; 
+
+    const pathing3 = [
+        "枫丹地脉花-路线3 秋分山西侧锚点右-1：锚点右1.json",
+        "枫丹地脉花-路线3 秋分山西侧锚点右-1：锚点右2.json",
+        "枫丹地脉花-路线3 秋分山西侧锚点右-2：锚点右右1.json",
+        "枫丹地脉花-路线3 秋分山西侧锚点右-2：锚点右右2.json",
+        "枫丹地脉花-路线3 秋分山西侧锚点右-3：锚点右右右1.json",
+        "枫丹地脉花-路线3 秋分山西侧锚点右-3：锚点右右右2.json",
+        "枫丹地脉花-路线3 秋分山西侧锚点右-4：东侧锚点上1.json",
+        "枫丹地脉花-路线3 秋分山西侧锚点右-4：东侧锚点上2.json",
+    ]; 
+
+    const pathing4 = [
+       "枫丹地脉花-路线4 柔灯港上锚点-1：锚点左上1.json",
+       "枫丹地脉花-路线4 柔灯港上锚点-1：锚点左上2.json",
+        "枫丹地脉花-路线4 柔灯港上锚点-2：锚点左上+1.json",
+        "枫丹地脉花-路线4 柔灯港上锚点-2：锚点左上+2.json",
+        "枫丹地脉花-路线4 柔灯港上锚点-3：锚点左左上1.json",
+        "枫丹地脉花-路线4 柔灯港上锚点-3：锚点左左上2.json",
+        "枫丹地脉花-路线4 柔灯港上锚点-4：锚点左上++1.json",
+        "枫丹地脉花-路线4 柔灯港上锚点-4：锚点左上++2.json",
+    ]; 
+
+    const pathing5 = [
+        "枫丹地脉花-路线5 新枫丹科学院左锚点-1：锚点左上1.json",
+        "枫丹地脉花-路线5 新枫丹科学院左锚点-1：锚点左上2.json",
+        "枫丹地脉花-路线5 新枫丹科学院左锚点-2：锚点上1.json",
+        "枫丹地脉花-路线5 新枫丹科学院左锚点-2：锚点上2.json",
+        "枫丹地脉花-路线5 新枫丹科学院左锚点-3：科学院左上锚点1.json",
+        "枫丹地脉花-路线5 新枫丹科学院左锚点-3：科学院左上锚点2.json",
+        "枫丹地脉花-路线5 新枫丹科学院左锚点-4：科学院左上锚点左上1.json",
+        "枫丹地脉花-路线5 新枫丹科学院左锚点-4：科学院左上锚点左上2.json",
+
+    ]; 
+
+    const pathing6 = [
+        "枫丹地脉花-路线6 芒索斯山东麓-1：锚点下1.json",
+        "枫丹地脉花-路线6 芒索斯山东麓-1：锚点下2.json",
+        "枫丹地脉花-路线6 芒索斯山东麓-2：锚点右1.json",
+        "枫丹地脉花-路线6 芒索斯山东麓-2：锚点右2.json",
+        "枫丹地脉花-路线6 芒索斯山东麓-3：锚点左1.json",
+        "枫丹地脉花-路线6 芒索斯山东麓-3：锚点左2.json",
+        "枫丹地脉花-路线6 芒索斯山东麓-4：锚点左上1.json",
+        "枫丹地脉花-路线6 芒索斯山东麓-4：锚点左上2.json",
+    ]; 
+
+    // 路线映射表-将用户设置映射对应路线
+    const pathingMap = {
+        "路线1 厄里那斯": pathing1,
+        "路线2 秋分山西侧锚点左下": pathing2,
+        "路线3 秋分山西侧锚点右": pathing3,
+        "路线4 柔灯港上锚点": pathing4,
+        "路线5 新枫丹科学院左锚点": pathing5,
+        "路线6 芒索斯山东麓": pathing6
+    };
+
+    const folderMap = {
+        "路线1 厄里那斯": folder1,
+        "路线2 秋分山西侧锚点左下": folder2,
+        "路线3 秋分山西侧锚点右": folder3,
+        "路线4 柔灯港上锚点": folder4,
+        "路线5 新枫丹科学院左锚点": folder5,
+        "路线6 芒索斯山东麓": folder6
+    };
+
+    const allFlowerCoords = [
+        // 线路1
+        { line: 1, flower: 1, x: 773, y: 669 },
+        { line: 1, flower: 2, x: 846, y: 696 },
+        { line: 1, flower: 3, x: 902, y: 762 },
+        { line: 1, flower: 4, x: 912, y: 812 },
+        { line: 1, flower: 5, x: 876, y: 840 },
+        { line: 1, flower: 6, x: 815, y: 788 },
+        // 线路2
+        { line: 2, flower: 1, x: 1160, y: 716 },
+        { line: 2, flower: 2, x: 1155, y: 766 },
+        { line: 2, flower: 3, x: 1117, y: 801 },
+        { line: 2, flower: 4, x: 1082, y: 896 },
+        { line: 2, flower: 5, x: 1013, y: 883 },
+        // 线路3√
+        { line: 3, flower: 1, x: 1216, y: 661 },
+        { line: 3, flower: 2, x: 1230, y: 685 },
+        { line: 3, flower: 3, x: 1282, y: 642 },
+        { line: 3, flower: 4, x: 1335, y: 639 },
+        // 线路4
+        { line: 4, flower: 1, x: 965, y: 672 },
+        { line: 4, flower: 2, x: 921, y: 660 },
+        { line: 4, flower: 3, x: 886, y: 660 },
+        { line: 4, flower: 4, x: 876, y: 625 },
+        // 线路5
+        { line: 5, flower: 1, x: 727, y: 153 },
+        { line: 5, flower: 2, x: 752, y: 78 },
+        { line: 5, flower: 3, x: 712, y: 47 },
+        { line: 5, flower: 4, x: 643, y: 4 },
+        // 线路6
+        { line: 6, flower: 1, x: 0, y: 0 },//开始已经检测，不用复检
+        { line: 6, flower: 2, x: 469, y: 369 },//315   54
+        { line: 6, flower: 3, x: 400, y: 343 },//289
+        { line: 6, flower: 4, x: 371, y: 281 },//227  379 290
+      ];
+    
+
+    // 输出选择的线路
+    async function PathCheak1() {
+        await genshin.returnMainUi();
+        log.info("重置地图中,关闭自定义标记，快速拖动模式寻找地脉花……");  
+        await genshin.tp(2297.60, -824.45);
+        await genshin.returnMainUi();
+
+        // //自定义标关闭
+        await sleep(1200);
+        await keyPress("M");
+        await sleep(1200);
+        await click(53,1019);
+        await sleep(200);
+        await imageRecognition(BIAOZZ,0.6,1,0,1782,284,122,73);
+        await sleep(100);
+        await keyPress("VK_ESCAPE");
+        await sleep(600);
+
+        //开始寻找
+        await genshin.setBigMapZoomLevel(3.5);
+        await click(1844,1021);
+        await sleep(500);
+        await click(1446,350);
+        await sleep(500);
+        let XIAN6 = await imageRecognition(DIMAIHUA,1,0,0,387,0,700,200);if (XIAN6.found){
+            log.info("地脉花位置: X:"+XIAN6.x+" Y:"+XIAN6.y);
+            position = {line:6,flower:1};
+            return true }//return true
+        await moveMouseTo(1275,601);
+        await sleep(200);
+        await leftButtonDown();
+        await sleep(300);
+        await moveMouseTo(1275,651);
+        await sleep(300);
+        await moveMouseTo(1275,300);
+        await sleep(300);
+        await moveMouseTo(1272,18);
+        await sleep(500);
+        let XIAN123 = await imageRecognition(DIMAIHUA,1,0,0,0,0,1720,1080);
+        if (XIAN123.found){
+            log.info("地脉花位置: X:"+XIAN123.x+" Y:"+XIAN123.y);
+            const recognizedCoord = { x: XIAN123.x, y: XIAN123.y };
+            position = findFlowerPositionWithTolerance(recognizedCoord, tolerance);
+            if (position.line==3){position = findFlowerPositionWithTolerance(recognizedCoord, tolerance);}
+            if (position) {
+                return true;
+              } else {
+                log.info(`无法找到花朵位置（在容错范围内）。`);return false;
+              }
+        }
+        await sleep(500);
+        await moveMouseTo(132,783);
+        await sleep(800);
+        let XIAN4 = await imageRecognition(DIMAIHUA,1,0,0);
+         if (XIAN4.found){
+            log.info("地脉花位置: X:"+XIAN4.x+" Y:"+XIAN4.y);
+            const recognizedCoord = { x: XIAN4.x, y: XIAN4.y };
+            position = findFlowerPositionWithTolerance(recognizedCoord, tolerance);
+            if (position) {
+                return true;
+              } else {
+                log.info(`无法找到花朵位置（在容错范围内）。`);return false;
+              }
+        }
+        await sleep(500);
+        await moveMouseTo(1064,1079);
+        await sleep(200);
+        let XIAN66 = await imageRecognition(DIMAIHUA,1,0,0);
+        if (XIAN66.found){
+            log.info("地脉花位置: X:"+XIAN66.x+" Y:"+XIAN66.y);
+            const recognizedCoord = { x: XIAN66.x, y: XIAN66.y };
+            position = findFlowerPositionWithTolerance(recognizedCoord, tolerance);
+            if (position) {
+                return true;
+              } else {
+                log.info(`无法找到花朵位置（在容错范围内）。`);return false;
+              }
+        }else{throw new Error("线路出错，退出！")}        
+    }
+
+    function findFlowerPositionWithTolerance(coord, tolerance) {
+        let closestFlower = null; // 用于记录最近的花朵
+        let closestDistance = Infinity; // 初始化最近距离为无穷大
+        let matches = []; // 用于存储所有匹配的花朵
+
+        // 遍历所有花朵坐标，检查是否在容错范围内
+        for (let i = 0; i < allFlowerCoords.length; i++) {
+            const flower = allFlowerCoords[i];
+            const distance = Math.sqrt(Math.pow(flower.x - coord.x, 2) + Math.pow(flower.y - coord.y, 2));
+
+            if (distance <= tolerance) {
+                matches.push(flower); // 在容错范围内，添加到匹配列表
+            } else {
+                // 如果不在容错范围内，则检查是否是当前最近的花朵
+                if (distance < closestDistance) {
+                    closestFlower = flower;
+                    closestDistance = distance;
+                }
+            }
+        }
+
+        // 根据匹配情况返回结果
+        if (matches.length === 1) {
+            // 找到一个符合项，返回这个项
+            log.warn("找到了一个匹配的花朵！", matches[0].line,matches[0].flower);
+            return { line: matches[0].line, flower: matches[0].flower,x: matches[0].x, y: matches[0].y };
+        } else if (matches.length > 1) {
+            // 找到多个符合项，处理逻辑
+            let minXDiff = Infinity;
+            let minYDiff = Infinity;
+            let minXFlower = null;
+            let minYFlower = null;
+
+            for (let i = 0; i < matches.length; i++) {
+                const diffX = Math.abs(matches[i].x - coord.x);
+                const diffY = Math.abs(matches[i].y - coord.y);
+
+                if (diffX < minXDiff) {
+                    minXDiff = diffX;
+                    minXFlower = matches[i];
+                }
+
+                if (diffY < minYDiff) {
+                    minYDiff = diffY;
+                    minYFlower = matches[i];
+                }
+            }
+
+            // 比对X轴和Y轴的最小差距，返回对应的花朵
+            if (minXDiff < minYDiff) {
+                log.warn("找到了多个匹配的花朵，选择X轴差距最小的花朵！", minXFlower.line,minXFlower.flower);
+                return { line: minXFlower.line, flower: minXFlower.flower,x: minXFlower.x, y: minXFlower.y };
+            } else {
+                log.warn("找到了多个匹配的花朵，选择Y轴差距最小的花朵！", minYFlower.line,minYFlower.flower);
+                return { line: minYFlower.line, flower: minYFlower.flower,x: minYFlower.x, y: minYFlower.y };
+            }
+        } else {
+            // 没有找到符合项，返回全局最近的花朵
+            if (closestFlower) {
+                log.warn("没有找到地脉花，返回最近地脉花！", closestFlower.line,closestFlower.flower);
+                return { line: closestFlower.line, flower: closestFlower.flower,x: closestFlower.x, y: closestFlower.y };
+            } else {
+                // 如果没有找到任何花朵，返回一个默认值或抛出错误（根据实际需求决定）
+                throw new Error("未找到任何花朵");
+            }
+        }
+    }
+
+    //寻找地脉溢口，文字识别不到转圈寻找，不管有没找到都执行战斗，最后领取奖励判断是否继续执行
+    async function VeinEntrance() {
+        for (let i = 0;i < 2;i++) {
+            let JIECHU = await Textocr("接触地脉溢口",3,2,0,1188,358,200,400);
+            if (JIECHU.found)
+            {
+                await keyPress("F");await dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));await keyPress("F");break;
+            }
+            else{
+                if(i == 1)
+                {
+                log.warn("没找到地脉花，尝试强制转圈寻找，不管有没找到都执行战斗...");  
+                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
+                await keyDown("W");await sleep(500);await keyUp("W"); 
+                await keyDown("D");await sleep(500);await keyUp("D");
+                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
+                await keyDown("S");await sleep(1000);await keyUp("S");
+                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
+                await keyDown("A");await sleep(1000);await keyUp("A");
+                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
+                await keyDown("W");await sleep(1500);await keyUp("W");
+                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
+                break;
+            }
+            }
+        }
+    }
+
+    //定义领取动作,好感队伍是否添加？
+    async function claimRewards() {
+        log.info(`尝试领取奖励，优先${onerewards}'`);
+        let SHUN01 = await Textocr("接触地脉之花",1.5,2,0,1188,358,200,400);
+        if (SHUN01.found) {
+            log.info("找到地脉之花，开始领取奖励...");
+        }else{
+                let SHUN02 = await Textocr("接触地脉之花",1,2,0,1188,358,200,400);
+                if (!SHUN02.found) {log.info("未找到地脉之花，尝试强制转圈寻找...")
+                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
+                await keyDown("W");await sleep(500);await keyUp("W"); 
+                await keyDown("D");await sleep(500);await keyUp("D");
+                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
+                await keyDown("S");await sleep(1000);await keyUp("S");
+                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
+                await keyDown("A");await sleep(1000);await keyUp("A");
+                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
+                await keyDown("W");await sleep(1500);await keyUp("W");
+                dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
+                }
+        }
+        
+        await Textocr("地脉之花", 1, 1, 0, 861,265, 194, 265);
+        await sleep(500);
+
+        for (let j = 0;j < 2;j++) {
+ 
+            for (let i = 0;i < rewards.length;i++) {
+                let SHU =  await Textocr(resinTypeMap[rewards[i]],0.5,0,0,510,380,640,600);
+                if (SHU.found){
+                    if (resinTypeMap[rewards[i]] == "使用20个原粹树脂")
+                    {
+                      let BUC =  await Textocr("补充",0.5,0,0,1150,440,210,130);
+                        if (BUC.found) {continue;}                                           
+                    }
+
+                    let { condensedResinCount, originalResinCount, fragileResinCount } = await getRemainResinStatus(); 
+
+                    let shouldExit = true;
+
+                    if (resinTypes.includes("1"))
+                    {
+                        shouldExit &= (parseInt(condensedResinCount, 10) <= 1);
+                    }
+                    if (resinTypes.includes("2"))
+                    {
+                        shouldExit &= (parseInt(originalResinCount, 10) < 40);
+                    }
+                    if (resinTypes.includes("3"))
+                    {
+                        shouldExit &= (parseInt(fragileResinCount, 10)  <= 1);
+                    }
+
+                    await click(SHU.x+550,SHU.y)
+                    log.info(` ${resinTypeMap[rewards[i]]} 获取奖励...`);
+                    dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: true }));    
+                    
+                    if (shouldExit) 
+                    {
+                        log.warn("树脂耗尽，停止执行...");
+                        await sleep(1000);          
+                        SHUOVER=2;  
+                        return false;     
+                    } 
+
+                    return true;
+                }            
+            }
+            await sleep(500);  
+        }
+        log.warn("未找到树脂，结束地脉花...");
+        await sleep(1000);        
+        await keyPress("VK_ESCAPE");
+        await sleep(1000);
+        SHUOVER=2;
+        return false;           
+    }
 
     async function getRemainResinStatus() {
         var condensedResinCount = 0; // 浓缩树脂
@@ -127,10 +536,10 @@
         var fragileResinCount = 0; // 脆弱树脂  
 
         // 浓缩树脂
-        var condensedResinCountRa = await imageRecognition(condensedResin,0, 0, 0,960,0,800,100);
+        var condensedResinCountRa = await imageRecognition(condensedResin,0, 0, 0,1190,0,400,80);
         if (condensedResinCountRa.found) {  
-            // await moveMouseTo(condensedResinCountRa.x,condensedResinCountRa.y);   
-            let countArea = await Textocr("",1, 1, 2,condensedResinCountRa.x+condensedResinCountRa.w,condensedResinCountRa.y,condensedResinCountRa.w,condensedResinCountRa.h);//
+            //  await moveMouseTo(condensedResinCountRa.x,condensedResinCountRa.y);    
+            let countArea = await Textocr("",1, 0, 2,condensedResinCountRa.x+condensedResinCountRa.w,condensedResinCountRa.y,condensedResinCountRa.w*2-5,condensedResinCountRa.h-5);//
             if (countArea.found){
                 // log.info("浓缩树脂识别数量结果： "+ countArea.text);
                 condensedResinCount = countArea.text
@@ -141,10 +550,10 @@
             }
 
         } else {
-            log.info("未检测到浓缩树脂图标");
+            log.info("未检测到浓缩树脂图标");        
         }
 
-        var originalResinCountRa = await imageRecognition(originalResin,0, 0, 0,1500,0,200,90);
+        var originalResinCountRa = await imageRecognition(originalResin,0, 0, 0,1555,0,75,80);
         if (originalResinCountRa.found) {  
             // await moveMouseTo(originalResinCountRa.x,originalResinCountRa.y);   
             let countArea = await Textocr("",1, 1, 2,originalResinCountRa.x+originalResinCountRa.w,originalResinCountRa.y,originalResinCountRa.w*3,originalResinCountRa.h);//
@@ -170,9 +579,9 @@
         }
 
 
-        var fragileResinCountRa = await imageRecognition(fragileResin,0, 0, 1,1170,0,350,100);
+        var fragileResinCountRa = await imageRecognition(fragileResin,0, 0, 1,1190,0,400,80);
         if (fragileResinCountRa.found) {  
-           // await moveMouseTo(fragileResinCountRa.x,fragileResinCountRa.y);   
+        //    await moveMouseTo(fragileResinCountRa.x,fragileResinCountRa.y);   
             let countArea = await Textocr("",1, 1, 2,fragileResinCountRa.x+fragileResinCountRa.w,fragileResinCountRa.y,fragileResinCountRa.w*2,fragileResinCountRa.h);//
             if (countArea.found){
                 // log.info("脆弱树脂识别数量结果："+ countArea.text);
@@ -191,144 +600,80 @@
         log.info("树脂状态：浓缩{0} 原粹{1} 脆弱{2} ", condensedResinCount, originalResinCount, fragileResinCount)
         return {condensedResinCount,originalResinCount,fragileResinCount}
     }
-    
 
-    //征讨之花领奖
-    const autoNavigateToReward = async () => {
-            // 定义识别对象
-            const boxIconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/box.png"));
-            const rewardTextRo = RecognitionObject.Ocr(1210, 515, 200, 50);//领奖区域检测
+    async function isOnRewardPage() {
+        const rewardText = await Textocr("地脉之花", 0.2, 0, 0, 861,265, 194, 265);
+        return rewardText.found;
+    }
 
-            advanceNum = 0;//前进次数
-            //调整为俯视视野
-            middleButtonClick();
-            await sleep(800);
-            moveMouseBy(0, 1030);
-            await sleep(400);
-            moveMouseBy(0, 920);
-            await sleep(400);
-            moveMouseBy(0, 710);
-            log.info("开始领奖");
+    var shouldContinueChecking = true;
+    /**
+     * 异步检查领奖页面的函数
+     *
+     * @param timeout 超时时间，单位为毫秒，默认值为1000毫秒
+     * @returns 无返回值
+     */
+    async function checkRewardPage(timeout = 2000) {
 
-            while (true) {
-                // 1. 优先检查是否已到达领奖点
-                let captureRegion = captureGameRegion();
-                let rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 50);
-                let rewardResult = rewardTextArea.find(RecognitionObject.ocrThis);
-                // 检测到特点文字则结束！！！
-                if (rewardResult.text == "激活地脉之花") {
-                    log.info("已到达领奖点，检测到文字: " + rewardResult.text);
-                    return true;
-                }
-                else if(advanceNum > 80){
-                throw new Error('前进时间超时');
-                }
-                // 2. 未到达领奖点，则调整视野
-                for(let i = 0; i < 100; i++){
-                captureRegion = captureGameRegion();
-                let iconRes = captureRegion.Find(boxIconRo);
-                let climbTextArea = captureRegion.DeriveCrop(1808, 1030, 25, 25);
-                let climbResult = climbTextArea.find(RecognitionObject.ocrThis);
-                // 检查是否处于攀爬状态
-                if (climbResult.isEmpty()){
-                log.info("检侧到页面错误，尝试脱离");
-                let SHU = Textocr("地脉之花", 0.3, 1, 0, 861,265, 194, 265);
-                if (SHU.found){return true;}
-                await keyDown("w");
-                await keyPress("VK_ESCAPE"); 
-                await sleep(500);
-                await keyDown("w");
-                await sleep(5000);
-                await keyUp("w");            
-                }
-                if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {    
-                    advanceNum++;
-                    log.info(`视野已调正，前进第${advanceNum}次`);
-                    break;
-                } else {
-                    // 小幅度调整
-                    if(iconRes.y >= 520)  moveMouseBy(0, 920);
-                    let adjustAmount = iconRes.x < 920 ? -20 : 20;
-                    let distanceToCenter = Math.abs(iconRes.x - 920); // 计算与920的距离
-                    let scaleFactor = Math.max(1, Math.floor(distanceToCenter / 50)); // 根据距离缩放，最小为1
-                    let adjustAmount2 = iconRes.y < 540 ? scaleFactor : 10;
-                    moveMouseBy(adjustAmount * adjustAmount2, 0);
-                    await sleep(100);
-                }         
-                
-                if(i > 97) {    
-                    if (verticalNum >= 2) {
-                        verticalNum = 0;
-                        throw new Error('领取超时');              
-                    }  
-                    log.info("领取超时，重新尝试1次");
-                    await genshin.returnMainUi(); await sleep(1000);//退出待写
-                    return false;
-                } 
-            }
-            // 3. 前进一小步
-            keyDown("w");
-            await sleep(600);
-            keyUp("w");
-            await sleep(100); // 等待角色移动稳定
-            let earthlyVeins = await Textocr("地脉之花", 0.1, 0, 0, 861,265, 194, 265)
-            if (earthlyVeins.found) {
-                return true;
-            }
+        if (!shouldContinueChecking) {
+            return; // 如果不应该继续检测，则直接返回
+        }
+        if (await isOnRewardPage()) {
+            log.info("检测到领奖页面，按ESC退出...");
+            await keyPress("VK_ESCAPE"); // 按ESC退出领奖页面
+            await genshin.returnMainUi();
+            await sleep(timeout);
+            checkRewardPage(timeout);
+        } else {
+            await sleep(timeout);
+            checkRewardPage(timeout);
         }
     }
 
-    async function readyFightIn(){
-            var startTime = new Date();
-            await sleep(500);
-            var NowTime = new Date();
-            keyDown("w");   
-            while ((NowTime - startTime)<10*1000){
-                const result = await Textocr("战斗准备",0.1,0,3,1198,492,150,80);
-                const result2 = await Textocr("开始挑战",0.1,0,3,1554,970,360, 105);
-                if (result.found || result2.found) {
-                    await keyUp("w");
-                    await keyPress("F");await sleep(200); await keyPress("F");        
-                    return true;  
-                }
-                keyDown("w"); 
-                keyPress("F");    
-                NowTime = new Date();
-            }
-        await keyUp("w");
-        await genshin.returnMainUi();
-        return false
-    }
-
     //异步检测战斗，来自D捣蛋&秋云佬的全自动地脉花的代码
-    async function autoFight(timeout) {
+    async function autoFight(Fighttimeout) {
         const cts = new CancellationTokenSource();
         log.info("开始战斗");
         dispatcher.RunTask(new SoloTask("AutoFight"), cts);
-        let fightResult = await recognizeTextInRegion(timeout);
+        let fightResult = await recognizeTextInRegion(Fighttimeout);
         logFightResult = fightResult ? "成功" : "失败";
         log.info(`战斗结束，战斗结果：${logFightResult}`);
         cts.cancel();
-        return fightResult;}
+        return fightResult;
+    }
 
+    function recognizeFightText(captureRegion) {
+        try {
+            let result = captureRegion.find(ocrRo2);
+            let text = result.text;
+            keywords = ["打倒", "所有", "敌人"];
+            for (let keyword of keywords) {
+                if (text.includes(keyword)) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (error) {
+            log.error("OCR过程中出错: {0}", error);
+        }
+    }
 
-    async function recognizeTextInRegion(timeout) {
+    async function recognizeTextInRegion(Fighttimeout) {
         return new Promise((resolve, reject) => {
             (async () => {
                 try {
                     let startTime = Date.now();
-                    const successKeywords = ["挑战完成","战斗完成"];
-                    const failureKeywords = ["战斗失败","挑战失败"];
-
+                    let noTextCount = 0;
+                    const successKeywords = ["挑战达成", "战斗胜利", "挑战成功"];
+                    const failureKeywords = ["挑战失败"];
+    
                     // 循环检测直到超时
-                    while (Date.now() - startTime < timeout) {
+                    while (Date.now() - startTime < Fighttimeout) {
                         try {
                             let captureRegion = captureGameRegion();
                             let result = captureRegion.find(ocrRo1);
-                            let result2 = captureRegion.find(ocrRo2);
                             let text = result.text;
-                            let text2 = result2.text;
-
+    
                             // 检查成功关键词
                             for (let keyword of successKeywords) {
                                 if (text.includes(keyword)) {
@@ -336,24 +681,40 @@
                                     resolve(true);
                                     return;
                                 }
-                            }                          
-
-                            // 检查失败关键词--
+                            }
+    
+                            // 检查失败关键词
                             for (let keyword of failureKeywords) {
-                                if (text2.includes(keyword)) {
+                                if (text.includes(keyword)) {
                                     log.warn("检测到战斗失败关键词: {0}", keyword);
                                     resolve(false);
                                     return;
                                 }
-                            }                        
+                            }
+    
+                            //战斗区域
+                            let foundText = recognizeFightText(captureRegion);
+                            if (!foundText) {
+                                noTextCount++;
+                                log.info(`检测到可能离开战斗区域，当前计数: ${noTextCount}`);
+    
+                                if (noTextCount >= 10) {
+                                    log.warn("已离开战斗区域");
+                                    resolve(false);
+                                    return;
+                                }
+                            }
+                            else {
+                                noTextCount = 0; // 重置计数
+                            }
                         }
                         catch (error) {
                             log.error("OCR过程中出错: {0}", error);
                         }
-
+    
                         await sleep(1000); // 检查间隔
                     }
-
+    
                     log.warn("在超时时间内未检测到战斗结果");
                     resolve(false);
                 } catch (error) {
@@ -361,369 +722,188 @@
                 }
             })();
         });
-    } 
-    
-    // 领取奖励更换
-    async function selectionHolyRelics() { 
+    }    
 
-        let artifactImagePath = artifactImageMap[Artifacts];
-        // 检查artifactImagePath是否存在
-        if (!artifactImagePath) {
-            throw new Error(`未找到与Artifacts值'${Artifacts}'对应的图片路径`);
-        }
-        let modifiedPath = artifactImagePath.slice(0, -4);
-        let newImagePath = modifiedPath + "in.bmp";
+    var executedCount = 0;
+    async function Veinfligt() {
+         // 定义路线常量
+         var selectedPath = pathingMap[`路线${position.line} ${['厄里那斯', '秋分山西侧锚点左下', '秋分山西侧锚点右', '柔灯港上锚点', '新枫丹科学院左锚点', '芒索斯山东麓'][position.line - 1]}`]
+         var selectedFolder = folderMap[`路线${position.line} ${['厄里那斯', '秋分山西侧锚点左下', '秋分山西侧锚点右', '柔灯港上锚点', '新枫丹科学院左锚点', '芒索斯山东麓'][position.line - 1]}`]
 
-        await sleep(500);
-        await click(116,980) // 领取奖励切换按钮
-        await sleep(100);
-        await click(116,980) // 领取奖励切换按钮
-        await sleep(100);
-        
-        let rewardSettings  = await Textocr("奖励设置",15,0,0,882,34,161,52);//这个时候有人申请进入世界会遮住，真是尴尬啊，不过不影响大局。
-        if (!rewardSettings.found) {await genshin.returnMainUi();return false;}
-        await click(1642,159);
-        await sleep(100);
-        await click(1642,159);
-        await sleep(100);
-        
-        let YOffset = 0; // Y轴偏移量，根据需要调整
+         executedCount = (position.flower-1)*2+0;         
+         Lastexecution = false;
 
-         //滚轮预操作
-         await moveMouseTo(1642,159);
-         await sleep(100);
-         await leftButtonDown();
-         await sleep(100);
-         await moveMouseTo(1642,155);
-         
-         const maxRetries = 9; // 最大重试次数
-         let retries = 0; // 当前重试次数
-         while (retries < maxRetries) {
-             let result1 = await imageRecognition(newImagePath,1, 0, 0,1166,141,210,857);//
-             if (result1.found) {
-                 await leftButtonUp();
-                 await sleep(500);
-                 await click(result.x-500,result.y); 
-                 await sleep(1000);
-                 await  keyPress("VK_ESCAPE");
-                 return true   
-             }
-             retries++; // 重试次数加1
-             //滚轮操作
-             YOffset += 100;
-             if (retries === maxRetries || retries+YOffset > 1080) {
-                await leftButtonUp();
-                await sleep(100); 
-                await  keyPress("VK_ESCAPE");
-                await genshin.returnMainUi(); 
-                return false;
-            }
-             await moveMouseTo(1642,155+YOffset);
-             await sleep(500);              
-         }              
+         log.info(`开始执行第 ${position.line} 线路的第 ${executedCount/2 + 1}/${selectedPath.length/2} 朵地脉花...`);
 
-        return true;
-    }
+        for (let i = 0; i < selectedPath.length; i += 2){
 
-    async function claimRewards() {
-        log.info(`尝试领取奖励，优先${onerewards}'`);
-        let SHUN01 = await Textocr("激活地脉之花",0.6,2,0,1188,358,200,400);
-        let SHUN02 = await Textocr("地脉之花", 0.2, 1, 0, 861,265, 194, 265);
-        if (SHUN01.found || SHUN02.found) {
-            log.info("找到地脉之花，开始领取奖励...");
-        }
-        else
-        {        
-            log.warn("未找到地脉之花，尝试向前寻找...")           
-            await keyDown("W");await sleep(300);await keyUp("W"); 
-            await keyPress("F");      
-        }
+            if (executedCount/2 + 1 > selectedPath.length/2) {
+                // if (executedCount>99) {log.info("未找到地脉花，重新尝试..."); return true;}
 
-        await sleep(300);        
-
-        for (let j = 0;j < 2;j++) {
-
-            for (let i = 0;i < rewards.length;i++) {
-                let SHU =  await Textocr(resinTypeMap[rewards[i]],0.3,0,0,510,380,640,600);
-                if (SHU.found){
-                    if (resinTypeMap[rewards[i]] == "使用20个原粹树脂")
-                    {
-                    let BUC =  await Textocr("补充",0.2,0,0,1150,440,210,130);
-                        if (BUC.found) {continue;}                                           
-                    }
-                    await sleep(100);
-                    await click(SHU.x+550,SHU.y)
-                    await sleep(100);
-                    await click(SHU.x+550,SHU.y)
-                    await sleep(300);
-                    log.info(` ${resinTypeMap[rewards[i]]} 获取奖励...`);
-                    
-                    await Textocr("锁定辅助",10,0,0,1768,0,115,90);
-                    let { condensedResinCount, originalResinCount, fragileResinCount } = await getRemainResinStatus();                        
-                    let shouldExit = true;
+                log.info("本线路执行完毕...");
+                break;}  
                 
-                    if (resinTypes.includes("1"))
-                    {
-                        shouldExit &= (parseInt(condensedResinCount, 10) == 0);
-                    }
-                    if (resinTypes.includes("2"))
-                    {
-                        shouldExit &= (parseInt(originalResinCount, 10) < 20);
-                    }
-                    if (resinTypes.includes("3"))
-                    {
-                        shouldExit &= (parseInt(fragileResinCount, 10)  == 0);
-                    }                
-                    if (shouldExit) 
-                    {
-                        log.warn("树脂耗尽，停止执行...");
-                        await sleep(1000);        
-                        await keyPress("VK_ESCAPE"); 
-                        await sleep(1000);      
-                        return false;     
-                    }               
-                    log.warn("还有树脂...");          
-                    return true;
-                }        
+            if (doneCount >= timesConfig.value/2){
+                SHUOVER=2;log.info(`地脉花执行完成 ${timesConfig.value/2} 次，结束执行...`);
+                return true;
+                }    
+
+            const jsonFile1 = selectedPath[i+position.flower*2-2];
+            if (jsonFile1 == undefined) {              
+                log.info(`本线路完结，未达设定执行次数 ${timesConfig.value/2} ，继续执行...`);
+                return true;
             }
-            await sleep(500);  
-        }
-        log.warn("未找到树脂，结束领取奖励...");
-        await sleep(1000);        
-        await keyPress("VK_ESCAPE"); 
-        await sleep(1000);      
-        return false;           
-    }
+            const jsonFile2 = selectedPath[i+position.flower*2-1];         
 
-    async function VeinEntrance() {
-        for (let i = 0;i < 2;i++) {
-            let JIECHU = await Textocr("F",2,2,0,1098,519,35,32);
-            if (JIECHU.found)
-            {
-                await keyPress("F");
-                await keyPress("F");
-                break;
-            }
-            else
-            {
-                if(i == 1){
-                log.warn("没找入口，尝试强制转圈寻找...");  
-                await keyDown("W");keyPress("F");await sleep(500);keyPress("F");await keyUp("W"); 
-                await keyDown("D");keyPress("F");await sleep(500);keyPress("F");await keyUp("D");
-                await keyDown("S");keyPress("F");await sleep(500);keyPress("F");await keyUp("S");
-                await keyDown("A");keyPress("F");await sleep(500);keyPress("F");await keyUp("A");
-                await keyDown("W");keyPress("F");await sleep(500);keyPress("F");await keyUp("W");
-                break;
-                }
-            }
-        }
-    }
-   
-    var resinAgain = false;
-    log.warn("自动幽境危战版本：v1.4");
-    log.warn("根目录下有建议加的黑名单的名称，建议加入自动 <<拾取黑名单>> ...");
-    log.warn("请保证队伍战斗实力，战斗失败或执行错误，会重试一次...");
-    log.warn("使用前请在 <<幽境危战>> 中配置好战斗队伍...");
-    log.warn("最好关闭自动拾取功能...");  
-    log.info(`圣遗物奖励选择：'${Artifacts}'`);  
-    
-    //重试两次
-    for (let j = 0;j < 2;j++) {  
-
-        resinAgain = false; //重试标志
-
-        try{    
-                await genshin.returnMainUi(); 
-                await pathingScript.runFile(`assets/全自动幽境危战.json`);
-                await VeinEntrance();
-
-                // 进入-选择难道
-                let intoAction  = await Textocr("单人挑战",10,0,0,1554,970,360, 105);
-                if (!intoAction.found) {await genshin.returnMainUi();throw new Error("未进入挑战页面，停止执行...")}
-                let adjustmentType  = await Textocr("至危挑战", 1, 0, 0,797,144,223,84);
-                if (adjustmentType.found) {
-                    log.warn("找到至危挑战，尝试切换...")
-                    await sleep(500);
-                    await click(890,191) 
-                    await sleep(500);                    
-                }
-                let hardMode  = await Textocr("困难", 0.3, 0, 0,1049,157,72,47);
-                let hardMode2  = await Textocr("困难", 0.2, 0, 0,805,156,83,47);
-                if (hardMode.found || hardMode2.found) {
-                    log.warn("确认困难模式...")
+            // 执行单个到达地脉花路径文件1
+            const choicePath = `${selectedFolder}${jsonFile1}`   
+            log.info(`开始执行前往都地脉花：${jsonFile1}`);
+            if(SMODEL){
+                if (!Lastexecution || (position.line==1 && (i+position.flower*2-2)==8)) {                        
+                    if(position.line==2 && (i+position.flower*2-2)==8 && Lastexecution){                       
+                        await pathingScript.runFile("assets/枫丹地脉花-路线2 秋分山西侧锚点左下/线路修复/枫丹地脉花-路线2 秋分山西侧锚点左下-5：秋分山左左下下1-线路修复.json");}
+                    else
+                        { 
+                            if(position.line==2 && (i+position.flower*2-2)==8)//特殊处理
+                            {                                
+                                let pathDic = JSON.parse(file.readTextSync(choicePath));
+                                log.info(`第 2 线路第 5 朵花特殊处理...`);
+                                await genshin.tp("4402.5048", "2295.4807", true);
+                                await genshin.returnMainUi();
+                                pathDic["positions"].splice(0, 1);
+                                await pathingScript.run(JSON.stringify(pathDic));
+                            }else{await pathingScript.runFile(`${selectedFolder}${jsonFile1}`);}
+                        }
                 }
                 else
-                {
-                    log.warn("未找到困难模式，尝试切换...")
-                    await sleep(500); 
-                    await click(1096,186);
-                    await sleep(500); 
-                    await click(1093,399);  
-                }
-
-                //圣遗物奖励选择                
-                if (Artifacts != "保持圣遗物奖励不变"){                   
-                    let artifact = await imageRecognition(artifactImageMap[Artifacts],0.2,0,0,186,972,71,71);
-                    if (!artifact.found) {
-                        log.warn("圣遗物奖励和设定不一致，尝试切换...")
-                        if (!await selectionHolyRelics()){throw new Error("圣遗物奖励设置错误，停止执行...")}
+                {                     
+                    let pathDic = JSON.parse(file.readTextSync(choicePath));
+                    if (pathDic["positions"].length > 1) 
+                    {
+                        pathDic["positions"] = pathDic["positions"].slice(-1);
                     }
-                    else
-                    {                        
-                        log.warn("圣遗物奖励一致，无需切换...")
-                    }                    
+                    await pathingScript.run(JSON.stringify(pathDic));
                 }
+            }else{
 
-                //多点击一次，保证进入挑战页面
-                await sleep(500);
-                await click(intoAction.x,intoAction.y)
-                await sleep(1000);
-                await click(intoAction.x,intoAction.y)
-
-                //进入秘境
-                let enter  = await Textocr("Enter",10,0,0,18,990,156,71,71);
-                if (!enter.found) {await genshin.returnMainUi();throw new Error("未进入秘境，停止执行...")}//退出待写
-
-                //向前走进入挑战
-                if (!(await readyFightIn())){await genshin.returnMainUi();throw new Error("未进入准备战斗，停止执行...")}//退出待写
-                await sleep(1000);
-
-                //选择挑战怪兽
-                log.info(`选择挑战Boss：'${challengeName}' 挑战次数：'${challengeNum}'`);
-                log.info(`期间树脂耗尽会自动退出秘境...`);
-
-                switch (challengeName) {
-                    case "1":
-                        await click(207,349);
-                        break;
-                    case "2":
-                        await click(239,531);
-                        break;
-                        case "3":
-                        await click(227,713);
-                        break;
-                    default:
-                        throw new Error("未知的挑战Boss类型");
-                }
-
-                //选择队员-苏婷老师-待写
-                // log.warn("队伍选择功能等伟大的苏苏老师考完试做...")
-
-                await Textocr("开始挑战",1,1,0,1554,970,360, 105);               
-
-                var resinexhaustion = false; // 条件1：树脂耗尽
-
-                //开始战斗循环    
-                for (let i = 0;i < challengeNum; i++) {
-                    //进入秘境
-                    let battleBegins  = await Textocr("战斗开始",20,0,0,877,235,164,50);     
-                    if (!battleBegins.found){await genshin.returnMainUi();throw new Error("未进入战斗环境，停止执行...")}//退出待写
-                    
-                    log.info(`进入战斗环境，开始第 ${i+1} 次战斗`);
-
-                    await keyDown("w");
-                    await sleep(Startforward);
-                    await keyUp("w");
-
-                    try {
-                        if(!await autoFight(Fighttimeout)){
-                            log.warn("战斗失败,退出秘境...");
-                            await sleep(1000);
-                            await keyPress("VK_ESCAPE"); 
-                            await sleep(1000);
-                             await keyPress("VK_ESCAPE"); 
-                            await sleep(1000);                           
-                            let exitChallenge = await Textocr("退出挑战",2,1,0,866,719,274,86);
-                            await sleep(1000); 
-                            throw new Error("战斗失败，停止执行...");
-                        }   
-                    } catch (error) {
-                        resinAgain = true;
-                        if (j==0)log.info(`挑战失败，再来一次...`);
-                    }    
-
-                    if (resinAgain != true) {   
+                  if(position.line==2 && (i+position.flower*2-2)==8 && Lastexecution)
+                     {
+                        await pathingScript.runFile("assets/枫丹地脉花-路线2 秋分山西侧锚点左下/线路修复/枫丹地脉花-路线2 秋分山西侧锚点左下-5：秋分山左左下下1-线路修复.json");
+                    }
+                  else
+                     {
+                        if(position.line==2 && (i+position.flower*2-2)==8)//特殊处理
+                            {                     
+                                let pathDic = JSON.parse(file.readTextSync(choicePath));
+                                log.info(`第 2 线路第 5 朵花特殊处理...`);
+                                await genshin.tp("4402.5048", "2295.4807", true);
+                                await genshin.returnMainUi();
+                                pathDic["positions"].splice(0, 1);
+                                await pathingScript.run(JSON.stringify(pathDic));
+                            }else{await pathingScript.runFile(`${selectedFolder}${jsonFile1}`);}
                         
-                        await sleep(1000);
-                        await keyPress("VK_ESCAPE"); 
-                        await sleep(1000);
-
-                        while((await Textocr("Enter",5,0,0,18,990,156,80).found) == false)
-                        {
-                            await keyPress("VK_ESCAPE"); 
-                            await sleep(1000);
-                        }  
-
-                        log.info(`第 ${i+1} 次领奖`);
-
-                        if(!(await autoNavigateToReward())){verticalNum++;continue;}
-                    
-                        await sleep(1000);
-                    
-                        if (!(await claimRewards())) {
-                            log.warn("树脂消耗完毕，结束任务");        
-                            resinexhaustion = true;
-                        }
-                        else
-                        {
-                            if (challengeNum != i+1) 
-                            {   
-                                let challengeAgian  = await Textocr("再次挑战",10,0,0,1094,958,200,70);
-                                if (!challengeAgian.found){await genshin.returnMainUi();throw new Error("未找到·再次挑战·按键，停止执行...")}//退出待写
-                                for (let retry = 0; retry < 5 && challengeAgian.found; retry++) 
-                                {
-                                    challengeAgian  = await Textocr("再次挑战",0.2,0,0,1094,958,200,70);
-                                    if (challengeAgian.found){                                    
-                                    await sleep(500);  
-                                    await click(challengeAgian.x, challengeAgian.y);
-                                    await sleep(1000);  
-                                    } 
-                                    await sleep(200);                                                                                          
-                                }                                
-                            }
-                        }
                     }
-
-                    //是否继续
-                    if (challengeNum == i+1 || resinexhaustion == true){
-                        log.info (`完成 ${i+1} 次战斗或树脂耗尽，退出挑战...`);
-                        await sleep(1000); 
-                        await keyPress("VK_ESCAPE"); 
-                        await sleep(1000); 
-
-                        var exitTimeout = 0;
-                        while(exitTimeout < 20) {
-                        let exitChallenge = await Textocr("退出挑战",0.3,0,0,866,719,274,86);
-                        if (exitChallenge.found) {
-                            await sleep(1500);  
-                            await click(exitChallenge.x, exitChallenge.y);
-                            await sleep(500);  
-                            break;
-                            } 
-                            let exitChallenge2 = await Textocr("退出挑战",0.3,1,0,866,719,274,86);               
-                            log.info("尝试退出挑战...");
-                            await sleep(1500);  
-                            await keyPress("VK_ESCAPE"); 
-                            await sleep(1000);  
-                            exitTimeout++; 
-                        }                        
-                        await genshin.returnMainUi(); 
-                        if (resinAgain == true){throw new Error("执行错误，重试一次...")}        
-                        return true;
-                    }
-
-                    await sleep(500);   
-                }      
             }
-        catch (error) {            
-            log.error(`执行过程中发生错误：${error.message}`);
-            resinAgain = true;
-            await genshin.returnMainUi(); 
-            continue;
-        }finally{ 
-            await genshin.returnMainUi();
-            if (resinAgain == false) log.info(`Auto自动幽境危战结束...`);
+ 
+            // 寻找地脉溢口，文字识别不到转圈寻找，不管有没找到都执行战斗，最后领取奖励判断是否继续执行
+            shouldContinueChecking = true;
+            checkRewardPage();// 执行自动战斗并同步检测领奖页面
+            await VeinEntrance();
+            await sleep(1000);
+            await dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false})); await keyPress("F");
+            log.warn("开始战斗...");
+           
+            if (!Fightquick){           
+                await dispatcher.runTask(new SoloTask("AutoFight")); //固定执行两次战斗，执行自动战斗,配置器中的设置建议填你的队伍打一次大概得时间
+                await sleep(2000);
+                await dispatcher.runTask(new SoloTask("AutoFight"));
+            }else
+            {                
+                if(!await autoFight(Fighttimeout)){
+                    log.warn("战斗失败,尝试寻找地脉花入口");
+                }                
+            }
+           
+            //执行到地脉花地点的寻路脚本
+            log.info(`开始执行寻找地脉花奖励：${jsonFile2}`);
+            await dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false}));
+            await pathingScript.runFile(`${selectedFolder}${jsonFile2}`);
+            await sleep(3000);
+            // 领取奖励，开始找地脉口            
+            log.info(`开始本线路第 ${executedCount/2+1} 朵花的奖励领取`);
+            if (haoganq==1){log.info(`切换好感队伍：'${haogandui}'`);await genshin.returnMainUi(); await sleep(1000);await genshin.SwitchParty(haogandui);}
+            shouldContinueChecking = false;
+            await sleep(2000);
+            if (!(await claimRewards())) {
+                log.warn("树脂消耗完毕，结束任务");
+                dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false }));
+                await genshin.returnMainUi(); 
+                return true; // 条件2触发：树脂耗尽================
+            }
+            Lastexecution=true;
+            if (haoganq==1){log.info(`切换战斗队伍：'${settings.n}'`);await genshin.returnMainUi(); await sleep(1000);await genshin.SwitchParty(settings.n);}
+            dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false }));
+            // 冷却等待（可选）
+            await sleep(1000);
+            executedCount=executedCount+2;   
+            doneCount++;          
         }
-    }
+        return true;// 线路完成
+    }   
 
+    // UID获取存在概率不成功，慎用！请更换背景纯色的名片提高OCR成功率
+    let uidNumbers = nowuidString.match(/\d+/g);
+    if (nowuidString) {
+        log.debug(`DEBUG:${uidNumbers}`);//调试LOG
+        await genshin.returnMainUi(); 
+        await keyPress("VK_ESCAPE");
+        await sleep(500);
+            if (uidNumbers && uidNumbers.length > 0) {
+                // 使用 for...of 循环遍历 uidNumbers 数组
+                for (let number of uidNumbers) {
+                    var UIDnow = number;
+                    log.debug(`DEBUG:${UIDnow}`);
+                    let UIDD = await Textocr(UIDnow, 1, 0, 0, 112,177, 190, 39);
+                    if (UIDD.found) {
+                        log.warn(`UID "${UIDnow}" 已被禁用，停止刷取！`);
+                        SHUOVER = 2; // 假设 SHUOVER = 2 表示需要停止程序
+                        break; 
+                    }
+                } 
+        }
+    }else{log.warn("未配置禁用UID，继续进行！");}
+
+    try { 
+        //根据SHUOVER决定模式
+        while (SHUOVER<=1){
+            Fligtin = true ; //领取冒险点奖励标志。
+            if (!(await PathCheak1())){;await leftButtonUp();throw new Error("未找到地脉花，退出！")}else{await leftButtonUp();await genshin.returnMainUi();}
+
+            //第一次执行选择队伍
+            if (SHUOVER == 0){await genshin.returnMainUi(); await sleep(1000);await genshin.SwitchParty(settings.n);await sleep(500);}
+            //开始寻找并执行地脉花自动。
+            if (!(await Veinfligt())){throw new Error("线路出错，退出！")}
+            //线路一般4~6朵花，默认打完一条线路后退出，如耗尽模式重新寻找地脉线路，打到没树脂为止。
+            if (SHUV == 2 && SHUOVER !==2){SHUOVER=1;}else{SHUOVER=2;}
+        }
+        await genshin.returnMainUi(); 
+        log.warn("本次地脉花路线已执行完毕。");
+        //领取冒险点奖励，切换好感队伍
+        if (Rewards && Fligtin) {
+            if(!(settings.nh === undefined)){
+                shouldContinueChecking = true;
+                checkRewardPage();// 执行自动战斗并同步检测领奖页面    
+                log.info(`切换好感队伍：'${haogandui}'`);
+                await genshin.returnMainUi(); await sleep(1000);
+                await genshin.SwitchParty(haogandui);
+            }else{log.warn("好感队未配置，领奖励时不切换队伍")}
+            await genshin.goToAdventurersGuild("枫丹");
+                shouldContinueChecking = false;
+                await sleep(2000);
+        }
+    } catch (error) {
+        log.error(`执行过程中发生错误：${error.message}`);
+    }finally{
+        await genshin.returnMainUi(); 
+    }
 })();
