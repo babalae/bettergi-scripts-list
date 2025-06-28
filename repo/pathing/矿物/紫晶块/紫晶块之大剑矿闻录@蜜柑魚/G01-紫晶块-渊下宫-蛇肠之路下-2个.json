@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "G02-紫晶矿-渊下宫-蛇心之地下(有战斗)-4个",
+    "name": "G01-紫晶块-渊下宫-蛇肠之路下-2个",
     "type": "collect",
     "author": "蜜柑魚",
     "version": "1.0",
@@ -10,7 +10,7 @@
     "tags": [
       "双手剑"
     ],
-    "last_modified_time": 1750933390279
+    "last_modified_time": 1750929882396
   },
   "positions": [
     {
@@ -18,95 +18,95 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 480.69,
-      "y": -538.05,
+      "x": 1580.99,
+      "y": -112.64,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 505.45,
-      "y": -576.72,
+      "x": 1597.07,
+      "y": -121.32,
       "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
+      "move_mode": "walk",
+      "action": "",
       "action_params": ""
     },
     {
       "id": 3,
-      "x": 511.46,
-      "y": -573.63,
+      "x": 1625.43,
+      "y": -195.73,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action": "",
       "action_params": ""
     },
     {
       "id": 4,
-      "x": 548.14,
-      "y": -563.57,
+      "x": 1600.52,
+      "y": -279.15,
       "type": "path",
       "move_mode": "dash",
-      "action": "fight",
+      "action": "",
       "action_params": ""
     },
     {
       "id": 5,
-      "x": 573.9,
-      "y": -563.9,
-      "type": "target",
-      "move_mode": "walk",
+      "x": 1574.57,
+      "y": -314.37,
+      "type": "path",
+      "move_mode": "dash",
       "action": "",
       "action_params": ""
     },
     {
       "id": 6,
-      "x": 572.22,
-      "y": -564.9,
-      "type": "target",
+      "x": 1557.3,
+      "y": -276.06,
+      "type": "path",
       "move_mode": "walk",
-      "action": "mining",
+      "action": "",
       "action_params": ""
     },
     {
       "id": 7,
-      "x": 573.9,
-      "y": -563.9,
+      "x": 1586.33,
+      "y": -247.21,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action": "",
       "action_params": ""
     },
     {
       "id": 8,
-      "x": 570.7,
-      "y": -562.4,
+      "x": 1581.97,
+      "y": -239.77,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 1579.96,
+      "y": -241.71,
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
       "action_params": ""
     },
     {
-      "id": 9,
-      "x": 574.22,
-      "y": -564.45,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
       "id": 10,
-      "x": 571.59,
-      "y": -544.89,
+      "x": 1579.96,
+      "y": -241.71,
       "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "action": "combat_script",
+      "action_params": "wait(1)"
     },
     {
       "id": 11,
-      "x": 568.0,
-      "y": -544.65,
+      "x": 1579.75,
+      "y": -241.08,
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
@@ -114,29 +114,11 @@
     },
     {
       "id": 12,
-      "x": 572.35,
-      "y": -538.25,
+      "x": 1580.98,
+      "y": -241.52,
       "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 13,
-      "x": 573.5,
-      "y": -538.65,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
-    },
-    {
-      "id": 14,
-      "x": 573.22,
-      "y": -538.64,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
+      "action": "pick_around",
       "action_params": ""
     }
   ]
