@@ -8,7 +8,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1750881560654
+    "last_modified_time": 1751112618515
   },
   "positions": [
     {
@@ -42,9 +42,9 @@
       "id": 4,
       "x": 4260.68994140625,
       "y": -608.3671875,
-      "action": "combat_script",
+      "action": "up_down_grab_leaf",
       "move_mode": "walk",
-      "action_params": "keypress(t),",
+      "action_params": "",
       "type": "orientation"
     },
     {
@@ -53,26 +53,26 @@
       "y": -635.34375,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "moveby(0,400),keypress(t),wait(0.2),keypress(t),wait(0.3),keypress(t),wait(0.3),keypress(t),wait(1.5),keypress(t),wait(0.3),keypress(t)",
+      "action_params": "keydown(w),wait(0.5),click(middle),keyup(w),wait(0.5),moveby(0,400),keypress(t),wait(0.2),keypress(t),wait(0.3),keypress(t),wait(0.3),keypress(t),wait(1.5),keypress(t),wait(0.3),keypress(t)",
       "type": "orientation"
     },
     {
       "id": 6,
       "x": 4303.28369140625,
       "y": -661.82568359375,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 7,
       "x": 4304.927734375,
       "y": -663.89599609375,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);"
+      "move_mode": "walk",
+      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "type": "target"
     }
   ]
 }
