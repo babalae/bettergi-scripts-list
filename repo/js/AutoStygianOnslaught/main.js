@@ -313,22 +313,22 @@
          await sleep(100);
          await moveMouseTo(1642,155);
          
-         const maxRetries = 15; // 最大重试次数
+         const maxRetries = 9; // 最大重试次数
          let retries = 0; // 当前重试次数
          while (retries < maxRetries) {
-             let result1 = await imageRecognition(newImagePath, 1, 0, 0,1178,148,87,857);//
+             let result1 = await imageRecognition(newImagePath,1, 0, 0,1166,141,210,857);//
              if (result1.found) {
                  await leftButtonUp();
                  await sleep(500);
-                 await click(result.x-200,result.y); 
+                 await click(result.x-500,result.y); 
                  await sleep(1000);
                  await  keyPress("VK_ESCAPE");
                  return true   
              }
              retries++; // 重试次数加1
              //滚轮操作
-             YOffset += 200;
-             if (retries === maxRetries || retries+YOffset > 1920) {
+             YOffset += 100;
+             if (retries === maxRetries || retries+YOffset > 1080) {
                 await leftButtonUp();
                 await sleep(100); 
                 await  keyPress("VK_ESCAPE");
@@ -430,19 +430,25 @@
                 // 进入-选择难道
                 let intoAction  = await Textocr("单人挑战",10,0,0,1554,970,360, 105);
                 if (!intoAction.found) {await genshin.returnMainUi();throw new Error("未进入挑战页面，停止执行...")}
-                let adjustmentType  = await Textocr("常规挑战", 2, 0, 0,797,144,223,84);
-                if (!adjustmentType.found) {
-                    log.warn("未找到常规挑战，尝试切换...")
+                let adjustmentType  = await Textocr("至危挑战", 1, 0, 0,797,144,223,84);
+                if (adjustmentType.found) {
+                    log.warn("找到至危挑战，尝试切换...")
                     await sleep(500);
-                    await click(890,191)                    
+                    await click(890,191) 
+                    await sleep(500);                    
                 }
-                let hardMode  = await Textocr("困难", 2, 0, 0,1049,157,72,47);
-                if (!hardMode.found) {
+                let hardMode  = await Textocr("困难", 0.3, 0, 0,1049,157,72,47);
+                let hardMode2  = await Textocr("困难", 0.2, 0, 0,805,156,83,47);
+                if (hardMode.found || hardMode2.found) {
+                    log.warn("确认困难模式...")
+                }
+                else
+                {
                     log.warn("未找到困难模式，尝试切换...")
                     await sleep(500); 
                     await click(1096,186);
                     await sleep(500); 
-                    await click(1093,399);                  
+                    await click(1093,399);  
                 }
 
                 //圣遗物奖励选择                
