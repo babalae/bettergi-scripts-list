@@ -1,0 +1,65 @@
+[
+    {
+      "name": "n",
+      "type": "input-text",
+      "label": "选填，战斗队伍，默认不更换队伍，如需好感队则必填"
+  },    
+  {
+    "name": "nh",
+    "type": "input-text",
+    "label": "选填，好感队伍，如设定领奖前切换，同时战斗队伍必填"
+    },
+    {
+        "name": "times",
+        "type": "input-text",
+        "label": "选填，按刷取次数，默认6次，最多99次，树脂耗尽模式下无效"
+    },
+    {
+        "name": "shuv",
+        "type": "select",
+        "label": "默认：“1”为按上面的次数刷取，选“2”为耗尽树脂模式",
+        "options": [
+          "1",
+          "2"
+      ]
+    },
+    {
+        "name": "color",
+        "type": "select",
+        "label": "默认：蓝花(经验花)选“1” / 黄花(摩拉花)选“2”",
+        "options": [
+          "1",
+          "2"
+      ]
+    },
+    {
+        "name": "Rewardsuse",
+        "type": "input-text",
+        "label": "树脂顺序，1=浓缩树脂/2=原粹树脂/3=脆弱树脂/4=须臾树脂\n用`/`隔开，填写对应的树脂数字即可，默认：1/2\n表示先使用浓缩树脂，再使用原粹树脂，不填的不使用"
+    },
+    {
+        "name": "nowuid",
+        "type": "input-text",
+        "label": "禁止特定UID刷地脉花，用 / 隔开，如12345/99999"
+    },
+    {
+        "name": "Rewards",
+        "type": "checkbox",
+        "label": "勾选后，打完地脉花后，领取历练点并提交每日任务"
+    },
+    {
+        "name": "SMODEL",
+        "type": "checkbox",
+        "label": "直跑模式：如下个花近，直跑过去，不传送，要求44.8版本！"
+    },
+    {
+        "name": "Fightquick",
+        "type": "checkbox",
+        "label": "开启：异步检测战斗结束，即地脉花长出后马上停止战斗\n开启后，下方的超时时间才有效\n开启后，建议关闭配置组中的“自动检测战斗结束”选项\n关闭：使用传统打开队伍界面进行判断战斗结束"
+    },
+    {
+        "name": "timeout",
+        "type": "input-text",
+        "label": "最长战斗超时时间，单位秒，默认240秒"
+    }
+]
