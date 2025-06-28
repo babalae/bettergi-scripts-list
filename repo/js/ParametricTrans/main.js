@@ -147,14 +147,15 @@ async function insertMaterial(){
             break;
     }
 
-    //滚轮预操作
+        //滚轮预操作
     await moveMouseTo(1287,131);
     await sleep(100);
     await leftButtonDown();
     await sleep(100);
-    await moveMouseBy(0,30);
+    await moveMouseTo(1287,161);
     // 薄荷图片检测
-    const maxRetries = 15; // 最大重试次数
+    let YOffset = 0; // Y轴偏移量，根据需要调整
+    const maxRetries = 20; // 最大重试次数
     let retries = 0; // 当前重试次数
     while (retries < maxRetries) {
         await imageRecognition(BH, 1, 0, 0);
@@ -175,15 +176,18 @@ async function insertMaterial(){
         }
         retries++; // 重试次数加1
         //滚轮操作
-        await moveMouseBy(0,30);
+        YOffset += 50;
         await sleep(500); 
-        if (retries === maxRetries) {
+        if (retries === maxRetries || 161+YOffset > 1080) {
             await leftButtonUp();
             await sleep(100); 
             await moveMouseTo(1287,131);
             await genshin.returnMainUi(); 
-            throw new Error("未找到材料（默认薄荷，自定义请看'注意使用事项.txt'）！");}
-    }   
+            throw new Error("未找到材料（默认薄荷，自定义请看'注意使用事项.txt'）！");
+        }
+        await moveMouseTo(1287,161+YOffset);
+        await sleep(300);   
+    }
 }
 
 
