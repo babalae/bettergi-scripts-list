@@ -1,0 +1,167 @@
+{
+  "info": {
+    "name": "C08-紫晶块-稻妻-八酝岛-蛇骨矿洞-东-(有战斗,小怪)-4个",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "双手剑",
+      "小怪"
+    ],
+    "last_modified_time": 1751132887980
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2405.734375,
+      "y": -3912.9658203125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -2448.9296875,
+      "y": -3943.837890625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -2449.2802734375,
+      "y": -3955.3,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(2)"
+    },
+    {
+      "id": 4,
+      "x": -2498.7802734375,
+      "y": -4054.591796875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(4),keypress(VK_SPACE),keypress(VK_LBUTTON)",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": -2498.7802734375,
+      "y": -4054.591796875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -2481.22265625,
+      "y": -4068.3271484375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -2485.90234375,
+      "y": -4066.2744140625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false,
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "盗宝团*2",
+        "monster_tag": "normal"
+      }
+    },
+    {
+      "id": 8,
+      "x": -2485.90234375,
+      "y": -4066.2744140625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": -2479.5556640625,
+      "y": -4065.1416015625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -2478.9755859375,
+      "y": -4062.9189453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 11,
+      "x": -2494.6953125,
+      "y": -4023.224609375,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": -2494.6787109375,
+      "y": -4023.21484375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 13,
+      "x": -2502.9267578125,
+      "y": -4023.3828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": -2501.2783203125,
+      "y": -4021.50390625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": -2501.287109375,
+      "y": -4021.4990234375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}
