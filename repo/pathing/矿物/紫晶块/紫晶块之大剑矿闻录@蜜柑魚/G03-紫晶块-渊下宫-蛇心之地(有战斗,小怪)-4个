@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "G03-紫晶块-渊下宫-蛇心之地-4个",
+    "name": "G03-紫晶块-渊下宫-蛇心之地(有战斗,小怪)-4个",
     "type": "collect",
     "author": "蜜柑魚",
     "version": "1.0",
@@ -8,7 +8,8 @@
     "map_name": "Enkanomiya",
     "bgi_version": "0.45.0",
     "tags": [
-      "双手剑"
+      "双手剑",
+      "小怪"
     ],
     "last_modified_time": 1750934819820
   },
@@ -66,6 +67,26 @@
       "move_mode": "fly",
       "action": "stop_flying",
       "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 334.63,
+      "y": -291.66,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "史莱姆",
+        "monster_tag": "normal"
+      }
     },
     {
       "id": 7,
