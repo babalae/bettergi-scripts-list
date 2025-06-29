@@ -1,0 +1,116 @@
+{
+  "info": {
+    "name": "D04-紫晶块-稻妻-海衹岛-珊瑚宫-3个",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "双手剑"
+    ],
+    "last_modified_time": 1751213630436
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -757.931640625,
+      "y": -3815.162109375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -753.625,
+      "y": -3841.6240234375,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(VK_SPACE),wait(1.5),keypress(VK_SPACE),wait(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": -747.7470703125,
+      "y": -3839.328125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": -744.2119140625,
+      "y": -3831.1259765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": -737.166015625,
+      "y": -3830.380859375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -737.15234375,
+      "y": -3830.37109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 7,
+      "x": -735.9580078125,
+      "y": -3836.34375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -735.7412109375,
+      "y": -3832,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -735.7607421875,
+      "y": -3832,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 10,
+      "x": -733.9501953125,
+      "y": -3833.4814453125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -733.94140625,
+      "y": -3833.4716796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}
