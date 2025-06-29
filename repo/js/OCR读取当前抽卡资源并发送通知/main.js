@@ -113,10 +113,10 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
     // 如果识别到了“常驻祈愿”图标，则识别“原石以及纠缠之缘到数值”
     if (recognized) {
         //原石
-        let ocrRegionYuanShi = { x: 1480, y: 30, width: 160, height: 36 }; // 设置对应的识别区域
+        let ocrRegionYuanShi = { x: 1470, y: 25, width: 180, height: 46 }; // 设置对应的识别区域
         let recognizedText1 = await recognizeTextInRegion(ocrRegionYuanShi);
         //纠缠之缘
-        let ocrRegionInterwinedFate = { x: 1660, y: 30, width: 120, height: 36 }; // 设置对应的识别区域
+        let ocrRegionInterwinedFate = { x: 1650, y: 25, width: 140, height: 46 }; // 设置对应的识别区域
         let recognizedText2 = await recognizeTextInRegion(ocrRegionInterwinedFate);
 
 
