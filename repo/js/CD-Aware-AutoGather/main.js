@@ -6,11 +6,19 @@ const CooldownDataBase = readRefreshInfo("CooldownData.txt");
 
 let stopAtTime = null;
 let currentParty = null;
+let runMode = settings.runMode;
+let subscribeMode = settings.subscribeMode;
 
 class ReachStopTime extends Error {
     constructor(message) {
         super(message);
         this.name = "ReachStopTime";
+    }
+}
+class UserCancelled extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "UserCancelled";
     }
 }
 
@@ -24,21 +32,33 @@ class ReachStopTime extends Error {
         log.error("{0}文件夹不存在，请双击运行下列位置的脚本以创建文件夹链接\n{1}", "pathing", batFile);
         return;
     }
-    const runMode = settings.runMode;
+    if (!runMode) {
+        const defaultRunMode = "采集选中的材料";
+        log.warn("运行模式 未选择或无效: {0}，默认为{1}", runMode, defaultRunMode);
+        runMode = defaultRunMode;
+    }
+    if (!subscribeMode) {
+        const defaultSubscribeMode = "每次自动扫描，并采集扫描到的所有材料";
+        log.warn("已订阅的任务目录的处理方式 未选择或无效: {0}，默认为{1}", subscribeMode, defaultSubscribeMode);
+        subscribeMode = defaultSubscribeMode;
+    }
+    if (!settings.runMode || !settings.subscribeMode) {
+        await sleep(3000);
+    }
 
     log.info("当前运行模式:{0}", runMode);
     if (runMode === "扫描文件夹更新可选材料列表") {
         await runScanMode();
     } else if (runMode === "采集选中的材料") {
         let startTime = logFakeScriptStart();
+        log.info("已订阅的任务目录的处理方式：{0}", subscribeMode);
+        if (subscribeMode === "每次自动扫描，并采集扫描到的所有材料") {
+            await runScanMode();
+        }
         await runGatherMode();
         logFakeScriptEnd({ startTime: startTime });
     } else if (runMode === "清除运行记录（重置材料刷新时间）") {
         await runClearMode();
-    } else {
-        log.warn("未选择运行模式或运行模式无效: {0}\n这可能是你的首次运行，将为你执行{1}模式", runMode, "扫描文件夹更新可选材料列表");
-        await sleep(3000);
-        await runScanMode();
     }
 })();
 
@@ -129,6 +149,8 @@ async function runGatherMode() {
     } catch (e) {
         if (e instanceof ReachStopTime) {
             log.info("达到设置的停止时间 {0}，终止运行", stopAtTime);
+        } else if (e instanceof UserCancelled) {
+            log.info("用户取消，终止运行");
         } else {
             throw e;
         }
@@ -245,6 +267,17 @@ function filterFilesInTaskDir(taskDir) {
     return getFilesByExtension("pathing\\" + taskDir, ".json");
 }
 
+async function runPathScriptFile(jsonPath) {
+    await pathingScript.runFile(jsonPath);
+    //捕获任务取消的信息并跳出循环
+    try {
+        await sleep(10);
+    } catch (error) {
+        return error.toString();
+    }
+    return false;
+}
+
 async function runPathTaskIfCooldownExpired(account, pathTask) {
     const recordFile = getRecordFilePath(account, pathTask);
     const jsonFiles = filterFilesInTaskDir(pathTask.label);
@@ -282,22 +315,17 @@ async function runPathTaskIfCooldownExpired(account, pathTask) {
             log.info(`${progress}{0}: 开始执行`, pathName);
 
             let pathStartTime = new Date();
-            try {
-                await pathingScript.runFile(jsonPath);
-            } catch (error) {
-                log.error(`${progress}{0}: 文件不存在或执行失败: {1}`, jsonPath, error.toString());
-                logFakePathEnd(fileName, pathStart);
-                continue; // 跳过当前任务
-            }
+            // 延迟抛出`UserCancelled`，以便正确更新运行记录
+            const cancel = await runPathScriptFile(jsonPath);
 
             let diffTime = new Date() - pathStartTime;
-            if (diffTime < 500) {
+            if (diffTime < 1000) {
                 // "队伍中没有对应元素角色"的错误不会抛出为异常，只能通过路径文件迅速结束来推测
                 if (settings.partyName && settings.partyName2nd) {
                     let newParty = (currentParty === settings.partyName) ? settings.partyName2nd : settings.partyName;
                     log.info("当前队伍{0}缺少该路线所需角色，尝试切换到{1}", currentParty, newParty);
                     await switchPartySafely(newParty);
-                    await pathingScript.runFile(jsonPath);
+                    await runPathScriptFile(jsonPath);
                 }
             } else if (diffTime > 5000) {
                 recordMap[fileName] = calculateNextRunTime(new Date(), jsonPath);
@@ -312,6 +340,10 @@ async function runPathTaskIfCooldownExpired(account, pathTask) {
                 log.info(`${progress}{0}: 执行时间过短，不更新记录`, pathName);
             }
             logFakePathEnd(fileName, pathStart);
+
+            if (cancel) {
+                throw new UserCancelled(cancel);
+            }
         } else {
             log.info(`${progress}{0}: 已跳过 (${formatDateTimeShort(recordMap[fileName])}刷新)`, pathName);
         }
@@ -359,9 +391,10 @@ function getSelectedMaterials() {
 
     const selectedMaterials = [];
 
+    const selectAllMaterials = subscribeMode.includes("采集扫描到的所有材料");
     for (const entry of config) {
         if (entry.name && entry.name.startsWith("OPT_") && entry.type === "checkbox") {
-            if (settings.selectAllMaterials || settings[entry.name] === true) {
+            if (selectAllMaterials || settings[entry.name] === true) {
                 let index = entry.label.indexOf(" ");
                 entry.label = entry.label.slice(index + 1); // 去除⬇️指示
                 selectedMaterials.push(entry);

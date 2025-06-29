@@ -6,7 +6,9 @@
     "version": "1",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1750879390854
   },
   "positions": [
     {
@@ -125,7 +127,17 @@
       "action": "combat_script",
       "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
-      "type": "target"
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 15,
+      "x": 4200.10009765625,
+      "y": -2046.51953125,
+      "action": "set_time",
+      "move_mode": "climb",
+      "action_params": "06:00",
+      "type": "orientation"
     }
   ]
 }
