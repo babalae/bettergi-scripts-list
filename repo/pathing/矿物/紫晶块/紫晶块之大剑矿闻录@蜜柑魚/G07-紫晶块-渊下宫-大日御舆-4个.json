@@ -65,7 +65,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "action_params": "wait(0.5)"
     },
     {
       "id": 7,
@@ -111,7 +111,7 @@
       "type": "path",
       "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "keypress(VK_SPACE),wait(4),keypress(VK_SPACE),keypress(VK_LBUTTON)"
+      "action_params": "keypress(VK_SPACE),wait(4),keypress(VK_SPACE),attack(0.2)"
     },
     {
       "id": 12,
@@ -126,7 +126,7 @@
       "id": 13,
       "x": 122.35,
       "y": 345.89,
-      "type": "path",
+      "type": "target",
       "move_mode": "walk",
       "action": "mining",
       "action_params": "",
@@ -136,23 +136,13 @@
       "id": 14,
       "x": 122.35,
       "y": 345.89,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 15,
-      "x": 122.35,
-      "y": 345.89,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "action_params": "wait(0.5)"
     },
     {
-      "id": 16,
+      "id": 15,
       "x": 118.77,
       "y": 351.41,
       "type": "path",
@@ -161,7 +151,7 @@
       "action_params": ""
     },
     {
-      "id": 17,
+      "id": 16,
       "x": 127.92,
       "y": 351.13,
       "type": "target",
@@ -171,7 +161,7 @@
       "locked": false
     },
     {
-      "id": 18,
+      "id": 17,
       "x": 127.92,
       "y": 351.13,
       "type": "path",

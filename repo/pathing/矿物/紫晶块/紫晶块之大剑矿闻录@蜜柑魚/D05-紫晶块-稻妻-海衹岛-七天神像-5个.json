@@ -38,7 +38,7 @@
       "type": "path",
       "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "keypress(VK_SPACE),wait(1.75),keypress(VK_SPACE),keypress(VK_LBUTTON)"
+      "action_params": "keypress(VK_SPACE),wait(1.75),keypress(VK_SPACE),attack(0.2)"
     },
     {
       "id": 4,
@@ -101,7 +101,7 @@
       "type": "target",
       "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "keypress(VK_X),wait(0.2),keypress(VK_LBUTTON)",
+      "action_params": "keypress(VK_X),wait(0.2),attack(0.2)",
       "locked": false
     },
     {
