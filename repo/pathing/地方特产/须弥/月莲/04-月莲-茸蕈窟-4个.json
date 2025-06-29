@@ -2,130 +2,123 @@
   "info": {
     "name": "04-月莲-茸蕈窟-4个",
     "type": "collect",
-    "author": "tignioj",
+    "author": "tignioj&起个名字好难的喵",
     "version": "1.0",
-    "bgi_version": "0.42.0"
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": ["芙宁娜"],
+    "last_modified_time": 1751168121180
   },
   "positions": [
     {
       "id": 1,
       "x": 2803.79,
       "y": 9.42,
-      "type": "teleport",
+      "action": "",
       "move_mode": "walk",
-      "action": ""
+      "type": "teleport",
+      "locked": false
     },
     {
       "id": 2,
       "x": 2821.78,
       "y": 22.91,
-      "type": "path",
+      "action": "",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "locked": false
     },
     {
       "id": 3,
       "x": 2903.8,
       "y": 65.47,
-      "type": "path",
+      "action": "stop_flying",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "locked": false
     },
     {
       "id": 4,
       "x": 2926.76,
       "y": 75.28,
-      "type": "target",
+      "action": "",
       "move_mode": "walk",
-      "action": ""
+      "type": "target",
+      "locked": false
     },
     {
       "id": 5,
       "x": 2969.6,
       "y": 102.89,
-      "type": "target",
+      "action": "",
       "move_mode": "walk",
-      "action": ""
+      "type": "target",
+      "locked": false
     },
     {
       "id": 6,
       "x": 2992.71,
       "y": 121.74,
-      "type": "path",
+      "action": "",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "locked": false
     },
     {
       "id": 7,
       "x": 3019.51,
       "y": 119.44,
-      "type": "target",
+      "action": "",
       "move_mode": "walk",
-      "action": ""
+      "type": "target",
+      "locked": false
     },
     {
       "id": 8,
       "x": 3021.19,
       "y": 94.91,
-      "type": "path",
+      "action": "",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "locked": false
     },
     {
       "id": 9,
       "x": 3039.83,
       "y": 70.06,
-      "type": "path",
+      "action": "combat_script",
       "move_mode": "walk",
-      "action": ""
+      "action_params": "芙宁娜 attack,e(wait)",
+      "type": "path",
+      "locked": false
     },
     {
       "id": 10,
-      "x": 3090.69,
-      "y": 48.6,
+      "x": 3054.9736328125,
+      "y": 35.2041015625,
       "type": "path",
-      "move_mode": "swim",
-      "action": ""
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 11,
-      "x": 3111.12,
-      "y": 37.41,
+      "x": 3067.58,
+      "y": 6.88,
+      "action": "",
+      "move_mode": "dash",
       "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "locked": false
     },
     {
       "id": 12,
-      "x": 3110.65,
-      "y": 36.48,
-      "type": "path",
-      "move_mode": "swim",
-      "action": ""
-    },
-    {
-      "id": 13,
-      "x": 3099.1,
-      "y": 9.38,
-      "type": "path",
-      "move_mode": "swim",
-      "action": ""
-    },
-    {
-      "id": 14,
-      "x": 3071.05,
-      "y": 6.77,
-      "type": "path",
-      "move_mode": "fly",
-      "action": ""
-    },
-    {
-      "id": 15,
       "x": 3067.58,
       "y": 6.88,
-      "type": "target",
+      "action": "",
       "move_mode": "swim",
-      "action": ""
+      "type": "target",
+      "locked": false
     }
   ]
 }
