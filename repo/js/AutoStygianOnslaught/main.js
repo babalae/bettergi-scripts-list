@@ -126,26 +126,8 @@
         var originalResinCount = 0; // 原粹树脂
         var fragileResinCount = 0; // 脆弱树脂  
 
-        // 浓缩树脂
-        var condensedResinCountRa = await imageRecognition(condensedResin,0, 0, 0,960,0,800,100);
-        if (condensedResinCountRa.found) {  
-            // await moveMouseTo(condensedResinCountRa.x,condensedResinCountRa.y);   
-            let countArea = await Textocr("",0.5, 1, 2,condensedResinCountRa.x+condensedResinCountRa.w,condensedResinCountRa.y,condensedResinCountRa.w,condensedResinCountRa.h);//
-            if (countArea.found){
-                // log.info("浓缩树脂识别数量结果： "+ countArea.text);
-                condensedResinCount = countArea.text
-            }
-            else
-            {
-                condensedResinCount = "1";
-                log.info("浓缩树脂识别数量结果：1");//1无法识别，0是不显示图标的，所以就当时1了，反正也没啥影响
-            }
 
-        } else {
-            log.info("未检测到浓缩树脂图标");
-        }
-
-        var originalResinCountRa = await imageRecognition(originalResin,0, 0, 0,1500,0,200,90);
+        var originalResinCountRa = await imageRecognition(originalResin,0.3, 0, 0,1500,0,200,90);
         if (originalResinCountRa.found) {  
             // await moveMouseTo(originalResinCountRa.x,originalResinCountRa.y);   
             let countArea = await Textocr("",1, 1, 2,originalResinCountRa.x+originalResinCountRa.w,originalResinCountRa.y,originalResinCountRa.w*3,originalResinCountRa.h);//
@@ -170,8 +152,28 @@
             log.info("未检测到原粹树脂图标");
         }
 
+        // 浓缩树脂
+        var condensedResinCountRa = await imageRecognition(condensedResin,0.1, 0, 0,960,0,800,100);
+        if (condensedResinCountRa.found) {  
+            // await moveMouseTo(condensedResinCountRa.x,condensedResinCountRa.y);   
+            let countArea = await Textocr("",0.5, 1, 2,condensedResinCountRa.x+condensedResinCountRa.w,condensedResinCountRa.y,condensedResinCountRa.w,condensedResinCountRa.h);//
+            if (countArea.found){
+                // log.info("浓缩树脂识别数量结果： "+ countArea.text);
+                condensedResinCount = countArea.text
+            }
+            else
+            {
+                condensedResinCount = "1";
+                log.info("浓缩树脂识别数量结果：1");//1无法识别，0是不显示图标的，所以就当时1了，反正也没啥影响
+            }
 
-        var fragileResinCountRa = await imageRecognition(fragileResin,0, 0, 1,1170,0,350,100);
+        } else {
+            log.info("未检测到浓缩树脂图标");
+        }
+
+       
+
+        var fragileResinCountRa = await imageRecognition(fragileResin,0.1, 0, 1,1170,0,350,100);
         if (fragileResinCountRa.found) {  
            // await moveMouseTo(fragileResinCountRa.x,fragileResinCountRa.y);   
             let countArea = await Textocr("",1, 1, 2,fragileResinCountRa.x+fragileResinCountRa.w,fragileResinCountRa.y,fragileResinCountRa.w*2,fragileResinCountRa.h);//
@@ -233,7 +235,7 @@
                 // 检查是否处于攀爬状态
                 if (climbResult.isEmpty()){
                 log.info("检侧到页面错误，尝试脱离");
-                let SHU = Textocr("地脉之花", 0.3, 1, 0, 861,265, 194, 265);
+                let SHU = Textocr("地脉之花", 0.3, 1, 0, 840,225, 230, 125);
                 if (SHU.found){return true;}
                 await keyDown("w");
                 await keyPress("VK_ESCAPE"); 
@@ -272,7 +274,7 @@
             await sleep(600);
             keyUp("w");
             await sleep(100); // 等待角色移动稳定
-            let earthlyVeins = await Textocr("地脉之花", 0.1, 0, 0, 861,265, 194, 265)
+            let earthlyVeins = await Textocr("地脉之花", 0.1, 0, 0, 840,225, 230, 125)
             if (earthlyVeins.found) {
                 return true;
             }
@@ -429,7 +431,7 @@
     async function claimRewards() {
         log.info(`尝试领取奖励，优先${onerewards}'`);
         let SHUN01 = await Textocr("激活地脉之花",0.6,2,0,1188,358,200,400);
-        let SHUN02 = await Textocr("地脉之花", 0.2, 1, 0, 861,265, 194, 265);
+        let SHUN02 = await Textocr("地脉之花", 0.2, 1, 0, 840,225, 230, 125);
         if (SHUN01.found || SHUN02.found) {
             log.info("找到地脉之花，开始领取奖励...");
         }
@@ -680,7 +682,15 @@
                                     await sleep(1000);  
                                     } 
                                     await sleep(200);                                                                                          
-                                }                                
+                                } 
+                                let resinTips  = await Textocr("提示",2,0,0,840,225, 230, 125);
+                                if (resinTips.found){
+                                    await sleep(1000); 
+                                    await keyPress("VK_ESCAPE"); 
+                                    await sleep(200);
+                                    log.info(`树脂提升已耗尽，...`);                                    
+                                    resinexhaustion = true;                                                                               
+                                }
                             }
                         }
                     }
