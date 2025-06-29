@@ -62,7 +62,7 @@
                 }
             }
             const NowTime = new Date();
-            if (Math.abs(NowTime - startTime)>chaotime*1000){if (x===0 & y===0){log.info(`${chaotime}秒超时退出，"${wenzi}"未找到`);}return result = {found: false };}else{ii=8;if (x !== 861){await keyPress("VK_W");}log.info(`"${wenzi}"识别中……`);}
+            if (Math.abs(NowTime - startTime)>chaotime*1000){if (x===0 & y===0){log.info(`${chaotime}秒超时退出，"${wenzi}"未找到`);}return result = {found: false };}else{ii=8;if (x !== 840){await keyPress("VK_W");}log.info(`"${wenzi}"识别中……`);}
             await sleep(100);
         }   
     }
@@ -474,7 +474,7 @@
                 }
         }
         
-        await Textocr("地脉之花", 1, 1, 0, 861,265, 194, 265);
+        await Textocr("地脉之花", 1, 1, 0, 840,225, 230, 125);
         await sleep(500);
 
         for (let j = 0;j < 2;j++) {
@@ -602,7 +602,7 @@
     }
 
     async function isOnRewardPage() {
-        const rewardText = await Textocr("地脉之花", 0.2, 0, 0, 861,265, 194, 265);
+        const rewardText = await Textocr("地脉之花", 0.2, 0, 0, 840,225, 230, 125);
         return rewardText.found;
     }
 
