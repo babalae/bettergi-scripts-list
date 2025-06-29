@@ -1178,14 +1178,14 @@ async function decomposeArtifacts(keep4Star, doDecompose) {
     if (settings.keep4Star) {
         log.info(`保留的四星数量: ${fourStarNum}`);
     }
-    let resultExperience = resinExperience + (settings.keep4Star ? 2520 * fourStarNum : 0);
+    let resultExperience = resinExperience;
     if (resultExperience === 0) {
         resultExperience = initialValue;
     }
-    log.info(`计入四星的经验: ${resultExperience}`);
     const result = {
         mora: recognizedText, // 将 recognizedText 赋值给 mora
-        artifactExperience: resultExperience
+        artifactExperience: resultExperience,
+        fourStarNum: fourStarNum
     };
     await genshin.returnMainUi();
     return result;
