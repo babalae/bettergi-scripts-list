@@ -6,7 +6,9 @@
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751293463595
   },
   "positions": [
     {
@@ -20,6 +22,15 @@
     },
     {
       "id": 2,
+      "x": 1637.5654296875,
+      "y": 944.4208984375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
       "x": 1638.3544921875,
       "y": 938.25634765625,
       "action": "stop_flying",
@@ -28,17 +39,16 @@
       "type": "path"
     },
     {
-      "id": 3,
+      "id": 4,
       "x": 1638.26953125,
       "y": 941.33544921875,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "orientation",
-      "locked": false
+      "type": "orientation"
     },
     {
-      "id": 4,
+      "id": 5,
       "x": 1638.26953125,
       "y": 941.33544921875,
       "action": "combat_script",
@@ -47,7 +57,7 @@
       "type": "target"
     },
     {
-      "id": 5,
+      "id": 6,
       "x": 1641.5126953125,
       "y": 939.21435546875,
       "action": "",
@@ -56,7 +66,7 @@
       "type": "path"
     },
     {
-      "id": 6,
+      "id": 7,
       "x": 1647.97265625,
       "y": 939.07763671875,
       "action": "",
@@ -65,7 +75,7 @@
       "type": "path"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": 1649.3115234375,
       "y": 939.68701171875,
       "action": "combat_script",
