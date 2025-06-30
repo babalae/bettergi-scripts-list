@@ -390,9 +390,12 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
     tags = [...new Set(tags)];
     
     // 过滤掉超过10个字符的标签，并确保版本标签优先
-    tags = prioritizeVersionTag(filterLongTags(tags));    return {
-        author: processAuthorInfo(contentObj.info?.author) || '',
-        authors: processDetailedAuthorInfo(contentObj.info?.author),
+    tags = prioritizeVersionTag(filterLongTags(tags));    // 处理作者信息，优先使用 authors 字段，如果不存在则使用 author 字段
+    const authorData = contentObj.info?.authors || contentObj.info?.author;
+    
+    return {
+        author: processAuthorInfo(authorData) || '',
+        authors: processDetailedAuthorInfo(authorData),
         description: convertNewlines(contentObj.info?.description || ''),
         version: version,
         tags: tags,
