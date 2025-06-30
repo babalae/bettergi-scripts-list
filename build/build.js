@@ -518,7 +518,6 @@ function generateDirectoryTree(dir, currentDepth = 0, parentFolders = []) {
                 // console.log(`未找到icon.ico的pathing目录: ${relativePath}`);
             }
         }
-
         if (parentFolders[0] === 'js' && currentDepth === 1) {
             // 对于 js 文件夹下的直接子文件夹，不再递归
             const manifestPath = path.join(dir, 'manifest.json');
@@ -527,6 +526,7 @@ function generateDirectoryTree(dir, currentDepth = 0, parentFolders = []) {
                 info.hash = calculateSHA1(manifestPath);
                 info.version = jsInfo.version || info.hash.substring(0, 7);
                 info.author = jsInfo.author;
+                info.authors = jsInfo.authors;
                 info.description = jsInfo.description;
                 info.tags = jsInfo.tags;
                 info.lastUpdated = jsInfo.lastUpdated;
