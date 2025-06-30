@@ -10,7 +10,7 @@
     "tags": [
       "双手剑"
     ],
-    "last_modified_time": 1750931029549,
+    "last_modified_time": 1751293420336,
     "authors": [
       {
         "name": "蜜柑魚",
@@ -77,10 +77,10 @@
       "id": 7,
       "x": -329.89,
       "y": 131.82,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path"
     },
     {
       "id": 8,
@@ -93,29 +93,41 @@
     },
     {
       "id": 9,
-      "x": -336.1,
-      "y": 128.9,
+      "x": -331.18,
+      "y": 127.45,
       "type": "target",
       "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
+      "action": "",
+      "action_params": "",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized",
+            "pathTooFar"
+          ],
+          "handling_mode": "mapRecognition",
+          "arrival_time": 0
+        },
+        "description": "",
+        "monster_tag": ""
+      }
     },
     {
       "id": 10,
       "x": -336.1,
       "y": 128.9,
-      "type": "path",
+      "action": "mining",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 11,
-      "x": -335.77,
-      "y": 128.54,
-      "action": "",
+      "x": -336.1,
+      "y": 128.9,
+      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "",
+      "action_params": "wait(1)",
       "type": "path"
     }
   ]

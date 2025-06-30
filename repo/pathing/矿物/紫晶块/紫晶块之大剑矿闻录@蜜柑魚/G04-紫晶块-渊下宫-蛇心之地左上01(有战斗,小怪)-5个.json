@@ -96,6 +96,15 @@
     },
     {
       "id": 8,
+      "x": 488.75,
+      "y": -127.46,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
       "x": 465.12,
       "y": -124.7,
       "type": "path",
@@ -104,7 +113,7 @@
       "action_params": ""
     },
     {
-      "id": 9,
+      "id": 10,
       "x": 468.0,
       "y": -119.35,
       "type": "target",
@@ -114,7 +123,7 @@
       "locked": false
     },
     {
-      "id": 10,
+      "id": 11,
       "x": 467.84,
       "y": -118.81,
       "type": "path",
@@ -123,7 +132,7 @@
       "action_params": "wait(0.5)"
     },
     {
-      "id": 11,
+      "id": 12,
       "x": 464.69,
       "y": -116.12,
       "type": "path",
@@ -132,7 +141,7 @@
       "action_params": ""
     },
     {
-      "id": 12,
+      "id": 13,
       "x": 464.11,
       "y": -111.73,
       "type": "target",
@@ -142,7 +151,7 @@
       "locked": false
     },
     {
-      "id": 13,
+      "id": 14,
       "x": 464.11,
       "y": -111.73,
       "type": "path",
@@ -151,7 +160,7 @@
       "action_params": "wait(1)"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": 449.64,
       "y": -122.14,
       "type": "teleport",
@@ -160,7 +169,7 @@
       "action_params": ""
     },
     {
-      "id": 15,
+      "id": 16,
       "x": 400.56,
       "y": -120.17,
       "type": "path",
@@ -169,16 +178,16 @@
       "action_params": "wait(0.5)"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": 318.09,
       "y": -103.34,
       "type": "path",
       "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "keypress(VK_SPACE),wait(1.8),keypress(VK_SPACE)"
+      "action_params": "keypress(VK_SPACE),wait(2),keypress(VK_SPACE)"
     },
     {
-      "id": 17,
+      "id": 18,
       "x": 327.88,
       "y": -111.78,
       "type": "path",
@@ -187,7 +196,7 @@
       "action_params": ""
     },
     {
-      "id": 18,
+      "id": 19,
       "x": 336.51,
       "y": -121.92,
       "type": "path",
@@ -196,7 +205,7 @@
       "action_params": ""
     },
     {
-      "id": 19,
+      "id": 20,
       "x": 341.13,
       "y": -119.61,
       "type": "target",
@@ -205,7 +214,7 @@
       "action_params": ""
     },
     {
-      "id": 20,
+      "id": 21,
       "x": 341.25,
       "y": -120.2,
       "type": "target",
@@ -214,7 +223,7 @@
       "action_params": ""
     },
     {
-      "id": 21,
+      "id": 22,
       "x": 341.25,
       "y": -120.2,
       "type": "path",

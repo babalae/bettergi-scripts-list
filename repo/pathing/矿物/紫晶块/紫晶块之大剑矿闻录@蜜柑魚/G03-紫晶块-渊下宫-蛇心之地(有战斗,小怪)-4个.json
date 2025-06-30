@@ -11,7 +11,7 @@
       "双手剑",
       "小怪"
     ],
-    "last_modified_time": 1750934819820,
+    "last_modified_time": 1751290732896,
     "authors": [
       {
         "name": "蜜柑魚",
@@ -24,64 +24,64 @@
       "id": 1,
       "x": 386.97,
       "y": -334.88,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
       "x": 385.63,
       "y": -333.53,
-      "type": "path",
-      "move_mode": "jump",
       "action": "",
-      "action_params": ""
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
       "x": 365.47,
       "y": -315.96,
-      "type": "path",
-      "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "wait(5.5)"
+      "move_mode": "fly",
+      "action_params": "wait(5.7)",
+      "type": "path"
     },
     {
       "id": 4,
       "x": 356.23,
       "y": -303.52,
-      "type": "path",
-      "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "wait(2)"
+      "move_mode": "fly",
+      "action_params": "wait(2.2)",
+      "type": "path"
     },
     {
       "id": 5,
       "x": 346.24,
       "y": -299.41,
-      "type": "path",
-      "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "wait(2)"
+      "move_mode": "fly",
+      "action_params": "wait(2.2)",
+      "type": "path"
     },
     {
       "id": 6,
       "x": 334.63,
       "y": -291.66,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 7,
       "x": 334.63,
       "y": -291.66,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
+      "move_mode": "walk",
       "action_params": "",
+      "type": "path",
       "point_ext_params": {
         "misidentification": {
           "type": [
@@ -96,94 +96,102 @@
     },
     {
       "id": 8,
-      "x": 335.0,
-      "y": -289.79,
-      "type": "target",
+      "x": 334.63,
+      "y": -291.66,
+      "type": "path",
       "move_mode": "walk",
-      "action": "mining",
+      "action": "",
       "action_params": ""
     },
     {
       "id": 9,
       "x": 335.0,
       "y": -289.79,
-      "type": "path",
+      "action": "mining",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 10,
-      "x": 327.92,
-      "y": -288.72,
-      "type": "target",
+      "x": 335.0,
+      "y": -289.79,
+      "action": "combat_script",
       "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
+      "action_params": "wait(0.5)",
+      "type": "path"
     },
     {
       "id": 11,
       "x": 327.92,
       "y": -288.72,
-      "type": "path",
+      "action": "mining",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 12,
-      "x": 325.57,
-      "y": -296.36,
-      "type": "target",
+      "x": 327.92,
+      "y": -288.72,
+      "action": "combat_script",
       "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
+      "action_params": "wait(0.5)",
+      "type": "path"
     },
     {
       "id": 13,
       "x": 325.57,
       "y": -296.36,
-      "type": "path",
+      "action": "mining",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 14,
-      "x": 326.79,
-      "y": -298.29,
-      "type": "path",
+      "x": 325.57,
+      "y": -296.36,
+      "action": "combat_script",
       "move_mode": "walk",
-      "action": "",
-      "action_params": "",
-      "locked": false
+      "action_params": "wait(0.5)",
+      "type": "path"
     },
     {
       "id": 15,
-      "x": 326.35,
-      "y": -300.32,
-      "type": "target",
+      "x": 326.79,
+      "y": -298.29,
+      "action": "",
       "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 16,
       "x": 326.35,
       "y": -300.32,
-      "type": "path",
+      "action": "mining",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 17,
+      "x": 326.35,
+      "y": -300.32,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 18,
       "x": 326.79,
       "y": -298.29,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     }
   ]
 }
