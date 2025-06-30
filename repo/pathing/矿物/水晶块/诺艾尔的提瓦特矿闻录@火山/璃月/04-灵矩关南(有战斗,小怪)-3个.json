@@ -2,7 +2,12 @@
   "info": {
     "name": "04-灵矩关南(有战斗,小怪)-3个",
     "type": "collect",
-    "author": "火山",
+    "author": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ],
     "version": "1.1",
     "description": "",
     "map_name": "Teyvat",
@@ -52,7 +57,8 @@
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path","point_ext_params": {
+      "type": "path",
+      "point_ext_params": {
         "misidentification": {
           "type": [
             "unrecognized"
