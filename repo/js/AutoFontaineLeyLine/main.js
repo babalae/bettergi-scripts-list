@@ -862,7 +862,7 @@
                             continue;
                         }
                        //退出执行
-                       SHUOVER==2;
+                       SHUOVER=2;
                        return false;
                     }                
                 }
