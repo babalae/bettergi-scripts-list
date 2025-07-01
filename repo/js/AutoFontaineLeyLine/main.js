@@ -54,7 +54,7 @@
                 }
             }
             const NowTime = new Date();
-            if (Math.abs(NowTime - startTime)>chaotime*1000){if (x===0 & y===0){log.info(`${chaotime}秒超时退出，·${wenzi}·未找到`);}return result = {found: false };}else{ii=8;if(x !== 840){keyPress("w")}log.info(`·${wenzi}·识别中……`);}
+            if (Math.abs(NowTime - startTime)>chaotime*1000){if (x===0 & y===0){log.info(`${chaotime}秒超时退出，·${wenzi}·未找到`);}return result = {found: false };}else{ii=8;if(x !== 840 || x !== 1188){keyPress("w")}log.info(`·${wenzi}·识别中……`);}
             await sleep(100);
         }   
     }
@@ -763,12 +763,12 @@
     var retryCount = 0;
     var executedCount = 0;
     async function Veinfligt() {
-         // 定义路线常量
-         var selectedPath = pathingMap[`路线${position.line} ${['厄里那斯', '秋分山西侧锚点左下', '秋分山西侧锚点右', '柔灯港上锚点', '新枫丹科学院左锚点', '芒索斯山东麓'][position.line - 1]}`]
-         var selectedFolder = folderMap[`路线${position.line} ${['厄里那斯', '秋分山西侧锚点左下', '秋分山西侧锚点右', '柔灯港上锚点', '新枫丹科学院左锚点', '芒索斯山东麓'][position.line - 1]}`]
+        // 定义路线常量
+        var selectedPath = pathingMap[`路线${position.line} ${['厄里那斯', '秋分山西侧锚点左下', '秋分山西侧锚点右', '柔灯港上锚点', '新枫丹科学院左锚点', '芒索斯山东麓'][position.line - 1]}`]
+        var selectedFolder = folderMap[`路线${position.line} ${['厄里那斯', '秋分山西侧锚点左下', '秋分山西侧锚点右', '柔灯港上锚点', '新枫丹科学院左锚点', '芒索斯山东麓'][position.line - 1]}`]
 
-         executedCount = (position.flower-1)*2+0;         
-         Lastexecution = false;
+        executedCount = (position.flower-1)*2+0;         
+        Lastexecution = false;       
 
          log.info(`开始执行第 ${position.line} 线路的第 ${executedCount/2 + 1}/${selectedPath.length/2} 朵地脉花...`);
 
@@ -840,14 +840,17 @@
                             }else{await pathingScript.runFile(`${selectedFolder}${jsonFile1}`);}
                         
                     }
-            }
- 
+            }            
+            
             // 寻找地脉溢口，找到地脉花就领奖，没有找到就直接战斗，再尝试领奖
-            if (await VeinEntrance()){
+            if (await VeinEntrance()){                
                 await sleep(1000);
                 await dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false})); await keyPress("F");
-                log.warn("开始战斗...");
-            
+                log.warn("开始战斗..."); 
+
+                checkRewardPage();// 执行自动战斗并同步检测领奖页面
+                shouldContinueChecking = true;
+
                 if (!Fightquick){           
                     await dispatcher.runTask(new SoloTask("AutoFight")); //固定执行两次战斗，执行自动战斗,配置器中的设置建议填你的队伍打一次大概得时间
                     await sleep(1000);
@@ -869,7 +872,6 @@
             }
 
             shouldContinueChecking = true;
-            checkRewardPage();// 执行自动战斗并同步检测领奖页面
             //执行到地脉花地点的寻路脚本
             log.info(`开始执行寻找地脉花奖励：${jsonFile2}`);
             await dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false}));
