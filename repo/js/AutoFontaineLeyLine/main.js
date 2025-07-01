@@ -7,7 +7,8 @@
         const startTime = new Date();
         //  const recognitionObject = new RecognitionObject();
         //  recognitionObject.UseMask = false; // 设置 UseMask 为 true
-        const Imagidentify = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagefilePath),false);
+        // 下个版本BGI才支持带UseMask的构造函数
+        const Imagidentify = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagefilePath));
         for (let ii = 0; ii < 10; ii++) {    
             captureRegion = captureGameRegion();  // 获取一张截图
             res = captureRegion.DeriveCrop(xa, ya, wa, ha).Find(Imagidentify);
