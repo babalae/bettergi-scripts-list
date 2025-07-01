@@ -304,12 +304,12 @@
             await sleep(500);
             var NowTime = new Date();
             keyDown("w");   
-            while ((NowTime - startTime)<10*1000){
-                const result = await Textocr("战斗准备",0.1,0,3,1198,492,150,80);
-                const result2 = await Textocr("开始挑战",0.1,0,3,1554,970,360, 105);
-                if (result.found || result2.found) {
-                    await keyUp("w");
-                    await keyPress("F");await sleep(200); await keyPress("F");        
+            while ((NowTime - startTime)<15*1000){
+                const result =  await Textocr("战斗准备",0,0,3,1198,492,150,80);
+                const result2 =  await Textocr("开始挑战",0,0,3,1554,970,360, 105);
+                if (result.found || result2.found) {                    
+                    keyPress("F");keyPress("F");keyPress("F");keyPress("F");       
+                    keyUp("w");      
                     return true;  
                 }
                 keyDown("w"); 
@@ -317,7 +317,6 @@
                 NowTime = new Date();
             }
         await keyUp("w");
-        await genshin.returnMainUi();
         return false
     }
 
@@ -543,7 +542,27 @@
                 }
             }
         }
-    }   
+    }  
+   
+    async function getOut() {
+
+        for (let i = 0;i < 2;i++){
+            log.info("尝试退出挑战...");   
+            await keyPress("VK_ESCAPE"); 
+            await sleep(1000);
+            let exitChallenge0 = await Textocr("退出挑战",0.5,1,0,866,719,274,86);
+            await sleep(1000);
+            await keyPress("VK_ESCAPE"); 
+            await sleep(1000);                                 
+            let exitChallenge1 = await Textocr("退出挑战",0.5,1,0,866,719,274,86);
+            await sleep(1000);
+            await keyPress("VK_ESCAPE");
+            await sleep(1000); 
+            let exitChallenge2 = await Textocr("退出挑战",0.5,1,0,866,719,274,86);
+            if (!exitChallenge2.found){break}
+        }   
+
+    }
 
     log.warn("自动幽境危战版本：v1.5");
     log.warn("请保证队伍战斗实力，战斗失败或执行错误，会重试两次...");
@@ -577,8 +596,7 @@
                 if (hardMode.found || hardMode2.found) {
                     log.warn("确认困难模式...")
                 }
-                else
-                {
+                else{
                     log.warn("未找到困难模式，尝试切换...")
                     await sleep(500); 
                     await click(1096,186);
@@ -593,8 +611,7 @@
                         log.warn("圣遗物奖励和设定不一致，尝试切换...")
                         if (!await selectionHolyRelics()){await genshin.returnMainUi();throw new Error("圣遗物奖励设置错误，停止执行...")}
                     }
-                    else
-                    {    
+                    else{    
                         log.warn("圣遗物奖励一致，无需切换 {0} ", Artifacts)                 
                     }                    
                 }
@@ -607,10 +624,14 @@
 
                 //进入秘境
                 let enter  = await Textocr("Enter",10,0,0,18,990,156,71,71);
-                if (!enter.found) {await genshin.returnMainUi();throw new Error("未进入秘境，停止执行...")}//退出待写
+                if (!enter.found){await genshin.returnMainUi();throw new Error("未进入秘境，停止执行...")}//退出待写
 
                 //向前走进入挑战
-                if (!(await readyFightIn())){await genshin.returnMainUi();throw new Error("未进入准备战斗，停止执行...")}//退出待写
+                if (!(await readyFightIn())){
+                    await getOut();
+                    await genshin.returnMainUi();
+                    throw new Error("未进入准备战斗，停止执行...")
+                }//退出待写
                 await sleep(1000);
 
                 //选择挑战怪兽
@@ -647,12 +668,7 @@
 
                         let battleBegins  = await Textocr("战斗开始",20,0,0,877,235,164,50);     
                         if (!battleBegins.found){
-                            await keyPress("VK_ESCAPE"); 
-                            await sleep(1000); 
-                            await keyPress("VK_ESCAPE"); 
-                            await sleep(1000);        
-                            let exitChallenge = await Textocr("退出挑战",5,1,0,866,719,274,86);
-                            await sleep(1000); 
+                            await getOut();
                             throw new Error("未进入战斗环境，停止执行...")
                         }
 
@@ -718,16 +734,10 @@
                             {   
                                 let challengeAgian  = await Textocr("再次挑战",10,0,0,1094,958,200,70);
                                 if (!challengeAgian.found){
-                                    await keyPress("VK_ESCAPE"); 
-                                    await sleep(1000); 
-                                    await keyPress("VK_ESCAPE"); 
-                                    await sleep(1000);        
-                                    let exitChallenge = await Textocr("退出挑战",5,1,0,866,719,274,86);
-                                    await sleep(1000); 
+                                    await getOut();
                                     throw new Error("未找到·再次挑战·按键，停止执行...")
                                 }
-                                for (let retry = 0; retry < 5 && challengeAgian.found; retry++) 
-                                {
+                                for (let retry = 0; retry < 5 && challengeAgian.found; retry++) {
                                     challengeAgian  = await Textocr("再次挑战",0.2,0,0,1094,958,200,70);
                                     if (challengeAgian.found){                                    
                                     await sleep(500);  
@@ -758,19 +768,19 @@
 
                         var exitTimeout = 0;
                         while(exitTimeout < 20) {
-                        let exitChallenge = await Textocr("退出挑战",0.3,0,0,866,719,274,86);
-                        if (exitChallenge.found) {
-                            await sleep(1500);  
-                            await click(exitChallenge.x, exitChallenge.y);
-                            await sleep(500);  
-                            break;
+                            let exitChallenge = await Textocr("退出挑战",0.3,0,0,866,719,274,86);
+                            if (exitChallenge.found) {
+                                await sleep(1000);  
+                                await click(exitChallenge.x, exitChallenge.y);
+                                await sleep(1000);  
+                                break;
                             } 
-                            let exitChallenge2 = await Textocr("退出挑战",0.3,1,0,866,719,274,86);               
-                            log.info("尝试退出挑战...");
-                            await sleep(1500);  
-                            await keyPress("VK_ESCAPE"); 
-                            await sleep(1000);  
-                            exitTimeout++; 
+                                let exitChallenge2 = await Textocr("退出挑战",0.3,1,0,866,719,274,86);               
+                                log.info("尝试退出挑战...");
+                                await sleep(1000);  
+                                await keyPress("VK_ESCAPE"); 
+                                await sleep(1000);  
+                                exitTimeout++; 
                         }                        
                         await genshin.returnMainUi(); 
                         if (resinAgain == true){throw new Error("执行重试错误...")}        
