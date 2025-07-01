@@ -6,13 +6,7 @@
     "version": "1.1",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
-    "authors": [
-      {
-        "name": "火山",
-        "links": "https://github.com/RRRR623"
-      }
-    ]
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -58,8 +52,7 @@
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path",
-      "point_ext_params": {
+      "type": "path","point_ext_params": {
         "misidentification": {
           "type": [
             "unrecognized"
@@ -70,6 +63,13 @@
         "description": "史莱姆",
         "monster_tag": "normal"
       }
+    },{
+      "x": 1098.73,
+      "y": -660.17,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 6,
@@ -100,8 +100,8 @@
     },
     {
       "id": 9,
-      "x": 1088.93,
-      "y": -657.17,
+      "x": 1090.60,
+      "y": -656.33,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
