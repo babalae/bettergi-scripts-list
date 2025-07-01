@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "松茸12",
+    "name": "09-松茸",
     "type": "collect",
     "author": "未知作者",
     "version": "1.0",
@@ -15,40 +15,48 @@
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
+      "x": 4984.82,
+      "y": 4462.98,
       "type": "teleport",
-      "x": 4701.37,
-      "y": 3958.73
+      "move_mode": "walk",
+      "action": ""
     },
     {
       "id": 2,
-      "x": 4715.44,
-      "y": 4030.45,
+      "x": 5004.12,
+      "y": 4463.67,
       "type": "path",
       "move_mode": "run",
       "action": ""
     },
     {
       "id": 3,
-      "x": 4718.21,
-      "y": 4040.9,
+      "x": 5007.95,
+      "y": 4462.58,
       "type": "path",
       "move_mode": "walk",
       "action": "nahida_collect"
     },
     {
       "id": 4,
-      "x": 4752.52,
-      "y": 4033.21,
+      "x": 5009.11,
+      "y": 4433.73,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 5,
+      "x": 5058.88,
+      "y": 4362.8,
       "type": "path",
       "move_mode": "run",
       "action": ""
     },
     {
-      "id": 5,
-      "x": 4757.55,
-      "y": 4032.04,
+      "id": 6,
+      "x": 5063.96,
+      "y": 4360.67,
       "type": "path",
       "move_mode": "walk",
       "action": "nahida_collect"

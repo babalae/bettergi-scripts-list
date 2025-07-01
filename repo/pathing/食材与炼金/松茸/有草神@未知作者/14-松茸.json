@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "松茸2",
+    "name": "14-松茸",
     "type": "collect",
     "author": "未知作者",
     "version": "1.0",
@@ -15,27 +15,27 @@
   "positions": [
     {
       "id": 1,
+      "x": 4865.37,
+      "y": 3912.88,
       "action": "",
       "move_mode": "walk",
-      "type": "teleport",
-      "x": 3846.99,
-      "y": 4652.82
+      "type": "teleport"
     },
     {
       "id": 2,
-      "x": 3838.91,
-      "y": 4604.4,
-      "type": "path",
+      "x": 4876.93,
+      "y": 3990.69,
+      "action": "",
       "move_mode": "run",
-      "action": ""
+      "type": "path"
     },
     {
       "id": 3,
-      "x": 3843.23,
-      "y": 4592.27,
-      "type": "path",
+      "x": 4880.13,
+      "y": 4001.65,
+      "action": "nahida_collect",
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "path"
     }
   ]
 }

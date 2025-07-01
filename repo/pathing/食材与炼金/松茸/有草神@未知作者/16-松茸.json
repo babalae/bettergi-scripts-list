@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "松茸22",
+    "name": "16-松茸",
     "type": "collect",
     "author": "未知作者",
     "version": "1.0",
@@ -15,56 +15,48 @@
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
+      "x": -1629.43,
+      "y": 2834.38,
       "type": "teleport",
-      "x": -1432.73,
-      "y": 1464.67
+      "move_mode": "walk",
+      "action": ""
     },
     {
       "id": 2,
-      "x": -1429.93,
-      "y": 1475.73,
+      "x": -1611.84,
+      "y": 2874.6,
       "type": "path",
       "move_mode": "run",
       "action": ""
     },
     {
       "id": 3,
-      "x": -1426.24,
-      "y": 1483.61,
+      "x": -1610.08,
+      "y": 2878.12,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": -1597.75,
+      "y": 2900.28,
       "type": "path",
       "move_mode": "fly",
       "action": "stop_flying"
     },
     {
-      "id": 4,
-      "x": -1422.25,
-      "y": 1493.34,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect"
-    },
-    {
       "id": 5,
-      "x": -1406.45,
-      "y": 1524.45,
+      "x": -1576.57,
+      "y": 2920.67,
       "type": "path",
       "move_mode": "run",
       "action": ""
     },
     {
       "id": 6,
-      "x": -1390.69,
-      "y": 1570.06,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
-    },
-    {
-      "id": 7,
-      "x": -1388.6,
-      "y": 1573.53,
+      "x": -1574.93,
+      "y": 2921.89,
       "type": "path",
       "move_mode": "walk",
       "action": "nahida_collect"
