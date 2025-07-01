@@ -1,0 +1,108 @@
+{
+  "info": {
+    "name": "B32-萃凝晶-纳塔-彩石顶02-3个",
+    "type": "collect",
+    "author": "无限不循环",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751397658082
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8372.20703125,
+      "y": -2196.2529296875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8288.751953125,
+      "y": -2195.1337890625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 8271.849609375,
+      "y": -2193.23828125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 8221.4912109375,
+      "y": -2190.7548828125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 8212.3046875,
+      "y": -2192.7265625,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 8212.3046875,
+      "y": -2192.7265625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 8212.3046875,
+      "y": -2192.7265625,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 8212.3046875,
+      "y": -2192.7265625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 8211.5556640625,
+      "y": -2195.76953125,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 8211.5556640625,
+      "y": -2195.76953125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "target"
+    }
+  ]
+}
