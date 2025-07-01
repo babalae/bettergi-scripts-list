@@ -1,17 +1,27 @@
 const DEFAULT_OCR_TIMEOUT_SECONDS = 10;
 const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
+// 初始化变量并赋予默认值
+let lastRunDate = "未知"; // 默认值
+let lastEndTime = new Date(); // 默认值为当前时间
+let lastRunRoute = "未知"; // 默认值
+let records = new Array(7).fill("");
+let finished = false;
+const accountName = settings.accountName || "默认账户";
+let version = "default";
+let runnedToday = false;
+
+//预处理
+const minIntervalTime = settings.minIntervalTime || "5";
+const waitTimePeriod = settings.waitTimePeriod || "4:05-4:45";
+const friendshipPartyName = settings.friendshipPartyName || "好感";
+const grindPartyName = settings.grindPartyName || "狗粮";
+const operationType = settings.operationType || "不卡时间，ab交替运行";
+const runActivatePath = settings.runActivatePath || false;
+let enemyType = "无";
 
 (async function () {
     //伪造js结束记录
     await fakeLog("自动狗粮重制版", true, true, 0);
-
-    //预处理
-    const minIntervalTime = settings.minIntervalTime || "5";
-    const waitTimePeriod = settings.waitTimePeriod || "4:05-4:45";
-    const friendshipPartyName = settings.friendshipPartyName || "好感";
-    const grindPartyName = settings.grindPartyName || "狗粮";
-    const operationType = settings.operationType || "不卡时间，ab交替运行";
-    let enemyType = "无";
 
     //处理操作模式信息
     switch (operationType) {
@@ -43,8 +53,6 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 
     //处理记录文件路径
     // 获取子文件夹路径
-
-    const accountName = settings.accountName || "默认账户";
 
     // Windows文件名非法字符列表
     const illegalCharacters = /[\\/:*?"<>|]/;
@@ -139,12 +147,6 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     // 异步读取文件内容
     const content = await file.readText(recordFilePath);
 
-    // 初始化变量并赋予默认值
-    let lastRunDate = "未知"; // 默认值
-    let lastEndTime = new Date(); // 默认值为当前时间
-    let lastRunRoute = "未知"; // 默认值
-    let records = new Array(7).fill("");
-
     // 按行分割内容
     const lines = content.split('\n');
     let recordIndex = 0;
@@ -173,6 +175,10 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
             lastRunRoute = line.substring("上次运行路线:".length).trim();
         }
 
+        if (line.startsWith("上次运行是否完成:t")) {
+            finished = true;
+        }
+
         if (line.startsWith("日期") && recordIndex < records.length) {
             records[recordIndex] = line.trim(); // 直接使用 line.trim()
             recordIndex++;
@@ -183,7 +189,8 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     log.info(`上次运行完成日期: ${lastRunDate}`);
     log.info(`上次狗粮开始时间: ${lastEndTime.toISOString()}`);
     log.info(`上次运行路线: ${lastRunRoute}`);
-    let version = "default";
+    log.info(`上次运行是否完成: ${finished}`);
+
 
     try {
         // 读取 manifest.json 文件的内容
@@ -216,9 +223,9 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     const timeDifference = now - lastRunMidnight;
 
     // 如果当前时间减去 lastRunMidnight 小于 24 小时（24 * 60 * 60 * 1000 毫秒），则终止狗粮程序运行
-    let runnedToday = false;
+
     if (timeDifference < 24 * 60 * 60 * 1000) {
-        log.info("今日已经运行过狗粮路线，跳过运行狗粮程序");
+        log.info("今日已经运行过狗粮路线");
         runnedToday = true;
     }
 
@@ -236,40 +243,43 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     today.setHours(0, 0, 0, 0); // 将时间设置为当天的午夜
 
     // 创建等待时间段的开始时间和结束时间的 Date 对象
-    const waitStartTime = new Date(today);
+    let waitStartTime = new Date(today);
     waitStartTime.setHours(startHour, startMinute, 0, 0);
-
-    const waitEndTime = new Date(today);
+    let waitEndTime = new Date(today);
     waitEndTime.setHours(endHour, endMinute, 0, 0);
 
-    // 新增变量，初始值为 true，用于标识今天跑的路线
-    let runRouteA = true;
+    let runRouteA = lastRunRoute === "A";
+
+    log.info(`卡时间时间段为${waitStartTime.toTimeString()}-${waitEndTime.toTimeString()}`);
 
     // 获取当前时间
     const timeNow = new Date();
 
-    // 检查 endTime 是否晚于当天的结束时间
-    if (endTime > waitEndTime) {
-        // 如果 endTime 晚于当天的结束时间，则将其改为当天的开始时间
-        endTime = new Date(waitStartTime);
-        // 同时将 runRouteA 改为 false，今天运行B路线
-        runRouteA = false;
-    }
-
-    // 检查 lastRunRoute 是否为 "B"
-    if (lastRunRoute === "B" && operationType !== "不卡时间，ab交替运行") {
-        // 如果 lastRunRoute 为 "B"，则将 endTime 改为当天的开始时间
-        endTime = new Date(waitStartTime);
-        // 同时将 runRouteA 改为 true
+    if (!runnedToday || !runActivatePath) {
         runRouteA = true;
-    }
+        // 检查 endTime 是否晚于当天的结束时间
+        if (endTime > waitEndTime) {
+            // 如果 endTime 晚于当天的结束时间，则将其改为当天的开始时间
+            endTime = new Date(waitStartTime);
+            // 同时将 runRouteA 改为 false，今天运行B路线
+            runRouteA = false;
+        }
 
-    if (operationType === "不卡时间，ab交替运行") {
-        // 定义 1970-01-01T20:00:00.000Z 的时间对象
-        const epochTime = new Date('1970-01-01T20:00:00.000Z');
+        // 检查 lastRunRoute 是否为 "B"
+        if (lastRunRoute === "B" && operationType !== "不卡时间，ab交替运行") {
+            // 如果 lastRunRoute 为 "B"，则将 endTime 改为当天的开始时间
+            endTime = new Date(waitStartTime);
+            // 同时将 runRouteA 改为 true
+            runRouteA = true;
+        }
 
-        // 根据当前时间与 1970-01-01T20:00:00.000Z 的天数差的奇偶性给布尔变量 runRouteA 赋值
-        runRouteA = Math.floor((now - epochTime) / (24 * 60 * 60 * 1000)) % 2 === 0;
+        if (operationType === "不卡时间，ab交替运行") {
+            // 定义 1970-01-01T20:00:00.000Z 的时间对象
+            const epochTime = new Date('1970-01-01T20:00:00.000Z');
+
+            // 根据当前时间与 1970-01-01T20:00:00.000Z 的天数差的奇偶性给布尔变量 runRouteA 赋值
+            runRouteA = Math.floor((now - epochTime) / (24 * 60 * 60 * 1000)) % 2 === 0;
+        }
     }
 
     // 启用自动拾取的实时任务
@@ -332,7 +342,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 
     //更新运行数据
     refresh: {
-        if (runnedToday) {
+        if ((runnedToday && finished) || (runnedToday && runActivatePath)) {
             break refresh;
         }
         // 获取当前日期和时间
@@ -363,7 +373,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     const result1 = await decomposeArtifacts(settings.keep4Star, settings.doDecompose);
 
     artifacts: {
-        if (runnedToday) {
+        if (runnedToday && finished) {
             break artifacts;
         }
 
@@ -391,11 +401,10 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
         }
         records[0] = `日期:${lastRunDate}，运行路线${lastRunRoute}，狗粮经验${artifactExperienceDiff}，摩拉${moraDiff}`;
 
-
         if (runArtifactsResult) {
             //修改文件内容
-            log.info('尝试修改记录文件');
-            await writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records, `records/${accountName}.txt`, version);
+            log.info('修改记录文件');
+            await writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records, `records/${accountName}.txt`, version, true);
         }
     }
 
@@ -431,13 +440,14 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 })();
 
 // 异步函数，用于将变量内容写回到文件
-async function writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records, recordFilePath, version) {
+async function writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records, recordFilePath, version, finished) {
     try {
         // 构造要写入文件的内容
         const content = [
             `上次运行完成日期: ${lastRunDate}`,
             `上次结束时间: ${lastEndTime.toISOString()}`,
             `上次运行路线: ${lastRunRoute}`,
+            `上次运行是否完成: ${finished}`,
             `js版本: ${version}`,
             "历史收益："
         ].concat(records).join('\n');
@@ -475,6 +485,7 @@ async function runArtifactsPaths(runRouteA, grindPartyName, useABE) {
     const filePathEnding = `assets/${ArtifactsPath}/${folderName}/02收尾`;
     const filePathExtra = `assets/${ArtifactsPath}/${folderName}/03额外`;
     const filePathPreparation = `assets/${ArtifactsPath}/${folderName}/00准备`;
+    const filePathActivate = `assets/${ArtifactsPath}/${folderName}/-1激活`;
 
     // 将每组路线的逻辑抽取为公用函数
     async function runPathGroups(filePathDir, subTaskName) {
@@ -502,12 +513,22 @@ async function runArtifactsPaths(runRouteA, grindPartyName, useABE) {
                 await sleep(10); // 假设 sleep 是一个异步函数，休眠 10 毫秒
             } catch (error) {
                 log.error(`发生错误: ${error}`);
-                return false; // 终止循环
+                throw new Error("任务被取消");
             }
             await fakeLog(fileName, false, false, 0);
         }
     }
 
+    //运行激活路线
+    if (settings.runActivatePath && !runnedToday) {
+        await runPathGroups(filePathActivate, "激活");
+    }
+
+    if (!((runnedToday && finished) || (runnedToday && runActivatePath))) {
+        //修改文件内容
+        log.info('修改记录文件');
+        await writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records, `records/${accountName}.txt`, version, false);
+    }
     // 运行准备路线（关闭拾取）
     dispatcher.ClearAllTriggers();
     await runPathGroups(filePathPreparation, "准备");
