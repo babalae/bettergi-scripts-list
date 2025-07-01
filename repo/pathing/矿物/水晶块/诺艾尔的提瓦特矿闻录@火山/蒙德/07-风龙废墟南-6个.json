@@ -6,13 +6,7 @@
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
-    "authors": [
-      {
-        "name": "火山",
-        "links": "https://github.com/RRRR623"
-      }
-    ]
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -48,7 +42,7 @@
       "y": 2391.15,
       "action": "combat_script",
       "move_mode": "jump",
-      "action_params": "keydown(d),click(middle),wait(1),keypress(VK_SPACE),wait(0.5),click(middle),wait(0.5),,wait(1),keypress(VK_SPACE),wait(0.5),keyup(d),keypress(VK_X),wait(0.3),keypress(VK_X)",
+      "action_params": "keydown(d),click(middle),wait(1),keypress(VK_SPACE),wait(0.5),click(middle),wait(0.5),wait(1),keypress(VK_SPACE),wait(0.5),keyup(d),wait(0.3),keypress(VK_X),wait(0.3),keypress(VK_X)",
       "type": "path"
     },
     {
