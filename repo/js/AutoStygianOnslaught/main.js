@@ -169,9 +169,9 @@
             log.info("未检测到浓缩树脂图标");
         }       
 
-        var momentResinCountRa = await imageRecognition(momentResin,0.1, 0, 1,1170,0,350,100);
+        var momentResinCountRa = await imageRecognition(momentResin,0.1, 0, 1,1170,0,300,100);
         if (momentResinCountRa.found) {  
-            // await moveMouseTo(momentResinCountRa.x+momentResinCountRa.w+15+momentResinCountRa.w+50,momentResinCountRa.y-15+momentResinCountRa.h+25);   
+            // await moveMouseTo(momentResinCountRa.x,momentResinCountRa.y);   
             let countArea = await Textocr("",0.5, 0, 2,momentResinCountRa.x+momentResinCountRa.w+20,momentResinCountRa.y-15,60,40);//
             if (countArea.found){
                 //log.info("须臾树脂识别数量结果："+ countArea.text);
@@ -190,7 +190,7 @@
             fragileResinCount = "1";
         }else
         { 
-            var fragileResinCountRa = await imageRecognition(fragileResin,0.1, 0, 1,1170,0,350,100);
+            var fragileResinCountRa = await imageRecognition(fragileResin,0.1, 0, 1,1170,0,300,100);
             if (fragileResinCountRa.found) {  
                 // await moveMouseTo(fragileResinCountRa.x+fragileResinCountRa.w+20,fragileResinCountRa.y-15);   
                 let countArea = await Textocr("",0.5, 0, 2,fragileResinCountRa.x+fragileResinCountRa.w+20,fragileResinCountRa.y-15,60,40);//
