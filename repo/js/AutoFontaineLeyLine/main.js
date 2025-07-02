@@ -27,7 +27,6 @@
         await sleep(1200); 
     }
 
-
     async function Textocr(wenzi="空参数",chaotime=10,clickocr=0,debugcode=0,x=0,y=0,w=1920,h=1080) {
         const startTime = new Date();
         for (let ii = 0; ii < 10; ii++) 
@@ -55,7 +54,7 @@
                 }
             }
             const NowTime = new Date();
-            if (Math.abs(NowTime - startTime)>chaotime*1000){if (x===0 & y===0){log.info(`${chaotime}秒超时退出，·${wenzi}·未找到`);}return result = {found: false };}else{ii=8;if(x !== 840 || x !== 1188){keyPress("w")}log.info(`·${wenzi}·识别中……`);}
+            if (Math.abs(NowTime - startTime)>chaotime*1000){if (x===0 & y===0){log.info(`${chaotime}秒超时退出，·${wenzi}·未找到`);}return result = {found: false };}else{ii=8;log.info(`·${wenzi}·识别中……`); if(x !== 840 && x !== 1188){keyPress("w")}; }
             await sleep(100);
         }   
     }
@@ -422,19 +421,20 @@
     //寻找地脉溢口，文字识别不到转圈寻找，不管有没找到都执行战斗，最后领取奖励判断是否继续执行
     async function VeinEntrance() {
         for (let i = 0;i < 2;i++) {
-            let JIECHU = await Textocr("接触地脉溢口",1.5,2,0,1188,358,200,400);
+            let JIECHU = await Textocr("接触地脉溢口",1,2,0,1187,358,200,400);
             if (JIECHU.found)
             {
                 await keyPress("F");await dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));await keyPress("F");return true;
             }
             else{
                 if(i == 1){
-                    let SHUN01 = await Textocr("接触地脉之花",1,0,0,1188,358,200,400);
+                    let SHUN01 = await Textocr("接触地脉之花",0.5,0,0,1188,358,200,400);
                     let SHUN02 = await Textocr("地脉之花", 0.5, 0, 0, 840,225, 230, 125);
                         if (SHUN01.found || SHUN02.found) {
                             await keyPress("VK_ESCAPE");
                             await sleep(1000);
                             await genshin.returnMainUi();
+                            await sleep(1000);
                             log.info("找到地脉之花，开始领取奖励...");
                             return false;
                         }
@@ -452,6 +452,7 @@
                     await keyPress("VK_ESCAPE");
                     await sleep(1000);
                     await genshin.returnMainUi();
+                    await sleep(1000);
                     return true;
                 }
             }
@@ -461,11 +462,11 @@
     //定义领取动作,好感队伍是否添加？
     async function claimRewards() {
         log.info(`尝试领取奖励，优先${onerewards}'`);
-        let SHUN01 = await Textocr("接触地脉之花",1.5,2,0,1188,358,200,400);
+        let SHUN01 = await Textocr("接触地脉之花",1.5,2,0,1187,358,200,400);
         if (SHUN01.found) {
             log.info("找到地脉之花，开始领取奖励...");
         }else{
-                let SHUN02 = await Textocr("接触地脉之花",1,2,0,1188,358,200,400);
+                let SHUN02 = await Textocr("接触地脉之花",1,2,0,1187,358,200,400);
                 if (!SHUN02.found) {log.info("未找到地脉之花，尝试强制转圈寻找...")
                 dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
                 await keyDown("W");await sleep(500);await keyUp("W"); 
@@ -486,11 +487,11 @@
         for (let j = 0;j < 2;j++) {
  
             for (let i = 0;i < rewards.length;i++) {
-                let SHU =  await Textocr(resinTypeMap[rewards[i]],0.5,0,0,510,380,640,600);
+                let SHU =  await Textocr(resinTypeMap[rewards[i]],0.3,0,0,510,380,640,600);
                 if (SHU.found){
                     if (resinTypeMap[rewards[i]] == "使用20个原粹树脂")
                     {
-                      let BUC =  await Textocr("补充",0.5,0,0,1150,440,210,130);
+                      let BUC =  await Textocr("补充",0.2,0,0,1150,440,210,130);
                         if (BUC.found) {continue;}                                           
                     }
 
@@ -516,8 +517,7 @@
                     }
 
                     await click(SHU.x+550,SHU.y)
-                    log.info(` ${resinTypeMap[rewards[i]]} 获取奖励...`);
-                    dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: true }));    
+                    log.info(`${resinTypeMap[rewards[i]]} ...`);                        
                     
                     if (shouldExit) 
                     {
@@ -547,10 +547,10 @@
         var momentResinCount = 0; //须臾树脂
 
         // 浓缩树脂
-        var condensedResinCountRa = await imageRecognition(condensedResin,0, 0, 0,1190,0,400,80);
+        var condensedResinCountRa = await imageRecognition(condensedResin,0.1, 0, 0,1190,0,400,80);
         if (condensedResinCountRa.found) {  
             //  await moveMouseTo(condensedResinCountRa.x,condensedResinCountRa.y);    
-            let countArea = await Textocr("",1, 0, 2,condensedResinCountRa.x+condensedResinCountRa.w,condensedResinCountRa.y,condensedResinCountRa.w*2-5,condensedResinCountRa.h-5);//
+            let countArea = await Textocr("",0.5, 0, 2,condensedResinCountRa.x+condensedResinCountRa.w,condensedResinCountRa.y,condensedResinCountRa.w*2-5,condensedResinCountRa.h-5);//
             if (countArea.found){
                 // log.info("浓缩树脂识别数量结果： "+ countArea.text);
                 condensedResinCount = countArea.text
@@ -564,10 +564,10 @@
             log.info("未检测到浓缩树脂图标");        
         }
 
-        var originalResinCountRa = await imageRecognition(originalResin,0, 0, 0,1555,0,75,80);
+        var originalResinCountRa = await imageRecognition(originalResin,0.1, 0, 0,1555,0,75,80);
         if (originalResinCountRa.found) {  
             // await moveMouseTo(originalResinCountRa.x,originalResinCountRa.y);   
-            let countArea = await Textocr("",1, 0, 2,originalResinCountRa.x+originalResinCountRa.w,originalResinCountRa.y,originalResinCountRa.w*3,originalResinCountRa.h);//
+            let countArea = await Textocr("",0.5, 0, 2,originalResinCountRa.x+originalResinCountRa.w,originalResinCountRa.y,originalResinCountRa.w*3,originalResinCountRa.h);//
             if (countArea.found){
                 log.info("原粹树脂识别数量结果："+ countArea.text);
                 let match = countArea.text.match(/(\d+)\s*[/1]\s*(2|20|200)/);
@@ -591,14 +591,14 @@
 
         var momentResinCountRa = await imageRecognition(momentResin,0.1, 0, 1,1170,0,350,100);
         if (momentResinCountRa.found) {  
-            //  await moveMouseTo(momentResinCountRa.x,momentResinCountRa.y);   
-            let countArea = await Textocr("",0.5, 0, 2,momentResinCountRa.x+momentResinCountRa.w+15,momentResinCountRa.y-15,momentResinCountRa.w+50,momentResinCountRa.h+25);//
+            // await moveMouseTo(momentResinCountRa.x+momentResinCountRa.w+15+momentResinCountRa.w+50,momentResinCountRa.y-15+momentResinCountRa.h+25);   
+            let countArea = await Textocr("",0.5, 0, 2,momentResinCountRa.x+momentResinCountRa.w+20,momentResinCountRa.y-15,60,40);//
             if (countArea.found){
                 //log.info("须臾树脂识别数量结果："+ countArea.text);
                 momentResinCount = countArea.text                
             }
             else{                
-                var oneRa = await imageRecognition(oneResin,0.1, 0, 1,momentResinCountRa.x+momentResinCountRa.w+15,momentResinCountRa.y-15,momentResinCountRa.w+50,momentResinCountRa.h+25);
+                var oneRa = await imageRecognition(oneResin,0.1, 0, 1,momentResinCountRa.x+momentResinCountRa.w+20,momentResinCountRa.y-15,60,40);
                 if (oneRa.found){
                     momentResinCount = "1";
                  }else{
@@ -612,14 +612,14 @@
         { 
             var fragileResinCountRa = await imageRecognition(fragileResin,0.1, 0, 1,1170,0,350,100);
             if (fragileResinCountRa.found) {  
-                // await moveMouseTo(fragileResinCountRa.x,fragileResinCountRa.y);   
-                let countArea = await Textocr("",0.5, 0, 2,fragileResinCountRa.x+fragileResinCountRa.w+15,fragileResinCountRa.y-15,fragileResinCountRa.w+50,fragileResinCountRa.h+25);//
+                // await moveMouseTo(fragileResinCountRa.x+fragileResinCountRa.w+20,fragileResinCountRa.y-15);   
+                let countArea = await Textocr("",0.5, 0, 2,fragileResinCountRa.x+fragileResinCountRa.w+20,fragileResinCountRa.y-15,60,40);//
                 if (countArea.found){
                     // log.info("脆弱树脂识别数量结果："+ countArea.text);
                     fragileResinCount = countArea.text
                 }
                 else{
-                    var oneRa = await imageRecognition(oneResin,0.1, 0, 1,fragileResinCountRa.x+fragileResinCountRa.w+15,fragileResinCountRa.y-15,fragileResinCountRa.w+50,fragileResinCountRa.h+25);
+                    var oneRa = await imageRecognition(oneResin,0.1, 0, 1,fragileResinCountRa.x+fragileResinCountRa.w+20,fragileResinCountRa.y-15,60,40);
                     if (oneRa.found){
                         fragileResinCount = "1";
                     }else{
@@ -633,8 +633,8 @@
             }
         }
 
-        log.info("树脂状态：浓缩{0} 原粹{1} 脆弱{2} 须臾{3}", condensedResinCount, originalResinCount, fragileResinCount, momentResinCount)
-        return {condensedResinCount,originalResinCount,fragileResinCount,momentResinCountRa}
+        log.info("树脂状态：浓缩{0} 原粹{1} 脆弱{2} 须臾{3}", condensedResinCount, originalResinCount, fragileResinCount,momentResinCount)
+        return {condensedResinCount,originalResinCount,fragileResinCount,momentResinCount}
     }
 
     async function isOnRewardPage() {
@@ -734,7 +734,7 @@
                                 noTextCount++;
                                 log.info(`检测到可能离开战斗区域，当前计数: ${noTextCount}`);
     
-                                if (noTextCount >= 15) {
+                                if (noTextCount >= 12) {
                                     log.warn("已离开战斗区域");
                                     resolve(false);
                                     return;
@@ -841,16 +841,17 @@
                             }else{await pathingScript.runFile(`${selectedFolder}${jsonFile1}`);}
                         
                     }
-            }            
-            
+            } 
+             
             // 寻找地脉溢口，找到地脉花就领奖，没有找到就直接战斗，再尝试领奖
             if (await VeinEntrance()){                
                 await sleep(1000);
                 await dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false})); await keyPress("F");
                 log.warn("开始战斗..."); 
 
-                checkRewardPage();// 执行自动战斗并同步检测领奖页面
                 shouldContinueChecking = true;
+                checkRewardPage();// 执行自动战斗并同步检测领奖页面
+                
 
                 if (!Fightquick){           
                     await dispatcher.runTask(new SoloTask("AutoFight")); //固定执行两次战斗，执行自动战斗,配置器中的设置建议填你的队伍打一次大概得时间
