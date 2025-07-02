@@ -1,8 +1,8 @@
 {
   "info": {
-    "name": "B30-萃凝晶-纳塔-悬木人-5个",
+    "name": "B42-萃凝晶-纳塔-奥奇卡纳塔下01",
     "type": "collect",
-    "author": "无限不循环",
+    "author": "mfkvfhpdx",
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
@@ -12,78 +12,79 @@
     ],
     "authors": [
       {
-        "name": "无限不循环"
+        "name": "mfkvfhpdx",
+        "links": "https://github.com/mfkvfhpdx"
       }
     ]
   },
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
+      "x": 10030.37,
+      "y": -643.38,
+      "action": "force_tp",
+      "move_mode": "fly",
       "type": "teleport",
-      "x": 8660.76,
-      "y": -2220.57,
-      "action_params": ""
+      "locked": false
     },
     {
       "id": 2,
-      "x": 8651.44,
-      "y": -2184.71,
+      "x": 10033.92,
+      "y": -641.29,
       "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
+      "move_mode": "walk",
+      "action": "",
       "action_params": ""
     },
     {
       "id": 3,
-      "x": 8653.33,
-      "y": -2180.92,
+      "x": 10041.32,
+      "y": -639.89,
       "type": "path",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 4,
-      "x": 8653.33,
-      "y": -2180.92,
-      "action": "combat_script",
-      "action_params": "wait(1)",
+      "x": 10073.98,
+      "y": -631.89,
       "type": "path",
-      "move_mode": "walk"
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "2500"
     },
     {
       "id": 5,
-      "x": 8654.29,
-      "y": -2181.86,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
-    },
-    {
-      "id": 6,
-      "x": 8654.29,
-      "y": -2181.86,
-      "action": "combat_script",
-      "action_params": "wait(1)",
-      "type": "path",
-      "move_mode": "walk"
-    },
-    {
-      "id": 7,
-      "x": 8620.93,
-      "y": -2182.25,
+      "x": 10081.32,
+      "y": -626.89,
       "type": "path",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
+      "id": 6,
+      "x": 10080.14,
+      "y": -631.9,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+    },
+    {
+      "id": 7,
+      "x": 10080.14,
+      "y": -631.9,
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
       "id": 8,
-      "x": 8601.57,
-      "y": -2186.06,
+      "x": 10079.08,
+      "y": -627.0,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -91,8 +92,8 @@
     },
     {
       "id": 9,
-      "x": 8595.7,
-      "y": -2189.09,
+      "x": 10076.53,
+      "y": -628.44,
       "type": "path",
       "move_mode": "walk",
       "action": "mining",
@@ -100,8 +101,8 @@
     },
     {
       "id": 10,
-      "x": 8595.7,
-      "y": -2189.09,
+      "x": 10076.53,
+      "y": -628.44,
       "action": "combat_script",
       "action_params": "wait(1)",
       "type": "path",
@@ -109,8 +110,8 @@
     },
     {
       "id": 11,
-      "x": 8597.1,
-      "y": -2185.51,
+      "x": 10074.93,
+      "y": -624.13,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -118,8 +119,8 @@
     },
     {
       "id": 12,
-      "x": 8594.42,
-      "y": -2186.85,
+      "x": 10073.42,
+      "y": -626.8,
       "type": "path",
       "move_mode": "walk",
       "action": "mining",
@@ -127,8 +128,8 @@
     },
     {
       "id": 13,
-      "x": 8594.42,
-      "y": -2186.85,
+      "x": 10073.42,
+      "y": -626.8,
       "action": "combat_script",
       "action_params": "wait(1)",
       "type": "path",
@@ -136,17 +137,35 @@
     },
     {
       "id": 14,
-      "x": 8592.34,
-      "y": -2187.82,
+      "x": 10071.92,
+      "y": -632.16,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 10078.99,
+      "y": -639.3,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": 10078.15,
+      "y": -640.93,
       "type": "path",
       "move_mode": "walk",
       "action": "mining",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
     },
     {
-      "id": 15,
-      "x": 8592.34,
-      "y": -2187.82,
+      "id": 17,
+      "x": 10078.15,
+      "y": -640.93,
       "action": "combat_script",
       "action_params": "wait(1)",
       "type": "path",
