@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "海草15-鹤观神像-稻妻3个",
+    "name": "03-海草-稻妻-荒海-5个",
     "type": "collect",
     "author": "不瘦五十斤不改名",
     "version": "1.0",
@@ -16,19 +16,27 @@
   "positions": [
     {
       "id": 1,
-      "x": -3103.55,
-      "y": -6268.53,
       "action": "",
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -4217.89,
+      "y": -2397.83
     },
     {
       "id": 2,
-      "x": -3198.68,
-      "y": -6265.74,
-      "action": "nahida_collect",
-      "move_mode": "run",
-      "type": "path"
+      "x": -4116.06,
+      "y": -2422.12,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": -4116.06,
+      "y": -2427.66,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
     }
   ]
 }

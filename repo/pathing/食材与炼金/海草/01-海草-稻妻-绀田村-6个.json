@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "海草05-白狐之野-稻妻3个",
+    "name": "01-海草-稻妻-绀田村-6个",
     "type": "collect",
     "author": "不瘦五十斤不改名",
     "version": "1.0",
@@ -19,13 +19,29 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": -4232.08,
-      "y": -3001.99
+      "x": -4050.01,
+      "y": -2657.45
     },
     {
       "id": 2,
-      "x": -4264.95,
-      "y": -2962.74,
+      "x": -4020.79,
+      "y": -2625.6,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 3,
+      "x": -3983.14,
+      "y": -2617.7,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": -3915.35,
+      "y": -2611.67,
       "type": "path",
       "move_mode": "run",
       "action": "nahida_collect"

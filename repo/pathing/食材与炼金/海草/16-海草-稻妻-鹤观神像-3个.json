@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "海草17-越石村-稻妻4个",
+    "name": "16-海草-稻妻-鹤观神像-3个",
     "type": "collect",
     "author": "不瘦五十斤不改名",
     "version": "1.0",
@@ -16,27 +16,19 @@
   "positions": [
     {
       "id": 1,
+      "x": -3103.55,
+      "y": -6268.53,
       "action": "",
       "move_mode": "walk",
-      "type": "teleport",
-      "x": -4023.28,
-      "y": -4428.79
+      "type": "teleport"
     },
     {
       "id": 2,
-      "x": -4002.46,
-      "y": -4397.63,
-      "type": "path",
+      "x": -3198.68,
+      "y": -6265.74,
+      "action": "nahida_collect",
       "move_mode": "run",
-      "action": ""
-    },
-    {
-      "id": 3,
-      "x": -4000.9,
-      "y": -4333.17,
-      "type": "path",
-      "move_mode": "run",
-      "action": "nahida_collect"
+      "type": "path"
     }
   ]
 }

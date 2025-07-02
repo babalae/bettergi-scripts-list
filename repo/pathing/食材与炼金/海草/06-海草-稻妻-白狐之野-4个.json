@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "海草11-无想刃狭间(中危)-稻妻5个",
+    "name": "06-海草-稻妻-白狐之野-4个",
     "type": "collect",
     "author": "不瘦五十斤不改名",
     "version": "1.0",
@@ -16,27 +16,34 @@
   "positions": [
     {
       "id": 1,
+      "x": -4232.23,
+      "y": -3001.94,
       "action": "",
       "move_mode": "walk",
-      "type": "teleport",
-      "x": -2193.69,
-      "y": -3485.58
+      "type": "teleport"
     },
     {
       "id": 2,
-      "x": -2249.6,
-      "y": -3506.77,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "x": -4211.75,
+      "y": -3040.25,
+      "action": "nahida_collect",
+      "move_mode": "run",
+      "type": "path"
     },
     {
       "id": 3,
-      "x": -2316.36,
-      "y": -3501.55,
+      "x": -4202.5,
+      "y": -3020.75,
       "type": "path",
-      "move_mode": "fly",
-      "action": "nahida_collect"
+      "move_mode": "run"
+    },
+    {
+      "id": 4,
+      "x": -4178.3,
+      "y": -3003.19,
+      "action": "nahida_collect",
+      "move_mode": "run",
+      "type": "path"
     }
   ]
 }
