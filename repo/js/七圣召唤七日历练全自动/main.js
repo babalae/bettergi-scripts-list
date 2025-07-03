@@ -260,12 +260,12 @@ const detectCardPlayer = async () => {
     let i = 0;
     let findNum = 0;
     const checkPoints = [
-        { x: 640, y: 750, action: async () => await gotoTable1() }, // 点位1
-        { x: 810, y: 790, action: async () => await gotoTable2() }, // 点位2
-        { x: 810, y: 600, action: async () => await gotoTable3() }, // 点位3
-        { x: 610, y: 360, action: async () => await gotoTable4() }, // 点位4
-        { x: 700, y: 5, action: async () => await gotoTable5() }, // 点位5
-        { x: 290, y: 530, action: async () => await gotoTable6() }, // 点位6
+        { x: 1475, y: 730, action: async () => await gotoTable1() }, // 1号桌
+        { x: 1680, y: 780, action: async () => await gotoTable2() }, // 2号桌
+        { x: 1645, y: 575, action: async () => await gotoTable3() }, // 3号桌
+        { x: 1460, y: 360, action: async () => await gotoTable4() }, // 4号桌
+        { x: 1550, y: 0    , action: async () => await gotoTable5() }, // 包间1
+        { x: 1130, y: 520, action: async () => await gotoTable6() }, // 包间2
     ];
 
     keyPress("M");
@@ -277,9 +277,9 @@ const detectCardPlayer = async () => {
     moveMouseTo(200, 200);
     leftButtonDown();
     await sleep(500);
-    moveMouseTo(170, 288);
+    moveMouseTo(170, 320);
     await sleep(500);
-    moveMouseTo(104, 1000);
+    moveMouseTo(970, 1000);
     await sleep(500);
     leftButtonUp();
     await sleep(500);
