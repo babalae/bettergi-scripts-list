@@ -42,7 +42,7 @@
       "y": 1016.24169921875,
       "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "keypress(f);芙宁娜 charge;",
+      "action_params": "keypress(f);芙宁娜 attack(0.08),charge;",
       "type": "path"
     },
     {
@@ -51,7 +51,7 @@
       "y": 1051.0621741037855,
       "action": "combat_script",
       "move_mode": "run",
-      "action_params": "keypress(x);迪希雅 w(0.3),e;",
+      "action_params": "w(0.3),keypress(e);迪希雅 w(0.3),e;",
       "type": "path"
     },
     {

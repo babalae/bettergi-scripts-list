@@ -6,7 +6,9 @@
     "version": "",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751549838944
   },
   "positions": [
     {
@@ -392,30 +394,31 @@
     },
     {
       "id": 45,
-      "x": 10032.03125,
-      "y": 152.65585160457158,
-      "action": "combat_script",
-      "move_mode": "run",
-      "action_params": "wait(0.2),keypress(t),wait(2.8)",
-      "type": "path"
-    },
-    {
-      "id": 46,
-      "x": 10024.875,
-      "y": 156.75008980433358,
+      "x": 10035.4375,
+      "y": 154.6257082585389,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 47,
-      "x": 10025.18881087872,
-      "y": 154.37708795075196,
+      "id": 46,
+      "x": 10026.3955078125,
+      "y": 158.45166015625,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.5),keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE),wait(0.5),mousedown,wait(0.5),moveby(-750,1500),wait(1.0),mouseup",
-      "type": "path"
+      "action_params": "wait(0.2),keypress(t),wait(2.8)",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 47,
+      "x": 10024.146484375,
+      "y": 145.75244140625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5),keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE),wait(0.5),mousedown,wait(0.5),moveby(-100,950),wait(1.0),mouseup",
+      "type": "orientation"
     },
     {
       "id": 48,

@@ -5,7 +5,10 @@
     "author": "Yang-z",
     "version": "",
     "description": "",
-    "bgiVersion": "0.35.1"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751548508927
   },
   "positions": [
     {
@@ -37,15 +40,16 @@
       "x": -1364.7578125,
       "y": -3757.8564453125,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "type": "target"
     },
     {
       "id": 5,
       "x": -1366.9375,
       "y": -3756.4374225342217,
-      "action": "",
-      "move_mode": "walk",
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f);芙宁娜 attack(0.08),charge;",
       "type": "target"
     }
   ]
