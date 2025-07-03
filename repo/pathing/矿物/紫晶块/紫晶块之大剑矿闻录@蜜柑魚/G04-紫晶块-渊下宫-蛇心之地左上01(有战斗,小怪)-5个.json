@@ -184,7 +184,7 @@
       "type": "path",
       "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "keypress(VK_SPACE),wait(2),keypress(VK_SPACE)"
+      "action_params": "wait(0.1),keypress(VK_SPACE),wait(1.7),keypress(VK_SPACE),wait(0.1)"
     },
     {
       "id": 18,
@@ -192,8 +192,8 @@
       "y": -111.78,
       "type": "path",
       "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
     },
     {
       "id": 19,
