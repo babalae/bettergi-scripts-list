@@ -8,7 +8,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751550542944
+    "last_modified_time": 1751651757496
   },
   "positions": [
     {
@@ -66,10 +66,10 @@
       "id": 7,
       "x": 8390.189453125,
       "y": -1989.59619140625,
-      "type": "target",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),"
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.4),keypress(f),wait(0.3),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),a(0.2),keypress(f),wait(0.4),keypress(f),a(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "type": "target"
     },
     {
       "id": 8,

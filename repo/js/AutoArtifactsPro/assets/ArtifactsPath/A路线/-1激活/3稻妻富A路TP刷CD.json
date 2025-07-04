@@ -8,7 +8,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751363663322
+    "last_modified_time": 1751649025118
   },
   "positions": [
     {
@@ -18,19 +18,39 @@
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "locked": false
     },
     {
       "id": 2,
+      "x": -3932.6064453125,
+      "y": -3204.482421875,
+      "action": "log_output",
+      "move_mode": "walk",
+      "action_params": "\n[调查点-提早触发24H倒计时] 此功能只跑TP不拾取!!!\n明天此时此秒重新发光!!!可以随时慢慢捡!!!\n刷新机制看README.md第二点!!!",
+      "type": "orientation"
+    },
+    {
+      "id": 3,
       "x": -3437.7333984375,
       "y": -3316.2119140625,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "locked": false
     },
     {
-      "id": 3,
+      "id": 4,
+      "x": -3437.7333984375,
+      "y": -3316.2119140625,
+      "action": "log_output",
+      "move_mode": "walk",
+      "action_params": "\n[调查点-提早触发24H倒计时] 此功能只跑TP不拾取!!!\n明天此时此秒重新发光!!!可以随时慢慢捡!!!\n刷新机制看README.md第二点!!!",
+      "type": "orientation"
+    },
+    {
+      "id": 5,
       "x": -3290.7158203125,
       "y": -3653.0283203125,
       "action": "",
@@ -39,13 +59,23 @@
       "type": "teleport"
     },
     {
-      "id": 4,
+      "id": 6,
       "x": -3321.4326171875,
       "y": -3614.4345703125,
-      "type": "path",
-      "move_mode": "fly",
+      "action": "log_output",
+      "move_mode": "walk",
+      "action_params": "\n[调查点-提早触发24H倒计时] 此功能只跑TP不拾取!!!\n明天此时此秒重新发光!!!可以随时慢慢捡!!!\n刷新机制看README.md第二点!!!",
+      "type": "orientation"
+    },
+    {
+      "id": 7,
+      "x": -3321.4326171875,
+      "y": -3614.4345703125,
       "action": "stop_flying",
-      "action_params": "1000"
+      "move_mode": "fly",
+      "action_params": "1000",
+      "type": "path",
+      "locked": false
     }
   ]
 }
