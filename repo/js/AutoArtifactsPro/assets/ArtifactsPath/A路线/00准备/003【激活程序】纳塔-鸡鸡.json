@@ -8,7 +8,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1750879353745
+    "last_modified_time": 1751646467104
   },
   "positions": [
     {
@@ -22,21 +22,21 @@
     },
     {
       "id": 2,
-      "x": 7974.1123046875,
-      "y": -1565.7958984375,
-      "action": "set_time",
-      "move_mode": "walk",
-      "action_params": "06:00",
-      "type": "path"
+      "x": 7973.87353515625,
+      "y": -1564.46728515625,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 3,
-      "x": 7975.40673828125,
-      "y": -1569.509765625,
+      "x": 7977.0908203125,
+      "y": -1569.8955078125,
+      "type": "path",
+      "move_mode": "climb",
       "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 4,
@@ -52,7 +52,7 @@
       "x": 7980.658203125,
       "y": -1578.44384765625,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "",
       "type": "path"
     },
@@ -60,9 +60,9 @@
       "id": 6,
       "x": 7998.83056640625,
       "y": -1611.9853515625,
-      "action": "",
+      "action": "set_time",
       "move_mode": "dash",
-      "action_params": "",
+      "action_params": "06:00",
       "type": "path"
     },
     {
