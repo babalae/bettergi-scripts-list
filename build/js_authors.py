@@ -37,7 +37,11 @@ author_links = {
     "灰林鸮": "https://github.com/Strix-nivicolum",
     "Tim": "https://github.com/Limint",
     "花见木易": "https://github.com/Flower-MUYi",
-    "无限不循环": "https://github.com/non-repeating001"
+    "无限不循环": "https://github.com/non-repeating001",
+    "wjdsg": "https://gitee.com/wangjian0327/auto-bgi",
+    "HZYgrandma": "https://github.com/HZYgrandma",
+    "huiyadanli": "https://github.com/huiyadanli",
+    "呱呱z": "https://github.com/jidingcai"
 }
 
 # 获取命令行参数
@@ -94,7 +98,7 @@ for root, dirs, files in os.walk(folder_path):
                     if new_name in author_links:
                         author_obj["links"] = author_links[new_name]
                     new_authors.append(author_obj)
-                data["info"]["author"] = new_authors
+                data["authors"] = new_authors
                 modified = True
                 print("✅ 替换为结构化 author")
 
