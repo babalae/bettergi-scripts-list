@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "E01-枫丹-莫尔泰区-秋分山东侧-2只",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751641738515
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3917.3232421875,
+      "y": 2576.4013671875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3869.32,
+      "y": 2621.70,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3869.32,
+      "y": 2621.70,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 3869.7,
+      "y": 2626.23,
+      "type": "target",
+      "move_mode": "jump",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 3869.20703125,
+      "y": 2626.237548828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

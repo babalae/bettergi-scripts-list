@@ -1,0 +1,87 @@
+{
+  "info": {
+    "name": "A06-蒙德-龙脊雪山-七天神像-西南-2只",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751640725899
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1023.158203125,
+      "y": 1174.6162109375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1005.9462890625,
+      "y": 1155.517578125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1002.82421875,
+      "y": 1118.76806640625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 4,
+      "x": -1005.2001953125,
+      "y": 1106.5810546875,
+      "type": "target",
+      "move_mode": "jump",
+      "action": "combat_script",
+      "action_params": "wait(2)"
+    },
+    {
+      "id": 5,
+      "x": -999.12,
+      "y": 1091.17,
+      "type": "target",
+      "move_mode": "jump",
+      "action": "combat_script",
+      "action_params": "wait(3)"
+    },
+    {
+      "id": 6,
+      "x": -977.80859375,
+      "y": 1098.33251953125,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -966.8994140625,
+      "y": 1107.89404296875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -966.890625,
+      "y": 1107.91015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}
