@@ -6,7 +6,9 @@
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751138753350
   },
   "positions": [
     {
@@ -65,21 +67,21 @@
     },
     {
       "id": 7,
-      "x": 4739.7978515625,
-      "y": -1232.67822265625,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 8,
       "x": 4736.97509765625,
       "y": -1228.71533203125,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "芙宁娜 e;玛薇卡 e;keypress(t)",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;",
       "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4721.97705078125,
+      "y": -1202.25,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "keypress(t)"
     },
     {
       "id": 9,
@@ -94,20 +96,19 @@
       "id": 10,
       "x": 4745.162109375,
       "y": -1111.33642578125,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
+      "move_mode": "dash",
       "action_params": "",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 11,
       "x": 4745.162109375,
       "y": -1111.33642578125,
-      "type": "orientation",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }
