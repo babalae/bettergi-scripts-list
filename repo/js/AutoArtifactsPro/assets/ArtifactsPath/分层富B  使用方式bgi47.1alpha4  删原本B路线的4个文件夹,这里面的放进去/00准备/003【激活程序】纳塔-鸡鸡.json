@@ -1,0 +1,114 @@
+{
+  "info": {
+    "name": "003【激活程序】纳塔-鸡鸡",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751646467104
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 7974.4345703125,
+      "y": -1564.3994140625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 7973.87353515625,
+      "y": -1564.46728515625,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 7977.0908203125,
+      "y": -1569.8955078125,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 7977.4716796875,
+      "y": -1573.080078125,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 7980.658203125,
+      "y": -1578.44384765625,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 7998.83056640625,
+      "y": -1611.9853515625,
+      "action": "set_time",
+      "move_mode": "dash",
+      "action_params": "06:00",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 8031.78125,
+      "y": -1646.9997454695877,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 8054.437575051576,
+      "y": -1708.4374545261098,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 8057.00244140625,
+      "y": -1714.8203125,
+      "action": "log_output",
+      "move_mode": "walk",
+      "action_params": "\n[激活路径]激活完\"超限点\"不拾取!!!\n[激活路径]\"超限点\"不拾取!!!\n[激活路径]不拾取!!!\n[激活路径]别再狗叫为什么漏了!!!",
+      "type": "orientation"
+    },
+    {
+      "id": 10,
+      "x": 8057.00244140625,
+      "y": -1714.8203125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.5),attack(0.22),j,wait(0.8),keypress(f),attack(0.22),j,wait(0.6),attack(0.22),j,wait(0.6),attack(0.22),j,wait(2),s(0.01),wait(0.2),s(0.01),wait(0.2),s(0.01),wait(0.2),keypress(f),wait(0.1),dash,s(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 8057.00244140625,
+      "y": -1714.8203125,
+      "action": "log_output",
+      "move_mode": "walk",
+      "action_params": "\n[激活路径]激活完\"超限点\"不拾取!!!\n[激活路径]\"超限点\"不拾取!!!\n[激活路径]不拾取!!!\n[激活路径]别再狗叫为什么漏了!!!",
+      "type": "orientation"
+    }
+  ]
+}
