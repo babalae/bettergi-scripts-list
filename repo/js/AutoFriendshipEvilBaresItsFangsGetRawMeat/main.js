@@ -1,4 +1,4 @@
-(async function() {
+(async function () {
 
 	function logTimeTaken(startTime) {
 		const currentTime = Date.now();

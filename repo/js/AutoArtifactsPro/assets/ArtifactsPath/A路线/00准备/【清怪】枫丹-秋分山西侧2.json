@@ -6,7 +6,9 @@
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751648010040
   },
   "positions": [
     {
@@ -31,9 +33,9 @@
       "id": 3,
       "x": 4229.437582951742,
       "y": 2495.6871210509144,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "",
+      "action_params": "wait(1)",
       "type": "path"
     },
     {
@@ -47,33 +49,30 @@
     },
     {
       "id": 5,
-      "x": 4297.000142202985,
-      "y": 2443.625242527416,
+      "x": 4294.4990234375,
+      "y": 2469.84521484375,
       "action": "log_output",
       "move_mode": "dash",
       "action_params": "\n[清怪路径]清怪完不拾取!!!\n[清怪路径]清怪完不拾取!!!\n[清怪路径]清怪完不拾取!!!\n[清怪路径]别再狗叫为什么漏了!!!",
-      "type": "orientation",
-      "locked": false
+      "type": "orientation"
     },
     {
       "id": 6,
-      "x": 4297.000142202985,
-      "y": 2443.625242527416,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
+      "x": 4294.4990234375,
+      "y": 2469.84521484375,
       "type": "path",
-      "locked": false
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
     },
     {
       "id": 7,
-      "x": 4297.000142202985,
-      "y": 2443.625242527416,
+      "x": 4294.4990234375,
+      "y": 2469.84521484375,
       "action": "log_output",
       "move_mode": "dash",
       "action_params": "\n[清怪路径]清怪完不拾取!!!\n[清怪路径]清怪完不拾取!!!\n[清怪路径]清怪完不拾取!!!\n[清怪路径]别再狗叫为什么漏了!!!",
-      "type": "orientation",
-      "locked": false
+      "type": "orientation"
     }
   ]
 }

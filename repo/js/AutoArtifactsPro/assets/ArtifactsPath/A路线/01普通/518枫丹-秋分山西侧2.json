@@ -6,7 +6,9 @@
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751651447015
   },
   "positions": [
     {
@@ -31,9 +33,9 @@
       "id": 3,
       "x": 4229.437582951742,
       "y": 2495.6871210509144,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "",
+      "action_params": "wait(1)",
       "type": "path"
     },
     {
@@ -49,22 +51,29 @@
       "id": 5,
       "x": 4259.98046875,
       "y": 2460.030029296875,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);"
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "type": "target"
     },
     {
       "id": 6,
-      "x": 4259.7021484375,
-      "y": 2462.538818359375,
+      "x": 4261.093829001658,
+      "y": 2461.125037894908,
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "move_mode": "walk"
     },
     {
       "id": 7,
+      "x": 4259.7021484375,
+      "y": 2462.538818359375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
       "x": 4268.09376382529,
       "y": 2450.9684544197116,
       "action": "combat_script",

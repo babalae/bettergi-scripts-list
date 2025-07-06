@@ -684,7 +684,7 @@
             return false;
         }
         try {
-            food_num_Stamina_Cost_Reduction = typeof(settings.food_num_Stamina_Cost_Reduction) === "undefined" || settings.food_num_Stamina_Cost_Reduction === "" ? 1: parseInt(food_num_Stamina_Cost_Reduction.undefined, 10);
+            food_num_Stamina_Cost_Reduction = typeof(settings.food_num_Stamina_Cost_Reduction) === "undefined" || settings.food_num_Stamina_Cost_Reduction === "" ? 1: parseInt(settings.food_num_Stamina_Cost_Reduction, 10);
         } catch(error) {
             log.error(`food_num_Stamina_Cost_Reduction 读取错误: ${error}`);
             return false;
@@ -1214,7 +1214,7 @@
         }
         // 检测界面
         if (!is_food_page()) return false;
-        // 二次验证食材名【DEBUG】经过先前的字符串距离筛选，此处理应不可能找不到
+        // 二次验证料理名【DEBUG】经过先前的字符串距离筛选，此处理应不可能找不到
         if (!Object.keys(food_dic).includes(food_name)) {
             log.warn(`food_dic内未找到名为-${food_name}-的料理，料理名称传入错误或料理数据需要更新`);
             return false;

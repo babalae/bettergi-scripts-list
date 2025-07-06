@@ -13,9 +13,14 @@
     "default": "不卡时间，ab交替运行"
   },
   {
+    "name": "runActivatePath",
+    "type": "checkbox",
+    "label": "是否启用激活路线，启用后将先花费约3分钟激活狗粮点\n启用该选项后可提高稳定性，并允许断点续跑和极大降低最短间隔时间"
+  },
+  {
     "name": "useABE",
     "type": "checkbox",
-    "label": "是否使用用时更短，收益更低的老abe路线\n默认使用新路线"
+    "label": "是否使用用时较短，收益较低的老abe路线\n不勾选时使用默认的新路线"
   },
   {
     "name": "minTimesForFirendship",
@@ -32,13 +37,13 @@
   {
     "name": "friendshipPartyName",
     "type": "input-text",
-    "label": "好感队名称\n【请输入好感队的队伍名称】",
+    "label": "好感队名称\n【请输入好感队的队伍名称】\n请为该配队配置对应的战斗策略，清怪路线也会使用该配队",
     "default": "好感"
   },
   {
     "name": "grindPartyName",
     "type": "input-text",
-    "label": "狗粮队名称\n【请输入狗粮队的队伍名称】",
+    "label": "狗粮队名称\n【请输入狗粮队的队伍名称】\n",
     "default": "狗粮"
   },
   {
@@ -60,7 +65,7 @@
   {
     "name": "waitTimePeriod",
     "type": "input-text",
-    "label": "卡时间时间段\n【格式参考：4:05-4:45，默认为4:05-4:45】",
+    "label": "卡时间时间段\n【格式参考：4:05-4:45，默认为4:05-4:45】\njs会尝试控制开始狗粮路线的时间在这个时间段内",
     "default": "4:05-4:45"
   },
   {
