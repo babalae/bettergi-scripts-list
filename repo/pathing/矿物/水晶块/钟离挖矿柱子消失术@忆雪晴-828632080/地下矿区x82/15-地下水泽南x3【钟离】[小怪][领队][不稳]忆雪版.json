@@ -1,0 +1,175 @@
+{
+  "info": {
+    "name": "15-地下水泽南x3【钟离】[小怪][领队][不稳]忆雪版",
+    "type": "collect",
+    "author": "忆雪晴-828632080",
+    "version": "V1-领队版",
+    "description": "钟离无柱阻挡挖矿，解决全命座柱子卡人问题。刚需钟离，录制队友无任何加速效果，如双风，佳明，迪希雅，罗莎莉亚等。  地图追踪需要关闭钟离生存位的可能，需要在设置组选择中规避钟离不定时开盾。//鸣谢: 白可佬儿  V1-25年五月28",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "钟离",
+      "钟离无阻挡挖矿",
+      "联机领队",
+      "矿车车头",
+      "地下矿区",
+      "无战斗挖矿"
+    ],
+    "last_modified_time": 1748442030490
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 663.7847900390625,
+      "y": 710.2806396484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 667.6029052734375,
+      "y": 704.0799560546875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 685.749267578125,
+      "y": 669.68408203125,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 685.975341796875,
+      "y": 665.2723388671875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 689.8291015625,
+      "y": 639.8112548828125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 686.5325927734375,
+      "y": 638.7584228515625,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 674.10498046875,
+      "y": 631.199462890625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 674.10498046875,
+      "y": 630.199462890625,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "钟离 a(0.3),e",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 670.706787109375,
+      "y": 623.0411376953125,
+      "action": "log_output",
+      "move_mode": "run",
+      "action_params": "========= ============可选战斗，默认关闭========= ========= ========= ============可选战斗，默认关闭========= ========= ========= ============可选战斗，默认关闭========= ========= ========= ============可选战斗，默认关闭========= ========= ========= ============可选战斗，默认关闭========= =========",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 665.971923828125,
+      "y": 613.843994140625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 658.66357421875,
+      "y": 603.37255859375,
+      "action": "mining",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 658.3277587890625,
+      "y": 599.0816650390625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": 664.154541015625,
+      "y": 601.4305419921875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 14,
+      "x": 663.208984375,
+      "y": 604.9345703125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 15,
+      "x": 658.531494140625,
+      "y": 600.091552734375,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 16,
+      "x": 655.300048828125,
+      "y": 603.2401123046875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 17,
+      "x": 663.7847900390625,
+      "y": 710.2806396484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    }
+  ]
+}
