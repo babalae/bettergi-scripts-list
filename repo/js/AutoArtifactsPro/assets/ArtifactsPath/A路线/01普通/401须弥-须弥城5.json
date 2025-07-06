@@ -6,7 +6,9 @@
     "version": "",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1750878593879
   },
   "positions": [
     {
@@ -161,22 +163,13 @@
       "id": 18,
       "x": 2988.5546875,
       "y": -275.0009765625,
-      "action": "up_down_grab_leaf",
+      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "",
+      "action_params": "keypress(t)",
       "type": "orientation"
     },
     {
       "id": 19,
-      "x": 2991.0624683993374,
-      "y": -271.1250151579634,
-      "action": "stop_flying",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 20,
       "x": 3009.25017380365,
       "y": -242.87583368799005,
       "action": "",
@@ -185,13 +178,13 @@
       "type": "path"
     },
     {
-      "id": 21,
+      "id": 20,
       "x": 3011.923828125,
       "y": -245.77734375,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);"
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "type": "target"
     }
   ]
 }

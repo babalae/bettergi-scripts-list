@@ -1,6 +1,6 @@
 # 曲谱 JSON 文件说明
 * **注意** 
-	- 制铺优先使用AutoYuanQin\assets\tutorial_file目录下的制铺软件(index.html)，有任何疑问请来看这个使用说明
+	- 制谱优先使用AutoYuanQin\assets\tutorial_file目录下的制谱软件(index.html)，有任何疑问请来看这个使用说明
 此文档供曲谱制作人阅读，本文档详细说明了一个标准格式的曲谱.json文件格式，包括各个字段的解释以及曲谱内容的格式要求。
 
 重要：即使制作了曲谱的JSON文件，放到了正确的路径下，在调度器的JS脚本配置里也不会出现你制作的曲谱（上传方法如下）
@@ -32,12 +32,12 @@
 		如果您写了一半，打算下次在写，可以使用导出曲谱功能保存曲谱，下次要写的时候点击按钮```读取乐谱JSON```，选择上次导出的文件即可
 
 ## 曲谱制作问题
-\assets\tutorial_file\五线谱注解.png包含了五线谱（高音区和低音区）对应的3组键盘键位（相邻的红蓝大写字母为一组，每组音域为三个八度）
+`\assets\tutorial_file\五线谱注解.png` 包含了五线谱（高音区和低音区）对应的3组键盘键位（相邻的红蓝大写字母为一组，每组音域为三个八度）
 
-有不懂的地方请在\assets\tutorial_file\example.json内找，这个谱子内包含了该脚本的五线谱相关的所有功能
+有不懂的地方请在 `\assets\tutorial_file\example.json` 内找，这个谱子内包含了该脚本的五线谱相关的所有功能
 
 ## 曲谱文件位置
-所有的曲谱文件应放置于 AutoLyre\assets\score_file 路径下，并在文件名前添加正确的序号
+所有的曲谱文件应放置于 `AutoLyre\assets\score_file` 路径下，并在文件名前添加正确的序号
 
 ## 文件结构
 一个标准的曲谱.json文件的基本结构如下：  
@@ -54,7 +54,7 @@
 }
 ```
 
-**注意**：以上代码中仅 :  右侧的**双引号内**的部分可以更改，具体的曲谱格式请参考 \assets\tutorial_file 路径下的 example.json  
+**注意**：以上代码中仅 :  右侧的**双引号内**的部分可以更改，具体的曲谱格式请参考 `\assets\tutorial_file` 路径下的 `example.json`
 
 ## 字段说明
 **name**: 曲谱名，必填。  
@@ -79,14 +79,14 @@ notes 字段中包含的是乐谱内容。音符**必须**使用**大写字母**
 ### A[4]
 表示按下A键，A键视作四分音符。
 <div align="center">
-  <img src="D:\Workplace\BetterGI脚本-追踪-战斗\JS脚本\AutoYuanQin\assets\tutorial_file\四分音符示例.png"/>
+  <img src="assets\tutorial_file\四分音符示例.png"/>
   <p>四分音符示例</p>
 </div>
 
 ### F[16-#]D[16-#]S[16-#]
 表示**装饰音·倚音**  
 <div align="center">
-  <img src="D:\Workplace\BetterGI脚本-追踪-战斗\JS脚本\AutoYuanQin\assets\tutorial_file\装饰音·倚音示例.png"/>
+  <img src="assets\tutorial_file\装饰音·倚音示例.png"/>
   <p>装饰音·倚音示例</p>
 </div>
 
@@ -96,7 +96,7 @@ notes 字段中包含的是乐谱内容。音符**必须**使用**大写字母**
 表示一个**三连音**（六连音用法与此相似，仅需将3改成6，**其它类型的连音**也请使用3或6(即使是5连音)）
 另外，连音内支持和弦
 <div align="center">
-  <img src="D:\Workplace\BetterGI脚本-追踪-战斗\JS脚本\AutoYuanQin\assets\tutorial_file\三连音示例.png"/>
+  <img src="assets\tutorial_file\三连音示例.png"/>
   <p>三连音示例</p>
 </div>
 
@@ -115,7 +115,7 @@ notes 字段中包含的是乐谱内容。音符**必须**使用**大写字母**
 ### D[4-16.3]G[4-16.3]H[4-16.3]W[4-16.3]R[4-16.$]
 表示一个**五连音**，同理也可以是**N连音**
 <div align="center">
-  <img src="D:\Workplace\BetterGI脚本-追踪-战斗\JS脚本\AutoYuanQin\assets\tutorial_file\五连音示例.png"/>
+  <img src="assets\tutorial_file\五连音示例.png"/>
   <p>五连音示例</p>
 </div>
 
@@ -129,7 +129,7 @@ notes 字段中包含的是乐谱内容。音符**必须**使用**大写字母**
 ### (BG)[4-4.3]\(VF\)[4-8.$]
 表示一个**三连音连音线**（与三连音用法相同，但是三连音连音线允许连线内出现不同类型的音符）
 <div align="center">
-  <img src="D:\Workplace\BetterGI脚本-追踪-战斗\JS脚本\AutoYuanQin\assets\tutorial_file\三连音连音线示例.png"/>
+  <img src="assets\tutorial_file\三连音连音线示例.png"/>
   <p>三连音连音线示例</p>
 </div>
 
@@ -144,7 +144,7 @@ notes 字段中包含的是乐谱内容。音符**必须**使用**大写字母**
 ### @[2-8.6]\(AF\)[2-16.6]N[2-16.6]\(AF\)[2-16.6]N[2-16.6]\(AF\)[2-16.6]N[2-16.6]\(AF\)[2-16.6]N[2-16.6]\(AF\)[2-16.6]N[2-16.$]
 表示一个**六连音连音线**（乐谱上表示为一个六连音连音线内包含1个八分休止符和10个十六分音符，区别于三连音，六连音的.后面的数字是6）
 <div align="center">
-  <img src="D:\Workplace\BetterGI脚本-追踪-战斗\JS脚本\AutoYuanQin\assets\tutorial_file\六连音连音线示例.png"/>
+  <img src="assets\tutorial_file\六连音连音线示例.png"/>
   <p>六连音连音线示例</p>
 </div>
 
@@ -159,7 +159,7 @@ notes 字段中包含的是乐谱内容。音符**必须**使用**大写字母**
 ### @[4]
 表示一个**休止符**
 <div align="center">
-  <img src="D:\Workplace\BetterGI脚本-追踪-战斗\JS脚本\AutoYuanQin\assets\tutorial_file\四分休止符示例.png"/>
+  <img src="assets\tutorial_file\四分休止符示例.png"/>
   <p>四分休止符示例</p>
 </div>
 
@@ -168,7 +168,7 @@ notes 字段中包含的是乐谱内容。音符**必须**使用**大写字母**
 ### (SH)[4-*]
 表示一个**附点四分音符**
 <div align="center">
-  <img src="D:\Workplace\BetterGI脚本-追踪-战斗\JS脚本\AutoYuanQin\assets\tutorial_file\附点四分音符示例.png"/>
+  <img src="assets\tutorial_file\附点四分音符示例.png"/>
   <p>附点四分音符示例</p>
 </div>
 
@@ -226,7 +226,7 @@ notes 字段中包含的是乐谱内容。音符**必须**使用**大写字母**
 ## 示例
 一个完整的曲谱.json文件示例如下（供示例，仅包含几个小节）：
 
-文件名: 示例曲谱.json
+文件名: `示例曲谱.json`
 
 ```json
 {

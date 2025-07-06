@@ -49,7 +49,7 @@
       "x": 5063.9814453125,
       "y": -1580.47705078125,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "keypress(f),w(0.2),keypress(f),d(0.3),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
@@ -57,10 +57,10 @@
       "id": 6,
       "x": 5065.32080078125,
       "y": -1579.23681640625,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 7,
@@ -75,7 +75,7 @@
       "x": 5119.65625,
       "y": -1569.8749004011433,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "type": "target"
     },
     {

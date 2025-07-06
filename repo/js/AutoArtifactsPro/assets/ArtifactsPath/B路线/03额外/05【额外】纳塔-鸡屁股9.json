@@ -6,7 +6,9 @@
     "version": "",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751651757496
   },
   "positions": [
     {
@@ -53,15 +55,24 @@
     },
     {
       "id": 6,
-      "x": 8415.5,
-      "y": -2021.2645193000453,
+      "x": 8398.21875,
+      "y": -2009.6521443137826,
       "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "keypress(VK_SPACE),wait(3.5),click",
+      "action_params": "keypress(VK_SPACE),wait(3.5),attack(0.2)",
       "type": "path"
     },
     {
       "id": 7,
+      "x": 8390.189453125,
+      "y": -1989.59619140625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.4),keypress(f),wait(0.3),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),a(0.2),keypress(f),wait(0.4),keypress(f),a(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "type": "target"
+    },
+    {
+      "id": 8,
       "x": 8375.849609375,
       "y": -1971.99609375,
       "action": "combat_script",
@@ -70,7 +81,7 @@
       "type": "target"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": 8258.3486328125,
       "y": -1744.6220703125,
       "action": "",
@@ -78,7 +89,7 @@
       "type": "teleport"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": 8234.75,
       "y": -1720.24462890625,
       "action": "",
@@ -86,7 +97,7 @@
       "type": "path"
     },
     {
-      "id": 10,
+      "id": 11,
       "x": 8230.8564453125,
       "y": -1712.17041015625,
       "action": "combat_script",
@@ -95,7 +106,7 @@
       "type": "target"
     },
     {
-      "id": 11,
+      "id": 12,
       "x": 7857.4638671875,
       "y": -1751.333984375,
       "action": "",
@@ -103,7 +114,7 @@
       "type": "teleport"
     },
     {
-      "id": 12,
+      "id": 13,
       "x": 7867.369140625,
       "y": -1744.93603515625,
       "action": "stop_flying",
@@ -112,7 +123,7 @@
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 14,
       "x": 7975.76171875,
       "y": -1741.60595703125,
       "action": "",
@@ -121,7 +132,7 @@
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": 7998.863281249999,
       "y": -1745.2353515625,
       "action": "combat_script",
@@ -130,7 +141,7 @@
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": 7994.86328125,
       "y": -1745.2353515625,
       "action": "combat_script",
@@ -139,25 +150,25 @@
       "type": "target"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": 8054.341796875,
       "y": -1717.56201171875,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 17,
-      "x": 8057.59521484375,
-      "y": -1716.146484375,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),"
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 18,
+      "x": 8057.59521484375,
+      "y": -1716.146484375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 19,
       "x": 8400.59765625,
       "y": -1221.3232421875,
       "action": "",
@@ -165,15 +176,15 @@
       "type": "teleport"
     },
     {
-      "id": 19,
-      "x": 8374.5419921875,
-      "y": -1222.99951171875,
+      "id": 20,
+      "x": 8375.59381715141,
+      "y": -1223.9997574725849,
       "action": "",
       "move_mode": "dash",
       "type": "path"
     },
     {
-      "id": 20,
+      "id": 21,
       "x": 8264.1640625,
       "y": -1248.92578125,
       "action": "",
@@ -181,7 +192,7 @@
       "type": "path"
     },
     {
-      "id": 21,
+      "id": 22,
       "x": 8124.1435546875,
       "y": -1274.0283203125,
       "action": "combat_script",
@@ -190,7 +201,7 @@
       "type": "target"
     },
     {
-      "id": 22,
+      "id": 23,
       "x": 8125.625,
       "y": -1278.062677064635,
       "action": "combat_script",
@@ -199,7 +210,7 @@
       "type": "path"
     },
     {
-      "id": 23,
+      "id": 24,
       "x": 8126.6875,
       "y": -1279.2500553326981,
       "action": "combat_script",
@@ -208,7 +219,7 @@
       "type": "target"
     },
     {
-      "id": 24,
+      "id": 25,
       "x": 8122.61083984375,
       "y": -1331.15625,
       "action": "",
@@ -217,7 +228,7 @@
       "type": "path"
     },
     {
-      "id": 25,
+      "id": 26,
       "x": 8118.8388671875,
       "y": -1388.3310546875,
       "action": "stop_flying",
@@ -226,7 +237,7 @@
       "type": "path"
     },
     {
-      "id": 26,
+      "id": 27,
       "x": 8121.0458984375,
       "y": -1400.533203125,
       "action": "",
@@ -234,7 +245,7 @@
       "type": "path"
     },
     {
-      "id": 27,
+      "id": 28,
       "x": 8139.08251953125,
       "y": -1451.94140625,
       "action": "",
@@ -243,7 +254,7 @@
       "type": "path"
     },
     {
-      "id": 28,
+      "id": 29,
       "x": 8143.23681640625,
       "y": -1469.83203125,
       "action": "combat_script",
@@ -252,7 +263,7 @@
       "type": "target"
     },
     {
-      "id": 29,
+      "id": 30,
       "x": 9782.4208984375,
       "y": -1764.7216796875,
       "action": "force_tp",
@@ -260,7 +271,7 @@
       "type": "teleport"
     },
     {
-      "id": 30,
+      "id": 31,
       "x": 9888.5888671875,
       "y": -1760.61376953125,
       "action": "",
@@ -268,7 +279,7 @@
       "type": "path"
     },
     {
-      "id": 31,
+      "id": 32,
       "x": 9899.2236328125,
       "y": -1761.6298828125,
       "action": "combat_script",
@@ -277,7 +288,7 @@
       "type": "path"
     },
     {
-      "id": 32,
+      "id": 33,
       "x": 9904.220703125,
       "y": -1797.63037109375,
       "action": "",
@@ -286,13 +297,21 @@
       "type": "path"
     },
     {
-      "id": 33,
+      "id": 34,
       "x": 9896.1865234375,
       "y": -1867.02294921875,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
       "type": "target"
+    },
+    {
+      "id": 35,
+      "x": 9782.4208984375,
+      "y": -1764.7216796875,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "type": "teleport"
     }
   ]
 }

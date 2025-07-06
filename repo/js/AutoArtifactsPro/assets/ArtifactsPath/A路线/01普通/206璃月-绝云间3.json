@@ -15,8 +15,7 @@
       "y": 626.04638671875,
       "action": "",
       "move_mode": "walk",
-      "type": "teleport",
-      "locked": false
+      "type": "teleport"
     },
     {
       "id": 2,
@@ -48,7 +47,7 @@
       "y": 568.9345703125,
       "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.15);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.8);",
       "type": "target"
     },
     {
@@ -71,8 +70,8 @@
     },
     {
       "id": 8,
-      "x": 1155.384765625,
-      "y": 558.2109375,
+      "x": 1158.5,
+      "y": 554.6549884144779,
       "action": "",
       "move_mode": "walk",
       "type": "path"

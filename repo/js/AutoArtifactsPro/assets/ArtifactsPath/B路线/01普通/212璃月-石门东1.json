@@ -6,7 +6,9 @@
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751645927884
   },
   "positions": [
     {
@@ -65,8 +67,8 @@
     },
     {
       "id": 7,
-      "x": 127.3056640625,
-      "y": 1422.6220703125,
+      "x": 120.34330956575286,
+      "y": 1421.3440607382508,
       "action": "",
       "move_mode": "jump",
       "action_params": "",
@@ -74,8 +76,8 @@
     },
     {
       "id": 8,
-      "x": 121.2587890625,
-      "y": 1430.466796875,
+      "x": 116.84347151915244,
+      "y": 1427.2820230561374,
       "action": "",
       "move_mode": "jump",
       "action_params": "",
@@ -104,9 +106,28 @@
       "x": 111.599609375,
       "y": 1476.80810546875,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(0.2),keypress(VK_SPACE),wait(0.5),keypress(VK_SPACE),keydown(a),wait(0.2),keypress(VK_SPACE),wait(0.5),keypress(VK_SPACE),keyup(a);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "move_mode": "climb",
+      "action_params": "wait(0.2),j,wait(0.5),attack(0.25),j,wait(0.5),keypress(x),attack(0.25),j",
       "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 112.97265625,
+      "y": 1473.341796875,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": 112.97265625,
+      "y": 1473.341796875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "type": "path"
     }
   ]
 }

@@ -148,12 +148,12 @@ async function isTaskRefreshed(filePath, options = {}) {
         }
         
         if (shouldRefresh) {
-            notification.send(`任务已经刷新，执行脚本`);
+            notification.send(`七圣召唤七日历练周期已经刷新，执行脚本`);
 
             
             return true;
         } else {
-            notification.send(`任务未刷新，跳过脚本`);
+            notification.send(`七圣召唤七日历练未刷新，冷却还有${((nowTime - lastTime)/3600).toFixed(1)}小时`);
             return false;
         }
         
@@ -199,7 +199,7 @@ async function checkChallengeResults() {
     }
 }
 
-//自动对话，直到出现选项框   await autoConversation();
+//通过f和空格自动对话，对话区域为空，选项区域为真时停止   await autoConversation();
 async function autoConversation() {
     await sleep(2500); //点击后等待一段时间避免误判
     const region1 = RecognitionObject.ocr(785, 890, 340, 82); // 对话区域
@@ -217,19 +217,18 @@ async function autoConversation() {
             keyPress("VK_SPACE");
             await sleep(500);
         } else if (!res1.isEmpty() && !res2.isEmpty()) {
-            await sleep(1000);
+            await sleep(500);
             keyPress("F");
             await sleep(400);
             keyPress("F");
-            log.info("已选择谈话内容");
-            return;
+            log.info("已选择第一个对话选项");
         } else if (res1.isEmpty() && !res2.isEmpty()) {
             log.info("谈话完成");
             await sleep(1000);
             return;
         }
         talkTime++;
-        await sleep(1500);
+        await sleep(1200);
     }
     throw new Error("对话时间超时");
 }
@@ -261,12 +260,12 @@ const detectCardPlayer = async () => {
     let i = 0;
     let findNum = 0;
     const checkPoints = [
-        { x: 640, y: 750, action: async () => await gotoTable1() }, // 点位1
-        { x: 810, y: 790, action: async () => await gotoTable2() }, // 点位2
-        { x: 810, y: 600, action: async () => await gotoTable3() }, // 点位3
-        { x: 610, y: 360, action: async () => await gotoTable4() }, // 点位4
-        { x: 700, y: 5, action: async () => await gotoTable5() }, // 点位5
-        { x: 290, y: 530, action: async () => await gotoTable6() }, // 点位6
+        { x: 1475, y: 730, action: async () => await gotoTable1() }, // 1号桌
+        { x: 1680, y: 780, action: async () => await gotoTable2() }, // 2号桌
+        { x: 1645, y: 575, action: async () => await gotoTable3() }, // 3号桌
+        { x: 1460, y: 360, action: async () => await gotoTable4() }, // 4号桌
+        { x: 1550, y: 0    , action: async () => await gotoTable5() }, // 包间1
+        { x: 1130, y: 520, action: async () => await gotoTable6() }, // 包间2
     ];
 
     keyPress("M");
@@ -278,9 +277,9 @@ const detectCardPlayer = async () => {
     moveMouseTo(200, 200);
     leftButtonDown();
     await sleep(500);
-    moveMouseTo(170, 288);
+    moveMouseTo(170, 320);
     await sleep(500);
-    moveMouseTo(104, 1000);
+    moveMouseTo(970, 1000);
     await sleep(500);
     leftButtonUp();
     await sleep(500);

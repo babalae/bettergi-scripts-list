@@ -22,14 +22,14 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
  * @returns {Promise<void>}
  */
 
-(async function() {
+(async function () {
 	// 留空或曾经设定后删除运行30轮，否则为设定值
 	let runTimes = isNaN(settings.runTimes) || settings.runTimes === '' ? 50 : settings.runTimes;
 	const messages = [
 		'1.请使用0.44.0或版本号更高的BetterGI运行本JS',
 		`2.确保完成班尼特邀约任务`,
 		`3.行走位最好是E恢复角色`,
-		`4.关闭E技能回血'${settings.disableHealHP? "是" : "否"}'`,
+		`4.关闭E技能回血'${settings.disableHealHP ? "是" : "否"}'`,
 		`5.预期执行轮数'${runTimes}'`,
 	];
 	for (let message of messages) {
@@ -56,7 +56,7 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 		}
 		log.info(`开始刷取珍贵宝箱`);
 		if (!settings.enableSimplifyMode) {
-			await AutoPath(`前往地点${settings.disableFullMode? "(工程模式)": ""}`);
+			await AutoPath(`前往地点${settings.disableFullMode ? "(工程模式)" : ""}`);
 		}
 		// let prePickStatus = true; // 测试用
 		let prePickStatus = await UpperLimitPreciousChest(); // 到达地点时检查一次

@@ -6,7 +6,9 @@
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751647561010
   },
   "positions": [
     {
@@ -76,9 +78,9 @@
       "id": 8,
       "x": 4764.4814453125,
       "y": -1263.99853515625,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "",
+      "action_params": "keypress(f);芙宁娜 e;",
       "type": "path"
     },
     {
@@ -94,19 +96,28 @@
       "id": 10,
       "x": 4743.750003950083,
       "y": -1265.4999393681464,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),d(0.1);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "type": "target"
     },
     {
       "id": 11,
-      "x": 4740.49951171875,
-      "y": -1265.39306640625,
+      "x": 5068.4755859375,
+      "y": -1587.14453125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 12,
+      "x": 5074.88525390625,
+      "y": -1587.77734375,
+      "type": "orientation",
+      "move_mode": "walk",
       "action": "combat_script",
-      "move_mode": "jump",
-      "action_params": "keypress(f),wait(0.2),keypress(f),a(0.3),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
-      "type": "target"
+      "action_params": "w(0.2),dash,wait(2)"
     }
   ]
 }

@@ -5,7 +5,14 @@
     "author": "汐",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.3"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
   },
   "positions": [
     {
@@ -30,19 +37,19 @@
       "id": 3,
       "x": -4371.18,
       "y": -2820.31,
-      "type": "path",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "attack(0.3)"
+      "move_mode": "dash",
+      "action_params": "attack(0.3)",
+      "type": "path"
     },
     {
       "id": 4,
       "x": -4391.32,
       "y": -2820.65,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 5,
@@ -64,8 +71,8 @@
     },
     {
       "id": 7,
-      "x": -4277.31,
-      "y": -2862.31,
+      "x": -4275.03,
+      "y": -2857.22,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -73,11 +80,11 @@
     },
     {
       "id": 8,
-      "x": -4277.31,
-      "y": -2862.31,
+      "x": -4275.03,
+      "y": -2857.19,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.5),keypress(VK_ESCAPE),keypress(VK_ESCAPE),attack(0.3),wait(1)",
       "type": "orientation"
     }
   ]
