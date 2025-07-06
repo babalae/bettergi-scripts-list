@@ -4,10 +4,19 @@ const rewardIcon = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets
 const tavernRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/TavernIcon.png"), 800, 450, 500, 330);
 const adventurersRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/AdventurersGuild.png"), 800, 450, 500, 330);
 
+const stateMachine = {
+    "任意界面": { "猫尾酒馆进门": teleportToTheCatsTail },
+    "猫尾酒馆进门": { "邀请界面": gotoInvitationPanel },
+    "邀请界面": { "牌组编辑器界面": gotoDeckDesignPanel, "对战": startChallenge },
+    "牌组编辑器界面": { "邀请界面": goBackInvitationPanel },
+    "对战": {}, // 对战结束后将状态维护至 猫尾酒馆进门
+};
+let currentState = "任意界面";
+
 const outFile = "卡牌熟练度.json";
-let currentProficiencys = {};
+let allProficiencys = {};
 try {
-    currentProficiencys = JSON.parse(file.readTextSync(outFile));
+    allProficiencys = JSON.parse(file.readTextSync(outFile));
 } catch (error) {
     log.debug("历史熟练度文件不存在");
 }
@@ -29,7 +38,11 @@ try {
     } else if (runMode === "作为辅助账号：快速投降") {
         await runAsPartner();
     } else if (runMode === "扫描当前账号卡牌熟练度") {
-        await scanCardsProficiency();
+        currentState = await getCurrentState();
+        await goToTargetState("牌组编辑器界面");
+        allProficiencys = await scanCardsProficiency(true);
+        file.writeTextSync(outFile, JSON.stringify(allProficiencys, null, 2));
+        log.info("卡牌熟练度数据已写入{0}", outFile);
     } else {
         log.error("不支持的运行模式: {0}", runMode);
     }
@@ -42,74 +55,47 @@ async function runAsMain(targetProficiency) {
         targetProficiency = 30;
     }
     let loopCount = -1;
-    await genshin.returnMainUi();
-    log.info("前往猫尾酒馆");
-    await teleportToTheCatsTail();
-    do {
-        await waitTpFinish();
-        await gotoInvitationBoard();
-        await waitForTextAppear("邀请队友", [1332, 886, 130, 49]);
-        if (loopCount < 0) {
-            log.info("获取当前熟练度信息");
-            loopCount = await calcRepeatTimes(targetProficiency);
-            if (loopCount <= 0) {
-                recommendNextTeam(targetProficiency);
-                return;
-            }
-            log.info("需重复执行{0}次以达成{1}熟练度", loopCount, targetProficiency);
-        }
 
-        // 循环次数为0时已经无需再打牌，只是再走到位置然后领取奖励
-        if (loopCount === 0) {
-            await calcRepeatTimes(targetProficiency, true);
-            break;
-        }
+    currentState = await getCurrentState();
+    log.info("当前界面: {0}", currentState);
+    await goToTargetState("牌组编辑器界面");
+    let teamProficiencys = await scanCardsProficiency(false);
+    loopCount = targetProficiency - Math.min(...Object.values(teamProficiencys));
+    if (loopCount > 0) {
+        log.info("需重复执行{0}次以达成{1}熟练度", loopCount, targetProficiency);
+        await goToTargetState("邀请界面");
+    }
 
-        log.info("邀请队友");
-        for (let i = 0; i < 60; i++) {
-            await recognizeTextAndClick("邀请队友", [1332, 886, 130, 49]);
-            let r = await waitForTextAppear("正在匹配对局", [870, 385, 184, 42], 500);
-            if (r.success) {
-                break;
-            }
-            await sleep(500);
-        }
-
-        log.info("等待对方同意");
-        await recognizeTextAndClick("正在匹配对局", [871, 386, 182, 39], 30000);
-
-        log.info("等待加载");
-        await waitForTextAppear("七圣召唤", [902, 870, 119, 46]);
-
-        await waitForTextAppear("请选择要替换的手牌", [847, 232, 229, 39], 30000);
-        log.info("选择初始手牌");
-        await recognizeTextAndClick("确定", [937, 922, 82, 54], 30000);
-
-        log.info("等待对方认输");
-        await waitForTextAppear("退出挑战", [913, 893, 130, 43], 60000);
-        await sleep(300);
-        await recognizeTextAndClick("退出挑战", [913, 893, 130, 43]);
-
+    while (loopCount > 0) {
+        await goToTargetState("对战");
         try {
             await sleep(10);
         } catch (error) {
             log.info("用户停止运行");
             break;
         }
-
         loopCount--;
         log.info(`对局结束，当前熟练度 ${targetProficiency - loopCount}/${targetProficiency}`);
-    } while (loopCount >= 0);
+        currentState = "猫尾酒馆进门";
+        await waitTpFinish();
+    };
+
+    // 执行过对战，且对战结束
+    if (loopCount === 0 && currentState === "猫尾酒馆进门") {
+        await goToTargetState("牌组编辑器界面");
+        teamProficiencys = await scanCardsProficiency(false, true);
+    }
+    Object.assign(allProficiencys, teamProficiencys);
+    recommendNextTeam(targetProficiency);
+    file.writeTextSync(outFile, JSON.stringify(allProficiencys, null, 2));
 }
 
 // 小号的执行逻辑
 async function runAsPartner() {
     log.info("辅助账号开始工作，如需停止请按下你设置的BetterGI停止按键");
-    await genshin.tp(-575.60, 1859.34);
-    await waitTpFinish();
     while (true) {
         log.info("等待对局邀请");
-        await waitForTextAppear("点击进行准备", [820, 70, 296, 31], 180000);
+        await waitForTextAppear("点击进行准备", [820, 70, 296, 31], 1800000);
         keyPress("Y");
         await recognizeTextAndClick("接受", [1177, 713, 82, 55]);
 
@@ -144,7 +130,8 @@ async function runAsPartner() {
     }
 }
 
-async function gotoInvitationBoard() {
+/** 从刚传送至猫尾酒馆的状态前往邀请界面 */
+async function gotoInvitationPanel() {
     keyDown("MBUTTON");
     await sleep(500);
 
@@ -160,72 +147,65 @@ async function gotoInvitationBoard() {
     await keyMouseScript.runFile(`assets/ALT释放.json`);
 }
 
-function recommendNextTeam(targetProficiency) {
-    log.info("当前牌组中卡牌已达成熟练度目标，请更换牌组内角色");
-    const nextTeam = Object.fromEntries(
-        Object.entries(currentProficiencys)
-            .filter(([_, v]) => v < targetProficiency)
-            .slice(0, 3)
-    );
-    if (Object.keys(nextTeam).length > 0) {
-        let text = JSON.stringify(nextTeam).replace(/[{}"]/g, '');
-        log.info("熟练度未满的角色推荐: {0}", text);
-    }
-}
-
-async function calcRepeatTimes(targetProficiency, taskFinished = false) {
-    // 需要在选择“我方出战牌组”的界面执行
-    await waitForTextAppear("我方出战牌组", [1248, 688, 156, 36]);
-
+/** 从邀请界面前往牌组编辑器界面 */
+async function gotoDeckDesignPanel() {
     click(1306, 747);
     log.info("等待进入牌组界面");
     await recognizeTextAndClick("编辑牌组", [733, 997, 129, 48]);
-
     await waitForTextAppear("更改牌组外观", [1592, 186, 139, 35]);
-    click(700, 276); // +257
+}
 
-    await waitForTextAppear("卡牌", [867, 266, 68, 47]);
-
-    let characterProficiencys = {};
-    for (let i = 0; i < 3; i++) {
-        let captureRegion = captureGameRegion();
-        if (taskFinished) {
-            const icon = captureRegion.find(rewardIcon);
-            if (icon.isExist()) {
-                icon.click();
-                await sleep(100);
-                icon.click();
-                await sleep(100);
-            }
-        }
-        let ch_result = captureRegion.find(RecognitionObject.ocr(851, 326, 398, 65));
-        let proficiencyResult = captureRegion.find(RecognitionObject.ocr(855, 780, 210, 40));
-        if (ch_result.text && proficiencyResult.text) {
-            let character = ch_result.text.trim();
-            const match = proficiencyResult.text.match(/(\d+)/);
-            let proficiency = parseInt(match[0]);
-            characterProficiencys[character] = proficiency;
-            click(1635, 538);
-            await sleep(500);
-        }
-    }
-    Object.assign(currentProficiencys, characterProficiencys);
-    file.writeTextSync(outFile, JSON.stringify(currentProficiencys, null, 2));
-    log.info("当前熟练度: {0}", JSON.stringify(characterProficiencys).replace(/[{}"]/g, ''));
-    if (taskFinished) {
-        recommendNextTeam(targetProficiency);
-        return;
-    }
-    const loopCount = targetProficiency - Math.min(...Object.values(characterProficiencys));
-
-    // 返回对战页面
+/** 从牌组编辑器界面返回邀请界面 */
+async function goBackInvitationPanel() {
     keyPress("VK_ESCAPE");
     await waitForTextAppear("更改牌组外观", [1592, 186, 139, 35]);
     keyPress("VK_ESCAPE");
     await waitForTextAppear("编辑牌组", [733, 997, 129, 48]);
     keyPress("VK_ESCAPE");
     await waitForTextAppear("我方出战牌组", [1248, 688, 156, 36]);
-    return loopCount;
+}
+
+/** 从邀请界面进入对战模式（并完成对战） */
+async function startChallenge() {
+    log.info("邀请队友");
+    for (let i = 0; i < 60; i++) {
+        await recognizeTextAndClick("邀请队友", [1332, 886, 130, 49]);
+        let r = await waitForTextAppear("正在匹配对局", [870, 385, 184, 42], 500);
+        if (r.success) {
+            break;
+        }
+        await sleep(500);
+    }
+
+    log.info("等待对方同意");
+    await waitForTextAppear("正在匹配对局", [871, 386, 182, 39], 30000);
+
+    log.info("等待加载");
+    await waitForTextAppear("七圣召唤", [902, 870, 119, 46]);
+
+    await waitForTextAppear("请选择要替换的手牌", [847, 232, 229, 39], 30000);
+    log.info("选择初始手牌");
+    await recognizeTextAndClick("确定", [937, 922, 82, 54], 30000);
+
+    log.info("等待对方认输");
+    await waitForTextAppear("退出挑战", [913, 893, 130, 43], 60000);
+    await sleep(300);
+    await recognizeTextAndClick("退出挑战", [913, 893, 130, 43]);
+
+    currentState = "猫尾酒馆进门";
+}
+
+function recommendNextTeam(targetProficiency) {
+    log.info("当前牌组中卡牌已达成熟练度目标，请更换牌组内角色");
+    const nextTeam = Object.fromEntries(
+        Object.entries(allProficiencys)
+            .filter(([_, v]) => v < targetProficiency)
+            .slice(0, 3)
+    );
+    if (Object.keys(nextTeam).length > 0) {
+        let text = JSON.stringify(nextTeam).replace(/[{}"]/g, "");
+        log.info("熟练度未满的角色推荐: {0}", text);
+    }
 }
 
 /**
@@ -233,7 +213,7 @@ async function calcRepeatTimes(targetProficiency, taskFinished = false) {
  * @param {Int} timeout 单位为ms
  * @note 参考了七圣召唤七日历练脚本
  */
-async function waitTpFinish(timeout=30000) {
+async function waitTpFinish(timeout = 30000) {
     const region = RecognitionObject.ocr(1690, 230, 75, 350); // 队伍名称区域
     const startTime = new Date();
 
@@ -249,12 +229,12 @@ async function waitTpFinish(timeout=30000) {
     throw new Error("传送时间超时");
 }
 
-/** 传送到猫尾酒馆 */
+/** 传送到猫尾酒馆并等待传送后摇结束 */
 async function teleportToTheCatsTail() {
     await genshin.moveMapTo(-867, 2281, "蒙德");
     await genshin.setBigMapZoomLevel(1.0);
     let clickIcon = null;
-    for (let i = 0; i < 5; i ++) {
+    for (let i = 0; i < 5; i++) {
         const region = captureGameRegion();
         const tarvern = region.find(tavernRo);
         clickIcon = tarvern.isExist() ? tarvern : region.find(adventurersRo);
@@ -268,59 +248,135 @@ async function teleportToTheCatsTail() {
     if (!(clickIcon && clickIcon.isExist())) {
         throw new Error("找不到猫尾酒馆，如果2P标志遮挡了酒馆图标，请将2P玩家传送至别处");
     }
-    await recognizeTextAndClick("猫尾酒馆", [1320, 560, 300, 410])
-    await recognizeTextAndClick("传送至", [1580,980,225,59])
+    await recognizeTextAndClick("猫尾酒馆", [1320, 560, 300, 410]);
+    await recognizeTextAndClick("传送至", [1580, 980, 225, 59]);
     await waitTpFinish();
 }
 
-async function scanCardsProficiency() {
-    await genshin.returnMainUi();
-    log.info("前往猫尾酒馆");
-    await teleportToTheCatsTail();
-    await gotoInvitationBoard();
-    await waitForTextAppear("我方出战牌组", [1248, 688, 156, 36]);
+async function getCurrentState() {
+    let window = captureGameRegion();
+    const invite = window.find(RecognitionObject.ocr(1248, 688, 156, 36));
+    if (invite.text && invite.text.includes("我方出战牌组")) {
+        return "邀请界面";
+    }
+    const deck = window.find(RecognitionObject.ocr(1592, 186, 139, 35));
+    if (deck.text && deck.text.includes("更改牌组外观")) {
+        return "牌组编辑器界面";
+    }
+    return "任意界面";
+}
 
-    click(1306, 747);
-    log.info("等待进入牌组界面");
-    await recognizeTextAndClick("编辑牌组", [733, 997, 129, 48]);
-
-    await waitForTextAppear("更改牌组外观", [1592, 186, 139, 35]);
-    click(198, 717);
-
-    let characterProficiencys = {};
-    let last_char = null;
+async function scanCardsProficiency(scanAll = false, getReward = false) {
+    let proficiencys = {};
+    let last_char = "";
+    let character = null;
     let retry = 0;
-    for (let i = 0; i < 300; i++) {
+
+    for (let i = 0; i < 5; i++) {
+        if (scanAll) {
+            click(198, 717);
+        } else {
+            click(700, 276);
+        }
+        let r = await waitForTextAppear("卡牌", [867, 266, 68, 47], 500);
+        if (r.success) {
+            break;
+        }
+    }
+
+    while (true) {
         let captureRegion = captureGameRegion();
-        let ch_result = captureRegion.find(RecognitionObject.ocr(851, 326, 398, 65));
-        let proficiencyResult = captureRegion.find(RecognitionObject.ocr(855, 780, 210, 40));
-        if (ch_result.text && proficiencyResult.text) {
-            let character = ch_result.text.trim().replace("t", "七");
-            const match = proficiencyResult.text.match(/(\d+)/);
-            let proficiency = parseInt(match[0]);
-            characterProficiencys[character] = proficiency;
-            log.info("{ch} = {v}", character, proficiency);
-            if (last_char === character) {
-                log.info("已到达角色列表末尾");
-                break;
+
+        if (getReward) {
+            const icon = captureRegion.find(rewardIcon);
+            if (icon.isExist()) {
+                icon.click();
+                await sleep(200);
+                icon.click();
+                await sleep(200);
             }
-            click(1635, 538);
-            retry = 0;
-            last_char = character;
+        }
+
+        let proficiency = null;
+        let proficiencyResult = captureRegion.find(RecognitionObject.ocr(855, 780, 210, 40));
+        if (proficiencyResult.text) {
+            const match = proficiencyResult.text.match(/(\d+)/);
+            proficiency = parseInt(match[0]);
+        }
+
+        character = null;
+        let ch_result = captureRegion.find(RecognitionObject.ocr(851, 326, 398, 65));
+        if (ch_result.text) {
+            character = ch_result.text.trim().replace(/t/g, "七");
         } else {
             retry++;
             if (retry >= 3) {
-                log.warn("OCR无法识别当前角色名称，跳过");
-                click(1635, 538);
-                retry = 0;
+                const skill = captureRegion.find(RecognitionObject.ocr(897, 441, 300, 58));
+                if (skill.text) {
+                    log.warn("OCR无法识别当前角色名称，使用技能名作为替代");
+                    character = `?${skill.text.trim()}`;
+                } else {
+                    log.warn("OCR无法识别当前角色名称，跳过");
+                    click(1635, 538);
+                    retry = 0;
+                    continue;
+                }
             }
         }
-        await sleep(500);
+
+        if (last_char === character) {
+            log.info("已到达角色列表末尾");
+            keyPress("VK_ESCAPE");
+            await sleep(400);
+            break;
+        }
+        if (proficiency !== null && character !== null) {
+            proficiencys[character] = proficiency;
+            log.info("{ch} = {v}", character, proficiency);
+            click(1635, 538);
+            retry = 0;
+            last_char = character;
+        }
+        await sleep(400);
     }
 
-    const sortedProficiencys = Object.entries(characterProficiencys).sort((a, b) => b[1] - a[1]);
-    currentProficiencys = Object.fromEntries(sortedProficiencys);
-    file.writeTextSync(outFile, JSON.stringify(currentProficiencys, null, 2));
+    const sortedProficiencys = Object.entries(proficiencys).sort((a, b) => b[1] - a[1]);
+    proficiencys = Object.fromEntries(sortedProficiencys);
+    return proficiencys;
+}
 
-    log.info("卡牌熟练度数据已写入{0}", outFile);
+/**
+ * 使用BFS方法计算应当如何到达目标状态
+ */
+function searchPathWithBFS(start, target) {
+    const queue = [[start, []]];
+    const visited = new Set();
+
+    while (queue.length > 0) {
+        const [current, ops] = queue.shift();
+        if (current === target) return ops;
+        if (visited.has(current)) continue;
+        visited.add(current);
+
+        const transitions = stateMachine[current] || {};
+        for (const [nextState, op] of Object.entries(transitions)) {
+            queue.push([nextState, [...ops, op]]);
+        }
+    }
+
+    // 无法到达时走最保守的路径
+    if (start !== "任意界面") {
+        return searchPathWithBFS("任意界面", target);
+    }
+    return null;
+}
+
+async function goToTargetState(target) {
+    // log.info("切换状态: {0} -> {1}", currentState, target);
+    const pathList = searchPathWithBFS(currentState, target);
+    for (const fn of pathList) {
+        // log.info("执行函数: {0}", fn.name);
+        await fn();
+    }
+    currentState = target;
 }
