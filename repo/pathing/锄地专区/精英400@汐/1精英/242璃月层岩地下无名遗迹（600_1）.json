@@ -6,19 +6,13 @@
     "version": "1.0",
     "description": "",
     "map_name": "TheChasm",
-    "bgi_version": "0.45.0",
-    "authors": [
-      {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
-      }
-    ]
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": 522.56,
-      "y": 528.85,
+      "x": 522.56201171875,
+      "y": 528.85009765625,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -26,8 +20,8 @@
     },
     {
       "id": 2,
-      "x": 533.5,
-      "y": 508.75,
+      "x": 533.5000632013271,
+      "y": 508.74954526109605,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -35,8 +29,8 @@
     },
     {
       "id": 3,
-      "x": 590.13,
-      "y": 410.32,
+      "x": 590.1290283203125,
+      "y": 410.315185546875,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "300",
@@ -44,8 +38,8 @@
     },
     {
       "id": 4,
-      "x": 595.07,
-      "y": 406.65,
+      "x": 595.0672607421875,
+      "y": 406.6549072265625,
       "type": "path",
       "move_mode": "walk",
       "action": "fight",
@@ -54,8 +48,8 @@
     },
     {
       "id": 5,
-      "x": 595.07,
-      "y": 406.65,
+      "x": 595.0672607421875,
+      "y": 406.6549072265625,
       "type": "orientation",
       "move_mode": "walk",
       "action": "combat_script",

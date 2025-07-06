@@ -1,23 +1,21 @@
-{
+﻿{
   "info": {
     "name": "401须弥降诸魔山神像（600_1）",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.3",
-    "authors": [
-      {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
-      }
-    ]
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751821935626,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
       "id": 1,
-      "x": 2567.51,
-      "y": -1424.96,
+      "x": 2567.5146484375,
+      "y": -1424.9580078125,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -25,8 +23,8 @@
     },
     {
       "id": 2,
-      "x": 2599.1,
-      "y": -1413.78,
+      "x": 2599.0966796875,
+      "y": -1413.7783203125,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -34,22 +32,22 @@
     },
     {
       "id": 3,
-      "x": 2611.86,
-      "y": -1406.29,
-      "action": "fight",
-      "move_mode": "run",
-      "action_params": "",
+      "x": 2619.9892578125,
+      "y": -1408.193359375,
       "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
       "locked": false
     },
     {
       "id": 4,
-      "x": 2611.86,
-      "y": -1406.29,
+      "x": 2619.9892578125,
+      "y": -1408.193359375,
+      "type": "orientation",
+      "move_mode": "dash",
       "action": "combat_script",
-      "move_mode": "run",
-      "action_params": "wait(1)",
-      "type": "orientation"
+      "action_params": "wait(1)"
     }
   ]
 }
