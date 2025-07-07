@@ -26,10 +26,16 @@ const timeMoveDown = 1200;
     const blacklistKeywords = ocrPickupJson["黑名单"];
 
     if (!settings.accountName) {
-        for (let i = 0; i < 30; i++) {
-            log.error("你没有打开过自定义配置");
-            log.error("请先阅读README.md后再使用");
-            await sleep(2000);
+        for (let i = 0; i < 120; i++) {
+            // 原始文本
+            let originalMessage = "   请先阅读js文件夹中的【README.md】后使用";
+            // 计算轮替的偏移量，每次循环偏移一位
+            let offset = i % originalMessage.length; // 每次循环偏移一位
+            // 构造轮替后的文本
+            let message = originalMessage.slice(-offset) + originalMessage.slice(0, -offset);
+            // 输出内容
+            log.error(message);
+            await sleep(500);
         }
     }
 
@@ -304,9 +310,9 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
     pathings.sort((a, b) => a.index - b.index);
 
     // 输出日志信息
-    log.info(`总精英怪数量: ${totalSelectedElites}`);
-    log.info(`总普通怪数量: ${totalSelectedMonsters}`);
-    log.info(`总收益: ${totalGainCombined} 摩拉`);
+    log.info(`总精英怪数量: ${totalSelectedElites.toFixed(0)}`);
+    log.info(`总普通怪数量: ${totalSelectedMonsters.toFixed(0)}`);
+    log.info(`总收益: ${totalGainCombined.toFixed(0)} 摩拉`);
 
     // 将总用时转换为时、分、秒表示
     const hours = Math.floor(totalTimeCombined / 3600);
@@ -719,9 +725,9 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
 
     // 输出当前组的总计信息
     log.info(`当前组 ${selectedGroupName} 的总计信息：`);
-    log.info(`精英怪数量: ${totalElites}`);
-    log.info(`小怪数量: ${totalMonsters}`);
-    log.info(`预计收益: ${totalGain} 摩拉`);
+    log.info(`精英怪数量: ${totalElites.toFixed(0)}`);
+    log.info(`小怪数量: ${totalMonsters.toFixed(0)}`);
+    log.info(`预计收益: ${totalGain.toFixed(0)} 摩拉`);
 
     // 将预计总时间转换为时、分、秒表示
     const hours = Math.floor(totalEstimatedTime / 3600);
