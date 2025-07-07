@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "424须弥-赤王陵中间7",
     "type": "collect",
@@ -8,7 +8,8 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751726314770
+    "last_modified_time": 1751892700104,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -159,13 +160,23 @@
       "id": 17,
       "x": 5543.99169921875,
       "y": -2318.8232421875,
+      "action": "log_output",
+      "move_mode": "dash",
+      "action_params": "需要从一楼大厅坐电梯上来开门!!!",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 18,
+      "x": 5543.99169921875,
+      "y": -2318.8232421875,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 18,
+      "id": 19,
       "x": 5547.69775390625,
       "y": -2337.818359375,
       "action": "",
@@ -174,7 +185,7 @@
       "type": "path"
     },
     {
-      "id": 19,
+      "id": 20,
       "x": 5556.5888671875,
       "y": -2336.287109375,
       "action": "combat_script",
@@ -183,7 +194,7 @@
       "type": "target"
     },
     {
-      "id": 20,
+      "id": 21,
       "x": 5557.3505859375,
       "y": -2338.8212890625,
       "action": "combat_script",
@@ -192,7 +203,7 @@
       "type": "target"
     },
     {
-      "id": 21,
+      "id": 22,
       "x": 5556.6337890625,
       "y": -2345.09765625,
       "action": "",
@@ -201,7 +212,7 @@
       "type": "path"
     },
     {
-      "id": 22,
+      "id": 23,
       "x": 5559.650390625,
       "y": -2347.62109375,
       "action": "combat_script",
@@ -210,7 +221,7 @@
       "type": "path"
     },
     {
-      "id": 23,
+      "id": 24,
       "x": 5561.52197265625,
       "y": -2348.7548828125,
       "action": "combat_script",
@@ -219,7 +230,7 @@
       "type": "path"
     },
     {
-      "id": 24,
+      "id": 25,
       "x": 5543.42529296875,
       "y": -2368.3349609375,
       "action": "stop_flying",
@@ -228,7 +239,7 @@
       "type": "path"
     },
     {
-      "id": 25,
+      "id": 26,
       "x": 5547.9267578125,
       "y": -2422.888671875,
       "action": "combat_script",
@@ -237,7 +248,7 @@
       "type": "target"
     },
     {
-      "id": 26,
+      "id": 27,
       "x": 5547.02490234375,
       "y": -2420.015625,
       "action": "",
@@ -246,7 +257,7 @@
       "type": "path"
     },
     {
-      "id": 27,
+      "id": 28,
       "x": 5562.56396484375,
       "y": -2415.0029296875,
       "action": "combat_script",

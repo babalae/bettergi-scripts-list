@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "426须弥-智障厅东8",
     "type": "collect",
@@ -8,269 +8,300 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751642609580
+    "last_modified_time": 1751893138061,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport",
       "x": 5384.2529296875,
       "y": -2456.419921875,
-      "action_params": ""
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
       "x": 5347.8359375,
       "y": -2418.6884765625,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
       "x": 5347.0048828125,
       "y": -2402.072265625,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 4,
       "x": 5326.99560546875,
       "y": -2396.5771484375,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 5,
       "x": 5326.39892578125,
       "y": -2393.9716796875,
-      "type": "target",
-      "move_mode": "climb",
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);"
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
     },
     {
       "id": 6,
       "x": 5311.59326171875,
       "y": -2398.6923828125,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 7,
       "x": 5304.04833984375,
       "y": -2399.296875,
-      "type": "path",
+      "action": "log_output",
       "move_mode": "fly",
-      "action": "combat_script",
-      "action_params": "wait(1),s(3.5),attack(0.2)"
+      "action_params": "这里0层,这电梯口需要打开!!!没开的去-3楼F一下",
+      "type": "orientation",
+      "locked": false
     },
     {
       "id": 8,
-      "x": 5314.99853515625,
-      "y": -2399.236328125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 5304.04833984375,
+      "y": -2399.296875,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "wait(1),s(3.5),attack(0.2)",
+      "type": "path"
     },
     {
       "id": 9,
-      "x": 5312.28515625,
-      "y": -2393.658203125,
-      "type": "target",
-      "move_mode": "climb",
-      "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);"
+      "x": 5314.99853515625,
+      "y": -2399.236328125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 10,
-      "x": 5319.3544921875,
-      "y": -2391.7861328125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 5312.28515625,
+      "y": -2393.658203125,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
     },
     {
       "id": 11,
-      "x": 5318.06689453125,
-      "y": -2386.8623046875,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 5319.3544921875,
+      "y": -2391.7861328125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 12,
-      "x": 5301.91748046875,
-      "y": -2376.5556640625,
-      "type": "target",
-      "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);"
+      "x": 5318.06689453125,
+      "y": -2386.8623046875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 13,
-      "x": 5315.17333984375,
-      "y": -2376.529296875,
-      "type": "path",
+      "x": 5301.91748046875,
+      "y": -2376.5556640625,
+      "action": "combat_script",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
     },
     {
       "id": 14,
-      "x": 5320.966796875,
-      "y": -2367.28515625,
-      "type": "path",
-      "move_mode": "dash",
+      "x": 5315.17333984375,
+      "y": -2376.529296875,
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 15,
-      "x": 5327.5068359375,
-      "y": -2368.138671875,
-      "type": "target",
-      "move_mode": "run",
-      "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);"
+      "x": 5320.966796875,
+      "y": -2367.28515625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 16,
-      "x": 5318.984375,
-      "y": -2354.669921875,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "x": 5327.5068359375,
+      "y": -2368.138671875,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
     },
     {
       "id": 17,
-      "x": 5323.7734375,
-      "y": -2342.818359375,
-      "type": "path",
-      "move_mode": "dash",
+      "x": 5318.984375,
+      "y": -2354.669921875,
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 18,
-      "x": 5332.78369140625,
-      "y": -2344.4716796875,
-      "type": "target",
-      "move_mode": "run",
-      "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);"
+      "x": 5323.7734375,
+      "y": -2342.818359375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 19,
-      "x": 5325.4384765625,
-      "y": -2343.6572265625,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "x": 5332.78369140625,
+      "y": -2344.4716796875,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
     },
     {
       "id": 20,
-      "x": 5313.04833984375,
-      "y": -2355.6201171875,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 5325.4384765625,
+      "y": -2343.6572265625,
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 21,
-      "x": 5304.5751953125,
-      "y": -2361.8916015625,
-      "type": "path",
-      "move_mode": "run",
-      "action": "combat_script",
-      "action_params": "attack(0.3)"
+      "x": 5313.04833984375,
+      "y": -2355.6201171875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 22,
-      "x": 5306.95263671875,
-      "y": -2362.7685546875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 5304.5751953125,
+      "y": -2361.8916015625,
+      "action": "log_output",
+      "move_mode": "run",
+      "action_params": "这里-1层,这电梯口需要打开!!!",
+      "type": "orientation",
+      "locked": false
     },
     {
       "id": 23,
-      "x": 5324.94287109375,
-      "y": -2351.375,
-      "type": "target",
-      "move_mode": "run",
+      "x": 5304.5751953125,
+      "y": -2361.8916015625,
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);"
+      "move_mode": "run",
+      "action_params": "attack(0.3)",
+      "type": "path"
     },
     {
       "id": 24,
-      "x": 5322.7373046875,
-      "y": -2356.3583984375,
-      "type": "path",
-      "move_mode": "dash",
+      "x": 5306.95263671875,
+      "y": -2362.7685546875,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 25,
-      "x": 5332.29443359375,
-      "y": -2359.8193359375,
-      "type": "path",
-      "move_mode": "dash",
+      "x": 5324.94287109375,
+      "y": -2351.375,
       "action": "combat_script",
-      "action_params": "attack(0.3)"
+      "move_mode": "run",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
     },
     {
       "id": 26,
-      "x": 5304.96875,
-      "y": -2359.7109375,
-      "type": "target",
+      "x": 5322.7373046875,
+      "y": -2356.3583984375,
+      "action": "",
       "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);"
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 27,
-      "x": 5319.51904296875,
-      "y": -2390.2255859375,
-      "type": "path",
+      "x": 5332.29443359375,
+      "y": -2359.8193359375,
+      "action": "log_output",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "action_params": "这里-2层,这电梯口需要打开!!!",
+      "type": "orientation",
+      "locked": false
     },
     {
       "id": 28,
-      "x": 5324.703125,
-      "y": -2400.318359375,
-      "type": "path",
+      "x": 5332.29443359375,
+      "y": -2359.8193359375,
+      "action": "combat_script",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "action_params": "attack(0.3)",
+      "type": "path"
     },
     {
       "id": 29,
+      "x": 5304.96875,
+      "y": -2359.7109375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
+    },
+    {
+      "id": 30,
+      "x": 5319.51904296875,
+      "y": -2390.2255859375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 31,
+      "x": 5324.703125,
+      "y": -2400.318359375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 32,
       "x": 5336.0830078125,
       "y": -2403.33203125,
-      "type": "target",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);"
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
     }
   ]
 }

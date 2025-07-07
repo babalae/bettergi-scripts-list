@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "423须弥-祝祭亭下层5",
     "type": "collect",
@@ -8,7 +8,8 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751725017616
+    "last_modified_time": 1751892577799,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -132,13 +133,23 @@
       "id": 14,
       "x": 5742.375,
       "y": -2164.65234375,
+      "action": "log_output",
+      "move_mode": "dash",
+      "action_params": "前方需要[沙漠书]权能等级才能开门!!!",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 15,
+      "x": 5742.375,
+      "y": -2164.65234375,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": 5769.99658203125,
       "y": -2181.6357421875,
       "action": "",
@@ -147,7 +158,7 @@
       "type": "path"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": 5770.24169921875,
       "y": -2181.669921875,
       "action": "combat_script",
@@ -156,7 +167,7 @@
       "type": "target"
     },
     {
-      "id": 17,
+      "id": 18,
       "x": 5781.36962890625,
       "y": -2188.337890625,
       "action": "",
@@ -165,7 +176,7 @@
       "type": "path"
     },
     {
-      "id": 18,
+      "id": 19,
       "x": 5781.36962890625,
       "y": -2188.337890625,
       "action": "combat_script",
@@ -174,7 +185,7 @@
       "type": "target"
     },
     {
-      "id": 19,
+      "id": 20,
       "x": 5762.3701171875,
       "y": -2175.2490234375,
       "action": "",
@@ -183,7 +194,7 @@
       "type": "path"
     },
     {
-      "id": 20,
+      "id": 21,
       "x": 5760.89208984375,
       "y": -2185.599609375,
       "action": "",
@@ -192,7 +203,7 @@
       "type": "path"
     },
     {
-      "id": 21,
+      "id": 22,
       "x": 5764.412109375,
       "y": -2200.119140625,
       "action": "",
@@ -201,7 +212,7 @@
       "type": "path"
     },
     {
-      "id": 22,
+      "id": 23,
       "x": 5777.77294921875,
       "y": -2198.919921875,
       "action": "combat_script",
@@ -210,7 +221,7 @@
       "type": "target"
     },
     {
-      "id": 23,
+      "id": 24,
       "x": 5774.4072265625,
       "y": -2201.900390625,
       "action": "combat_script",
@@ -219,17 +230,16 @@
       "type": "path"
     },
     {
-      "id": 24,
+      "id": 25,
       "x": 5780.85791015625,
       "y": -2205.509765625,
       "action": "combat_script",
       "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
-      "type": "target",
-      "locked": false
+      "type": "target"
     },
     {
-      "id": 25,
+      "id": 26,
       "x": 5780.85791015625,
       "y": -2205.509765625,
       "action": "combat_script",
@@ -238,7 +248,7 @@
       "type": "target"
     },
     {
-      "id": 26,
+      "id": 27,
       "x": 5758.2802734375,
       "y": -2217.982421875,
       "action": "",
@@ -247,7 +257,7 @@
       "type": "path"
     },
     {
-      "id": 27,
+      "id": 28,
       "x": 5758.2802734375,
       "y": -2217.982421875,
       "action": "combat_script",
