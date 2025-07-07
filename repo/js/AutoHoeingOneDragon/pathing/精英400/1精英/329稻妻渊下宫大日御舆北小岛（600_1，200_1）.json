@@ -1,0 +1,100 @@
+{
+  "info": {
+    "name": "329稻妻渊下宫大日御舆北小岛（600_1，200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 282.83,
+      "y": 421.01,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 246.56,
+      "y": 416.19,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 253.04,
+      "y": 431.06,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 245.06,
+      "y": 453.56,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 243.5,
+      "y": 458.75,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 252.69,
+      "y": 484.62,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 260.19,
+      "y": 522.88,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "w(10.5),attack(0.2),wait(0.2),keydown(w),wait(0.5),keydown(LSHIFT),wait(4.5),keyup(LSHIFT),wait(0.1),keyup(w)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 280.75,
+      "y": 622.0,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 9,
+      "x": 280.5,
+      "y": 621.88,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}
