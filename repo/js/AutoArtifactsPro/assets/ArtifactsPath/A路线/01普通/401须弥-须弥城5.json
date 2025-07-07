@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "401须弥-须弥城5",
     "type": "collect",
@@ -8,7 +8,8 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1750878593879
+    "last_modified_time": 1751853907938,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -33,8 +34,8 @@
       "x": 2751.71484375,
       "y": -497.24267578125,
       "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "keypress(f),w(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "move_mode": "climb",
+      "action_params": "keypress(f),w(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
@@ -70,7 +71,7 @@
       "y": -415.8438636847259,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
@@ -130,7 +131,7 @@
       "y": -285.84360599934735,
       "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "action_params": "keypress(f),wait(0.2),keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
@@ -183,7 +184,7 @@
       "y": -245.77734375,
       "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     }
   ]

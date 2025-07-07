@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "6纳塔富A路TP刷CD",
     "type": "collect",
@@ -8,7 +8,8 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751283493372
+    "last_modified_time": 1751891908569,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -62,7 +63,7 @@
       "y": -1663.1880760026115,
       "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "5500",
+      "action_params": "4500",
       "type": "path"
     },
     {
@@ -100,6 +101,15 @@
       "move_mode": "walk",
       "action_params": "",
       "type": "teleport"
+    },
+    {
+      "id": 11,
+      "x": 9755.689453125,
+      "y": -614.931640625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
     }
   ]
 }
