@@ -1,0 +1,137 @@
+{
+  "info": {
+    "name": "338【水免】【高危】稻妻渊下宫蛇心之地南小岛（600_1，200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时188.48秒，包含2只精英，预计收入800摩拉，包含以下怪物：1只深渊使徒·激流、1只遗迹守卫。",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 480.39,
+      "y": -537.75,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 467.24,
+      "y": -534.72,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 440.72,
+      "y": -511,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 425.75,
+      "y": -508.78,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(4.5)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 425.38,
+      "y": -508.69,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 480.39,
+      "y": -537.75,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 7,
+      "x": 467.24,
+      "y": -534.72,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 442.5,
+      "y": -522.06,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 413.41,
+      "y": -505.3,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 359.85,
+      "y": -474.15,
+      "type": "orientation",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "w(7),attack(0.3)"
+    },
+    {
+      "id": 11,
+      "x": 365,
+      "y": -478.75,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 365,
+      "y": -478.75,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": 365,
+      "y": -478.75,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}
