@@ -368,7 +368,10 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
             tags.unshift(minVersionTag);
         }
     }
-
+    // 区分怪物拾取标识
+    if (contentObj.info && contentObj.info.enable_monster_loot_split) {
+        tags.unshift("区分怪物拾取");
+    }
     if (contentObj.positions && Array.isArray(contentObj.positions)) {
         const actions = contentObj.positions.map(pos => pos.action);
         if (actions.includes('nahida_collect')) tags.push('纳西妲');
