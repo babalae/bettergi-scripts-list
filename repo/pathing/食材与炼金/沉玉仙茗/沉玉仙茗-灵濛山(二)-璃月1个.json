@@ -4,10 +4,17 @@
     "type": "collect",
     "author": "不瘦五十斤不改名",
     "version": "1.0",
-    "bgi_version": "0.42.0"
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
   },
   "positions": [
     {
+      "id": 1,
       "x": 2145.68,
       "y": 2412.95,
       "type": "teleport",
@@ -15,6 +22,7 @@
       "action": ""
     },
     {
+      "id": 2,
       "x": 2141.61,
       "y": 2409.7,
       "type": "path",
@@ -22,6 +30,7 @@
       "action": ""
     },
     {
+      "id": 3,
       "x": 2137.22,
       "y": 2406.14,
       "type": "path",
@@ -29,6 +38,7 @@
       "action": ""
     },
     {
+      "id": 4,
       "x": 2074.92,
       "y": 2320.0,
       "type": "path",
@@ -36,6 +46,7 @@
       "action": "stop_flying"
     },
     {
+      "id": 5,
       "x": 2074.84,
       "y": 2319.91,
       "type": "target",

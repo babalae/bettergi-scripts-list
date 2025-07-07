@@ -4,10 +4,11 @@
         "type": "select",
         "label": "操作模式（默认：生成路径文件）",
         "options": [
-            "生成路径文件",
+            "强制刷新路径文件",
             "执行路径文件",
             "输出地图追踪文件"
-        ]
+        ],
+        "default": "执行路径文件"
     },
     {
         "name": "excludeWaterFree",
@@ -43,5 +44,11 @@
         "name": "accountName",
         "type": "input-text",
         "label": "账户名，用于区分不同账号的信息"
+    },
+    {
+        "name": "globalExclusionKeywords",
+        "type": "input-text",
+        "label": "全局排除关键词（用于在筛选路线时排除包含指定关键词的路线）\n使用中文分号；分隔，默认排除不跑",
+        "default": "不跑"
     }
 ]

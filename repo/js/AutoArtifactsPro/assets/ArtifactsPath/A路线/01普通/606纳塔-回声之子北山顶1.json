@@ -1,0 +1,94 @@
+{
+  "info": {
+    "name": "606纳塔-回声之子北山顶1",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 7746.15771484375,
+      "y": -1398.091796875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 7740.08251953125,
+      "y": -1413.13818359375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 7739.2275390625,
+      "y": -1416.1806640625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(t)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 7730.0498046875,
+      "y": -1410.7919921875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(7)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 7700.9443359375,
+      "y": -1395.0810546875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 7704.15234375,
+      "y": -1376.10107421875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 7712.02001953125,
+      "y": -1346.30078125,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 7769.82421875,
+      "y": -1342.43798828125,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 7781.7197265625,
+      "y": -1338.9775390625,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),"
+    }
+  ]
+}

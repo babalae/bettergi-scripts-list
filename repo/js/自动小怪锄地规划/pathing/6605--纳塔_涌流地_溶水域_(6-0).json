@@ -5,7 +5,8 @@
     "author": "Demo&汐&mno",
     "version": "1.1",
     "description": "",
-    "bgi_version": "0.42.0"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -20,7 +21,7 @@
     {
       "id": 2,
       "x": 8931.87,
-      "y": -2315.0,
+      "y": -2315,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
@@ -57,9 +58,9 @@
       "id": 6,
       "x": 8840.37,
       "y": -2331.49,
-      "action": "combat_script",
+      "action": "",
       "move_mode": "dash",
-      "action_params": "keydown(a),wait(0.2),keydown(LSHIFT),wait(4.5),keyup(a),keyup(LSHIFT)",
+      "action_params": "",
       "type": "path"
     },
     {
@@ -87,8 +88,7 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 10,

@@ -144,14 +144,121 @@ function convertNewlines(text) {
     return text.replace(/\\n/g, '\n');
 }
 
+// 处理作者信息的通用函数 - 返回简单字符串格式（向后兼容）
+function processAuthorInfo(authorInfo) {
+    if (!authorInfo) return '';
+    
+    // 如果是字符串，直接返回
+    if (typeof authorInfo === 'string') {
+        return authorInfo.trim();
+    }
+    
+    // 如果是数组，返回第一个作者的名字
+    if (Array.isArray(authorInfo)) {
+        const firstAuthor = authorInfo[0];
+        if (typeof firstAuthor === 'string') {
+            return firstAuthor.trim();
+        } else if (typeof firstAuthor === 'object' && firstAuthor.name) {
+            return firstAuthor.name.trim();
+        }
+    }
+    
+    // 如果是对象
+    if (typeof authorInfo === 'object' && authorInfo.name) {
+        return authorInfo.name.trim();
+    }
+    
+    return '';
+}
+
+// 处理详细作者信息的函数 - 返回完整的作者信息对象
+function processDetailedAuthorInfo(authorInfo) {
+    if (!authorInfo) return null;
+    
+    // 如果是字符串，转换为对象格式
+    if (typeof authorInfo === 'string') {
+        return [{ name: authorInfo.trim() }];
+    }
+    
+    // 如果是数组，处理多个作者
+    if (Array.isArray(authorInfo)) {
+        const authors = authorInfo.map(author => {
+            if (typeof author === 'string') {
+                return { name: author.trim() };
+            } else if (typeof author === 'object' && author.name) {
+                const authorObj = { name: author.name.trim() };
+                if (author.link) {
+                    authorObj.link = author.link;
+                } else if (author.links) {
+                    authorObj.link = author.links;
+                }
+                return authorObj;
+            }
+            return null;
+        }).filter(author => author !== null);
+        
+        return authors.length > 0 ? authors : null;
+    }
+    
+    // 如果是对象
+    if (typeof authorInfo === 'object' && authorInfo.name) {
+        const authorObj = { name: authorInfo.name.trim() };
+        if (authorInfo.link) {
+            authorObj.link = authorInfo.link;
+        } else if (authorInfo.links) {
+            authorObj.link = authorInfo.links;
+        }
+        return [authorObj];
+    }
+    
+    return null;
+}
+
+// 过滤长标签的通用函数，一个汉字算两个字符
+function filterLongTags(tags) {
+    return tags.filter(tag => {
+        // 特殊处理以bgi≥开头的版本标签，不论长度都保留
+        if (tag && tag.startsWith('bgi≥')) {
+            return true;
+        }
+        // 计算字符串的真实长度，一个汉字算两个字符
+        const realLength = [...tag].reduce((acc, c) => {
+            return acc + (c.charCodeAt(0) > 127 ? 2 : 1);
+        }, 0);
+        return realLength <= 10; // 过滤掉超过10个字符的标签
+    });
+}
+
+// 提取最低版本要求并格式化为标签
+function formatMinVersionTag(minVersion) {
+    if (!minVersion) return null;
+    // 统一格式化为 bgi≥x.xx.xx
+    return `bgi≥${minVersion.trim()}`;
+}
+
+// 将版本标签置于标签列表首位
+function prioritizeVersionTag(tags) {
+    if (!tags || !Array.isArray(tags)) return [];
+    
+    // 查找 bgi≥ 开头的标签
+    const versionTags = tags.filter(tag => tag && tag.startsWith('bgi≥'));
+    const otherTags = tags.filter(tag => !tag || !tag.startsWith('bgi≥'));
+    
+    // 如果有多个版本标签，只保留第一个
+    if (versionTags.length > 0) {
+        return [versionTags[0], ...otherTags];
+    }
+    
+    return otherTags;
+}
+
 function extractInfoFromCombatFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf8');
     const authorMatch = content.match(/\/\/\s*作者\s*:(.*)/);
     const descriptionMatch = content.match(/\/\/\s*描述\s*:(.*)/);
     const versionMatch = content.match(/\/\/\s*版本\s*:(.*)/);
-    const characterMatches = content.match(/^(?!\/\/).*?(\S+)(?=\s|$)/gm);
-
-    const tags = [...new Set(characterMatches || [])]
+    const characterMatches = content.match(/^(?!\/\/).*?(\S+)(?=\s|$)/gm);    
+    let tags = [...new Set(characterMatches || [])]
         .map(char => char.trim())
         .filter(char => char.length > 0 && !char.match(/^[,.]$/)); // 过滤掉单个逗号或句号
     
@@ -164,10 +271,12 @@ function extractInfoFromCombatFile(filePath) {
                    (gitTimestamp ? formatTime(gitTimestamp) : 
                     calculateSHA1(filePath).substring(0, 7));
     
+    const authorString = authorMatch ? authorMatch[1].trim() : '';
     return {
-        author: authorMatch ? authorMatch[1].trim() : '',
+        author: processAuthorInfo(authorString) || '',
+        authors: processDetailedAuthorInfo(authorString),
         description: descriptionMatch ? convertNewlines(descriptionMatch[1].trim()) : '',
-        tags: tags,
+        tags: prioritizeVersionTag(filterLongTags(tags)),
         version: version,
         lastUpdated: lastUpdated
     };
@@ -182,54 +291,30 @@ function extractInfoFromJSFolder(folderPath) {
             const manifest = JSON.parse(manifestContent);
             const combinedDescription = `${manifest.name || ''}~|~${manifest.description || ''}`;
             
-            // 查找文件夹中所有文件
-            let lastUpdatedTimestamp = null;
-            let allFiles = [];
-            
-            // 递归获取所有文件
-            function getAllFiles(dir) {
-                const files = fs.readdirSync(dir);
-                files.forEach(file => {
-                    const filePath = path.join(dir, file);
-                    if (fs.statSync(filePath).isDirectory()) {
-                        getAllFiles(filePath);
-                    } else {
-                        allFiles.push(filePath);
-                    }
-                });
-            }
-            
-            getAllFiles(folderPath);
-            
-            // 获取每个文件的时间戳，找出最新的
-            for (const file of allFiles) {
-                const timestamp = getGitTimestamp(file);
-                if (timestamp) {
-                    if (!lastUpdatedTimestamp) {
-                        lastUpdatedTimestamp = timestamp;
-                    } else {
-                        // 比较时间戳，保留较新的
-                        try {
-                            const date1 = new Date(timestamp);
-                            const date2 = new Date(lastUpdatedTimestamp);
-                            if (date1 > date2) {
-                                lastUpdatedTimestamp = timestamp;
-                            }
-                        } catch (e) {
-                            console.warn(`比较时间戳出错: ${timestamp} vs ${lastUpdatedTimestamp}`, e);
-                        }
-                    }
-                }
-            }
+            // 获取manifest.json的修改时间，仅处理这一个文件
+            const lastUpdatedTimestamp = getGitTimestamp(manifestPath);
             
             // 格式化最后更新时间
             const lastUpdated = formatLastUpdated(lastUpdatedTimestamp);
-            
+
+            // 提取最低版本要求
+            let tags = manifest.tags || [];
+            // 从 bgi_version 字段获取
+            if (manifest.bgi_version) {
+                const minVersionTag = formatMinVersionTag(manifest.bgi_version);
+                if (minVersionTag) {
+                    tags.unshift(minVersionTag);
+                }
+            }            // 处理作者信息
+            const authorString = manifest.authors;
+            const authors = processDetailedAuthorInfo(manifest.authors);
+
             return {
                 version: manifest.version || '',
                 description: convertNewlines(combinedDescription),
-                author: manifest.authors && manifest.authors.length > 0 ? manifest.authors[0].name : '',
-                tags: manifest.tags || [],
+                author: processAuthorInfo(authorString),
+                authors: authors,
+                tags: prioritizeVersionTag(filterLongTags(tags)),
                 lastUpdated: lastUpdated
             };
         } catch (error) {
@@ -276,6 +361,14 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
         tags = [...tags, ...contentObj.info.tags];
     }
 
+    // 提取最低版本要求，使用 bgi_version 字段
+    if (contentObj.info && contentObj.info.bgi_version) {
+        const minVersionTag = formatMinVersionTag(contentObj.info.bgi_version);
+        if (minVersionTag) {
+            tags.unshift(minVersionTag);
+        }
+    }
+
     if (contentObj.positions && Array.isArray(contentObj.positions)) {
         const actions = contentObj.positions.map(pos => pos.action);
         if (actions.includes('nahida_collect')) tags.push('纳西妲');
@@ -283,18 +376,27 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
         if (actions.includes('anemo_collect')) tags.push('风元素力收集');
         if (actions.includes('electro_collect')) tags.push('雷元素力收集');
         if (actions.includes('up_down_grab_leaf')) tags.push('四叶印');
+        if (actions.includes('mining')) tags.push('挖矿');
         if (actions.includes('fight')) tags.push('战斗');
+        if (actions.includes('log_output')) tags.push('有日志');
+        if (actions.includes('pick_around')) tags.push('转圈拾取');
+        if (actions.includes('fishing')) tags.push('钓鱼');
+        if (actions.includes('set_time')) tag.push('时间调整');
+        const move_modes = contentObj.positions.map(pos => pos.move_mode);
+        if (move_modes.includes('climb')) tags.push("有攀爬");
+        
     }
-
     // 确保标签数组中没有重复项
     tags = [...new Set(tags)];
-
-    // 移除 "死亡笔记" 标签
-    tags = tags.filter(tag => !tag.includes('死亡笔记'));
-
+    
+    // 过滤掉超过10个字符的标签，并确保版本标签优先
+    tags = prioritizeVersionTag(filterLongTags(tags));    // 处理作者信息，优先使用 authors 字段，如果不存在则使用 author 字段
+    const authorData = contentObj.info?.authors || contentObj.info?.author;
+    
     return {
-        author: contentObj.info.author || '',
-        description: convertNewlines(contentObj.info.description || ''),
+        author: processAuthorInfo(authorData) || '',
+        authors: processDetailedAuthorInfo(authorData),
+        description: convertNewlines(contentObj.info?.description || ''),
         version: version,
         tags: tags,
         lastUpdated: lastUpdated
@@ -306,6 +408,7 @@ function extractInfoFromTCGFile(filePath, parentFolder) {
     const authorMatch = content.match(/\/\/\s*作者:(.*)/);
     const descriptionMatch = content.match(/\/\/\s*描述:(.*)/);
     const versionMatch = content.match(/\/\/\s*版本:(.*)/);
+    // 移除最低版本提取，TCG脚本无需最低版本要求
     const characterMatches = content.match(/角色\d+\s?=([^|\r\n{]+)/g);
 
     // 获取最后更新时间
@@ -327,12 +430,11 @@ function extractInfoFromTCGFile(filePath, parentFolder) {
     // 优先使用文件中的版本号，其次使用提交时间，最后使用 SHA
     const version = versionMatch ? versionMatch[1].trim() : 
                    (gitTimestamp ? formatTime(gitTimestamp) : 
-                    calculateSHA1(filePath).substring(0, 7));
-    
-    return {
-        author: authorMatch ? authorMatch[1].trim() : '',
+                    calculateSHA1(filePath).substring(0, 7));    return {
+        author: processAuthorInfo(authorMatch ? authorMatch[1].trim() : '') || '',
+        authors: processDetailedAuthorInfo(authorMatch ? authorMatch[1].trim() : ''),
         description: descriptionMatch ? convertNewlines(descriptionMatch[1].trim()) : '',
-        tags: [...new Set(tags)],  // 去重
+        tags: prioritizeVersionTag(filterLongTags([...new Set(tags)])),  // 去重并过滤长标签
         version: version,
         lastUpdated: lastUpdated
     };
@@ -419,7 +521,6 @@ function generateDirectoryTree(dir, currentDepth = 0, parentFolders = []) {
                 // console.log(`未找到icon.ico的pathing目录: ${relativePath}`);
             }
         }
-
         if (parentFolders[0] === 'js' && currentDepth === 1) {
             // 对于 js 文件夹下的直接子文件夹，不再递归
             const manifestPath = path.join(dir, 'manifest.json');
@@ -428,13 +529,30 @@ function generateDirectoryTree(dir, currentDepth = 0, parentFolders = []) {
                 info.hash = calculateSHA1(manifestPath);
                 info.version = jsInfo.version || info.hash.substring(0, 7);
                 info.author = jsInfo.author;
+                info.authors = jsInfo.authors;
                 info.description = jsInfo.description;
                 info.tags = jsInfo.tags;
                 info.lastUpdated = jsInfo.lastUpdated;
             }
         } else {
             info.children = fs.readdirSync(dir)
-                .filter(child => !['desktop.ini', 'icon.ico'].includes(child)) // 过滤掉 desktop.ini 和 icon.ico
+                .filter(child => {
+                    // 过滤掉 desktop.ini 和 icon.ico
+                    if (['desktop.ini', 'icon.ico'].includes(child)) {
+                        return false;
+                    }
+                    
+                    // 对于pathing目录，只保留.json文件和目录
+                    if (parentFolders[0] === 'pathing') {
+                        const childPath = path.join(dir, child);
+                        const isDir = fs.statSync(childPath).isDirectory();
+                        if (!isDir && !child.toLowerCase().endsWith('.json')) {
+                            return false;
+                        }
+                    }
+                    
+                    return true;
+                })
                 .map(child => {
                     const childPath = path.join(dir, child);
                     return generateDirectoryTree(childPath, currentDepth + 1, [...parentFolders, info.name]);
@@ -444,6 +562,11 @@ function generateDirectoryTree(dir, currentDepth = 0, parentFolders = []) {
     } else {
         // 如果是 desktop.ini 或 icon.ico 文件，直接返回 null
         if (['desktop.ini', 'icon.ico'].includes(info.name)) {
+            return null;
+        }
+        
+        // 对于pathing目录中的文件，直接处理.json后缀的文件
+        if (parentFolders[0] === 'pathing' && !info.name.toLowerCase().endsWith('.json')) {
             return null;
         }
 

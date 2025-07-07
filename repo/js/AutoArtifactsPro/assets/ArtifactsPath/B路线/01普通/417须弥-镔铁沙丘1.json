@@ -1,0 +1,78 @@
+{
+  "info": {
+    "name": "417须弥-镔铁沙丘1",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751112618515
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4268.99072265625,
+      "y": -516.08251953125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4248.155971519153,
+      "y": -526.1550828368136,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4254.312492099834,
+      "y": -573.0625227369455,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4260.68994140625,
+      "y": -608.3671875,
+      "action": "up_down_grab_leaf",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 5,
+      "x": 4292.91015625,
+      "y": -635.34375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(w),wait(0.5),click(middle),keyup(w),wait(0.5),moveby(0,1100),keypress(t),wait(0.4),keypress(t),wait(0.5),keypress(t),wait(0.3),keypress(t),wait(1.3),keypress(t),wait(0.3),keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t)",
+      "type": "orientation"
+    },
+    {
+      "id": 6,
+      "x": 4303.28369140625,
+      "y": -661.82568359375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4304.927734375,
+      "y": -663.89599609375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "type": "target"
+    }
+  ]
+}

@@ -2,10 +2,11 @@
   "info": {
     "name": "6404--纳塔_万火之瓯_竞技场4_(12-11)",
     "type": "collect",
-    "author": "Demo&汐",
-    "version": "1.1",
+    "author": "Demo&汐&mno",
+    "version": "1.2",
     "description": "",
-    "bgi_version": "0.42.0"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -28,7 +29,7 @@
     },
     {
       "id": 3,
-      "x": 8643.0,
+      "x": 8643,
       "y": -1665.65,
       "action": "fight",
       "move_mode": "dash",
@@ -37,7 +38,7 @@
     },
     {
       "id": 4,
-      "x": 8643.0,
+      "x": 8643,
       "y": -1665.65,
       "action": "combat_script",
       "move_mode": "dash",
@@ -65,7 +66,7 @@
     {
       "id": 7,
       "x": 8541.4,
-      "y": -1677.0,
+      "y": -1677,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "keypress(e),wait(0.2),keypress(e)",
@@ -159,10 +160,20 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
       "id": 18,
+      "x": 8595.25,
+      "y": -1605.62,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    },
+    {
+      "id": 19,
       "x": 8706.42,
       "y": -1575.01,
       "action": "",
@@ -171,7 +182,7 @@
       "type": "teleport"
     },
     {
-      "id": 19,
+      "id": 20,
       "x": 8670.48,
       "y": -1542.06,
       "action": "fight",
@@ -180,13 +191,23 @@
       "type": "path"
     },
     {
-      "id": 20,
+      "id": 21,
       "x": 8639.09,
       "y": -1423.96,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 22,
+      "x": 8639.09,
+      "y": -1423.96,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

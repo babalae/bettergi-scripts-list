@@ -1,0 +1,51 @@
+{
+  "info": {
+    "name": "赛诺-3",
+    "type": "collect",
+    "author": "哈少",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751042155932
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2867.2216796875,
+      "y": -381.30224609375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 2,
+      "x": 2864.5419921875,
+      "y": -381.12060546875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2862.8505859375,
+      "y": -381.5927734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 2861.4150390625,
+      "y": -381.31591796875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(w),wait(1)",
+      "type": "orientation"
+    }
+  ]
+}

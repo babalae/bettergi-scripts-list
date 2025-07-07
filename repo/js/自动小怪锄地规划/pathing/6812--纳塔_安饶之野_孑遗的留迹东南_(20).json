@@ -2,10 +2,11 @@
   "info": {
     "name": "6812--纳塔_安饶之野_孑遗的留迹东南_(20)",
     "type": "collect",
-    "author": "汐",
+    "author": "汐&mno",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.0"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -96,10 +97,20 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
       "id": 11,
+      "x": 10391.49,
+      "y": -3199.92,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    },
+    {
+      "id": 12,
       "x": 10171.79,
       "y": -3021.79,
       "action": "force_tp",
@@ -108,59 +119,68 @@
       "type": "teleport"
     },
     {
-      "id": 12,
+      "id": 13,
       "x": 9917.96,
       "y": -3275.83,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "force_tp",
-      "action_params": ""
-    },
-    {
-      "id": 13,
-      "x": 9956.34,
-      "y": -3264.09,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 14,
-      "x": 9957.61,
-      "y": -3210.78,
-      "type": "path",
+      "x": 9956.34,
+      "y": -3264.09,
+      "action": "",
       "move_mode": "dash",
-      "action": "fight",
       "action_params": "",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 15,
-      "x": 9958.61,
+      "x": 9957.61,
       "y": -3210.78,
-      "type": "path",
+      "action": "fight",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 16,
-      "x": 10018.42,
-      "y": -3213.66,
-      "type": "path",
+      "x": 9958.61,
+      "y": -3210.78,
+      "action": "",
       "move_mode": "dash",
-      "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 17,
+      "x": 10018.42,
+      "y": -3213.66,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
       "x": 10002.19,
       "y": -3163.18,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 19,
+      "x": 10002.19,
+      "y": -3163.18,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

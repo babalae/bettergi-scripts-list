@@ -2,64 +2,41 @@
   "info": {
     "name": "蒙德2-清泉镇-4-1",
     "type": "collect",
-    "author": "ddaodan",
+    "author": "秋云",
     "version": "1.1",
     "description": "",
-    "bgi_version": "0.42.3"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1749595981247
   },
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
+      "x": -401.35,
+      "y": 1976.93,
       "type": "path",
-      "x": -524.25,
-      "y": 1816.41,
+      "move_mode": "walk",
+      "action": "",
       "action_params": ""
     },
     {
       "id": 2,
-      "x": -489.69,
-      "y": 1839.69,
+      "x": -349.19,
+      "y": 1939.59,
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
+      "move_mode": "fly",
+      "action": "stop_flying",
       "action_params": ""
     },
     {
       "id": 3,
-      "x": -422.21,
-      "y": 1922.12,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": -385.48,
-      "y": 1910.01,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": -376.12,
-      "y": 1909.88,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 6,
       "x": -347.95,
       "y": 1902.51,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying"
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     }
   ]
 }

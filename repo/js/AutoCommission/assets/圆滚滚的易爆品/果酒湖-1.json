@@ -1,0 +1,76 @@
+{
+  "info": {
+    "name": "果酒湖-1",
+    "type": "collect",
+    "author": "11",
+    "version": "1.0",
+    "description": "果酒湖-1",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -431.2983418716285,
+      "y": 2583.650947436219,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -473.3329097728638,
+      "y": 2595.650947436219,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -546.3929920773899,
+      "y": 2605.650947436219,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -546.3929920773899,
+      "y": 2605.650947436219,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -544.6250050145754,
+      "y": 2604.71875,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -541.5937951311716,
+      "y": 2616.40625,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -546.5937951311716,
+      "y": 2616.40625,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

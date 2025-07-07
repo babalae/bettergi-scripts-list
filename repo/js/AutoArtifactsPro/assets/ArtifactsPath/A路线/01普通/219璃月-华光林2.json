@@ -1,0 +1,88 @@
+{
+  "info": {
+    "name": "219璃月-华光林2",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751552720500
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1604.439453125,
+      "y": 1039.6806640625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1637.2119140625,
+      "y": 947.21875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1638.576171875,
+      "y": 939.2509765625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1638.693359375,
+      "y": 942.62890625,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 1638.693359375,
+      "y": 942.62890625,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.4),keypress(f),w(0.2),keypress(f),s(0.15);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 1641.5126953125,
+      "y": 939.21435546875,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 1647.97265625,
+      "y": 939.07763671875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 1649.3115234375,
+      "y": 939.68701171875,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),a(0.3),keypress(f),",
+      "type": "target"
+    }
+  ]
+}

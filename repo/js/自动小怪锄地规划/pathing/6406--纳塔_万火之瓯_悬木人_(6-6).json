@@ -5,7 +5,8 @@
     "author": "Demo&汐&mno",
     "version": "1.1",
     "description": "",
-    "bgi_version": "0.42.0"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -42,10 +43,20 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
       "id": 5,
+      "x": 8602.28,
+      "y": -2085.29,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    },
+    {
+      "id": 6,
       "x": 8674.16,
       "y": -2063.56,
       "action": "",
@@ -54,7 +65,7 @@
       "type": "teleport"
     },
     {
-      "id": 6,
+      "id": 7,
       "x": 8666.13,
       "y": -2033.1,
       "action": "stop_flying",
@@ -63,7 +74,7 @@
       "type": "path"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": 8711.44,
       "y": -2003.31,
       "action": "combat_script",
@@ -72,7 +83,7 @@
       "type": "path"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": 8684.56,
       "y": -2016.77,
       "action": "fight",
@@ -81,7 +92,7 @@
       "type": "path"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": 8732.2,
       "y": -2023.48,
       "action": "",
@@ -90,17 +101,16 @@
       "type": "path"
     },
     {
-      "id": 10,
+      "id": 11,
       "x": 8780.97,
       "y": -1995.19,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
-      "id": 11,
+      "id": 12,
       "x": 8780.97,
       "y": -1995.19,
       "action": "combat_script",

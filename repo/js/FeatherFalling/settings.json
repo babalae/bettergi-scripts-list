@@ -1,0 +1,30 @@
+[
+    {
+        "name": "keymousePartyName",
+        "type": "input-text",
+        "label": "用于卡进锚点位置的队伍\n1号位放凯亚，4号位放七七或多莉\n无任何移速加成的队伍"
+    },
+    {
+        "name": "partyName",
+        "type": "input-text",
+        "label": "需要摔落保护的队伍名称"
+    },
+    {
+        "name": "autoPortableWaypoint",
+        "type": "checkbox",
+        "label": "是否自动放置传送锚点",
+        "default": false
+    },
+    {
+        "name": "autoPortableWaypointHours",
+        "type": "input-text",
+        "label": "剩余多少时间自动放置传送锚点（单位：小时）",
+        "default": 24
+    },
+    {
+        "name": "test",
+        "type": "checkbox",
+        "label": "测试一下免疫摔落的效果",
+        "default": false
+    }
+]

@@ -4,36 +4,46 @@
     "type": "collect",
     "author": "寒烟",
     "version": "1.1",
-    "description": "",
-    "bgi_version": "0.42.3"
+    "description": "附身水龙",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": 8361.82,
-      "y": -2993.79,
+      "x": 8362.5,
+      "y": -2995.04,
+      "type": "path",
+      "move_mode": "dash",
       "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 2,
-      "x": 8477.1,
-      "y": -3018.97,
+      "x": 8419.51,
+      "y": -2989.96,
+      "type": "path",
+      "move_mode": "dash",
       "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 3,
-      "x": 8495.87,
-      "y": -3019.42,
-      "action": "",
+      "x": 8431.56,
+      "y": -2982.61,
+      "type": "orientation",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action": "combat_script",
+      "action_params": "keypress(t)"
+    },
+    {
+      "id": 4,
+      "x": 8496.07,
+      "y": -3018.4,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(q),wait(0.6),keyup(q)"
     }
   ]
 }

@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "琉璃袋-天遒谷-2个",
+    "type": "collect",
+    "author": "yulalaa",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1268.36,
+      "y": -64.19,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": 1261.1,
+      "y": -76.42,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 1228.59,
+      "y": -114.65,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 1183.38,
+      "y": -160.31,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

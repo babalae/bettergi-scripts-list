@@ -2,10 +2,11 @@
   "info": {
     "name": "6701--纳塔_踞石山_庙宇北侧_(3-5)",
     "type": "collect",
-    "author": "Demo&汐",
+    "author": "Demo&汐&mno",
     "version": "1.1",
     "description": "",
-    "bgi_version": "0.42.0"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -24,10 +25,20 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
       "id": 3,
+      "x": 7779.11,
+      "y": -2231.94,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    },
+    {
+      "id": 4,
       "x": 7746.55,
       "y": -2250.58,
       "action": "",
@@ -36,7 +47,7 @@
       "type": "teleport"
     },
     {
-      "id": 4,
+      "id": 5,
       "x": 7727.25,
       "y": -2177.5,
       "action": "fight",
@@ -45,7 +56,7 @@
       "type": "path"
     },
     {
-      "id": 5,
+      "id": 6,
       "x": 7695.39,
       "y": -2155.74,
       "action": "combat_script",
@@ -54,7 +65,7 @@
       "type": "path"
     },
     {
-      "id": 6,
+      "id": 7,
       "x": 7690.26,
       "y": -2120.36,
       "action": "combat_script",
@@ -63,7 +74,7 @@
       "type": "path"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": 7689.63,
       "y": -2133.38,
       "action": "fight",
@@ -72,7 +83,7 @@
       "type": "path"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": 7662.02,
       "y": -2107.73,
       "action": "stop_flying",
@@ -81,13 +92,23 @@
       "type": "path"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": 7660.02,
       "y": -2107.73,
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 7660.02,
+      "y": -2107.73,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

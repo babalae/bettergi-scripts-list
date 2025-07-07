@@ -4,22 +4,30 @@
     "type": "collect",
     "author": "未知作者",
     "version": "1.0",
-    "bgi_version": "0.42.0"
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "未知作者"
+      }
+    ]
   },
   "positions": [
     {
+      "id": 1,
       "x": 3591.28,
       "y": -787.33,
       "type": "teleport",
       "move_mode": "walk"
     },
     {
+      "id": 2,
       "x": 3564.79,
       "y": -797.35,
       "type": "path",
       "move_mode": "walk"
     },
     {
+      "id": 3,
       "x": 3561.46,
       "y": -852.72,
       "type": "path",
@@ -27,6 +35,7 @@
       "action": "fight"
     },
     {
+      "id": 4,
       "x": 3532.14,
       "y": -838.62,
       "type": "path",

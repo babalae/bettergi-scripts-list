@@ -20,51 +20,60 @@
     },
     {
       "id": 2,
-      "x": 270.2618408203125,
-      "y": 419.335693359375,
+      "x": 246.56226299502373,
+      "y": 416.18774252741537,
+      "type": "path",
+      "move_mode": "dash",
       "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 253.0380859375,
+      "y": 431.064208984375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 245.06235384693127,
+      "y": 453.5625,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 243.5004898102843,
+      "y": 458.74871157310577,
+      "action": "fight",
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 3,
-      "x": 257.1339111328125,
-      "y": 423.3004150390625,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 238.4229736328125,
-      "y": 456.59619140625,
-      "action": "fight",
-      "move_mode": "jump",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 251.230224609375,
-      "y": 478.7371826171875,
+      "id": 6,
+      "x": 252.68759085190754,
+      "y": 484.6235751514346,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 6,
-      "x": 264.74988939767763,
-      "y": 545.5016370600538,
+      "id": 7,
+      "x": 260.1876066522393,
+      "y": 522.8750151579634,
       "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "w(7),attack(0.2),wait(0.2),keydown(w),wait(0.01),keydown(LSHIFT),wait(3.5),keyup(LSHIFT),wait(0.1),keyup(w)",
+      "action_params": "w(10.5),attack(0.2),wait(0.2),keydown(w),wait(0.5),keydown(LSHIFT),wait(4.5),keyup(LSHIFT),wait(0.1),keyup(w)",
       "type": "path"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": 280.74984989684845,
       "y": 622.0002728433424,
       "action": "fight",
@@ -73,7 +82,7 @@
       "type": "orientation"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": 280.5003397071325,
       "y": 621.8760610574423,
       "action": "combat_script",

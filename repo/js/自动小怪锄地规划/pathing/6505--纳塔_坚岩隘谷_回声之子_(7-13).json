@@ -2,10 +2,11 @@
   "info": {
     "name": "6505--纳塔_坚岩隘谷_回声之子_(7-13)",
     "type": "collect",
-    "author": "Demo&汐",
-    "version": "1.1",
+    "author": "Demo&汐&mno",
+    "version": "1.2",
     "description": "",
-    "bgi_version": "0.42.0"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
@@ -51,10 +52,20 @@
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
       "id": 6,
+      "x": 7769.77,
+      "y": -1432.22,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    },
+    {
+      "id": 7,
       "x": 7632.17,
       "y": -1645.97,
       "action": "",
@@ -63,7 +74,7 @@
       "type": "teleport"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": 7660.01,
       "y": -1645.53,
       "action": "stop_flying",
@@ -72,16 +83,26 @@
       "type": "path"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": 7660.01,
       "y": -1645.53,
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
-      "id": 9,
+      "id": 10,
+      "x": 7660.01,
+      "y": -1645.53,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    },
+    {
+      "id": 11,
       "x": 7632.17,
       "y": -1645.97,
       "action": "",
@@ -90,7 +111,7 @@
       "type": "teleport"
     },
     {
-      "id": 10,
+      "id": 12,
       "x": 7623.99,
       "y": -1616.52,
       "action": "stop_flying",
@@ -99,7 +120,7 @@
       "type": "path"
     },
     {
-      "id": 11,
+      "id": 13,
       "x": 7618.5,
       "y": -1570.06,
       "action": "fight",
@@ -108,7 +129,7 @@
       "type": "path"
     },
     {
-      "id": 12,
+      "id": 14,
       "x": 7580.62,
       "y": -1559.25,
       "action": "",
@@ -117,7 +138,7 @@
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 15,
       "x": 7491.55,
       "y": -1616.98,
       "action": "combat_script",
@@ -126,13 +147,23 @@
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 16,
       "x": 7511.62,
       "y": -1575.31,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 17,
+      "x": 7511.62,
+      "y": -1575.31,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }
