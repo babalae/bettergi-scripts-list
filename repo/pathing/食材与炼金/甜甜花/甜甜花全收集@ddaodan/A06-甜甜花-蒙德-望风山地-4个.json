@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "019-甜甜花-蒙德-蒙德城-3个",
+    "name": "A06-甜甜花-蒙德-望风山地-4个",
     "type": "collect",
     "author": "ddaodan",
     "version": "1.0",
@@ -9,9 +9,10 @@
     "bgi_version": "0.45.0",
     "tags": [
       "甜甜花",
+      "高危",
       "低效"
     ],
-    "last_modified_time": 1748848907031,
+    "last_modified_time": 1748696453692,
     "authors": [
       {
         "name": "ddaodan",
@@ -22,45 +23,44 @@
   "positions": [
     {
       "id": 1,
-      "x": -749.4,
-      "y": 2263.2,
+      "x": -1273.82,
+      "y": 2721.71,
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 2,
-      "x": -749.93,
-      "y": 2258.53,
-      "type": "target",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 3,
-      "x": -737.82,
-      "y": 2219.75,
+      "id": 2,
+      "x": -1289.27,
+      "y": 2721.42,
       "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": "1000"
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1312.19,
+      "y": 2720.2,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 4,
-      "x": -727.97,
-      "y": 2213.73,
+      "x": -1322.43,
+      "y": 2726.84,
       "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.2)"
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 5,
-      "x": -752.19,
-      "y": 2189.12,
+      "x": -1329.84,
+      "y": 2713.82,
       "type": "path",
       "move_mode": "dash",
       "action": "",
@@ -68,57 +68,66 @@
     },
     {
       "id": 6,
-      "x": -796.97,
-      "y": 2168.29,
+      "x": -1336.94,
+      "y": 2713.01,
       "type": "path",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
       "id": 7,
-      "x": -805.28,
-      "y": 2149.52,
+      "x": -1381.24,
+      "y": 2693.72,
       "type": "path",
       "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "wait(0.2)"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 8,
-      "x": -749.4,
-      "y": 2263.2,
-      "type": "teleport",
-      "move_mode": "walk",
+      "x": -1388.61,
+      "y": 2728.09,
+      "type": "path",
+      "move_mode": "fly",
       "action": "",
       "action_params": ""
     },
     {
       "id": 9,
-      "x": -717.08,
-      "y": 2293.44,
+      "x": -1409.68,
+      "y": 2723.05,
       "type": "path",
-      "move_mode": "fly",
+      "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
       "id": 10,
-      "x": -694.29,
-      "y": 2305.0,
+      "x": -1423.74,
+      "y": 2717.24,
       "type": "path",
-      "move_mode": "fly",
+      "move_mode": "jump",
       "action": "",
       "action_params": ""
     },
     {
       "id": 11,
-      "x": -669.41,
-      "y": 2301.48,
+      "x": -1411.22,
+      "y": 2702.47,
       "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.2)"
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": -1419.43,
+      "y": 2686.26,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
     }
   ]
 }

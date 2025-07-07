@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "022-甜甜花-蒙德-清泉镇-3个",
+    "name": "A12-甜甜花-蒙德-摘星崖-8个",
     "type": "collect",
     "author": "ddaodan",
     "version": "1.0",
@@ -10,7 +10,7 @@
     "tags": [
       "甜甜花"
     ],
-    "last_modified_time": 1748949853532,
+    "last_modified_time": 1748853111994,
     "authors": [
       {
         "name": "ddaodan",
@@ -21,8 +21,8 @@
   "positions": [
     {
       "id": 1,
-      "x": -914.84,
-      "y": 1795.46,
+      "x": -1558.51,
+      "y": 2497.75,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -30,8 +30,8 @@
     },
     {
       "id": 2,
-      "x": -936.68,
-      "y": 1817.59,
+      "x": -1536.57,
+      "y": 2496.89,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -39,8 +39,8 @@
     },
     {
       "id": 3,
-      "x": -946.44,
-      "y": 1843.79,
+      "x": -1518.56,
+      "y": 2501.54,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -48,54 +48,53 @@
     },
     {
       "id": 4,
-      "x": -944.82,
-      "y": 1854.82,
+      "x": -1493.7,
+      "y": 2490.77,
       "action": "",
-      "move_mode": "jump",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 5,
-      "x": -944.14,
-      "y": 1864.15,
-      "action": "",
-      "move_mode": "jump",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": -964.39,
-      "y": 1861.41,
+      "x": -1490.29,
+      "y": 2479.84,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "wait(0.2)",
       "type": "path"
     },
     {
-      "id": 7,
-      "x": -919.58,
-      "y": 1869.02,
+      "id": 6,
+      "x": -1462.18,
+      "y": 2434.23,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
+      "id": 7,
+      "x": -1462.44,
+      "y": 2425.95,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.2)",
+      "type": "path"
+    },
+    {
       "id": 8,
-      "x": -907.83,
-      "y": 1874.59,
-      "action": "stop_flying",
-      "move_mode": "fly",
+      "x": -1448.33,
+      "y": 2361.85,
+      "action": "",
+      "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 9,
-      "x": -907.83,
-      "y": 1874.59,
+      "x": -1428.55,
+      "y": 2349.4,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "wait(0.2)",
@@ -103,26 +102,26 @@
     },
     {
       "id": 10,
-      "x": -914.88,
-      "y": 1795.43,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "x": -1463.48,
+      "y": 2323.51,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.2)",
+      "type": "path"
     },
     {
       "id": 11,
-      "x": -933.36,
-      "y": 1767.84,
-      "action": "",
+      "x": -1429.31,
+      "y": 2321.2,
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "",
+      "action_params": "wait(0.2)",
       "type": "path"
     },
     {
       "id": 12,
-      "x": -952.33,
-      "y": 1748.21,
+      "x": -1409.63,
+      "y": 2312.07,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -130,28 +129,46 @@
     },
     {
       "id": 13,
-      "x": -961.53,
-      "y": 1742.44,
+      "x": -1390.62,
+      "y": 2292.38,
       "action": "",
-      "move_mode": "jump",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 14,
-      "x": -956.71,
-      "y": 1731.17,
+      "x": -1382.38,
+      "y": 2278.06,
       "action": "",
-      "move_mode": "jump",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 15,
+      "x": -1385.78,
+      "y": 2267.77,
+      "action": "",
+      "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 15,
-      "x": -966.32,
-      "y": 1723.52,
+      "id": 16,
+      "x": -1382.27,
+      "y": 2253.65,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "dash",
+      "action_params": "wait(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -1360.56,
+      "y": 2188.79,
+      "action": "combat_script",
+      "move_mode": "dash",
       "action_params": "wait(0.2)",
       "type": "path"
     }

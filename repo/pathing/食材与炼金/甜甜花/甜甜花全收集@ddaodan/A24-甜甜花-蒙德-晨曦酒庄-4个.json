@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "009-甜甜花-蒙德-星落湖-2个",
+    "name": "A24-甜甜花-蒙德-晨曦酒庄-4个",
     "type": "collect",
     "author": "ddaodan",
     "version": "1.0",
@@ -10,7 +10,7 @@
     "tags": [
       "甜甜花"
     ],
-    "last_modified_time": 1748758603013,
+    "last_modified_time": 1748949530345,
     "authors": [
       {
         "name": "ddaodan",
@@ -21,8 +21,8 @@
   "positions": [
     {
       "id": 1,
-      "x": -1330.05,
-      "y": 2563.9,
+      "x": -663.7,
+      "y": 1709.55,
       "type": "teleport",
       "move_mode": "walk",
       "action": "",
@@ -30,35 +30,35 @@
     },
     {
       "id": 2,
-      "x": -1360.84,
-      "y": 2579.23,
+      "x": -688.87,
+      "y": 1742.16,
       "type": "path",
-      "move_mode": "dash",
+      "move_mode": "fly",
       "action": "",
       "action_params": ""
     },
     {
       "id": 3,
-      "x": -1389.57,
-      "y": 2576.95,
+      "x": -692.11,
+      "y": 1761.1,
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
     },
     {
       "id": 4,
-      "x": -1396.65,
-      "y": 2580.92,
+      "x": -694.52,
+      "y": 1768.57,
       "type": "path",
-      "move_mode": "jump",
-      "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
     },
     {
       "id": 5,
-      "x": -1439.55,
-      "y": 2612.06,
+      "x": -716.04,
+      "y": 1799.49,
       "type": "path",
       "move_mode": "dash",
       "action": "combat_script",
@@ -66,17 +66,17 @@
     },
     {
       "id": 6,
-      "x": -1456.91,
-      "y": 2614.59,
+      "x": -729.19,
+      "y": 1806.28,
       "type": "path",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
       "id": 7,
-      "x": -1484.93,
-      "y": 2601.95,
+      "x": -745.59,
+      "y": 1780.94,
       "type": "path",
       "move_mode": "dash",
       "action": "",
@@ -84,8 +84,8 @@
     },
     {
       "id": 8,
-      "x": -1490.2,
-      "y": 2608.04,
+      "x": -751.12,
+      "y": 1772.87,
       "type": "path",
       "move_mode": "jump",
       "action": "combat_script",
