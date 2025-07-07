@@ -1,0 +1,168 @@
+{
+  "info": {
+    "name": "A06-紫晶块-稻妻-鸣神岛-梦想乐土之殁-6个",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.47.0",
+    "tags": [
+      "双手剑"
+    ],
+    "last_modified_time": 1751106361767,
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4403.81,
+      "y": -2481.96,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": -4402.61,
+      "y": -2476.96,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4397.32,
+      "y": -2479.8,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -4397.32,
+      "y": -2479.8,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 5,
+      "x": -4395.72,
+      "y": -2479.5,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -4395.72,
+      "y": -2479.5,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 7,
+      "x": -4398.2,
+      "y": -2470.53,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -4398.18,
+      "y": -2470.52,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 9,
+      "x": -4403.25,
+      "y": -2476.35,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -4399.95,
+      "y": -2473.43,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -4399.02,
+      "y": -2474.47,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 12,
+      "x": -4401.05,
+      "y": -2471.88,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": -4401.0,
+      "y": -2471.86,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 14,
+      "x": -4423.55,
+      "y": -2458.4,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": -4408.02,
+      "y": -2456.62,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": -4408.04,
+      "y": -2456.62,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}
