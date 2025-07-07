@@ -1,0 +1,144 @@
+{
+  "info": {
+    "name": "608纳塔城（200_5）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "5秘源机兵  路线信息：该路线预计用时221.72秒，包含5只精英，预计收入1000摩拉，包含以下怪物：5只秘源机兵·寻捕械。",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8908.81,
+      "y": -1639.1,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8823.5,
+      "y": -1698.87,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9229.19,
+      "y": -1729.22,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 4,
+      "x": 9109.51,
+      "y": -1750.34,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9082.74,
+      "y": -1753.44,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 8978.33,
+      "y": -1872.33,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 7,
+      "x": 8979.42,
+      "y": -1887.6,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 8980.22,
+      "y": -1910.69,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 8969.98,
+      "y": -1933.4,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 8956.51,
+      "y": -1955.01,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 8674.13,
+      "y": -2063.34,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 12,
+      "x": 8683.92,
+      "y": -2067.51,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "click,wait(1.5)",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 8773.51,
+      "y": -2109.17,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 8804.29,
+      "y": -2120.77,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

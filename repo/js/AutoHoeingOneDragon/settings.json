@@ -1,0 +1,85 @@
+[
+  {
+    "name": "operationMode",
+    "type": "select",
+    "label": "执行模式",
+    "options": [
+      "运行锄地路线",
+      "输出地图追踪文件",
+      "强制刷新所有路线cd"
+    ],
+    "default": "运行锄地路线"
+  },
+  {
+    "name": "groupIndex",
+    "type": "select",
+    "label": "选择执行第几个路径组",
+    "options": [
+      "路径组一",
+      "路径组二",
+      "路径组三",
+      "路径组四"
+    ],
+    "default": "路径组一"
+  },
+  {
+    "name": "partyName",
+    "type": "input-text",
+    "label": "本路径组使用配队名称"
+  },
+  {
+    "name": "onlyArtifacts",
+    "type": "checkbox",
+    "label": "是否禁用js拾取\n默认只拾取狗粮\n可以在assets/拾取名单.json自行调整黑白名单\n禁用后将使用bgi自带拾取"
+  },
+  {
+    "name": "accountName",
+    "type": "input-text",
+    "label": "账户名称\n用于多用户运行时区分不同账户的记录\n单用户请勿修改",
+    "default": "默认账户"
+  },
+  {
+    "name": "tagsForGroup1",
+    "type": "input-text",
+    "label": "路径组一要排除的标签，允许使用的标签：\n水免，次数盾，高危，传奇，蕈兽，小怪\n多个标签使用中文逗号分隔",
+    "default": "蕈兽"
+  },
+  {
+    "name": "tagsForGroup2",
+    "type": "input-text",
+    "label": "路径组二要选择的标签，允许使用的标签：\n水免，次数盾，高危，传奇，蕈兽，小怪\n多个标签使用中文逗号分隔"
+  },
+  {
+    "name": "tagsForGroup3",
+    "type": "input-text",
+    "label": "路径组三要选择的标签，允许使用的标签：\n水免，次数盾，高危，传奇，蕈兽，小怪\n多个标签使用中文逗号分隔"
+  },
+  {
+    "name": "tagsForGroup4",
+    "type": "input-text",
+    "label": "路径组四要选择的标签，允许使用的标签：\n水免，次数盾，高危，传奇，蕈兽，小怪\n多个标签使用中文逗号分隔"
+  },
+  {
+    "name": "efficiencyIndex",
+    "type": "input-text",
+    "label": "路线效率计算权重，填0以上的数字\n越大越倾向于花费较多时间提高总收益",
+    "default": "0.5"
+  },
+  {
+    "name": "targetEliteNum",
+    "type": "input-text",
+    "label": "目标精英数量",
+    "default": "400"
+  },
+  {
+    "name": "targetMonsterNum",
+    "type": "input-text",
+    "label": "目标小怪数量",
+    "default": "2000"
+  },
+  {
+    "name": "excludeTags",
+    "type": "input-text",
+    "label": "排除关键词，含关键词的路线会被完全排除\n不同关键词使用中文逗号分隔\n例如填丘丘暴徒，可以排除所有含有丘丘暴徒的路线"
+  }
+]
