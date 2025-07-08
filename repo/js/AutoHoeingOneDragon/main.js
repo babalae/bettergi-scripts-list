@@ -222,15 +222,11 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
     // 遍历 pathings，计算并添加 G1、G2、E1 和 E2 属性
     pathings.forEach(pathing => {
         pathing.selected = false; // 初始化 selected 属性为 false
-
-        // 计算 G1 和 E1
         const G1 = pathing.mora_e + pathing.mora_m; // 进入一组的收益
         pathing.G1 = G1;
-        pathing.E1 = pathing.e === 0 ? 0 : (G1 / pathing.e) ** k * (G1 / pathing.t); // 进入一组的效率
-
-        // 计算 G2 和 E2
         const G2 = pathing.mora_m; // 进入二组的收益
         pathing.G2 = G2;
+        pathing.E1 = pathing.e === 0 ? 0 : ((G1 - G2) / pathing.e) ** k * (G1 / pathing.t); // 进入一组的效率
         pathing.E2 = pathing.m === 0 ? 0 : (G2 / pathing.m) ** k * (G2 / pathing.t); // 进入二组的效率
     });
 
@@ -530,7 +526,7 @@ async function runPathWithOcr(pathFilePath, targetTexts, blacklistKeywords) {
                     log.info(`交互或拾取："${ocrResult.text}"`);
                     lastPickupTime = new Date();
                 }
-                
+
                 // 计算目标文本的中心Y坐标
                 let centerYTargetText = ocrResult.y + ocrResult.height / 2;
                 if (Math.abs(centerYTargetText - centerYF) <= texttolerance) {
