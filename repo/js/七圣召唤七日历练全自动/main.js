@@ -161,9 +161,10 @@ async function isTaskRefreshed(filePath, options = {}) {
         // 如果文件不存在，创建新文件并返回true(视为需要刷新)
         const createResult = await file.writeText(filePath, '');
         if (createResult) {
-            log.info("创建新文件成功");
-         await isTaskRefreshed(filePath, options = {});
+            log.info("创建新时间记录文件成功，执行脚本");
+            return true;
         }
+        else throw new Error(`创建新文件失败`);
     }
 }
 
@@ -342,13 +343,13 @@ async function captureAndStoreTexts() {
     for (const pos of positions) {
         // 创建OCR识别区域
         const ocrRo = RecognitionObject.ocr(pos.x, pos.y, width, height); //挑战者名字区域
-        const ocrRo2 = RecognitionObject.ocr(pos.x, pos.y + 100, width, height); //挑战是否完成
+        const ocrRo2 = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/completed.png"),pos.x, pos.y + 60, width, height+80);
         // 在指定区域进行OCR识别
         const result = captureRegion.find(ocrRo);
-        const result2 = captureRegion.find(ocrRo2);
+        let res2 = captureRegion.find(ocrRo2);
         if (!result.isEmpty() && result.text) {
             // 存储识别结果和对应位置
-            if (result2.text == "追踪") {
+            if (res2.isExist()) {
                 log.info(`识别到文本: ${result.text} 位置: (${pos.x}, ${pos.y})`);
                 textArray.push({
                     text: result.text.trim(),
