@@ -8,7 +8,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751889110887,
+    "last_modified_time": 1751977525732,
     "enable_monster_loot_split": false
   },
   "positions": [
@@ -140,8 +140,7 @@
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
-      "type": "orientation",
-      "locked": false
+      "type": "orientation"
     },
     {
       "id": 16,
@@ -180,8 +179,8 @@
     },
     {
       "id": 20,
-      "x": -3207.437422973382,
-      "y": -3605.2500151579625,
+      "x": -3207.0937282745435,
+      "y": -3605.2187575789812,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
@@ -189,8 +188,8 @@
     },
     {
       "id": 21,
-      "x": -3210.2499881497515,
-      "y": -3604.4377197904705,
+      "x": -3209.1249407487558,
+      "y": -3605.0312651579625,
       "action": "combat_script",
       "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
@@ -198,8 +197,8 @@
     },
     {
       "id": 22,
-      "x": -3212.249990124792,
-      "y": -3603.6255760026106,
+      "x": -3211.2186848236324,
+      "y": -3604.0311514732384,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "keypress(x),wait(0.2),keypress(x),wait(0.2),keypress(x);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
@@ -344,7 +343,7 @@
       "y": -3831.1767578125,
       "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "keypress(f),wait(0.2),keypress(f),j,keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),wait(1),attack(0.2);",
+      "action_params": "keypress(f),wait(0.2),keypress(f),j,keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),wait(1.5),attack(0.2);",
       "type": "target"
     },
     {

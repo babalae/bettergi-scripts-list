@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "421须弥-祝祭亭上层9",
     "type": "collect",
@@ -8,7 +8,8 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751729588893
+    "last_modified_time": 1751915664016,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -26,7 +27,7 @@
       "y": -2071.2265625,
       "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "attack(0.3)",
+      "action_params": "attack(0.5)",
       "type": "path"
     },
     {
@@ -170,7 +171,7 @@
       "y": -2211.603515625,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);s(0.3),dash,d(0.6),dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),d(0.3);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.7);d(0.4),dash",
       "type": "target"
     },
     {
@@ -207,7 +208,7 @@
       "action": "",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "target"
     },
     {
       "id": 23,
@@ -355,15 +356,24 @@
     },
     {
       "id": 39,
-      "x": 5590.6298828125,
-      "y": -2288.546875,
+      "x": 5590.49169921875,
+      "y": -2288.3828125,
+      "type": "target",
+      "move_mode": "climb",
       "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
-      "type": "target"
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
     },
     {
       "id": 40,
+      "x": 5590.15380859375,
+      "y": -2287.6015625,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);"
+    },
+    {
+      "id": 41,
       "x": 5588.53076171875,
       "y": -2284.234375,
       "action": "",
@@ -372,16 +382,16 @@
       "type": "path"
     },
     {
-      "id": 41,
+      "id": 42,
       "x": 5588.138671875,
       "y": -2269.45703125,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "target"
     },
     {
-      "id": 42,
+      "id": 43,
       "x": 5595.4404296875,
       "y": -2268.556640625,
       "action": "",
@@ -390,7 +400,7 @@
       "type": "path"
     },
     {
-      "id": 43,
+      "id": 44,
       "x": 5616.97998046875,
       "y": -2257.908203125,
       "action": "",
@@ -399,7 +409,7 @@
       "type": "path"
     },
     {
-      "id": 44,
+      "id": 45,
       "x": 5619.0185546875,
       "y": -2259.16796875,
       "action": "combat_script",
@@ -408,7 +418,7 @@
       "type": "target"
     },
     {
-      "id": 45,
+      "id": 46,
       "x": 5619.7734375,
       "y": -2259.701171875,
       "action": "combat_script",
@@ -417,7 +427,7 @@
       "type": "target"
     },
     {
-      "id": 46,
+      "id": 47,
       "x": 5621.0625,
       "y": -2260.73828125,
       "action": "combat_script",

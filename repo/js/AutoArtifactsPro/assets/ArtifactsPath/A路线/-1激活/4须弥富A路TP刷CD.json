@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "4须弥富A路TP刷CD",
     "type": "collect",
@@ -8,7 +8,8 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751283340629
+    "last_modified_time": 1751982789388,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -58,6 +59,24 @@
     },
     {
       "id": 6,
+      "x": 5758.78173828125,
+      "y": 786.01123046875,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "up_down_grab_leaf",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 5625.56884765625,
+      "y": 806.216796875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
       "x": 3133.732421875,
       "y": -1733.98486328125,
       "action": "",

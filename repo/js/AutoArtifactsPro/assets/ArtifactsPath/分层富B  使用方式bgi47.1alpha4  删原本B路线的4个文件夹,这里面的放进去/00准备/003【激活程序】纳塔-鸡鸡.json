@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "003【激活程序】纳塔-鸡鸡",
     "type": "collect",
@@ -8,7 +8,8 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751646467104
+    "last_modified_time": 1751979829736,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -24,19 +25,19 @@
       "id": 2,
       "x": 7973.87353515625,
       "y": -1564.46728515625,
-      "type": "path",
-      "move_mode": "climb",
       "action": "",
-      "action_params": ""
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
       "x": 7977.0908203125,
       "y": -1569.8955078125,
-      "type": "path",
-      "move_mode": "climb",
       "action": "",
-      "action_params": ""
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 4,
@@ -97,8 +98,8 @@
       "x": 8057.00244140625,
       "y": -1714.8203125,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keypress(f),wait(0.5),attack(0.22),j,wait(0.8),keypress(f),attack(0.22),j,wait(0.6),attack(0.22),j,wait(0.6),attack(0.22),j,wait(2),s(0.01),wait(0.2),s(0.01),wait(0.2),s(0.01),wait(0.2),keypress(f),wait(0.1),dash,s(0.2)",
+      "move_mode": "climb",
+      "action_params": "爱可菲 attack(0.25);伊安珊 attack(0.25);卡齐娜 attack(0.25);阿蕾奇诺 attack(0.25);夏沃蕾 attack(0.25);米卡 attack(0.25);瑶瑶 attack(0.25);赛诺 attack(0.25);申鹤 attack(0.25);云堇 attack(0.25);托马 attack(0.25);雷电将军 attack(0.25);罗莎莉亚 attack(0.25);胡桃 attack(0.25);魈 attack(0.25);钟离 attack(0.25);香菱 attack(0.25);丝柯克 attack(0.25);希诺宁 attack(0.25);千织 attack(0.25);芙宁娜 attack(0.25);琳妮特 attack(0.25);绮良良 attack(0.25);艾尔海森 attack(0.25);莱依拉 attack(0.25);妮露 attack(0.25);久岐忍 attack(0.25);神里绫人 attack(0.25);神里绫华 attack(0.25);万叶 attack(0.25);阿贝多 attack(0.25);刻晴 attack(0.25);七七 attack(0.25);琴 attack(0.25);班尼特 attack(0.25);行秋 attack(0.25);凯亚 attack(0.25);玛薇卡 attack(0.25);基尼奇 attack(0.25);嘉明 attack(0.25);娜维娅 attack(0.25);多莉 attack(0.25);荒泷一斗 attack(0.25);早柚 attack(0.25);迪卢克 attack(0.25);重云 attack(0.25);诺艾尔 attack(0.25);北斗 attack(0.25);雷泽 attack(0.25);迪希雅 attack(0.25);keypress(f),wait(0.5),attack(0.22),j,wait(0.8),keypress(f),attack(0.22),j,wait(0.6),attack(0.22),j,wait(0.6),attack(0.22),j,wait(2),s(0.01),wait(0.2),s(0.01),wait(0.2),s(0.01),wait(0.2),keypress(f),wait(0.1),dash,s(0.2)",
       "type": "target"
     },
     {

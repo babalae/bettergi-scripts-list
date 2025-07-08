@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "208璃月-望舒客栈4",
     "type": "collect",
@@ -8,7 +8,8 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751649767917
+    "last_modified_time": 1751980205977,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -22,15 +23,24 @@
     },
     {
       "id": 2,
-      "x": 353.5537109375,
-      "y": 891.04248046875,
+      "x": 341.48046875,
+      "y": 883.55322265625,
+      "type": "path",
+      "move_mode": "run",
       "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 3,
+      "x": 348.0263671875,
+      "y": 886.263671875,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "attack(0.3)"
+    },
+    {
+      "id": 4,
       "x": 368.515625,
       "y": 912.556640625,
       "action": "",
@@ -39,7 +49,7 @@
       "type": "path"
     },
     {
-      "id": 4,
+      "id": 5,
       "x": 394.412109375,
       "y": 934.935546875,
       "action": "stop_flying",
@@ -48,7 +58,7 @@
       "type": "path"
     },
     {
-      "id": 5,
+      "id": 6,
       "x": 397.8437776505798,
       "y": 937.4998938942554,
       "action": "combat_script",
@@ -57,7 +67,7 @@
       "type": "target"
     },
     {
-      "id": 6,
+      "id": 7,
       "x": 329.0791015625,
       "y": 877.49609375,
       "action": "",
@@ -66,7 +76,7 @@
       "type": "teleport"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": 312.1874288985073,
       "y": 884.5002273694517,
       "action": "",
@@ -75,7 +85,7 @@
       "type": "path"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": 290.40622629950303,
       "y": 898.6560453674929,
       "action": "stop_flying",
@@ -84,7 +94,7 @@
       "type": "path"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": 294.107421875,
       "y": 899.50439453125,
       "action": "combat_script",
@@ -93,7 +103,7 @@
       "type": "target"
     },
     {
-      "id": 10,
+      "id": 11,
       "x": 299.26171875,
       "y": 949.154296875,
       "action": "",
@@ -102,7 +112,7 @@
       "type": "path"
     },
     {
-      "id": 11,
+      "id": 12,
       "x": 356.7494864892178,
       "y": 1019.9400010639711,
       "action": "",
@@ -111,7 +121,7 @@
       "type": "path"
     },
     {
-      "id": 12,
+      "id": 13,
       "x": 337.6884765625,
       "y": 1085.052734375,
       "action": "",
@@ -120,7 +130,7 @@
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 14,
       "x": 331.7734375,
       "y": 1097.400390625,
       "action": "",
@@ -129,7 +139,7 @@
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": 336.501953125,
       "y": 1104.72900390625,
       "action": "",
@@ -138,7 +148,7 @@
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": 338.3388671875,
       "y": 1100.716796875,
       "action": "combat_script",
@@ -147,17 +157,16 @@
       "type": "target"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": 345.375,
       "y": 1101.02294921875,
       "action": "combat_script",
       "move_mode": "climb",
       "action_params": "keypress(x),wait(0.2),keypress(x)",
-      "type": "orientation",
-      "locked": false
+      "type": "orientation"
     },
     {
-      "id": 17,
+      "id": 18,
       "x": 345.375,
       "y": 1101.02294921875,
       "action": "",
@@ -166,7 +175,7 @@
       "type": "path"
     },
     {
-      "id": 18,
+      "id": 19,
       "x": 348.3994140625,
       "y": 1099.451171875,
       "action": "combat_script",

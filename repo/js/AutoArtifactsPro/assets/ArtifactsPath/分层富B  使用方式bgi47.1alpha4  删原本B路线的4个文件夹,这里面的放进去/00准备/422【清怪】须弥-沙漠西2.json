@@ -1,6 +1,6 @@
 ﻿{
   "info": {
-    "name": "清怪须弥-沙漠西",
+    "name": "422【清怪】须弥-沙漠西2",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
@@ -8,7 +8,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751825385245,
+    "last_modified_time": 1751914420422,
     "enable_monster_loot_split": false
   },
   "positions": [
@@ -52,9 +52,18 @@
       "id": 5,
       "x": 5920.734375,
       "y": -2073.7333984375,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4995.11767578125,
+      "y": -2158.6171875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
       "action_params": ""
     }
   ]

@@ -8,7 +8,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751891908569,
+    "last_modified_time": 1751984401873,
     "enable_monster_loot_split": false
   },
   "positions": [
@@ -23,6 +23,15 @@
     },
     {
       "id": 2,
+      "x": 8914.7685546875,
+      "y": -2680.2509765625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
       "x": 9033.82421875,
       "y": -2911.9306640625,
       "action": "",
@@ -31,7 +40,7 @@
       "type": "teleport"
     },
     {
-      "id": 3,
+      "id": 4,
       "x": 9589.333984375,
       "y": -1285.98095703125,
       "action": "",
@@ -40,7 +49,7 @@
       "type": "teleport"
     },
     {
-      "id": 4,
+      "id": 5,
       "x": 9711.3037109375,
       "y": -1552.1005859375,
       "action": "",
@@ -49,7 +58,7 @@
       "type": "teleport"
     },
     {
-      "id": 5,
+      "id": 6,
       "x": 9470.3037109375,
       "y": -1670.8291015625,
       "action": "",
@@ -58,16 +67,25 @@
       "type": "teleport"
     },
     {
-      "id": 6,
-      "x": 9460.624838046599,
-      "y": -1663.1880760026115,
-      "action": "stop_flying",
+      "id": 7,
+      "x": 9487.90234375,
+      "y": -1667.02490234375,
+      "type": "path",
       "move_mode": "fly",
-      "action_params": "4500",
-      "type": "path"
+      "action": "stop_flying",
+      "action_params": "5500"
     },
     {
-      "id": 7,
+      "id": 8,
+      "x": 9490.603515625,
+      "y": -1664.439453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
       "x": 9310.8408203125,
       "y": -1423.21240234375,
       "action": "",
@@ -76,7 +94,16 @@
       "type": "teleport"
     },
     {
-      "id": 8,
+      "id": 10,
+      "x": 9342.341796875,
+      "y": -1494.5732421875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
       "x": 10117.359375,
       "y": -134.76904296875,
       "action": "",
@@ -85,7 +112,16 @@
       "type": "teleport"
     },
     {
-      "id": 9,
+      "id": 12,
+      "x": 10118.16015625,
+      "y": -119.41357421875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 13,
       "x": 10072.021484375,
       "y": 22.08056640625,
       "action": "",
@@ -94,7 +130,7 @@
       "type": "teleport"
     },
     {
-      "id": 10,
+      "id": 14,
       "x": 9968.375,
       "y": 252.1005859375,
       "action": "",
@@ -103,13 +139,13 @@
       "type": "teleport"
     },
     {
-      "id": 11,
+      "id": 15,
       "x": 9755.689453125,
       "y": -614.931640625,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     }
   ]
 }
