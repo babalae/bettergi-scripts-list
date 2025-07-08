@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "428须弥-甘露花海4",
     "type": "collect",
@@ -6,7 +6,10 @@
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751973048035,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -74,11 +77,11 @@
     },
     {
       "id": 8,
-      "x": 5590.33056640625,
-      "y": 825.6435546875,
+      "x": 5590.45263671875,
+      "y": 825.40380859375,
       "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "keypress(f),w(0.2),keypress(f),s(0.3),keypress(f),attack(0.08),wait(0.3);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "action_params": "keypress(f),w(0.2),keypress(f),d(0.3),keypress(f),attack(0.08),wait(0.3);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
@@ -110,15 +113,24 @@
     },
     {
       "id": 12,
+      "x": 5638.33154296875,
+      "y": 893.76904296875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 13,
       "x": 5639.937541475871,
       "y": 893.5311514732375,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),keypress(f),w(0.2),keypress(f),w(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),a(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
-      "id": 13,
+      "id": 14,
       "x": 5615.62548828125,
       "y": 887.3603515625,
       "action": "",
@@ -127,7 +139,7 @@
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": 5590.466796875,
       "y": 878.974609375,
       "action": "up_down_grab_leaf",
@@ -136,7 +148,7 @@
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": 5567.23779296875,
       "y": 875.01708984375,
       "action": "up_down_grab_leaf",
@@ -145,7 +157,7 @@
       "type": "path"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": 5564.4033203125,
       "y": 881.07861328125,
       "action": "",
@@ -154,7 +166,7 @@
       "type": "path"
     },
     {
-      "id": 17,
+      "id": 18,
       "x": 5537.71044921875,
       "y": 891.85693359375,
       "action": "up_down_grab_leaf",
@@ -163,7 +175,7 @@
       "type": "path"
     },
     {
-      "id": 18,
+      "id": 19,
       "x": 5529.45068359375,
       "y": 912.67529296875,
       "action": "stop_flying",
@@ -172,13 +184,22 @@
       "type": "path"
     },
     {
-      "id": 19,
+      "id": 20,
       "x": 5529.45068359375,
       "y": 912.67529296875,
       "action": "combat_script",
       "move_mode": "climb",
       "action_params": "keypress(f),w(0.3),keypress(f),w(0.3),keypress(f),s(0.6);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
+    },
+    {
+      "id": 21,
+      "x": 5532.23046875,
+      "y": 914.279296875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
     }
   ]
 }

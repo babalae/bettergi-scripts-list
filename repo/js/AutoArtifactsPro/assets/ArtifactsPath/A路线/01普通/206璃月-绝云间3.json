@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "206璃月-绝云间3",
     "type": "collect",
@@ -6,7 +6,10 @@
     "version": "",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751976578625,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -43,24 +46,34 @@
     },
     {
       "id": 5,
-      "x": 1170.0234375,
-      "y": 568.9345703125,
-      "action": "combat_script",
-      "move_mode": "climb",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.15);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.8);",
-      "type": "target"
+      "x": 1170.3876953125,
+      "y": 569.671875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": "",
+      "locked": false
     },
     {
       "id": 6,
-      "x": 1161.830078125,
-      "y": 562.78857421875,
+      "x": 1170.3876953125,
+      "y": 569.671875,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.15);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.8);"
+    },
+    {
+      "id": 7,
+      "x": 1162.531293450913,
+      "y": 563.9059771566581,
       "action": "",
       "move_mode": "jump",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": 1159.61328125,
       "y": 557.107421875,
       "action": "combat_script",
@@ -69,7 +82,7 @@
       "type": "target"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": 1158.5,
       "y": 554.6549884144779,
       "action": "",
@@ -77,7 +90,7 @@
       "type": "path"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": 1147.169921875,
       "y": 561.39208984375,
       "action": "",
@@ -85,7 +98,7 @@
       "type": "target"
     },
     {
-      "id": 10,
+      "id": 11,
       "x": 1143.7186808735478,
       "y": 561.8749317891643,
       "action": "combat_script",

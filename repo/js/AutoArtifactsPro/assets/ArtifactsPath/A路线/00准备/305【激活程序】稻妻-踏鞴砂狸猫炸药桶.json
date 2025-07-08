@@ -1,6 +1,6 @@
 ﻿{
   "info": {
-    "name": "305【激活】稻妻-踏鞴砂狸猫炸药桶",
+    "name": "305【激活程序】稻妻-踏鞴砂狸猫炸药桶",
     "type": "collect",
     "author": "汐",
     "version": "",
@@ -8,7 +8,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751885842567,
+    "last_modified_time": 1751978132905,
     "enable_monster_loot_split": false
   },
   "positions": [
@@ -34,36 +34,27 @@
       "x": -3278.2813092512442,
       "y": -3624.4377576853785,
       "action": "combat_script",
-      "move_mode": "dash",
+      "move_mode": "run",
       "action_params": "wait(0.5);芙宁娜 e;",
       "type": "path"
     },
     {
       "id": 4,
-      "x": -3282.0314218286076,
-      "y": -3649.969386634466,
-      "action": "",
+      "x": -3281.05859375,
+      "y": -3634.79296875,
+      "type": "path",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 5,
-      "x": -3269.974609375,
-      "y": -3647.1337890625,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": -3275.4687756755393,
-      "y": -3643.0312272630545,
+      "x": -3277.718736174709,
+      "y": -3639.7502122114893,
+      "type": "target",
+      "move_mode": "run",
       "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "keypress(q),wait(0.3),keypress(q);迪希雅 e;万叶 a(0.2),attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);attack(0.3),s(1.3)",
-      "type": "path"
+      "action_params": "keypress(q),wait(0.3),keypress(q),attack(0.5),s(1)"
     }
   ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "04【额外】枫丹-科学院瓶子3",
     "type": "collect",
@@ -8,7 +8,8 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751468456643
+    "last_modified_time": 1751984464346,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -68,9 +69,9 @@
       "id": 7,
       "x": 4281.57421875,
       "y": 4579.0537109375,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
       "type": "target"
     },
     {
@@ -103,10 +104,10 @@
       "id": 11,
       "x": 4381.029296875,
       "y": 4827.1484375,
-      "type": "target",
-      "move_mode": "run",
       "action": "combat_script",
-      "action_params": "attack(0.25),keypress(f),j,wait(0.5),attack(0.25),keypress(f),j,wait(0.5),attack(0.25),keypress(f)"
+      "move_mode": "run",
+      "action_params": "attack(0.25),keypress(f),j,wait(0.5),attack(0.25),keypress(f),j,wait(0.5),attack(0.25),keypress(f)",
+      "type": "target"
     },
     {
       "id": 12,
