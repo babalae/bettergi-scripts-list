@@ -6,8 +6,10 @@ const timeMoveDown = 1200;
     //自定义配置处理
     const operationMode = settings.operationMode || "运行锄地路线";
     const k = settings.efficiencyIndex || 0.5;
-    const targetEliteNum = settings.targetEliteNum || 400;
-    const targetMonsterNum = settings.targetMonsterNum || 2000;
+    let targetEliteNum = (+settings.targetEliteNum || 400);
+    targetEliteNum += 5;//预留漏怪
+    let targetMonsterNum = (+settings.targetMonsterNum || 2000);
+    targetMonsterNum += 25;//预留漏怪
     const partyName = settings.partyName || "";
     // 获取 settings 中的标签，如果没有则使用默认值
     let group1Tags = (settings.tagsForGroup1 || "蕈兽").split("，").filter(Boolean);
@@ -55,7 +57,7 @@ const timeMoveDown = 1200;
     await findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum);
 
     //分配到不同路径组
-    groupCounts = await assignGroups(pathings, group1Tags, group2Tags, group3Tags, group4Tags);
+    await assignGroups(pathings, group1Tags, group2Tags, group3Tags, group4Tags);
     /*
         //分配结果输出
         pathings.forEach((pathing, index) => {
@@ -648,8 +650,7 @@ async function copyPathingsByGroup(pathings) {
             const content = await file.readText(pathing.fullPath);
             // 构造目标路径
             const groupFolder = `pathingOut/group${pathing.group}`;
-            const targetPath = `${groupFolder}/${pathing.fileName}`;
-
+            const targetPath = `${groupFolder}/${pathing.fullPath}`;
             // 写入文件内容
             await file.writeText(targetPath, content, false);
         }
