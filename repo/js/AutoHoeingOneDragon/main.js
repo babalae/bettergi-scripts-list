@@ -1,6 +1,6 @@
 //拾取时上下滑动的时间
-const timeMoveUp = 600;
-const timeMoveDown = 1200;
+const timeMoveUp = 500;
+const timeMoveDown = 1000;
 
 (async function () {
     //自定义配置处理
@@ -380,6 +380,7 @@ async function runPathWithOcr(pathFilePath, targetTexts, blacklistKeywords) {
     let lastMoveDown = 0;
 
     let lastPickupTime = new Date();
+    let lastPickupItem = "";
     // 定义状态变量
     let state = { completed: false, cancelRequested: false };
     // 定义图像路径和目标文本列表
@@ -533,9 +534,10 @@ async function runPathWithOcr(pathFilePath, targetTexts, blacklistKeywords) {
                     continue;
                 }
 
-                if ((new Date() - lastPickupTime) > 200) {
+                if ((new Date() - lastPickupTime) > 1000 || ocrResult.text != lastPickupItem) {
                     log.info(`交互或拾取："${ocrResult.text}"`);
                     lastPickupTime = new Date();
+                    lastPickupItem = ocrResult.text;
                 }
 
                 // 计算目标文本的中心Y坐标
