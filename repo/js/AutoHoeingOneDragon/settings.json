@@ -28,9 +28,15 @@
     "label": "本路径组使用配队名称"
   },
   {
-    "name": "onlyArtifacts",
-    "type": "checkbox",
-    "label": "是否禁用js拾取\n默认只拾取狗粮\n可以在assets/拾取名单.json自行调整黑白名单\n禁用后将使用bgi自带拾取"
+    "name": "pickupMode",
+    "type": "select",
+    "label": "拾取模式",
+    "options": [
+      "js拾取，默认只拾取狗粮和晶蝶",
+      "bgi原版拾取",
+      "不拾取任何物品"
+    ],
+    "default": "js拾取，默认只拾取狗粮和晶蝶"
   },
   {
     "name": "accountName",
