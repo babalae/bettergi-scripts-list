@@ -1,21 +1,26 @@
 //拾取时上下滑动的时间
-const timeMoveUp = 300;
+const timeMoveUp = 600;
 const timeMoveDown = 1200;
 
 (async function () {
     //自定义配置处理
     const operationMode = settings.operationMode || "运行锄地路线";
-    const k = settings.efficiencyIndex || 0.5;
+    let k = settings.efficiencyIndex || 0.5;
+    k = k / 1.25;
     let targetEliteNum = (+settings.targetEliteNum || 400);
     targetEliteNum += 5;//预留漏怪
-    let targetMonsterNum = (+settings.targetMonsterNum || 2000);
+    let targetMonsterNum = (+settings.targetMonsterNum + 1 || 2000);
     targetMonsterNum += 25;//预留漏怪
     const partyName = settings.partyName || "";
     // 获取 settings 中的标签，如果没有则使用默认值
-    let group1Tags = (settings.tagsForGroup1 || "蕈兽").split("，").filter(Boolean);
-    const group2Tags = (settings.tagsForGroup2 || "").split("，").filter(Boolean);
-    const group3Tags = (settings.tagsForGroup3 || "").split("，").filter(Boolean);
-    const group4Tags = (settings.tagsForGroup4 || "").split("，").filter(Boolean);
+    const group1Settings = settings.tagsForGroup1 || "蕈兽";
+    const group2Settings = settings.tagsForGroup2 || "";
+    const group3Settings = settings.tagsForGroup3 || "";
+    const group4Settings = settings.tagsForGroup4 || "";
+    let group1Tags = group1Settings.split("，").filter(Boolean);
+    const group2Tags = group2Settings.split("，").filter(Boolean);
+    const group3Tags = group3Settings.split("，").filter(Boolean);
+    const group4Tags = group4Settings.split("，").filter(Boolean);
     // 将 group2Tags、group3Tags 和 group4Tags 的内容添加到 group1Tags 中，并去除重复项
     group1Tags = [...new Set([...group1Tags, ...group2Tags, ...group3Tags, ...group4Tags])];
 
@@ -228,7 +233,7 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
         pathing.G1 = G1;
         const G2 = pathing.mora_m; // 进入二组的收益
         pathing.G2 = G2;
-        pathing.E1 = pathing.e === 0 ? 0 : ((G1 - G2) / pathing.e) ** k * (G1 / pathing.t); // 进入一组的效率
+        pathing.E1 = pathing.e === 0 ? 0 : ((G1 - 0.5 * G2) / pathing.e) ** k * (G1 / pathing.t); // 进入一组的效率
         pathing.E2 = pathing.m === 0 ? 0 : (G2 / pathing.m) ** k * (G2 / pathing.t); // 进入二组的效率
     });
 
@@ -274,7 +279,7 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
     }
 
     // 循环调整目标精英怪数量
-    while (iterationCount < 5) {
+    while (iterationCount < 10) {
         // 第一轮选择
         selectRoutesByEliteTarget(currentTargetEliteNum);
 
@@ -283,9 +288,13 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
 
         // 检查精英怪总数是否满足条件
         const diff = totalSelectedElites - targetEliteNum;
-        currentTargetEliteNum -= Math.round(0.6 * diff); // 调整目标精英怪数量，乘以系数并取整
+        currentTargetEliteNum -= Math.round(0.5 * diff); // 调整目标精英怪数量，乘以系数并取整
 
         if (totalSelectedElites === targetEliteNum) {
+            break; // 如果满足目标，直接终止循环
+        }
+
+        if ((totalSelectedElites > targetEliteNum) && iterationCount >= 5) {
             break; // 如果满足目标，直接终止循环
         }
 
@@ -368,7 +377,7 @@ async function runPathWithOcr(pathFilePath, targetTexts, blacklistKeywords) {
         "卵": "卯"
     };
     let thisMoveUpTime = 0;
-    let lastMoveUp = 0;
+    let lastMoveDown = 0;
 
     let lastPickupTime = new Date();
     // 定义状态变量
@@ -543,23 +552,23 @@ async function runPathWithOcr(pathFilePath, targetTexts, blacklistKeywords) {
             if (!foundTarget) {
                 const currentTime = new Date().getTime(); // 获取当前时间（毫秒）
 
-                // 如果距离上次上翻超过1秒，则执行上翻
-                if (currentTime - lastMoveUp > timeMoveDown) {
-                    await keyMouseScript.runFile(`assets/滚轮上翻.json`);
+                // 如果距离上次下翻超过timeMoveUp秒，则执行下翻
+                if (currentTime - lastMoveDown > timeMoveUp) {
+                    await keyMouseScript.runFile(`assets/滚轮下翻.json`);
 
-                    // 如果这是第一次上翻，记录这次上翻的时间
+                    // 如果这是第一次下翻，记录这次下翻的时间
                     if (thisMoveUpTime === 0) {
                         thisMoveUpTime = currentTime; // 记录第一次上翻的时间
                     }
 
-                    // 检查是否需要更新 lastMoveUp
-                    if (currentTime - thisMoveUpTime >= timeMoveUp) {
-                        lastMoveUp = currentTime; // 更新 lastMoveUp 为第一次上翻的时间
-                        thisMoveUpTime = 0; // 重置 thisMoveUpTime，以便下一次上翻时重新记录
+                    // 检查是否需要更新 lastMoveDown
+                    if (currentTime - thisMoveUpTime >= timeMoveDown) {
+                        lastMoveDown = currentTime; // 更新 lastMoveDown 为第一次下翻的时间
+                        thisMoveUpTime = 0; // 重置 thisMoveUpTime，以便下一次下翻时重新记录
                     }
                 } else {
                     // 否则执行下翻
-                    await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+                    await keyMouseScript.runFile(`assets/滚轮上翻.json`);
                 }
             }
 
@@ -820,6 +829,9 @@ async function updateCdTimeRecord(pathings, accountName) {
         const cdTimeData = pathings.map(pathing => ({
             fileName: pathing.fileName,
             //description: pathing.description,
+            精英数量: pathing.e,
+            小怪数量: pathing.m,
+            标签: pathing.tags,
             cdTime: pathing.cdTime
         }));
 
