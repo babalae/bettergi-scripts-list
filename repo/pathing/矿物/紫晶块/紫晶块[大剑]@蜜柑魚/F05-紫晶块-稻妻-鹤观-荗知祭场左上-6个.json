@@ -70,7 +70,7 @@
       "x": -2918.06,
       "y": -6211.87,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "jump",
       "action": "combat_script",
       "action_params": "wait(0.5)"
     },
@@ -79,7 +79,7 @@
       "x": -2906.39,
       "y": -6218.88,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "jump",
       "action": "combat_script",
       "action_params": "wait(0.5)"
     },
@@ -88,7 +88,7 @@
       "x": -2910.6,
       "y": -6218.26,
       "type": "target",
-      "move_mode": "walk",
+      "move_mode": "jump",
       "action": "mining",
       "action_params": ""
     },
@@ -130,7 +130,16 @@
     },
     {
       "id": 13,
-      "x": -2915.02,
+      "x": -2914.35,
+      "y": -6247.84,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 14,
+      "x": -2914.02,
       "y": -6248.57,
       "type": "target",
       "move_mode": "walk",
@@ -138,7 +147,7 @@
       "action_params": ""
     },
     {
-      "id": 14,
+      "id": 15,
       "x": -2915.33,
       "y": -6253.42,
       "type": "target",
@@ -147,7 +156,7 @@
       "action_params": ""
     },
     {
-      "id": 15,
+      "id": 16,
       "x": -2916.82,
       "y": -6260.64,
       "type": "path",
@@ -156,7 +165,7 @@
       "action_params": ""
     },
     {
-      "id": 16,
+      "id": 17,
       "x": -2956.43,
       "y": -6309.88,
       "type": "path",
@@ -165,7 +174,7 @@
       "action_params": ""
     },
     {
-      "id": 17,
+      "id": 18,
       "x": -2963.39,
       "y": -6308.78,
       "type": "target",
@@ -175,7 +184,7 @@
       "locked": false
     },
     {
-      "id": 18,
+      "id": 19,
       "x": -2963.39,
       "y": -6308.78,
       "type": "path",
@@ -184,7 +193,7 @@
       "action_params": "wait(0.5)"
     },
     {
-      "id": 19,
+      "id": 20,
       "x": -2961.27,
       "y": -6315.86,
       "type": "path",
@@ -193,7 +202,7 @@
       "action_params": ""
     },
     {
-      "id": 20,
+      "id": 21,
       "x": -2963.05,
       "y": -6313.47,
       "type": "target",
@@ -202,7 +211,7 @@
       "action_params": ""
     },
     {
-      "id": 21,
+      "id": 22,
       "x": -2963.05,
       "y": -6313.47,
       "type": "path",
