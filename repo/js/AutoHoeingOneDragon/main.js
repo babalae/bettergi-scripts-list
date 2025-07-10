@@ -1,6 +1,7 @@
 //拾取时上下滑动的时间
 const timeMoveUp = 500;
 const timeMoveDown = 1000;
+const pickupMode = settings.pickupMode || "js拾取，默认只拾取狗粮和晶蝶";
 
 (async function () {
     //自定义配置处理
@@ -12,6 +13,7 @@ const timeMoveDown = 1000;
     let targetMonsterNum = (+settings.targetMonsterNum + 1 || 2000);
     targetMonsterNum += 25;//预留漏怪
     const partyName = settings.partyName || "";
+
     // 获取 settings 中的标签，如果没有则使用默认值
     const group1Settings = settings.tagsForGroup1 || "蕈兽";
     const group2Settings = settings.tagsForGroup2 || "";
@@ -688,7 +690,7 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
     // 获取该组的总路径数
     const totalPathsInGroup = pathings.filter(pathing => pathing.group === targetGroup).length;
 
-    if (settings.onlyArtifacts) {
+    if (pickupMode === "bgi原版拾取") {
         dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     }
 
@@ -753,7 +755,7 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
             // 输出路径已刷新并开始处理的信息
             log.info(`该路线已刷新，开始处理。`);
             await fakeLog(`${pathing.fileName}`, false, true, 0);
-            if (!settings.onlyArtifacts) {
+            if (pickupMode === "js拾取，默认只拾取狗粮和晶蝶") {
                 // 调用 runPathWithOcr 函数处理路径
                 await runPathWithOcr(pathing.fullPath, targetTexts, blacklistKeywords);
             } else {
