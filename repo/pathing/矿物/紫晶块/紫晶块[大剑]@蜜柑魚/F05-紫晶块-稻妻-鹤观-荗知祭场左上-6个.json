@@ -70,7 +70,7 @@
       "x": -2918.06,
       "y": -6211.87,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "jump",
       "action": "combat_script",
       "action_params": "wait(0.5)"
     },
@@ -79,7 +79,7 @@
       "x": -2906.39,
       "y": -6218.88,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "jump",
       "action": "combat_script",
       "action_params": "wait(0.5)"
     },
@@ -88,7 +88,7 @@
       "x": -2910.6,
       "y": -6218.26,
       "type": "target",
-      "move_mode": "walk",
+      "move_mode": "jump",
       "action": "mining",
       "action_params": ""
     },
@@ -127,10 +127,17 @@
       "move_mode": "walk",
       "action": "mining",
       "action_params": ""
+    },{
+      "x": -2914.35,
+      "y": -6247.84,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
     },
     {
       "id": 13,
-      "x": -2915.02,
+      "x": -2914.02,
       "y": -6248.57,
       "type": "target",
       "move_mode": "walk",

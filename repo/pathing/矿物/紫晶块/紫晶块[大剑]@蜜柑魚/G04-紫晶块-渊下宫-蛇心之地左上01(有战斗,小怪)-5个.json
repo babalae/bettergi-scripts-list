@@ -184,21 +184,21 @@
       "type": "path",
       "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "wait(0.1),j,wait(1.7),j,wait(0.1)"
+      "action_params": "wait(0.1),j,wait(1.835),j,wait(0.1)"
     },
     {
       "id": 18,
       "x": 327.88,
       "y": -111.78,
-      "type": "path",
+      "type": "target",
       "move_mode": "fly",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 19,
-      "x": 336.51,
-      "y": -121.92,
+      "x": 337.66,
+      "y": -121.58,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -211,7 +211,7 @@
       "type": "target",
       "move_mode": "jump",
       "action": "combat_script",
-      "action_params": "w(0.6)"
+      "action_params": "w(0.35)"
     },
     {
       "id": 21,
