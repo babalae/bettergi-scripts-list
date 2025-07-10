@@ -1,5 +1,5 @@
 {
-  "time": "20250710085517",
+  "time": "20250710093013",
   "url": "https://github.com/babalae/bettergi-scripts-list/archive/refs/heads/main.zip",
   "file": "repo.json",
   "indexes": [
@@ -69686,6 +69686,24 @@
           "lastUpdated": "2025-07-04 23:14:44"
         },
         {
+          "name": "waitUntilSpecifiedTime",
+          "type": "directory",
+          "hash": "053a1dbae377252cca716ffc12674a4581c8908b",
+          "version": "1.2",
+          "author": "蜜柑魚",
+          "authors": [
+            {
+              "name": "蜜柑魚",
+              "link": "https://github.com/this-Fish"
+            }
+          ],
+          "description": "等待到指定时间点~|~等待到指定时间:\n脚本将暂停所有操作，直至到达您设置的特定时间（24小时制）后結束等待，让后面的任务在您设置的特定时间后才开始运行。\n例如：设置04:00会让脚本等到凌晨4点再继续执行\n使用时务必先设置目标时间，否则脚本不会正常运行\n详见README.md",
+          "tags": [
+            "bgi≥0.42.0"
+          ],
+          "lastUpdated": "2025-07-10 09:29:56"
+        },
+        {
           "name": "一条龙不含自动副本+尘歌壶版",
           "type": "directory",
           "hash": "1eae89cb3c3060ebdc5b3c1c1b6c10852e5daada",
@@ -70290,24 +70308,6 @@
             "烹饪"
           ],
           "lastUpdated": "2025-07-04 23:14:44"
-        },
-        {
-          "name": "等待到指定时间",
-          "type": "directory",
-          "hash": "b7ffbd14b839896bbf375ecf1fb66a22f2e839f8",
-          "version": "1.1",
-          "author": "蜜柑魚",
-          "authors": [
-            {
-              "name": "蜜柑魚",
-              "link": "https://github.com/this-Fish"
-            }
-          ],
-          "description": "等待到指定时间~|~等待到指定时间:\n可用于等到第二天4点执行其他任务\n使用时務必先設定停止運行時間，否則腳本不會正常運行\n詳見README.md",
-          "tags": [
-            "bgi≥0.42.0"
-          ],
-          "lastUpdated": "2025-07-08 23:55:06"
         },
         {
           "name": "纪行周常-10个boss一条龙",
