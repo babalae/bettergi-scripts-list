@@ -824,8 +824,8 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
             }
 
             if (runningFailCount >= 2) {
-                log.error("连续三条路线终止时坐标不变，终止运行");
-                break;
+                log.error("连续三条路线终止时坐标不变，不记录运行数据");
+                continue;
             }
 
             // 计算下一个 UTC 时间的晚上 8 点（即北京时间凌晨四点）
