@@ -1,14 +1,16 @@
 {
   "info": {
-    "name": "A01-蒙德-龙脊雪山-眠龙谷-北-3只",
+    "name": "A03-蒙德-龙脊雪山-寒天之钉-下方-3只",
     "type": "collect",
     "author": "蜜柑魚",
     "version": "1.0",
-    "description": "  路线信息：该路线预计用时85.01秒，包含以下怪物：1只冰深渊法师、3只冰萤。",
+    "description": "  路线信息：该路线预计用时57.21秒，包含以下怪物：3只冰萤。",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1751638015174,
+    "tags": [
+      "高危"
+    ],
+    "last_modified_time": 1751639100937,
     "authors": [
       {
         "name": "蜜柑魚",
@@ -19,54 +21,54 @@
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
+      "x": -1013.4,
+      "y": 1028.42,
       "type": "teleport",
-      "x": -574.01,
-      "y": 1458.58,
+      "move_mode": "walk",
+      "action": "",
       "action_params": ""
     },
     {
       "id": 2,
-      "x": -581.47,
-      "y": 1474.67,
+      "x": -987.79,
+      "y": 1014.58,
       "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 3,
-      "x": -602.78,
-      "y": 1480.35,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": -628.48,
-      "y": 1468.08,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": -680.38,
-      "y": 1477.49,
-      "type": "path",
-      "move_mode": "dash",
+      "move_mode": "fly",
       "action": "",
       "action_params": "",
       "locked": false
     },
     {
+      "id": 3,
+      "x": -987.79,
+      "y": 1014.58,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -949.47,
+      "y": 1001.77,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -936.37,
+      "y": 1010.43,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
       "id": 6,
-      "x": -663.02,
-      "y": 1474.85,
+      "x": -921.28,
+      "y": 996.07,
       "type": "path",
       "move_mode": "walk",
       "action": "fight",
@@ -75,8 +77,8 @@
     },
     {
       "id": 7,
-      "x": -663.02,
-      "y": 1474.85,
+      "x": -921.28,
+      "y": 996.07,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",

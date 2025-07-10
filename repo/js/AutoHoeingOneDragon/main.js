@@ -7,7 +7,7 @@ const pickupMode = settings.pickupMode || "js拾取，默认只拾取狗粮和�
     //自定义配置处理
     const operationMode = settings.operationMode || "运行锄地路线";
     let k = settings.efficiencyIndex || 0.5;
-    k = k / 1.25;
+    k = k;
     let targetEliteNum = (+settings.targetEliteNum || 400);
     targetEliteNum += 5;//预留漏怪
     let targetMonsterNum = (+settings.targetMonsterNum + 1 || 2000);
@@ -26,6 +26,7 @@ const pickupMode = settings.pickupMode || "js拾取，默认只拾取狗粮和�
     // 将 group2Tags、group3Tags 和 group4Tags 的内容添加到 group1Tags 中，并去除重复项
     group1Tags = [...new Set([...group1Tags, ...group2Tags, ...group3Tags, ...group4Tags])];
 
+    const priorityTags = (settings.priorityTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
     const excludeTags = (settings.excludeTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
     const accountName = settings.accountName || "默认账户";
     // 拾取黑白名单处理
@@ -57,8 +58,8 @@ const pickupMode = settings.pickupMode || "js拾取，默认只拾取狗粮和�
     //加载路线cd信息
     await initializeCdTime(pathings, accountName);
 
-    //按照用户配置标记可用路线
-    await markPathings(pathings, group1Tags, group2Tags, group3Tags, group4Tags, excludeTags);
+    //按照用户配置标记路线
+    await markPathings(pathings, group1Tags, group2Tags, group3Tags, group4Tags, priorityTags, excludeTags);
 
     //找出最优组合
     await findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum);
@@ -184,7 +185,7 @@ async function processPathings() {
     return pathings; // 返回处理后的 pathings 数组
 }
 
-async function markPathings(pathings, group1Tags, group2Tags, group3Tags, group4Tags, excludeTags) {
+async function markPathings(pathings, group1Tags, group2Tags, group3Tags, group4Tags, priorityTags, excludeTags) {
     // 找出存在于 group1Tags 中且不在其他组标签中的标签
     const uniqueTags = group1Tags.filter(tag => {
         return !group2Tags.includes(tag) && !group3Tags.includes(tag) && !group4Tags.includes(tag);
@@ -194,6 +195,9 @@ async function markPathings(pathings, group1Tags, group2Tags, group3Tags, group4
         // 初始化 pathing.tags 和 pathing.monsterInfo 以确保它们存在
         pathing.tags = pathing.tags || [];
         pathing.monsterInfo = pathing.monsterInfo || {};
+
+        // 初始化 pathing.prioritized 为 false
+        pathing.prioritized = false;
 
         // 检查路径的 tags 是否包含 uniqueTags
         const containsUniqueTag = uniqueTags.some(uniqueTag => pathing.tags.includes(uniqueTag));
@@ -211,10 +215,25 @@ async function markPathings(pathings, group1Tags, group2Tags, group3Tags, group4
             return fullPathContainsExcludeTag || tagsContainExcludeTag || monsterInfoContainsExcludeTag;
         });
 
+        // 检查 fullPath、tags 或 monsterInfo 是否包含 priorityTags 中的任意一个子字符串
+        const containsPriorityTag = priorityTags.some(priorityTag => {
+            // 检查 fullPath 是否包含 priorityTag
+            const fullPathContainsPriorityTag = pathing.fullPath && pathing.fullPath.includes(priorityTag);
+            // 检查 tags 是否包含 priorityTag
+            const tagsContainPriorityTag = pathing.tags.some(tag => tag.includes(priorityTag));
+            // 检查 monsterInfo 的键是否包含 priorityTag
+            const monsterInfoContainsPriorityTag = Object.keys(pathing.monsterInfo).some(monsterName => monsterName.includes(priorityTag));
+
+            // 返回是否包含任意一个 priorityTag
+            return fullPathContainsPriorityTag || tagsContainPriorityTag || monsterInfoContainsPriorityTag;
+        });
+
         // 如果包含 uniqueTags 或 excludeTags，则标记为 false，否则标记为 true
         pathing.available = !(containsUniqueTag || containsExcludeTag);
-    });
 
+        // 如果包含 priorityTags，则标记为 true
+        pathing.prioritized = containsPriorityTag;
+    });
 }
 
 async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum) {
@@ -228,6 +247,9 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
     let totalGainCombined = 0; // 总收益
     let totalTimeCombined = 0; // 总耗时
 
+    let maxE1 = 0;
+    let maxE2 = 0;
+
     // 遍历 pathings，计算并添加 G1、G2、E1 和 E2 属性
     pathings.forEach(pathing => {
         pathing.selected = false; // 初始化 selected 属性为 false
@@ -235,8 +257,24 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
         pathing.G1 = G1;
         const G2 = pathing.mora_m; // 进入二组的收益
         pathing.G2 = G2;
-        pathing.E1 = pathing.e === 0 ? 0 : ((G1 - 0.5 * G2) / pathing.e) ** k * (G1 / pathing.t); // 进入一组的效率
+        pathing.E1 = pathing.e === 0 ? 0 : ((G1 - (targetEliteNum * G2) / (targetEliteNum + targetMonsterNum)) / pathing.e) ** k * (G1 / pathing.t); // 进入一组的效率
         pathing.E2 = pathing.m === 0 ? 0 : (G2 / pathing.m) ** k * (G2 / pathing.t); // 进入二组的效率
+
+        if (maxE1 < pathing.E1) {
+            maxE1 = pathing.E1;
+        }
+        if (maxE2 < pathing.E2) {
+            maxE2 = pathing.E2;
+        }
+
+    });
+
+    pathings.forEach(pathing => {
+        if (pathing.prioritized) {
+            pathing.E1 = maxE1 + 1;
+            pathing.E2 = maxE2 + 1;
+        }
+
     });
 
     // 封装第一轮选择逻辑
@@ -671,6 +709,9 @@ async function copyPathingsByGroup(pathings) {
 }
 
 async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, accountName) {
+    let lastX = 0;
+    let lastY = 0;
+    let runningFailCount = 0;
     // 定义路径组名称到组号的映射
     const groupMapping = {
         "路径组一": 1,
@@ -767,7 +808,27 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
                 break;
             }
             await fakeLog(`${pathing.fileName}`, false, false, 0);
-            // 计算下一个 UTC 时间的晚上 8 点
+
+            const miniMapPosition = await genshin.getPositionFromMap();
+
+            // 比较坐标
+            const diffX = Math.abs(lastX - miniMapPosition.X);
+            const diffY = Math.abs(lastY - miniMapPosition.Y);
+            lastX = miniMapPosition.X;
+            lastY = miniMapPosition.Y;
+            if ((diffX + diffY) < 5) {
+                runningFailCount++;
+            } else {
+                //log.info(`当前坐标（${miniMapPosition.X}，${miniMapPosition.Y}，距离上次距离${(diffX + diffY)}`)
+                runningFailCount = 0;
+            }
+
+            if (runningFailCount >= 2) {
+                log.error("连续三条路线终止时坐标不变，终止运行");
+                break;
+            }
+
+            // 计算下一个 UTC 时间的晚上 8 点（即北京时间凌晨四点）
             const nextEightClock = new Date(now);
             nextEightClock.setUTCHours(20, 0, 0, 0); // 设置为 UTC 时间的 20:00
             if (nextEightClock <= now) {
@@ -833,8 +894,8 @@ async function updateCdTimeRecord(pathings, accountName) {
         const cdTimeData = pathings.map(pathing => ({
             fileName: pathing.fileName,
             //description: pathing.description,
-            精英数量: pathing.e,
-            小怪数量: pathing.m,
+            //精英数量: pathing.e,
+            //小怪数量: pathing.m,
             标签: pathing.tags,
             cdTime: pathing.cdTime
         }));
