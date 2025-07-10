@@ -1,12 +1,20 @@
-{
+﻿{
   "info": {
     "name": "223璃月-灵濛山北2",
     "type": "collect",
-    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752131661639,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -23,7 +31,7 @@
       "x": 2139.578125,
       "y": 2413.6494140625,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "",
       "type": "path"
     },

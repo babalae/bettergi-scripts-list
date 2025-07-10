@@ -1,12 +1,20 @@
-{
+﻿{
   "info": {
     "name": "226璃月-层岩主矿区3",
     "type": "collect",
-    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
     "version": "1.0",
     "description": "",
     "map_name": "TheChasm",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752085074978,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -42,7 +50,7 @@
       "y": 982.2498787362924,
       "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "keypress(f),w(0.2),keypress(f),wait(0.2),keypress(f),keypress(x),s(0.4)",
+      "action_params": "keypress(f),w(0.2),keypress(f),wait(0.2),keypress(f),keypress(x),s(0.4);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
       "type": "path"
     },
     {
@@ -60,7 +68,7 @@
       "y": 986.625197053525,
       "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
       "type": "target"
     },
     {

@@ -2,13 +2,18 @@
   "info": {
     "name": "208璃月-望舒客栈4",
     "type": "collect",
-    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751980205977,
+    "last_modified_time": 1752135686603,
     "enable_monster_loot_split": false
   },
   "positions": [
@@ -25,19 +30,19 @@
       "id": 2,
       "x": 341.48046875,
       "y": 883.55322265625,
-      "type": "path",
-      "move_mode": "run",
       "action": "",
-      "action_params": ""
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
       "x": 348.0263671875,
       "y": 886.263671875,
-      "type": "path",
-      "move_mode": "climb",
       "action": "combat_script",
-      "action_params": "attack(0.3)"
+      "move_mode": "climb",
+      "action_params": "attack(0.3)",
+      "type": "path"
     },
     {
       "id": 4,
@@ -140,12 +145,12 @@
     },
     {
       "id": 15,
-      "x": 336.501953125,
-      "y": 1104.72900390625,
+      "x": 336.78126777537364,
+      "y": 1104.531295473891,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "type": "target"
     },
     {
       "id": 16,
@@ -153,7 +158,7 @@
       "y": 1100.716796875,
       "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),keypress(x).s(0.1),keypress(x);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "action_params": "keypress(f),wait(0.2),keypress(f),keypress(f),keypress(x).d(0.1),keypress(x);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "type": "target"
     },
     {
@@ -176,6 +181,15 @@
     },
     {
       "id": 19,
+      "x": 349.6748046875,
+      "y": 1099.4580078125,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 20,
       "x": 348.3994140625,
       "y": 1099.451171875,
       "action": "combat_script",

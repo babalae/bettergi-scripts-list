@@ -1,12 +1,20 @@
-{
+﻿{
   "info": {
     "name": "215璃月-轻策庄西1",
     "type": "collect",
-    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752132704286,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -38,8 +46,8 @@
     },
     {
       "id": 4,
-      "x": 862.4404296875,
-      "y": 1759.04150390625,
+      "x": 864.4688783776946,
+      "y": 1759.7498256834206,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -47,30 +55,39 @@
     },
     {
       "id": 5,
-      "x": 867.9062440748748,
-      "y": 1741.1876212637071,
+      "x": 869.0938270266179,
+      "y": 1742.9060377885107,
+      "type": "path",
+      "move_mode": "dash",
       "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 6,
-      "x": 869.1250079001657,
-      "y": 1739.9063030528723,
+      "x": 868.9658203125,
+      "y": 1740.70263671875,
+      "type": "path",
+      "move_mode": "climb",
       "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.4),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
-      "type": "target"
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
     },
     {
       "id": 7,
+      "x": 869.4736328125,
+      "y": 1739.90380859375,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),w(0.4);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "type": "target"
+    },
+    {
+      "id": 8,
       "x": 866.8203125,
       "y": 1739.16357421875,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     }
   ]
 }
