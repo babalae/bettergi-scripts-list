@@ -257,7 +257,7 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
         pathing.G1 = G1;
         const G2 = pathing.mora_m; // 进入二组的收益
         pathing.G2 = G2;
-        pathing.E1 = pathing.e === 0 ? 0 : ((G1 - (targetEliteNum * G2) / (targetEliteNum + targetMonsterNum)) / pathing.e) ** k * (G1 / pathing.t); // 进入一组的效率
+        pathing.E1 = pathing.e === 0 ? 0 : ((G1 - G2 * (targetEliteNum / (targetEliteNum + targetMonsterNum))) / pathing.e) ** k * (G1 / pathing.t); // 进入一组的效率
         pathing.E2 = pathing.m === 0 ? 0 : (G2 / pathing.m) ** k * (G2 / pathing.t); // 进入二组的效率
 
         if (maxE1 < pathing.E1) {
@@ -809,18 +809,22 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
             }
             await fakeLog(`${pathing.fileName}`, false, false, 0);
 
-            const miniMapPosition = await genshin.getPositionFromMap();
-
-            // 比较坐标
-            const diffX = Math.abs(lastX - miniMapPosition.X);
-            const diffY = Math.abs(lastY - miniMapPosition.Y);
-            lastX = miniMapPosition.X;
-            lastY = miniMapPosition.Y;
-            if ((diffX + diffY) < 5) {
+            try {
+                const miniMapPosition = await genshin.getPositionFromMap();
+                // 比较坐标
+                const diffX = Math.abs(lastX - miniMapPosition.X);
+                const diffY = Math.abs(lastY - miniMapPosition.Y);
+                lastX = miniMapPosition.X;
+                lastY = miniMapPosition.Y;
+                if ((diffX + diffY) < 5) {
+                    runningFailCount++;
+                } else {
+                    //log.info(`当前坐标（${miniMapPosition.X}，${miniMapPosition.Y}，距离上次距离${(diffX + diffY)}`)
+                    runningFailCount = 0;
+                }
+            } catch (error) {
+                log.error(`执行任务时发生错误：${error.message}`);
                 runningFailCount++;
-            } else {
-                //log.info(`当前坐标（${miniMapPosition.X}，${miniMapPosition.Y}，距离上次距离${(diffX + diffY)}`)
-                runningFailCount = 0;
             }
 
             if (runningFailCount >= 2) {
