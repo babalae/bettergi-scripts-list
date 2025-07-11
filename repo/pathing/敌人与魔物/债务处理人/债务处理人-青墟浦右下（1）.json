@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "dt16禅那园右（1）",
+    "name": "债务处理人-青墟浦右下（1）",
     "type": "collect",
     "author": "下流山汉",
     "version": "1.0",
@@ -18,23 +18,23 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 3135.65,
-      "y": -1079.62,
+      "x": 1128.46,
+      "y": -984.33,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 3125.37,
-      "y": -1076.27,
+      "x": 1125.57,
+      "y": -976.94,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action": "",
       "action_params": ""
     },
     {
       "id": 3,
-      "x": 3111.38,
-      "y": -1055.82,
+      "x": 1118.83,
+      "y": -976.19,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -42,8 +42,8 @@
     },
     {
       "id": 4,
-      "x": 3104.87,
-      "y": -1043.74,
+      "x": 1106.96,
+      "y": -971.29,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -51,8 +51,8 @@
     },
     {
       "id": 5,
-      "x": 3083.93,
-      "y": -1034.36,
+      "x": 1098.06,
+      "y": -970.19,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -60,8 +60,8 @@
     },
     {
       "id": 6,
-      "x": 3058.43,
-      "y": -1027.15,
+      "x": 1090.85,
+      "y": -970.46,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -69,35 +69,80 @@
     },
     {
       "id": 7,
-      "x": 3033.18,
-      "y": -1017.3,
+      "x": 1076.19,
+      "y": -968.26,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 1052.33,
+      "y": -966.88,
       "type": "path",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 8,
-      "x": 2993.56,
-      "y": -1008.6,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
       "id": 9,
-      "x": 2963.57,
-      "y": -1007.22,
+      "x": 1030.04,
+      "y": -951.51,
       "type": "path",
-      "move_mode": "run",
+      "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
       "id": 10,
-      "x": 2945.2,
-      "y": -1012.03,
+      "x": 1009.77,
+      "y": -941.38,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 985.23,
+      "y": -928.71,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 969.26,
+      "y": -912.38,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 975.72,
+      "y": -908.47,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 993.22,
+      "y": -904.11,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 1009.64,
+      "y": -900.85,
       "type": "path",
       "move_mode": "run",
       "action": "fight",

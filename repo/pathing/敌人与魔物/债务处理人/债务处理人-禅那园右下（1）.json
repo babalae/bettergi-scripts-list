@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "dt14水天丛林右（1）",
+    "name": "债务处理人-禅那园右下（1）",
     "type": "collect",
     "author": "下流山汉",
     "version": "1.0",
@@ -18,23 +18,23 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 2965.41,
-      "y": -1452.89,
+      "x": 3135.76,
+      "y": -1079.63,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 2963.38,
-      "y": -1463.2,
+      "x": 3129.45,
+      "y": -1084.36,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "fly",
       "action": "",
       "action_params": ""
     },
     {
       "id": 3,
-      "x": 2965.46,
-      "y": -1470.99,
+      "x": 3129.19,
+      "y": -1089.57,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -42,8 +42,8 @@
     },
     {
       "id": 4,
-      "x": 2965.15,
-      "y": -1483.54,
+      "x": 3126.0,
+      "y": -1101.94,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -51,46 +51,65 @@
     },
     {
       "id": 5,
-      "x": 2978.75,
-      "y": -1483.45,
+      "x": 3118.92,
+      "y": -1115.24,
       "type": "path",
       "move_mode": "fly",
-      "action": "",
+      "action": "stop_flying",
       "action_params": ""
     },
     {
       "id": 6,
-      "x": 2979.81,
-      "y": -1473.18,
+      "x": 3109.29,
+      "y": -1135.29,
       "type": "path",
-      "move_mode": "run",
+      "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
       "id": 7,
-      "x": 2987.92,
-      "y": -1474.12,
+      "x": 3104.65,
+      "y": -1148.77,
       "type": "path",
-      "move_mode": "run",
+      "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
       "id": 8,
-      "x": 2990.34,
-      "y": -1484.19,
+      "x": 3094.43,
+      "y": -1182.49,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 3086.83,
+      "y": -1209.21,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 3093.14,
+      "y": -1209.91,
       "type": "path",
       "move_mode": "run",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 9,
-      "x": 2988.62,
-      "y": -1492.89,
+      "id": 11,
+      "x": 3101.88,
+      "y": -1215.81,
       "type": "path",
-      "move_mode": "climb",
+      "move_mode": "run",
       "action": "fight",
       "action_params": ""
     }

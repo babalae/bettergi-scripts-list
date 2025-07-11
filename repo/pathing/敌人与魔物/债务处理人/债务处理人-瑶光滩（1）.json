@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "dt02明蕴镇上（1）",
+    "name": "债务处理人-瑶光滩（1）",
     "type": "collect",
     "author": "下流山汉",
     "version": "1.0",
@@ -18,15 +18,14 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": -188.52,
-      "y": 972.46,
-      "action_params": "",
-      "locked": false
+      "x": -473.95,
+      "y": 441.73,
+      "action_params": ""
     },
     {
       "id": 2,
-      "x": -213.02,
-      "y": 964.7,
+      "x": -453.0,
+      "y": 435.55,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -34,17 +33,17 @@
     },
     {
       "id": 3,
-      "x": -237.87,
-      "y": 979.59,
+      "x": -430.65,
+      "y": 436.6,
       "type": "path",
-      "move_mode": "run",
+      "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
       "id": 4,
-      "x": -244.51,
-      "y": 971.14,
+      "x": -396.19,
+      "y": 454.67,
       "type": "path",
       "move_mode": "run",
       "action": "",
@@ -52,13 +51,21 @@
     },
     {
       "id": 5,
-      "x": -236.32,
-      "y": 955.04,
+      "x": -362.04,
+      "y": 464.01,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -329.45,
+      "y": 469.79,
       "type": "path",
       "move_mode": "run",
       "action": "fight",
-      "action_params": "",
-      "locked": true
+      "action_params": ""
     }
   ]
 }

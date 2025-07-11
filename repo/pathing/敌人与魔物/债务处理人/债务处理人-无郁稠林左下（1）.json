@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "dt20巨人峡谷右（1）",
+    "name": "债务处理人-无郁稠林左下（1）",
     "type": "collect",
     "author": "下流山汉",
     "version": "1.0",
@@ -18,23 +18,33 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 5196.71,
-      "y": -1336.79,
+      "x": 2399.97,
+      "y": 143.55,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 5185.81,
-      "y": -1329.22,
+      "x": 2402.79,
+      "y": 132.3,
       "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
+      "move_mode": "run",
+      "action": "",
       "action_params": ""
     },
     {
       "id": 3,
-      "x": 5162.45,
-      "y": -1314.42,
+      "x": 2407.05,
+      "y": 118.77,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 2394.22,
+      "y": 113.69,
       "type": "path",
       "move_mode": "run",
       "action": "fight",

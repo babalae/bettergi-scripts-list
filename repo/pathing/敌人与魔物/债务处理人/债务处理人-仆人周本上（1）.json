@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "dt05天遒谷下（1）",
+    "name": "债务处理人-仆人周本上（1）",
     "type": "collect",
     "author": "下流山汉",
     "version": "1.0",
@@ -18,41 +18,41 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 1268.37,
-      "y": -64.11,
+      "x": 4935.02,
+      "y": 4183.41,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 1260.31,
-      "y": -82.85,
+      "x": 4929.61,
+      "y": 4208.42,
       "type": "path",
-      "move_mode": "fly",
+      "move_mode": "run",
       "action": "",
       "action_params": ""
     },
     {
       "id": 3,
-      "x": 1257.07,
-      "y": -114.93,
+      "x": 4915.58,
+      "y": 4238.26,
       "type": "path",
-      "move_mode": "run",
+      "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
       "id": 4,
-      "x": 1254.99,
-      "y": -135.01,
+      "x": 4907.11,
+      "y": 4267.36,
       "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(3),click"
     },
     {
       "id": 5,
-      "x": 1253.96,
-      "y": -143.67,
+      "x": 4921.99,
+      "y": 4268.86,
       "type": "path",
       "move_mode": "run",
       "action": "fight",
