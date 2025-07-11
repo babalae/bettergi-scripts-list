@@ -827,11 +827,6 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
                 runningFailCount++;
             }
 
-            if (runningFailCount >= 2) {
-                log.error("连续三条路线终止时坐标不变，不记录运行数据");
-                continue;
-            }
-
             // 计算下一个 UTC 时间的晚上 8 点（即北京时间凌晨四点）
             const nextEightClock = new Date(now);
             nextEightClock.setUTCHours(20, 0, 0, 0); // 设置为 UTC 时间的 20:00
@@ -843,7 +838,6 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
             // 更新路径的 cdTime
             pathing.cdTime = nextEightClock.toLocaleString();
 
-            await updateCdTimeRecord(pathings, accountName);
             remainingEstimatedTime -= pathing.t;
             const actualUsedTime = (new Date() - groupStartTime) / 1000;
             const predictRemainingTime = remainingEstimatedTime * actualUsedTime / (totalEstimatedTime - remainingEstimatedTime - skippedTime);
@@ -852,6 +846,13 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
             const remainingminutes = Math.floor((predictRemainingTime % 3600) / 60);
             const remainingseconds = predictRemainingTime % 60;
             log.info(`当前进度：第 ${targetGroup} 组第 ${groupPathCount}/${totalPathsInGroup} 个  ${pathing.fileName}已完成，该组预计剩余: ${remaininghours} 时 ${remainingminutes} 分 ${remainingseconds.toFixed(0)} 秒`);
+
+            if (runningFailCount >= 1) {
+                log.error("连续两条路线终止时坐标不变，暂时不记录运行数据");
+                continue;
+            }
+
+            await updateCdTimeRecord(pathings, accountName);
         }
     }
 }
