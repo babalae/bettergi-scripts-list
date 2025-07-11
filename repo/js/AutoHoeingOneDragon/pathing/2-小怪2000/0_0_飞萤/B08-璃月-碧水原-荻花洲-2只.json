@@ -4,55 +4,48 @@
     "type": "collect",
     "author": "蜜柑魚",
     "version": "1.0",
-    "description": "  路线信息：该路线预计用时43.96秒，包含以下怪物：2只雷萤。",
+    "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751642257751,
-    "authors": [
-      {
-        "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
-      }
-    ]
+    "last_modified_time": 1752249622672
   },
   "positions": [
     {
       "id": 1,
       "x": 253.14,
       "y": 1285.17,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
       "x": 202.16,
       "y": 1278.65,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 3,
       "x": 202.17,
       "y": 1278.69,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
+      "move_mode": "walk",
       "action_params": "",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 4,
       "x": 202.17,
       "y": 1278.69,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }
