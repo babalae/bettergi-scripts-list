@@ -1,0 +1,130 @@
+﻿{
+  "info": {
+    "name": "鸟蛋6-3-纳塔隆崛坡-6蛋",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752216314888,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 7857.4052734375,
+      "y": -1750.04150390625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 7864.33837890625,
+      "y": -1732.0595703125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 7906.546875,
+      "y": -1630.1513671875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 7902.60498046875,
+      "y": -1595.37060546875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 7857.4052734375,
+      "y": -1750.04150390625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 6,
+      "x": 7859.9033203125,
+      "y": -1762.36328125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 7919.00830078125,
+      "y": -1802.384765625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 7915.1748046875,
+      "y": -1805.70703125,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "wait(1)",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 7912.18896484375,
+      "y": -1807.94140625,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 7913.73779296875,
+      "y": -1826.328125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 7917.7919921875,
+      "y": -1828.7373046875,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 7917.7919921875,
+      "y": -1828.7373046875,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

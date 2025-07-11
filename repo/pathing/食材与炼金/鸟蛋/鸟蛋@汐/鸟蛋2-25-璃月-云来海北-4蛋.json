@@ -1,0 +1,120 @@
+﻿{
+  "info": {
+    "name": "鸟蛋2-25-璃月-云来海北-4蛋",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752215492381,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 255.865234375,
+      "y": -12.5029296875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 273.916015625,
+      "y": 4.67578125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 288.224609375,
+      "y": 66.20703125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 311.8359375,
+      "y": 94.56396484375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1.5)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 321.240234375,
+      "y": 115.1123046875,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 321.240234375,
+      "y": 115.1123046875,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 332.365234375,
+      "y": 117.4765625,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "keypress(x)",
+      "type": "orientation"
+    },
+    {
+      "id": 8,
+      "x": 332.365234375,
+      "y": 117.4765625,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 334.712890625,
+      "y": 115.2470703125,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 350.87890625,
+      "y": 126.791015625,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 350.87890625,
+      "y": 126.791015625,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}
