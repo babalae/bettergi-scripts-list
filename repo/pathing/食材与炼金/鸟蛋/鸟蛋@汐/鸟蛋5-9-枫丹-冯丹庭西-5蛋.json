@@ -1,0 +1,121 @@
+﻿{
+  "info": {
+    "name": "鸟蛋5-9-枫丹-冯丹庭西-5蛋",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752216203996,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4865.771484375,
+      "y": 3913.274658203125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4916.765625,
+      "y": 3950.641845703125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4909.6708984375,
+      "y": 3991.42626953125,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4957.412109375,
+      "y": 3999.6318359375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(w),wait(0.5),dash,wait(3),keyup(w),wait(3)",
+      "type": "orientation"
+    },
+    {
+      "id": 5,
+      "x": 4964.20556640625,
+      "y": 4011.84814453125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4966.2421875,
+      "y": 4011.96142578125,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 4972.09033203125,
+      "y": 4011.793212890625,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4972.5029296875,
+      "y": 4008.761474609375,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);纳西妲 attack(0.08),e;",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 4964.8408203125,
+      "y": 4021.8525390625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 10,
+      "x": 4964.8408203125,
+      "y": 4021.8525390625,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 4961.537109375,
+      "y": 4022.017578125,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);纳西妲 attack(0.08),e;",
+      "type": "target"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "508枫丹-研究院区西北6",
     "type": "collect",
@@ -8,7 +8,8 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751644350276
+    "last_modified_time": 1751820053800,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -41,19 +42,19 @@
       "id": 4,
       "x": 4605.89501953125,
       "y": 4934.130859375,
-      "type": "target",
-      "move_mode": "climb",
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "type": "target"
     },
     {
       "id": 5,
       "x": 4604.43896484375,
       "y": 4935.2783203125,
-      "type": "target",
-      "move_mode": "climb",
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "type": "target"
     },
     {
       "id": 6,
@@ -133,8 +134,7 @@
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 15,
@@ -241,24 +241,6 @@
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
-    },
-    {
-      "id": 27,
-      "x": 4720.8505859375,
-      "y": 4932.63525390625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 28,
-      "x": 4725.1396484375,
-      "y": 4933.19384765625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
     }
   ]
 }

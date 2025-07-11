@@ -1,0 +1,102 @@
+﻿{
+  "info": {
+    "name": "鸟蛋2-22-璃月-瑶光滩-4蛋",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752214844323,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -255.994140625,
+      "y": 628.8330078125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -292.4521484375,
+      "y": 644.876953125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -304.283203125,
+      "y": 650.03759765625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -323.0673828125,
+      "y": 665.47412109375,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -255.994140625,
+      "y": 628.8330078125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 6,
+      "x": -268.806640625,
+      "y": 623.8310546875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -288.65234375,
+      "y": 575.47216796875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -289.63671875,
+      "y": 562.3974609375,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -296.8037109375,
+      "y": 564.03125,
+      "action": "nahida_collect",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}
