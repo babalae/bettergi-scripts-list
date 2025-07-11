@@ -1,0 +1,84 @@
+{
+  "info": {
+    "name": "鸟蛋2-35-须弥花海--2蛋",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752174907357,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5793.8212890625,
+      "y": 797.1103515625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 5792.86376953125,
+      "y": 783.2900390625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 5829.09912109375,
+      "y": 707.759765625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 5820.037109375,
+      "y": 709.74853515625,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 5811.99609375,
+      "y": 711.40234375,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 5806.4580078125,
+      "y": 703.294921875,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "attack(0.3)"
+    },
+    {
+      "id": 7,
+      "x": 5806.82177734375,
+      "y": 703.97119140625,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

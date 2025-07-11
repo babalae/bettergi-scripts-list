@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "302稻妻-九条阵屋2",
     "type": "collect",
@@ -6,7 +6,10 @@
     "version": "",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751976732597,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -55,12 +58,12 @@
     },
     {
       "id": 6,
-      "x": -3539.8330078125,
-      "y": -3345.8359375,
+      "x": -3538.8447265625,
+      "y": -3345.3740234375,
+      "type": "target",
+      "move_mode": "climb",
       "action": "combat_script",
-      "move_mode": "jump",
-      "action_params": "keypress(f),wait(0.2),keypress(f)",
-      "type": "target"
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
     },
     {
       "id": 7,
@@ -73,12 +76,12 @@
     },
     {
       "id": 8,
-      "x": -3540.968813201327,
-      "y": -3343.78125,
-      "action": "",
+      "x": -3541.4541015625,
+      "y": -3343.9228515625,
+      "type": "path",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     }
   ]
 }

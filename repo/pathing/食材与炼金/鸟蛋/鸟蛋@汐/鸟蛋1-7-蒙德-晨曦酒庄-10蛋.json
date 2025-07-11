@@ -1,0 +1,242 @@
+{
+  "info": {
+    "name": "鸟蛋1-7-蒙德-晨曦酒庄-10蛋",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752214789281,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -201.75390625,
+      "y": 1862.4921875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -183.498046875,
+      "y": 1930.05224609375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -182.0576171875,
+      "y": 1944.89404296875,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(1.5)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -180.8310546875,
+      "y": 1947.390625,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -182.7578125,
+      "y": 1947.9208984375,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": -201.75390625,
+      "y": 1862.4921875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 7,
+      "x": -226.685546875,
+      "y": 1853.51904296875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -263.400390625,
+      "y": 1809.13671875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -265.251953125,
+      "y": 1803.330078125,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -281.306640625,
+      "y": 1776.18798828125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -279.767578125,
+      "y": 1751.59130859375,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": -279.767578125,
+      "y": 1751.59130859375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(6)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": -279.767578125,
+      "y": 1751.59130859375,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -291.451171875,
+      "y": 1735.23291015625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 15,
+      "x": -295.619140625,
+      "y": 1736.43408203125,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -304.630859375,
+      "y": 1736.0498046875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -359.6279296875,
+      "y": 1706.60693359375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": -389.849609375,
+      "y": 1709.9716796875,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 19,
+      "x": -389.849609375,
+      "y": 1709.9716796875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(6)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 20,
+      "x": -389.849609375,
+      "y": 1709.9716796875,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": -430.1123046875,
+      "y": 1691.9375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": -472.896484375,
+      "y": 1668.68115234375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 23,
+      "x": -476.68756320132707,
+      "y": 1666.6875909477803,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 24,
+      "x": -476.68756320132707,
+      "y": 1666.6875909477803,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

@@ -1,22 +1,32 @@
 //拾取时上下滑动的时间
-const timeMoveUp = 300;
-const timeMoveDown = 1200;
+const timeMoveUp = 500;
+const timeMoveDown = 1000;
+const pickupMode = settings.pickupMode || "js拾取，默认只拾取狗粮和晶蝶";
 
 (async function () {
     //自定义配置处理
     const operationMode = settings.operationMode || "运行锄地路线";
-    const k = settings.efficiencyIndex || 0.5;
-    const targetEliteNum = settings.targetEliteNum || 400;
-    const targetMonsterNum = settings.targetMonsterNum || 2000;
+    let k = settings.efficiencyIndex || 0.5;
+    k = k;
+    let targetEliteNum = (+settings.targetEliteNum || 400);
+    targetEliteNum += 5;//预留漏怪
+    let targetMonsterNum = (+settings.targetMonsterNum + 1 || 2000);
+    targetMonsterNum += 25;//预留漏怪
     const partyName = settings.partyName || "";
+
     // 获取 settings 中的标签，如果没有则使用默认值
-    let group1Tags = (settings.tagsForGroup1 || "蕈兽").split("，").filter(Boolean);
-    const group2Tags = (settings.tagsForGroup2 || "").split("，").filter(Boolean);
-    const group3Tags = (settings.tagsForGroup3 || "").split("，").filter(Boolean);
-    const group4Tags = (settings.tagsForGroup4 || "").split("，").filter(Boolean);
+    const group1Settings = settings.tagsForGroup1 || "蕈兽";
+    const group2Settings = settings.tagsForGroup2 || "";
+    const group3Settings = settings.tagsForGroup3 || "";
+    const group4Settings = settings.tagsForGroup4 || "";
+    let group1Tags = group1Settings.split("，").filter(Boolean);
+    const group2Tags = group2Settings.split("，").filter(Boolean);
+    const group3Tags = group3Settings.split("，").filter(Boolean);
+    const group4Tags = group4Settings.split("，").filter(Boolean);
     // 将 group2Tags、group3Tags 和 group4Tags 的内容添加到 group1Tags 中，并去除重复项
     group1Tags = [...new Set([...group1Tags, ...group2Tags, ...group3Tags, ...group4Tags])];
 
+    const priorityTags = (settings.priorityTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
     const excludeTags = (settings.excludeTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
     const accountName = settings.accountName || "默认账户";
     // 拾取黑白名单处理
@@ -26,37 +36,38 @@ const timeMoveDown = 1200;
     const blacklistKeywords = ocrPickupJson["黑名单"];
 
     if (!settings.accountName) {
-        for (let i = 0; i < 30; i++) {
-            log.error("你没有打开过自定义配置");
-            log.error("请先阅读README.md后再使用");
-            await sleep(2000);
+        for (let i = 0; i < 120; i++) {
+            // 原始文本
+            let originalMessage = "   请先阅读js文件夹中的【README.md】后使用";
+            // 计算轮替的偏移量，每次循环偏移一位
+            let offset = i % originalMessage.length; // 每次循环偏移一位
+            // 构造轮替后的文本
+            let message = originalMessage.slice(-offset) + originalMessage.slice(0, -offset);
+            // 输出内容
+            log.error(message);
+            await sleep(500);
         }
     }
 
     //预处理路线并建立对象
-    log.info("开始预处理地图追踪文件");
     pathings = await processPathings();
-
-    log.info("开始合并index数据");
     //优先使用index中的数据
     await updatePathings("assets/index1.json");
     await updatePathings("assets/index2.json");
 
     //加载路线cd信息
-    await initializeCdTime(pathings, accountName)
+    await initializeCdTime(pathings, accountName);
 
-    //按照用户配置标记可用路线
-    log.info("开始按照用户配置标记可用路线");
-    await markPathings(pathings, group1Tags, group2Tags, group3Tags, group4Tags, excludeTags);
+    //按照用户配置标记路线
+    await markPathings(pathings, group1Tags, group2Tags, group3Tags, group4Tags, priorityTags, excludeTags);
 
     //找出最优组合
-    log.info("开始寻找最优组合");
     await findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum);
 
     //分配到不同路径组
-    log.info("开始分配到不同路径组");
-    groupCounts = await assignGroups(pathings, group1Tags, group2Tags, group3Tags, group4Tags);
+    await assignGroups(pathings, group1Tags, group2Tags, group3Tags, group4Tags);
     /*
+        //分配结果输出
         pathings.forEach((pathing, index) => {
             log.info(`路径 ${index + 1}:`);
             log.info(`  fullPath: ${pathing.fullPath}`);
@@ -84,7 +95,7 @@ const timeMoveDown = 1200;
         log.info("开始运行锄地路线");
         await processPathingsByGroup(pathings, targetTexts, blacklistKeywords, accountName);
     } else {
-        log.info("开始强制刷新CD");
+        log.info("强制刷新所有路线CD");
         await initializeCdTime(pathings, "");
         await updateCdTimeRecord(pathings, accountName);
     }
@@ -174,7 +185,7 @@ async function processPathings() {
     return pathings; // 返回处理后的 pathings 数组
 }
 
-async function markPathings(pathings, group1Tags, group2Tags, group3Tags, group4Tags, excludeTags) {
+async function markPathings(pathings, group1Tags, group2Tags, group3Tags, group4Tags, priorityTags, excludeTags) {
     // 找出存在于 group1Tags 中且不在其他组标签中的标签
     const uniqueTags = group1Tags.filter(tag => {
         return !group2Tags.includes(tag) && !group3Tags.includes(tag) && !group4Tags.includes(tag);
@@ -184,6 +195,9 @@ async function markPathings(pathings, group1Tags, group2Tags, group3Tags, group4
         // 初始化 pathing.tags 和 pathing.monsterInfo 以确保它们存在
         pathing.tags = pathing.tags || [];
         pathing.monsterInfo = pathing.monsterInfo || {};
+
+        // 初始化 pathing.prioritized 为 false
+        pathing.prioritized = false;
 
         // 检查路径的 tags 是否包含 uniqueTags
         const containsUniqueTag = uniqueTags.some(uniqueTag => pathing.tags.includes(uniqueTag));
@@ -201,10 +215,25 @@ async function markPathings(pathings, group1Tags, group2Tags, group3Tags, group4
             return fullPathContainsExcludeTag || tagsContainExcludeTag || monsterInfoContainsExcludeTag;
         });
 
+        // 检查 fullPath、tags 或 monsterInfo 是否包含 priorityTags 中的任意一个子字符串
+        const containsPriorityTag = priorityTags.some(priorityTag => {
+            // 检查 fullPath 是否包含 priorityTag
+            const fullPathContainsPriorityTag = pathing.fullPath && pathing.fullPath.includes(priorityTag);
+            // 检查 tags 是否包含 priorityTag
+            const tagsContainPriorityTag = pathing.tags.some(tag => tag.includes(priorityTag));
+            // 检查 monsterInfo 的键是否包含 priorityTag
+            const monsterInfoContainsPriorityTag = Object.keys(pathing.monsterInfo).some(monsterName => monsterName.includes(priorityTag));
+
+            // 返回是否包含任意一个 priorityTag
+            return fullPathContainsPriorityTag || tagsContainPriorityTag || monsterInfoContainsPriorityTag;
+        });
+
         // 如果包含 uniqueTags 或 excludeTags，则标记为 false，否则标记为 true
         pathing.available = !(containsUniqueTag || containsExcludeTag);
-    });
 
+        // 如果包含 priorityTags，则标记为 true
+        pathing.prioritized = containsPriorityTag;
+    });
 }
 
 async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum) {
@@ -218,19 +247,34 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
     let totalGainCombined = 0; // 总收益
     let totalTimeCombined = 0; // 总耗时
 
+    let maxE1 = 0;
+    let maxE2 = 0;
+
     // 遍历 pathings，计算并添加 G1、G2、E1 和 E2 属性
     pathings.forEach(pathing => {
         pathing.selected = false; // 初始化 selected 属性为 false
-
-        // 计算 G1 和 E1
         const G1 = pathing.mora_e + pathing.mora_m; // 进入一组的收益
         pathing.G1 = G1;
-        pathing.E1 = pathing.e === 0 ? 0 : (G1 / pathing.e) ** k * (G1 / pathing.t); // 进入一组的效率
-
-        // 计算 G2 和 E2
         const G2 = pathing.mora_m; // 进入二组的收益
         pathing.G2 = G2;
+        pathing.E1 = pathing.e === 0 ? 0 : ((G1 - G2 * (targetEliteNum / (targetEliteNum + targetMonsterNum))) / pathing.e) ** k * (G1 / pathing.t); // 进入一组的效率
         pathing.E2 = pathing.m === 0 ? 0 : (G2 / pathing.m) ** k * (G2 / pathing.t); // 进入二组的效率
+
+        if (maxE1 < pathing.E1) {
+            maxE1 = pathing.E1;
+        }
+        if (maxE2 < pathing.E2) {
+            maxE2 = pathing.E2;
+        }
+
+    });
+
+    pathings.forEach(pathing => {
+        if (pathing.prioritized) {
+            pathing.E1 = maxE1 + 1;
+            pathing.E2 = maxE2 + 1;
+        }
+
     });
 
     // 封装第一轮选择逻辑
@@ -275,7 +319,7 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
     }
 
     // 循环调整目标精英怪数量
-    while (iterationCount < 5) {
+    while (iterationCount < 10) {
         // 第一轮选择
         selectRoutesByEliteTarget(currentTargetEliteNum);
 
@@ -284,9 +328,13 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
 
         // 检查精英怪总数是否满足条件
         const diff = totalSelectedElites - targetEliteNum;
-        currentTargetEliteNum -= Math.round(0.6 * diff); // 调整目标精英怪数量，乘以系数并取整
+        currentTargetEliteNum -= Math.round(0.5 * diff); // 调整目标精英怪数量，乘以系数并取整
 
         if (totalSelectedElites === targetEliteNum) {
+            break; // 如果满足目标，直接终止循环
+        }
+
+        if ((totalSelectedElites > targetEliteNum) && iterationCount >= 5) {
             break; // 如果满足目标，直接终止循环
         }
 
@@ -304,16 +352,16 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
     pathings.sort((a, b) => a.index - b.index);
 
     // 输出日志信息
-    log.info(`总精英怪数量: ${totalSelectedElites}`);
-    log.info(`总普通怪数量: ${totalSelectedMonsters}`);
-    log.info(`总收益: ${totalGainCombined} 摩拉`);
+    log.info(`总精英怪数量: ${totalSelectedElites.toFixed(0)}`);
+    log.info(`总普通怪数量: ${totalSelectedMonsters.toFixed(0)}`);
+    log.info(`总收益: ${totalGainCombined.toFixed(0)} 摩拉`);
 
     // 将总用时转换为时、分、秒表示
     const hours = Math.floor(totalTimeCombined / 3600);
     const minutes = Math.floor((totalTimeCombined % 3600) / 60);
     const seconds = totalTimeCombined % 60;
 
-    log.info(`总用时: ${hours} 时 ${minutes} 分 ${seconds.toFixed(0)} 秒`);
+    log.info(`预计总用时: ${hours} 时 ${minutes} 分 ${seconds.toFixed(0)} 秒`);
 }
 
 async function assignGroups(pathings, group1Tags, group2Tags, group3Tags, group4Tags) {
@@ -369,7 +417,10 @@ async function runPathWithOcr(pathFilePath, targetTexts, blacklistKeywords) {
         "卵": "卯"
     };
     let thisMoveUpTime = 0;
-    let lastMoveUp = 0;
+    let lastMoveDown = 0;
+
+    let lastPickupTime = new Date();
+    let lastPickupItem = "";
     // 定义状态变量
     let state = { completed: false, cancelRequested: false };
     // 定义图像路径和目标文本列表
@@ -385,7 +436,6 @@ async function runPathWithOcr(pathFilePath, targetTexts, blacklistKeywords) {
             log.error(`执行路径文件时发生错误：${error.message}`);
             state.cancelRequested = true; // 修改状态变量
         }
-        log.info(`路径文件 ${filePath} 执行完成`);
         state.completed = true; // 修改状态变量
     }
 
@@ -521,30 +571,14 @@ async function runPathWithOcr(pathFilePath, targetTexts, blacklistKeywords) {
                 // 检查是否包含黑名单关键词
                 let containsBlacklistKeyword = blacklistKeywords.some(blacklistKeyword => ocrResult.text.includes(blacklistKeyword));
                 if (containsBlacklistKeyword) {
-                    log.debug(`包含黑名单,不拾取: ${ocrResult.text}`);
                     continue;
                 }
 
-
-                log.info(`交互或拾取: "${ocrResult.text}"`);
-                // 获取当前时间并格式化为 HH:mm:ss.sss 格式
-                function formatTime(date) {
-                    const hours = String(date.getHours()).padStart(2, '0');
-                    const minutes = String(date.getMinutes()).padStart(2, '0');
-                    const seconds = String(date.getSeconds()).padStart(2, '0');
-                    const milliseconds = String(date.getMilliseconds()).padStart(3, '0');
-                    return `${hours}:${minutes}:${seconds}.${milliseconds}`;
+                if ((new Date() - lastPickupTime) > 1000 || ocrResult.text != lastPickupItem) {
+                    log.info(`交互或拾取："${ocrResult.text}"`);
+                    lastPickupTime = new Date();
+                    lastPickupItem = ocrResult.text;
                 }
-
-                // 获取当前时间
-                const now = new Date();
-
-                // 格式化当前时间
-                const formattedTime = formatTime(now);
-
-                // 输出日志
-                log.debug(`[${formattedTime}][INF] BetterGenshinImpact.GameTask.AutoPick.AutoPickTrigger\n交互或拾取："${ocrResult.text}"`);
-
 
                 // 计算目标文本的中心Y坐标
                 let centerYTargetText = ocrResult.y + ocrResult.height / 2;
@@ -560,23 +594,23 @@ async function runPathWithOcr(pathFilePath, targetTexts, blacklistKeywords) {
             if (!foundTarget) {
                 const currentTime = new Date().getTime(); // 获取当前时间（毫秒）
 
-                // 如果距离上次上翻超过1秒，则执行上翻
-                if (currentTime - lastMoveUp > timeMoveDown) {
-                    await keyMouseScript.runFile(`assets/滚轮上翻.json`);
+                // 如果距离上次下翻超过timeMoveUp秒，则执行下翻
+                if (currentTime - lastMoveDown > timeMoveUp) {
+                    await keyMouseScript.runFile(`assets/滚轮下翻.json`);
 
-                    // 如果这是第一次上翻，记录这次上翻的时间
+                    // 如果这是第一次下翻，记录这次下翻的时间
                     if (thisMoveUpTime === 0) {
                         thisMoveUpTime = currentTime; // 记录第一次上翻的时间
                     }
 
-                    // 检查是否需要更新 lastMoveUp
-                    if (currentTime - thisMoveUpTime >= timeMoveUp) {
-                        lastMoveUp = currentTime; // 更新 lastMoveUp 为第一次上翻的时间
-                        thisMoveUpTime = 0; // 重置 thisMoveUpTime，以便下一次上翻时重新记录
+                    // 检查是否需要更新 lastMoveDown
+                    if (currentTime - thisMoveUpTime >= timeMoveDown) {
+                        lastMoveDown = currentTime; // 更新 lastMoveDown 为第一次下翻的时间
+                        thisMoveUpTime = 0; // 重置 thisMoveUpTime，以便下一次下翻时重新记录
                     }
                 } else {
                     // 否则执行下翻
-                    await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+                    await keyMouseScript.runFile(`assets/滚轮上翻.json`);
                 }
             }
 
@@ -606,8 +640,6 @@ async function runPathWithOcr(pathFilePath, targetTexts, blacklistKeywords) {
 
 // 定义 readFolder 函数
 async function readFolder(folderPath, onlyJson) {
-    log.info(`开始读取文件夹：${folderPath}`);
-
     // 新增一个堆栈，初始时包含 folderPath
     const folderStack = [folderPath];
 
@@ -669,8 +701,7 @@ async function copyPathingsByGroup(pathings) {
             const content = await file.readText(pathing.fullPath);
             // 构造目标路径
             const groupFolder = `pathingOut/group${pathing.group}`;
-            const targetPath = `${groupFolder}/${pathing.fileName}`;
-
+            const targetPath = `${groupFolder}/${pathing.fullPath}`;
             // 写入文件内容
             await file.writeText(targetPath, content, false);
         }
@@ -678,6 +709,9 @@ async function copyPathingsByGroup(pathings) {
 }
 
 async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, accountName) {
+    let lastX = 0;
+    let lastY = 0;
+    let runningFailCount = 0;
     // 定义路径组名称到组号的映射
     const groupMapping = {
         "路径组一": 1,
@@ -697,7 +731,7 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
     // 获取该组的总路径数
     const totalPathsInGroup = pathings.filter(pathing => pathing.group === targetGroup).length;
 
-    if (settings.onlyArtifacts) {
+    if (pickupMode === "bgi原版拾取") {
         dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     }
 
@@ -719,15 +753,19 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
 
     // 输出当前组的总计信息
     log.info(`当前组 ${selectedGroupName} 的总计信息：`);
-    log.info(`精英怪数量: ${totalElites}`);
-    log.info(`小怪数量: ${totalMonsters}`);
-    log.info(`预计收益: ${totalGain} 摩拉`);
+    log.info(`精英怪数量: ${totalElites.toFixed(0)}`);
+    log.info(`小怪数量: ${totalMonsters.toFixed(0)}`);
+    log.info(`预计收益: ${totalGain.toFixed(0)} 摩拉`);
 
     // 将预计总时间转换为时、分、秒表示
     const hours = Math.floor(totalEstimatedTime / 3600);
     const minutes = Math.floor((totalEstimatedTime % 3600) / 60);
     const seconds = totalEstimatedTime % 60;
     log.info(`预计用时: ${hours} 时 ${minutes} 分 ${seconds.toFixed(0)} 秒`);
+
+    const groupStartTime = new Date();
+    let remainingEstimatedTime = totalEstimatedTime;
+    let skippedTime = 0;
 
     // 遍历 pathings 数组
     for (const pathing of pathings) {
@@ -737,7 +775,7 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
             groupPathCount++;
 
             // 输出当前路径的序号信息
-            log.info(`当前路径 ${pathing.fileName} 是第 ${targetGroup} 组第 ${groupPathCount}/${totalPathsInGroup} 条`);
+            log.info(`开始处理第 ${targetGroup} 组第 ${groupPathCount}/${totalPathsInGroup} 个${pathing.fileName}`);
 
             // 获取当前时间
             const now = new Date();
@@ -746,13 +784,19 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
             const cdTime = new Date(pathing.cdTime);
             if (cdTime > now) {
                 log.info(`该路线未刷新，跳过。`);
+                skippedTime += pathing.t;
+                remainingEstimatedTime -= pathing.t;
                 continue;
+            }
+
+            if (await isTimeRestricted(settings.timeRule)) {
+                break;
             }
 
             // 输出路径已刷新并开始处理的信息
             log.info(`该路线已刷新，开始处理。`);
             await fakeLog(`${pathing.fileName}`, false, true, 0);
-            if (!settings.onlyArtifacts) {
+            if (pickupMode === "js拾取，默认只拾取狗粮和晶蝶") {
                 // 调用 runPathWithOcr 函数处理路径
                 await runPathWithOcr(pathing.fullPath, targetTexts, blacklistKeywords);
             } else {
@@ -764,7 +808,31 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
                 break;
             }
             await fakeLog(`${pathing.fileName}`, false, false, 0);
-            // 计算下一个 UTC 时间的晚上 8 点
+
+            try {
+                const miniMapPosition = await genshin.getPositionFromMap();
+                // 比较坐标
+                const diffX = Math.abs(lastX - miniMapPosition.X);
+                const diffY = Math.abs(lastY - miniMapPosition.Y);
+                lastX = miniMapPosition.X;
+                lastY = miniMapPosition.Y;
+                if ((diffX + diffY) < 5) {
+                    runningFailCount++;
+                } else {
+                    //log.info(`当前坐标（${miniMapPosition.X}，${miniMapPosition.Y}，距离上次距离${(diffX + diffY)}`)
+                    runningFailCount = 0;
+                }
+            } catch (error) {
+                log.error(`执行任务时发生错误：${error.message}`);
+                runningFailCount++;
+            }
+
+            if (runningFailCount >= 2) {
+                log.error("连续三条路线终止时坐标不变，不记录运行数据");
+                continue;
+            }
+
+            // 计算下一个 UTC 时间的晚上 8 点（即北京时间凌晨四点）
             const nextEightClock = new Date(now);
             nextEightClock.setUTCHours(20, 0, 0, 0); // 设置为 UTC 时间的 20:00
             if (nextEightClock <= now) {
@@ -775,10 +843,15 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
             // 更新路径的 cdTime
             pathing.cdTime = nextEightClock.toLocaleString();
 
-            await updateCdTimeRecord(pathings, accountName)
-
-            // 输出路径的下次可用时间（本地时间格式）
-            log.info(`路径 ${pathing.fileName} 下次可用时间为 ${nextEightClock.toLocaleString()}`);
+            await updateCdTimeRecord(pathings, accountName);
+            remainingEstimatedTime -= pathing.t;
+            const actualUsedTime = (new Date() - groupStartTime) / 1000;
+            const predictRemainingTime = remainingEstimatedTime * actualUsedTime / (totalEstimatedTime - remainingEstimatedTime - skippedTime);
+            // 将预计剩余时间转换为时、分、秒表示
+            const remaininghours = Math.floor(predictRemainingTime / 3600);
+            const remainingminutes = Math.floor((predictRemainingTime % 3600) / 60);
+            const remainingseconds = predictRemainingTime % 60;
+            log.info(`当前进度：第 ${targetGroup} 组第 ${groupPathCount}/${totalPathsInGroup} 个  ${pathing.fileName}已完成，该组预计剩余: ${remaininghours} 时 ${remainingminutes} 分 ${remainingseconds.toFixed(0)} 秒`);
         }
     }
 }
@@ -825,14 +898,15 @@ async function updateCdTimeRecord(pathings, accountName) {
         const cdTimeData = pathings.map(pathing => ({
             fileName: pathing.fileName,
             //description: pathing.description,
+            //精英数量: pathing.e,
+            //小怪数量: pathing.m,
+            标签: pathing.tags,
             cdTime: pathing.cdTime
         }));
 
         // 将更新后的内容写回文件
         await file.writeText(filePath, JSON.stringify(cdTimeData, null, 2), false);
 
-        // 输出日志
-        log.info(`所有路径的 cdTime 已更新并保存到文件 ${filePath}`);
     } catch (error) {
         // 捕获并记录错误
         log.error(`更新 cdTime 时出错: ${error.message}`);
@@ -984,7 +1058,76 @@ async function switchPartyIfNeeded(partyName) {
     }
 }
 
+/**
+ * 检查当前时间是否处于限制时间内或即将进入限制时间
+ * @param {string} timeRule - 时间规则字符串，格式如 "4, 4-6, 10-12"
+ * @param {number} [threshold=5] - 接近限制时间的阈值（分钟）
+ * @returns {Promise<boolean>} - 如果处于限制时间内或即将进入限制时间，则返回 true，否则返回 false
+ */
+async function isTimeRestricted(timeRule, threshold = 5) {
+    // 如果输入的时间规则为 undefined 或空字符串，视为不进行时间处理，返回 false
+    if (timeRule === undefined || timeRule === "") {
+        return false;
+    }
 
+    // 初始化 0-23 小时为可用状态
+    const hours = Array(24).fill(false);
+
+    // 解析时间规则
+    const rules = timeRule.split('，').map(rule => rule.trim());
+
+    // 校验输入的字符串是否符合规则
+    for (const rule of rules) {
+        if (rule.includes('-')) {
+            // 处理时间段，如 "4-6"
+            const [startHour, endHour] = rule.split('-').map(Number);
+            if (isNaN(startHour) || isNaN(endHour) || startHour < 0 || startHour >= 24 || endHour <= startHour || endHour > 24) {
+                // 如果时间段格式不正确或超出范围，则报错并返回 true
+                log.error("时间填写不符合规则，请检查");
+                return true;
+            }
+            for (let i = startHour; i < endHour; i++) {
+                hours[i] = true; // 标记为不可用
+            }
+        } else {
+            // 处理单个时间点，如 "4"
+            const hour = Number(rule);
+            if (isNaN(hour) || hour < 0 || hour >= 24) {
+                // 如果时间点格式不正确或超出范围，则报错并返回 true
+                log.error("时间填写不符合规则，请检查");
+                return true;
+            }
+            hours[hour] = true; // 标记为不可用
+        }
+    }
+
+    // 获取当前时间
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+
+    // 检查当前时间是否处于限制时间内
+    if (hours[currentHour]) {
+        log.warn("处于限制时间内");
+        return true; // 当前时间处于限制时间内
+    }
+
+    // 检查当前时间是否即将进入限制时间
+    for (let i = 0; i < 24; i++) {
+        if (hours[i]) {
+            const nextHour = i;
+            const timeUntilNextHour = (nextHour - currentHour - 1) * 60 + (60 - currentMinute);
+            if (timeUntilNextHour > 0 && timeUntilNextHour <= threshold) {
+                // 如果距离下一个限制时间小于等于阈值，则等待到限制时间开始
+                log.warn("接近限制时间，开始等待");
+                await sleep(timeUntilNextHour * 60 * 1000);
+                return true;
+            }
+        }
+    }
+    log.info("不处于限制时间");
+    return false; // 当前时间不在限制时间内
+}
 
 
 

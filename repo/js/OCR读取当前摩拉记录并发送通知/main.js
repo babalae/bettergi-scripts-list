@@ -130,7 +130,7 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
 
     // 如果识别到了“角色菜单”或“天赋”，则识别“摩拉数值”
     if (recognized) {
-        let ocrRegionMora = { x: 1620, y: 25, width: 152, height: 46 }; // 设置对应的识别区域
+        let ocrRegionMora = { x: 1606, y: 28, width: 164, height: 40 }; // 设置对应的识别区域
         let recognizedText = await recognizeTextInRegion(ocrRegionMora);
         if (recognizedText) {
             log.info(`成功识别到摩拉数值: ${recognizedText}`);

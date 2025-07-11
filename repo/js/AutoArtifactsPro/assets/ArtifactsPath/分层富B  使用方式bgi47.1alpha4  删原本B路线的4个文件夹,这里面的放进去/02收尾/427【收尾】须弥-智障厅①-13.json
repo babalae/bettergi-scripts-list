@@ -1,0 +1,489 @@
+﻿{
+  "info": {
+    "name": "427【收尾】须弥-智障厅①-13",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752165248027,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5168.5595703125,
+      "y": -2345.5625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 5220.943359375,
+      "y": -2350.966796875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 5227.0478515625,
+      "y": -2325.84765625,
+      "action": "up_down_grab_leaf",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 4,
+      "x": 5236.921875,
+      "y": -2323.537109375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 5236.2529296875,
+      "y": -2319.892578125,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 5237.85595703125,
+      "y": -2320.8857421875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 5247.1279296875,
+      "y": -2325.888671875,
+      "action": "up_down_grab_leaf",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 8,
+      "x": 5270.89208984375,
+      "y": -2325.91796875,
+      "action": "up_down_grab_leaf",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 9,
+      "x": 5261.6611328125,
+      "y": -2322.9150390625,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "attack(0.3)",
+      "type": "orientation"
+    },
+    {
+      "id": 10,
+      "x": 5261.6611328125,
+      "y": -2322.9150390625,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 5262.1748046875,
+      "y": -2319.693359375,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 5262.4345703125,
+      "y": -2323.4736328125,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 5278.96728515625,
+      "y": -2323.291015625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 5281.32861328125,
+      "y": -2321.01953125,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
+    },
+    {
+      "id": 15,
+      "x": 5282.249984199669,
+      "y": -2350.37381767885,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 5271.125,
+      "y": -2376.689453125,
+      "action": "up_down_grab_leaf",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 17,
+      "x": 5281.9521484375,
+      "y": -2382.123046875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
+    },
+    {
+      "id": 18,
+      "x": 5276.85009765625,
+      "y": -2378.3203125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 5261.26171875,
+      "y": -2378.8466796875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 5262.2724609375,
+      "y": -2382.66015625,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
+    },
+    {
+      "id": 21,
+      "x": 5259.216796875,
+      "y": -2378.39453125,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": 5240.8076171875,
+      "y": -2378.0810546875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": 5241.96630859375,
+      "y": -2380.6416015625,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
+    },
+    {
+      "id": 24,
+      "x": 5236.97509765625,
+      "y": -2378.134765625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 25,
+      "x": 5219.08642578125,
+      "y": -2378.36328125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 26,
+      "x": 5216.468753950083,
+      "y": -2380.1874317891634,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
+    },
+    {
+      "id": 27,
+      "x": 5217.9453125,
+      "y": -2378.3876953125,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 28,
+      "x": 5248.58056640625,
+      "y": -2378.150390625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(t)",
+      "type": "orientation"
+    },
+    {
+      "id": 29,
+      "x": 5257.34033203125,
+      "y": -2370.6259765625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 30,
+      "x": 5259.31201171875,
+      "y": -2381.47265625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 31,
+      "x": 5259.53564453125,
+      "y": -2413.6689453125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(w),wait(0.4),dash,wait(0.4),dash,wait(0.4),dash,wait(0.5),keyup(w),",
+      "type": "orientation"
+    },
+    {
+      "id": 32,
+      "x": 5259.32177734375,
+      "y": -2413.748046875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 33,
+      "x": 5259.32177734375,
+      "y": -2413.748046875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 34,
+      "x": 5237.4931640625,
+      "y": -2431.26953125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 35,
+      "x": 5237.4931640625,
+      "y": -2431.26953125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
+    },
+    {
+      "id": 36,
+      "x": 5269.4453125,
+      "y": -2435.08984375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 37,
+      "x": 5271.32861328125,
+      "y": -2439.3876953125,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
+    },
+    {
+      "id": 38,
+      "x": 5272.20361328125,
+      "y": -2436.591796875,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 39,
+      "x": 5276.36083984375,
+      "y": -2434.5712890625,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 40,
+      "x": 5286.7724609375,
+      "y": -2412.912109375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 41,
+      "x": 5286.7724609375,
+      "y": -2412.912109375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
+    },
+    {
+      "id": 42,
+      "x": 5169.212890625,
+      "y": -2345.380859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 43,
+      "x": 5179.69384765625,
+      "y": -2341.3388671875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 44,
+      "x": 5178.4697265625,
+      "y": -2317.474609375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 45,
+      "x": 5150.3212890625,
+      "y": -2314.8505859375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 46,
+      "x": 5150.345703125,
+      "y": -2287.427734375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 47,
+      "x": 5165.52783203125,
+      "y": -2287.6787109375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
+    },
+    {
+      "id": 48,
+      "x": 5169.1044921875,
+      "y": -2280.638671875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 49,
+      "x": 5164.2958984375,
+      "y": -2264.0380859375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 50,
+      "x": 5164.2958984375,
+      "y": -2264.0380859375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
+    },
+    {
+      "id": 51,
+      "x": 5157.2060546875,
+      "y": -2265.4775390625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 52,
+      "x": 5154.3544921875,
+      "y": -2264.009765625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);",
+      "type": "target"
+    }
+  ]
+}

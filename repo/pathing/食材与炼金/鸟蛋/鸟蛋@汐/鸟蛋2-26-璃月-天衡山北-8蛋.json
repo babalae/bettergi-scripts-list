@@ -1,0 +1,147 @@
+{
+  "info": {
+    "name": "鸟蛋2-26-璃月-天衡山北-8蛋",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752215727241,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 610.328125,
+      "y": -282.16357421875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 593.7255859375,
+      "y": -212.0009765625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 581.17578125,
+      "y": -207.83984375,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 582.7431640625,
+      "y": -174.4921875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 583.109375,
+      "y": -166.13720703125,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 616.6015625,
+      "y": -155.50537109375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 686.556640625,
+      "y": -136.30126953125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1.5)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 727.6025390625,
+      "y": -89.59521484375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 728.763671875,
+      "y": -88.55859375,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 721.19140625,
+      "y": -73.18310546875,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 727.5029296875,
+      "y": -60.2744140625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 729.9775390625,
+      "y": -56.9287109375,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 720.595703125,
+      "y": -45.54736328125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 716.208984375,
+      "y": -47.25390625,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
