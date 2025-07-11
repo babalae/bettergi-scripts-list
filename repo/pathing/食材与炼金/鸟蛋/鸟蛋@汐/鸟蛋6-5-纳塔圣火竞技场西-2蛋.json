@@ -1,0 +1,75 @@
+﻿{
+  "info": {
+    "name": "鸟蛋6-5-纳塔圣火竞技场西-2蛋",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752177522909,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9394.8125,
+      "y": -1808.0244140625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 9396.033203125,
+      "y": -1833.373046875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 9388.951171875,
+      "y": -1849.501953125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 9387.482421875,
+      "y": -1854.4296875,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "attack(0.2)"
+    },
+    {
+      "id": 5,
+      "x": 9381.412109375,
+      "y": -1854.2880859375,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "attack(0.2)"
+    },
+    {
+      "id": 6,
+      "x": 9378.5478515625,
+      "y": -1853.615234375,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}
