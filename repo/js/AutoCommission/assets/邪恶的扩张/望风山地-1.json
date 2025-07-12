@@ -2,83 +2,68 @@
   "info": {
     "name": "望风山地-1",
     "type": "collect",
-    "author": "未知作者",
+    "author": "星野",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.0"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
   },
   "positions": [
     {
       "id": 1,
+      "x": -1281,
+      "y": 2714.75,
       "action": "",
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": -1281.0,
-      "y": 2714.75
+      "move_mode": "dash",
+      "type": "teleport"
     },
     {
       "id": 2,
       "x": -1339.25,
       "y": 2732.75,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
     },
     {
       "id": 3,
-      "x": -1372.0,
-      "y": 2741.5,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "x": -1373.75,
+      "y": 2734.75,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
     },
     {
       "id": 4,
-      "x": -1401.49,
-      "y": 2725.5,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "x": -1402.4899999999998,
+      "y": 2739.5,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
     },
     {
       "id": 5,
-      "x": -1463.49,
-      "y": 2748.0,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "x": -1463.4899999999998,
+      "y": 2748,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
     },
     {
       "id": 6,
       "x": -1473.25,
       "y": 2780.5,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
     },
     {
       "id": 7,
-      "x": -1468.25,
-      "y": 2805.0,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 8,
-      "x": -1476.75,
-      "y": 2816.0,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 9,
+      "x": -1487,
+      "y": 2802,
       "action": "fight",
       "move_mode": "walk",
-      "type": "path",
-      "x": -1490.0,
-      "y": 2805.0
+      "type": "path"
     }
   ]
 }
