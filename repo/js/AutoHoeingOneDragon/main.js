@@ -180,8 +180,9 @@ async function processPathings() {
 
         // 去除重复标签
         pathing.tags = [...new Set(pathing.tags)];
+        // 处理 map_name 属性
+        pathing.map_name = parsedContent.info?.map_name || "Teyvat"; // 如果有 map_name，则使用其值，否则默认为 "Teyvat"
     }
-
     return pathings; // 返回处理后的 pathings 数组
 }
 
@@ -343,7 +344,11 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
 
     // 为最终选中且精英怪数量为0的路线添加小怪标签
     pathings.forEach(pathing => {
-        if (pathing.selected && pathing.e === 0) {
+        // 检查是否包含 "传奇" 或 "高危" 标签
+        const hasLegendOrHighRisk = pathing.tags.includes("传奇") || pathing.tags.includes("高危");
+
+        // 如果路径被选中、没有精英怪物且不包含 "传奇" 或 "高危" 标签，则添加 "小怪" 标签
+        if (pathing.selected && pathing.e === 0 && !hasLegendOrHighRisk) {
             pathing.tags.push("小怪");
         }
     });
@@ -810,7 +815,7 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
             await fakeLog(`${pathing.fileName}`, false, false, 0);
 
             try {
-                const miniMapPosition = await genshin.getPositionFromMap();
+                const miniMapPosition = await genshin.getPositionFromMap(pathing.map_name);
                 // 比较坐标
                 const diffX = Math.abs(lastX - miniMapPosition.X);
                 const diffY = Math.abs(lastY - miniMapPosition.Y);
@@ -819,12 +824,17 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
                 if ((diffX + diffY) < 5) {
                     runningFailCount++;
                 } else {
-                    //log.info(`当前坐标（${miniMapPosition.X}，${miniMapPosition.Y}，距离上次距离${(diffX + diffY)}`)
                     runningFailCount = 0;
                 }
+                //log.info(`当前位于${pathing.map_name}地图的（${miniMapPosition.X}，${miniMapPosition.Y}，距离上次距离${(diffX + diffY)}`);
             } catch (error) {
                 log.error(`执行任务时发生错误：${error.message}`);
                 runningFailCount++;
+            }
+
+            if (runningFailCount >= 1) {
+                log.error("连续两条路线终止时坐标不变，不记录运行数据");
+                continue;
             }
 
             // 计算下一个 UTC 时间的晚上 8 点（即北京时间凌晨四点）
@@ -846,11 +856,6 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
             const remainingminutes = Math.floor((predictRemainingTime % 3600) / 60);
             const remainingseconds = predictRemainingTime % 60;
             log.info(`当前进度：第 ${targetGroup} 组第 ${groupPathCount}/${totalPathsInGroup} 个  ${pathing.fileName}已完成，该组预计剩余: ${remaininghours} 时 ${remainingminutes} 分 ${remainingseconds.toFixed(0)} 秒`);
-
-            if (runningFailCount >= 1) {
-                log.error("连续两条路线终止时坐标不变，暂时不记录运行数据");
-                continue;
-            }
 
             await updateCdTimeRecord(pathings, accountName);
         }
