@@ -2,13 +2,18 @@
   "info": {
     "name": "5枫丹富A路TP刷CD",
     "type": "collect",
-    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751982923732,
+    "last_modified_time": 1752260707972,
     "enable_monster_loot_split": false
   },
   "positions": [
@@ -46,10 +51,38 @@
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "locked": false
     },
     {
       "id": 5,
+      "x": 4504.5498046875,
+      "y": 4761.36083984375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4504.0205078125,
+      "y": 4709.3642578125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 7,
+      "x": 4445.484375,
+      "y": 4663.81591796875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
       "x": 3594.9287109375,
       "y": 3255.047607421875,
       "action": "",

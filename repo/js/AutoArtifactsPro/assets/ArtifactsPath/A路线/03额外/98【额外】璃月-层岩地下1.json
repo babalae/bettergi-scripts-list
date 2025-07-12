@@ -2,13 +2,18 @@
   "info": {
     "name": "98【额外】璃月-层岩地下1",
     "type": "collect",
-    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
     "version": "1.0",
     "description": "",
     "map_name": "TheChasm",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751988207337,
+    "last_modified_time": 1752306322512,
     "enable_monster_loot_split": false
   },
   "positions": [
@@ -72,7 +77,7 @@
       "y": 970.6874772630549,
       "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "w(0.01),wait(0.2),w(0.01),wait(0.2),attack(0.08),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.1),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "action_params": "w(0.01),wait(0.2),w(0.01),wait(0.2),attack(0.4),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.1),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
       "type": "target"
     }
   ]
