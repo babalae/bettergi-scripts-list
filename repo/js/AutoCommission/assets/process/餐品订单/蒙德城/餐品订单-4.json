@@ -2,9 +2,9 @@
   "info": {
     "name": "餐品订单-4",
     "type": "collect",
-    "author": "小鹰划船不用桨",
+    "author": "云闲vsv",
     "version": "1.0",
-    "description": "寻路",
+    "description": "餐品订单-4",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0"
   },
@@ -12,17 +12,44 @@
     {
       "id": 1,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": -839.8271484375,
-      "y": 1826.74658203125,
+      "x": -899.7958984375,
+      "y": 1907.9736328125,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": -838.728515625,
-      "y": 1825.83642578125,
-      "type": "orientation",
+      "x": -907.2802734375,
+      "y": 1849.0224609375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -878.3642578125,
+      "y": 1841.28125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -878.34765625,
+      "y": 1852.4248046875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -880.515625,
+      "y": 1856.84228515625,
+      "type": "target",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
