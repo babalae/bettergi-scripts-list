@@ -167,9 +167,8 @@ async function runClearMode() {
     const resetTimeStr = formatDateTime(getDefaultTime());
     let account = await getGameAccount(settings.iHaveMultipleAccounts);
     for (const pathTask of selectedMaterials) {
-        const jsonFiles = filterFilesInTaskDir(pathTask.label);
         const recordFile = getRecordFilePath(account, pathTask);
-        const lines = jsonFiles.map((filePath) => {
+        const lines = pathTask.jsonFiles.map((filePath) => {
             return `${basename(filePath)}\t${resetTimeStr}`;
         });
         const content = lines.join("\n");
@@ -280,7 +279,7 @@ async function runPathScriptFile(jsonPath) {
 
 async function runPathTaskIfCooldownExpired(account, pathTask) {
     const recordFile = getRecordFilePath(account, pathTask);
-    const jsonFiles = filterFilesInTaskDir(pathTask.label);
+    const jsonFiles = pathTask.jsonFiles;
 
     log.info("{0}共有{1}条路线", pathTask.label, jsonFiles.length);
 
@@ -397,7 +396,13 @@ function getSelectedMaterials() {
             if (selectAllMaterials || settings[entry.name] === true) {
                 let index = entry.label.indexOf(" ");
                 entry.label = entry.label.slice(index + 1); // 去除⬇️指示
-                selectedMaterials.push(entry);
+                const jsonFiles = filterFilesInTaskDir(entry.label);
+                if (jsonFiles.length > 0) {
+                    entry.jsonFiles = jsonFiles;
+                    selectedMaterials.push(entry);
+                } else {
+                    log.debug("跳过空文件夹: {0}", entry.label);
+                }
             }
         }
     }
