@@ -1,0 +1,98 @@
+{
+  "info": {
+    "name": "422须弥沙漠赤王陵西北岩窟中层（600_1，200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时99.27秒，包含2只精英与2只小怪，预计收入881摩拉，包含以下怪物：1只丘丘人、1只打手丘丘人、1只丘丘岩盔王、1只元能构装体·重塑仪。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751460532770
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5538.67919921875,
+      "y": -2051.5517578125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 5527.91455078125,
+      "y": -2042.0283203125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 5539.505859375,
+      "y": -2020.0107421875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 5538.3837890625,
+      "y": -2031.5341796875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 5528.21484375,
+      "y": -2036.56591796875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 5496.94775390625,
+      "y": -2048.9765625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 5461.22900390625,
+      "y": -2066.875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 5435.7890625,
+      "y": -2092.107421875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 5435.7890625,
+      "y": -2092.107421875,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

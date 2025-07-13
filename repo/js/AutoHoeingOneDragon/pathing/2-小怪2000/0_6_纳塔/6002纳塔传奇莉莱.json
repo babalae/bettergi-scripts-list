@@ -1,0 +1,77 @@
+{
+  "info": {
+    "name": "6002纳塔传奇莉莱",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "mno",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时98.91秒，包含以下怪物：5只小怪传奇倍率二。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752335229887,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9782.69140625,
+      "y": -1764.3212890625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 9788.7451171875,
+      "y": -1764.86328125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 9793.2685546875,
+      "y": -1690.27783203125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "attack(0.5)"
+    },
+    {
+      "id": 4,
+      "x": 9799.669921875,
+      "y": -1704.36328125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 9799.669921875,
+      "y": -1704.36328125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 9799.669921875,
+      "y": -1704.36328125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}
