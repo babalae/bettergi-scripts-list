@@ -1,7 +1,7 @@
 (async function () {
   // 版本和编译信息
-  const VERSION = "0.98.1";
-  const BUILD_TIME = "2025.07.11";
+  const VERSION = "0.98.2";
+  const BUILD_TIME = "2025.07.13";
 async function errorlog() {
   // 输出版本和编译时间信息
   log.info("=".repeat(20));
@@ -159,7 +159,7 @@ async function errorlog() {
         skipCommissions,
       };
 
-      log.info("setting:{index}", result);
+      log.debug("setting:{index}", result);
 
       return result;
     } catch {
@@ -552,9 +552,6 @@ async function errorlog() {
 
             // 根据委托类型执行不同的处理逻辑
             if (commission.type === Datas.COMMISSION_TYPE.TALK) {
-              dispatcher.addTimer(
-                new RealtimeTimer("AutoPick", { forceInteraction: false })
-              );
               // 执行对话委托
               const talkSuccess = await Execute.executeTalkCommission(
                 commission.name,
@@ -1127,6 +1124,53 @@ async function errorlog() {
         return false;
       }
     },
+
+    // 处理自动任务步骤
+    processAutoTask: async (step) => {
+      try {
+        const { action, taskType, config } = step.data;
+
+        if (!action) {
+          log.error("自动任务参数不完整，需要 action 参数");
+          return false;
+        }
+
+        log.info("执行自动任务操作: {action}", action);
+
+        switch (action) {
+          case "enable":
+            // 启用自动任务
+            if (!taskType) {
+              log.error("启用自动任务需要指定 taskType");
+              return false;
+            }
+            
+            if (config && typeof config === "object") {
+              log.info("启用自动任务: {type}，配置: {config}", taskType, JSON.stringify(config));
+              dispatcher.addTimer(new RealtimeTimer(taskType, config));
+            } else {
+              log.info("启用自动任务: {type}", taskType);
+              dispatcher.addTimer(new RealtimeTimer(taskType));
+            }
+            break;
+
+          case "disable":
+            // 取消所有自动任务
+            log.info("取消所有自动任务");
+            dispatcher.ClearAllTriggers();
+            break;
+
+          default:
+            log.error("未知的自动任务操作: {action}", action);
+            return false;
+        }
+
+        return true;
+      } catch (error) {
+        log.error("处理自动任务步骤时出错: {error}", error.message);
+        return false;
+      }
+    },
   };
 
   // 步骤处理器工厂 - 更好的扩展性设计
@@ -1143,7 +1187,9 @@ async function errorlog() {
       },
 
       等待: async (step, context) => {
-        await sleep(5000);
+        const waitTime = step.data || 5000;
+        log.info("等待 {time} 毫秒", waitTime);
+        await sleep(waitTime);
       },
 
       追踪委托: async (step, context) => {
@@ -1201,6 +1247,10 @@ async function errorlog() {
 
       切换角色: async (step, context) => {
         await StepProcessor.processSwitchRole(step);
+      },
+
+      自动任务: async (step, context) => {
+        await StepProcessor.processAutoTask(step);
       },
     },
 
@@ -1388,12 +1438,12 @@ async function errorlog() {
         // 正常跳过对话
         await genshin.chooseTalkOption("纳西妲美貌举世无双", skipCount, false);
 
-        keyPress("VK_ESCAPE");//关弹窗
-
         if (isInMainUI()) {
           log.info("检测到已返回主界面，结束循环");
           break;
         }
+
+        //keyPress("VK_ESCAPE");//关弹窗
 
         // 每skipCount次跳过后，进行OCR识别
         if (true) {
@@ -1488,8 +1538,8 @@ async function errorlog() {
 
           await sleep(1000);
 
-          // 使用Main_Dev识别前3个委托
-          log.info("findCommissionTarget使用Main_Dev识别前3个委托");
+          // 识别前3个委托
+          log.debug("findCommissionTarget识别前3个委托");
 
           // 先识别前3个Main_Dev区域（索引0-2）
           for (let regionIndex = 0; regionIndex < 3; regionIndex++) {
@@ -2138,7 +2188,7 @@ async function errorlog() {
       }
     },
 
-    // 识别委托列表 - 使用Main_Dev进行4个单独识别
+    // 识别委托列表 - 进行4个单独识别
     recognizeCommissions: async (supportedCommissions) => {
       try {
         log.info("开始执行委托识别");
@@ -2146,12 +2196,12 @@ async function errorlog() {
         // 初始化当前委托位置变量
         let currentCommissionPosition = null;
 
-        // 步骤1: 使用Main_Dev识别前3个委托（索引0-2）
-        log.info("步骤1: 使用Main_Dev识别前3个委托");
+        // 步骤1: 识别前3个委托（索引0-2）
+        log.info("步骤1: 使用识别前3个委托");
 
         let allCommissions = [];
 
-        // 先识别前3个Main_Dev区域（索引0-2）
+        // 先识别前3个区域（索引0-2）
         for (let regionIndex = 0; regionIndex < 3; regionIndex++) {
           const region = Datas.OCR_REGIONS.Main_Dev[regionIndex];
 
@@ -2341,7 +2391,7 @@ async function errorlog() {
         log.info("步骤3: 翻页后识别第4个委托");
         await UI.pageScroll(1);
 
-        // 识别第4个Main_Dev区域（索引3）
+        // 识别第4个区域（索引3）
         const region = Datas.OCR_REGIONS.Main_Dev[3];
         let fourthCommission = null;
 
