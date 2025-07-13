@@ -2,6 +2,11 @@
 const timeMoveUp = 500;
 const timeMoveDown = 1000;
 const pickupMode = settings.pickupMode || "js拾取，默认只拾取狗粮和晶蝶";
+if (settings.activeDumperMode) { //处理泥头车信息
+    dumpers = settings.activeDumperMode.split('，').map(Number).filter(num => num === 1 || num === 2 || num === 3 || num === 4);
+} else {
+    dumpers = [];
+}
 
 (async function () {
     //自定义配置处理
@@ -415,15 +420,9 @@ async function assignGroups(pathings, group1Tags, group2Tags, group3Tags, group4
     return groupCounts;
 }
 
-async function runPathWithOcr(pathFilePath, targetTexts, blacklistKeywords) {
-    // 定义替换映射表
-    const replacementMap = {
-        "监": "盐",
-        "卵": "卯"
-    };
+async function runPathWithOcr(pathFilePath, map_name, targetTexts, blacklistKeywords) {
     let thisMoveUpTime = 0;
     let lastMoveDown = 0;
-
     let lastPickupTime = new Date();
     let lastPickupItem = "";
     // 定义状态变量
@@ -462,9 +461,6 @@ async function runPathWithOcr(pathFilePath, targetTexts, blacklistKeywords) {
                     for (let i = 0; i < resList.count; i++) {
                         let res = resList[i];
                         let correctedText = res.text;
-                        for (let [wrongChar, correctChar] of Object.entries(replacementMap)) {
-                            correctedText = correctedText.replace(new RegExp(wrongChar, 'g'), correctChar);
-                        }
 
                         // 如果 targetTexts 为空，则直接将所有文本视为匹配
                         if (targetTexts.length === 0) {
@@ -625,19 +621,121 @@ async function runPathWithOcr(pathFilePath, targetTexts, blacklistKeywords) {
         }
     }
 
+    //处理泥头车模式
+    async function dumper(pathFilePath, map_name) {
+        let lastDumperTimer = new Date();
+        const dumperCD = 10000;
+        try {
+            const pathingContent = await file.readText(pathFilePath);
+            const parsedContent = JSON.parse(pathingContent);
+            const positions = parsedContent.positions;
+            // 初始化 hasT 为 false
+            let hasT = false;
+
+            // 初始化 fightPositions 数组
+            let fightPositions = [];
+
+            // 遍历 positions 数组
+            for (const pos of positions) {
+                // 检查 action_params 是否包含 keypress(T)
+                if (pos.action_params && pos.action_params.includes('keypress(T)')) {
+                    hasT = true;
+                }
+
+                // 如果 action 是 "fight"，则添加到 fightPositions
+                if (pos.action === "fight") {
+                    fightPositions.push({
+                        x: pos.x,
+                        y: pos.y,
+                        used: false
+                    });
+                }
+            }
+
+            while (!state.completed && !state.cancelRequested) {
+                if (hasT) {
+                    log.warn("当前路线含有按键T，暂时禁用泥头车")
+                    break;
+                }
+                await sleep(1011);
+                let dumperDistance = 0;
+                try {
+                    let shouldPressKeys = false;
+                    const currentPosition = await genshin.getPositionFromMap(map_name);
+
+                    for (let i = 0; i < fightPositions.length; i++) {
+                        const fightPos = fightPositions[i];
+
+                        if (fightPos.used) {
+                            continue;
+                        }
+
+                        const distance = Math.sqrt(
+                            Math.pow(currentPosition.x - fightPos.x, 2) +
+                            Math.pow(currentPosition.y - fightPos.y, 2)
+                        );
+
+                        if (distance <= 30) {
+                            fightPositions[i].used = true;
+                        }
+
+                        if (distance > 5 && distance <= 30) {
+                            if ((new Date() - lastDumperTimer) > dumperCD) {
+                                shouldPressKeys = true;
+                                lastDumperTimer = new Date();
+                                dumperDistance = distance;
+                            }
+                        }
+                    }
+
+                    if (shouldPressKeys) {
+                        log.info(`距离下个战斗地点距离${dumperDistance.toFixed(2)}，启用泥头车`);
+                        for (const key of dumpers) {
+                            log.info(`[泥头车]:尝试切换${key}号角色施放e技能`)
+                            keyPress(String(key));
+                            await sleep(400);
+                            keyPress('e');
+                            await sleep(400);
+                            keyPress('e');
+                            await sleep(400);
+                            keyPress('e');
+                            await sleep(400);
+                        }
+                    }
+                } catch (error) {
+                }
+                if (state.cancelRequested) {
+                    break;
+                }
+            }
+        } catch (error) {
+            log.error(`执行泥头车时出现异常: ${error.message}`);
+        }
+    }
+
     // 启动路径文件执行任务
     const pathTask = executePathFile(pathFilePath);
 
-    // 启动 OCR 检测和交互任务
-    const ocrTask = performOcrAndInteract(imagePath, targetTexts, textxRange, texttolerance);
+    // 根据条件决定是否启动 OCR 检测和交互任务
+    let ocrTask = null;
+    if (pickupMode === "js拾取，默认只拾取狗粮和晶蝶") {
+        ocrTask = performOcrAndInteract(imagePath, targetTexts, textxRange, texttolerance);
+    }
 
-    // 等待两个任务都完成
+    // 启动泥头车
+    let dumperTask = null;
+    if (dumpers.length > 0) { // 检查 dumpers 是否不为空
+        dumperTask = dumper(pathFilePath, map_name); // 调用 dumper 函数
+    }
+
+    // 等待所有任务完成
     try {
-        await Promise.allSettled([pathTask, ocrTask]);
+        await Promise.allSettled([pathTask, ocrTask, dumperTask]);
     } catch (error) {
-        log.error(`执行任务时发生错误：${error.message}`);
+        console.error(`执行任务时发生错误：${error.message}`);
         state.cancelRequested = true; // 设置取消标志
     } finally {
+        state.completed = true; // 确保任务标记为完成
         state.cancelRequested = true; // 设置取消标志
     }
 }
@@ -801,12 +899,8 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
             // 输出路径已刷新并开始处理的信息
             log.info(`该路线已刷新，开始处理。`);
             await fakeLog(`${pathing.fileName}`, false, true, 0);
-            if (pickupMode === "js拾取，默认只拾取狗粮和晶蝶") {
-                // 调用 runPathWithOcr 函数处理路径
-                await runPathWithOcr(pathing.fullPath, targetTexts, blacklistKeywords);
-            } else {
-                await pathingScript.runFile(pathing.fullPath);
-            }
+            // 调用 runPathWithOcr 函数处理路径
+            await runPathWithOcr(pathing.fullPath, pathing.map_name, targetTexts, blacklistKeywords);
             try {
                 await sleep(1);
             } catch (error) {
