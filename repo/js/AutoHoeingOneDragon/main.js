@@ -37,7 +37,7 @@ if (settings.activeDumperMode) { //处理泥头车信息
     // 拾取黑白名单处理
     const ocrPickupContent = await file.readText("assets/拾取名单.json");
     const ocrPickupJson = JSON.parse(ocrPickupContent);
-    const targetTexts = ocrPickupJson["白名单"];
+    const whitelistKeywords = ocrPickupJson["白名单"];
     const blacklistKeywords = ocrPickupJson["黑名单"];
 
     if (!settings.accountName) {
@@ -98,7 +98,7 @@ if (settings.activeDumperMode) { //处理泥头车信息
     } else if (operationMode === "运行锄地路线") {
         await switchPartyIfNeeded(partyName)
         log.info("开始运行锄地路线");
-        await processPathingsByGroup(pathings, targetTexts, blacklistKeywords, accountName);
+        await processPathingsByGroup(pathings, whitelistKeywords, blacklistKeywords, accountName);
     } else {
         log.info("强制刷新所有路线CD");
         await initializeCdTime(pathings, "");
@@ -420,13 +420,14 @@ async function assignGroups(pathings, group1Tags, group2Tags, group3Tags, group4
     return groupCounts;
 }
 
-async function runPathWithOcr(pathFilePath, map_name, targetTexts, blacklistKeywords) {
+async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywords) {
+    let lastCheckMainUi = new Date();
     let thisMoveUpTime = 0;
     let lastMoveDown = 0;
     let lastPickupTime = new Date();
     let lastPickupItem = "";
     // 定义状态变量
-    let state = { completed: false, cancelRequested: false };
+    let state = { completed: false, cancelRequested: false, atMainUi: false };
     // 定义图像路径和目标文本列表
     const imagePath = `assets/F_Dialogue.png`;
     const textxRange = { min: 1210, max: 1412 };
@@ -444,8 +445,8 @@ async function runPathWithOcr(pathFilePath, map_name, targetTexts, blacklistKeyw
     }
 
     // 定义一个函数用于执行OCR识别和交互
-    async function performOcrAndInteract(imagePath, targetTexts, textxRange, texttolerance) {
-        async function performOcr(targetTexts, xRange, yRange, timeout = 200) {
+    async function performOcrAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance) {
+        async function performOcr(whitelistKeywords, xRange, yRange, timeout = 200) {
             let startTime = Date.now();
             while (Date.now() - startTime < timeout) {
                 try {
@@ -462,12 +463,12 @@ async function runPathWithOcr(pathFilePath, map_name, targetTexts, blacklistKeyw
                         let res = resList[i];
                         let correctedText = res.text;
 
-                        // 如果 targetTexts 为空，则直接将所有文本视为匹配
-                        if (targetTexts.length === 0) {
+                        // 如果 whitelistKeywords 为空，则直接将所有文本视为匹配
+                        if (whitelistKeywords.length === 0) {
                             results.push({ text: correctedText, x: res.x, y: res.y, width: res.width, height: res.height });
                         } else {
                             // 否则，检查是否包含目标文本
-                            for (let targetText of targetTexts) {
+                            for (let targetText of whitelistKeywords) {
                                 if (correctedText.includes(targetText)) {
                                     results.push({ text: correctedText, x: res.x, y: res.y, width: res.width, height: res.height });
                                     break; // 匹配到一个目标文本后即可跳出循环
@@ -552,11 +553,13 @@ async function runPathWithOcr(pathFilePath, map_name, targetTexts, blacklistKeyw
 
             // 尝试找到 F 图标
             let fRes = await findFIcon(imagePath, 1102, 335, 34, 400, 200);
-            if (!fRes) {
-                if (await isMainUI()) {
-                    //log.info("在主界面，尝试下滑");
-                    await keyMouseScript.runFile(`assets/滚轮下翻.json`);
-                }
+            if (!fRes || new Date() - lastCheckMainUi > 2011) {
+                state.atMainUi = await isMainUI();
+                lastCheckMainUi = new Date();
+            }
+            if (!fRes && state.atMainUi) {
+                //log.info("在主界面，尝试下滑");
+                await keyMouseScript.runFile(`assets/滚轮下翻.json`);
                 continue;
             }
 
@@ -564,7 +567,7 @@ async function runPathWithOcr(pathFilePath, map_name, targetTexts, blacklistKeyw
             let centerYF = fRes.y + fRes.height / 2;
 
             // 在当前屏幕范围内进行 OCR 识别
-            let ocrResults = await performOcr(targetTexts, textxRange, { min: fRes.y - texttolerance, max: fRes.y + fRes.height + texttolerance * 2 }, 200);
+            let ocrResults = await performOcr(whitelistKeywords, textxRange, { min: fRes.y - texttolerance, max: fRes.y + fRes.height + texttolerance * 2 }, 200);
 
             // 检查所有目标文本是否在当前页面中
             let foundTarget = false;
@@ -651,62 +654,64 @@ async function runPathWithOcr(pathFilePath, map_name, targetTexts, blacklistKeyw
                     });
                 }
             }
+            if (!hasT) {
+                while (!state.completed && !state.cancelRequested) {
+                    await sleep(2011);
+                    if (state.atMainUi) {
+                        //在主界面才尝试获取坐标
+                        let dumperDistance = 0;
+                        try {
+                            let shouldPressKeys = false;
+                            const currentPosition = await genshin.getPositionFromMap(map_name);
 
-            while (!state.completed && !state.cancelRequested) {
-                if (hasT) {
-                    log.warn("当前路线含有按键T，暂时禁用泥头车")
-                    break;
-                }
-                await sleep(1011);
-                let dumperDistance = 0;
-                try {
-                    let shouldPressKeys = false;
-                    const currentPosition = await genshin.getPositionFromMap(map_name);
+                            for (let i = 0; i < fightPositions.length; i++) {
+                                const fightPos = fightPositions[i];
 
-                    for (let i = 0; i < fightPositions.length; i++) {
-                        const fightPos = fightPositions[i];
+                                if (fightPos.used) {
+                                    continue;
+                                }
 
-                        if (fightPos.used) {
-                            continue;
-                        }
+                                const distance = Math.sqrt(
+                                    Math.pow(currentPosition.x - fightPos.x, 2) +
+                                    Math.pow(currentPosition.y - fightPos.y, 2)
+                                );
 
-                        const distance = Math.sqrt(
-                            Math.pow(currentPosition.x - fightPos.x, 2) +
-                            Math.pow(currentPosition.y - fightPos.y, 2)
-                        );
+                                if (distance <= 30) {
+                                    fightPositions[i].used = true;
+                                }
 
-                        if (distance <= 30) {
-                            fightPositions[i].used = true;
-                        }
-
-                        if (distance > 5 && distance <= 30) {
-                            if ((new Date() - lastDumperTimer) > dumperCD) {
-                                shouldPressKeys = true;
-                                lastDumperTimer = new Date();
-                                dumperDistance = distance;
+                                if (distance > 5 && distance <= 30) {
+                                    if ((new Date() - lastDumperTimer) > dumperCD) {
+                                        shouldPressKeys = true;
+                                        lastDumperTimer = new Date();
+                                        dumperDistance = distance;
+                                    }
+                                }
                             }
-                        }
-                    }
 
-                    if (shouldPressKeys) {
-                        log.info(`距离下个战斗地点距离${dumperDistance.toFixed(2)}，启用泥头车`);
-                        for (const key of dumpers) {
-                            log.info(`[泥头车]:尝试切换${key}号角色施放e技能`)
-                            keyPress(String(key));
-                            await sleep(400);
-                            keyPress('e');
-                            await sleep(400);
-                            keyPress('e');
-                            await sleep(400);
-                            keyPress('e');
-                            await sleep(400);
+                            if (shouldPressKeys) {
+                                log.info(`距离下个战斗地点距离${dumperDistance.toFixed(2)}，启用泥头车`);
+                                for (const key of dumpers) {
+                                    log.info(`[泥头车]:尝试切换${key}号角色施放e技能`)
+                                    keyPress(String(key));
+                                    await sleep(400);
+                                    keyPress('e');
+                                    await sleep(400);
+                                    keyPress('e');
+                                    await sleep(400);
+                                    keyPress('e');
+                                    await sleep(400);
+                                }
+                            }
+                        } catch (error) {
                         }
                     }
-                } catch (error) {
+                    if (state.cancelRequested) {
+                        break;
+                    }
                 }
-                if (state.cancelRequested) {
-                    break;
-                }
+            } else {
+                log.info("当前路线含有按键T，不启用泥头车");
             }
         } catch (error) {
             log.error(`执行泥头车时出现异常: ${error.message}`);
@@ -719,7 +724,7 @@ async function runPathWithOcr(pathFilePath, map_name, targetTexts, blacklistKeyw
     // 根据条件决定是否启动 OCR 检测和交互任务
     let ocrTask = null;
     if (pickupMode === "js拾取，默认只拾取狗粮和晶蝶") {
-        ocrTask = performOcrAndInteract(imagePath, targetTexts, textxRange, texttolerance);
+        ocrTask = performOcrAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance);
     }
 
     // 启动泥头车
@@ -811,7 +816,7 @@ async function copyPathingsByGroup(pathings) {
     }
 }
 
-async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, accountName) {
+async function processPathingsByGroup(pathings, whitelistKeywords, blacklistKeywords, accountName) {
     let lastX = 0;
     let lastY = 0;
     let runningFailCount = 0;
@@ -899,8 +904,8 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
             // 输出路径已刷新并开始处理的信息
             log.info(`该路线已刷新，开始处理。`);
             await fakeLog(`${pathing.fileName}`, false, true, 0);
-            // 调用 runPathWithOcr 函数处理路径
-            await runPathWithOcr(pathing.fullPath, pathing.map_name, targetTexts, blacklistKeywords);
+            // 调用 runPath 函数处理路径
+            await runPath(pathing.fullPath, pathing.map_name, whitelistKeywords, blacklistKeywords);
             try {
                 await sleep(1);
             } catch (error) {
@@ -909,6 +914,7 @@ async function processPathingsByGroup(pathings, targetTexts, blacklistKeywords, 
             await fakeLog(`${pathing.fileName}`, false, false, 0);
 
             try {
+                await genshin.returnMainUi();
                 const miniMapPosition = await genshin.getPositionFromMap(pathing.map_name);
                 // 比较坐标
                 const diffX = Math.abs(lastX - miniMapPosition.X);
