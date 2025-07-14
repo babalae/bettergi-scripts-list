@@ -1,14 +1,20 @@
-{
+﻿{
   "info": {
     "name": "217璃月-珉林酒窖3",
     "type": "collect",
-    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
     "version": "",
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751739598254
+    "last_modified_time": 1752389925412,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -130,27 +136,28 @@
     },
     {
       "id": 15,
-      "x": 546.697265625,
-      "y": 893.28857421875,
+      "x": 546.0625,
+      "y": 893.812677064635,
       "action": "",
       "move_mode": "dash",
       "type": "path"
     },
     {
       "id": 16,
-      "x": 541.2587890625,
-      "y": 893.3466796875,
+      "x": 540.10546875,
+      "y": 894.50537109375,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "type": "path"
     },
     {
       "id": 17,
-      "x": 529.9072265625,
-      "y": 901.82958984375,
+      "x": 532.31640625,
+      "y": 900.21826171875,
+      "type": "path",
+      "move_mode": "climb",
       "action": "",
-      "move_mode": "dash",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 18,
