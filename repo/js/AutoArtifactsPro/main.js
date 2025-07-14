@@ -175,7 +175,7 @@ let enemyType = "无";
             lastRunRoute = line.substring("上次运行路线:".length).trim();
         }
 
-        if (line.startsWith("上次运行是否完成:t")) {
+        if (line.startsWith("上次运行是否完成: t")) {
             finished = true;
         }
 
