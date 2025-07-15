@@ -512,6 +512,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 }
                 return null;
             }
+
             //检查是否在主界面
             async function isMainUI() {
                 // 修改后的图像路径
@@ -553,13 +554,15 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
 
             // 尝试找到 F 图标
             let fRes = await findFIcon(imagePath, 1102, 335, 34, 400, 200);
-            if (!fRes || new Date() - lastCheckMainUi > 2011) {
+            if (!fRes || ((new Date() - lastCheckMainUi) > 2011)) {
                 state.atMainUi = await isMainUI();
                 lastCheckMainUi = new Date();
             }
             if (!fRes && state.atMainUi) {
                 //log.info("在主界面，尝试下滑");
                 await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+            }
+            if (!fRes) {
                 continue;
             }
 
