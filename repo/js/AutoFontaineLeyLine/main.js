@@ -146,7 +146,7 @@
     }  
     var timesConfig = { value: timesValue };
 
-    log.warn(`全自动枫丹地脉花: v3.2 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
+    log.warn(`全自动枫丹地脉花: v3.3 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
     log.warn(`使用树脂类型数量：${rewards.length}`);
     log.warn(`使用树脂顺序：${golbalRewardText.join(" ->")}`); 
 
@@ -162,8 +162,8 @@
     var oneResin = "assets/model/one.png";
     
     if (Rewards){log.warn("结束后领励练点和提交每日...");if(settings.nh === undefined || settings.nh === "") {log.warn("好感队未配置，领奖励时不切换队伍..")}}
-    if (SHUV == 1) {log.warn(`线路模式 ： <<按次数刷取>> ${timesConfig.value/2} 次 `);}else{log.warn("线路模式 ： 设定使用的树脂类型<<耗尽模式>>（最多99次）... '");timesConfig.value = 198;}
-    if (color == 1) {log.warn("地脉类型 ： <<蓝色-经验花>>...");}else{log.warn("地脉类型 ： '<<黄色-摩拉花>>...")}
+    if (SHUV == 1) {log.warn(`线路模式 ： <<按次数刷取>> ${timesConfig.value/2} 次 `);}else{log.warn("线路模式 ： 设定使用的树脂类型<<耗尽模式>>（最多99次）");timesConfig.value = 198;}
+    if (color == 1) {log.warn("地脉类型 ： <<蓝色-经验花>>...");}else{log.warn("地脉类型 ： <<黄色-摩拉花>>...")}
     if (settings.n === undefined || settings.n === "") { log.warn("队伍名称未配置，不更换队伍...");SHUOVER=1;}
     if (settings.nh === undefined || settings.nh === "") { log.warn("好感队禁用...");haoganq=0}else{var haogandui = settings.nh;haoganq=1;if(settings.n === undefined ) {throw new Error("好感队已经设置，请填战斗队伍...")}}  
     let nowuidString = settings.nowuid ? settings.nowuid : "";      
@@ -326,7 +326,7 @@
         await genshin.returnMainUi();
         log.info("重置地图中,打开冒险之证寻找地脉花...");  
         await genshin.tp(2297.60, -824.45);
-        await genshin.returnMainUi();
+        await genshin.returnMainUi();    
 
         for(let i = 0;i<5;i++){
             await sleep(700);
@@ -654,8 +654,8 @@
             }
             else{
                 if(i == 1){
-                    let SHUN01 = await Textocr("接触地脉之花",0.5,0,0,1188,358,200,400);
-                    let SHUN02 = await Textocr("地脉之花", 0.5, 0, 0, 840,225, 230, 125);
+                    let SHUN01 = await Textocr("接触地脉之花",0.2,0,0,1188,358,200,400);
+                    let SHUN02 = await Textocr("地脉之花", 0.2, 0, 0, 840,225, 230, 125);
                         if (SHUN01.found || SHUN02.found) {
                             await keyPress("VK_ESCAPE");
                             await sleep(1000);
@@ -676,9 +676,9 @@
                     await dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
                     await sleep(1000);
                     await keyPress("VK_ESCAPE");
-                    await sleep(1000);
+                    await sleep(500);
                     await genshin.returnMainUi();
-                    await sleep(1000);
+                    await sleep(500);
                     return true;
                 }
             }
@@ -721,34 +721,49 @@
                         if (BUC.found) {continue;}                                           
                     }
 
-                    let { condensedResinCount, originalResinCount, fragileResinCount } = await getRemainResinStatus(); 
+                    let { condensedResinCount, originalResinCount, fragileResinCount, momentResinCount } = await getRemainResinStatus(); 
+
+                    switch (rewards[i]) {
+                        case 1:
+                            condensedResinCount--;
+                            break;
+                        case 2:
+                            originalResinCount -= 20;
+                            break;
+                        case 3:
+                            fragileResinCount--;
+                            break;
+                        case 4:
+                            momentResinCount--;
+                            break;
+                    }
 
                     let shouldExit = true;
 
                     if (resinTypes.includes("1"))
                     {
-                        shouldExit &= (parseInt(condensedResinCount, 10) <= 1);
+                        shouldExit &= (parseInt(condensedResinCount, 10) <= 0);
                     }
                     if (resinTypes.includes("2"))
                     {
-                        shouldExit &= (parseInt(originalResinCount, 10) < 40);
+                        shouldExit &= (parseInt(originalResinCount, 10) < 20);
                     }
                     if (resinTypes.includes("3"))
                     {
-                        shouldExit &= (parseInt(fragileResinCount, 10)  <= 1);
+                        shouldExit &= (parseInt(fragileResinCount, 10)  <= 0);
                     }
                     if (resinTypes.includes("4"))
                     {
-                        shouldExit &= (parseInt(momentResinCount, 10)  <= 1);
-                    }
+                        shouldExit &= (parseInt(momentResinCount, 10)  <= 0);
+                    }   
 
-                    await click(SHU.x+550,SHU.y)
-                    log.info(`${resinTypeMap[rewards[i]]} ...`);                        
+                    log.info(`${resinTypeMap[rewards[i]]} ...`);   
+                    await click(SHU.x+550,SHU.y)                  
                     
                     if (shouldExit) 
                     {
                         log.warn("树脂耗尽，停止执行...");
-                        await sleep(1000);          
+                        await sleep(1000);  
                         SHUOVER=2;  
                         return false;     
                     } 
@@ -773,22 +788,21 @@
         var momentResinCount = 0; //须臾树脂
 
         // 浓缩树脂
-        var condensedResinCountRa = await imageRecognition(condensedResin,0.1, 0, 0,1190,0,400,80);
+        var condensedResinCountRa = await imageRecognition(condensedResin,0.1, 0, 0,800,20,700,55);
         if (condensedResinCountRa.found) {  
-            //  await moveMouseTo(condensedResinCountRa.x,condensedResinCountRa.y);    
-            let countArea = await Textocr("",0.5, 0, 2,condensedResinCountRa.x+condensedResinCountRa.w,condensedResinCountRa.y,condensedResinCountRa.w*2-5,condensedResinCountRa.h-5);//
+            let countArea = await Textocr("",2, 0, 2,condensedResinCountRa.x,condensedResinCountRa.y-20,100,80);//
             if (countArea.found){
                 // log.info("浓缩树脂识别数量结果： "+ countArea.text);
                 condensedResinCount = countArea.text
             }
             else
-            {
-                log.info("浓缩树脂识别数量结果：无");
+            {           
+                condensedResinCount = "1";
+                log.info("浓缩树脂识别数量结果：1");//不知道为什么，1无法识别，0是不显示图标的，所以就当时1了，反正也没啥影响
             }
-
-        } else {
+        }else{
             log.info("未检测到浓缩树脂图标");        
-        }
+        }       
 
         var originalResinCountRa = await imageRecognition(originalResin,0.1, 0, 0,1555,0,90,80);
         if (originalResinCountRa.found) {  
@@ -796,7 +810,7 @@
             let countArea = await Textocr("",0.5, 0, 2,originalResinCountRa.x+originalResinCountRa.w,originalResinCountRa.y,originalResinCountRa.w*3,originalResinCountRa.h);//
             if (countArea.found){
                 log.info("原粹树脂识别数量结果："+ countArea.text);
-                let match = countArea.text.match(/(\d+)\s*[/1]\s*(2|20|200)/);
+                let match = countArea.text.match(/(\d+)\s*[/17]\s*(2|20|200)/);
                 if (match) {
                     originalResinCount = match[1];
                     // log.info("脆弱树脂识别数量提取："+ originalResinCount);
@@ -838,7 +852,7 @@
         { 
             var fragileResinCountRa = await imageRecognition(fragileResin,0.1, 0, 1,1170,0,300,100);
             if (fragileResinCountRa.found) {  
-                // await moveMouseTo(fragileResinCountRa.x+fragileResinCountRa.w+20,fragileResinCountRa.y-15);   
+                // await moveMouseTo(fragileResinCountRa.x+fragileResinCountRa.w+20,fragileResinCountRa.y-15);               
                 let countArea = await Textocr("",0.5, 0, 2,fragileResinCountRa.x+fragileResinCountRa.w+20,fragileResinCountRa.y-15,60,40);//
                 if (countArea.found){
                     // log.info("脆弱树脂识别数量结果："+ countArea.text);
@@ -861,7 +875,12 @@
 
         log.info("树脂状态：浓缩{0} 原粹{1} 脆弱{2} 须臾{3}", condensedResinCount, originalResinCount, fragileResinCount,momentResinCount)
         return {condensedResinCount,originalResinCount,fragileResinCount,momentResinCount}
-    }
+    }   
+
+    async function isOnRewardPage() {
+        const rewardText = await Textocr("地脉之花", 0.2, 0, 0, 840,225, 230, 125);
+        return rewardText.found;
+    }    
 
     async function isOnRewardPage() {
         const rewardText = await Textocr("地脉之花", 0.2, 0, 0, 840,225, 230, 125);
@@ -875,7 +894,7 @@
      * @param timeout 超时时间，单位为毫秒，默认值为1000毫秒
      * @returns 无返回值
      */
-    async function checkRewardPage(timeout = 2000) {
+    async function checkRewardPage(timeout = 1000) {
 
         if (!shouldContinueChecking) {
             return; // 如果不应该继续检测，则直接返回
@@ -1137,16 +1156,30 @@
             }
 
             shouldContinueChecking = true;
-            //执行到地脉花地点的寻路脚本
-            log.info(`开始执行寻找地脉花奖励：${jsonFile2}`);
             await dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false}));
-            await pathingScript.runFile(`${selectedFolder}${jsonFile2}`);
-            await sleep(2000);
+
+            //执行到地脉花地点的寻路脚本
+            let pathDic = JSON.parse(file.readTextSync(`${selectedFolder}${jsonFile2}`));
+            log.info(`开始执行寻找地脉花奖励：${jsonFile2}`);
+
+            await genshin.returnMainUi();
+            if(!await updatePositionWithTolerance(pathDic, 40)){
+                log.info(`离领奖区域过远，通过重新传送寻路到地脉花地点：${jsonFile2}`);
+                await pathingScript.runFile(`${selectedFolder}${jsonFile1}`);
+            }else{
+            //到达领奖地点
+            pathDic["positions"][0]["type"] = "path";//
+            await pathingScript.run(JSON.stringify(pathDic));
+            let SHUN01 = await Textocr("接触地脉之花",1,0,0,1188,358,200,400);
+            if (!SHUN01.found) await pathingScript.runFile(`${selectedFolder}${jsonFile2}`);     
+            }              
+        
+            await sleep(1000);
             // 领取奖励，开始找地脉口            
             log.info(`开始本线路第 ${executedCount/2+1} 朵花的奖励领取`);
             if (haoganq==1){log.info(`切换好感队伍：'${haogandui}'`);await genshin.returnMainUi(); await sleep(1000);await genshin.SwitchParty(haogandui);}
             shouldContinueChecking = false;
-            await sleep(2000);
+            await sleep(500);
             if (!(await claimRewards())) {
                 log.warn("树脂消耗完毕，结束任务");
                 dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false }));
@@ -1163,6 +1196,27 @@
         }
         return true;// 线路完成
     }   
+
+    async function updatePositionWithTolerance(pathDic,tolerance = 40) {
+        await genshin.returnMainUi();
+        let smallXY = await genshin.getPositionFromMap();
+        const currentX = pathDic["positions"][0]["x"];
+        const currentY = pathDic["positions"][0]["y"];
+        let isUpdated = false; 
+        log.info(`当前小地图坐标: X=${currentX}, Y=${currentY}`);
+
+        if (Math.abs(currentX - smallXY.x) < tolerance) {
+            // pathDic["positions"][0]["x"] = smallXY.x;
+            isUpdated = true; 
+        }
+    
+        if (Math.abs(currentY - smallXY.y) < tolerance) {
+            // pathDic["positions"][0]["y"] = smallXY.y;
+            isUpdated = true; 
+        }
+    
+        return isUpdated; 
+    }    
 
     // UID获取存在概率不成功，慎用！请更换背景纯色的名片提高OCR成功率
     let uidNumbers = nowuidString.match(/\d+/g);
@@ -1184,12 +1238,11 @@
                     }
                 } 
         }
-    }
+    }  
 
     try { 
         //根据SHUOVER决定模式
-        while (SHUOVER<=1){
-            Fligtin = true ; //领取冒险点奖励标志。
+        while (SHUOVER<=1){           
             if (!(await PathCheak(0))){
                 await leftButtonUp();
                 log.info("未找到地脉花，更换寻找方式，重试...")
@@ -1198,8 +1251,8 @@
                     await leftButtonUp();await genshin.returnMainUi();
                     throw new Error("未找到地脉花，退出！")
                 }
-            }          
-
+            }                      
+            Fligtin = true ; //领取冒险点奖励标志。
             //第一次执行选择队伍
             if (SHUOVER == 0){await genshin.returnMainUi(); await sleep(1000);await genshin.SwitchParty(settings.n);await sleep(500);}
             //开始寻找并执行地脉花自动。
