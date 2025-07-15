@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "335【高危】稻妻渊下宫蛇心之地西北（600_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时88.66秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只深渊咏者·紫电。",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 452.27,
+      "y": -119.1,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 496.69,
+      "y": -149.7,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 466.07,
+      "y": -172.79,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "wait(2.5)"
+    },
+    {
+      "id": 4,
+      "x": 481.48,
+      "y": -157.33,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 481.48,
+      "y": -157.33,
+      "type": "orientation",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

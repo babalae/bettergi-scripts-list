@@ -1,12 +1,20 @@
-{
+﻿{
   "info": {
     "name": "301稻妻-菫色之庭副本4",
     "type": "collect",
-    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
     "version": "",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752156218439,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -41,7 +49,7 @@
       "y": -3218.8779296875,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "keydown(w),click,keypress(f),wait(0.8),click,keypress(f),wait(0.8),click,keypress(f),wait(0.4),keyup(w)",
+      "action_params": "keydown(w),attack(0.08),keypress(f),wait(0.8),attack(0.08),keypress(f),wait(0.8),attack(0.08),keypress(f),wait(0.4),keyup(w);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "type": "path"
     },
     {
@@ -59,7 +67,7 @@
       "y": -3199.281492527416,
       "action": "combat_script",
       "move_mode": "run",
-      "action_params": "迪希雅 e;玛薇卡 e;砂糖 e;早柚 charge;珐露珊 q;琳妮特 q;蓝砚 charge;流浪者 e,attack(0.2);charge",
+      "action_params": "迪希雅 e;玛薇卡 e;砂糖 e;早柚 charge;珐露珊 q;琳妮特 q;蓝砚 charge;流浪者 e,attack(0.2);爱可菲 e;charge;芙宁娜 attack(0.2);",
       "type": "path"
     },
     {
@@ -68,7 +76,7 @@
       "y": -3198.037109375,
       "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "keypress(f),attack(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "action_params": "keypress(f),attack(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "type": "target"
     },
     {
@@ -140,7 +148,7 @@
       "y": -3269.718477156657,
       "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "type": "target"
     },
     {
@@ -167,7 +175,7 @@
       "y": -3228.0615234375,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "keypress(f),attack(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "action_params": "keypress(f),attack(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "type": "target"
     },
     {

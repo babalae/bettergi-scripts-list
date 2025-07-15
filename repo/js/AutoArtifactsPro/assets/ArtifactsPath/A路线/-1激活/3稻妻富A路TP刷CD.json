@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "3稻妻富A路TP刷CD",
     "type": "collect",
@@ -8,7 +8,8 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751649025118
+    "last_modified_time": 1751982627795,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -18,8 +19,7 @@
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "teleport",
-      "locked": false
+      "type": "teleport"
     },
     {
       "id": 2,
@@ -37,8 +37,7 @@
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "teleport",
-      "locked": false
+      "type": "teleport"
     },
     {
       "id": 4,
@@ -74,8 +73,16 @@
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "1000",
-      "type": "path",
-      "locked": false
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -3019.462890625,
+      "y": -3622.94921875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
     }
   ]
 }

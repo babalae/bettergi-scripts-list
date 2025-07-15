@@ -227,6 +227,7 @@ async function forgeOre(smithyName) {
             let Forge = captureGameRegion().find(ForgeRo);
             if (Forge.isExist()) {
                 log.info("已找到对话界面锻造图标");
+                await sleep(1000);
                 Forge.click();
                 dialogFound = true;
                 break;

@@ -1,14 +1,20 @@
-{
+﻿{
   "info": {
     "name": "06【额外】纳塔-灵谜纹13",
     "type": "collect",
-    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
     "version": "",
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751647458541
+    "last_modified_time": 1752306201289,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -104,7 +110,7 @@
       "x": 9632.9375,
       "y": -1649.75,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "wait(0.2),keypress(t),wait(1)",
       "type": "path"
     },
@@ -147,10 +153,10 @@
       "id": 16,
       "x": 9456.8203125,
       "y": -1678.62451171875,
-      "type": "orientation",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keypress(t),wait(0.2),keypress(t),wait(1)"
+      "move_mode": "walk",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(1)",
+      "type": "orientation"
     },
     {
       "id": 17,
@@ -191,8 +197,9 @@
       "id": 21,
       "x": 9316.2021484375,
       "y": -1547.384765625,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "run",
+      "action_params": "wait(0.5)",
       "type": "path"
     },
     {
@@ -201,7 +208,7 @@
       "y": -1569.874291741461,
       "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "500",
+      "action_params": "800",
       "type": "path"
     },
     {
@@ -209,7 +216,7 @@
       "x": 9330.85546875,
       "y": -1566.92529296875,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "wait(0.2),keypress(t),wait(0.2),keypress(t),wait(1)",
       "type": "path"
     },
@@ -441,7 +448,7 @@
       "x": 9965.439453125,
       "y": 251.40380859375,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "wait(0.2),keypress(t),wait(2.8),keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE),wait(0.4),mousedown,wait(0.5),moveby(700,550),wait(1.0),mouseup",
       "type": "path"
     }

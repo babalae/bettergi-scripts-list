@@ -2,10 +2,13 @@
   "info": {
     "name": "风啸山坡-1",
     "type": "collect",
-    "author": "1",
+    "author": "星野",
     "version": "",
     "description": "",
-    "bgi_version": "0.42.3"
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751797226582
   },
   "positions": [
     {
@@ -29,7 +32,7 @@
       "x": -1386.91,
       "y": 1636.86,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path"
     },
     {
@@ -37,7 +40,7 @@
       "x": -1372.48,
       "y": 1627.75,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path"
     },
     {
@@ -54,48 +57,16 @@
       "x": -1348.7,
       "y": 1620.9,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path"
     },
     {
       "id": 7,
-      "x": -1338.38,
-      "y": 1621.79,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 8,
       "x": -1330.09,
       "y": 1622.75,
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": -1331.35,
-      "y": 1628.95,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 10,
-      "x": -1336.22,
-      "y": 1619.83,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 11,
-      "x": -1329.16,
-      "y": 1618.36,
-      "action": "",
-      "move_mode": "walk",
       "type": "path"
     }
   ]

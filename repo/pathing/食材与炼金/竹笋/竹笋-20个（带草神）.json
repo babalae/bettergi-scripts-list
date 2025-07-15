@@ -2,14 +2,17 @@
   "info": {
     "name": "竹笋-20个（带草神）",
     "type": "collect",
-    "author": "Strix-nivicolum",
+    "author": "灰林鸮",
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751823717589,
     "authors": [
       {
-        "name": "Strix-nivicolum"
+        "name": "灰林鸮",
+        "links": "https://github.com/Strix-nivicolum"
       }
     ]
   },
@@ -304,29 +307,65 @@
     },
     {
       "id": 33,
-      "x": 530.18,
-      "y": 1727.37,
-      "action": "nahida_collect",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "x": 529.16,
+      "y": 1741.76,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 34,
-      "x": 509.84,
-      "y": 1738.17,
+      "x": 523.57,
+      "y": 1733.66,
+      "type": "target",
+      "move_mode": "walk",
       "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 35,
-      "x": 504.96,
-      "y": 1750.57,
+      "x": 518.46,
+      "y": 1730.32,
       "type": "path",
       "move_mode": "walk",
-      "action": "nahida_collect",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 36,
+      "x": 511.53,
+      "y": 1736.06,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 37,
+      "x": 515.0,
+      "y": 1742.34,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 38,
+      "x": 506.68,
+      "y": 1752.9,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 39,
+      "x": 503.65,
+      "y": 1758.52,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
       "action_params": ""
     }
   ]
