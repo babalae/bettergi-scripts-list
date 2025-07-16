@@ -3,6 +3,7 @@ const targetCount = Math.min(9999, Math.max(0, Math.floor(Number(settings.Target
 const OCRdelay = Math.min(50, Math.max(0, Math.floor(Number(settings.OcrDelay) || 10))); // OCR基准时长
 const imageDelay = Math.min(1000, Math.max(0, Math.floor(Number(settings.ImageDelay) || 0))); // 识图基准时长
 const timeCost = Math.min(300, Math.max(0, Math.floor(Number(settings.TimeCost) || 30))); // 耗时和材料数量的比值，即一个材料多少秒
+const notify = settings.notify || false;
 // 定义映射表"unselected": "反选材料分类",
 const material_mapping = {
     "General": "一般素材",
@@ -97,7 +98,7 @@ const selected_materials_array = Object.keys(finalSettings)
     };
 
     // OCR识别文本
-    async function recognizeText(ocrRegion, timeout = 10000, retryInterval = 20, maxAttempts = 10, maxFailures = 3) {
+    async function recognizeText(ocrRegion, timeout = 10000, retryInterval = 20, maxAttempts = 10, maxFailures = 3, cachedFrame = null) {
         let startTime = Date.now();
         let retryCount = 0;
         let failureCount = 0; // 用于记录连续失败的次数
@@ -117,11 +118,11 @@ const selected_materials_array = Object.keys(finalSettings)
             "g": "9", "q": "9", "９": "9",
         };
 
+        const ra = cachedFrame || captureGameRegion();
         while (Date.now() - startTime < timeout && retryCount < maxAttempts) {
-            let captureRegion = captureGameRegion();
             let ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
             ocrObject.threshold = 0.85; // 适当降低阈值以提高速度
-            let resList = captureRegion.findMulti(ocrObject);
+            let resList = ra.findMulti(ocrObject);
 
             if (resList.count === 0) {
                 failureCount++;
@@ -302,6 +303,7 @@ async function scanMaterials(materialsCategory, materialCategoryMap) {
 
     // 扫描背包中的材料
     for (let scroll = 0; scroll <= pageScrollCount; scroll++) {
+        const ra = captureGameRegion();
         if (!foundPriorityMaterial) {
             for (const { category, name } of priorityMaterialNames) {
                 if (recognizedMaterials.has(name)) {
@@ -318,7 +320,7 @@ async function scanMaterials(materialsCategory, materialCategoryMap) {
                 const recognitionObject = RecognitionObject.TemplateMatch(mat, 1146, startY, columnWidth, columnHeight);
                 recognitionObject.threshold = 0.8; // 设置识别阈值
 
-                const result = captureGameRegion().find(recognitionObject);
+                const result = ra.find(recognitionObject);
                 if (result.isExist() && result.x !== 0 && result.y !== 0) {
                     foundPriorityMaterial = true; // 标记找到前位材料
                     log.info(`发现当前或后位材料: ${name}，开始全列扫描`);
@@ -340,7 +342,7 @@ async function scanMaterials(materialsCategory, materialCategoryMap) {
                     const recognitionObject = RecognitionObject.TemplateMatch(mat, scanX, startY, columnWidth, columnHeight);
                     recognitionObject.threshold = 0.85;
 
-                    const result = captureGameRegion().find(recognitionObject);
+                    const result = ra.find(recognitionObject);
                     await sleep(imageDelay);
 
                     if (result.isExist() && result.x !== 0 && result.y !== 0) {
@@ -353,7 +355,7 @@ async function scanMaterials(materialsCategory, materialCategoryMap) {
                             width: 66 + 2 * tolerance,
                             height: 22 + 2 * tolerance
                         };
-                        const ocrResult = await recognizeText(ocrRegion, 1000, OCRdelay, 10, 3);
+                        const ocrResult = await recognizeText(ocrRegion, 1000, 10, 10, 3);
                         materialInfo.push({ name, count: ocrResult.success ? ocrResult.text : "?" });
 
                         if (!hasFoundFirstMaterial) {
@@ -395,7 +397,7 @@ async function scanMaterials(materialsCategory, materialCategoryMap) {
         // 检查是否到达最后一页
         const sliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/SliderBottom.png"), 1284, 916, 9, 26);
         sliderBottomRo.threshold = 0.8;
-        const sliderBottomResult = captureGameRegion().find(sliderBottomRo);
+        const sliderBottomResult = ra.find(sliderBottomRo);
         if (sliderBottomResult.isExist()) {
             log.info("已到达最后一页！");
             shouldEndScan = true;
@@ -471,12 +473,13 @@ const CultivationItemsRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync
 const FoodRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Food.png"), 845, 31, 38, 38);
 
 // 定义一个函数用于识别图像
-async function recognizeImage(recognitionObject, timeout = 5000) {
+async function recognizeImage(recognitionObject, timeout = 5000, cachedFrame=null) {
     let startTime = Date.now();
+    const ra = cachedFrame || captureGameRegion();
     while (Date.now() - startTime < timeout) {
         try {
             // 尝试识别图像
-            const imageResult = captureGameRegion().find(recognitionObject);
+            const imageResult = ra.find(recognitionObject);
             if (imageResult.isExist() && imageResult.x !== 0 && imageResult.y !== 0) {
                 return { success: true, x: imageResult.x, y: imageResult.y };
             }
@@ -675,8 +678,9 @@ async function MaterialPath(materialCategoryMap) {
 
 // 自定义 basename 函数
 function basename(filePath) {
-    const lastSlashIndex = filePath.lastIndexOf('\\'); // 或者使用 '/'，取决于你的路径分隔符
-    return filePath.substring(lastSlashIndex + 1);
+    if (typeof filePath !== 'string') throw new Error('Invalid file path');
+    const lastSlash = Math.max(filePath.lastIndexOf('/'), filePath.lastIndexOf('\\'));
+    return filePath.substring(lastSlash + 1);
 }
 // 检查路径是否存在
 function pathExists(path) {
@@ -1241,6 +1245,11 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
         //  假设 flattenedLowCountMaterials 是一个全局变量或在外部定义的变量
         let currentMaterialName = null; // 用于记录当前材料名
 
+        // 全局累积差值统计（记录所有材料的总变化量）
+        const globalAccumulatedDifferences = {};
+        // 按材料分类的累积差值统计（记录每种材料的累计变化）
+        const materialAccumulatedDifferences = {};
+
         // 遍历所有路径文件
         for (const { path: pathingFilePath, resourceName } of allPaths) {
             const pathName = basename(pathingFilePath); // 假设路径文件名即为材料路径
@@ -1281,17 +1290,28 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
                         // 输出 resourceCategoryMap 以供调试
                         log.info(`resourceCategoryMap: ${JSON.stringify(resourceCategoryMap, null, 2)}`);
 
-                        // 如果材料名发生变化，更新 flattenedLowCountMaterials
-                        if (currentMaterialName !== resourceName) {
-                            currentMaterialName = resourceName; // 更新当前材料名
-                            // 调用背包材料统计（获取当前材料数量）
-                            const updatedLowCountMaterials = await MaterialPath(resourceCategoryMap);
-                            // 展平数组并按数量从小到大排序
-                            flattenedLowCountMaterials = updatedLowCountMaterials
-                                .flat()
-                                .sort((a, b) => parseInt(a.count, 10) - parseInt(b.count, 10));
-                            log.info(`材料名变更，更新了 flattenedLowCountMaterials`);
-                        }
+                            // 如果材料名发生变化，更新 flattenedLowCountMaterials
+                            if (currentMaterialName !== resourceName) {
+                                // 材料名变更前，输出上一材料的累积差值并通知
+                                if (currentMaterialName && materialAccumulatedDifferences[currentMaterialName]) {
+                                    const prevDiffs = materialAccumulatedDifferences[currentMaterialName];
+                                    log.info(`材料[${currentMaterialName}]收集完成，累积差值：${JSON.stringify(prevDiffs, null, 2)}`);
+                                    if (notify) {
+                                        notification.Send(`材料[${currentMaterialName}]收集完成，累计获取：${JSON.stringify(prevDiffs, null, 2)}`);
+                                    }
+                                }
+                                currentMaterialName = resourceName; // 更新当前材料名
+                                // 调用背包材料统计（获取当前材料数量）
+                                const updatedLowCountMaterials = await MaterialPath(resourceCategoryMap);
+                                // 展平数组并按数量从小到大排序
+                                flattenedLowCountMaterials = updatedLowCountMaterials
+                                    .flat()
+                                    .sort((a, b) => parseInt(a.count, 10) - parseInt(b.count, 10));
+                                log.info(`材料名变更，更新了 flattenedLowCountMaterials`);
+
+                                // 初始化当前材料的累积差值记录
+                                materialAccumulatedDifferences[resourceName] = {};
+                            }
 
                         // 记录开始时间
                         const startTime = new Date().toLocaleString();
@@ -1321,22 +1341,34 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
                             .flat()
                             .sort((a, b) => parseInt(a.count, 10) - parseInt(b.count, 10));
 
-                        // 提取更新后的低数量材料的名称
-                        const updatedLowCountMaterialNames = flattenedUpdatedMaterialCounts.map(material => material.name);
 
                         // 创建一个映射，用于存储更新前后的数量差值
                         const materialCountDifferences = {};
 
-                        // 遍历更新后的材料数量，计算差值
-                        flattenedUpdatedMaterialCounts.forEach(updatedMaterial => {
-                            const originalMaterial = flattenedLowCountMaterials.find(material => material.name === updatedMaterial.name);
-                            if (originalMaterial) {
-                                const originalCount = parseInt(originalMaterial.count, 10);
-                                const updatedCount = parseInt(updatedMaterial.count, 10);
-                                const difference = updatedCount - originalCount;
-                                materialCountDifferences[updatedMaterial.name] = difference;
-                            }
-                        });
+                            // 遍历更新后的材料数量，计算差值
+                            flattenedUpdatedMaterialCounts.forEach(updatedMaterial => {
+                                const originalMaterial = flattenedLowCountMaterials.find(material => material.name === updatedMaterial.name);
+                                if (originalMaterial) {
+                                    const originalCount = parseInt(originalMaterial.count, 10);
+                                    const updatedCount = parseInt(updatedMaterial.count, 10);
+                                    const difference = updatedCount - originalCount;
+                                    materialCountDifferences[updatedMaterial.name] = difference;
+
+                                    // 更新全局累积差值
+                                    if (globalAccumulatedDifferences[updatedMaterial.name]) {
+                                        globalAccumulatedDifferences[updatedMaterial.name] += difference;
+                                    } else {
+                                        globalAccumulatedDifferences[updatedMaterial.name] = difference;
+                                    }
+
+                                    // 更新当前材料的累积差值
+                                    if (materialAccumulatedDifferences[resourceName][updatedMaterial.name]) {
+                                        materialAccumulatedDifferences[resourceName][updatedMaterial.name] += difference;
+                                    } else {
+                                        materialAccumulatedDifferences[resourceName][updatedMaterial.name] = difference;
+                                    }
+                                }
+                            });
 
                         // 更新 flattenedLowCountMaterials 为最新的材料数量
                         flattenedLowCountMaterials = flattenedLowCountMaterials.map(material => {
@@ -1430,7 +1462,8 @@ async function monitorDisplacement(monitoring, resolve) {
 }
 
 // 识图点击主逻辑
-async function imageClick() {
+
+async function imageClick(cachedFrame = null) {
 
     // 定义包含多个文件夹的根目录
     const rootDir = "assets/imageClick";
@@ -1500,12 +1533,13 @@ async function imageClick() {
         }
 
         // 在屏幕上查找并点击图标
+        const ra = cachedFrame || captureGameRegion();
         for (const foundRegion of foundRegions) {
             const tolerance = 1; // 容错区间
             const iconMat = file.readImageMatSync(`${iconDir}/${foundRegion.iconName}`);
             const recognitionObject = RecognitionObject.TemplateMatch(iconMat, foundRegion.region.x - tolerance, foundRegion.region.y - tolerance, foundRegion.region.width + 2 * tolerance, foundRegion.region.height + 2 * tolerance);
             recognitionObject.threshold = 0.9; // 设置识别阈值为 0.9
-            const result = captureGameRegion().find(recognitionObject);
+            const result = ra.find(recognitionObject);
             if (result.isExist()) {
                 const x = Math.round(foundRegion.region.x + foundRegion.region.width / 2);
                 const y = Math.round(foundRegion.region.y + foundRegion.region.height / 2);
