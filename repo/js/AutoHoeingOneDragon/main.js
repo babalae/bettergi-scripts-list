@@ -421,17 +421,56 @@ async function assignGroups(pathings, group1Tags, group2Tags, group3Tags, group4
 }
 
 async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywords) {
-    let lastCheckMainUi = new Date();
     let thisMoveUpTime = 0;
     let lastMoveDown = 0;
     let lastPickupTime = new Date();
     let lastPickupItem = "";
     // 定义状态变量
-    let state = { completed: false, cancelRequested: false, atMainUi: false };
+    let state = { completed: false, cancelRequested: false, atMainUi: false, lastCheckMainUi: new Date() };
     // 定义图像路径和目标文本列表
     const imagePath = `assets/F_Dialogue.png`;
     const textxRange = { min: 1210, max: 1412 };
     const texttolerance = 30; // Y 坐标容错范围
+
+    //检查是否在主界面
+    async function isMainUI() {
+        // 修改后的图像路径
+        const imagePath = "assets/MainUI.png";
+
+        // 修改后的识别区域（左上角区域）
+        const xMin = 0;
+        const yMin = 0;
+        const width = 150; // 识别区域宽度
+        const height = 150; // 识别区域高度
+
+        // 尝试次数设置为 2 次
+        const maxAttempts = 2;
+
+        let attempts = 0;
+        while (attempts < maxAttempts && !state.cancelRequested) {
+            try {
+                let template = file.ReadImageMatSync(imagePath);
+                let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
+                let result = captureGameRegion().find(recognitionObject);
+                if (result.isExist()) {
+                    return true; // 如果找到图标，返回 true
+                }
+            } catch (error) {
+                log.error(`识别图像时发生异常: ${error.message}`);
+                if (state.cancelRequested) {
+                    break; // 如果请求了取消，则退出循环
+                }
+                return false; // 发生异常时返回 false
+            }
+            attempts++; // 增加尝试次数
+            await sleep(2); // 每次检测间隔 2 毫秒
+        }
+        if (state.cancelRequested) {
+            log.info("图像识别任务已取消");
+        }
+        return false; // 如果尝试次数达到上限或取消，返回 false
+    }
+
     // 定义一个函数用于执行路径文件
     async function executePathFile(filePath) {
         try {
@@ -513,56 +552,15 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 return null;
             }
 
-            //检查是否在主界面
-            async function isMainUI() {
-                // 修改后的图像路径
-                const imagePath = "assets/MainUI.png";
-
-                // 修改后的识别区域（左上角区域）
-                const xMin = 0;
-                const yMin = 0;
-                const width = 150; // 识别区域宽度
-                const height = 150; // 识别区域高度
-
-                // 尝试次数设置为 2 次
-                const maxAttempts = 2;
-
-                let attempts = 0;
-                while (attempts < maxAttempts && !state.cancelRequested) {
-                    try {
-                        let template = file.ReadImageMatSync(imagePath);
-                        let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
-                        let result = captureGameRegion().find(recognitionObject);
-                        if (result.isExist()) {
-                            return true; // 如果找到图标，返回 true
-                        }
-                    } catch (error) {
-                        log.error(`识别图像时发生异常: ${error.message}`);
-                        if (state.cancelRequested) {
-                            break; // 如果请求了取消，则退出循环
-                        }
-                        return false; // 发生异常时返回 false
-                    }
-                    attempts++; // 增加尝试次数
-                    await sleep(2); // 每次检测间隔 2 毫秒
-                }
-                if (state.cancelRequested) {
-                    log.info("图像识别任务已取消");
-                }
-                return false; // 如果尝试次数达到上限或取消，返回 false
-            }
-
             // 尝试找到 F 图标
             let fRes = await findFIcon(imagePath, 1102, 335, 34, 400, 200);
-            if (!fRes || ((new Date() - lastCheckMainUi) > 2011)) {
-                state.atMainUi = await isMainUI();
-                lastCheckMainUi = new Date();
-            }
-            if (!fRes && state.atMainUi) {
-                //log.info("在主界面，尝试下滑");
-                await keyMouseScript.runFile(`assets/滚轮下翻.json`);
-            }
             if (!fRes) {
+                state.atMainUi = await isMainUI();
+                state.lastCheckMainUi = new Date();
+                if (state.atMainUi) {
+                    //log.info("在主界面，尝试下滑");
+                    await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+                }
                 continue;
             }
 
@@ -629,7 +627,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
 
     //处理泥头车模式
     async function dumper(pathFilePath, map_name) {
-        let lastDumperTimer = new Date();
+        let lastDumperTimer = 0;
         const dumperCD = 10000;
         try {
             const pathingContent = await file.readText(pathFilePath);
@@ -660,13 +658,17 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
             if (!hasT) {
                 while (!state.completed && !state.cancelRequested) {
                     await sleep(2011);
+                    if ((new Date() - state.lastCheckMainUi) >= 2011) {
+                        state.atMainUi = await isMainUI();
+                        //log.info(`检查主界面,结果为${state.atMainUi}`);
+                        state.lastCheckMainUi = new Date();
+                    }
                     if (state.atMainUi) {
                         //在主界面才尝试获取坐标
                         let dumperDistance = 0;
                         try {
                             let shouldPressKeys = false;
                             const currentPosition = await genshin.getPositionFromMap(map_name);
-
                             for (let i = 0; i < fightPositions.length; i++) {
                                 const fightPos = fightPositions[i];
 

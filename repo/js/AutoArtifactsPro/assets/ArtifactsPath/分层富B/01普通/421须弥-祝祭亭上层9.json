@@ -13,7 +13,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1752389210430,
+    "last_modified_time": 1752578899582,
     "enable_monster_loot_split": false
   },
   "positions": [
@@ -177,8 +177,7 @@
       "action": "",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 19,
@@ -382,10 +381,10 @@
       "id": 41,
       "x": 5588.18017578125,
       "y": -2288.037109375,
-      "type": "path",
-      "move_mode": "climb",
       "action": "combat_script",
-      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);"
+      "move_mode": "climb",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "path"
     },
     {
       "id": 42,
@@ -449,15 +448,6 @@
       "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "type": "target"
-    },
-    {
-      "id": 49,
-      "x": 5590.82958984375,
-      "y": -2287.21875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
     }
   ]
 }

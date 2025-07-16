@@ -1,12 +1,20 @@
-{
+﻿{
   "info": {
     "name": "605纳塔-流泉之众4",
     "type": "collect",
-    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
     "version": "",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752604657546,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -112,8 +120,8 @@
     },
     {
       "id": 13,
-      "x": 9060.9853515625,
-      "y": -2791.96484375,
+      "x": 9060.6494140625,
+      "y": -2792.595703125,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
