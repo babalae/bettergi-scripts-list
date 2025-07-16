@@ -13,7 +13,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1752154580209,
+    "last_modified_time": 1752501295680,
     "enable_monster_loot_split": false
   },
   "positions": [
@@ -41,26 +41,26 @@
       "y": 301.8435984203652,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.3),keypress(f),w(0.3),s(0.5)",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.3),keypress(f),w(0.3),s(0.5);芙宁娜 attack(0.08),e;",
       "type": "target"
     },
     {
       "id": 4,
       "x": 1084.796875,
       "y": 299.93359375,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 5,
       "x": 1088.0673828125,
       "y": 303.08203125,
-      "type": "path",
-      "move_mode": "climb",
       "action": "",
-      "action_params": ""
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 6,

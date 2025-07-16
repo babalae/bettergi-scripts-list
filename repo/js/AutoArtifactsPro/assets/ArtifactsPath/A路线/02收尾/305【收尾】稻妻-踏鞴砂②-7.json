@@ -1,14 +1,20 @@
-{
+﻿{
   "info": {
     "name": "305【收尾】稻妻-踏鞴砂②-7",
     "type": "collect",
-    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
     "version": "",
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751467767189
+    "last_modified_time": 1752514095541,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -189,10 +195,10 @@
       "id": 22,
       "x": -3117.9140625,
       "y": -3622.01171875,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "type": "path"
     },
     {
       "id": 23,
@@ -258,8 +264,8 @@
     },
     {
       "id": 30,
-      "x": -3143.0625987520725,
-      "y": -3566.375242527416,
+      "x": -3141.6561611231336,
+      "y": -3566.718666631201,
       "action": "",
       "move_mode": "run",
       "action_params": "",

@@ -13,7 +13,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1752261713469,
+    "last_modified_time": 1752513455926,
     "enable_monster_loot_split": false
   },
   "positions": [
@@ -31,9 +31,8 @@
       "y": -1776.4501953125,
       "action": "log_output",
       "move_mode": "walk",
-      "action_params": "[额外点-水天丛林]如果没有\"降水位\"全程在水里游不懂这边在干什么?/n麻烦去bilibili搜相关攻略!!!",
-      "type": "orientation",
-      "locked": false
+      "action_params": "[额外点-水天丛林]如果没有\"降水位\"全程在水里游不懂这边在干什么?\n麻烦去bilibili搜相关攻略!!!",
+      "type": "orientation"
     },
     {
       "id": 3,
@@ -211,7 +210,7 @@
       "y": -1734.029296875,
       "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);芙宁娜 attack(0.08),e;",
       "type": "target"
     },
     {
