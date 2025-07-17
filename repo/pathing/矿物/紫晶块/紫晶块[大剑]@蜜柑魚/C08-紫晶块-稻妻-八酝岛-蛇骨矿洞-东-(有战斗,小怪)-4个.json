@@ -61,9 +61,9 @@
       "id": 5,
       "x": -2449.28,
       "y": -3955.3,
-      "action": "combat_script",
+      "action": "",
       "move_mode": "walk",
-      "action_params": "wait(2)",
+      "action_params": "",
       "type": "path"
     },
     {
@@ -124,15 +124,24 @@
     },
     {
       "id": 11,
-      "x": -2479.49,
-      "y": -4066.74,
+      "x": -2483.18,
+      "y": -4071.46,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -2479.65,
+      "y": -4066.41,
       "action": "mining",
       "move_mode": "walk",
       "action_params": "",
       "type": "target"
     },
     {
-      "id": 12,
+      "id": 13,
       "x": -2482.32,
       "y": -4067.3,
       "action": "combat_script",
@@ -141,7 +150,7 @@
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 14,
       "x": -2485.9,
       "y": -4066.27,
       "action": "",
@@ -150,16 +159,16 @@
       "type": "path"
     },
     {
-      "id": 14,
-      "x": -2480.3,
-      "y": -4065.03,
+      "id": 15,
+      "x": -2480.2,
+      "y": -4064.75,
       "action": "mining",
       "move_mode": "walk",
       "action_params": "",
       "type": "target"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": -2480.3,
       "y": -4065.03,
       "action": "combat_script",
@@ -168,7 +177,7 @@
       "type": "path"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": -2494.7,
       "y": -4023.22,
       "action": "mining",
@@ -177,7 +186,7 @@
       "type": "target"
     },
     {
-      "id": 17,
+      "id": 18,
       "x": -2494.68,
       "y": -4023.21,
       "action": "combat_script",
@@ -186,7 +195,7 @@
       "type": "path"
     },
     {
-      "id": 18,
+      "id": 19,
       "x": -2503.76,
       "y": -4024.47,
       "action": "",
@@ -195,7 +204,7 @@
       "type": "path"
     },
     {
-      "id": 19,
+      "id": 20,
       "x": -2501.45,
       "y": -4021.6,
       "action": "mining",
@@ -204,7 +213,25 @@
       "type": "target"
     },
     {
-      "id": 20,
+      "id": 21,
+      "x": -2503.76,
+      "y": -4024.47,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": -2501.45,
+      "y": -4021.6,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 23,
       "x": -2501.45,
       "y": -4021.6,
       "action": "combat_script",

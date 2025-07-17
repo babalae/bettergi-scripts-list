@@ -44,7 +44,7 @@
       "type": "path",
       "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "j,wait(2),j,attack(0.2)",
+      "action_params": "j,wait(2.2),j,attack(0.2)",
       "locked": false
     },
     {
@@ -58,8 +58,8 @@
     },
     {
       "id": 5,
-      "x": -3161.42,
-      "y": -3910.64,
+      "x": -3160.0,
+      "y": -3910.74,
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
@@ -68,8 +68,8 @@
     },
     {
       "id": 6,
-      "x": -3161.42,
-      "y": -3910.64,
+      "x": -3160.0,
+      "y": -3910.74,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
@@ -151,7 +151,7 @@
     {
       "id": 15,
       "x": -3173.25,
-      "y": -3894.2,
+      "y": -3893.75,
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
@@ -159,6 +159,24 @@
     },
     {
       "id": 16,
+      "x": -3178.68,
+      "y": -3893.41,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": -3173.25,
+      "y": -3893.75,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 18,
       "x": -3173.25,
       "y": -3894.2,
       "type": "path",

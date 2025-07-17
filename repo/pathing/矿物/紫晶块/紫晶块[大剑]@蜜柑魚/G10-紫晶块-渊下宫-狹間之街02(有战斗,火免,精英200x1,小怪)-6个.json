@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "G09-紫晶块-渊下宫-狹間之街02(有战斗,火免,精英200x1,小怪)-6个",
+    "name": "G10-紫晶块-渊下宫-狹間之街02(有战斗,火免,精英200x1,小怪)-6个",
     "type": "collect",
     "author": "蜜柑魚",
     "version": "1.0",
@@ -32,8 +32,8 @@
     },
     {
       "id": 2,
-      "x": 578.31,
-      "y": 637.1,
+      "x": 621.7,
+      "y": 623.06,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -41,10 +41,19 @@
     },
     {
       "id": 3,
-      "x": 514.37,
-      "y": 658.27,
-      "action": "fight",
+      "x": 619.41,
+      "y": 623.86,
+      "action": "combat_script",
       "move_mode": "dash",
+      "action_params": "玛薇卡 wait(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(0.2);",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 511.25,
+      "y": 655.2,
+      "action": "fight",
+      "move_mode": "run",
       "action_params": "",
       "type": "path",
       "point_ext_params": {
@@ -60,7 +69,7 @@
       }
     },
     {
-      "id": 4,
+      "id": 5,
       "x": 514.37,
       "y": 658.27,
       "action": "",
@@ -69,7 +78,7 @@
       "type": "path"
     },
     {
-      "id": 5,
+      "id": 6,
       "x": 503.32,
       "y": 665.36,
       "action": "",
@@ -78,7 +87,7 @@
       "type": "path"
     },
     {
-      "id": 6,
+      "id": 7,
       "x": 497.53,
       "y": 674.85,
       "action": "stop_flying",
@@ -88,7 +97,7 @@
       "locked": false
     },
     {
-      "id": 7,
+      "id": 8,
       "x": 498.9,
       "y": 663.93,
       "action": "mining",
@@ -97,7 +106,7 @@
       "type": "target"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": 498.9,
       "y": 663.93,
       "action": "combat_script",
@@ -106,7 +115,7 @@
       "type": "path"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": 497.53,
       "y": 674.85,
       "action": "",
@@ -115,7 +124,7 @@
       "type": "target"
     },
     {
-      "id": 10,
+      "id": 11,
       "x": 501.64,
       "y": 671.51,
       "type": "target",
@@ -124,7 +133,7 @@
       "action_params": ""
     },
     {
-      "id": 11,
+      "id": 12,
       "x": 501.64,
       "y": 671.51,
       "type": "path",
@@ -134,7 +143,7 @@
       "locked": false
     },
     {
-      "id": 12,
+      "id": 13,
       "x": 498.43,
       "y": 676.7,
       "action": "",
@@ -143,7 +152,7 @@
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 14,
       "x": 502.71,
       "y": 678.66,
       "action": "mining",
@@ -152,7 +161,7 @@
       "type": "target"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": 502.73,
       "y": 678.76,
       "action": "combat_script",
@@ -161,7 +170,7 @@
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": 497.51,
       "y": 679.47,
       "action": "",
@@ -170,7 +179,7 @@
       "type": "target"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": 497.15,
       "y": 684.52,
       "action": "",
@@ -179,7 +188,7 @@
       "type": "target"
     },
     {
-      "id": 17,
+      "id": 18,
       "x": 500.94,
       "y": 700.92,
       "action": "",
@@ -189,7 +198,7 @@
       "locked": false
     },
     {
-      "id": 18,
+      "id": 19,
       "x": 500.4,
       "y": 707.62,
       "action": "",
@@ -198,7 +207,7 @@
       "type": "path"
     },
     {
-      "id": 19,
+      "id": 20,
       "x": 509.16,
       "y": 726.78,
       "action": "",
@@ -207,7 +216,7 @@
       "type": "path"
     },
     {
-      "id": 20,
+      "id": 21,
       "x": 516.29,
       "y": 736.4,
       "action": "",
@@ -216,7 +225,7 @@
       "type": "path"
     },
     {
-      "id": 21,
+      "id": 22,
       "x": 530.95,
       "y": 763.53,
       "action": "stop_flying",
@@ -225,7 +234,7 @@
       "type": "path"
     },
     {
-      "id": 22,
+      "id": 23,
       "x": 535.89,
       "y": 768.5,
       "action": "fight",
@@ -245,7 +254,7 @@
       }
     },
     {
-      "id": 23,
+      "id": 24,
       "x": 535.89,
       "y": 768.5,
       "action": "",
@@ -254,7 +263,7 @@
       "type": "path"
     },
     {
-      "id": 24,
+      "id": 25,
       "x": 535.45,
       "y": 758.4,
       "action": "mining",
@@ -263,7 +272,7 @@
       "type": "target"
     },
     {
-      "id": 25,
+      "id": 26,
       "x": 535.45,
       "y": 758.4,
       "action": "combat_script",
@@ -272,7 +281,7 @@
       "type": "target"
     },
     {
-      "id": 26,
+      "id": 27,
       "x": 541.14,
       "y": 765.6,
       "action": "",
@@ -281,7 +290,7 @@
       "type": "path"
     },
     {
-      "id": 27,
+      "id": 28,
       "x": 543.0,
       "y": 762.7,
       "action": "mining",
@@ -290,16 +299,16 @@
       "type": "target"
     },
     {
-      "id": 28,
+      "id": 29,
       "x": 543.0,
       "y": 762.7,
-      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.5)",
+      "action": "pick_around",
+      "action_params": "",
       "type": "target"
     },
     {
-      "id": 29,
+      "id": 30,
       "x": 540.34,
       "y": 770.23,
       "move_mode": "walk",
@@ -308,7 +317,7 @@
       "type": "path"
     },
     {
-      "id": 30,
+      "id": 31,
       "x": 542.06,
       "y": 771.99,
       "action": "mining",
@@ -317,7 +326,7 @@
       "type": "target"
     },
     {
-      "id": 31,
+      "id": 32,
       "x": 542.06,
       "y": 771.99,
       "action": "combat_script",

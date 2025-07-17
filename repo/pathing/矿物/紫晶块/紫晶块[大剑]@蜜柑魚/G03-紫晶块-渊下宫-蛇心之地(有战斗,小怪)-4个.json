@@ -44,7 +44,7 @@
       "y": -315.96,
       "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "wait(5.7)",
+      "action_params": "j,wait(1),j",
       "type": "path"
     },
     {
@@ -53,7 +53,7 @@
       "y": -303.52,
       "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "keypress(x),wait(2.2),keypress(x)",
+      "action_params": "keypress(x),j,wait(0.45),j,keypress(x)",
       "type": "path"
     },
     {
@@ -62,7 +62,7 @@
       "y": -299.41,
       "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "keypress(x),wait(2.2),keypress(x)",
+      "action_params": "keypress(x),j,wait(0.5),j,keypress(x)",
       "type": "path"
     },
     {
