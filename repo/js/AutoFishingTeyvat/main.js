@@ -468,7 +468,7 @@
         let step_flag = 0; // 领取月卡步骤标志
         while (auto_skip && time_now < time_4 && time_predict_end >= time_4) {
             log.info(`等待领取月卡(剩余${Math.floor((time_4 - new Date()) / 1000)}s)...`);
-            if (step_flag == 0) {
+            if (step_flag === 0) {
                 // 传送到七天神像
                 await pathingScript.runFile(base_path_pathing + statue_name + ".json");
                 step_flag += 1;
@@ -486,8 +486,8 @@
 
         }
         // 领取月卡(点击两次)
-        if (step_flag == 2) {
-            step_flag = 0;
+        if (step_flag === 2) {
+            // step_flag = 0;
             await sleep(5); // 补回容错时间
             await click(1450, 1020); // 点击时间调节的确认按钮的位置
             await sleep(5); // 等待月卡动画时间
@@ -555,7 +555,7 @@
             }
         }
 
-        //await pathingScript.runFile(base_path_pathing + file_name + ".json");
+        await pathingScript.runFile(base_path_pathing + file_name + ".json");
 
         // 执行键鼠脚本
         if (path_msg["addition"] === "GCM") {
@@ -563,12 +563,12 @@
         }
 
         // 调用自动钓鱼
-        // await genshin.autofishing(fishing_time_dic[fishing_time]["param"]);
-        // await dispatcher.runTask(new SoloTask("AutoFishing", {
-        //     "fishingTimePolicy": fishing_time_dic[fishing_time]["param"],
-        //     "throwRodTimeOutTimeoutSeconds": time_out_throw,
-        //     "wholeProcessTimeoutSeconds": time_out_whole
-        // }));
+        await genshin.autofishing(fishing_time_dic[fishing_time]["param"]);
+        await dispatcher.runTask(new SoloTask("AutoFishing", {
+            "fishingTimePolicy": fishing_time_dic[fishing_time]["param"],
+            "throwRodTimeOutTimeoutSeconds": time_out_throw,
+            "wholeProcessTimeoutSeconds": time_out_whole
+        }));
 
         if (fishing_cd) {
             write_archive(file_name, fishing_time, Date.now(), uid);
@@ -603,7 +603,7 @@
         // 读取4点自动领取月卡的设置
         const auto_skip = typeof(settings.auto_skip) === 'undefined' ? false : settings.auto_skip;
         // 读取垂钓点CD统计
-        const fishing_cd = typeof(settings.fishing_cd) === 'undefined' ? false: settings.fishing_cd;
+        let fishing_cd = typeof(settings.fishing_cd) === 'undefined' ? false: settings.fishing_cd;
         // 读取终止时间
         const kill_hour = typeof(settings.time_kill_hour) === 'undefined' ? "无" : settings.time_kill_hour;
         const kill_minute = typeof(settings.time_kill_minute) === 'undefined' ? "无" : settings.time_kill_minute;
@@ -613,19 +613,28 @@
         // 获取当前用户UID
         let uid = "default_user";
         if (fishing_cd) {
-            const ocrRo = RecognitionObject.Ocr(166, 198, 120, 22);
+            const ocrRoUid = RecognitionObject.Ocr(166, 198, 120, 22);
+            const ocrRoText = RecognitionObject.Ocr(1565, 997, 177, 39);
 
             genshin.returnMainUi();
             await sleep(1000);
             keyPress("Escape");
             await sleep(1000);
 
-            let ocr = captureGameRegion().Find(ocrRo); // 当前页面OCR
-            if (ocr.isExist()) {
-                uid = ocr.text;
+            let ocrUid = captureGameRegion().Find(ocrRoUid); // 当前页面OCR
+            if (ocrUid.isExist()) {
+                uid = ocrUid.text;
             }
 
-            keyPress("Escape");
+            genshin.returnMainUi();
+
+            keyPress("F2"); // 按下F2打开多人模式界面
+            await sleep(1000);
+            let ocrText = captureGameRegion().Find(ocrRoText); // 当前页面OCR
+            if (ocrText.isExist() && ocrText.text === "回到单人模式") {
+                fishing_cd = false; // 多人模式下关闭CD记录功能
+            }
+
 
         }
 
