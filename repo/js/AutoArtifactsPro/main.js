@@ -379,6 +379,7 @@ let enemyType = "无";
     } else {
         artifactExperienceDiff -= await processArtifacts(21);
     }
+
     moraDiff -= await mora();
     artifacts: {
         if (runnedToday && finished) {
@@ -1003,11 +1004,7 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
             // 在指定区域进行 OCR 识别
             let ocrResult = captureGameRegion().find(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height));
             if (ocrResult) {
-                // 后处理：根据替换映射表检查和替换错误识别的字符
                 let correctedText = ocrResult.text;
-                for (let [wrongChar, correctChar] of Object.entries(replacementMap)) {
-                    correctedText = correctedText.replace(new RegExp(wrongChar, 'g'), correctChar);
-                }
                 return correctedText; // 返回识别到的内容
             } else {
                 log.warn(`OCR 识别区域未找到内容`);
@@ -1220,15 +1217,13 @@ async function processArtifacts(times = 1) {
 async function mora() {
     let result = 0;
     let tryTimes = 0;
-    while (result = 0 && tryTimes < 3) {
+    while (result === 0 && tryTimes < 3) {
         await genshin.returnMainUi();
-
+        log.info("开始尝试识别摩拉");
         // 按下 C 键
         keyPress("C");
         await sleep(1500);
-
         let recognized = false;
-
         // 识别“角色菜单”图标或“天赋”文字
         let startTime = Date.now();
         while (Date.now() - startTime < 5000) {
