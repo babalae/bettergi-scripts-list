@@ -1,12 +1,20 @@
-{
+﻿{
   "info": {
     "name": "03【额外】须弥-凡爷屋顶罐子1",
     "type": "collect",
-    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752762953297,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -29,33 +37,15 @@
     },
     {
       "id": 3,
-      "x": 4357.32275390625,
-      "y": -1876.34716796875,
-      "action": "up_down_grab_leaf",
+      "x": 4302.42431640625,
+      "y": -1889.50146484375,
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action_params": "keypress(t),wait(2.5),keypress(t),wait(0.5),keypress(t),wait(1.6),keypress(t),wait(0.5),keypress(t),wait(0.5),keypress(t)",
+      "type": "orientation"
     },
     {
       "id": 4,
-      "x": 4334.36962890625,
-      "y": -1883.01611328125,
-      "action": "up_down_grab_leaf",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 4302.42431640625,
-      "y": -1889.50146484375,
-      "action": "up_down_grab_leaf",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
       "x": 4240.0224609375,
       "y": -1850.310546875,
       "action": "",
@@ -64,16 +54,16 @@
       "type": "path"
     },
     {
-      "id": 7,
+      "id": 5,
       "x": 4215.19921875,
       "y": -1831.75830078125,
-      "action": "up_down_grab_leaf",
+      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "action_params": "keypress(t)",
+      "type": "orientation"
     },
     {
-      "id": 8,
+      "id": 6,
       "x": 4157.42041015625,
       "y": -1827.27734375,
       "action": "",
@@ -82,16 +72,16 @@
       "type": "path"
     },
     {
-      "id": 9,
-      "x": 4118.60546875,
-      "y": -1832.16015625,
+      "id": 7,
+      "x": 4118.218726299502,
+      "y": -1832.15625,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 10,
+      "id": 8,
       "x": 4114.74658203125,
       "y": -1835.58154296875,
       "action": "combat_script",
