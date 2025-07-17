@@ -626,7 +626,7 @@
                 uid = ocrUid.text;
             }
 
-            genshin.returnMainUi();
+            await genshin.returnMainUi();
 
             keyPress("F2"); // 按下F2打开多人模式界面
             await sleep(1000);
@@ -635,7 +635,8 @@
                 fishing_cd = false; // 多人模式下关闭CD记录功能
             }
 
-
+            await sleep(500);
+            keyPress("Escape");
         }
 
         if (is_time_kill) {
