@@ -563,7 +563,6 @@
         }
 
         // 调用自动钓鱼
-        await genshin.autofishing(fishing_time_dic[fishing_time]["param"]);
         await dispatcher.runTask(new SoloTask("AutoFishing", {
             "fishingTimePolicy": fishing_time_dic[fishing_time]["param"],
             "throwRodTimeOutTimeoutSeconds": time_out_throw,
@@ -632,6 +631,7 @@
             await sleep(1000);
             let ocrText = captureGameRegion().Find(ocrRoText); // 当前页面OCR
             if (ocrText.isExist() && ocrText.text === "回到单人模式") {
+                log.info("当前为多人模式，垂钓点CD统计已失效...");
                 fishing_cd = false; // 多人模式下关闭CD记录功能
             }
 
