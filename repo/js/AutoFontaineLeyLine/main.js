@@ -687,6 +687,7 @@
 
     //定义领取动作,好感队伍是否添加？
     async function claimRewards() {
+        await genshin.returnMainUi(); 
         log.info(`尝试领取奖励，优先${onerewards}'`);
         let SHUN01 = await Textocr("接触地脉之花",1.5,2,0,1187,358,200,400);
         if (SHUN01.found) {
@@ -1177,7 +1178,12 @@
             await sleep(1000);
             // 领取奖励，开始找地脉口            
             log.info(`开始本线路第 ${executedCount/2+1} 朵花的奖励领取`);
-            if (haoganq==1){log.info(`切换好感队伍：'${haogandui}'`);await genshin.returnMainUi(); await sleep(1000);await genshin.SwitchParty(haogandui);}
+            if (haoganq==1){log.info(
+                `切换好感队伍：'${haogandui}'`);
+                await genshin.returnMainUi(); 
+                await sleep(1000);
+                if (!await genshin.SwitchParty(haogandui))await genshin.returnMainUi();                 
+            }
             shouldContinueChecking = false;
             await sleep(500);
             if (!(await claimRewards())) {

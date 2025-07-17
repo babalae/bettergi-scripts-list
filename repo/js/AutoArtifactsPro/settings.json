@@ -15,7 +15,7 @@
   {
     "name": "runActivatePath",
     "type": "checkbox",
-    "label": "是否启用激活路线，启用后将先花费约3分钟激活狗粮点\n启用该选项后可提高稳定性，并允许中断后重新运行和极大降低最短间隔时间"
+    "label": "是否启用激活路线，启用后将先花费约5分钟激活狗粮点\n启用该选项后可提高稳定性，并允许极大降低最短间隔时间"
   },
   {
     "name": "useABE",
@@ -47,14 +47,25 @@
     "default": "狗粮"
   },
   {
-    "name": "doDecompose",
-    "type": "checkbox",
-    "label": "是否分解狗粮（默认不分解）"
+    "name": "decomposeMode",
+    "type": "select",
+    "label": "狗粮分解模式",
+    "options": [
+      "保留",
+      "分解（经验瓶）",
+      "销毁（摩拉）"
+    ],
+    "default": "保留"
   },
   {
     "name": "keep4Star",
     "type": "checkbox",
     "label": "是否保留四星（默认不保留）"
+  },
+  {
+    "name": "autoSalvage",
+    "type": "checkbox",
+    "label": "是否沿路自动分解（默认：否)"
   },
   {
     "name": "minIntervalTime",

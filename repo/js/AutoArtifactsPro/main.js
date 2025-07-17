@@ -9,6 +9,9 @@ let finished = false;
 const accountName = settings.accountName || "默认账户";
 let version = "default";
 let runnedToday = false;
+let artifactExperienceDiff = 0;
+let moraDiff = 0;
+let pathIndex = 0;
 
 //预处理
 const minIntervalTime = settings.minIntervalTime || "5";
@@ -20,6 +23,7 @@ const runActivatePath = settings.runActivatePath || false;
 let enemyType = "无";
 
 (async function () {
+    setGameMetrics(1920, 1080, 1);
     //伪造js结束记录
     await fakeLog("自动狗粮重制版", true, true, 0);
 
@@ -370,8 +374,13 @@ let enemyType = "无";
     }
 
     //运行前按自定义配置清理狗粮
-    const result1 = await decomposeArtifacts(settings.keep4Star, settings.doDecompose);
+    if (settings.decomposeMode === "分解（经验瓶）") {
+        await processArtifacts(21);
+    } else {
+        artifactExperienceDiff -= await processArtifacts(21);
+    }
 
+    moraDiff -= await mora();
     artifacts: {
         if (runnedToday && finished) {
             break artifacts;
@@ -379,19 +388,9 @@ let enemyType = "无";
 
         // 开始运行狗粮路线
         let runArtifactsResult = true;
-
         runArtifactsResult = await runArtifactsPaths(runRouteA, grindPartyName, settings.useABE);
-        const result2 = await decomposeArtifacts(settings.keep4Star, settings.doDecompose);
-        // 计算 mora 和 artifactExperience 的差值
-        const moraDiff = Number(result2.mora) - Number(result1.mora); // 将字符串转换为数字后计算差值
-        let artifactExperienceDiff;
-        if (!settings.doDecompose) {
-            artifactExperienceDiff = result2.artifactExperience - result1.artifactExperience;
-        } else {
-            artifactExperienceDiff = result2.artifactExperience;
-        }
-
-
+        artifactExperienceDiff += await processArtifacts(21);
+        moraDiff += await mora();
         log.info(`狗粮路线获取摩拉: ${moraDiff}`);
         log.info(`狗粮路线获取狗粮经验: ${artifactExperienceDiff}`);
 
@@ -503,6 +502,10 @@ async function runArtifactsPaths(runRouteA, grindPartyName, useABE) {
 
         // 执行地图追踪文件
         for (const fileName of jsonFilePaths) {
+            pathIndex++;
+            if ((pathIndex % 5 === 0) && settings.autoSalvage && settings.decomposeMode != "保留") {
+                artifactExperienceDiff += await processArtifacts(1);
+            }
             const fullPath = fileName;
             await fakeLog(fileName, false, true, 0);
             currentTask += 1; // 更新当前任务计数器
@@ -934,12 +937,6 @@ function validateTimeoutSetting(value, defaultValue, timeoutType) {
     return timeout;
 }
 
-// 定义替换映射表
-const replacementMap = {
-    "监": "盐",
-    "卵": "卯"
-};
-
 // 定义所有图标的图像识别对象，每个图片都有自己的识别区域
 let CharacterMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/CharacterMenu.png"), 60, 991, 38, 38);
 
@@ -974,12 +971,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 3000) {
             let resList = captureGameRegion().findMulti(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height)); // 指定识别区域
             // 遍历识别结果，检查是否找到目标文本
             for (let res of resList) {
-                // 后处理：根据替换映射表检查和替换错误识别的字符
                 let correctedText = res.text;
-                for (let [wrongChar, correctChar] of Object.entries(replacementMap)) {
-                    correctedText = correctedText.replace(new RegExp(wrongChar, 'g'), correctChar);
-                }
-
                 if (correctedText.includes(targetText)) {
                     // 如果找到目标文本，计算并点击文字的中心坐标
                     let centerX = Math.round(res.x + res.width / 2);
@@ -1012,11 +1004,7 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
             // 在指定区域进行 OCR 识别
             let ocrResult = captureGameRegion().find(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height));
             if (ocrResult) {
-                // 后处理：根据替换映射表检查和替换错误识别的字符
                 let correctedText = ocrResult.text;
-                for (let [wrongChar, correctChar] of Object.entries(replacementMap)) {
-                    correctedText = correctedText.replace(new RegExp(wrongChar, 'g'), correctChar);
-                }
                 return correctedText; // 返回识别到的内容
             } else {
                 log.warn(`OCR 识别区域未找到内容`);
@@ -1024,7 +1012,7 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
             }
         } catch (error) {
             retryCount++; // 增加重试计数
-            log.warn(`OCR 摩拉数识别失败，正在进行第 ${retryCount} 次重试...`);
+            log.warn(`OCR 识别失败，正在进行第 ${retryCount} 次重试...`);
         }
         await sleep(500); // 短暂延迟，避免过快循环
     }
@@ -1032,59 +1020,7 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
     return null; // 如果未识别到文字，返回 null
 }
 
-async function decomposeArtifacts(keep4Star, doDecompose) {
-    setGameMetrics(1920, 1080, 1);
-    await genshin.returnMainUi();
-
-    // 按下 C 键
-    keyPress("C");
-    await sleep(1500);
-
-    let recognized = false;
-
-    // 识别“角色菜单”图标或“天赋”文字
-    let startTime = Date.now();
-    while (Date.now() - startTime < 5000) {
-        // 尝试识别“角色菜单”图标
-        let characterMenuResult = await recognizeImage(CharacterMenuRo, 5000);
-        if (characterMenuResult.success) {
-            await click(177, 433);
-            await sleep(500);
-            recognized = true;
-            break;
-        }
-
-        // 尝试识别“天赋”文字
-        let targetText = "天赋";
-        let ocrRegion = { x: 133, y: 395, width: 115, height: 70 }; // 设置对应的识别区域
-        let talentResult = await recognizeTextAndClick(targetText, ocrRegion);
-        if (talentResult.success) {
-            log.info(`点击天赋文字，坐标: x=${talentResult.x}, y=${talentResult.y}`);
-            recognized = true;
-            break;
-        }
-
-        await sleep(1000); // 短暂延迟，避免过快循环
-    }
-
-    let recognizedText = "";
-
-    // 如果识别到了“角色菜单”或“天赋”，则识别“摩拉数值”
-    if (recognized) {
-        let ocrRegionMora = { x: 1620, y: 25, width: 152, height: 46 }; // 设置对应的识别区域
-        recognizedText = await recognizeTextInRegion(ocrRegionMora);
-        if (recognizedText) {
-            log.info(`成功识别到摩拉数值: ${recognizedText}`);
-
-        } else {
-            log.warn("未能识别到摩拉数值。");
-        }
-    } else {
-        log.warn("未能识别到角色菜单或天赋，跳过摩拉数值识别。");
-    }
-    await sleep(500);
-    await genshin.returnMainUi();
-
+async function decomposeArtifacts() {
     keyPress("B");
     await sleep(1000);
     await click(670, 45);
@@ -1109,7 +1045,7 @@ async function decomposeArtifacts(keep4Star, doDecompose) {
     let firstNumber = 0;
     let firstNumber2 = 0;
 
-    if (keep4Star) {
+    if (settings.keep4Star) {
         await recognizeTextAndClick("快速选择", { x: 248, y: 996, width: 121, height: 49 });
         moveMouseTo(960, 540);
         await sleep(1000);
@@ -1140,7 +1076,7 @@ async function decomposeArtifacts(keep4Star, doDecompose) {
     moveMouseTo(960, 540);
     await sleep(1000);
 
-    if (keep4Star) {
+    if (settings.keep4Star) {
         await click(370, 370);//取消选择四星
         await sleep(1000);
     }
@@ -1172,7 +1108,7 @@ async function decomposeArtifacts(keep4Star, doDecompose) {
         log.warn(`在指定区域未识别到有效数字: ${newValue}`);
     }
 
-    if (doDecompose) {
+    if (settings.decomposeMode === "分解（经验瓶）") {
         log.info(`用户选择了分解，执行分解`);
         // 根据用户配置，分解狗粮
         await sleep(1000);
@@ -1203,12 +1139,134 @@ async function decomposeArtifacts(keep4Star, doDecompose) {
     if (resultExperience === 0) {
         resultExperience = initialValue;
     }
-    const result = {
-        mora: recognizedText, // 将 recognizedText 赋值给 mora
-        artifactExperience: resultExperience,
-        fourStarNum: fourStarNum
-    };
+    const result = resultExperience;
     await genshin.returnMainUi();
     return result;
 }
 
+/**
+ * 摧毁圣遗物换摩拉
+ */
+async function destroyArtifacts(times = 1) {
+    const ArtifactsButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/ArtifactsButton.png"));
+    const DeleteButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/DeleteButton.png"));
+    const AutoAddButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/AutoAddButton.png"));
+    const ConfirmButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/ConfirmButton.png"));
+    const DestoryButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/DestoryButton.png"));
+    const MidDestoryButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/DestoryButton.png"), 900, 600, 500, 300);
+    await genshin.returnMainUi();
+    keyPress("B");
+    await sleep(1500);
+
+    let ArtifactsButton = captureGameRegion().find(ArtifactsButtonRo);
+    if (ArtifactsButton.isExist()) {
+        log.info("识别到圣遗物按钮");
+        ArtifactsButton.click();
+        await sleep(1500);
+    }
+
+    try {
+        for (let i = 0; i < times; i++) {
+            captureGameRegion().find(DeleteButtonRo).click();// 点击摧毁
+            await sleep(600);
+            captureGameRegion().find(AutoAddButtonRo).click();// 点击自动添加
+            await sleep(600);
+            await sleep(300);
+            click(150, 150);
+            await sleep(300);
+            click(150, 220);
+            await sleep(300);
+            click(150, 300);
+            if (!settings.keep4Star) {
+                await sleep(300);
+                click(150, 370);
+            }
+            captureGameRegion().find(ConfirmButtonRo).click();// 点击快捷放入
+            await sleep(600);
+            captureGameRegion().find(DestoryButtonRo).click();// 点击摧毁
+            await sleep(600);
+            captureGameRegion().find(MidDestoryButtonRo).click();// 弹出页面点击摧毁
+            await sleep(600);
+            click(960, 1000);// 点击空白处
+            await sleep(1000);
+        }
+    } catch (ex) {
+        log.info("背包里的圣遗物已摧毁完毕，提前结束")
+    } finally {
+        await genshin.returnMainUi();
+    }
+
+}
+
+async function processArtifacts(times = 1) {
+    await genshin.returnMainUi();
+    let result = 0;
+    try {
+        if (settings.decomposeMode === "销毁（摩拉）") {
+            result = await destroyArtifacts(times);
+        } else {
+            result = await decomposeArtifacts();
+        }
+    } catch (error) {
+        log.error(`处理狗粮分解时发生异常: ${error.message}`);
+    }
+    await genshin.returnMainUi();
+    return result;
+}
+
+async function mora() {
+    let result = 0;
+    let tryTimes = 0;
+    while (result === 0 && tryTimes < 3) {
+        await genshin.returnMainUi();
+        log.info("开始尝试识别摩拉");
+        // 按下 C 键
+        keyPress("C");
+        await sleep(1500);
+        let recognized = false;
+        // 识别“角色菜单”图标或“天赋”文字
+        let startTime = Date.now();
+        while (Date.now() - startTime < 5000) {
+            // 尝试识别“角色菜单”图标
+            let characterMenuResult = await recognizeImage(CharacterMenuRo, 5000);
+            if (characterMenuResult.success) {
+                await click(177, 433);
+                await sleep(500);
+                recognized = true;
+                break;
+            }
+
+            // 尝试识别“天赋”文字
+            let targetText = "天赋";
+            let ocrRegion = { x: 133, y: 395, width: 115, height: 70 }; // 设置对应的识别区域
+            let talentResult = await recognizeTextAndClick(targetText, ocrRegion);
+            if (talentResult.success) {
+                log.info(`点击天赋文字，坐标: x=${talentResult.x}, y=${talentResult.y}`);
+                recognized = true;
+                break;
+            }
+
+            await sleep(1000); // 短暂延迟，避免过快循环
+        }
+
+        let recognizedText = "";
+
+        // 如果识别到了“角色菜单”或“天赋”，则识别“摩拉数值”
+        if (recognized) {
+            let ocrRegionMora = { x: 1620, y: 25, width: 152, height: 46 }; // 设置对应的识别区域
+            recognizedText = await recognizeTextInRegion(ocrRegionMora);
+            if (recognizedText) {
+                log.info(`成功识别到摩拉数值: ${recognizedText}`);
+                result = recognizedText;
+            } else {
+                log.warn("未能识别到摩拉数值。");
+            }
+        } else {
+            log.warn("未能识别到角色菜单或天赋");
+        }
+        await sleep(500);
+        tryTimes++;
+        await genshin.returnMainUi();
+    }
+    return Number(result);
+}
