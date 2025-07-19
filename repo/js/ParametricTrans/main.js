@@ -1,8 +1,8 @@
 (async function () {
 
     //初始化配置======================================================================================
-    var BH = typeof settings.BH === 'string' && settings.BH.trim() !== '' ? settings.BH : "assets/bh.bmp";
-    var ZHIBIANYI = typeof settings.ZHIBIANY === 'string' && settings.ZHIBIANYI.trim() !== '' ? settings.ZHIBIANYI : "assets/zhibian.bmp";
+    var BH = typeof settings.BH === 'string' && settings.BH.trim() !== '' ? settings.BH : "assets/bh.png";
+    var ZHIBIANYI = typeof settings.ZHIBIANY === 'string' && settings.ZHIBIANYI.trim() !== '' ? settings.ZHIBIANYI : "assets/zhibian.png";
     var actiontime = settings.actiontime != undefined && ~~settings.actiontime > 0 ? ~~settings.actiontime : 50;
     var TEAM
     const ITEM = settings.ITEM !== undefined ? (
