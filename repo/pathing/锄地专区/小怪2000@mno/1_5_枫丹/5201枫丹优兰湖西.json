@@ -12,6 +12,7 @@
         "links": "https://github.com/Bedrockx"
       }
     ]
+	,"enable_monster_loot_split": true
   },
   "positions": [
     {
@@ -67,6 +68,7 @@
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
+	  ,"point_ext_params": {"monster_tag": "elite"}
     },
     {
       "id": 7,
@@ -121,6 +123,7 @@
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
+	  ,"point_ext_params": {"monster_tag": "elite"}
     },
     {
       "id": 13,
