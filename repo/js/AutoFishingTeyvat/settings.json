@@ -2,7 +2,8 @@
     {
         "name": "show_info",
         "type": "input-text",
-        "label": "下方输入的内容用空格隔开、括号内是优先级\n（只会执行当前非默认最高优先级的选项）"
+        "label": "下方输入的内容用空格隔开、括号内是优先级\n（只会执行当前非默认最高优先级的选项）",
+        "default": "该输入框无需输入内容"
     },
     {
         "name": "path_sort_area",
@@ -127,22 +128,32 @@
     {
         "name": "time_out_throw",
         "type": "input-text",
-        "label": "自动抛竿未上钩超时时间(秒) 默认: 10"
+        "label": "自动抛竿未上钩超时时间(秒)",
+        "default": 10
     },
     {
         "name": "time_out_whole",
         "type": "input-text",
-        "label": "整个任务超时时间(秒) 默认: 300"
+        "label": "整个任务超时时间(秒)",
+        "default": 300
     },
     {
         "name": "auto_pick",
         "type": "checkbox",
-        "label": "启用自动拾取(默认禁用)"
+        "label": "启用自动拾取",
+        "default": false
     },
     {
         "name": "auto_skip",
         "type": "checkbox",
-        "label": "启用4点领取月卡(默认禁用)"
+        "label": "启用4点领取月卡",
+        "default": false
+    },
+    {
+        "name": "fishing_cd",
+        "type": "checkbox",
+        "label": "启用垂钓点CD统计(自动跳过冷却中的垂钓点)",
+        "default": true
     },
     {
         "name": "time_kill_hour",
@@ -247,17 +258,20 @@
     {
         "name": "block_gcm",
         "type": "checkbox",
-        "label": "禁用键鼠路线(默认启用键鼠路线)"
+        "label": "禁用键鼠路线(启用前请自行了解队伍配置要求)",
+        "default": false
     },
     {
         "name": "block_fight",
         "type": "checkbox",
-        "label": "启用战斗路线(默认禁用战斗路线)"
+        "label": "启用战斗路线(需要自行配置战斗策略)",
+        "default": false
     },
     {
         "name": "block_tsurumi",
         "type": "checkbox",
-        "label": "启用鹤观路线(默认禁用鹤观路线)"
+        "label": "启用鹤观路线(请确保任务已经完成，小道具交互的点位尚不可用)",
+        "default": false
     },
     {
         "name": "path_select",

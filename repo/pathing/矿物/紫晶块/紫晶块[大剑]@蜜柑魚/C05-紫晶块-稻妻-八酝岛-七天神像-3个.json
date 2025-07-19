@@ -30,21 +30,21 @@
     },
     {
       "id": 2,
-      "x": -2236.88,
-      "y": -3735.07,
-      "action": "",
+      "x": -2217.6,
+      "y": -3719.54,
+      "type": "path",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 3,
-      "x": -2265.0,
-      "y": -3758.25,
-      "type": "path",
+      "x": -2220.4,
+      "y": -3721.0,
+      "action": "combat_script",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "action_params": "玛薇卡 wait(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(2);",
+      "type": "path"
     },
     {
       "id": 4,

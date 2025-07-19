@@ -30,15 +30,24 @@
     },
     {
       "id": 2,
-      "x": -2513.19,
-      "y": -3533.1,
+      "x": -2515.42,
+      "y": -3535.67,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action": "",
       "action_params": ""
     },
     {
       "id": 3,
+      "x": -2513.19,
+      "y": -3533.1,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "玛薇卡 w(0.1),e(hold),wait(0.05),w(4.2);",
+      "type": "path"
+    },
+    {
+      "id": 4,
       "x": -2466.4,
       "y": -3488.6,
       "type": "path",
@@ -47,7 +56,7 @@
       "action_params": ""
     },
     {
-      "id": 4,
+      "id": 5,
       "x": -2444.76,
       "y": -3475.31,
       "type": "path",
@@ -56,7 +65,7 @@
       "action_params": ""
     },
     {
-      "id": 5,
+      "id": 6,
       "x": -2441.78,
       "y": -3476.69,
       "type": "target",
@@ -66,7 +75,7 @@
       "locked": false
     },
     {
-      "id": 6,
+      "id": 7,
       "x": -2441.78,
       "y": -3476.69,
       "type": "path",
@@ -75,7 +84,7 @@
       "action_params": "wait(0.5)"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": -2441.34,
       "y": -3487.81,
       "type": "path",
@@ -84,7 +93,7 @@
       "action_params": ""
     },
     {
-      "id": 8,
+      "id": 9,
       "x": -2438.9,
       "y": -3485.6,
       "type": "target",
@@ -94,7 +103,7 @@
       "locked": false
     },
     {
-      "id": 9,
+      "id": 10,
       "x": -2438.9,
       "y": -3485.6,
       "type": "path",

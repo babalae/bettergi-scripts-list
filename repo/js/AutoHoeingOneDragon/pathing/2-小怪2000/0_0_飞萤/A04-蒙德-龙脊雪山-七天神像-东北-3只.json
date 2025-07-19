@@ -8,71 +8,62 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751639468728,
-    "authors": [
-      {
-        "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
-      }
-    ]
+    "last_modified_time": 1752249603177
   },
   "positions": [
     {
       "id": 1,
       "x": -1023.3,
       "y": 1174.5,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
       "x": -1025.98,
       "y": 1196.74,
-      "type": "path",
-      "move_mode": "fly",
       "action": "",
-      "action_params": ""
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
       "x": -1209.16,
       "y": 1198.12,
-      "type": "path",
-      "move_mode": "fly",
       "action": "combat_script",
+      "move_mode": "fly",
       "action_params": "keypress(VK_SPACE),wait(4.5),keypress(VK_SPACE),attack(0.2)",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 4,
       "x": -1209.16,
       "y": 1198.12,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
+      "move_mode": "fly",
       "action_params": "",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 5,
       "x": -1209.16,
       "y": 1198.12,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
+      "move_mode": "walk",
       "action_params": "",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 6,
       "x": -1209.16,
       "y": 1198.12,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

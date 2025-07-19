@@ -2,13 +2,18 @@
   "info": {
     "name": "6纳塔富A路TP刷CD",
     "type": "collect",
-    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751984401873,
+    "last_modified_time": 1752260272012,
     "enable_monster_loot_split": false
   },
   "positions": [
@@ -25,10 +30,10 @@
       "id": 2,
       "x": 8914.7685546875,
       "y": -2680.2509765625,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 3,
@@ -70,19 +75,19 @@
       "id": 7,
       "x": 9487.90234375,
       "y": -1667.02490234375,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "5500"
+      "move_mode": "fly",
+      "action_params": "5100",
+      "type": "path"
     },
     {
       "id": 8,
       "x": 9490.603515625,
       "y": -1664.439453125,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 9,
@@ -97,10 +102,10 @@
       "id": 10,
       "x": 9342.341796875,
       "y": -1494.5732421875,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 11,
@@ -115,10 +120,10 @@
       "id": 12,
       "x": 10118.16015625,
       "y": -119.41357421875,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 13,
@@ -131,6 +136,15 @@
     },
     {
       "id": 14,
+      "x": 10063.0107421875,
+      "y": 75.552734375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    },
+    {
+      "id": 15,
       "x": 9968.375,
       "y": 252.1005859375,
       "action": "",
@@ -139,7 +153,7 @@
       "type": "teleport"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": 9755.689453125,
       "y": -614.931640625,
       "action": "",

@@ -10,79 +10,71 @@
     "tags": [
       "高危"
     ],
-    "last_modified_time": 1751639100937,
-    "authors": [
-      {
-        "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
-      }
-    ]
+    "last_modified_time": 1752249596490
   },
   "positions": [
     {
       "id": 1,
       "x": -1013.4,
       "y": 1028.42,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
       "x": -987.79,
       "y": 1014.58,
-      "type": "path",
-      "move_mode": "fly",
       "action": "",
+      "move_mode": "fly",
       "action_params": "",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 3,
       "x": -987.79,
       "y": 1014.58,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 4,
       "x": -949.47,
       "y": 1001.77,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 5,
       "x": -936.37,
       "y": 1010.43,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 6,
       "x": -921.28,
       "y": 996.07,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
+      "move_mode": "walk",
       "action_params": "",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 7,
       "x": -921.28,
       "y": 996.07,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

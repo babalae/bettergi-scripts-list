@@ -2,8 +2,8 @@
 ## 一、前言
 - 本地图追蹤以稻妻、渊下宫 解谜全解 与 宝箱全收集 情况下制作
 - 制作脚本时，以**钟剑诺艾尔**作为行走位
-- 队伍 : 诺艾尔、纳西妲、爱可菲、芭芭拉
-- **(不推荐双风 或 加移速等角色)** 
+- 部份地图追蹤會使用玛薇卡趕路
+- 队伍 : 诺艾尔、玛薇卡、爱可菲、芭芭拉
 
 - 预期用时 1小时35分~40分 / 235~275 个
 
@@ -15,10 +15,10 @@
 
     ```
     诺艾尔 e
-    爱可菲 e,wait(0.3),keypress(q)
-    纳西妲 attack,wait(0.5),e(hold),click(middle),wait(0.5)
-    芭芭拉 e,wait(0.2),click(middle),keypress(q),click(middle) ,attack(5),click(middle) 
-    诺艾尔 q, e , charge(6.5), wait(0.6), s(2), w(0.5)
+    玛薇卡 e
+    爱可菲 attack(0.01),e,attack(0.1),jump,wait(0.2),keypress(q),keydown(W),attack(0.3),keypress(q),keyup(W),attack(0.3),keypress(q),attack(0.1),keydown(S),attack(0.33),keyup(S), wait(0.15), keydown(S), attack(0.66), keyup(S),keypress(q),wait(0.3)
+    芭芭拉 attack(0.2),wait(0.3),keypress(e), wait(0.2),keypress(e), click(middle), keypress(q),wait(0.2), keypress(q),keypress(e),wait(0.2), keypress(q),click(middle) ,attack(0.6),charge(0.6),click(middle),keypress(e),wait(0.3)
+    玛薇卡 q
     ```
 
 - 開啟 更快檢查結束戰鬥
@@ -39,8 +39,8 @@
   - 八酝岛 无战斗 = 23
   - 八酝岛 有战斗 = 4
 - **海衹岛** : 24
-  - 海衹岛 无战斗 = 24
-  - 海衹岛 有战斗 = 0
+  - 海衹岛 无战斗 = 20
+  - 海衹岛 有战斗 = 4
 - **清籁岛** : 35
   - 清籁岛 无战斗 = 27
   - 清籁岛 有战斗 = 8
@@ -48,10 +48,10 @@
   - 鹤观   无战斗 = 24
   - 鹤观   有战斗 = 2
 - **渊下宫** : 46
-  - 渊下宫 无战斗 = 18
-  - 渊下宫 有战斗 = 28
+  - 渊下宫 无战斗 = 20
+  - 渊下宫 有战斗 = 26
 
 **预期总计：235 个**
 
 
-**去除战斗脚本 (-63) = 172个**
+**去除战斗脚本 (-67) = 168个**

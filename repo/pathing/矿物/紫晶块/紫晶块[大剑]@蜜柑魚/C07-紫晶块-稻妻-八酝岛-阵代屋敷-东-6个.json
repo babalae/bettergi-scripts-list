@@ -1,22 +1,22 @@
-{
+﻿{
   "info": {
     "name": "C07-紫晶块-稻妻-八酝岛-阵代屋敷-东-6个",
     "type": "collect",
-    "author": "蜜柑魚",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.47.0",
-    "tags": [
-      "双手剑"
-    ],
-    "last_modified_time": 1751131448671,
     "authors": [
       {
         "name": "蜜柑魚",
         "links": "https://github.com/this-Fish"
       }
-    ]
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "双手剑"
+    ],
+    "last_modified_time": 1752690849821,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -30,8 +30,8 @@
     },
     {
       "id": 2,
-      "x": -2225.64,
-      "y": -4034.69,
+      "x": -2211.42,
+      "y": -4048.88,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -39,17 +39,17 @@
     },
     {
       "id": 3,
-      "x": -2211.75,
-      "y": -4051.06,
+      "x": -2206,
+      "y": -4049.89,
       "action": "",
-      "move_mode": "jump",
+      "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 4,
-      "x": -2212.62,
-      "y": -4050.52,
+      "x": -2212.04,
+      "y": -4049.62,
       "action": "mining",
       "move_mode": "walk",
       "action_params": "",
@@ -147,7 +147,7 @@
     },
     {
       "id": 15,
-      "x": -2289.76,
+      "x": -2277.76,
       "y": -4010.11,
       "action": "combat_script",
       "move_mode": "walk",
@@ -156,8 +156,8 @@
     },
     {
       "id": 16,
-      "x": -2293.97,
-      "y": -3985.8,
+      "x": -2292.65,
+      "y": -4001.38,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -165,24 +165,33 @@
     },
     {
       "id": 17,
-      "x": -2296.65,
-      "y": -3987.42,
-      "action": "mining",
+      "x": -2298.45,
+      "y": -3983.27,
+      "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "target"
     },
     {
       "id": 18,
-      "x": -2296.65,
-      "y": -3987.42,
+      "x": -2297.68,
+      "y": -3986.02,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 19,
+      "x": -2297.68,
+      "y": -3986.02,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "wait(0.5)",
       "type": "path"
     },
     {
-      "id": 19,
+      "id": 20,
       "x": -2283.93,
       "y": -3970.98,
       "action": "",
@@ -191,7 +200,7 @@
       "type": "path"
     },
     {
-      "id": 20,
+      "id": 21,
       "x": -2282.45,
       "y": -3966.4,
       "action": "",
@@ -200,16 +209,25 @@
       "type": "path"
     },
     {
-      "id": 21,
-      "x": -2281.77,
-      "y": -3964.57,
+      "id": 22,
+      "x": -2279.052734375,
+      "y": -3965.1865234375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 23,
+      "x": -2281.91,
+      "y": -3964.75,
       "action": "mining",
       "move_mode": "walk",
       "action_params": "",
       "type": "target"
     },
     {
-      "id": 22,
+      "id": 24,
       "x": -2281.77,
       "y": -3964.57,
       "action": "combat_script",
@@ -218,7 +236,7 @@
       "type": "path"
     },
     {
-      "id": 23,
+      "id": 25,
       "x": -2277.13,
       "y": -3960.75,
       "action": "mining",
@@ -227,7 +245,7 @@
       "type": "target"
     },
     {
-      "id": 24,
+      "id": 26,
       "x": -2277.12,
       "y": -3960.72,
       "action": "combat_script",
