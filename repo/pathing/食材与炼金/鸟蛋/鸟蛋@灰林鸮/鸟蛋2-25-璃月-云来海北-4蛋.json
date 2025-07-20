@@ -1,6 +1,6 @@
-{
+﻿{
   "info": {
-    "name": "鸟蛋2-28-璃月-珉林-4蛋",
+    "name": "鸟蛋2-25-璃月-云来海北-4蛋",
     "type": "collect",
     "authors": [
       {
@@ -13,14 +13,14 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1752215943695,
+    "last_modified_time": 1752215492381,
     "enable_monster_loot_split": false
   },
   "positions": [
     {
       "id": 1,
-      "x": 1045.568359375,
-      "y": 947.5068359375,
+      "x": 255.865234375,
+      "y": -12.5029296875,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -28,8 +28,8 @@
     },
     {
       "id": 2,
-      "x": 1073.173828125,
-      "y": 963.2314453125,
+      "x": 273.916015625,
+      "y": 4.67578125,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -37,8 +37,8 @@
     },
     {
       "id": 3,
-      "x": 1117.62109375,
-      "y": 957.7900390625,
+      "x": 288.224609375,
+      "y": 66.20703125,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -46,17 +46,17 @@
     },
     {
       "id": 4,
-      "x": 1158.4189453125,
-      "y": 934.849609375,
+      "x": 311.8359375,
+      "y": 94.56396484375,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(1)",
+      "action_params": "wait(1.5)",
       "type": "path"
     },
     {
       "id": 5,
-      "x": 1164.830078125,
-      "y": 929.44140625,
+      "x": 321.240234375,
+      "y": 115.1123046875,
       "action": "",
       "move_mode": "jump",
       "action_params": "",
@@ -64,48 +64,57 @@
     },
     {
       "id": 6,
-      "x": 1192.232421875,
-      "y": 910.2978515625,
+      "x": 321.240234375,
+      "y": 115.1123046875,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 7,
-      "x": 1197.21484375,
-      "y": 887.05859375,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "2000",
-      "type": "path"
+      "x": 332.365234375,
+      "y": 117.4765625,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "keypress(x)",
+      "type": "orientation"
     },
     {
       "id": 8,
-      "x": 1192.2724609375,
-      "y": 884.9833984375,
-      "action": "nahida_collect",
+      "x": 332.365234375,
+      "y": 117.4765625,
+      "action": "",
       "move_mode": "climb",
       "action_params": "",
       "type": "target"
     },
     {
       "id": 9,
-      "x": 1200.7958984375,
-      "y": 881.5234375,
-      "type": "path",
-      "move_mode": "dash",
+      "x": 334.712890625,
+      "y": 115.2470703125,
+      "type": "target",
+      "move_mode": "climb",
       "action": "",
       "action_params": ""
     },
     {
       "id": 10,
-      "x": 1206.4375,
-      "y": 880.5458984375,
-      "type": "path",
-      "move_mode": "jump",
+      "x": 350.87890625,
+      "y": 126.791015625,
       "action": "",
-      "action_params": ""
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 350.87890625,
+      "y": 126.791015625,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
     }
   ]
 }

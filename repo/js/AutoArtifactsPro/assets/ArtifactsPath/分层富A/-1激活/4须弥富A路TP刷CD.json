@@ -13,7 +13,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1752135466281,
+    "last_modified_time": 1752920949868,
     "enable_monster_loot_split": false
   },
   "positions": [
@@ -21,15 +21,14 @@
       "id": 1,
       "x": 2872.080078125,
       "y": -285.8486328125,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "",
       "type": "teleport"
     },
     {
       "id": 2,
-      "x": 4402.5693359375,
-      "y": -1870.73876953125,
+      "x": 3133.732421875,
+      "y": -1733.98486328125,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -68,7 +67,7 @@
       "y": 786.01123046875,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(t)",
+      "action_params": "keypress(t),wait(0.2),keypress(t)",
       "type": "orientation"
     },
     {
@@ -78,8 +77,7 @@
       "action": "",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 8,
@@ -89,15 +87,6 @@
       "move_mode": "run",
       "action_params": "",
       "type": "path"
-    },
-    {
-      "id": 9,
-      "x": 3133.732421875,
-      "y": -1733.98486328125,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
     }
   ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "鸟蛋6-4-纳塔圣火竞技场-2蛋",
     "type": "collect",
@@ -13,7 +13,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1752177324449,
+    "last_modified_time": 1752915948548,
     "enable_monster_loot_split": false
   },
   "positions": [
@@ -21,35 +21,54 @@
       "id": 1,
       "x": 8974.53125,
       "y": -1878.27734375,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
-      "x": 8100.787109375,
-      "y": -1676.81884765625,
+      "x": 8955.265625,
+      "y": -1855.150390625,
       "type": "path",
-      "move_mode": "dash",
+      "move_mode": "run",
       "action": "",
       "action_params": ""
     },
     {
       "id": 3,
-      "x": 8086.849609375,
-      "y": -1661,
+      "x": 8900.330078125,
+      "y": -1833.18994140625,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "w(1.6)",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 8900.330078125,
+      "y": -1833.18994140625,
       "type": "path",
       "move_mode": "dash",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 4,
-      "x": 8081,
-      "y": -1654,
+      "id": 5,
+      "x": 8898.8125,
+      "y": -1831.32177734375,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "keypress(f);纳西妲 e;"
+    },
+    {
+      "id": 6,
+      "x": 8899.2421875,
+      "y": -1830.21923828125,
       "type": "path",
-      "move_mode": "jump",
+      "move_mode": "climb",
       "action": "combat_script",
       "action_params": "attack(0.3),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
     }
