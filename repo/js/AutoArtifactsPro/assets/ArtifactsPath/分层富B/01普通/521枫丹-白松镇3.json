@@ -13,7 +13,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1752088331052,
+    "last_modified_time": 1752919651204,
     "enable_monster_loot_split": false
   },
   "positions": [
@@ -109,8 +109,8 @@
     },
     {
       "id": 11,
-      "x": 4146.77587890625,
-      "y": 2765.7119140625,
+      "x": 4146.3125,
+      "y": 2767.375586526603,
       "action": "combat_script",
       "move_mode": "jump",
       "action_params": "attack(0.3)",
@@ -120,13 +120,23 @@
       "id": 12,
       "x": 4140.34619140625,
       "y": 2763.218017578125,
-      "type": "path",
+      "action": "combat_script",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "action_params": "w(0.2)",
+      "type": "orientation",
+      "locked": false
     },
     {
       "id": 13,
+      "x": 4140.34619140625,
+      "y": 2763.218017578125,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
       "x": 4140.84423828125,
       "y": 2763.770263671875,
       "action": "combat_script",
@@ -135,7 +145,7 @@
       "type": "target"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": 4145.56689453125,
       "y": 2767.032470703125,
       "action": "",
@@ -144,7 +154,7 @@
       "type": "target"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": 4146.091796875,
       "y": 2775.803955078125,
       "action": "",
@@ -153,7 +163,7 @@
       "type": "path"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": 4147.20068359375,
       "y": 2790.426025390625,
       "action": "",
@@ -162,16 +172,16 @@
       "type": "path"
     },
     {
-      "id": 17,
+      "id": 18,
       "x": 4142.8779296875,
       "y": 2792.208251953125,
-      "type": "path",
-      "move_mode": "climb",
       "action": "",
-      "action_params": ""
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
     },
     {
-      "id": 18,
+      "id": 19,
       "x": 4143.54443359375,
       "y": 2792.153564453125,
       "action": "combat_script",
