@@ -286,9 +286,6 @@ let enemyType = "无";
         }
     }
 
-    // 启用自动拾取的实时任务
-    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
-
     //切换至好感队
     await switchPartyIfNeeded(friendshipPartyName);
 
@@ -316,7 +313,7 @@ let enemyType = "无";
                         await AutoPath('愚人众-准备');
                     }
                     if (enemyType === "鳄鱼") {
-                        log.info(`导航到盗宝团触发点...`);
+                        log.info(`导航到鳄鱼触发点...`);
                         await AutoPath('鳄鱼-准备');
                     }
                     //好感卡时间
@@ -389,6 +386,8 @@ let enemyType = "无";
         // 开始运行狗粮路线
         let runArtifactsResult = true;
         runArtifactsResult = await runArtifactsPaths(runRouteA, grindPartyName, settings.useABE);
+        await genshin.returnMainUi();
+        await sleep(2000);
         artifactExperienceDiff += await processArtifacts(21);
         moraDiff += await mora();
         log.info(`狗粮路线获取摩拉: ${moraDiff}`);
@@ -553,6 +552,8 @@ async function runArtifactsPaths(runRouteA, grindPartyName, useABE) {
     // 运行额外路线
     await runPathGroups(filePathExtra, "额外");
 
+    dispatcher.ClearAllTriggers();
+
     return true;
 }
 
@@ -659,6 +660,12 @@ async function AutoPath(locationName) {
 
 //好感度任务的逻辑
 async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "盗宝团", endTime) {
+    // 启用自动拾取的实时任务（只有鳄鱼好感启用）
+    //if (enemyType === "盗宝团") {
+    //if (enemyType === "愚人众") {
+    if (enemyType === "鳄鱼") {
+        dispatcher.addTimer(new RealtimeTimer("AutoPick"));
+    }
     let friendTimes = 0;
     for (let i = 0; i < times; i++) {
 
@@ -754,7 +761,6 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "�
                 ]);
                 await pathTaskPromise; // 等待路径任务完成
                 cts.cancel();
-                await battleTask;
             } catch (error) {
                 cts.cancel();
                 if (error.message && error.message.includes("战斗超时")) {
