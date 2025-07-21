@@ -6,7 +6,7 @@
     "options": [
       "运行锄地路线",
       "输出地图追踪文件",
-      "强制刷新所有路线cd"
+      "强制刷新所有运行记录"
     ],
     "default": "运行锄地路线"
   },
@@ -80,6 +80,11 @@
     "type": "input-text",
     "label": "路线效率计算权重，填0以上的数字\n越大越倾向于花费较多时间提高总收益",
     "default": "0.5"
+  },
+  {
+    "name": "disableSelfOptimization",
+    "type": "checkbox",
+    "label": "勾选后禁用根据运行记录优化路线选择的功能\n完全使用路线原有信息"
   },
   {
     "name": "targetEliteNum",
