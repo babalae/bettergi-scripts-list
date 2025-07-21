@@ -95,14 +95,16 @@ if (settings.activeDumperMode) { //处理泥头车信息
     if (operationMode === "输出地图追踪文件") {
         log.info("开始复制并输出地图追踪文件\n请前往js文件夹查看");
         await copyPathingsByGroup(pathings);
+        await updateRecords(pathings, accountName);
     } else if (operationMode === "运行锄地路线") {
         await switchPartyIfNeeded(partyName)
         log.info("开始运行锄地路线");
+        await updateRecords(pathings, accountName);
         await processPathingsByGroup(pathings, whitelistKeywords, blacklistKeywords, accountName);
     } else {
-        log.info("强制刷新所有路线CD");
+        log.info("强制刷新所有运行记录");
         await initializeCdTime(pathings, "");
-        await updateCdTimeRecord(pathings, accountName);
+        await updateRecords(pathings, accountName);
     }
 })();
 
@@ -158,6 +160,32 @@ async function processPathings() {
 
         // 初始化 pathing 对象的属性
         pathing.t = routeInfo.time; // 预计用时初始化为60秒，如果 description 中有值则覆盖
+        if (!settings.disableSelfOptimization && pathing.records) {
+            //如果用户没有禁用自动优化，则参考运行记录更改预期用时
+            const history = pathing.records.filter(v => v > 0);
+            if (history.length) {
+                const max = Math.max(...history);
+                const min = Math.min(...history);
+
+                let maxRemoved = false;
+                let minRemoved = false;
+
+                // 就地修改 history：先去掉一个最大值，再去掉一个最小值
+                for (let i = history.length - 1; i >= 0; i--) {
+                    const v = history[i];
+                    if (!maxRemoved && v === max) {
+                        history.splice(i, 1);
+                        maxRemoved = true;
+                    } else if (!minRemoved && v === min) {
+                        history.splice(i, 1);
+                        minRemoved = true;
+                    }
+                    if (maxRemoved && minRemoved) break;
+                }
+            }
+            //每一个有效的record占用0.2权重，剩余权重为原时间
+            pathing.t = pathing.t * (1 - history.length * 0.2) + history.reduce((a, b) => a + b, 0);
+        }
         pathing.m = 0; // 普通怪物数量
         pathing.e = 0; // 精英怪物数量
         pathing.mora_m = 0; // 普通怪物摩拉值
@@ -950,6 +978,9 @@ async function processPathingsByGroup(pathings, whitelistKeywords, blacklistKeyw
                 nextEightClock.setUTCHours(20 + 24, 0, 0, 0); // 设置为下一个 UTC 时间的 20:00
             }
 
+            const pathTime = new Date() - now;
+            pathing.records = [...pathing.records, pathTime / 1000].slice(-6);
+
             // 更新路径的 cdTime
             pathing.cdTime = nextEightClock.toLocaleString();
 
@@ -962,64 +993,62 @@ async function processPathingsByGroup(pathings, whitelistKeywords, blacklistKeyw
             const remainingseconds = predictRemainingTime % 60;
             log.info(`当前进度：第 ${targetGroup} 组第 ${groupPathCount}/${totalPathsInGroup} 个  ${pathing.fileName}已完成，该组预计剩余: ${remaininghours} 时 ${remainingminutes} 分 ${remainingseconds.toFixed(0)} 秒`);
 
-            await updateCdTimeRecord(pathings, accountName);
+            await updateRecords(pathings, accountName);
         }
     }
 }
 
-
-//加载cd信息
 async function initializeCdTime(pathings, accountName) {
     try {
-        // 构造文件路径
         const filePath = `records/${accountName}.json`;
-
-        // 尝试读取文件内容
         const fileContent = await file.readText(filePath);
-
-        // 解析 JSON 数据
         const cdTimeData = JSON.parse(fileContent);
 
-        // 遍历 pathings 数组
         pathings.forEach(pathing => {
-            // 找到对应的 cdTime 数据
-            const cdTimeEntry = cdTimeData.find(entry => entry.fileName === pathing.fileName);
+            const entry = cdTimeData.find(e => e.fileName === pathing.fileName);
 
-            // 如果找到对应的项，则更新 cdTime
-            if (cdTimeEntry) {
-                pathing.cdTime = new Date(cdTimeEntry.cdTime).toLocaleString();
-            } else {
-                // 如果没有找到对应的项，则使用默认值 new Date(0)
-                pathing.cdTime = new Date(0).toLocaleString();
-            }
+            // 读取 cdTime
+            pathing.cdTime = entry
+                ? new Date(entry.cdTime).toLocaleString()
+                : new Date(0).toLocaleString();
+
+            // 确保当前 records 是数组
+            const current = Array.isArray(pathing.records) ? pathing.records : new Array(6).fill(-1);
+
+            // 读取文件中的 records（若缺失则为空数组）
+            const loaded = (entry && Array.isArray(entry.records)) ? entry.records : [];
+
+            // 合并：文件中的 records（倒序最新在前）→ 追加到当前数组末尾
+            // 再整体倒序恢复正确顺序，截取最新 5 项
+            pathing.records = [...current, ...loaded.reverse()].slice(-5);
         });
     } catch (error) {
+        // 文件不存在或解析错误，初始化为 6 个 -1
         pathings.forEach(pathing => {
             pathing.cdTime = new Date(0).toLocaleString();
+            pathing.records = new Array(6).fill(-1);
         });
     }
 }
 
-async function updateCdTimeRecord(pathings, accountName) {
+async function updateRecords(pathings, accountName) {
     try {
-        // 构造文件路径
         const filePath = `records/${accountName}.json`;
 
-        // 构造要写入文件的 JSON 数据
         const cdTimeData = pathings.map(pathing => ({
             fileName: pathing.fileName,
-            //description: pathing.description,
-            //精英数量: pathing.e,
-            //小怪数量: pathing.m,
             标签: pathing.tags,
-            cdTime: pathing.cdTime
+            预计用时: pathing.t,
+            cdTime: pathing.cdTime,
+            // 倒序：最新 → 最旧，再过滤 > 0 并保留两位小数
+            records: [...pathing.records]   // 复制一份避免副作用
+                .reverse()                 // 倒序
+                .filter(v => v > 0)        // 过滤大于 0
+                .map(v => Number(v.toFixed(2))) // 保留两位小数
         }));
 
-        // 将更新后的内容写回文件
         await file.writeText(filePath, JSON.stringify(cdTimeData, null, 2), false);
-
     } catch (error) {
-        // 捕获并记录错误
         log.error(`更新 cdTime 时出错: ${error.message}`);
     }
 }
