@@ -1,6 +1,6 @@
 ﻿{
   "info": {
-    "name": "419须弥沙漠巨人峡谷西北（600_1）",
+    "name": "429须弥沙漠赤王陵（200_2）",
     "type": "collect",
     "authors": [
       {
@@ -13,14 +13,14 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1753125032863,
+    "last_modified_time": 1752343132408,
     "enable_monster_loot_split": false
   },
   "positions": [
     {
       "id": 1,
-      "x": 5485.2216796875,
-      "y": -1240.50732421875,
+      "x": 5391.6904296875,
+      "y": -2340.310546875,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -28,31 +28,31 @@
     },
     {
       "id": 2,
-      "x": 5473.3095703125,
-      "y": -1220.8349609375,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 5497.5859375,
-      "y": -1100.48291015625,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "fight",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 4,
-      "x": 5497.5859375,
-      "y": -1100.48291015625,
+      "x": 5429.8095703125,
+      "y": -2349.8798828125,
       "type": "orientation",
       "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "action_params": "keydown(w),wait(0.2),dash,wait(1),keyup(w)",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 5429.8095703125,
+      "y": -2349.8798828125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 5435.06005859375,
+      "y": -2351.583984375,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }
