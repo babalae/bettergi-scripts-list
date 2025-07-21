@@ -754,6 +754,7 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "�
                 ]);
                 await pathTaskPromise; // 等待路径任务完成
                 cts.cancel();
+                await battleTask;
             } catch (error) {
                 cts.cancel();
                 if (error.message && error.message.includes("战斗超时")) {
