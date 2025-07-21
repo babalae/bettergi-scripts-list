@@ -38,13 +38,21 @@
       "type": "path"
     },
     {
+      "x": -4350.26,
+      "y": -4973.52,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "玛薇卡 e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(3),j;",
+      "type": "orientation"
+    },
+    {
       "id": 3,
       "x": -4350.26,
       "y": -4973.52,
       "action": "",
       "move_mode": "fly",
       "action_params": "",
-      "type": "target"
+      "type": "path"
     },
     {
       "id": 4,
@@ -52,8 +60,8 @@
       "y": -4973.52,
       "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "j,wait(7.5),j,attack(0.2)",
-      "type": "target"
+      "action_params": "j,wait(7.8),j,attack(0.2)",
+      "type": "path"
     },
     {
       "id": 5,
@@ -62,7 +70,7 @@
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
-      "type": "target"
+      "type": "path"
     },
     {
       "id": 6,
@@ -140,10 +148,18 @@
       "id": 14,
       "x": -4335.44,
       "y": -5026.21,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "x": -4231.76,
+      "y": -5105.72,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "玛薇卡 wait(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.02),j,wait(0.5);",
-      "type": "path"
+      "type": "orientation"
     },
     {
       "id": 15,

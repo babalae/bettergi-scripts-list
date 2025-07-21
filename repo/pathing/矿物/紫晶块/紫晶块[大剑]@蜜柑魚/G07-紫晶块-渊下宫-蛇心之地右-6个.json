@@ -150,10 +150,18 @@
       "id": 15,
       "x": 202.55,
       "y": -167.41,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "x": 212.76,
+      "y": -82.7,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "玛薇卡 wait(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.8);",
-      "type": "path"
+      "type": "orientation"
     },
     {
       "id": 16,

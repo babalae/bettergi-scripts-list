@@ -94,10 +94,10 @@
     },
     {
       "id": 9,
-      "x": -2910.6,
-      "y": -6218.26,
+      "x": -2911.5,
+      "y": -6218.67,
       "type": "target",
-      "move_mode": "jump",
+      "move_mode": "walk",
       "action": "mining",
       "action_params": ""
     },
@@ -226,7 +226,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": ""
+      "action_params": "wait(1)"
     }
   ]
 }

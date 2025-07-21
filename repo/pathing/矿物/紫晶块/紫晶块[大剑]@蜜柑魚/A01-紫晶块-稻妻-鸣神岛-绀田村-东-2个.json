@@ -51,10 +51,19 @@
       "id": 4,
       "x": -4034.25,
       "y": -2623.7,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "玛薇卡 wait(0.18),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.4),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(0.7);",
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
       "type": "path"
+    },
+    {
+      "id": 4,
+     "x": -3936.77,
+      "y": -2611.1,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "玛薇卡 wait(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.4),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(0.7);",
+      "type": "orientation"
     },
     {
       "id": 5,
