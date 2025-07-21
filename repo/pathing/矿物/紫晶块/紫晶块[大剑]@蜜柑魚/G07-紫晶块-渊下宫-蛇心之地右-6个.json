@@ -156,6 +156,7 @@
       "type": "path"
     },
     {
+      "id": 16,
       "x": 212.76,
       "y": -82.7,
       "action": "combat_script",
@@ -164,7 +165,7 @@
       "type": "orientation"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": 212.76,
       "y": -82.7,
       "type": "path",
@@ -173,7 +174,7 @@
       "action_params": ""
     },
     {
-      "id": 17,
+      "id": 18,
       "x": 206.26,
       "y": -71.95,
       "type": "path",
@@ -182,7 +183,7 @@
       "action_params": ""
     },
     {
-      "id": 18,
+      "id": 19,
       "x": 210.52,
       "y": -74.41,
       "type": "path",
@@ -191,7 +192,7 @@
       "action_params": ""
     },
     {
-      "id": 19,
+      "id": 20,
       "x": 212.86,
       "y": -75.53,
       "type": "target",
@@ -201,35 +202,35 @@
       "locked": false
     },
     {
-      "id": 20,
+      "id": 21,
       "x": 212.86,
       "y": -75.53,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
       "action_params": "wait(0.5)"
-    },
-    {
-      "id": 21,
-      "x": 208.44,
-      "y": -75.2,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": "",
-      "locked": false
     },
     {
       "id": 22,
       "x": 208.44,
       "y": -75.2,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 23,
+      "x": 208.44,
+      "y": -75.2,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
       "action_params": "wait(0.5)"
     },
     {
-      "id": 23,
+      "id": 24,
       "x": 201.21,
       "y": -76.46,
       "type": "path",
@@ -238,7 +239,7 @@
       "action_params": ""
     },
     {
-      "id": 24,
+      "id": 25,
       "x": 195.78,
       "y": -79.17,
       "type": "path",
@@ -247,7 +248,7 @@
       "action_params": ""
     },
     {
-      "id": 25,
+      "id": 26,
       "x": 201.08,
       "y": -82.36,
       "type": "path",
@@ -257,7 +258,7 @@
       "locked": false
     },
     {
-      "id": 26,
+      "id": 27,
       "x": 201.08,
       "y": -82.36,
       "type": "path",
