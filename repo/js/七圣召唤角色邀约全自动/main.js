@@ -106,6 +106,7 @@ async function autoConversation() {
     return ;
     }
     talkTime++;
+    await sleep(1500);
 }
     throw new Error("对话时间超时");
 }
