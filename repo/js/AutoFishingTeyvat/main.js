@@ -196,6 +196,12 @@
         let content = {};
         if (assets_dir.includes("assets\\archive.json")) {
             content = JSON.parse(file.readTextSync("assets/archive.json"));
+            if (!Object.keys(content).includes(user_id)) {
+                content[user_id] = {};
+            }
+            if (!Object.keys(content[user_id]).includes(pathing_name)) {
+                content[user_id][pathing_name] = {};
+            }
             if (time_status === "全天") {
                 content[user_id][pathing_name]["Daytime"] = timestamp;
                 content[user_id][pathing_name]["Nighttime"] = timestamp;
@@ -284,11 +290,11 @@
             let regex_area, regex_fish, regex_bait;
 
             // 读取地区
-            let path_sort_area = typeof(settings.path_sort_area) === 'undefined' ? [] : settings.path_sort_area.split(' ');
+            let path_sort_area = typeof(settings.path_sort_area) === 'undefined' || settings.path_sort_area === "" ? [] : settings.path_sort_area.split(' ');
             // 读取鱼类
-            let path_sort_fish = typeof(settings.path_sort_fish) === 'undefined' ? [] : settings.path_sort_fish.split(' ');
+            let path_sort_fish = typeof(settings.path_sort_fish) === 'undefined' || settings.path_sort_fish === "" ? [] : settings.path_sort_fish.split(' ');
             // 读取鱼饵
-            let path_sort_bait = typeof(settings.path_sort_bait) === 'undefined' ? [] : settings.path_sort_bait.split(' ');
+            let path_sort_bait = typeof(settings.path_sort_bait) === 'undefined' || settings.path_sort_bait === "" ? [] : settings.path_sort_bait.split(' ');
             // 读取兑换材料
             let path_sort_material = typeof(settings.path_sort_material) === 'undefined' ? "无(默认)" : settings.path_sort_material;
             // 读取调试信息
