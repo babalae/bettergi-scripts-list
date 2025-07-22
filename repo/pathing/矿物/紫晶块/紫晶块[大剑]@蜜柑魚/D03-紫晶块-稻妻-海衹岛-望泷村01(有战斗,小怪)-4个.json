@@ -16,7 +16,8 @@
       "双手剑"
     ],
     "last_modified_time": 1752688788189,
-    "enable_monster_loot_split": false
+    "enable_monster_loot_split": false,
+    "author": "this-Fish"
   },
   "positions": [
     {
@@ -40,14 +41,23 @@
     {
       "id": 3,
       "x": -743.56,
-      "y": -3999,
-      "action": "combat_script",
+      "y": -3999.0,
+      "action": "",
       "move_mode": "dash",
-      "action_params": "玛薇卡 wait(0.11),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.5);",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 4,
+      "x": -650.84,
+      "y": -3988.36,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "玛薇卡 wait(0.11),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(0.9),dash(0.1);",
+      "type": "orientation"
+    },
+    {
+      "id": 5,
       "x": -650.84,
       "y": -3988.36,
       "action": "",
@@ -56,18 +66,18 @@
       "type": "path"
     },
     {
-      "id": 5,
-      "x": -633.06640625,
-      "y": -3992.224609375,
+      "id": 6,
+      "x": -633.07,
+      "y": -3992.22,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 6,
-      "x": -636.5986328125,
-      "y": -3990.8173828125,
+      "id": 7,
+      "x": -636.6,
+      "y": -3990.82,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -85,18 +95,9 @@
       }
     },
     {
-      "id": 7,
-      "x": -620.7314453125,
-      "y": -4016.787109375,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
       "id": 8,
-      "x": -627.2802734375,
-      "y": -4026.4453125,
+      "x": -620.73,
+      "y": -4016.79,
       "type": "path",
       "move_mode": "dash",
       "action": "",
@@ -104,8 +105,8 @@
     },
     {
       "id": 9,
-      "x": -630.6708984375,
-      "y": -4019.5390625,
+      "x": -627.28,
+      "y": -4026.45,
       "type": "path",
       "move_mode": "dash",
       "action": "",
@@ -113,6 +114,15 @@
     },
     {
       "id": 10,
+      "x": -630.67,
+      "y": -4019.54,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
       "x": -629.66,
       "y": -4008.14,
       "action": "",
@@ -121,7 +131,7 @@
       "type": "target"
     },
     {
-      "id": 11,
+      "id": 12,
       "x": -632.32,
       "y": -4009.12,
       "action": "mining",
@@ -130,7 +140,7 @@
       "type": "target"
     },
     {
-      "id": 12,
+      "id": 13,
       "x": -632.32,
       "y": -4009.12,
       "action": "combat_script",
@@ -139,7 +149,7 @@
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 14,
       "x": -630.2,
       "y": -4017.18,
       "action": "",
@@ -148,7 +158,7 @@
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": -632.15,
       "y": -4016.43,
       "action": "mining",
@@ -157,7 +167,7 @@
       "type": "target"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": -632.15,
       "y": -4016.43,
       "action": "combat_script",
@@ -166,6 +176,7 @@
       "type": "path"
     },
     {
+      "id": 17,
       "x": -620.19,
       "y": -4042.86,
       "action": "",
@@ -174,7 +185,7 @@
       "type": "target"
     },
     {
-      "id": 16,
+      "id": 18,
       "x": -624.41,
       "y": -4041.38,
       "action": "mining",
@@ -183,7 +194,7 @@
       "type": "target"
     },
     {
-      "id": 17,
+      "id": 19,
       "x": -624.33,
       "y": -4041.29,
       "action": "combat_script",
@@ -192,7 +203,7 @@
       "type": "path"
     },
     {
-      "id": 18,
+      "id": 20,
       "x": -626.7,
       "y": -4036.12,
       "action": "mining",
@@ -201,7 +212,7 @@
       "type": "target"
     },
     {
-      "id": 19,
+      "id": 21,
       "x": -626.9,
       "y": -4035.34,
       "action": "combat_script",
