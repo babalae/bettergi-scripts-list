@@ -10,7 +10,7 @@ const QuickUsePlusButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSy
 (async function () {
     let challengeNum = settings.challengeNum ?? 1;//挑战次数
     let challengeName = settings.challengeName ?? 0;//挑战首领名称
-    let resinNum = settings.resinNum ?? 0;//使用树脂数量
+    let resinNum = parseInt(settings.resinNum) || 0;//使用树脂数量
     let samePlace = settings.samePlace ?? 1;//是否原地连续挑战
     if (challengeName == "纯水精灵" || challengeName == "歌裴莉娅的葬送" || challengeName == "科培琉司的劫罚") samePlace = 1;//这些 boss 挑战后不会原地刷新
     const boxIconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/box.png"));
@@ -93,7 +93,7 @@ const QuickUsePlusButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSy
     if (!settings.confirm) throw new Error('请阅读使用说明后，在调度器中调用JS脚本，并设置好相关参数');
     if (challengeName) {
         //使用树脂
-        if (resinNum) {
+        if (resinNum > 0) {
             try {
                 await genshin.returnMainUi();
                 keyPress("M");//打开地图
@@ -106,13 +106,9 @@ const QuickUsePlusButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSy
                 await sleep(600);
 
                 let QuickUsePlusButton = captureGameRegion().find(QuickUsePlusButtonRo);
-                if (isNaN(settings.resinNum) || settings.resinNum <= 0) {
-                    number = 1
-                } else {
-                    for (let i = 1; i < settings.resinNum; ++i) {
-                        QuickUsePlusButton.click();// 点击使用数量
-                        await sleep(300);
-                    }
+                for (let i = 0; i < resinNum; ++i) {
+                    QuickUsePlusButton.click();// 点击使用数量
+                    await sleep(300);
                 }
 
                 captureGameRegion().find(ConfirmButtonRo).click();// 点击使用
