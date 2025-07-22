@@ -10,7 +10,7 @@ const QuickUsePlusButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSy
 (async function () {
     let challengeNum = settings.challengeNum ?? 1;//挑战次数
     let challengeName = settings.challengeName ?? 0;//挑战首领名称
-    let resinNum = parseInt(settings.resinNum) || 0;;//使用树脂数量
+    let resinNum = parseInt(settings.resinNum) || 0;//使用树脂数量
     let samePlace = settings.samePlace ?? 1;//是否原地连续挑战
     if (challengeName == "纯水精灵" || challengeName == "歌裴莉娅的葬送" || challengeName == "科培琉司的劫罚") samePlace = 1;//这些 boss 挑战后不会原地刷新
     const boxIconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/box.png"));
