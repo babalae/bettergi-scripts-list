@@ -1,14 +1,16 @@
 (async function () {
   // 版本和编译信息
-  const VERSION = "0.98.2";
-  const BUILD_TIME = "2025.07.13";
-async function errorlog() {
-  // 输出版本和编译时间信息
-  log.info("=".repeat(20));
-  log.info("版本: {version}", VERSION);
-  log.info("编译时间: {buildTime}", BUILD_TIME);
-  log.info("=".repeat(20));
-}
+  const VERSION = "0.98.3";
+  const BUILD_TIME = "2025.07.22";
+
+  async function errorlog() {
+    // 输出版本和编译时间信息
+    log.info("=".repeat(20));
+    log.info("版本: {version}", VERSION);
+    log.info("编译时间: {buildTime}", BUILD_TIME);
+    log.info("=".repeat(20));
+  }
+
   // 统一常量定义
   const Datas = {
     // 文件路径常量
@@ -125,7 +127,7 @@ async function errorlog() {
 
   // 存储当前委托位置
   let currentCommissionPosition = null;
-    
+
   // 委托地点OCR区域
   const LOCATION_OCR_X = 1530;
   const LOCATION_OCR_Y = 100;
@@ -414,7 +416,7 @@ async function errorlog() {
           log.error("无法进入委托界面，脚本终止");
           return [];
         }
-        await sleep(100);
+        await sleep(1000);
 
         // 识别委托
         const commissions = await CommissionsFunc.recognizeCommissions(
@@ -483,14 +485,14 @@ async function errorlog() {
             c.CommissionPosition.Y
         );
 
-      // 统计已完成委托
-      let completedCount = 0;
-      for (const commission of commissions) {
-        if (commission.location === "已完成") {
-          completedCount++;
-          continue;
+        // 统计已完成委托
+        let completedCount = 0;
+        for (const commission of commissions) {
+          if (commission.location === "已完成") {
+            completedCount++;
+            continue;
+          }
         }
-      }
         // 执行每个委托
         for (const commission of commissions) {
           // 检查是否在跳过列表中
@@ -560,7 +562,9 @@ async function errorlog() {
               dispatcher.ClearAllTriggers();
 
               if (talkSuccess) {
-                const completed = await CommissionsFunc.iscompleted(completedCount);
+                const completed = await CommissionsFunc.iscompleted(
+                  completedCount
+                );
                 if (completed) {
                   completedCount++;
                   success = true;
@@ -657,6 +661,7 @@ async function errorlog() {
                   dispatcher.addTimer(
                     new RealtimeTimer("AutoPick", { forceInteraction: false })
                   );
+                  dispatcher.addTimer(new RealtimeTimer("AutoEat"));
                   await pathingScript.runFile(scriptPath);
                   log.info("路径追踪脚本执行完成");
                   dispatcher.ClearAllTriggers();
@@ -826,7 +831,7 @@ async function errorlog() {
 
     // 处理等待主界面步骤
     processWaitMainUI: async (isInMainUI) => {
-      for (let i = 0; i < 60; i++) {
+      for (let i = 0; i < 120; i++) {
         if (isInMainUI()) {
           log.info("检测到已返回主界面，结束等待");
           break;
@@ -1144,9 +1149,13 @@ async function errorlog() {
               log.error("启用自动任务需要指定 taskType");
               return false;
             }
-            
+
             if (config && typeof config === "object") {
-              log.info("启用自动任务: {type}，配置: {config}", taskType, JSON.stringify(config));
+              log.info(
+                "启用自动任务: {type}，配置: {config}",
+                taskType,
+                JSON.stringify(config)
+              );
               dispatcher.addTimer(new RealtimeTimer(taskType, config));
             } else {
               log.info("启用自动任务: {type}", taskType);
@@ -1221,7 +1230,7 @@ async function errorlog() {
         await StepProcessor.processTeleport(step);
       },
 
-      isinMainUi: async (step, context) => {
+      等待返回主界面: async (step, context) => {
         await StepProcessor.processWaitMainUI(context.isInMainUI);
       },
 
@@ -1463,8 +1472,7 @@ async function errorlog() {
 
             if (ocrResults.count === oldcount) {
               repetition++;
-            }
-            else {
+            } else {
               repetition = 0;
             }
             oldcount = ocrResults.count;
@@ -1751,16 +1759,14 @@ async function errorlog() {
             )
           );
           log.info("使用大地图图标");
-        }
-        else if (iconType === "Question") {
+        } else if (iconType === "Question") {
           boxIconRo = RecognitionObject.TemplateMatch(
             file.ReadImageMatSync(
               "Data/RecognitionObject/IconQuestionCommission.png"
             )
           );
           log.info("使用问号任务图标");
-        } 
-        else {
+        } else {
           // 默认使用任务图标
           boxIconRo = RecognitionObject.TemplateMatch(
             file.ReadImageMatSync(
@@ -1777,7 +1783,7 @@ async function errorlog() {
 
         while (true) {
           // 1. 优先检查是否已到达
-          await sleep(500);// 等待0.5秒
+          await sleep(500); // 等待0.5秒
           let captureRegion = captureGameRegion();
           let rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 50);
           let rewardResult = rewardTextArea.find(RecognitionObject.ocrThis);
@@ -2009,7 +2015,7 @@ async function errorlog() {
     ) => {
       log.info("执行对话");
       let skipCount = 2; // 默认跳过2次
-      
+
       // 处理对话选项
       if (typeof step.data === "number") {
         // 兼容旧版本，如果data是数字，则视为skipCount
@@ -2793,8 +2799,8 @@ async function errorlog() {
     // 检查委托状态（通过委托名称查找位置后检测）
     iscompleted: async (completedCount) => {
       try {
-      // 记录已完成的委托数量
-      log.info("已完成委托数量: {completedCount}", completedCount);
+        // 记录已完成的委托数量
+        log.info("已完成委托数量: {completedCount}", completedCount);
 
         const enterSuccess = await UI.enterCommissionScreen();
         if (!enterSuccess) {
@@ -2802,7 +2808,7 @@ async function errorlog() {
           return false;
         }
         await sleep(900);
-        if (completedCount===0) {
+        if (completedCount === 0) {
           await UI.pageScroll(1);
           const status = await CommissionsFunc.detectCommissionStatusByImage(3);
           if (status === "completed") {
@@ -2810,8 +2816,10 @@ async function errorlog() {
           } else {
             return false;
           }
-        }else{
-          const status = await CommissionsFunc.detectCommissionStatusByImage(3-completedCount);
+        } else {
+          const status = await CommissionsFunc.detectCommissionStatusByImage(
+            3 - completedCount
+          );
           if (status === "completed") {
             return true;
           } else {
@@ -3026,9 +3034,10 @@ async function errorlog() {
   // TAG:Main
   const Main = async () => {
     try {
-      
-    //await Identification();
-    //await Execute.autoNavigateToTalk("汤米","task");
+      //await Identification();
+      //await Execute.autoNavigateToTalk("汤米","task");
+
+      log.debug("版本: {version}", VERSION);
 
       if (skipRecognition) {
         log.info("跳过识别，直接加载数据");
@@ -3045,8 +3054,7 @@ async function errorlog() {
       if (!prepare) {
         log.info("每日委托执行完成，前往安全地点");
         await genshin.tpToStatueOfTheSeven();
-      }
-      else {
+      } else {
         log.info("每日委托执行完成");
       }
     } catch (error) {
@@ -3055,5 +3063,4 @@ async function errorlog() {
     }
   };
   await Main();
-  // await Test();
 })();
