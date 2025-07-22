@@ -1,9 +1,14 @@
-{
+﻿{
   "info": {
     "name": "A31-甜甜花-蒙德-晨曦酒庄-9个",
     "type": "collect",
-    "author": "ddaodan",
-    "version": "1.0",
+    "authors": [
+      {
+        "name": "ddaodan",
+        "links": "https://github.com/ddaodan"
+      }
+    ],
+    "version": "1.1",
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
@@ -11,13 +16,8 @@
       "甜甜花",
       "低效"
     ],
-    "last_modified_time": 1749999450849,
-    "authors": [
-      {
-        "name": "ddaodan",
-        "links": "https://github.com/ddaodan"
-      }
-    ]
+    "last_modified_time": 1753025910780,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -79,7 +79,7 @@
       "x": -174.3,
       "y": 1894.27,
       "action": "",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
@@ -106,7 +106,7 @@
       "x": -159.44,
       "y": 1934.85,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "",
       "type": "path"
     },
@@ -133,7 +133,7 @@
       "x": -133.95,
       "y": 1935.34,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "wait(0.2)",
       "type": "path"
     },
@@ -142,13 +142,13 @@
       "x": -157.01,
       "y": 1968.53,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 15,
-      "x": -167.0,
+      "x": -167,
       "y": 1986.75,
       "action": "",
       "move_mode": "fly",
@@ -196,7 +196,7 @@
       "x": -177.16,
       "y": 1983.98,
       "action": "",
-      "move_mode": "jump",
+      "move_mode": "climb",
       "action_params": "",
       "type": "path"
     },
@@ -265,7 +265,7 @@
     },
     {
       "id": 28,
-      "x": -19.0,
+      "x": -19,
       "y": 2115.49,
       "action": "stop_flying",
       "move_mode": "fly",
