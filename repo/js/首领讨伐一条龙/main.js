@@ -106,7 +106,7 @@ const QuickUsePlusButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSy
                 await sleep(600);
 
                 let QuickUsePlusButton = captureGameRegion().find(QuickUsePlusButtonRo);
-                for (let i = 1; i < resinNum; ++i) {
+                for (let i = 0; i < resinNum; ++i) {
                     QuickUsePlusButton.click();// 点击使用数量
                     await sleep(300);
                 }
