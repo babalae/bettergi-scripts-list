@@ -200,37 +200,31 @@ async function checkChallengeResults() {
     }
 }
 
-//通过f和空格自动对话，对话区域为空，选项区域为真时停止   await autoConversation();
+//通过f和空格自动对话，对话标志消失时停止await autoConversation();
 async function autoConversation() {
-    await sleep(2500); //点击后等待一段时间避免误判
-    const region1 = RecognitionObject.ocr(785, 890, 340, 82); // 对话区域
-    const region2 = RecognitionObject.ocr(1250, 400, 660, 440); // 选项区域
+    await sleep(500); //点击后等待一段时间避免误判
+    const talkRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/talkSymbol.png"));
     let talkTime = 0;
+    let talkTimes = 0;
+    log.info("准备开始对话");
     //最多10次对话
-    while (talkTime < 20) {
-        let capture = captureGameRegion();
-        let res1 = capture.find(region1);
-        let res2 = capture.find(region2);
-        if (!res1.isEmpty() && res2.isEmpty()) {
-            talkTime++;
+    while (talkTime < 30) {
+    let talk = captureGameRegion().find(talkRo);
+    if (talk.isExist()) {
+            await sleep(300);
             keyPress("VK_SPACE");
-            await sleep(500);
-            keyPress("VK_SPACE");
-            await sleep(500);
-        } else if (!res1.isEmpty() && !res2.isEmpty()) {
-            await sleep(500);
+            await sleep(300);
             keyPress("F");
-            await sleep(400);
-            keyPress("F");
-            log.info("已选择第一个对话选项");
-        } else if (res1.isEmpty() && !res2.isEmpty()) {
-            log.info("谈话完成");
-            await sleep(1000);
-            return;
-        }
-        talkTime++;
-        await sleep(1200);
+            talkTimes++;
+        await sleep(1500);
     }
+    else if(talkTimes){
+    log.info("对话结束");
+    return ;
+    }
+    talkTime++;
+    await sleep(1200);
+}
     throw new Error("对话时间超时");
 }
 

@@ -4,6 +4,26 @@
 let letterNumber = settings.letterNumber != undefined && ~~settings.letterNumber >= 0 ? ~~settings.letterNumber : 0;
 let challengeNumber = settings.challengeNumber != undefined && ~~settings.challengeNumber > 0 ? ~~settings.challengeNumber : 1;
 
+//检测传送结束
+async function tpEndDetection() {
+    const region = RecognitionObject.ocr(1690, 230, 75, 350); // 队伍名称区域
+    let tpTime = 0;
+    await sleep(500); //点击传送后等待一段时间避免误判
+    //最多30秒传送时间
+    while (tpTime < 300) {
+        let capture = captureGameRegion();
+        let res = capture.find(region);
+        if (!res.isEmpty()) {
+            log.info("传送完成");
+            await sleep(1200); //传送结束后有僵直
+            return;
+        }
+        tpTime++;
+        await sleep(100);
+    }
+    throw new Error("传送时间超时");
+}
+
 //函数：找小王子买邀请函
     async function BuyLetter(){
 await sleep(700);
@@ -24,6 +44,8 @@ await sleep(1000);
 click(160, 245);//选择邀请函
 await sleep(1000);
 click(610, 360);//点击邀请函
+await sleep(1000);
+click(747,628 );//只买一个
 await sleep(1000);
 click(1185,755 );//点击购买
 await sleep(1000);
@@ -52,72 +74,71 @@ await sleep(1000);
 
 //函数：对话和打牌
    async function Playcards() {    
-click(900, 1000);//对话
-await sleep(500);
-click(900, 1000);//对话
+await autoConversation();
 await sleep(1000);
-click(900, 1000);//对话
-await sleep(500);
-click(900, 1000);//对话
-await sleep(1000);
-click(900, 1000);//对话
-await sleep(500);
-click(900, 1000);//对话
-await sleep(1000);
-click(900, 1000);//对话
-await sleep(500);
-click(900, 1000);//对话
-await sleep(1000);
-click(900, 1000);//对话
-await sleep(500);
-click(900, 1000);//对话
-await sleep(1000);
-click(900, 1000);//对话
-await sleep(500);
-click(900, 1000);//对话
-await sleep(1000);
-keyPress("F"); 
-await sleep(8000);
 await dispatcher.runTask(new SoloTask("AutoGeniusInvokation"));
 await sleep(3000);
 click(754,915 );//退出挑战
-await sleep(10000);     
-click(900, 1000);//对话
-await sleep(1500);
-click(900, 1000);//对话
-await sleep(1500);
-click(900, 1000);//对话
-await sleep(1500);
-click(900, 1000);//对话
-await sleep(1500);
+await sleep(1000);
+await autoConversation();
     }
 
-//函数：打开地图前往猫尾酒馆
-    async function gotoTavern() {
-await sleep(1000);
-keyPress("M");
-await sleep(1500);
-click(1841, 1015);//地图选择
-await sleep(1000);
-click(1460, 140);//蒙德
-await sleep(1000);
-click(48, 441);//放大地图
-await sleep(500);
-click(48, 441);//放大地图
-await sleep(500);
-click(48, 441);//放大地图
-await sleep(500);
-click(48, 441);//放大地图
-await sleep(500);
-click(48, 441);//放大地图
-await sleep(500);
-click(1000, 645);//猫尾酒馆
-await sleep(500);
-click(1345, 690);//猫尾酒馆
-await sleep(500);
-click(1707, 1010);//猫尾酒馆
-await sleep(8000);
+//通过f和空格自动对话，对话标志消失时停止await autoConversation();
+async function autoConversation() {
+    await sleep(2500); //点击后等待一段时间避免误判
+    const talkRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/talkSymbol.png"));
+    let talkTime = 0;
+    let talkTimes = 0;
+    log.info("开始对话");
+    //最多10次对话
+    while (talkTime < 30) {
+    let talk = captureGameRegion().find(talkRo);
+    if (talk.isExist()) {
+            await sleep(300);
+            keyPress("VK_SPACE");
+            await sleep(300);
+            keyPress("F");
+            talkTimes++;
+        await sleep(1500);
     }
+    else if(talkTimes){
+    log.info("对话结束");
+    return ;
+    }
+    talkTime++;
+    await sleep(1500);
+}
+    throw new Error("对话时间超时");
+}
+
+//函数：打开地图前往猫尾酒馆
+async function gotoTavern() {
+    const tavernRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/tavern.png"));
+    await genshin.returnMainUi();
+    await sleep(1000);
+    keyPress("m");
+    await sleep(1500);
+    click(1841, 1015); //地图选择
+    await sleep(1000);
+    click(1460, 140); //蒙德
+    await sleep(1200);
+    //放大地图
+    await genshin.setBigMapZoomLevel(1.0);
+    await sleep(400);
+
+    click(1000, 645); //猫尾酒馆
+    await sleep(600);
+    let tavern = captureGameRegion().find(tavernRo);
+    if (tavern.isExist()) {
+        tavern.click();
+        await sleep(500);
+    } else {
+        throw new Error("未能找到猫尾酒馆");
+    }
+    click(1707, 1010); //确认传送
+    await sleep(1000);
+    await tpEndDetection();
+}
 
 //函数：前往邀请版(酒馆内)
     async function gotoBoard1() {
@@ -147,31 +168,13 @@ keyUp("s");
 await sleep(1000);
     }
 
-//函数：打开自动剧情
-    async function autoPlot() {
-await sleep(1000);
-keyPress("ESCAPE");
-await sleep(1500);
-click(45, 820);
-await sleep(1500);
-click(175, 710);
-await sleep(1500);
-click(1628, 275);
-await sleep(1500);
-click(1628, 330);
-await sleep(1500);
-keyPress("ESCAPE");
-await sleep(1000);
-keyPress("ESCAPE");
-await sleep(1000);
-    }
+
 
 //主流程
-//await pathingScript.runFile(`assets/1.json`);用不来从其他界面强制回到大世界，只能用这个
-log.info(`开始执行。`);
+await genshin.returnMainUi();
+log.info(`开始执行角色邀约挑战`);
 for (let i = 0; i < challengeNumber; i++) {
    await gotoTavern();
-   await sleep(2000);
    if (challengeNumber-letterNumber > 0) {
        log.info(`购买第${i+1}次`);
        await BuyLetter();
