@@ -1,0 +1,152 @@
+{
+  "info": {
+    "name": "02-冷鲜肉-龙脊雪山-3x2-6个",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "必需使用 60級(突破后) 迪希雅 作為行走位",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "迪希雅"
+    ],
+    "last_modified_time": 1753170986994
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1334.6796875,
+      "y": 825.72412109375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1318.8447265625,
+      "y": 832.55517578125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1294.4619140625,
+      "y": 812.5751953125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1283.1572265625,
+      "y": 765.54296875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1242.0390625,
+      "y": 752.05810546875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1208.11328125,
+      "y": 763.7587890625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "迪希雅 wait(0.2),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": -1206.5029296875,
+      "y": 763.8173828125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -1180.7529296875,
+      "y": 767.2421875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(1.5)",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": -1139.35546875,
+      "y": 762.29248046875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -1146.294921875,
+      "y": 741.83984375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -1176.5341796875,
+      "y": 720.126953125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -1168.12890625,
+      "y": 693.90087890625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "迪希雅 wait(0.2),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": -1170.275390625,
+      "y": 694.7939453125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": -1167.8994140625,
+      "y": 690.17578125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": -1164.5419921875,
+      "y": 692.31005859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "info": {
+    "name": "03-冷鲜肉-龙脊雪山-2x2-4个",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "必需使用 60級(突破后) 迪希雅 作為行走位",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "迪希雅"
+    ],
+    "last_modified_time": 1753171233794
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1006.900390625,
+      "y": 859.458984375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1017.1669921875,
+      "y": 842.2578125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1046.728515625,
+      "y": 760.8701171875,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "wait(0.2),j,wait(2),j,attack(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1046.728515625,
+      "y": 760.8701171875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1034.662109375,
+      "y": 753.57666015625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "迪希雅 wait(0.2),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": -1032.6640625,
+      "y": 753.74609375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -1017.8828125,
+      "y": 728.107421875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -1008.5361328125,
+      "y": 686.32666015625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "迪希雅 wait(0.2),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": -1006.6328125,
+      "y": 686.34326171875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -1002.244140625,
+      "y": 684.7412109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
