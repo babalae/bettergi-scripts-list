@@ -568,6 +568,9 @@
             await keyMouseScript.runFile(base_path_gcm + file_name + ".json");
         }
 
+        // 记录钓鱼开始时间
+        const time_start = Date.now();
+
         // 调用自动钓鱼
         await dispatcher.runTask(new SoloTask("AutoFishing", {
             "fishingTimePolicy": fishing_time_dic[fishing_time]["param"],
@@ -575,8 +578,16 @@
             "wholeProcessTimeoutSeconds": time_out_whole
         }));
 
-        if (fishing_cd) {
+        // 记录钓鱼结束时间
+        const time_end = Date.now();
+
+        // 钓鱼是否正常结束，间隔时间大于5s
+        const flag = (time_end - time_start) >= 5000;
+
+        if (fishing_cd && flag) {
             write_archive(file_name, fishing_time, Date.now(), uid);
+        } else if (fishing_cd && !flag) {
+            log.warn(`本次钓鱼异常，不计算垂钓点CD`);
         }
     }
 
