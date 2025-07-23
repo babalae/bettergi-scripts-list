@@ -32,8 +32,6 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
  * @returns {Promise<void>}
  */
 (async function () {
-
-
 	// 切换队伍
 	if (!settings.disableNotice) {
 		for (let n = 0; n < 10; n++) {
@@ -425,9 +423,9 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 					click(430, 1020);
 					await sleep(750);
 					log.info("4号位角色已离队");
-					
+
 				}
-				
+
 				// 让3号位角色离队
 				if (removedCharacters3) {
 					// 第3名角色位置
@@ -437,7 +435,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 					await sleep(750);
 					log.info("3号位角色已离队");
 				}
-				
+
 				// 让2号位角色离队
 				if (removedCharacters2) {
 					// 第2名角色位置
@@ -447,7 +445,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 					await sleep(750);
 					log.info("2号位角色已离队");
 				}
-				
+
 				// 让1号位角色离队
 				if (removedCharacters1) {
 					if (removedCharacters4 && removedCharacters3 && removedCharacters2) {
@@ -461,7 +459,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 						log.info("1号位角色已离队");
 					}
 				}
-				
+
 				// 返回主界面
 				await genshin.returnMainUi();
 			} else {
