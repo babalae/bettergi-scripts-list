@@ -110,7 +110,9 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 		let resList = captureRegion.findMulti(RecognitionObject.ocr(100, 900, 300, 180));
 		for (let i = 0; i < resList.count; i++) {
 			let res = resList[i];
-			log.info("当前队伍名称位置:({x},{y},{w},{h}), 识别结果：{text}", res.x, res.y, res.Width, res.Height, res.text);
+			if (settings.enableDebug) {
+				log.info("当前队伍名称位置:({x},{y},{w},{h}), 识别结果：{text}", res.x, res.y, res.Width, res.Height, res.text);
+			}
 			if (res.text.includes(partyName)) {
 				log.info("当前队伍即为目标队伍，无需切换");
 				keyPress("VK_ESCAPE");
@@ -134,20 +136,26 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 								log.info("文本位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
 							}
 							if (res.text.includes(partyName)) {
-								log.info("目标队伍位置:({x},{y},{w},{h}), 识别结果：{text}", res.x, res.y, res.Width, res.Height, res.text);
+								if (settings.enableDebug) {
+									log.info("目标队伍位置:({x},{y},{w},{h}), 识别结果：{text}", res.x, res.y, res.Width, res.Height, res.text);
+								}
 								click(res.x, Math.ceil(res.y + res.Height * 1.35));
 
 								// 找到目标队伍，点击确定、部署
 								await sleep(1500);
 								let ConfirmButton = captureGameRegion().find(ConfirmDeployButtonRo);
 								if (ConfirmButton.isExist()) {
-									log.info("识别到确定按钮:({x},{y},{w},{h})", ConfirmButton.x, ConfirmButton.y, ConfirmButton.Width, ConfirmButton.Height);
+									if (settings.enableDebug) {
+										log.info("识别到确定按钮:({x},{y},{w},{h})", ConfirmButton.x, ConfirmButton.y, ConfirmButton.Width, ConfirmButton.Height);
+									}
 									ConfirmButton.click();
 								}
 								await sleep(1500);
 								let DeployButton = captureGameRegion().find(ConfirmDeployButtonRo);
 								if (DeployButton.isExist()) {
-									log.info("识别到部署按钮:({x},{y},{w},{h})", DeployButton.x, DeployButton.y, DeployButton.Width, DeployButton.Height);
+									if (settings.enableDebug) {
+										log.info("识别到部署按钮:({x},{y},{w},{h})", DeployButton.x, DeployButton.y, DeployButton.Width, DeployButton.Height);
+									}
 									DeployButton.click();
 									ConfigureStatue = true;
 									break;
@@ -196,7 +204,9 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 			for (let i = 0; i < resList.count; i++) {
 				let res = resList[i];
 				if (res.text.includes(settings.appointFriendName)) {
-					log.info("指定好友名字位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
+					if (settings.enableDebug) {
+						log.info("指定好友名字位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
+					}
 					click(res.x - 100, res.y + 50);
 					await sleep(1000);
 
@@ -206,7 +216,9 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 					for (let i = 0; i < resList.count; i++) {
 						let res = resList[i];
 						if (res.text.includes("申请造访") || res.text.includes("visit Serenitea Pot") || res.text.includes("申請造訪")) {
-							log.info("申请造访尘歌壶位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
+							if (settings.enableDebug) {
+								log.info("申请造访尘歌壶位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
+							}
 							res.click();
 						}
 					}
@@ -351,7 +363,9 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 			for (let i = 0; i < resList.count; i++) {
 				let res = resList[i];
 				if (res.text.includes("委托") || res.text.includes("委託") || res.text.includes("Commissions") || res.text.includes("委")) {
-					log.info("识别到委托选项卡位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
+					if (settings.enableDebug) {
+						log.info("识别到委托选项卡位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
+					}
 					res.click();
 				} else {
 					log.info("未识别到识别到委托选项卡");
@@ -475,7 +489,9 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 		let SliderBottom = captureGameRegion().find(SliderBottomRo);
 		if (SliderBottom.isExist()) {
 			log.info("当前页面已点击完毕，向下滑动");
-			log.info("滑块当前位置:({x},{y},{h},{w})", SliderBottom.x, SliderBottom.y, SliderBottom.Width, SliderBottom.Height);
+			if (settings.enableDebug) {
+				log.info("滑块当前位置:({x},{y},{h},{w})", SliderBottom.x, SliderBottom.y, SliderBottom.Width, SliderBottom.Height);
+			}
 			click(Math.ceil(SliderBottom.x + SliderBottom.Width / 2), Math.ceil(SliderBottom.y + SliderBottom.Height * 3.5));
 			await moveMouseTo(0, 0);
 			await sleep(100);
@@ -486,7 +502,9 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 	async function pageTop(SliderTopRo) {
 		let SliderTop = captureGameRegion().find(SliderTopRo);
 		if (SliderTop.isExist()) {
-			log.info("滑条顶端位置:({x},{y},{h},{w})", SliderTop.x, SliderTop.y, SliderTop.Width, SliderTop.Height);
+			if (settings.enableDebug) {
+				log.info("滑条顶端位置:({x},{y},{h},{w})", SliderTop.x, SliderTop.y, SliderTop.Width, SliderTop.Height);
+			}
 			await moveMouseTo(Math.ceil(SliderTop.x + SliderTop.Width / 2), Math.ceil(SliderTop.y + SliderTop.Height * 1.5));
 			leftButtonDown();
 			await sleep(500);
