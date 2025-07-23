@@ -22,11 +22,16 @@ const MiddleSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSy
 const RightSliderTopRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Slider Top.png"), 1750, 100, 100, 100);
 const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Slider Bottom.png"), 1750, 100, 100, 900);
 
+// 取得需要离队角色資訊
+const removedCharacters1 = typeof (settings.removedCharacters1) === 'undefined' ? false : settings.removedCharacters1;
+const removedCharacters2 = typeof (settings.removedCharacters2) === 'undefined' ? false : settings.removedCharacters2;
+const removedCharacters3 = typeof (settings.removedCharacters3) === 'undefined' ? false : settings.removedCharacters3;
+const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' ? false : settings.removedCharacters4;
 
 /**
  * @returns {Promise<void>}
  */
-(async function() {
+(async function () {
 	// 切换队伍
 	if (!settings.disableNotice) {
 		for (let n = 0; n < 10; n++) {
@@ -193,7 +198,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 				if (res.text.includes(settings.appointFriendName)) {
 					log.info("指定好友名字位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
 					click(res.x - 100, res.y + 50);
-					await sleep(500);
+					await sleep(1000);
 
 					// 申请造访尘歌壶
 					let captureRegion = captureGameRegion();
@@ -207,6 +212,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 					}
 				}
 			}
+			await sleep(1000);
 			// 翻页继续尝试&模板匹配的方式等待加载
 			let SliderBottom = captureGameRegion().find(RightSliderBottomRo);
 			if (SliderBottom.isExist()) {
@@ -284,7 +290,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 			if (i % 2 === 0) {
 				// 偶数索引，递增 y_avatar
 				y_avatar += avatar_increment;
-				log.info(`正在申请造访第 ${i/2+1} 位好友尘歌壶`);
+				log.info(`正在申请造访第 ${i / 2 + 1} 位好友尘歌壶`);
 				click(x_avatar, y_avatar);
 				await sleep(250);
 				click(x_avatar, y_avatar);
@@ -325,6 +331,10 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 
 	// 模板匹配领取历练点奖励
 	async function claimEncounterPointsRewards() {
+		await sleep(2000);
+		log.info("正在让指定位置角色离队");
+		await removeSpecifiedRole();
+		await sleep(2000);
 		log.info("正在打开冒险之证领取历练点奖励");
 		await sleep(2000);
 		keyPress("VK_ESCAPE");
@@ -394,6 +404,69 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 				}
 				await sleep(2000);
 			}
+		}
+	}
+
+	// 让指定位置角色离队
+	async function removeSpecifiedRole() {
+		try {
+			if (removedCharacters1 || removedCharacters2 || removedCharacters3 || removedCharacters4) {
+				// 打開配隊介面
+				keyPress("l");
+				await sleep(3500);
+
+				// 让4号位角色离队
+				if (removedCharacters4) {
+					// 第4名角色位置
+					click(1460, 600);
+					await sleep(750);
+					click(430, 1020);
+					await sleep(750);
+					log.info("4号位角色已离队");
+
+				}
+
+				// 让3号位角色离队
+				if (removedCharacters3) {
+					// 第3名角色位置
+					click(1130, 600);
+					await sleep(750);
+					click(430, 1020);
+					await sleep(750);
+					log.info("3号位角色已离队");
+				}
+
+				// 让2号位角色离队
+				if (removedCharacters2) {
+					// 第2名角色位置
+					click(790, 600);
+					await sleep(750);
+					click(430, 1020);
+					await sleep(750);
+					log.info("2号位角色已离队");
+				}
+
+				// 让1号位角色离队
+				if (removedCharacters1) {
+					if (removedCharacters4 && removedCharacters3 && removedCharacters2) {
+						log.warn("2,3,4号位已离队，1号位角色不能离队");
+					} else {
+						// 第1名角色位置
+						click(480, 600);
+						await sleep(750);
+						click(430, 1020);
+						await sleep(750);
+						log.info("1号位角色已离队");
+					}
+				}
+
+				// 返回主界面
+				await genshin.returnMainUi();
+			} else {
+				log.info("无需让角色离队");
+			}
+		} catch (error) {
+			log.error("出错: {0}", error);
 		}
 	}
 
