@@ -1,0 +1,122 @@
+﻿{
+  "info": {
+    "name": "04-悼灵花-遗忘之路-3个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "ddaodan",
+        "links": "https://github.com/ddaodan"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.47.2",
+    "tags": [
+      "悼灵花"
+    ],
+    "last_modified_time": 1753295627829,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5493.220703125,
+      "y": 1447.265625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 5526.40283203125,
+      "y": 1431.3740234375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 5558.693359375,
+      "y": 1415.09716796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "up_down_grab_leaf",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 5585.9755859375,
+      "y": 1403.18603515625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "up_down_grab_leaf",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 5614.30224609375,
+      "y": 1391.107421875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "up_down_grab_leaf",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 5641.59130859375,
+      "y": 1387.625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 5670.49755859375,
+      "y": 1394.7822265625,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 5689.94580078125,
+      "y": 1391.6416015625,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 5701.2587890625,
+      "y": 1399.38134765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 5714.34228515625,
+      "y": 1403.1298828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 5750.2275390625,
+      "y": 1393.5732421875,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
