@@ -1,0 +1,138 @@
+﻿{
+  "info": {
+    "name": "03-苍晶螺-塔拉塔海谷-3个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.48.0",
+    "tags": [],
+    "last_modified_time": 1753366149046,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4191.486328125,
+      "y": 3799.17138671875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4172.2353515625,
+      "y": 3844.643798828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4152.03662109375,
+      "y": 3829.548095703125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4139.0185546875,
+      "y": 3819.98828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4145.38037109375,
+      "y": 3811.8115234375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL),wait(0.5),keydown(VK_SPACE),wait(2),keyup(VK_SPACE)"
+    },
+    {
+      "id": 6,
+      "x": 4090.7646484375,
+      "y": 3807.0849609375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL)"
+    },
+    {
+      "id": 7,
+      "x": 4089.4677734375,
+      "y": 3802.9462890625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 4086.796875,
+      "y": 3795.23974609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 4082.259765625,
+      "y": 3796.1279296875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(2),keyup(VK_SPACE),wait(0.5),keydown(VK_LCONTROL),wait(3.5),keyup(VK_LCONTROL)"
+    },
+    {
+      "id": 10,
+      "x": 4086.69921875,
+      "y": 3793.88037109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 4097.91064453125,
+      "y": 3791.16259765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(3),keyup(VK_SPACE),"
+    },
+    {
+      "id": 12,
+      "x": 4088.556640625,
+      "y": 3766.278564453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 4055.84375,
+      "y": 3740.9091796875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL)"
+    }
+  ]
+}
