@@ -54,52 +54,76 @@ for root, dirs, files in os.walk(folder_path):
                 print("⚠️ 缺少 info 字段")
                 continue
 
-            author_field = info.get("author")
-            if author_field is None:
-                print("⚠️ 缺少 author 字段")
-                continue
-
             modified = False
+            author_field = info.get("author")
 
-            # 字符串格式处理
-            if isinstance(author_field, str):
-                names = [name.strip() for name in author_field.split("&")]
-                new_authors = []
-                for name in names:
-                    new_name = author_rename.get(name, name)
-                    author_obj = {"name": new_name}
-                    if new_name in author_links:
-                        author_obj["links"] = author_links[new_name]
-                    new_authors.append(author_obj)
-                data["info"]["authors"] = new_authors
-                modified = True
-                print("✅ 替换为结构化 author")
-
-            # 列表格式处理
-            elif isinstance(author_field, list):
-                for author_obj in author_field:
-                    if not isinstance(author_obj, dict):
-                        continue
-                    name = author_obj.get("name")
-                    if not name:
-                        continue
-                    new_name = author_rename.get(name, name)
-                    if name != new_name:
-                        author_obj["name"] = new_name
-                        modified = True
-                        print(f"📝 重命名：{name} → {new_name}")
-
-                    # 统一链接字段名
-                    existing_link = author_obj.pop("link", None) or author_obj.pop("url", None) or author_obj.get("links")
-                    if new_name in author_links:
-                        if author_obj.get("links") != author_links[new_name]:
+            if author_field is not None:
+                # 旧格式字符串处理
+                if isinstance(author_field, str):
+                    names = [name.strip() for name in author_field.split("&")]
+                    new_authors = []
+                    for name in names:
+                        new_name = author_rename.get(name, name)
+                        author_obj = {"name": new_name}
+                        if new_name in author_links:
                             author_obj["links"] = author_links[new_name]
+                        new_authors.append(author_obj)
+                    data["info"]["authors"] = new_authors
+                    modified = True
+                    print("✅ 替换为结构化 authors")
+
+                elif isinstance(author_field, list):
+                    for author_obj in author_field:
+                        if not isinstance(author_obj, dict):
+                            continue
+                        name = author_obj.get("name")
+                        if not name:
+                            continue
+                        new_name = author_rename.get(name, name)
+                        if name != new_name:
+                            author_obj["name"] = new_name
                             modified = True
-                            print(f"🔧 更新链接：{new_name} → {author_links[new_name]}")
-                    elif "links" not in author_obj and existing_link:
-                        author_obj["links"] = existing_link
-                        modified = True
-                        print(f"🔄 标准化已有链接字段为 links → {existing_link}")
+                            print(f"📝 重命名：{name} → {new_name}")
+
+                        existing_link = author_obj.pop("link", None) or author_obj.pop("url", None) or author_obj.get("links")
+                        if new_name in author_links:
+                            if author_obj.get("links") != author_links[new_name]:
+                                author_obj["links"] = author_links[new_name]
+                                modified = True
+                                print(f"🔧 更新链接：{new_name} → {author_links[new_name]}")
+                        elif "links" not in author_obj and existing_link:
+                            author_obj["links"] = existing_link
+                            modified = True
+                            print(f"🔄 标准化已有链接字段为 links → {existing_link}")
+
+            else:
+                # 🔧 处理已有结构化 authors 字段，补充 links
+                authors_field = info.get("authors")
+                if isinstance(authors_field, list):
+                    for author_obj in authors_field:
+                        if not isinstance(author_obj, dict):
+                            continue
+                        name = author_obj.get("name")
+                        if not name:
+                            continue
+                        new_name = author_rename.get(name, name)
+                        if name != new_name:
+                            author_obj["name"] = new_name
+                            modified = True
+                            print(f"📝 重命名（authors）：{name} → {new_name}")
+
+                        existing_link = author_obj.pop("link", None) or author_obj.pop("url", None) or author_obj.get("links")
+                        if new_name in author_links:
+                            if author_obj.get("links") != author_links[new_name]:
+                                author_obj["links"] = author_links[new_name]
+                                modified = True
+                                print(f"🔧 更新链接（authors）：{new_name} → {author_links[new_name]}")
+                        elif "links" not in author_obj and existing_link:
+                            author_obj["links"] = existing_link
+                            modified = True
+                            print(f"🔄 标准化已有链接字段为 links → {existing_link}")
+                else:
+                    print("⚠️ 缺少 author 字段，且 authors 非标准格式")
 
             if modified:
                 with open(file_path, "w", encoding="utf-8") as f:

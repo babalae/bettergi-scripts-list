@@ -18,8 +18,8 @@
         "name": "mno",
         "links": "https://github.com/Bedrockx"
       }
-    ]
-	,"enable_monster_loot_split": true
+    ],
+    "enable_monster_loot_split": true
   },
   "positions": [
     {
@@ -56,8 +56,10 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path"
-	  ,"point_ext_params": {"monster_tag": "elite"}
+      "type": "path",
+      "point_ext_params": {
+        "monster_tag": "elite"
+      }
     },
     {
       "id": 5,
@@ -209,8 +211,10 @@
       "move_mode": "dash",
       "action_params": "",
       "type": "path",
-      "locked": false
-	  ,"point_ext_params": {"monster_tag": "elite"}
+      "locked": false,
+      "point_ext_params": {
+        "monster_tag": "elite"
+      }
     },
     {
       "id": 22,
