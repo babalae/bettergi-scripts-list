@@ -25,7 +25,7 @@
         await sleep(1000);
         click(1010, 760);
         await sleep(1000);
-    }  // todo:考虑添加ocr参数确保一定点击到 F
+    } 
 
     async function AutoPath(locationName) {
         try {
@@ -37,18 +37,32 @@
         await sleep(2000);
     }
 
+    async function OcrF() {
+        let capture = await captureGameRegion();
+        let ocr = await capture.find(RecognitionObject.ocrThis);
+        if(ocr.text.includes('投喂')){
+            return true;
+        }
+        return false;
+    }
+
     async function AutoFriendshipDev(times) {
 
         log.info(`导航至甜甜花位置`);
         await AutoPath('导航至甜甜花位置');
+        await genshin.relogin();
         log.info(`自动好感开始...`);
         const startFirstTime = Date.now();
         for (let i = 0; i < times; i++) {
             log.info(`自动好感当前次数：${i + 1}/${times}`);
-            await AutoPath('从甜甜花到狗盆');
+            await AutoPath('到狗盆');
+            for(let j = 0; j < 3 && !await OcrF(); j++){
+                await AutoPath('到狗盆');
+            }
             await Feed();
             if( i != times - 1) {
-                await AutoPath('从狗盆到甜甜花'); 
+                await AutoPath('到甜甜花'); 
+                await genshin.relogin();
             }  //最后一次不需要返回到甜甜花
             const estimatedCompletion = CalculateEstimatedCompletion(startFirstTime, i + 1, times);
             const currentTime = LogTimeTaken(startFirstTime);
