@@ -1,12 +1,20 @@
-{
+﻿{
   "info": {
     "name": "202璃月-渌华池3",
     "type": "collect",
-    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753379064319,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -21,12 +29,22 @@
       "id": 2,
       "x": 438.9375,
       "y": 228.62524346387272,
+      "action": "log_output",
+      "move_mode": "fly",
+      "action_params": "\n富A路线预计(双风buff+迪希雅)78分钟162个调查点≈10W经验\n富B路线预计(双风buff+迪希雅)55分钟135个调查点≈8.3W经验\n超详解析请看JS里README说明书",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 438.9375,
+      "y": 228.62524346387272,
       "action": "",
       "move_mode": "fly",
       "type": "path"
     },
     {
-      "id": 3,
+      "id": 4,
       "x": 427.3125,
       "y": 230.3439049315557,
       "action": "",
@@ -34,7 +52,7 @@
       "type": "path"
     },
     {
-      "id": 4,
+      "id": 5,
       "x": 424.234375,
       "y": 231.55224609375,
       "action": "combat_script",
@@ -43,7 +61,7 @@
       "type": "target"
     },
     {
-      "id": 5,
+      "id": 6,
       "x": 423.9062796256221,
       "y": 234.56230294647503,
       "action": "combat_script",
@@ -52,7 +70,7 @@
       "type": "target"
     },
     {
-      "id": 6,
+      "id": 7,
       "x": 426.7041015625,
       "y": 232.0400390625,
       "action": "combat_script",
