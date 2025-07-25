@@ -14,13 +14,14 @@
     "bgi_version": "0.45.0",
     "tags": [],
     "last_modified_time": 1752217014275,
-    "enable_monster_loot_split": false
+    "enable_monster_loot_split": false,
+    "author": "MisakaAldrich"
   },
   "positions": [
     {
       "id": 1,
-      "x": 10278.0615234375,
-      "y": -3110.48828125,
+      "x": 10278.06,
+      "y": -3110.49,
       "action": "force_tp",
       "move_mode": "walk",
       "action_params": "",
@@ -28,8 +29,8 @@
     },
     {
       "id": 2,
-      "x": 10290.4833984375,
-      "y": -3125.6923828125,
+      "x": 10290.48,
+      "y": -3125.69,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -37,8 +38,8 @@
     },
     {
       "id": 3,
-      "x": 10294.3115234375,
-      "y": -3136.138671875,
+      "x": 10294.31,
+      "y": -3136.14,
       "action": "combat_script",
       "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);纳西妲 attack(0.08),e;",
@@ -46,8 +47,8 @@
     },
     {
       "id": 4,
-      "x": 10304.171875,
-      "y": -3137.8408203125,
+      "x": 10304.17,
+      "y": -3137.84,
       "action": "combat_script",
       "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
@@ -55,8 +56,8 @@
     },
     {
       "id": 5,
-      "x": 10303.2734375,
-      "y": -3155.2451171875,
+      "x": 10303.27,
+      "y": -3155.25,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
@@ -65,8 +66,8 @@
     },
     {
       "id": 6,
-      "x": 10303.2734375,
-      "y": -3155.2451171875,
+      "x": 10303.27,
+      "y": -3155.25,
       "action": "nahida_collect",
       "move_mode": "dash",
       "action_params": "",
@@ -74,8 +75,8 @@
     },
     {
       "id": 7,
-      "x": 10170.763671875,
-      "y": -3021.478515625,
+      "x": 10170.76,
+      "y": -3021.48,
       "type": "teleport",
       "move_mode": "walk",
       "action": "",
