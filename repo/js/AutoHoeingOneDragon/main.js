@@ -272,7 +272,7 @@ async function markPathings(pathings, group1Tags, group2Tags, group3Tags, group4
 
 async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum) {
     // 初始化变量
-    let currentTargetEliteNum = targetEliteNum; // 当前目标精英怪数量
+    let nextTargetEliteNum = targetEliteNum; // 当前目标精英怪数量
     let iterationCount = 0; // 循环次数
 
     // 初始化统计变量
@@ -280,9 +280,13 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
     let totalSelectedMonsters = 0; // 总普通怪数量
     let totalGainCombined = 0; // 总收益
     let totalTimeCombined = 0; // 总耗时
+    let monsterRouteElite = 0;
 
     let maxE1 = 0;
     let maxE2 = 0;
+
+    const ratio = targetEliteNum / targetMonsterNum;
+    const f = (Number((1 - Math.exp(-ratio * ratio)).toFixed(3)) + 1) / 2;
 
     // 遍历 pathings，计算并添加 G1、G2、E1 和 E2 属性
     pathings.forEach(pathing => {
@@ -291,7 +295,7 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
         pathing.G1 = G1;
         const G2 = pathing.mora_m; // 进入二组的收益
         pathing.G2 = G2;
-        pathing.E1 = pathing.e === 0 ? 0 : ((G1 - G2 * (targetEliteNum / (targetEliteNum + targetMonsterNum))) / pathing.e) ** k * (G1 / pathing.t); // 进入一组的效率
+        pathing.E1 = pathing.e === 0 ? 0 : ((G1 - G2 * f) / pathing.e) ** k * (G1 / pathing.t); // 进入一组的效率
         pathing.E2 = pathing.m === 0 ? 0 : (G2 / pathing.m) ** k * (G2 / pathing.t); // 进入二组的效率
 
         if (maxE1 < pathing.E1) {
@@ -320,12 +324,13 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
         totalGainCombined = 0; // 重置总收益
         totalTimeCombined = 0; // 重置总耗时
 
+
         // 按 E1 从高到低排序
         pathings.sort((a, b) => b.E1 - a.E1);
 
         // 第一轮选择：根据当前目标精英怪数量选择路径
         for (const pathing of pathings) {
-            if (pathing.E1 > 0 && pathing.available && totalSelectedElites < targetEliteNum) {
+            if (pathing.E1 > 0 && pathing.available && ((totalSelectedElites + pathing.e) <= targetEliteNum - monsterRouteElite + 2)) {
                 pathing.selected = true;
                 totalSelectedElites += pathing.e;
                 totalSelectedMonsters += pathing.m;
@@ -337,14 +342,16 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
 
     // 封装第二轮选择逻辑
     function selectRoutesByMonsterTarget(targetMonsterNum) {
+        monsterRouteElite = 0;
         // 按 E2 从高到低排序
         pathings.sort((a, b) => b.E2 - a.E2);
 
         // 第二轮选择：根据剩余的普通怪数量目标选择路径
         for (const pathing of pathings) {
-            if (pathing.E2 > 0 && pathing.available && !pathing.selected && totalSelectedMonsters < targetMonsterNum) {
+            if (pathing.E2 > 0 && pathing.available && !pathing.selected && (totalSelectedMonsters + pathing.m) < targetMonsterNum + 5) {
                 pathing.selected = true;
                 totalSelectedElites += pathing.e; // 第二轮选择中也可能包含精英怪
+                monsterRouteElite += pathing.e;
                 totalSelectedMonsters += pathing.m;
                 totalGainCombined += pathing.G2;
                 totalTimeCombined += pathing.t;
@@ -353,26 +360,21 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
     }
 
     // 循环调整目标精英怪数量
-    while (iterationCount < 10) {
+    while (iterationCount < 100) {
         // 第一轮选择
-        selectRoutesByEliteTarget(currentTargetEliteNum);
+        selectRoutesByEliteTarget(nextTargetEliteNum);
 
         // 第二轮选择：直接传入剩余的小怪数量目标
         selectRoutesByMonsterTarget(targetMonsterNum);
 
         // 检查精英怪总数是否满足条件
         const diff = totalSelectedElites - targetEliteNum;
-        currentTargetEliteNum -= Math.round(0.5 * diff); // 调整目标精英怪数量，乘以系数并取整
-
-        if (totalSelectedElites === targetEliteNum) {
-            break; // 如果满足目标，直接终止循环
+        if ((totalSelectedElites >= targetEliteNum - 3) && (totalSelectedElites <= targetEliteNum)) {
+            break;
         }
-
-        if ((totalSelectedElites > targetEliteNum) && iterationCount >= 5) {
-            break; // 如果满足目标，直接终止循环
-        }
-
-        iterationCount++; // 增加循环次数
+        nextTargetEliteNum -= Math.round(0.1 * diff); // 调整目标精英怪数量，乘以系数并取整
+        //log.info(`该轮循环目标${nextTargetEliteNum},实际选出${totalSelectedElites}`);
+        iterationCount++; // 增加循环序号
     }
 
     // 为最终选中且精英怪数量为0的路线添加小怪标签
