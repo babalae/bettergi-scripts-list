@@ -194,7 +194,7 @@ let enemyType = "无";
     log.info(`上次狗粮开始时间: ${lastEndTime.toISOString()}`);
     log.info(`上次运行路线: ${lastRunRoute}`);
     log.info(`上次运行是否完成: ${finished}`);
-
+    log.info(`版本1.69,更新日期25.7.24,如果太久远,要经常检查更新`);
 
     try {
         // 读取 manifest.json 文件的内容
