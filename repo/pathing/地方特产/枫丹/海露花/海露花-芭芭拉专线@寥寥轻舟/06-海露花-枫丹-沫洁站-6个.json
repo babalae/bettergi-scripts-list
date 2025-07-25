@@ -1,0 +1,116 @@
+{
+  "info": {
+    "name": "06-海露花-枫丹-沫洁站-6个",
+    "type": "collect",
+    "author": "寥寥轻舟",
+    "version": "1.0",
+    "description": "芭芭拉效率专线",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "芭芭拉"
+    ],
+    "last_modified_time": 1750490619726
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3773.994140625,
+      "y": 3784.0029296875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3729.9013671875,
+      "y": 3729.059814453125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3704.921875,
+      "y": 3653.459716796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 3692.44921875,
+      "y": 3652.55712890625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芭芭拉 charge(0.5)"
+    },
+    {
+      "id": 5,
+      "x": 3688.0693359375,
+      "y": 3652.043701171875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 3670.9736328125,
+      "y": 3651.144775390625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芭芭拉 charge(0.5)"
+    },
+    {
+      "id": 7,
+      "x": 3667.7119140625,
+      "y": 3651.09716796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 3681.65625,
+      "y": 3663.35302734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芭芭拉 e"
+    },
+    {
+      "id": 9,
+      "x": 3685.841796875,
+      "y": 3667.38623046875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 3686.9384765625,
+      "y": 3662.170166015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 3690.9814453125,
+      "y": 3672.0556640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

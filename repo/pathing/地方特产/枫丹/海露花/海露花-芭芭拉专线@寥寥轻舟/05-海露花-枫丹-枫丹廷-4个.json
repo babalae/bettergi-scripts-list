@@ -1,0 +1,134 @@
+{
+  "info": {
+    "name": "05-海露花-枫丹-枫丹廷-4个",
+    "type": "collect",
+    "author": "寥寥轻舟",
+    "version": "1.0",
+    "description": "芭芭拉效率专线",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "芭芭拉"
+    ],
+    "last_modified_time": 1750493402601
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4577.953125,
+      "y": 4001.720703125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4508.11767578125,
+      "y": 3942.412841796875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4503.60693359375,
+      "y": 3877.521484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4466.65283203125,
+      "y": 3856.9443359375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 e",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4464.76416015625,
+      "y": 3855.103271484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4428.1962890625,
+      "y": 3812.29638671875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4321.3359375,
+      "y": 3747.623046875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4303.5751953125,
+      "y": 3745.820068359375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 charge(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4254.525390625,
+      "y": 3775.78173828125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 4325.7431640625,
+      "y": 3713.1669921875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 charge(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 4332.5556640625,
+      "y": 3707.392822265625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 4355.306640625,
+      "y": 3667.70556640625,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "芭芭拉 charge(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 4357.44873046875,
+      "y": 3664.2998046875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "info": {
+    "name": "07-海露花-枫丹-实验室-2个",
+    "type": "collect",
+    "author": "寥寥轻舟",
+    "version": "1.0",
+    "description": "芭芭拉效率专线",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "芭芭拉"
+    ],
+    "last_modified_time": 1750490831463
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3811.6748046875,
+      "y": 4952.61865234375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3763.099609375,
+      "y": 4906.2783203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芭芭拉 charge(0.5)"
+    },
+    {
+      "id": 3,
+      "x": 3759.4814453125,
+      "y": 4902.67431640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 3682.435546875,
+      "y": 4918.41455078125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 3621.7099609375,
+      "y": 4882.75244140625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 3572.0224609375,
+      "y": 4882.94482421875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 3563.388671875,
+      "y": 4886.958984375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芭芭拉 charge(0.5)"
+    },
+    {
+      "id": 8,
+      "x": 3558.732421875,
+      "y": 4888.109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

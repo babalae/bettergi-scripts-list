@@ -1,0 +1,80 @@
+{
+  "info": {
+    "name": "03-海露花-枫丹-龙头-4个",
+    "type": "collect",
+    "author": "寥寥轻舟",
+    "version": "1.0",
+    "description": "芭芭拉效率专线",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "芭芭拉"
+    ],
+    "last_modified_time": 1750489051636
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4705.56103515625,
+      "y": 2951.614990234375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4678.6884765625,
+      "y": 2902.320556640625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4661.208984375,
+      "y": 2867.724853515625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芭芭拉 e"
+    },
+    {
+      "id": 4,
+      "x": 4662.3046875,
+      "y": 2863.935302734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4656.923828125,
+      "y": 2854.779541015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4651.7470703125,
+      "y": 2861.25341796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 4650.35400390625,
+      "y": 2867.860107421875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
