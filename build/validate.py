@@ -222,8 +222,10 @@ def ensure_required_fields(info, filename):
         corrections.append("type 自动修正为 collect")
 
     if not info["authors"]:
-        info["authors"] = os.getenv("GITHUB_ACTOR", "未知作者")
-        corrections.append(f"author 自动设置为 {info['authors']}")
+        author_name = os.getenv("GITHUB_ACTOR", "未知作者")
+        author_link = "https://github.com/" + os.getenv("GITHUB_ACTOR", "babalae/bettergi-scripts-list")
+        info["authors"] = [{"name": author_name, "links": author_link}]
+        corrections.append(f"authors 自动设置为 {info['authors']}")
 
     return corrections
 
@@ -435,8 +437,10 @@ def initialize_data(data, file_path):
         messages.append(f"⚠️ 文件缺少 type 字段，已设置为默认值: collect")
 
     if "authors" not in info:
-        info["authors"] = os.getenv("GITHUB_ACTOR", "未知作者")
-        messages.append(f"⚠️ 文件缺少 author 字段，已设置为: {info['authors']}")
+        author_name = os.getenv("GITHUB_ACTOR", "未知作者")
+        author_link = "https://github.com/" + os.getenv("GITHUB_ACTOR", "babalae/bettergi-scripts-list")
+        info["authors"] = [{"name": author_name, "links": author_link}]
+        messages.append(f"⚠️ 文件缺少 authors 字段，已设置为: {info['authors']}")
 
     if "version" not in info:
         info["version"] = DEFAULT_VERSION
