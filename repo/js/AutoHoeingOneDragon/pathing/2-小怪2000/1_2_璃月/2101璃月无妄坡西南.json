@@ -1,18 +1,20 @@
-{
+﻿{
   "info": {
     "name": "2101璃月无妄坡西南",
     "type": "collect",
-    "author": "mno",
-    "version": "1.1",
-    "description": "  路线信息：该路线预计用时292.2秒，包含2只精英与34只小怪，预计收入2101摩拉，包含以下怪物：4只冰史莱姆、9只丘丘人、4只打手丘丘人、3只冲锋丘丘人、2只木盾丘丘人、2只射手丘丘人、2只火箭丘丘人、4只冰箭丘丘人、1只木盾丘丘暴徒、1只火斧丘丘暴徒、4只水萤。",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "mno",
         "links": "https://github.com/Bedrockx"
       }
-    ]
+    ],
+    "version": "1.1",
+    "description": "  路线信息：该路线预计用时292.2秒，包含2只精英与34只小怪，预计收入2101摩拉，包含以下怪物：4只冰史莱姆、9只丘丘人、4只打手丘丘人、3只冲锋丘丘人、2只木盾丘丘人、2只射手丘丘人、2只火箭丘丘人、4只冰箭丘丘人、1只木盾丘丘暴徒、1只火斧丘丘暴徒、4只水萤。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753404181347,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -300,25 +302,25 @@
       "y": 1360.12,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(2)",
+      "action_params": "芙宁娜 e",
       "type": "path",
       "locked": false
     },
     {
       "id": 33,
-      "x": 606.52,
-      "y": 1360.12,
-      "action": "fight",
+      "x": 616.52,
+      "y": 1365.12,
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "orientation",
+      "action_params": "wait(1.5)",
+      "type": "path",
       "locked": false
     },
     {
       "id": 34,
-      "x": 606.52,
-      "y": 1360.12,
-      "action": "",
+      "x": 616.52,
+      "y": 1365.12,
+      "action": "fight",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
