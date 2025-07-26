@@ -205,7 +205,7 @@ def process_coordinates(positions):
         for axis in ['x', 'y']:
             if axis in pos and isinstance(pos[axis], (int, float)):
                 original = pos[axis]
-                pos[axis] = round(float(pos[axis]), 2)
+                pos[axis] = round(float(pos[axis]), 4)
                 if original != pos[axis]:
                     coord_changed = True
     return coord_changed
@@ -591,7 +591,7 @@ def validate_file(file_path, auto_fix=False):
     # 处理坐标
     coord_changed = process_coordinates(data["positions"])
     if coord_changed:
-        all_corrections.append("坐标值自动保留两位小数")
+        all_corrections.append("坐标值自动保留四位小数")
 
     # 检查 BGI 版本兼容性
     bgi_version, corrections = check_bgi_version_compatibility(info["bgi_version"], auto_fix)
