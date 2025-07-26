@@ -4,6 +4,7 @@ import json
 import os
 import subprocess
 import re
+import chardet
 from packaging.version import parse
 from semver import VersionInfo
 
@@ -414,6 +415,68 @@ def check_position_ids(positions):
     
     return validation_issues, corrections
 
+# ==================== 验证修复编码 ====================
+
+def detect_encoding(file_path, read_size=2048):
+    try:
+        with open(file_path, 'rb') as f:
+            raw = f.read(read_size)
+            result = chardet.detect(raw)
+            return result['encoding'], result['confidence']
+    except:
+        return None, 0
+
+def fix_encoding_name(enc, file_path=None):
+    if not enc:
+        return None
+    enc = enc.lower()
+    if enc in ['ascii']:
+        try:
+            with open(file_path, 'rb') as f:
+                raw = f.read()
+                raw.decode('utf-8')
+            return 'utf-8'
+        except:
+            return 'gb18030'
+    if enc in ['gb2312', 'gbk', 'windows-1252', 'iso-8859-1', 'gb18030']:
+        return 'gb18030'
+    return enc
+
+def convert_to_utf8(file_path, original_encoding):
+    try:
+        encoding = fix_encoding_name(original_encoding, file_path)
+
+        with open(file_path, 'r', encoding=encoding, errors='replace') as f:
+            content = f.read()
+        with open(file_path, 'w', encoding='utf-8') as f:
+            f.write(content)
+
+        print(f"[✔] Converted to UTF-8: {file_path} (from {original_encoding} → {encoding})")
+    except Exception as e:
+        print(f"[✖] Failed to convert: {file_path} | Error: {e}")
+
+def process_file(file_path, target_extensions=None):
+    if target_extensions and not any(file_path.lower().endswith(ext) for ext in target_extensions):
+        return
+    encoding, confidence = detect_encoding(file_path)
+    if encoding is None or confidence < 0.7:
+        print(f"[⚠️] Unknown encoding: {file_path} | Detected: {encoding}, Conf: {confidence:.2f}")
+        return
+    if encoding.lower() == 'utf-8':
+        return  # Skip already UTF-8
+    convert_to_utf8(file_path, encoding)
+
+def scan_and_convert(path, target_extensions=None):
+    if os.path.isfile(path):
+        process_file(path, target_extensions)
+    elif os.path.isdir(path):
+        for dirpath, _, filenames in os.walk(path):
+            for filename in filenames:
+                filepath = os.path.join(dirpath, filename)
+                process_file(filepath, target_extensions)
+    else:
+        print(f"❌ Path not found: {path}")
+
 # ==================== 主验证逻辑 ====================
 
 def initialize_data(data, file_path):
@@ -614,6 +677,7 @@ def main():
     all_notices = []  # 初始化 all_notices 变量
 
     if os.path.isfile(path) and path.endswith('.json'):
+        scan_and_convert(path)
         # print(f"\n🔍 校验文件: {path}")
         notices = validate_file(path, auto_fix)
         if notices:
@@ -629,6 +693,7 @@ def main():
                 if file.endswith('.json'):
                     file_path = os.path.join(root, file)
                     print(f"\n🔍 校验文件: {file_path}")
+                    scan_and_convert(file_path)
                     notices = validate_file(file_path, auto_fix)
                     if notices:
                         all_notices.extend([f"{file_path}: {n}" for n in notices])
