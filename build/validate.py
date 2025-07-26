@@ -479,7 +479,7 @@ def scan_and_convert(path, target_extensions=None):
 
 # ==================== 验证修复作者信息 ====================
 
-def process_json_authors(input_path, config_path="author_config.json", verbose=False):
+def process_json_authors(input_path, verbose=False):
     """
     处理 JSON 文件中的作者信息（支持 author → authors 结构化迁移、作者名重命名和链接统一）
     
@@ -496,6 +496,10 @@ def process_json_authors(input_path, config_path="author_config.json", verbose=F
         "modified_files": 0,
         "errors": []
     }
+
+    # 获取配置文件路径（和脚本在同一目录）
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    config_path = os.path.join(script_dir, "author_config.json")
 
     if not os.path.exists(input_path):
         raise FileNotFoundError(f"路径不存在：{input_path}")
