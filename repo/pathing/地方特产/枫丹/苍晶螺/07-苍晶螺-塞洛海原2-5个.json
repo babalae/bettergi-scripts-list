@@ -1,0 +1,121 @@
+﻿{
+  "info": {
+    "name": "07-苍晶螺-塞洛海原2-5个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753521003459,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4017.3701171875,
+      "y": 3426.7197265625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 4004.19140625,
+      "y": 3427.724609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+    },
+    {
+      "id": 3,
+      "x": 4005.265625,
+      "y": 3424.992431640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+    },
+    {
+      "id": 4,
+      "x": 4017.3701171875,
+      "y": 3426.7197265625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4016.8603515625,
+      "y": 3406.669921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(5),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+    },
+    {
+      "id": 6,
+      "x": 4021.2177734375,
+      "y": 3402.10009765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 4028.314453125,
+      "y": 3405.32421875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(2),keyup(VK_SPACE),wait(1),keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+    },
+    {
+      "id": 8,
+      "x": 4033.5380859375,
+      "y": 3410.091796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 4033.4921875,
+      "y": 3403.306640625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL),wait(3),keypress(VK_MBUTTON)"
+    },
+    {
+      "id": 10,
+      "x": 4017.361328125,
+      "y": 3426.706298828125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 3995.1650390625,
+      "y": 3451.007568359375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(5),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+    }
+  ]
+}
