@@ -1,14 +1,15 @@
 {
   "info": {
-    "name": "13-树莓",
+    "name": "08-树莓-蒙德-铭记之谷-6个",
     "type": "collect",
-    "author": "未知作者",
+    "author": "风埠",
     "version": "1.0",
     "description": "树莓",
     "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "未知作者"
+        "name": "风埠",
+        "links": "https://github.com/jhkif"
       }
     ]
   },
@@ -18,37 +19,45 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": -3684.86,
-      "y": -4278.62
+      "x": -663.59,
+      "y": 1709.69
     },
     {
       "id": 2,
-      "x": -3694.53,
-      "y": -4307.33,
-      "type": "target",
-      "move_mode": "walk",
-      "action": ""
+      "x": -681.19,
+      "y": 1717.83,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
     },
     {
       "id": 3,
-      "x": -3738.3,
-      "y": -4346.51,
+      "x": -715.04,
+      "y": 1737.62,
       "type": "target",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 4,
-      "x": -3729.43,
-      "y": -4353.61,
+      "x": -735.3,
+      "y": 1750.04,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 5,
-      "x": -3755.91,
-      "y": -4401.4,
+      "x": -747.37,
+      "y": 1758.87,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": -761.26,
+      "y": 1757.08,
       "type": "target",
       "move_mode": "walk",
       "action": ""
