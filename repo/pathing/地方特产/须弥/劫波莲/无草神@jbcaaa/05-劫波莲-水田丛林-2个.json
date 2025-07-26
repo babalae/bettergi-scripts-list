@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "03-劫波莲-降诸魔山右下",
+    "name": "05-劫波莲-水田丛林-2个",
     "type": "collect",
     "author": "jbcaaa",
     "version": "1.0",
@@ -19,31 +19,39 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 2246.01,
-      "y": -1680.38
+      "x": 3435.74,
+      "y": -1470.66
     },
     {
       "id": 2,
-      "x": 2179.29,
-      "y": -1680.13,
+      "x": 3329.41,
+      "y": -1479.33,
       "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 3329.4,
+      "y": -1485.36,
+      "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
-      "id": 3,
-      "x": 2176.73,
-      "y": -1677.26,
-      "type": "target",
-      "move_mode": "climb",
+      "id": 4,
+      "x": 3331.17,
+      "y": -1491.76,
+      "type": "path",
+      "move_mode": "walk",
       "action": ""
     },
     {
-      "id": 4,
-      "x": 2175.24,
-      "y": -1673.66,
-      "type": "path",
-      "move_mode": "climb",
+      "id": 5,
+      "x": 3335.74,
+      "y": -1492.34,
+      "type": "target",
+      "move_mode": "walk",
       "action": ""
     }
   ]
