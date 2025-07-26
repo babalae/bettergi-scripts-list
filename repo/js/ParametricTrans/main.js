@@ -56,7 +56,7 @@
                     if (res1 === res2){conuntcottimecot ++;res2=res1;}
                     log.info("输出模式：全图代码位置：({x},{y},{h},{w},{string})", res.x-10, res.y-10, res.width+10, res.Height+10, res.text);
                     if (Outcheak===1){ if (conuntcottimecot>=conuntcottimecomp/2){return result = { text: res.text, x: res.x, y: res.y, found: true };}else{return result = {  found: false};}}
-                }}}             
+                }}}else{ if (debugmodel===3 && (ii % 2) === 1){await keyPress("W");}}               
             const NowTime = new Date();
             if ((NowTime - startTime)>timeout*1000){if (debugmodel===2){ if (resList.count === 0){return result = {found: false};} else{Outcheak=1;ii=2;}     } else {Outcheak=0;if (debugmodel===1 & x===0 & y===0){log.info(`${timeout}秒超时退出，"${text}"未找到`)};return result = {found: false };}}
             else{ii=2;if (debugmodel===1 & x===0 & y===0){log.info(`"${text}"识别中……`); } }
