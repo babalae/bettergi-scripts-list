@@ -4,6 +4,7 @@
     var BH = typeof settings.BH === 'string' && settings.BH.trim() !== '' ? settings.BH : "assets/bh.png";
     var ZHIBIANYI = typeof settings.ZHIBIANY === 'string' && settings.ZHIBIANYI.trim() !== '' ? settings.ZHIBIANYI : "assets/zhibian.png";
     var actiontime = settings.actiontime != undefined && ~~settings.actiontime > 0 ? ~~settings.actiontime : 50;
+    var CHA = "assets/cha.png"
     var TEAM
     const ITEM = settings.ITEM !== undefined ? (
         settings.ITEM === "1养成道具" ? 1 :
@@ -123,8 +124,10 @@ async function insertMaterial(){
     //检测并进入质变仪界面
     await middleButtonClick();
     await sleep(500);
-    await textOCR("参量质变仪",1,2,0,1205,508,140,53);//单条F检测
+    let Fmeun = await textOCR("参量质变仪",2,2,3,1205,508,140,53);//单条F检测
     await keyPress("F");
+    let CHAx = await imageRecognition(CHA,3,0,0,1766,3,140,90);
+    if (!Fmeun.found && !CHAx.found){return false;}
 
     //检测是否到达材料页面
     await textOCR("进行质变",3,0,0,1675,994,150,50);if (!result.found){throw new Error("质变仪页面未打开");}//单条F检测
@@ -234,8 +237,10 @@ async function executeAttack(){
         if ((await deployTransformer())) {//部署质变仪流程
             log.info("部署成功，准备放入薄荷！！");
         }
-        if ((await insertMaterial())) {//放入薄荷并开始质变流程
-            log.info("放入薄荷完成，开始质变！！");
+        if ((!await insertMaterial())) {//放入薄荷并开始质变流程
+            log.info("未找到布置的质变仪，可能已经放入材料，尝试进行攻击流程！！"); 
+        }else{
+            log.info("放入薄荷完成，开始质变！！"); 
         }
         if ((await executeAttack())) {//芭芭拉攻击指令流程
             log.info("质变执行完成，结束！！");
