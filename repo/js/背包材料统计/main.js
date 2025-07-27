@@ -19,10 +19,36 @@ const material_mapping = {
     "Talent": "角色天赋素材",
     "WeaponAscension": "武器突破素材"
 }
-const isOnlyPathing = settings.onlyPathing === "是" ? true : false;
+// 安全获取 Pathing 的前缀数字（处理 undefined 或非字符串的情况）
+const pathingValue = settings.Pathing || ''; // 若未定义，用空字符串兜底
+const pathingPrefix = String(pathingValue).split('.')[0]; // 确保转为字符串后再分割
 
-if (isOnlyPathing) {
-    log.warn("已开启路径专注模式，将忽略勾选的分类");
+// 根据三个选项值设置不同的逻辑标识
+const pathingMode = {
+  // 二者兼并：📁pathing材料覆盖【材料分类】
+  includeBoth: pathingPrefix === "1",
+  // 无视【材料分类】勾选：只扫描pathing下的材料，不考虑【材料分类】勾选
+  onlyPathing: pathingPrefix === "2",
+  // 无视pathing材料：不扫描pathing下的材料，只考虑【材料分类】勾选
+  onlyCategory: pathingPrefix === "3"
+};
+
+// 增加默认模式兜底（当 prefix 不是 1/2/3 时）
+const isInvalidMode = !pathingMode.includeBoth && !pathingMode.onlyPathing && !pathingMode.onlyCategory;
+if (isInvalidMode) {
+  log.warn(`检测到无效的 Pathing 设置（${pathingValue}），自动切换为默认模式`);
+  pathingMode.includeBoth = true; // 强制启用默认模式
+}
+
+// 输出当前模式日志
+if (pathingMode.includeBoth) {
+  log.warn("默认模式，📁pathing材料 将覆盖 勾选的分类");
+}
+if (pathingMode.onlyCategory) {
+  log.warn("已开启【背包统计】专注模式，将忽略📁pathing材料");
+}
+if (pathingMode.onlyPathing) {
+  log.warn("已开启【路径材料】专注模式，将忽略勾选的分类");
 }
 // 初始化 settings，将 material_mapping 中的所有键设置为 false
 const initialSettings = Object.keys(material_mapping).reduce((acc, key) => {
@@ -238,7 +264,7 @@ async function scanMaterials(materialsCategory, materialCategoryMap) {
 
         // 如果 materialCategoryMap 中当前分类的数组不为空
         // 且当前材料名称不在指定的材料列表中，则跳过加载
-        if (isOnlyPathing && !shouldScanAllMaterials && !categoryMaterials.includes(name)) {
+        if (pathingMode.onlyPathing && !shouldScanAllMaterials && !categoryMaterials.includes(name)) {
             continue;
         }
 
@@ -430,39 +456,46 @@ ${materialInfo.map(item => `${item.name}: ${item.count}`).join(",")}
 ${Array.from(unmatchedMaterialNames).join(",")}
 `;
 
-    // 写入历史记录文件
-    const categoryFilePath = `history_record/${materialsCategory}.txt`;
-    const overwriteFilePath = `overwrite_record/${materialsCategory}.txt`;
-    const latestFilePath = "latest_record.txt";
-
-    await writeLog(categoryFilePath, logContent);
-    await writeLog(overwriteFilePath, logContent);
-    await writeLog(latestFilePath, logContent);
+    const categoryFilePath = `history_record/${materialsCategory}.txt`; // 勾选【材料分类】的历史记录
+    const overwriteFilePath = `overwrite_record/${materialsCategory}.txt`; // 所有的历史记录分类储存
+    const latestFilePath = "latest_record.txt"; // 所有的历史记录集集合
+    if (pathingMode.onlyCategory) {
+    writeLog(categoryFilePath, logContent);
+    }
+    writeLog(overwriteFilePath, logContent);
+    writeLog(latestFilePath, logContent); // 覆盖模式？
 
     // 返回结果
     return materialInfo;
 }
 
-async function writeLog(filePath, logContent) {
+function writeLog(filePath, logContent) {
     try {
-        const existingContent = file.readTextSync(filePath);
-        const records = existingContent.split("\n\n");
-        const latestRecords = records.slice(-365).join("\n\n");
-        const finalContent = `${logContent}\n\n${latestRecords}`;
-        const result = file.WriteTextSync(filePath, finalContent, false);
+        // 1. 读取现有内容（原样读取，不做任何分割处理）
+        let existingContent = "";
+        try {
+            existingContent = file.readTextSync(filePath);
+        } catch (e) {
+            // 文件不存在则保持空
+        }
+
+        // 2. 拼接新记录（新记录加在最前面，用两个换行分隔，保留原始格式）
+        const finalContent = logContent + "\n\n" + existingContent;
+
+        // 3. 按行分割，保留最近365条完整记录（按原始换行分割，不过滤）
+        const lines = finalContent.split("\n");
+        const keepLines = lines.length > 365 * 5 ? lines.slice(0, 365 * 5) : lines; // 假设每条记录最多5行
+        const result = file.writeTextSync(filePath, keepLines.join("\n"), false);
+
         if (result) {
-            log.info(`成功将日志写入文件 ${filePath}`);
+            log.info(`写入成功: ${filePath}`);
         } else {
-            log.error(`写入文件 ${filePath} 失败`);
+            log.error(`写入失败: ${filePath}`);
         }
     } catch (error) {
-        log.warn(`文件 ${filePath} 不存在，将创建新文件`);
-        const result = file.WriteTextSync(filePath, logContent, false);
-        if (result) {
-            log.info(`成功创建并写入文件 ${filePath}`);
-        } else {
-            log.error(`创建文件 ${filePath} 失败`);
-        }
+        // 只在文件完全不存在时创建，避免覆盖
+        file.writeTextSync(filePath, logContent, false);
+        log.info(`创建新文件: ${filePath}`);
     }
 }
 
@@ -548,6 +581,20 @@ function dynamicMaterialGrouping(materialCategoryMap) {
 
 // 主逻辑函数
 async function MaterialPath(materialCategoryMap) {
+    // 1. 先记录原始名称与别名的映射关系（用于最后反向转换）
+    const nameMap = new Map();
+    Object.values(materialCategoryMap).flat().forEach(originalName => {
+        const aliasName = MATERIAL_ALIAS[originalName] || originalName;
+        nameMap.set(aliasName, originalName); // 存储：别名→原始名
+    });
+
+    // 2. 转换materialCategoryMap为别名（用于内部处理）
+    const processedMap = {};
+    Object.entries(materialCategoryMap).forEach(([category, names]) => {
+        processedMap[category] = names.map(name => MATERIAL_ALIAS[name] || name);
+    });
+    materialCategoryMap = processedMap;
+
     const maxStage = 4; // 最大阶段数
     let stage = 0; // 当前阶段
     let currentGroupIndex = 0; // 当前处理的分组索引
@@ -672,8 +719,19 @@ async function MaterialPath(materialCategoryMap) {
     await genshin.returnMainUi(); // 返回主界面
     log.info("扫描流程结束");
 
-    // 返回所有识别到的材料信息
-    return allLowCountMaterials;
+    // 3. 处理完成后，将输出结果转换回原始名称
+    const finalResult = allLowCountMaterials.map(categoryMaterials => {
+        return categoryMaterials.map(material => {
+            // 假设material包含name属性，将别名转回原始名
+            return {
+                ...material,
+                name: nameMap.get(material.name) || material.name // 反向映射
+            };
+        });
+    });
+
+    return finalResult; // 返回转换后的结果（如"晶蝶"）
+
 }
 
 // 自定义 basename 函数
@@ -888,7 +946,7 @@ function recordRunTime(resourceName, pathName, startTime, endTime, runTime, reco
         if (runTime >= 3) {
             // 检查 materialCountDifferences 中是否存在材料数目为 0 的情况
             for (const [material, count] of Object.entries(materialCountDifferences)) {
-                if (count === 0) {
+                if (material === resourceName && count === 0) {
                     // 如果材料数目为 0，记录到单独的文件
                     const zeroMaterialPath = `${recordDir}/${material}-0.txt`; // 材料数目为0的记录文件路径
                     const zeroMaterialContent = `路径名: ${pathName}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: ${runTime}秒\n数量变化: ${JSON.stringify(materialCountDifferences)}\n\n`;
@@ -1165,22 +1223,26 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
             .filter(name => name) || []; // 确保 resourceNames 是一个数组
 
         // 生成材料与分类的映射对象
-        const materialCategoryMap = resourceNames.reduce((acc, resourceName) => {
-            const category = matchImageAndGetCategory(resourceName, imagesDir); // 获取材料的分类
-            if (category) {
-                // 初始化分类键（如果不存在）
-                if (!acc[category]) acc[category] = [];
-                // 将材料名加入对应分类数组（避免重复）
-                if (!acc[category].includes(resourceName)) {
-                    acc[category].push(resourceName);
+        let materialCategoryMap = {};
+        // 选项2: +选项1: 二者兼并 - 把路径材料名resourceNames纳入materialCategoryMap
+        if (!pathingMode.onlyCategory) {
+            materialCategoryMap = resourceNames.reduce((acc, resourceName) => {
+                const category = matchImageAndGetCategory(resourceName, imagesDir); // 获取材料的分类
+                if (category) {
+                    // 初始化分类键（如果不存在）
+                    if (!acc[category]) acc[category] = [];
+                    // 将材料名加入对应分类数组（避免重复）
+                    if (!acc[category].includes(resourceName)) {
+                        acc[category].push(resourceName);
+                    }
                 }
-            }
-            return acc;
-        }, {});
+                return acc;
+            }, {});
+        }
 
         // 确保 selected_materials_array 中的分类被初始化为空数组
         if (Object.keys(selected_materials_array).length === 0) {
-            log.warn("==================\n                未选择【材料分类】！\n               ==================");
+            log.warn("==================\n                未选择【材料分类】！将采用【兼容模式】\n               ==================");
         } else {
             selected_materials_array.forEach(selectedCategory => {
                 if (!materialCategoryMap[selectedCategory]) {
@@ -1189,8 +1251,8 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
             });
         }
 
-        // 如果 isOnlyPathing 为 true，移除 materialCategoryMap 中的空数组
-        if (isOnlyPathing) {
+        // 选项2: 仅路径材料 - 移除空数组
+        if (pathingMode.onlyPathing) {
             Object.keys(materialCategoryMap).forEach(category => {
                 if (materialCategoryMap[category].length === 0) {
                     delete materialCategoryMap[category];
@@ -1200,7 +1262,11 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
 
         // 调用背包材料统计
         const pathingMaterialCounts = await MaterialPath(materialCategoryMap);
-
+            log.info(`materialCategoryMap文本：${JSON.stringify(materialCategoryMap)}`);
+            log.info(`目标文本：${JSON.stringify(pathingMaterialCounts)}`);
+        if (pathingMode.onlyCategory) {
+            return;
+        }
         // 调用 filterLowCountMaterials 过滤材料信息,先将嵌套数组展平，然后再进行筛选
         const lowCountMaterialsFiltered = filterLowCountMaterials(pathingMaterialCounts.flat(), materialCategoryMap);
 
@@ -1212,6 +1278,11 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
         // 提取低数量材料的名称
         const lowCountMaterialNames = flattenedLowCountMaterials.map(material => material.name);
 
+        // 当低数量材料名称数组为空时，输出所有路径材料都高于目标数量的日志
+        if (lowCountMaterialNames.length === 0) {
+            log.info(`所有路径材料的数量均高于目标数量${targetCount}`);
+        }
+            log.info(`目标文本：${JSON.stringify(lowCountMaterialNames)}`);
         // 将路径文件按是否为目标材料分类
         const prioritizedPaths = [];
         const normalPaths = [];
@@ -1352,20 +1423,24 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
                                     const originalCount = parseInt(originalMaterial.count, 10);
                                     const updatedCount = parseInt(updatedMaterial.count, 10);
                                     const difference = updatedCount - originalCount;
-                                    materialCountDifferences[updatedMaterial.name] = difference;
 
-                                    // 更新全局累积差值
-                                    if (globalAccumulatedDifferences[updatedMaterial.name]) {
-                                        globalAccumulatedDifferences[updatedMaterial.name] += difference;
-                                    } else {
-                                        globalAccumulatedDifferences[updatedMaterial.name] = difference;
-                                    }
+                                    // 只记录非零差值，或者是当前处理的resourceName（即使差值为0）
+                                    if (difference !== 0 || updatedMaterial.name === resourceName) {
+                                        materialCountDifferences[updatedMaterial.name] = difference;
 
-                                    // 更新当前材料的累积差值
-                                    if (materialAccumulatedDifferences[resourceName][updatedMaterial.name]) {
-                                        materialAccumulatedDifferences[resourceName][updatedMaterial.name] += difference;
-                                    } else {
-                                        materialAccumulatedDifferences[resourceName][updatedMaterial.name] = difference;
+                                        // 更新全局累积差值
+                                        if (globalAccumulatedDifferences[updatedMaterial.name]) {
+                                            globalAccumulatedDifferences[updatedMaterial.name] += difference;
+                                        } else {
+                                            globalAccumulatedDifferences[updatedMaterial.name] = difference;
+                                        }
+
+                                        // 更新当前材料的累积差值
+                                        if (materialAccumulatedDifferences[resourceName][updatedMaterial.name]) {
+                                            materialAccumulatedDifferences[resourceName][updatedMaterial.name] += difference;
+                                        } else {
+                                            materialAccumulatedDifferences[resourceName][updatedMaterial.name] = difference;
+                                        }
                                     }
                                 }
                             });
