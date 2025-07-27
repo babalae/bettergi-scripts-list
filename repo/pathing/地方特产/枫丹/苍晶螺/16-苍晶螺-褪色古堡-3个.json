@@ -1,0 +1,148 @@
+﻿{
+  "info": {
+    "name": "16-苍晶螺-褪色古堡-3个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753605921281,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3876.3974609375,
+      "y": 1289.0615234375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3876.1171875,
+      "y": 1288.61279296875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3856.18359375,
+      "y": 1287.9609375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 3857.74609375,
+      "y": 1283,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 3858.8623046875,
+      "y": 1269.71484375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 3858.90234375,
+      "y": 1246.97216796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 3870.41015625,
+      "y": 1245.765625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 3870.41015625,
+      "y": 1245.765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(12),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+    },
+    {
+      "id": 9,
+      "x": 3871.349609375,
+      "y": 1249.0830078125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 3867.32421875,
+      "y": 1241.93505859375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+    },
+    {
+      "id": 11,
+      "x": 3859.939453125,
+      "y": 1261.06591796875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+    },
+    {
+      "id": 12,
+      "x": 3860.228515625,
+      "y": 1256.4619140625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 3860.0234375,
+      "y": 1234.6591796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 3859.66015625,
+      "y": 1215.73974609375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+    }
+  ]
+}
