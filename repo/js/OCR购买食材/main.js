@@ -326,6 +326,7 @@ async function checkNpcAndFAlignment(npcName, fDialogueRo) {
             }
 
             // 检查是否找到 F 图标
+            ra = captureGameRegion();
             fRes = ra.find(fDialogueRo); // 重新查找 F 图标
             if (fRes.isExist()) {
                 log.info("找到 F 图标");
