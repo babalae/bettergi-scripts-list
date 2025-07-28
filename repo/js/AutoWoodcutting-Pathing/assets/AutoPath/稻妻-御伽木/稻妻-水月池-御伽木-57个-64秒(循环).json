@@ -5,22 +5,28 @@
     "author": "Tim",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.35.1"
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "Tim",
+        "links": "https://github.com/Limint"
+      }
+    ]
   },
   "positions": [
     {
       "id": 1,
-      "x": -990.55859375,
-      "y": -3603.63671875,
+      "x": -990.5586,
+      "y": -3603.6367,
       "type": "path",
       "move_mode": "jump",
       "action": "combat_script",
       "action_params": "wait(0.5),keypress(VK_Z)"
     },
     {
-      "id": 4,
-      "x": -998.9541015625,
-      "y": -3615.333984375,
+      "id": 2,
+      "x": -998.9541,
+      "y": -3615.334,
       "type": "path",
       "move_mode": "jump",
       "action": "combat_script",
@@ -28,32 +34,41 @@
     },
     {
       "id": 3,
-      "x": -999.70703125,
-      "y": -3613.2158203125,
+      "x": -999.707,
+      "y": -3613.2158,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 4,
-      "x": -1021.2041015625,
-      "y": -3597.5751953125,
+      "x": -1021.2041,
+      "y": -3597.5752,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
-      "id": 6,
-      "x": -1032.5419921875,
-      "y": -3584.6201171875,
+      "id": 5,
+      "x": -1032.542,
+      "y": -3584.6201,
       "type": "path",
       "move_mode": "fly",
       "action": ""
     },
     {
+      "id": 6,
+      "x": -1033.2178,
+      "y": -3579.5498,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(VK_Z)"
+    },
+    {
       "id": 7,
-      "x": -1033.2177734375,
-      "y": -3579.5498046875,
+      "x": -1033.6875,
+      "y": -3544.4248,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
@@ -61,26 +76,16 @@
     },
     {
       "id": 8,
-      "x": -1033.6875,
-      "y": -3544.4248046875,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5),keypress(VK_Z)"
-    },
-
-    {
-      "id": 15,
-      "x": -1020.5078125,
-      "y": -3555.53125,
+      "x": -1020.5078,
+      "y": -3555.5312,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 9,
-      "x": -1022.1796875,
-      "y": -3563.6484375,
+      "x": -1022.1797,
+      "y": -3563.6484,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
@@ -88,16 +93,16 @@
     },
     {
       "id": 10,
-      "x": -1017.20703125,
-      "y": -3572.90625,
+      "x": -1017.207,
+      "y": -3572.9062,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 11,
-      "x": -1019.97656255,
-      "y": -3576.072265625,
+      "x": -1019.9766,
+      "y": -3576.0723,
       "type": "path",
       "move_mode": "jump",
       "action": "combat_script",
@@ -105,17 +110,17 @@
     },
     {
       "id": 12,
-      "x": -1009.740234375,
-      "y": -3594.962890625,
+      "x": -1009.7402,
+      "y": -3594.9629,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
       "action_params": "wait(1.5),keypress(VK_Z)"
     },
     {
-      "id": 17,
-      "x": -998.564453125,
-      "y": -3599.2060546875,
+      "id": 13,
+      "x": -998.5645,
+      "y": -3599.2061,
       "type": "path",
       "move_mode": "walk",
       "action": ""
