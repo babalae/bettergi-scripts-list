@@ -34,22 +34,23 @@ const fengdanGroceryFilePath = `assets/Pathing/枫丹达莫维百货店主布希
 const cafeLuzheFilePath = `assets/Pathing/枫丹咖啡厅露泽店主阿鲁埃.json`;
 const sumiCitycafeFilePath = `assets/Pathing/须弥城咖啡馆代理店长恩忒卡.json`;
 const sumiCityFishPath = `assets/Pathing/须弥城鱼贩珀姆.json`;
+const sumiGroceryFilePath = `assets/Pathing/须弥杂货铺哈马维.json`;
 const omosPortFishPath = `assets/Pathing/须弥奥摩斯港鱼贩布特罗斯.json`;
 const azaleVillMerPath = `assets/Pathing/须弥阿如村商人阿扎莱.json`;
 
 const ingredientPaths = {
     "枫达": [fengdanGroceryFilePath, cafeLuzheFilePath],
-    "盐": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, fengdanGroceryFilePath],
-    "洋葱": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, fengdanGroceryFilePath],
-    "牛奶": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, fengdanGroceryFilePath],
-    "番茄": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, fengdanGroceryFilePath],
-    "卷心菜": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, fengdanGroceryFilePath],
-    "土豆": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, fengdanGroceryFilePath],
-    "小麦": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, fengdanGroceryFilePath],
-    "胡椒": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, fengdanGroceryFilePath],
-    "稻米": [liyueGroceryFilePath, groceryFilePath],//
-    "虾仁": [liyueGroceryFilePath, groceryFilePath, sumiCityFishPath, omosPortFishPath],
-    "豆腐": [liyueGroceryFilePath, groceryFilePath],
+    "盐": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath],
+    "洋葱": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath],
+    "牛奶": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath],
+    "番茄": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath],
+    "卷心菜": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath],
+    "土豆": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath],
+    "小麦": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath],
+    "胡椒": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath],
+    "稻米": [liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath],//
+    "虾仁": [liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, sumiCityFishPath, omosPortFishPath],
+    "豆腐": [liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath],
     "杏仁": [liyueGroceryFilePath, fengdanGroceryFilePath],
     "鱼肉": [liyueWanminFilePath, charcoalFilePath, sumiCityFishPath, omosPortFishPath, azaleVillMerPath],
     "螃蟹": [liyueWanminFilePath, charcoalFilePath, sumiCityFishPath, omosPortFishPath],
@@ -100,7 +101,8 @@ const npcNames = {
     [sumiCityFishPath]: ["珀姆"],
     [sumiCitycafeFilePath]: ["恩忒卡"],
     [omosPortFishPath]: ["布特罗斯"],
-    [azaleVillMerPath]: ["阿扎莱"]
+    [azaleVillMerPath]: ["阿扎莱"],
+    [sumiGroceryFilePath]: ["哈马维"],
 };
 
 // 筛选出用户选择的食材及其对应的路径文件和 NPC
@@ -289,6 +291,12 @@ async function clickSelectedIngredients(selectedIngredients, filePath, npcNames)
             await click(1300, 650); await sleep(500);
             await click(1300, 650); await sleep(1000);
             await click(1320, 780); await sleep(1000);
+        } else if (filePath === azaleVillMerPath || filePath === sumiGroceryFilePath) {
+            log.info("执行须弥杂货商等的点击操作");
+            await click(1300, 660); await sleep(1000);
+            await click(1300, 660); await sleep(1000);
+            await click(1300, 660); await sleep(1000);
+            await click(1300, 660); await sleep(1000);
         } else {
             log.info("执行其他路径文件的点击操作");
             await click(1300, 580); await sleep(500);
@@ -326,6 +334,7 @@ async function checkNpcAndFAlignment(npcName, fDialogueRo) {
             }
 
             // 检查是否找到 F 图标
+            ra = captureGameRegion();
             fRes = ra.find(fDialogueRo); // 重新查找 F 图标
             if (fRes.isExist()) {
                 log.info("找到 F 图标");

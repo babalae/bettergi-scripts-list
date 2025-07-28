@@ -4,6 +4,7 @@ import json
 import os
 import subprocess
 import re
+import chardet
 from packaging.version import parse
 from semver import VersionInfo
 
@@ -204,7 +205,7 @@ def process_coordinates(positions):
         for axis in ['x', 'y']:
             if axis in pos and isinstance(pos[axis], (int, float)):
                 original = pos[axis]
-                pos[axis] = round(float(pos[axis]), 2)
+                pos[axis] = round(float(pos[axis]), 4)
                 if original != pos[axis]:
                     coord_changed = True
     return coord_changed
@@ -221,9 +222,11 @@ def ensure_required_fields(info, filename):
         info["type"] = "collect"
         corrections.append("type 自动修正为 collect")
 
-    if not info["author"]:
-        info["author"] = os.getenv("GITHUB_ACTOR", "未知作者")
-        corrections.append(f"author 自动设置为 {info['author']}")
+    if not info["authors"]:
+        author_name = os.getenv("GITHUB_ACTOR", "未知作者")
+        author_link = "https://github.com/" + os.getenv("GITHUB_ACTOR", "babalae/bettergi-scripts-list")
+        info["authors"] = [{"name": author_name, "links": author_link}]
+        corrections.append(f"authors 自动设置为 {info['authors']}")
 
     return corrections
 
@@ -412,6 +415,230 @@ def check_position_ids(positions):
     
     return validation_issues, corrections
 
+# ==================== 验证修复文件编码 ====================
+
+def detect_encoding(file_path, read_size=2048):
+    try:
+        with open(file_path, 'rb') as f:
+            raw = f.read(read_size)
+            result = chardet.detect(raw)
+            return result['encoding'], result['confidence']
+    except:
+        return None, 0
+
+def fix_encoding_name(enc, file_path=None):
+    if not enc:
+        return None
+    enc = enc.lower()
+    if enc in ['ascii']:
+        try:
+            with open(file_path, 'rb') as f:
+                raw = f.read()
+                raw.decode('utf-8')
+            return 'utf-8'
+        except:
+            return 'gb18030'
+    if enc in ['gb2312', 'gbk', 'windows-1252', 'iso-8859-1', 'gb18030']:
+        return 'gb18030'
+    return enc
+
+def convert_to_utf8(file_path, original_encoding):
+    try:
+        encoding = fix_encoding_name(original_encoding, file_path)
+
+        with open(file_path, 'r', encoding=encoding, errors='replace') as f:
+            content = f.read()
+        with open(file_path, 'w', encoding='utf-8') as f:
+            f.write(content)
+
+        print(f"[✔] Converted to UTF-8: {file_path} (from {original_encoding} → {encoding})")
+    except Exception as e:
+        print(f"[✖] Failed to convert: {file_path} | Error: {e}")
+
+def process_file(file_path, target_extensions=None):
+    if target_extensions and not any(file_path.lower().endswith(ext) for ext in target_extensions):
+        return
+    encoding, confidence = detect_encoding(file_path)
+    if encoding is None or confidence < 0.7:
+        print(f"[⚠️] Unknown encoding: {file_path} | Detected: {encoding}, Conf: {confidence:.2f}")
+        return
+    if encoding.lower() == 'utf-8':
+        return  # Skip already UTF-8
+    convert_to_utf8(file_path, encoding)
+
+def scan_and_convert(path, target_extensions=None):
+    if os.path.isfile(path):
+        process_file(path, target_extensions)
+    elif os.path.isdir(path):
+        for dirpath, _, filenames in os.walk(path):
+            for filename in filenames:
+                filepath = os.path.join(dirpath, filename)
+                process_file(filepath, target_extensions)
+    else:
+        print(f"❌ Path not found: {path}")
+
+# ==================== 验证修复作者信息 ====================
+
+def process_json_authors(input_path, verbose=False):
+    """
+    处理 JSON 文件中的作者信息（支持 author → authors 结构化迁移、作者名重命名和链接统一）
+    
+    参数：
+        input_path (str): 要处理的文件路径或目录路径
+        config_path (str): 配置文件路径（默认在脚本同级）
+        verbose (bool): 是否打印详细日志信息
+        
+    返回：
+        dict: 包含处理总数和修改数量的统计信息
+    """
+    result = {
+        "total_files": 0,
+        "modified_files": 0,
+        "errors": []
+    }
+
+    # 获取配置文件路径（和脚本在同一目录）
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    config_path = os.path.join(script_dir, "author_config.json")
+
+    if not os.path.exists(input_path):
+        raise FileNotFoundError(f"路径不存在：{input_path}")
+    if not os.path.exists(config_path):
+        raise FileNotFoundError(f"配置文件不存在：{config_path}")
+
+    # 加载配置
+    try:
+        with open(config_path, "r", encoding="utf-8") as f:
+            config = json.load(f)
+    except Exception as e:
+        raise RuntimeError(f"配置文件加载失败：{e}")
+
+    author_rename = config.get("rename", {})
+    author_links = config.get("links", {})
+
+    # 构建待处理文件列表
+    file_list = []
+    if os.path.isfile(input_path) and input_path.endswith(".json"):
+        file_list.append(input_path)
+    elif os.path.isdir(input_path):
+        for root, dirs, files in os.walk(input_path):
+            for filename in files:
+                if filename.endswith(".json"):
+                    file_list.append(os.path.join(root, filename))
+    else:
+        raise ValueError("输入路径必须是 .json 文件或目录")
+
+    for file_path in file_list:
+        result["total_files"] += 1
+        if verbose:
+            print(f"\n🔍 处理文件：{file_path}")
+
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except Exception as e:
+            msg = f"❌ 解析失败：{e}"
+            if verbose:
+                print(msg)
+            result["errors"].append((file_path, str(e)))
+            continue
+
+        info = data.get("info")
+        if not isinstance(info, dict):
+            if verbose:
+                print("⚠️ 缺少 info 字段")
+            continue
+
+        modified = False
+        author_field = info.get("author")
+
+        if author_field is not None:
+            if isinstance(author_field, str):
+                names = [name.strip() for name in author_field.split("&")]
+                new_authors = []
+                for name in names:
+                    new_name = author_rename.get(name, name)
+                    author_obj = {"name": new_name}
+                    if new_name in author_links:
+                        author_obj["links"] = author_links[new_name]
+                    new_authors.append(author_obj)
+                data["info"]["authors"] = new_authors
+                modified = True
+                if verbose:
+                    print("✅ 替换为结构化 authors")
+
+            elif isinstance(author_field, list):
+                for author_obj in author_field:
+                    if not isinstance(author_obj, dict):
+                        continue
+                    name = author_obj.get("name")
+                    if not name:
+                        continue
+                    new_name = author_rename.get(name, name)
+                    if name != new_name:
+                        author_obj["name"] = new_name
+                        modified = True
+                        if verbose:
+                            print(f"📝 重命名：{name} → {new_name}")
+
+                    existing_link = author_obj.pop("link", None) or author_obj.pop("url", None) or author_obj.get("links")
+                    if new_name in author_links:
+                        if author_obj.get("links") != author_links[new_name]:
+                            author_obj["links"] = author_links[new_name]
+                            modified = True
+                            if verbose:
+                                print(f"🔧 更新链接：{new_name} → {author_links[new_name]}")
+                    elif "links" not in author_obj and existing_link:
+                        author_obj["links"] = existing_link
+                        modified = True
+                        if verbose:
+                            print(f"🔄 标准化已有链接字段为 links → {existing_link}")
+
+        else:
+            authors_field = info.get("authors")
+            if isinstance(authors_field, list):
+                for author_obj in authors_field:
+                    if not isinstance(author_obj, dict):
+                        continue
+                    name = author_obj.get("name")
+                    if not name:
+                        continue
+                    new_name = author_rename.get(name, name)
+                    if name != new_name:
+                        author_obj["name"] = new_name
+                        modified = True
+                        if verbose:
+                            print(f"📝 重命名（authors）：{name} → {new_name}")
+
+                    existing_link = author_obj.pop("link", None) or author_obj.pop("url", None) or author_obj.get("links")
+                    if new_name in author_links:
+                        if author_obj.get("links") != author_links[new_name]:
+                            author_obj["links"] = author_links[new_name]
+                            modified = True
+                            if verbose:
+                                print(f"🔧 更新链接（authors）：{new_name} → {author_links[new_name]}")
+                    elif "links" not in author_obj and existing_link:
+                        author_obj["links"] = existing_link
+                        modified = True
+                        if verbose:
+                            print(f"🔄 标准化已有链接字段为 links → {existing_link}")
+            else:
+                # if verbose:
+                    print("⚠️ 缺少 author 字段，且 authors 非标准格式")
+
+        if modified:
+            with open(file_path, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+            result["modified_files"] += 1
+            if verbose:
+                print("✅ 写入完成")
+        else:
+            if verbose:
+                print("⏭️ 无需修改")
+
+    if verbose:
+        print(f"\n🎉 处理完成：共 {result['total_files']} 个 JSON 文件，修改了 {result['modified_files']} 个")
+
 # ==================== 主验证逻辑 ====================
 
 def initialize_data(data, file_path):
@@ -434,9 +661,11 @@ def initialize_data(data, file_path):
         info["type"] = "collect"
         messages.append(f"⚠️ 文件缺少 type 字段，已设置为默认值: collect")
 
-    if "author" not in info:
-        info["author"] = os.getenv("GITHUB_ACTOR", "未知作者")
-        messages.append(f"⚠️ 文件缺少 author 字段，已设置为: {info['author']}")
+    if "authors" not in info:
+        author_name = os.getenv("GITHUB_ACTOR", "未知作者")
+        author_link = "https://github.com/" + os.getenv("GITHUB_ACTOR", "babalae/bettergi-scripts-list")
+        info["authors"] = [{"name": author_name, "links": author_link}]
+        messages.append(f"⚠️ 文件缺少 authors 字段，已设置为: {info['authors']}")
 
     if "version" not in info:
         info["version"] = DEFAULT_VERSION
@@ -524,7 +753,7 @@ def validate_file(file_path, auto_fix=False):
     # 处理坐标
     coord_changed = process_coordinates(data["positions"])
     if coord_changed:
-        all_corrections.append("坐标值自动保留两位小数")
+        all_corrections.append("坐标值自动保留四位小数")
 
     # 检查 BGI 版本兼容性
     bgi_version, corrections = check_bgi_version_compatibility(info["bgi_version"], auto_fix)
@@ -610,6 +839,8 @@ def main():
     all_notices = []  # 初始化 all_notices 变量
 
     if os.path.isfile(path) and path.endswith('.json'):
+        scan_and_convert(path)
+        process_json_authors(path)
         # print(f"\n🔍 校验文件: {path}")
         notices = validate_file(path, auto_fix)
         if notices:
@@ -625,6 +856,8 @@ def main():
                 if file.endswith('.json'):
                     file_path = os.path.join(root, file)
                     print(f"\n🔍 校验文件: {file_path}")
+                    scan_and_convert(file_path)
+                    process_json_authors(file_path)
                     notices = validate_file(file_path, auto_fix)
                     if notices:
                         all_notices.extend([f"{file_path}: {n}" for n in notices])

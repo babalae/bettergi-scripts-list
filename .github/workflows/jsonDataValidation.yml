@@ -74,6 +74,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install packaging semver
+          pip install chardet
 
       - name: Debug file structure
         run: |
