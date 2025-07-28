@@ -415,23 +415,42 @@ async function AutoPath() {
                         await sleep(1000); // 等待1秒以确保点击生效
                         foundIngredient = true;
 
-                        // 执行额外的点击操作（如果需要）
-                        await performExtraClicks(processingKey);
-
-                        // 点击确认按钮
-                        click(1600, 1020); await sleep(2000);
-
-                        // 执行 PrepCount 操作
-                        const PrepCount = PrepCountArray.length > 0 ? PrepCountArray.shift() : defaultPrepCount;
-                        if (PrepCount > 0) {
-                            await performPrepCountActions(PrepCount);
-                        }
-
                         break; // 找到食材后跳出循环
                     }
                 }
-
                 if (!foundIngredient) {
+                    // 图像识别未成功，可能是因为该食材正在被加工，通过OCR识别
+                    const ocrResult = captureGameRegion().findMulti(RecognitionObject.ocr(112, 118, 1161, 345));
+                    for (var i = 0; i < ocrResult.count; ++i) {
+                        if (ocrResult[i].text.endsWith("分钟") || ocrResult[i].text.endsWith("秒")) {
+                            // 选中该食材
+                            click(ocrResult[i].x, ocrResult[i].y);
+                            await sleep(500);
+                            // OCR食材名称
+                            const ocrResult2 = captureGameRegion().findMulti(RecognitionObject.ocr(1308, 122, 492, 52));
+                            const ingredientName = ocrResult2.count > 0 ? ocrResult2[0].text : null;
+                            if (ingredientName === chineseDescription) {
+                                log.info(`通过OCR识别找到食材: ${chineseDescription}`);
+                                foundIngredient = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (foundIngredient) {
+                    // 执行额外的点击操作（如果需要）
+                    await performExtraClicks(processingKey);
+
+                    // 点击确认按钮
+                    click(1600, 1020); await sleep(2000);
+
+                    // 执行 PrepCount 操作
+                    const PrepCount = PrepCountArray.length > 0 ? PrepCountArray.shift() : defaultPrepCount;
+                    if (PrepCount > 0) {
+                        await performPrepCountActions(PrepCount);
+                    }
+                } else {
                     log.error(`未能识别到食材: ${chineseDescription}`);
                 }
             }
