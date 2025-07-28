@@ -4,7 +4,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 let lastRunDate = "未知"; // 默认值
 let lastEndTime = new Date(); // 默认值为当前时间
 let lastRunRoute = "未知"; // 默认值
-let records = new Array(7).fill("");
+let records = new Array(14).fill("");
 let finished = false;
 const accountName = settings.accountName || "默认账户";
 let version = "default";
@@ -18,7 +18,7 @@ const minIntervalTime = settings.minIntervalTime || "5";
 const waitTimePeriod = settings.waitTimePeriod || "4:05-4:45";
 const friendshipPartyName = settings.friendshipPartyName || "好感";
 const grindPartyName = settings.grindPartyName || "狗粮";
-const operationType = settings.operationType || "不卡时间，ab交替运行";
+const operationType = settings.operationType || "不卡时间，尽可能跑A";
 const runActivatePath = settings.runActivatePath || false;
 let enemyType = "无";
 
@@ -47,6 +47,10 @@ let enemyType = "无";
 
         case "不卡时间，ab交替运行":
             // 不卡时间，ab交替运行的逻辑
+            break;
+
+        case "不卡时间，尽可能跑A":
+            // 不卡时间，尽可能跑A的逻辑
             break;
 
         default:
@@ -283,6 +287,11 @@ let enemyType = "无";
             // 根据当前时间与 1970-01-01T20:00:00.000Z 的天数差的奇偶性给布尔变量 runRouteA 赋值
             runRouteA = Math.floor((now - epochTime) / (24 * 60 * 60 * 1000)) % 2 === 0;
         }
+
+        if (operationType === "不卡时间，ab交替运行") {
+            // 根据当前时间与上次运行时间给布尔变量 runRouteA 赋值
+            runRouteA = endTime <= timeNow;
+        }
     }
 
     //切换至好感队
@@ -294,7 +303,7 @@ let enemyType = "无";
         if (runnedToday) {
             break wait;
         }
-        if (operationType !== "不卡时间，ab交替运行") {
+        if (operationType !== "不卡时间，ab交替运行" && operationType !== "不卡时间，尽可能跑A") {
             // 输出结果
             log.info(`预期开始狗粮时间: ${endTime.toTimeString().slice(0, 8)}`);
             // 检查当前时间是否晚于 endTime
@@ -397,7 +406,9 @@ let enemyType = "无";
             records[i] = records[i - 1];
         }
         records[0] = `日期:${lastRunDate}，运行路线${lastRunRoute}，狗粮经验${artifactExperienceDiff}，摩拉${moraDiff}`;
-
+        if (settings.notify) {
+            notification.Send(`日期:${lastRunDate}，运行路线${lastRunRoute}，狗粮经验${artifactExperienceDiff}，摩拉${moraDiff}`);
+        }
         if (runArtifactsResult) {
             //修改文件内容
             log.info('修改记录文件');
