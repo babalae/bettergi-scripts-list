@@ -778,11 +778,11 @@ let afterStamina = await queryStaminaValue();
              notification.send(`${materialName}天赋书数量已经满足要求！！！`);
              return;
              }
-
              }
              catch (error) {  
              notification.send(`${materialName}天赋书刷取失败，错误信息: ${error}`);
              await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
+             return;       
              }
        }
        else{
@@ -804,9 +804,12 @@ let afterStamina = await queryStaminaValue();
              res = 0.12*(weaponRequireCounts[0]-weaponCounts.green)+0.36*(weaponRequireCounts[1]-weaponCounts.blue)+(weaponRequireCounts[2]-weaponCounts.purple)+3*(weaponRequireCounts[3]-weaponCounts.gold);
              if(res>0){
               log.info(`武器材料${materialName}大约还差${res.toFixed(2)}个紫色品质没有刷取`);
-              await gotoAutoDomain("weaponDomain");
+              await gotoAutoDomain("weaponDomain");                     
              } 
-             else notification.send(`武器材料${materialName}数量已经满足要求！！！`);
+             else {
+             notification.send(`武器材料${materialName}数量已经满足要求！！！`);
+             return;    
+             }
              }
              catch (error) {  
              notification.send(`武器材料${materialName}刷取失败，错误信息: ${error}`);
