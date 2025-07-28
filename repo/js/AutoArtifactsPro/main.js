@@ -194,7 +194,6 @@ let enemyType = "无";
     log.info(`上次狗粮开始时间: ${lastEndTime.toISOString()}`);
     log.info(`上次运行路线: ${lastRunRoute}`);
     log.info(`上次运行是否完成: ${finished}`);
-    log.info(`版本1.70,更新日期25.7.25,如果太久远,要经常检查更新`);
 
     try {
         // 读取 manifest.json 文件的内容
@@ -206,7 +205,7 @@ let enemyType = "无";
         // 获取 version 字段的值
         version = manifest.version;
 
-        log.info(`当前js版本：${version}`);
+        log.info(`当前js版本：${version},更新日期25.7.27,如果太久远,要经常检查更新`);
 
     } catch (error) {
         // 如果发生错误，记录错误信息

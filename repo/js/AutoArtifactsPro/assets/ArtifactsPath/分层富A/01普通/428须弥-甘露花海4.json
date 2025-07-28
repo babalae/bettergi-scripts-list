@@ -13,7 +13,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1753284910049,
+    "last_modified_time": 1753629964683,
     "enable_monster_loot_split": false
   },
   "positions": [
@@ -163,20 +163,20 @@
     },
     {
       "id": 17,
-      "x": 5567.23779296875,
-      "y": 875.01708984375,
+      "x": 5568.01123046875,
+      "y": 877.9169921875,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "",
-      "type": "path"
+      "type": "target"
     },
     {
       "id": 18,
-      "x": 5564.4033203125,
-      "y": 881.07861328125,
-      "action": "",
+      "x": 5564.53759765625,
+      "y": 883.25439453125,
+      "action": "combat_script",
       "move_mode": "jump",
-      "action_params": "",
+      "action_params": "wait(0.2)",
       "type": "path"
     },
     {
