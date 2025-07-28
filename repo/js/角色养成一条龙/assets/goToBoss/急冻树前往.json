@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "前往急冻树",
+    "type": "collect",
+    "author": "柒叶子",
+    "version": "1.0",
+    "description": "前往急冻树",
+    "bgi_version": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1638.951171875,
+      "y": 2154.76025390625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1629.4853515625,
+      "y": 2117.233154296875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1644.8564453125,
+      "y": 2104.396240234375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1657.8251953125,
+      "y": 2107.20751953125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1672.27734375,
+      "y": 2097.213134765625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
