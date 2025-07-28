@@ -5,22 +5,28 @@
     "author": "Tim",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.35.1"
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "Tim",
+        "links": "https://github.com/Limint"
+      }
+    ]
   },
   "positions": [
     {
       "id": 1,
       "move_mode": "walk",
       "type": "path",
-      "x": -1352.20703125,
-      "y": 1450.73974609375,
+      "x": -1352.207,
+      "y": 1450.7397,
       "action": "combat_script",
       "action_params": "wait(0.5),keypress(VK_Z)"
     },
     {
       "id": 2,
-      "x": -1354.8408203125,
-      "y": 1468.32373046875,
+      "x": -1354.8408,
+      "y": 1468.3237,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
@@ -28,8 +34,8 @@
     },
     {
       "id": 3,
-      "x": -1369.1982421875,
-      "y": 1473.8544921875,
+      "x": -1369.1982,
+      "y": 1473.8545,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
@@ -37,8 +43,8 @@
     },
     {
       "id": 4,
-      "x": -1386.13671875,
-      "y": 1473.23974609375,
+      "x": -1386.1367,
+      "y": 1473.2397,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
@@ -46,8 +52,8 @@
     },
     {
       "id": 5,
-      "x": -1392.37890625,
-      "y": 1448.9482421875,
+      "x": -1392.3789,
+      "y": 1448.9482,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
@@ -55,34 +61,34 @@
     },
     {
       "id": 6,
-      "x": -1381.6376953125,
-      "y": 1449.677734375,
+      "x": -1381.6377,
+      "y": 1449.6777,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
-      "id": 6,
-      "x": -1373.20703125,
-      "y": 1457.39013671875,
+      "id": 7,
+      "x": -1373.207,
+      "y": 1457.3901,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
       "action_params": "wait(1),keypress(VK_Z)"
     },
     {
-      "id": 10,
-      "x": -1363.78515625,
-      "y": 1460.14892578125,
+      "id": 8,
+      "x": -1363.7852,
+      "y": 1460.1489,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
       "action_params": "wait(3),keypress(VK_Z)"
     },
     {
-      "id": 11,
-      "x": -1356.53125,
-      "y": 1426.60986328125,
+      "id": 9,
+      "x": -1356.5312,
+      "y": 1426.6099,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",

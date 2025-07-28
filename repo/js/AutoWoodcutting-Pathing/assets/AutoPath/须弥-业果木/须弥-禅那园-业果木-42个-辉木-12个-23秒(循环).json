@@ -5,39 +5,45 @@
     "author": "Tim",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.35.1"
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "Tim",
+        "links": "https://github.com/Limint"
+      }
+    ]
   },
   "positions": [
     {
       "id": 1,
       "move_mode": "walk",
       "type": "path",
-      "x": 3175.4052734375,
-      "y": -1059.90869140625,
+      "x": 3175.4053,
+      "y": -1059.9087,
       "action": "combat_script",
       "action_params": "wait(0.5),keypress(VK_Z)"
     },
     {
       "id": 2,
-      "x": 3184.5078125,
-      "y": -1062.76708984375,
+      "x": 3184.5078,
+      "y": -1062.7671,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 3,
-      "x": 3191.4482421875,
-      "y": -1051.36279296875,
+      "x": 3191.4482,
+      "y": -1051.3628,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
       "action_params": "wait(0.5),keypress(VK_Z)"
     },
     {
-      "id": 5,
-      "x": 3176.30078125,
-      "y": -1066.23876953125,
+      "id": 4,
+      "x": 3176.3008,
+      "y": -1066.2388,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
