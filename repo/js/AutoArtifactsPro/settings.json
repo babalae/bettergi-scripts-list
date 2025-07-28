@@ -8,9 +8,10 @@
       "愚人众好感卡时间",
       "鳄鱼好感卡时间",
       "干等卡时间",
-      "不卡时间，ab交替运行"
+      "不卡时间，ab交替运行",
+      "不卡时间，尽可能跑A"
     ],
-    "default": "不卡时间，ab交替运行"
+    "default": "不卡时间，尽可能跑A"
   },
   {
     "name": "runActivatePath",
@@ -90,5 +91,10 @@
     "type": "input-text",
     "label": "战斗超时时间（秒）\n【选填，默认为120秒】",
     "default": "120"
+  },
+  {
+    "name": "notify",
+    "type": "checkbox",
+    "label": "是否通知信息"
   }
 ]

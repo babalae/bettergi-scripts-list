@@ -387,10 +387,20 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
             pathing.tags.push("小怪");
         }
     });
-
-    // 按原始索引排序
-    pathings.sort((a, b) => a.index - b.index);
-
+    if (settings.runByEfficiency) {
+        log.info("使用效率降序运行");
+        //按效率降序排序
+        pathings.sort((a, b) => {
+            if (a.E1 !== b.E1) {
+                return a.E1 - b.E1; // 先按 E1 升序排序
+            }
+            return a.E2 - b.E2; // 如果 E1 相同，再按 E2 升序排序
+        });
+    } else {
+        log.info("使用默认顺序运行");
+        // 按原始索引排序
+        pathings.sort((a, b) => a.index - b.index);
+    }
     // 输出日志信息
     log.info(`总精英怪数量: ${totalSelectedElites.toFixed(0)}`);
     log.info(`总普通怪数量: ${totalSelectedMonsters.toFixed(0)}`);
@@ -917,6 +927,10 @@ async function processPathingsByGroup(pathings, whitelistKeywords, blacklistKeyw
             // 增加路径计数
             groupPathCount++;
 
+            if (await isTimeRestricted(settings.timeRule, Math.ceil(pathing.t / 40))) {
+                break;
+            }
+
             // 输出当前路径的序号信息
             log.info(`开始处理第 ${targetGroup} 组第 ${groupPathCount}/${totalPathsInGroup} 个${pathing.fileName}`);
 
@@ -930,10 +944,6 @@ async function processPathingsByGroup(pathings, whitelistKeywords, blacklistKeyw
                 skippedTime += pathing.t;
                 remainingEstimatedTime -= pathing.t;
                 continue;
-            }
-
-            if (await isTimeRestricted(settings.timeRule)) {
-                break;
             }
 
             // 输出路径已刷新并开始处理的信息
