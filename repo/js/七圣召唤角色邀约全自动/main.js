@@ -175,7 +175,7 @@ await genshin.returnMainUi();
 log.info(`开始执行角色邀约挑战`);
 for (let i = 0; i < challengeNumber; i++) {
    await gotoTavern();
-   if (challengeNumber-letterNumber > 0) {
+   if (letterNumber <= i) {
        log.info(`购买第${i+1}次`);
        await BuyLetter();
        letterNumber++;
