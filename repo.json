@@ -1,5 +1,5 @@
 {
-  "time": "20250728113055",
+  "time": "20250728121540",
   "url": "https://github.com/babalae/bettergi-scripts-list/archive/refs/heads/main.zip",
   "file": "repo.json",
   "indexes": [
@@ -71688,7 +71688,7 @@
         {
           "name": "Auto Theft NPC & 原食",
           "type": "directory",
-          "hash": "e7bf6ca49505bb28dfccd0ff220aebad0b6e9017",
+          "hash": "1c407158b72eb9b59c4d78b5911ddd2a44ddd492",
           "version": "2.0.0",
           "author": "听雨♪",
           "authors": [
@@ -71697,9 +71697,12 @@
               "link": "https://github.com/TingYu-lulumi"
             }
           ],
-          "description": "抢劫(购买)NPC商品-图像识别~|~原食脚本: 基于图像识别的抢劫NPC商品, 可选择性购买商品, 节省大量摩拉与时间.",
-          "tags": [],
-          "lastUpdated": "2025-07-22 17:25:30"
+          "description": "购买NPC食材-图像识别~|~原食脚本: 基于图像识别的抢劫NPC商品, 可选择性购买商品, 节省大量摩拉与时间.",
+          "tags": [
+            "购买食材",
+            "图像识别"
+          ],
+          "lastUpdated": "2025-07-28 12:15:15"
         },
         {
           "name": "AutoArtifactsPro",
@@ -72073,7 +72076,7 @@
         {
           "name": "AutoRefinedCondensationResin",
           "type": "directory",
-          "hash": "e92fd91c32de5abbd55c15b40eca3e1d43cd5f58",
+          "hash": "3981ed70e521984c8c36df9b1c3e76b600bdc6a1",
           "version": "1.0",
           "author": "蜜柑魚",
           "authors": [
@@ -72083,30 +72086,16 @@
           ],
           "description": "自动合成浓缩树脂~|~\n可前往多国合成台自动合成浓缩树脂（仅支持中文语言）。\n通过OCR技术确保准确进入合成台并完成合成操作。\n可设置特定星期执行任务（例：输入\"1,3,5,7\"在周一/三/五/日执行）。\n特殊时间处理：00:00~04:00视为前一天。",
           "tags": [
-            "bgi≥0.47.0"
+            "bgi≥0.47.0",
+            "OCR",
+            "合成树脂"
           ],
-          "lastUpdated": "2025-07-24 11:55:05"
-        },
-        {
-          "name": "AutoSereniteaPot",
-          "type": "directory",
-          "hash": "c99d49fa220b5c9dad75336454c1ca61d868ff1e",
-          "version": "0.0.3",
-          "author": "bling-yshs",
-          "authors": [
-            {
-              "name": "bling-yshs",
-              "link": "https://github.com/bling-yshs"
-            }
-          ],
-          "description": "尘歌壶一条龙-领取洞天宝钱、角色好感和购买物品~|~自动放置并进入尘歌壶，寻找阿圆，领取洞天宝钱和好感(需要配置进入尘歌壶以后的路线)，支持自动购买指定物品(更新时间：5.5版本)",
-          "tags": [],
-          "lastUpdated": "2025-07-04 23:14:44"
+          "lastUpdated": "2025-07-28 12:15:15"
         },
         {
           "name": "AutoSmithyOre",
           "type": "directory",
-          "hash": "47de0ff0acc1a783c26c44f30d343821841fd448",
+          "hash": "83d8bf4f0509806ef81a3a0cb0a5f322a855b613",
           "version": "1.1",
           "author": "寒露",
           "authors": [
@@ -72116,27 +72105,10 @@
             }
           ],
           "description": "自动锻造魔矿~|~自动选择铁匠铺去锻造魔矿，默认选择枫丹铁匠铺；可选择其他地区铁匠铺。由于地图追踪功能不支持室内定位，所以不支持纳塔铁匠铺。",
-          "tags": [],
-          "lastUpdated": "2025-07-04 23:14:44"
-        },
-        {
-          "name": "AutoStygianOnslaught",
-          "type": "directory",
-          "hash": "5f4afcddb5553b74a20cc2ba33cacc42c3c22103",
-          "version": "1.6",
-          "author": "LCB-茶包",
-          "authors": [
-            {
-              "name": "LCB-茶包",
-              "link": "https://github.com/kaedelcb"
-            }
-          ],
-          "description": "自动幽境危战~|~请先配置好秘境内的队伍，幽境危战战斗失败或执行错误会重试一次，请保证队伍实力",
           "tags": [
-            "bgi≥0.44.8",
-            "幽境危战"
+            "坐标点击"
           ],
-          "lastUpdated": "2025-07-04 23:14:44"
+          "lastUpdated": "2025-07-28 12:15:15"
         },
         {
           "name": "AutoSwitchRoles",
@@ -72199,26 +72171,6 @@
           "lastUpdated": "2025-07-05 00:25:10"
         },
         {
-          "name": "AutoWoodcutting",
-          "type": "directory",
-          "hash": "7b98d2d9312710b2ba6e36f86732a1f48149a636",
-          "version": "1.0",
-          "author": "愚溪",
-          "authors": [
-            {
-              "name": "愚溪",
-              "link": "https://github.com/Kupder"
-            },
-            {
-              "name": "½",
-              "link": "https://github.com/Traveler07"
-            }
-          ],
-          "description": "自动伐木~|~前往并自动伐木",
-          "tags": [],
-          "lastUpdated": "2025-07-22 17:25:30"
-        },
-        {
           "name": "AutoWoodcutting-Pathing",
           "type": "directory",
           "hash": "553d712e3510eb72eb563021f595fba7c10ce10a",
@@ -72259,7 +72211,7 @@
         {
           "name": "Autopermission",
           "type": "directory",
-          "hash": "b3388f22a353f975bbbd37b2472750f643000119",
+          "hash": "f116f00f57c29bdb7192f9752b6b4e4907e516da",
           "version": "1.1",
           "author": "½",
           "authors": [
@@ -72269,8 +72221,10 @@
             }
           ],
           "description": "自动设置权限~|~设置进入世界的权限,默认锁门",
-          "tags": [],
-          "lastUpdated": "2025-07-04 23:14:44"
+          "tags": [
+            "世界权限"
+          ],
+          "lastUpdated": "2025-07-28 12:15:15"
         },
         {
           "name": "BattlePass",
@@ -72305,37 +72259,6 @@
             "bgi≥0.45.0"
           ],
           "lastUpdated": "2025-07-12 11:31:10"
-        },
-        {
-          "name": "Collect Dongtian Xuyu Resin",
-          "type": "directory",
-          "hash": "888a64e3b912a495436b1f3c16d7913385021ff9",
-          "version": "1.0",
-          "author": "风埠",
-          "authors": [
-            {
-              "name": "风埠",
-              "link": "https://github.com/jhkif"
-            }
-          ],
-          "description": "领取洞天百宝须臾树脂，只领取须臾树脂，前面是领取洞天宝钱和好感~|~领取洞天须臾树脂",
-          "tags": [],
-          "lastUpdated": "2025-07-04 23:14:44"
-        },
-        {
-          "name": "Condensed Resin",
-          "type": "directory",
-          "hash": "0870118116d92863b43db74ec9e25c163dfcec82",
-          "version": "1.1",
-          "author": "鹤望兰",
-          "authors": [
-            {
-              "name": "鹤望兰"
-            }
-          ],
-          "description": "合成浓缩树脂~|~用于合成浓缩树脂",
-          "tags": [],
-          "lastUpdated": "2025-03-17 22:43:40"
         },
         {
           "name": "CrystalflyTrap",
@@ -72656,7 +72579,7 @@
         {
           "name": "OCR购买食材",
           "type": "directory",
-          "hash": "03df31d97b399f7c6bc885fa16c150d5a83c637f",
+          "hash": "b5b1fccadb09c005aef1858fc5633dbb297fd198",
           "version": "1.30513",
           "author": "吉吉喵",
           "authors": [
@@ -72666,8 +72589,12 @@
             }
           ],
           "description": "选择购买食材OCR~|~至少需要0.44版本bgi，对NPC和材料进行文字、图像识别。\n一般食材杂货在蒙德、璃月、稻妻、枫丹杂货商购买。\n10鱼肉、10螃蟹在卯师傅、珀姆、布特罗斯、阿扎莱和志村勘兵卫购买。\n咖啡豆在须弥、枫丹咖啡馆购买。\n增加对话F图像识别，增加个别字识别容错；增加香辛料，在阿扎莱处购买。\nv1.30513修复循环套叠，优化F未识别后的尝试方案。",
-          "tags": [],
-          "lastUpdated": "2025-07-04 23:14:44"
+          "tags": [
+            "购买食材",
+            "OCR",
+            "图像识别"
+          ],
+          "lastUpdated": "2025-07-28 12:15:15"
         },
         {
           "name": "OcrMonsterNum",
@@ -73015,22 +72942,6 @@
           "lastUpdated": "2025-07-22 10:28:22"
         },
         {
-          "name": "买菜",
-          "type": "directory",
-          "hash": "bb0e66ec1fdbc5f01a86f7ab90e47d81f3089759",
-          "version": "1.0.3",
-          "author": "听雨♪",
-          "authors": [
-            {
-              "name": "听雨♪",
-              "link": "https://github.com/TingYu-lulumi"
-            }
-          ],
-          "description": "购买食材-自动购物~|~一个自动买菜脚本, 目前只添加了15个NPC. 一些NPC商人的信息作者可能不知道, 白淞镇、离岛、竞技场NPC无法识别坐标信息.",
-          "tags": [],
-          "lastUpdated": "2025-07-04 23:14:44"
-        },
-        {
           "name": "传送至指定合成台",
           "type": "directory",
           "hash": "6efac4daffa46447482f351958bbfa947fe0547a",
@@ -73320,7 +73231,7 @@
         {
           "name": "料理制作及食材加工",
           "type": "directory",
-          "hash": "1178bab38d39859feac6aa620a48cde0bc7f0bc2",
+          "hash": "914452e14aa0c5d933754a95251ae23e9a971c1b",
           "version": "1.3",
           "author": "柒叶子",
           "authors": [
@@ -73336,10 +73247,12 @@
           "description": "料理制作及食材加工~|~自动烹饪料理以及加工食材,需要0.44.6及以上版本",
           "tags": [
             "bgi≥0.44.6",
+            "料理制作",
+            "搜索",
             "食材加工",
-            "料理制作"
+            "坐标点击"
           ],
-          "lastUpdated": "2025-07-05 00:25:10"
+          "lastUpdated": "2025-07-28 12:15:15"
         },
         {
           "name": "每周一自动购买四方八方之网",
@@ -73697,7 +73610,7 @@
         {
           "name": "食材加工 识图",
           "type": "directory",
-          "hash": "1fb44d5d7ec273c4412b8afdf3a21dbef108fb51",
+          "hash": "bc1ca34e9c69038c84ab9dd4eefc913c4eafd806",
           "version": "2.1",
           "author": "吉吉喵",
           "authors": [
@@ -73706,9 +73619,12 @@
               "link": "https://github.com/JJMdzh"
             }
           ],
-          "description": "选择加工 食材~|~食材加工 识图 复选框。",
-          "tags": [],
-          "lastUpdated": "2025-07-04 23:14:44"
+          "description": "选择加工食材~|~食材加工 识图 复选框。",
+          "tags": [
+            "食材",
+            "图像识别"
+          ],
+          "lastUpdated": "2025-07-28 12:15:15"
         },
         {
           "name": "首领讨伐一条龙",
