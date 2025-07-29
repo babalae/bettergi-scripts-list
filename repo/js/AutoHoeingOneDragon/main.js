@@ -158,8 +158,9 @@ async function processPathings() {
         // 解析 description 获取预计用时和怪物信息
         const routeInfo = parseDescription(description);
 
-        // 初始化 pathing 对象的属性
-        pathing.t = routeInfo.time; // 预计用时初始化为60秒，如果 description 中有值则覆盖
+        //pathing 对象的属性
+        pathing.t = routeInfo.time; // description 中有值则覆盖
+        pathing.monsterInfo = routeInfo.monsterInfo;
         if (!settings.disableSelfOptimization && pathing.records) {
             //如果用户没有禁用自动优化，则参考运行记录更改预期用时
             const history = pathing.records.filter(v => v > 0);
