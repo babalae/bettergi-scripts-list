@@ -1,12 +1,20 @@
-{
+﻿{
   "info": {
     "name": "311稻妻-越石村8",
     "type": "collect",
-    "author": "汐",
     "version": "",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "tags": [],
+    "last_modified_time": 1753723229133,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -174,11 +182,11 @@
     },
     {
       "id": 20,
-      "x": -3966.6826171875,
-      "y": -4402.9052734375,
+      "x": -3967.21875,
+      "y": -4402.437334001905,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
       "type": "target"
     },
     {

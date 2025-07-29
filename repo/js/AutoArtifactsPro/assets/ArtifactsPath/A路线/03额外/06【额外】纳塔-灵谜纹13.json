@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "06【额外】纳塔-灵谜纹13",
     "type": "collect",
@@ -432,7 +432,7 @@
       "y": 158.45166015625,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.2),keypress(t),wait(2.8)",
+      "action_params": "wait(0.2),keypress(t),wait(1.35),keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE),wait(0.5),mousedown",
       "type": "orientation"
     },
     {
@@ -441,7 +441,7 @@
       "y": 145.75244140625,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.5),keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE),wait(0.5),mousedown,wait(0.5),moveby(-100,950),wait(1.0),mouseup",
+      "action_params": "mousedown,wait(0.2),moveby(-330,850),wait(1.0),mouseup",
       "type": "orientation"
     },
     {

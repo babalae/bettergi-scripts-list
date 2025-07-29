@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "305【收尾】稻妻-踏鞴砂②-7",
     "type": "collect",
@@ -13,7 +13,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1752762672471,
+    "last_modified_time": 1753806804156,
     "enable_monster_loot_split": false
   },
   "positions": [
@@ -73,17 +73,17 @@
       "y": -3727.2812389334613,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.15);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "type": "target"
     },
     {
       "id": 8,
       "x": -3154.6669921875,
       "y": -3724.9111328125,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 9,
@@ -146,30 +146,22 @@
     },
     {
       "id": 16,
-      "x": -3161.2500414758706,
-      "y": -3703.093780315927,
+      "x": -3160.15625,
+      "y": -3702.09339587073,
       "action": "",
       "move_mode": "walk",
       "type": "path"
     },
     {
       "id": 17,
-      "x": -3157.875,
-      "y": -3702.250177064634,
+      "x": -3150.34375,
+      "y": -3692.937002005714,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "jump",
       "type": "path"
     },
     {
       "id": 18,
-      "x": -3149.4375,
-      "y": -3694.34378319962,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path"
-    },
-    {
-      "id": 19,
       "x": -3108.439453125,
       "y": -3655.1953125,
       "action": "",
@@ -177,7 +169,7 @@
       "type": "path"
     },
     {
-      "id": 20,
+      "id": 19,
       "x": -3098,
       "y": -3639.703125,
       "action": "",
@@ -185,7 +177,7 @@
       "type": "path"
     },
     {
-      "id": 21,
+      "id": 20,
       "x": -3092.71875,
       "y": -3637.6563827984755,
       "action": "",
@@ -193,7 +185,7 @@
       "type": "target"
     },
     {
-      "id": 22,
+      "id": 21,
       "x": -3116.53121049917,
       "y": -3626.5935681044393,
       "action": "stop_flying",
@@ -202,7 +194,7 @@
       "type": "path"
     },
     {
-      "id": 23,
+      "id": 22,
       "x": -3117.9140625,
       "y": -3622.01171875,
       "action": "combat_script",
@@ -211,7 +203,7 @@
       "type": "path"
     },
     {
-      "id": 24,
+      "id": 23,
       "x": -3118.7812658003313,
       "y": -3621.500280422324,
       "action": "combat_script",
@@ -220,7 +212,7 @@
       "type": "target"
     },
     {
-      "id": 25,
+      "id": 24,
       "x": -3119.0244140625,
       "y": -3619.6064453125,
       "action": "",
@@ -229,7 +221,7 @@
       "type": "path"
     },
     {
-      "id": 26,
+      "id": 25,
       "x": -3120.1877014542297,
       "y": -3613.188652005223,
       "action": "",
@@ -238,7 +230,7 @@
       "type": "path"
     },
     {
-      "id": 27,
+      "id": 26,
       "x": -3127.1142578125,
       "y": -3602.75390625,
       "action": "",
@@ -246,7 +238,7 @@
       "type": "path"
     },
     {
-      "id": 28,
+      "id": 27,
       "x": -3140.1611328125,
       "y": -3580.916015625,
       "action": "",
@@ -255,7 +247,7 @@
       "type": "path"
     },
     {
-      "id": 29,
+      "id": 28,
       "x": -3141.8437341996687,
       "y": -3573.2500606318536,
       "action": "combat_script",
@@ -264,7 +256,7 @@
       "type": "path"
     },
     {
-      "id": 30,
+      "id": 29,
       "x": -3153.0205078125,
       "y": -3562.748046875,
       "action": "combat_script",
@@ -273,7 +265,7 @@
       "type": "path"
     },
     {
-      "id": 31,
+      "id": 30,
       "x": -3141.6561611231336,
       "y": -3566.718666631201,
       "action": "",
@@ -282,7 +274,7 @@
       "type": "path"
     },
     {
-      "id": 32,
+      "id": 31,
       "x": -3136.4072265625,
       "y": -3568.052734375,
       "action": "",
@@ -290,7 +282,7 @@
       "type": "path"
     },
     {
-      "id": 33,
+      "id": 32,
       "x": -3139.1494140625,
       "y": -3570.892578125,
       "action": "combat_script",

@@ -13,7 +13,7 @@
     "map_name": "TheChasm",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1753632430578,
+    "last_modified_time": 1753801295230,
     "enable_monster_loot_split": false
   },
   "positions": [
@@ -37,11 +37,11 @@
     },
     {
       "id": 3,
-      "x": 334.4687677753732,
-      "y": 979.34353020953,
-      "action": "stop_flying",
+      "x": 334.5625,
+      "y": 979.4065709296503,
+      "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "",
+      "action_params": "attack(0.3)",
       "type": "path"
     },
     {
@@ -91,7 +91,7 @@
     },
     {
       "id": 9,
-      "x": 400.06253950082936,
+      "x": 400.0625395008294,
       "y": 1026.5311059993471,
       "action": "stop_flying",
       "move_mode": "fly",
