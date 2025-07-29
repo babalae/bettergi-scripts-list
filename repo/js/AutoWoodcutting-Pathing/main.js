@@ -110,6 +110,7 @@
         }
         await sleep(1);
         try {
+            const currentWoodStartTime = Date.now();
             for (let i = 0; i < runTimes; i++) {
                 log.info(`正在执行 ${pathingName} 第 ${i + 1}/${runTimes} 次循环`);
                 for (let k = j; k < pathing.fileName.length; k++) {
@@ -119,16 +120,17 @@
                     await fakeLog(`${pathing.fileName}`, false, false, 0);
                     await sleep(1);
                 }
+                const jsTimeTaken = logTimeTaken(startTime);
+                const estimatedCompletion = calculateEstimatedCompletion(currentWoodStartTime, i + 1, runTimes);
                 log.info(`${pathingName} 第 ${i + 1}/${runTimes} 次循环执行完成`);
-                logTimeTaken(startTime);
+                log.info(`${pathingName} 预计完成时间: ${estimatedCompletion}, ${jsTimeTaken}`)
             }
-            log.info(`完成 ${pathingName} 循环路径, 获得${woodCountToStr(woodCount, runTimes)}`);
-            logTimeTaken(startTime);
+            const jsTimeTaken = logTimeTaken(startTime);
+            log.info(`完成 ${pathingName} 循环路径, 获得${woodCountToStr(woodCount, runTimes)}, ${jsTimeTaken}`);
             woodCount.forEach((value, key) => {
                 woodNumberMap.set(key, woodNumberMap.get(key) - value * runTimes);
             });
-            log.info(`${pathingName} 伐木完成，将执行下一个`);
-            logTimeTaken(startTime);
+            log.info(`${pathingName} 伐木完成, 将执行下一个`);
             logRemainingItems();
         } catch (error) {
             log.error(`在砍伐 ${pathingName} 时发生错误: ${error}`);
@@ -252,7 +254,17 @@
         const minutes = Math.floor(totalTimeInSeconds / 60);
         const seconds = totalTimeInSeconds % 60;
         const formattedTime = `${minutes}分${seconds.toFixed(0).padStart(2, '0')}秒`;
-        log.info(`当前运行总时长：${formattedTime}`);
+        return `当前运行总时长: ${formattedTime}`;
+    }
+
+    function calculateEstimatedCompletion(startTime, current, total) {
+        if (current === 0) return "计算中...";
+        const elapsedTime = Date.now() - startTime;
+        const timePerTask = elapsedTime / current;
+        const remainingTasks = total - current;
+        const remainingTime = timePerTask * remainingTasks;
+        const completionDate = new Date(Date.now() + remainingTime);
+        return `${completionDate.toLocaleTimeString()}, 约 ${Math.round(remainingTime / 60000)} 分钟`;
     }
 
     async function fakeLog(name, isJs, isStart, duration) {
