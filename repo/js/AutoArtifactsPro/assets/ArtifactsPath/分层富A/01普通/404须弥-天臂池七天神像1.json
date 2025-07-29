@@ -1,12 +1,20 @@
-{
+﻿{
   "info": {
     "name": "404须弥-天臂池七天神像1",
     "type": "collect",
-    "author": "汐",
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "tags": [],
+    "last_modified_time": 1753727370653,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -31,9 +39,9 @@
       "id": 3,
       "x": 3245.841796875,
       "y": -635.15625,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "",
+      "action_params": "wait(0.1)",
       "type": "path"
     },
     {

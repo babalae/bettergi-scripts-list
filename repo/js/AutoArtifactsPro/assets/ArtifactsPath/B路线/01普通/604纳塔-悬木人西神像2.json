@@ -1,14 +1,20 @@
-{
+﻿{
   "info": {
     "name": "604纳塔-悬木人西神像2",
     "type": "collect",
-    "author": "汐",
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751547300940
+    "last_modified_time": 1753812211404,
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -89,31 +95,31 @@
       "y": -2264.5624446673028,
       "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "action_params": "keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "type": "target"
     },
     {
       "id": 10,
       "x": 8787.2685546875,
       "y": -2266.91015625,
-      "type": "path",
-      "move_mode": "climb",
       "action": "",
-      "action_params": ""
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 11,
       "x": 8799.607421875,
       "y": -2266.33984375,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 12,
-      "x": 8798.6025390625,
-      "y": -2258.98828125,
+      "x": 8801.005859375,
+      "y": -2261.154296875,
       "type": "path",
       "move_mode": "climb",
       "action": "",
@@ -121,8 +127,8 @@
     },
     {
       "id": 13,
-      "x": 8794.1181640625,
-      "y": -2256.6708984375,
+      "x": 8797.80859375,
+      "y": -2260.1455078125,
       "type": "path",
       "move_mode": "climb",
       "action": "",
@@ -130,11 +136,20 @@
     },
     {
       "id": 14,
+      "x": 8794.1181640625,
+      "y": -2256.6708984375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
       "x": 8791.251953125,
       "y": -2255.7900390625,
       "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "keypress(f),w(0.2),wait(0.2),wait(0.2),keypress(f),keypress(x),s(0.6),keypress(f),wait(1.5),keypress(f),s(0.2),attack(1);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "action_params": "keypress(f),w(0.2),wait(0.2),wait(0.2),keypress(f),keypress(x),s(0.6),keypress(f),wait(1.5),keypress(f),s(0.2),attack(1);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "type": "target"
     }
   ]

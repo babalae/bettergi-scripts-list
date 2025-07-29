@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "226璃月-层岩主矿区3",
     "type": "collect",
@@ -13,7 +13,7 @@
     "map_name": "TheChasm",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1752085074978,
+    "last_modified_time": 1753801295230,
     "enable_monster_loot_split": false
   },
   "positions": [
@@ -28,20 +28,20 @@
     },
     {
       "id": 2,
-      "x": 330.4002685546875,
-      "y": 968.448486328125,
-      "action": "combat_script",
+      "x": 330.818359375,
+      "y": 967.458251953125,
+      "action": "",
       "move_mode": "fly",
-      "action_params": "wait(0.3),keypress(VK_SPACE),wait(0.5),keypress(VK_SPACE)",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 3,
-      "x": 334.4687677753732,
-      "y": 979.34353020953,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
+      "x": 334.5625,
+      "y": 979.4065709296503,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "attack(0.3)",
       "type": "path"
     },
     {
@@ -91,7 +91,7 @@
     },
     {
       "id": 9,
-      "x": 400.06253950082936,
+      "x": 400.0625395008294,
       "y": 1026.5311059993471,
       "action": "stop_flying",
       "move_mode": "fly",

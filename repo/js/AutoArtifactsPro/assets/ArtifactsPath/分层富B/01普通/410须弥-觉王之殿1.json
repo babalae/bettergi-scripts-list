@@ -1,14 +1,20 @@
-{
+﻿{
   "info": {
     "name": "410须弥-觉王之殿1",
     "type": "collect",
-    "author": "汐",
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751553799179
+    "last_modified_time": 1753791814102,
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -31,8 +37,8 @@
     },
     {
       "id": 3,
-      "x": 3476.8310546875,
-      "y": -758.32861328125,
+      "x": 3477.25,
+      "y": -758.7501438650161,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -44,17 +50,17 @@
       "y": -753.26806640625,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "moveby(0,-1000),wait(0.3),keypress(t),wait(0.3),keypress(t)",
+      "action_params": "moveby(0,-1300),wait(0.3),keypress(t),wait(0.3),keypress(t),wait(0.3),keypress(t)",
       "type": "orientation"
     },
     {
       "id": 5,
-      "x": 3440.7138671875,
-      "y": -755.0478515625,
-      "action": "combat_script",
-      "move_mode": "climb",
-      "action_params": "wait(0.2);芙宁娜 attack(0.1),e;迪希雅 e;",
-      "type": "path"
+      "x": 3439,
+      "y": -756.7509295893324,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 6,
@@ -63,16 +69,24 @@
       "action": "",
       "move_mode": "dash",
       "action_params": "",
-      "type": "orientation",
-      "locked": false
+      "type": "orientation"
     },
     {
       "id": 7,
+      "x": 3442.3115234375,
+      "y": -753.625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
       "x": 3445.412109375,
       "y": -751.23388671875,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);芙宁娜 attack(0.1),e;迪希雅 e;万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle),q;",
       "type": "target"
     }
   ]

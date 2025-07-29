@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "02【额外】须弥-水天丛林7",
     "type": "collect",
@@ -13,7 +13,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1752513455926,
+    "last_modified_time": 1752782329589,
     "enable_monster_loot_split": false
   },
   "positions": [
@@ -47,8 +47,9 @@
       "id": 4,
       "x": 3162.83740234375,
       "y": -1776.4501953125,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
       "type": "target"
     },
     {
@@ -99,28 +100,37 @@
       "y": -1719.6650390625,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "keypress(f);芙宁娜 e;",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
       "type": "target"
     },
     {
       "id": 11,
-      "x": 3210.4833984375,
-      "y": -1727.45556640625,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "keypress(f);芙宁娜 e;",
+      "x": 3200.78125,
+      "y": -1725.468252005715,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 12,
-      "x": 3238.64013671875,
-      "y": -1669.9541015625,
+      "x": 3212.3544921875,
+      "y": -1695.31396484375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 3239.5,
+      "y": -1671.6881086596813,
       "action": "",
       "move_mode": "dash",
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 14,
       "x": 3243.9375118502485,
       "y": -1676.0623635783286,
       "action": "combat_script",
@@ -129,7 +139,7 @@
       "type": "target"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": 3247.74853515625,
       "y": -1670.6923828125,
       "action": "",
@@ -138,7 +148,7 @@
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": 3246.3749881497515,
       "y": -1667.9063182108357,
       "action": "combat_script",
@@ -147,7 +157,7 @@
       "type": "target"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": 3280.98681640625,
       "y": -1663.34814453125,
       "action": "",
@@ -155,7 +165,7 @@
       "type": "path"
     },
     {
-      "id": 17,
+      "id": 18,
       "x": 3303.05859375,
       "y": -1658.505859375,
       "action": "combat_script",
@@ -164,7 +174,7 @@
       "type": "path"
     },
     {
-      "id": 18,
+      "id": 19,
       "x": 3326.64697265625,
       "y": -1620.5849609375,
       "action": "",
@@ -172,7 +182,7 @@
       "type": "path"
     },
     {
-      "id": 19,
+      "id": 20,
       "x": 3333.64697265625,
       "y": -1609.584960937501,
       "action": "combat_script",
@@ -181,7 +191,7 @@
       "type": "target"
     },
     {
-      "id": 20,
+      "id": 21,
       "x": 3341.15234375,
       "y": -1621.7734375,
       "action": "",
@@ -189,7 +199,7 @@
       "type": "path"
     },
     {
-      "id": 21,
+      "id": 22,
       "x": 3352.87890625,
       "y": -1650.6552734375,
       "action": "",
@@ -197,7 +207,7 @@
       "type": "path"
     },
     {
-      "id": 22,
+      "id": 23,
       "x": 3343.59326171875,
       "y": -1723.4775390625,
       "action": "",
@@ -205,7 +215,7 @@
       "type": "path"
     },
     {
-      "id": 23,
+      "id": 24,
       "x": 3330.30322265625,
       "y": -1734.029296875,
       "action": "combat_script",
@@ -214,7 +224,7 @@
       "type": "target"
     },
     {
-      "id": 24,
+      "id": 25,
       "x": 3300.36376953125,
       "y": -1788.787109375,
       "action": "combat_script",
@@ -223,7 +233,7 @@
       "type": "path"
     },
     {
-      "id": 25,
+      "id": 26,
       "x": 3282.2421875,
       "y": -1822.77490234375,
       "action": "",
@@ -231,7 +241,7 @@
       "type": "path"
     },
     {
-      "id": 26,
+      "id": 27,
       "x": 3234.1875,
       "y": -1829.9999336007622,
       "action": "combat_script",
@@ -240,7 +250,7 @@
       "type": "target"
     },
     {
-      "id": 27,
+      "id": 28,
       "x": 3223.75,
       "y": -1830.7515050493948,
       "action": "",
@@ -248,7 +258,7 @@
       "type": "path"
     },
     {
-      "id": 28,
+      "id": 29,
       "x": 3204.9062085241294,
       "y": -1832.2812272630545,
       "action": "combat_script",
@@ -257,11 +267,11 @@
       "type": "target"
     },
     {
-      "id": 29,
+      "id": 30,
       "x": 3202.5625,
       "y": -1832.1875,
       "action": "",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action_params": "",
       "type": "path"
     }
