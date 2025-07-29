@@ -82,7 +82,9 @@
         if (pathing.fileName.length > 1 && pathing.fileName[0].includes('大循环')) {
             try {
                 log.info(`正在执行 ${pathingName} 大循环路径`);
+                await fakeLog(`${pathing.fileName}`, false, true, 0);
                 await pathingScript.runFile(filePath);
+                await fakeLog(`${pathing.fileName}`, false, false, 0);
                 await sleep(1);
                 log.info(`完成 ${pathingName} 大循环路径, 获得${woodCountToStr(woodCount)}`);
                 woodCount.forEach((value, key) => { woodNumberMap.set(key, woodNumberMap.get(key) - value) });
@@ -108,23 +110,27 @@
         }
         await sleep(1);
         try {
+            const currentWoodStartTime = Date.now();
             for (let i = 0; i < runTimes; i++) {
                 log.info(`正在执行 ${pathingName} 第 ${i + 1}/${runTimes} 次循环`);
                 for (let k = j; k < pathing.fileName.length; k++) {
                     filePath = filePathPre + pathing.fileName[k] + filePathSuf;
+                    await fakeLog(`${pathing.fileName}`, false, true, 0);
                     await pathingScript.runFile(filePath);
+                    await fakeLog(`${pathing.fileName}`, false, false, 0);
                     await sleep(1);
                 }
+                const jsTimeTaken = logTimeTaken(startTime);
+                const estimatedCompletion = calculateEstimatedCompletion(currentWoodStartTime, i + 1, runTimes);
                 log.info(`${pathingName} 第 ${i + 1}/${runTimes} 次循环执行完成`);
-                logTimeTaken(startTime);
+                log.info(`${pathingName} 预计完成时间: ${estimatedCompletion}, ${jsTimeTaken}`)
             }
-            log.info(`完成 ${pathingName} 循环路径, 获得${woodCountToStr(woodCount, runTimes)}`);
-            logTimeTaken(startTime);
+            const jsTimeTaken = logTimeTaken(startTime);
+            log.info(`完成 ${pathingName} 循环路径, 获得${woodCountToStr(woodCount, runTimes)}, ${jsTimeTaken}`);
             woodCount.forEach((value, key) => {
                 woodNumberMap.set(key, woodNumberMap.get(key) - value * runTimes);
             });
-            log.info(`${pathingName} 伐木完成，将执行下一个`);
-            logTimeTaken(startTime);
+            log.info(`${pathingName} 伐木完成, 将执行下一个`);
             logRemainingItems();
         } catch (error) {
             log.error(`在砍伐 ${pathingName} 时发生错误: ${error}`);
@@ -248,7 +254,94 @@
         const minutes = Math.floor(totalTimeInSeconds / 60);
         const seconds = totalTimeInSeconds % 60;
         const formattedTime = `${minutes}分${seconds.toFixed(0).padStart(2, '0')}秒`;
-        log.info(`当前运行总时长：${formattedTime}`);
+        return `当前运行总时长: ${formattedTime}`;
+    }
+
+    function calculateEstimatedCompletion(startTime, current, total) {
+        if (current === 0) return "计算中...";
+        const elapsedTime = Date.now() - startTime;
+        const timePerTask = elapsedTime / current;
+        const remainingTasks = total - current;
+        const remainingTime = timePerTask * remainingTasks;
+        const completionDate = new Date(Date.now() + remainingTime);
+        return `${completionDate.toLocaleTimeString()}, 约 ${Math.round(remainingTime / 60000)} 分钟`;
+    }
+
+    async function fakeLog(name, isJs, isStart, duration) {
+        await sleep(10);
+        const currentTime = Date.now();
+        // 参数检查
+        if (typeof name !== 'string') {
+            log.error("参数 'name' 必须是字符串类型！");
+            return;
+        }
+        if (typeof isJs !== 'boolean') {
+            log.error("参数 'isJs' 必须是布尔型！");
+            return;
+        }
+        if (typeof isStart !== 'boolean') {
+            log.error("参数 'isStart' 必须是布尔型！");
+            return;
+        }
+        if (typeof currentTime !== 'number' || !Number.isInteger(currentTime)) {
+            log.error("参数 'currentTime' 必须是整数！");
+            return;
+        }
+        if (typeof duration !== 'number' || !Number.isInteger(duration)) {
+            log.error("参数 'duration' 必须是整数！");
+            return;
+        }
+
+        // 将 currentTime 转换为 Date 对象并格式化为 HH:mm:ss.sss
+        const date = new Date(currentTime);
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        const milliseconds = String(date.getMilliseconds()).padStart(3, '0');
+        const formattedTime = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+
+        // 将 duration 转换为分钟和秒，并保留三位小数
+        const durationInSeconds = duration / 1000; // 转换为秒
+        const durationMinutes = Math.floor(durationInSeconds / 60);
+        const durationSeconds = (durationInSeconds % 60).toFixed(3); // 保留三位小数
+
+        // 使用四个独立的 if 语句处理四种情况
+        if (isJs && isStart) {
+            // 处理 isJs = true 且 isStart = true 的情况
+            const logMessage = `正在伪造js开始的日志记录\n\n` +
+                `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+                `------------------------------\n\n` +
+                `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+                `→ 开始执行JS脚本: "${name}"`;
+            log.debug(logMessage);
+        }
+        if (isJs && !isStart) {
+            // 处理 isJs = true 且 isStart = false 的情况
+            const logMessage = `正在伪造js结束的日志记录\n\n` +
+                `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+                `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
+                `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+                `------------------------------`;
+            log.debug(logMessage);
+        }
+        if (!isJs && isStart) {
+            // 处理 isJs = false 且 isStart = true 的情况
+            const logMessage = `正在伪造地图追踪开始的日志记录\n\n` +
+                `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+                `------------------------------\n\n` +
+                `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+                `→ 开始执行地图追踪任务: "${name}"`;
+            log.debug(logMessage);
+        }
+        if (!isJs && !isStart) {
+            // 处理 isJs = false 且 isStart = false 的情况
+            const logMessage = `正在伪造地图追踪结束的日志记录\n\n` +
+                `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+                `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
+                `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+                `------------------------------`;
+            log.debug(logMessage);
+        }
     }
 
     // Set game environment settings
