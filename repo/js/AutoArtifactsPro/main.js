@@ -272,6 +272,11 @@ let enemyType = "无";
             runRouteA = false;
         }
 
+        if (operationType === "不卡时间，尽可能跑A") {
+            // 根据当前时间与上次运行时间给布尔变量 runRouteA 赋值
+            runRouteA = endTime <= timeNow;
+        }
+
         // 检查 lastRunRoute 是否为 "B"
         if (lastRunRoute === "B" && operationType !== "不卡时间，ab交替运行") {
             // 如果 lastRunRoute 为 "B"，则将 endTime 改为当天的开始时间
@@ -286,11 +291,6 @@ let enemyType = "无";
 
             // 根据当前时间与 1970-01-01T20:00:00.000Z 的天数差的奇偶性给布尔变量 runRouteA 赋值
             runRouteA = Math.floor((now - epochTime) / (24 * 60 * 60 * 1000)) % 2 === 0;
-        }
-
-        if (operationType === "不卡时间，ab交替运行") {
-            // 根据当前时间与上次运行时间给布尔变量 runRouteA 赋值
-            runRouteA = endTime <= timeNow;
         }
     }
 
