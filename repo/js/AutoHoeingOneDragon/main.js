@@ -11,8 +11,17 @@ if (settings.activeDumperMode) { //处理泥头车信息
 (async function () {
     //自定义配置处理
     const operationMode = settings.operationMode || "运行锄地路线";
-    let k = settings.efficiencyIndex || 0.5;
-    k = k;
+
+    let k = settings.efficiencyIndex;
+    // 空字符串、null、undefined 或非数字 → 0.5
+    if (k === '' || k == null || Number.isNaN(Number(k))) {
+        k = 0.5;
+    } else {
+        k = Number(k);
+        if (k < 0) k = 0;
+        else if (k > 5) k = 5;
+    }
+
     let targetEliteNum = (+settings.targetEliteNum || 400);
     targetEliteNum += 5;//预留漏怪
     let targetMonsterNum = (+settings.targetMonsterNum + 1 || 2000);
@@ -87,7 +96,6 @@ if (settings.activeDumperMode) { //处理泥头车信息
             log.info(`  精英怪物数量: ${pathing.e}`);
             log.info(`  普通怪物摩拉值: ${pathing.mora_m}`);
             log.info(`  精英怪物摩拉值: ${pathing.mora_e}`);
-            log.info(`  是否使用index数据: ${pathing.usingIndex}`);
             log.info(''); // 空行分隔每个路径的信息
         });
     */
@@ -146,13 +154,11 @@ async function processPathings() {
     let index = 0
     // 遍历每个路径文件并处理
     for (const pathing of pathings) {
-        pathing.usingIndex = false;
         index++;
         pathing.index = index;
         const pathingContent = await file.readText(pathing.fullPath);
         const parsedContent = JSON.parse(pathingContent);
         const description = parsedContent.info?.description || "";
-        pathing.description = description;
         pathing.tags = parsedContent.info?.tags || [];
 
         // 解析 description 获取预计用时和怪物信息
@@ -310,8 +316,8 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
 
     pathings.forEach(pathing => {
         if (pathing.prioritized) {
-            pathing.E1 = maxE1 + 1;
-            pathing.E2 = maxE2 + 1;
+            pathing.E1 += maxE1;
+            pathing.E2 += maxE2;
         }
 
     });
@@ -393,9 +399,9 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
         //按效率降序排序
         pathings.sort((a, b) => {
             if (a.E1 !== b.E1) {
-                return a.E1 - b.E1; // 先按 E1 升序排序
+                return b.E1 - a.E1; // 先按 E1 降序
             }
-            return a.E2 - b.E2; // 如果 E1 相同，再按 E2 升序排序
+            return b.E2 - a.E2;   // 再按 E2 降序
         });
     } else {
         log.info("使用默认顺序运行");
@@ -920,7 +926,13 @@ async function processPathingsByGroup(pathings, whitelistKeywords, blacklistKeyw
     const groupStartTime = new Date();
     let remainingEstimatedTime = totalEstimatedTime;
     let skippedTime = 0;
-
+    //移除不必要的属性
+    {
+        const keysToDelete = ['monsterInfo', 'm', 'e', 'mora_m', 'mora_e', 'available', 'prioritized', 'G1', 'G2', 'index', 'folderPathArray', 'tags', 'E1', 'E2']; // 删除的字段列表
+        pathings.forEach(p => {
+            keysToDelete.forEach(k => delete p[k]);
+        });
+    }
     // 遍历 pathings 数组
     for (const pathing of pathings) {
         // 检查路径是否属于指定的组
@@ -1165,8 +1177,6 @@ async function updatePathings(indexFilePath) {
             const existingPathing = pathings.find(pathing => pathing.fileName === item.fileName);
 
             if (existingPathing) {
-                existingPathing.usingIndex = true;
-
                 // 直接覆盖其他字段，但先检查是否存在有效值
                 if (item.时间 !== undefined) existingPathing.t = item.时间;
                 if (item.精英摩拉 !== undefined) existingPathing.mora_e = item.精英摩拉;
