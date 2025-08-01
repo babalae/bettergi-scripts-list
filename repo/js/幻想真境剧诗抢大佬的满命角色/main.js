@@ -163,7 +163,7 @@ async function filter_cast(allowed_cast, min_constellation) {
     const min_constellation = 6; // Only `6` is supported now
     const allow_override = false;
 
-    const custom_allowed_cast = settings.allowed_cast.split(" ").filter(i => i);
+    const custom_allowed_cast = (settings.allowed_cast || "").split(" ").filter(i => i);
     const allowed_cast = custom_allowed_cast.length === 0 ? default_allowed_cast : custom_allowed_cast;
 
     log.info("备选角色：{cast}", allowed_cast.join(" "));
@@ -236,6 +236,8 @@ async function filter_cast(allowed_cast, min_constellation) {
         click(436, 577);
     });
     click(1414, 963);
+    await sleep(500);
+    click(1167, 814);
     await sleep(500);
     const can_press_esc = await wait_until_region_has_text(913, 638, 137, 37, "暂离演出", 10, () => {
         keyPress("VK_ESCAPE");
