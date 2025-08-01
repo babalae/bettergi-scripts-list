@@ -211,7 +211,7 @@ async function filter_cast(allowed_cast, min_constellation) {
 
     const find_result = await filter_cast(allowed_cast, min_constellation);
     if (!find_result) {
-        log.info("未找到符合条件的角色");
+        log.info("未找到符合条件的角色，去多加一些满命大佬吧");
         await genshin.returnMainUi();
         return;
     } else {
@@ -245,5 +245,4 @@ async function filter_cast(allowed_cast, min_constellation) {
 
     // now we've locked the character, safe to exit
     await genshin.TpToStatueOfTheSeven();
-    log.info("Exiting");
 })();
