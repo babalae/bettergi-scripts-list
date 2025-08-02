@@ -1,14 +1,21 @@
-{
+﻿{
   "info": {
     "name": "99【复位程序】稻妻踏鞴砂大炮点",
     "type": "collect",
-    "author": "汐",
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1750967797103
+    "last_modified_time": 1754157821099,
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -54,8 +61,7 @@
       "action": "",
       "move_mode": "climb",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 6,
@@ -107,14 +113,14 @@
       "x": -3467.1845703125,
       "y": -3732.5537109375,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "",
       "type": "target"
     },
     {
       "id": 12,
-      "x": -3285.267578125,
-      "y": -3732.4169921875,
+      "x": -3061,
+      "y": -3674.498937612192,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "w(0.5),dash,w(0.5),w(0.5)",
@@ -122,8 +128,8 @@
     },
     {
       "id": 13,
-      "x": -3285.267578125,
-      "y": -3732.4169921875,
+      "x": -3061,
+      "y": -3674.498937612192,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "w(1),wait(1),keypress(f),wait(0.5),keypress(f),wait(0.5),keypress(a),keypress(w),wait(6),keypress(f),wait(1.4),keypress(a),keypress(w),wait(6),keypress(f),wait(1.4),keypress(a),keypress(w),wait(6),keypress(f),wait(1.4),keypress(a),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(a),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(0.5),keypress(ESCAPE),wait(1),s(0.2),dash,click,s(0.2),dash,click,s(0.2),dash,click,s(0.2),dash,click,s(0.2),dash,click",
