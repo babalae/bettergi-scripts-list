@@ -144,12 +144,12 @@ async function tryForgeOre(oreType, skipCheckOres = []) {
             if (imageResult) {
                 found = true;
                 imageResult.click();
-                await sleep(1000);
-                if (notice) {
-                    notification.send(`找到矿石: ${OreChineseMap[oreType]}`);
-                } else {
-                    log.info(`找到矿石: ${OreChineseMap[oreType]}`);
-                }
+                await sleep(100);
+                // if (notice) {
+                // notification.send(`找到矿石: ${OreChineseMap[oreType]}`);
+                // } else {
+                log.info(`找到矿石: ${OreChineseMap[oreType]}`);
+                // }
                 determineOre(oreType);
 
                 // 点击“开始锻造”按钮并进行OCR识别
@@ -162,20 +162,22 @@ async function tryForgeOre(oreType, skipCheckOres = []) {
                         ConfirmButton.click();
                         clickAttempts++;
                     }
-                    await sleep(1500);
+                    await sleep(200);
                     let ocrResults = captureGameRegion().find(
                         RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height)
                     );
                     if (ocrResults) {
-                        log.info(`${ocrResults.text}`);
+                        // log.info(`${ocrResults.text}`);
                         if (ocrResults.text.includes("今日已无法锻造")) {
                             if (notice) {
-                                notification.send("检测到 今日已无法锻造 停止脚本");
+                                notification.send("检测到 今日已无法锻造 结束锻造");
                             } else {
-                                log.info("检测到 今日已无法锻造 停止脚本");
+                                log.info("检测到 今日已无法锻造 结束锻造");
                             }
-                            await click(960, 800);
-                            await sleep(1000);
+                            await sleep(100);
+                            await click(960, 1042);
+                            await sleep(200);
+                            await click(960, 1042);// 多次点击结束弹窗
                             return true; // 终止锻造流程
                         }
                         else if (ocrResults.text.includes("材料不足")) {
@@ -185,12 +187,20 @@ async function tryForgeOre(oreType, skipCheckOres = []) {
                                 log.info("检测到 材料不足 跳过当前矿物。请检查背包，及时补充矿物。");
                             }
                             clickAttempts--; // 出现材料不足时减去一次点击计数
-                            await click(960, 800);
-                            await sleep(1000);
+                            await sleep(100);
+                            await click(960, 1042);
+                            await sleep(200);
+                            await click(960, 1042);// 多次点击结束弹窗
                             return false; // 跳过当前矿石
                         }
                     }
                     if (clickAttempts === 4) {
+                        await sleep(1000);
+                        if (notice) {
+                            notification.send("锻造已完成");
+                        } else {
+                            log.info("锻造已完成");
+                        }
                         return true; // 达到点击上限，终止锻造流程
                     }
                 }
@@ -270,13 +280,11 @@ async function forgeOre(smithyName) {
                 let ClaimAll = captureGameRegion().find(ClaimAllRo);
                 if (ClaimAll.isExist()) {
                     ClaimAll.click();
-                    await sleep(1000);
+                    await sleep(500);
                     let ConfirmButton = captureGameRegion().find(ConfirmDeployButtonRo);
                     if (ConfirmButton.isExist()) {
                         ConfirmButton.click();
-                        if (ocrResults.text.includes("配方")) {
-                            ocrResults.click();
-                        }
+                        await sleep(500);
                         await click(220, 150);
                         await sleep(1000); // 点击进入锻造界面
                     } else {
@@ -301,14 +309,17 @@ async function forgeOre(smithyName) {
                     }
                 }
 
-                // 退出锻造前判断配方，如果出现“锻造队列”则点击
+                // 退出锻造前判断配方，点击“锻造队列”，再次确认使用的矿物已经锻造结果
                 const ocrRegionAfter = { x: 185, y: 125, width: 670 - 185, height: 175 - 125 };
                 let ocrResultsAfter = captureGameRegion().find(
                     RecognitionObject.ocr(ocrRegionAfter.x, ocrRegionAfter.y, ocrRegionAfter.width, ocrRegionAfter.height)
                 );
                 if (ocrResultsAfter.text.includes("锻造队列")) {
+                    await sleep(1000);//等待僵直
                     ocrResultsAfter.click();
-                    await sleep(1000);
+                    await sleep(200);
+                    ocrResultsAfter.click();
+                    await sleep(500);
                 }
                 break; // 退出锻造界面检测循环
             }
@@ -317,7 +328,7 @@ async function forgeOre(smithyName) {
             log.error("经过多次尝试，未能进入锻造界面");
         }
     } else {
-        log.info("未能找到对话界面锻造图标，无法进入锻造流程");
+        log.error("未能找到对话界面锻造图标，无法进入锻造流程");
     }
 
     // 退出锻造界面并返回主界面
@@ -337,16 +348,23 @@ async function forgeOre(smithyName) {
     await genshin.returnMainUi();
     if (notice) {
         notification.send("自动锻造矿石脚本开始");
+    } else {
+        log.info("自动锻造矿石脚本开始");
     }
+
 
     await autoSmithy(smithyName);
     await forgeOre(smithyName);
     await genshin.returnMainUi();
 
-    // 后退两步
+    //后退两步
     { keyDown("S"); await sleep(1000); keyUp("S"); await sleep(1000); }
 
-    if (notice) {
-        notification.send("自动锻造矿石脚本结束");
-    }
+    //if (notice) {
+    //    notification.send("自动锻造矿石脚本结束");
+    //}
+    //else {
+    log.info("自动锻造矿石脚本结束");
+    //}
+
 })();
