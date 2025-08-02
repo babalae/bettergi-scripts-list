@@ -13,8 +13,9 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1753126333620,
-    "enable_monster_loot_split": false
+    "last_modified_time": 1754151046922,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -36,8 +37,8 @@
     },
     {
       "id": 3,
-      "x": 8766.4541015625,
-      "y": -1825.40478515625,
+      "x": 8764.7958984375,
+      "y": -1825.1865234375,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
@@ -113,8 +114,8 @@
     },
     {
       "id": 12,
-      "x": 8230.8564453125,
-      "y": -1712.17041015625,
+      "x": 8230.875,
+      "y": -1713.2816483954284,
       "action": "combat_script",
       "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
@@ -148,7 +149,7 @@
     },
     {
       "id": 16,
-      "x": 7998.863281249999,
+      "x": 7998.86328125,
       "y": -1745.2353515625,
       "action": "combat_script",
       "move_mode": "fly",
@@ -230,29 +231,20 @@
       "y": -1274.6484375,
       "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(1);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "type": "target"
     },
     {
       "id": 26,
-      "x": 8125.78125,
-      "y": -1277.8125663992378,
-      "action": "combat_script",
-      "move_mode": "climb",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
-      "type": "path"
-    },
-    {
-      "id": 27,
-      "x": 8126.71875,
-      "y": -1279.8129205285077,
+      "x": 8125.6875,
+      "y": -1277.312322935365,
       "action": "combat_script",
       "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "type": "target"
     },
     {
-      "id": 28,
+      "id": 27,
       "x": 8122.61083984375,
       "y": -1331.15625,
       "action": "",
@@ -261,7 +253,7 @@
       "type": "path"
     },
     {
-      "id": 29,
+      "id": 28,
       "x": 8118.8388671875,
       "y": -1388.3310546875,
       "action": "stop_flying",
@@ -270,7 +262,7 @@
       "type": "path"
     },
     {
-      "id": 30,
+      "id": 29,
       "x": 8121.0458984375,
       "y": -1400.533203125,
       "action": "",
@@ -278,7 +270,7 @@
       "type": "path"
     },
     {
-      "id": 31,
+      "id": 30,
       "x": 8139.08251953125,
       "y": -1451.94140625,
       "action": "",
@@ -287,7 +279,7 @@
       "type": "path"
     },
     {
-      "id": 32,
+      "id": 31,
       "x": 8143.23681640625,
       "y": -1469.83203125,
       "action": "combat_script",
@@ -296,7 +288,7 @@
       "type": "target"
     },
     {
-      "id": 33,
+      "id": 32,
       "x": 9782.4208984375,
       "y": -1764.7216796875,
       "action": "force_tp",
@@ -304,7 +296,7 @@
       "type": "teleport"
     },
     {
-      "id": 34,
+      "id": 33,
       "x": 9888.5888671875,
       "y": -1760.61376953125,
       "action": "",
@@ -312,7 +304,7 @@
       "type": "path"
     },
     {
-      "id": 35,
+      "id": 34,
       "x": 9899.2236328125,
       "y": -1761.6298828125,
       "action": "combat_script",
@@ -321,7 +313,7 @@
       "type": "path"
     },
     {
-      "id": 36,
+      "id": 35,
       "x": 9904.220703125,
       "y": -1797.63037109375,
       "action": "",
@@ -330,7 +322,7 @@
       "type": "path"
     },
     {
-      "id": 37,
+      "id": 36,
       "x": 9896.1865234375,
       "y": -1867.02294921875,
       "action": "combat_script",
@@ -339,7 +331,7 @@
       "type": "target"
     },
     {
-      "id": 38,
+      "id": 37,
       "x": 9782.4208984375,
       "y": -1764.7216796875,
       "action": "force_tp",

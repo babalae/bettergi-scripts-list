@@ -25,7 +25,7 @@ let enemyType = "无";
 (async function () {
     setGameMetrics(1920, 1080, 1);
     //伪造js结束记录
-    await fakeLog("自动狗粮重制版", true, true, 0);
+    await fakeLog("自动狗粮加强版", true, true, 0);
 
     //处理操作模式信息
     switch (operationType) {
@@ -209,7 +209,7 @@ let enemyType = "无";
         // 获取 version 字段的值
         version = manifest.version;
 
-        log.info(`当前js版本：${version},更新日期25.7.29,如果太久远,要经常检查更新`);
+        log.info(`当前js版本：${version},更新日期25.8.2,如果太久远,要经常检查更新`);
 
     } catch (error) {
         // 如果发生错误，记录错误信息
@@ -444,7 +444,7 @@ let enemyType = "无";
     }
 
     //伪造js开始记录
-    await fakeLog("自动狗粮重制版", true, false, 0);
+    await fakeLog("自动狗粮加强版", true, false, 0);
 })();
 
 // 异步函数，用于将变量内容写回到文件
