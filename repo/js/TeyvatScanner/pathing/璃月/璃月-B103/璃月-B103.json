@@ -1,0 +1,105 @@
+﻿{
+  "info": {
+    "name": "璃月-B103",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754145775031,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1043.466796875,
+      "y": -557.71533203125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1142.2919921875,
+      "y": -542.62939453125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 1142.2919921875,
+      "y": -542.62939453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 1142.2919921875,
+      "y": -542.62939453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 1151.9873046875,
+      "y": -529.80029296875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 1162.8359375,
+      "y": -534.67626953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 1166.6865234375,
+      "y": -528.69873046875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 1160.580078125,
+      "y": -518.7412109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 1159.8515625,
+      "y": -517.849609375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
