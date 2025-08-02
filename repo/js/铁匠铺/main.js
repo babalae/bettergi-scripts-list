@@ -357,7 +357,7 @@ async function forgeOre(smithyName) {
     await forgeOre(smithyName);
     await genshin.returnMainUi();
 
-    后退两步
+    //后退两步
     { keyDown("S"); await sleep(1000); keyUp("S"); await sleep(1000); }
 
     //if (notice) {
