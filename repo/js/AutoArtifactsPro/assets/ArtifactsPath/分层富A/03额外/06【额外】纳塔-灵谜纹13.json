@@ -13,7 +13,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1754153723039,
+    "last_modified_time": 1754245552344,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -50,20 +50,30 @@
       "y": -1556.62353515625,
       "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "j,wait(4.5),j,mousedown",
+      "action_params": "j,wait(4.55),j,wait(0.3),mousedown,wait(0.3)",
       "type": "path"
     },
     {
       "id": 5,
       "x": 9741.8935546875,
       "y": -1560.5,
-      "type": "orientation",
+      "action": "",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "mousedown,wait(0.7),moveby(0,800),wait(1.0),mouseup,wait(0.4),click(middle)"
+      "action_params": "",
+      "type": "orientation",
+      "locked": false
     },
     {
       "id": 6,
+      "x": 9741.8935546875,
+      "y": -1560.5,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "mousedown,wait(0.7),moveby(0,1200),wait(0.2),moveby(0,1600),wait(1.0),mouseup,wait(0.4),click(middle)",
+      "type": "orientation"
+    },
+    {
+      "id": 7,
       "x": 9740.6220703125,
       "y": -1558.60302734375,
       "action": "combat_script",
@@ -72,23 +82,13 @@
       "type": "path"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": 9740.6220703125,
       "y": -1558.60302734375,
       "action": "",
       "move_mode": "climb",
       "action_params": "",
-      "type": "target",
-      "locked": false
-    },
-    {
-      "id": 8,
-      "x": 9742.4375,
-      "y": -1560.9998008022858,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "mousedown,wait(0.7),moveby(-700,-400),wait(1.0),mouseup,wait(0.4),click(middle)",
-      "type": "orientation"
+      "type": "target"
     },
     {
       "id": 9,
@@ -96,7 +96,7 @@
       "y": -1558.3119024068583,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE),wait(0.5),mousedown,wait(0.7),moveby(-200,-1050),wait(1.0),mouseup,wait(0.4),click(middle),wait(0.25),j",
+      "action_params": "keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE),wait(0.5),mousedown,wait(0.7),moveby(-200,-1100),wait(1.0),mouseup,wait(0.4),click(middle),wait(0.25),j",
       "type": "orientation"
     },
     {
