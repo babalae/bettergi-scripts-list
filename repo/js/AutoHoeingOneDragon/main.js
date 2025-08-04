@@ -1,12 +1,13 @@
 //拾取时上下滑动的时间
-const timeMoveUp = 500;
-const timeMoveDown = 1000;
+const timeMoveUp = 1000;
+const timeMoveDown = 1500;
 const pickupMode = settings.pickupMode || "js拾取，默认只拾取狗粮和晶蝶";
 if (settings.activeDumperMode) { //处理泥头车信息
     dumpers = settings.activeDumperMode.split('，').map(Number).filter(num => num === 1 || num === 2 || num === 3 || num === 4);
 } else {
     dumpers = [];
 }
+const trigger = settings.trigger || 50;
 
 (async function () {
     //自定义配置处理
@@ -494,12 +495,20 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
         const maxAttempts = 2;
 
         let attempts = 0;
+        let lastOcrTime = new Date();
         while (attempts < maxAttempts && !state.cancelRequested) {
+            const ocrTime = new Date();
+            if (ocrTime - lastOcrTime < trigger) {
+                //限制识别频率
+                await sleep(trigger - (ocrTime - lastOcrTime));
+            }
+            lastOcrTime = ocrTime;
             try {
                 let template = file.ReadImageMatSync(imagePath);
                 let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
-                let result = captureGameRegion().find(recognitionObject);
-                if (result.isExist()) {
+                resultMainUi = captureGameRegion().find(recognitionObject);
+                //captureGameRegion().dispose;
+                if (resultMainUi.isExist()) {
                     return true; // 如果找到图标，返回 true
                 }
             } catch (error) {
@@ -533,11 +542,20 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
     // 定义一个函数用于执行OCR识别和交互
     async function performOcrAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance) {
         async function performOcr(whitelistKeywords, xRange, yRange, timeout = 200) {
+            let lastOcrTime = new Date();
             let startTime = Date.now();
-            while (Date.now() - startTime < timeout) {
+            while (Date.now() - startTime < timeout && !state.cancelRequested) {
+                const ocrTime = new Date();
+                //log.info(`当前触发间隔为${ocrTime - lastOcrTime}`);
+                if (ocrTime - lastOcrTime < trigger) {
+                    //限制识别频率
+                    await sleep(trigger - (ocrTime - lastOcrTime));
+                }
+                lastOcrTime = ocrTime;
                 try {
                     // 在捕获的区域内进行OCR识别
-                    let ra = captureGameRegion();
+                    ra = captureGameRegion();
+                    //captureGameRegion().dispose;
                     let resList = ra.findMulti(RecognitionObject.ocr(
                         xRange.min, yRange.min,
                         xRange.max - xRange.min, yRange.max - yRange.min
@@ -571,18 +589,33 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
             log.warn("OCR识别超时");
             return [];
         }
-
+        await sleep(5000);//启动地图追踪前五秒不执行ocr
+        let lastOcrTime = new Date();
         while (!state.completed && !state.cancelRequested) {
+            const ocrTime = new Date();
+            if (ocrTime - lastOcrTime < trigger) {
+                //限制识别频率
+                await sleep(trigger - (ocrTime - lastOcrTime));
+            }
             // 尝试找到 F 图标并返回其坐标
             async function findFIcon(imagePath, xMin, yMin, width, height, timeout = 500) {
+                let lastOcrTime = new Date();
                 let startTime = Date.now();
                 while (Date.now() - startTime < timeout && !state.cancelRequested) {
+                    const ocrTime = new Date();
+                    //log.info(`当前触发间隔为${ocrTime - lastOcrTime}`);
+                    if (ocrTime - lastOcrTime < trigger) {
+                        //限制识别频率
+                        await sleep(trigger - (ocrTime - lastOcrTime));
+                    }
+                    lastOcrTime = ocrTime;
                     try {
                         let template = file.ReadImageMatSync(imagePath);
                         let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
-                        let result = captureGameRegion().find(recognitionObject);
-                        if (result.isExist()) {
-                            return { success: true, x: result.x, y: result.y, width: result.width, height: result.height };
+                        resultFIcon = captureGameRegion().find(recognitionObject);
+                        //captureGameRegion().dispose;
+                        if (resultFIcon.isExist()) {
+                            return { success: true, x: resultFIcon.x, y: resultFIcon.y, width: resultFIcon.width, height: resultFIcon.height };
                         }
                     } catch (error) {
                         log.error(`识别图像时发生异常: ${error.message}`);
@@ -591,7 +624,6 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                         }
                         return null;
                     }
-                    await sleep(2); // 每次检测间隔 2 毫秒
                 }
                 if (state.cancelRequested) {
                     log.info("图像识别任务已取消");
@@ -600,14 +632,15 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
             }
 
             // 尝试找到 F 图标
-            let fRes = await findFIcon(imagePath, 1102, 335, 34, 400, 200);
+            let fRes = await findFIcon(imagePath, 1102, 335, 34, 400, 500);
             if (!fRes) {
                 state.atMainUi = await isMainUI();
                 state.lastCheckMainUi = new Date();
                 if (state.atMainUi) {
                     //log.info("在主界面，尝试下滑");
-                    await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+                    keyMouseScript.runFile(`assets/滚轮下翻.json`);
                 }
+                await sleep(trigger);
                 continue;
             }
 
@@ -636,7 +669,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 let centerYTargetText = ocrResult.y + ocrResult.height / 2;
                 if (Math.abs(centerYTargetText - centerYF) <= texttolerance) {
                     keyPress("F"); // 执行交互操作
-                    await sleep(5); // 操作后暂停 5 毫秒
+                    await sleep(trigger);
                     foundTarget = true;
                     break;
                 }
@@ -648,7 +681,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
 
                 // 如果距离上次下翻超过timeMoveUp秒，则执行下翻
                 if (currentTime - lastMoveDown > timeMoveUp) {
-                    await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+                    keyMouseScript.runFile(`assets/滚轮下翻.json`);
 
                     // 如果这是第一次下翻，记录这次下翻的时间
                     if (thisMoveUpTime === 0) {
@@ -662,7 +695,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     }
                 } else {
                     // 否则执行下翻
-                    await keyMouseScript.runFile(`assets/滚轮上翻.json`);
+                    keyMouseScript.runFile(`assets/滚轮上翻.json`);
                 }
             }
 
