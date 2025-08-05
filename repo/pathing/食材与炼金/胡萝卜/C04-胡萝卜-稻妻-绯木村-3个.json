@@ -8,13 +8,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1754248069714,
-    "authors": [
-      {
-        "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
-      }
-    ]
+    "last_modified_time": 1754379560207
   },
   "positions": [
     {
@@ -55,21 +49,21 @@
       "y": -3737.71,
       "action": "",
       "move_mode": "walk",
-      "type": "path"
+      "type": "target"
     },
     {
       "id": 6,
-      "x": -2156.35,
-      "y": -3737.57,
+      "x": -2154.6025,
+      "y": -3738.8720,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "wait(0.5)",
-      "type": "path"
+      "type": "target"
     },
     {
       "id": 7,
-      "x": -2216.001,
-      "y": -3709.4932,
+      "x": -2216.0009765625,
+      "y": -3709.4931640625,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -77,8 +71,8 @@
     },
     {
       "id": 8,
-      "x": -2207.1162,
-      "y": -3680.2979,
+      "x": -2207.1162109375,
+      "y": -3680.2978515625,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -86,8 +80,8 @@
     },
     {
       "id": 9,
-      "x": -2195.8926,
-      "y": -3651.5195,
+      "x": -2195.892578125,
+      "y": -3651.51953125,
       "action": "",
       "move_mode": "fly",
       "action_params": "",
@@ -95,8 +89,8 @@
     },
     {
       "id": 10,
-      "x": -2188.0645,
-      "y": -3638.6631,
+      "x": -2188.064453125,
+      "y": -3638.6630859375,
       "action": "",
       "move_mode": "fly",
       "action_params": "",
@@ -104,8 +98,8 @@
     },
     {
       "id": 11,
-      "x": -2182.2998,
-      "y": -3645.9316,
+      "x": -2182.2998046875,
+      "y": -3645.931640625,
       "action": "",
       "move_mode": "fly",
       "action_params": "",
@@ -113,8 +107,17 @@
     },
     {
       "id": 12,
-      "x": -2182.2998,
-      "y": -3645.9316,
+      "x": -2183.3623,
+      "y": -3644.1142,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": -2182.2998046875,
+      "y": -3645.931640625,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "wait(0.5)",
