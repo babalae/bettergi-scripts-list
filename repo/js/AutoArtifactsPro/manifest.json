@@ -1,13 +1,13 @@
 {
   "manifest_version": 1,
   "name": "自动狗粮加强版",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "tags": [
     "好感",
     "狗粮"
   ],
-  "savedFolders": [
-    "records"
+  "saved_files": [
+    "records/"
   ],
   "description": "通过不同好感任务卡时间后运行狗粮任务以提高狗粮总收益，需要正确配置好感队伍的战斗策略，并在自定义配置中指定好感和狗粮队伍名称",
   "authors": [
@@ -26,4 +26,5 @@
   ],
   "settings_ui": "settings.json",
   "main": "main.js"
+
 }
