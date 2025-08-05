@@ -1,3 +1,4 @@
+//当前js版本1.3.3
 //拾取时上下滑动的时间
 const timeMoveUp = 1000;
 const timeMoveDown = 1500;
@@ -7,7 +8,7 @@ if (settings.activeDumperMode) { //处理泥头车信息
 } else {
     dumpers = [];
 }
-const trigger = settings.trigger || 50;
+const trigger = Number(settings.trigger) || 50;
 let state;
 
 (async function () {
