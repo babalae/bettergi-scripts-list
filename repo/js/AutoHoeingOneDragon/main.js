@@ -638,9 +638,10 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 state.lastCheckMainUi = new Date();
                 if (state.atMainUi) {
                     //log.info("在主界面，尝试下滑");
-                    keyMouseScript.runFile(`assets/滚轮下翻.json`);
+                    await keyMouseScript.runFile(`assets/滚轮下翻.json`);
                 }
                 await sleep(trigger);
+                lastMoveDown = new Date();
                 continue;
             }
 
@@ -681,7 +682,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
 
                 // 如果距离上次下翻超过timeMoveUp秒，则执行下翻
                 if (currentTime - lastMoveDown > timeMoveUp) {
-                    keyMouseScript.runFile(`assets/滚轮下翻.json`);
+                    await keyMouseScript.runFile(`assets/滚轮下翻.json`);
 
                     // 如果这是第一次下翻，记录这次下翻的时间
                     if (thisMoveUpTime === 0) {
@@ -695,7 +696,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     }
                 } else {
                     // 否则执行下翻
-                    keyMouseScript.runFile(`assets/滚轮上翻.json`);
+                    await keyMouseScript.runFile(`assets/滚轮上翻.json`);
                 }
             }
 
