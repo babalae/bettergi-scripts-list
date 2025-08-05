@@ -8,7 +8,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1754248069714,
+    "last_modified_time": 1754379560207,
     "authors": [
       {
         "name": "蜜柑魚",
@@ -55,16 +55,16 @@
       "y": -3737.71,
       "action": "",
       "move_mode": "walk",
-      "type": "path"
+      "type": "target"
     },
     {
       "id": 6,
-      "x": -2156.35,
-      "y": -3737.57,
+      "x": -2154.6025,
+      "y": -3738.872,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "wait(0.5)",
-      "type": "path"
+      "type": "target"
     },
     {
       "id": 7,
@@ -113,6 +113,15 @@
     },
     {
       "id": 12,
+      "x": -2183.3623,
+      "y": -3644.1142,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
       "x": -2182.2998,
       "y": -3645.9316,
       "action": "combat_script",
