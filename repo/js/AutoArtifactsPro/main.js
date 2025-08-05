@@ -209,7 +209,7 @@ let enemyType = "无";
         // 获取 version 字段的值
         version = manifest.version;
 
-        log.info(`当前js版本：${version},更新日期25.8.4,如果太久远,要经常检查更新`);
+        log.info(`当前js版本：${version},更新日期25.8.5,如果太久远,要经常检查更新`);
 
     } catch (error) {
         // 如果发生错误，记录错误信息
