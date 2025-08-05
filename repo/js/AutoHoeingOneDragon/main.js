@@ -8,6 +8,7 @@ if (settings.activeDumperMode) { //处理泥头车信息
     dumpers = [];
 }
 const trigger = settings.trigger || 50;
+let state;
 
 (async function () {
     //自定义配置处理
@@ -473,58 +474,37 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
     let lastMoveDown = 0;
     let lastPickupTime = new Date();
     let lastPickupItem = "";
-    // 定义状态变量
-    let state = { completed: false, cancelRequested: false, atMainUi: false, lastCheckMainUi: new Date() };
+    // 初始化状态变量
+    state = { completed: false, cancelRequested: false, atMainUi: false, lastCheckMainUi: new Date() };
     // 定义图像路径和目标文本列表
     const imagePath = `assets/F_Dialogue.png`;
     const textxRange = { min: 1210, max: 1412 };
     const texttolerance = 30; // Y 坐标容错范围
 
-    //检查是否在主界面
-    async function isMainUI() {
-        // 修改后的图像路径
-        const imagePath = "assets/MainUI.png";
+    // 启动路径文件执行任务
+    const pathTask = executePathFile(pathFilePath);
 
-        // 修改后的识别区域（左上角区域）
-        const xMin = 0;
-        const yMin = 0;
-        const width = 150; // 识别区域宽度
-        const height = 150; // 识别区域高度
+    // 根据条件决定是否启动 OCR 检测和交互任务
+    let ocrTask = null;
+    if (pickupMode === "js拾取，默认只拾取狗粮和晶蝶") {
+        ocrTask = performOcrAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance);
+    }
 
-        // 尝试次数设置为 2 次
-        const maxAttempts = 2;
+    // 根据条件决定是否启动泥头车任务
+    let dumperTask = null;
+    if (dumpers.length > 0) { // 检查 dumpers 是否不为空
+        dumperTask = dumper(pathFilePath, map_name); // 调用 dumper 函数
+    }
 
-        let attempts = 0;
-        let lastOcrTime = new Date();
-        while (attempts < maxAttempts && !state.cancelRequested) {
-            const ocrTime = new Date();
-            if (ocrTime - lastOcrTime < trigger) {
-                //限制识别频率
-                await sleep(trigger - (ocrTime - lastOcrTime));
-            }
-            lastOcrTime = ocrTime;
-            try {
-                let template = file.ReadImageMatSync(imagePath);
-                let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
-                resultMainUi = captureGameRegion().find(recognitionObject);
-                //captureGameRegion().dispose;
-                if (resultMainUi.isExist()) {
-                    return true; // 如果找到图标，返回 true
-                }
-            } catch (error) {
-                log.error(`识别图像时发生异常: ${error.message}`);
-                if (state.cancelRequested) {
-                    break; // 如果请求了取消，则退出循环
-                }
-                return false; // 发生异常时返回 false
-            }
-            attempts++; // 增加尝试次数
-            await sleep(2); // 每次检测间隔 2 毫秒
-        }
-        if (state.cancelRequested) {
-            log.info("图像识别任务已取消");
-        }
-        return false; // 如果尝试次数达到上限或取消，返回 false
+    // 等待所有任务完成
+    try {
+        await Promise.allSettled([pathTask, ocrTask, dumperTask]);
+    } catch (error) {
+        console.error(`执行任务时发生错误：${error.message}`);
+        state.cancelRequested = true; // 设置取消标志
+    } finally {
+        state.completed = true; // 确保任务标记为完成
+        state.cancelRequested = true; // 设置取消标志
     }
 
     // 定义一个函数用于执行路径文件
@@ -541,107 +521,23 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
 
     // 定义一个函数用于执行OCR识别和交互
     async function performOcrAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance) {
-        async function performOcr(whitelistKeywords, xRange, yRange, timeout = 200) {
-            let lastOcrTime = new Date();
-            let startTime = Date.now();
-            while (Date.now() - startTime < timeout && !state.cancelRequested) {
-                const ocrTime = new Date();
-                //log.info(`当前触发间隔为${ocrTime - lastOcrTime}`);
-                if (ocrTime - lastOcrTime < trigger) {
-                    //限制识别频率
-                    await sleep(trigger - (ocrTime - lastOcrTime));
-                }
-                lastOcrTime = ocrTime;
-                try {
-                    // 在捕获的区域内进行OCR识别
-                    ra = captureGameRegion();
-                    //captureGameRegion().dispose;
-                    let resList = ra.findMulti(RecognitionObject.ocr(
-                        xRange.min, yRange.min,
-                        xRange.max - xRange.min, yRange.max - yRange.min
-                    ));
-
-                    // 遍历识别结果，检查是否找到目标文本
-                    let results = [];
-                    for (let i = 0; i < resList.count; i++) {
-                        let res = resList[i];
-                        let correctedText = res.text;
-
-                        // 如果 whitelistKeywords 为空，则直接将所有文本视为匹配
-                        if (whitelistKeywords.length === 0) {
-                            results.push({ text: correctedText, x: res.x, y: res.y, width: res.width, height: res.height });
-                        } else {
-                            // 否则，检查是否包含目标文本
-                            for (let targetText of whitelistKeywords) {
-                                if (correctedText.includes(targetText)) {
-                                    results.push({ text: correctedText, x: res.x, y: res.y, width: res.width, height: res.height });
-                                    break; // 匹配到一个目标文本后即可跳出循环
-                                }
-                            }
-                        }
-                    }
-                    return results;
-                } catch (error) {
-                    log.error(`识别文字时发生异常: ${error.message}`);
-                    return [];
-                }
-            }
-            log.warn("OCR识别超时");
-            return [];
-        }
         await sleep(5000);//启动地图追踪前五秒不执行ocr
-        let lastOcrTime = new Date();
+        let lastOcrTime = Date.now() - trigger;
         while (!state.completed && !state.cancelRequested) {
-            const ocrTime = new Date();
+            const ocrTime = Date.now();
             if (ocrTime - lastOcrTime < trigger) {
                 //限制识别频率
                 await sleep(trigger - (ocrTime - lastOcrTime));
             }
-            // 尝试找到 F 图标并返回其坐标
-            async function findFIcon(imagePath, xMin, yMin, width, height, timeout = 500) {
-                let lastOcrTime = new Date();
-                let startTime = Date.now();
-                while (Date.now() - startTime < timeout && !state.cancelRequested) {
-                    const ocrTime = new Date();
-                    //log.info(`当前触发间隔为${ocrTime - lastOcrTime}`);
-                    if (ocrTime - lastOcrTime < trigger) {
-                        //限制识别频率
-                        await sleep(trigger - (ocrTime - lastOcrTime));
-                    }
-                    lastOcrTime = ocrTime;
-                    try {
-                        let template = file.ReadImageMatSync(imagePath);
-                        let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
-                        resultFIcon = captureGameRegion().find(recognitionObject);
-                        //captureGameRegion().dispose;
-                        if (resultFIcon.isExist()) {
-                            return { success: true, x: resultFIcon.x, y: resultFIcon.y, width: resultFIcon.width, height: resultFIcon.height };
-                        }
-                    } catch (error) {
-                        log.error(`识别图像时发生异常: ${error.message}`);
-                        if (state.cancelRequested) {
-                            break; // 如果请求了取消，则退出循环
-                        }
-                        return null;
-                    }
-                }
-                if (state.cancelRequested) {
-                    log.info("图像识别任务已取消");
-                }
-                return null;
-            }
-
+            lastOcrTime = ocrTime;
             // 尝试找到 F 图标
             let fRes = await findFIcon(imagePath, 1102, 335, 34, 400, 500);
             if (!fRes) {
                 state.atMainUi = await isMainUI();
                 state.lastCheckMainUi = new Date();
                 if (state.atMainUi) {
-                    //log.info("在主界面，尝试下滑");
                     await keyMouseScript.runFile(`assets/滚轮下翻.json`);
                 }
-                await sleep(trigger);
-                lastMoveDown = new Date();
                 continue;
             }
 
@@ -683,7 +579,6 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 // 如果距离上次下翻超过timeMoveUp秒，则执行下翻
                 if (currentTime - lastMoveDown > timeMoveUp) {
                     await keyMouseScript.runFile(`assets/滚轮下翻.json`);
-
                     // 如果这是第一次下翻，记录这次下翻的时间
                     if (thisMoveUpTime === 0) {
                         thisMoveUpTime = currentTime; // 记录第一次上翻的时间
@@ -706,7 +601,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
         }
     }
 
-    //处理泥头车模式
+    //泥头车模式
     async function dumper(pathFilePath, map_name) {
         let lastDumperTimer = 0;
         const dumperCD = 10000;
@@ -804,30 +699,135 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
         }
     }
 
-    // 启动路径文件执行任务
-    const pathTask = executePathFile(pathFilePath);
-
-    // 根据条件决定是否启动 OCR 检测和交互任务
-    let ocrTask = null;
-    if (pickupMode === "js拾取，默认只拾取狗粮和晶蝶") {
-        ocrTask = performOcrAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance);
+    // 尝试找到 F 图标并返回其坐标
+    async function findFIcon(imagePath, xMin, yMin, width, height, timeout = 500) {
+        //log.info('判断是否存在f图标');
+        let lastOcrTime = Date.now() - trigger;
+        let startTime = Date.now();
+        while (Date.now() - startTime < timeout && !state.cancelRequested) {
+            const ocrTime = Date.now();
+            if (ocrTime - lastOcrTime < trigger) {
+                //限制识别频率
+                await sleep(trigger - (ocrTime - lastOcrTime));
+            }
+            lastOcrTime = ocrTime;
+            try {
+                let template = file.ReadImageMatSync(imagePath);
+                let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
+                let resultFIcon = captureGameRegion().find(recognitionObject);
+                //captureGameRegion().dispose;
+                if (resultFIcon.isExist()) {
+                    return { success: true, x: resultFIcon.x, y: resultFIcon.y, width: resultFIcon.width, height: resultFIcon.height };
+                }
+            } catch (error) {
+                log.error(`识别图像时发生异常: ${error.message}`);
+                if (state.cancelRequested) {
+                    break; // 如果请求了取消，则退出循环
+                }
+                return null;
+            }
+        }
+        if (state.cancelRequested) {
+            log.info("图像识别任务已取消");
+        }
+        return null;
     }
 
-    // 启动泥头车
-    let dumperTask = null;
-    if (dumpers.length > 0) { // 检查 dumpers 是否不为空
-        dumperTask = dumper(pathFilePath, map_name); // 调用 dumper 函数
+    async function performOcr(whitelistKeywords, xRange, yRange, timeout = 200) {
+        //log.info('判断目标文本');
+        let lastOcrTime = Date.now() - trigger;
+        let startTime = Date.now();
+        while (Date.now() - startTime < timeout && !state.cancelRequested) {
+            const ocrTime = Date.now();
+            if (ocrTime - lastOcrTime < trigger) {
+                //限制识别频率
+                await sleep(trigger - (ocrTime - lastOcrTime));
+            }
+            lastOcrTime = ocrTime;
+            try {
+                // 在捕获的区域内进行OCR识别
+                let ra = captureGameRegion();
+                //captureGameRegion().dispose;
+                let resList = ra.findMulti(RecognitionObject.ocr(
+                    xRange.min, yRange.min,
+                    xRange.max - xRange.min, yRange.max - yRange.min
+                ));
+
+                // 遍历识别结果，检查是否找到目标文本
+                let results = [];
+                for (let i = 0; i < resList.count; i++) {
+                    let res = resList[i];
+                    let correctedText = res.text;
+
+                    // 如果 whitelistKeywords 为空，则直接将所有文本视为匹配
+                    if (whitelistKeywords.length === 0) {
+                        results.push({ text: correctedText, x: res.x, y: res.y, width: res.width, height: res.height });
+                    } else {
+                        // 否则，检查是否包含目标文本
+                        for (let targetText of whitelistKeywords) {
+                            if (correctedText.includes(targetText)) {
+                                results.push({ text: correctedText, x: res.x, y: res.y, width: res.width, height: res.height });
+                                break; // 匹配到一个目标文本后即可跳出循环
+                            }
+                        }
+                    }
+                }
+                return results;
+            } catch (error) {
+                log.error(`识别文字时发生异常: ${error.message}`);
+                return [];
+            }
+        }
+        log.warn("OCR识别超时");
+        return [];
     }
 
-    // 等待所有任务完成
-    try {
-        await Promise.allSettled([pathTask, ocrTask, dumperTask]);
-    } catch (error) {
-        console.error(`执行任务时发生错误：${error.message}`);
-        state.cancelRequested = true; // 设置取消标志
-    } finally {
-        state.completed = true; // 确保任务标记为完成
-        state.cancelRequested = true; // 设置取消标志
+    //检查是否在主界面
+    async function isMainUI() {
+        //log.info('判断是否处于主界面');
+        // 修改后的图像路径
+        const imagePath = "assets/MainUI.png";
+
+        // 修改后的识别区域（左上角区域）
+        const xMin = 0;
+        const yMin = 0;
+        const width = 150; // 识别区域宽度
+        const height = 150; // 识别区域高度
+
+        // 尝试次数设置为 2 次
+        const maxAttempts = 2;
+
+        let attempts = 0;
+        let lastOcrTime = Date.now() - trigger;
+        while (attempts < maxAttempts && !state.cancelRequested) {
+            const ocrTime = Date.now();
+            if (ocrTime - lastOcrTime < trigger) {
+                //限制识别频率
+                await sleep(trigger - (ocrTime - lastOcrTime));
+            }
+            lastOcrTime = ocrTime;
+            try {
+                let template = file.ReadImageMatSync(imagePath);
+                let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
+                let resultMainUi = captureGameRegion().find(recognitionObject);
+                //captureGameRegion().dispose;
+                if (resultMainUi.isExist()) {
+                    return true; // 如果找到图标，返回 true
+                }
+            } catch (error) {
+                log.error(`识别图像时发生异常: ${error.message}`);
+                if (state.cancelRequested) {
+                    break; // 如果请求了取消，则退出循环
+                }
+                return false; // 发生异常时返回 false
+            }
+            attempts++; // 增加尝试次数
+            await sleep(2); // 每次检测间隔 2 毫秒
+        }
+        if (state.cancelRequested) {
+            log.info("图像识别任务已取消");
+        }
+        return false; // 如果尝试次数达到上限或取消，返回 false
     }
 }
 
@@ -1325,6 +1325,3 @@ async function isTimeRestricted(timeRule, threshold = 5) {
     log.info("不处于限制时间");
     return false; // 当前时间不在限制时间内
 }
-
-
-
