@@ -1,0 +1,107 @@
+{
+  "info": {
+    "name": "03-日落果-蒙德城前-13个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "白白喵"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1120.8936,
+      "y": 2190.563,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1149.3506,
+      "y": 2174.0354,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1150.6357,
+      "y": 2176.0554,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1154.6523,
+      "y": 2172.6384,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "万叶 e(hold),attack,wait(2.0)",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": -1120.9131,
+      "y": 2190.5442,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 6,
+      "x": -1047.8506,
+      "y": 2201.5632,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "万叶 e(hold),attack,wait(2.0)",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": -1041.8867,
+      "y": 2170.5564,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -1049.3828,
+      "y": 2157.1179,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -1045.1064,
+      "y": 2137.6069,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -1040.3751,
+      "y": 2133.1246,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "万叶 e(hold),attack,wait(3.0)",
+      "type": "target"
+    }
+  ]
+}
