@@ -13,8 +13,9 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1753729685497,
-    "enable_monster_loot_split": false
+    "last_modified_time": 1754399153784,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -102,14 +103,23 @@
     },
     {
       "id": 11,
-      "x": 4121.218726299502,
-      "y": -2046.1876288426893,
+      "x": 4095.98828125,
+      "y": -2032.8798828125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 4122.3125,
+      "y": -2045.7498450684443,
       "action": "",
       "move_mode": "run",
       "type": "path"
     },
     {
-      "id": 12,
+      "id": 13,
       "x": 4149.219275361031,
       "y": -2041.2823489523507,
       "action": "",
@@ -118,7 +128,7 @@
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 14,
       "x": 4197.4619140625,
       "y": -2046.7412109375,
       "action": "stop_flying",
@@ -127,7 +137,7 @@
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": 4200.10009765625,
       "y": -2046.51953125,
       "action": "combat_script",
@@ -136,7 +146,7 @@
       "type": "target"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": 4200.10009765625,
       "y": -2046.51953125,
       "action": "set_time",
@@ -145,7 +155,7 @@
       "type": "orientation"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": 4202.6923828125,
       "y": -2045.80078125,
       "action": "",
@@ -154,7 +164,7 @@
       "type": "path"
     },
     {
-      "id": 17,
+      "id": 18,
       "x": 4200.78076171875,
       "y": -2043.26171875,
       "action": "",
