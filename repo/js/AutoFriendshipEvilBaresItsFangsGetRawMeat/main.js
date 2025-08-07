@@ -70,6 +70,83 @@
 		}
 	}
 
+	async function fakeLog(name, isJs, isStart, duration) {
+		await sleep(10);
+		const currentTime = Date.now();
+		// 参数检查
+		if (typeof name !== 'string') {
+			log.error("参数 'name' 必须是字符串类型！");
+			return;
+		}
+		if (typeof isJs !== 'boolean') {
+			log.error("参数 'isJs' 必须是布尔型！");
+			return;
+		}
+		if (typeof isStart !== 'boolean') {
+			log.error("参数 'isStart' 必须是布尔型！");
+			return;
+		}
+		if (typeof currentTime !== 'number' || !Number.isInteger(currentTime)) {
+			log.error("参数 'currentTime' 必须是整数！");
+			return;
+		}
+		if (typeof duration !== 'number' || !Number.isInteger(duration)) {
+			log.error("参数 'duration' 必须是整数！");
+			return;
+		}
+
+		// 将 currentTime 转换为 Date 对象并格式化为 HH:mm:ss.sss
+		const date = new Date(currentTime);
+		const hours = String(date.getHours()).padStart(2, '0');
+		const minutes = String(date.getMinutes()).padStart(2, '0');
+		const seconds = String(date.getSeconds()).padStart(2, '0');
+		const milliseconds = String(date.getMilliseconds()).padStart(3, '0');
+		const formattedTime = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+
+		// 将 duration 转换为分钟和秒，并保留三位小数
+		const durationInSeconds = duration / 1000; // 转换为秒
+		const durationMinutes = Math.floor(durationInSeconds / 60);
+		const durationSeconds = (durationInSeconds % 60).toFixed(3); // 保留三位小数
+
+		// 使用四个独立的 if 语句处理四种情况
+		if (isJs && isStart) {
+			// 处理 isJs = true 且 isStart = true 的情况
+			const logMessage = `正在伪造js开始的日志记录\n\n` +
+				`[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+				`------------------------------\n\n` +
+				`[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+				`→ 开始执行JS脚本: "${name}"`;
+			log.debug(logMessage);
+		}
+		if (isJs && !isStart) {
+			// 处理 isJs = true 且 isStart = false 的情况
+			const logMessage = `正在伪造js结束的日志记录\n\n` +
+				`[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+				`→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
+				`[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+				`------------------------------`;
+			log.debug(logMessage);
+		}
+		if (!isJs && isStart) {
+			// 处理 isJs = false 且 isStart = true 的情况
+			const logMessage = `正在伪造地图追踪开始的日志记录\n\n` +
+				`[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+				`------------------------------\n\n` +
+				`[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+				`→ 开始执行地图追踪任务: "${name}"`;
+			log.debug(logMessage);
+		}
+		if (!isJs && !isStart) {
+			// 处理 isJs = false 且 isStart = false 的情况
+			const logMessage = `正在伪造地图追踪结束的日志记录\n\n` +
+				`[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+				`→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
+				`[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+				`------------------------------`;
+			log.debug(logMessage);
+		}
+	}
+
 	// 好感核心函数
 	async function AutoFriendship(runTimes, statueTimes, getMeatMode, delayTime, startTime, ocrTimeout) {
 		for (let i = 0; i < runTimes; i++) {
@@ -112,6 +189,8 @@
 						"forceInteraction": true
 					}));
 
+					await fakeLog(`好感-张牙舞爪的恶党-${i + 1}/${runTimes}`, false, true, 0);
+
 					//原版逻辑 await AutoPath(`好感-张牙舞爪的恶党-循环${getMeatMode ? '(二净甸刷肉版)' : '(二净甸)'}`);
 					//多种拾取模式
 					if (getMeatMode == "算了我不捡了") {
@@ -125,6 +204,8 @@
 					} else {
 						await AutoPath(`好感-张牙舞爪的恶党-循环(二净甸)`);
 					}
+
+					await fakeLog(`好感-张牙舞爪的恶党-${i + 1}/${runTimes}`, false, false, 0);
 
 					// 关闭急速拾取
 					dispatcher.addTimer(new RealtimeTimer("AutoPick", {
