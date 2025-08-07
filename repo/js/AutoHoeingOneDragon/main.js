@@ -1,4 +1,4 @@
-//当前js版本 1.3.4
+//当前js版本 1.3.5
 
 //拾取时上下滑动的时间
 const timeMoveUp = 500;
@@ -501,7 +501,9 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
             try {
                 let template = file.ReadImageMatSync(imagePath);
                 let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
-                let result = captureGameRegion().find(recognitionObject);
+                const gameRegion = captureGameRegion();
+                let result = gameRegion.find(recognitionObject);
+                gameRegion.dispose();
                 if (result.isExist()) {
                     return true; // 如果找到图标，返回 true
                 }
@@ -540,7 +542,9 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
             try {
                 let template = file.ReadImageMatSync(imagePath);
                 let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
-                let result = captureGameRegion().find(recognitionObject);
+                const gameRegion = captureGameRegion();
+                let result = gameRegion.find(recognitionObject);
+                gameRegion.dispose();
                 if (result.isExist()) {
                     return true; // 如果找到图标，返回 true
                 }
@@ -584,7 +588,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                         xRange.min, yRange.min,
                         xRange.max - xRange.min, yRange.max - yRange.min
                     ));
-
+                    ra.dispose();
                     // 遍历识别结果，检查是否找到目标文本
                     let results = [];
                     for (let i = 0; i < resList.count; i++) {
@@ -622,9 +626,13 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     try {
                         let template = file.ReadImageMatSync(imagePath);
                         let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
-                        let result = captureGameRegion().find(recognitionObject);
+                        const gameRegion = captureGameRegion();
+                        let result = gameRegion.find(recognitionObject);
+                        gameRegion.dispose();
                         if (result.isExist()) {
                             return { success: true, x: result.x, y: result.y, width: result.width, height: result.height };
+                        } else {
+
                         }
                     } catch (error) {
                         log.error(`识别图像时发生异常: ${error.message}`);
