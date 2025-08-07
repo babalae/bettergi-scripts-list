@@ -37,24 +37,25 @@ const sumiCityFishPath = `assets/Pathing/须弥城鱼贩珀姆.json`;
 const sumiGroceryFilePath = `assets/Pathing/须弥杂货铺哈马维.json`;
 const omosPortFishPath = `assets/Pathing/须弥奥摩斯港鱼贩布特罗斯.json`;
 const azaleVillMerPath = `assets/Pathing/须弥阿如村商人阿扎莱.json`;
+const natlanGroceryFilePath = `assets/Pathing/纳塔杂货铺布纳马.json`;
 
 const ingredientPaths = {
     "枫达": [fengdanGroceryFilePath, cafeLuzheFilePath],
-    "盐": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath],
-    "洋葱": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath],
-    "牛奶": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath],
-    "番茄": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath],
-    "卷心菜": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath],
-    "土豆": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath],
-    "小麦": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath],
-    "胡椒": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath],
+    "盐": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath, natlanGroceryFilePath],
+    "洋葱": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath, natlanGroceryFilePath],
+    "牛奶": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath, natlanGroceryFilePath],
+    "番茄": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath, natlanGroceryFilePath],
+    "卷心菜": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath, natlanGroceryFilePath],
+    "土豆": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath, natlanGroceryFilePath],
+    "小麦": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath, natlanGroceryFilePath],
+    "胡椒": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath, natlanGroceryFilePath],
     "稻米": [liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath],//
     "虾仁": [liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, sumiCityFishPath, omosPortFishPath],
     "豆腐": [liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath],
     "杏仁": [liyueGroceryFilePath, fengdanGroceryFilePath],
     "鱼肉": [liyueWanminFilePath, charcoalFilePath, sumiCityFishPath, omosPortFishPath, azaleVillMerPath],
     "螃蟹": [liyueWanminFilePath, charcoalFilePath, sumiCityFishPath, omosPortFishPath],
-    "秃秃豆": [fengdanGroceryFilePath, azaleVillMerPath],
+    "秃秃豆": [fengdanGroceryFilePath, azaleVillMerPath, natlanGroceryFilePath],
     "咖啡豆": [sumiCitycafeFilePath, cafeLuzheFilePath],
     "香辛料": [azaleVillMerPath],
     "发酵果实汁": [fengdanGroceryFilePath]
@@ -103,6 +104,7 @@ const npcNames = {
     [omosPortFishPath]: ["布特罗斯"],
     [azaleVillMerPath]: ["阿扎莱"],
     [sumiGroceryFilePath]: ["哈马维"],
+    [natlanGroceryFilePath]: ["布纳马"],
 };
 
 // 筛选出用户选择的食材及其对应的路径文件和 NPC
@@ -297,6 +299,12 @@ async function clickSelectedIngredients(selectedIngredients, filePath, npcNames)
             await click(1300, 660); await sleep(1000);
             await click(1300, 660); await sleep(1000);
             await click(1300, 660); await sleep(1000);
+        } else if (filePath === natlanGroceryFilePath) {
+            log.info("执行纳塔杂货商等的点击操作");
+            await click(1300, 580); await sleep(1000);
+            await click(1300, 580); await sleep(1000);
+            await click(1300, 580); await sleep(1000);
+            await click(1300, 580); await sleep(1000);
         } else {
             log.info("执行其他路径文件的点击操作");
             await click(1300, 580); await sleep(500);
