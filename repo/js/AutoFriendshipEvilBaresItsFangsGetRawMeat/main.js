@@ -189,7 +189,8 @@
 						"forceInteraction": true
 					}));
 
-					await fakeLog(`好感-张牙舞爪的恶党-${i + 1}/${runTimes}`, false, true, 0);
+					const pathingName = `第${i + 1}次，共${runTimes}次`
+					await fakeLog(`${pathingName}`, false, true, 0);
 
 					//原版逻辑 await AutoPath(`好感-张牙舞爪的恶党-循环${getMeatMode ? '(二净甸刷肉版)' : '(二净甸)'}`);
 					//多种拾取模式
@@ -205,7 +206,7 @@
 						await AutoPath(`好感-张牙舞爪的恶党-循环(二净甸)`);
 					}
 
-					await fakeLog(`好感-张牙舞爪的恶党-${i + 1}/${runTimes}`, false, false, 0);
+					await fakeLog(`${pathingName}`, false, false, 0);
 
 					// 关闭急速拾取
 					dispatcher.addTimer(new RealtimeTimer("AutoPick", {
