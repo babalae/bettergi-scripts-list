@@ -1,4 +1,4 @@
-//当前js版本 1.3.5
+//当前js版本 1.3.6
 
 //拾取时上下滑动的时间
 const timeMoveUp = 500;
@@ -10,6 +10,7 @@ if (settings.activeDumperMode) { //处理泥头车信息
     dumpers = [];
 }
 trigger = (+settings.trigger || 50);
+let gameRegion;
 
 (async function () {
     //自定义配置处理
@@ -501,7 +502,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
             try {
                 let template = file.ReadImageMatSync(imagePath);
                 let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
-                const gameRegion = captureGameRegion();
+                gameRegion = captureGameRegion();
                 let result = gameRegion.find(recognitionObject);
                 gameRegion.dispose();
                 if (result.isExist()) {
@@ -542,7 +543,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
             try {
                 let template = file.ReadImageMatSync(imagePath);
                 let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
-                const gameRegion = captureGameRegion();
+                gameRegion = captureGameRegion();
                 let result = gameRegion.find(recognitionObject);
                 gameRegion.dispose();
                 if (result.isExist()) {
@@ -578,44 +579,39 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
 
     // 定义一个函数用于执行OCR识别和交互
     async function performOcrAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance) {
-        async function performOcr(whitelistKeywords, xRange, yRange, timeout = 200) {
-            let startTime = Date.now();
-            while (Date.now() - startTime < timeout) {
-                try {
-                    // 在捕获的区域内进行OCR识别
-                    let ra = captureGameRegion();
-                    let resList = ra.findMulti(RecognitionObject.ocr(
-                        xRange.min, yRange.min,
-                        xRange.max - xRange.min, yRange.max - yRange.min
-                    ));
-                    ra.dispose();
-                    // 遍历识别结果，检查是否找到目标文本
-                    let results = [];
-                    for (let i = 0; i < resList.count; i++) {
-                        let res = resList[i];
-                        let correctedText = res.text;
+        async function performOcr(whitelistKeywords, xRange, yRange) {
+            try {
+                // 在捕获的区域内进行OCR识别
+                gameRegion = captureGameRegion();
+                let resList = gameRegion.findMulti(RecognitionObject.ocr(
+                    xRange.min, yRange.min,
+                    xRange.max - xRange.min, yRange.max - yRange.min
+                ));
+                gameRegion.dispose();
+                // 遍历识别结果，检查是否找到目标文本
+                let results = [];
+                for (let i = 0; i < resList.count; i++) {
+                    let res = resList[i];
+                    let correctedText = res.text;
 
-                        // 如果 whitelistKeywords 为空，则直接将所有文本视为匹配
-                        if (whitelistKeywords.length === 0) {
-                            results.push({ text: correctedText, x: res.x, y: res.y, width: res.width, height: res.height });
-                        } else {
-                            // 否则，检查是否包含目标文本
-                            for (let targetText of whitelistKeywords) {
-                                if (correctedText.includes(targetText)) {
-                                    results.push({ text: correctedText, x: res.x, y: res.y, width: res.width, height: res.height });
-                                    break; // 匹配到一个目标文本后即可跳出循环
-                                }
+                    // 如果 whitelistKeywords 为空，则直接将所有文本视为匹配
+                    if (whitelistKeywords.length === 0) {
+                        results.push({ text: correctedText, x: res.x, y: res.y, width: res.width, height: res.height });
+                    } else {
+                        // 否则，检查是否包含目标文本
+                        for (let targetText of whitelistKeywords) {
+                            if (correctedText.includes(targetText)) {
+                                results.push({ text: correctedText, x: res.x, y: res.y, width: res.width, height: res.height });
+                                break; // 匹配到一个目标文本后即可跳出循环
                             }
                         }
                     }
-                    return results;
-                } catch (error) {
-                    log.error(`识别文字时发生异常: ${error.message}`);
-                    return [];
                 }
+                return results;
+            } catch (error) {
+                log.error(`识别文字时发生异常: ${error.message}`);
+                return [];
             }
-            log.warn("OCR识别超时");
-            return [];
         }
 
         while (!state.completed && !state.cancelRequested) {
@@ -626,13 +622,12 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     try {
                         let template = file.ReadImageMatSync(imagePath);
                         let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
-                        const gameRegion = captureGameRegion();
+                        gameRegion = captureGameRegion();
                         let result = gameRegion.find(recognitionObject);
-                        gameRegion.dispose();
                         if (result.isExist()) {
                             return { success: true, x: result.x, y: result.y, width: result.width, height: result.height };
                         } else {
-
+                            gameRegion.dispose();
                         }
                     } catch (error) {
                         log.error(`识别图像时发生异常: ${error.message}`);
@@ -665,7 +660,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
             let centerYF = fRes.y + fRes.height / 2;
 
             // 在当前屏幕范围内进行 OCR 识别
-            let ocrResults = await performOcr(whitelistKeywords, textxRange, { min: fRes.y - texttolerance, max: fRes.y + fRes.height + texttolerance * 2 }, 200);
+            let ocrResults = await performOcr(whitelistKeywords, textxRange, { min: fRes.y - texttolerance, max: fRes.y + fRes.height + texttolerance * 2 });
 
             // 检查所有目标文本是否在当前页面中
             let foundTarget = false;
