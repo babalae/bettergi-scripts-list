@@ -72,7 +72,7 @@
             }
             else{
                 ii=8; 
-                if(x !== 840 && x !== 1188){
+                if(x !== 840 && x !== 1188 && x !== 113 ){
                     keyPress("w")
                 }; 
             }
@@ -81,7 +81,7 @@
     }
    
     //初始化
-    var SMODEL = settings.SMODEL ? settings.SMODEL : false; // false 公版BETTERGI，true 自编译版本LCB
+    var SMODEL = settings.SMODEL ? settings.SMODEL : true;
     var SHUOVER=0 //0初始状态，1队伍配置标志，2结束线路，3线路出错
     var haoganq=0 //0初始状态，1好感队伍配置标志
     var Rewards = settings.Rewards ? settings.Rewards : false; // ture 领取冒险点奖励，false 不领取冒险点奖励
@@ -146,7 +146,7 @@
     }  
     var timesConfig = { value: timesValue };
 
-    log.warn(`全自动枫丹地脉花: v3.3 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
+    log.warn(`全自动枫丹地脉花: v3.4 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
     log.warn(`使用树脂类型数量：${rewards.length}`);
     log.warn(`使用树脂顺序：${golbalRewardText.join(" ->")}`); 
 
@@ -329,7 +329,7 @@
         await genshin.returnMainUi();    
 
         for(let i = 0;i<5;i++){
-            await sleep(700);
+            await sleep(1100);
             await keyPress("VK_ESCAPE");
             await sleep(300);
 
@@ -686,7 +686,7 @@
     }
 
     //定义领取动作,好感队伍是否添加？
-    async function claimRewards() {
+    async function claimRewards( Rewardspath = null ) {
         await genshin.returnMainUi(); 
         log.info(`尝试领取奖励，优先${onerewards}'`);
         let SHUN01 = await Textocr("接触地脉之花",1.5,2,0,1187,358,200,400);
@@ -708,7 +708,14 @@
                 }
         }
         
-        await Textocr("地脉之花", 1, 1, 0, 840,225, 230, 125);
+       let dimai = await Textocr("地脉之花", 1, 1, 0, 840,225, 230, 125);
+       if (!dimai.found) {
+        let pathDic = JSON.parse(file.readTextSync(Rewardspath));
+        pathDic["positions"][0]["type"] = "path";
+        await pathingScript.run(JSON.stringify(pathDic));
+         await keyPress("F");await keyPress("F")   
+        }
+
         await sleep(500);
 
         for (let j = 0;j < 2;j++) {
@@ -1126,6 +1133,8 @@
                 if(position.line==2 && (i+position.flower*2-2)==8){   
             
                     await pathingScript.runFile("assets/枫丹地脉花-路线2 秋分山西侧锚点左下/线路修复/枫丹地脉花-路线2 秋分山西侧锚点左下-5：秋分山左左下下_特殊处理.json");
+                }else if (position.line==6 && (i+position.flower*2-2)==2){
+                    await pathingScript.runFile("assets/枫丹地脉花-路线6 芒索斯山东麓/线路修复/枫丹地脉花-路线6 芒索斯山东麓-2：锚点右1_特殊处理.json");
                 }
 
                 await sleep(1000);
@@ -1186,14 +1195,21 @@
             }
             shouldContinueChecking = false;
             await sleep(500);
-            if (!(await claimRewards())) {
+            if (!(await claimRewards( `${selectedFolder}${jsonFile2}` ))) {
                 log.warn("树脂消耗完毕，结束任务");
                 dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false }));
                 await genshin.returnMainUi(); 
                 return true; // 条件2触发：树脂耗尽================
             }
             Lastexecution=true;
-            if (haoganq==1){log.info(`切换战斗队伍：'${settings.n}'`);await genshin.returnMainUi(); await sleep(1000);await genshin.SwitchParty(settings.n);}
+            if (haoganq==1){
+                log.info(`切换战斗队伍：'${settings.n}'`);
+                await genshin.returnMainUi(); 
+                await sleep(1000);
+                if (!await genshin.SwitchParty(settings.n)){
+                    await genshin.returnMainUi();
+                }
+            }
             dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false }));
             // 冷却等待（可选）
             await sleep(1000);
