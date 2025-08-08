@@ -127,7 +127,6 @@ const QuickUsePlusButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSy
     await pathingScript.runFile("assets/recover.json");//回复状态
     log.info(`前往第1次讨伐${challengeName}`);
     await pathingScript.runFile(`assets/${challengeName}前往.json`);
-    await keyMouseScript.runFile(`assets/${challengeName}前往键鼠.json`);
     for (let i = 0; i < challengeNum; i++) {
         await sleep(1000);
         if (samePlace != "YES" && i > 0) {
@@ -135,7 +134,6 @@ const QuickUsePlusButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSy
             await pathingScript.runFile("assets/recover.json");//回复状态
             log.info(`前往第${i + 1}次讨伐${challengeName}`);
             await pathingScript.runFile(`assets/${challengeName}前往.json`);
-            await keyMouseScript.runFile(`assets/${challengeName}前往键鼠.json`);
         }
         log.info(`开始第${i + 1}次战斗`);
         try {
@@ -145,7 +143,6 @@ const QuickUsePlusButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSy
             log.info(`挑战失败，再来一次`);
             await pathingScript.runFile("assets/recover.json");//回复状态
             await pathingScript.runFile(`assets/${challengeName}前往.json`);
-            await keyMouseScript.runFile(`assets/${challengeName}前往键鼠.json`);
             await dispatcher.runTask(new SoloTask("AutoFight"));
         }
         await sleep(1000);
