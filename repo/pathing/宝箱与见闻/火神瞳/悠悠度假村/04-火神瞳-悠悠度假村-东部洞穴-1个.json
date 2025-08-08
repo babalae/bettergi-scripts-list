@@ -1,11 +1,11 @@
 {
   "info": {
-    "name": "01-火神瞳-悠悠度假村-七天神像-2个",
+    "name": "04-火神瞳-悠悠度假村-东部洞穴-1个",
     "type": "collect",
     "authors": [
       {
         "name": "小大",
-        "links": "https://github.com/xd1145"
+        "links": ""
       }
     ],
     "version": "1.0",
@@ -13,51 +13,51 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1754626224391,
+    "last_modified_time": 1754629307391,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
+      "x": 13755.1143,
+      "y": 380.1875,
       "type": "teleport",
-      "x": 13613.7197,
-      "y": -157.2021,
+      "move_mode": "walk",
+      "action": "",
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 13642.085,
-      "y": -157.6377,
+      "x": 13740.584,
+      "y": 385.8364,
       "type": "path",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
       "id": 3,
-      "x": 13709.6973,
-      "y": -222.3936,
+      "x": 13734.0146,
+      "y": 387.7471,
       "type": "path",
-      "move_mode": "dash",
+      "move_mode": "climb",
       "action": "",
       "action_params": ""
     },
     {
       "id": 4,
-      "x": 13613.7422,
-      "y": -157.1924,
-      "type": "teleport",
-      "move_mode": "walk",
+      "x": 13731.9434,
+      "y": 395.9893,
+      "type": "path",
+      "move_mode": "climb",
       "action": "",
       "action_params": ""
     },
     {
       "id": 5,
-      "x": 13595.6699,
-      "y": -132.5806,
+      "x": 13692.9336,
+      "y": 390.0425,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -65,64 +65,73 @@
     },
     {
       "id": 6,
-      "x": 13594.0078,
-      "y": -131.3374,
-      "type": "path",
-      "move_mode": "climb",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 7,
-      "x": 13600.5,
-      "y": -109.4897,
+      "x": 13674.3359,
+      "y": 272.7686,
       "type": "path",
       "move_mode": "dash",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 8,
-      "x": 13596.7988,
-      "y": -87.6831,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 9,
-      "x": 13595.7676,
-      "y": -86.0132,
-      "type": "path",
-      "move_mode": "climb",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 10,
-      "x": 13608.0723,
-      "y": -74.791,
+      "id": 7,
+      "x": 13663.9893,
+      "y": 210.9004,
       "type": "path",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 11,
-      "x": 13617.2568,
-      "y": -85.126,
+      "id": 8,
+      "x": 2883.6426,
+      "y": 5005.1602,
       "type": "path",
-      "move_mode": "fly",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 4615.3203,
+      "y": 4697.0352,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 2935.8076,
+      "y": 3754.4036,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 4183.2227,
+      "y": 3538.1633,
+      "type": "path",
+      "move_mode": "climb",
       "action": "",
       "action_params": ""
     },
     {
       "id": 12,
-      "x": 13617.4424,
-      "y": -85.4482,
+      "x": 4181.8223,
+      "y": 3538.1616,
       "type": "path",
-      "move_mode": "fly",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 4179.4863,
+      "y": 3534.2705,
+      "type": "path",
+      "move_mode": "climb",
       "action": "",
       "action_params": ""
     }
