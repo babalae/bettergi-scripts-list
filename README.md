@@ -6,7 +6,7 @@
 
 作者Q群：764972801 （非作者请勿加入）
 
-[如何提交到本仓库？（谁都能看懂的 GitHub Pull Request 使用指南）](https://bgi.huiyadan.com/dev/pr.html)
+[如何提交到本仓库？（谁都能看懂的 GitHub Pull Request 使用指南）](https://bettergi.com/dev/pr.html)
 
 ## 脚本提交说明
 
