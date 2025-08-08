@@ -1,6 +1,6 @@
 ﻿{
   "info": {
-    "name": "风蚀沙虫前往",
+    "name": "干年珍珠骏麟前往",
     "type": "collect",
     "authors": [
       {
@@ -13,14 +13,14 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1753789042822,
+    "last_modified_time": 1753791394637,
     "enable_monster_loot_split": false
   },
   "positions": [
     {
       "id": 1,
-      "x": 4572.232421875,
-      "y": -1071.85693359375,
+      "x": 4851.81982421875,
+      "y": 4802.15673828125,
       "type": "teleport",
       "move_mode": "walk",
       "action": "",
@@ -28,8 +28,8 @@
     },
     {
       "id": 2,
-      "x": 4569.2626953125,
-      "y": -1046.1904296875,
+      "x": 4837.4677734375,
+      "y": 4798.37158203125,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -37,21 +37,21 @@
     },
     {
       "id": 3,
-      "x": 4567.267578125,
-      "y": -1034.00634765625,
+      "x": 4780.36767578125,
+      "y": 4788.42822265625,
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
+      "move_mode": "fly",
+      "action": "stop_flying",
       "action_params": ""
     },
     {
       "id": 4,
-      "x": 4565.1396484375,
-      "y": -1017.8115234375,
+      "x": 4766.72998046875,
+      "y": 4786.763671875,
       "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": "2500"
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
     }
   ]
 }
