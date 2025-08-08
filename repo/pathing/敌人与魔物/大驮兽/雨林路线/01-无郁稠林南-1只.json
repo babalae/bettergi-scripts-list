@@ -1,0 +1,47 @@
+{
+  "info": {
+    "name": "01-无郁稠林南-1只",
+    "type": "collect",
+    "author": "jay",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "驮兽",
+      "兽肉",
+      "愚人众",
+      "镀金旅团"
+    ],
+    "last_modified_time": 1754396603940
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2399.9541015625,
+      "y": 143.56201171875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2407.533203125,
+      "y": 116.90478515625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2391.0126953125,
+      "y": 113.81298828125,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

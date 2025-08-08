@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "14-三运河之地北-2只",
+    "type": "collect",
+    "author": "jay",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "驮兽",
+      "兽肉",
+      "愚人众",
+      "镀金旅团",
+      "沙暴"
+    ],
+    "last_modified_time": 1754396953898
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5300.23681640625,
+      "y": -197.56005859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 5289.99267578125,
+      "y": -119.41455078125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 5290.0234375,
+      "y": -119.29248046875,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 5412.94091796875,
+      "y": -263.09228515625,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
