@@ -1,0 +1,115 @@
+[
+  {
+    "name": "enable",
+    "type": "checkbox",
+    "label": "键鼠脚本使用「芭芭拉+双风」录制。\n请将采集队伍按照这个标准配置，可以提升采集成功率。\n\n我已阅读，启用脚本。",
+    "default": false
+  },
+  {
+        "name": "team",
+        "type": "input-text",
+        "label": "跑图的队伍名称，不填表示不切换队伍"
+  },
+  {
+    "name": "selectAll",
+    "type": "checkbox",
+    "label": "无视后续选项，运行全部区域。",
+    "default": false
+  },
+  {
+    "name": "annapausis1",
+    "type": "checkbox",
+    "label": "安眠处地面1，3个。",
+    "default": true
+  },
+  {
+    "name": "annapausis3",
+    "type": "checkbox",
+    "label": "安眠处地面3，6个。",
+    "default": true
+  },
+  {
+    "name": "annapausis4",
+    "type": "checkbox",
+    "label": "安眠处地面4，8个。",
+    "default": true
+  },
+  {
+    "name": "annapausis5",
+    "type": "checkbox",
+    "label": "安眠处地面5，6个。",
+    "default": true
+  },
+  {
+    "name": "poisson1",
+    "type": "checkbox",
+    "label": "白松镇1，3个，此处卡图建议跳过。",
+    "default": false
+  },
+  {
+    "name": "instituteOfNaturalPhilosophy1",
+    "type": "checkbox",
+    "label": "自然哲学学院1，9个，有概率失败。",
+    "default": false
+  },
+  {
+    "name": "instituteOfNaturalPhilosophy2",
+    "type": "checkbox",
+    "label": "自然哲学学院2，4个，有个挑战需要先做完。",
+    "default": false
+  },
+  {
+    "name": "thalattaSubmarineCanyon1",
+    "type": "checkbox",
+    "label": "塔拉塔海谷1，4个。",
+    "default": true
+  },
+  {
+    "name": "salaciaPlain1",
+    "type": "checkbox",
+    "label": "塞洛海原1，4个。",
+    "default": true
+  },
+  {
+    "name": "salaciaPlain2",
+    "type": "checkbox",
+    "label": "塞洛海原2，5个。",
+    "default": true
+  },
+  {
+    "name": "salaciaPlain3",
+    "type": "checkbox",
+    "label": "塞洛海原3，3个。",
+    "default": true
+  },
+  {
+    "name": "salaciaPlain4",
+    "type": "checkbox",
+    "label": "塞洛海原4，5个，有宝箱和怪需要先处理。",
+    "default": false
+  },
+  {
+    "name": "eltonTrench1",
+    "type": "checkbox",
+    "label": "苍晶区1，5个。",
+    "default": true
+  },
+  {
+    "name": "courtOfFontaine1",
+    "type": "checkbox",
+    "label": "枫丹廷区1，8个，有概率卡住呜呜葡萄喂食。",
+    "default": false
+  },
+  {
+    "name": "courtOfFontaine2",
+    "type": "checkbox",
+    "label": "枫丹廷区2，2个，此处卡对话建议跳过。",
+    "default": false
+  },
+  {
+    "name": "courtOfFontaine3",
+    "type": "checkbox",
+    "label": "枫丹廷区3，3个。",
+    "default": true
+  }
+]
