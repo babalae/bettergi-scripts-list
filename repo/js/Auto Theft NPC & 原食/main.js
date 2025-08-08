@@ -45,7 +45,7 @@ const npcData = {
 		"page": 2,
 		"time": "any",
 		"path": "assets/path/葵.json",
-		"goods": ["洋葱", "牛奶", "卷心菜", "土豆", "稻米", "虾仁", "豆腐", "盐", "胡椒", "番茄"]
+		"goods": ["洋葱", "牛奶", "卷心菜", "土豆", "小麦", "稻米", "虾仁", "豆腐", "盐", "胡椒", "番茄"]
 	},
 	"ShimuraKanbei": {
 		"name": "志村勘兵卫",
@@ -79,11 +79,20 @@ const npcData = {
 		"path": "assets/path/哈马维.json",
 		"goods": ["洋葱", "牛奶", "卷心菜", "土豆", "小麦", "稻米", "虾仁", "豆腐", "盐", "胡椒", "番茄"]
 	},
+	"Enteka": {
+		"name": "恩忒卡",
+		"enable": true,
+		"page": 2,
+		"time": "any",
+		"path": "assets/path/恩忒卡.json",
+		"goods": ["咖啡豆"]
+	}
+	,
 	"Azalai": {
 		"name": "阿扎莱",
 		"enable": true,
 		"page": 2,
-		"time": "any",
+		"time": "night",
 		"path": "assets/path/阿扎莱.json",
 		"goods": ["鱼肉", "兽肉", "秃秃豆"]
 	},

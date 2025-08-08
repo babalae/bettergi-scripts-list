@@ -13,7 +13,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1754151046922,
+    "last_modified_time": 1754246650777,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -153,7 +153,7 @@
       "y": -1745.2353515625,
       "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "keypress(VK_SPACE),wait(1.5),click",
+      "action_params": "keypress(VK_SPACE),wait(1.5),attack(0.2)",
       "type": "path"
     },
     {
@@ -231,13 +231,13 @@
       "y": -1274.6484375,
       "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(1);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(1);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "type": "target"
     },
     {
       "id": 26,
-      "x": 8125.6875,
-      "y": -1277.312322935365,
+      "x": 8124.595703125,
+      "y": -1278.90234375,
       "action": "combat_script",
       "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
@@ -248,7 +248,7 @@
       "x": 8122.61083984375,
       "y": -1331.15625,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
@@ -309,7 +309,7 @@
       "y": -1761.6298828125,
       "action": "combat_script",
       "move_mode": "run",
-      "action_params": "wait(0.2),keypress(t),wait(2.8),keypress(e),wait(1)",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(2.8),keypress(e),wait(1)",
       "type": "path"
     },
     {
