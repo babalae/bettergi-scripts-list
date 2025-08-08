@@ -105,7 +105,7 @@ async function detectTaskTrigger(ocrTimeout, enemyType) {
     while (Date.now() - ocrStartTime < ocrTimeout * 1000 && !ocrStatus) {
         let captureRegion = captureGameRegion();
         let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 200, 300, 300));
-
+        captureRegion.dispose();
         for (let o = 0; o < resList.count; o++) {
             let res = resList[o];
             for (let keyword of ocrKeywords) {
@@ -474,7 +474,7 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000, enemyType = "盗宝�
             let result2 = capture.find(RecognitionObject.ocr(0, 200, 300, 300));
             let text = result.text;
             let text2 = result2.text;
-
+            capture.dispose();
             // 检查成功关键词
             for (let keyword of successKeywords) {
                 if (text.includes(keyword)) {
