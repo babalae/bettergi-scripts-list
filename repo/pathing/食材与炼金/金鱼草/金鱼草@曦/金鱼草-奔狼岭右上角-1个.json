@@ -1,0 +1,33 @@
+{
+  "info": {
+    "name": "金鱼草-奔狼岭右上角-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "曦",
+        "links": "https://github.com/cx05121"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -521.55,
+      "y": 2181.32,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -524.25,
+      "y": 2235.31,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target"
+    }
+  ]
+}

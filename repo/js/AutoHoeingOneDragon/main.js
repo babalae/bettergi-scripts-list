@@ -1,3 +1,5 @@
+//当前js版本 1.3.6
+
 //拾取时上下滑动的时间
 const timeMoveUp = 500;
 const timeMoveDown = 1000;
@@ -7,12 +9,23 @@ if (settings.activeDumperMode) { //处理泥头车信息
 } else {
     dumpers = [];
 }
+trigger = (+settings.trigger || 50);
+let gameRegion;
 
 (async function () {
     //自定义配置处理
     const operationMode = settings.operationMode || "运行锄地路线";
-    let k = settings.efficiencyIndex || 0.5;
-    k = k;
+
+    let k = settings.efficiencyIndex;
+    // 空字符串、null、undefined 或非数字 → 0.5
+    if (k === '' || k == null || Number.isNaN(Number(k))) {
+        k = 0.5;
+    } else {
+        k = Number(k);
+        if (k < 0) k = 0;
+        else if (k > 5) k = 5;
+    }
+
     let targetEliteNum = (+settings.targetEliteNum || 400);
     targetEliteNum += 5;//预留漏怪
     let targetMonsterNum = (+settings.targetMonsterNum + 1 || 2000);
@@ -87,7 +100,6 @@ if (settings.activeDumperMode) { //处理泥头车信息
             log.info(`  精英怪物数量: ${pathing.e}`);
             log.info(`  普通怪物摩拉值: ${pathing.mora_m}`);
             log.info(`  精英怪物摩拉值: ${pathing.mora_e}`);
-            log.info(`  是否使用index数据: ${pathing.usingIndex}`);
             log.info(''); // 空行分隔每个路径的信息
         });
     */
@@ -146,13 +158,11 @@ async function processPathings() {
     let index = 0
     // 遍历每个路径文件并处理
     for (const pathing of pathings) {
-        pathing.usingIndex = false;
         index++;
         pathing.index = index;
         const pathingContent = await file.readText(pathing.fullPath);
         const parsedContent = JSON.parse(pathingContent);
         const description = parsedContent.info?.description || "";
-        pathing.description = description;
         pathing.tags = parsedContent.info?.tags || [];
 
         // 解析 description 获取预计用时和怪物信息
@@ -310,8 +320,8 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
 
     pathings.forEach(pathing => {
         if (pathing.prioritized) {
-            pathing.E1 = maxE1 + 1;
-            pathing.E2 = maxE2 + 1;
+            pathing.E1 += maxE1;
+            pathing.E2 += maxE2;
         }
 
     });
@@ -393,9 +403,9 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
         //按效率降序排序
         pathings.sort((a, b) => {
             if (a.E1 !== b.E1) {
-                return a.E1 - b.E1; // 先按 E1 升序排序
+                return b.E1 - a.E1; // 先按 E1 降序
             }
-            return a.E2 - b.E2; // 如果 E1 相同，再按 E2 升序排序
+            return b.E2 - a.E2;   // 再按 E2 降序
         });
     } else {
         log.info("使用默认顺序运行");
@@ -484,15 +494,17 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
         const width = 150; // 识别区域宽度
         const height = 150; // 识别区域高度
 
-        // 尝试次数设置为 2 次
-        const maxAttempts = 2;
+        // 尝试次数设置为 3 次
+        const maxAttempts = 3;
 
         let attempts = 0;
         while (attempts < maxAttempts && !state.cancelRequested) {
             try {
                 let template = file.ReadImageMatSync(imagePath);
                 let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
-                let result = captureGameRegion().find(recognitionObject);
+                gameRegion = captureGameRegion();
+                let result = gameRegion.find(recognitionObject);
+                gameRegion.dispose();
                 if (result.isExist()) {
                     return true; // 如果找到图标，返回 true
                 }
@@ -504,7 +516,48 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 return false; // 发生异常时返回 false
             }
             attempts++; // 增加尝试次数
-            await sleep(2); // 每次检测间隔 2 毫秒
+            await sleep(trigger); // 每次检测间隔 trigger 毫秒
+        }
+        if (state.cancelRequested) {
+            log.info("图像识别任务已取消");
+        }
+        return false; // 如果尝试次数达到上限或取消，返回 false
+    }
+
+    //检查是否在复活界面
+    async function isRevivalUI() {
+        // 修改后的图像路径
+        const imagePath = "assets/RevivalUI.png";
+
+        // 修改后的识别区域（左上角区域）
+        const xMin = 450;
+        const yMin = 200;
+        const width = 1000; // 识别区域宽度
+        const height = 250; // 识别区域高度
+
+        // 尝试次数设置为 10 次
+        const maxAttempts = 10;
+
+        let attempts = 0;
+        while (attempts < maxAttempts && !state.cancelRequested) {
+            try {
+                let template = file.ReadImageMatSync(imagePath);
+                let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
+                gameRegion = captureGameRegion();
+                let result = gameRegion.find(recognitionObject);
+                gameRegion.dispose();
+                if (result.isExist()) {
+                    return true; // 如果找到图标，返回 true
+                }
+            } catch (error) {
+                log.error(`识别图像时发生异常: ${error.message}`);
+                if (state.cancelRequested) {
+                    break; // 如果请求了取消，则退出循环
+                }
+                return false; // 发生异常时返回 false
+            }
+            attempts++; // 增加尝试次数
+            await sleep(trigger); // 每次检测间隔 trigger 毫秒
         }
         if (state.cancelRequested) {
             log.info("图像识别任务已取消");
@@ -526,44 +579,39 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
 
     // 定义一个函数用于执行OCR识别和交互
     async function performOcrAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance) {
-        async function performOcr(whitelistKeywords, xRange, yRange, timeout = 200) {
-            let startTime = Date.now();
-            while (Date.now() - startTime < timeout) {
-                try {
-                    // 在捕获的区域内进行OCR识别
-                    let ra = captureGameRegion();
-                    let resList = ra.findMulti(RecognitionObject.ocr(
-                        xRange.min, yRange.min,
-                        xRange.max - xRange.min, yRange.max - yRange.min
-                    ));
+        async function performOcr(whitelistKeywords, xRange, yRange) {
+            try {
+                // 在捕获的区域内进行OCR识别
+                gameRegion = captureGameRegion();
+                let resList = gameRegion.findMulti(RecognitionObject.ocr(
+                    xRange.min, yRange.min,
+                    xRange.max - xRange.min, yRange.max - yRange.min
+                ));
+                gameRegion.dispose();
+                // 遍历识别结果，检查是否找到目标文本
+                let results = [];
+                for (let i = 0; i < resList.count; i++) {
+                    let res = resList[i];
+                    let correctedText = res.text;
 
-                    // 遍历识别结果，检查是否找到目标文本
-                    let results = [];
-                    for (let i = 0; i < resList.count; i++) {
-                        let res = resList[i];
-                        let correctedText = res.text;
-
-                        // 如果 whitelistKeywords 为空，则直接将所有文本视为匹配
-                        if (whitelistKeywords.length === 0) {
-                            results.push({ text: correctedText, x: res.x, y: res.y, width: res.width, height: res.height });
-                        } else {
-                            // 否则，检查是否包含目标文本
-                            for (let targetText of whitelistKeywords) {
-                                if (correctedText.includes(targetText)) {
-                                    results.push({ text: correctedText, x: res.x, y: res.y, width: res.width, height: res.height });
-                                    break; // 匹配到一个目标文本后即可跳出循环
-                                }
+                    // 如果 whitelistKeywords 为空，则直接将所有文本视为匹配
+                    if (whitelistKeywords.length === 0) {
+                        results.push({ text: correctedText, x: res.x, y: res.y, width: res.width, height: res.height });
+                    } else {
+                        // 否则，检查是否包含目标文本
+                        for (let targetText of whitelistKeywords) {
+                            if (correctedText.includes(targetText)) {
+                                results.push({ text: correctedText, x: res.x, y: res.y, width: res.width, height: res.height });
+                                break; // 匹配到一个目标文本后即可跳出循环
                             }
                         }
                     }
-                    return results;
-                } catch (error) {
-                    log.error(`识别文字时发生异常: ${error.message}`);
-                    return [];
                 }
+                return results;
+            } catch (error) {
+                log.error(`识别文字时发生异常: ${error.message}`);
+                return [];
             }
-            log.warn("OCR识别超时");
-            return [];
         }
 
         while (!state.completed && !state.cancelRequested) {
@@ -574,9 +622,12 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     try {
                         let template = file.ReadImageMatSync(imagePath);
                         let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
-                        let result = captureGameRegion().find(recognitionObject);
+                        gameRegion = captureGameRegion();
+                        let result = gameRegion.find(recognitionObject);
                         if (result.isExist()) {
                             return { success: true, x: result.x, y: result.y, width: result.width, height: result.height };
+                        } else {
+                            gameRegion.dispose();
                         }
                     } catch (error) {
                         log.error(`识别图像时发生异常: ${error.message}`);
@@ -585,7 +636,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                         }
                         return null;
                     }
-                    await sleep(2); // 每次检测间隔 2 毫秒
+                    await sleep(trigger * 2); // 找不到f时等待 trigger*2 毫秒
                 }
                 if (state.cancelRequested) {
                     log.info("图像识别任务已取消");
@@ -609,7 +660,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
             let centerYF = fRes.y + fRes.height / 2;
 
             // 在当前屏幕范围内进行 OCR 识别
-            let ocrResults = await performOcr(whitelistKeywords, textxRange, { min: fRes.y - texttolerance, max: fRes.y + fRes.height + texttolerance * 2 }, 200);
+            let ocrResults = await performOcr(whitelistKeywords, textxRange, { min: fRes.y - texttolerance, max: fRes.y + fRes.height + texttolerance * 2 });
 
             // 检查所有目标文本是否在当前页面中
             let foundTarget = false;
@@ -620,18 +671,19 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     continue;
                 }
 
-                if ((new Date() - lastPickupTime) > 1000 || ocrResult.text != lastPickupItem) {
-                    log.info(`交互或拾取："${ocrResult.text}"`);
-                    lastPickupTime = new Date();
-                    lastPickupItem = ocrResult.text;
-                }
-
                 // 计算目标文本的中心Y坐标
                 let centerYTargetText = ocrResult.y + ocrResult.height / 2;
                 if (Math.abs(centerYTargetText - centerYF) <= texttolerance) {
                     keyPress("F"); // 执行交互操作
-                    await sleep(5); // 操作后暂停 5 毫秒
+                    await sleep(trigger); // 操作后暂停 50 毫秒
                     foundTarget = true;
+
+                    if ((new Date() - lastPickupTime) > 1000 || ocrResult.text != lastPickupItem) {
+                        log.info(`交互或拾取："${ocrResult.text}"`);
+                        lastPickupTime = new Date();
+                        lastPickupItem = ocrResult.text;
+                    }
+
                     break;
                 }
             }
@@ -747,6 +799,17 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                                     await sleep(400);
                                     keyPress('e');
                                     await sleep(400);
+                                }
+
+                                for (let i = 0; i < 10; i++) {
+                                    if (await isRevivalUI()) {
+                                        //检测到复苏界面时，退出复苏界面
+                                        keyPress("VK_ESCAPE");
+                                        await sleep(500);
+                                        await genshin.returnMainUi();
+                                    } else {
+                                        break;
+                                    }
                                 }
                             }
                         } catch (error) {
@@ -920,7 +983,13 @@ async function processPathingsByGroup(pathings, whitelistKeywords, blacklistKeyw
     const groupStartTime = new Date();
     let remainingEstimatedTime = totalEstimatedTime;
     let skippedTime = 0;
-
+    //移除不必要的属性
+    {
+        const keysToDelete = ['monsterInfo', 'm', 'e', 'mora_m', 'mora_e', 'available', 'prioritized', 'G1', 'G2', 'index', 'folderPathArray', 'tags', 'E1', 'E2']; // 删除的字段列表
+        pathings.forEach(p => {
+            keysToDelete.forEach(k => delete p[k]);
+        });
+    }
     // 遍历 pathings 数组
     for (const pathing of pathings) {
         // 检查路径是否属于指定的组
@@ -1165,8 +1234,6 @@ async function updatePathings(indexFilePath) {
             const existingPathing = pathings.find(pathing => pathing.fileName === item.fileName);
 
             if (existingPathing) {
-                existingPathing.usingIndex = true;
-
                 // 直接覆盖其他字段，但先检查是否存在有效值
                 if (item.时间 !== undefined) existingPathing.t = item.时间;
                 if (item.精英摩拉 !== undefined) existingPathing.mora_e = item.精英摩拉;
