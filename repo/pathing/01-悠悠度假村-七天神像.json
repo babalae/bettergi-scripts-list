@@ -1,0 +1,85 @@
+﻿{
+  "info": {
+    "name": "01-悠悠度假村-七天神像",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "小大",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "自动锚点beta",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754633026348,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 13615.88671875,
+      "y": -333.75,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 13600.8896484375,
+      "y": -326.3583984375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 13593.56640625,
+      "y": -264.419921875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 13606.0390625,
+      "y": -211.0947265625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 13605.896484375,
+      "y": -189.74169921875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 13603.994140625,
+      "y": -161.58056640625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 13597.6484375,
+      "y": -159.71826171875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f)",
+      "type": "path"
+    }
+  ]
+}
