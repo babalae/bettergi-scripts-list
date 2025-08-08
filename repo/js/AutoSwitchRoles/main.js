@@ -395,5 +395,6 @@ function readAliases() {
  }
         // 返回主界面
         await genshin.returnMainUi();
-   
+        //清空角色缓存
+        genshin.ClearPartyCache();
 })();
