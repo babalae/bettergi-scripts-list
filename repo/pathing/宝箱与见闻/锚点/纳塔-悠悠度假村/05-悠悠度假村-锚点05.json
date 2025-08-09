@@ -1,0 +1,157 @@
+{
+  "info": {
+    "name": "05-悠悠度假村-锚点05",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "小大",
+        "links": "https://github.com/xd1145"
+      }
+    ],
+    "version": "1.1",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.48.0",
+    "tags": [],
+    "last_modified_time": 1754635661095,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 13905.4932,
+      "y": 327.8789,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 13911.9951,
+      "y": 334.7959,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 13927.0723,
+      "y": 352.041,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 13940.7734,
+      "y": 350.2803,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 14035.499,
+      "y": 328.4814,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 14063.6562,
+      "y": 359.6914,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 14120.792,
+      "y": 380.8452,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 14137.3457,
+      "y": 391.1792,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 14137.3457,
+      "y": 391.1792,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "0.1"
+    },
+    {
+      "id": 10,
+      "x": 14142.1973,
+      "y": 396.6621,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 14147.6221,
+      "y": 403.1006,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 14154.5391,
+      "y": 414.4727,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 14155.9131,
+      "y": 415.8652,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 14158.1328,
+      "y": 419.1699,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 14151.7988,
+      "y": 424.8232,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f)"
+    }
+  ]
+}

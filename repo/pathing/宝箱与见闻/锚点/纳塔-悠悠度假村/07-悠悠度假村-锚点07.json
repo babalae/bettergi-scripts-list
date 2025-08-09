@@ -1,0 +1,121 @@
+{
+  "info": {
+    "name": "07-悠悠度假村-锚点07",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "小大",
+        "links": "https://github.com/xd1145"
+      }
+    ],
+    "version": "1.1",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.48.0",
+    "tags": [],
+    "last_modified_time": 1754647182096,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 14167.083,
+      "y": 627.6382,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 14176.0449,
+      "y": 614.3667,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 14187.0918,
+      "y": 614.1074,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 14207.2539,
+      "y": 617.791,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 14225.7451,
+      "y": 617.3354,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 14242.8174,
+      "y": 615.0469,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 14258.4893,
+      "y": 613.6318,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 14273.5068,
+      "y": 620.4453,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 14279.4912,
+      "y": 620.5269,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 14290.6182,
+      "y": 619.1602,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1"
+    },
+    {
+      "id": 11,
+      "x": 14291.7734,
+      "y": 619.0732,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(f)"
+    }
+  ]
+}
