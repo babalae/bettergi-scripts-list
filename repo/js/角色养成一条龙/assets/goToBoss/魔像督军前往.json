@@ -1,21 +1,38 @@
-{
+﻿{
   "info": {
-    "name": "未命名路径",
+    "name": "魔像督军前往",
     "type": "collect",
-    "author": "柒叶子",
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": ""
+      }
+    ],
     "version": "1.0",
-    "description": "传送到BOSS处",
+    "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753792140100,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
       "id": 1,
-      "action": "force_tp",
-      "move_mode": "walk",
+      "x": 3848.580078125,
+      "y": 1136.95166015625,
       "type": "teleport",
-      "x": 3858.45,
-      "y": 1133.72,
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3788.3203125,
+      "y": 1137.62060546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
       "action_params": ""
     }
   ]
