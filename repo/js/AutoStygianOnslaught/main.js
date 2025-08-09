@@ -161,6 +161,11 @@
             if (countArea.found){
                 // log.info("浓缩树脂识别数量结果： "+ countArea.text);
                 condensedResinCount = countArea.text
+                if (countArea.text == "")
+                {
+                    log.info("浓缩树脂识别强制为： 1");//
+                    condensedResinCount = "1";
+                }
             }
             else{
                 condensedResinCount = "1";
@@ -199,6 +204,11 @@
                 if (countArea.found){
                     // log.info("脆弱树脂识别数量结果："+ countArea.text);
                     fragileResinCount = countArea.text
+                    if (countArea.text == "")
+                {
+                    log.info("脆弱树脂识别强制为： 1");//
+                    fragileResinCount = "1";
+                }
                 }
                 else{
                     var oneRa = await imageRecognition(oneResin,0.1, 0, 1,fragileResinCountRa.x+fragileResinCountRa.w+20,fragileResinCountRa.y-15,60,40);
@@ -523,7 +533,7 @@
     // 进入秘境入口函数
     async function VeinEntrance() {
         for (let i = 0;i < 2;i++) {
-            let JIECHU = await Textocr("F",2,2,0,1098,519,35,32);
+            let JIECHU = await Textocr("F",2,2,0,1095,519,41,36);
             if (JIECHU.found)
             {
                 await keyPress("F");
@@ -566,7 +576,7 @@
 
     }
 
-    log.warn("自动幽境危战版本：v1.7");
+    log.warn("自动幽境危战版本：v1.8");
     log.warn("请保证队伍战斗实力，战斗失败或执行错误，会重试两次...");
     log.warn("使用前请在 <<幽境危战>> 中配置好战斗队伍...");
     log.info("使用树脂类型数量：{0} ", rewards.length)
@@ -585,7 +595,7 @@
                 await VeinEntrance();             
 
                 //2.难度确认和选择
-                let intoAction  = await Textocr("单人挑战",10,0,0,1554,970,360, 105);
+                let intoAction  = await Textocr("单人挑战",20,0,0,1554,970,360, 105);
                 if (!intoAction.found){
                     await genshin.returnMainUi();
                     throw new Error("未进入挑战页面，停止执行...")
@@ -635,7 +645,7 @@
                 await click(intoAction.x,intoAction.y)
                 await sleep(1000);
                 await click(intoAction.x,intoAction.y)
-                let enter  = await imageRecognition(enterButton,5, 0, 0,15,96 ,40,43);
+                let enter  = await imageRecognition(enterButton,20, 0, 0,15,96 ,40,43);
                 if (!enter.found){
                     await genshin.returnMainUi();
                     throw new Error("未进入秘境，停止执行...")
@@ -670,7 +680,7 @@
                     //8.1自动战斗                                  
                     for (let fightCount = 0; fightCount < 3; fightCount++) {
 
-                        let battleBegins  = await Textocr("战斗开始",20,0,0,877,235,164,50);     
+                        let battleBegins  = await Textocr("战斗开始",30,0,0,877,235,164,50);     
                         if (!battleBegins.found){
                             await getOut();
                             throw new Error("未进入战斗环境，停止执行...")
@@ -693,7 +703,7 @@
                                 }
                                 else
                                 {                                    
-                                    let Again = await Textocr("再次挑战",10,1,0,1059,920,177,65);
+                                    let Again = await Textocr("再次挑战",20,1,0,1059,920,177,65);
                                     if (!Again.found)break;                                       
                                     await sleep(1000); 
                                     log.warn("战斗失败，第 {0} 次重试...", fightCount+1)  
