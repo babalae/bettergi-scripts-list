@@ -2,10 +2,9 @@
   "info": {
     "name": "枫丹-卡布狄斯堡遗迹-悬铃木-27个-椴木-30个(小循环)",
     "type": "collect",
-    "author": "起个名字好难",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.0",
+    "bgi_version": "0.48.0",
     "authors": [
       {
         "name": "起个名字好难的喵",
@@ -20,7 +19,7 @@
       "y": 2762.5725,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {
@@ -37,7 +36,7 @@
       "y": 2730.0439,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {
@@ -46,7 +45,7 @@
       "y": 2713.1687,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(1),keypress(VK_Z)"
     },
     {
@@ -55,7 +54,7 @@
       "y": 2694.7012,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {
@@ -64,7 +63,7 @@
       "y": 2720.2837,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z),wait(0.5)"
     },
     {
@@ -73,7 +72,7 @@
       "y": 2733.9587,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(0.5),keypress(VK_Z)"
     }
   ]

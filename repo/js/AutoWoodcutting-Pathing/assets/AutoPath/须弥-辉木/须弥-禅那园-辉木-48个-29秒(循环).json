@@ -2,10 +2,9 @@
   "info": {
     "name": "须弥-禅那园-辉木-48个-29秒(循环)",
     "type": "collect",
-    "author": "Tim",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.0",
+    "bgi_version": "0.48.0",
     "authors": [
       {
         "name": "Tim",
@@ -16,7 +15,7 @@
   "positions": [
     {
       "id": 1,
-      "action": "combat_script",
+      "action": "use_gadget",
       "move_mode": "walk",
       "type": "path",
       "x": 3203.9883,
@@ -29,7 +28,7 @@
       "y": -1056.0239,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(3),keypress(VK_Z)"
     },
     {
@@ -38,7 +37,7 @@
       "y": -1061.0073,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(3),keypress(VK_Z)"
     },
     {
@@ -47,7 +46,7 @@
       "y": -1068.4927,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(3),keypress(VK_Z)"
     }
   ]
