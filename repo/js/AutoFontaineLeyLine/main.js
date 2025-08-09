@@ -146,7 +146,7 @@
     }  
     var timesConfig = { value: timesValue };
 
-    log.warn(`全自动枫丹地脉花: v3.4 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
+    log.warn(`全自动枫丹地脉花: v3.5 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
     log.warn(`使用树脂类型数量：${rewards.length}`);
     log.warn(`使用树脂顺序：${golbalRewardText.join(" ->")}`); 
 
@@ -689,6 +689,7 @@
     async function claimRewards( Rewardspath = null ) {
         await genshin.returnMainUi(); 
         log.info(`尝试领取奖励，优先${onerewards}'`);
+        shouldContinueChecking = false;
         let SHUN01 = await Textocr("接触地脉之花",1.5,2,0,1187,358,200,400);
         if (SHUN01.found) {
             log.info("找到地脉之花，开始领取奖励...");
@@ -798,10 +799,13 @@
         // 浓缩树脂
         var condensedResinCountRa = await imageRecognition(condensedResin,0.1, 0, 0,800,20,700,55);
         if (condensedResinCountRa.found) {  
-            let countArea = await Textocr("",2, 0, 2,condensedResinCountRa.x,condensedResinCountRa.y-20,100,80);//
+            let countArea = await Textocr("",3, 0, 2,condensedResinCountRa.x,condensedResinCountRa.y-20,100,100);//
             if (countArea.found){
                 // log.info("浓缩树脂识别数量结果： "+ countArea.text);
                 condensedResinCount = countArea.text
+                if (condensedResinCount == ""){
+                    condensedResinCount = "1";
+                }
             }
             else
             {           
@@ -843,7 +847,10 @@
             let countArea = await Textocr("",0.5, 0, 2,momentResinCountRa.x+momentResinCountRa.w+20,momentResinCountRa.y-15,60,40);//
             if (countArea.found){
                 //log.info("须臾树脂识别数量结果："+ countArea.text);
-                momentResinCount = countArea.text                
+                momentResinCount = countArea.text  
+                if (momentResinCount == ""){
+                    momentResinCount = "1";
+                }
             }
             else{                
                 var oneRa = await imageRecognition(oneResin,0.1, 0, 1,momentResinCountRa.x+momentResinCountRa.w+20,momentResinCountRa.y-15,60,40);
@@ -889,11 +896,6 @@
         const rewardText = await Textocr("地脉之花", 0.2, 0, 0, 840,225, 230, 125);
         return rewardText.found;
     }    
-
-    async function isOnRewardPage() {
-        const rewardText = await Textocr("地脉之花", 0.2, 0, 0, 840,225, 230, 125);
-        return rewardText.found;
-    }
 
     var shouldContinueChecking = true;
     /**
@@ -1193,8 +1195,7 @@
                 await sleep(1000);
                 if (!await genshin.SwitchParty(haogandui))await genshin.returnMainUi();                 
             }
-            shouldContinueChecking = false;
-            await sleep(500);
+            // shouldContinueChecking = false;
             if (!(await claimRewards( `${selectedFolder}${jsonFile2}` ))) {
                 log.warn("树脂消耗完毕，结束任务");
                 dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false }));
