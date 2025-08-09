@@ -1,0 +1,67 @@
+﻿{
+  "info": {
+    "name": "06-火神瞳-悠悠度假村-浪浪湾02-1个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "小大",
+        "links": ""
+      }
+    ],
+    "version": "2.0",
+    "description": "神瞳",
+    "map_name": "Teyvat",
+    "bgi_version": "0.48.0",
+    "tags": [],
+    "last_modified_time": 1754718951139,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 14637.19140625,
+      "y": 1000.146484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 14628.30078125,
+      "y": 994.052734375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 14528.783203125,
+      "y": 917.904296875,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 14529.0263671875,
+      "y": 917.509765625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "3",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 14520.1171875,
+      "y": 910.5634765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
