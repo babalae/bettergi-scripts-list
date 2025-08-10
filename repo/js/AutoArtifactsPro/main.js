@@ -18,7 +18,7 @@ const minIntervalTime = settings.minIntervalTime || "5";
 const waitTimePeriod = settings.waitTimePeriod || "4:05-4:45";
 const friendshipPartyName = settings.friendshipPartyName || "好感";
 const grindPartyName = settings.grindPartyName || "狗粮";
-const operationType = settings.operationType || "不卡时间，尽可能跑A";
+const operationType = settings.operationType || "不卡时间，ab交替运行";
 const runActivatePath = settings.runActivatePath || false;
 let enemyType = "无";
 

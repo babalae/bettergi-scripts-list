@@ -1,0 +1,96 @@
+{
+  "info": {
+    "name": "405【清怪】须弥-天臂池西北4",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3102.68359375,
+      "y": -356.19384765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3116.8818359375,
+      "y": -379.7919921875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3133.7333984375,
+      "y": -409.24072265625,
+      "action": "up_down_grab_leaf",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3125.3994140625,
+      "y": -463.982421875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3116,
+      "y": -458.7484728175259,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3102.775390625,
+      "y": -462.54833984375,
+      "action": "log_output",
+      "move_mode": "dash",
+      "action_params": "\n[清怪路径]清怪完不拾取!!!\n[清怪路径]清怪完不拾取!!!\n[清怪路径]清怪完不拾取!!!\n[清怪路径]别再狗叫为什么漏了!!!",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 3102.775390625,
+      "y": -462.54833984375,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3102.775390625,
+      "y": -462.54833984375,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 3102.775390625,
+      "y": -462.54833984375,
+      "action": "log_output",
+      "move_mode": "dash",
+      "action_params": "\n[清怪路径]清怪完不拾取!!!\n[清怪路径]清怪完不拾取!!!\n[清怪路径]清怪完不拾取!!!\n[清怪路径]别再狗叫为什么漏了!!!",
+      "type": "orientation"
+    }
+  ]
+}
