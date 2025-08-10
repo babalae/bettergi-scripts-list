@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "02-须弥-二净甸右侧-3个",
+    "name": "E01-纳塔-提提岛-3个",
     "type": "collect",
     "authors": [
       {
@@ -10,62 +10,62 @@
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
+    "bgi_version": "0.48.0",
     "tags": [],
-    "last_modified_time": 1754743624919,
+    "last_modified_time": 1754661637103,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
+      "x": 15040.6514,
+      "y": 1344.999,
       "type": "teleport",
-      "x": 3253.0996,
-      "y": -591.0073,
+      "move_mode": "walk",
+      "action": "",
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 3288.9355,
-      "y": -590.6987,
+      "x": 15013.7061,
+      "y": 1321.5435,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action": "",
       "action_params": ""
     },
     {
       "id": 3,
-      "x": 3309.7324,
-      "y": -591.3569,
+      "x": 14954.3145,
+      "y": 1320.8232,
       "type": "path",
       "move_mode": "walk",
-      "action": "up_down_grab_leaf",
+      "action": "",
       "action_params": ""
     },
     {
       "id": 4,
-      "x": 3345.1377,
-      "y": -582.6982,
+      "x": 14898.5879,
+      "y": 1355.6582,
       "type": "path",
-      "move_mode": "walk",
-      "action": "up_down_grab_leaf",
+      "move_mode": "run",
+      "action": "fight",
       "action_params": ""
     },
     {
       "id": 5,
-      "x": 3367.3574,
-      "y": -597.4497,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
+      "x": 14901.0352,
+      "y": 1357.3872,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
       "action_params": ""
     },
     {
       "id": 6,
-      "x": 3365.1729,
-      "y": -598.0181,
+      "x": 14903.0508,
+      "y": 1360.6816,
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
@@ -73,29 +73,11 @@
     },
     {
       "id": 7,
-      "x": 3364.6455,
-      "y": -599.7373,
+      "x": 14905.7295,
+      "y": 1362.1201,
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
-      "action_params": ""
-    },
-    {
-      "id": 8,
-      "x": 3363.2607,
-      "y": -598.5649,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
-    },
-    {
-      "id": 9,
-      "x": 3366.3203,
-      "y": -598.3115,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
       "action_params": ""
     }
   ]
