@@ -1,23 +1,28 @@
-{
+﻿{
   "info": {
     "name": "103蒙德雪山（600_2，200_4）",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
     "description": "  路线信息：该路线预计用时282.52秒，包含6只精英与6只小怪，预计收入2243摩拉，包含以下怪物：1只冰盾丘丘人、3只冰箭丘丘人、4只冰盾丘丘暴徒、1只丘丘霜铠王、1只风丘丘萨满、1只冰丘丘萨满、1只遗迹重机。",
-    "bgi_version": "0.42.3",
+    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1754740578989,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
       "id": 1,
-      "x": -1006.92,
-      "y": 859.48,
+      "x": -1006.9199999999983,
+      "y": 859.4799999999996,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -25,16 +30,16 @@
     },
     {
       "id": 2,
-      "x": -998.11,
-      "y": 852.61,
-      "action": "",
+      "x": -998.1100000000006,
+      "y": 852.6099999999997,
+      "action": "combat_script",
       "move_mode": "run",
-      "action_params": "",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "type": "path"
     },
     {
       "id": 3,
-      "x": -976.12,
+      "x": -976.119999999999,
       "y": 847.75,
       "action": "",
       "move_mode": "run",
@@ -43,8 +48,8 @@
     },
     {
       "id": 4,
-      "x": -996.11,
-      "y": 849.61,
+      "x": -996.1100000000006,
+      "y": 849.6099999999997,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -52,8 +57,8 @@
     },
     {
       "id": 5,
-      "x": -1006.92,
-      "y": 859.48,
+      "x": -1006.9199999999983,
+      "y": 859.4799999999996,
       "action": "combat_script",
       "move_mode": "run",
       "action_params": "wait(2.5)",
@@ -61,8 +66,8 @@
     },
     {
       "id": 6,
-      "x": -952.38,
-      "y": 837.05,
+      "x": -952.380000000001,
+      "y": 837.0500000000002,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -70,8 +75,8 @@
     },
     {
       "id": 7,
-      "x": -940.53,
-      "y": 833.32,
+      "x": -940.5299999999988,
+      "y": 833.3199999999997,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -79,17 +84,16 @@
     },
     {
       "id": 8,
-      "x": -924.28,
+      "x": -924.2799999999988,
       "y": 815.96,
       "action": "fight",
       "move_mode": "run",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 9,
-      "x": -924.28,
+      "x": -924.2799999999988,
       "y": 815.96,
       "action": "combat_script",
       "move_mode": "run",
@@ -98,7 +102,7 @@
     },
     {
       "id": 10,
-      "x": -1006.92,
+      "x": -1006.9199999999983,
       "y": 859.5,
       "action": "",
       "move_mode": "walk",
@@ -109,15 +113,15 @@
       "id": 11,
       "x": -1047.25,
       "y": 758.75,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "type": "path"
     },
     {
       "id": 12,
       "x": -1083.25,
-      "y": 771.87,
+      "y": 771.8699999999999,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -125,8 +129,8 @@
     },
     {
       "id": 13,
-      "x": -1098.62,
-      "y": 770.88,
+      "x": -1098.619999999999,
+      "y": 770.8800000000001,
       "action": "fight",
       "move_mode": "run",
       "action_params": "",
@@ -134,8 +138,8 @@
     },
     {
       "id": 14,
-      "x": -1121.62,
-      "y": 761.19,
+      "x": -1121.619999999999,
+      "y": 761.1900000000005,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "wait(1)",
@@ -143,8 +147,8 @@
     },
     {
       "id": 15,
-      "x": -1153.3,
-      "y": 751.97,
+      "x": -1153.2999999999993,
+      "y": 751.9700000000003,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -152,8 +156,8 @@
     },
     {
       "id": 16,
-      "x": -1164.6,
-      "y": 728.52,
+      "x": -1164.5999999999985,
+      "y": 728.5200000000004,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -161,8 +165,8 @@
     },
     {
       "id": 17,
-      "x": -1184.18,
-      "y": 708.77,
+      "x": -1184.1800000000003,
+      "y": 708.7700000000004,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -170,26 +174,27 @@
     },
     {
       "id": 18,
-      "x": -1184.04,
-      "y": 671.19,
+      "x": -1184.0400000000009,
+      "y": 671.1900000000005,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
       "id": 19,
-      "x": -1183.35,
-      "y": 589.69,
+      "x": -1182.7499209983398,
+      "y": 618.7612775248153,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 20,
-      "x": -1195.89,
-      "y": 562.04,
+      "x": -1183.3499999999985,
+      "y": 589.6900000000005,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -197,17 +202,25 @@
     },
     {
       "id": 21,
-      "x": -1203.29,
+      "x": -1195.8899999999994,
+      "y": 562.04,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": -1203.2900000000009,
       "y": 539.71,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
-      "id": 22,
-      "x": -1203.29,
+      "id": 23,
+      "x": -1203.2900000000009,
       "y": 539.71,
       "action": "combat_script",
       "move_mode": "dash",

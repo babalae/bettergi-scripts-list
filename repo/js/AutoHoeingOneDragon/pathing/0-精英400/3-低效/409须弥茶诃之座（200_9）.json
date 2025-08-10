@@ -1,17 +1,22 @@
-{
+﻿{
   "info": {
     "name": "409须弥茶诃之座（200_9）",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
     "description": "  路线信息：该路线预计用时248.89秒，包含8只精英与1只小怪，预计收入1640.5摩拉，包含以下怪物：2只岩盾丘丘暴徒、1只岩丘丘萨满、3只遗迹猎者、3只遗迹巡弋者。",
-    "bgi_version": "0.42.3",
+    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1754748501172,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -72,9 +77,9 @@
       "id": 7,
       "x": 3619.75,
       "y": -1777.88,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "type": "path"
     },
     {
@@ -147,8 +152,7 @@
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "attack(0.3)",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 16,

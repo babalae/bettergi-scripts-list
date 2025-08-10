@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "241璃月层岩地下狭光道（600_2）",
     "type": "collect",
@@ -8,39 +8,39 @@
     "map_name": "TheChasm",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1746708779272,
+    "last_modified_time": 1754847085302,
     "authors": [
       {
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
       "id": 1,
       "x": 808.73,
-      "y": 339.39,
+      "y": 339.3899999999999,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "teleport",
-      "locked": false
+      "type": "teleport"
     },
     {
       "id": 2,
-      "x": 814.07,
-      "y": 294.64,
+      "x": 814.0700000000002,
+      "y": 294.6399999999999,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 3,
       "x": 818.71,
-      "y": 293.39,
+      "y": 293.3899999999999,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -48,8 +48,8 @@
     },
     {
       "id": 4,
-      "x": 814.07,
-      "y": 294.64,
+      "x": 814.0700000000002,
+      "y": 294.6399999999999,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -58,57 +58,75 @@
     {
       "id": 5,
       "x": 769.69,
-      "y": 293.13,
-      "type": "path",
-      "move_mode": "fly",
+      "y": 293.1300000000001,
       "action": "stop_flying",
-      "action_params": ""
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 6,
-      "x": 735.16,
-      "y": 299.81,
+      "x": 735.9061630981753,
+      "y": 302.3436969471279,
       "type": "path",
       "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "钟离 d(0.1),wait(0.2),e(hold);茜特菈莉 e;莱依拉 e;"
+      "action_params": "keypress(f);钟离 d(0.1),wait(0.2),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;"
     },
     {
       "id": 7,
       "x": 730.22,
-      "y": 309.94,
-      "type": "path",
-      "move_mode": "walk",
+      "y": 309.94000000000005,
       "action": "combat_script",
-      "action_params": "keypress(x),wait(0.2),keypress(x)"
-    },
-    {
-      "id": 8,
-      "x": 732.66,
-      "y": 318.56,
-      "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keypress(x),wait(0.2),keypress(x)"
-    },
-    {
-      "id": 9,
-      "x": 735.56,
-      "y": 350.31,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "fight",
-      "action_params": "",
+      "action_params": "w(0.5),dash,wait(0.5),s(0.2),dash",
+      "type": "orientation",
       "locked": false
     },
     {
-      "id": 10,
-      "x": 735.56,
-      "y": 350.31,
+      "id": 8,
+      "x": 730.22,
+      "y": 309.94000000000005,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(x),wait(0.2),keypress(x)",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 729.0938408519075,
+      "y": 322.68712105091345,
       "type": "orientation",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "action_params": "w(0.1),dash,wait(0.5),dash"
+    },
+    {
+      "id": 10,
+      "x": 729.2810366955214,
+      "y": 323.43631767884995,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 735.56,
+      "y": 350.30999999999995,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 735.56,
+      "y": 350.30999999999995,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

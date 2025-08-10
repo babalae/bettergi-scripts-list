@@ -1,28 +1,27 @@
 ﻿{
   "info": {
-    "name": "412须弥沙漠圣显厅北（600_1，200_1）",
+    "name": "420须弥沙漠折胫谷（600_1，200_1）",
     "type": "collect",
-    "author": "汐",
     "version": "1.0",
-    "description": "  路线信息：该路线预计用时142.96秒，包含2只精英，预计收入800摩拉，包含以下怪物：1只遗迹重机、1只圣骸飞蛇。",
+    "description": "  路线信息：该路线预计用时120秒，包含2只精英，预计收入800摩拉，包含以下怪物：1只遗迹守卫、1只遗迹重机。",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754764785462,
     "authors": [
       {
         "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": ""
       }
     ],
-    "tags": [],
-    "last_modified_time": 1754762592519,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
   "positions": [
     {
       "id": 1,
-      "x": 4777.3,
-      "y": -1434.58,
+      "x": 5686.673828125,
+      "y": -706.03369140625,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -30,26 +29,26 @@
     },
     {
       "id": 2,
-      "x": 4814.5,
-      "y": -1393.93,
+      "x": 5692.84130859375,
+      "y": -703.3740234375,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "climb",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 3,
-      "x": 4802.68,
-      "y": -1338.4,
+      "x": 5713.61767578125,
+      "y": -728.20556640625,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 4,
-      "x": 4791.77,
-      "y": -1303.74,
+      "x": 5718.09765625,
+      "y": -753.36474609375,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -57,26 +56,26 @@
     },
     {
       "id": 5,
-      "x": 4762.05,
-      "y": -1277.95,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "x": 5723.87255859375,
+      "y": -788.5927734375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(t)",
+      "type": "orientation"
     },
     {
       "id": 6,
-      "x": 4741.89,
-      "y": -1239.21,
-      "action": "fight",
-      "move_mode": "dash",
+      "x": 5770.123046875,
+      "y": -835.1923828125,
+      "action": "stop_flying",
+      "move_mode": "fly",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 7,
-      "x": 4739.8,
-      "y": -1232.68,
+      "x": 5810.6689453125,
+      "y": -849.20166015625,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -84,26 +83,26 @@
     },
     {
       "id": 8,
-      "x": 4736.98,
-      "y": -1228.72,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;keypress(t)",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": 4684.26,
-      "y": -1177.75,
-      "action": "fight",
+      "x": 5849.812456549088,
+      "y": -848.4378789490866,
+      "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
+      "id": 9,
+      "x": 5885.3818359375,
+      "y": -847.77978515625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
       "id": 10,
-      "x": 4745.16,
-      "y": -1111.34,
+      "x": 5889.8935546875,
+      "y": -882.19287109375,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -111,8 +110,8 @@
     },
     {
       "id": 11,
-      "x": 4745.16,
-      "y": -1111.34,
+      "x": 5889.8935546875,
+      "y": -882.19287109375,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "wait(1)",
