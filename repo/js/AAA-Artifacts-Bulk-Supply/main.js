@@ -45,10 +45,10 @@ let failcount = 0;
     }
     {
         //校验自定义配置,从未打开过自定义配置时进行警告
-            for (let i = 0; i < 5; i++) {
-                log.warn("测试版本，可能存在各种bug，出现问题请联系作者，详见readme");
-                await sleep(1000);
-            }
+        for (let i = 0; i < 5; i++) {
+            log.warn("测试版本，可能存在各种bug，出现问题请联系作者，详见readme");
+            await sleep(1000);
+        }
     }
     //预处理
     await readRecord(accountName);//读取记录文件
@@ -155,14 +155,7 @@ async function readRecord(accountName) {
         }
     }
 
-    if (fileExists) {
-        log.info(`记录文件 ${recordFilePath} 存在`);
-    } else {
-        log.warn(`无记录文件，将使用默认数据`);
-    }
 
-    const content = await file.readText(recordFilePath);
-    const lines = content.split("\n");
 
     /* ---------- 初始化记录对象 ---------- */
     record = {
@@ -174,6 +167,18 @@ async function readRecord(accountName) {
     };
 
     let recordIndex = 0;
+
+    if (fileExists) {
+        log.info(`记录文件 ${recordFilePath} 存在`);
+    } else {
+        log.warn(`无记录文件，将使用默认数据`);
+        return;
+    }
+    
+    const content = await file.readText(recordFilePath);
+    const lines = content.split("\n");
+
+
 
     /* ---------- 逐行解析 ---------- */
     for (const rawLine of lines) {
