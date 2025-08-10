@@ -1,0 +1,28 @@
+
+
+// 作者:呱呱z
+// 描述: 大世界锄地。/n因为涉及角色切换，请按照伊涅芙，芙宁娜，万叶，白术的顺序站位。站位不同请替换末尾的数字。/n由于延迟等各方面因素，如果发现角色的Q经常未释放，请将keypress(Q)前面wait(数字)中的数值增大。
+// 版本: v1.0
+
+
+// 1号盾位
+伊涅芙 attack,keypress(e),wait(0.01),keypress(2)
+
+// 2号水神：e后摇0.8；
+芙宁娜 attack,e,wait(0.01),click(middle),wait(0.63),keypress(Q),wait(0.05),attack,keypress(3)
+
+// 3号万叶
+枫原万叶 attack,wait(0.3),click(middle),e(hold),attack,click(middle),attack,wait(0.7),keypress(Q),attack,wait(0.05),keypress(4)
+
+// 4号白术
+白术 attack,e,wait(0.65),keypress(q),wait(0.01),keypress(1)
+
+伊涅芙 attack,wait(0.01),click(middle),keypress(Q),attack,wait(0.05),keypress(4)
+//伊涅芙 attack,wait(0.01),click(middle),keypress(Q),wait(0.65),attack,e,wait(0.01),keypress(2)
+
+// 二轮循环
+白术 attack(6.5),keypress(1)
+伊涅芙 attack,keypress(e),wait(0.01),keypress(2)
+芙宁娜 attack,e,wait(0.01),keypress(3)
+枫原万叶 attack,wait(0.3),click(middle),e(hold),attack,click(middle),attack,wait(0.7),keypress(Q),attack,wait(0.05)
+白术 e,keypress(1)
