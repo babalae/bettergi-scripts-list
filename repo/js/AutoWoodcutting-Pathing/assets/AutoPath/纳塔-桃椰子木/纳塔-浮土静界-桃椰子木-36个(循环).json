@@ -11,10 +11,11 @@
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
+    "bgi_version": "0.48.0",
     "tags": [],
     "last_modified_time": 1753705055067,
-    "enable_monster_loot_split": false
+    "enable_monster_loot_split": false,
+    "map_match_method": "TemplateMatch"
   },
   "positions": [
     {
@@ -23,7 +24,7 @@
       "y": -2835.7305,
       "type": "path",
       "move_mode": "dash",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {
@@ -32,7 +33,7 @@
       "y": -2815.3916,
       "type": "path",
       "move_mode": "dash",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(1.5),keypress(VK_Z)"
     },
     {
@@ -41,7 +42,7 @@
       "y": -2805.9062,
       "type": "path",
       "move_mode": "dash",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {
@@ -59,7 +60,7 @@
       "y": -2805.9062,
       "type": "path",
       "move_mode": "dash",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {
@@ -68,7 +69,7 @@
       "y": -2815.3916,
       "type": "path",
       "move_mode": "dash",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {
@@ -77,7 +78,7 @@
       "y": -2835.7305,
       "type": "path",
       "move_mode": "dash",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(0.5),keypress(VK_Z)"
     },
     {

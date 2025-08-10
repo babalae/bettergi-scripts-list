@@ -17,12 +17,11 @@ const QuickUsePlusButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSy
     const rewardTextRo = RecognitionObject.Ocr(1210, 515, 200, 50);//领奖区域检测
     let advanceNum = 0;//前进次数
 
-    //征讨之花领奖
-    const autoNavigateToReward = async () => {
+//征讨之花领奖(图标识别)
+const autoNavigateToReward = async () => {
         // 定义识别对象
         const boxIconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/box.png"));
         const rewardTextRo = RecognitionObject.Ocr(1210, 515, 200, 50);//领奖区域检测
-
         let advanceNum = 0;//前进次数
         //调整为俯视视野
         middleButtonClick();
@@ -33,60 +32,61 @@ const QuickUsePlusButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSy
         await sleep(400);
         moveMouseBy(0, 710);
         log.info("开始领奖");
-        while (true) {
-            // 1. 优先检查是否已到达领奖点
-            let captureRegion = captureGameRegion();
-            let rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 50);
-            let rewardResult = rewardTextArea.find(RecognitionObject.ocrThis);
-            // 检测到特点文字则结束！！！
-            if (rewardResult.text == "接触征讨之花") {
-                log.info("已到达领奖点，检测到文字: " + rewardResult.text);
-                return;
-            }
-            else if (advanceNum > 40) {
-                throw new Error('前进时间超时');
-            }
-            // 2. 未到达领奖点，则调整视野
-            for (let i = 0; i < 100; i++) {
-                captureRegion = captureGameRegion();
-                let iconRes = captureRegion.Find(boxIconRo);
-                let climbTextArea = captureRegion.DeriveCrop(1808, 1030, 25, 25);
-                let climbResult = climbTextArea.find(RecognitionObject.ocrThis);
-                // 检查是否处于攀爬状态
-                if (climbResult.isEmpty()) {
-                    log.info("检侧进入攀爬状态，尝试脱离");
-                    keyPress("x");
-                    await sleep(1000);
-                    keyDown("a");
-                    await sleep(800);
-                    keyUp("a");
-                    keyDown("w");
-                    await sleep(800);
-                    keyUp("w");
-                }
-                if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {
-                    advanceNum++;
-                    log.info(`视野已调正，前进第${advanceNum}次`);
-                    break;
-                } else {
-                    // 小幅度调整
-                    if (iconRes.y >= 520) moveMouseBy(0, 920);
-                    let adjustAmount = iconRes.x < 920 ? -20 : 20;
-                    let distanceToCenter = Math.abs(iconRes.x - 920); // 计算与920的距离
-                    let scaleFactor = Math.max(1, Math.floor(distanceToCenter / 50)); // 根据距离缩放，最小为1
-                    let adjustAmount2 = iconRes.y < 540 ? scaleFactor : 10;
-                    moveMouseBy(adjustAmount * adjustAmount2, 0);
-                    await sleep(100);
-                }
-                if (i > 50) throw new Error('视野调整超时');
-            }
-            // 3. 前进一小步
-            keyDown("w");
-            await sleep(500);
-            keyUp("w");
-            await sleep(200); // 等待角色移动稳定
+    while (true) {
+        // 1. 优先检查是否已到达领奖点
+        let captureRegion = captureGameRegion();
+        let rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 50);
+        let rewardResult = rewardTextArea.find(RecognitionObject.ocrThis);
+        // 检测到特点文字则结束！！！ 
+        if (rewardResult.text == "接触征讨之花") {
+            log.info(`总计前进第${advanceNum}次`);
+            log.info("已到达领奖点，检测到文字: " + rewardResult.text);
+            return;
         }
+        else if(advanceNum > 150){
+        log.info(`总计前进第${advanceNum}次`);
+        throw new Error('前进时间超时');
+        }
+        // 2. 未到达领奖点，则调整视野
+        for(let i = 0; i < 100; i++){
+        captureRegion = captureGameRegion();
+        let iconRes = captureRegion.Find(boxIconRo);
+        let climbTextArea = captureRegion.DeriveCrop(1685, 1030, 65, 25);
+        let climbResult = climbTextArea.find(RecognitionObject.ocrThis);
+        // 检查是否处于攀爬状态
+        if (climbResult.text == "Space"){
+        log.info("检侧进入攀爬状态，尝试脱离");
+        keyPress("x");
+        await sleep(1000);
+        keyDown("a");
+        await sleep(800);
+        keyUp("a");
+        keyDown("w");
+        await sleep(800);
+        keyUp("w");
+        }
+        if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {    
+            advanceNum++;
+            break;
+        } else {
+            // 小幅度调整
+            if(iconRes.y >= 520)  moveMouseBy(0, 920);
+            let adjustAmount = iconRes.x < 920 ? -20 : 20;
+            let distanceToCenter = Math.abs(iconRes.x - 920); // 计算与920的距离
+            let scaleFactor = Math.max(1, Math.floor(distanceToCenter / 50)); // 根据距离缩放，最小为1
+            let adjustAmount2 = iconRes.y < 540 ? scaleFactor : 10;
+            moveMouseBy(adjustAmount * adjustAmount2, 0);
+            await sleep(100);
+        }     
+  if(i > 20) throw new Error('视野调整超时');
     }
+        // 3. 前进一小步
+        keyDown("w");
+        await sleep(200);
+        keyUp("w");
+
+    }
+}
 
 
     //主流程
@@ -124,18 +124,16 @@ const QuickUsePlusButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSy
     }
     if (samePlace == "YES") log.info(`已启用原地连续挑战模式`);
     log.info(`前往第1次恢复状态`);
-    await pathingScript.runFile("assets/recover.json");//回复状态
+    await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
     log.info(`前往第1次讨伐${challengeName}`);
     await pathingScript.runFile(`assets/${challengeName}前往.json`);
-    await keyMouseScript.runFile(`assets/${challengeName}前往键鼠.json`);
     for (let i = 0; i < challengeNum; i++) {
         await sleep(1000);
         if (samePlace != "YES" && i > 0) {
             log.info(`前往第${i + 1}次恢复状态`);
-            await pathingScript.runFile("assets/recover.json");//回复状态
+            await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
             log.info(`前往第${i + 1}次讨伐${challengeName}`);
             await pathingScript.runFile(`assets/${challengeName}前往.json`);
-            await keyMouseScript.runFile(`assets/${challengeName}前往键鼠.json`);
         }
         log.info(`开始第${i + 1}次战斗`);
         try {
@@ -143,9 +141,8 @@ const QuickUsePlusButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSy
         } catch (error) {
             //失败后最多只挑战一次，因为两次都打不过，基本上没戏，干脆直接报错结束
             log.info(`挑战失败，再来一次`);
-            await pathingScript.runFile("assets/recover.json");//回复状态
+            await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
             await pathingScript.runFile(`assets/${challengeName}前往.json`);
-            await keyMouseScript.runFile(`assets/${challengeName}前往键鼠.json`);
             await dispatcher.runTask(new SoloTask("AutoFight"));
         }
         await sleep(1000);
@@ -163,6 +160,7 @@ const QuickUsePlusButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSy
 
 
     }
-    await pathingScript.runFile("assets/recover.json");//回复状态
+    await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
     log.info(`首领讨伐结束`);
 })();
+

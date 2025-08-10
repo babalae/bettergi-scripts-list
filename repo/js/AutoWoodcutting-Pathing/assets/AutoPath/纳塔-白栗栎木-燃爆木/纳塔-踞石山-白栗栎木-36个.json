@@ -2,10 +2,9 @@
   "info": {
     "name": "纳塔-踞石山-白栗栎木-36个",
     "type": "collect",
-    "author": "起个名字好难",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.0",
+    "bgi_version": "0.48.0",
     "authors": [
       {
         "name": "起个名字好难的喵",
@@ -27,7 +26,8 @@
       "x": 8279.2275,
       "y": -2523.2871,
       "type": "path",
-      "move_mode": "fly"
+      "move_mode": "fly",
+      "action": "stop_flying"
     },
     {
       "id": 3,
@@ -35,8 +35,8 @@
       "y": -2523.2871,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "attack,wait(2.5),keypress(VK_Z)"
+      "action": "use_gadget",
+      "action_params": "wait(2.5),keypress(VK_Z)"
     },
     {
       "id": 4,
@@ -68,7 +68,7 @@
       "y": -2444.3203,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {
@@ -77,7 +77,7 @@
       "y": -2424.1709,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {
@@ -102,7 +102,7 @@
       "y": -2415.5342,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {
@@ -111,7 +111,7 @@
       "y": -2440.2461,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {
@@ -120,7 +120,7 @@
       "y": -2492.1133,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     }
   ]

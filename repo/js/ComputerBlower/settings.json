@@ -1,0 +1,19 @@
+[
+  {
+    "name": "dispose",
+    "type": "checkbox",
+    "label": "是否dispose"
+  },
+  {
+    "name": "timeout",
+    "type": "input-text",
+    "label": "运行时间（秒）",
+    "default": "60"
+  },
+  {
+    "name": "interval",
+    "type": "input-text",
+    "label": "间隔多久输出一次（毫秒）",
+    "default": "1000"
+  }
+]

@@ -2,10 +2,9 @@
   "info": {
     "name": "蒙德-风起地-垂香木-48个-萃华木-6个-57秒",
     "type": "collect",
-    "author": "Tim",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.0",
+    "bgi_version": "0.48.0",
     "authors": [
       {
         "name": "Tim",
@@ -20,7 +19,7 @@
       "y": 2190.4849,
       "type": "teleport",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {
@@ -29,7 +28,7 @@
       "y": 2210.1455,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {
@@ -38,7 +37,7 @@
       "y": 2173.0874,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(0.5),keypress(VK_Z)"
     },
     {
@@ -47,7 +46,7 @@
       "y": 2174.8306,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(0.5),keypress(VK_Z)"
     },
     {
@@ -72,7 +71,7 @@
       "y": 2146.8704,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(0.5),keypress(VK_Z)"
     },
     {
@@ -81,7 +80,7 @@
       "y": 2123.0991,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(2),keypress(VK_Z)"
     },
     {
@@ -90,7 +89,7 @@
       "y": 2116.3967,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(3),keypress(VK_Z)"
     }
   ]

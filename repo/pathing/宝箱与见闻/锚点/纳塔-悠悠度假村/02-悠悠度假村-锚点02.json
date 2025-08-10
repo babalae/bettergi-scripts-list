@@ -1,0 +1,76 @@
+{
+  "info": {
+    "name": "02-悠悠度假村-锚点02",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "小大",
+        "links": "https://github.com/xd1145"
+      }
+    ],
+    "version": "1.1",
+    "description": "锚点",
+    "map_name": "Teyvat",
+    "bgi_version": "0.48.0",
+    "tags": [],
+    "last_modified_time": 1754634848949,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 13629.6768,
+      "y": 379.4507,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 13653.0586,
+      "y": 374.5264,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 13720.2832,
+      "y": 371.6035,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 13738.4385,
+      "y": 368.6094,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 13752.7969,
+      "y": 383.5635,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 13756.6064,
+      "y": 386.2549,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f)",
+      "type": "path"
+    }
+  ]
+}

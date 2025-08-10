@@ -2,10 +2,9 @@
   "info": {
     "name": "稻妻-水月池-御伽木-18个-90秒(大循环)",
     "type": "collect",
-    "author": "Tim",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.0",
+    "bgi_version": "0.48.0",
     "authors": [
       {
         "name": "Tim",
@@ -28,7 +27,7 @@
       "type": "path",
       "x": -769.4824,
       "y": -3564.5176,
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {
@@ -37,7 +36,7 @@
       "y": -3573.5,
       "type": "path",
       "move_mode": "fly",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(0.5),keypress(VK_Z)"
     },
     {
@@ -54,7 +53,7 @@
       "y": -3570.8975,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {
@@ -95,7 +94,7 @@
       "y": -3580.3096,
       "type": "path",
       "move_mode": "jump",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {
@@ -112,7 +111,7 @@
       "y": -3581.2559,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {

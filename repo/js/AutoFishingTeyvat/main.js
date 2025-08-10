@@ -140,13 +140,13 @@
         '须弥-垂钓点-下风蚀地阿如村-花鳉_水晶宴_吹沙角鲀_暮云角鲀_翡玉斧枪鱼-果酿饵_甘露饵-普通',
         '须弥-垂钓点-千壑沙地「五绿洲」的孑遗-真果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-甘露饵-战斗',
         '须弥-垂钓点-护世森无郁稠林-沉波蜜桃_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-甘露饵-普通',
-        '须弥-垂钓点-桓那兰那觉王之殿北-花鳉_青果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-果酿饵_甘露饵-普通',
+        '须弥-垂钓点-桓那兰那觉王之殿北-花鳉_真果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-果酿饵_甘露饵-普通',
         '须弥-垂钓点-荒石苍漠铁穆山南-擒霞客_真果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-果酿饵_甘露饵-普通',
-        '须弥-垂钓点-道成林天臂池-赤魔王_青果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-赤糜饵_甘露饵-普通',
-        '须弥-垂钓点-道成林维摩庄北-花鳉_青果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-果酿饵_甘露饵-普通',
+        '须弥-垂钓点-道成林天臂池-赤魔王_真果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-赤糜饵_甘露饵-普通',
+        '须弥-垂钓点-道成林维摩庄北-花鳉_真果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-果酿饵_甘露饵-普通',
         '须弥-垂钓点-道成林须弥城南-擒霞客_吹沙角鲀_暮云角鲀_青金斧枪鱼-果酿饵_甘露饵-普通',
-        '须弥-垂钓点-阿陀河谷奥摩斯港北-水晶宴_青果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-果酿饵_甘露饵-普通',
-        '须弥-垂钓点-阿陀河谷降诸魔山-擒霞客_青果角鲀_暮云角鲀_翡玉斧枪鱼-果酿饵_甘露饵-普通',
+        '须弥-垂钓点-阿陀河谷奥摩斯港北-水晶宴_真果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-果酿饵_甘露饵-普通',
+        '须弥-垂钓点-阿陀河谷降诸魔山-擒霞客_真果角鲀_暮云角鲀_翡玉斧枪鱼-果酿饵_甘露饵-普通',
     ]
     const fishing_time_dic = {
         "全天": {"name": "All", "param": 0},
@@ -461,44 +461,57 @@
             fishing_time = path_time;
         }
 
-        // 4点自动领取月卡
-        let time_now = new Date();
-        let time_4 = new Date(time_now.getFullYear(), time_now.getMonth(), time_now.getDate(), 4, 0, 0); // 4点
-        let time_predict_end; // 根据超时时间预测本次钓鱼结束时间（加1分钟容错）
-        if (fishing_time === "全天") {
-            time_predict_end = time_now.setSeconds(time_now.getSeconds() + time_out_whole * 2 + 60);
-        } else {
-            time_predict_end = time_now.setSeconds(time_now.getSeconds() + time_out_whole + 60);
-        }
-        // 30s点击一次，等待领取月卡
-        let step_flag = 0; // 领取月卡步骤标志
-        while (auto_skip && time_now < time_4 && time_predict_end >= time_4) {
-            log.info(`等待领取月卡(剩余${Math.floor((time_4 - new Date()) / 1000)}s)...`);
-            if (step_flag === 0) {
-                // 传送到七天神像
-                await pathingScript.runFile(base_path_pathing + statue_name + ".json");
-                step_flag += 1;
+        if (auto_skip) {
+            // log.info(`[DEBUG] 开始自动领取月卡`);
+            // 4点自动领取月卡
+            let time_now = new Date();
+            let time_4 = new Date(time_now.getFullYear(), time_now.getMonth(), time_now.getDate(), 4, 0, 0); // 4点
+            // log.info(`[DEBUG] time_now: ${time_now}`);
+            // log.info(`[DEBUG] time_4: ${time_4}`);
+            let time_predict_end; // 根据超时时间预测本次钓鱼结束时间（加1分钟容错）
+            if (fishing_time === "全天") {
+                time_predict_end = new Date(time_now.getTime() + (time_out_whole * 2 + 60) * 1000);
+            } else {
+                time_predict_end = new Date(time_now.getTime() + (time_out_whole + 60) * 1000);
             }
-            await sleep(30000);
-            keyDown("VK_LBUTTON");
-            await sleep(100);
-            keyUp("VK_LBUTTON");
+            // log.info(`[DEBUG] time_predict_end: ${time_predict_end}`);
+            // log.info(`[DEBUG] ${time_now < time_4} | ${time_predict_end >= time_4}`);
+            // 30s点击一次，等待领取月卡
+            let step_flag = 0; // 领取月卡步骤标志
+            while (time_now < time_4 && time_predict_end >= time_4) {
+                log.info(`等待领取月卡(剩余${Math.floor((time_4 - new Date()) / 1000)}s)...`);
+                if (step_flag === 0) {
+                    // 传送到七天神像
+                    await pathingScript.runFile(base_path_statues + statue_name + ".json");
+                    step_flag += 1;
+                }
+                await sleep(30000);
+                keyPress("ESCAPE");
+                await sleep(2000);
+                keyPress("ESCAPE");
 
+                time_now = new Date();
+
+            }
             // 本次已经到达4点(5s容错)
-            if (new Date() > time_4.setSeconds(time_4.getSeconds() - 5)) {
+            if (new Date() > time_4.setSeconds(time_4.getSeconds())) {
+                await sleep(5000);
                 step_flag += 1;
                 auto_skip = false;
             }
-
-        }
-        // 领取月卡(点击两次)
-        if (step_flag === 2) {
-            // step_flag = 0;
-            await sleep(5); // 补回容错时间
-            await click(1450, 1020); // 点击时间调节的确认按钮的位置
-            await sleep(5); // 等待月卡动画时间
-            await click(1450, 1020);
-            await sleep(1);
+            // 领取月卡(点击两次)
+            if (step_flag === 2) {
+                // step_flag = 0;
+                await sleep(5000); // 补回容错时间
+                await click(1450, 1020); // 点击时间调节的确认按钮的位置
+                await sleep(5000); // 等待月卡动画时间
+                await click(1450, 1020);
+                await sleep(1000);
+                await click(1450, 1020);
+                await sleep(1000);
+                await click(1450, 1020);
+                await sleep(1000);
+            }
         }
 
         log.info(`该钓鱼点的时间: ${fishing_time}`);

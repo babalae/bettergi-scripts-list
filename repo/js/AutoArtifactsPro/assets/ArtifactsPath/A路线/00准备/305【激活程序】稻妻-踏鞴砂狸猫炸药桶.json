@@ -2,14 +2,20 @@
   "info": {
     "name": "305【激活程序】稻妻-踏鞴砂狸猫炸药桶",
     "type": "collect",
-    "author": "汐",
     "version": "",
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751978132905,
-    "enable_monster_loot_split": false
+    "last_modified_time": 1754247254965,
+    "enable_monster_loot_split": false,
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -35,26 +41,26 @@
       "y": -3624.4377576853785,
       "action": "combat_script",
       "move_mode": "run",
-      "action_params": "wait(0.5);芙宁娜 e;",
+      "action_params": "wait(0.5)",
       "type": "path"
     },
     {
       "id": 4,
       "x": -3281.05859375,
       "y": -3634.79296875,
-      "type": "path",
-      "move_mode": "run",
       "action": "",
-      "action_params": ""
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 5,
       "x": -3277.718736174709,
       "y": -3639.7502122114893,
-      "type": "target",
-      "move_mode": "run",
       "action": "combat_script",
-      "action_params": "attack(0.5),s(1)"
+      "move_mode": "run",
+      "action_params": "attack(0.5),s(1)",
+      "type": "target"
     }
   ]
 }

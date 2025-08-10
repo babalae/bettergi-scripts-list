@@ -31,7 +31,9 @@ ACTION_VERSION_MAP = {
     "electro_collect": "0.42.0",
     "nahida_collect": "0.42.0",
     "up_down_grab_leaf": "0.42.0",
-    "set_time": "0.45.0"
+    "set_time": "0.45.0",
+    "exit_and_relogin": "0.46.0",
+    "use_gadget": "0.48.0"
 }
 
 # 定义 action_params 的最低兼容版本和正则表达式验证

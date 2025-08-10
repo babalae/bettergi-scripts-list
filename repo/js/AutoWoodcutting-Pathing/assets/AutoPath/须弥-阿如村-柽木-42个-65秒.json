@@ -2,10 +2,9 @@
   "info": {
     "name": "须弥-阿如村-柽木-42个-65秒",
     "type": "collect",
-    "author": "Tim",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.0",
+    "bgi_version": "0.48.0",
     "authors": [
       {
         "name": "Tim",
@@ -36,7 +35,7 @@
       "y": -2034.2061,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(0.5),keypress(VK_Z)"
     },
     {
@@ -61,7 +60,7 @@
       "y": -2037.3594,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(0.5),keypress(VK_Z)"
     },
     {
@@ -86,7 +85,7 @@
       "y": -1998.6099,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(0.5),keypress(VK_Z)"
     },
     {
@@ -95,20 +94,28 @@
       "y": -1996.5762,
       "type": "path",
       "move_mode": "fly",
-      "action": "combat_script",
-      "action_params": "click,wait(3),keypress(VK_Z)"
+      "action": "stop_flying"
     },
     {
       "id": 11,
-      "x": 4136.9688,
-      "y": -1996.7427,
+      "x": 4144.9868,
+      "y": -1996.5762,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(3),keypress(VK_Z)"
     },
     {
       "id": 12,
+      "x": 4136.9688,
+      "y": -1996.7427,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "use_gadget",
+      "action_params": "wait(3),keypress(VK_Z)"
+    },
+    {
+      "id": 13,
       "x": 4124.5283,
       "y": -1992.6431,
       "type": "path",
@@ -116,12 +123,12 @@
       "action": ""
     },
     {
-      "id": 13,
+      "id": 14,
       "x": 4108.2349,
       "y": -1982.9399,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(0.5),keypress(VK_Z)"
     }
   ]

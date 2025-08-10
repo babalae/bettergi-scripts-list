@@ -2,10 +2,9 @@
   "info": {
     "name": "纳塔-奥奇卡纳塔-灰灰楼林木-42个-79秒",
     "type": "collect",
-    "author": "Tim",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.0",
+    "bgi_version": "0.48.0",
     "authors": [
       {
         "name": "Tim",
@@ -28,7 +27,7 @@
       "y": -153.8213,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {
@@ -38,19 +37,28 @@
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keypress(VK_D),wait(0.2),click(right),wait(1.5),keypress(VK_Z)"
+      "action_params": "keypress(VK_D),wait(0.2),click(right)"
     },
     {
       "id": 4,
+      "x": 10089.7061,
+      "y": -164.4854,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "use_gadget",
+      "action_params": "wait(1.5),keypress(VK_Z)"
+    },
+    {
+      "id": 5,
       "x": 10071.0635,
       "y": -161.7329,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(1),keypress(VK_Z)"
     },
     {
-      "id": 5,
+      "id": 6,
       "x": 10079.7754,
       "y": -138.1982,
       "type": "path",
@@ -58,43 +66,43 @@
       "action": ""
     },
     {
-      "id": 6,
+      "id": 7,
       "x": 10066.123,
       "y": -114.4136,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": 10028.5508,
       "y": -108.5845,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(0.5),keypress(VK_Z)"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": 10016.9004,
       "y": -96.9731,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(2.2),keypress(VK_Z)"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": 10001.5605,
       "y": -122.6499,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(1),keypress(VK_Z)"
     },
     {
-      "id": 10,
+      "id": 11,
       "x": 9987.5332,
       "y": -131.4619,
       "type": "path",
@@ -102,7 +110,7 @@
       "action": ""
     },
     {
-      "id": 11,
+      "id": 12,
       "x": 9989.7852,
       "y": -139.1543,
       "type": "path",
@@ -110,7 +118,7 @@
       "action": ""
     },
     {
-      "id": 12,
+      "id": 13,
       "x": 10011.7441,
       "y": -143.8223,
       "type": "path",
@@ -118,12 +126,12 @@
       "action": ""
     },
     {
-      "id": 13,
+      "id": 14,
       "x": 10010.3535,
       "y": -166.6484,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(0.2),keypress(VK_Z)"
     }
   ]

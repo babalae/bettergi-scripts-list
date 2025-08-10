@@ -8,9 +8,9 @@
     log.info("已返回主界面");
 
     // 3. 切换队伍
-    const partyName = settings.partyName || "默认队伍";
-    await genshin.switchParty(partyName);
-    log.info(`已切换至队伍：${partyName}`);
+    if (settings.switchPartyName) {
+        await genshin.switchParty(settings.switchPartyName);
+    }
 
     // 4. 刷取循环
     const maxAttempts = settings.loopTimes || 15;
