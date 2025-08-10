@@ -1,0 +1,172 @@
+﻿{
+  "info": {
+    "name": "217璃月-珉林酒窖3",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752389925412,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 730.2568359375,
+      "y": 1062.2294921875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 743.71875,
+      "y": 1064.4684069372706,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 772.3125,
+      "y": 1068.3750221330793,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 771.9375079001657,
+      "y": 1064.749840841383,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 772.0625316006626,
+      "y": 1062.6249090522197,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2),keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 730.482421875,
+      "y": 1062.408203125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 7,
+      "x": 716.625,
+      "y": 1044.7507525246983,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 669.5,
+      "y": 1009.7496901368895,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 634.7490234375,
+      "y": 947.455078125,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 640.8125888768664,
+      "y": 942.6877576853785,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "迪希雅 e;attack(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 642.1728515625,
+      "y": 941.576171875,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 625.1875,
+      "y": 927.0615234375,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 579.1728515625,
+      "y": 913.19921875,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 558.625,
+      "y": 907.3749778669207,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 546.0625,
+      "y": 893.812677064635,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 540.10546875,
+      "y": 894.50537109375,
+      "action": "",
+      "move_mode": "climb",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 532.31640625,
+      "y": 900.21826171875,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": 524.1337890625,
+      "y": 907.4951171875,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "target"
+    }
+  ]
+}

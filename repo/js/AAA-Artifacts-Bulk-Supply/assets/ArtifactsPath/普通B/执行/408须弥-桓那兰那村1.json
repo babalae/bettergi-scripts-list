@@ -1,0 +1,70 @@
+{
+  "info": {
+    "name": "408须弥-桓那兰那村1",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751648622067
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3242.49609375,
+      "y": -193.783203125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3296.7607421875,
+      "y": -184.52197265625,
+      "action": "log_output",
+      "move_mode": "dash",
+      "action_params": "\n[桓那兰那村]务必转换到现实调查点才是狗粮!!!\n[桓那兰那村]务必转换到现实调查点才是狗粮!!!\n[桓那兰那村]务必转换到现实调查点才是狗粮!!!",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 3296.7607421875,
+      "y": -184.52197265625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3303.8017578125,
+      "y": -187.81689453125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3306.509765625,
+      "y": -189.060546875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3308.3857421875,
+      "y": -191.90283203125,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "target"
+    }
+  ]
+}
