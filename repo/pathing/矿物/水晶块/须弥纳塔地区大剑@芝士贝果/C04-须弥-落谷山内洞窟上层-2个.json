@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "C04-须弥-落谷山内洞窟上层-2个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "芝士贝果"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.48.0",
+    "tags": [],
+    "last_modified_time": 1754833030369,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4631.9296875,
+      "y": -2982.1494140625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4632.03515625,
+      "y": -2967.1865234375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4649.8544921875,
+      "y": -2971.33984375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    }
+  ]
+}
