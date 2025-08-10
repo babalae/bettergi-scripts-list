@@ -1,6 +1,5 @@
 (async function () {
     // 获取设置
-    const settings = await getSettings();
     const weekdayOption = settings.weekdays || "周一"; // 默认周一
     const purchaseCount = parseInt(settings.purchases) || 5; // 默认购买5个
     
