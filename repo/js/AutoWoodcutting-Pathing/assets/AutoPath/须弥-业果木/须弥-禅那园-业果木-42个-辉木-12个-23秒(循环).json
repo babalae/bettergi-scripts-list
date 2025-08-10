@@ -2,10 +2,9 @@
   "info": {
     "name": "须弥-禅那园-业果木-42个-辉木-12个-23秒(循环)",
     "type": "collect",
-    "author": "Tim",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.0",
+    "bgi_version": "0.48.0",
     "authors": [
       {
         "name": "Tim",
@@ -20,7 +19,7 @@
       "type": "path",
       "x": 3175.4053,
       "y": -1059.9087,
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(0.5),keypress(VK_Z)"
     },
     {
@@ -37,7 +36,7 @@
       "y": -1051.3628,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(0.5),keypress(VK_Z)"
     },
     {
@@ -46,7 +45,7 @@
       "y": -1066.2388,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "wait(1),keypress(VK_Z)"
     }
   ]

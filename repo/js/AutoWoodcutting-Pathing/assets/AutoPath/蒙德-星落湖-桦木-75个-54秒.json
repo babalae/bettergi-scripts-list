@@ -2,10 +2,9 @@
   "info": {
     "name": "蒙德-星落湖-桦木-75个-54秒",
     "type": "collect",
-    "author": "Tim",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.0",
+    "bgi_version": "0.48.0",
     "authors": [
       {
         "name": "Tim",
@@ -50,7 +49,7 @@
       "id": 5,
       "x": -1291.8896,
       "y": 2577.4204,
-      "action": "combat_script",
+      "action": "use_gadget",
       "move_mode": "walk",
       "type": "path",
       "action_params": "keypress(VK_Z)"
@@ -67,7 +66,7 @@
       "id": 7,
       "x": -1311.7754,
       "y": 2530.9932,
-      "action": "combat_script",
+      "action": "use_gadget",
       "move_mode": "walk",
       "type": "path",
       "action_params": "keypress(VK_Z)"
@@ -86,7 +85,7 @@
       "y": 2521.9163,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     },
     {
@@ -101,7 +100,7 @@
       "id": 11,
       "x": -1375.4873,
       "y": 2553.8157,
-      "action": "combat_script",
+      "action": "use_gadget",
       "move_mode": "walk",
       "type": "path",
       "action_params": "keypress(VK_Z)"
@@ -110,7 +109,7 @@
       "id": 12,
       "x": -1376.4268,
       "y": 2578.9888,
-      "action": "combat_script",
+      "action": "use_gadget",
       "move_mode": "walk",
       "type": "path",
       "action_params": "wait(0.8),keypress(VK_Z)"
