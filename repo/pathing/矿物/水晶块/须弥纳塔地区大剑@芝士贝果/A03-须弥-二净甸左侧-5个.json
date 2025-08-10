@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "07-须弥-善见地左下-3个",
+    "name": "A03-须弥-二净甸左侧-5个",
     "type": "collect",
     "authors": [
       {
@@ -12,7 +12,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1754745681626,
+    "last_modified_time": 1754744110202,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -22,14 +22,14 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 3546.9922,
-      "y": -1993.3062,
+      "x": 3705.8848,
+      "y": -497.1323,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 3582.5869,
-      "y": -1986.0264,
+      "x": 3711.5771,
+      "y": -503.7983,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -37,74 +37,92 @@
     },
     {
       "id": 3,
-      "x": 3592.2236,
-      "y": -1973.1177,
+      "x": 3748.5879,
+      "y": -533.8599,
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1300"
     },
     {
       "id": 4,
-      "x": 3661.2969,
-      "y": -1968.3882,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
+      "x": 3743.6152,
+      "y": -530.5107,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
       "action_params": ""
     },
     {
       "id": 5,
-      "x": 3692.5059,
-      "y": -1963.0142,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": "1000"
-    },
-    {
-      "id": 6,
-      "x": 3684.8467,
-      "y": -1957.8765,
+      "x": 3733.5898,
+      "y": -530.1646,
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
       "action_params": ""
     },
     {
-      "id": 7,
-      "x": 3687.627,
-      "y": -1960.791,
-      "type": "path",
+      "id": 6,
+      "x": 3728.9102,
+      "y": -531.4814,
+      "type": "target",
       "move_mode": "walk",
-      "action": "",
+      "action": "combat_script",
+      "action_params": "attack"
+    },
+    {
+      "id": 7,
+      "x": 3725.9434,
+      "y": -530.9092,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
       "action_params": ""
     },
     {
       "id": 8,
-      "x": 3684.6436,
-      "y": -1962.0068,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
-    },
-    {
-      "id": 9,
-      "x": 3688.4131,
-      "y": -1966.6997,
+      "x": 3731.916,
+      "y": -533.9678,
       "type": "path",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 10,
-      "x": 3686.6758,
-      "y": -1967.7256,
+      "id": 9,
+      "x": 3726.7656,
+      "y": -533.4785,
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 3730.248,
+      "y": -539.3359,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 3726.7383,
+      "y": -540.6899,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 3728.5352,
+      "y": -542.8618,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
       "action_params": ""
     }
   ]

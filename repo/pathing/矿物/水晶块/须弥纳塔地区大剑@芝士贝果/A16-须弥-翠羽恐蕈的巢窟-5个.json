@@ -1,18 +1,19 @@
 {
   "info": {
-    "name": "06-须弥-善见地左侧-4个",
+    "name": "A16-须弥-翠羽恐蕈的巢窟-5个",
     "type": "collect",
     "authors": [
       {
-        "name": "芝士贝果"
+        "name": "芝士贝果",
+        "links": ""
       }
     ],
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
+    "bgi_version": "0.48.0",
     "tags": [],
-    "last_modified_time": 1754745408704,
+    "last_modified_time": 1754796661375,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -20,25 +21,25 @@
     {
       "id": 1,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "teleport",
-      "x": 3639.9102,
-      "y": -1417.1831,
+      "x": 3926.2216796875,
+      "y": -163.96630859375,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 3617.1855,
-      "y": -1369.0972,
+      "x": 3933.4892578125,
+      "y": -194.38916015625,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action": "",
       "action_params": ""
     },
     {
       "id": 3,
-      "x": 3610.4805,
-      "y": -1368.2021,
+      "x": 3925.2705078125,
+      "y": -225.173828125,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -46,26 +47,26 @@
     },
     {
       "id": 4,
-      "x": 3572.291,
-      "y": -1387.2998,
+      "x": 3948.1025390625,
+      "y": -241.82470703125,
       "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": "1500"
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 5,
-      "x": 3575.6992,
-      "y": -1389.3701,
-      "type": "target",
+      "x": 3975.8671875,
+      "y": -249.45556640625,
+      "type": "path",
       "move_mode": "walk",
-      "action": "mining",
+      "action": "fight",
       "action_params": ""
     },
     {
       "id": 6,
-      "x": 3579.4883,
-      "y": -1381.5806,
+      "x": 3979.3134765625,
+      "y": -245.7158203125,
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
@@ -73,8 +74,8 @@
     },
     {
       "id": 7,
-      "x": 3576.8398,
-      "y": -1369.6831,
+      "x": 3976.8212890625,
+      "y": -248.7177734375,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -82,8 +83,8 @@
     },
     {
       "id": 8,
-      "x": 3585.29,
-      "y": -1374.3008,
+      "x": 3976.248046875,
+      "y": -243.08154296875,
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
@@ -91,17 +92,35 @@
     },
     {
       "id": 9,
-      "x": 3588.9883,
-      "y": -1345.3887,
+      "x": 3972.4609375,
+      "y": -244.48046875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 3972.373046875,
+      "y": -254.078125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 3970.6611328125,
+      "y": -250.40869140625,
       "type": "path",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 10,
-      "x": 3605.1738,
-      "y": -1349.1987,
+      "id": 12,
+      "x": 3967.861328125,
+      "y": -252.32177734375,
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
