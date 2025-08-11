@@ -1,0 +1,112 @@
+﻿{
+  "info": {
+    "name": "02-全自动沙漠书-接取任务",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "小大",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "全自动沙漠书",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754883990957,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3993.3818359375,
+      "y": -1989.22705078125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4001.908203125,
+      "y": -1990.84716796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4013.482421875,
+      "y": -1992.81298828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4025.0810546875,
+      "y": -1994.85205078125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4033.1435546875,
+      "y": -1995.27392578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4042.69921875,
+      "y": -1995.98583984375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 4051.8583984375,
+      "y": -1995.83154296875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 4060.8564453125,
+      "y": -1995.99755859375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 4069.1689453125,
+      "y": -1996.1708984375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 4079.73046875,
+      "y": -2001.1982421875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f)"
+    }
+  ]
+}

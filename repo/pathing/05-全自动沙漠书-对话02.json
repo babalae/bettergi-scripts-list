@@ -1,0 +1,58 @@
+﻿{
+  "info": {
+    "name": "05-全自动沙漠书-对话02",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "小大",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "全自动沙漠书",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754888280368,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4509.373046875,
+      "y": -2052.4248046875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 2,
+      "x": 4504.935546875,
+      "y": -2055.490234375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4502.552734375,
+      "y": -2060.787109375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4504.451171875,
+      "y": -2064.4541015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f)"
+    }
+  ]
+}

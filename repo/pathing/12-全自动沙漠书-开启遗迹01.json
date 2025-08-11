@@ -1,0 +1,94 @@
+﻿{
+  "info": {
+    "name": "12-全自动沙漠书-开启遗迹01",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "小大",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "全自动沙漠书",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754884917286,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5497.66015625,
+      "y": -2860.564453125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 5501.33203125,
+      "y": -2869.091796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 5504.75390625,
+      "y": -2859.5,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 5506.7841796875,
+      "y": -2854.5576171875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 5503.1376953125,
+      "y": -2864.9580078125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 5502.5234375,
+      "y": -2859.6630859375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 5502.712890625,
+      "y": -2860.33203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(1)"
+    },
+    {
+      "id": 8,
+      "x": 5502.4619140625,
+      "y": -2861.353515625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f)"
+    }
+  ]
+}

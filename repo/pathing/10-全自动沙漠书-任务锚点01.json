@@ -1,0 +1,76 @@
+﻿{
+  "info": {
+    "name": "10-全自动沙漠书-任务锚点01",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "小大",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "全自动沙漠书",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754884727004,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6027.34375,
+      "y": -1908.3017578125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 6019.970703125,
+      "y": -1904.5,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 5969.95703125,
+      "y": -2510.9755859375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 5973.412109375,
+      "y": -2509.14453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 5970.8564453125,
+      "y": -2509.99609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 5970.1884765625,
+      "y": -2510.15625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f)"
+    }
+  ]
+}
