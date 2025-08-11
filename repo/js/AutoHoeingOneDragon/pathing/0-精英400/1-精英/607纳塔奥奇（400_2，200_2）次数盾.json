@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "607纳塔奥奇（400_2，200_2）次数盾",
     "type": "collect",
@@ -12,7 +12,11 @@
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "tags": [],
+    "last_modified_time": 1754891403386,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -125,15 +129,6 @@
     },
     {
       "id": 13,
-      "x": 10040.69,
-      "y": -642.84,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 14,
       "x": 10130.82,
       "y": -723.92,
       "action": "stop_flying",
@@ -142,7 +137,7 @@
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 14,
       "x": 10132.3,
       "y": -730.43,
       "action": "fight",
