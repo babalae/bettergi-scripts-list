@@ -1,0 +1,31 @@
+{
+  "info": {
+    "name": "04-全自动沙漠书-对话01",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "小大",
+        "links": "https://github.com/xd1145"
+      }
+    ],
+    "version": "1.0",
+    "description": "全自动沙漠书",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754884285549,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4509.3633,
+      "y": -2052.084,
+      "action_params": "keypress(f)"
+    }
+  ]
+}
