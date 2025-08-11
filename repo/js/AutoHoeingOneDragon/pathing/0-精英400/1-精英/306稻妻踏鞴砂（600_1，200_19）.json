@@ -1,17 +1,22 @@
-{
+﻿{
   "info": {
     "name": "306稻妻踏鞴砂（600_1，200_19）",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
     "description": "  路线信息：该路线预计用时430.63秒，包含20只精英与24只小怪，预计收入6101摩拉，包含以下怪物：2只打手丘丘人、2只射手丘丘人、2只火箭丘丘人、2只雷箭丘丘人、1只冰箭丘丘人、1只爆弹丘丘人、1只冰弹丘丘人、1只木盾丘丘暴徒、3只岩盾丘丘暴徒、3只火斧丘丘暴徒、2只雷斧丘丘暴徒、1只丘丘雷兜王、1只水丘丘萨满、1只风丘丘萨满、2只草丘丘萨满、1只火深渊法师、1只水深渊法师、3只雷深渊法师、1只冰深渊法师、2只愚人众·火之债务处理人、1只愚人众·雷莹术士、1只愚人众·冰萤术士、3只雷萤、6只冰萤。",
-    "bgi_version": "0.42.3",
+    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1754762860939,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -119,7 +124,7 @@
       "y": -3924.78,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "芙宁娜 e;",
+      "action_params": "keypress(f);芙宁娜 e;",
       "type": "path"
     },
     {
@@ -241,8 +246,8 @@
     },
     {
       "id": 26,
-      "x": -2983.84,
-      "y": -3615.84,
+      "x": -2985.78,
+      "y": -3612.28,
       "action": "",
       "move_mode": "climb",
       "action_params": "",
@@ -250,12 +255,13 @@
     },
     {
       "id": 27,
-      "x": -2985.78,
-      "y": -3612.28,
+      "x": -3030.02,
+      "y": -3527.07,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "玛薇卡 ,w(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.2),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.3),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.9);",
-      "type": "path"
+      "move_mode": "dash",
+      "action_params": "keypress(f);玛薇卡 w(0.2),attack(0.3),e(hold),wait(0.05),keydown(w),wait(0.01),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.2),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.3),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.9);",
+      "type": "orientation",
+      "locked": false
     },
     {
       "id": 28,

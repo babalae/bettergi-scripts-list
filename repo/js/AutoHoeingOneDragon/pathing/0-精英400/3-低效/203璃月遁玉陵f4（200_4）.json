@@ -1,17 +1,22 @@
-{
+﻿{
   "info": {
     "name": "203璃月遁玉陵f4（200_4）",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
     "description": "  路线信息：该路线预计用时162.8秒，包含4只精英，预计收入800摩拉，包含以下怪物：3只遗迹守卫、1只遗迹猎者。",
-    "bgi_version": "0.42.3",
+    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1754763417853,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -110,7 +115,7 @@
       "y": -260.25,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(2);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;",
+      "action_params": "wait(2),keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;",
       "type": "path"
     },
     {

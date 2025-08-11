@@ -13,20 +13,68 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1752920949868,
-    "enable_monster_loot_split": false
+    "last_modified_time": 1754844723247,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
       "id": 1,
       "x": 2872.080078125,
       "y": -285.8486328125,
-      "action": "combat_script",
+      "action": "",
       "move_mode": "walk",
+      "action_params": "",
       "type": "teleport"
     },
     {
       "id": 2,
+      "x": 2890.51171875,
+      "y": -284.0302734375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 2910.66015625,
+      "y": -279.0224609375,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),dash,wait(0.5)",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 2910.66015625,
+      "y": -279.0224609375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 2951.1025390625,
+      "y": -272.3623046875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 2988.947265625,
+      "y": -274.7958984375,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t)"
+    },
+    {
+      "id": 7,
       "x": 3133.732421875,
       "y": -1733.98486328125,
       "action": "",
@@ -35,7 +83,7 @@
       "type": "teleport"
     },
     {
-      "id": 3,
+      "id": 8,
       "x": 4210.2431640625,
       "y": -2716.638671875,
       "action": "",
@@ -44,7 +92,7 @@
       "type": "teleport"
     },
     {
-      "id": 4,
+      "id": 9,
       "x": 5067.64990234375,
       "y": -1589.0341796875,
       "action": "",
@@ -53,7 +101,7 @@
       "type": "teleport"
     },
     {
-      "id": 5,
+      "id": 10,
       "x": 5793.814453125,
       "y": 797.06103515625,
       "action": "",
@@ -62,7 +110,7 @@
       "type": "teleport"
     },
     {
-      "id": 6,
+      "id": 11,
       "x": 5758.78173828125,
       "y": 786.01123046875,
       "action": "combat_script",
@@ -71,7 +119,7 @@
       "type": "orientation"
     },
     {
-      "id": 7,
+      "id": 12,
       "x": 5731.31640625,
       "y": 787.79443359375,
       "action": "",
@@ -80,7 +128,7 @@
       "type": "path"
     },
     {
-      "id": 8,
+      "id": 13,
       "x": 5625.56884765625,
       "y": 806.216796875,
       "action": "",

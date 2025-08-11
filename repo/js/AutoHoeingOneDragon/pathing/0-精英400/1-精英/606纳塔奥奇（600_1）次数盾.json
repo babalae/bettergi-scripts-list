@@ -1,10 +1,10 @@
 {
   "info": {
-    "name": "607纳塔奥奇东南岛（200_2）",
+    "name": "606纳塔奥奇（600_1）次数盾",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "  路线信息：该路线预计用时66.97秒，包含2只精英，预计收入400摩拉，包含以下怪物：2只遗迹守卫。",
+    "description": "  路线信息：该路线预计用时83.93秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只深邃拟覆叶。",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "authors": [
@@ -17,47 +17,46 @@
   "positions": [
     {
       "id": 1,
-      "x": 9196.19,
-      "y": -574.31,
-      "action": "",
+      "x": 9757.93,
+      "y": -613.62,
+      "action": "force_tp",
       "move_mode": "walk",
       "action_params": "",
       "type": "teleport"
     },
     {
       "id": 2,
-      "x": 9188.69,
-      "y": -574.31,
+      "x": 9767.55,
+      "y": -603.87,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 3,
-      "x": 9180.13,
-      "y": -572.94,
-      "action": "combat_script",
+      "x": 9802.44,
+      "y": -609.74,
+      "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "wait(0.5),keypress(VK_SPACE),wait(1.5),click,wait(5)",
+      "action_params": "1700",
       "type": "path"
     },
     {
       "id": 4,
-      "x": 9180.13,
-      "y": -572.94,
+      "x": 9825.85,
+      "y": -632.36,
       "action": "fight",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 5,
-      "x": 9180.13,
-      "y": -572.94,
+      "x": 9825.85,
+      "y": -632.36,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action_params": "wait(1)",
       "type": "orientation"
     }

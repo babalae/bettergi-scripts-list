@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "338【水免】【高危】稻妻渊下宫蛇心之地南小岛（600_1，200_1）",
     "type": "collect",
@@ -12,12 +12,16 @@
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "tags": [],
+    "last_modified_time": 1754760686670,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
       "id": 1,
-      "x": 480.39,
+      "x": 480.3899999999999,
       "y": -537.75,
       "action": "",
       "move_mode": "walk",
@@ -27,7 +31,7 @@
     {
       "id": 2,
       "x": 467.24,
-      "y": -534.72,
+      "y": -534.7200000000003,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -44,8 +48,8 @@
     },
     {
       "id": 4,
-      "x": 425.75,
-      "y": -508.78,
+      "x": 424.25,
+      "y": -509.12512173193636,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "wait(4.5)",
@@ -53,8 +57,8 @@
     },
     {
       "id": 5,
-      "x": 425.38,
-      "y": -508.69,
+      "x": 424.125,
+      "y": -509.062632798476,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -62,76 +66,41 @@
     },
     {
       "id": 6,
-      "x": 480.39,
-      "y": -537.75,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
-    },
-    {
-      "id": 7,
-      "x": 467.24,
-      "y": -534.72,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": 442.5,
-      "y": -522.06,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": 413.41,
-      "y": -505.3,
+      "x": 377.548583984375,
+      "y": -476.459228515625,
       "type": "path",
       "move_mode": "fly",
-      "action": "",
+      "action": "stop_flying",
       "action_params": ""
     },
     {
-      "id": 10,
-      "x": 359.85,
-      "y": -474.15,
-      "type": "orientation",
-      "move_mode": "climb",
-      "action": "combat_script",
-      "action_params": "w(7),attack(0.3)"
-    },
-    {
-      "id": 11,
-      "x": 365,
-      "y": -478.75,
-      "action": "fight",
+      "id": 7,
+      "x": 374.0711669921875,
+      "y": -475.2119140625,
+      "type": "path",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 12,
-      "x": 365,
-      "y": -478.75,
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "orientation",
       "locked": false
     },
     {
-      "id": 13,
-      "x": 365,
-      "y": -478.75,
-      "action": "combat_script",
+      "id": 8,
+      "x": 374.0711669921875,
+      "y": -475.2119140625,
+      "type": "orientation",
       "move_mode": "walk",
-      "action_params": "wait(1)",
-      "type": "orientation"
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 374.0711669921875,
+      "y": -475.2119140625,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
     }
   ]
 }

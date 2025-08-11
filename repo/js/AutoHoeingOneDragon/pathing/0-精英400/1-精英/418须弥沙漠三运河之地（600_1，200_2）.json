@@ -1,0 +1,85 @@
+﻿{
+  "info": {
+    "name": "418须弥沙漠三运河之地（600_1，200_2）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时95秒，包含3只精英，预计收入1000摩拉，包含以下怪物：2只遗迹守卫、1只遗迹重机。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754764693240,
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5173.60302734375,
+      "y": -498.49169921875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 5162.541015625,
+      "y": -514.2607421875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 5152.812393347761,
+      "y": -527.9367269438635,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 5146.248356765498,
+      "y": -541.2507882140999,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 5139.562377547429,
+      "y": -550.8127273694517,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 5109.09765625,
+      "y": -590.34765625,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 5109.09765625,
+      "y": -590.34765625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}

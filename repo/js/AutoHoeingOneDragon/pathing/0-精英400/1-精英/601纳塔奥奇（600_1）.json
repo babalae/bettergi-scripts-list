@@ -1,10 +1,10 @@
 ﻿{
   "info": {
-    "name": "414须弥沙漠沙虫隧道（600_1）",
+    "name": "601纳塔奥奇（600_1）",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "  路线信息：该路线预计用时62.47秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只遗迹重机。",
+    "description": "  路线信息：该路线预计用时75秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只遗迹重机。",
     "bgi_version": "0.45.0",
     "authors": [
       {
@@ -14,51 +14,43 @@
     ],
     "map_name": "Teyvat",
     "tags": [],
-    "last_modified_time": 1754750129278,
+    "last_modified_time": 1754754460189,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
   "positions": [
     {
       "id": 1,
-      "x": 4572.27,
-      "y": -1070.77,
-      "action": "",
+      "x": 10070.24,
+      "y": 25.659999999999854,
+      "action": "force_tp",
       "move_mode": "walk",
       "action_params": "",
       "type": "teleport"
     },
     {
       "id": 2,
-      "x": 4593.98,
-      "y": -1031.59,
-      "action": "combat_script",
+      "x": 10060.249877547429,
+      "y": 79.25051537075797,
+      "action": "",
       "move_mode": "run",
-      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 3,
-      "x": 4599.19,
-      "y": -1023.56,
-      "action": "",
-      "move_mode": "jump",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 4625.56,
-      "y": -996.19,
+      "x": 10035.6904296875,
+      "y": 115.00634765625,
       "action": "fight",
       "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
-      "id": 5,
-      "x": 4625.56,
-      "y": -996.19,
+      "id": 4,
+      "x": 10035.6904296875,
+      "y": 115.00634765625,
       "action": "combat_script",
       "move_mode": "run",
       "action_params": "wait(1)",
