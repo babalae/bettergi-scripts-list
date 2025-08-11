@@ -1,0 +1,220 @@
+{
+  "info": {
+    "name": "C08-须弥-赤王陵上方地下传送锚点-6个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "芝士贝果"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.48.0",
+    "tags": [],
+    "last_modified_time": 1754890453209,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5540.8994140625,
+      "y": -2052.509765625,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 5550.998046875,
+      "y": -2059.5517578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 5575.734375,
+      "y": -2074.0458984375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "up_down_grab_leaf",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 5578.47265625,
+      "y": -2079.46875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 5579.958984375,
+      "y": -2079.6552734375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 5581.31640625,
+      "y": -2083.216796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 5582.333984375,
+      "y": -2082.876953125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5540.8994140625,
+      "y": -2052.509765625,
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 5540.41796875,
+      "y": -2075.513671875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "up_down_grab_leaf",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 5541.892578125,
+      "y": -2109.1044921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "up_down_grab_leaf",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 5531.322265625,
+      "y": -2117.5166015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 5527.244140625,
+      "y": -2124.37109375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 5531.794921875,
+      "y": -2121.2294921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 5531.02734375,
+      "y": -2129.1484375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 5551.16015625,
+      "y": -2118.2587890625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": 5571.18359375,
+      "y": -2113.626953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": 5587.728515625,
+      "y": -2118.05859375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": 5595.7265625,
+      "y": -2141.6513671875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "x": 5604.46875,
+      "y": -2149.04296875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 20,
+      "x": 5608.69140625,
+      "y": -2146.1572265625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 21,
+      "x": 5606.330078125,
+      "y": -2147.0166015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 22,
+      "x": 5607.4375,
+      "y": -2143.4921875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    }
+  ]
+}
