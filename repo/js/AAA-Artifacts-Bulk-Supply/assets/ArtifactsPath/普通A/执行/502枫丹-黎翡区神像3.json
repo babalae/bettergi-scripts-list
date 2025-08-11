@@ -1,12 +1,21 @@
-{
+﻿{
   "info": {
     "name": "502枫丹-黎翡区神像3",
     "type": "collect",
-    "author": "汐",
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "tags": [],
+    "last_modified_time": 1754929311601,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -41,15 +50,15 @@
       "y": 4210.7187727369455,
       "action": "combat_script",
       "move_mode": "climb",
-      "action_params": "keypress(f),w(0.3),keypress(f),w(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f),w(0.3),keypress(f),w(0.1),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "type": "target"
     },
     {
       "id": 5,
-      "x": 4540.6875,
-      "y": 4209.9999889334595,
+      "x": 4545.250288356054,
+      "y": 4210.37490905222,
       "action": "",
-      "move_mode": "fly",
+      "move_mode": "jump",
       "action_params": "",
       "type": "path"
     },
@@ -64,16 +73,7 @@
     },
     {
       "id": 7,
-      "x": 4559.062539500829,
-      "y": 4212.062727369452,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": 4568.624990124793,
+      "x": 4568.624990124794,
       "y": 4223.624795367494,
       "action": "",
       "move_mode": "fly",
@@ -81,7 +81,7 @@
       "type": "path"
     },
     {
-      "id": 9,
+      "id": 8,
       "x": 4571.5849609375,
       "y": 4226.6259765625,
       "action": "combat_script",
