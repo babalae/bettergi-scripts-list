@@ -111,6 +111,14 @@ const npcData = {
 		"time": "any",
 		"path": "assets/path/阿鲁埃.json",
 		"goods": ["咖啡豆", "枫达"]
+	},
+	"Bunama": {
+		"name": "布纳马",
+		"enable": true,
+		"page": 2,
+		"time": "any",
+		"path": "assets/path/布纳马.json",
+		"goods": ["盐", "小麦", "胡椒", "洋葱", "牛奶", "番茄", "卷心菜", "土豆", "秃秃豆"]
 	}
 
 }
@@ -400,11 +408,31 @@ async function qucikBuy() {
 }
 
 // 跳过对话
-async function spikChat(count = 5) {
-	await sleep(100);
-	for (let i = 0; i < count; i++) {
-		keyPress("VK_F");
-		await sleep(1300);
+async function spikChat(npcName) {
+	count = 5
+	await sleep(1000);
+	if(npcName== "布纳马"){
+		// 對話
+		await sleep(500);
+		keyDown("VK_MENU");// Alt
+		await sleep(1000);
+		await click(1255, 530);
+		await sleep(1000);
+		keyUp("VK_MENU");// Alt
+		// 跳過交互&進入買食畫面
+		await click(1345, 580);
+		await sleep(1000);
+		await click(1345, 580);
+		await sleep(1000);
+		await click(1345, 580);
+		await sleep(1000);
+		await click(1345, 580);
+		await sleep(1000);
+	}else {
+		for (let i = 0; i < count; i++) {
+			keyPress("VK_F");
+			await sleep(1300);
+		}
 	}
 	await sleep(1000);
 }
@@ -525,6 +553,7 @@ async function initRo() {
 	// ==================== 自动购买 ====================
 	for (let [key, npc] of Object.entries(npcData)) {
 		if (npc.enable) {
+			await genshin.returnMainUi();
 			log.info("开始购买NPC: {npcName}", npc.name);
 			// 设置游戏时间
 			if (npc.time === "night") {
@@ -534,7 +563,7 @@ async function initRo() {
 				await setTime(8, 0); // 设置为早上8点
 			}
 			await autoPath(npc.path);
-			await spikChat();
+			await spikChat(npc.name);
 			await buyGoods(key);
 			// 返回主界面
 			await genshin.returnMainUi();
