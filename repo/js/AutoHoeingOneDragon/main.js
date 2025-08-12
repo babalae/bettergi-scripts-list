@@ -706,7 +706,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     let centerYTargetText = ocrResult.y + ocrResult.height / 2;
                     if (Math.abs(centerYTargetText - centerYF) <= texttolerance) {
                         keyPress("F"); // 执行交互操作
-                        await sleep(trigger); // 操作后暂停 50 毫秒
+                        await sleep(2 * trigger); // 操作后暂停 2*trigger 毫秒
                         foundTarget = true;
                         if ((new Date() - lastPickupTime) > 1000 || ocrResult.text != lastPickupItem) {
                             log.info(`交互或拾取："${ocrResult.text}"`);
@@ -724,7 +724,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 if (itemName) {
                     keyPress("F"); // 执行交互操作
                     log.info(`交互或拾取："${itemName}"`);
-                    await sleep(trigger); // 操作后暂停 trigger 毫秒
+                    await sleep(2 * trigger); // 操作后暂停 2*trigger 毫秒
                     foundTarget = true;
                 }
 
