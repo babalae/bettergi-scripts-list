@@ -13,7 +13,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.48.0",
     "tags": [],
-    "last_modified_time": 1754804398714,
+    "last_modified_time": 1754996881081,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -60,58 +60,48 @@
       "y": -1977.92,
       "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "",
+      "action_params": "800",
       "type": "path"
     },
     {
       "id": 6,
-      "x": 8001.15,
-      "y": -1976.37,
-      "action": "stop_flying",
+      "x": 7999.4531,
+      "y": -1975.8354,
+      "type": "path",
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 7,
-      "x": 7998.76,
-      "y": -1971.41,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(1)",
+      "x": 8002.9072,
+      "y": -1969.9155,
       "type": "path",
-      "locked": false
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 8,
-      "x": 7998.76,
-      "y": -1971.41,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "x": 8008.8906,
+      "y": -1972.5181,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "attack,wait(4)",
+      "locked": false
     },
     {
       "id": 9,
       "x": 8024.64,
       "y": -1969.08,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(1)",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 10,
-      "x": 8024.64,
-      "y": -1969.08,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 11,
+      "id": 10,
       "x": 8032.15,
       "y": -1968.9,
       "action": "",
@@ -120,7 +110,7 @@
       "type": "path"
     },
     {
-      "id": 12,
+      "id": 11,
       "x": 8045.89,
       "y": -1945.38,
       "action": "",
@@ -129,7 +119,7 @@
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 12,
       "x": 8052.21,
       "y": -1919.71,
       "action": "",
@@ -138,7 +128,7 @@
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 13,
       "x": 8051.95,
       "y": -1903.35,
       "action": "combat_script",
@@ -147,7 +137,7 @@
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 14,
       "x": 8052.97,
       "y": -1893.16,
       "action": "",
@@ -156,7 +146,7 @@
       "type": "path"
     },
     {
-      "id": 16,
+      "id": 15,
       "x": 8056.3,
       "y": -1873.08,
       "action": "combat_script",
@@ -165,7 +155,7 @@
       "type": "orientation"
     },
     {
-      "id": 17,
+      "id": 16,
       "x": 8054.47,
       "y": -1841.27,
       "action": "combat_script",
@@ -174,7 +164,7 @@
       "type": "orientation"
     },
     {
-      "id": 18,
+      "id": 17,
       "x": 8048.56,
       "y": -1809.95,
       "action": "combat_script",
@@ -183,9 +173,18 @@
       "type": "orientation"
     },
     {
-      "id": 19,
+      "id": 18,
       "x": 8039.55,
       "y": -1785.9,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(e),wait(0.5)",
+      "type": "orientation"
+    },
+    {
+      "id": 19,
+      "x": 8031.39,
+      "y": -1764.85,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "keypress(e),wait(0.5)",
@@ -197,17 +196,18 @@
       "y": -1764.85,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(e),wait(0.5)",
-      "type": "orientation"
+      "action_params": "wait(1),keydown(Q),wait(1),keyup(Q),wait(0.1),attack",
+      "type": "path"
     },
     {
       "id": 21,
-      "x": 8031.39,
-      "y": -1764.85,
-      "action": "combat_script",
+      "x": 8014.55,
+      "y": -1748.21,
+      "action": "",
       "move_mode": "walk",
-      "action_params": "wait(1),keydown(Q),wait(1),keyup(Q),wait(0.1),attack",
-      "type": "path"
+      "action_params": "",
+      "type": "orientation",
+      "locked": false
     },
     {
       "id": 22,
@@ -321,13 +321,23 @@
       "id": 34,
       "x": 7904.58,
       "y": -1736.4,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 35,
+      "x": 7904.58,
+      "y": -1736.4,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 35,
+      "id": 36,
       "x": 7899.39,
       "y": -1742.36,
       "action": "",
@@ -336,7 +346,7 @@
       "type": "path"
     },
     {
-      "id": 36,
+      "id": 37,
       "x": 7890.57,
       "y": -1741.42,
       "action": "nahida_collect",
