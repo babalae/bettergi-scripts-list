@@ -9,13 +9,15 @@
     "tags": [
       "双手剑"
     ],
-    "last_modified_time": 1751657087776,
+    "last_modified_time": 1754979216024,
     "authors": [
       {
         "name": "无限不循环",
         "links": "https://github.com/non-repeating001"
       }
-    ]
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -66,14 +68,23 @@
     {
       "id": 6,
       "x": 9492.06,
-      "y": -1206.8,
+      "y": -1206.79,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "type": "teleport"
     },
     {
       "id": 7,
+      "x": 9486.4541015625,
+      "y": -1197.34228515625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
       "x": 9353.81,
       "y": -1151.21,
       "action": "",
@@ -82,7 +93,7 @@
       "type": "path"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": 9331.12,
       "y": -1146.7,
       "action": "",
@@ -91,7 +102,7 @@
       "type": "path"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": 9308.29,
       "y": -1137.1,
       "action": "stop_flying",
@@ -100,7 +111,7 @@
       "type": "path"
     },
     {
-      "id": 10,
+      "id": 11,
       "x": 9293.87,
       "y": -1130.64,
       "action": "fight",
@@ -109,7 +120,7 @@
       "type": "path"
     },
     {
-      "id": 11,
+      "id": 12,
       "x": 9296.02,
       "y": -1136.52,
       "action": "mining",
@@ -118,7 +129,7 @@
       "type": "target"
     },
     {
-      "id": 12,
+      "id": 13,
       "x": 9296.02,
       "y": -1136.52,
       "action": "combat_script",
@@ -127,7 +138,7 @@
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 14,
       "x": 9290.69,
       "y": -1141.38,
       "action": "",
@@ -136,7 +147,7 @@
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": 9293.17,
       "y": -1143.16,
       "action": "mining",
@@ -145,7 +156,7 @@
       "type": "target"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": 9293.17,
       "y": -1143.16,
       "action": "combat_script",
@@ -154,7 +165,7 @@
       "type": "path"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": 9293.39,
       "y": -1145.28,
       "action": "",
@@ -163,7 +174,7 @@
       "type": "path"
     },
     {
-      "id": 17,
+      "id": 18,
       "x": 9297.07,
       "y": -1144.1,
       "action": "mining",
@@ -172,7 +183,7 @@
       "type": "target"
     },
     {
-      "id": 18,
+      "id": 19,
       "x": 9297.07,
       "y": -1144.1,
       "action": "combat_script",
@@ -181,7 +192,7 @@
       "type": "path"
     },
     {
-      "id": 19,
+      "id": 20,
       "x": 9291.35,
       "y": -1158.28,
       "action": "",
@@ -190,7 +201,7 @@
       "type": "path"
     },
     {
-      "id": 20,
+      "id": 21,
       "x": 9289.61,
       "y": -1162.95,
       "action": "mining",
@@ -199,7 +210,7 @@
       "type": "target"
     },
     {
-      "id": 21,
+      "id": 22,
       "x": 9289.61,
       "y": -1162.95,
       "action": "combat_script",
@@ -208,7 +219,7 @@
       "type": "path"
     },
     {
-      "id": 22,
+      "id": 23,
       "x": 9283.54,
       "y": -1162.97,
       "action": "",
@@ -217,7 +228,7 @@
       "type": "path"
     },
     {
-      "id": 23,
+      "id": 24,
       "x": 9281.54,
       "y": -1166.15,
       "action": "mining",
@@ -226,7 +237,7 @@
       "type": "target"
     },
     {
-      "id": 24,
+      "id": 25,
       "x": 9281.54,
       "y": -1166.15,
       "action": "combat_script",

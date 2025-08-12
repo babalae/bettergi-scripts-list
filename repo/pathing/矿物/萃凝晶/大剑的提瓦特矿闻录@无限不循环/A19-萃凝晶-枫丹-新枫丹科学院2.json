@@ -7,114 +7,115 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751661160995,
+    "last_modified_time": 1754977721955,
     "authors": [
       {
         "name": "无限不循环",
         "links": "https://github.com/non-repeating001"
       }
-    ]
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport",
       "x": 4498.44,
       "y": 4711.05,
-      "action_params": ""
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
       "x": 4548.78,
       "y": 4728.99,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
+      "move_mode": "fly",
       "action_params": "",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 3,
       "x": 4548.78,
       "y": 4728.99,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 4,
       "x": 4525.35,
       "y": 4722.69,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 5,
       "x": 4523.07,
       "y": 4721.14,
-      "type": "target",
-      "move_mode": "walk",
       "action": "mining",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 6,
       "x": 4523.07,
       "y": 4721.14,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path"
     },
     {
       "id": 7,
       "x": 4534.56,
       "y": 4709.55,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 8,
-      "x": 4537.94,
-      "y": 4705.71,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 4539.18,
+      "y": 4705.96,
       "action": "mining",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 9,
       "x": 4537.94,
       "y": 4705.71,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path"
     },
     {
       "id": 10,
       "x": 4537.51,
       "y": 4702.67,
-      "type": "target",
-      "move_mode": "walk",
       "action": "mining",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 11,
       "x": 4537.51,
       "y": 4702.67,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path"
     }
   ]
 }

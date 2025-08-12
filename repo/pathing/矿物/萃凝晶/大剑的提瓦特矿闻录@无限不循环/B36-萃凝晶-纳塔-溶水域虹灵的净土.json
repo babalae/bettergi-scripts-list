@@ -9,13 +9,15 @@
     "tags": [
       "双手剑"
     ],
-    "last_modified_time": 1751658084859,
+    "last_modified_time": 1754981611713,
     "authors": [
       {
         "name": "无限不循环",
         "links": "https://github.com/non-repeating001"
       }
-    ]
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -143,15 +145,33 @@
     },
     {
       "id": 15,
-      "x": 8840.87,
-      "y": -2512.41,
+      "x": 8811.431640625,
+      "y": -2520.306640625,
+      "type": "path",
+      "move_mode": "walk",
       "action": "",
-      "move_mode": "climb",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 16,
+      "x": 8828.451171875,
+      "y": -2532.21484375,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": 8848.638671875,
+      "y": -2534.380859375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
       "x": 8871.04,
       "y": -2500.67,
       "action": "",
@@ -160,7 +180,7 @@
       "type": "path"
     },
     {
-      "id": 17,
+      "id": 19,
       "x": 8879.17,
       "y": -2497.64,
       "action": "mining",
@@ -169,7 +189,7 @@
       "type": "target"
     },
     {
-      "id": 18,
+      "id": 20,
       "x": 8879.17,
       "y": -2497.64,
       "action": "combat_script",
