@@ -9,13 +9,15 @@
     "tags": [
       "双手剑"
     ],
-    "last_modified_time": 1751655279286,
+    "last_modified_time": 1754970389189,
     "authors": [
       {
         "name": "无限不循环",
         "links": "https://github.com/non-repeating001"
       }
-    ]
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -28,8 +30,8 @@
     },
     {
       "id": 2,
-      "x": 3278,
-      "y": 3046.3,
+      "x": 3275.98,
+      "y": 3035.79,
       "action": "fight",
       "move_mode": "run",
       "action_params": "",
@@ -109,15 +111,15 @@
       "id": 11,
       "x": 3125.8,
       "y": 2924.1,
-      "action": "fight",
+      "action": "",
       "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 12,
-      "x": 3107.94,
-      "y": 2920.39,
+      "x": 3108.1,
+      "y": 2913.3,
       "action": "fight",
       "move_mode": "run",
       "action_params": "",
@@ -152,8 +154,8 @@
     },
     {
       "id": 16,
-      "x": 3101.46,
-      "y": 2919.18,
+      "x": 3100.44,
+      "y": 2919.56,
       "action": "mining",
       "move_mode": "walk",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
