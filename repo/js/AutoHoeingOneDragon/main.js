@@ -1,9 +1,9 @@
-//当前js版本 1.3.8
+//当前js版本 1.4.0
 
 //拾取时上下滑动的时间
-const timeMoveUp = 500;
-const timeMoveDown = 1000;
-const pickupMode = settings.pickupMode || "js拾取，默认只拾取狗粮和晶蝶";
+let timeMoveUp = 500;
+let timeMoveDown = 1000;
+let pickupMode = settings.pickupMode || "模板匹配拾取，默认只拾取狗粮";
 if (settings.activeDumperMode) { //处理泥头车信息
     dumpers = settings.activeDumperMode.split('，').map(Number).filter(num => num === 1 || num === 2 || num === 3 || num === 4);
 } else {
@@ -11,10 +11,13 @@ if (settings.activeDumperMode) { //处理泥头车信息
 }
 trigger = (+settings.trigger || 50);
 let gameRegion;
+let targetItemPath = "assets/targetItems";
+let targetItems;
 
 (async function () {
     //自定义配置处理
     const operationMode = settings.operationMode || "运行锄地路线";
+    if (pickupMode === "js拾取，默认只拾取狗粮和晶蝶") pickupMode = "模板匹配拾取，默认只拾取狗粮";
 
     let k = settings.efficiencyIndex;
     // 空字符串、null、undefined 或非数字 → 0.5
@@ -53,6 +56,16 @@ let gameRegion;
     const whitelistKeywords = ocrPickupJson["白名单"];
     const blacklistKeywords = ocrPickupJson["黑名单"];
 
+    targetItems = await readFolder(targetItemPath, false);
+    //模板匹配对象处理
+    if (settings.pickupMode === "模板匹配拾取，默认只拾取狗粮") {
+        for (const targetItem of targetItems) {
+            targetItem.template = file.ReadImageMatSync(targetItem.fullPath);
+            targetItem.itemName = targetItem.fileName.replace(/\.png$/, '');
+        }
+        timeMoveUp = trigger * 8;
+        timeMoveDown = trigger * 8;
+    }
     if (!settings.accountName) {
         for (let i = 0; i < 120; i++) {
             // 原始文本
@@ -487,12 +500,13 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
     async function isMainUI() {
         // 修改后的图像路径
         const imagePath = "assets/MainUI.png";
-
         // 修改后的识别区域（左上角区域）
         const xMin = 0;
         const yMin = 0;
         const width = 150; // 识别区域宽度
         const height = 150; // 识别区域高度
+        let template = file.ReadImageMatSync(imagePath);
+        let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
 
         // 尝试次数设置为 3 次
         const maxAttempts = 3;
@@ -500,8 +514,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
         let attempts = 0;
         while (attempts < maxAttempts && !state.cancelRequested) {
             try {
-                let template = file.ReadImageMatSync(imagePath);
-                let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
+
                 gameRegion = captureGameRegion();
                 let result = gameRegion.find(recognitionObject);
                 gameRegion.dispose();
@@ -534,15 +547,14 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
         const yMin = 200;
         const width = 1000; // 识别区域宽度
         const height = 250; // 识别区域高度
-
+        let template = file.ReadImageMatSync(imagePath);
+        let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
         // 尝试次数设置为 10 次
         const maxAttempts = 10;
 
         let attempts = 0;
         while (attempts < maxAttempts && !state.cancelRequested) {
             try {
-                let template = file.ReadImageMatSync(imagePath);
-                let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
                 gameRegion = captureGameRegion();
                 let result = gameRegion.find(recognitionObject);
                 gameRegion.dispose();
@@ -578,11 +590,10 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
     }
 
     // 定义一个函数用于执行OCR识别和交互
-    async function performOcrAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance) {
+    async function recoginzeAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance) {
         async function performOcr(whitelistKeywords, xRange, yRange) {
             try {
                 // 在捕获的区域内进行OCR识别
-                gameRegion = captureGameRegion();
                 let resList = gameRegion.findMulti(RecognitionObject.ocr(
                     xRange.min, yRange.min,
                     xRange.max - xRange.min, yRange.max - yRange.min
@@ -614,14 +625,36 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
             }
         }
 
+        async function performTemplateMatch(centerYF) {
+            try {
+                let result;
+                let itemName = null;
+                // 在捕获的区域内进行模板匹配识别
+                for (const targetItem of targetItems) {
+                    let recognitionObject = RecognitionObject.TemplateMatch(targetItem.template, 1220, centerYF - 35, 70, 70);
+                    result = gameRegion.find(recognitionObject);
+                    if (result.isExist()) {
+                        itemName = targetItem.itemName;
+                        //log.info(`调试-距离为${result.y + result.height / 2 - centerYF}`);
+                        break;
+                    }
+                }
+                gameRegion.dispose();
+                return itemName;
+            } catch (error) {
+                log.error(`模板匹配时发生异常: ${error.message}`);
+                return [];
+            }
+        }
+
         while (!state.completed && !state.cancelRequested) {
             // 尝试找到 F 图标并返回其坐标
             async function findFIcon(imagePath, xMin, yMin, width, height, timeout = 500) {
+                let template = file.ReadImageMatSync(imagePath);
+                let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
                 let startTime = Date.now();
                 while (Date.now() - startTime < timeout && !state.cancelRequested) {
                     try {
-                        let template = file.ReadImageMatSync(imagePath);
-                        let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
                         gameRegion = captureGameRegion();
                         let result = gameRegion.find(recognitionObject);
                         if (result.isExist()) {
@@ -655,39 +688,47 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 }
                 continue;
             }
-
-            // 获取 F 图标的中心点 Y 坐标
-            let centerYF = fRes.y + fRes.height / 2;
-
-            // 在当前屏幕范围内进行 OCR 识别
-            let ocrResults = await performOcr(whitelistKeywords, textxRange, { min: fRes.y - texttolerance, max: fRes.y + fRes.height + texttolerance * 2 });
-
-            // 检查所有目标文本是否在当前页面中
             let foundTarget = false;
-            for (let ocrResult of ocrResults) {
-                // 检查是否包含黑名单关键词
-                let containsBlacklistKeyword = blacklistKeywords.some(blacklistKeyword => ocrResult.text.includes(blacklistKeyword));
-                if (containsBlacklistKeyword) {
-                    continue;
-                }
+            // 获取 F 图标的中心点 Y 坐标
+            let centerYF = Math.round(fRes.y + fRes.height / 2);
+            if (settings.pickupMode === "ocr拾取，默认只拾取狗粮和晶蝶") {
+                // 在当前屏幕范围内进行 OCR 识别
+                let ocrResults = await performOcr(whitelistKeywords, textxRange, { min: fRes.y - texttolerance, max: fRes.y + fRes.height + texttolerance * 2 });
 
-                // 计算目标文本的中心Y坐标
-                let centerYTargetText = ocrResult.y + ocrResult.height / 2;
-                if (Math.abs(centerYTargetText - centerYF) <= texttolerance) {
-                    keyPress("F"); // 执行交互操作
-                    await sleep(trigger); // 操作后暂停 50 毫秒
-                    foundTarget = true;
-
-                    if ((new Date() - lastPickupTime) > 1000 || ocrResult.text != lastPickupItem) {
-                        log.info(`交互或拾取："${ocrResult.text}"`);
-                        lastPickupTime = new Date();
-                        lastPickupItem = ocrResult.text;
+                // 检查所有目标文本是否在当前页面中
+                for (let ocrResult of ocrResults) {
+                    // 检查是否包含黑名单关键词
+                    let containsBlacklistKeyword = blacklistKeywords.some(blacklistKeyword => ocrResult.text.includes(blacklistKeyword));
+                    if (containsBlacklistKeyword) {
+                        continue;
                     }
-
-                    break;
+                    // 计算目标文本的中心Y坐标
+                    let centerYTargetText = ocrResult.y + ocrResult.height / 2;
+                    if (Math.abs(centerYTargetText - centerYF) <= texttolerance) {
+                        keyPress("F"); // 执行交互操作
+                        await sleep(2 * trigger); // 操作后暂停 2*trigger 毫秒
+                        foundTarget = true;
+                        if ((new Date() - lastPickupTime) > 1000 || ocrResult.text != lastPickupItem) {
+                            log.info(`交互或拾取："${ocrResult.text}"`);
+                            lastPickupTime = new Date();
+                            lastPickupItem = ocrResult.text;
+                        }
+                        break;
+                    }
                 }
-            }
+            } else if (settings.pickupMode === "模板匹配拾取，默认只拾取狗粮") {
+                let start = new Date();
+                let itemName = await performTemplateMatch(centerYF);
+                let end = new Date();
+                //log.info(`调试-匹配用时${end - start}毫秒`)
+                if (itemName) {
+                    keyPress("F"); // 执行交互操作
+                    log.info(`交互或拾取："${itemName}"`);
+                    await sleep(2 * trigger); // 操作后暂停 2*trigger 毫秒
+                    foundTarget = true;
+                }
 
+            }
             // 如果在当前页面中没有找到任何目标文本，则根据时间决定滚动方向
             if (!foundTarget) {
                 const currentTime = new Date().getTime(); // 获取当前时间（毫秒）
@@ -710,6 +751,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     // 否则执行下翻
                     await keyMouseScript.runFile(`assets/滚轮上翻.json`);
                 }
+                await sleep(Math.round(trigger / 5));
             }
 
             if (state.cancelRequested) {
@@ -832,8 +874,8 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
 
     // 根据条件决定是否启动 OCR 检测和交互任务
     let ocrTask = null;
-    if (pickupMode === "js拾取，默认只拾取狗粮和晶蝶") {
-        ocrTask = performOcrAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance);
+    if (pickupMode === "ocr拾取，默认只拾取狗粮和晶蝶" || pickupMode === "模板匹配拾取，默认只拾取狗粮") {
+        ocrTask = recoginzeAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance);
     }
 
     // 启动泥头车
