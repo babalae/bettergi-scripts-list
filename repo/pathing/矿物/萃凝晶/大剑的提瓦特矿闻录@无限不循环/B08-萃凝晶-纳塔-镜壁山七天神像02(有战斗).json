@@ -9,13 +9,15 @@
     "tags": [
       "双手剑"
     ],
-    "last_modified_time": 1751656831034,
+    "last_modified_time": 1754978493493,
     "authors": [
       {
         "name": "无限不循环",
         "links": "https://github.com/non-repeating001"
       }
-    ]
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -28,8 +30,8 @@
     },
     {
       "id": 2,
-      "x": 9579.3,
-      "y": -1719.36,
+      "x": 9582.251,
+      "y": -1721.2393,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "500",
@@ -37,8 +39,8 @@
     },
     {
       "id": 3,
-      "x": 9578.3,
-      "y": -1719.36,
+      "x": 9582.251,
+      "y": -1721.2393,
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
@@ -68,7 +70,7 @@
       "y": -1710.27,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.4)",
       "type": "path"
     },
     {
@@ -95,7 +97,7 @@
       "y": -1711.26,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.4)",
       "type": "path"
     },
     {
@@ -122,7 +124,7 @@
       "y": -1717.47,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.4)",
       "type": "path"
     },
     {
@@ -140,7 +142,7 @@
       "y": -1717.49,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.4)",
       "type": "path"
     },
     {
@@ -167,7 +169,7 @@
       "y": -1729.96,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.4)",
       "type": "path"
     },
     {
@@ -181,7 +183,7 @@
     },
     {
       "id": 19,
-      "x": 9572,
+      "x": 9572.0,
       "y": -1732.63,
       "action": "mining",
       "move_mode": "walk",
@@ -190,12 +192,21 @@
     },
     {
       "id": 20,
-      "x": 9572,
+      "x": 9572.0,
       "y": -1732.63,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.4)",
       "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 9582.251,
+      "y": -1721.2393,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
     }
   ]
 }
