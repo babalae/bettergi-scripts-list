@@ -43,13 +43,7 @@ let failcount = 0;
             }
         }
     }
-    {
-        //校验自定义配置,从未打开过自定义配置时进行警告
-        for (let i = 0; i < 5; i++) {
-            log.warn("测试版本，可能存在各种bug，出现问题请联系作者，详见readme");
-            await sleep(1000);
-        }
-    }
+
     //预处理
     await readRecord(accountName);//读取记录文件
     const epochTime = new Date('1970-01-01T20:00:00.000Z');
@@ -174,7 +168,7 @@ async function readRecord(accountName) {
         log.warn(`无记录文件，将使用默认数据`);
         return;
     }
-    
+
     const content = await file.readText(recordFilePath);
     const lines = content.split("\n");
 
@@ -291,7 +285,7 @@ async function writeRecord(accountName) {
 
 async function processArtifacts(times = 1) {
     await genshin.returnMainUi();
-    await sleep(100);
+    await sleep(500);
     let result = 0;
     try {
         if (settings.decomposeMode === "销毁（摩拉）") {
@@ -752,7 +746,6 @@ async function runNormalPath(doStop) {
         log.info("填写了清怪队伍，执行清怪路线");
         await runPaths(normalCombatPath, combatPartyName, doStop);
     }
-
     // 启用自动拾取的实时任务
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     await runPaths(normalExecutePath, artifactPartyName, doStop);
@@ -794,8 +787,9 @@ async function runActivatePath() {
     const extraActivatePath = extraPath + "/激活";
     const extraCombatPath = extraPath + "/清怪";
     const extraPreparePath = extraPath + "/准备";
-
-    await runPaths(endingActivatePath, artifactPartyName, false);
+    if (!forceAlternate && state.runningEndingAndExtraRoute === "收尾额外A") {
+        await runPaths(endingActivatePath, artifactPartyName, false);
+    }
     await runPaths(extraActivatePath, combatPartyName, false);
 
     if (combatPartyName) {
@@ -804,8 +798,6 @@ async function runActivatePath() {
         await runPaths(endingCombatPath, combatPartyName, false);
     }
 
-    // 启用自动拾取的实时任务
-    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     await runPaths(endingPreparePath, artifactPartyName, false);
     await runPaths(extraPreparePath, combatPartyName, false);
 }
@@ -858,6 +850,13 @@ async function runPaths(folderFilePath, PartyName, doStop) {
             //如果与当前队伍不同，尝试切换队伍，并更新队伍
             await switchPartyIfNeeded(PartyName);
             state.currentParty = PartyName;
+            if (settings.furina) {
+                if (state.currentParty === artifactPartyName) {
+                    await pathingScript.runFile('assets/furina/强制白芙.json');
+                } else {
+                    await pathingScript.runFile('assets/furina/强制黑芙.json');
+                }
+            }
         }
         await fakeLog(Path.fileName, false, true, 0);
         try {
