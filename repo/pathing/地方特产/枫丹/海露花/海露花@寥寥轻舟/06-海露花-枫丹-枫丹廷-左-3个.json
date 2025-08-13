@@ -1,0 +1,113 @@
+﻿{
+  "info": {
+    "name": "06-海露花-枫丹-枫丹廷-左-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "芭芭拉"
+    ],
+    "last_modified_time": 1754884048215,
+    "authors": [
+      {
+        "name": "蜜柑魚"
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4824.0078125,
+      "y": 3628.99658203125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4811.3369140625,
+      "y": 3601.0048828125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4780.009765625,
+      "y": 3538.636474609375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4785.126953125,
+      "y": 3519.13134765625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 4799.337890625,
+      "y": 3492.855224609375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 e",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 4800.490234375,
+      "y": 3489.882080078125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4815.888671875,
+      "y": 3499.540771484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4819.6640625,
+      "y": 3502.467529296875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4819.458984375,
+      "y": 3504.4921875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 4819.537109375,
+      "y": 3507.26806640625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    }
+  ]
+}
