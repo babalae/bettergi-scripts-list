@@ -413,12 +413,16 @@ async function spikChat(npcName) {
 	await sleep(1000);
 	if(npcName== "布纳马"){
 		// 對話
-		await sleep(500);
-		keyDown("VK_MENU");// Alt
 		await sleep(1000);
-		await click(1255, 530);
-		await sleep(1000);
-		keyUp("VK_MENU");// Alt
+		// keyDown("VK_MENU");// Alt
+		// await sleep(1500);
+		// await click(1255, 530);
+		// await click(1255, 530);
+		// await click(1255, 530);
+		// await sleep(1500);
+		// keyUp("VK_MENU");// Alt
+		keyPress("VK_F");
+		await sleep(1500);
 		// 跳過交互&進入買食畫面
 		await click(1345, 580);
 		await sleep(1000);
