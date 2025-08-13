@@ -1,6 +1,6 @@
 ﻿{
   "info": {
-    "name": "强制黑芙",
+    "name": "99强制黑芙",
     "type": "collect",
     "authors": [
       {
@@ -13,7 +13,7 @@
     "map_name": "Enkanomiya",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1754998664460,
+    "last_modified_time": 1755101630357,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -25,8 +25,7 @@
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "teleport",
-      "locked": false
+      "type": "teleport"
     },
     {
       "id": 2,
@@ -35,7 +34,7 @@
       "action": "log_output",
       "move_mode": "walk",
       "action_params": "重置[芙宁娜]状态——黑芙",
-      "type": "path"
+      "type": "orientation"
     }
   ]
 }
