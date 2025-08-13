@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "02-海露花-枫丹-看书-6个",
+    "name": "01-海露花-枫丹-海露港-10个",
     "type": "collect",
     "version": "1.0",
     "description": "芭芭拉效率专线",
@@ -9,7 +9,7 @@
     "tags": [
       "芭芭拉"
     ],
-    "last_modified_time": 1750488231659,
+    "last_modified_time": 1750469776906,
     "authors": [
       {
         "name": "寥寥轻舟"
@@ -22,23 +22,23 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 4689.4,
-      "y": 2429.52,
+      "x": 4722.15,
+      "y": 1854.61,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 4686.38,
-      "y": 2406.21,
+      "x": 4675.56,
+      "y": 1886.25,
       "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "action": "combat_script",
+      "action_params": "芭芭拉 e"
     },
     {
       "id": 3,
-      "x": 4679.98,
-      "y": 2399.39,
+      "x": 4669.47,
+      "y": 1890.54,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -46,8 +46,8 @@
     },
     {
       "id": 4,
-      "x": 4674.8,
-      "y": 2389.45,
+      "x": 4665.23,
+      "y": 1889.99,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -55,8 +55,8 @@
     },
     {
       "id": 5,
-      "x": 4681.25,
-      "y": 2371.59,
+      "x": 4646.82,
+      "y": 1899.72,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -64,62 +64,62 @@
     },
     {
       "id": 6,
-      "x": 4687.53,
-      "y": 2355.04,
+      "x": 4714.16,
+      "y": 1953.13,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "芭芭拉 charge(0.5)"
+      "action_params": "wait(1);芭芭拉 e;"
     },
     {
       "id": 7,
-      "x": 4687.75,
-      "y": 2351.87,
+      "x": 4728.87,
+      "y": 1952.93,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action": "",
       "action_params": ""
     },
     {
       "id": 8,
-      "x": 4670.62,
-      "y": 2354.08,
+      "x": 4720.47,
+      "y": 1966.34,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action": "",
       "action_params": ""
     },
     {
       "id": 9,
-      "x": 4643.88,
-      "y": 2324.36,
+      "x": 4742.36,
+      "y": 1966.26,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action": "",
       "action_params": ""
     },
     {
       "id": 10,
-      "x": 4637.35,
-      "y": 2289.23,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "芭芭拉 charge(0.5)"
-    },
-    {
-      "id": 11,
-      "x": 4635.7,
-      "y": 2283.87,
+      "x": 4691.85,
+      "y": 1954.0,
       "type": "path",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
+      "id": 11,
+      "x": 4622.91,
+      "y": 1971.95,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "芭芭拉 charge(0.5)"
+    },
+    {
       "id": 12,
-      "x": 4595.64,
-      "y": 2302.05,
+      "x": 4618.92,
+      "y": 1974.46,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -127,26 +127,26 @@
     },
     {
       "id": 13,
-      "x": 4606.99,
-      "y": 2337.16,
+      "x": 4611.61,
+      "y": 1980.0,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芭芭拉 charge(0.5)"
+    },
+    {
+      "id": 14,
+      "x": 4609.04,
+      "y": 1981.93,
       "type": "path",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 14,
-      "x": 4566.58,
-      "y": 2356.39,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "芭芭拉 e"
-    },
-    {
       "id": 15,
-      "x": 4565.76,
-      "y": 2350.57,
+      "x": 4592.12,
+      "y": 1966.55,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -154,17 +154,17 @@
     },
     {
       "id": 16,
-      "x": 4552.56,
-      "y": 2350.82,
+      "x": 4548.89,
+      "y": 1925.86,
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "芭芭拉 charge(0.5)"
     },
     {
       "id": 17,
-      "x": 4544.27,
-      "y": 2361.17,
+      "x": 4546.29,
+      "y": 1923.64,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -172,8 +172,26 @@
     },
     {
       "id": 18,
-      "x": 4564.96,
-      "y": 2363.38,
+      "x": 4540.68,
+      "y": 1924.19,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芭芭拉 charge(0.5)"
+    },
+    {
+      "id": 19,
+      "x": 4539.2,
+      "y": 1923.83,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 20,
+      "x": 4535.16,
+      "y": 1917.4,
       "type": "path",
       "move_mode": "walk",
       "action": "",

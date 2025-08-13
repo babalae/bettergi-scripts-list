@@ -1,16 +1,22 @@
 {
   "info": {
-    "name": "08-帕蒂沙兰-禅那园-12个",
+    "name": "08-须弥-帕蒂沙兰-禅那园-12个",
     "type": "collect",
+    "author": "jbcaaa",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.0",
+    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "jbcaaa",
         "links": "https://github.com/jbcaaa"
       }
-    ]
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1755083351166,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -95,7 +101,7 @@
     },
     {
       "id": 11,
-      "x": 3203.0,
+      "x": 3203,
       "y": -1064.45,
       "action": "",
       "move_mode": "walk",
@@ -135,19 +141,19 @@
     },
     {
       "id": 16,
-      "x": 3213.0,
-      "y": -1066.0,
-      "type": "path",
+      "x": 3213,
+      "y": -1066,
+      "action": "",
       "move_mode": "walk",
-      "action": ""
+      "type": "path"
     },
     {
       "id": 17,
       "x": 3205.75,
       "y": -1066.25,
-      "type": "path",
+      "action": "",
       "move_mode": "walk",
-      "action": ""
+      "type": "path"
     },
     {
       "id": 18,
@@ -218,7 +224,16 @@
       "x": 3185.87,
       "y": -1136.85,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "dash",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 27,
+      "x": 3185.87,
+      "y": -1136.85,
+      "action": "",
+      "move_mode": "walk",
       "type": "target"
     }
   ]

@@ -1,19 +1,22 @@
 {
   "info": {
-    "name": "04-帕蒂沙兰-卡萨扎莱宫-11个",
+    "name": "04-须弥-帕蒂沙兰-卡萨扎莱宫-11个",
     "type": "collect",
+    "author": "jbcaaa",
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1749983386763,
+    "last_modified_time": 1755077934561,
     "authors": [
       {
         "name": "jbcaaa",
         "links": "https://github.com/jbcaaa"
       }
-    ]
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -68,8 +71,9 @@
       "id": 7,
       "x": 2557.41,
       "y": 84.07,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "walk",
+      "action_params": "wait(0.4)",
       "type": "target"
     },
     {
@@ -140,8 +144,9 @@
       "id": 16,
       "x": 2595.59,
       "y": 91.45,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "walk",
+      "action_params": "wait(0.4)",
       "type": "target"
     },
     {
@@ -164,8 +169,9 @@
       "id": 19,
       "x": 2626.76,
       "y": 96.29,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "run",
+      "action_params": "wait(0.4)",
       "type": "path"
     },
     {
