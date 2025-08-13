@@ -1,4 +1,4 @@
-//当前js版本 1.4.1
+//当前js版本 1.4.2
 
 //拾取时上下滑动的时间
 let timeMoveUp = 500;
@@ -58,7 +58,7 @@ let targetItems;
 
     targetItems = await readFolder(targetItemPath, false);
     //模板匹配对象处理
-    if (settings.pickupMode === "模板匹配拾取，默认只拾取狗粮") {
+    if (pickupMode === "模板匹配拾取，默认只拾取狗粮") {
         for (const targetItem of targetItems) {
             targetItem.template = file.ReadImageMatSync(targetItem.fullPath);
             targetItem.itemName = targetItem.fileName.replace(/\.png$/, '');
@@ -691,7 +691,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
             let foundTarget = false;
             // 获取 F 图标的中心点 Y 坐标
             let centerYF = Math.round(fRes.y + fRes.height / 2);
-            if (settings.pickupMode === "ocr拾取，默认只拾取狗粮和晶蝶") {
+            if (pickupMode === "ocr拾取，默认只拾取狗粮和晶蝶") {
                 // 在当前屏幕范围内进行 OCR 识别
                 let ocrResults = await performOcr(whitelistKeywords, textxRange, { min: fRes.y - texttolerance, max: fRes.y + fRes.height + texttolerance * 2 });
 
@@ -716,15 +716,15 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                         break;
                     }
                 }
-            } else if (settings.pickupMode === "模板匹配拾取，默认只拾取狗粮") {
-                let start = new Date();
+            } else if (pickupMode === "模板匹配拾取，默认只拾取狗粮") {
+                //let start = new Date();
                 let itemName = await performTemplateMatch(centerYF);
-                let end = new Date();
+                //let end = new Date();
                 //log.info(`调试-匹配用时${end - start}毫秒`)
                 if (itemName) {
                     keyPress("F"); // 执行交互操作
                     log.info(`交互或拾取："${itemName}"`);
-                    await sleep(2 * trigger); // 操作后暂停 2*trigger 毫秒
+                    await sleep(2 * trigger + 100); // 操作后暂停 2*trigger+100 毫秒
                     foundTarget = true;
                 }
 
@@ -751,7 +751,11 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     // 否则执行下翻
                     await keyMouseScript.runFile(`assets/滚轮上翻.json`);
                 }
-                await sleep(Math.round(trigger / 5));
+                if (pickupMode === "模板匹配拾取，默认只拾取狗粮") {
+                    await sleep(Math.round(trigger / 5));
+                } else {
+                    await sleep(Math.round(trigger));
+                }
             }
 
             if (state.cancelRequested) {
