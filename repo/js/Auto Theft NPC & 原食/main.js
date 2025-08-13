@@ -120,7 +120,6 @@ const npcData = {
 		"path": "assets/path/布纳马.json",
 		"goods": ["盐", "小麦", "胡椒", "洋葱", "牛奶", "番茄", "卷心菜", "土豆", "秃秃豆"]
 	}
-
 }
 
 const goodsData = {
@@ -411,28 +410,29 @@ async function qucikBuy() {
 async function spikChat(npcName) {
 	count = 5
 	await sleep(1000);
-	if(npcName== "布纳马"){
-		// 對話
-		await sleep(1000);
-		// keyDown("VK_MENU");// Alt
-		// await sleep(1500);
-		// await click(1255, 530);
-		// await click(1255, 530);
-		// await click(1255, 530);
-		// await sleep(1500);
-		// keyUp("VK_MENU");// Alt
+	if (npcName == "布纳马") {
+		// 交互
+		for (let i = 0; i < 3; i++) {
+			keyPress("VK_F");
+			await sleep(1300);
+		}
+
+		// 点击有什么卖的
+		let captureRegion = captureGameRegion()
+		let resList = captureRegion.findMulti(RecognitionObject.ocrThis);
+		for (let i = 0; i < resList.count; i++) {
+			if (resList[i].text.includes("有什么卖的")) {
+				click(resList[i].x + 30, resList[i].y + 30); // 点击有什么卖的
+				// 使用完后释放资源
+				captureRegion.dispose();
+			}
+		}
+
+		await sleep(1300);
 		keyPress("VK_F");
-		await sleep(1500);
-		// 跳過交互&進入買食畫面
-		await click(1345, 580);
-		await sleep(1000);
-		await click(1345, 580);
-		await sleep(1000);
-		await click(1345, 580);
-		await sleep(1000);
-		await click(1345, 580);
-		await sleep(1000);
-	}else {
+		await sleep(1300);
+	} else {
+
 		for (let i = 0; i < count; i++) {
 			keyPress("VK_F");
 			await sleep(1300);
