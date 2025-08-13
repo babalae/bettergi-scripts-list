@@ -1,0 +1,100 @@
+﻿{
+  "info": {
+    "name": "02-须弥-帕蒂沙兰-须弥城右下-5个",
+    "type": "collect",
+    "author": "jbcaaa",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "jbcaaa",
+        "links": "https://github.com/jbcaaa"
+      }
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1755077421667,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2651.4300000000003,
+      "y": -564.4099999999999,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2653.369999999999,
+      "y": -530.6099999999997,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.4)",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": 2662.25,
+      "y": -518,
+      "action": "",
+      "move_mode": "jump",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 2698.040000000001,
+      "y": -518.7299999999996,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 2708.540000000001,
+      "y": -522.2299999999996,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 2717.3199999999997,
+      "y": -523.21,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.4)",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 2727,
+      "y": -523.75,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 2787.25,
+      "y": -525.3999999999996,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 2787.25,
+      "y": -525.3999999999996,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.4)",
+      "type": "path"
+    }
+  ]
+}
