@@ -1,8 +1,13 @@
-﻿{
+{
   "info": {
     "name": "09-须弥-帕蒂沙兰-觉王之殿下方-3朵",
     "type": "collect",
-    "authors": [],
+    "authors": [
+      {
+        "name": "this-Fish",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
@@ -15,8 +20,8 @@
   "positions": [
     {
       "id": 1,
-      "x": 3592,
-      "y": -787.33056640625,
+      "x": 3592.0,
+      "y": -787.3306,
       "action": "",
       "move_mode": "fly",
       "action_params": "",
@@ -24,7 +29,7 @@
     },
     {
       "id": 2,
-      "x": 3584,
+      "x": 3584.0,
       "y": -754.75,
       "action": "",
       "move_mode": "dash",
@@ -32,8 +37,8 @@
     },
     {
       "id": 3,
-      "x": 3586.916015625,
-      "y": -712.21337890625,
+      "x": 3586.916,
+      "y": -712.2134,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
@@ -49,8 +54,8 @@
     },
     {
       "id": 5,
-      "x": 3623.2578125,
-      "y": -710.48681640625,
+      "x": 3623.2578,
+      "y": -710.4868,
       "type": "path",
       "move_mode": "dash",
       "action": "",
@@ -58,8 +63,8 @@
     },
     {
       "id": 6,
-      "x": 3620.5673828125,
-      "y": -715.17578125,
+      "x": 3620.5674,
+      "y": -715.1758,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "wait(0.3)",
