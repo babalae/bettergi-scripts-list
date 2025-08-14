@@ -13,18 +13,28 @@
     "map_name": "Enkanomiya",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1753190175272,
-    "enable_monster_loot_split": false
+    "last_modified_time": 1755101630357,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport",
       "x": 97.65771484375,
       "y": 255.2640380859375,
-      "action_params": ""
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 97.65771484375,
+      "y": 255.2640380859375,
+      "action": "log_output",
+      "move_mode": "walk",
+      "action_params": "重置[芙宁娜]状态——黑芙",
+      "type": "orientation"
     }
   ]
 }
