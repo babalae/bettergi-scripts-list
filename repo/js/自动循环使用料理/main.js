@@ -127,7 +127,7 @@ async function eatDispatcher() {
                 const coord = gridCoordinates.find(g => g.row === target.row && g.col === target.col);
                 if (coord) {
                     click(coord.x, coord.y); await sleep(50);  // 点击料理图标
-                    //click(1760, 1025); await sleep(50);        //点击使用
+                    click(1760, 1025); await sleep(50);        // 点击使用
                 }
             }
             await genshin.returnMainUi();  // 返回主界面
@@ -153,3 +153,4 @@ async function eatDispatcher() {
 
     ]);
 })();
+
