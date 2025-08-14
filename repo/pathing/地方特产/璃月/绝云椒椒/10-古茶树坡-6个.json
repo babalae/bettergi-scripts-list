@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "10-古茶树坡-6个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "芝士贝果"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755180267337,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1691.5849609375,
+      "y": 1829.57568359375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1692.8251953125,
+      "y": 1798.810546875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1682.318359375,
+      "y": 1765.4833984375,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(T)"
+    },
+    {
+      "id": 4,
+      "x": 1694.5634765625,
+      "y": 1719.341796875,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "attack,wait(2),attack"
+    },
+    {
+      "id": 5,
+      "x": 1696.853515625,
+      "y": 1714.1181640625,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 1694.560546875,
+      "y": 1712.2109375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
