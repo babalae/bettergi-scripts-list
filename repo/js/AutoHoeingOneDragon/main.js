@@ -1,4 +1,4 @@
-//当前js版本 1.4.3
+//当前js版本 1.4.2
 
 //拾取时上下滑动的时间
 let timeMoveUp = 500;
@@ -590,7 +590,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
     }
 
     // 定义一个函数用于执行OCR识别和交互
-    async function recoginzeAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance) {
+    async function recognizeAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance) {
         async function performOcr(whitelistKeywords, xRange, yRange) {
             try {
                 // 在捕获的区域内进行OCR识别
@@ -706,7 +706,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     let centerYTargetText = ocrResult.y + ocrResult.height / 2;
                     if (Math.abs(centerYTargetText - centerYF) <= texttolerance) {
                         keyPress("F"); // 执行交互操作
-                        await sleep(2 * trigger); // 操作后暂停 2*trigger 毫秒
+                        await sleep(250); // 操作后暂停 250 毫秒
                         foundTarget = true;
                         if ((new Date() - lastPickupTime) > 1000 || ocrResult.text != lastPickupItem) {
                             log.info(`交互或拾取："${ocrResult.text}"`);
@@ -724,7 +724,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 if (itemName) {
                     keyPress("F"); // 执行交互操作
                     log.info(`交互或拾取："${itemName}"`);
-                    await sleep(2 * trigger + 100); // 操作后暂停 2*trigger+100 毫秒
+                    await sleep(250); // 操作后暂停250 毫秒
                     foundTarget = true;
                 }
 
@@ -752,7 +752,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     await keyMouseScript.runFile(`assets/滚轮上翻.json`);
                 }
                 if (pickupMode === "模板匹配拾取，默认只拾取狗粮") {
-                    await sleep(Math.round(trigger / 5));
+                    await sleep(Math.round(trigger / 3));
                 } else {
                     await sleep(Math.round(trigger));
                 }
@@ -879,7 +879,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
     // 根据条件决定是否启动 OCR 检测和交互任务
     let ocrTask = null;
     if (pickupMode === "ocr拾取，默认只拾取狗粮和晶蝶" || pickupMode === "模板匹配拾取，默认只拾取狗粮") {
-        ocrTask = recoginzeAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance);
+        ocrTask = recognizeAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance);
     }
 
     // 启动泥头车
