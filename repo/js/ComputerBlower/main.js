@@ -1,59 +1,85 @@
 // 主函数
 (async function () {
     operationMode = settings.operationMode || "截图";
-    const xRange = parseInt(+settings.xRange || 1920, 10);
-    const yRange = parseInt(+settings.yRange || 1920, 10);
-    let startTime = Date.now();
-    const interval = +settings.interval || 1000;
-    const timeout = +settings.timeout || 60;
-    let lastCheck = startTime;
-    let ocrcount = 0;
-    let loopCount = 0;
+    let xRange = parseInt(+settings.xRange || 1920, 10);
+    let yRange = parseInt(+settings.yRange || 1080, 10);
+    let interval = +settings.interval || 1000;
+    let timeout = +settings.timeout || 60;
+    let dispose = settings.dispose;
+
+
     const imagePath = "assets/流放.png";
     let template = file.ReadImageMatSync(imagePath);
-    if (operationMode === "截图") {
-        while (Date.now() - startTime < timeout * 1000) {
+    let captureRegionScore = 0;
+    let tempalteMatchScore = 0;
+    let ocrScore = 0;
+    await genshin.tpToStatueOfTheSeven();
+
+    if (operationMode === "综合测试") {
+        log.info("开始综合测试,预计用时约30秒");
+        dispose = true;
+        timeout = 11;
+        xRange = 1920;
+        yRange = 1080;
+        interval = 1000;
+    }
+
+    if (operationMode === "截图" || operationMode === "综合测试") {
+        let startTime = Date.now();
+        let count = 0;
+        let loopCount = 0;
+        while (Date.now() - startTime <= timeout * 1000) {
             try {
                 let GameRegion = captureGameRegion();
-                if (settings.dispose) GameRegion.dispose();
-                ocrcount++;
-                if (Date.now() - lastCheck >= interval) {
+                if (dispose) GameRegion.dispose();
+                count++;
+                if (Date.now() - startTime >= interval * (loopCount + 1)) {
                     loopCount++;
                     await sleep(1);
-                    lastCheck = Date.now();
-                    log.info(`在第${loopCount}个${interval}毫秒内执行了${ocrcount}次截图`);
-                    ocrcount = 0;
+                    log.info(`在第${loopCount}个${interval}毫秒内执行了${count}次截图`);
+                    captureRegionScore += count;
+                    count = 0;
                 }
             } catch (error) {
                 log.error(`运行时发生异常: ${error.message}`);
                 break;
             }
         }
+        captureRegionScore = Math.round((captureRegionScore / 33.3) * 100) / 100;
+        log.info(`截图测试完成,得分${captureRegionScore.toFixed(2)}`);
     }
 
-    if (operationMode === "模板匹配") {
+    if (operationMode === "模板匹配" || operationMode === "综合测试") {
+        let startTime = Date.now();
+        let count = 0;
+        let loopCount = 0;
         let GameRegion = captureGameRegion();
-        while (Date.now() - startTime < timeout * 1000) {
+        while (Date.now() - startTime <= timeout * 1000) {
             try {
-
                 let recognitionObject = RecognitionObject.TemplateMatch(template, 0, 0, xRange, yRange);
                 let result = GameRegion.find(recognitionObject);
-                ocrcount++;
-                if (Date.now() - lastCheck >= interval) {
+                count++;
+                if (Date.now() - startTime >= interval * (loopCount + 1)) {
                     loopCount++;
                     await sleep(1);
-                    lastCheck = Date.now();
-                    log.info(`在第${loopCount}个${interval}毫秒内执行了${ocrcount}次模板匹配`);
-                    ocrcount = 0;
+                    log.info(`在第${loopCount}个${interval}毫秒内执行了${count}次模板匹配`);
+                    tempalteMatchScore += count;
+                    count = 0;
                 }
             } catch (error) {
                 log.error(`运行时发生异常: ${error.message}`);
                 break;
             }
         }
-        if (settings.dispose) GameRegion.dispose();
+        if (dispose) GameRegion.dispose();
+        tempalteMatchScore = Math.round((tempalteMatchScore / 3.5) * 100) / 100;
+        log.info(`模板匹配测试完成,得分${tempalteMatchScore.toFixed(2)}`);
     }
-    if (operationMode === "ocr") {
+
+    if (operationMode === "ocr" || operationMode === "综合测试") {
+        let startTime = Date.now();
+        let count = 0;
+        let loopCount = 0;
         let GameRegion = captureGameRegion();
         while (Date.now() - startTime < timeout * 1000) {
             try {
@@ -61,19 +87,31 @@
                     0, 0,
                     xRange, yRange
                 ));
-                ocrcount++;
+                count++;
             } catch (error) {
                 log.error(`运行时发生异常: ${error.message}`);
                 break;
             }
-            if (Date.now() - lastCheck >= interval) {
+            if (Date.now() - startTime >= interval * (loopCount + 1)) {
                 loopCount++;
-                lastCheck = Date.now();
                 await sleep(1);
-                log.info(`在第${loopCount}个${interval}毫秒内执行了${ocrcount}次OCR`);
-                ocrcount = 0;
+                log.info(`在第${loopCount}个${interval}毫秒内执行了${count}次OCR`);
+                ocrScore += count;
+                count = 0;
             }
         }
-        if (settings.dispose) GameRegion.dispose();
+        if (dispose) GameRegion.dispose();
+        ocrScore = ocrScore;
+        ocrScore = Math.round((ocrScore * 2) * 100) / 100;
+        log.info(`ocr测试完成,得分${ocrScore.toFixed(2)}`);
+    }
+
+    if (operationMode === "综合测试") {
+        log.info("综合测试结束");
+        finalScore = (captureRegionScore + tempalteMatchScore + ocrScore) / 3;
+        log.info(`截图评分为${captureRegionScore.toFixed(2)}`);
+        log.info(`模板匹配评分为${tempalteMatchScore.toFixed(2)}`);
+        log.info(`ocr评分为${ocrScore.toFixed(2)}`);
+        log.info(`综合评分为${finalScore.toFixed(2)}`)
     }
 })();
