@@ -9,13 +9,15 @@
     "tags": [
       "迪希雅"
     ],
-    "last_modified_time": 1753171812759,
+    "last_modified_time": 1755274325346,
     "authors": [
       {
         "name": "蜜柑魚",
         "links": "https://github.com/this-Fish"
       }
-    ]
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -51,7 +53,7 @@
       "y": 1077.19,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.2),keypress(f),wait(0.5)",
+      "action_params": "wait(0.3),keypress(f),wait(0.5)",
       "type": "target"
     },
     {
@@ -69,7 +71,7 @@
       "y": 1079.61,
       "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "wait(0.2),j,wait(1),j,attack(0.2)",
+      "action_params": "wait(0.3),j,wait(1),j,attack(0.2);",
       "type": "path"
     },
     {
@@ -82,14 +84,21 @@
       "type": "path"
     },
     {
+      "x": -1130.56,
+      "y": 1074.76,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
       "id": 8,
       "x": -1130.56,
       "y": 1074.76,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "迪希雅 wait(0.2),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
-      "type": "target",
-      "locked": false
+      "action_params": "迪希雅 wait(1),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2);",
+      "type": "target"
     },
     {
       "id": 9,
@@ -115,7 +124,7 @@
       "y": 1066.33,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.2),keypress(f),wait(1.5)",
+      "action_params": "wait(0.3),keypress(f),wait(1.5);",
       "type": "path"
     },
     {
@@ -146,12 +155,20 @@
       "type": "target"
     },
     {
+      "x": -1126.35,
+      "y": 1024.68,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
       "id": 15,
       "x": -1126.35,
       "y": 1024.68,
       "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "迪希雅 wait(0.2),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
+      "move_mode": "walk",
+      "action_params": "迪希雅 wait(0.8),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2);",
       "type": "target"
     },
     {
@@ -183,12 +200,20 @@
       "type": "target"
     },
     {
+      "x": -1133.58,
+      "y": 1006.35,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
       "id": 19,
       "x": -1133.58,
       "y": 1006.35,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "迪希雅 keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
+      "action_params": "迪希雅 wait(0.8),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2);",
       "type": "target"
     },
     {

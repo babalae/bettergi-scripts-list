@@ -9,13 +9,15 @@
     "tags": [
       "迪希雅"
     ],
-    "last_modified_time": 1753171233794,
+    "last_modified_time": 1755274325346,
     "authors": [
       {
         "name": "蜜柑魚",
         "links": "https://github.com/this-Fish"
       }
-    ]
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -42,7 +44,7 @@
       "y": 760.87,
       "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "wait(0.2),j,wait(2),j,attack(0.2)",
+      "action_params": "wait(0.3),j,wait(2),j,attack(0.2)",
       "type": "path"
     },
     {
@@ -60,7 +62,7 @@
       "y": 753.58,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "迪希雅 wait(0.2),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
+      "action_params": "迪希雅 wait(0.8),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
       "type": "target"
     },
     {
@@ -86,8 +88,8 @@
       "x": -1008.54,
       "y": 686.33,
       "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "迪希雅 wait(0.2),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
+      "move_mode": "walk",
+      "action_params": "迪希雅 wait(0.8),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
       "type": "target"
     },
     {
