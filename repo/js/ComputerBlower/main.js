@@ -45,7 +45,7 @@
                 break;
             }
         }
-        captureRegionScore = Math.round((captureRegionScore / 33.3) * 100) / 100;
+        captureRegionScore = Math.round(((captureRegionScore * 10 / loopCount) / 33.3) * 100) / 100;
         log.info(`截图测试完成,得分${captureRegionScore.toFixed(2)}`);
     }
 
@@ -72,7 +72,7 @@
             }
         }
         if (dispose) GameRegion.dispose();
-        tempalteMatchScore = Math.round((tempalteMatchScore / 3.5) * 100) / 100;
+        tempalteMatchScore = Math.round(((tempalteMatchScore * 10 / loopCount) / 3.5) * 100) / 100;
         log.info(`模板匹配测试完成,得分${tempalteMatchScore.toFixed(2)}`);
     }
 
@@ -102,7 +102,7 @@
         }
         if (dispose) GameRegion.dispose();
         ocrScore = ocrScore;
-        ocrScore = Math.round((ocrScore * 2) * 100) / 100;
+        ocrScore = Math.round((ocrScore * 2 * 10 / loopCount) * 100) / 100;
         log.info(`ocr测试完成,得分${ocrScore.toFixed(2)}`);
     }
 
