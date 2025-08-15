@@ -1,8 +1,13 @@
-﻿{
+{
   "info": {
     "name": "NA5-海露花-枫丹廷南方1-水下-2个",
     "type": "collect",
-    "authors": [],
+    "authors": [
+      {
+        "name": "this-Fish",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
@@ -15,8 +20,8 @@
   "positions": [
     {
       "id": 1,
-      "x": 4399.89453125,
-      "y": 3083.40185546875,
+      "x": 4399.8945,
+      "y": 3083.4019,
       "type": "teleport",
       "move_mode": "walk",
       "action": "combat_script",
@@ -24,8 +29,8 @@
     },
     {
       "id": 2,
-      "x": 4442.5595703125,
-      "y": 3110.208984375,
+      "x": 4442.5596,
+      "y": 3110.209,
       "type": "path",
       "move_mode": "run",
       "action": "combat_script",
@@ -34,8 +39,8 @@
     },
     {
       "id": 3,
-      "x": 4442.5595703125,
-      "y": 3110.208984375,
+      "x": 4442.5596,
+      "y": 3110.209,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
@@ -43,8 +48,8 @@
     },
     {
       "id": 4,
-      "x": 4446.5390625,
-      "y": 3134.015625,
+      "x": 4446.5391,
+      "y": 3134.0156,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
@@ -53,8 +58,8 @@
     },
     {
       "id": 5,
-      "x": 4446.5390625,
-      "y": 3134.015625,
+      "x": 4446.5391,
+      "y": 3134.0156,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",

@@ -1,8 +1,13 @@
-﻿{
+{
   "info": {
     "name": "NA4-海露花-埃爾頓海溝-水下-3个",
     "type": "collect",
-    "authors": [],
+    "authors": [
+      {
+        "name": "this-Fish",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
@@ -15,8 +20,8 @@
   "positions": [
     {
       "id": 1,
-      "x": 4478.7314453125,
-      "y": 2799.78564453125,
+      "x": 4478.7314,
+      "y": 2799.7856,
       "type": "teleport",
       "move_mode": "walk",
       "action": "combat_script",
@@ -24,8 +29,8 @@
     },
     {
       "id": 2,
-      "x": 4458.0966796875,
-      "y": 2721.2705078125,
+      "x": 4458.0967,
+      "y": 2721.2705,
       "type": "target",
       "move_mode": "run",
       "action": "combat_script",
@@ -33,8 +38,8 @@
     },
     {
       "id": 3,
-      "x": 4459.30078125,
-      "y": 2717.920654296875,
+      "x": 4459.3008,
+      "y": 2717.9207,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
@@ -42,8 +47,8 @@
     },
     {
       "id": 4,
-      "x": 4460.7734375,
-      "y": 2699.74658203125,
+      "x": 4460.7734,
+      "y": 2699.7466,
       "type": "path",
       "move_mode": "dash",
       "action": "combat_script",
@@ -52,8 +57,8 @@
     },
     {
       "id": 5,
-      "x": 4460.7734375,
-      "y": 2699.74658203125,
+      "x": 4460.7734,
+      "y": 2699.7466,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
@@ -61,8 +66,8 @@
     },
     {
       "id": 6,
-      "x": 4481.61328125,
-      "y": 2724.1416015625,
+      "x": 4481.6133,
+      "y": 2724.1416,
       "type": "path",
       "move_mode": "run",
       "action": "combat_script",
@@ -71,8 +76,8 @@
     },
     {
       "id": 7,
-      "x": 4481.61328125,
-      "y": 2724.1416015625,
+      "x": 4481.6133,
+      "y": 2724.1416,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
