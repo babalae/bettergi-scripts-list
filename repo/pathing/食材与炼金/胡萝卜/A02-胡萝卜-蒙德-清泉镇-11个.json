@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "A02-胡萝卜-蒙德-清泉镇-11个",
     "type": "collect",
@@ -7,11 +7,11 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1755193346700,
+    "last_modified_time": 1755283864734,
     "authors": [
       {
         "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": ""
       }
     ],
     "enable_monster_loot_split": false,
@@ -44,8 +44,8 @@
     },
     {
       "id": 4,
-      "x": -934.4453,
-      "y": 1956.1797,
+      "x": -934.4453125,
+      "y": 1956.1796875,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -77,6 +77,15 @@
     },
     {
       "id": 8,
+      "x": -954.033203125,
+      "y": 1930.62744140625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.1)"
+    },
+    {
+      "id": 9,
       "x": -954.77,
       "y": 1927.95,
       "action": "",
@@ -84,7 +93,7 @@
       "type": "path"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": -953.21,
       "y": 1917.37,
       "action": "combat_script",
@@ -93,16 +102,16 @@
       "type": "path"
     },
     {
-      "id": 10,
-      "x": -949.4062,
-      "y": 1913.2354,
+      "id": 11,
+      "x": -949.40625,
+      "y": 1913.2353515625,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "target"
     },
     {
-      "id": 11,
+      "id": 12,
       "x": -947.62,
       "y": 1909.08,
       "action": "",
@@ -110,25 +119,25 @@
       "type": "path"
     },
     {
-      "id": 12,
-      "x": -944.9336,
-      "y": 1903.9185,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
       "id": 13,
-      "x": -942.2109,
-      "y": 1902.6724,
-      "type": "path",
-      "move_mode": "walk",
+      "x": -944.93359375,
+      "y": 1903.91845703125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 14,
+      "x": -942.2109375,
+      "y": 1902.67236328125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
       "x": -942.07,
       "y": 1899.01,
       "action": "",
@@ -136,7 +145,7 @@
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": -938.68,
       "y": 1898.21,
       "action": "",
@@ -144,54 +153,45 @@
       "type": "target"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": -939.61,
       "y": 1900.04,
-      "action": "pick_around",
+      "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "target"
     },
     {
-      "id": 17,
-      "x": -914.8672,
-      "y": 1795.4214,
+      "id": 18,
+      "x": -914.8671875,
+      "y": 1795.42138671875,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "teleport"
     },
     {
-      "id": 18,
-      "x": -895.2119,
-      "y": 1819.499,
+      "id": 19,
+      "x": -895.2119140625,
+      "y": 1819.4990234375,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 19,
-      "x": -876.1348,
-      "y": 1848.6152,
+      "id": 20,
+      "x": -876.134765625,
+      "y": 1848.615234375,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 20,
-      "x": -888.9531,
-      "y": 1884.6162,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
       "id": 21,
-      "x": -882.998,
-      "y": 1885.8696,
+      "x": -888.953125,
+      "y": 1884.6162109375,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -199,8 +199,8 @@
     },
     {
       "id": 22,
-      "x": -882.3623,
-      "y": 1882.8574,
+      "x": -882.998046875,
+      "y": 1885.86962890625,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -208,8 +208,17 @@
     },
     {
       "id": 23,
-      "x": -886.0244,
-      "y": 1882.228,
+      "x": -882.3623046875,
+      "y": 1882.857421875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 24,
+      "x": -886.0244140625,
+      "y": 1882.22802734375,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
