@@ -1,0 +1,148 @@
+﻿{
+  "info": {
+    "name": "NA3-海露花-龍身體內-水下5个",
+    "type": "collect",
+    "authors": [],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755202203638,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4905.98828125,
+      "y": 2429.09619140625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4928.923828125,
+      "y": 2412.0009765625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4953.103515625,
+      "y": 2415.8515625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4959.7666015625,
+      "y": 2424.60986328125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(10),keyup(VK_LCONTROL),click(middle);"
+    },
+    {
+      "id": 5,
+      "x": 4953.8349609375,
+      "y": 2410.89111328125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(2.5),keyup(VK_LCONTROL)",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 4953.8349609375,
+      "y": 2410.89111328125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.4),click(middle);"
+    },
+    {
+      "id": 7,
+      "x": 4948.98828125,
+      "y": 2415.427001953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL)",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 4948.98828125,
+      "y": 2415.427001953125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.4),click(middle);"
+    },
+    {
+      "id": 9,
+      "x": 4932.6796875,
+      "y": 2407.51123046875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL)",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 4932.6796875,
+      "y": 2407.51123046875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.4),keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE)"
+    },
+    {
+      "id": 11,
+      "x": 4951.962890625,
+      "y": 2399.689697265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 4951.962890625,
+      "y": 2399.689697265625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.4),click(middle);"
+    },
+    {
+      "id": 13,
+      "x": 4920.9482421875,
+      "y": 2379.57080078125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL)",
+      "locked": false
+    },
+    {
+      "id": 14,
+      "x": 4920.9482421875,
+      "y": 2379.57080078125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1),click(middle);"
+    }
+  ]
+}

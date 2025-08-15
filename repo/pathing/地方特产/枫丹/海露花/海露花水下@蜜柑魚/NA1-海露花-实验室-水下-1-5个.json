@@ -1,0 +1,148 @@
+﻿{
+  "info": {
+    "name": "NA1-海露花-实验室-水下-1-5个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755200451779,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4139.515625,
+      "y": 4547.22802734375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "click(middle)",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4087.982421875,
+      "y": 4544.955078125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL),wait(8),keyup(VK_LCONTROL)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4087.982421875,
+      "y": 4544.955078125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.4),click(middle);",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 4059.201171875,
+      "y": 4556.55029296875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4032.40234375,
+      "y": 4564.65478515625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL)",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 4032.40234375,
+      "y": 4564.65478515625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.4),click(middle);",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 4010.486328125,
+      "y": 4606.81640625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_SPACE),wait(8),keyup(VK_SPACE)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3997.1142578125,
+      "y": 4605.01123046875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3997.1142578125,
+      "y": 4605.01123046875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.4),click(middle);",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 3990.5048828125,
+      "y": 4635.91015625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL),wait(8),keyup(VK_LCONTROL)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 3990.5048828125,
+      "y": 4635.91015625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.4),click(middle);",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 3944.9853515625,
+      "y": 4718.9140625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL)",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 3915.6689453125,
+      "y": 4754.8515625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL)",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 3915.6689453125,
+      "y": 4754.8515625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1),click(middle);",
+      "type": "target"
+    }
+  ]
+}
