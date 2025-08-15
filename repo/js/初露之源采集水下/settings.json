@@ -1,0 +1,67 @@
+[
+  {
+    "name": "enable",
+    "type": "checkbox",
+    "label": "键鼠脚本使用单夜兰(行走请使用成女/男 不要使用任何加速效果)录制，\n请将采集队伍按照这个标准配置，可以提升采集成功率。\n\n我已阅读，启用脚本。",
+    "default": false
+  },
+  {
+        "name": "team",
+        "type": "input-text",
+        "label": "跑图的队伍名称，不填表示不切换队伍"
+  },
+  {
+    "name": "selectAll",
+    "type": "checkbox",
+    "label": "无视后续选项，运行全部区域。",
+    "default": false
+  },
+  {
+    "name": "upperPortion01",
+    "type": "checkbox",
+    "label": "上部-拾取-01(1~2个)",
+    "default": true
+  },
+  {
+    "name": "upperPortion02",
+    "type": "checkbox",
+    "label": "上部-拾取-02(1~2个)",
+    "default": true
+  },
+  {
+    "name": "upperPortion03",
+    "type": "checkbox",
+    "label": "上部-拾取-03(1~5个)",
+    "default": true
+  },
+  {
+     "name": "upperPortion04",
+     "type": "checkbox",
+     "label": "上部-拾取-04(1~4个)",
+     "default": true
+  },
+  {
+     "name": "upperPortion05",
+     "type": "checkbox",
+     "label": "上部-拾取-05(1~8个)",
+     "default": true
+  },
+  {
+     "name": "upperPortion06",
+     "type": "checkbox",
+     "label": "上部-拾取-06(1~6个)",
+     "default": true
+  },
+  {
+    "name": "central01",
+    "type": "checkbox",
+    "label": "中部-拾取07(1~2个)",
+    "default": true
+  },
+  {
+    "name": "lower01",
+    "type": "checkbox",
+    "label": "暂无",
+    "default": true
+  }
+]
