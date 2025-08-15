@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "06-须弥-帕蒂沙兰-桓那兰那右上-8个",
     "type": "collect",
@@ -14,7 +14,7 @@
     ],
     "map_name": "Teyvat",
     "tags": [],
-    "last_modified_time": 1755080587960,
+    "last_modified_time": 1755241594805,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -79,7 +79,7 @@
     {
       "id": 8,
       "x": 3422.5,
-      "y": -61.0,
+      "y": -61,
       "action": "",
       "move_mode": "walk",
       "type": "target"
@@ -97,7 +97,7 @@
       "x": 3421.93,
       "y": -41.55,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "jump",
       "type": "path"
     },
     {
@@ -105,7 +105,7 @@
       "x": 3430.61,
       "y": -35.25,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path"
     },
     {
@@ -127,11 +127,11 @@
     {
       "id": 14,
       "x": 3442.9502,
-      "y": -35.0,
-      "type": "target",
-      "move_mode": "climb",
+      "y": -35,
       "action": "combat_script",
-      "action_params": "wait(0.3)"
+      "move_mode": "climb",
+      "action_params": "wait(0.3)",
+      "type": "target"
     },
     {
       "id": 15,
@@ -223,8 +223,8 @@
     },
     {
       "id": 26,
-      "x": 3260.0,
-      "y": -47.0,
+      "x": 3260,
+      "y": -47,
       "action": "",
       "move_mode": "run",
       "type": "path"
@@ -249,10 +249,10 @@
       "id": 29,
       "x": 3232.2207,
       "y": -52.8984,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.3)"
+      "move_mode": "walk",
+      "action_params": "wait(0.3)",
+      "type": "target"
     },
     {
       "id": 30,
