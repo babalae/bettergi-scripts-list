@@ -1,6 +1,6 @@
 // 主函数
 (async function () {
-    operationMode = settings.operationMode || "截图";
+    operationMode = settings.operationMode || "综合测试";
     let xRange = parseInt(+settings.xRange || 1920, 10);
     let yRange = parseInt(+settings.yRange || 1080, 10);
     let interval = +settings.interval || 1000;
