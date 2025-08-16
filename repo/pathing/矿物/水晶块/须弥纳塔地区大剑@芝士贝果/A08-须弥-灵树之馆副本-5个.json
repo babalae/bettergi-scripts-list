@@ -12,51 +12,51 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1754746292569,
+    "last_modified_time": 1755331656372,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport",
       "x": 2965.7324,
       "y": -1452.6636,
-      "action_params": ""
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
       "x": 2956.4297,
       "y": -1467.3394,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
       "x": 2957.917,
       "y": -1470.8408,
-      "type": "target",
-      "move_mode": "walk",
       "action": "mining",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 4,
       "x": 2958.0576,
       "y": -1473.5054,
-      "type": "target",
-      "move_mode": "walk",
       "action": "mining",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 5,
-      "x": 2949.3926,
-      "y": -1522.6001,
+      "x": 2956.23828125,
+      "y": -1471.96337890625,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -64,75 +64,84 @@
     },
     {
       "id": 6,
-      "x": 2951.9961,
-      "y": -1539.8311,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 2949.3926,
+      "y": -1522.6001,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 7,
-      "x": 2959.2637,
-      "y": -1551.7695,
-      "type": "path",
-      "move_mode": "jump",
+      "x": 2951.9961,
+      "y": -1539.8311,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 8,
-      "x": 2936.0586,
-      "y": -1609.6729,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 2959.2637,
+      "y": -1551.7695,
       "action": "",
-      "action_params": ""
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 9,
-      "x": 2936.0664,
-      "y": -1619.0659,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 2936.0586,
+      "y": -1609.6729,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 10,
-      "x": 2939.0068,
-      "y": -1614.875,
-      "type": "target",
+      "x": 2936.0664,
+      "y": -1619.0659,
+      "action": "",
       "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 11,
-      "x": 2941.5156,
-      "y": -1618.7505,
-      "type": "target",
-      "move_mode": "walk",
+      "x": 2939.0068,
+      "y": -1614.875,
       "action": "mining",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 12,
-      "x": 2950.1533,
-      "y": -1615.666,
-      "type": "path",
+      "x": 2941.5156,
+      "y": -1618.7505,
+      "action": "mining",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 13,
+      "x": 2950.1533,
+      "y": -1615.666,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
       "x": 2963.7344,
       "y": -1618.042,
-      "type": "target",
-      "move_mode": "walk",
       "action": "mining",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     }
   ]
 }
