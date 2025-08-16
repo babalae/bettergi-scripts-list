@@ -197,9 +197,9 @@ async function tryForgeOre(oreType, skipCheckOres = []) {
                     if (clickAttempts === 4) {
                         await sleep(1000);
                         if (notice) {
-                            notification.send("锻造已完成");
+                            notification.send(`锻造已完成，使用了 ${OreChineseMap[oreType]}`);
                         } else {
-                            log.info("锻造已完成");
+                            log.info(`锻造已完成，使用了 ${OreChineseMap[oreType]}`);
                         }
                         return true; // 达到点击上限，终止锻造流程
                     }

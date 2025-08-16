@@ -6,9 +6,14 @@ const DEFAULT_OCR_TIMEOUT_SECONDS = 10;
 const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 
 (async function () {
-    // 启用自动拾取的实时任务
     const startTime = Date.now();
-    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
+    // 启用自动拾取的实时任务
+    if (settings.pickupMode == "自动拾取") {
+        dispatcher.addTimer(new RealtimeTimer("AutoPick"));
+        log.info("已 启用 自动拾取任务");
+    } else if (settings.pickupMode == "不拾取") {
+        log.info("已 禁用 自动拾取任务");
+    }
     runTimes = await calulateRunTimes();
     await switchPartyIfNeeded(settings.partyName);
 

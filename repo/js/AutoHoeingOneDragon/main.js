@@ -1,4 +1,4 @@
-//当前js版本 1.4.3
+//当前js版本 1.4.5
 
 //拾取时上下滑动的时间
 let timeMoveUp = 500;
@@ -35,17 +35,23 @@ let targetItems;
     targetMonsterNum += 25;//预留漏怪
     const partyName = settings.partyName || "";
 
-    // 获取 settings 中的标签，如果没有则使用默认值
-    const group1Settings = settings.tagsForGroup1 || "蕈兽";
-    const group2Settings = settings.tagsForGroup2 || "";
-    const group3Settings = settings.tagsForGroup3 || "";
-    const group4Settings = settings.tagsForGroup4 || "";
-    let group1Tags = group1Settings.split("，").filter(Boolean);
-    const group2Tags = group2Settings.split("，").filter(Boolean);
-    const group3Tags = group3Settings.split("，").filter(Boolean);
-    const group4Tags = group4Settings.split("，").filter(Boolean);
-    // 将 group2Tags、group3Tags 和 group4Tags 的内容添加到 group1Tags 中，并去除重复项
-    group1Tags = [...new Set([...group1Tags, ...group2Tags, ...group3Tags, ...group4Tags])];
+    /*******************************
+     * 1. 读取 settings（没有时用默认值）
+     *******************************/
+    const groupSettings = Array.from({ length: 10 }, (_, i) =>
+        settings[`tagsForGroup${i + 1}`] || (i === 0 ? '蕈兽' : '') // 第 0 组默认“蕈兽”，其余默认空串
+    );
+
+    /*******************************
+     * 2. 统一生成各组的标签数组
+     *******************************/
+    const groupTags = groupSettings.map(str => str.split('，').filter(Boolean));
+
+    /*******************************
+     * 3. 把后面 9 组合并到第 0 组并去重
+     *******************************/
+    groupTags[0] = [...new Set(groupTags.flat())];
+
 
     const priorityTags = (settings.priorityTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
     const excludeTags = (settings.excludeTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
@@ -90,13 +96,13 @@ let targetItems;
     await initializeCdTime(pathings, accountName);
 
     //按照用户配置标记路线
-    await markPathings(pathings, group1Tags, group2Tags, group3Tags, group4Tags, priorityTags, excludeTags);
+    await markPathings(pathings, groupTags, priorityTags, excludeTags);
 
     //找出最优组合
     await findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum);
 
     //分配到不同路径组
-    await assignGroups(pathings, group1Tags, group2Tags, group3Tags, group4Tags);
+    await assignGroups(pathings, groupTags);
     /*
         //分配结果输出
         pathings.forEach((pathing, index) => {
@@ -243,53 +249,34 @@ async function processPathings() {
     return pathings; // 返回处理后的 pathings 数组
 }
 
-async function markPathings(pathings, group1Tags, group2Tags, group3Tags, group4Tags, priorityTags, excludeTags) {
-    // 找出存在于 group1Tags 中且不在其他组标签中的标签
-    const uniqueTags = group1Tags.filter(tag => {
-        return !group2Tags.includes(tag) && !group3Tags.includes(tag) && !group4Tags.includes(tag);
-    });
+async function markPathings(pathings, groupTags, priorityTags, excludeTags) {
+    // 取出第 0 组并剔除与其他 9 组重复的标签
+    const uniqueTags = groupTags[0].filter(tag =>
+        !groupTags.slice(1).some(arr => arr.includes(tag))
+    );
 
     pathings.forEach(pathing => {
-        // 初始化 pathing.tags 和 pathing.monsterInfo 以确保它们存在
         pathing.tags = pathing.tags || [];
         pathing.monsterInfo = pathing.monsterInfo || {};
-
-        // 初始化 pathing.prioritized 为 false
         pathing.prioritized = false;
 
-        // 检查路径的 tags 是否包含 uniqueTags
         const containsUniqueTag = uniqueTags.some(uniqueTag => pathing.tags.includes(uniqueTag));
 
-        // 检查 fullPath、tags 或 monsterInfo 是否包含 excludeTags 中的任意一个子字符串
         const containsExcludeTag = excludeTags.some(excludeTag => {
-            // 检查 fullPath 是否包含 excludeTag
             const fullPathContainsExcludeTag = pathing.fullPath && pathing.fullPath.includes(excludeTag);
-            // 检查 tags 是否包含 excludeTag
             const tagsContainExcludeTag = pathing.tags.some(tag => tag.includes(excludeTag));
-            // 检查 monsterInfo 的键是否包含 excludeTag
             const monsterInfoContainsExcludeTag = Object.keys(pathing.monsterInfo).some(monsterName => monsterName.includes(excludeTag));
-
-            // 返回是否包含任意一个 excludeTag
             return fullPathContainsExcludeTag || tagsContainExcludeTag || monsterInfoContainsExcludeTag;
         });
 
-        // 检查 fullPath、tags 或 monsterInfo 是否包含 priorityTags 中的任意一个子字符串
         const containsPriorityTag = priorityTags.some(priorityTag => {
-            // 检查 fullPath 是否包含 priorityTag
             const fullPathContainsPriorityTag = pathing.fullPath && pathing.fullPath.includes(priorityTag);
-            // 检查 tags 是否包含 priorityTag
             const tagsContainPriorityTag = pathing.tags.some(tag => tag.includes(priorityTag));
-            // 检查 monsterInfo 的键是否包含 priorityTag
             const monsterInfoContainsPriorityTag = Object.keys(pathing.monsterInfo).some(monsterName => monsterName.includes(priorityTag));
-
-            // 返回是否包含任意一个 priorityTag
             return fullPathContainsPriorityTag || tagsContainPriorityTag || monsterInfoContainsPriorityTag;
         });
 
-        // 如果包含 uniqueTags 或 excludeTags，则标记为 false，否则标记为 true
         pathing.available = !(containsUniqueTag || containsExcludeTag);
-
-        // 如果包含 priorityTags，则标记为 true
         pathing.prioritized = containsPriorityTag;
     });
 }
@@ -438,50 +425,25 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
     log.info(`预计总用时: ${hours} 时 ${minutes} 分 ${seconds.toFixed(0)} 秒`);
 }
 
-async function assignGroups(pathings, group1Tags, group2Tags, group3Tags, group4Tags) {
-    // 初始化记录各组路线数量的对象
-    const groupCounts = {
-        0: 0, // 默认组
-        1: 0, // 不包含 group1Tags 的组
-        2: 0, // 包含 group1Tags 且包含 group2Tags 的组
-        3: 0, // 包含 group1Tags 但不包含 group2Tags，包含 group3Tags 的组
-        4: 0  // 包含 group1Tags 但不包含 group2Tags 和 group3Tags，包含 group4Tags 的组
-    };
-
+async function assignGroups(pathings, groupTags) {
     // 遍历 pathings 数组
     pathings.forEach(pathing => {
-        // 只处理 selected 为 true 的项
         if (pathing.selected) {
-            // 默认 group 为 0
             pathing.group = 0;
 
-            // 如果 tags 不包含 group1Tags 中的任意一个，则改为 1
-            if (!group1Tags.some(tag => pathing.tags.includes(tag))) {
+            if (!groupTags[0].some(tag => pathing.tags.includes(tag))) {
                 pathing.group = 1;
             } else {
-                // 如果包含 group1Tags 中的任意一个，则检查 group2Tags
-                if (group2Tags.some(tag => pathing.tags.includes(tag))) {
-                    pathing.group = 2;
-                } else {
-                    // 如果包含 group1Tags 但不包含 group2Tags，则检查 group3Tags
-                    if (group3Tags.some(tag => pathing.tags.includes(tag))) {
-                        pathing.group = 3;
-                    } else {
-                        // 如果包含 group1Tags 但不包含 group2Tags 和 group3Tags，则检查 group4Tags
-                        if (group4Tags.some(tag => pathing.tags.includes(tag))) {
-                            pathing.group = 4;
-                        }
+                // 依次判断 groupTags[1] ~ groupTags[9]
+                for (let i = 1; i <= 9; i++) {
+                    if (groupTags[i].some(tag => pathing.tags.includes(tag))) {
+                        pathing.group = i + 1;
+                        break;
                     }
                 }
             }
-
-            // 更新对应的组计数
-            groupCounts[pathing.group]++;
         }
     });
-
-    // 返回组计数对象
-    return groupCounts;
 }
 
 async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywords) {
@@ -590,7 +552,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
     }
 
     // 定义一个函数用于执行OCR识别和交互
-    async function recoginzeAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance) {
+    async function recognizeAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance) {
         async function performOcr(whitelistKeywords, xRange, yRange) {
             try {
                 // 在捕获的区域内进行OCR识别
@@ -706,7 +668,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     let centerYTargetText = ocrResult.y + ocrResult.height / 2;
                     if (Math.abs(centerYTargetText - centerYF) <= texttolerance) {
                         keyPress("F"); // 执行交互操作
-                        await sleep(2 * trigger); // 操作后暂停 2*trigger 毫秒
+                        await sleep(250); // 操作后暂停 250 毫秒
                         foundTarget = true;
                         if ((new Date() - lastPickupTime) > 1000 || ocrResult.text != lastPickupItem) {
                             log.info(`交互或拾取："${ocrResult.text}"`);
@@ -724,7 +686,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 if (itemName) {
                     keyPress("F"); // 执行交互操作
                     log.info(`交互或拾取："${itemName}"`);
-                    await sleep(2 * trigger + 100); // 操作后暂停 2*trigger+100 毫秒
+                    await sleep(250); // 操作后暂停250 毫秒
                     foundTarget = true;
                 }
 
@@ -752,7 +714,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     await keyMouseScript.runFile(`assets/滚轮上翻.json`);
                 }
                 if (pickupMode === "模板匹配拾取，默认只拾取狗粮") {
-                    await sleep(Math.round(trigger / 5));
+                    await sleep(Math.round(trigger / 3));
                 } else {
                     await sleep(Math.round(trigger));
                 }
@@ -879,7 +841,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
     // 根据条件决定是否启动 OCR 检测和交互任务
     let ocrTask = null;
     if (pickupMode === "ocr拾取，默认只拾取狗粮和晶蝶" || pickupMode === "模板匹配拾取，默认只拾取狗粮") {
-        ocrTask = recoginzeAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance);
+        ocrTask = recognizeAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance);
     }
 
     // 启动泥头车
@@ -975,13 +937,21 @@ async function processPathingsByGroup(pathings, whitelistKeywords, blacklistKeyw
     let lastX = 0;
     let lastY = 0;
     let runningFailCount = 0;
-    // 定义路径组名称到组号的映射
+
+    // 定义路径组名称到组号的映射（10 个）
     const groupMapping = {
         "路径组一": 1,
         "路径组二": 2,
         "路径组三": 3,
-        "路径组四": 4
+        "路径组四": 4,
+        "路径组五": 5,
+        "路径组六": 6,
+        "路径组七": 7,
+        "路径组八": 8,
+        "路径组九": 9,
+        "路径组十": 10
     };
+
     // 从全局 settings 中获取用户选择的路径组名称
     const selectedGroupName = settings.groupIndex || "路径组一"; // 默认值为 "路径组一"
 
