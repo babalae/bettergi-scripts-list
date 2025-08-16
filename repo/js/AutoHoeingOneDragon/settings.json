@@ -18,7 +18,13 @@
       "路径组一",
       "路径组二",
       "路径组三",
-      "路径组四"
+      "路径组四",
+      "路径组五",
+      "路径组六",
+      "路径组七",
+      "路径组八",
+      "路径组九",
+      "路径组十"
     ],
     "default": "路径组一"
   },
@@ -69,7 +75,7 @@
   {
     "name": "tagsForGroup1",
     "type": "input-text",
-    "label": "允许使用的标签：\n水免，次数盾，高危，传奇，蕈兽，小怪\n多个标签使用【中文逗号】分隔\n\n路径组一要【排除】的标签",
+    "label": "允许使用的标签：\n水免，次数盾，高危，传奇，蕈兽，小怪，沙暴\n多个标签使用【中文逗号】分隔\n\n路径组一要【排除】的标签",
     "default": "蕈兽"
   },
   {
@@ -119,5 +125,35 @@
     "name": "excludeTags",
     "type": "input-text",
     "label": "排除关键词，含关键词的路线会被完全排除\n不同关键词使用【中文逗号】分隔\n例如填火斧丘丘暴徒，可以排除所有含有火斧丘丘暴徒的路线\n建议使用怪物图鉴中的名字"
+  },
+  {
+    "name": "tagsForGroup5",
+    "type": "input-text",
+    "label": "路径组五要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup6",
+    "type": "input-text",
+    "label": "路径组六要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup7",
+    "type": "input-text",
+    "label": "路径组七要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup8",
+    "type": "input-text",
+    "label": "路径组八要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup9",
+    "type": "input-text",
+    "label": "路径组九要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup10",
+    "type": "input-text",
+    "label": "路径组十要【选择】的标签"
   }
 ]
