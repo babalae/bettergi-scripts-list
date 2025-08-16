@@ -1,20 +1,21 @@
-{
+﻿{
   "info": {
     "name": "C01-胡萝卜-稻妻-越石村-4个",
     "type": "collect",
-    "author": "蜜柑魚",
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1754247071177,
+    "last_modified_time": 1755333476162,
     "authors": [
       {
         "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
+        "links": ""
       }
-    ]
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -59,22 +60,30 @@
     },
     {
       "id": 6,
-      "x": -3985.3516,
-      "y": -4456.7188,
-      "type": "target",
-      "move_mode": "walk",
+      "x": -3985.3515625,
+      "y": -4456.71875,
       "action": "",
+      "move_mode": "walk",
       "action_params": "",
-      "locked": false
+      "type": "target"
     },
     {
       "id": 7,
-      "x": -3985.3516,
-      "y": -4456.7188,
-      "type": "orientation",
+      "x": -3984.939453125,
+      "y": -4453.2421875,
+      "type": "target",
       "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -3985.3515625,
+      "y": -4456.71875,
       "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "orientation"
     }
   ]
 }
