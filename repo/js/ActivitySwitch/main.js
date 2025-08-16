@@ -20,16 +20,6 @@ async function switchToActivityPage(activityName, activityKey, maxOcrCount) {
         await keyUp(activityKey);
 
         await sleep(1000);
-        // log.info("移动到第一个活动")
-        // var act_x1 = parseInt("300");
-        // var act_y1 = parseInt("240");
-        // log.info("x:" + 700 + "y:" + 440)
-        //
-        // await moveMouseTo(act_x1, act_y1);
-        // await sleep(1000)
-        // log.info('点击第一个活动')
-        // await click(act_x1, act_y1);
-        // 使用 OCR 识别活动列表区域（假设活动列表在屏幕左半部分）
         let ocr_x = parseInt(100 * gameWidth / 1920 + '')
         let ocr_y = parseInt(200 * gameHeight / 1080 + '')
         let ocr_width = parseInt(450 * gameWidth / 1920 + '')
@@ -117,25 +107,45 @@ async function moveMouseUp(x, y, height) {
  */
 async function moveMouseDown(x, y, height) {
     for (let i = 0; i < height; i++) {
-        // await sleep(1000)
         await moveMouseTo(x, y);
         await sleep(1000)
-        // await keyDown('VK_LBUTTON');
         await leftButtonDown();
-        // await sleep(1000)
         await keyMouseScript.runFile(`assets/(活动页面)鼠标向下移动一格.json`)
-        // await sleep(1000)
-        // await keyUp('VK_LBUTTON');
         await leftButtonUp();
     }
+}
+
+/**
+ * 自定义  个活动/一页 ==> 滑动多少次
+ * @returns {Promise<number>}
+ */
+async function onePage() {
+    let onePage = 6
+    if (settings.onePage && settings.onePage !== '默认') {
+        onePage = parseInt(settings.onePage)
+    }
+    return onePage
 }
 
 /**
  * 向下滑动一页(6次为一页）
  */
 async function swipeOnePageDown(x, y) {
-    let move_height = parseInt(6 * genshin.height / 1080 + '')
+    let count = await onePage();
+    let move_height = parseInt(count * genshin.height / 1080 + '')
     await moveMouseUp(x, y, move_height)
+}
+
+/**
+ * 滑动到顶次数
+ * @returns {Promise<function(): Promise<number>>}
+ */
+async function toTopPage() {
+    let toTopPage = 6
+    if (settings.toTopPage && settings.toTopPage !== '默认') {
+        toTopPage = parseInt(settings.toTopPage)
+    }
+    return toTopPage
 }
 
 /**
@@ -144,21 +154,8 @@ async function swipeOnePageDown(x, y) {
  * @param act_y1
  */
 async function slideToTop(act_x1, act_y1) {
-    // await sleep(1000)
-    // log.info(`移到x:${act_x1},y:${act_y1}`)
-    // await moveMouseTo(act_x1, act_y1);
-    // await sleep(1000)
-    // log.info(`按下`)
-    // keyDown('VK_LBUTTON')
-    // //向下滑动
-    // //todo
-    // log.info(`向下滑动`)
-    // // moveby(0, 1000)
-    // await sleep(1000)
-    // moveMouseBy(0, 1000)
-    // log.info(`ok`)
-    // keyUp('VK_LBUTTON')
-    let move_height = parseInt(6 * genshin.height / 1080 + '')
+    let count = await toTopPage();
+    let move_height = parseInt(count * genshin.height / 1080 + '')
     await moveMouseDown(act_x1, act_y1, move_height)
 }
 
