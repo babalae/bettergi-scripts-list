@@ -1,5 +1,15 @@
 [
   {
+    "name": "pickupMode",
+    "type": "select",
+    "label": "拾取模式",
+    "options": [
+      "自动拾取",
+      "不拾取"
+    ],
+    "default": "自动拾取"
+  },
+  {
     "name": "enemyType",
     "type": "select",
     "label": "选择敌人类型",
