@@ -13,9 +13,9 @@
       "id": 1,
       "x": 3578.08,
       "y": -500.75,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.2)",
       "type": "path"
     },
     {
@@ -25,7 +25,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "",
-      "action_params": "wait(0.5)"
+      "action_params": ""
     },
     {
       "id": 3,
@@ -33,7 +33,7 @@
       "y": -502.44,
       "action": "",
       "move_mode": "walk",
-      "action_params": "wait(0.5)",
+      "action_params": "",
       "type": "path"
     }
   ]
