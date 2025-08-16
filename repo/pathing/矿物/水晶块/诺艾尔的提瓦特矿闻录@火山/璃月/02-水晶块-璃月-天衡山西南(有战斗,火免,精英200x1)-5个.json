@@ -11,7 +11,11 @@
         "name": "火山",
         "links": "https://github.com/RRRR623"
       }
-    ]
+    ],
+    "tags": [],
+    "last_modified_time": 1755348907828,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -63,19 +67,19 @@
       "id": 6,
       "x": 793.2,
       "y": -763.85,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 7,
       "x": 791.12,
       "y": -772.63,
-      "type": "path",
-      "move_mode": "jump",
       "action": "fight",
+      "move_mode": "jump",
       "action_params": "",
+      "type": "path",
       "point_ext_params": {
         "misidentification": {
           "type": [
@@ -126,6 +130,15 @@
     },
     {
       "id": 12,
+      "x": 782.5439453125,
+      "y": -790.39599609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
       "x": 782.18,
       "y": -793.73,
       "action": "combat_script",
@@ -134,7 +147,7 @@
       "type": "target"
     },
     {
-      "id": 13,
+      "id": 14,
       "x": 776.16,
       "y": -794.7,
       "action": "combat_script",
@@ -143,7 +156,7 @@
       "type": "target"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": 776.59,
       "y": -789.63,
       "action": "combat_script",
@@ -152,7 +165,7 @@
       "type": "target"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": 782.9,
       "y": -789.58,
       "action": "combat_script",
