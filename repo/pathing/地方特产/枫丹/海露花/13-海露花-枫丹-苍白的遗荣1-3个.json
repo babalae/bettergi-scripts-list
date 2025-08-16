@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "name": "13-海露花-枫丹-苍白的遗荣1-3个",
     "type": "collect",
@@ -12,7 +12,9 @@
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": ["水下地图"],
+    "tags": [
+      "水下地图"
+    ],
     "last_modified_time": 1755290665267,
     "enable_monster_loot_split": false,
     "map_match_method": ""
@@ -20,8 +22,8 @@
   "positions": [
     {
       "id": 1,
-      "x": 4188.1240234375,
-      "y": 2990.19873046875,
+      "x": 4188.124,
+      "y": 2990.1987,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "click(middle);",
@@ -29,8 +31,8 @@
     },
     {
       "id": 2,
-      "x": 4188.1240234375,
-      "y": 2990.19873046875,
+      "x": 4188.124,
+      "y": 2990.1987,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "keydown(VK_SPACE),wait(2.5),keyup(VK_SPACE),click(middle);",
@@ -38,8 +40,8 @@
     },
     {
       "id": 3,
-      "x": 4199.716796875,
-      "y": 3084.80810546875,
+      "x": 4199.7168,
+      "y": 3084.8081,
       "action": "combat_script",
       "move_mode": "run",
       "action_params": "keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL)",
@@ -47,8 +49,8 @@
     },
     {
       "id": 4,
-      "x": 4199.716796875,
-      "y": 3084.80810546875,
+      "x": 4199.7168,
+      "y": 3084.8081,
       "action": "combat_script",
       "move_mode": "run",
       "action_params": "wait(0.4),click(middle);",
@@ -56,8 +58,8 @@
     },
     {
       "id": 5,
-      "x": 4186.068359375,
-      "y": 3082.399169921875,
+      "x": 4186.0684,
+      "y": 3082.3992,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "keydown(VK_LCONTROL),wait(0.5),keyup(VK_LCONTROL),wait(0.4),click(middle);",
@@ -65,8 +67,8 @@
     },
     {
       "id": 6,
-      "x": 4188.5234375,
-      "y": 3075.545654296875,
+      "x": 4188.5234,
+      "y": 3075.5457,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "keydown(VK_LCONTROL),wait(0.5),keyup(VK_LCONTROL),wait(0.5),click(middle);",
@@ -75,8 +77,8 @@
     },
     {
       "id": 7,
-      "x": 4188.5234375,
-      "y": 3075.545654296875,
+      "x": 4188.5234,
+      "y": 3075.5457,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "wait(0.5)",

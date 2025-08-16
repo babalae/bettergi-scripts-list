@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "name": "08-海露花-枫丹-希望之路2-2个",
     "type": "collect",
@@ -12,7 +12,9 @@
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": ["水下地图"],
+    "tags": [
+      "水下地图"
+    ],
     "last_modified_time": 1755371776019,
     "enable_monster_loot_split": false,
     "map_match_method": ""
@@ -20,8 +22,8 @@
   "positions": [
     {
       "id": 1,
-      "x": 4770.2373046875,
-      "y": 3159.4775390625,
+      "x": 4770.2373,
+      "y": 3159.4775,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "click(middle);",
@@ -29,8 +31,8 @@
     },
     {
       "id": 2,
-      "x": 4835.2099609375,
-      "y": 3177.800048828125,
+      "x": 4835.21,
+      "y": 3177.8,
       "action": "combat_script",
       "move_mode": "run",
       "action_params": "keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL)",
@@ -38,8 +40,8 @@
     },
     {
       "id": 3,
-      "x": 4835.583984375,
-      "y": 3177.841796875,
+      "x": 4835.584,
+      "y": 3177.8418,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "wait(0.4),click(middle);",
@@ -47,8 +49,8 @@
     },
     {
       "id": 4,
-      "x": 4836.5185546875,
-      "y": 3173.09423828125,
+      "x": 4836.5186,
+      "y": 3173.0942,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "wait(1),click(middle);",
