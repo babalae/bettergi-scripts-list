@@ -1,0 +1,105 @@
+{
+  "info": {
+    "name": "23-海露花-枫丹-中央实验室遗址1-3个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "水下地图"
+    ],
+    "last_modified_time": 1755201859275,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4139.5088,
+      "y": 4547.2334,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "click(middle);",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4186.2959,
+      "y": 4559.2495,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL)",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": 4186.2959,
+      "y": 4559.2495,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.4),click(middle);",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 4239.0098,
+      "y": 4531.4009,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4292.1973,
+      "y": 4536.8423,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL),wait(1.5),keyup(VK_LCONTROL)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4292.1973,
+      "y": 4536.8423,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.4),click(middle);",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 4346.3789,
+      "y": 4513.5771,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_SPACE),wait(1),keyup(VK_SPACE),click(middle)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4386.1836,
+      "y": 4523.5308,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL)",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 4386.1836,
+      "y": 4523.5308,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1),click(middle);",
+      "type": "target"
+    }
+  ]
+}

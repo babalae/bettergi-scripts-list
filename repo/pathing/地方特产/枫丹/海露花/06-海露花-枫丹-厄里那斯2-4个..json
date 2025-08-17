@@ -1,0 +1,122 @@
+﻿{
+  "info": {
+    "name": "06-海露花-枫丹-厄里那斯2-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "芭芭拉"
+    ],
+    "last_modified_time": 1755410633159,
+    "authors": [
+      {
+        "name": "寥寥轻舟"
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5113.44,
+      "y": 2998.23,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 5055.83,
+      "y": 3042.05,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4998,
+      "y": 3078.66,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4998,
+      "y": 3078.66,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4987.52,
+      "y": 3080.85,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4983.2578125,
+      "y": 3081.61572265625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4987.52,
+      "y": 3080.85,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 wait(1),e",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 4978.72,
+      "y": 3089.28,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4990.53,
+      "y": 3094.31,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 4997.71,
+      "y": 3098.34,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 5003.63,
+      "y": 3108.21,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1);",
+      "type": "path"
+    }
+  ]
+}
