@@ -59,8 +59,8 @@ let targetItems;
             targetItem.template = file.ReadImageMatSync(targetItem.fullPath);
             targetItem.itemName = targetItem.fileName.replace(/\.png$/, '');
         }
-        timeMoveUp = trigger * 8;
-        timeMoveDown = trigger * 8;
+        timeMoveUp = trigger * 10;
+        timeMoveDown = trigger * 10;
     }
     if (!settings.accountName) {
         for (let i = 0; i < 120; i++) {
@@ -660,7 +660,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     let centerYTargetText = ocrResult.y + ocrResult.height / 2;
                     if (Math.abs(centerYTargetText - centerYF) <= texttolerance) {
                         keyPress("F"); // 执行交互操作
-                        await sleep(50); // 操作后暂停 250 毫秒
+                        await sleep(50); // 操作后暂停 50 毫秒
                         foundTarget = true;
                         if ((new Date() - lastPickupTime) > 1000 || ocrResult.text != lastPickupItem) {
                             log.info(`交互或拾取："${ocrResult.text}"`);
@@ -676,13 +676,14 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 //let end = new Date();
                 //log.info(`调试-匹配用时${end - start}毫秒`)
                 if (itemName) {
-                    if (lastcenterYF === centerYF && lastItemName === itemName) {
-                        log.debug("调试-物品名和坐标相同，等待250ms");
+                    if (Math.abs(centerYTargetText - centerYF) <= 10 && lastItemName === itemName) {
+                        log.info("调试-物品名和坐标相同，等待250ms");
                         await sleep(250);
                         foundTarget = true;
                     } else {
                         keyPress("F"); // 执行交互操作
                         log.info(`交互或拾取："${itemName}"`);
+                        await sleep(50); // 操作后暂停 50 毫秒
                         //foundTarget = true;
                     }
                     lastcenterYF = centerYF;
@@ -714,7 +715,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     await keyMouseScript.runFile(`assets/滚轮上翻.json`);
                 }
                 if (pickupMode === "模板匹配拾取，默认只拾取狗粮") {
-                    await sleep(Math.round(trigger / 3));
+                    await sleep(Math.round(trigger / 2));
                 } else {
                     await sleep(Math.round(trigger));
                 }
