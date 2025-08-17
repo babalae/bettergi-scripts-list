@@ -1,4 +1,4 @@
-//当前js版本 1.4.5
+//当前js版本 1.4.6
 
 //拾取时上下滑动的时间
 let timeMoveUp = 500;
@@ -35,21 +35,11 @@ let targetItems;
     targetMonsterNum += 25;//预留漏怪
     const partyName = settings.partyName || "";
 
-    /*******************************
-     * 1. 读取 settings（没有时用默认值）
-     *******************************/
+    //读取 settings（没有时用默认值）
     const groupSettings = Array.from({ length: 10 }, (_, i) =>
         settings[`tagsForGroup${i + 1}`] || (i === 0 ? '蕈兽' : '') // 第 0 组默认“蕈兽”，其余默认空串
     );
-
-    /*******************************
-     * 2. 统一生成各组的标签数组
-     *******************************/
     const groupTags = groupSettings.map(str => str.split('，').filter(Boolean));
-
-    /*******************************
-     * 3. 把后面 9 组合并到第 0 组并去重
-     *******************************/
     groupTags[0] = [...new Set(groupTags.flat())];
 
 
@@ -610,6 +600,8 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
         }
 
         while (!state.completed && !state.cancelRequested) {
+            let lastcenterYF = 0;
+            let lastItemName = "";
             // 尝试找到 F 图标并返回其坐标
             async function findFIcon(imagePath, xMin, yMin, width, height, timeout = 500) {
                 let template = file.ReadImageMatSync(imagePath);
@@ -668,7 +660,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     let centerYTargetText = ocrResult.y + ocrResult.height / 2;
                     if (Math.abs(centerYTargetText - centerYF) <= texttolerance) {
                         keyPress("F"); // 执行交互操作
-                        await sleep(250); // 操作后暂停 250 毫秒
+                        await sleep(50); // 操作后暂停 250 毫秒
                         foundTarget = true;
                         if ((new Date() - lastPickupTime) > 1000 || ocrResult.text != lastPickupItem) {
                             log.info(`交互或拾取："${ocrResult.text}"`);
@@ -684,12 +676,20 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 //let end = new Date();
                 //log.info(`调试-匹配用时${end - start}毫秒`)
                 if (itemName) {
-                    keyPress("F"); // 执行交互操作
-                    log.info(`交互或拾取："${itemName}"`);
-                    await sleep(250); // 操作后暂停250 毫秒
-                    foundTarget = true;
+                    if (lastcenterYF === centerYF && lastItemName === itemName) {
+                        log.info("调试-物品名和坐标相同，等待250ms");
+                        await sleep(250);
+                        foundTarget = true;
+                    } else {
+                        keyPress("F"); // 执行交互操作
+                        log.info(`交互或拾取："${itemName}"`);
+                        //foundTarget = true;
+                    }
+                    lastcenterYF = centerYF;
+                    lastItemName = itemName;
+                } else {
+                    lastItemName = "";
                 }
-
             }
             // 如果在当前页面中没有找到任何目标文本，则根据时间决定滚动方向
             if (!foundTarget) {
