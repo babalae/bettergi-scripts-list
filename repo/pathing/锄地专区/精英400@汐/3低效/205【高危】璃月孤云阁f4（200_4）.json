@@ -1,16 +1,22 @@
-{
+﻿{
   "info": {
     "name": "205【高危】璃月孤云阁f4（200_4）",
     "type": "collect",
+    "author": "汐",
     "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.3",
+    "description": "  路线信息：该路线预计用时122.84秒，包含4只精英，预计收入800摩拉，包含以下怪物：4只遗迹守卫。",
+    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1754763347112,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -24,8 +30,8 @@
     },
     {
       "id": 2,
-      "x": -923.12,
-      "y": -274.37,
+      "x": -917.91,
+      "y": -275.3,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -33,8 +39,8 @@
     },
     {
       "id": 3,
-      "x": -917.91,
-      "y": -275.3,
+      "x": -913.59,
+      "y": -276.09,
       "action": "",
       "move_mode": "climb",
       "action_params": "",
@@ -42,12 +48,12 @@
     },
     {
       "id": 4,
-      "x": -913.59,
-      "y": -276.09,
+      "x": -748.62,
+      "y": -319.34,
       "action": "combat_script",
-      "move_mode": "climb",
-      "action_params": "玛薇卡 ,w(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.4),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.6),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.2),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.0),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.0),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.5)",
-      "type": "path"
+      "move_mode": "dash",
+      "action_params": "keypress(f);玛薇卡 attack(0.3),w(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.4),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.6),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.2),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.0),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.0),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.5)",
+      "type": "orientation"
     },
     {
       "id": 5,

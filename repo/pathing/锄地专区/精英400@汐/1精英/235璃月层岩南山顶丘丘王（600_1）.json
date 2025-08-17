@@ -1,16 +1,22 @@
-{
+﻿{
   "info": {
     "name": "235璃月层岩南山顶丘丘王（600_1）",
     "type": "collect",
+    "author": "汐",
     "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.3",
+    "description": "  路线信息：该路线预计用时179.83秒，包含1只精英与4只小怪，预计收入762摩拉，包含以下怪物：1只丘丘岩盔王、3只盗宝团·火之药剂师、1只盗宝团·水之药剂师。",
+    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1754741417043,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -125,22 +131,13 @@
       "id": 13,
       "x": 1671.17,
       "y": -929.06,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "",
+      "action_params": "attack(0.3),wait(0.5),keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "type": "path"
     },
     {
       "id": 14,
-      "x": 1667.25,
-      "y": -940.06,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 15,
       "x": 1671.17,
       "y": -929.06,
       "action": "",
@@ -149,7 +146,7 @@
       "type": "target"
     },
     {
-      "id": 16,
+      "id": 15,
       "x": 1686.83,
       "y": -934.48,
       "action": "",
@@ -158,16 +155,16 @@
       "type": "path"
     },
     {
-      "id": 17,
+      "id": 16,
       "x": 1689.88,
       "y": -945.99,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "keypress(VK_SPACE),wait(0.5),keypress(VK_SPACE)",
       "type": "path"
     },
     {
-      "id": 18,
+      "id": 17,
       "x": 1709.7,
       "y": -960.86,
       "action": "",
@@ -176,7 +173,7 @@
       "type": "path"
     },
     {
-      "id": 19,
+      "id": 18,
       "x": 1717.37,
       "y": -966.61,
       "action": "",
@@ -185,7 +182,7 @@
       "type": "path"
     },
     {
-      "id": 20,
+      "id": 19,
       "x": 1738.01,
       "y": -999.03,
       "action": "",
@@ -194,7 +191,7 @@
       "type": "path"
     },
     {
-      "id": 21,
+      "id": 20,
       "x": 1736.94,
       "y": -1002.21,
       "action": "combat_script",
@@ -203,7 +200,7 @@
       "type": "path"
     },
     {
-      "id": 22,
+      "id": 21,
       "x": 1731.31,
       "y": -1014.63,
       "action": "",
@@ -212,7 +209,7 @@
       "type": "path"
     },
     {
-      "id": 23,
+      "id": 22,
       "x": 1670.08,
       "y": -1020.79,
       "action": "",
@@ -221,7 +218,7 @@
       "type": "path"
     },
     {
-      "id": 24,
+      "id": 23,
       "x": 1658.28,
       "y": -1020.88,
       "action": "",
@@ -230,17 +227,16 @@
       "type": "path"
     },
     {
-      "id": 25,
+      "id": 24,
       "x": 1635.41,
       "y": -1007.98,
       "action": "fight",
       "move_mode": "run",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
-      "id": 26,
+      "id": 25,
       "x": 1635.41,
       "y": -1007.98,
       "action": "combat_script",
