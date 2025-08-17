@@ -1,0 +1,168 @@
+{
+  "info": {
+    "name": "A02-塞洛海原左侧-18个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "芝士贝果"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.48.0",
+    "tags": [],
+    "last_modified_time": 1755432211916,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4399.8789,
+      "y": 3083.4082,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4481.9033,
+      "y": 3110.9636,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(9);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,1000)",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 4481.9033,
+      "y": 3110.9636,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 4,
+      "x": 4483.627,
+      "y": 3107.332,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 5,
+      "x": 4477.833,
+      "y": 3103.2317,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 6,
+      "x": 4495.2598,
+      "y": 3094.8242,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 4482.3008,
+      "y": 3090.2847,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 8,
+      "x": 4508.2705,
+      "y": 3075.2197,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 9,
+      "x": 4512.8672,
+      "y": 3071.0803,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e;click(middle)"
+    },
+    {
+      "id": 10,
+      "x": 4577.8867,
+      "y": 2988.0913,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "moveby(0,1000)",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 4577.8867,
+      "y": 2988.0913,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 12,
+      "x": 4610.7295,
+      "y": 3000.0327,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 13,
+      "x": 4617.3086,
+      "y": 2986.854,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(2);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,1000)",
+      "locked": false
+    },
+    {
+      "id": 14,
+      "x": 4617.3086,
+      "y": 2986.854,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 15,
+      "x": 4620.1074,
+      "y": 2982.7925,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 16,
+      "x": 4606.6689,
+      "y": 2974.8259,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    }
+  ]
+}

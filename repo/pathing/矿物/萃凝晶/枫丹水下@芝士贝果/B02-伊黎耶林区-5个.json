@@ -1,0 +1,77 @@
+{
+  "info": {
+    "name": "B02-伊黎耶林区-5个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "芝士贝果"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.48.0",
+    "tags": [],
+    "last_modified_time": 1755436726530,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3618.5527,
+      "y": 4058.2153,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3615.8164,
+      "y": 4048.3062,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(2);keyup(VK_LCONTROL);moveby(0,5000);wait(1);attack"
+    },
+    {
+      "id": 3,
+      "x": 3616.3262,
+      "y": 4049.387,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(7);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,-2000)",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 3616.3262,
+      "y": 4049.387,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 5,
+      "x": 3613.6465,
+      "y": 4042.0996,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(2);keyup(VK_LCONTROL)",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 3613.6465,
+      "y": 4042.0996,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    }
+  ]
+}
