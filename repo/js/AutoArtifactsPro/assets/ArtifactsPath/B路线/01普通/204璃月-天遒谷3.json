@@ -13,7 +13,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1754997437686,
+    "last_modified_time": 1755371237816,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -31,13 +31,23 @@
       "id": 2,
       "x": 1118.3120417903792,
       "y": 234.43208860704453,
-      "action": "log_output",
+      "action": "set_time",
       "move_mode": "walk",
-      "action_params": "\n富A路线预计(双风buff+迪希雅)78分钟162个调查点≈10W经验\n富B路线预计(双风buff+迪希雅)55分钟135个调查点≈8.3W经验\n超详解析请看JS里README说明书",
+      "action_params": "06:00",
       "type": "orientation"
     },
     {
       "id": 3,
+      "x": 1118.3120417903792,
+      "y": 234.43208860704453,
+      "action": "log_output",
+      "move_mode": "walk",
+      "action_params": "\n富A路线预计(双风buff+迪希雅)78分钟162个调查点≈10W经验\n富B路线预计(双风buff+迪希雅)55分钟135个调查点≈8.3W经验\n超详解析请看JS里README说明书",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 4,
       "x": 1118.3120417903792,
       "y": 234.43208860704453,
       "action": "",
@@ -46,7 +56,7 @@
       "type": "path"
     },
     {
-      "id": 4,
+      "id": 5,
       "x": 1086.0937875257878,
       "y": 301.8435984203652,
       "action": "combat_script",
@@ -55,7 +65,7 @@
       "type": "target"
     },
     {
-      "id": 5,
+      "id": 6,
       "x": 1084.796875,
       "y": 299.93359375,
       "action": "",
@@ -64,7 +74,7 @@
       "type": "path"
     },
     {
-      "id": 6,
+      "id": 7,
       "x": 1088.0673828125,
       "y": 303.08203125,
       "action": "",
@@ -73,7 +83,7 @@
       "type": "target"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": 1083.5625,
       "y": 305.87513279847644,
       "action": "",
@@ -82,7 +92,7 @@
       "type": "path"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": 1082.8095703125,
       "y": 300.794921875,
       "action": "combat_script",
@@ -91,7 +101,7 @@
       "type": "path"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": 1068.333984375,
       "y": 353.74951171875,
       "action": "",
@@ -100,7 +110,7 @@
       "type": "path"
     },
     {
-      "id": 10,
+      "id": 11,
       "x": 1069.3271484375,
       "y": 355.3740234375,
       "action": "combat_script",
@@ -109,7 +119,7 @@
       "type": "target"
     },
     {
-      "id": 11,
+      "id": 12,
       "x": 1047.9365234375,
       "y": 318.71826171875,
       "action": "",
@@ -118,7 +128,7 @@
       "type": "path"
     },
     {
-      "id": 12,
+      "id": 13,
       "x": 1045.4453125,
       "y": 319.9306640625,
       "action": "combat_script",

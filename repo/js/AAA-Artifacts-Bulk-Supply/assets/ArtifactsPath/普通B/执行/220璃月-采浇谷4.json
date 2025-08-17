@@ -13,7 +13,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1754682026471,
+    "last_modified_time": 1755371264178,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -120,17 +120,16 @@
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
-      "type": "target",
-      "locked": false
+      "type": "target"
     },
     {
       "id": 13,
       "x": 1476.15625,
       "y": -277.5935950684443,
-      "type": "target",
-      "move_mode": "climb",
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "type": "target"
     },
     {
       "id": 14,
@@ -139,16 +138,6 @@
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "w(0.1),keypress(f);万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
-      "type": "orientation",
-      "locked": false
-    },
-    {
-      "id": 15,
-      "x": 1476.625,
-      "y": -276.0004647946662,
-      "action": "set_time",
-      "move_mode": "dash",
-      "action_params": "06:00",
       "type": "orientation"
     }
   ]

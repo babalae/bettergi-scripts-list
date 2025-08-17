@@ -13,8 +13,9 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1752499124011,
-    "enable_monster_loot_split": false
+    "last_modified_time": 1755371390500,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -159,7 +160,17 @@
       "action": "combat_script",
       "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.15);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
-      "type": "target"
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 17,
+      "x": 2090.8876953125,
+      "y": 2131.40478515625,
+      "action": "set_time",
+      "move_mode": "climb",
+      "action_params": "06:00",
+      "type": "orientation"
     }
   ]
 }
