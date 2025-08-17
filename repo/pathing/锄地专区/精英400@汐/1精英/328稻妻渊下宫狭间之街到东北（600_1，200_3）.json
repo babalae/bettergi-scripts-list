@@ -2,8 +2,9 @@
   "info": {
     "name": "328稻妻渊下宫狭间之街到东北（600_1，200_3）",
     "type": "collect",
+    "author": "汐",
     "version": "1.0",
-    "description": "",
+    "description": "  路线信息：该路线预计用时137.06秒，包含4只精英与3只小怪，预计收入2121.5摩拉，包含以下怪物：2只打手丘丘人、1只冰箭丘丘人、1只火深渊法师、3只深海龙蜥·原种。",
     "map_name": "Enkanomiya",
     "bgi_version": "0.45.0",
     "authors": [
@@ -11,7 +12,11 @@
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "tags": [],
+    "last_modified_time": 1754746106312,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -63,10 +68,10 @@
       "id": 6,
       "x": 536.93,
       "y": 689.91,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 7,
@@ -74,7 +79,7 @@
       "y": 682.75,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;wait(3)",
+      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;wait(3)",
       "type": "path"
     },
     {
