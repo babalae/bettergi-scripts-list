@@ -80,6 +80,7 @@ async function initialize() {
             "breadthFirstPathSearch.js",
             "executePathsUsingNodeData.js",
             "findLeyLineOutcrop.js",
+            "findLeyLineOutcropByBook.js",
             "loadSettings.js",
             "locateLeyLineOutcrop.js",
             "processLeyLineOutcrop.js",
@@ -117,7 +118,11 @@ async function prepareForLeyLineRun() {
 async function runLeyLineChallenges() {
     while (currentRunTimes < settings.timesValue) {
         // 寻找地脉花位置
-        await findLeyLineOutcrop(settings.country, settings.leyLineOutcropType);
+        if (settings.useAdventurerHandbook) {
+            await findLeyLineOutcropByBook(settings.country, settings.leyLineOutcropType);
+        } else {
+            await findLeyLineOutcrop(settings.country, settings.leyLineOutcropType);
+        }
 
         // 查找并执行对应的策略
         const foundStrategy = await executeMatchingStrategy();
