@@ -676,10 +676,11 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 //let end = new Date();
                 //log.info(`调试-匹配用时${end - start}毫秒`)
                 if (itemName) {
-                    if (Math.abs(centerYTargetText - centerYF) <= 10 && lastItemName === itemName) {
+                    if (Math.abs(lastcenterYF - centerYF) <= 20 && lastItemName === itemName) {
                         log.info("调试-物品名和坐标相同，等待250ms");
                         await sleep(250);
                         foundTarget = true;
+                        lastcenterYF = 0;
                     } else {
                         keyPress("F"); // 执行交互操作
                         log.info(`交互或拾取："${itemName}"`);
