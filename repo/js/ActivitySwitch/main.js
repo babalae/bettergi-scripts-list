@@ -120,7 +120,7 @@ async function moveMouseDown(x, y, height) {
  * @returns {Promise<number>}
  */
 async function onePage() {
-    let onePage = 6
+    let onePage = 3
     if (settings.onePage && settings.onePage !== '默认') {
         onePage = parseInt(settings.onePage)
     }
@@ -141,7 +141,7 @@ async function swipeOnePageDown(x, y) {
  * @returns {Promise<function(): Promise<number>>}
  */
 async function toTopPage() {
-    let toTopPage = 6
+    let toTopPage = 4
     if (settings.toTopPage && settings.toTopPage !== '默认') {
         toTopPage = parseInt(settings.toTopPage)
     }
@@ -217,7 +217,7 @@ async function lookForClickActivity(ocrRegion, activityName) {
     await sleep(1000);
     const activityName = settings.activityName;
     let activityKey = settings.activityKey;
-    let maxOcrCount = 2;
+    let maxOcrCount = 3;
     if (settings.maxOcrCount && settings.maxOcrCount !== '默认') {
         maxOcrCount = parseInt(settings.maxOcrCount)
     }
