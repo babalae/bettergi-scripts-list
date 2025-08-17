@@ -15,7 +15,7 @@
     "tags": [
       "水下地图"
     ],
-    "last_modified_time": 1755200451779,
+    "last_modified_time": 1755414522475,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -34,8 +34,8 @@
       "x": 4087.9824,
       "y": 4544.9551,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keydown(VK_LCONTROL),wait(8),keyup(VK_LCONTROL)",
+      "move_mode": "run",
+      "action_params": "keydown(VK_LCONTROL),wait(7),keyup(VK_LCONTROL)",
       "type": "path"
     },
     {
@@ -52,7 +52,7 @@
       "x": 4059.2012,
       "y": 4556.5503,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL)",
       "type": "path"
     },
@@ -79,7 +79,7 @@
       "x": 4010.4863,
       "y": 4606.8164,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action_params": "keydown(VK_SPACE),wait(8),keyup(VK_SPACE)",
       "type": "path"
     },
@@ -88,7 +88,7 @@
       "x": 3997.1143,
       "y": 4605.0112,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "swim",
       "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL)",
       "type": "path"
     },
@@ -106,8 +106,8 @@
       "x": 3990.5049,
       "y": 4635.9102,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keydown(VK_LCONTROL),wait(8),keyup(VK_LCONTROL)",
+      "move_mode": "run",
+      "action_params": "keydown(VK_LCONTROL),wait(8),keyup(VK_LCONTROL),click(middle);",
       "type": "path"
     },
     {
@@ -124,7 +124,7 @@
       "x": 3944.9854,
       "y": 4718.9141,
       "action": "combat_script",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL)",
       "type": "path"
     },

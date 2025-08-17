@@ -9,7 +9,7 @@
     "tags": [
       "芭芭拉"
     ],
-    "last_modified_time": 1755283251306,
+    "last_modified_time": 1755415679554,
     "authors": [
       {
         "name": "寥寥轻舟"
@@ -69,7 +69,7 @@
       "x": 3572.02,
       "y": 4882.94,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
@@ -79,8 +79,9 @@
       "y": 4886.96,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.5);芭芭拉 charge(0.5);w(2);wait(0.4);s(2.5);a(2);",
-      "type": "path"
+      "action_params": "wait(1);芭芭拉 e;",
+      "type": "path",
+      "locked": false
     },
     {
       "id": 8,
@@ -88,8 +89,9 @@
       "y": 4888.11,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1);",
-      "type": "orientation"
+      "action_params": "s(1)",
+      "type": "path",
+      "locked": false
     }
   ]
 }

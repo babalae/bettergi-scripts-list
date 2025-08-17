@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "06-海露花-枫丹-厄里那斯2-4个.",
+    "name": "06-海露花-枫丹-厄里那斯2-4个",
     "type": "collect",
     "version": "1.0",
     "description": "",
@@ -9,12 +9,14 @@
     "tags": [
       "芭芭拉"
     ],
-    "last_modified_time": 1750493202651,
+    "last_modified_time": 1755410633159,
     "authors": [
       {
         "name": "寥寥轻舟"
       }
-    ]
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -42,8 +44,7 @@
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 4,
@@ -61,13 +62,12 @@
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 6,
-      "x": 4987.52,
-      "y": 3080.85,
+      "x": 4983.2578,
+      "y": 3081.6157,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
@@ -80,7 +80,7 @@
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "芭芭拉 wait(1),e",
-      "type": "path"
+      "type": "target"
     },
     {
       "id": 8,
