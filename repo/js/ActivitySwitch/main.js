@@ -91,13 +91,27 @@ async function switchToActivityPage(activityName, activityKey, maxOcrCount) {
  * @returns {Promise<void>}
  */
 async function moveMouseUp(x, y, height) {
-    for (let i = 0; i < height; i++) {
-        await moveMouseTo(x, y);
-        await sleep(1000)
-        await leftButtonDown();
-        await keyMouseScript.runFile(`assets/(活动页面)鼠标向上移动一格.json`)
-        await leftButtonUp();
+    let operate = '鼠标拖动'
+
+    if (operate === settings.operate){
+        for (let i = 0; i < height; i++) {
+            await moveMouseTo(x, y);
+            await sleep(1000)
+            await leftButtonDown();
+            await keyMouseScript.runFile(`assets/(活动页面)鼠标向上移动一格.json`)
+            await leftButtonUp();
+        }
+        return
     }
+
+    await moveMouseTo(x, y);
+    await leftButtonDown();
+    await leftButtonUp();
+    for (let i = 0; i < height; i++) {
+        await sleep(1000)
+        await keyMouseScript.runFile(`assets/(活动页面)鼠标滑轮向上移动一格.json`)
+    }
+
 }
 
 /**
@@ -106,12 +120,24 @@ async function moveMouseUp(x, y, height) {
  * @returns {Promise<void>}
  */
 async function moveMouseDown(x, y, height) {
+    let operate = '鼠标拖动'
+
+    if (operate === settings.operate){
+        for (let i = 0; i < height; i++) {
+            await moveMouseTo(x, y);
+            await sleep(1000)
+            await leftButtonDown();
+            await keyMouseScript.runFile(`assets/(活动页面)鼠标向下移动一格.json`)
+            await leftButtonUp();
+        }
+        return
+    }
+
+    await moveMouseTo(x, y);
+    await leftButtonDown();
+    await leftButtonUp();
     for (let i = 0; i < height; i++) {
-        await moveMouseTo(x, y);
-        await sleep(1000)
-        await leftButtonDown();
-        await keyMouseScript.runFile(`assets/(活动页面)鼠标向下移动一格.json`)
-        await leftButtonUp();
+        await keyMouseScript.runFile(`assets/(活动页面)鼠标滑轮向下移动一格.json`)
     }
 }
 
