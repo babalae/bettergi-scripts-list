@@ -62,6 +62,16 @@
        ]
    },
    {
+       "name": "operate",
+       "type": "select",
+       "label": "滑动页面方式(默认:滚轮滑动)",
+       "options": [
+       "默认",
+         "鼠标拖动",
+         "滚轮滑动"
+       ]
+   },
+   {
       "name": "activityKey",
       "type": "input-text",
       "label": "打开活动页面按键(不填，默认：F5)"
