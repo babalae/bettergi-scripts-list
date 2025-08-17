@@ -1,0 +1,148 @@
+﻿{
+  "info": {
+    "name": "青蛙19-5只-蒙德-清泉镇",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "今天下雨w",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "需要防惊扰天赋：瑶瑶/蓝砚/早柚，任选其一；生存位不是很建议放技能。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755052221389,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -914.59765625,
+      "y": 1795.7763671875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -914.427734375,
+      "y": 1777.6748046875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -912.865234375,
+      "y": 1766.9169921875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -903.193359375,
+      "y": 1759.939453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -904.5859375,
+      "y": 1763.53857421875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -903.130859375,
+      "y": 1765.4052734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(2.0)"
+    },
+    {
+      "id": 7,
+      "x": -885.568359375,
+      "y": 1777.173828125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -885.046875,
+      "y": 1785.8466796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -883.130859375,
+      "y": 1801.76953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -895.8125,
+      "y": 1833.5341796875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -912.64453125,
+      "y": 1837.73046875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": -917.388671875,
+      "y": 1822.9833984375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": -923.228515625,
+      "y": 1834.087890625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": -922.8828125,
+      "y": 1819.11328125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1.0)"
+    }
+  ]
+}
