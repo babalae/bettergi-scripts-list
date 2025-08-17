@@ -91,6 +91,7 @@ async function switchToActivityPage(activityName, activityKey, maxOcrCount) {
  * @returns {Promise<void>}
  */
 async function moveMouseUp(x, y, height) {
+
     let operate = '鼠标拖动'
 
     if (operate === settings.operate){
@@ -120,7 +121,8 @@ async function moveMouseUp(x, y, height) {
  * @returns {Promise<void>}
  */
 async function moveMouseDown(x, y, height) {
-    let operate = '鼠标拖动'
+
+  let operate = '鼠标拖动'
 
     if (operate === settings.operate){
         for (let i = 0; i < height; i++) {
