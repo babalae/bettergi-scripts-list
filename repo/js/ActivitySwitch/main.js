@@ -64,6 +64,11 @@ async function switchToActivityPage(activityName, activityKey, maxOcrCount) {
                     lastActivityNameTwo = clickActivity.lastActivityName
                 }
                 log.info(`滑动次数:${index}`)
+                // log.info(`lastActivityName==>${lastActivityNameOne}^^${lastActivityNameTwo}`)
+                if (lastActivityNameOne != null  && lastActivityNameTwo != null  && lastActivityNameOne === lastActivityNameTwo) {
+                    log.info(`已识别完所有活动`)
+                    break;
+                }
                 if (!switchToActivity && maxOcrCount <= index) {
                     log.error(`已识别:${index}次,已超出最大次数:${maxOcrCount}`)
                     break;
@@ -94,7 +99,7 @@ async function moveMouseUp(x, y, height) {
 
     let operate = '鼠标拖动'
 
-    if (operate === settings.operate){
+    if (operate === settings.operate) {
         for (let i = 0; i < height; i++) {
             await moveMouseTo(x, y);
             await sleep(1000)
@@ -122,9 +127,9 @@ async function moveMouseUp(x, y, height) {
  */
 async function moveMouseDown(x, y, height) {
 
-  let operate = '鼠标拖动'
+    let operate = '鼠标拖动'
 
-    if (operate === settings.operate){
+    if (operate === settings.operate) {
         for (let i = 0; i < height; i++) {
             await moveMouseTo(x, y);
             await sleep(1000)
