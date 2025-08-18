@@ -1,5 +1,9 @@
 const path_base_main = 'assets/main/'
 
+async function mTo(x,y) {
+    await moveMouseTo(x, y);
+}
+
 async function logInfoOcrBase(res, log_off) {
     if (!log_off) {
         log.info(`识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y}`);
@@ -279,9 +283,36 @@ async function siftHolyRelicsSuit(log_off) {
         log.info('筛选圣遗物套装'); // 记录日志：筛选圣遗物套装
         await siftSuit.click(); // 点击筛选按钮
         await sleep(500); // 等待500毫秒
+        //todo: 筛选套装 这版不做 预留
     }
 }
 
+/**
+ * 筛选圣遗物状态<核心:未满级>
+ * @param log_off
+ * @returns {Promise<void>}
+ */
+async function siftState(log_off){
+    let siftJson = {
+        "text": "筛选未满级",    // 按钮显示的文本内容
+        "x": 0,                    // 按钮的x坐标
+        "y": 0,                    // 按钮的y坐标
+        "width": genshin.width / 3.0,  // 按钮的宽度为屏幕宽度的1/3
+        "height": genshin.height      // 按钮的高度为整个屏幕高度
+    }
+    let siftState = await ocrBase(`${path_base_main}${siftJson.text}.jpg`, siftJson.x, siftJson.y, siftJson.width, siftJson.height)
+    await sleep(300)
+    if (siftState.isExist()) {
+        await logInfoOcrBase(siftState, false)
+        await mTo(siftState.x, siftState.y)
+        // siftState.click()
+        if (!log_off) {
+            log.info(`筛选圣遗物状态 核心:未满级`)
+        }
+        return
+    }
+    log.info(`已${siftJson.text}`)
+}
 /**
  * 打开强化界面的函数
  *
@@ -324,7 +355,7 @@ async function openAggrandizement() {
 async function openSelectTheClipCondition(condition) {
     // 检查是否传入了有效的素材条件
     if (!condition) {
-        log.info(`未传入素材条件`)
+        log.info(`未传入素材条件 使用默认条件`)
         return
     }
     const selectTheClipConditionButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${path_base_main}选择素材条件按键.jpg`), 0, 0, genshin.width, genshin.height);
@@ -364,7 +395,7 @@ async function openSelectTheClipCondition(condition) {
         let ocr_height = Math.abs(needMoLa.y - buttonObject.y)
         log.info(`OCR==>x:${ocr_x},y:${ocr_y},width:${ocr_width},height:${ocr_height}`)
         // 以下代码被注释，可能是用于调试的鼠标移动
-        // await moveMouseTo(ocr_x, ocr_y)
+        // await mTo(ocr_x, ocr_y)
         // 创建OCR识别对象
         const ocrObject = RecognitionObject.Ocr(ocr_x, ocr_y, ocr_width, ocr_height);
         // 捕获游戏界面并执行OCR识别
@@ -403,6 +434,7 @@ async function confirm() {
 async function clear() {
     // 通过OCR识别并点击"详情"按钮
     await ocrClick(`${path_base_main}详情.jpg`, "点击详情", null)
+    await sleep(1)
     // 通过OCR识别并点击"强化"按钮
     await ocrClick(`${path_base_main}强化.jpg`, "点击强化", null)
 }
@@ -714,11 +746,15 @@ async function main(log_off) {
 
     ////测试
     // await test5()
-    await test6()
+    // await test6()
+    await test7()
 })();
 
 
 //以下方法 均为测试
+async function test7() {
+   await siftState(false)
+}
 async function test6() {
     log.error("error")
     let up_name = 'exp'
@@ -728,14 +764,14 @@ async function test6() {
     await logInfoOcr(ocr)
     await sleep(10)
     // ocr.click()
-    await moveMouseTo(ocr.x, ocr.y);
+    await mTo(ocr.x, ocr.y);
     await sleep(10)
     let up_name1 = '返回键'
     let ocr1 = await ocrBase(`${path_base_main}${up_name1}.jpg`, parseInt(genshin.width / 2 + ''), 0, width, height)
     await logInfoOcr(ocr1)
     // ocr1.click()
     log.info(`${up_name1}`)
-    // await moveMouseTo(ocr1.x, ocr1.y);
+    // await mTo(ocr1.x, ocr1.y);
     let x = Math.min(ocr1.x, ocr.x)
     let y = Math.min(ocr1.y, ocr.y)
     let w = parseInt(Math.abs(ocr1.x - ocr.x) / 2 + '')
@@ -769,7 +805,7 @@ async function test6() {
 async function test5() {
     let x = parseInt(genshin.width / 2 + '');
     let y = parseInt(genshin.height / 2 + '');
-    await moveMouseTo(x, y);
+    await mTo(x, y);
     let h = parseInt(300 * genshin.height / 1080 + '')
     for (let i = 0; i < 4; i++) {
         await dragBase(0, -1, h, false)
@@ -779,7 +815,7 @@ async function test5() {
 async function test4() {
     let x = parseInt(genshin.width / 2 + '');
     let y = parseInt(genshin.height / 2 + '');
-    await moveMouseTo(x, y);
+    await mTo(x, y);
     await dragBase(0, -1, 300, false)
 }
 
@@ -789,7 +825,7 @@ async function test3() {
     let height = parseInt(genshin.height + '');
     let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, parseInt(genshin.width / 2 + ''), 0, width, height)
     await logInfoOcr(ocr)
-    await moveMouseTo(ocr.x, ocr.y);
+    await mTo(ocr.x, ocr.y);
     //300 一格 圣遗物
     await drag(0, -300, 1)
 }
@@ -812,7 +848,7 @@ async function test1() {
     // let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
     // if (ocr.isExist()) {
     //     logInfoOcr(ocr)
-    //     await moveMouseTo(ocr.x, ocr.y);
+    //     await mTo(ocr.x, ocr.y);
     //     log.info(`${up_name}`);
     // }
     up_name = '未选中升序1'
@@ -849,17 +885,17 @@ async function test() {
         // 记录删除按钮的识别结果和坐标信息
         log.info(`识别结果: ${del.text}, 原始坐标: x=${del.x}, y=${del.y}`);
         // 移动鼠标到删除按钮位置
-        await moveMouseTo(del.x, del.y);
+        await mTo(del.x, del.y);
         // 等待5秒
         await sleep(5000);
         // 记录包裹按钮的识别结果和坐标信息
         log.info(`识别结果: ${open.text}, 原始坐标: x=${open.x}, y=${open.y}`);
         // 移动鼠标到包裹按钮位置
-        await moveMouseTo(open.x, open.y);
+        await mTo(open.x, open.y);
         // 等待5秒
         await sleep(5000);
         // 移动鼠标到删除按钮的x坐标和包裹按钮的y坐标的交点
-        await moveMouseTo(del.x, open.y);
+        await mTo(del.x, open.y);
         // 记录该位置的坐标信息
         log.info(`原始坐标: x=${del.x}, y=${open.y}`);
 
