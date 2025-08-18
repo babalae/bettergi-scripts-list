@@ -2,6 +2,12 @@
   "info": {
     "name": "B19-萃凝晶-纳塔-坚岩隘谷04",
     "type": "collect",
+    "authors": [
+      {
+        "name": "无限不循环",
+        "links": "https://github.com/non-repeating001"
+      }
+    ],
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
@@ -9,13 +15,8 @@
     "tags": [
       "双手剑"
     ],
-    "last_modified_time": 1751657344040,
-    "authors": [
-      {
-        "name": "无限不循环",
-        "links": "https://github.com/non-repeating001"
-      }
-    ]
+    "last_modified_time": 1752960490859,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -32,7 +33,7 @@
       "y": -1546.73,
       "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "2500",
+      "action_params": "1500",
       "type": "path"
     },
     {
@@ -59,7 +60,7 @@
       "y": -1539.42,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(1)",
       "type": "path"
     },
     {
@@ -86,7 +87,7 @@
       "y": -1536.6,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(1)",
       "type": "path"
     },
     {
@@ -113,7 +114,7 @@
       "y": -1538.93,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(1)",
       "type": "path"
     }
   ]

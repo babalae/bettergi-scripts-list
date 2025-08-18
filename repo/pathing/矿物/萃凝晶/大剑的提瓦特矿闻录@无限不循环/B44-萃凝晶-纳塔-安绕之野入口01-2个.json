@@ -7,19 +7,21 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1751658369330,
+    "last_modified_time": 1754162678376,
     "authors": [
       {
         "name": "无限不循环",
         "links": "https://github.com/non-repeating001"
       }
-    ]
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
       "id": 1,
-      "x": 9282.61,
-      "y": -2163.59,
+      "x": 9282.6055,
+      "y": -2163.5938,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -27,8 +29,8 @@
     },
     {
       "id": 2,
-      "x": 9246.31,
-      "y": -2297.65,
+      "x": 9246.3145,
+      "y": -2297.6455,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -36,8 +38,8 @@
     },
     {
       "id": 3,
-      "x": 9244.76,
-      "y": -2305.31,
+      "x": 9244.7637,
+      "y": -2305.3125,
       "action": "mining",
       "move_mode": "walk",
       "action_params": "",
@@ -45,17 +47,17 @@
     },
     {
       "id": 4,
-      "x": 9244.76,
-      "y": -2305.31,
+      "x": 9244.7637,
+      "y": -2305.3125,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(1)",
       "type": "target"
     },
     {
       "id": 5,
-      "x": 9249.69,
-      "y": -2302.85,
+      "x": 9249.6875,
+      "y": -2302.8486,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -63,8 +65,8 @@
     },
     {
       "id": 6,
-      "x": 9247.98,
-      "y": -2307.54,
+      "x": 9247.9785,
+      "y": -2307.5371,
       "action": "mining",
       "move_mode": "walk",
       "action_params": "",
@@ -72,11 +74,11 @@
     },
     {
       "id": 7,
-      "x": 9247.98,
-      "y": -2307.54,
+      "x": 9247.9785,
+      "y": -2307.5371,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(1)",
       "type": "target"
     }
   ]

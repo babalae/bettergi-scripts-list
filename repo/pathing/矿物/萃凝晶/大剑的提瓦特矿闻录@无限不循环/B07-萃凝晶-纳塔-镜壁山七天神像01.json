@@ -2,6 +2,12 @@
   "info": {
     "name": "B07-萃凝晶-纳塔-镜壁山七天神像01",
     "type": "collect",
+    "authors": [
+      {
+        "name": "无限不循环",
+        "links": "https://github.com/non-repeating001"
+      }
+    ],
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
@@ -9,22 +15,18 @@
     "tags": [
       "双手剑"
     ],
-    "last_modified_time": 1751656801233,
-    "authors": [
-      {
-        "name": "无限不循环",
-        "links": "https://github.com/non-repeating001"
-      }
-    ]
+    "last_modified_time": 1753040046313,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
       "id": 1,
-      "x": 9540.63,
-      "y": -1784.59,
-      "action": "force_tp",
+      "x": 9522.3711,
+      "y": -1778.7324,
+      "type": "teleport",
       "move_mode": "walk",
-      "type": "teleport"
+      "action": "force_tp",
+      "action_params": ""
     },
     {
       "id": 2,
@@ -33,7 +35,8 @@
       "action": "",
       "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": true
     },
     {
       "id": 3,
@@ -42,7 +45,8 @@
       "action": "mining",
       "move_mode": "walk",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
-      "type": "target"
+      "type": "target",
+      "locked": false
     },
     {
       "id": 4,
@@ -50,8 +54,9 @@
       "y": -1777.99,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
-      "type": "path"
+      "action_params": "wait(1)",
+      "type": "path",
+      "locked": false
     },
     {
       "id": 5,
@@ -60,7 +65,8 @@
       "action": "mining",
       "move_mode": "walk",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
-      "type": "target"
+      "type": "target",
+      "locked": false
     },
     {
       "id": 6,
@@ -68,8 +74,9 @@
       "y": -1776.35,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
-      "type": "path"
+      "action_params": "wait(1)",
+      "type": "path",
+      "locked": false
     },
     {
       "id": 7,
@@ -78,7 +85,8 @@
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
       "id": 8,
@@ -87,7 +95,8 @@
       "action": "mining",
       "move_mode": "walk",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
-      "type": "target"
+      "type": "target",
+      "locked": false
     },
     {
       "id": 9,
@@ -95,8 +104,9 @@
       "y": -1770.26,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
-      "type": "path"
+      "action_params": "wait(1)",
+      "type": "path",
+      "locked": false
     },
     {
       "id": 10,
@@ -105,7 +115,8 @@
       "action": "mining",
       "move_mode": "walk",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
-      "type": "target"
+      "type": "target",
+      "locked": false
     },
     {
       "id": 11,
@@ -113,8 +124,9 @@
       "y": -1771.08,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
-      "type": "path"
+      "action_params": "wait(1)",
+      "type": "path",
+      "locked": false
     }
   ]
 }
