@@ -1,24 +1,48 @@
 const DEFAULT_OCR_TIMEOUT_SECONDS = 10;
 const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
+//执行进度枚举
+const ProgressEnum = {
+    //无
+    None: 1,
+    //捡狗粮前的操作
+    Operation: 2,
+    //激活路线
+    PathActivate: 4,
+    //准备
+    PathPreparation: 8,
+    //普通
+    PathNormal: 16,
+    //收尾
+    PathEnding: 32,
+    //额外
+    PathExtra: 64
+};
 // 初始化变量并赋予默认值
-let lastRunDate = "未知"; // 默认值
-let lastEndTime = new Date(); // 默认值为当前时间
+let lastRunDate = "未知"; //准备跑狗粮的时间，时间格式是YYYY/MM/DD
+let lastEndTime = new Date(); //准备跑狗粮的时间，时间格式是2025-08-17T01:08:51.997Z
 let lastRunRoute = "未知"; // 默认值
+let lastRunProgress = "未知"; //最后执行进度
+let lastRunProgressEnum = ProgressEnum.None;//执行进度枚举，默认无
+let lastRunProgressCount = 0;//执行进度数量，默认0
+let lastRunFriendshipCount = 0;//最后执行好感次数
 let records = new Array(14).fill("");
 let finished = false;
 const accountName = settings.accountName || "默认账户";
 let version = "default";
-let runnedToday = false;
+let runnedToday = false;//今日是否运行过脚本的标记
 let artifactExperienceDiff = 0;
 let moraDiff = 0;
-let pathIndex = 0;
 
 //预处理
+//最短运行捡狗粮间隔时间
 const minIntervalTime = settings.minIntervalTime || "5";
+//卡时间
 const waitTimePeriod = settings.waitTimePeriod || "4:05-4:45";
 const friendshipPartyName = settings.friendshipPartyName || "好感";
 const grindPartyName = settings.grindPartyName || "狗粮";
+//捡狗粮前的操作
 const operationType = settings.operationType || "不卡时间，ab交替运行";
+//是否运行激活路线
 const runActivatePath = settings.runActivatePath || false;
 let enemyType = "无";
 
@@ -183,6 +207,17 @@ let enemyType = "无";
             lastRunRoute = line.substring("上次运行路线:".length).trim();
         }
 
+        if (line.startsWith("上次执行进度:")) {
+            lastRunProgress = line.substring("上次执行进度:".length).trim();
+            //如果进度不为空
+            if (lastRunProgress !== null && lastRunProgress !== undefined && lastRunProgress !== '') {
+                const splitString = lastRunProgress.split('/');
+                lastRunFriendshipCount = parseInt(splitString[0], 10);
+                lastRunProgressEnum = parseInt(splitString[1], 10);
+                lastRunProgressCount = parseInt(splitString[2], 10);
+            }
+        }
+
         if (line.startsWith("上次运行是否完成: t")) {
             finished = true;
         }
@@ -197,6 +232,7 @@ let enemyType = "无";
     log.info(`上次运行完成日期: ${lastRunDate}`);
     log.info(`上次狗粮开始时间: ${lastEndTime.toISOString()}`);
     log.info(`上次运行路线: ${lastRunRoute}`);
+    log.info(`上次运行进度: ${lastRunProgress}`);
     log.info(`上次运行是否完成: ${finished}`);
 
     try {
@@ -217,7 +253,7 @@ let enemyType = "无";
     }
 
 
-    // 拆分 lastRunDate 为年、月、日
+    // 拆分 lastRunDate 为年、月、日，获取最后运行时间的年月日
     const [year, month, day] = lastRunDate.split('/').map(Number);
 
     // 生成这个日期凌晨四点的时间
@@ -229,13 +265,14 @@ let enemyType = "无";
     // 计算当前时间与 lastRunMidnight 之间的时间差（单位：毫秒）
     const timeDifference = now - lastRunMidnight;
 
-    // 如果当前时间减去 lastRunMidnight 小于 24 小时（24 * 60 * 60 * 1000 毫秒），则终止狗粮程序运行
 
+    // 如果当前时间减去 lastRunMidnight 小于 24 小时（24 * 60 * 60 * 1000 毫秒），则说明天程序今天运行过
     if (timeDifference < 24 * 60 * 60 * 1000) {
         log.info("今日已经运行过狗粮路线");
         runnedToday = true;
     }
 
+    //最后运行时间+24小时+间隔时间，只要运行时间大于此时间，那么所有的狗粮都已经刷新了，那么就可以重新设置路线了
     let endTime = await getEndTime(minIntervalTime, lastEndTime);
 
     // 解析 waitTimePeriod
@@ -248,6 +285,8 @@ let enemyType = "无";
     // 获取当前日期
     const today = new Date();
     today.setHours(0, 0, 0, 0); // 将时间设置为当天的午夜
+    let todayMidNight = new Date(today);
+    todayMidNight.setHours(4, 0, 0, 0); // 将时间设置为当天的午夜
 
     // 创建等待时间段的开始时间和结束时间的 Date 对象
     let waitStartTime = new Date(today);
@@ -259,22 +298,30 @@ let enemyType = "无";
 
     log.info(`卡时间时间段为${waitStartTime.toTimeString()}-${waitEndTime.toTimeString()}`);
 
-    // 获取当前时间
-    const timeNow = new Date();
+    //有些人是每天固定时间段启动，有些人是昨天晚九点启动了，但是第二天早八点就启动了，此时上个路线跑了一半没跑了，要么已经完成，而脚本只知道机械化操作，所以直接跑另一个路线反而收益最大化
+    //只有今天没运行过或者最后运行时间小于今天的卡时间开始时间才设置路线A或B，设置激活路线，如果不满足上述条件，就继续用保存的配置，将未完成的继续完成
+    if (!runnedToday || (lastEndTime < todayMidNight && now > todayMidNight)) {
+        //顺便刷新下运行记录
+        lastRunProgress = '1/0';
+        lastRunProgressEnum = ProgressEnum.None;
+        lastRunProgressCount = 0;
+        lastRunFriendshipCount = 0;
+        finished = false;
 
-    if (!runnedToday || !runActivatePath) {
-        runRouteA = true;
-        // 检查 endTime 是否晚于当天的结束时间
+        // 如果最后运行时间+24小时大于当前运行的卡时间结束时间
+        //狗粮刷新时间分为12小时和24小时，大多数是24小时的，刷新时间以后最后获取时间+24小时
+        //如果一个人电脑凌晨4点零五启动，路线为A，然后启动卡时间，那么endTime为第二天的凌晨六点左右，但第二天仍然会以凌晨四点启动，但此时A路线的时间没有刷新完成
+        //如果是这种时间还要运行的话，只能走另一条路线，才能确保最大收益
         if (endTime > waitEndTime) {
             // 如果 endTime 晚于当天的结束时间，则将其改为当天的开始时间
             endTime = new Date(waitStartTime);
-            // 同时将 runRouteA 改为 false，今天运行B路线
-            runRouteA = false;
+            //直接使用反路线
+            runRouteA = !runRouteA;
         }
 
         if (operationType === "不卡时间，尽可能跑A") {
             // 根据当前时间与上次运行时间给布尔变量 runRouteA 赋值
-            runRouteA = endTime <= timeNow;
+            runRouteA = endTime <= now;
         }
 
         // 检查 lastRunRoute 是否为 "B"
@@ -293,21 +340,26 @@ let enemyType = "无";
             runRouteA = Math.floor((now - epochTime) / (24 * 60 * 60 * 1000)) % 2 === 0;
         }
     }
+    //先更新相关值，免得保存进度时再调用
+    //根据 runRouteA 的值更新 lastRunRoute
+    lastRunRoute = runRouteA ? "A" : "B";
 
     //切换至好感队
     await switchPartyIfNeeded(friendshipPartyName);
 
-    let runnedTimes = 0;
 
     wait: {
-        if (runnedToday) {
+        //如果已完成，则跳过，或者当前正在执行获取狗粮的进度
+        if (lastRunProgressEnum > ProgressEnum.Operation)
             break wait;
-        }
+        else
+            lastRunProgressEnum = ProgressEnum.Operation;
+
         if (operationType !== "不卡时间，ab交替运行" && operationType !== "不卡时间，尽可能跑A") {
             // 输出结果
             log.info(`预期开始狗粮时间: ${endTime.toTimeString().slice(0, 8)}`);
             // 检查当前时间是否晚于 endTime
-            if (timeNow > endTime) {
+            if (new Date() > endTime) {
                 log.warn('无需卡时间')
             } else {
                 if (operationType !== "干等卡时间") {
@@ -331,7 +383,7 @@ let enemyType = "无";
                     const fightTimeout = validateTimeoutSetting(settings.fightTimeout, DEFAULT_FIGHT_TIMEOUT_SECONDS, "战斗");
 
                     // 好感循环开始	
-                    runnedTimes = await AutoFriendshipDev(50, ocrTimeout, fightTimeout, enemyType, endTime);
+                    await AutoFriendshipDev(50 - lastRunFriendshipCount, ocrTimeout, fightTimeout, enemyType, endTime);
                 }
             }
 
@@ -363,11 +415,6 @@ let enemyType = "无";
         // 根据 runRouteA 的值更新 lastRunRoute
         lastRunRoute = runRouteA ? "A" : "B";
 
-        if (settings.useABE) {
-            lastRunRoute = `abe${lastRunRoute}`;
-        }
-
-
         // 更新 lastRunDate 为当前日期
         lastRunDate = currentDateString;
 
@@ -375,7 +422,7 @@ let enemyType = "无";
         lastEndTime = new Date(); // 使用 new Date() 获取当前时间
 
         //按格式输出今日狗粮路线信息
-        log.info(`今日运行狗粮路线：${runRouteA ? 'A' : 'B'}，开始时间：${lastEndTime.toLocaleString()}`);
+        log.info(`今日运行狗粮路线：${settings.useABE ? 'abe' : ''}${runRouteA ? 'A' : 'B'}，开始时间：${lastEndTime.toLocaleString()}`);
     }
 
     //运行前按自定义配置清理狗粮
@@ -412,13 +459,13 @@ let enemyType = "无";
         if (runArtifactsResult) {
             //修改文件内容
             log.info('修改记录文件');
-            await writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records, `records/${accountName}.txt`, version, true);
+            await writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, `${lastRunFriendshipCount}/${lastRunProgressEnum}/${lastRunProgressCount}`, records, `records/${accountName}.txt`, version, true);
         }
     }
 
     //完成剩下好感
 
-    if (runnedTimes < settings.minTimesForFirendship) {
+    if (lastRunFriendshipCount < settings.minTimesForFirendship) {
 
         //切换至好感队
         await switchPartyIfNeeded(friendshipPartyName);
@@ -440,21 +487,34 @@ let enemyType = "无";
             await AutoPath('鳄鱼-准备');
         }
         // 好感循环开始	
-        await AutoFriendshipDev(settings.minTimesForFirendship - runnedTimes, ocrTimeout, fightTimeout, enemyType, endTime + 24 * 60 * 60 * 1000);
+        await AutoFriendshipDev(settings.minTimesForFirendship - lastRunFriendshipCount, ocrTimeout, fightTimeout, enemyType, endTime + 24 * 60 * 60 * 1000);
     }
 
     //伪造js开始记录
     await fakeLog("自动狗粮加强版", true, false, 0);
 })();
 
+//异步函数，保存进度，只是更新目前进度，大多信息不变，方便调用，就封装了下
+async function saveProgress() {
+    //如果今天运行过，或者已完成，那么跳过保存记录
+    if (runnedToday && finished) {
+        return;
+    }
+
+    log.info('修改记录文件');
+    //写入日志
+    await writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, `${lastRunFriendshipCount}/${lastRunProgressEnum}/${lastRunProgressCount}`, records, `records/${accountName}.txt`, version, false);
+}
+
 // 异步函数，用于将变量内容写回到文件
-async function writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records, recordFilePath, version, finished) {
+async function writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, lastRunProgress, records, recordFilePath, version, finished) {
     try {
         // 构造要写入文件的内容
         const content = [
             `上次运行完成日期: ${lastRunDate}`,
             `上次结束时间: ${lastEndTime.toISOString()}`,
             `上次运行路线: ${lastRunRoute}`,
+            `上次执行进度: ${lastRunProgress}`,
             `上次运行是否完成: ${finished}`,
             `js版本: ${version}`,
             "历史收益："
@@ -507,18 +567,15 @@ async function runArtifactsPaths(runRouteA, grindPartyName, useABE) {
             }
         }
 
-        let currentTask = 0; // 当前任务计数器
 
         // 执行地图追踪文件
-        for (const fileName of jsonFilePaths) {
-            pathIndex++;
-            if ((pathIndex % 5 === 0) && settings.autoSalvage && settings.decomposeMode != "保留") {
+        for (let j = lastRunProgressCount; j < jsonFilePaths.length; j++) {
+            if ((j % 5 === 0) && settings.autoSalvage && settings.decomposeMode != "保留") {
                 artifactExperienceDiff += await processArtifacts(1);
             }
-            const fullPath = fileName;
-            await fakeLog(fileName, false, true, 0);
-            currentTask += 1; // 更新当前任务计数器
-            log.info(`当前进度：${fullPath}为${subTaskName}${folderName}第${currentTask}/${jsonFilePaths.length}个`);
+            const fullPath = jsonFilePaths[j];
+            await fakeLog(fullPath, false, true, 0);
+            log.info(`当前进度：${fullPath}为${subTaskName}${folderName}第${j + 1}/${jsonFilePaths.length}个`);
             await pathingScript.runFile(fullPath);
             //捕获任务取消的信息并跳出循环
             try {
@@ -527,23 +584,34 @@ async function runArtifactsPaths(runRouteA, grindPartyName, useABE) {
                 log.error(`发生错误: ${error}`);
                 throw new Error("任务被取消");
             }
-            await fakeLog(fileName, false, false, 0);
+            await fakeLog(fullPath, false, false, 0);
+            //刷新进度
+            lastRunProgressCount += 1;
+            await saveProgress();
         }
     }
 
     //运行激活路线
-    if (settings.runActivatePath && !runnedToday) {
+    if (runActivatePath && lastRunProgressEnum < ProgressEnum.PathActivate) {
+        //刷新进度
+        lastRunProgressEnum = ProgressEnum.PathActivate;
         await runPathGroups(filePathActivate, "激活");
+        //执行完就重置进度，避免影响下一个，但不保存到文件中，避免中途暂停，又再重复执行
+        lastRunProgressCount = 0;
     }
 
     if (!((runnedToday && finished) || (runnedToday && runActivatePath))) {
         //修改文件内容
         log.info('修改记录文件');
-        await writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, records, `records/${accountName}.txt`, version, false);
+        await writeRecordFile(lastRunDate, lastEndTime, lastRunRoute, `${lastRunFriendshipCount}/${lastRunProgressEnum}/${lastRunProgressCount}`, records, `records/${accountName}.txt`, version, false);
     }
     // 运行准备路线（关闭拾取）
     dispatcher.ClearAllTriggers();
-    await runPathGroups(filePathPreparation, "准备");
+    if (lastRunProgressEnum <= ProgressEnum.PathPreparation) {
+        lastRunProgressEnum = ProgressEnum.PathPreparation;
+        await runPathGroups(filePathPreparation, "准备");
+        lastRunProgressCount = 0;
+    }
 
     // 启用自动拾取的实时任务
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
@@ -551,16 +619,27 @@ async function runArtifactsPaths(runRouteA, grindPartyName, useABE) {
     //切换至狗粮队
     await switchPartyIfNeeded(grindPartyName);
 
-    // 运行普通路线
-    await runPathGroups(filePathNormal, "普通");
+    if (lastRunProgressEnum <= ProgressEnum.PathNormal) {
+        lastRunProgressEnum = ProgressEnum.PathNormal;
+        // 运行普通路线
+        await runPathGroups(filePathNormal, "普通");
+        lastRunProgressCount = 0;
+    }
 
     await genshin.tpToStatueOfTheSeven();
 
-    // 运行收尾路线
-    await runPathGroups(filePathEnding, "收尾");
+    if (lastRunProgressEnum <= ProgressEnum.PathEnding) {
+        lastRunProgressEnum = ProgressEnum.PathEnding;
+        // 运行收尾路线
+        await runPathGroups(filePathEnding, "收尾");
+        lastRunProgressCount = 0;
+    }
 
-    // 运行额外路线
-    await runPathGroups(filePathExtra, "额外");
+    if (lastRunProgressEnum <= ProgressEnum.PathExtra) {
+        lastRunProgressEnum = ProgressEnum.PathExtra;
+        // 运行额外路线
+        await runPathGroups(filePathExtra, "额外");
+    }
 
     dispatcher.ClearAllTriggers();
 
@@ -652,7 +731,7 @@ async function fakeLog(name, isJs, isStart, duration) {
     }
 }
 
-//用于获取结束时间
+//用于获取结束时间，最小间隔时间+最后一次运行时间+24小时
 async function getEndTime(minIntervalTime, lastEndTime) {
     const minIntervalTimeInMs = minIntervalTime * 60 * 1000; // 将分钟转换为毫秒
     return new Date(lastEndTime.getTime() + 24 * 60 * 60 * 1000 + minIntervalTimeInMs);
@@ -668,7 +747,7 @@ async function AutoPath(locationName) {
     }
 }
 
-//好感度任务的逻辑
+//好感度任务的逻辑，返回实际运行次数
 async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "盗宝团", endTime) {
     // 启用自动拾取的实时任务（只有鳄鱼好感启用）
     //if (enemyType === "盗宝团") {
@@ -676,8 +755,11 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "�
     if (enemyType === "鳄鱼") {
         dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     }
+    //记录此次运行实际运行数量
     let friendTimes = 0;
-    for (let i = 0; i < times; i++) {
+    //记录当前进度数量
+    let progressCnt = lastRunFriendshipCount;
+    for (let i = progressCnt; i < progressCnt + times; i++) {
 
         if (enemyType === "无") {
             log.info(`不进行好感`);
@@ -792,6 +874,10 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "�
         }
 
         await fakeLog(`第${i + 1}次好感`, false, false, 0);
+        //更新次数
+        lastRunFriendshipCount += 1;
+        //保存进度
+        await saveProgress();
     }
     log.info(`${enemyType}好感运行了${friendTimes}次`);
     await genshin.tpToStatueOfTheSeven();
