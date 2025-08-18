@@ -1,0 +1,48 @@
+[
+{
+  "type": "自动任务",
+  "data": {
+    "action": "enable",
+    "taskType": "AutoPick"
+  },
+  "note": "启用自动拾取"
+},
+ {
+    "type": "地图追踪",
+    "data": "钥匙是易丢品-达达乌帕谷-1.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 6,
+      "priorityOptions": ["好的"],
+      "npcWhiteList": ["怀尔德"]
+    },
+    "note": "执行对话步骤，优先选择特定选项并与白名单NPC交互"
+  },
+ {
+    "type": "地图追踪",
+    "data": "钥匙是易丢品-达达乌帕谷-2.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+  {
+    "type": "地图追踪",
+    "data": "钥匙是易丢品-达达乌帕谷-3.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+ {
+    "type": "地图追踪",
+    "data": "钥匙是易丢品-达达乌帕谷-1.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+ {
+    "type": "对话",
+    "data": {
+      "skipCount": 3,
+      "priorityOptions": ["这是你丢的钥匙吗？"],
+      "npcWhiteList": ["怀尔德"]
+    },
+    "note": "执行对话步骤，优先选择特定选项并与白名单NPC交互"
+  }
+]
