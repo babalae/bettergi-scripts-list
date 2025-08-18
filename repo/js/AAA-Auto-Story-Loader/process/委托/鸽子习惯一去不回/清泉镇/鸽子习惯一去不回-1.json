@@ -1,0 +1,71 @@
+{
+  "info": {
+    "name": "鸽子习惯一去不回-1",
+    "type": "collect",
+    "author": "星野",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753107027152
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -867.611328125,
+      "y": 1992.30029296875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": -867.611328125,
+      "y": 1992.30029296875,
+      "action": "set_time",
+      "move_mode": "dash",
+      "action_params": "8:00",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": -867.611328125,
+      "y": 1992.30029296875,
+      "action": "set_time",
+      "move_mode": "dash",
+      "action_params": "9:00",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -889.37109375,
+      "y": 1986.9931640625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -909.185546875,
+      "y": 1973.29345703125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -914.1845703125,
+      "y": 1958.85693359375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}
