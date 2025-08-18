@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "A07-枫丹动能工程科学研究院区右侧-10个",
+    "name": "A06-欧蒂克莱尔左侧-8个",
     "type": "collect",
     "authors": [
       {
@@ -12,7 +12,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.48.0",
     "tags": [],
-    "last_modified_time": 1755434716010,
+    "last_modified_time": 1755506060873,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -22,42 +22,42 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 4139.4951,
-      "y": 4547.2334,
+      "x": 3462.5332,
+      "y": 3697.3052,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 4030.9502,
-      "y": 4574.1787,
+      "x": 3479.4414,
+      "y": 3688.002,
       "type": "path",
-      "move_mode": "dash",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(4);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,3000)"
+    },
+    {
+      "id": 3,
+      "x": 3563.4004,
+      "y": 3685.3423,
+      "type": "path",
+      "move_mode": "run",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 3,
-      "x": 4028.9492,
-      "y": 4613.9668,
+      "id": 4,
+      "x": 3563.623,
+      "y": 3677.2551,
       "type": "path",
-      "move_mode": "dash",
+      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL);wait(9);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,1000)",
+      "action_params": "keydown(VK_LCONTROL);wait(6);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,1000)",
       "locked": false
     },
     {
-      "id": 4,
-      "x": 4028.9492,
-      "y": 4613.9668,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "e"
-    },
-    {
       "id": 5,
-      "x": 4028.3525,
-      "y": 4616.3501,
+      "x": 3563.623,
+      "y": 3677.2551,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
@@ -65,17 +65,17 @@
     },
     {
       "id": 6,
-      "x": 3978.5469,
-      "y": 4645.7471,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "x": 3567.1172,
+      "y": 3704.7253,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
     },
     {
       "id": 7,
-      "x": 3971.1836,
-      "y": 4642.3389,
+      "x": 3550.1338,
+      "y": 3705.2778,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
@@ -83,8 +83,8 @@
     },
     {
       "id": 8,
-      "x": 3968.7324,
-      "y": 4644.9219,
+      "x": 3565.2539,
+      "y": 3648.7378,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",

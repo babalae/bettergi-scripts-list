@@ -1,0 +1,158 @@
+{
+  "info": {
+    "name": "A04-塔拉塔海谷上方-14个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "芝士贝果"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.48.0",
+    "tags": [],
+    "last_modified_time": 1755435928504,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4328.418,
+      "y": 3961.001,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4328.418,
+      "y": 3961.001,
+      "action_params": "moveby(0,1000)"
+    },
+    {
+      "id": 3,
+      "x": 4417.6152,
+      "y": 4164.8398,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 4417.6152,
+      "y": 4164.8398,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 5,
+      "x": 4414.4082,
+      "y": 4166.8989,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 6,
+      "x": 4444.6504,
+      "y": 4144.96,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 4517.8008,
+      "y": 4218.9102,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 4521.4746,
+      "y": 4222.3848,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e;keydown(VK_SPACE);wait(0.8);keyup(VK_SPACE);"
+    },
+    {
+      "id": 9,
+      "x": 4523.8203,
+      "y": 4219.8657,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 10,
+      "x": 4524.5586,
+      "y": 4225.2754,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 11,
+      "x": 4499.2686,
+      "y": 4275.2812,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(4);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,1000)"
+    },
+    {
+      "id": 12,
+      "x": 4519.2441,
+      "y": 4305.5288,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 4522.6523,
+      "y": 4307.7617,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 14,
+      "x": 4526.9414,
+      "y": 4320.6558,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 4533.1152,
+      "y": 4315.5,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "A05-塔拉塔海谷上方-14个",
+    "name": "C05-黎翡区下方传送锚点高处-12个",
     "type": "collect",
     "authors": [
       {
@@ -12,7 +12,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.48.0",
     "tags": [],
-    "last_modified_time": 1755435928504,
+    "last_modified_time": 1755518032411,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -22,134 +22,141 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 4328.418,
-      "y": 3961.001,
-      "action_params": "",
-      "locked": false
+      "x": 4753.8506,
+      "y": 4498.9604,
+      "action_params": ""
     },
     {
       "id": 2,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "type": "path",
-      "x": 4328.418,
-      "y": 3961.001,
-      "action_params": "moveby(0,1000)"
-    },
-    {
-      "id": 3,
-      "x": 4417.6152,
-      "y": 4164.8398,
+      "x": 4803.6533,
+      "y": 4487.9204,
       "type": "path",
       "move_mode": "run",
       "action": "",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4836.3242,
+      "y": 4441.5767,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE);wait(3);keyup(VK_SPACE);click(middle)"
     },
     {
       "id": 4,
-      "x": 4417.6152,
-      "y": 4164.8398,
-      "type": "target",
-      "move_mode": "walk",
+      "x": 4878.1973,
+      "y": 4432.749,
+      "type": "path",
+      "move_mode": "run",
       "action": "combat_script",
-      "action_params": "e"
+      "action_params": "moveby(0,2500)"
     },
     {
       "id": 5,
-      "x": 4414.4082,
-      "y": 4166.8989,
-      "type": "target",
+      "x": 4886.8662,
+      "y": 4433.4126,
+      "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
       "action_params": "e"
     },
     {
       "id": 6,
-      "x": 4444.6504,
-      "y": 4144.96,
+      "x": 4850.9336,
+      "y": 4405.0605,
       "type": "path",
-      "move_mode": "dash",
+      "move_mode": "run",
       "action": "",
       "action_params": ""
     },
     {
       "id": 7,
-      "x": 4517.8008,
-      "y": 4218.9102,
+      "x": 4846.9131,
+      "y": 4385.9336,
       "type": "path",
-      "move_mode": "dash",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 8,
+      "x": 4824.0684,
+      "y": 4392.9985,
+      "type": "path",
+      "move_mode": "run",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 8,
-      "x": 4521.4746,
-      "y": 4222.3848,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "e;keydown(VK_SPACE);wait(0.8);keyup(VK_SPACE);"
-    },
-    {
       "id": 9,
-      "x": 4523.8203,
-      "y": 4219.8657,
-      "type": "target",
+      "x": 4820.7852,
+      "y": 4382.6377,
+      "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
       "action_params": "e"
     },
     {
       "id": 10,
-      "x": 4524.5586,
-      "y": 4225.2754,
-      "type": "target",
+      "x": 4816.207,
+      "y": 4376.3916,
+      "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
       "action_params": "e"
     },
     {
       "id": 11,
-      "x": 4499.2686,
-      "y": 4275.2812,
+      "x": 4768.0009,
+      "y": 4337.5,
       "type": "path",
       "move_mode": "run",
-      "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL);wait(4);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,1000)"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 12,
-      "x": 4519.2441,
-      "y": 4305.5288,
+      "x": 4686.627,
+      "y": 4366.0122,
       "type": "path",
-      "move_mode": "dash",
+      "move_mode": "run",
       "action": "",
       "action_params": ""
     },
     {
       "id": 13,
-      "x": 4522.6523,
-      "y": 4307.7617,
-      "type": "target",
+      "x": 4667.5918,
+      "y": 4367.7041,
+      "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
       "action_params": "e"
     },
     {
       "id": 14,
-      "x": 4526.9414,
-      "y": 4320.6558,
+      "x": 4666.1904,
+      "y": 4364.2959,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 15,
+      "x": 4665.6934,
+      "y": 4360.2305,
       "type": "path",
       "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
-      "id": 15,
-      "x": 4533.1152,
-      "y": 4315.5,
-      "type": "target",
+      "id": 16,
+      "x": 4663.665,
+      "y": 4358.249,
+      "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
       "action_params": "e"
