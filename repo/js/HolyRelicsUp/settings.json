@@ -1,0 +1,48 @@
+[
+   {
+     "name": "enableBatchUp",
+     "type": "checkbox",
+     "label": "启用进入背包批量强化",
+     "default": true
+   },
+   {
+     "name": "enableOneUp",
+     "type": "checkbox",
+     "label": "启用单次强化",
+     "default": false
+   },
+   {
+     "name": "enableInsertionMethod",
+     "type": "checkbox",
+     "label": "自动启用放入方式 快捷放入/阶段放入",
+     "default": false
+   },
+   {
+       "name": "insertionMethod",
+       "type": "select",
+       "label": "放入方式(默认:自动识别)",
+       "options": [
+         "默认"
+         "快捷放入",
+         "阶段放入"
+       ],
+       "default": "默认"
+   },
+   {
+       "name": "operate",
+       "type": "select",
+       "label": "滑动页面方式(默认:滚轮滑动)",
+       "options": [
+       "默认",
+         "鼠标拖动",
+         "滚轮滑动"
+       ],
+       "default": "默认"
+   },
+   {
+      "name": "knapsackKey",
+      "type": "input-text",
+      "label": "打开背包按键(不填，默认：B)",
+      "default": "B"
+   }
+]
