@@ -1,10 +1,18 @@
+const path_base_main = 'assets/main/'
+
+async function logInfoOcrBase(res, log_off) {
+    if (!log_off) {
+        log.info(`识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y}`);
+    }
+}
+
 /**
  *
  * @param res
  * @returns {Promise<void>}
  */
 async function logInfoOcr(res) {
-    log.info(`识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y}`);
+    await logInfoOcrBase(res, false)
 }
 
 /**
@@ -127,7 +135,7 @@ async function ocrClick(path, log_msg, log_off) {
             // 记录操作日志信息
             log.info(`${log_msg}`)
             // 记录OCR识别到的按钮详细信息
-            logInfoOcr(button)
+            await logInfoOcr(button)
         }
         // 点击按钮元素
         await button.click();
@@ -138,16 +146,24 @@ async function ocrClick(path, log_msg, log_off) {
     return button
 }
 
-// 定义识别对象
-const knapsackRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/main/背包.jpg"), 0, 0, genshin.width / 3.0, genshin.width / 5.0);
 
 /**
  * 打开背包
  * @returns {Promise<void>}
  */
 async function openKnapsack() {
-    // 通过截取游戏区域并查找背包图标来判断背包是否已打开
-    let knapsack = captureGameRegion().find(knapsackRo);
+    // // 定义识别对象
+    // const knapsackRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${path_base_main}背包.jpg`), 0, 0,genshin.width / 3.0 , genshin.width / 5.0);
+    // // 通过截取游戏区域并查找背包图标来判断背包是否已打开
+    // let knapsack = captureGameRegion().find(knapsackRo);
+    let ocrJson = {
+        "text": "背包",
+        "x": 0,
+        "y": 0,
+        "width": genshin.width / 3.0,
+        "height": genshin.width / 5.0
+    }
+    let knapsack = await ocrBase(`${path_base_main}${ocrJson.text}.jpg`, ocrJson.x, ocrJson.y, ocrJson.width, ocrJson.height)
     // 如果背包不存在（即背包未打开）
     if (!knapsack.isExist()) {
         // 设置默认的背包快捷键为'B'
@@ -164,15 +180,23 @@ async function openKnapsack() {
     }
 }
 
-const holyRelicsKnapsackRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/main/圣遗物.jpg"), 0, 0, genshin.width / 2.0, genshin.width / 5.0);
 
 /**
  * 打开圣遗物背包
  * @returns {Promise<void>}
  */
 async function openHolyRelicsKnapsack() {
-    // 通过捕获游戏区域并查找圣遗物背包图标元素
-    let holyRelicsKnapsack = captureGameRegion().find(holyRelicsKnapsackRo);
+    // const holyRelicsKnapsackRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("${path_base_main}圣遗物.jpg"), 0, 0, genshin.width / 2.0, genshin.width / 5.0);
+    // // 通过捕获游戏区域并查找圣遗物背包图标元素
+    // let holyRelicsKnapsack = captureGameRegion().find(holyRelicsKnapsackRo);
+    let ocrJson = {
+        "text": "圣遗物",
+        "x": 0,
+        "y": 0,
+        "width": genshin.width / 2.0,
+        "height": genshin.width / 5.0
+    }
+    let holyRelicsKnapsack = await ocrBase(`${path_base_main}${ocrJson.text}.jpg`, ocrJson.x, ocrJson.y, ocrJson.width, ocrJson.height)
     // 检查圣遗物背包图标是否存在
     if (holyRelicsKnapsack.isExist()) {
         // 打开圣遗物背包
@@ -182,9 +206,6 @@ async function openHolyRelicsKnapsack() {
     }
 }
 
-
-const siftRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/main/筛选.jpg"), 0, 0, genshin.width / 3.0, genshin.height);
-const resetRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/main/重置.jpg"), 0, 0, genshin.width / 3.0, genshin.height);
 
 /**
  * 重置筛选功能
@@ -196,16 +217,38 @@ const resetRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/ma
  * @returns {Promise<void>} - 返回一个Promise，表示异步操作的完成
  */
 async function resetSift() {
+    // const siftRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("${path_base_main}筛选.jpg"), 0, 0, genshin.width / 3.0, genshin.height);
     // 查找筛选按钮元素
-    let sift = captureGameRegion().find(siftRo);
+    // let sift = captureGameRegion().find(siftRo);
+    let ocrSiftJson = {
+        "text": "筛选",
+        "x": 0,
+        "y": 0,
+        "width": genshin.width / 3.0,
+        "height": genshin.height
+    }
+    // 查找筛选按钮元素
+    let sift = await ocrBase(`${path_base_main}${ocrSiftJson.text}.jpg`, ocrSiftJson.x, ocrSiftJson.y, ocrSiftJson.width, ocrSiftJson.height)
+    await sleep(500);
     // 判断筛选按钮是否存在
     if (sift.isExist()) {
         log.info('打开筛选'); // 记录日志：打开筛选
         await sift.click(); // 点击筛选按钮
         await sleep(500); // 等待500毫秒
 
+        // const resetRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("${path_base_main}重置.jpg"), 0, 0, genshin.width / 3.0, genshin.height);
+        // // 查找重置按钮元素
+        // let reset = captureGameRegion().find(resetRo);
+        let ocrResetJson = {
+            "text": "重置",
+            "x": 0,
+            "y": 0,
+            "width": genshin.width / 3.0,
+            "height": genshin.height
+        }
         // 查找重置按钮元素
-        let reset = captureGameRegion().find(resetRo);
+        let reset = await ocrBase(`${path_base_main}${ocrResetJson.text}.jpg`, ocrResetJson.x, ocrResetJson.y, ocrResetJson.width, ocrResetJson.height)
+        await sleep(500);
         // 判断重置按钮是否存在
         if (reset.isExist()) {
             log.info('重置'); // 记录日志：重置
@@ -215,21 +258,54 @@ async function resetSift() {
     }
 }
 
-const aggrandizementRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/main/强化.jpg"), 0, 0, genshin.width / 3.0, genshin.height);
+/**
+ * 筛选圣遗物套装的异步函数
+ * @param {boolean} log_off - 是否记录日志的参数
+ * @returns {Promise<void>} - 返回一个Promise，表示异步操作的完成
+ */
+async function siftHolyRelicsSuit(log_off) {
+    // 定义筛选按钮的JSON配置对象
+    let siftSuitJson = {
+        "text": "筛选圣遗物套装",    // 按钮显示的文本内容
+        "x": 0,                    // 按钮的x坐标
+        "y": 0,                    // 按钮的y坐标
+        "width": genshin.width / 3.0,  // 按钮的宽度为屏幕宽度的1/3
+        "height": genshin.height      // 按钮的高度为整个屏幕高度
+    }
+    // 查找筛选按钮元素
+    let siftSuit = await ocrBase(`${path_base_main}${siftSuitJson.text}.jpg`, siftSuitJson.x, siftSuitJson.y, siftSuitJson.width, siftSuitJson.height)
+    // 判断筛选按钮是否存在
+    if (sift.isExist()) {
+        log.info('筛选圣遗物套装'); // 记录日志：筛选圣遗物套装
+        await siftSuit.click(); // 点击筛选按钮
+        await sleep(500); // 等待500毫秒
+    }
+}
 
 /**
  * 打开强化界面的函数
-
+ *
  * 该函数会查找游戏中的强化按钮，如果存在则点击它
  * @returns {Promise<void>} - 返回一个Promise，表示异步操作的完成
  */
 async function openAggrandizement() {
-    // 捕获游戏区域并查找强化按钮
-    let aggrandizement = captureGameRegion().find(aggrandizementRo);
+    // 注释掉的代码：使用模板匹配方法查找强化按钮
+    // const aggrandizementRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("${path_base_main}强化.jpg"), 0, 0, genshin.width / 3.0, genshin.height);
+    // // 捕获游戏区域并查找强化按钮
+    // let aggrandizement = captureGameRegion().find(aggrandizementRo);
+    // 定义OCR识别的JSON对象，包含文本和位置信息
+    let ocrJson = {
+        "text": "强化",    // 要识别的文本内容
+        "x": 0,           // 识别区域的左上角x坐标
+        "y": 0,           // 识别区域的左上角y坐标
+        "width": genshin.width / 3.0,    // 识别区域的宽度
+        "height": genshin.height / 5.0  // 识别区域的高度
+    }
+    // 使用OCR方法查找强化按钮
+    let aggrandizement = await ocrBase(`${path_base_main}${ocrJson.text}.jpg`, ocrJson.x, ocrJson.y, ocrJson.width, ocrJson.height)
     // 检查强化按钮是否存在
     if (aggrandizement.isExist()) {
-
-        // 输出日志信息
+        // 输出日志信息，表示正在打开强化界面
         log.info('打开强化');
         // 点击强化按钮
         await aggrandizement.click();
@@ -238,8 +314,6 @@ async function openAggrandizement() {
     }
 }
 
-const selectTheClipConditionButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/main/选择素材条件按键.jpg"), 0, 0, genshin.width, genshin.height);
-const needMoLaRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/main/需要摩拉.jpg"), 0, 0, genshin.width, genshin.height);
 
 /**
  * 打开选择素材条件
@@ -253,6 +327,8 @@ async function openSelectTheClipCondition(condition) {
         log.info(`未传入素材条件`)
         return
     }
+    const selectTheClipConditionButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${path_base_main}选择素材条件按键.jpg`), 0, 0, genshin.width, genshin.height);
+
     // 捕获游戏界面并查找"选择素材条件"按钮
     let buttonObject = captureGameRegion().find(selectTheClipConditionButtonRo);
     // 检查按钮是否存在
@@ -263,8 +339,11 @@ async function openSelectTheClipCondition(condition) {
         await sleep(500);
 
         log.info(`素材条件==>x:${buttonObject.x},y:${buttonObject.y}`)
+
+        const needMoLaRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${path_base_main}需要摩拉.jpg`), 0, 0, genshin.width, genshin.height);
         // 捕获界面并查找"需要摩拉"文本区域
         let needMoLa = captureGameRegion().find(needMoLaRo);
+
         // 检查是否能定位到"需要摩拉"文本区域
         if (!needMoLa.isExist()) {
             log.error(`无法定位识别！`)
@@ -276,18 +355,18 @@ async function openSelectTheClipCondition(condition) {
         // let ocr_x = parseInt(1200 * genshin.width / 1920 + '')
         // let ocr_y = parseInt(760 * genshin.height / 1080 + '')
         // let ocr_width = parseInt(400 * genshin.width / 1920 + '')
-        // let ocr_hight = parseInt(300 * genshin.height / 1080 + '')
+        // let ocr_height = parseInt(300 * genshin.height / 1080 + '')
         // log.info(`需要摩拉==>x:${needMoLa.x},y:${needMoLa.y}`)
-        log.info(`OCR==>x:${needMoLa.x},y:${buttonObject.y},w:${Math.abs(needMoLa.x - buttonObject.x)},h:${Math.abs(needMoLa.y - buttonObject.y)}`)
         // 计算OCR识别区域的坐标和尺寸
         let ocr_x = Math.min(needMoLa.x, buttonObject.x)
-        let ocr_y = Math.min(needMoLa.y,buttonObject.y)
+        let ocr_y = Math.min(needMoLa.y, buttonObject.y)
         let ocr_width = Math.abs(needMoLa.x - buttonObject.x)
-        let ocr_hight = Math.abs(needMoLa.y - buttonObject.y)
+        let ocr_height = Math.abs(needMoLa.y - buttonObject.y)
+        log.info(`OCR==>x:${ocr_x},y:${ocr_y},width:${ocr_width},height:${ocr_height}`)
         // 以下代码被注释，可能是用于调试的鼠标移动
         // await moveMouseTo(ocr_x, ocr_y)
         // 创建OCR识别对象
-        const ocrObject = RecognitionObject.Ocr(ocr_x, ocr_y, ocr_width, ocr_hight);
+        const ocrObject = RecognitionObject.Ocr(ocr_x, ocr_y, ocr_width, ocr_height);
         // 捕获游戏界面并执行OCR识别
         let captureRegion = captureGameRegion();
         let resList = captureRegion.findMulti(ocrObject);
@@ -308,19 +387,13 @@ async function openSelectTheClipCondition(condition) {
 }
 
 
-// const confirmRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/main/确认.jpg"), 0, 0, genshin.width, genshin.height);
+// const confirmRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("${path_base_main}确认.jpg"), 0, 0, genshin.width, genshin.height);
 /**
  * 确认
  * @returns {Promise<void>}
  */
 async function confirm() {
-    // let button = captureGameRegion().find(confirmRo);
-    // if (button.isExist()) {
-    //     log.info('点击确认')
-    //     await button.click();
-    //     await sleep(500);
-    // }
-    return await ocrClick("assets/main/确认.jpg", "点击确认", null)
+    return await ocrClick(`${path_base_main}确认.jpg`, "点击确认", null)
 }
 
 /**
@@ -329,9 +402,9 @@ async function confirm() {
  */
 async function clear() {
     // 通过OCR识别并点击"详情"按钮
-    await ocrClick("assets/main/详情.jpg", "点击详情", null)
+    await ocrClick(`${path_base_main}详情.jpg`, "点击详情", null)
     // 通过OCR识别并点击"强化"按钮
-    await ocrClick("assets/main/强化.jpg", "点击强化", null)
+    await ocrClick(`${path_base_main}强化.jpg`, "点击强化", null)
 }
 
 /**
@@ -346,7 +419,7 @@ async function operateDispose(operate, log_off) {
     if (operate === '默认' || (!operate)) {
         let ocr_name = '阶段放入'  // 默认使用"阶段放入"进行OCR识别
         //自动识别界面元素
-        let ocr1 = await ocr(`assets/main/${ocr_name}.jpg`)
+        let ocr1 = await ocr(`${path_base_main}${ocr_name}.jpg`)
         // 如果默认元素不存在，则切换为"快捷放入"
         if (!ocr1.isExist()) {
             ocr_name = '快捷放入'
@@ -358,21 +431,21 @@ async function operateDispose(operate, log_off) {
         //和自动识别互斥  自启动 阶段放入||快捷放入
         log.info(`${operate} 未打开`)
         let name = '设置按键'
-        await ocrClick(`assets/main/${name}.jpg`, `点击${name}`, log_off)
+        await ocrClick(`${path_base_main}${name}.jpg`, `点击${name}`, log_off)
         // let name1 = `设置内容右上角`
-        // let re1 = await ocrClick(`assets/main/${name1}.jpg`, `识别${name1}坐标`, log_off)
+        // let re1 = await ocrClick(`${path_base_main}${name1}.jpg`, `识别${name1}坐标`, log_off)
         // let name2 = `设置内容左上角`
-        // let re2 = await ocrClick(`assets/main/${name2}.jpg`, `识别${name2}坐标`, log_off)
+        // let re2 = await ocrClick(`${path_base_main}${name2}.jpg`, `识别${name2}坐标`, log_off)
         //
         // let name3 = `开启阶段放入功能`
-        // let re3 = await ocrClick(`assets/main/${name3}.jpg`, `识别${name3}坐标`, log_off)
+        // let re3 = await ocrClick(`${path_base_main}${name3}.jpg`, `识别${name3}坐标`, log_off)
         let name4 = `点击关闭`
         if (operate !== '快捷放入') {
             name4 = `点击开启`
         }
-        await ocrClick(`assets/main/${name4}.jpg`, `${name4}`, log_off)
+        await ocrClick(`${path_base_main}${name4}.jpg`, `${name4}`, log_off)
         let name5 = `关闭设置`
-        await ocrClick(`assets/main/${name5}.jpg`, `${name5}`, log_off)
+        await ocrClick(`${path_base_main}${name5}.jpg`, `${name5}`, log_off)
     }
     return operate
 }
@@ -382,6 +455,7 @@ async function operateDispose(operate, log_off) {
  * 判断狗粮是否充足
  */
 async function judgeDogFoodFilling() {
+    let err = null
     // 定义需要检查的资源名称为"需要摩拉"
     let up_name = '需要摩拉'
     // 计算OCR识别区域的宽度，为屏幕宽度的一半
@@ -389,11 +463,79 @@ async function judgeDogFoodFilling() {
     // 获取屏幕总高度作为OCR识别区域的高度
     let height = parseInt(genshin.height + '');
     // 执行OCR识别，检查指定区域是否存在"需要摩拉"的提示
-    let ocr = await ocrBase(`assets/main/${up_name}.jpg`, parseInt(genshin.width / 2 + ''), 0, width, height)
+    let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, parseInt(genshin.width / 2 + ''), 0, width, height)
     // 如果OCR识别结果不存在，则输出错误日志提示狗粮不足
     if (!ocr.isExist()) {
-        log.error(`狗粮不足`)
+        err = '狗粮不足'
+        log.error(`${err}`)
     }
+    return err
+}
+
+/**
+ * OCR识别圣遗物强化次数的异步函数
+ * 该函数通过截图和OCR技术识别游戏中圣遗物的强化次数
+ * @returns {Promise<{sumLevel: number, level: number}>} 返回识别到的强化次数，如果未识别到则返回0
+ */
+async function ocrHolyRelicsUpFrequency(log_off) {
+
+    // 定义OCR识别的初始坐标和区域大小
+    let ocr_x = parseInt(genshin.width / 2 + ''); // OCR识别区域的x坐标，设置为屏幕宽度的一半
+    let ocr_y = 0; // OCR识别区域的y坐标，设置为0（屏幕顶部）
+    let width = parseInt(genshin.width / 2 + ''); // OCR识别区域的宽度，设置为屏幕宽度的一半
+    let height = parseInt(genshin.height + ''); // OCR识别区域的高度，设置为整个屏幕高度
+
+    // 定义并执行第一次OCR识别，用于识别经验值图标
+    let up_name = 'exp' // 识别对象名称为经验值图标
+    let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, ocr_x, ocr_y, width, height) // 执行OCR识别
+    if (!log_off) {
+        await logInfoOcr(ocr) // 记录OCR识别结果
+    }
+
+    // 定义并执行第二次OCR识别，用于识别返回键
+    let up_name1 = '返回键' // 识别对象名称为返回键
+    let ocr1 = await ocrBase(`${path_base_main}${up_name1}.jpg`, ocr_x, ocr_y, width, height) // 执行OCR识别
+
+    if (!log_off) {
+        await logInfoOcr(ocr1) // 记录OCR识别结果
+    }
+
+    // 计算OCR识别的目标区域
+    let x = Math.min(ocr1.x, ocr.x) // 目标区域的左上角x坐标
+    let y = Math.min(ocr1.y, ocr.y) // 目标区域的左上角y坐标
+    let w = parseInt(Math.abs(ocr1.x - ocr.x) / 2 + '') // 目标区域的宽度
+    let h = Math.abs(ocr1.y - ocr.y) // 目标区域的高度
+
+    // 截取游戏画面并进行OCR识别
+    let captureRegion = captureGameRegion(); // 截取游戏画面
+    const ocrObject = RecognitionObject.Ocr(x, y, w, h); // 创建OCR识别对象
+    let res = captureRegion.find(ocrObject); // 执行OCR识别
+
+    if (!log_off) {
+        await logInfoOcr(res) // 记录OCR识别结果
+    }
+    //
+    // // 处理OCR识别结果
+    // if (res.text.includes('+')) { // 如果识别结果中包含"+"符号
+    //     let upCount = res.text.replace("+", "") // 移除"+"符号
+    //     return parseInt(upCount) // 返回转换后的数字
+    // }
+
+    let levelJson = {
+        "sumLevel": 0,//预估可提升至等级
+        "level": 0//实际等级
+    }
+    if (res.text.includes('+')) {
+        let str = "0" + res.text;
+        let result = new Function(`return ${str}`)() + "";
+        let sumLevel = parseInt(result)//计算等级
+        log.info(`圣遗物预估可提升至等级: ${sumLevel}`); // 20
+        let level = res.text.replace("+", "").split("+")[0]//实际等级
+        log.info(`圣遗物实际等级: ${level}`)
+        levelJson.sumLevel = sumLevel
+        levelJson.level = level
+    }
+    return levelJson
 }
 
 /**
@@ -401,42 +543,79 @@ async function judgeDogFoodFilling() {
  * @param operate - 操作参数
 
  * @param log_off - 日志开关
- * @returns {Promise<void>} - 返回一个Promise对象，表示异步操作的完成
+ * @returns {Promise<{sumLevel: number, level: number, upOk: boolean, upErrorMsg: string}>} - 返回一个Promise对象，表示异步操作的完成
  */
 async function oneUp(operate, log_off) {
+    let upJson = {
+        "sumLevel": 0,//预估可提升至等级
+        "level": 0,//实际等级
+        "upOk": false, // 是否强化成功的标志
+        "upErrorMsg": '', // 强化失败的错误信息
+    }
     //点击operate按钮
-    await ocrClick(`assets/main/${operate}.jpg`, `点击${operate}`, log_off)  // 调用OCR识别并点击指定按钮
+    await ocrClick(`${path_base_main}${operate}.jpg`, `点击${operate}`, log_off)  // 调用OCR识别并点击指定按钮
     await sleep(500)  // 等待500毫秒，确保界面响应
-    await judgeDogFoodFilling()  // 判断狗粮是否充足
+    let error = await judgeDogFoodFilling();  // 判断狗粮是否充足
+    if (error) {
+        upJson.upErrorMsg = error
+        return upJson
+    }
     await confirm();  // 确认操作
     // 定义错误信息为"摩拉不足"
     let err = '摩拉不足'
     // 检查强化是否成功
-    let upOk = await ocrClick(`assets/main/${err}.jpg`, `确认强化是否成功`, log_off)
+    let upOk = await ocrClick(`${path_base_main}${err}.jpg`, `确认强化是否成功`, log_off)
     // 如果识别到错误信息
     if (upOk) {
         // log.info(`${upOk.text}`)
         // log.info(`识别结果: ${upOk.text}, 原始坐标: x=${upOk.x}, y=${upOk.y}`);
         log.error(`${err}!`);  // 输出错误信息
-        return  // 提前结束函数
+        upJson.upErrorMsg = err;  // 设置强化失败的错误信息
+    } else {
+        upJson.upOk = true;  // 设置强化成功的标志
     }
+    let levelJson = await ocrHolyRelicsUpFrequency(log_off);
+    upJson.sumLevel = levelJson.sumLevel
+    upJson.level = levelJson.level
+    // upJson.upOk = upJson.level !== 0 && upJson.level === upJson.sumLevel
+    return upJson
 }
 
 
 /**
  * 单次强化函数
-
+ *
  * 该函数用于执行一次强化操作，通过调用operateDispose处理操作参数，然后调用oneUp执行实际强化
  * @param operate - 操作参数对象，包含强化所需的相关配置信息
-
  * @param log_off - 是否记录日志的布尔值，用于控制是否输出操作日志
  * @returns {Promise<void>} - 返回一个Promise，表示异步操作的完成，无返回值
  */
 async function oneClickUp(operate, log_off) {
     // 调用operateDispose函数处理操作参数，处理后的结果重新赋值给operate变量
     operate = await operateDispose(operate, log_off)
+    // 通过OCR识别当前圣遗物的等级信息
+    let ocrHolyRelics = await ocrHolyRelicsUpFrequency(log_off);
+    // 输出当前圣遗物等级的日志信息
+    log.info(`当前圣遗物等级: ${ocrHolyRelics.level}`)
+    // 检查圣遗物是否已达到满级（20级）
+    if (ocrHolyRelics.level === 20) {
+        // 记录圣遗物已满级的日志信息
+        log.info(`圣遗物已经满级`)
+        // 检查是否启用了批量强化功能
+        if (settings.enableBatchUp) {
+            //批量强化已开启，执行满级退出强化页面的操作
+            //满级退出强化页面 到圣遗物背包界面
+            let up_name = '返回键'
+            await ocrClick(`${path_base_main}${up_name}.jpg`, `满级退出强化页面 到圣遗物背包界面`, log_off)
+        }
+        return
+    }
     // 调用oneUp函数执行实际的强化操作，传入处理后的operate参数和日志控制参数
-    await oneUp(operate, log_off)
+    let up = await oneUp(operate, log_off)
+    if (!up.upOk) {
+        // 如果强化失败，记录错误信息
+        throw new Error(`${up.upErrorMsg}`);
+    }
 }
 
 /**
@@ -452,17 +631,6 @@ async function bathClickUp(operate, log_off) {
     // await oneUp(operate,log_off)
 }
 
-/**
- * 主方法
- * @returns {Promise<void>}
- */
-async function main(log_off) {
-    setGameMetrics(1920, 1080, 2); // 设置游戏窗口大小和DPI
-    if (!settings.enableOneUp) { // 检查是否启用自动登录功能
-        genshin.returnMainUi(); // 如果未启用，则返回游戏主界面
-    }
-    //todo: 待实现的功能
-}
 
 /**
  * 识别圣遗物背包区域
@@ -483,6 +651,7 @@ async function bathOcrRegionHolyRelics(ocrRegion) {
         // log.info(`识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y}`); // 可选：日志输出识别文本和坐标，当前已被注释掉
         // 记录OCR识别信息的详细日志
         await logInfoOcr(res)
+        //todo: 暂时只处理识别结果为"圣遗物"的项
     }
 }
 
@@ -498,7 +667,7 @@ async function toggleAscending() {
     // 获取屏幕高度
     let height = parseInt(genshin.height + '');
     // 使用OCR识别指定区域的图像
-    ocr = await ocrBase(`assets/main/${up_name}.jpg`, 0, 0, width, height)
+    ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
     // 检查OCR识别结果是否存在（即升序按钮是否可见）
     if (ocr.isExist()) {
         // 更新按钮名称为选中状态
@@ -514,22 +683,89 @@ async function toggleAscending() {
 
 }
 
+/**
+ * 主方法
+ * @returns {Promise<void>}
+ */
+async function main(log_off) {
+    setGameMetrics(1920, 1080, 2); // 设置游戏窗口大小和DPI
+    if (!settings.enableOneUp) { // 检查是否启用自动登录功能
+        genshin.returnMainUi(); // 如果未启用，则返回游戏主界面
+    }
+    //打开背包
+    await openKnapsack();
+    //打开圣遗物背包
+    await openHolyRelicsKnapsack();
+    //重置
+    await resetSift();
+    //打开强化界面
+    await openAggrandizement();
+    ////选择升级素材
+    // await openSelectTheClipCondition('1星素材');
+    ////强化
+    // await oneClickUp('快捷放入',null);
+    //todo: 待实现的功能
+}
+
 
 (async function () {
-
-    // await openKnapsack();
-    // await openHolyRelicsKnapsack();
+    //重置
     // await resetSift();
-    // await openAggrandizement();
-    // await openSelectTheClipCondition('1星素材');
-    // await oneClickUp('快捷放入',null);
 
-    await test5()
+    ////测试
+    // await test5()
+    await test6()
 })();
 
 
-
 //以下方法 均为测试
+async function test6() {
+    log.error("error")
+    let up_name = 'exp'
+    let width = parseInt(genshin.width / 2 + '');
+    let height = parseInt(genshin.height + '');
+    let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, parseInt(genshin.width / 2 + ''), 0, width, height)
+    await logInfoOcr(ocr)
+    await sleep(10)
+    // ocr.click()
+    await moveMouseTo(ocr.x, ocr.y);
+    await sleep(10)
+    let up_name1 = '返回键'
+    let ocr1 = await ocrBase(`${path_base_main}${up_name1}.jpg`, parseInt(genshin.width / 2 + ''), 0, width, height)
+    await logInfoOcr(ocr1)
+    // ocr1.click()
+    log.info(`${up_name1}`)
+    // await moveMouseTo(ocr1.x, ocr1.y);
+    let x = Math.min(ocr1.x, ocr.x)
+    let y = Math.min(ocr1.y, ocr.y)
+    let w = parseInt(Math.abs(ocr1.x - ocr.x) / 2 + '')
+    let h = Math.abs(ocr1.y - ocr.y)
+
+    let captureRegion = captureGameRegion();
+    const ocrObject = RecognitionObject.Ocr(x, y, w, h);
+    // ocrObject.threshold = 1.0;
+    let res = captureRegion.find(ocrObject);
+    await logInfoOcr(res)
+    // parseInt()
+    let levelJson = null
+    if (res.text.includes('+')) {
+        let str = "0" + res.text;
+        let result = new Function(`return ${str}`)() + "";
+        let sumLevel = parseInt(result)//计算等级
+        log.info(`圣遗物预估可提升至等级: ${sumLevel}`); // 20
+        // log.info(`bool:${result === 20}`); // 20
+
+        let level = res.text.replace("+", "").split("+")[0]//实际等级
+        log.info(`圣遗物实际等级: ${level}`)
+
+        levelJson = {
+            "sumLevel": sumLevel,//预估可提升至等级
+            "level": level//实际等级
+        }
+    }
+    return levelJson
+}
+
 async function test5() {
     let x = parseInt(genshin.width / 2 + '');
     let y = parseInt(genshin.height / 2 + '');
@@ -551,7 +787,7 @@ async function test3() {
     let up_name = '进度条底部'
     let width = parseInt(genshin.width / 2 + '');
     let height = parseInt(genshin.height + '');
-    let ocr = await ocrBase(`assets/main/${up_name}.jpg`, parseInt(genshin.width / 2 + ''), 0, width, height)
+    let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, parseInt(genshin.width / 2 + ''), 0, width, height)
     await logInfoOcr(ocr)
     await moveMouseTo(ocr.x, ocr.y);
     //300 一格 圣遗物
@@ -562,7 +798,7 @@ async function test2() {
     let up_name = '需要摩拉'
     let width = parseInt(genshin.width / 2 + '');
     let height = parseInt(genshin.height + '');
-    let ocr = await ocrBase(`assets/main/${up_name}.jpg`, parseInt(genshin.width / 2 + ''), 0, width, height)
+    let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, parseInt(genshin.width / 2 + ''), 0, width, height)
     if (!ocr.isExist()) {
         log.error(`狗粮不足`)
     }
@@ -573,20 +809,20 @@ async function test1() {
     let up_name = '选中升序'
     let width = parseInt(genshin.width / 3.0 + '');
     let height = parseInt(genshin.height + '');
-    // let ocr = await ocrBase(`assets/main/${up_name}.jpg`, 0, 0, width, height)
+    // let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
     // if (ocr.isExist()) {
     //     logInfoOcr(ocr)
     //     await moveMouseTo(ocr.x, ocr.y);
     //     log.info(`${up_name}`);
     // }
     up_name = '未选中升序1'
-    ocr = await ocrBase(`assets/main/${up_name}.jpg`, 0, 0, width, height)
+    ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
     // log.info(`${up_name}`);
     if (ocr.isExist()) {
         logInfoOcr(ocr)
         log.info(`降序`)
         up_name = '升序'
-        // await ocrClick(`assets/main/${up_name}.jpg`, `${up_name}`, null)
+        // await ocrClick(`${path_base_main}${up_name}.jpg`, `${up_name}`, null)
         ocr.click()
         log.info(`切换为${up_name}`)
     } else {
@@ -603,10 +839,10 @@ async function test1() {
 async function test() {
     // 定义删除按钮的名称和执行OCR识别
     let del_name = '删除键'
-    let del = await ocr(`assets/main/${del_name}.jpg`)
+    let del = await ocr(`${path_base_main}${del_name}.jpg`)
     // 定义包裹按钮的名称和执行OCR识别
     let open_name = '包裹'
-    let open = await ocr(`assets/main/${open_name}.jpg`)
+    let open = await ocr(`${path_base_main}${open_name}.jpg`)
 
     // 检查两个按钮是否都存在
     if (del.isExist() && open.isExist()) {

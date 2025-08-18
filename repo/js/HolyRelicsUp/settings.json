@@ -29,6 +29,18 @@
        "default": "默认"
    },
    {
+       "name": "upMax",
+       "type": "select",
+       "label": "最大强化等级(默认4)",
+       "options": [
+         "4"
+         "8",
+         "16",
+         "20"
+       ],
+       "default": "4"
+   },
+   {
        "name": "operate",
        "type": "select",
        "label": "滑动页面方式(默认:滚轮滑动)",
