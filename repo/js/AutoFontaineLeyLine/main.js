@@ -84,7 +84,7 @@
     var SMODEL = settings.SMODEL ? settings.SMODEL : true;
     var EAT = settings.EAT ? settings.EAT : false;
     // var EATNAME = settings.EATNAME ? settings.EATNAME : null;
-    if (settings.EATNAME === undefined || settings.EATNAME === "") {EATNAME = null}else{EATNAME = settings.EATNAME}
+    // if (settings.EATNAME === undefined || settings.EATNAME === "") {EATNAME = null}else{EATNAME = settings.EATNAME}
     var SHUOVER=0 //0初始状态，1队伍配置标志，2结束线路，3线路出错
     var haoganq=0 //0初始状态，1好感队伍配置标志
     var Rewards = settings.Rewards ? settings.Rewards : false; // ture 领取冒险点奖励，false 不领取冒险点奖励
