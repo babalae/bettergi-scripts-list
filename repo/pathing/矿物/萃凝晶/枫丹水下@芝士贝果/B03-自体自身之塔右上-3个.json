@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "B02-伊黎耶林区-5个",
+    "name": "B03-自体自身之塔右上-3个",
     "type": "collect",
     "authors": [
       {
@@ -12,7 +12,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.48.0",
     "tags": [],
-    "last_modified_time": 1755436726530,
+    "last_modified_time": 1755507809844,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -22,33 +22,32 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 3618.5527,
-      "y": 4058.2153,
+      "x": 3660.5918,
+      "y": 2926.147,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": 3615.8164,
-      "y": 4048.3062,
+      "x": 3653.1738,
+      "y": 2891.8164,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL);wait(2);keyup(VK_LCONTROL);moveby(0,5000);wait(1);attack"
+      "action_params": "keydown(VK_SPACE);wait(5);keyup(VK_SPACE);click(middle)"
     },
     {
       "id": 3,
-      "x": 3616.3262,
-      "y": 4049.387,
+      "x": 3513.8535,
+      "y": 2874.042,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL);wait(7);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,-2000)",
-      "locked": false
+      "action_params": "keydown(VK_LCONTROL);wait(2);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,1000)"
     },
     {
       "id": 4,
-      "x": 3616.3262,
-      "y": 4049.387,
+      "x": 3509.0674,
+      "y": 2875.2427,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
@@ -56,18 +55,17 @@
     },
     {
       "id": 5,
-      "x": 3613.6465,
-      "y": 4042.0996,
+      "x": 3518.8877,
+      "y": 2859.4526,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL);wait(2);keyup(VK_LCONTROL)",
-      "locked": false
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 6,
-      "x": 3613.6465,
-      "y": 4042.0996,
+      "x": 3502.5996,
+      "y": 2866.821,
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
