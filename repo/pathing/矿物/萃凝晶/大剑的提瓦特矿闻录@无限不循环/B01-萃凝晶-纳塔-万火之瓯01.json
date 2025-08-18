@@ -9,15 +9,13 @@
     "tags": [
       "双手剑"
     ],
-    "last_modified_time": 1754978023230,
+    "last_modified_time": 1751656104563,
     "authors": [
       {
         "name": "无限不循环",
         "links": "https://github.com/non-repeating001"
       }
-    ],
-    "enable_monster_loot_split": false,
-    "map_match_method": ""
+    ]
   },
   "positions": [
     {
@@ -39,8 +37,8 @@
     },
     {
       "id": 3,
-      "x": 8610.05,
-      "y": -1888.79,
+      "x": 8604.6,
+      "y": -1889.5,
       "action": "mining",
       "move_mode": "walk",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
@@ -48,21 +46,57 @@
     },
     {
       "id": 4,
-      "x": 8607.6582,
-      "y": -1892.8408,
-      "type": "path",
+      "x": 8604.6,
+      "y": -1889.5,
+      "action": "combat_script",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "action_params": "wait(1)",
+      "type": "path"
     },
     {
       "id": 5,
-      "x": 8604.8994,
-      "y": -1888.9414,
-      "type": "target",
+      "x": 8604.6,
+      "y": -1889.5,
+      "action": "pick_around",
       "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 8608.29,
+      "y": -1891.53,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 8608.71,
+      "y": -1890.66,
       "action": "mining",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 8608.71,
+      "y": -1890.66,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 8608.71,
+      "y": -1890.66,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     }
   ]
 }

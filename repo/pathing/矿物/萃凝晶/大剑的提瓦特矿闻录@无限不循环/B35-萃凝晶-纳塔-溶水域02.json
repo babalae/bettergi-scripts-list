@@ -9,13 +9,15 @@
     "tags": [
       "双手剑"
     ],
-    "last_modified_time": 1751658053204,
+    "last_modified_time": 1755201805174,
     "authors": [
       {
         "name": "无限不循环",
         "links": "https://github.com/non-repeating001"
       }
-    ]
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -30,8 +32,8 @@
       "id": 2,
       "x": 8568.09,
       "y": -2442.55,
-      "action": "",
-      "move_mode": "walk",
+      "action": "stop_flying",
+      "move_mode": "fly",
       "action_params": "",
       "type": "path"
     },
@@ -50,7 +52,7 @@
       "y": -2443.09,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(1)",
       "type": "path"
     },
     {
@@ -77,7 +79,7 @@
       "y": -2456.09,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(1)",
       "type": "path"
     },
     {
@@ -95,7 +97,7 @@
       "y": -2455.08,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(1)",
       "type": "path"
     },
     {
@@ -122,7 +124,7 @@
       "y": -2455.59,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(1)",
       "type": "path"
     },
     {
@@ -149,7 +151,7 @@
       "y": -2456.84,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(1)",
       "type": "path"
     },
     {
@@ -203,7 +205,7 @@
       "y": -2486.15,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(1)",
       "type": "path"
     },
     {
@@ -239,7 +241,7 @@
       "y": -2476.44,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(1)",
       "type": "path"
     },
     {
@@ -266,7 +268,7 @@
       "y": -2475.6,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(1)",
       "type": "path"
     },
     {
@@ -293,7 +295,7 @@
       "y": -2473.84,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(1)",
       "type": "path"
     },
     {
@@ -356,7 +358,7 @@
       "y": -2626.42,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(1)",
       "type": "path"
     },
     {
@@ -383,7 +385,7 @@
       "y": -2625.02,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(1)",
       "type": "path"
     },
     {
@@ -410,7 +412,7 @@
       "y": -2625.62,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(1)",
       "type": "path"
     }
   ]
