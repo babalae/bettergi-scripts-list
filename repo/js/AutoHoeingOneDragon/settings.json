@@ -46,10 +46,22 @@
     "default": "模板匹配拾取，默认只拾取狗粮"
   },
   {
-    "name": "trigger",
+    "name": "rollingDelay",
     "type": "input-text",
-    "label": "触发器间隔(毫秒)，只对js拾取生效\n越长占用性能越低，拾取越慢，只建议性能不足时调高至不超过200",
-    "default": "50"
+    "label": "滚轮滚动后延时(毫秒)，观察到漏捡时建议调大",
+    "default": "25"
+  },
+  {
+    "name": "pickupDelay",
+    "type": "input-text",
+    "label": "拾取后延时(毫秒)，观察到误捡时建议调大",
+    "default": "100"
+  },
+  {
+    "name": "timeMove",
+    "type": "input-text",
+    "label": "单次滚动周期(毫秒)，滚动不全时",
+    "default": "1000"
   },
   {
     "name": "activeDumperMode",
@@ -76,7 +88,7 @@
     "name": "tagsForGroup1",
     "type": "input-text",
     "label": "允许使用的标签：\n水免，次数盾，高危，传奇，蕈兽，小怪，沙暴\n多个标签使用【中文逗号】分隔\n\n路径组一要【排除】的标签",
-    "default": "蕈兽"
+    "default": "蕈兽，传奇"
   },
   {
     "name": "tagsForGroup2",
