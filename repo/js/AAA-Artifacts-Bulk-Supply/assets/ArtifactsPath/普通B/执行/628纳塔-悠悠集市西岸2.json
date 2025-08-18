@@ -13,7 +13,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1755374769202,
+    "last_modified_time": 1755530899085,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -38,15 +38,24 @@
     },
     {
       "id": 3,
+      "x": 14156.3115234375,
+      "y": 415.49609375,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.4)"
+    },
+    {
+      "id": 4,
       "x": 14175.083984375,
       "y": 348.166015625,
       "action": "combat_script",
       "move_mode": "run",
-      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.9),keydown(w),wait(0.2),keypress(e),wait(1.7),keypress(e),wait(1),keyup(w),moveby(0,-1500),",
+      "action_params": "keydown(w),wait(0.3),moveby(0,-1900),keypress(e),wait(1.7),keypress(e),wait(1),keyup(w),",
       "type": "orientation"
     },
     {
-      "id": 4,
+      "id": 5,
       "x": 14175.083984375,
       "y": 348.166015625,
       "action": "",
@@ -55,7 +64,7 @@
       "type": "path"
     },
     {
-      "id": 5,
+      "id": 6,
       "x": 14180.2421875,
       "y": 317.1640625,
       "action": "combat_script",
@@ -64,7 +73,7 @@
       "type": "orientation"
     },
     {
-      "id": 6,
+      "id": 7,
       "x": 14177.48046875,
       "y": 314.33740234375,
       "action": "",
@@ -73,7 +82,7 @@
       "type": "path"
     },
     {
-      "id": 7,
+      "id": 8,
       "x": 14177.48046875,
       "y": 314.33740234375,
       "action": "combat_script",
@@ -82,17 +91,16 @@
       "type": "target"
     },
     {
-      "id": 8,
+      "id": 9,
       "x": 14170.1015625,
       "y": 312.95703125,
       "action": "combat_script",
       "move_mode": "climb",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.1);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
-      "type": "target",
-      "locked": false
+      "type": "target"
     },
     {
-      "id": 9,
+      "id": 10,
       "x": 14170.1015625,
       "y": 312.95703125,
       "action": "set_time",
