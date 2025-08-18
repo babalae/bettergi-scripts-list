@@ -94,6 +94,11 @@ let failcount = 0;
     await runEndingAndExtraPath();
     if (state.cancel) return;
 
+    //切回黑芙
+    if (settings.furina) {
+        await pathingScript.runFile('assets/furina/强制黑芙.json');
+    }
+
     //运行后按自定义配置清理狗粮
     artifactExperienceDiff += await processArtifacts(21);
     moraDiff += await mora();
@@ -788,18 +793,18 @@ async function runActivatePath() {
     const extraCombatPath = extraPath + "/清怪";
     const extraPreparePath = extraPath + "/准备";
     if (!forceAlternate && state.runningEndingAndExtraRoute === "收尾额外A") {
-        await runPaths(endingActivatePath, artifactPartyName, false);
+        await runPaths(endingActivatePath, "", false);
     }
-    await runPaths(extraActivatePath, combatPartyName, false);
+    await runPaths(extraActivatePath, "", false);
 
     if (combatPartyName) {
         log.info("填写了清怪队伍，执行清怪路线");
-        await runPaths(extraCombatPath, artifactPartyName, false);
+        await runPaths(extraCombatPath, combatPartyName, false);
         await runPaths(endingCombatPath, combatPartyName, false);
     }
 
-    await runPaths(endingPreparePath, artifactPartyName, false);
-    await runPaths(extraPreparePath, combatPartyName, false);
+    await runPaths(endingPreparePath, "", false);
+    await runPaths(extraPreparePath, "", false);
 }
 
 async function runEndingAndExtraPath() {
@@ -846,7 +851,7 @@ async function runPaths(folderFilePath, PartyName, doStop) {
             continue;
         }
 
-        if (PartyName != state.currentParty) {
+        if (PartyName != state.currentParty && PartyName) {
             //如果与当前队伍不同，尝试切换队伍，并更新队伍
             await switchPartyIfNeeded(PartyName);
             state.currentParty = PartyName;

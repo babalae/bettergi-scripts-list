@@ -1,18 +1,21 @@
-//当前js版本 1.4.6
+//当前js版本 1.4.7
 
 //拾取时上下滑动的时间
-let timeMoveUp = 500;
-let timeMoveDown = 1000;
+let timeMoveUp;
+let timeMoveDown;
 let pickupMode = settings.pickupMode || "模板匹配拾取，默认只拾取狗粮";
 if (settings.activeDumperMode) { //处理泥头车信息
     dumpers = settings.activeDumperMode.split('，').map(Number).filter(num => num === 1 || num === 2 || num === 3 || num === 4);
 } else {
     dumpers = [];
 }
-trigger = (+settings.trigger || 50);
 let gameRegion;
 let targetItemPath = "assets/targetItems";
 let targetItems;
+
+const rollingDelay = (+settings.rollingDelay || 25);
+const pickupDelay = (+settings.pickupDelay || 100);
+const timeMove = (+settings.timeMove || 1000);
 
 (async function () {
     //自定义配置处理
@@ -35,21 +38,11 @@ let targetItems;
     targetMonsterNum += 25;//预留漏怪
     const partyName = settings.partyName || "";
 
-    /*******************************
-     * 1. 读取 settings（没有时用默认值）
-     *******************************/
+    //读取 settings（没有时用默认值）
     const groupSettings = Array.from({ length: 10 }, (_, i) =>
         settings[`tagsForGroup${i + 1}`] || (i === 0 ? '蕈兽' : '') // 第 0 组默认“蕈兽”，其余默认空串
     );
-
-    /*******************************
-     * 2. 统一生成各组的标签数组
-     *******************************/
     const groupTags = groupSettings.map(str => str.split('，').filter(Boolean));
-
-    /*******************************
-     * 3. 把后面 9 组合并到第 0 组并去重
-     *******************************/
     groupTags[0] = [...new Set(groupTags.flat())];
 
 
@@ -69,9 +62,9 @@ let targetItems;
             targetItem.template = file.ReadImageMatSync(targetItem.fullPath);
             targetItem.itemName = targetItem.fileName.replace(/\.png$/, '');
         }
-        timeMoveUp = trigger * 8;
-        timeMoveDown = trigger * 8;
     }
+    timeMoveUp = Math.round(timeMove * 0.45);
+    timeMoveDown = Math.round(timeMove * 0.55);
     if (!settings.accountName) {
         for (let i = 0; i < 120; i++) {
             // 原始文本
@@ -470,8 +463,8 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
         let template = file.ReadImageMatSync(imagePath);
         let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
 
-        // 尝试次数设置为 3 次
-        const maxAttempts = 3;
+        // 尝试次数设置为 2 次
+        const maxAttempts = 2;
 
         let attempts = 0;
         while (attempts < maxAttempts && !state.cancelRequested) {
@@ -491,7 +484,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 return false; // 发生异常时返回 false
             }
             attempts++; // 增加尝试次数
-            await sleep(trigger); // 每次检测间隔 trigger 毫秒
+            await sleep(50); // 每次检测间隔 50 毫秒
         }
         if (state.cancelRequested) {
             log.info("图像识别任务已取消");
@@ -531,7 +524,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 return false; // 发生异常时返回 false
             }
             attempts++; // 增加尝试次数
-            await sleep(trigger); // 每次检测间隔 trigger 毫秒
+            await sleep(100); // 每次检测间隔 100 毫秒
         }
         if (state.cancelRequested) {
             log.info("图像识别任务已取消");
@@ -610,6 +603,8 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
         }
 
         while (!state.completed && !state.cancelRequested) {
+            let lastcenterYF = 0;
+            let lastItemName = "";
             // 尝试找到 F 图标并返回其坐标
             async function findFIcon(imagePath, xMin, yMin, width, height, timeout = 500) {
                 let template = file.ReadImageMatSync(imagePath);
@@ -631,7 +626,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                         }
                         return null;
                     }
-                    await sleep(trigger * 2); // 找不到f时等待 trigger*2 毫秒
+                    await sleep(100); // 找不到f时等待 100 毫秒
                 }
                 if (state.cancelRequested) {
                     log.info("图像识别任务已取消");
@@ -668,7 +663,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     let centerYTargetText = ocrResult.y + ocrResult.height / 2;
                     if (Math.abs(centerYTargetText - centerYF) <= texttolerance) {
                         keyPress("F"); // 执行交互操作
-                        await sleep(250); // 操作后暂停 250 毫秒
+                        await sleep(pickupDelay); // 操作后暂停 pickupDelay 毫秒
                         foundTarget = true;
                         if ((new Date() - lastPickupTime) > 1000 || ocrResult.text != lastPickupItem) {
                             log.info(`交互或拾取："${ocrResult.text}"`);
@@ -684,12 +679,22 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 //let end = new Date();
                 //log.info(`调试-匹配用时${end - start}毫秒`)
                 if (itemName) {
-                    keyPress("F"); // 执行交互操作
-                    log.info(`交互或拾取："${itemName}"`);
-                    await sleep(250); // 操作后暂停250 毫秒
-                    foundTarget = true;
+                    if (Math.abs(lastcenterYF - centerYF) <= 20 && lastItemName === itemName) {
+                        log.debug("调试-物品名和坐标相同，等待2*pickupDelay");
+                        await sleep(2 * pickupDelay);
+                        foundTarget = true;
+                        lastcenterYF = 0;
+                    } else {
+                        keyPress("F"); // 执行交互操作
+                        log.info(`交互或拾取："${itemName}"`);
+                        await sleep(pickupDelay); // 操作后暂停 pickupDelay 毫秒
+                        //foundTarget = true;
+                    }
+                    lastcenterYF = centerYF;
+                    lastItemName = itemName;
+                } else {
+                    lastItemName = "";
                 }
-
             }
             // 如果在当前页面中没有找到任何目标文本，则根据时间决定滚动方向
             if (!foundTarget) {
@@ -713,13 +718,9 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     // 否则执行下翻
                     await keyMouseScript.runFile(`assets/滚轮上翻.json`);
                 }
-                if (pickupMode === "模板匹配拾取，默认只拾取狗粮") {
-                    await sleep(Math.round(trigger / 3));
-                } else {
-                    await sleep(Math.round(trigger));
-                }
+                //滚轮后延时
+                await sleep(rollingDelay);
             }
-
             if (state.cancelRequested) {
                 break;
             }
