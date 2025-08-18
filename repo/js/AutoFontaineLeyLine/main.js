@@ -7,7 +7,7 @@
         const startTime = new Date();
         //  const recognitionObject = new RecognitionObject();
         //  recognitionObject.UseMask = false; // 设置 UseMask 为 true
-        // 下个版本BGI才支持带UseMask的构造函数
+        // 下个版本BGI才支持带UseMask的构造函数RecognitionObject.RegionOfInterest = new Rect(xa, ya, wa, ha);
         const Imagidentify = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagefilePath));
         for (let ii = 0; ii < 10; ii++) {    
             captureRegion = captureGameRegion();  // 获取一张截图
@@ -82,6 +82,9 @@
    
     //初始化
     var SMODEL = settings.SMODEL ? settings.SMODEL : true;
+    var EAT = settings.EAT ? settings.EAT : false;
+    // var EATNAME = settings.EATNAME ? settings.EATNAME : null;
+    if (settings.EATNAME === undefined || settings.EATNAME === "") {EATNAME = null}else{EATNAME = settings.EATNAME}
     var SHUOVER=0 //0初始状态，1队伍配置标志，2结束线路，3线路出错
     var haoganq=0 //0初始状态，1好感队伍配置标志
     var Rewards = settings.Rewards ? settings.Rewards : false; // ture 领取冒险点奖励，false 不领取冒险点奖励
@@ -146,7 +149,7 @@
     }  
     var timesConfig = { value: timesValue };
 
-    log.warn(`全自动枫丹地脉花: v3.5 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
+    log.warn(`全自动枫丹地脉花: v3.6 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
     log.warn(`使用树脂类型数量：${rewards.length}`);
     log.warn(`使用树脂顺序：${golbalRewardText.join(" ->")}`); 
 
@@ -326,7 +329,23 @@
         await genshin.returnMainUi();
         log.info("重置地图中,打开冒险之证寻找地脉花...");  
         await genshin.tp(2297.60, -824.45);
-        await genshin.returnMainUi();    
+        await genshin.returnMainUi();   
+
+        if (EAT){
+
+            // if (EATNAME == null){
+                await sleep(1000);
+                dispatcher.RunTask(new SoloTask("AutoEat"));            
+            // }else{
+            //     dispatcher.RunTask(new SoloTask("AutoEat"));  
+            //     await sleep(1000);
+            //     await dispatcher.RunTask(new SoloTask("AutoEat", {foodEffectType:parseInt(EATNAME, 10)}));
+            //     await sleep(1000);          
+            // }         
+
+            log.warn("·便携式营养袋· 中可放入血量恢复和复活药..."); 
+            log.warn("可到 ·实时触发->自动吃药· 中配置检测间隔..."); 
+        }        
 
         for(let i = 0;i<5;i++){
             await sleep(1100);
@@ -461,6 +480,7 @@
 
         // //自定义标关闭
         await sleep(1200);
+
         await keyPress("M");
         await sleep(1200);
         await click(53,1019);
@@ -686,7 +706,7 @@
     }
 
     //定义领取动作,好感队伍是否添加？
-    async function claimRewards( Rewardspath = null ) {
+    async function claimRewards( Rewardspath = null ,Repath = null) {
         await genshin.returnMainUi(); 
         log.info(`尝试领取奖励，优先${onerewards}'`);
         shouldContinueChecking = false;
@@ -711,10 +731,42 @@
         
        let dimai = await Textocr("地脉之花", 1, 1, 0, 840,225, 230, 125);
        if (!dimai.found) {
-        let pathDic = JSON.parse(file.readTextSync(Rewardspath));
-        pathDic["positions"][0]["type"] = "path";
-        await pathingScript.run(JSON.stringify(pathDic));
-         await keyPress("F");await keyPress("F")   
+
+        shouldContinueChecking = true;
+
+        await keyPress("VK_ESCAPE"); 
+        await sleep(1000);
+        await keyPress("VK_ESCAPE"); 
+        await sleep(1000);
+        await genshin.returnMainUi();
+        await sleep(500);
+
+        let smallXY = await genshin.getPositionFromMap();
+        log.info(`地脉寻找异常，当前小地图坐标: X=${smallXY.X}, Y=${smallXY.Y}`);
+
+        //计算smallXY.X,smallXY.Y与2297.60, -824.45的差值，看是否在100内
+        let xDiff = Math.abs(smallXY.X - 2297.60);
+        let yDiff = Math.abs(smallXY.Y - (-824.45));
+
+        if (xDiff < 100 || yDiff < 100) {
+            log.warn("当前异常地点在须弥，重新执行");
+            await genshin.returnMainUi();
+            await sleep(500);
+            await genshin.tp(2297.60, -824.45);
+            await sleep(5000);
+            await pathingScript.runFile(Repath)
+            await sleep(500);
+            
+        } else {
+            log.warn("当前异常地点在枫丹，继续执行");     
+            let pathDic = JSON.parse(file.readTextSync(Rewardspath));
+            pathDic["positions"][0]["type"] = "path";
+            await pathingScript.run(JSON.stringify(pathDic));
+        }
+
+        shouldContinueChecking = false;
+         await keyPress("F");await sleep(700);await keyPress("F");await sleep(700);await keyPress("F") ;   
+       
         }
 
         await sleep(500);
@@ -766,8 +818,11 @@
                         shouldExit &= (parseInt(momentResinCount, 10)  <= 0);
                     }   
 
-                    log.info(`${resinTypeMap[rewards[i]]} ...`);   
-                    await click(SHU.x+550,SHU.y)                  
+                    log.info(`${resinTypeMap[rewards[i]]} ...`);
+                    let dimai2 = await Textocr("地脉之花", 1, 0, 0, 840,225, 230, 125);
+                    if (!dimai2.found) { await keyPress("F");await sleep(700);await keyPress("F");await sleep(700);await keyPress("F") ; }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                    await click(SHU.x+550,SHU.y) 
+                    await click(SHU.x+550,SHU.y)                   
                     
                     if (shouldExit) 
                     {
@@ -963,7 +1018,7 @@
                     let startTime = Date.now();
                     let noTextCount = 0;
                     const successKeywords = ["挑战达成", "战斗胜利", "挑战成功"];
-                    const failureKeywords = ["挑战失败"];
+                    const failureKeywords = ["挑战失败","游泳"];
                     const recovery  = ["复苏"];
     
                     // 循环检测直到超时
@@ -1002,7 +1057,7 @@
                                     resolve(false);
                                     return;
                                 }
-                            }
+                            }                         
     
                             //战斗区域
                             let foundText = recognizeFightText(captureRegion);
@@ -1196,7 +1251,7 @@
                 if (!await genshin.SwitchParty(haogandui))await genshin.returnMainUi();                 
             }
             // shouldContinueChecking = false;
-            if (!(await claimRewards( `${selectedFolder}${jsonFile2}` ))) {
+            if (!(await claimRewards( `${selectedFolder}${jsonFile2}`,`${selectedFolder}${jsonFile1}`))) {
                 log.warn("树脂消耗完毕，结束任务");
                 dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false }));
                 await genshin.returnMainUi(); 
@@ -1261,7 +1316,7 @@
                     }
                 } 
         }
-    }  
+    }      
 
     try { 
         //根据SHUOVER决定模式
