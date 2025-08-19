@@ -49,6 +49,7 @@ async function downClick(x, y) {
 function isExist(res) {
     return res.isExist() // 调用资源对象的isExist方法获取存在状态
 }
+
 //========================以上为原有封装==============================
 //========================以下为基本配置==============================
 const config = {
@@ -212,6 +213,7 @@ async function ocrClick(path, log_msg, log_off) {
     // 返回按钮对象
     return button
 }
+
 //========================以上为基本操作==============================
 //========================以下为实际操作==============================
 
@@ -566,6 +568,7 @@ async function clickProgressBar(x, y) {
 /**
  * 点击进度条顶部的箭头(圣遗物界面)
  * 该函数用于定位并点击游戏界面中进度条顶部的箭头按钮
+ * <前置条件:处于圣遗物背包界面|测试通过:v>
  */
 async function clickProgressBarTopByHolyRelics() {
     // 定义进度条顶部箭头的名称
@@ -597,6 +600,7 @@ async function clickProgressBarTopByHolyRelics() {
 /**
  * 点击进度条进度的箭头(排序界面)
  * 该函数用于定位并点击游戏界面中进度条顶部的箭头按钮
+ * <前置条件:处于圣遗物背包排序界面|测试通过:v>
  */
 async function clickProgressBarDownBySort() {
     // 定义进度条顶部箭头的名称
@@ -631,6 +635,7 @@ async function clickProgressBarDownBySort() {
 
 /**
  * 点击第一个圣遗物的函数
+ * <前置条件:处于圣遗物背包界面|测试通过:v>
  */
 async function downClickFirstHolyRelics() {
     let x = 200 * genshinJson.width / 1920
@@ -654,6 +659,7 @@ async function downClickFirstHolyRelics() {
  *
  * 该函数会查找游戏中的强化按钮，如果存在则点击它
  * @returns {Promise<void>} - 返回一个Promise，表示异步操作的完成
+ * <前置条件:处于圣遗物详情界面|测试通过:v>
  */
 async function openAggrandizement() {
     // 注释掉的代码：使用模板匹配方法查找强化按钮
@@ -688,10 +694,11 @@ async function openAggrandizement() {
  * 该函数用于打开游戏中的素材选择界面，并根据传入的条件自动选择对应的素材
  * @param {string} condition - 需要选择的素材条件文本
  * @returns {Promise<void>} 异步函数，无返回值
+ * todo:<前置条件:处于圣遗物强化界面|测试通过:x> 出现问题：执行完成后会自动点击按键 任务结束后也会出现 执行下其他脚本后消失
  */
 async function openSelectTheClipCondition(condition) {
     // 检查是否传入了有效的素材条件
-    if (!condition || condition === '默认') {
+    if (condition !== null || condition === '默认') {
         info(`使用默认素材`)
         return
     }
@@ -1255,7 +1262,9 @@ async function test3_1() {
     // await clickProgressBarDownBySort()
     // await openLvSort()
     // await openSortAll(false)
-    await openPrerequisitesAll(false)
+    // await openPrerequisitesAll(false)
+    // await openAggrandizement()
+    await openSelectTheClipCondition(config.material)
 }
 
 async function test3() {
