@@ -607,6 +607,7 @@ async function clickProgressBarTopByHolyRelics() {
     var y1 = 0;
     // 构建进度条顶部箭头图片的完整路径
     var path = `${path_base_main}${up_name}.jpg`;
+    await wait(10)
     // 使用OCR识别图片在屏幕上的位置和大小
     let ocr = await ocrBase(path, x1, y1, width, height)
     // 记录OCR识别结果
@@ -614,9 +615,10 @@ async function clickProgressBarTopByHolyRelics() {
     // 计算点击位置的x坐标（OCR识别区域的中心点）
     let x = ocr.x + parseInt(ocr.width / 2 + '');
     // 计算点击位置的y坐标（OCR识别区域的底部）
-    let y = ocr.y + parseInt(ocr.height + '');
+    let y = ocr.y + parseInt(ocr.height / 2 + '');
     // 输出点击坐标信息
     await info(`x:${x},y:${y}`)
+    await wait(10)
     // 移动鼠标到计算的位置
     await clickProgressBar(x, y)
 }
@@ -1046,7 +1048,7 @@ async function oneClickUp(operate, log_off) {
     }
     // 调用operateDispose函数处理操作参数，处理后的结果重新赋值给operate变量
     operate = await operateDispose(operate, false, log_off)
-    info('ocrHolyRelicsUpFrequency')
+    // info('ocrHolyRelicsUpFrequency')
     // 通过OCR识别当前圣遗物的等级信息
     let ocrHolyRelics = await ocrHolyRelicsUpFrequency(log_off);
     // 输出当前圣遗物等级的日志信息
@@ -1061,6 +1063,7 @@ async function oneClickUp(operate, log_off) {
         if (config.enableBatchUp) {
             //批量强化已开启，执行满级退出强化页面的操作
             //满级退出强化页面 到圣遗物背包界面
+            await wait(10)
             let up_name = '返回键'
             await ocrClick(`${path_base_main}${up_name}.jpg`, `满级退出强化页面 到圣遗物背包界面`, log_off)
         }
@@ -1086,6 +1089,7 @@ async function oneClickUp(operate, log_off) {
     }
 
     for (let i = 0; i < count; i++) {
+        await wait(300)
         // 调用oneUp函数执行实际的强化操作，传入处理后的operate参数和日志控制参数
         let up = await oneUp(operate, log_off)
         if (!up.upOk) {
@@ -1219,6 +1223,8 @@ async function main(log_off) {
         await wait(ms);
 
         await bathClickUp(config.insertionMethod, log_off)
+    } else {
+        throwError(`未启用批量强化请去浏览文档后开启！`)
     }
 
     ////选择升级素材 //禁用 存在异常
@@ -1232,8 +1238,8 @@ async function main(log_off) {
 
     //重置
     // await resetSift();
-    await main(false)
-    // await main(true)
+    // await main(false)
+    await main(true)
     // await judgeDogFoodFilling()
     // await bathClickUp(config.insertionMethod, false)
 })();
