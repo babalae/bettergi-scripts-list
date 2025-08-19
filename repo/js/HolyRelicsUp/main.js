@@ -67,6 +67,7 @@ const config = {
     insertionMethod: settings.insertionMethod,//插入方式
     material: settings.material,//材料
     upMax: parseInt(settings.upMax + ''),//升级次数
+    upMaxCount: settings.upMaxCount + '',//设置升级圣遗物个数
     operate: settings.operate,//操作
     knapsackKey: settings.knapsackKey//背包快捷键
 }
@@ -1103,37 +1104,6 @@ async function oneClickUp(operate, log_off) {
         }
     }
     return reJson
-    // if (config.enableOneUp) {
-    //     //单次强化
-    //     await wait(500)  // 等待500毫秒，确保界面响应
-    //     let upMax = config.upMax
-    //     if (sumLevel != 4 && sumLevel != 8 && sumLevel != 16 && sumLevel < upMax) {
-    //         await info(`圣遗物预估可提升至等级: ${sumLevel} <= ${upMax}，退出强化`)
-    //         return null
-    //     }
-    //
-    //     if (upMax < 20) {
-    //         //强制使用阶段放入
-    //         operate = '阶段放入'
-    //         let count = upMax / 4;
-    //         for (let i = 0; i < count; i++) {
-    //             // 调用oneUp函数执行实际的强化操作，传入处理后的operate参数和日志控制参数
-    //             let up = await oneUp(operate, log_off)
-    //             if (!up.upOk) {
-    //                 // 如果强化失败，记录错误信息
-    //                 throw new Error(`${up.upErrorMsg}`);
-    //             }
-    //         }
-    //     }
-    // }
-
-    // // 调用oneUp函数执行实际的强化操作，传入处理后的operate参数和日志控制参数
-    // let up = await oneUp(operate, log_off)
-    // if (!up.upOk) {
-    //     // 如果强化失败，记录错误信息
-    //     throw new Error(`${up.upErrorMsg}`);
-    // }
-    // return up
 }
 
 /**
@@ -1145,7 +1115,20 @@ async function oneClickUp(operate, log_off) {
 async function bathClickUp(operate, log_off) {
     let ms = 300
     let index = 0
+    let upMaxCount = null
+    if (config.upMaxCount) {
+        upMaxCount = parseInt(config.upMaxCount + '')
+        if (upMaxCount <= 0) {
+            throwError(`圣遗物强化个数 必须大于0`)
+        }
+    }
     while (true) {
+        if (upMaxCount !== null && index === upMaxCount) {
+            info(`${upMaxCount}个圣遗物已经强化到+${config.upMax}终止运行`)
+            await toMainUi()
+            await wait(ms)
+            break
+        }
         //强制拉到顶
         await clickProgressBarTopByHolyRelics()
         // 调用点击第一个圣物遗物的函数，并等待其完成
@@ -1160,7 +1143,7 @@ async function bathClickUp(operate, log_off) {
             await info(`强化成功`)
             await wait(ms)
             let up_name = '返回键'
-            await ocrClick(`${path_base_main}${up_name}.jpg`, `满级退出强化页面 到圣遗物背包界面`, log_off)
+            await ocrClick(`${path_base_main}${up_name}.jpg`, `圣遗物已经强化到+${config.upMax}退出强化页面 到圣遗物背包界面`, log_off)
             //返回圣遗物背包
         } else {
             // 如果强化失败，则退出循环
@@ -1170,6 +1153,7 @@ async function bathClickUp(operate, log_off) {
         info(`圣遗物强化+${config.upMax} 数量：${index}`)
         index += 1
     }
+
 
 }
 
@@ -1199,7 +1183,19 @@ async function bathOcrRegionHolyRelics(ocrRegion) {
 }
 
 async function toMainUi() {
-    await genshin.returnMainUi(); // 如果未启用，则返回游戏主界面
+    let index = 1
+    await wait(ms);
+    while (!isInMainUI()) {
+        await wait(ms);
+        await genshin.returnMainUi(); // 如果未启用，则返回游戏主界面
+        await wait(ms);
+        if (index > 3) {
+            throwError(`多次尝试返回主界面失败`);
+        }
+        index += 1
+    }
+
+
 }
 
 /**
@@ -1210,19 +1206,8 @@ async function main(log_off) {
     let ms = 300
     await setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
     if (config.enableBatchUp) { // 检查是否启用
-        let index = 1
         await wait(ms);
-
-        while (!isInMainUI()) {
-            await wait(ms);
-            await toMainUi()
-            await wait(ms);
-            if (index > 3) {
-                throw new Error(`多次尝试返回主界面失败`);
-            }
-            index += 1
-        }
-
+        await toMainUi()
         await wait(ms);
         //打开背包
         await openKnapsack();

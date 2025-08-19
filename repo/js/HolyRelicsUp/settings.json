@@ -8,7 +8,7 @@
    {
      "name": "enableOneUp",
      "type": "checkbox",
-     "label": "启用单次强化",
+     "label": "启用单次强化(暂时无用)",
      "default": false
    },
    {
@@ -31,7 +31,7 @@
    {
        "name": "material",
        "type": "select",
-       "label": "选择素材(默认:自动识别)",
+       "label": "选择素材(默认:自动识别)(存在问题暂时禁用)",
        "options": [
          "默认",
          "1星素材",
@@ -54,15 +54,10 @@
        "default": "4"
    },
    {
-       "name": "operate",
+       "name": "upMaxCount",
        "type": "select",
-       "label": "滑动页面方式(默认:滚轮滑动)",
-       "options": [
-       "默认",
-         "鼠标拖动",
-         "滚轮滑动"
-       ],
-       "default": "默认"
+       "label": "最大圣遗物强化个数",
+       "default": ""
    },
    {
       "name": "knapsackKey",
