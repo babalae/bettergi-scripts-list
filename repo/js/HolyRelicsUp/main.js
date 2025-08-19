@@ -853,36 +853,27 @@ async function clear() {
  * @returns {Promise<string>} - 返回处理后的操作类型
  */
 async function operateDispose(operate, enableInsertionMethod, log_off) {
+    let ocr_name = '阶段放入'  // 默认使用"阶段放入"进行OCR识别
+    //自动识别界面元素
+    let ocr1 = await ocr(`${path_base_main}${ocr_name}.jpg`)
+    // 如果默认元素不存在，则切换为"快捷放入"
+    let exist = isExist(ocr1);
+    if (!exist) {
+        ocr_name = '快捷放入'
+    }
     // 如果操作方式为"默认"或未指定，则进行自动识别
     if (operate === '默认' || (!operate)) {
-        let ocr_name = '阶段放入'  // 默认使用"阶段放入"进行OCR识别
-        //自动识别界面元素
-        let ocr1 = await ocr(`${path_base_main}${ocr_name}.jpg`)
-        // 如果默认元素不存在，则切换为"快捷放入"
-        if (!isExist(ocr1)) {
-            ocr_name = '快捷放入'
-        }
         // 更新操作方式为识别到的名称
         operate = ocr_name
     } else if (config.enableInsertionMethod || enableInsertionMethod) {
-        let ocr_name = '阶段放入'  // 默认使用"阶段放入"进行OCR识别
-        //自动识别界面元素
-        let ocr1 = await ocr(`${path_base_main}${ocr_name}.jpg`)
         // 如果默认元素不存在，则切换为"快捷放入"
-        if (isExist(ocr1)) {
+        if (exist) {
             return ocr_name
         }
         //和自动识别互斥  自启动 阶段放入||快捷放入
         await info(`${operate} 未打开`)
         let name = '设置按键'
         await ocrClick(`${path_base_main}${name}.jpg`, `点击${name}`, log_off)
-        // let name1 = `设置内容右上角`
-        // let re1 = await ocrClick(`${path_base_main}${name1}.jpg`, `识别${name1}坐标`, log_off)
-        // let name2 = `设置内容左上角`
-        // let re2 = await ocrClick(`${path_base_main}${name2}.jpg`, `识别${name2}坐标`, log_off)
-        //
-        // let name3 = `开启阶段放入功能`
-        // let re3 = await ocrClick(`${path_base_main}${name3}.jpg`, `识别${name3}坐标`, log_off)
         let name4 = `点击关闭`
         if (operate !== '快捷放入') {
             name4 = `点击开启`
@@ -1009,7 +1000,7 @@ async function oneUp(operate, log_off) {
     //     return upJson
     // }
     await confirm();  // 确认操作
-    await mTo(0,0)
+    await mTo(0, 0)
     // 定义错误信息为"摩拉不足"
     let err = '摩拉不足'
     // 检查强化是否成功
@@ -1153,19 +1144,33 @@ async function oneClickUp(operate, log_off) {
  */
 async function bathClickUp(operate, log_off) {
     let ms = 300
-    //强制拉到顶
-    await clickProgressBarTopByHolyRelics()
-    // 调用点击第一个圣物遗物的函数，并等待其完成
-    await downClickFirstHolyRelics()
-    await wait(ms);
-    //打开强化界面
-    await openAggrandizement()
-    await wait(ms)  // 等待500毫秒，确保界面响应
-    let re = await oneClickUp(operate, log_off);
-    if (!re.errorMsg) {
-
-
+    let index = 0
+    while (true) {
+        //强制拉到顶
+        await clickProgressBarTopByHolyRelics()
+        // 调用点击第一个圣物遗物的函数，并等待其完成
+        await downClickFirstHolyRelics()
+        await wait(ms);
+        //打开强化界面
+        await openAggrandizement()
+        await wait(ms)  // 等待500毫秒，确保界面响应
+        let re = await oneClickUp(operate, log_off);
+        if (!re.errorMsg) {
+            // 如果强化成功，则继续下一个圣遗物
+            await info(`强化成功`)
+            await wait(ms)
+            let up_name = '返回键'
+            await ocrClick(`${path_base_main}${up_name}.jpg`, `满级退出强化页面 到圣遗物背包界面`, log_off)
+            //返回圣遗物背包
+        } else {
+            // 如果强化失败，则退出循环
+            await info(`强化失败`)
+            break
+        }
+        info(`圣遗物强化+${config.upMax} 数量：${index}`)
+        index += 1
     }
+
 }
 
 
