@@ -13,46 +13,46 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1754828996713,
+    "last_modified_time": 1755534261430,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport",
       "x": -762.078125,
       "y": -3798.2978515625,
-      "action_params": ""
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
       "x": -777.662109375,
       "y": -3821.849609375,
-      "type": "path",
-      "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "attack(0.5),wait(6)"
+      "move_mode": "fly",
+      "action_params": "attack(0.5),wait(4.5)",
+      "type": "path"
     },
     {
       "id": 3,
       "x": 268.5908203125,
       "y": -665.69580078125,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 4,
       "x": 263.3046875,
       "y": -662.833984375,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keypress(f);芙宁娜 attack(0.08),charge;"
+      "move_mode": "walk",
+      "action_params": "keypress(f);芙宁娜 attack(0.08),charge;",
+      "type": "orientation"
     }
   ]
 }
