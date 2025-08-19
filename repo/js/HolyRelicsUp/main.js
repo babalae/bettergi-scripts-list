@@ -1183,6 +1183,7 @@ async function bathOcrRegionHolyRelics(ocrRegion) {
 }
 
 async function toMainUi() {
+    let ms = 300
     let index = 1
     await wait(ms);
     while (!isInMainUI()) {
@@ -1231,10 +1232,10 @@ async function main(log_off) {
 
     //重置
     // await resetSift();
-    // await main(false)
+    await main(false)
     // await main(true)
     // await judgeDogFoodFilling()
-    await bathClickUp(config.insertionMethod, false)
+    // await bathClickUp(config.insertionMethod, false)
 })();
 
 
