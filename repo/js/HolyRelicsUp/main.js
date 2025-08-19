@@ -3,15 +3,19 @@ const path_base_main = 'assets/main/'
 function info(msg) {
     log.info(msg)
 }
+
 function debug(msg) {
     log.debug(msg)
 }
+
 function error(msg) {
     log.error(msg)
 }
+
 async function mTo(x, y) {
     await moveMouseTo(x, y);
 }
+
 function recognitionObjectOcr(x, y, width, height) {
     return RecognitionObject.Ocr(x, y, width, height)
 }
@@ -328,6 +332,99 @@ async function siftState(log_off) {
 }
 
 /**
+ * 筛选圣遗物 所有选项
+ * @param log_off - 是否记录日志的开关参数
+ * @returns {Promise<void>} - 返回一个空Promise，表示异步操作的完成
+ */
+async function siftAll(log_off) {
+    // 调用重置筛选函数，恢复筛选条件到初始状态
+    await resetSift()
+    await sleep(1)
+    await siftState(log_off)
+    await sleep(1)
+    // todo: 可扩展
+}
+
+/**
+ * 打开排序
+ * @param log_off
+ * @returns {Promise<void>}
+ */
+async function openSort(log_off) {
+    let up_name = '排序'
+    // 计算按钮宽度为屏幕宽度的三分之一
+    let width = parseInt(genshin.width / 3.0 + '');
+    // 获取屏幕高度
+    let height = parseInt(genshin.height / 3.0 + '');
+    let x = width
+    let y = height * 2
+    // 使用OCR识别指定区域的图像
+    let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, x, y, width, height)
+    // 检查OCR识别结果是否存在（即升序按钮是否可见）
+    if (ocr.isExist()) {
+        await logInfoOcr(ocr, log_off)
+        ocr.click()
+    }
+    return ocr
+}
+
+/**
+ * 切换升序排列的函数
+ * 该函数通过OCR识别和点击操作来切换或确认升序排列状态
+ */
+async function openUpSort() {
+    // 定义未选中状态下的升序按钮名称
+    let up_name = '未选中升序1'
+    // 计算按钮宽度为屏幕宽度的三分之一
+    let width = parseInt(genshin.width / 3.0 + '');
+    // 获取屏幕高度
+    let height = parseInt(genshin.height + '');
+    // 使用OCR识别指定区域的图像
+    let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
+    // 检查OCR识别结果是否存在（即升序按钮是否可见）
+    if (ocr.isExist()) {
+        // 更新按钮名称为选中状态
+        up_name = '升序'
+        // 点击升序按钮
+        ocr.click()
+        // 记录切换成功的日志信息
+        info(`切换为${up_name}`)
+    } else {
+        // 如果按钮不存在，说明已处于升序状态，记录相应日志
+        info(`已处于升序`)
+    }
+
+}
+
+/**
+ * 打开排序并选择所有
+ * @param log_off - 日志关闭标志，用于控制是否在操作过程中记录日志
+ * @returns {Promise<void>} - 返回一个Promise，表示异步操作的完成
+ * 该函数用于执行打开排序并选择所有项目的操作
+ */
+async function openSortAll(log_off) {
+    // 首先调用openSort函数，传入log_off参数
+    await openSort(log_off)
+    // 然后调用openUpSort函数，完成排序操作
+    await openUpSort()
+    // todo: 可扩展
+}
+
+/**
+ * 打开所有先决条件的异步函数
+ * @param {boolean} log_off - 用于控制是否记录关闭操作的标志位
+ * @returns {Promise<void>} - 返回一个Promise，表示异步操作的完成
+ * 当Promise完成时，表示所有先决条件已成功打开
+ */
+async function openPrerequisitesAll(log_off) {
+    // 首先执行 siftAll 函数，传入 log_off 参数
+    await siftAll(log_off)
+    // 然后执行 openSortAll 函数，同样传入 log_off 参数
+    // 使用 await 确保两个函数按顺序执行
+    await openSortAll(log_off)
+}
+
+/**
  * 打开强化界面的函数
  *
  * 该函数会查找游戏中的强化按钮，如果存在则点击它
@@ -438,7 +535,7 @@ async function openSelectTheClipCondition(condition) {
  * @returns {Promise<void>}
  */
 async function confirm() {
-    return await ocrClick(`${path_base_main}确认.jpg`, "点击确认", null)
+    return await ocrClick(`${path_base_main}确认.jpg`, "点击确认", false)
 }
 
 /**
@@ -447,10 +544,10 @@ async function confirm() {
  */
 async function clear() {
     // 通过OCR识别并点击"详情"按钮
-    await ocrClick(`${path_base_main}详情.jpg`, "点击详情", null)
+    await ocrClick(`${path_base_main}详情.jpg`, "点击详情", false)
     await sleep(1)
     // 通过OCR识别并点击"强化"按钮
-    await ocrClick(`${path_base_main}强化.jpg`, "点击强化", null)
+    await ocrClick(`${path_base_main}强化.jpg`, "点击强化", false)
 }
 
 /**
@@ -701,33 +798,6 @@ async function bathOcrRegionHolyRelics(ocrRegion) {
     }
 }
 
-/**
- * 切换升序排列的函数
- * 该函数通过OCR识别和点击操作来切换或确认升序排列状态
- */
-async function toggleAscending() {
-    // 定义未选中状态下的升序按钮名称
-    let up_name = '未选中升序1'
-    // 计算按钮宽度为屏幕宽度的三分之一
-    let width = parseInt(genshin.width / 3.0 + '');
-    // 获取屏幕高度
-    let height = parseInt(genshin.height + '');
-    // 使用OCR识别指定区域的图像
-    ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
-    // 检查OCR识别结果是否存在（即升序按钮是否可见）
-    if (ocr.isExist()) {
-        // 更新按钮名称为选中状态
-        up_name = '升序'
-        // 点击升序按钮
-        ocr.click()
-        // 记录切换成功的日志信息
-        info(`切换为${up_name}`)
-    } else {
-        // 如果按钮不存在，说明已处于升序状态，记录相应日志
-        info(`已处于升序`)
-    }
-
-}
 
 /**
  * 主方法
@@ -742,8 +812,8 @@ async function main(log_off) {
     await openKnapsack();
     //打开圣遗物背包
     await openHolyRelicsKnapsack();
-    //重置
-    await resetSift();
+    //排序
+    await siftAll(log_off);
     //打开强化界面
     await openAggrandizement();
     ////选择升级素材
