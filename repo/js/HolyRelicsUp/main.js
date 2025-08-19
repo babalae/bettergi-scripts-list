@@ -321,8 +321,8 @@ async function siftState(log_off) {
     await sleep(300)
     if (siftState.isExist()) {
         await logInfoOcrBase(siftState, false)
-        await mTo(siftState.x, siftState.y)
-        // siftState.click()
+        // await mTo(siftState.x, siftState.y)
+        siftState.click()
         if (!log_off) {
             info(`筛选圣遗物状态 核心:未满级`)
         }
@@ -336,13 +336,16 @@ async function siftState(log_off) {
  * @param log_off - 是否记录日志的开关参数
  * @returns {Promise<void>} - 返回一个空Promise，表示异步操作的完成
  */
-async function siftAll(log_off) {
+async function openSiftAll(log_off) {
     // 调用重置筛选函数，恢复筛选条件到初始状态
     await resetSift()
     await sleep(1)
     await siftState(log_off)
     await sleep(1)
     // todo: 可扩展
+    //确认
+    await confirm()
+    info(`筛选完成`)
 }
 
 /**
@@ -355,11 +358,9 @@ async function openSort(log_off) {
     // 计算按钮宽度为屏幕宽度的三分之一
     let width = parseInt(genshin.width / 3.0 + '');
     // 获取屏幕高度
-    let height = parseInt(genshin.height / 3.0 + '');
-    let x = width
-    let y = height * 2
+    let height = parseInt(genshin.height + '');
     // 使用OCR识别指定区域的图像
-    let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, x, y, width, height)
+    let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
     // 检查OCR识别结果是否存在（即升序按钮是否可见）
     if (ocr.isExist()) {
         await logInfoOcr(ocr, log_off)
@@ -381,6 +382,7 @@ async function openUpSort() {
     let height = parseInt(genshin.height + '');
     // 使用OCR识别指定区域的图像
     let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
+    await sleep(300)
     // 检查OCR识别结果是否存在（即升序按钮是否可见）
     if (ocr.isExist()) {
         // 更新按钮名称为选中状态
@@ -408,6 +410,9 @@ async function openSortAll(log_off) {
     // 然后调用openUpSort函数，完成排序操作
     await openUpSort()
     // todo: 可扩展
+    //确认
+    await confirm()
+    info(`筛选完成`)
 }
 
 /**
@@ -417,8 +422,8 @@ async function openSortAll(log_off) {
  * 当Promise完成时，表示所有先决条件已成功打开
  */
 async function openPrerequisitesAll(log_off) {
-    // 首先执行 siftAll 函数，传入 log_off 参数
-    await siftAll(log_off)
+    // 首先执行 openSiftAll 函数，传入 log_off 参数
+    await openSiftAll(log_off)
     // 然后执行 openSortAll 函数，同样传入 log_off 参数
     // 使用 await 确保两个函数按顺序执行
     await openSortAll(log_off)
@@ -813,7 +818,7 @@ async function main(log_off) {
     //打开圣遗物背包
     await openHolyRelicsKnapsack();
     //排序
-    await siftAll(log_off);
+    await openSiftAll(log_off);
     //打开强化界面
     await openAggrandizement();
     ////选择升级素材
@@ -837,7 +842,9 @@ async function main(log_off) {
 
 //以下方法 均为测试
 async function test7() {
-    await siftState(false)
+    await openSiftAll(false)
+    await sleep(1)
+    await openSortAll(false)
 }
 
 async function test6() {
