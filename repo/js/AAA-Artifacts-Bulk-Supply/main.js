@@ -19,6 +19,13 @@ const ConfirmButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("a
 const DestoryButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/DestoryButton.png"));
 const MidDestoryButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/DestoryButton.png"), 900, 600, 500, 300);
 const CharacterMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/CharacterMenu.png"), 60, 991, 38, 38);
+
+const decomposeRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/decompose.png"));
+const quickChooseRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/quickChoose.png"));
+const confirmRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/confirm.png"));
+const doDecomposeRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/doDecompose.png"));
+const doDecompose2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/doDecompose2.png"));
+
 const normalPathA = "assets/ArtifactsPath/普通A";
 const normalPathB = "assets/ArtifactsPath/普通B";
 const normalPathC = "assets/ArtifactsPath/普通C";
@@ -76,7 +83,7 @@ let failcount = 0;
     moraDiff -= await mora();
 
     //执行普通路线，直到预定激活开始时间
-    log.info("开始第一次执行普通路线");
+    log.info("开始执行普通路线");
     await runNormalPath(true);
     if (state.cancel) return;
 
@@ -86,7 +93,7 @@ let failcount = 0;
     if (state.cancel) return;
 
     //执行剩余普通路线
-    log.info("开始第二次执行普通路线");
+    log.info("开始执行剩余普通路线");
     await runNormalPath(false);
     if (state.cancel) return;
 
@@ -309,8 +316,7 @@ async function processArtifacts(times = 1) {
         await sleep(1000);
         await click(670, 45);
         await sleep(500);
-
-        await recognizeTextAndClick("分解", { x: 635, y: 991, width: 81, height: 57 });
+        await findAndClick(decomposeRo);
         await sleep(1000);
 
         //识别已储存经验（1570-880-1650-930）
@@ -330,12 +336,12 @@ async function processArtifacts(times = 1) {
         let firstNumber2 = 0;
 
         if (settings.keep4Star) {
-            await recognizeTextAndClick("快速选择", { x: 248, y: 996, width: 121, height: 49 });
+            await findAndClick(quickChooseRo);
             moveMouseTo(960, 540);
             await sleep(1000);
 
-            await click(370, 1020); // 点击“确认选择”按钮
-            await sleep(1500);
+            await findAndClick(confirmRo);// 点击“确认选择”按钮
+            await sleep(1000);
 
             decomposedNum = await recognizeTextInRegion(regionToCheck3);
 
@@ -356,7 +362,7 @@ async function processArtifacts(times = 1) {
             await recognizeTextAndClick("分解", { x: 635, y: 991, width: 81, height: 57 });
             await sleep(1000);
         }
-        await recognizeTextAndClick("快速选择", { x: 248, y: 996, width: 121, height: 49 });
+        await findAndClick(quickChooseRo);
         moveMouseTo(960, 540);
         await sleep(1000);
 
@@ -364,7 +370,7 @@ async function processArtifacts(times = 1) {
             await click(370, 370);//取消选择四星
             await sleep(1000);
         }
-        await click(370, 1020); // 点击“确认选择”按钮
+        await findAndClick(confirmRo);// 点击“确认选择”按钮
         await sleep(1500);
 
         let decomposedNum2 = await recognizeTextInRegion(regionToCheck3);
@@ -381,7 +387,7 @@ async function processArtifacts(times = 1) {
             log.info("识别失败");
         }
         //识别当前总经验
-        let regionToCheck2 = { x: 1500, y: 900, width: 150, height: 100 };
+        let regionToCheck2 = { x: 1470, y: 880, width: 205, height: 70 };
         let newNum = await recognizeTextInRegion(regionToCheck2);
         let newValue = 0;
 
@@ -392,16 +398,20 @@ async function processArtifacts(times = 1) {
             log.warn(`在指定区域未识别到有效数字: ${newValue}`);
         }
 
+        if (settings.notify) {
+            notification.Send(`当前总经验: ${newValue}`);
+        }
+
         if (settings.decomposeMode === "分解（经验瓶）") {
             log.info(`用户选择了分解，执行分解`);
             // 根据用户配置，分解狗粮
-            await sleep(1000);
-            await click(1620, 1020); // 点击分解按钮
-            await sleep(1000);
+            await sleep(500);
 
-            // 4. 识别"进行分解"按钮
-            await click(1340, 755); // 点击进行分解按钮
+            await findAndClick(doDecomposeRo); // 点击分解按钮
+            await sleep(500);
 
+            // 4. "进行分解"按钮
+            await findAndClick(doDecompose2Ro); // 点击进行分解按钮
             await sleep(1000);
 
             // 5. 关闭确认界面
@@ -428,31 +438,33 @@ async function processArtifacts(times = 1) {
         return result;
     }
 
-    async function destroyArtifacts(times = 1) {
-        async function findAndClick(target) {
+    async function findAndClick(target, maxAttempts = 3) {
+        let attempts = 0;
+        while (attempts < maxAttempts) {
             gameRegion = captureGameRegion();
-            gameRegion.find(target).click();
+            let result = gameRegion.find(target);
             gameRegion.dispose();
+            if (result.isExist) {
+                result.click();
+                break;
+            }
+            attempts++;
+            await sleep(250 * attempts);
         }
-        await genshin.returnMainUi();
-        keyPress("B");
-        await sleep(1500);
-        const gameRegion = captureGameRegion();
-        let ArtifactsButton = gameRegion.find(ArtifactsButtonRo);
-        gameRegion.dispose();
-        if (ArtifactsButton.isExist()) {
-            log.info("识别到圣遗物按钮");
-            ArtifactsButton.click();
-            await sleep(1500);
-        }
+    }
 
+    async function destroyArtifacts(times = 1) {
+        await genshin.returnMainUi();
+        await sleep(250);
+        keyPress("B");
+        await sleep(250);
+        await findAndClick(ArtifactsButtonRo, 5);
         try {
             for (let i = 0; i < times; i++) {
                 await findAndClick(DeleteButtonRo);// 点击摧毁
                 await sleep(600);
                 await findAndClick(AutoAddButtonRo);// 点击自动添加
-                await sleep(600);
-                await sleep(300);
+                await sleep(900);
                 click(150, 150);
                 await sleep(300);
                 click(150, 220);
@@ -555,6 +567,9 @@ async function mora() {
         }
         await sleep(500);
         tryTimes++;
+        if (settings.notify) {
+            notification.Send(`当前摩拉: ${Number(result)}`);
+        }
         await genshin.returnMainUi();
     }
     return Number(result);
@@ -718,7 +733,7 @@ async function readCDInfo(accountName) {
             if (Array.isArray(parsed) && parsed.every(item => typeof item === 'string')) {
                 CDInfo = parsed;
             } else {
-                log.warn('文件内容不是字符串数组，使用空数组');
+                log.warn('文件内容异常，使用默认状态');
                 CDInfo = [];
             }
         } catch (e) {
@@ -732,7 +747,6 @@ async function readCDInfo(accountName) {
 
 //更新cd信息
 async function writeCDInfo(accountName) {
-    log.info("修改CDInfo文件");
     if (state.cancel) return;
     const CDInfoFilePath = `CDInfo/${accountName}.json`;
     await file.writeText(CDInfoFilePath, JSON.stringify(CDInfo), false);
@@ -899,7 +913,7 @@ async function runPaths(folderFilePath, PartyName, doStop) {
                     failcount++;
                     skiprecord = true;
                     log.warn(`路线${Path.fileName}，没有正常完成，请检查是否开图`);
-                    await sleep(1000);
+                    await sleep(5000);
                 }
             } catch (error) {
                 log.error(`发生错误：${error.message}`);
