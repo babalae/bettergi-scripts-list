@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "A04-塔拉塔海谷上方-14个",
+    "name": "A04-塔拉塔海谷上方-16个",
     "type": "collect",
     "authors": [
       {
@@ -12,7 +12,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.48.0",
     "tags": [],
-    "last_modified_time": 1755600999370,
+    "last_modified_time": 1755608045997,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -150,7 +150,54 @@
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "e",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 16,
+      "x": 4533.1152,
+      "y": 4315.5,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_SPACE);wait(6);keyup(VK_SPACE);click(middle);wait(0.5);moveby(0,1000)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 17,
+      "x": 4533.1152,
+      "y": 4315.5,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL);wait(1);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,1000)",
       "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 4547.8242,
+      "y": 4293.3589,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(2);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,1000)"
+    },
+    {
+      "id": 19,
+      "x": 4552.374,
+      "y": 4297.5244,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 20,
+      "x": 4556.9219,
+      "y": 4303.9165,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
     }
   ]
 }
