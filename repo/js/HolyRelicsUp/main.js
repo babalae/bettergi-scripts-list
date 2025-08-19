@@ -21,6 +21,19 @@ function recognitionObjectOcr(x, y, width, height) {
 }
 
 //==============================================================
+
+const config = {
+    enableBatchUp: settings.enableBatchUp,//是否开启批量升级
+    enableOneUp: settings.enableOneUp,//是否开启单次升级
+    enableInsertionMethod: settings.enableInsertionMethod,//是否开启插入方式
+    insertionMethod: settings.insertionMethod,//插入方式
+    material: settings.material,//材料
+    upMax: parseInt(settings.upMax + ''),//升级次数
+    operate: settings.operate,//操作
+    knapsackKey: settings.knapsackKey//背包快捷键
+}
+
+//==============================================================
 async function logInfoOcrBase(res, log_off) {
     if (!log_off) {
         info(`识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y}`);
@@ -33,6 +46,7 @@ async function logInfoOcrBase(res, log_off) {
  * @returns {Promise<void>}
  */
 async function logInfoOcr(res) {
+
     await logInfoOcrBase(res, false)
 }
 
@@ -189,8 +203,8 @@ async function openKnapsack() {
         // 设置默认的背包快捷键为'B'
         let knapsackKey = 'B'
         // 如果设置中配置了自定义的背包快捷键，则使用自定义快捷键
-        if (settings.knapsackKey) {
-            knapsackKey = settings.knapsackKey;
+        if (config.knapsackKey) {
+            knapsackKey = config.knapsackKey;
         }
         // 记录日志，显示尝试按下的快捷键
         info(`尝试按下${knapsackKey}键打开背包`)
@@ -452,7 +466,7 @@ async function clickFirstHolyRelics() {
     info('点击第一个圣遗物')
     await openAggrandizement()
     await sleep(300)
-    let material = settings.material
+    let material = config.material
     await openSelectTheClipCondition(material)
 }
 
@@ -611,7 +625,7 @@ async function operateDispose(operate, log_off) {
         // 更新操作方式为识别到的名称
         operate = ocr_name
 
-    } else if (settings.enableInsertionMethod) {
+    } else if (config.enableInsertionMethod) {
         //和自动识别互斥  自启动 阶段放入||快捷放入
         info(`${operate} 未打开`)
         let name = '设置按键'
@@ -738,6 +752,11 @@ async function oneUp(operate, log_off) {
     }
     //点击operate按钮
     await ocrClick(`${path_base_main}${operate}.jpg`, `点击${operate}`, log_off)  // 调用OCR识别并点击指定按钮
+    if (config.enableOneUp) {
+        //单次强化
+        await sleep(500)  // 等待500毫秒，确保界面响应
+        let upMax = config.upMax
+    }
     await sleep(500)  // 等待500毫秒，确保界面响应
     let error = await judgeDogFoodFilling();  // 判断狗粮是否充足
     if (error) {
@@ -786,7 +805,7 @@ async function oneClickUp(operate, log_off) {
         // 记录圣遗物已满级的日志信息
         info(`圣遗物已经满级`)
         // 检查是否启用了批量强化功能
-        if (settings.enableBatchUp) {
+        if (config.enableBatchUp) {
             //批量强化已开启，执行满级退出强化页面的操作
             //满级退出强化页面 到圣遗物背包界面
             let up_name = '返回键'
@@ -800,6 +819,7 @@ async function oneClickUp(operate, log_off) {
         // 如果强化失败，记录错误信息
         throw new Error(`${up.upErrorMsg}`);
     }
+    return up
 }
 
 /**
@@ -846,7 +866,7 @@ async function bathOcrRegionHolyRelics(ocrRegion) {
  */
 async function main(log_off) {
     setGameMetrics(1920, 1080, 2); // 设置游戏窗口大小和DPI
-    if (!settings.enableOneUp) { // 检查是否启用自动登录功能
+    if (!config.enableOneUp) { // 检查是否启用自动登录功能
         genshin.returnMainUi(); // 如果未启用，则返回游戏主界面
     }
     //打开背包
@@ -872,13 +892,18 @@ async function main(log_off) {
     ////测试
     // await test5()
     // await test6()
-    await test8()
+    // await test8()
+    await test9()
 })();
 
 
 //以下方法 均为测试
+async function test9() {
+    await operateDispose('阶段放入', false)
+}
+
 async function test8() {
-    let material = settings.material
+    let material = config.material
     await openSelectTheClipCondition(material)
     let x = 200 * genshin.width / 1920
     let y = 300 * genshin.height / 1080
@@ -990,7 +1015,7 @@ async function test1() {
     //     info(`${up_name}`);
     // }
     up_name = '未选中升序1'
-   let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
+    let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
     // info(`${up_name}`);
     if (ocr.isExist()) {
         logInfoOcr(ocr)
