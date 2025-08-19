@@ -57,16 +57,15 @@ async function dragBase(x, y, h, log_off) {
     // 按下鼠标左键，开始拖动操作
     leftButtonDown();
     // 等待300毫秒，确保按下操作生效
-    await sleep(300);
+    await sleep(1000);
     // 循环移动鼠标，实现拖动效果
     for (let i = 0; i < h; ++i) {
         moveMouseBy(x, y);
         await sleep(1);
     }
-    await sleep(30);
     // 释放鼠标左键，结束拖动
     leftButtonUp();
-    await sleep(300);
+    await sleep(1000);
     // 如果log_off为false，则输出拖动完成日志
     if (!log_off) {
         info(`拖动完成，步数: ${h},x:${x},y:${y}`);
@@ -161,7 +160,7 @@ async function ocrClick(path, log_msg, log_off) {
         // 点击按钮元素
         await button.click();
         // 暂停500毫秒，等待操作完成
-        await sleep(500);
+        await sleep(1000);
     }
     // 返回按钮对象
     return button
@@ -197,7 +196,7 @@ async function openKnapsack() {
         info(`尝试按下${knapsackKey}键打开背包`)
         // 打开背包
         await keyPress(knapsackKey);
-        await sleep(500);
+        await sleep(1000);
     }
 }
 
@@ -223,7 +222,7 @@ async function openHolyRelicsKnapsack() {
         // 打开圣遗物背包
         info('打开圣遗物背包');  // 记录日志信息
         await holyRelicsKnapsack.click();  // 点击圣遗物背包图标
-        await sleep(500);  // 等待500毫秒确保界面加载完成
+        await sleep(1000);  // 等待500毫秒确保界面加载完成
     }
 }
 
@@ -250,12 +249,12 @@ async function resetSift() {
     }
     // 查找筛选按钮元素
     let sift = await ocrBase(`${path_base_main}${ocrSiftJson.text}.jpg`, ocrSiftJson.x, ocrSiftJson.y, ocrSiftJson.width, ocrSiftJson.height)
-    await sleep(500);
+    await sleep(1000);
     // 判断筛选按钮是否存在
     if (sift.isExist()) {
         info('打开筛选'); // 记录日志：打开筛选
         await sift.click(); // 点击筛选按钮
-        await sleep(500); // 等待500毫秒
+        await sleep(1000); // 等待500毫秒
 
         // const resetRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("${path_base_main}重置.jpg"), 0, 0, genshin.width / 3.0, genshin.height);
         // // 查找重置按钮元素
@@ -269,12 +268,12 @@ async function resetSift() {
         }
         // 查找重置按钮元素
         let reset = await ocrBase(`${path_base_main}${ocrResetJson.text}.jpg`, ocrResetJson.x, ocrResetJson.y, ocrResetJson.width, ocrResetJson.height)
-        await sleep(500);
+        await sleep(1000);
         // 判断重置按钮是否存在
         if (reset.isExist()) {
             info('重置'); // 记录日志：重置
             await reset.click(); // 点击重置按钮
-            await sleep(500); // 等待500毫秒
+            await sleep(1000); // 等待500毫秒
         }
     }
 }
@@ -382,7 +381,7 @@ async function openUpSort() {
     let height = parseInt(genshin.height + '');
     // 使用OCR识别指定区域的图像
     let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
-    await sleep(300)
+    await sleep(1000)
     // 检查OCR识别结果是否存在（即升序按钮是否可见）
     if (ocr.isExist()) {
         // 更新按钮名称为选中状态
@@ -405,13 +404,18 @@ async function openUpSort() {
  * 该函数用于执行打开排序并选择所有项目的操作
  */
 async function openSortAll(log_off) {
+    await sleep(300)
     // 首先调用openSort函数，传入log_off参数
     await openSort(log_off)
+    await sleep(300)
     // 然后调用openUpSort函数，完成排序操作
     await openUpSort()
+    await sleep(300)
     // todo: 可扩展
     //确认
     await confirm()
+    await sleep(300)
+
     info(`筛选完成`)
 }
 
@@ -422,11 +426,34 @@ async function openSortAll(log_off) {
  * 当Promise完成时，表示所有先决条件已成功打开
  */
 async function openPrerequisitesAll(log_off) {
+    await sleep(300)
     // 首先执行 openSiftAll 函数，传入 log_off 参数
     await openSiftAll(log_off)
     // 然后执行 openSortAll 函数，同样传入 log_off 参数
+    await sleep(1)
     // 使用 await 确保两个函数按顺序执行
     await openSortAll(log_off)
+    await sleep(300)
+}
+
+/**
+ * 点击第一个圣遗物的函数
+ */
+async function clickFirstHolyRelics() {
+    let x = 200 * genshin.width / 1920
+    let y = 300 * genshin.height / 1080
+    // await mTo(200,300)
+    await click(x, y)
+    await sleep(500)
+    await confirm()
+    await sleep(500)
+    //避免多次点击
+    await mTo(x, y)
+    info('点击第一个圣遗物')
+    await openAggrandizement()
+    await sleep(300)
+    let material = settings.material
+    await openSelectTheClipCondition(material)
 }
 
 /**
@@ -446,10 +473,11 @@ async function openAggrandizement() {
         "x": 0,           // 识别区域的左上角x坐标
         "y": 0,           // 识别区域的左上角y坐标
         "width": genshin.width / 3.0,    // 识别区域的宽度
-        "height": genshin.height / 5.0  // 识别区域的高度
+        "height": genshin.height   // 识别区域的高度
     }
     // 使用OCR方法查找强化按钮
     let aggrandizement = await ocrBase(`${path_base_main}${ocrJson.text}.jpg`, ocrJson.x, ocrJson.y, ocrJson.width, ocrJson.height)
+    await sleep(500);
     // 检查强化按钮是否存在
     if (aggrandizement.isExist()) {
         // 输出日志信息，表示正在打开强化界面
@@ -470,27 +498,31 @@ async function openAggrandizement() {
  */
 async function openSelectTheClipCondition(condition) {
     // 检查是否传入了有效的素材条件
-    if (!condition) {
-        info(`未传入素材条件 使用默认条件`)
+    if (!condition || condition === '默认') {
+        info(`使用默认素材`)
         return
     }
-    const selectTheClipConditionButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${path_base_main}选择素材条件按键.jpg`), 0, 0, genshin.width, genshin.height);
+    // const selectTheClipConditionButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${path_base_main}选择素材条件按键.jpg`), 0, 0, genshin.width, genshin.height);
 
     // 捕获游戏界面并查找"选择素材条件"按钮
-    let buttonObject = captureGameRegion().find(selectTheClipConditionButtonRo);
+    // let buttonObject = captureGameRegion().find(selectTheClipConditionButtonRo);
+    let buttonObject = await ocrBase(`${path_base_main}选择素材条件按键.jpg`, 0, 0, genshin.width, genshin.height)
+    await sleep(300)
     // 检查按钮是否存在
     if (buttonObject.isExist()) {
         info('打开选择素材条件')
+        await sleep(500);
         // 点击按钮并等待界面加载
         await buttonObject.click();
         await sleep(500);
 
         info(`素材条件==>x:${buttonObject.x},y:${buttonObject.y}`)
 
-        const needMoLaRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${path_base_main}需要摩拉.jpg`), 0, 0, genshin.width, genshin.height);
+        // const needMoLaRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${path_base_main}需要摩拉.jpg`), 0, 0, genshin.width, genshin.height);
         // 捕获界面并查找"需要摩拉"文本区域
-        let needMoLa = captureGameRegion().find(needMoLaRo);
-
+        // let needMoLa = captureGameRegion().find(needMoLaRo);
+        let needMoLa = await ocrBase(`${path_base_main}需要摩拉.jpg`, 0, 0, genshin.width, genshin.height)
+        await sleep(300)
         // 检查是否能定位到"需要摩拉"文本区域
         if (!needMoLa.isExist()) {
             error(`无法定位识别！`)
@@ -513,24 +545,28 @@ async function openSelectTheClipCondition(condition) {
         // 以下代码被注释，可能是用于调试的鼠标移动
         // await mTo(ocr_x, ocr_y)
         // 创建OCR识别对象
-        const ocrObject = recognitionObjectOcr(ocr_x, ocr_y, ocr_width, ocr_height);
+        let ocrObject = recognitionObjectOcr(ocr_x, ocr_y, ocr_width, ocr_height);
         // 捕获游戏界面并执行OCR识别
         let captureRegion = captureGameRegion();
         let resList = captureRegion.findMulti(ocrObject);
         let index = 0;
         // 遍历OCR识别结果
         for (let res of resList) {
-            info(`识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y}`);
+            info(`${index}识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y}`);
             // 跳过第一个结果（可能是标题），查找匹配条件的选项
             if (index !== 0 && res.text.includes(condition)) {
                 info(`点击${res.text}`)
+                await sleep(1000);
                 await res.click();
-                await sleep(500);
+                // await click(res.x, res.y);
+                await mTo(genshin.width / 2, genshin.height / 2)
+                info('[break]')
                 break;
             }
             index += 1
         }
     }
+    return
 }
 
 
@@ -836,11 +872,21 @@ async function main(log_off) {
     ////测试
     // await test5()
     // await test6()
-    await test7()
+    await test8()
 })();
 
 
 //以下方法 均为测试
+async function test8() {
+    let material = settings.material
+    await openSelectTheClipCondition(material)
+    let x = 200 * genshin.width / 1920
+    let y = 300 * genshin.height / 1080
+    // await mTo(200,300)
+    // click(x,y)
+    // await clickFirstHolyRelics()
+}
+
 async function test7() {
     await openSiftAll(false)
     await sleep(1)
@@ -944,7 +990,7 @@ async function test1() {
     //     info(`${up_name}`);
     // }
     up_name = '未选中升序1'
-    ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
+   let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
     // info(`${up_name}`);
     if (ocr.isExist()) {
         logInfoOcr(ocr)
