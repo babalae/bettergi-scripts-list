@@ -98,7 +98,9 @@ function sortAll() {
 }
 
 const config = {
-    log_off: settings.log_off,
+    suit: settings.suit,
+    log_off: !settings.log_off,
+    countMaxByHoly: parseInt(settings.countMaxByHoly + ''),//筛选圣遗物界面最大翻页次数
     enableBatchUp: settings.enableBatchUp,//是否开启批量升级
     enableOneUp: settings.enableOneUp,//是否开启单次升级
     enableInsertionMethod: settings.enableInsertionMethod,//是否开启插入方式
@@ -136,8 +138,6 @@ const attributeMap = new Map([
     ['火伤', '火元素伤害加成'],
     ['治疗', '治疗加成'],
     ['精通', '元素精通'],
-    ['充能', '元素充能效率'],
-    ['充能', '元素充能效率'],
     ['充能', '元素充能效率'],
 ]);
 
@@ -461,7 +461,14 @@ async function resetSift() {
  * @param {boolean} log_off - 是否记录日志的参数
  * @returns {Promise<void>} - 返回一个Promise，表示异步操作的完成
  */
-async function siftHolyRelicsSuit(log_off) {
+async function siftHolyRelicsSuit(keyword, log_off) {
+    if (!keyword) {
+        return
+    }
+    let keywords = keyword.trim().split('|');
+    if (keywords.length <= 0) {
+        return
+    }
     // 定义筛选按钮的JSON配置对象
     let siftSuitJson = {
         "text": "筛选圣遗物套装",    // 按钮显示的文本内容
@@ -476,8 +483,63 @@ async function siftHolyRelicsSuit(log_off) {
     if (isExist(sift)) {
         await info('筛选圣遗物套装'); // 记录日志：筛选圣遗物套装
         await siftSuit.click(); // 点击筛选按钮
-        await wait(500); // 等待500毫秒
+        await wait(300); // 等待500毫秒
         //todo: 筛选套装 这版不做 预留
+
+        let last = {
+            name_one: null,
+            name_two: null,
+            x: genshinJson.width / 2,
+            y: genshinJson.height * 2 / 3,
+        }
+        // 计算屏幕宽度的一半
+        let width = parseInt(genshinJson.width * 6 / 10 + '');
+        // 获取屏幕总高度
+        let height = parseInt(genshinJson.height * 11 / 12 + '');
+        // 设置起始点的x坐标为屏幕宽度的一半
+        let x = 0;
+        // 设置起始点的y坐标为0（顶部）
+        let y = 0;
+        // await mTo(width, height/2)
+        // await mTo(733, 849)
+        // return
+        let index = 1;
+        for (let i = 1; i <= config.countMaxByHoly; i++) {
+            let captureRegion = captureGameRegion();
+            let ocrObject = await recognitionObjectOcr(x, y, width, height);
+            // await mTo(width, 0)
+            // ocrObject.threshold = 1.0;
+            let resList = await captureRegion.findMulti(ocrObject);
+            await wait(10)
+            for (let res of resList) {
+                await logInfoOcr(res)
+                if (containsChinese(res.text)) {
+                    //中文设入
+                    if (index % 2 !== 0) {
+                        last.name_one = res.text
+                    } else {
+                        last.name_two = res.text
+                    }
+                    // await info(`==>${last.name_one}<==>${last.name_two}<==`)
+                    index++
+                }
+                await mTo(res.x, res.y)
+                last.y = res.y
+            }
+
+            await wait(1)
+            await mTo(last.x, last.y)
+            await wait(2)
+            await dragBase(0, -parseInt(40 * genshinJson.height / 1080 + ''), parseInt(10 * genshinJson.height / 1080 + ''), config.log_off)
+            await wait(1)
+
+            if (last.name_one != null && last.name_one === last.name_two) {
+                await info('已达底部')
+                break
+            }
+        }
+
+
     }
 }
 
@@ -520,10 +582,11 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, log_off) {
     if (!keyword) {
         return
     }
-    let keywords = keyword.split('|');
+    let keywords = keyword.trim().split('|');
     if (keywords.length <= 0) {
         return
     }
+    let keywordsOk = new Array()
     //1.open
     let siftSiftHolyRelicsSuitUIJson = {
         "text": "进入筛选圣遗物界面",    // 按钮显示的文本内容
@@ -532,6 +595,9 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, log_off) {
         "width": genshinJson.width / 3.0,  // 按钮的宽度为屏幕宽度的1/3
         "height": genshinJson.height      // 按钮的高度为整个屏幕高度
     }
+    keywords.forEach(value => {
+        info("==>key:" + value + "<==")
+    })
     let sift = await ocrBase(`${path_base_main}${siftSiftHolyRelicsSuitUIJson.text}.jpg`, siftSiftHolyRelicsSuitUIJson.x, siftSiftHolyRelicsSuitUIJson.y, siftSiftHolyRelicsSuitUIJson.width, siftSiftHolyRelicsSuitUIJson.height)
     await wait(300)
     let exist = isExist(sift);
@@ -544,7 +610,92 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, log_off) {
         }
         await wait(10)
         //2.start
+        let last = {
+            name_one: null,
+            name_two: null,
+            x: genshinJson.width / 2,
+            y: genshinJson.height * 2 / 3,
+        }
 
+        let x = 140 * genshinJson.width / 1920
+        let y = 100 * genshinJson.height / 1080
+
+        let x1 = 800 * genshinJson.width / 1920
+        let y1 = 1100 * genshinJson.height / 1080
+
+        let height = (940 - 100) * genshinJson.height / 1080
+        let width = (440 - 140) * genshinJson.width / 1920
+
+        for (let i = 1; i <= config.countMaxByHoly; i++) {
+            await info('开始识别左边画面')
+            let captureRegion = captureGameRegion();
+            let ocrObject = await recognitionObjectOcr(x, y, width, height);
+            // await mTo(width, 0)
+            // ocrObject.threshold = 1.0;
+            let resList = await captureRegion.findMulti(ocrObject);
+            await wait(10)
+            for (let res of resList) {
+                await logInfoOcr(res)
+                if (i % 2 !== 0) {
+                    last.name_one = res.text
+                } else {
+                    last.name_two = res.text
+                }
+
+                last.y = res.y
+                if (keywords.find(function (value) {
+                    return res.text.includes(value.trim())
+                }) && (keywordsOk.length === 0 || keywordsOk.find(function (value) {
+                    return !(value === res.text)
+                }))) {
+                    await wait(1)
+                    res.click()
+                    keywordsOk.push(res.text)
+                }
+            }
+
+            await info(`LAST ==>${last.name_one} === ${last.name_two}`)
+            //画面拆为二分别识别
+            await info('开始识别右边画面')
+            await info(`mto ${x1}==${y + height}`)
+            await mTo(x1, y + height)
+            await wait(3000)
+            ocrObject = await recognitionObjectOcr(x1, y, width, height);
+            // await mTo(width, 0)
+            // ocrObject.threshold = 1.0;
+            resList = await captureRegion.findMulti(ocrObject);
+            await wait(10)
+            for (let res of resList) {
+                await logInfoOcr(res)
+
+                last.y = res.y
+                if (keywords.find(function (value) {
+                    return res.text.includes(value.trim())
+                }) && (keywordsOk.length === 0 || keywordsOk.find(function (value) {
+                    return !value === res.text
+                }))) {
+                    await wait(1)
+                    res.click()
+                    keywordsOk.push(res.text)
+                }
+            }
+
+            await wait(1)
+            await mTo(genshinJson.width / 2, last.y)
+            await wait(2)
+            await dragBase(0, -parseInt(40 * genshinJson.height / 1080 + ''), parseInt(10 * genshinJson.height / 1080 + ''), config.log_off)
+            await wait(1)
+
+            if (last.name_one != null && last.name_one === last.name_two) {
+                await info('已达底部')
+                break
+            }
+        }
+        if (keywordsOk.length > 0) {
+            await info(`已选中 ${keywordsOk.join(",")}`)
+        }
+        await wait(1)
+        await confirm()
         return
     }
 }
@@ -563,13 +714,10 @@ async function openSiftAll(log_off) {
     let op = false
     if (reOk) {
         await wait(1)
+        await openSiftHolyRelicsSuitUI_Start(config.suit, config.log_off)
+        await wait(1)
         // await siftState(log_off)
         // await wait(1)
-        // todo: 可扩展
-        // let sift = await ocrHolyRelicsKnapsack();
-        // await logInfoOcrBase(sift, log_off)
-        // await wait(1)
-
         let width = parseInt(450 * genshinJson.width / 1080 + '');
         let captureRegion = captureGameRegion();
         const ocrObject = recognitionObjectOcr(0, 0, width, genshinJson.height);
@@ -1473,11 +1621,25 @@ async function main(log_off) {
     // await oneClickUp('快捷放入',null);
 }
 
+// await mTo(140, 100)
+// await wait(1000)
+// await mTo(440, 100)
+// await wait(1000)
+// await mTo(800, 100)
+// await wait(1000)
+// await mTo(1100, 100)
+// await wait(1000)
+// await mTo(1100, 940)
+// return
+// await wait(100)
+// await openSiftHolyRelicsSuitUI_Start(config.suit, config.log_off)
+// function containsChinese(str) {
+//     const regex = /[\u4e00-\u9fa5]/;
+//     return regex.test(str);
+// }
 
 (async function () {
-    //todo:入口
-    await mTo(1000,200)
-    // await main(config.log_off)
+    await main(config.log_off)
 })();
 
 //=========弃用以下=========

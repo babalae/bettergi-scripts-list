@@ -85,7 +85,28 @@
        ],
        "default": "等级顺序"
    },
-
+   {
+      "name": "suit",
+      "type": "input-text",
+      "label": "筛选圣遗物(使用|分割 的模糊匹配 <无个数限制>如: 如雷|苍白|...)",
+      "default": ""
+   },
+   {
+       "name": "countMaxByHoly",
+       "type": "select",
+       "label": "筛选圣遗物界面最大翻页次数 (默认4)",
+       "options": [
+         "1",
+         "2",
+         "3",
+         "4",
+         "5",
+         "6",
+         "7",
+         "8",
+       ],
+       "default": "4"
+   },
    {
      "name": "holyRelicsLockMark",
      "type": "checkbox",
