@@ -615,12 +615,13 @@ async function clickProgressBarTopByHolyRelics() {
     // 计算点击位置的x坐标（OCR识别区域的中心点）
     let x = ocr.x + parseInt(ocr.width / 2 + '');
     // 计算点击位置的y坐标（OCR识别区域的底部）
-    let y = ocr.y + parseInt(ocr.height / 2 + '');
+    let y = ocr.y + parseInt(ocr.height  + '');
     // 输出点击坐标信息
     await info(`x:${x},y:${y}`)
     await wait(10)
     // 移动鼠标到计算的位置
     await clickProgressBar(x, y)
+    await info('强制拉到顶')
 }
 
 /**
@@ -665,7 +666,7 @@ async function clickProgressBarDownBySort() {
  */
 async function downClickFirstHolyRelics() {
     let x = 200 * genshinJson.width / 1920
-    let y = 300 * genshinJson.height / 1080
+    let y = 250 * genshinJson.height / 1080
     // await mTo(200,300)
     await downClick(x, y)
     await wait(500)
@@ -994,6 +995,7 @@ async function oneUp(operate, log_off) {
         "upErrorMsg": '', // 强化失败的错误信息
     }
     let ocrHolyRelics = await ocrHolyRelicsUpFrequency(log_off);
+    await wait(300)
     //点击operate按钮
     await ocrClick(`${path_base_main}${operate}.jpg`, `点击${operate}`, log_off)  // 调用OCR识别并点击指定按钮
     await wait(500)  // 等待500毫秒，确保界面响应
@@ -1004,6 +1006,7 @@ async function oneUp(operate, log_off) {
     // }
     await confirm();  // 确认操作
     await mTo(0, 0)
+    await wait(30)
     // 定义错误信息为"摩拉不足"
     let err = '摩拉不足'
     // 检查强化是否成功
@@ -1018,6 +1021,7 @@ async function oneUp(operate, log_off) {
     } else {
         upJson.upOk = true;  // 设置强化成功的标志
     }
+    await wait(300)
     let levelJson = await ocrHolyRelicsUpFrequency(log_off);
     if (ocrHolyRelics.level === levelJson.level) {
         upJson.upErrorMsg = '强化失败:狗粮不足'
@@ -1135,6 +1139,7 @@ async function bathClickUp(operate, log_off) {
         }
         //强制拉到顶
         await clickProgressBarTopByHolyRelics()
+        await wait(ms);
         // 调用点击第一个圣物遗物的函数，并等待其完成
         await downClickFirstHolyRelics()
         await wait(ms);
@@ -1157,8 +1162,8 @@ async function bathClickUp(operate, log_off) {
         info(`圣遗物强化+${config.upMax} 数量：${index}`)
         index += 1
     }
-
-
+    await wait(ms)
+    await toMainUi()
 }
 
 
@@ -1240,6 +1245,8 @@ async function main(log_off) {
     // await resetSift();
     // await main(false)
     await main(true)
+    // await clickProgressBarTopByHolyRelics()
+    // await mTo(200,250)
     // await judgeDogFoodFilling()
     // await bathClickUp(config.insertionMethod, false)
 })();
