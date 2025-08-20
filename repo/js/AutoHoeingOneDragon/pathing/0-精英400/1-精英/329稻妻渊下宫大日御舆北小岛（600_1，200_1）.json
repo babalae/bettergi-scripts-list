@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "329稻妻渊下宫大日御舆北小岛（600_1，200_1）",
     "type": "collect",
@@ -12,7 +12,11 @@
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "tags": [],
+    "last_modified_time": 1754760395806,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -28,28 +32,28 @@
       "id": 2,
       "x": 246.56,
       "y": 416.19,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
       "x": 253.04,
       "y": 431.06,
-      "type": "path",
-      "move_mode": "run",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 4,
       "x": 245.06,
       "y": 453.56,
-      "type": "path",
-      "move_mode": "jump",
       "action": "",
-      "action_params": ""
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 5,
@@ -71,30 +75,31 @@
     },
     {
       "id": 7,
-      "x": 260.19,
-      "y": 522.88,
-      "action": "combat_script",
+      "x": 270.3433837890625,
+      "y": 589.0806884765625,
+      "type": "path",
       "move_mode": "fly",
-      "action_params": "w(10.5),attack(0.2),wait(0.2),keydown(w),wait(0.5),keydown(LSHIFT),wait(4.5),keyup(LSHIFT),wait(0.1),keyup(w)",
-      "type": "path"
+      "action": "stop_flying",
+      "action_params": ""
     },
     {
       "id": 8,
-      "x": 280.75,
-      "y": 622,
+      "x": 279.0966796875,
+      "y": 616.95849609375,
+      "type": "path",
+      "move_mode": "dash",
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "orientation"
+      "locked": false
     },
     {
       "id": 9,
-      "x": 280.5,
-      "y": 621.88,
+      "x": 279.0966796875,
+      "y": 616.95849609375,
+      "type": "orientation",
+      "move_mode": "dash",
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(1)",
-      "type": "orientation"
+      "action_params": "wait(1)"
     }
   ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "326稻妻渊下宫狭间之街西北（600_2，200_2）",
     "type": "collect",
@@ -8,13 +8,15 @@
     "map_name": "Enkanomiya",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1746815367861,
+    "last_modified_time": 1754746034798,
     "authors": [
       {
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -41,7 +43,7 @@
       "y": 661.01,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "芙宁娜 e;玛薇卡 e;",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "type": "path"
     },
     {
@@ -68,7 +70,7 @@
       "y": 643.89,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(0.3);芙宁娜 e;玛薇卡 e;",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "type": "path"
     },
     {

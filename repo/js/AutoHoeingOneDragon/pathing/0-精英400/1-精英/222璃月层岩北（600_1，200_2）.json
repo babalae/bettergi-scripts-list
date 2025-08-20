@@ -1,17 +1,22 @@
-{
+﻿{
   "info": {
     "name": "222璃月层岩北（600_1，200_2）",
     "type": "collect",
     "author": "汐",
     "version": "1.0",
     "description": "  路线信息：该路线预计用时69.32秒，包含3只精英，预计收入1000摩拉，包含以下怪物：2只幼岩龙蜥、1只岩龙蜥。",
-    "bgi_version": "0.42.3",
+    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1754741242693,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -56,7 +61,7 @@
       "y": -553.13,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "芙宁娜 e;玛薇卡 e;attack(10),keypress(x)",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;attack(10),keypress(x)",
       "type": "path"
     },
     {
@@ -102,8 +107,7 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 11,

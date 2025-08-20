@@ -2,15 +2,21 @@
   "info": {
     "name": "516枫丹卡布狄斯堡 浊水幻灵（600_1，200_1）",
     "type": "collect",
+    "author": "汐",
     "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.3",
+    "description": "  路线信息：该路线预计用时120.63秒，包含2只精英与2只小怪，预计收入890摩拉，包含以下怪物：1只浊水粉碎幻灵、2只火箭丘丘人、1只丘丘岩盔王。",
+    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1754751735309,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -62,9 +68,9 @@
       "id": 6,
       "x": 3301.71,
       "y": 2625.2,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "",
+      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
       "type": "path"
     },
     {
@@ -74,8 +80,7 @@
       "action": "fight",
       "move_mode": "run",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 8,

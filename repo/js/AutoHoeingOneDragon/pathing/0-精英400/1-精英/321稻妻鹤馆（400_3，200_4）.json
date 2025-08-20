@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "321稻妻鹤馆（400_3，200_4）",
     "type": "collect",
@@ -12,7 +12,11 @@
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "tags": [],
+    "last_modified_time": 1755623996121,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -30,7 +34,7 @@
       "y": -6747.25,
       "action": "combat_script",
       "move_mode": "run",
-      "action_params": "芙宁娜 e;",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "type": "path"
     },
     {
@@ -58,8 +62,7 @@
       "action": "",
       "move_mode": "run",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 6,
@@ -77,8 +80,7 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 8,
@@ -109,22 +111,22 @@
     },
     {
       "id": 11,
-      "x": -2570.5,
-      "y": -6619.99,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
+      "x": -2578.81640625,
+      "y": -6618.544921875,
       "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
       "locked": false
     },
     {
       "id": 12,
-      "x": -2570.5,
-      "y": -6619.99,
-      "action": "combat_script",
+      "x": -2578.81640625,
+      "y": -6618.544921875,
+      "type": "orientation",
       "move_mode": "dash",
-      "action_params": "wait(1)",
-      "type": "orientation"
+      "action": "combat_script",
+      "action_params": "wait(1)"
     }
   ]
 }

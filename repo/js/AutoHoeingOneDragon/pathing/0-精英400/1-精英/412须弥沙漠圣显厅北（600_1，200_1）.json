@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "412须弥沙漠圣显厅北（600_1，200_1）",
     "type": "collect",
@@ -12,7 +12,11 @@
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "tags": [],
+    "last_modified_time": 1754762592519,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -84,7 +88,7 @@
       "y": -1228.72,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "芙宁娜 e;玛薇卡 e;keypress(t)",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;keypress(t)",
       "type": "path"
     },
     {
@@ -100,20 +104,19 @@
       "id": 10,
       "x": 4745.16,
       "y": -1111.34,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
+      "move_mode": "dash",
       "action_params": "",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 11,
       "x": 4745.16,
       "y": -1111.34,
-      "type": "orientation",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

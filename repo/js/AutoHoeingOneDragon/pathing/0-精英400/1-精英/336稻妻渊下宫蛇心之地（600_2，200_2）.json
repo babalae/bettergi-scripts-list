@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "336稻妻渊下宫蛇心之地（600_2，200_2）",
     "type": "collect",
@@ -8,13 +8,15 @@
     "map_name": "Enkanomiya",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1746888630276,
+    "last_modified_time": 1754746629748,
     "authors": [
       {
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -68,7 +70,7 @@
       "y": -324.75,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;芙宁娜 e;玛薇卡 e;attack(0.3)",
+      "action_params": "keypress(f);钟离 a(0.1),e(hold);伊涅芙 e;茜特菈莉 e;莱依拉 e;芙宁娜 e;玛薇卡 e;attack(0.3)",
       "type": "path"
     },
     {
@@ -86,7 +88,7 @@
       "y": -291.62,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;wait(4.5),",
+      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;wait(4.5),",
       "type": "path"
     },
     {
@@ -96,8 +98,7 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 10,

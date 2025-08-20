@@ -1,20 +1,26 @@
-//当前js版本 1.3.6
+//当前js版本 1.4.9
 
 //拾取时上下滑动的时间
-const timeMoveUp = 500;
-const timeMoveDown = 1000;
-const pickupMode = settings.pickupMode || "js拾取，默认只拾取狗粮和晶蝶";
+let timeMoveUp;
+let timeMoveDown;
+let pickupMode = settings.pickupMode || "模板匹配拾取，默认只拾取狗粮";
 if (settings.activeDumperMode) { //处理泥头车信息
     dumpers = settings.activeDumperMode.split('，').map(Number).filter(num => num === 1 || num === 2 || num === 3 || num === 4);
 } else {
     dumpers = [];
 }
-trigger = (+settings.trigger || 50);
 let gameRegion;
+let targetItemPath = "assets/targetItems";
+let targetItems;
+
+const rollingDelay = (+settings.rollingDelay || 25);
+const pickupDelay = (+settings.pickupDelay || 100);
+const timeMove = (+settings.timeMove || 1000);
 
 (async function () {
     //自定义配置处理
     const operationMode = settings.operationMode || "运行锄地路线";
+    if (pickupMode === "js拾取，默认只拾取狗粮和晶蝶") pickupMode = "模板匹配拾取，默认只拾取狗粮";
 
     let k = settings.efficiencyIndex;
     // 空字符串、null、undefined 或非数字 → 0.5
@@ -32,17 +38,13 @@ let gameRegion;
     targetMonsterNum += 25;//预留漏怪
     const partyName = settings.partyName || "";
 
-    // 获取 settings 中的标签，如果没有则使用默认值
-    const group1Settings = settings.tagsForGroup1 || "蕈兽";
-    const group2Settings = settings.tagsForGroup2 || "";
-    const group3Settings = settings.tagsForGroup3 || "";
-    const group4Settings = settings.tagsForGroup4 || "";
-    let group1Tags = group1Settings.split("，").filter(Boolean);
-    const group2Tags = group2Settings.split("，").filter(Boolean);
-    const group3Tags = group3Settings.split("，").filter(Boolean);
-    const group4Tags = group4Settings.split("，").filter(Boolean);
-    // 将 group2Tags、group3Tags 和 group4Tags 的内容添加到 group1Tags 中，并去除重复项
-    group1Tags = [...new Set([...group1Tags, ...group2Tags, ...group3Tags, ...group4Tags])];
+    //读取 settings（没有时用默认值）
+    const groupSettings = Array.from({ length: 10 }, (_, i) =>
+        settings[`tagsForGroup${i + 1}`] || (i === 0 ? '蕈兽' : '') // 第 0 组默认“蕈兽”，其余默认空串
+    );
+    const groupTags = groupSettings.map(str => str.split('，').filter(Boolean));
+    groupTags[0] = [...new Set(groupTags.flat())];
+
 
     const priorityTags = (settings.priorityTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
     const excludeTags = (settings.excludeTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
@@ -53,6 +55,16 @@ let gameRegion;
     const whitelistKeywords = ocrPickupJson["白名单"];
     const blacklistKeywords = ocrPickupJson["黑名单"];
 
+    targetItems = await readFolder(targetItemPath, false);
+    //模板匹配对象处理
+    if (pickupMode === "模板匹配拾取，默认只拾取狗粮") {
+        for (const targetItem of targetItems) {
+            targetItem.template = file.ReadImageMatSync(targetItem.fullPath);
+            targetItem.itemName = targetItem.fileName.replace(/\.png$/, '');
+        }
+    }
+    timeMoveUp = Math.round(timeMove * 0.45);
+    timeMoveDown = Math.round(timeMove * 0.55);
     if (!settings.accountName) {
         for (let i = 0; i < 120; i++) {
             // 原始文本
@@ -77,13 +89,13 @@ let gameRegion;
     await initializeCdTime(pathings, accountName);
 
     //按照用户配置标记路线
-    await markPathings(pathings, group1Tags, group2Tags, group3Tags, group4Tags, priorityTags, excludeTags);
+    await markPathings(pathings, groupTags, priorityTags, excludeTags);
 
     //找出最优组合
     await findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum);
 
     //分配到不同路径组
-    await assignGroups(pathings, group1Tags, group2Tags, group3Tags, group4Tags);
+    await assignGroups(pathings, groupTags);
     /*
         //分配结果输出
         pathings.forEach((pathing, index) => {
@@ -230,53 +242,34 @@ async function processPathings() {
     return pathings; // 返回处理后的 pathings 数组
 }
 
-async function markPathings(pathings, group1Tags, group2Tags, group3Tags, group4Tags, priorityTags, excludeTags) {
-    // 找出存在于 group1Tags 中且不在其他组标签中的标签
-    const uniqueTags = group1Tags.filter(tag => {
-        return !group2Tags.includes(tag) && !group3Tags.includes(tag) && !group4Tags.includes(tag);
-    });
+async function markPathings(pathings, groupTags, priorityTags, excludeTags) {
+    // 取出第 0 组并剔除与其他 9 组重复的标签
+    const uniqueTags = groupTags[0].filter(tag =>
+        !groupTags.slice(1).some(arr => arr.includes(tag))
+    );
 
     pathings.forEach(pathing => {
-        // 初始化 pathing.tags 和 pathing.monsterInfo 以确保它们存在
         pathing.tags = pathing.tags || [];
         pathing.monsterInfo = pathing.monsterInfo || {};
-
-        // 初始化 pathing.prioritized 为 false
         pathing.prioritized = false;
 
-        // 检查路径的 tags 是否包含 uniqueTags
         const containsUniqueTag = uniqueTags.some(uniqueTag => pathing.tags.includes(uniqueTag));
 
-        // 检查 fullPath、tags 或 monsterInfo 是否包含 excludeTags 中的任意一个子字符串
         const containsExcludeTag = excludeTags.some(excludeTag => {
-            // 检查 fullPath 是否包含 excludeTag
             const fullPathContainsExcludeTag = pathing.fullPath && pathing.fullPath.includes(excludeTag);
-            // 检查 tags 是否包含 excludeTag
             const tagsContainExcludeTag = pathing.tags.some(tag => tag.includes(excludeTag));
-            // 检查 monsterInfo 的键是否包含 excludeTag
             const monsterInfoContainsExcludeTag = Object.keys(pathing.monsterInfo).some(monsterName => monsterName.includes(excludeTag));
-
-            // 返回是否包含任意一个 excludeTag
             return fullPathContainsExcludeTag || tagsContainExcludeTag || monsterInfoContainsExcludeTag;
         });
 
-        // 检查 fullPath、tags 或 monsterInfo 是否包含 priorityTags 中的任意一个子字符串
         const containsPriorityTag = priorityTags.some(priorityTag => {
-            // 检查 fullPath 是否包含 priorityTag
             const fullPathContainsPriorityTag = pathing.fullPath && pathing.fullPath.includes(priorityTag);
-            // 检查 tags 是否包含 priorityTag
             const tagsContainPriorityTag = pathing.tags.some(tag => tag.includes(priorityTag));
-            // 检查 monsterInfo 的键是否包含 priorityTag
             const monsterInfoContainsPriorityTag = Object.keys(pathing.monsterInfo).some(monsterName => monsterName.includes(priorityTag));
-
-            // 返回是否包含任意一个 priorityTag
             return fullPathContainsPriorityTag || tagsContainPriorityTag || monsterInfoContainsPriorityTag;
         });
 
-        // 如果包含 uniqueTags 或 excludeTags，则标记为 false，否则标记为 true
         pathing.available = !(containsUniqueTag || containsExcludeTag);
-
-        // 如果包含 priorityTags，则标记为 true
         pathing.prioritized = containsPriorityTag;
     });
 }
@@ -425,50 +418,25 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
     log.info(`预计总用时: ${hours} 时 ${minutes} 分 ${seconds.toFixed(0)} 秒`);
 }
 
-async function assignGroups(pathings, group1Tags, group2Tags, group3Tags, group4Tags) {
-    // 初始化记录各组路线数量的对象
-    const groupCounts = {
-        0: 0, // 默认组
-        1: 0, // 不包含 group1Tags 的组
-        2: 0, // 包含 group1Tags 且包含 group2Tags 的组
-        3: 0, // 包含 group1Tags 但不包含 group2Tags，包含 group3Tags 的组
-        4: 0  // 包含 group1Tags 但不包含 group2Tags 和 group3Tags，包含 group4Tags 的组
-    };
-
+async function assignGroups(pathings, groupTags) {
     // 遍历 pathings 数组
     pathings.forEach(pathing => {
-        // 只处理 selected 为 true 的项
         if (pathing.selected) {
-            // 默认 group 为 0
             pathing.group = 0;
 
-            // 如果 tags 不包含 group1Tags 中的任意一个，则改为 1
-            if (!group1Tags.some(tag => pathing.tags.includes(tag))) {
+            if (!groupTags[0].some(tag => pathing.tags.includes(tag))) {
                 pathing.group = 1;
             } else {
-                // 如果包含 group1Tags 中的任意一个，则检查 group2Tags
-                if (group2Tags.some(tag => pathing.tags.includes(tag))) {
-                    pathing.group = 2;
-                } else {
-                    // 如果包含 group1Tags 但不包含 group2Tags，则检查 group3Tags
-                    if (group3Tags.some(tag => pathing.tags.includes(tag))) {
-                        pathing.group = 3;
-                    } else {
-                        // 如果包含 group1Tags 但不包含 group2Tags 和 group3Tags，则检查 group4Tags
-                        if (group4Tags.some(tag => pathing.tags.includes(tag))) {
-                            pathing.group = 4;
-                        }
+                // 依次判断 groupTags[1] ~ groupTags[9]
+                for (let i = 1; i <= 9; i++) {
+                    if (groupTags[i].some(tag => pathing.tags.includes(tag))) {
+                        pathing.group = i + 1;
+                        break;
                     }
                 }
             }
-
-            // 更新对应的组计数
-            groupCounts[pathing.group]++;
         }
     });
-
-    // 返回组计数对象
-    return groupCounts;
 }
 
 async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywords) {
@@ -487,21 +455,21 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
     async function isMainUI() {
         // 修改后的图像路径
         const imagePath = "assets/MainUI.png";
-
         // 修改后的识别区域（左上角区域）
         const xMin = 0;
         const yMin = 0;
         const width = 150; // 识别区域宽度
         const height = 150; // 识别区域高度
+        let template = file.ReadImageMatSync(imagePath);
+        let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
 
-        // 尝试次数设置为 3 次
-        const maxAttempts = 3;
+        // 尝试次数设置为 2 次
+        const maxAttempts = 2;
 
         let attempts = 0;
         while (attempts < maxAttempts && !state.cancelRequested) {
             try {
-                let template = file.ReadImageMatSync(imagePath);
-                let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
+
                 gameRegion = captureGameRegion();
                 let result = gameRegion.find(recognitionObject);
                 gameRegion.dispose();
@@ -516,7 +484,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 return false; // 发生异常时返回 false
             }
             attempts++; // 增加尝试次数
-            await sleep(trigger); // 每次检测间隔 trigger 毫秒
+            await sleep(50); // 每次检测间隔 50 毫秒
         }
         if (state.cancelRequested) {
             log.info("图像识别任务已取消");
@@ -534,15 +502,14 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
         const yMin = 200;
         const width = 1000; // 识别区域宽度
         const height = 250; // 识别区域高度
-
+        let template = file.ReadImageMatSync(imagePath);
+        let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
         // 尝试次数设置为 10 次
         const maxAttempts = 10;
 
         let attempts = 0;
         while (attempts < maxAttempts && !state.cancelRequested) {
             try {
-                let template = file.ReadImageMatSync(imagePath);
-                let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
                 gameRegion = captureGameRegion();
                 let result = gameRegion.find(recognitionObject);
                 gameRegion.dispose();
@@ -557,7 +524,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 return false; // 发生异常时返回 false
             }
             attempts++; // 增加尝试次数
-            await sleep(trigger); // 每次检测间隔 trigger 毫秒
+            await sleep(100); // 每次检测间隔 100 毫秒
         }
         if (state.cancelRequested) {
             log.info("图像识别任务已取消");
@@ -578,11 +545,10 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
     }
 
     // 定义一个函数用于执行OCR识别和交互
-    async function performOcrAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance) {
+    async function recognizeAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance) {
         async function performOcr(whitelistKeywords, xRange, yRange) {
             try {
                 // 在捕获的区域内进行OCR识别
-                gameRegion = captureGameRegion();
                 let resList = gameRegion.findMulti(RecognitionObject.ocr(
                     xRange.min, yRange.min,
                     xRange.max - xRange.min, yRange.max - yRange.min
@@ -614,14 +580,38 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
             }
         }
 
+        async function performTemplateMatch(centerYF) {
+            try {
+                let result;
+                let itemName = null;
+                // 在捕获的区域内进行模板匹配识别
+                for (const targetItem of targetItems) {
+                    let recognitionObject = RecognitionObject.TemplateMatch(targetItem.template, 1220, centerYF - 35, 70, 70);
+                    result = gameRegion.find(recognitionObject);
+                    if (result.isExist()) {
+                        itemName = targetItem.itemName;
+                        //log.info(`调试-距离为${result.y + result.height / 2 - centerYF}`);
+                        break;
+                    }
+                }
+                gameRegion.dispose();
+                return itemName;
+            } catch (error) {
+                log.error(`模板匹配时发生异常: ${error.message}`);
+                return [];
+            }
+        }
+
         while (!state.completed && !state.cancelRequested) {
+            let lastcenterYF = 0;
+            let lastItemName = "";
             // 尝试找到 F 图标并返回其坐标
             async function findFIcon(imagePath, xMin, yMin, width, height, timeout = 500) {
+                let template = file.ReadImageMatSync(imagePath);
+                let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
                 let startTime = Date.now();
                 while (Date.now() - startTime < timeout && !state.cancelRequested) {
                     try {
-                        let template = file.ReadImageMatSync(imagePath);
-                        let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
                         gameRegion = captureGameRegion();
                         let result = gameRegion.find(recognitionObject);
                         if (result.isExist()) {
@@ -636,7 +626,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                         }
                         return null;
                     }
-                    await sleep(trigger * 2); // 找不到f时等待 trigger*2 毫秒
+                    await sleep(100); // 找不到f时等待 100 毫秒
                 }
                 if (state.cancelRequested) {
                     log.info("图像识别任务已取消");
@@ -655,39 +645,57 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 }
                 continue;
             }
-
-            // 获取 F 图标的中心点 Y 坐标
-            let centerYF = fRes.y + fRes.height / 2;
-
-            // 在当前屏幕范围内进行 OCR 识别
-            let ocrResults = await performOcr(whitelistKeywords, textxRange, { min: fRes.y - texttolerance, max: fRes.y + fRes.height + texttolerance * 2 });
-
-            // 检查所有目标文本是否在当前页面中
             let foundTarget = false;
-            for (let ocrResult of ocrResults) {
-                // 检查是否包含黑名单关键词
-                let containsBlacklistKeyword = blacklistKeywords.some(blacklistKeyword => ocrResult.text.includes(blacklistKeyword));
-                if (containsBlacklistKeyword) {
-                    continue;
-                }
+            // 获取 F 图标的中心点 Y 坐标
+            let centerYF = Math.round(fRes.y + fRes.height / 2);
+            if (pickupMode === "ocr拾取，默认只拾取狗粮和晶蝶") {
+                // 在当前屏幕范围内进行 OCR 识别
+                let ocrResults = await performOcr(whitelistKeywords, textxRange, { min: fRes.y - texttolerance, max: fRes.y + fRes.height + texttolerance * 2 });
 
-                // 计算目标文本的中心Y坐标
-                let centerYTargetText = ocrResult.y + ocrResult.height / 2;
-                if (Math.abs(centerYTargetText - centerYF) <= texttolerance) {
-                    keyPress("F"); // 执行交互操作
-                    await sleep(trigger); // 操作后暂停 50 毫秒
-                    foundTarget = true;
-
-                    if ((new Date() - lastPickupTime) > 1000 || ocrResult.text != lastPickupItem) {
-                        log.info(`交互或拾取："${ocrResult.text}"`);
-                        lastPickupTime = new Date();
-                        lastPickupItem = ocrResult.text;
+                // 检查所有目标文本是否在当前页面中
+                for (let ocrResult of ocrResults) {
+                    // 检查是否包含黑名单关键词
+                    let containsBlacklistKeyword = blacklistKeywords.some(blacklistKeyword => ocrResult.text.includes(blacklistKeyword));
+                    if (containsBlacklistKeyword) {
+                        continue;
                     }
-
-                    break;
+                    // 计算目标文本的中心Y坐标
+                    let centerYTargetText = ocrResult.y + ocrResult.height / 2;
+                    if (Math.abs(centerYTargetText - centerYF) <= texttolerance) {
+                        keyPress("F"); // 执行交互操作
+                        await sleep(pickupDelay); // 操作后暂停 pickupDelay 毫秒
+                        foundTarget = true;
+                        if ((new Date() - lastPickupTime) > 1000 || ocrResult.text != lastPickupItem) {
+                            log.info(`交互或拾取："${ocrResult.text}"`);
+                            lastPickupTime = new Date();
+                            lastPickupItem = ocrResult.text;
+                        }
+                        break;
+                    }
+                }
+            } else if (pickupMode === "模板匹配拾取，默认只拾取狗粮") {
+                //let start = new Date();
+                let itemName = await performTemplateMatch(centerYF);
+                //let end = new Date();
+                //log.info(`调试-匹配用时${end - start}毫秒`)
+                if (itemName) {
+                    if (Math.abs(lastcenterYF - centerYF) <= 20 && lastItemName === itemName) {
+                        log.debug("调试-物品名和坐标相同，等待2*pickupDelay");
+                        await sleep(2 * pickupDelay);
+                        foundTarget = true;
+                        lastcenterYF = 0;
+                    } else {
+                        keyPress("F"); // 执行交互操作
+                        log.info(`交互或拾取："${itemName}"`);
+                        await sleep(pickupDelay); // 操作后暂停 pickupDelay 毫秒
+                        //foundTarget = true;
+                    }
+                    lastcenterYF = centerYF;
+                    lastItemName = itemName;
+                } else {
+                    lastItemName = "";
                 }
             }
-
             // 如果在当前页面中没有找到任何目标文本，则根据时间决定滚动方向
             if (!foundTarget) {
                 const currentTime = new Date().getTime(); // 获取当前时间（毫秒）
@@ -710,8 +718,9 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     // 否则执行下翻
                     await keyMouseScript.runFile(`assets/滚轮上翻.json`);
                 }
+                //滚轮后延时
+                await sleep(rollingDelay);
             }
-
             if (state.cancelRequested) {
                 break;
             }
@@ -832,8 +841,8 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
 
     // 根据条件决定是否启动 OCR 检测和交互任务
     let ocrTask = null;
-    if (pickupMode === "js拾取，默认只拾取狗粮和晶蝶") {
-        ocrTask = performOcrAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance);
+    if (pickupMode === "ocr拾取，默认只拾取狗粮和晶蝶" || pickupMode === "模板匹配拾取，默认只拾取狗粮") {
+        ocrTask = recognizeAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance);
     }
 
     // 启动泥头车
@@ -929,13 +938,21 @@ async function processPathingsByGroup(pathings, whitelistKeywords, blacklistKeyw
     let lastX = 0;
     let lastY = 0;
     let runningFailCount = 0;
-    // 定义路径组名称到组号的映射
+
+    // 定义路径组名称到组号的映射（10 个）
     const groupMapping = {
         "路径组一": 1,
         "路径组二": 2,
         "路径组三": 3,
-        "路径组四": 4
+        "路径组四": 4,
+        "路径组五": 5,
+        "路径组六": 6,
+        "路径组七": 7,
+        "路径组八": 8,
+        "路径组九": 9,
+        "路径组十": 10
     };
+
     // 从全局 settings 中获取用户选择的路径组名称
     const selectedGroupName = settings.groupIndex || "路径组一"; // 默认值为 "路径组一"
 

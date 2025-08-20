@@ -2,15 +2,21 @@
   "info": {
     "name": "508枫丹厄里那斯北（600_2，400_4，200_7）",
     "type": "collect",
+    "author": "汐",
     "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.3",
+    "description": "  路线信息：该路线预计用时366.51秒，包含12只精英与3只小怪，预计收入4202.5摩拉，包含以下怪物：1只射手丘丘人、1只丘丘雷兜王、1只丘丘岩盔王、2只大型碎石隙境原体、3只碎石隙境原体、2只大型狂蔓隙境原体、1只狂蔓隙境原体、1只压制特化型机关、1只歼灭特化型机关、1只圣骸角鳄、1只圣骸赤鹫。",
+    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1754750617053,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -25,7 +31,7 @@
     {
       "id": 2,
       "x": 5108.77,
-      "y": 2987.0,
+      "y": 2987,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -61,7 +67,7 @@
     {
       "id": 6,
       "x": 5067.12,
-      "y": 2992.0,
+      "y": 2992,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -80,9 +86,9 @@
       "id": 8,
       "x": 4999.85,
       "y": 2934.26,
-      "action": "fight",
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "type": "path"
     },
     {
@@ -170,10 +176,10 @@
       "id": 18,
       "x": 5027.89,
       "y": 3075.27,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 19,

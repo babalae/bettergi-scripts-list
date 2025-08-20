@@ -163,3 +163,4 @@ const autoNavigateToReward = async () => {
     await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
     log.info(`首领讨伐结束`);
 })();
+

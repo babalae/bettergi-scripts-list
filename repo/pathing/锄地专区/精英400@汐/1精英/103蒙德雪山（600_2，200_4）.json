@@ -2,15 +2,21 @@
   "info": {
     "name": "103蒙德雪山（600_2，200_4）",
     "type": "collect",
+    "author": "汐",
     "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.3",
+    "description": "  路线信息：该路线预计用时282.52秒，包含6只精英与6只小怪，预计收入2243摩拉，包含以下怪物：1只冰盾丘丘人、3只冰箭丘丘人、4只冰盾丘丘暴徒、1只丘丘霜铠王、1只风丘丘萨满、1只冰丘丘萨满、1只遗迹重机。",
+    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1754740578989,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -26,9 +32,9 @@
       "id": 2,
       "x": -998.11,
       "y": 852.61,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "run",
-      "action_params": "",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "type": "path"
     },
     {
@@ -83,8 +89,7 @@
       "action": "fight",
       "move_mode": "run",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 9,
@@ -108,9 +113,9 @@
       "id": 11,
       "x": -1047.25,
       "y": 758.75,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "type": "path"
     },
     {
@@ -172,21 +177,31 @@
       "x": -1184.04,
       "y": 671.19,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "climb",
       "action_params": "",
-      "type": "path"
+      "type": "path",
+      "locked": false
     },
     {
       "id": 19,
-      "x": -1183.35,
-      "y": 589.69,
+      "x": -1182.7499,
+      "y": 618.7613,
       "action": "",
-      "move_mode": "run",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 20,
+      "x": -1183.35,
+      "y": 589.69,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
       "x": -1195.89,
       "y": 562.04,
       "action": "",
@@ -195,17 +210,16 @@
       "type": "path"
     },
     {
-      "id": 21,
+      "id": 22,
       "x": -1203.29,
       "y": 539.71,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
-      "id": 22,
+      "id": 23,
       "x": -1203.29,
       "y": 539.71,
       "action": "combat_script",

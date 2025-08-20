@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "332稻妻渊下宫常夜灵庙东北（600_2，200_7）",
     "type": "collect",
@@ -12,7 +12,11 @@
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "tags": [],
+    "last_modified_time": 1754746480196,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -111,7 +115,7 @@
       "y": 498.9,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;wait(2)",
+      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;wait(2)",
       "type": "path"
     },
     {
@@ -127,29 +131,28 @@
       "id": 13,
       "x": -277.12,
       "y": 497.76,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 14,
       "x": -307.68,
       "y": 491.98,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
+      "move_mode": "dash",
       "action_params": "",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 15,
       "x": -307.68,
       "y": 491.98,
-      "type": "orientation",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
     }
   ]
 }

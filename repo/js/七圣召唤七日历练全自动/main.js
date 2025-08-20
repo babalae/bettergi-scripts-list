@@ -34,12 +34,43 @@ async function switchCardTeam(Name) {
     }
 }
 
+async function runCardStrategyFromFolder(folderName) {
+    try {
+        // 构建策略文件路径
+        const strategyFilePath = `${folderName}.txt`;
+        
+        // 读取策略文件内容
+        const strategyContent = await file.readText(strategyFilePath);
+        
+        // 检查策略内容是否为空
+        if (!strategyContent || strategyContent.trim() === '') {
+            log.error('策略文件内容为空');
+            return false;
+        }
+        log.info(`开始执行 ${folderName} `);
+        // 执行策略
+        await dispatcher.runTask(new SoloTask("AutoGeniusInvokation", {
+            strategy: strategyContent
+        }));
+        
+        
+        return true;
+    } catch (error) {
+        log.error(`执行策略失败: ${error}，默认使用独立任务中的设置`);
+        return false;
+    }
+}
+
+
 (async function () {
 
 
     // 存储挑战玩家信息
     let textArray = [];
     let skipNum = 0;
+    let teamName = settings.partyName1; 
+    let folderName = "1号卡牌策略"; 
+
 
 /**
  * 判断任务是否已刷新
@@ -153,7 +184,7 @@ async function isTaskRefreshed(filePath, options = {}) {
             
             return true;
         } else {
-            notification.send(`七圣召唤七日历练未刷新，冷却还有${((nowTime - lastTime)/3600).toFixed(1)}小时`);
+            log.info(`七圣召唤七日历练未刷新`);
             return false;
         }
         
@@ -361,6 +392,26 @@ async function captureAndStoreTexts() {
     await sleep(1000);
 }
 
+// 计算两个字符串的相似度（允许最多一个字的差异）
+function isTextMatch(target, source) {
+    // 如果完全匹配直接返回true
+    if (target === source) return true;
+    
+    // 如果长度不同，直接不匹配
+    if (target.length !== source.length) return false;
+    
+    let diffCount = 0;
+    for (let i = 0; i < target.length; i++) {
+        if (target[i] !== source[i]) {
+            diffCount++;
+            if (diffCount > 1) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 //检查是否有对应的挑战对手
 async function searchAndClickTexts() {
     middleButtonClick();
@@ -388,12 +439,11 @@ async function searchAndClickTexts() {
         const resText = res.text.trim();
 
         // 在存储的文本数组中查找匹配项
-        const index = textArray.findIndex((item) => item.text === resText);
+        const index = textArray.findIndex((item) => isTextMatch(item.text, resText));
 
         if (index !== -1) {
             // 找到匹配项，点击对应位置
-
-            log.info(`找到匹配文本: ${resText}`);
+            log.info(`找到匹配文本: ${resText} (原存储文本: ${textArray[index].text})`);
             skipNum = 0;
             // 点击存储的位置
             await keyMouseScript.runFile(`assets/ALT点击.json`);
@@ -473,12 +523,10 @@ async function Playcards() {
     await autoConversation();
     log.info("对话完成");
     await sleep(1500);
-    if (settings.partyName != undefined) {
-        await switchCardTeam(settings.partyName);
-    }
+    await switchCardTeam(teamName);
     click(1610, 900); //点击挑战
     await waitOrCheckMaxCoin(8000);
-    await dispatcher.runTask(new SoloTask("AutoGeniusInvokation"));
+    await runCardStrategyFromFolder(folderName);
     await sleep(3000);
     await checkChallengeResults();
     await sleep(1000);
@@ -632,9 +680,23 @@ if( await isTaskRefreshed("assets/weekly.txt", {
     weeklyDay: 1, // 周一
     weeklyHour: 4 // 凌晨4点
 })){
-await main();
-}
 
+
+if(settings.partyName1) await main();
+    teamName = settings.partyName2; 
+    folderName = "2号卡牌策略"; 
+
+if(textArray.length != 0 && settings.partyName2){
+log.info(`尝试2号卡牌策略`);
+await main();
+} 
+    teamName = settings.partyName3; 
+    folderName = "3号卡牌策略"; 
+if(textArray.length != 0 && settings.partyName3){
+log.info(`尝试3号卡牌策略`);
+await main();
+} 
+}
 
 
 })();
