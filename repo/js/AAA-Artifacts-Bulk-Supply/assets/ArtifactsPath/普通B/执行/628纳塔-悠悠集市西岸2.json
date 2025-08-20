@@ -13,7 +13,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1755530899085,
+    "last_modified_time": 1755670541571,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -40,10 +40,10 @@
       "id": 3,
       "x": 14156.3115234375,
       "y": 415.49609375,
-      "type": "orientation",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.4)"
+      "move_mode": "walk",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.4)",
+      "type": "orientation"
     },
     {
       "id": 4,
@@ -51,7 +51,7 @@
       "y": 348.166015625,
       "action": "combat_script",
       "move_mode": "run",
-      "action_params": "keydown(w),wait(0.3),moveby(0,-1900),keypress(e),wait(1.7),keypress(e),wait(1),keyup(w),",
+      "action_params": "keydown(w),wait(0.3),keypress(e),wait(1.7),moveby(0,-2300),keypress(e),wait(1),keyup(w),",
       "type": "orientation"
     },
     {
