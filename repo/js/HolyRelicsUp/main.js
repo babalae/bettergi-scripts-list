@@ -627,6 +627,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, log_off) {
         let width = (440 - 140) * genshinJson.width / 1920
 
         for (let i = 1; i <= config.countMaxByHoly; i++) {
+
             await info('开始识别左边画面')
             let captureRegion = captureGameRegion();
             let ocrObject = await recognitionObjectOcr(x, y, width, height);
@@ -646,7 +647,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, log_off) {
                 if (keywords.find(function (value) {
                     return res.text.includes(value.trim())
                 }) && (keywordsOk.length === 0 || keywordsOk.find(function (value) {
-                    return !(value === res.text)
+                    return !value.includes(res.text)
                 }))) {
                     await wait(1)
                     res.click()
@@ -672,14 +673,17 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, log_off) {
                 if (keywords.find(function (value) {
                     return res.text.includes(value.trim())
                 }) && (keywordsOk.length === 0 || keywordsOk.find(function (value) {
-                    return !value === res.text
+                    return !value.includes(res.text)
                 }))) {
                     await wait(1)
                     res.click()
                     keywordsOk.push(res.text)
                 }
             }
-
+            if (keywords.length === keywordsOk.length) {
+                await info(`已选中 ${keywordsOk.join(",")}`)
+                break
+            }
             await wait(1)
             await mTo(genshinJson.width / 2, last.y)
             await wait(2)
@@ -688,6 +692,10 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, log_off) {
 
             if (last.name_one != null && last.name_one === last.name_two) {
                 await info('已达底部')
+                break
+            }
+            if (keywords.length === keywordsOk.length) {
+                await info(`已选中 ${keywordsOk.join(",")}`)
                 break
             }
         }
