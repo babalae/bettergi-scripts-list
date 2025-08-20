@@ -60,6 +60,42 @@
        "default": ""
    },
    {
+     "name": "holyRelicsLockMark",
+     "type": "checkbox",
+     "label": "圣遗物筛选:(锁定状态)|标记",
+     "default": false
+   },
+   {
+     "name": "holyRelicsLockY",
+     "type": "checkbox",
+     "label": "圣遗物筛选:(锁定状态)|仅锁定",
+     "default": false
+   },
+   {
+     "name": "holyRelicsLockN",
+     "type": "checkbox",
+     "label": "圣遗物筛选:(锁定状态)|未锁定",
+     "default": false
+   },
+   {
+     "name": "holyRelicsEquipY",
+     "type": "checkbox",
+     "label": "圣遗物筛选:(装备状态)|已装备",
+     "default": false
+   },
+   {
+     "name": "holyRelicsEquipN",
+     "type": "checkbox",
+     "label": "圣遗物筛选:(装备状态)|未装备",
+     "default": false
+   },
+   {
+     "name": "holyRelicsSourceFrostSaint",
+     "type": "checkbox",
+     "label": "圣遗物筛选:(来源)|祝圣之霜定义",
+     "default": false
+   },
+   {
       "name": "knapsackKey",
       "type": "input-text",
       "label": "打开背包按键(不填，默认：B)",

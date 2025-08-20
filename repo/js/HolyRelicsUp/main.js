@@ -60,6 +60,31 @@ function isExist(res) {
 
 //========================以上为原有封装==============================
 //========================以下为基本配置==============================
+
+function siftAll() {
+    //筛选条件
+    let baseSiftArray = new Array('未满级')
+    if (settings.holyRelicsLockMark) {
+        baseSiftArray.push('标记')
+    }
+    if (settings.holyRelicsLockY) {
+        baseSiftArray.push('仅锁定')
+    }
+    if (settings.holyRelicsLockN) {
+        baseSiftArray.push('未锁定')
+    }
+    if (settings.holyRelicsEquipY) {
+        baseSiftArray.push('已装备')
+    }
+    if (settings.holyRelicsEquipN) {
+        baseSiftArray.push('未装备')
+    }
+    if (settings.holyRelicsSourceFrostSaint) {
+        baseSiftArray.push('祝圣之霜定义')
+    }
+    return baseSiftArray
+}
+
 const config = {
     enableBatchUp: settings.enableBatchUp,//是否开启批量升级
     enableOneUp: settings.enableOneUp,//是否开启单次升级
@@ -68,13 +93,16 @@ const config = {
     material: settings.material,//材料
     upMax: parseInt(settings.upMax + ''),//升级次数
     upMaxCount: settings.upMaxCount + '',//设置升级圣遗物个数
-    operate: settings.operate,//操作
-    knapsackKey: settings.knapsackKey//背包快捷键
+    knapsackKey: settings.knapsackKey,//背包快捷键
+    siftArray: (siftAll())//筛选条件
 }
 const genshinJson = {
     width: genshin.width,
     height: genshin.height,
 }
+
+
+//基础目录
 const path_base_main = 'assets/main/'
 //========================以上为基本配置==============================
 //========================以下为基本操作==============================
@@ -263,6 +291,25 @@ async function openKnapsack() {
     return exist
 }
 
+/**
+ * OCR识别圣遗物背包区域的函数
+ * 该函数通过OCR技术识别游戏界面中的圣遗物背包区域
+ * @returns {Promise} 返回一个Promise对象，解析为OCR识别结果
+ */
+async function ocrHolyRelicsKnapsack() {
+    // 定义OCR识别的参数配置对象
+    let ocrJson = {
+        "text": "圣遗物",               // 要识别的文本内容
+        "x": 0,                       // 识别区域的起始x坐标
+        "y": 0,                       // 识别区域的起始y坐标
+        "width": genshinJson.width / 2.0,    // 识别区域的宽度（屏幕宽度的一半）
+        "height": genshinJson.width / 5.0   // 识别区域的高度（屏幕宽度的五分之一）
+    }
+    // 调用基础OCR函数进行图像识别，传入路径和坐标参数
+    let holyRelicsKnapsack = await ocrBase(`${path_base_main}${ocrJson.text}.jpg`, ocrJson.x, ocrJson.y, ocrJson.width, ocrJson.height)
+    // 返回OCR识别结果
+    return holyRelicsKnapsack
+}
 
 /**
  * 打开圣遗物背包
@@ -273,16 +320,16 @@ async function openHolyRelicsKnapsack() {
     // const holyRelicsKnapsackRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("${path_base_main}圣遗物.jpg"), 0, 0, genshinJson.width / 2.0, genshinJson.width / 5.0);
     // // 通过捕获游戏区域并查找圣遗物背包图标元素
     // let holyRelicsKnapsack = captureGameRegion().find(holyRelicsKnapsackRo);
-    let ocrJson = {
-        "text": "圣遗物",
-        "x": 0,
-        "y": 0,
-        "width": genshinJson.width / 2.0,
-        "height": genshinJson.width / 5.0
-    }
+    // let ocrJson = {
+    //     "text": "圣遗物",
+    //     "x": 0,
+    //     "y": 0,
+    //     "width": genshinJson.width / 2.0,
+    //     "height": genshinJson.width / 5.0
+    // }
     let re = false;
 
-    let holyRelicsKnapsack = await ocrBase(`${path_base_main}${ocrJson.text}.jpg`, ocrJson.x, ocrJson.y, ocrJson.width, ocrJson.height)
+    let holyRelicsKnapsack = await ocrHolyRelicsKnapsack()
     // 检查圣遗物背包图标是否存在
     if (isExist(holyRelicsKnapsack)) {
         // 打开圣遗物背包
@@ -414,13 +461,39 @@ async function siftState(log_off) {
 
 async function openSiftAll(log_off) {
     // 调用重置筛选函数，恢复筛选条件到初始状态
+    await info(`筛选中`)
     let reOk = await resetSift();
     let op = false
     if (reOk) {
         await wait(1)
-        await siftState(log_off)
-        await wait(1)
+        // await siftState(log_off)
+        // await wait(1)
         // todo: 可扩展
+        // let sift = await ocrHolyRelicsKnapsack();
+        // await logInfoOcrBase(sift, log_off)
+        // await wait(1)
+
+        let width = parseInt(450 * genshinJson.width / 1080 + '');
+        let captureRegion = captureGameRegion();
+        const ocrObject = RecognitionObject.Ocr(0, 0, width, genshinJson.height);
+        // await mTo(width, 0)
+        // ocrObject.threshold = 1.0;
+        let resList = captureRegion.findMulti(ocrObject);
+        for (let res of resList) {
+            // await wait(1)
+            await logInfoOcrBase(res, log_off)
+            // await wait(1)
+            // await mTo(res.x, res.y)
+            if (config.siftArray.find(function (value) {
+                return value === res.text
+            })) {
+                await info(`筛选${res.text}`)
+                // await wait(1)
+                // await downClick(res.x, res.y)
+                await res.click()
+            }
+        }
+        await wait(1)
         //确认
         let ok = await confirm()
         if (isExist(ok)) {
@@ -615,7 +688,7 @@ async function clickProgressBarTopByHolyRelics() {
     // 计算点击位置的x坐标（OCR识别区域的中心点）
     let x = ocr.x + parseInt(ocr.width / 2 + '');
     // 计算点击位置的y坐标（OCR识别区域的底部）
-    let y = ocr.y + parseInt(ocr.height  + '');
+    let y = ocr.y + parseInt(ocr.height + '');
     // 输出点击坐标信息
     await info(`x:${x},y:${y}`)
     await wait(10)
@@ -734,17 +807,8 @@ async function openAggrandizement() {
     }
 }
 
-function selectTheClipCondition(key) {
-    info(key).then(r => {
-    })
-    if (key === null || key === '默认') {
-        info(`使用默认素材`).then(r => {
-        })
-    }
-}
-
 /**
- * 打开选择素材条件
+ * 打开选择素材条件 弃用
  * 该函数用于打开游戏中的素材选择界面，并根据传入的条件自动选择对应的素材
  * @param {string} condition - 需要选择的素材条件文本
  * @returns {Promise<void>} 异步函数，无返回值
@@ -891,7 +955,7 @@ async function operateDispose(operate, enableInsertionMethod, log_off) {
 
 /**
  * 放入狗粮后
- * 判断狗粮是否充足
+ * 判断狗粮是否充足 弃用
  */
 async function judgeDogFoodFilling() {
     let err = null
@@ -1244,7 +1308,8 @@ async function main(log_off) {
     //重置
     // await resetSift();
     // await main(false)
-    await main(true)
+    // await main(true)
+    await openSiftAll(false)
     // await clickProgressBarTopByHolyRelics()
     // await mTo(200,250)
     // await judgeDogFoodFilling()
