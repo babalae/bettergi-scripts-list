@@ -176,7 +176,7 @@ async function logInfoOcrBase(res, log_off) {
  * @returns {Promise<void>}
  */
 async function logInfoOcr(res) {
-    await logInfoOcrBase(res, false)
+    await logInfoOcrBase(res, config.log_off)
 }
 
 /**
@@ -186,7 +186,7 @@ async function logInfoOcr(res) {
  * @param {number} h - 移动的总步数/高度
  */
 async function drag(x, y, h) {
-    await dragBase(x, y, h, true)
+    await dragBase(x, y, h, config.log_off)
 }
 
 /**
@@ -240,7 +240,7 @@ async function dragPageBase(log_off) {
  */
 async function dragPage() {
     // 调用基础拖动函数，传入false作为参数
-    await dragPageBase(false)
+    await dragPageBase(config.log_off)
 }
 
 
@@ -499,7 +499,7 @@ async function siftState(log_off) {
     await wait(300)
     let exist = isExist(siftState);
     if (exist) {
-        await logInfoOcrBase(siftState, false)
+        await logInfoOcrBase(siftState, config.log_off)
         // await mTo(siftState.x, siftState.y)
         siftState.click()
         if (!log_off) {
@@ -1096,7 +1096,7 @@ async function openAggrandizement() {
  * @returns {Promise<void>}
  */
 async function confirm() {
-    return await ocrClick(`${path_base_main}确认.jpg`, "点击确认", false)
+    return await ocrClick(`${path_base_main}确认.jpg`, "点击确认", config.log_off)
 }
 
 /**
@@ -1105,10 +1105,10 @@ async function confirm() {
  */
 async function clear() {
     // 通过OCR识别并点击"详情"按钮
-    await ocrClick(`${path_base_main}详情.jpg`, "点击详情", false)
+    await ocrClick(`${path_base_main}详情.jpg`, "点击详情", config.log_off)
     await wait(1)
     // 通过OCR识别并点击"强化"按钮
-    await ocrClick(`${path_base_main}强化.jpg`, "点击强化", false)
+    await ocrClick(`${path_base_main}强化.jpg`, "点击强化", config.log_off)
 }
 
 /**
@@ -1380,7 +1380,7 @@ async function bathClickUp(operate, log_off) {
             if (bool) {
                 await info(`滑动一行`)
                 await wait(1)
-                await dragBase(0, -9, base_height / 9, false)
+                await dragBase(0, -9, base_height / 9, config.log_off)
                 await wait(1)
             }
             // info(`x:${x},y:${y}`)
@@ -1475,7 +1475,9 @@ async function main(log_off) {
 
 
 (async function () {
-    await main(config.log_off)
+    //todo:入口
+    await mTo(1000,200)
+    // await main(config.log_off)
 })();
 
 //=========弃用以下=========
@@ -1631,7 +1633,7 @@ async function holyRelicsLineClick(upMaxCount) {
             // await wait(1000)
             await info(`滑动一行`)
             await wait(1)
-            await dragBase(0, -9, base_height / 9, false)
+            await dragBase(0, -9, base_height / 9, config.log_off)
             await wait(1)
         }
         // info(`x:${x},y:${y}`)
