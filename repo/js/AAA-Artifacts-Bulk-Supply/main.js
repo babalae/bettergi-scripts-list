@@ -38,6 +38,7 @@ let state = {};
 let record = {};
 let CDInfo = [];
 let failcount = 0;
+let autoSalvageCount = 0;
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
@@ -359,7 +360,7 @@ async function processArtifacts(times = 1) {
             keyPress("VK_ESCAPE");
 
 
-            await recognizeTextAndClick("分解", { x: 635, y: 991, width: 81, height: 57 });
+            await findAndClick(decomposeRo);
             await sleep(1000);
         }
         await findAndClick(quickChooseRo);
@@ -843,6 +844,16 @@ async function runEndingAndExtraPath() {
 }
 
 async function runPaths(folderFilePath, PartyName, doStop) {
+    if (settings.autoSalvage && autoSalvageCount >= 4) {
+        autoSalvageCount = 0;
+        if (settings.decomposeMode === "分解（经验瓶）") {
+            artifactExperienceDiff += await processArtifacts(1);
+        } else {
+            await processArtifacts(1);
+        }
+    } else {
+        autoSalvageCount++;
+    }
     if (state.cancel) return;
     let Paths = await readFolder(folderFilePath, true);
     for (let i = 0; i < Paths.length; i++) {
