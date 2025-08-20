@@ -1437,55 +1437,9 @@ async function main(log_off) {
 
 
 (async function () {
-    // await holyRelicsLineClick(config.upMaxCount)
-    // let base_x = parseInt(200 * genshinJson.width / 1920 + '')
-    // let base_y = parseInt(250 * genshinJson.height / 1080 + '')
-    // let base_width = parseInt(145 * genshinJson.width / 1920 + '')
-    // let base_height = parseInt(189 * genshinJson.height / 1080 + '')
-    // let index = 5 * 8
-    // let line = 8
-    // // let one_page = 4 * line
-    // for (let i = 1; i <= index; i++) {
-    //     let base_count_x = parseInt(i % line + '')
-    //     let base_count_y = parseInt(i / line + '')
-    //     let x = base_x + base_count_x * base_width;
-    //     let y = base_y + base_count_y * base_height * 0;
-    //     if (i % 8 === 1) {
-    //         await wait(300)
-    //     }
-    //
-    //     let bool = i >= (line) && i % (line) === 0;
-    //     await info(`滑动：${bool},i:${i}`)
-    //     if (bool) {
-    //         // await wait(1000)
-    //         await info(`滑动一行`)
-    //         await wait(1)
-    //         await dragBase(0, -9, base_height / 9, false)
-    //         await wait(1)
-    //     } else {
-    //         await info(`当个`)
-    //     }
-    //     // info(`x:${x},y:${y}`)
-    //     await mTo(x, y)
-    //     // await wait(1000)
-    //     await downClick(x, y)
-    //     //todo:强化操作
-    // }
-    //重置
-    // await resetSift();
     await main(false)
     // await main(true)
-    // await openPrerequisitesAll(false)
-    // await openSiftAll(false)
-    // await openSortAll(false)
-    // await clickProgressBarTopByHolyRelics()
-    // await mTo(0,540)
-    // await judgeDogFoodFilling()
-    // await bathClickUp(config.insertionMethod, false)
 })();
-
-
-//以下方法 均为测试
 
 
 
