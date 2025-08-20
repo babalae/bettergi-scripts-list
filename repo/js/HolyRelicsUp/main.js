@@ -625,7 +625,7 @@ async function openSortAll(log_off) {
         // todo: 可扩展
         await info(`排序中`)
         if (config.sortArray.length > 0) {
-            let width = parseInt(450 * genshinJson.width / 1080 + '');
+            let width = parseInt(450 * genshinJson.width / 1920 + '');
             let captureRegion = captureGameRegion();
             let y = parseInt(genshinJson.height / 2 + '');
             const ocrObject = RecognitionObject.Ocr(0, y, width, y);
