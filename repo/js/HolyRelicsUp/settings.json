@@ -14,7 +14,7 @@
    {
      "name": "enableInsertionMethod",
      "type": "checkbox",
-     "label": "自动启用放入方式\n快捷放入/阶段放入",
+     "label": "自动启用放入方式 快捷放入/阶段放入",
      "default": false
    },
    {
@@ -60,6 +60,12 @@
        "default": ""
    },
    {
+       "name": "sortAttribute",
+       "type": "input-text",
+       "label": "属性排序(使用|分割)\n可使用简称如: 生命%|雷伤|充能",
+       "default": ""
+   },
+   {
        "name": "sortMain",
        "type": "select",
        "label": "主排序",
@@ -79,6 +85,7 @@
        ],
        "default": "等级顺序"
    },
+
    {
      "name": "holyRelicsLockMark",
      "type": "checkbox",

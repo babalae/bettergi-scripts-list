@@ -23,8 +23,8 @@ async function mTo(x, y) {
     await moveMouseTo(x, y);
 }
 
-async function recognitionObjectOcr(x, y, width, height) {
-    return await RecognitionObject.Ocr(x, y, width, height)
+function recognitionObjectOcr(x, y, width, height) {
+    return RecognitionObject.Ocr(x, y, width, height)
 }
 
 function downLeftButton() {
@@ -108,6 +108,7 @@ const config = {
     knapsackKey: settings.knapsackKey,//背包快捷键
     sortAuxiliary: settings.sortAuxiliary,//辅助排序
     sortMain: settings.sortMain,//主排序
+    sortAttribute: settings.sortAttribute,//属性条件
     siftArray: (siftAll()),//筛选条件
     sortArray: (sortAll())
 }
@@ -115,10 +116,51 @@ const genshinJson = {
     width: genshin.width,
     height: genshin.height,
 }
+const attributeMap = new Map([
+    ['%', '百分比'],
+    ['生命', '生命值'],
+    ['防御', '防御力'],
+    ['攻击', '攻击力'],
+    ['暴率', '暴击率'],
+    ['爆率', '暴击率'],
+    ['暴伤', '暴击伤害'],
+    ['爆伤', '暴击伤害'],
+    ['物伤', '物理伤害加成'],
+    ['风伤', '风元素伤害加成'],
+    ['水伤', '水元素伤害加成'],
+    ['雷伤', '雷元素伤害加成'],
+    ['岩伤', '岩元素伤害加成'],
+    ['草伤', '草元素伤害加成'],
+    ['冰伤', '冰元素伤害加成'],
+    ['火伤', '火元素伤害加成'],
+    ['治疗', '治疗加成'],
+    ['精通', '元素精通'],
+    ['充能', '元素充能效率'],
+    ['充能', '元素充能效率'],
+    ['充能', '元素充能效率'],
+]);
 
+/**
+ * 属性值替换函数
+ * @param value
+ * @returns {string}
+ */
+function attributeReplacement(value) {
+    value = value.trim()
+    if (value.includes('%')) {
+        value = value.replace('%', '')
+        let s = attributeMap.get(value);
+        value = (s === null ? value : s) + attributeMap.get('%')
+    } else {
+        let s = attributeMap.get(value);
+        value = (s === null ? value : s)
+    }
+    return value
+}
 
 //基础目录
-const path_base_main = 'assets/main/'
+const path_base_main = `assets/main/`
+const path_base_sort = `${path_base_main}sort/`
 //========================以上为基本配置==============================
 //========================以下为基本操作==============================
 async function logInfoOcrBase(res, log_off) {
@@ -490,7 +532,7 @@ async function openSiftAll(log_off) {
 
         let width = parseInt(450 * genshinJson.width / 1080 + '');
         let captureRegion = captureGameRegion();
-        const ocrObject = RecognitionObject.Ocr(0, 0, width, genshinJson.height);
+        const ocrObject = recognitionObjectOcr(0, 0, width, genshinJson.height);
         // await mTo(width, 0)
         // ocrObject.threshold = 1.0;
         let resList = captureRegion.findMulti(ocrObject);
@@ -602,6 +644,159 @@ async function openLvSort() {
 }
 
 /**
+ * 异步函数unchecked，用于执行一系列OCR点击操作
+ * @param {boolean} log_off - 是否记录日志的标志
+ * @returns {Promise<void>} - 返回一个Promise，表示异步操作的完成
+ * <前置条件:处于圣遗物背包排序界面(需要和拖动配合)|测试通过:v>
+ */
+async function unchecked(log_off) {
+    // 执行第一次OCR点击，点击"取消选择1"按钮，并等待1秒
+    await ocrClick(`${path_base_sort}1.jpg`, "取消选择1", log_off)
+    await wait(1)
+    // 执行第二次OCR点击，点击"取消选择2"按钮，并等待1秒
+    await ocrClick(`${path_base_sort}2.jpg`, "取消选择2", log_off)
+    await wait(1)
+    // 执行第三次OCR点击，点击"取消选择3"按钮，并等待1秒
+    await ocrClick(`${path_base_sort}3.jpg`, "取消选择3", log_off)
+    await wait(1)
+}
+
+//重置属性排序
+/**
+ * 重置属性排序的异步函数
+ * @param {any} x - 辅助排序的x，用于指定第一个属性
+ * @param {any} y - 辅助排序的y，用于指定第二个属性
+ * @param {any} h - 参数h，用于指定高度或层级
+ * @param {boolean} log_off - 日志开关参数，用于控制是否记录日志
+ * @returns {Promise<void>} - 不返回任何值的Promise
+ * <前置条件:处于圣遗物排序最底部界面|测试通过:v>
+ */
+async function resetAttributeSort(log_off) {
+
+    let x = parseInt(200 * genshinJson.width / 1920 + '')
+    let y = parseInt(300 * genshinJson.height / 1080 + '')
+    let h = parseInt(10 * genshinJson.height / 1080 + '')
+    let width = parseInt(450 * genshinJson.width / 1920 + '');
+    //拖动到看不见辅助排序规则(影响OCR)
+    await mTo(x, y)
+    await wait(1)
+    await dragBase(0, parseInt(25 * genshinJson.height / 1080 + ''), h, log_off)
+    await info('拖动到看不见辅助排序规则(影响OCR)')
+    await wait(100)
+    let oce_name = '属性排序规则'
+    for (let index = 1; index <= 5; index++) {
+        await unchecked(log_off)
+        await mTo(x, y)
+        await wait(1)
+        await dragBase(0, parseInt(40 * genshinJson.height / 1080 + ''), h, log_off)
+        await wait(1)
+
+        let ocr = await ocrBase(`${path_base_main}${oce_name}.jpg`, 0, 0, width, genshinJson.height)
+        await wait(1)
+        if (isExist(ocr)) {
+            await unchecked(log_off)
+            await info(`已到顶`)
+            break
+        } else if (index == 5) {
+            throwError(`未找到${oce_name}`)
+        }
+    }
+
+}
+
+/**
+ * 属性排序支持
+ * @param keyword
+ * @param log_off
+ * @returns {Promise<void>}
+ * <前置条件:处于圣遗物排序界面 使得辅助排序规则处于最下方不可被OCR识别到|测试通过:v>
+ */
+async function attributeSort(keyword, log_off) {
+    if (!keyword) {
+        await info('无属性排序规则')
+        return
+    }
+    let split = keyword.trim().split('|');
+    if (split.length === 0) {
+        await info('无属性排序规则')
+        return
+    }
+    let attributeKeys = new Array();
+    for (let i = 0; i < split.length; i++) {
+        if (i >= 3) {
+            break
+        }
+        let value = attributeReplacement(split[i], log_off)
+        attributeKeys.push(value)
+    }
+    let attributeKeysOk = new Array();
+    let x = parseInt(200 * genshinJson.width / 1920 + '')
+    let y = parseInt(300 * genshinJson.height / 1080 + '')
+    let h = parseInt(10 * genshinJson.height / 1080 + '')
+    await mTo(x, y)
+    await wait(1)
+    await dragBase(0, parseInt(26 * genshinJson.height / 1080 + ''), h, log_off)
+    await info('拖动到看不见辅助排序规则(影响OCR)')
+    await wait(100)
+    let oce_name = '属性排序规则'
+
+    for (let index = 1; index <= 10; index++) {
+        // todo:属性排序
+        let width = parseInt(450 * genshinJson.width / 1920 + '');
+        let captureRegion = captureGameRegion();
+        let ocrObject = recognitionObjectOcr(0, 0, width, genshinJson.height);
+        // await mTo(width, 0)
+        // ocrObject.threshold = 1.0;
+        let resList = captureRegion.findMulti(ocrObject);
+        for (let res of resList) {
+            await logInfoOcr(res)
+            if (attributeKeys.find(function (value) {
+                return value === res.text
+            })) {
+                await wait(1)
+                res.click()
+                attributeKeysOk.push(res.text)
+            }
+        }
+
+        await mTo(x, y)
+        await wait(1)
+        await dragBase(0, parseInt(40 * genshinJson.height / 1080 + ''), h, log_off)
+        await wait(1)
+
+        let ocr = await ocrBase(`${path_base_main}${oce_name}.jpg`, 0, 0, width, genshinJson.height)
+        await wait(1)
+        if (isExist(ocr)) {
+
+            let captureRegion = captureGameRegion();
+            let ocrObject = recognitionObjectOcr(0, 0, width, genshinJson.height);
+            // await mTo(width, 0)
+            // ocrObject.threshold = 1.0;
+            let resList = captureRegion.findMulti(ocrObject);
+            for (let res of resList) {
+                await logInfoOcr(res)
+                if (attributeKeys.find(function (value) {
+                    return value === res.text
+                })) {
+                    await wait(1)
+                    res.click()
+                    attributeKeysOk.push(res.text)
+                }
+            }
+
+
+            await info(`已到顶`)
+            break
+        } else if (index == 10) {
+            throwError(`未找到${oce_name}`)
+        }
+    }
+    if (attributeKeysOk.length > 0) {
+        await info(`已选中 ${attributeKeysOk.join(',')}`)
+    }
+}
+
+/**
  * 打开排序并选择所有
  * @param log_off - 日志关闭标志，用于控制是否在操作过程中记录日志
  * @returns {Promise<boolean>} - 返回一个Promise，表示异步操作的完成
@@ -628,7 +823,7 @@ async function openSortAll(log_off) {
             let width = parseInt(450 * genshinJson.width / 1920 + '');
             let captureRegion = captureGameRegion();
             let y = parseInt(genshinJson.height / 2 + '');
-            const ocrObject = RecognitionObject.Ocr(0, y, width, y);
+            const ocrObject = recognitionObjectOcr(0, y, width, y);
             // await mTo(width, 0)
             // ocrObject.threshold = 1.0;
             let resList = captureRegion.findMulti(ocrObject);
@@ -649,6 +844,12 @@ async function openSortAll(log_off) {
             await wait(1)
         }
         await info(`排序中`)
+        //todo:属性排序
+        await resetAttributeSort(log_off)
+        await wait(1)
+        await clickProgressBarDownBySort()
+        await attributeSort(config.sortAttribute, log_off)
+        await wait(1)
         //确认
         await confirm()
         await wait(300)
@@ -1227,7 +1428,7 @@ async function oneClickUp(operate, log_off) {
 }
 
 /**
- * 圣遗物界面 单次点击 到达8次 换行
+ * 圣遗物界面 单次点击 到达8次 换行 拖动太慢改为行了 弃用
  * @param upMaxCount
  * @returns {Promise<void>}
  */
@@ -1437,6 +1638,24 @@ async function main(log_off) {
 
 
 (async function () {
+    // await mTo(60,200)
+    // // 捕获游戏区域图像
+    // let captureRegion = captureGameRegion();
+    // // 创建OCR识别对象，使用传入的OCR区域参数
+    // const ocrObject = await recognitionObjectOcr(0, 200, 70, genshinJson.height);
+    // // ocrObject.threshold = 1.0; // 可选：设置OCR识别的阈值，当前已被注释掉
+    // // 在捕获的区域中查找多个匹配项
+    // let resList = captureRegion.findMulti(ocrObject);
+    // // 遍历所有识别结果
+    // for (let res of resList) {
+    //     await logInfoOcr(res)
+    // }
+    // await wait(10)
+    // await clickProgressBarDownBySort()
+    // await wait(1)
+    // await attributeSort('生命%|生命%|攻击%|治疗', false)
+    // await wait(200)
+    // await resetAttributeSort(false)
     await main(false)
     // await main(true)
 })();
