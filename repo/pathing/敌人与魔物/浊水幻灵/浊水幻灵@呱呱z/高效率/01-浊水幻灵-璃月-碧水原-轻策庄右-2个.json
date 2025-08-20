@@ -1,0 +1,71 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "呱呱z"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1755690738847,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "01-浊水幻灵-璃月-碧水原-轻策庄右-2个",
+    "tags": [
+      "精英怪",
+      "浊水幻灵",
+      "高效"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 547.125,
+      "y": 1766.6474609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 525.63671875,
+      "y": 1767.939453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 486.9873046875,
+      "y": 1779.451171875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 483.2763671875,
+      "y": 1794.67578125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 474.4716796875,
+      "y": 1792.482421875
+    }
+  ]
+}

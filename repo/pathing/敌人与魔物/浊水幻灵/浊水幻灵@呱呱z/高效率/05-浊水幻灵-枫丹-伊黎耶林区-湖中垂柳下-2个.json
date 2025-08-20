@@ -1,0 +1,81 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "呱呱z"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1755690753227,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "05-浊水幻灵-枫丹-伊黎耶林区-湖中垂柳下-2个",
+    "tags": [
+      "精英怪",
+      "等级100+",
+      "浊水幻灵",
+      "高效"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3258.328125,
+      "y": 3673.177734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3249.650390625,
+      "y": 3687.861328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3237.3583984375,
+      "y": 3702.549072265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3220.419921875,
+      "y": 3702.740966796875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 keypress(E),",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3216.3994140625,
+      "y": 3712.443359375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3218.904296875,
+      "y": 3731.49755859375
+    }
+  ]
+}

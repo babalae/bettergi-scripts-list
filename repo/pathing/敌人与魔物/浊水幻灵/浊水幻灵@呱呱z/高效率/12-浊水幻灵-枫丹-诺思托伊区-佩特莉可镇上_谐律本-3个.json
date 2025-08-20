@@ -1,0 +1,108 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "呱呱z"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1755690960120,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "12-浊水幻灵-枫丹-诺思托伊区-佩特莉可镇上/谐律本-3个",
+    "tags": [
+      "精英怪",
+      "等级100+",
+      "浊水幻灵",
+      "高效"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4200.6494140625,
+      "y": 1283.99755859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4215.4404296875,
+      "y": 1274.931640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4224.8134765625,
+      "y": 1293.931640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4227.50390625,
+      "y": 1302.568359375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4242.517578125,
+      "y": 1314.9931640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4252.265625,
+      "y": 1328.2421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4242.021484375,
+      "y": 1326.90283203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(0.55),attack;",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4244.26171875,
+      "y": 1323.67578125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4244.26171875,
+      "y": 1323.67578125
+    }
+  ]
+}
