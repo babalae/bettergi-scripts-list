@@ -60,6 +60,26 @@
        "default": ""
    },
    {
+       "name": "sortMain",
+       "type": "select",
+       "label": "主排序",
+       "options": [
+         "升序",
+         "降序",
+       ],
+       "default": "升序"
+   },
+   {
+       "name": "sortAuxiliary",
+       "type": "select",
+       "label": "辅助排序",
+       "options": [
+         "等级排序",
+         "品质排序",
+       ],
+       "default": "等级排序"
+   },
+   {
      "name": "holyRelicsLockMark",
      "type": "checkbox",
      "label": "圣遗物筛选:(锁定状态)|标记",

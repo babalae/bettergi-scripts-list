@@ -94,6 +94,8 @@ const config = {
     upMax: parseInt(settings.upMax + ''),//升级次数
     upMaxCount: settings.upMaxCount + '',//设置升级圣遗物个数
     knapsackKey: settings.knapsackKey,//背包快捷键
+    sortAuxiliary: settings.sortAuxiliary,//辅助排序
+    sortMain: settings.sortMain,//主排序
     siftArray: (siftAll())//筛选条件
 }
 const genshinJson = {
@@ -142,7 +144,7 @@ async function dragBase(x, y, h, log_off) {
     // 按下鼠标左键，开始拖动操作
     await downLeftButton();
     // 等待300毫秒，确保按下操作生效
-    await wait(1000);
+    // await wait(300);
     // 循环移动鼠标，实现拖动效果
     for (let i = 0; i < h; ++i) {
         await moveByMouse(x, y);
@@ -150,7 +152,7 @@ async function dragBase(x, y, h, log_off) {
     }
     // 释放鼠标左键，结束拖动
     await upLeftButton();
-    await wait(1000);
+    // await wait(300);
     // 如果log_off为false，则输出拖动完成日志
     if (!log_off) {
         await info(`拖动完成，步数: ${h},x:${x},y:${y}`);
@@ -608,6 +610,38 @@ async function openSortAll(log_off) {
         await openLvSort()
         // await wait(300)
         // todo: 可扩展
+        if (config.sortAuxiliary === '品质排序' || config.sortMain === '降序') {
+
+            let baseSortArray = new Array()
+            if (config.sortMain === '降序') {
+                baseSortArray.push(config.sortMain)
+            }
+            if (config.sortAuxiliary === '品质排序') {
+                baseSortArray.push(config.sortAuxiliary)
+            }
+
+            let width = parseInt(450 * genshinJson.width / 1080 + '');
+            let captureRegion = captureGameRegion();
+            let y = parseInt(genshinJson.height / 2 + '');
+            const ocrObject = RecognitionObject.Ocr(0, y, width, y);
+            // await mTo(width, 0)
+            // ocrObject.threshold = 1.0;
+            let resList = captureRegion.findMulti(ocrObject);
+            for (let res of resList) {
+                // await wait(1)
+                await logInfoOcrBase(res, log_off)
+                // await wait(1)
+                // await mTo(res.x, res.y)
+                if (baseSortArray.find(function (value) {
+                    return value === res.text
+                })) {
+                    await info(`排序筛选==>${res.text}<==`)
+                    // await wait(1)
+                    // await downClick(res.x, res.y)
+                    await res.click()
+                }
+            }
+        }
         //确认
         await confirm()
         await wait(300)
@@ -1179,6 +1213,47 @@ async function oneClickUp(operate, log_off) {
 }
 
 /**
+ * 圣遗物界面 单次点击 到达8次 换行
+ * @param upMaxCount
+ * @returns {Promise<void>}
+ */
+async function holyRelicsLineClick(upMaxCount) {
+    //设置的最大强化次数
+    let index = upMaxCount
+    let base_x = parseInt(200 * genshinJson.width / 1920 + '')
+    let base_y = parseInt(250 * genshinJson.height / 1080 + '')
+    let base_width = parseInt(145 * genshinJson.width / 1920 + '')
+    let base_height = parseInt(189 * genshinJson.height / 1080 + '')
+    let line = 8
+    //强制拉到顶
+    await clickProgressBarTopByHolyRelics()
+    // let one_page = 4 * line
+    for (let i = 1; i <= index; i++) {
+        let base_count_x = parseInt(i % line + '')
+        // let base_count_y = parseInt(i / line + '')
+        let x = base_x + base_count_x * base_width;
+        let y = base_y;
+        if (i % 8 === 1) {
+            await wait(300)
+        }
+        let bool = i >= (line) && i % (line) === 0;
+        // await info(`滑动：${bool},i:${i}`)
+        if (bool) {
+            // await wait(1000)
+            await info(`滑动一行`)
+            await wait(1)
+            await dragBase(0, -9, base_height / 9, false)
+            await wait(1)
+        }
+        // info(`x:${x},y:${y}`)
+        await mTo(x, y)
+        // await wait(1000)
+        await downClick(x, y)
+        //todo:强化操作
+    }
+}
+
+/**
  * 批量强化函数
  * @param operate - 操作参数对象
  * @param log_off - 是否注销标志
@@ -1187,26 +1262,62 @@ async function oneClickUp(operate, log_off) {
 async function bathClickUp(operate, log_off) {
     let ms = 300
     let index = 0
-    let upMaxCount = null
+    let upMaxCount = 0
     if (config.upMaxCount) {
         upMaxCount = parseInt(config.upMaxCount + '')
-        if (upMaxCount <= 0) {
-            throwError(`圣遗物强化个数 必须大于0`)
-        }
     }
-    while (true) {
-        if (upMaxCount !== null && index === upMaxCount) {
-            info(`${upMaxCount}个圣遗物已经强化到+${config.upMax}终止运行`)
-            await toMainUi()
-            await wait(ms)
-            break
+    if (upMaxCount === null || upMaxCount <= 0) {
+        throwError(`圣遗物强化个数 必须大于0`)
+        return
+    }
+    // while (true) {
+    for (let i = 1; i <= upMaxCount; i++) {
+
+        if (config.sortMain === '降序') {
+            if (i === 1) {
+                //强制拉到顶
+                await clickProgressBarTopByHolyRelics()
+                await wait(ms);
+            }
+            //每行8个
+            // throwError(`降序排序功能暂未实现自动强化`)
+            let line = 8
+            let base_x = parseInt(200 * genshinJson.width / 1920 + '')
+            let base_y = parseInt(250 * genshinJson.height / 1080 + '')
+            let base_width = parseInt(145 * genshinJson.width / 1920 + '')
+            let base_height = parseInt(189 * genshinJson.height / 1080 + '')
+            // for (let i = 1; i <= index; i++) {
+            let base_count_x = parseInt(i % line + '')
+            // let base_count_y = parseInt(i / line + '')
+            let x = base_x + base_count_x * base_width;
+            let y = base_y;
+            if (i % 8 === 1) {
+                await wait(300)
+            }
+            let bool = i >= (line) && i % (line) === 0;
+            // await info(`滑动：${bool},i:${i}`)
+            if (bool) {
+                // await wait(1000)
+                await info(`滑动一行`)
+                await wait(1)
+                await dragBase(0, -9, base_height / 9, false)
+                await wait(1)
+            }
+            // info(`x:${x},y:${y}`)
+            await mTo(x, y)
+            // await wait(1000)
+            await downClick(x, y)
+            //todo:强化操作
+            // }
+
+        } else {
+            //强制拉到顶
+            await clickProgressBarTopByHolyRelics()
+            await wait(ms);
+            // 调用点击第一个圣物遗物的函数，并等待其完成
+            await downClickFirstHolyRelics()
+            await wait(ms);
         }
-        //强制拉到顶
-        await clickProgressBarTopByHolyRelics()
-        await wait(ms);
-        // 调用点击第一个圣物遗物的函数，并等待其完成
-        await downClickFirstHolyRelics()
-        await wait(ms);
         //打开强化界面
         await openAggrandizement()
         await wait(ms)  // 等待500毫秒，确保界面响应
@@ -1223,9 +1334,16 @@ async function bathClickUp(operate, log_off) {
             await info(`强化失败`)
             break
         }
-        info(`圣遗物强化+${config.upMax} 数量：${index}`)
-        index += 1
+        info(`圣遗物强化+${config.upMax} 数量：${i}`)
+
+        if (upMaxCount !== null && i === upMaxCount) {
+            info(`${upMaxCount}个圣遗物已经强化到+${config.upMax}终止运行`)
+            await toMainUi()
+            await wait(ms)
+            break
+        }
     }
+    // }
     await wait(ms)
     await toMainUi()
 }
@@ -1303,15 +1421,51 @@ async function main(log_off) {
     //todo: 待实现的功能
 }
 
-(async function () {
 
+(async function () {
+    // await holyRelicsLineClick(config.upMaxCount)
+    // let base_x = parseInt(200 * genshinJson.width / 1920 + '')
+    // let base_y = parseInt(250 * genshinJson.height / 1080 + '')
+    // let base_width = parseInt(145 * genshinJson.width / 1920 + '')
+    // let base_height = parseInt(189 * genshinJson.height / 1080 + '')
+    // let index = 5 * 8
+    // let line = 8
+    // // let one_page = 4 * line
+    // for (let i = 1; i <= index; i++) {
+    //     let base_count_x = parseInt(i % line + '')
+    //     let base_count_y = parseInt(i / line + '')
+    //     let x = base_x + base_count_x * base_width;
+    //     let y = base_y + base_count_y * base_height * 0;
+    //     if (i % 8 === 1) {
+    //         await wait(300)
+    //     }
+    //
+    //     let bool = i >= (line) && i % (line) === 0;
+    //     await info(`滑动：${bool},i:${i}`)
+    //     if (bool) {
+    //         // await wait(1000)
+    //         await info(`滑动一行`)
+    //         await wait(1)
+    //         await dragBase(0, -9, base_height / 9, false)
+    //         await wait(1)
+    //     } else {
+    //         await info(`当个`)
+    //     }
+    //     // info(`x:${x},y:${y}`)
+    //     await mTo(x, y)
+    //     // await wait(1000)
+    //     await downClick(x, y)
+    //     //todo:强化操作
+    // }
     //重置
     // await resetSift();
-    // await main(false)
+    await main(false)
     // await main(true)
-    await openSiftAll(false)
+    // await openPrerequisitesAll(false)
+    // await openSiftAll(false)
+    // await openSortAll(false)
     // await clickProgressBarTopByHolyRelics()
-    // await mTo(200,250)
+    // await mTo(0,540)
     // await judgeDogFoodFilling()
     // await bathClickUp(config.insertionMethod, false)
 })();
