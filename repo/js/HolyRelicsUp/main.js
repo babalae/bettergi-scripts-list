@@ -1092,7 +1092,7 @@ async function oneUp(operate, log_off) {
         "upOk": false, // 是否强化成功的标志
         "upErrorMsg": '', // 强化失败的错误信息
     }
-    let ocrHolyRelics = await ocrHolyRelicsUpFrequency(log_off);
+
     await wait(300)
     //点击operate按钮
     await ocrClick(`${path_base_main}${operate}.jpg`, `点击${operate}`, log_off)  // 调用OCR识别并点击指定按钮
@@ -1102,6 +1102,30 @@ async function oneUp(operate, log_off) {
     //     upJson.upErrorMsg = errorMsg
     //     return upJson
     // }
+
+    let ocrHolyRelics = await ocrHolyRelicsUpFrequency(log_off);
+    // let ocrHolyRelics = await ocrHolyRelicsUpFrequency(log_off);
+    // 输出当前圣遗物等级的日志信息
+    await info(`当前圣遗物等级: ${ocrHolyRelics.level}`)
+    // 检查圣遗物是否已达到满级（20级）
+    if (ocrHolyRelics.level === 20) {
+        // 记录圣遗物已满级的日志信息
+        let msg1 = `圣遗物已经满级`;
+        await info(msg1)
+        // reJson.errorMsg = msg1
+        // 检查是否启用了批量强化功能
+        if (config.enableBatchUp) {
+            //批量强化已开启，执行满级退出强化页面的操作
+            //满级退出强化页面 到圣遗物背包界面
+            await wait(10)
+            let up_name = '返回键'
+            await ocrClick(`${path_base_main}${up_name}.jpg`, `满级退出强化页面 到圣遗物背包界面`, log_off)
+        }
+        upJson.level = 20
+        upJson.sumLevel = 20
+        return upJson
+    }
+
     await confirm();  // 确认操作
     await mTo(0, 0)
     await wait(30)
@@ -1152,25 +1176,7 @@ async function oneClickUp(operate, log_off) {
     operate = await operateDispose(operate, false, log_off)
     // info('ocrHolyRelicsUpFrequency')
     // 通过OCR识别当前圣遗物的等级信息
-    let ocrHolyRelics = await ocrHolyRelicsUpFrequency(log_off);
-    // 输出当前圣遗物等级的日志信息
-    await info(`当前圣遗物等级: ${ocrHolyRelics.level}`)
-    // 检查圣遗物是否已达到满级（20级）
-    if (ocrHolyRelics.level === 20) {
-        // 记录圣遗物已满级的日志信息
-        let msg1 = `圣遗物已经满级`;
-        await info(msg1)
-        reJson.errorMsg = msg1
-        // 检查是否启用了批量强化功能
-        if (config.enableBatchUp) {
-            //批量强化已开启，执行满级退出强化页面的操作
-            //满级退出强化页面 到圣遗物背包界面
-            await wait(10)
-            let up_name = '返回键'
-            await ocrClick(`${path_base_main}${up_name}.jpg`, `满级退出强化页面 到圣遗物背包界面`, log_off)
-        }
-        return reJson
-    }
+
     // let sumLevel = ocrHolyRelics.sumLevel;
 
     await wait(500)  // 等待500毫秒，确保界面响应
@@ -1273,7 +1279,7 @@ async function bathClickUp(operate, log_off) {
     // while (true) {
     for (let i = 1; i <= upMaxCount; i++) {
 
-        if (config.sortMain === '降序') {
+        if (config.sortMain === '降序' && upMaxCount < 20) {
             if (i === 1) {
                 //强制拉到顶
                 await clickProgressBarTopByHolyRelics()
