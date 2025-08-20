@@ -992,11 +992,11 @@ async function clickProgressBarDownBySort() {
     // 获取屏幕总高度
     let height = parseInt(genshinJson.height + '');
     // 设置起始点的x坐标为屏幕宽度的一半
-    var x1 = 0;
+    let x1 = 0;
     // 设置起始点的y坐标为0（顶部）
-    var y1 = 0;
+    let y1 = 0;
     // 构建进度条顶部箭头图片的完整路径
-    var path = `${path_base_main}${up_name}.jpg`;
+    let path = `${path_base_main}${up_name}.jpg`;
     // 使用OCR识别图片在屏幕上的位置和大小
     let ocr = await ocrBase(path, x1, y1, width, height)
     // 记录OCR识别结果
