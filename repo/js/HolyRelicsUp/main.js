@@ -85,6 +85,18 @@ function siftAll() {
     return baseSiftArray
 }
 
+function sortAll() {
+    //筛选条件
+    let baseSortArray = new Array()
+    if (settings.sortMain === '降序') {
+        baseSortArray.push(settings.sortMain)
+    }
+    if (settings.sortAuxiliary === '品质顺序') {
+        baseSortArray.push(settings.sortAuxiliary)
+    }
+    return baseSortArray
+}
+
 const config = {
     enableBatchUp: settings.enableBatchUp,//是否开启批量升级
     enableOneUp: settings.enableOneUp,//是否开启单次升级
@@ -96,7 +108,8 @@ const config = {
     knapsackKey: settings.knapsackKey,//背包快捷键
     sortAuxiliary: settings.sortAuxiliary,//辅助排序
     sortMain: settings.sortMain,//主排序
-    siftArray: (siftAll())//筛选条件
+    siftArray: (siftAll()),//筛选条件
+    sortArray: (sortAll())
 }
 const genshinJson = {
     width: genshin.width,
@@ -608,18 +621,10 @@ async function openSortAll(log_off) {
         await openUpSort()
         //等级
         await openLvSort()
-        // await wait(300)
+        await wait(1)
         // todo: 可扩展
-        if (config.sortAuxiliary === '品质排序' || config.sortMain === '降序') {
-
-            let baseSortArray = new Array()
-            if (config.sortMain === '降序') {
-                baseSortArray.push(config.sortMain)
-            }
-            if (config.sortAuxiliary === '品质排序') {
-                baseSortArray.push(config.sortAuxiliary)
-            }
-
+        await info(`排序中`)
+        if (config.sortArray.length > 0) {
             let width = parseInt(450 * genshinJson.width / 1080 + '');
             let captureRegion = captureGameRegion();
             let y = parseInt(genshinJson.height / 2 + '');
@@ -632,7 +637,7 @@ async function openSortAll(log_off) {
                 await logInfoOcrBase(res, log_off)
                 // await wait(1)
                 // await mTo(res.x, res.y)
-                if (baseSortArray.find(function (value) {
+                if (config.sortArray.find(function (value) {
                     return value === res.text
                 })) {
                     await info(`排序筛选==>${res.text}<==`)
@@ -641,7 +646,9 @@ async function openSortAll(log_off) {
                     await res.click()
                 }
             }
+            await wait(1)
         }
+        await info(`排序中`)
         //确认
         await confirm()
         await wait(300)
@@ -1140,6 +1147,7 @@ async function oneUp(operate, log_off) {
         error(`${err}!`);  // 输出错误信息
         upJson.upErrorMsg = err;  // 设置强化失败的错误信息
         throwError(err)
+        return upJson
     } else {
         upJson.upOk = true;  // 设置强化成功的标志
     }

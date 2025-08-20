@@ -14,13 +14,13 @@
    {
      "name": "enableInsertionMethod",
      "type": "checkbox",
-     "label": "自动启用放入方式 快捷放入/阶段放入",
+     "label": "自动启用放入方式\n快捷放入/阶段放入",
      "default": false
    },
    {
        "name": "insertionMethod",
        "type": "select",
-       "label": "放入方式(默认:自动识别,注意:最大强化等级设置为4,8,16时 强制使用放入方式为阶段放入)",
+       "label": "放入方式(默认:自动识别,\n注意:最大强化等级设置为4,8,16时\n强制使用放入方式为阶段放入)",
        "options": [
          "默认",
          "快捷放入",
@@ -31,7 +31,7 @@
    {
        "name": "material",
        "type": "select",
-       "label": "选择素材(默认:自动识别)(存在问题暂时禁用)",
+       "label": "选择素材(默认:自动识别)\n(存在问题暂时禁用)",
        "options": [
          "默认",
          "1星素材",
@@ -74,10 +74,10 @@
        "type": "select",
        "label": "辅助排序",
        "options": [
-         "等级排序",
-         "品质排序",
+         "等级顺序",
+         "品质顺序",
        ],
-       "default": "等级排序"
+       "default": "等级顺序"
    },
    {
      "name": "holyRelicsLockMark",
