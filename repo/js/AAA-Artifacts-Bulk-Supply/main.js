@@ -766,9 +766,16 @@ async function runNormalPath(doStop) {
         log.info("填写了清怪队伍，执行清怪路线");
         await runPaths(normalCombatPath, combatPartyName, doStop);
     }
+    if (settings.furina) {
+        await pathingScript.runFile('assets/furina/强制白芙.json');
+    }
     // 启用自动拾取的实时任务
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     await runPaths(normalExecutePath, artifactPartyName, doStop);
+    //切回黑芙
+    if (settings.furina) {
+        await pathingScript.runFile('assets/furina/强制黑芙.json');
+    }
 }
 
 async function runActivatePath() {
@@ -823,6 +830,9 @@ async function runActivatePath() {
 }
 
 async function runEndingAndExtraPath() {
+    if (settings.furina) {
+        await pathingScript.runFile('assets/furina/强制白芙.json');
+    }
     // 启用自动拾取的实时任务
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     if (state.cancel) return;
@@ -880,13 +890,6 @@ async function runPaths(folderFilePath, PartyName, doStop) {
             //如果与当前队伍不同，尝试切换队伍，并更新队伍
             await switchPartyIfNeeded(PartyName);
             state.currentParty = PartyName;
-            if (settings.furina) {
-                if (state.currentParty === artifactPartyName) {
-                    await pathingScript.runFile('assets/furina/强制白芙.json');
-                } else {
-                    await pathingScript.runFile('assets/furina/强制黑芙.json');
-                }
-            }
         }
         await fakeLog(Path.fileName, false, true, 0);
         try {
