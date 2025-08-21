@@ -1,0 +1,53 @@
+﻿{
+  "info": {
+    "name": "未命名路径",
+    "type": "collect",
+    "authors": [],
+    "version": "1.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755691313703,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 887.7279052734375,
+      "y": 762.74072265625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 897.7392578125,
+      "y": 759.9410400390625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 969.1435546875,
+      "y": 740.7952880859375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 1001.7655029296875,
+      "y": 728.06591796875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

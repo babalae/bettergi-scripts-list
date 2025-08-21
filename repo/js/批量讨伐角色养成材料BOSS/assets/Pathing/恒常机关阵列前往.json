@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "恒常机关阵列前往",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "无激情非少年",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "自动去恒常机关阵列",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755424737569,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4481.71484375,
+      "y": -2169.712890625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4498.712890625,
+      "y": -2161.8876953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4491.52734375,
+      "y": -2145.1181640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -4469.08984375,
+      "y": -2126.0556640625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -4468.021484375,
+      "y": -2125.298828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
