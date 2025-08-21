@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "璃月-骗骗花-琼玑野渌华池西方崖下-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-2个\n璃月-琼玑野渌华池西方崖下",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 835.4,
+      "y": 240.79,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 849.63,
+      "y": 232.73,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 874.76,
+      "y": 206.12,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 874.9,
+      "y": 205.97,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

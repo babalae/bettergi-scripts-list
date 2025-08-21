@@ -1,0 +1,210 @@
+{
+  "info": {
+    "name": "04-须弥-帕蒂沙兰-卡萨扎莱宫-11个",
+    "type": "collect",
+    "author": "jbcaaa",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755077934561,
+    "authors": [
+      {
+        "name": "jbcaaa",
+        "links": "https://github.com/jbcaaa"
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2482.82,
+      "y": 6.11,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2500.75,
+      "y": 20,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2515.5,
+      "y": 36.5,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 2536.25,
+      "y": 76.75,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 2551.78,
+      "y": 82.98,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 2555.98,
+      "y": 82.86,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 2557.41,
+      "y": 84.07,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.4)",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 2581.13,
+      "y": 88.75,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 2589.93,
+      "y": 83.92,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 2591.58,
+      "y": 75.04,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 2596.1,
+      "y": 68.6,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 2603.55,
+      "y": 64.87,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 2617.38,
+      "y": 80.89,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 14,
+      "x": 2612.75,
+      "y": 88,
+      "action": "",
+      "move_mode": "jump",
+      "type": "target"
+    },
+    {
+      "id": 15,
+      "x": 2603,
+      "y": 87,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 2595.59,
+      "y": 91.45,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.4)",
+      "type": "target"
+    },
+    {
+      "id": 17,
+      "x": 2612.5,
+      "y": 90.25,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 2616.89,
+      "y": 93.86,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 2626.76,
+      "y": 96.29,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(0.4)",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 2625.75,
+      "y": 78,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 2624.25,
+      "y": 56,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": 2630.36,
+      "y": 51.5,
+      "action": "",
+      "move_mode": "dash",
+      "type": "target"
+    },
+    {
+      "id": 23,
+      "x": 2616.46,
+      "y": 47.55,
+      "action": "",
+      "move_mode": "dash",
+      "type": "target"
+    }
+  ]
+}

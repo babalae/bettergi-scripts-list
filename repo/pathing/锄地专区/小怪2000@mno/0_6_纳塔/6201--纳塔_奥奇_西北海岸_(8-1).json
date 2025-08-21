@@ -1,0 +1,152 @@
+{
+  "info": {
+    "name": "6201--纳塔_奥奇_西北海岸_(8-1)",
+    "enable_monster_loot_split": true,
+    "type": "collect",
+    "version": "1.7",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 10275.43,
+      "y": -202.52,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 10313.31,
+      "y": -194.87,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 10315.06,
+      "y": -188.13,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 10261.73,
+      "y": -146.6,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 10285.69,
+      "y": -100.94,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.3),keydown(d),keydown(w),wait(2),keyup(d),keyup(w)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 10268.69,
+      "y": -84.12,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 10201.18,
+      "y": -48.88,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 10268.19,
+      "y": -85.41,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 10355.07,
+      "y": -83.45,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 10372.25,
+      "y": -118.3,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 10384.5,
+      "y": -125.0,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 10381.56,
+      "y": -134.31,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 10380.33,
+      "y": -165.12,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 14,
+      "x": 10380.33,
+      "y": -165.12,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}

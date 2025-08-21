@@ -1,0 +1,20 @@
+[
+  
+
+  {
+    "name": "extraTime",
+    "type": "input-text",
+    "label": "额外的烹饪时间(ms)"
+  },
+
+
+  {
+    "name": "threshold0",
+    "type": "select",
+    "label": "不能正常烹饪的时候，请选择合适的置信度",
+    "options": [
+      "0.85",
+      "0.8"  
+  ]
+  }
+]

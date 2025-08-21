@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "未命名路径",
+    "type": "collect",
+    "author": "柒叶子",
+    "version": "1.0",
+    "description": "璃月购买狗粮1",
+    "bgi_version": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 366.74609375,
+      "y": -502.52587890625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 360.026171875,
+      "y": -491.16474609375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 340.1712890625,
+      "y": -471.7400390625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

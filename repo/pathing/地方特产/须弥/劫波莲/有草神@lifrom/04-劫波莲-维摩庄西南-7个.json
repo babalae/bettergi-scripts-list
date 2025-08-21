@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "04-劫波莲-维摩庄西南-7个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "lifrom",
+        "links": "https://github.com/pkjsjq"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2794.43,
+      "y": -1219.84
+    },
+    {
+      "id": 2,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2735.5,
+      "y": -1309.33
+    },
+    {
+      "id": 3,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target",
+      "x": 2719.49,
+      "y": -1318.32
+    },
+    {
+      "id": 4,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2710.99,
+      "y": -1327.91
+    },
+    {
+      "id": 5,
+      "x": 2662.94,
+      "y": -1291.22,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 6,
+      "x": 2662.94,
+      "y": -1291.22,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

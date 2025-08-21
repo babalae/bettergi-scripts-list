@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "债务处理人-踏鞴沙下（2）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "下流山汉",
+        "links": "https://github.com/vulgar-rustic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3156.58,
+      "y": -3886.06,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": -3136.77,
+      "y": -3883.1,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": -3108.25,
+      "y": -3871.92,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(5),click",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": -3116.25,
+      "y": -3873.72,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -3130.46,
+      "y": -3852.87,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": -3112.99,
+      "y": -3839.52,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

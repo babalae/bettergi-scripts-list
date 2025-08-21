@@ -1,0 +1,90 @@
+{
+  "info": {
+    "name": "蒙德-07-奔狼领北-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "愚溪",
+        "links": "https://github.com/Kupder"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -386.19,
+      "y": 2297.55,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -369.82,
+      "y": 2339.21,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -338.38,
+      "y": 2358.62,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -329.44,
+      "y": 2389.09,
+      "move_mode": "walk",
+      "type": "path",
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)"
+    },
+    {
+      "id": 5,
+      "x": -332.46,
+      "y": 2387.24,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -334.41,
+      "y": 2383.96,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -329.14,
+      "y": 2379.81,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -332.45,
+      "y": 2377.02,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -334.02,
+      "y": 2376.28,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "10-赤念果-丰饶绿洲南侧-3个",
+    "type": "collect",
+    "country": "须弥",
+    "version": "1.0",
+    "description": "需要纳西妲",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "½",
+        "links": "https://github.com/Traveler07"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4795.12,
+      "y": -2577.16,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4781.79,
+      "y": -2608.34,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4745.15,
+      "y": -2635.87,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4733.79,
+      "y": -2638.63,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 4737.96,
+      "y": -2658.92,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

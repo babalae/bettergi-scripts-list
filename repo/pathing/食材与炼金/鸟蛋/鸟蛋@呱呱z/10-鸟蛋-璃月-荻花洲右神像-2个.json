@@ -1,0 +1,41 @@
+{
+  "info": {
+    "name": "10-鸟蛋-璃月-荻花洲右神像-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 253.15,
+      "y": 1285.14
+    },
+    {
+      "id": 2,
+      "x": 267.21,
+      "y": 1273.4,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 3,
+      "x": 224.53,
+      "y": 1248.12,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "info": {
+    "name": "330【水免】【高危】稻妻渊下宫大日御舆西（600_1，200_7）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 378.142333984375,
+      "y": 370.7635498046875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 368.4268798828125,
+      "y": 355.16845703125,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 285.2601318359375,
+      "y": 277.391357421875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 4,
+      "x": 301.4364013671875,
+      "y": 277.8603515625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 281.2237548828125,
+      "y": 276.62158203125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(3)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 281.2237548828125,
+      "y": 276.62158203125,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 358.875,
+      "y": 290.2496237376513,
+      "action": "stop_flying",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 351.125,
+      "y": 289.2494245399373,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 351.125,
+      "y": 289.2494245399373,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 389.6138916015625,
+      "y": 298.322265625,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "attack(0.3),wait(3)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 389.6138916015625,
+      "y": 298.322265625,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 372.91943359375,
+      "y": 107.244384765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 13,
+      "x": 362.1250079001659,
+      "y": 149.49890862663074,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

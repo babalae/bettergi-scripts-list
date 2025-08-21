@@ -1,0 +1,54 @@
+{
+  "info": {
+    "name": "鸟蛋2-10-璃月-荻花洲附近-4蛋",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "灰林鸮",
+        "links": "https://github.com/Strix-nivicolum"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 730.08,
+      "y": 1061.89,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 730.5,
+      "y": 1062.35,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 253.13,
+      "y": 1285.18,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 271.59,
+      "y": 1268.39,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

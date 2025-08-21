@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "进入蒙德西风骑士团",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -749.3828125,
+      "y": 2263.11962890625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -781.40234375,
+      "y": 2273.068603515625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -788.40625,
+      "y": 2248.091552734375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -778.49609375,
+      "y": 2242.8857421875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)"
+    }
+  ]
+}

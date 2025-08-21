@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "千风神殿-1",
+    "type": "collect",
+    "author": "星野",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751796510684
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1621.75,
+      "y": 2149.5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1684,
+      "y": 2165.5,
+      "type": "path",
+      "move_mode": "dash"
+    },
+    {
+      "id": 3,
+      "x": -1697.75,
+      "y": 2168.25,
+      "type": "path",
+      "move_mode": "jump"
+    },
+    {
+      "id": 4,
+      "x": -1721.75,
+      "y": 2177.75,
+      "type": "path",
+      "move_mode": "dash"
+    },
+    {
+      "id": 5,
+      "x": -1737.880000000001,
+      "y": 2179,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

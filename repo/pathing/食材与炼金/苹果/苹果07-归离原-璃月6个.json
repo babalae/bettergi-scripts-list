@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "苹果07-归离原-璃月6个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 341.31,
+      "y": 548.39
+    },
+    {
+      "id": 2,
+      "x": 325.18,
+      "y": 585.77,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 313.39,
+      "y": 611.1,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 4,
+      "x": 298.5,
+      "y": 631.24,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

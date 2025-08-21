@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "稻妻-野伏众-海祇岛水月池东南岸边-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "野伏众-3个\n稻妻-海祇岛水月池东南岸边",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1314.84,
+      "y": -3775.54,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": -1328.68,
+      "y": -3762.08,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1370.2,
+      "y": -3767.09,
+      "action_params": ""
+    }
+  ]
+}

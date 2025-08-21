@@ -1,0 +1,70 @@
+{
+  "info": {
+    "name": "浊水幻灵-枫丹8-枫丹廷1",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "无狐"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4826.04,
+      "y": 3630.59,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4834.49,
+      "y": 3628.65,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4921.77,
+      "y": 3623.57,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4921.58,
+      "y": 3623.59,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4946.31,
+      "y": 3626.87,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4976.68,
+      "y": 3660.62,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

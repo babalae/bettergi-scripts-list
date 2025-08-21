@@ -1,0 +1,112 @@
+﻿{
+  "info": {
+    "name": "628纳塔-悠悠集市西岸2",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755670541571,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 14151.890625,
+      "y": 424.2080078125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 14151.912109375,
+      "y": 415.9375,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 14156.3115234375,
+      "y": 415.49609375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.4)",
+      "type": "orientation"
+    },
+    {
+      "id": 4,
+      "x": 14175.083984375,
+      "y": 348.166015625,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keydown(w),wait(0.3),keypress(e),wait(1.7),moveby(0,-2300),keypress(e),wait(1),keyup(w),",
+      "type": "orientation"
+    },
+    {
+      "id": 5,
+      "x": 14175.083984375,
+      "y": 348.166015625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 14180.2421875,
+      "y": 317.1640625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(e),wait(0.2),keypress(e),wait(0.6),click(middle)",
+      "type": "orientation"
+    },
+    {
+      "id": 7,
+      "x": 14177.48046875,
+      "y": 314.33740234375,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 14177.48046875,
+      "y": 314.33740234375,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),keydown(Q),keypress(f),wait(0.8),keypress(f),keyup(Q),wait(0.1),j,",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 14170.1015625,
+      "y": 312.95703125,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.1);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 14170.1015625,
+      "y": 312.95703125,
+      "action": "set_time",
+      "move_mode": "climb",
+      "action_params": "06:00",
+      "type": "orientation"
+    }
+  ]
+}

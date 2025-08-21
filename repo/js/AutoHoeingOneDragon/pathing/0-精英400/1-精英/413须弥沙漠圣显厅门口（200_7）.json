@@ -1,0 +1,131 @@
+﻿{
+  "info": {
+    "name": "413须弥沙漠圣显厅门口（200_7）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时201.41秒，包含7只精英与8只小怪，预计收入1724摩拉，包含以下怪物：1只水史莱姆、2只丘丘人、1只打手丘丘人、3只火箭丘丘人、1只雷箭丘丘人、1只岩盾丘丘暴徒、1只火斧丘丘暴徒、2只元能构装体·力场发生器、1只元能构装体·重塑仪、2只元能构装体·勘探机。",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1755427625565,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4777.299999999999,
+      "y": -1434.58,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4832.130000000001,
+      "y": -1428.5500000000002,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4826.130000000001,
+      "y": -1348.5500000000002,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4817.66015625,
+      "y": -1310.61572265625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4806.28125,
+      "y": -1279.1300906082479,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;玛薇卡 e;芙宁娜 e;爱可菲 e;伊涅芙 e;钟离 a(0.1),e(hold),wait(1);茜特菈莉 attack(0.3),e,wait(1);莱依拉 attack(0.3),e,wait(1);伊涅芙 attack(0.3),e,wait(1);玛薇卡 e;芙宁娜 e;爱可菲 e;wait(3)"
+    },
+    {
+      "id": 6,
+      "x": 4814.25,
+      "y": -1260.2467243042584,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4807.25,
+      "y": -1266.75,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4803.779999999999,
+      "y": -1267.0900000000001,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4782.84,
+      "y": -1268.0599999999995,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 4770.5,
+      "y": -1267,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 4761.25,
+      "y": -1257.75,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "keypress(x)",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 4752.5,
+      "y": -1267,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "info": {
+    "name": "34-鸟蛋-须弥-谒颂幽境左上-2个 ",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "呱呱z",
+        "links": "https://github.com/jidingcai"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3993.81,
+      "y": -989.33,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4002.62,
+      "y": -986.22,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4001.51,
+      "y": -1020.29,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4002.51,
+      "y": -1036.12,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

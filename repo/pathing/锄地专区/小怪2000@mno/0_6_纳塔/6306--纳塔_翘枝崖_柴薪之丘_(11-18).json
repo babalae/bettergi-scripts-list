@@ -1,0 +1,287 @@
+{
+  "info": {
+    "name": "6306--纳塔_翘枝崖_柴薪之丘_(11-18)",
+    "enable_monster_loot_split": true,
+    "type": "collect",
+    "version": "1.5",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9033.37,
+      "y": -1373.12,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9029.25,
+      "y": -1429.03,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9069.13,
+      "y": -1472.25,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9056.5,
+      "y": -1463.94,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 8981.18,
+      "y": -1466.13,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 8989.4,
+      "y": -1470.41,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 8966.67,
+      "y": -1511.31,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 8961.3,
+      "y": -1512.79,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 8939.37,
+      "y": -1538.88,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 8834.77,
+      "y": -1436.28,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 8841.75,
+      "y": -1386.81,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 8853.44,
+      "y": -1375.06,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 8834.82,
+      "y": -1367.53,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 8823.88,
+      "y": -1354.78,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 8787.01,
+      "y": -1366.23,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 8814.53,
+      "y": -1349.08,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 8856.31,
+      "y": -1319.68,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 8940.75,
+      "y": -1302.0,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 8949.09,
+      "y": -1293.87,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 8940.75,
+      "y": -1302.0,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 8916.75,
+      "y": -1266.37,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": 8902.75,
+      "y": -1281.5,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": 8890.38,
+      "y": -1279.38,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 24,
+      "x": 8883.47,
+      "y": -1319.0,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 25,
+      "x": 8852.75,
+      "y": -1310.25,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 26,
+      "x": 8839.17,
+      "y": -1303.45,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 27,
+      "x": 8829.39,
+      "y": -1298.11,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 28,
+      "x": 8785.94,
+      "y": -1308.21,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 29,
+      "x": 8785.94,
+      "y": -1308.21,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}

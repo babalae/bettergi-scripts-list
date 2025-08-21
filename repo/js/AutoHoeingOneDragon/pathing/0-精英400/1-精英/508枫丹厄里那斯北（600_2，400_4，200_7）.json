@@ -1,0 +1,293 @@
+﻿{
+  "info": {
+    "name": "508枫丹厄里那斯北（600_2，400_4，200_7）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时366.51秒，包含12只精英与3只小怪，预计收入4202.5摩拉，包含以下怪物：1只射手丘丘人、1只丘丘雷兜王、1只丘丘岩盔王、2只大型碎石隙境原体、3只碎石隙境原体、2只大型狂蔓隙境原体、1只狂蔓隙境原体、1只压制特化型机关、1只歼灭特化型机关、1只圣骸角鳄、1只圣骸赤鹫。",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1754750617053,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5113.58,
+      "y": 2998.21,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 5108.77,
+      "y": 2987,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 5087.57,
+      "y": 2956.03,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 5113.58,
+      "y": 2998.21,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 5,
+      "x": 5089.25,
+      "y": 3011.88,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 5067.12,
+      "y": 2992,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 5039.39,
+      "y": 2954.97,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4999.85,
+      "y": 2934.26,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4981.5,
+      "y": 2926.85,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 4971.55,
+      "y": 2948.85,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 4960.58,
+      "y": 2969.15,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 4966.92,
+      "y": 2997.05,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 4963.92,
+      "y": 2998.05,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 4957.58,
+      "y": 3002.2,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 4981.19,
+      "y": 3023.29,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 4989.06,
+      "y": 3043.31,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 5011.25,
+      "y": 3069.15,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 5027.89,
+      "y": 3075.27,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 5019.81,
+      "y": 3060.25,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 5113.59,
+      "y": 2998.21,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 21,
+      "x": 5103.63,
+      "y": 3045.72,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": 5105.63,
+      "y": 3061.49,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": 5086.54,
+      "y": 3146.37,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 24,
+      "x": 5092.49,
+      "y": 3120.79,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 25,
+      "x": 5165.23,
+      "y": 3122.2,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 26,
+      "x": 5160.88,
+      "y": 3128.11,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 27,
+      "x": 5144.62,
+      "y": 3154.16,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 28,
+      "x": 5145.55,
+      "y": 3177.83,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 29,
+      "x": 5150.48,
+      "y": 3208.95,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 30,
+      "x": 5154.48,
+      "y": 3218.95,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

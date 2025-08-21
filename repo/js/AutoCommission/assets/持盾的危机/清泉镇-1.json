@@ -1,0 +1,95 @@
+{
+  "info": {
+    "name": "清泉镇-1",
+    "type": "collect",
+    "author": "云闲vsv",
+    "version": "1.0",
+    "description": "持盾的危机",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -914.81640625,
+      "y": 1795.5205078125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -921.71875,
+      "y": 1804.82177734375,
+      "type": "path",
+      "move_mode": "swim",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -930.248046875,
+      "y": 1816.076171875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -961.2802734375,
+      "y": 1833.86767578125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -994.6494140625,
+      "y": 1832.83056640625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -998.986328125,
+      "y": 1842.46240234375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -938.2607421875,
+      "y": 1866.5322265625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -927.7715,
+      "y": 1886.82475,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": -927.7715,
+      "y": 1886.82475,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

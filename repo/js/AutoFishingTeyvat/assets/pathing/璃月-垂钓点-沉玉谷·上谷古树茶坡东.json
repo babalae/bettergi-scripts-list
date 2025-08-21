@@ -1,0 +1,66 @@
+{
+    "info": {
+        "name": "璃月-垂钓点-沉玉谷·上谷古树茶坡东",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.4",
+        "description": "地区: 璃月\n类型: 垂钓点\n详细位置: 沉玉谷·上谷古树茶坡东\n鱼类: 花鳉、擒霞客、水晶宴、斗棘鱼、锖假龙、玉玉心羽鲈\n饵类: 果酿饵、赤糜饵、飞蝇假饵、酸桔饵\n附加信息: 普通",
+        "bgi_version": "0.42.4"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 1114.88,
+            "y": 1948.03,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 1134.28,
+            "y": 1930.28,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 1132.97,
+            "y": 1890.3,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 1124.21,
+            "y": 1870.08,
+            "type": "path",
+            "move_mode": "swim",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 1108.71,
+            "y": 1858.86,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": 1105.45,
+            "y": 1865.58,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+        }
+    ]
+}

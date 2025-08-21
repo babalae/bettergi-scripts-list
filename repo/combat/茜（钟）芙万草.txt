@@ -1,0 +1,17 @@
+// 作者: 火山
+// 描述: 大世界（推荐）奶奶钟离二选一。奶奶盾太薄的话，草神换金铂；加入奶奶大跳浮空
+// 注：参数语法备注在下方，请自行修改
+
+//v2.0
+钟离 s(0.2), e(hold), wait(0.2), w(0.2), keypress(q)
+茜特菈莉 e,click(middle),keypress(q),click(middle),e,click(middle)
+芙宁娜 e,wait(0.3),keypress(q)
+万叶 e(hold),wait(1),attack,wait(0.3),click(middle),wait(0.1),keypress(q)
+纳西妲 e(hold), wait(1), d(0.2),click(middle),keypress(q)
+茜特菈莉 attack, keydown(VK_SPACE), wait(0.3), keyup(VK_SPACE), wait(5)
+
+
+//（不带钟离）可更换（复制替换，看好了是！！替换！！）奶奶~!!!!!!!最后一条!!!!!!!!~战斗策略，不包括（//）如下：
+//茜特菈莉 attack,wait(0.3),e, wait(0.7),keydown(VK_SPACE), wait(0.4), keyup(VK_SPACE), wait(3),attack
+
+//e元素战技，click(middle)视角修正，q元素爆发，charge(0.0)重击·时间，attack普攻，dash冲刺，j跳跃，wait(0.0)等待·时间，keypress(F1)点击F1键，keypress(ESCAPE)点击ESC键，keypress(q)使用高级语法，减少大招因为充能不够的情况下站着挨打

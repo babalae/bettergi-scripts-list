@@ -1,0 +1,233 @@
+{
+  "info": {
+    "name": "02-绝云椒椒-绝云间(下)-4棵",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "白白喵"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1182.6533,
+      "y": 626.0669,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1177.917,
+      "y": 628.3994,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack(0.1)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1153.748,
+      "y": 631.2744,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1126.8662,
+      "y": 631.8638,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1107.8945,
+      "y": 655.8013,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1101.0029,
+      "y": 657.4351,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.8)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 1090.6807,
+      "y": 713.0591,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 1087.1572,
+      "y": 717.9121,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 1090.1255,
+      "y": 747.624,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 1092.751,
+      "y": 749.5884,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 1103.2158,
+      "y": 757.4282,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 1103.8965,
+      "y": 757.1152,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.8)",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 1182.707,
+      "y": 626.0767,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 14,
+      "x": 1199.4551,
+      "y": 632.2852,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 1203.1257,
+      "y": 637.8742,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 1251.6533,
+      "y": 647.4751,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 1260.2598,
+      "y": 644.4033,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 1262.7578,
+      "y": 646.3164,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 1297.0527,
+      "y": 634.1631,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 1294.7129,
+      "y": 638.2217,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 1294.8125,
+      "y": 638.5425,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.8)",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": 1317.2505,
+      "y": 673.0001,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": 1313.4648,
+      "y": 678.8477,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 24,
+      "x": 1292.7656,
+      "y": 719.4253,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(space),wait(1),attack(0.1),wait(2)",
+      "type": "path"
+    }
+  ]
+}

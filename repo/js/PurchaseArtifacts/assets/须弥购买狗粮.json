@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "未命名路径",
+    "type": "collect",
+    "author": "柒叶子",
+    "version": "1.0",
+    "description": "须弥购买狗粮",
+    "bgi_version": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2694.060546875,
+      "y": -416.48193359375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 2708.060546875,
+      "y": -409.96875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 2724.205078125,
+      "y": -404.39892578125,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 2747.06640625,
+      "y": -409.5048828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 2765.72265625,
+      "y": -389.4873046875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "info": {
+    "name": "鸟蛋1-2-蒙德-清泉镇-6蛋",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "灰林鸮",
+        "links": "https://github.com/Strix-nivicolum"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -867.61,
+      "y": 1992.3,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -911.33,
+      "y": 1982.63,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -867.46,
+      "y": 1992.18,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -823.44,
+      "y": 1984.11,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -772.41,
+      "y": 1983.39,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -745.54,
+      "y": 1947.93,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

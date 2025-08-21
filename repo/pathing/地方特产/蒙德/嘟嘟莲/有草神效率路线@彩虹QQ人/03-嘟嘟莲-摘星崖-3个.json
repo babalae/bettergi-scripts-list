@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "03-嘟嘟莲-摘星崖-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "性价比路线，要求队伍：必须带小草神",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "彩虹QQ人",
+        "links": "https://github.com/KRdingsan"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1505.91,
+      "y": 2296.22,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1469.64,
+      "y": 2290.9,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1463.79,
+      "y": 2289.42,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

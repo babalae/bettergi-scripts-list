@@ -1,0 +1,99 @@
+{
+  "info": {
+    "name": "02-鸟蛋-蒙德-千风神殿下-4蛋",
+    "type": "collect",
+    "version": "1.0",
+    "description": "需要携带纳西妲",
+    "map_name": "Teyvat",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "灰林鸮",
+        "links": "https://github.com/Strix-nivicolum"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1638.55,
+      "y": 2153.9,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1629.74,
+      "y": 2163.15,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1629.03,
+      "y": 2171.0,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1648.53,
+      "y": 2190.31,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1660.39,
+      "y": 2211.88,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -1663.23,
+      "y": 2217.92,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -1672.13,
+      "y": 2216.69,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -1677.19,
+      "y": 2198.43,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -1682.51,
+      "y": 2191.78,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

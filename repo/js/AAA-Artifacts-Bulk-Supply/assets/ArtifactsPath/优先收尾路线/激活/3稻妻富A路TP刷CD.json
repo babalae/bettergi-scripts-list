@@ -1,0 +1,58 @@
+﻿{
+  "info": {
+    "name": "3稻妻富A路TP刷CD",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754329568348,
+    "enable_monster_loot_split": false,
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -3290.7158203125,
+      "y": -3653.0283203125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -3321.4326171875,
+      "y": -3614.4345703125,
+      "action": "log_output",
+      "move_mode": "walk",
+      "action_params": "\n[调查点-提早触发24H倒计时] 此功能只跑TP不拾取!!!\n明天此时此秒重新发光!!!可以随时慢慢捡!!!\n刷新机制看README.md第二点!!!\n此功能预计(固态硬盘)6分钟+",
+      "type": "orientation"
+    },
+    {
+      "id": 3,
+      "x": -3321.4326171875,
+      "y": -3614.4345703125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1400",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -3019.462890625,
+      "y": -3622.94921875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "info": {
+    "name": "2601地下水泽西南三飞萤",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时72.61秒，包含3只小怪，预计收入364.5摩拉，包含以下怪物：3只水萤。",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 663.81,
+      "y": 710.26,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 652.85,
+      "y": 716.14,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 650.48,
+      "y": 716.08,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 631.91,
+      "y": 715.02,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 621.87,
+      "y": 709.27,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 624.83,
+      "y": 702.02,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 632.07,
+      "y": 702.25,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 647.4,
+      "y": 702.95,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 650.27,
+      "y": 714.73,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 655.6,
+      "y": 713.06,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(5.0)",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 655.6,
+      "y": 713.06,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 655.6,
+      "y": 713.06,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

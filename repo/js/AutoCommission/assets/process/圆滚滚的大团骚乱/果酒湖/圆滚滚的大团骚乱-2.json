@@ -1,0 +1,77 @@
+{
+  "info": {
+    "name": "圆滚滚的大团骚乱-2",
+    "type": "collect",
+    "author": "云闲vsv",
+    "version": "1.0",
+    "description": "圆滚滚的大团骚乱-2",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -440.43359375,
+      "y": 2581.087158203125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -461.705078125,
+      "y": 2627.866943359375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -468.1416015625,
+      "y": 2630.226806640625,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -679.4814453125,
+      "y": 2652.90185546875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": -679.4814453125,
+      "y": 2652.90185546875,
+      "action": "anemo_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": -679.4814453125,
+      "y": 2652.90185546875,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": -679.4814453125,
+      "y": 2652.90185546875,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "跑图功能位角色movedemo",
+    "type": "collect",
+    "author": "彩虹QQ人",
+    "version": "1.0",
+    "description": "此地图追踪适用于瓦雷莎/玛薇卡/夜阑/貉貉等可以使用长E进行跑图的角色的移动。增加跑图功能角色能减少跑图时间，同时让挂机看上去更像真人在玩。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -83.8427734375,
+      "y": 2781.735595703125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -78.734375,
+      "y": 2801.173583984375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -68.8935546875,
+      "y": 2813.9794921875,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "瓦雷莎 keydown(w), e(hold)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -33.337890625,
+      "y": 2861.16943359375,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "瓦雷莎 keyup(w)",
+      "type": "path"
+    }
+  ]
+}

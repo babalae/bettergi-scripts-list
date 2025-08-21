@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "10-蒲公英-奔狼领北-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "秋云",
+        "links": "https://github.com/physligl"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -424.41,
+      "y": 2324.51
+    },
+    {
+      "id": 2,
+      "x": -361.77,
+      "y": 2301.23,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -341.73,
+      "y": 2317.93,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": -344.99,
+      "y": 2322.55,
+      "type": "path",
+      "move_mode": "climb",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": -354.98,
+      "y": 2326.62,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "anemo_collect"
+    },
+    {
+      "id": 6,
+      "x": -356.35,
+      "y": 2331.69,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "anemo_collect"
+    }
+  ]
+}

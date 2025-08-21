@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "璃月-骗骗花-璃沙郊灵矩关东方略偏南-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-1个\n璃月-璃沙郊灵矩关东方略偏南\n经由Economy优化交互触发",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 828.5,
+      "y": -582.81,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 836.7,
+      "y": -582.64,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 903.1,
+      "y": -589.61,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(space),wait(2),attack(0.1),wait(2),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 903.1,
+      "y": -589.61,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

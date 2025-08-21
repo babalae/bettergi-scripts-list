@@ -1,0 +1,149 @@
+{
+  "info": {
+    "name": "101蒙德雪山（600_1，200_2）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时139.26秒，包含3只精英与5只小怪，预计收入1202.5摩拉，包含以下怪物：1只冰盾丘丘人、3只冰箭丘丘人、1只冰盾丘丘暴徒、1只丘丘霜铠王、1只冰丘丘萨满、1只幼岩龙蜥。",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1755009165206,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -410.84,
+      "y": 1161.31,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -405.68,
+      "y": 1145.15,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -390.13,
+      "y": 1114.21,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -358.2539,
+      "y": 1089.0952,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -363.916,
+      "y": 1079.6006,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -368.2501,
+      "y": 1058.627,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -368.74,
+      "y": 1038.8,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -372.17,
+      "y": 1031.93,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -376.45,
+      "y": 1028.28,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -396.11,
+      "y": 994.23,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -368.6,
+      "y": 988.49,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -354.5,
+      "y": 974.56,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -345.1,
+      "y": 948.63,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -335.62,
+      "y": 962.88,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

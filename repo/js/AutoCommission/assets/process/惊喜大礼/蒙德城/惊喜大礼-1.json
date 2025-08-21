@@ -1,0 +1,69 @@
+{
+  "info": {
+    "name": "惊喜大礼-1",
+    "type": "collect",
+    "author": "星野",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753184743150
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -867.1943359375,
+      "y": 2281.91162109375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": ""
+      }
+    },
+    {
+      "id": 2,
+      "x": -893.73828125,
+      "y": 2251.868896484375,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": ""
+      }
+    },
+    {
+      "id": 3,
+      "x": -904.564453125,
+      "y": 2247.68798828125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": ""
+      }
+    }
+  ]
+}

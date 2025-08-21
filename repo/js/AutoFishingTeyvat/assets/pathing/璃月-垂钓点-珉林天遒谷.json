@@ -1,0 +1,93 @@
+{
+    "info": {
+        "name": "璃月-垂钓点-珉林天遒谷",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.4",
+        "description": "地区: 璃月\n类型: 垂钓点\n详细位置: 珉林天遒谷\n鱼类: 花鳉、水晶宴、斗棘鱼\n饵类: 果酿饵、赤糜饵\n附加信息: 普通",
+        "bgi_version": "0.42.4"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": 1152.65,
+            "y": 141.64,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": 1240.85,
+            "y": 144.33,
+            "action": "",
+            "move_mode": "dash",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": 1256.84,
+            "y": 147.91,
+            "action": "",
+            "move_mode": "dash",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": 1305.18,
+            "y": 146.47,
+            "action": "",
+            "move_mode": "dash",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 5,
+            "x": 1321.18,
+            "y": 154.93,
+            "action": "",
+            "move_mode": "dash",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 6,
+            "x": 1336.02,
+            "y": 158.56,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(15)"
+        },
+        {
+            "id": 7,
+            "x": 1325.25,
+            "y": 156.61,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "fight",
+            "action_params": ""
+        },
+        {
+            "id": 8,
+            "x": 1332.65,
+            "y": 156.56,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 9,
+            "x": 1333.87,
+            "y": 153.96,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+        }
+    ]
+}

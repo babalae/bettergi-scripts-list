@@ -1,0 +1,120 @@
+﻿{
+  "info": {
+    "name": "223璃月-灵濛山北2",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753810236179,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2145.6171875,
+      "y": 2412.899169921875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2139.578125,
+      "y": 2413.6494140625,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2133.419921875,
+      "y": 2390.991943359375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "2000",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 2132.5830078125,
+      "y": 2393.370361328125,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.3),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 2131.978515625,
+      "y": 2390.355224609375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 2130.203125,
+      "y": 2393.094482421875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 2116.3671875,
+      "y": 2382.858642578125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 2075.8749841996687,
+      "y": 2328.624954526109,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 2073.1875,
+      "y": 2324.9999469471277,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 2077.6250612262847,
+      "y": 2320.343825789818,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),w(0.1);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 2075.384765625,
+      "y": 2322.300537109375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

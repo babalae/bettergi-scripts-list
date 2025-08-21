@@ -1,0 +1,115 @@
+{
+  "info": {
+    "name": "02-枣椰-活力之家-7个",
+    "type": "collect",
+    "version": "47.1.4",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752594477071,
+    "enable_monster_loot_split": false,
+    "authors": [
+      {
+        "name": "白白喵"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4036.23,
+      "y": -2464.99,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4195.82,
+      "y": -2454.89,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4197.03,
+      "y": -2457.12,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4211.49,
+      "y": -2473.42,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4184.26,
+      "y": -2484.78,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4168.35,
+      "y": -2499.94,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 4138.0,
+      "y": -2503.88,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 4123.5,
+      "y": -2520.11,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 4126.47,
+      "y": -2535.54,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 4150.93,
+      "y": -2569.29,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 4153.29,
+      "y": -2565.38,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

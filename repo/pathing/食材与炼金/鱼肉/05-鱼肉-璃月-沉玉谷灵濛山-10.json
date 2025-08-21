@@ -1,0 +1,206 @@
+{
+  "info": {
+    "name": "05-鱼肉-璃月-沉玉谷灵濛山-10",
+    "type": "collect",
+    "version": "1.0",
+    "description": "璃月-沉玉谷灵濛山-10",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1977.87,
+      "y": 2337.5,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1942.84,
+      "y": 2331.5,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1913.32,
+      "y": 2345.5,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "芙宁娜 wait(0.3),e",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1893.25,
+      "y": 2352.38,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1890.5,
+      "y": 2350.88,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1888.81,
+      "y": 2359.25,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 1880.41,
+      "y": 2357.67,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 1892.38,
+      "y": 2360.12,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 1885.56,
+      "y": 2356.31,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 1889.95,
+      "y": 2348.26,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芙宁娜 wait(0.3),e"
+    },
+    {
+      "id": 11,
+      "x": 1896.57,
+      "y": 2365.06,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 1883.75,
+      "y": 2350.75,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 1871.98,
+      "y": 2329.44,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "芙宁娜 wait(0.3), e",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 1854.09,
+      "y": 2320.38,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 1850.15,
+      "y": 2316.0,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "芙宁娜 dash",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 1849.15,
+      "y": 2297.75,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "芙宁娜 wait(0.5),e",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 1846.02,
+      "y": 2287.56,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 1849.13,
+      "y": 2285.5,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 1845.0,
+      "y": 2285.38,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 1838.8,
+      "y": 2281.99,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 1841.5,
+      "y": 2287.56,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

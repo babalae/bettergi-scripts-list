@@ -1,0 +1,116 @@
+{
+  "info": {
+    "name": "05蒲公英_2",
+    "type": "collect",
+    "version": "1.0",
+    "description": "性价比路线，要求队伍：小草神+琴团长（琴可以换万叶，不建议法器角色，可能会攻击到怪）",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "彩虹QQ人",
+        "links": "https://github.com/KRdingsan"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1167.05,
+      "y": 2133.23,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1173.43,
+      "y": 2126.19,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1183.5,
+      "y": 2122.84,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1199.98,
+      "y": 2117.57,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1210.57,
+      "y": 2128.62,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -1212.1,
+      "y": 2145.79,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -1195.66,
+      "y": 2161.29,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -1191.05,
+      "y": 2157.8,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -1189.67,
+      "y": 2141.13,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -1192.49,
+      "y": 2132.08,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "anemo_collect",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -1194.0,
+      "y": 2134.69,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "anemo_collect",
+      "action_params": ""
+    }
+  ]
+}

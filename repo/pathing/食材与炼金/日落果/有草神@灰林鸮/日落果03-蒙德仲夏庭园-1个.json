@@ -1,0 +1,55 @@
+{
+  "info": {
+    "name": "日落果03-蒙德仲夏庭园-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "需携带纳西妲，部分危险路径刚需盾位",
+    "map_name": "Teyvat",
+    "bgi_version": "0.44.0",
+    "authors": [
+      {
+        "name": "灰林鸮",
+        "links": "https://github.com/Strix-nivicolum"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1558.5,
+      "y": 2497.75,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1530.43,
+      "y": 2501.21,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1481.76,
+      "y": 2527.9,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": -1481.76,
+      "y": 2527.9,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

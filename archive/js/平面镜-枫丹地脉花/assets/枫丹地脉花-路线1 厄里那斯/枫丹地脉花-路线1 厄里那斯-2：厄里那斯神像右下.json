@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "枫丹地脉花-路线1 厄里那斯-点2：厄里那斯神像右下",
+    "type": "collect",
+    "author": "平面镜",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4689.61181640625,
+      "y": 2429.431884765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4631.0048828125,
+      "y": 2468.979736328125,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4653.67138671875,
+      "y": 2531.894287109375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(F)",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 4653.67138671875,
+      "y": 2531.894287109375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(F)",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 4653.67138671875,
+      "y": 2531.894287109375,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 4653.67138671875,
+      "y": 2531.894287109375,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4652.3,
+      "y": 2531.6,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 4652.3,
+      "y": 2531.6,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

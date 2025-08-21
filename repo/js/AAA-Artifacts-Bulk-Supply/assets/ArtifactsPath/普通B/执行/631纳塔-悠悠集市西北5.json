@@ -1,0 +1,148 @@
+﻿{
+  "info": {
+    "name": "631纳塔-悠悠集市西北5",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755671161630,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 14166.5849609375,
+      "y": 628.50048828125,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 14168.552734375,
+      "y": 641.0205078125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 14170.41796875,
+      "y": 640.36083984375,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 14166.9638671875,
+      "y": 638.6044921875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(t),wait(0.2),keypress(t)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 14143.6845703125,
+      "y": 635.10595703125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "moveby(0,-2300),keydown(VK_SPACE),wait(1),keyup(VK_SPACE),wait(0.2),keypress(e),wait(0.2),keypress(e),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "type": "orientation"
+    },
+    {
+      "id": 6,
+      "x": 14182.5029296875,
+      "y": 605.7568359375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "w(0.3),keypress(e),wait(0.7),click(middle)",
+      "type": "orientation"
+    },
+    {
+      "id": 7,
+      "x": 14182.5029296875,
+      "y": 605.7568359375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "keydown(Q),keypress(f),wait(0.8),keypress(f),keyup(Q),wait(0.1),j,keypress(f)"
+    },
+    {
+      "id": 8,
+      "x": 14184.037109375,
+      "y": 604.5595703125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 14189.70703125,
+      "y": 574.076171875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 14206.6943359375,
+      "y": 550.5009765625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 14208.7255859375,
+      "y": 539.75,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.1);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 14166.5849609375,
+      "y": 628.50048828125,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 13,
+      "x": 14235.29296875,
+      "y": 634.63671875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 14244.630859375,
+      "y": 641.46923828125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "target"
+    }
+  ]
+}

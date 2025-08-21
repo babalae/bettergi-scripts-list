@@ -1,0 +1,41 @@
+{
+  "info": {
+    "name": "03-劫波莲-降诸魔山-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "lifrom",
+        "links": "https://github.com/pkjsjq"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2241.63,
+      "y": -1686.13
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2237.47,
+      "y": -1662.94
+    },
+    {
+      "id": 3,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2179.95,
+      "y": -1681.93
+    }
+  ]
+}

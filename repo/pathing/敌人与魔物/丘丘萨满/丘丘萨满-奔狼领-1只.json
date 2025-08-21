@@ -1,0 +1,35 @@
+{
+  "info": {
+    "name": "丘丘萨满-奔狼领-1只",
+    "type": "collect",
+    "version": "1.0",
+    "description": "丘丘萨满-奔狼领-1只",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "ddaodan",
+        "links": "https://github.com/ddaodan"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -251.62,
+      "y": 2256.62,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -269.67,
+      "y": 2228.46,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

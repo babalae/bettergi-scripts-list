@@ -1,0 +1,42 @@
+{
+  "info": {
+    "name": "02-赤念果-阿如村东侧2-3个",
+    "type": "collect",
+    "country": "须弥",
+    "version": "1.0",
+    "description": "需要纳西妲",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "½",
+        "links": "https://github.com/Traveler07"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3992.63,
+      "y": -1989.99,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4022.64,
+      "y": -1980.67,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": 4023.19,
+      "y": -1973.27,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

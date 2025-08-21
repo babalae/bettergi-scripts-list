@@ -1,0 +1,223 @@
+{
+  "info": {
+    "name": "05-冷鲜肉-龙脊雪山-大雪猪王(战斗,高危)-6~10个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "战斗",
+      "高危"
+    ],
+    "last_modified_time": 1755274325346,
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1013.41,
+      "y": 1028.43,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1038.84,
+      "y": 1038.18,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1061.63,
+      "y": 1075.41,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1071.21,
+      "y": 1077.19,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.2),keypress(f),wait(0.5)",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": -1082.73,
+      "y": 1077.26,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1142.62,
+      "y": 1066.33,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "wait(0.2),j,wait(1),j,attack(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -1142.62,
+      "y": 1066.33,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -1133.81,
+      "y": 1072.68,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -1128.41,
+      "y": 1064.74,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -1131.89,
+      "y": 1046.59,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -1127.84,
+      "y": 1040.73,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": -1126.35,
+      "y": 1024.68,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": -1126.35,
+      "y": 1024.68,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "茜特菈莉 wait(0.8),e,wait(0.1) ; 钟离 wait(0.2),s(0.2),e(hold),wait(0.2),w(0.2) ; 绮良良 wait(0.2),e,wait(0.1);",
+      "type": "target"
+    },
+    {
+      "id": 14,
+      "x": -1130.43,
+      "y": 1006.55,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(4.8)",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -1133.02,
+      "y": 995.62,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -1111.68,
+      "y": 995.44,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -1113.91,
+      "y": 995.22,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 18,
+      "x": -1118.75,
+      "y": 995.65,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": -1120.21,
+      "y": 994.47,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 20,
+      "x": -1115.29,
+      "y": 1002.92,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 21,
+      "x": -1109.42,
+      "y": 994.06,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    },
+    {
+      "id": 22,
+      "x": -1023.31,
+      "y": 1174.48,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    }
+  ]
+}

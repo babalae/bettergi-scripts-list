@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "进入璃月群玉阁",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "需要先传送到群玉阁",
+    "bgi_version": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 417.1337890625,
+      "y": -848.62353515625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 426.658203125,
+      "y": -819.048828125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 438.1064453125,
+      "y": -819.9150390625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 449.244140625,
+      "y": -834.70458984375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)"
+    }
+  ]
+}

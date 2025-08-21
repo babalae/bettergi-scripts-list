@@ -1,0 +1,49 @@
+name: Sync to Mirror Repositories
+
+on:
+  workflow_run:
+    workflows: ["Build repo.json"]
+    types:
+      - completed  # 当第一个工作流完成时触发
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  sync:
+    if: github.repository_owner == 'babalae'
+    runs-on: ubuntu-latest
+    environment: 
+      name: product
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # 获取完整的git历史记录
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Set up Git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+    
+    - name: Sync to GitCode
+      run: |
+        git remote add gitcode https://gitcode.com/huiyadanli/bettergi-scripts-list.git || true
+        git push https://huiyadanli:${{ secrets.GITCODE_TOKEN }}@gitcode.com/huiyadanli/bettergi-scripts-list.git main
+      continue-on-error: true
+    
+    - name: Sync to CNB
+      run: |
+        git remote add cnb https://cnb.cool/bettergi/bettergi-scripts-list.git || true
+        git push https://cnb:${{ secrets.CNB_TOKEN }}@cnb.cool/bettergi/bettergi-scripts-list.git main
+      continue-on-error: true
+    
+    - name: Sync to Gitee
+      run: |
+        git remote add gitee https://gitee.com/babalae/bettergi-scripts-list.git || true
+        git push https://huiyadanli:${{ secrets.GITEE_TOKEN }}@gitee.com/babalae/bettergi-scripts-list.git main
+      continue-on-error: true
+    
+    - name: Report sync status
+      if: always()
+      run: |
+        echo "Sync operation completed. Check individual steps for any errors."

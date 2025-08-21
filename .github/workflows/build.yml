@@ -1,0 +1,82 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Build repo.json
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'repo/**'
+      - 'build/build.js'
+      - '.github/workflows/**'
+  workflow_dispatch:
+    inputs:
+      force_update:
+        description: '强制执行全量更新'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  build:
+    # Skip this job if the repository is a fork
+    if: github.repository_owner == 'babalae'
+    runs-on: ubuntu-latest
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+    - name: Configure Git for long paths
+      run: sudo git config --system core.longpaths true
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.head_ref }}
+        fetch-depth: 0
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Build repo.json
+      run: |
+        if [ "${{ github.event.inputs.force_update }}" = "true" ]; then
+          echo "执行强制全量更新"
+          node ./build/build.js --force
+        else
+          echo "执行增量更新"
+          node ./build/build.js
+        fi
+    - uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: update repo.json
+
+  upload:
+    # Skip this job if the repository is a fork
+    if: github.repository_owner == 'babalae'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: 
+      name: product
+    steps:
+      - name: Download and extract repository ZIP
+        run: |
+          curl -L -o main.zip "https://github.com/${{ github.repository }}/archive/refs/heads/main.zip"
+          unzip -q main.zip
+          mkdir -p my_files
+          mv main.zip my_files/
+          mv bettergi-scripts-list-main/repo.json my_files/
+          sed -i 's|https://github.com/babalae/bettergi-scripts-list/archive/refs/heads/main.zip|https://r2-script.bettergi.com/github_mirror/main.zip|g' my_files/repo.json
+          
+      - name: Upload to R2
+        uses: ryand56/r2-upload-action@latest
+        with:
+          r2-account-id: ${{ secrets.R2_ACCOUNT_ID }}
+          r2-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
+          r2-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          r2-bucket: ${{ secrets.R2_BUCKET }}
+          source-dir: my_files/
+          destination-dir: github_mirror/

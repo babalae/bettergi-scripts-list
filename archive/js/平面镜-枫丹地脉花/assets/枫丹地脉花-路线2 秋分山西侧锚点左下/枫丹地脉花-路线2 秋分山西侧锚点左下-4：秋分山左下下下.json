@@ -1,0 +1,94 @@
+{
+  "info": {
+    "name": "枫丹地脉花-路线2 秋分山-3：秋分山左下下下",
+    "type": "collect",
+    "author": "平面镜",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4375.373046875,
+      "y": 2281.0244140625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4383.6611328125,
+      "y": 2268.129638671875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4318.09765625,
+      "y": 2235.657958984375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4299.75146484375,
+      "y": 2232.588134765625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(F)",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 4299.75146484375,
+      "y": 2232.588134765625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(F)",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 4299.75146484375,
+      "y": 2232.588134765625,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 4299.75146484375,
+      "y": 2232.588134765625,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4299,
+      "y": 2232,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 4299,
+      "y": 2232,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

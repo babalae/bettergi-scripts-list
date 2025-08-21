@@ -1,0 +1,52 @@
+{
+  "info": {
+    "name": "日落果06-奔狼岭-蒙德6个",
+    "type": "collect",
+    "author": "不瘦五十斤不改名",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -521.58,
+      "y": 2181.37,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -596.23,
+      "y": 2154.11,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -597.57,
+      "y": 2140.85,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -601.89,
+      "y": 2136.57,
+      "action": "nahida_collect",
+      "move_mode": "climb",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -612.86,
+      "y": 2116.35,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "path"
+    }
+  ]
+}

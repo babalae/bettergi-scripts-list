@@ -1,0 +1,112 @@
+{
+  "info": {
+    "name": "06-枣椰-丰饶绿洲-9个",
+    "type": "collect",
+    "version": "47.1.1",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752599328054,
+    "enable_monster_loot_split": false,
+    "authors": [
+      {
+        "name": "白白喵"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4794.99,
+      "y": -2577.22,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4865.3,
+      "y": -2531.91,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4868.34,
+      "y": -2531.7,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4819.41,
+      "y": -2500.78,
+      "action": "",
+      "move_mode": "run",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 4811.94,
+      "y": -2498.93,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 6,
+      "x": 4811.75,
+      "y": -2476.03,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4775.24,
+      "y": -2482.81,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4775.13,
+      "y": -2483.58,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 4772.21,
+      "y": -2484.31,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 4786.43,
+      "y": -2500.95,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 4801.54,
+      "y": -2497.64,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

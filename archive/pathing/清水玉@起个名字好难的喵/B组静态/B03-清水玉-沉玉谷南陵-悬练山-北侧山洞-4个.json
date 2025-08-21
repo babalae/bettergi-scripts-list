@@ -1,0 +1,100 @@
+{
+  "info": {
+    "name": "B03-清水玉-沉玉谷南陵-悬练山-北侧山洞-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "大剑"
+    ],
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1904.54,
+      "y": 1196.91,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1908.62,
+      "y": 1370.42,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1500",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1929.42,
+      "y": 1381.35,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1937.62,
+      "y": 1396.83,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 1938.81,
+      "y": 1398.69,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 1938.81,
+      "y": 1399.63,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 1929.88,
+      "y": 1394.93,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 1930.67,
+      "y": 1403.47,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 1929.13,
+      "y": 1404.66,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    }
+  ]
+}

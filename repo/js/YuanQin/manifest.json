@@ -1,0 +1,14 @@
+{
+  "manifest_version": 1,
+  "name": "[原琴]原神琴谱自动弹奏脚本",
+  "version": "1.0",
+  "description": "原神琴谱自动弹奏脚本，通过读取本地琴谱文件，解析成乐谱对象，然后模拟键盘操作，实现自动弹奏。（需角色手动提前乐器）",
+  "authors": [
+    {
+      "name": "阿城同学",
+      "links": "https://github.com/shilic"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js"
+}

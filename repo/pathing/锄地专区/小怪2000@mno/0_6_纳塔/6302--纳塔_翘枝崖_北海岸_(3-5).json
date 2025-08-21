@@ -1,0 +1,116 @@
+{
+  "info": {
+    "name": "6302--纳塔_翘枝崖_北海岸_(3-5)",
+    "enable_monster_loot_split": true,
+    "type": "collect",
+    "version": "1.1",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9548.26,
+      "y": -1116.56,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9550.66,
+      "y": -1113.59,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(t),wait(2.5),keydown(d),wait(2),keyup(d),keypress(VK_SPACE),wait(0.5),keypress(VK_SPACE)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9444.03,
+      "y": -1170.79,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "charge(4.5),keydown(q),wait(1.5),keyup(q),attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9440.24,
+      "y": -1172.59,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9400.47,
+      "y": -1201.67,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 9408.99,
+      "y": -1210.99,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 9390.24,
+      "y": -1199.36,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 9354.94,
+      "y": -1222.13,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 9255.1,
+      "y": -1128.27,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 9255.1,
+      "y": -1128.27,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "info": {
+    "name": "18-鸟蛋-璃月-孤云阁左上-2个 ",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "呱呱z",
+        "links": "https://github.com/jidingcai"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -620.57,
+      "y": -99.39,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -665.75,
+      "y": -101.07,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "info": {
+    "name": "稻妻-野伏众-八酝岛蛇神之首东方-9个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "野伏众-9个\n稻妻-八酝岛蛇神之首东方",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2404.62,
+      "y": -3921.96,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -2401.01,
+      "y": -3917.52,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -2355.24,
+      "y": -3824.48,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2355.59,
+      "y": -3824.59,
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2493.67,
+      "y": -3811.59,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": -2584.72,
+      "y": -3805.58,
+      "action_params": ""
+    }
+  ]
+}

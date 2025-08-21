@@ -1,0 +1,78 @@
+{
+  "info": {
+    "name": "明冠峡-1",
+    "type": "collect",
+    "author": "星野",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751960781703
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -440.1162109375,
+      "y": 2580.79345703125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -456.8173828125,
+      "y": 2633.22509765625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -466.009765625,
+      "y": 2660.5263671875,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -477.732421875,
+      "y": 2695.511474609375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -478.943359375,
+      "y": 2698.708251953125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -484.9638671875,
+      "y": 2718.055419921875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -492.5908203125,
+      "y": 2738.40234375,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

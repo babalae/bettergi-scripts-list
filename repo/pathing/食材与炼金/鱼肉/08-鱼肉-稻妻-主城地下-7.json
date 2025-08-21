@@ -1,0 +1,153 @@
+{
+  "info": {
+    "name": "08-鱼肉-稻妻-主城地下-7",
+    "type": "collect",
+    "version": "1.0",
+    "description": "稻妻-主城地下-7",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4494.59,
+      "y": -3218.05,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4527.97,
+      "y": -3198.99,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(VK_SPACE),wait(1.7),keypress(VK_SPACE),wait(0.1),attack(0.2)",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": -4527.97,
+      "y": -3198.99,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -4533.31,
+      "y": -3222.91,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -4531.21,
+      "y": -3233.76,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -4531.21,
+      "y": -3235.3,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "dash,wait(0.3),dash",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -4505.89,
+      "y": -3281.27,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "dash,wait(0.3),dash",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -4501.2,
+      "y": -3287.03,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "芙宁娜 e",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -4493.23,
+      "y": -3296.29,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -4484.59,
+      "y": -3297.57,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -4483.1,
+      "y": -3301.9,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -4488.52,
+      "y": -3306.45,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -4493.27,
+      "y": -3309.88,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -4486.73,
+      "y": -3303.9,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -4487.6,
+      "y": -3302.15,
+      "action": "pick_around",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

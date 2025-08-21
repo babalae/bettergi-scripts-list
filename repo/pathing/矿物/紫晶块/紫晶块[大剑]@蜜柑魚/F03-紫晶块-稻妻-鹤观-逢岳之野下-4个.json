@@ -1,0 +1,215 @@
+{
+  "info": {
+    "name": "F03-紫晶块-稻妻-鹤观-逢岳之野下-4个",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.47.0",
+    "tags": [
+      "双手剑"
+    ],
+    "last_modified_time": 1751020014035,
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2612.3,
+      "y": -6508.24,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": -2585.75,
+      "y": -6527.21,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "j,wait(1.25),j,attack(0.2)",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": -2585.75,
+      "y": -6527.21,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -2589.9,
+      "y": -6522.88,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -2589.92,
+      "y": -6522.92,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 6,
+      "x": -2612.3,
+      "y": -6508.24,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -2588.62,
+      "y": -6497.18,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -2559.28,
+      "y": -6481.6,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -2545.46,
+      "y": -6493.93,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -2532.9,
+      "y": -6475.58,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -2534.66,
+      "y": -6476.45,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 12,
+      "x": -2529.57,
+      "y": -6476.44,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": -2530.68,
+      "y": -6474.93,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 14,
+      "x": -2530.68,
+      "y": -6474.93,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 15,
+      "x": -2493.36,
+      "y": -6459.86,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": -2484.24,
+      "y": -6447.77,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": -2470.8,
+      "y": -6440.49,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": -2454.55,
+      "y": -6399.58,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "x": -2455.23,
+      "y": -6390.34,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 20,
+      "x": -2457.89,
+      "y": -6391.37,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 21,
+      "x": -2457.89,
+      "y": -6391.37,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

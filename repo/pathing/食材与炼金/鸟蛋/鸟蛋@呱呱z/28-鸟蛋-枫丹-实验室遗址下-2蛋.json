@@ -1,0 +1,36 @@
+{
+  "info": {
+    "name": "28-鸟蛋-枫丹-实验室遗址下-2蛋",
+    "type": "collect",
+    "version": "1.0",
+    "description": "需要携带纳西妲",
+    "map_name": "Teyvat",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "灰林鸮",
+        "links": "https://github.com/Strix-nivicolum"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3846.85,
+      "y": 4652.93,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3869.68,
+      "y": 4610.46,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

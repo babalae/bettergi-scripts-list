@@ -1,0 +1,142 @@
+{
+  "info": {
+    "name": "6806--纳塔_安饶之野东斜坡_(16)",
+    "enable_monster_loot_split": true,
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9808.4,
+      "y": -2847.99,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9807.99,
+      "y": -2863.35,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9847.93,
+      "y": -2867.96,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9871.89,
+      "y": -2905.49,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9874.97,
+      "y": -2913.33,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 9878.53,
+      "y": -2926.27,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 9902.68,
+      "y": -2913.6,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 9902.68,
+      "y": -2913.6,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    },
+    {
+      "id": 9,
+      "x": 9808.4,
+      "y": -2847.99,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 10,
+      "x": 9774.39,
+      "y": -2805,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 9756.73,
+      "y": -2822.98,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 9720.91,
+      "y": -2757.37,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": 9720.91,
+      "y": -2757.37,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}

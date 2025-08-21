@@ -1,0 +1,30 @@
+{
+  "info": {
+    "name": "游逸旅闻-香菱1-璃月港",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 267.94,
+      "y": -665.12,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 234.32,
+      "y": -666.1,
+      "type": "target",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f)"
+    }
+  ]
+}

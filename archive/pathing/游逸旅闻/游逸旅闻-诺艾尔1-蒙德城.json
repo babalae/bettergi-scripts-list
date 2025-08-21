@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "游逸旅闻-诺艾尔1-蒙德城",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -749.4,
+      "y": 2263.07,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -734.44,
+      "y": 2259.93,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": -734.44,
+      "y": 2259.93,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(6)"
+    },
+    {
+      "id": 4,
+      "x": -732.68,
+      "y": 2261.82,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f)"
+    }
+  ]
+}

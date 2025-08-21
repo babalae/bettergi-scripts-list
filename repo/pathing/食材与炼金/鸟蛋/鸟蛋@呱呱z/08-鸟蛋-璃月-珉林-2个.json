@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "08-鸟蛋-璃月-珉林-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1121.11,
+      "y": 1190.38,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": 1102.38,
+      "y": 1160.71,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 1100.21,
+      "y": 1157.55,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 1093.18,
+      "y": 1133.39,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 5,
+      "x": 1093.94,
+      "y": 1133.5,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

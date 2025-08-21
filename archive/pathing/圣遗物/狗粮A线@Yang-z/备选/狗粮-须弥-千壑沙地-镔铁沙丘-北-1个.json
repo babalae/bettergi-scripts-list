@@ -1,0 +1,49 @@
+{
+    "info": {
+        "name": "狗粮-须弥-千壑沙地-镔铁沙丘-北-1个",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgi_version": "0.42.0"
+    },
+    "positions": [
+        {
+            "x": 4272.93505859375,
+            "y": -520.68310546875,
+            "type": "teleport",
+            "move_mode": "walk"
+        },
+        {
+            "x": 4268.95654296875,
+            "y": -501.08984375,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 4294.5927734375,
+            "y": -436.28564453125,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 4352.73486328125,
+            "y": -407.056640625,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "stop_flying"
+        },
+        {
+            "x": 4352.744140625,
+            "y": -407.0634765625,
+            "type": "target",
+            "move_mode": "walk",
+            "action":"pick_around"
+        },
+        {
+            "x": 4355.04443359375,
+            "y": -407.06640625,
+            "type": "path",
+            "move_mode": "fly"
+        }
+    ]
+}

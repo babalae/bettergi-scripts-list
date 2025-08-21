@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "07-慕风蘑菇-蒙德城南大风车-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "秋云",
+        "links": "https://github.com/physligl"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -749.39,
+      "y": 2263.16,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -771.97,
+      "y": 2253.2,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "log_output",
+      "action_params": "扫码两次，因为蘑菇有概率被风车挡住。"
+    },
+    {
+      "id": 3,
+      "x": -795.92,
+      "y": 2228.38,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -795.92,
+      "y": 2228.38,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -795.92,
+      "y": 2228.38,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

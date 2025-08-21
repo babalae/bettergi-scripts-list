@@ -1,0 +1,61 @@
+{
+  "info": {
+    "name": "14-海露花-枫丹-苍白的遗荣2-1个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "水下地图"
+    ],
+    "last_modified_time": 1755289915230,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4399.8945,
+      "y": 3083.4019,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "click(middle);",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 4399.8945,
+      "y": 3083.4019,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(2),keyup(VK_SPACE),click(middle);"
+    },
+    {
+      "id": 3,
+      "x": 4353.9473,
+      "y": 3090.6064,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2),click(middle);"
+    },
+    {
+      "id": 4,
+      "x": 4357.3818,
+      "y": 3100.1248,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(1),click(middle);"
+    }
+  ]
+}

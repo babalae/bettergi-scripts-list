@@ -1,0 +1,35 @@
+[
+  {
+    "name": "TEAMname",
+    "type": "input-text",
+    "label": "必填！！队伍名称，4号位放芭芭拉！"
+},
+  {
+    "name": "BH",
+    "type": "input-text",
+    "label": "选填，默认薄荷，识别物料的图片路径（默认assets/bh.png）",
+    "default": "assets/bh.png"
+},
+{
+  "name": "ZHIBIANYI",
+  "type": "input-text",
+  "label": "选填，质变仪的图片路径（默认assets/zhibian.png）",
+  "default": "assets/zhibian.png"
+},
+  {
+    "name": "actiontime",
+    "type": "input-text",
+    "label": "选填，攻击超时时间（默认50秒）",
+    "default": "50"
+},
+{
+  "name": "ITEM",
+  "type": "select",
+  "label": "选填，质变的材料在哪一类物品中（默认材料）",
+  "options": [
+    "1养成道具",
+    "2食物",
+    "3材料"
+  ]
+}
+]

@@ -1,0 +1,99 @@
+{
+  "info": {
+    "name": "蒙德-禽肉-风起地-3个-下落2肉3",
+    "type": "collect",
+    "version": "1.0",
+    "description": "地区: 蒙德\n类型: 禽肉\n详细位置: 风起地\n数目: 3\n附加信息: 2禽肉鸟共3只\n注意: 使用前请将游戏时间调到白天，跑图位建议使用绮良良或埃洛伊",
+    "bgi_version": "0.43.1",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1266.44,
+      "y": 1933.72,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1271.32,
+      "y": 1924.53,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1266.95,
+      "y": 1893.59,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1263.5,
+      "y": 1888.16,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1263.05,
+      "y": 1889.85,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -1261.2,
+      "y": 1895.88,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -1262.52,
+      "y": 1904.92,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -1271.81,
+      "y": 1973.87,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": -1271.81,
+      "y": 1973.87,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    }
+  ]
+}

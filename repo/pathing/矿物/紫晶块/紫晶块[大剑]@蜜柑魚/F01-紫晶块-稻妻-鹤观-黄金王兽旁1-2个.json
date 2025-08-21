@@ -1,0 +1,113 @@
+{
+  "info": {
+    "name": "F01-紫晶块-稻妻-鹤观-黄金王兽旁1-2个",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "双手剑"
+    ],
+    "last_modified_time": 1751019136276,
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2598.41,
+      "y": -6690.43,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -2607.4,
+      "y": -6696.54,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -2594.26,
+      "y": -6734.46,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -2595.57,
+      "y": -6739.37,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -2597.2,
+      "y": -6741.33,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -2597.8,
+      "y": -6737.53,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": -2597.81,
+      "y": -6737.48,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -2587.07,
+      "y": -6736.3,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -2592.61,
+      "y": -6736.11,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": -2592.61,
+      "y": -6736.11,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "info": {
+    "name": "1102(1-16)蒙德望风角",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ],
+    "enable_monster_loot_split": true
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1628.58,
+      "y": 2843.86,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1587.44,
+      "y": 2851.27,
+      "action": "log_output",
+      "move_mode": "dash",
+      "action_params": "本线路预计 精英200*1 小怪*16",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1555.29,
+      "y": 2851.68,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1519.06,
+      "y": 2814.23,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1509.48,
+      "y": 2795.85,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1490.08,
+      "y": 2800.93,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -1485.08,
+      "y": 2807.93,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -1451.42,
+      "y": 2822.69,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -1470.48,
+      "y": 2812.76,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "point_ext_params": {
+        "monster_tag": "elite"
+      }
+    },
+    {
+      "id": 10,
+      "x": -1470.48,
+      "y": 2812.76,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -1482.08,
+      "y": 2811.93,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -1505.89,
+      "y": 2783.57,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -1488.0,
+      "y": 2756.44,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -1463.52,
+      "y": 2774.49,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -1460.62,
+      "y": 2745.05,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -1435.09,
+      "y": 2733.65,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -1435.09,
+      "y": 2733.65,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": -1378.8,
+      "y": 2747.55,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": -1378.8,
+      "y": 2747.55,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}

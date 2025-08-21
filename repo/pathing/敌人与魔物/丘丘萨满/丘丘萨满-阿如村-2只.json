@@ -1,0 +1,72 @@
+{
+  "info": {
+    "name": "丘丘萨满-阿如村-2只",
+    "type": "collect",
+    "version": "1.0",
+    "description": "丘丘萨满-阿如村-2只",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "ddaodan",
+        "links": "https://github.com/ddaodan"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4077.79,
+      "y": -2164.16,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4133.08,
+      "y": -2155.19,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4184.11,
+      "y": -2145.81,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4208.06,
+      "y": -2132.57,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4226.58,
+      "y": -2123.33,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 4226.58,
+      "y": -2123.33,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+    "info": {
+        "name": "狗粮-枫丹-研究院区-中央实验室遗址-北侧屋内-4个",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgi_version": "0.42.0"
+    },
+    "positions": [
+        {
+            "x": 4001.06298828125,
+            "y": 4878.43701171875,
+            "type": "teleport",
+            "move_mode": "walk"
+        },
+        {
+            "x": 3951.5068359375,
+            "y": 4831.5673828125,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(1),click",
+            "//": "stop_flying"
+        },
+        {
+            "x": 3950.2333984375,
+            "y": 4837.30517578125,
+            "type": "path",
+            "move_mode": "walk"
+        },
+
+        {
+            "x": 3941.9130859375,
+            "y": 4860.5400390625,
+            "type": "orientation",
+            "move_mode": "walk"
+        },
+        {
+            "x": 3941.9130859375,
+            "y": 4860.5400390625,
+            "type": "path",
+            "move_mode": "dash"
+        },
+
+        {
+            "x": 3947.9853515625,
+            "y": 4863.24560546875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 3951.8271484375,
+            "y": 4861.8828125,
+            "type": "orientation",
+            "move_mode": "walk"
+        },
+        {
+            "x": 3951.8271484375,
+            "y": 4861.8828125,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        
+        {
+            "x": 3953.05126953125,
+            "y": 4853.205078125,
+            "type": "target",
+            "move_mode": "walk",
+            "#": 1
+        },
+
+        {
+            "x": 3953.16015625,
+            "y": 4857.77587890625,
+            "type": "path",
+            "move_mode": "walk"
+        },
+
+        {
+            "x": 3946.5185546875,
+            "y": 4876.19873046875,
+            "type": "target",
+            "move_mode": "dash",
+            "#": 2
+        },
+        {
+            "x": 3947.05419921875,
+            "y": 4876.5859375,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "#": 2
+        },
+
+
+        {
+            "x": 3952.7421875,
+            "y": 4876.5595703125,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 3955.4482421875,
+            "y": 4878.791015625,
+            "type": "target",
+            "move_mode": "walk"
+        },
+        {
+            "x": 3955.875,
+            "y": 4881.54345703125,
+            "type": "target",
+            "move_mode": "walk",
+            "#": 3
+        },
+
+        {
+            "x": 3957.5615234375,
+            "y": 4876.62255859375,
+            "type": "orientation",
+            "move_mode": "walk"
+        },
+        {
+            "x": 3957.5615234375,
+            "y": 4876.62255859375,
+            "type": "path",
+            "move_mode": "fly"
+        },
+        {
+            "x": 3961.2841796875,
+            "y": 4875.99462890625,
+            "type": "orientation",
+            "move_mode": "walk"
+        },
+
+        {
+            "x": 3961.2841796875,
+            "y": 4875.99462890625,
+            "type": "target",
+            "move_mode": "walk",
+            "#": 4
+        },
+        {
+            "x": 3961.27734375,
+            "y": 4876.01904296875,
+            "type": "target",
+            "move_mode": "walk",
+            "#": 4
+        }
+    ]
+}

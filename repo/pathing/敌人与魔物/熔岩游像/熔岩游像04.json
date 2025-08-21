@@ -1,0 +1,170 @@
+{
+  "info": {
+    "name": "熔岩游像04",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "XS",
+        "links": "https://github.com/xwsqy6"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8400.63,
+      "y": -1221.41,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8397.55,
+      "y": -1259.88,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 8394.16,
+      "y": -1305.85,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 8384.13,
+      "y": -1326.03,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 8394.29,
+      "y": -1337.43,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 8410.45,
+      "y": -1366.24,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 8407.33,
+      "y": -1366.28,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 8201.91,
+      "y": -2288.76,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 9,
+      "x": 8188.31,
+      "y": -2292.54,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 7988.79,
+      "y": -2331.04,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 7977.96,
+      "y": -2327.52,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 7976.58,
+      "y": -2329.07,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 7966.23,
+      "y": -2335.08,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 7949.07,
+      "y": -2340.2,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 7918.64,
+      "y": -2363.59,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 7849.79,
+      "y": -2416.45,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "wait(0.7),keypress(VK_SPACE),wait(2),click",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 7846.89,
+      "y": -2415.52,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
