@@ -216,24 +216,41 @@ async function dragBase(x, y, h, log_off) {
 }
 
 // 滚动页面函数
-async function scrollPage(totalDistance, stepDistance = 10, delayMs = 1, isUp = false, waitCount = 3) {
-    await wait(50);
-    downLeftButton();
-    await wait(50)
+/**
+ * 滚动页面的异步函数
+ * @param {number} totalDistance - 总滚动距离
+ * @param {boolean} [isUp=false] - 是否向上滚动，默认为false(向下滚动)
+ * @param {number} [waitCount=3] - 每隔多少步等待一次
+ * @param {number} [stepDistance=10] - 每步滚动的距离
+ * @param {number} [delayMs=1] - 等待的延迟时间(毫秒)
+ */
+async function scrollPage(totalDistance, isUp = false, waitCount = 3, stepDistance = 10, delayMs = 1) {
+    await wait(50);  // 初始等待50ms
+    downLeftButton();  // 按下左键
+    await wait(50);  // 再次等待50ms
+    // 计算总步数
     let steps = Math.ceil(totalDistance / stepDistance);
+    // 开始循环滚动
     for (let j = 0; j < steps; j++) {
+        // 计算剩余距离
         let remainingDistance = totalDistance - j * stepDistance;
+        // 确定本次移动距离
         let moveDistance = remainingDistance < stepDistance ? remainingDistance : stepDistance;
+        // 如果是向上滚动，则移动距离取反
         if (isUp) {
             //向上活动
             moveDistance = -moveDistance
         }
+        // 执行鼠标移动
         moveByMouse(0, -moveDistance);
+        // 取消注释后会在每一步后等待
         // await wait(delayMs);
+        // 每隔waitCount步等待一次
         if (j % waitCount === 0) {
             await wait(delayMs)
         }
     }
+    // 滚动完成后释放左键
     await wait(30);
     upLeftButton();
     await wait(100);
@@ -595,7 +612,7 @@ async function siftState(log_off) {
 }
 
 /**
- * 进入筛选圣遗物界面 开始筛选圣遗物套装
+ * 进入筛选圣遗物界面 开始筛选圣遗物套装<1.0.1已修>
  * @param keyword
  * @param log_off
  * @returns {Promise<void>}
@@ -818,7 +835,7 @@ async function openSiftAll(log_off) {
  * @returns {Promise<void>}
  * <前置条件:处于圣遗物背包界面|测试通过:v>
  */
-async function openSort(log_off) {
+async function openSort(log_off = config.log_off) {
     let up_name = '排序'
     // 计算按钮宽度为屏幕宽度的三分之一
     let width = parseInt(genshinJson.width / 3.0 + '');
@@ -828,7 +845,7 @@ async function openSort(log_off) {
     let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
     // 检查OCR识别结果是否存在（即升序按钮是否可见）
     if (isExist(ocr)) {
-        await logInfoOcr(ocr, log_off)
+        await logInfoOcr(ocr)
         ocr.click()
     }
     return ocr
@@ -914,7 +931,7 @@ async function unchecked(log_off) {
 
 //重置属性排序
 /**
- * 重置属性排序的异步函数
+ * 重置属性排序的异步函数<1.0.1已修>
  * @param {any} x - 辅助排序的x，用于指定第一个属性
  * @param {any} y - 辅助排序的y，用于指定第二个属性
  * @param {any} h - 参数h，用于指定高度或层级
@@ -931,15 +948,17 @@ async function resetAttributeSort(log_off) {
     //拖动到看不见辅助排序规则(影响OCR)
     await mTo(x, y)
     await wait(1)
-    await dragBase(0, parseInt(25 * genshinJson.height / 1080 + ''), h, log_off)
-    await info('拖动到看不见辅助排序规则(影响OCR)')
+    // await dragBase(0, parseInt(25 * genshinJson.height / 1080 + ''), h, log_off)
+    await scrollPage(parseInt(genshinJson.height / 3 + ''), true,6)
+    await info('[重置操作]拖动到看不见辅助排序规则(影响OCR)')
     await wait(100)
     let oce_name = '属性排序规则'
     for (let index = 1; index <= 5; index++) {
         await unchecked(log_off)
         await mTo(x, y)
         await wait(1)
-        await dragBase(0, parseInt(40 * genshinJson.height / 1080 + ''), h, log_off)
+        // await dragBase(0, parseInt(40 * genshinJson.height / 1080 + ''), h, log_off)
+        await scrollPage(parseInt(genshinJson.height * 2 / 3 + ''), true, 6)
         await wait(1)
 
         let ocr = await ocrBase(`${path_base_main}${oce_name}.jpg`, 0, 0, width, genshinJson.height)
@@ -1120,7 +1139,7 @@ async function openSortAll(log_off) {
  * 当Promise完成时，表示所有先决条件已成功打开
  * <前置条件:处于圣遗物背包界面|测试通过:v>
  */
-async function openPrerequisitesAll(log_off) {
+async function openPrerequisitesAll(log_off = config.log_off) {
     let re = true;
 
     await wait(300)
@@ -1658,7 +1677,10 @@ async function toMainUi() {
  * 主方法
  * @returns {Promise<void>}
  */
-async function main(log_off) {
+async function main(log_off = config.log_off) {
+    await resetAttributeSort(log_off)
+    return
+
     let ms = 300
     await setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
     if (config.enableBatchUp) { // 检查是否启用
@@ -1702,12 +1724,7 @@ async function main(log_off) {
 // }
 
 (async function () {
-
-    //
-    await openSiftHolyRelicsSuitUI_Start(config.suit, config.log_off)
-    // await main(config.log_off)
-    //
-
+    await main()
 })();
 
 //=========弃用以下=========
