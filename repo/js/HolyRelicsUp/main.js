@@ -140,6 +140,19 @@ const attributeMap = new Map([
     ['精通', '元素精通'],
     ['充能', '元素充能效率'],
 ]);
+const attributeList = [
+    '物理伤害加成'
+    , '风元素伤害加成'
+    , '水元素伤害加成'
+    , '雷元素伤害加成'
+    , '岩元素伤害加成'
+    , '草元素伤害加成'
+    , '冰元素伤害加成'
+    , '火元素伤害加成'
+    , '治疗加成'
+    , '元素精通'
+    , '元素充能效率'
+]
 
 /**
  * 属性值替换函数
@@ -946,7 +959,7 @@ async function resetAttributeSort(log_off = config.log_off) {
     let width = parseInt(450 * genshinJson.width / 1920 + '');
     //拖动到看不见辅助排序规则(影响OCR)
     await mTo(x, y)
-    await wait(1)
+    // await wait(1)
     // await dragBase(0, parseInt(25 * genshinJson.height / 1080 + ''), h, log_off)
     await scrollPage(parseInt(genshinJson.height * 1 / 5 + genshinJson.height * 1 / 6 + ''), true, 6)
     await info('[重置操作]拖动到看不见辅助排序规则(影响OCR)')
@@ -955,13 +968,13 @@ async function resetAttributeSort(log_off = config.log_off) {
     for (let index = 1; index <= 5; index++) {
         await unchecked(log_off)
         await mTo(x, y)
-        await wait(1)
+        // await wait(1)
         // await dragBase(0, parseInt(40 * genshinJson.height / 1080 + ''), h, log_off)
         await scrollPage(parseInt(genshinJson.height * 2 / 3 + ''), true, 6)
-        await wait(1)
+        // await wait(1)
 
         let ocr = await ocrBase(`${path_base_main}${oce_name}.jpg`, 0, 0, width, genshinJson.height)
-        await wait(1)
+        // await wait(1)
         if (isExist(ocr)) {
             await unchecked(log_off)
             await info(`已到顶`)
@@ -990,15 +1003,20 @@ async function attributeSort(keyword = config.sortAttribute, log_off = config.lo
         await info('无属性排序规则')
         return
     }
+    let specialKey = ''
     let attributeKeys = new Array();
     for (let i = 0; i < split.length; i++) {
         if (i >= 3) {
             break
         }
         let value = attributeReplacement(split[i], log_off)
-        attributeKeys.push(value)
+        if (attributeList.indexOf(value) > 0 && i == 2) {
+            specialKey = value
+        } else {
+            attributeKeys.push(value)
+        }
     }
-    info(attributeKeys.toString())
+    // info(attributeKeys.toString())
     let attributeKeysOk = new Array();
     let x = parseInt(200 * genshinJson.width / 1920 + '')
     let y = parseInt(300 * genshinJson.height / 1080 + '')
@@ -1008,7 +1026,7 @@ async function attributeSort(keyword = config.sortAttribute, log_off = config.lo
     // await dragBase(0, parseInt(26 * genshinJson.height / 1080 + ''), h, log_off)
     await scrollPage(parseInt(genshinJson.height * 1 / 5 + genshinJson.height * 1 / 6 + ''), true, 6)
     await info('拖动到看不见辅助排序规则(影响OCR)')
-    await wait(100)
+    // await wait(100)
     let oce_name = '属性排序规则'
 
     let sort = new Array()
@@ -1024,34 +1042,34 @@ async function attributeSort(keyword = config.sortAttribute, log_off = config.lo
         for (let res of resList) {
             await logInfoOcr(res)
             if (attributeKeys.indexOf(res.text) >= 0 && attributeKeysOk.indexOf(res.text) < 0) {
-                await wait(1)
+                // await wait(1)
                 // res.click()
                 // attributeKeysOk.push(res.text)
                 sort.push({index: attributeKeys.indexOf(res.text), text: res.text, x: res.x, y: res.y})
-                await wait(10)
+                // await wait(10)
             }
         }
 
         sort.sort((a, b) => (a.index - b.index))
         for (let one of sort) {
-            await info(`Sort==>${one.toString()}`)
+            await info(`[Sort]{index: ${one.index}, text: ${one.text}, x: ${one.x}, y: ${one.y}}`)
             if (attributeKeysOk.indexOf(one.text) < 0) {
-                await info(`选中 ${one.toString()}`)
                 await wait(1)
                 await downClick(one.x, one.y)
                 attributeKeysOk.push(one.text)
                 await wait(10)
+                await info(`选中 {index: ${one.index}, text: ${one.text}, x: ${one.x}, y: ${one.y}}`)
             }
         }
 
         await mTo(x, y)
-        await wait(1)
+        // await wait(1)
         // await dragBase(0, parseInt(40 * genshinJson.height / 1080 + ''), h, log_off)
         await scrollPage(parseInt(genshinJson.height * 2 / 3 + ''), true, 6)
         await wait(1)
 
-        let ocr = await ocrBase(`${path_base_main}${oce_name}.jpg`, 0, 0, width, genshinJson.height)
-        await wait(1)
+        let ocr =  ocrBase(`${path_base_main}${oce_name}.jpg`, 0, 0, width, genshinJson.height)
+        // await wait(1)
         if (isExist(ocr)) {
 
             let captureRegion = captureGameRegion();
@@ -1079,6 +1097,31 @@ async function attributeSort(keyword = config.sortAttribute, log_off = config.lo
                     await downClick(one.x, one.y)
                     attributeKeysOk.push(one.text)
                     await wait(10)
+                }
+            }
+
+            if (specialKey !== '') {
+                //特殊排序处理
+                // await wait(1)
+                await clickProgressBarDownBySort()
+                await wait(1)
+                await mTo(x, y)
+                await scrollPage(parseInt(genshinJson.height * 1 / 5 + genshinJson.height * 1 / 6 + ''), true, 6)
+
+                let captureRegion = captureGameRegion();
+                let ocrObject = recognitionObjectOcr(0, 0, width, genshinJson.height);
+                // await mTo(width, 0)
+                // ocrObject.threshold = 1.0;
+                let resList = captureRegion.findMulti(ocrObject);
+                for (let res of resList) {
+                    await logInfoOcr(res)
+                    if (res.text.includes(specialKey) && attributeKeysOk.indexOf(res.text) < 0) {
+                        // await wait(1)
+                        res.click()
+                        attributeKeysOk.push(res.text)
+                        await wait(10)
+                        break
+                    }
                 }
             }
 
