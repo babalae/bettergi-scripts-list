@@ -745,7 +745,6 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, log_off) {
                     await info(`sort:${op.sort},text:${op.text},x:${op.x},y:${op.y}`)
                     await wait(100)
                     await downClick(op.x, op.y)
-
                     keywordsOk.push(op.text)
                 }
 
@@ -1026,23 +1025,25 @@ async function attributeSort(keyword = config.sortAttribute, log_off = config.lo
             await logInfoOcr(res)
             if (attributeKeys.indexOf(res.text) >= 0 && attributeKeysOk.indexOf(res.text) < 0) {
                 await wait(1)
-                res.click()
-                attributeKeysOk.push(res.text)
+                // res.click()
+                // attributeKeysOk.push(res.text)
                 sort.push({index: attributeKeys.indexOf(res.text), text: res.text, x: res.x, y: res.y})
                 await wait(10)
             }
         }
-        // sort.sort((a, b) => (a.index - b.index))
-        // for (let one of sort) {
-        //     await info(`Sort==>${one.toString()}`)
-        //     if (attributeKeysOk.indexOf(one.text) < 0) {
-        //         await info(`选中 ${one.toString()}`)
-        //         await wait(1)
-        //         downClick(one.x, one.y)
-        //         attributeKeysOk.push(one.text)
-        //         await wait(10)
-        //     }
-        // }
+
+        sort.sort((a, b) => (a.index - b.index))
+        for (let one of sort) {
+            await info(`Sort==>${one.toString()}`)
+            if (attributeKeysOk.indexOf(one.text) < 0) {
+                await info(`选中 ${one.toString()}`)
+                await wait(1)
+                await downClick(one.x, one.y)
+                attributeKeysOk.push(one.text)
+                await wait(10)
+            }
+        }
+
         await mTo(x, y)
         await wait(1)
         // await dragBase(0, parseInt(40 * genshinJson.height / 1080 + ''), h, log_off)
@@ -1062,23 +1063,25 @@ async function attributeSort(keyword = config.sortAttribute, log_off = config.lo
                 await logInfoOcr(res)
                 if (attributeKeys.indexOf(res.text) >= 0 && attributeKeysOk.indexOf(res.text) < 0) {
                     await wait(1)
-                    res.click()
-                    attributeKeysOk.push(res.text)
+                    // res.click()
+                    // attributeKeysOk.push(res.text)
                     sort.push({index: attributeKeys.indexOf(res.text), text: res.text, x: res.x, y: res.y})
                     await wait(10)
                 }
             }
-            // sort.sort((a, b) => (a.index - b.index))
-            // for (let one of sort) {
-            //     await info(`[已到顶]{index: ${one.index}, text: ${one.text}, x: ${one.x}, y: ${one.y}}`)
-            //     if (attributeKeysOk.indexOf(one.text) < 0) {
-            //         await info(`选中 ${one.toString()}`)
-            //         await wait(1)
-            //         downClick(one.x, one.y)
-            //         attributeKeysOk.push(one.text)
-            //         await wait(10)
-            //     }
-            // }
+
+            sort.sort((a, b) => (a.index - b.index))
+            for (let one of sort) {
+                await info(`[已到顶]{index: ${one.index}, text: ${one.text}, x: ${one.x}, y: ${one.y}}`)
+                if (attributeKeysOk.indexOf(one.text) < 0) {
+                    await info(`选中 ${one.toString()}`)
+                    await wait(1)
+                    await downClick(one.x, one.y)
+                    attributeKeysOk.push(one.text)
+                    await wait(10)
+                }
+            }
+
             await info(`已到顶`)
             break
         } else if (index == 10) {
