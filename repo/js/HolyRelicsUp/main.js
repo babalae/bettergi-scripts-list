@@ -1,3 +1,32 @@
+/**
+ * 主方法
+ * @returns {Promise<void>}
+ */
+async function main(log_off = config.log_off) {
+    let ms = 300
+    await setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
+    if (config.enableBatchUp) { // 检查是否启用
+        await wait(ms);
+        await toMainUi()
+        await wait(ms);
+        //打开背包
+        await openKnapsack();
+        await openHolyRelicsKnapsack();
+        await wait(ms);
+        //排序
+        await openPrerequisitesAll(log_off);
+        await wait(ms);
+
+        await bathClickUp(config.insertionMethod, log_off)
+    } else {
+        throwError(`未启用批量强化请去浏览文档后开启！`)
+    }
+
+    ////选择升级素材 //禁用 存在异常
+    // await openSelectTheClipCondition('1星素材');
+    ////强化
+    // await oneClickUp('快捷放入',null);
+}
 //========================以下为原有封装==============================
 function info(msg) {
     log.info(msg)
@@ -1375,17 +1404,17 @@ async function openAggrandizement() {
     }
     // 使用OCR方法查找强化按钮
     let aggrandizement = await ocrBase(`${path_base_main}${ocrJson.text}.jpg`, ocrJson.x, ocrJson.y, ocrJson.width, ocrJson.height)
-    await wait(300);
+    await wait(10);
     // 检查强化按钮是否存在
     if (isExist(aggrandizement)) {
-        await wait(300);
+        await wait(1);
         // 输出日志信息，表示正在打开强化界面
         await info('打开强化');
-        await wait(300);
+        await wait(10);
         // 点击强化按钮
         await aggrandizement.click();
         // 等待500毫秒以确保界面完全打开
-        await wait(300);
+        await wait(10);
     }
 }
 
@@ -1602,7 +1631,7 @@ async function oneClickUp(operate, log_off) {
     // 调用operateDispose函数处理操作参数，处理后的结果重新赋值给operate变量
     operate = await operateDispose(operate, false, log_off)
 
-    await wait(500)  // 等待500毫秒，确保界面响应
+    await wait(50)  // 等待500毫秒，确保界面响应
     let upMax = config.upMax
 
     let count = 1
@@ -1614,7 +1643,7 @@ async function oneClickUp(operate, log_off) {
     }
 
     for (let i = 0; i < count; i++) {
-        await wait(300)
+        await wait(1)
         // 调用oneUp函数执行实际的强化操作，传入处理后的operate参数和日志控制参数
         let up = await oneUp(operate, log_off)
         if (!up.upOk) {
@@ -1643,7 +1672,7 @@ async function oneClickUp(operate, log_off) {
  * @returns {Promise<void>} - 返回一个空Promise，表示异步操作完成
  */
 async function bathClickUp(operate, log_off) {
-    let ms = 300
+    let ms = 30
     // let index = 0
     let upMaxCount = 0
     if (config.upMaxCount) {
@@ -1680,7 +1709,8 @@ async function bathClickUp(operate, log_off) {
             if (bool) {
                 await info(`滑动一行`)
                 await wait(1)
-                await dragBase(0, -9, base_height / 9, config.log_off)
+                // await dragBase(0, -9, base_height / 9, config.log_off)
+                await scrollPage(200,true,6)
                 await wait(1)
             }
             // info(`x:${x},y:${y}`)
@@ -1743,38 +1773,7 @@ async function toMainUi() {
 
 }
 
-/**
- * 主方法
- * @returns {Promise<void>}
- */
-async function main(log_off = config.log_off) {
-    await attributeSort()
-    return
 
-    let ms = 300
-    await setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
-    if (config.enableBatchUp) { // 检查是否启用
-        await wait(ms);
-        await toMainUi()
-        await wait(ms);
-        //打开背包
-        await openKnapsack();
-        await openHolyRelicsKnapsack();
-        await wait(ms);
-        //排序
-        await openPrerequisitesAll(log_off);
-        await wait(ms);
-
-        await bathClickUp(config.insertionMethod, log_off)
-    } else {
-        throwError(`未启用批量强化请去浏览文档后开启！`)
-    }
-
-    ////选择升级素材 //禁用 存在异常
-    // await openSelectTheClipCondition('1星素材');
-    ////强化
-    // await oneClickUp('快捷放入',null);
-}
 
 // await mTo(140, 100)
 // await wait(1000)
