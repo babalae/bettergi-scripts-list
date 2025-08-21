@@ -845,6 +845,7 @@ async function openSiftAll(log_off) {
         // await mTo(width, 0)
         // ocrObject.threshold = 1.0;
         let resList = captureRegion.findMulti(ocrObject);
+        captureRegion.Dispose()
         for (let res of resList) {
             // await wait(1)
             await logInfoOcrBase(res, log_off)
@@ -1068,6 +1069,8 @@ async function attributeSort(keyword = config.sortAttribute, log_off = config.lo
         // await mTo(width, 0)
         // ocrObject.threshold = 1.0;
         let resList = captureRegion.findMulti(ocrObject);
+        captureRegion.Dispose()
+
         for (let res of resList) {
             await logInfoOcr(res)
             if (attributeKeys.indexOf(res.text) >= 0 && attributeKeysOk.indexOf(res.text) < 0) {
@@ -1106,6 +1109,8 @@ async function attributeSort(keyword = config.sortAttribute, log_off = config.lo
             // await mTo(width, 0)
             // ocrObject.threshold = 1.0;
             let resList = captureRegion.findMulti(ocrObject);
+            captureRegion.Dispose()
+
             for (let res of resList) {
                 await logInfoOcr(res)
                 if (attributeKeys.indexOf(res.text) >= 0 && attributeKeysOk.indexOf(res.text) < 0) {
@@ -1142,6 +1147,8 @@ async function attributeSort(keyword = config.sortAttribute, log_off = config.lo
                 // await mTo(width, 0)
                 // ocrObject.threshold = 1.0;
                 let resList = captureRegion.findMulti(ocrObject);
+                captureRegion.Dispose()
+
                 for (let res of resList) {
                     await logInfoOcr(res)
                     if (res.text.includes(specialKey) && attributeKeysOk.indexOf(res.text) < 0) {
@@ -1196,6 +1203,7 @@ async function openSortAll(log_off = config.log_off) {
             // await mTo(width, 0)
             // ocrObject.threshold = 1.0;
             let resList = captureRegion.findMulti(ocrObject);
+            captureRegion.Dispose()
             for (let res of resList) {
                 // await wait(1)
                 await logInfoOcrBase(res, log_off)
@@ -1379,6 +1387,7 @@ const isInMainUI = () => {
     );
     let captureRegion = captureGameRegion();
     let res = captureRegion.Find(paimonMenuRo);
+    captureRegion.Dispose()
     return !res.isEmpty();
 };
 
@@ -1519,7 +1528,7 @@ async function ocrHolyRelicsUpFrequency(log_off) {
     let captureRegion = captureGameRegion(); // 截取游戏画面
     const ocrObject = await recognitionObjectOcr(x, y, w, h); // 创建OCR识别对象
     let res = captureRegion.find(ocrObject); // 执行OCR识别
-
+    captureRegion.Dispose()
     if (!log_off) {
         await logInfoOcr(res) // 记录OCR识别结果
     }
@@ -1873,6 +1882,7 @@ async function openSelectTheClipCondition(condition) {
                 // 捕获游戏界面并执行OCR识别
                 let captureRegion = captureGameRegion();
                 let resList = captureRegion.findMulti(ocrObject);
+                captureRegion.Dispose()
                 let index = 0;
                 // 遍历OCR识别结果
                 for (let res of resList) {
@@ -1911,6 +1921,8 @@ async function bathOcrRegionHolyRelics(ocrRegion) {
     // ocrObject.threshold = 1.0; // 可选：设置OCR识别的阈值，当前已被注释掉
     // 在捕获的区域中查找多个匹配项
     let resList = captureRegion.findMulti(ocrObject);
+    captureRegion.Dispose()
+
     // 遍历所有识别结果
     for (let res of resList) {
         // 记录OCR识别信息的详细日志
