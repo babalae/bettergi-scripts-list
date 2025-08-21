@@ -39,6 +39,7 @@ let record = {};
 let CDInfo = [];
 let failcount = 0;
 let autoSalvageCount = 0;
+let furinaState = "unknown";
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
@@ -787,6 +788,7 @@ async function writeCDInfo(accountName) {
 
 //运行普通路线
 async function runNormalPath(doStop) {
+    furinaState = "unknown";
     //关闭拾取
     dispatcher.ClearAllTriggers();
     if (state.cancel) return;
@@ -796,21 +798,16 @@ async function runNormalPath(doStop) {
     const normalExecutePath = normalPath + "/执行";
     if (combatPartyName) {
         log.info("填写了清怪队伍，执行清怪路线");
-        await runPaths(normalCombatPath, combatPartyName, doStop);
-    }
-    if (settings.furina) {
-        await pathingScript.runFile('assets/furina/强制白芙.json');
+        await runPaths(normalCombatPath, combatPartyName, doStop, "black");
     }
     // 启用自动拾取的实时任务
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
-    await runPaths(normalExecutePath, artifactPartyName, doStop);
-    //切回黑芙
-    if (settings.furina) {
-        await pathingScript.runFile('assets/furina/强制黑芙.json');
-    }
+    await runPaths(normalExecutePath, artifactPartyName, doStop, "white");
+
 }
 
 async function runActivatePath() {
+    //furinaState = "unknown";
     //关闭拾取
     dispatcher.ClearAllTriggers();
     if (state.cancel) return;
@@ -853,8 +850,8 @@ async function runActivatePath() {
 
     if (combatPartyName) {
         log.info("填写了清怪队伍，执行清怪路线");
-        await runPaths(extraCombatPath, combatPartyName, false);
-        await runPaths(endingCombatPath, combatPartyName, false);
+        await runPaths(extraCombatPath, combatPartyName, false, "black");
+        await runPaths(endingCombatPath, combatPartyName, false, "black");
     }
 
     await runPaths(endingPreparePath, "", false);
@@ -862,9 +859,7 @@ async function runActivatePath() {
 }
 
 async function runEndingAndExtraPath() {
-    if (settings.furina) {
-        await pathingScript.runFile('assets/furina/强制白芙.json');
-    }
+    furinaState = "unknown";
     // 启用自动拾取的实时任务
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     if (state.cancel) return;
@@ -880,24 +875,15 @@ async function runEndingAndExtraPath() {
         ? "assets/ArtifactsPath/额外/所有额外"
         : "assets/ArtifactsPath/额外/仅12h额外";
     endingPath = endingPath + "/执行";
-    await runPaths(endingPath, artifactPartyName, false);
+    await runPaths(endingPath, artifactPartyName, false, "white");
     extraPath = extraPath + "/执行";
-    await runPaths(extraPath, artifactPartyName, false);
+    await runPaths(extraPath, artifactPartyName, false, "white");
 }
 
-async function runPaths(folderFilePath, PartyName, doStop) {
-    if (settings.autoSalvage && autoSalvageCount >= 4) {
-        autoSalvageCount = 0;
-        if (settings.decomposeMode === "分解（经验瓶）") {
-            artifactExperienceDiff += await processArtifacts(1);
-        } else {
-            await processArtifacts(1);
-        }
-    } else {
-        autoSalvageCount++;
-    }
+async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "") {
     if (state.cancel) return;
     let Paths = await readFolder(folderFilePath, true);
+    let furinaChecked = false;
     for (let i = 0; i < Paths.length; i++) {
         let skiprecord = false;
         if (state.cancel) return;
@@ -917,11 +903,35 @@ async function runPaths(folderFilePath, PartyName, doStop) {
             log.info(`路线${Path.fullPath}今日已运行，跳过`);
             continue;
         }
-
         if (PartyName != state.currentParty && PartyName) {
             //如果与当前队伍不同，尝试切换队伍，并更新队伍
             await switchPartyIfNeeded(PartyName);
             state.currentParty = PartyName;
+            furinaState = "unknown";
+        }
+        if (settings.furina && !furinaChecked) {
+            furinaChecked = true;
+            if (furinaRequirement === "white") {
+                log.info("勾选了芙宁娜选项，正在强制切换芙宁娜状态为白芙");
+                log.warn("非必要请尽量不要勾选该选项");
+                await pathingScript.runFile('assets/furina/强制白芙.json');
+                furinaState = "white";
+            } else if (furinaRequirement === "black") {
+                log.info("勾选了芙宁娜选项，正在强制切换芙宁娜状态为黑芙");
+                log.warn("非必要请尽量不要勾选该选项");
+                await pathingScript.runFile('assets/furina/强制黑芙.json');
+                furinaState = "black";
+            }
+        }
+        if (settings.autoSalvage && autoSalvageCount >= 4) {
+            autoSalvageCount = 0;
+            if (settings.decomposeMode === "分解（经验瓶）") {
+                artifactExperienceDiff += await processArtifacts(1);
+            } else {
+                await processArtifacts(1);
+            }
+        } else {
+            autoSalvageCount++;
         }
         await fakeLog(Path.fileName, false, true, 0);
         try {
