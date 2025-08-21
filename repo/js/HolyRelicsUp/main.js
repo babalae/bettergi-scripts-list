@@ -19,8 +19,8 @@ function throwError(msg) {
     notification.error(`${msg}`);
 }
 
-async function mTo(x, y) {
-    await moveMouseTo(x, y);
+function mTo(x, y) {
+    moveMouseTo(x, y);
 }
 
 function recognitionObjectOcr(x, y, width, height) {
@@ -164,9 +164,9 @@ const path_base_main = `assets/main/`
 const path_base_sort = `${path_base_main}sort/`
 //========================以上为基本配置==============================
 //========================以下为基本操作==============================
-async function logInfoOcrBase(res, log_off) {
+function logInfoOcrBase(res, log_off) {
     if (!log_off) {
-        await info(`识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y},width:${res.width},height:${res.height}`);
+        info(`识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y},width:${res.width},height:${res.height}`);
     }
 }
 
@@ -175,8 +175,8 @@ async function logInfoOcrBase(res, log_off) {
  * @param res
  * @returns {Promise<void>}
  */
-async function logInfoOcr(res) {
-    await logInfoOcrBase(res, config.log_off)
+function logInfoOcr(res) {
+    logInfoOcrBase(res, config.log_off)
 }
 
 /**
@@ -213,6 +213,30 @@ async function dragBase(x, y, h, log_off) {
     if (!log_off) {
         await info(`拖动完成，步数: ${h},x:${x},y:${y}`);
     }
+}
+
+// 滚动页面函数
+async function scrollPage(totalDistance, stepDistance = 10, delayMs = 1, isUp = false, waitCount = 3) {
+    await wait(50);
+    downLeftButton();
+    await wait(50)
+    let steps = Math.ceil(totalDistance / stepDistance);
+    for (let j = 0; j < steps; j++) {
+        let remainingDistance = totalDistance - j * stepDistance;
+        let moveDistance = remainingDistance < stepDistance ? remainingDistance : stepDistance;
+        if (isUp) {
+            //向上活动
+            moveDistance = -moveDistance
+        }
+        moveByMouse(0, -moveDistance);
+        // await wait(delayMs);
+        if (j % waitCount === 0) {
+            await wait(delayMs)
+        }
+    }
+    await wait(30);
+    upLeftButton();
+    await wait(100);
 }
 
 
@@ -255,12 +279,12 @@ async function dragPage() {
  * @param height {number} - 识别区域的高度
  * @returns {Promise<*>} - 返回一个Promise对象，解析为识别结果
  */
-async function ocrBase(path, x, y, width, height) {
+function ocrBase(path, x, y, width, height) {
     // 使用模板匹配方法创建识别对象
     // 从指定路径读取图像矩阵并进行模板匹配
-    let ocrButtonRo = await RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${path}`), x, y, width, height);
+    let ocrButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${path}`), x, y, width, height);
     // 捕获游戏区域并查找匹配的识别对象
-    let button = await captureGameRegion().find(ocrButtonRo);
+    let button = captureGameRegion().find(ocrButtonRo);
     // 返回查找到的按钮对象
     return button
 }
@@ -270,14 +294,14 @@ async function ocrBase(path, x, y, width, height) {
  * @param path {string} - 需要进行OCR识别的图像文件路径
  * @returns {Promise<*>} - 返回一个Promise对象，解析后的结果为OCR识别的内容
  */
-async function ocr(path) {
+function ocr(path) {
     // 调用基础OCR识别函数，传入完整路径和默认的坐标参数
     // 参数说明：
     // - path: 图像文件路径
     // - 0, 0: 起始坐标(x, y)，设为0表示从图像左上角开始
     // - genshinJson.width: 识别区域的宽度，使用全局变量genshin的宽度值
     // - genshinJson.height: 识别区域的高度，使用全局变量genshin的高度值
-    return await ocrBase(`${path}`, 0, 0, genshinJson.width, genshinJson.height)
+    return ocrBase(`${path}`, 0, 0, genshinJson.width, genshinJson.height)
 }
 
 /**
@@ -288,22 +312,20 @@ async function ocr(path) {
  * @param {boolean} log_off - 是否关闭日志记录功能，false表示开启日志记录
  * @returns {Promise<void>} - 返回一个Promise对象，表示异步操作的完成
  */
-async function ocrClick(path, log_msg, log_off) {
+function ocrClick(path, log_msg, log_off) {
     // 使用OCR技术识别指定路径的按钮元素
-    let button = await ocr(path);
+    let button = ocr(path);
     // 检查按钮元素是否存在
     if (isExist(button)) {
         // 如果未关闭日志记录功能
         if (!log_off) {
             // 记录操作日志信息
-            await info(`${log_msg}`)
+            info(`${log_msg}`)
             // 记录OCR识别到的按钮详细信息
-            await logInfoOcr(button)
+            logInfoOcr(button)
         }
         // 点击按钮元素
-        await button.click();
-        // 暂停500毫秒，等待操作完成
-        await wait(1000);
+        button.click();
     }
     // 返回按钮对象
     return button
@@ -354,7 +376,7 @@ async function openKnapsack() {
  * 该函数通过OCR技术识别游戏界面中的圣遗物背包区域
  * @returns {Promise} 返回一个Promise对象，解析为OCR识别结果
  */
-async function ocrHolyRelicsKnapsack() {
+function ocrHolyRelicsKnapsack() {
     // 定义OCR识别的参数配置对象
     let ocrJson = {
         "text": "圣遗物",               // 要识别的文本内容
@@ -364,7 +386,7 @@ async function ocrHolyRelicsKnapsack() {
         "height": genshinJson.width / 5.0   // 识别区域的高度（屏幕宽度的五分之一）
     }
     // 调用基础OCR函数进行图像识别，传入路径和坐标参数
-    let holyRelicsKnapsack = await ocrBase(`${path_base_main}${ocrJson.text}.jpg`, ocrJson.x, ocrJson.y, ocrJson.width, ocrJson.height)
+    let holyRelicsKnapsack = ocrBase(`${path_base_main}${ocrJson.text}.jpg`, ocrJson.x, ocrJson.y, ocrJson.width, ocrJson.height)
     // 返回OCR识别结果
     return holyRelicsKnapsack
 }
@@ -387,7 +409,7 @@ async function openHolyRelicsKnapsack() {
     // }
     let re = false;
 
-    let holyRelicsKnapsack = await ocrHolyRelicsKnapsack()
+    let holyRelicsKnapsack = ocrHolyRelicsKnapsack()
     // 检查圣遗物背包图标是否存在
     if (isExist(holyRelicsKnapsack)) {
         // 打开圣遗物背包
@@ -422,7 +444,7 @@ async function resetSift() {
         "height": genshinJson.height
     }
     // 查找筛选按钮元素
-    let sift = await ocrBase(`${path_base_main}${ocrSiftJson.text}.jpg`, ocrSiftJson.x, ocrSiftJson.y, ocrSiftJson.width, ocrSiftJson.height)
+    let sift = ocrBase(`${path_base_main}${ocrSiftJson.text}.jpg`, ocrSiftJson.x, ocrSiftJson.y, ocrSiftJson.width, ocrSiftJson.height)
     await wait(1000);
     // 判断筛选按钮是否存在
     let exist = isExist(sift);
@@ -506,7 +528,7 @@ async function siftHolyRelicsSuit(keyword, log_off) {
         let index = 1;
         for (let i = 1; i <= config.countMaxByHoly; i++) {
             let captureRegion = captureGameRegion();
-            let ocrObject = await recognitionObjectOcr(x, y, width, height);
+            let ocrObject = recognitionObjectOcr(x, y, width, height);
             // await mTo(width, 0)
             // ocrObject.threshold = 1.0;
             let resList = await captureRegion.findMulti(ocrObject);
@@ -557,7 +579,7 @@ async function siftState(log_off) {
         "width": genshinJson.width / 3.0,  // 按钮的宽度为屏幕宽度的1/3
         "height": genshinJson.height      // 按钮的高度为整个屏幕高度
     }
-    let siftState = await ocrBase(`${path_base_main}${siftJson.text}.jpg`, siftJson.x, siftJson.y, siftJson.width, siftJson.height)
+    let siftState = ocrBase(`${path_base_main}${siftJson.text}.jpg`, siftJson.x, siftJson.y, siftJson.width, siftJson.height)
     await wait(300)
     let exist = isExist(siftState);
     if (exist) {
@@ -601,6 +623,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, log_off) {
     let sift = await ocrBase(`${path_base_main}${siftSiftHolyRelicsSuitUIJson.text}.jpg`, siftSiftHolyRelicsSuitUIJson.x, siftSiftHolyRelicsSuitUIJson.y, siftSiftHolyRelicsSuitUIJson.width, siftSiftHolyRelicsSuitUIJson.height)
     await wait(300)
     let exist = isExist(sift);
+
     if (exist) {
         await logInfoOcrBase(sift, log_off)
         // await mTo(siftState.x, siftState.y)
@@ -627,12 +650,12 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, log_off) {
         let width = (440 - 140) * genshinJson.width / 1920
 
         for (let i = 1; i <= config.countMaxByHoly; i++) {
-
-            await info('开始识别左边画面')
-            let captureRegion = captureGameRegion();
+            info('开始识别左边画面')
+            let captureRegion = await captureGameRegion();
             let ocrObject = await recognitionObjectOcr(x, y, width, height);
             // await mTo(width, 0)
             // ocrObject.threshold = 1.0;
+            let opJsons = new Array()
             let resList = await captureRegion.findMulti(ocrObject);
             await wait(10)
             for (let res of resList) {
@@ -643,15 +666,18 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, log_off) {
                     last.name_two = res.text
                 }
 
-                last.y = res.y
+                // last.y = res.y
                 if (keywords.find(function (value) {
                     return res.text.includes(value.trim())
-                }) && (keywordsOk.length === 0 || keywordsOk.find(function (value) {
-                    return !value.includes(res.text)
+                }) && (opJsons.length === 0 || opJsons.find(function (value) {
+                    return !value.text.includes(res.text)
                 }))) {
                     await wait(1)
-                    res.click()
-                    keywordsOk.push(res.text)
+                    opJsons.push({
+                        text: res.text, x: res.x, y: res.y, sort: i
+                    })
+                    // res.click()
+                    // keywordsOk.push(res.text)
                 }
             }
 
@@ -659,35 +685,64 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, log_off) {
             //画面拆为二分别识别
             await info('开始识别右边画面')
             await info(`mto ${x1}==${y + height}`)
-            await mTo(x1, y + height)
-            await wait(3000)
+            // await mTo(x1, y + height)
+            await wait(1)
             ocrObject = await recognitionObjectOcr(x1, y, width, height);
             // await mTo(width, 0)
             // ocrObject.threshold = 1.0;
             resList = await captureRegion.findMulti(ocrObject);
-            await wait(10)
+            await wait(1)
             for (let res of resList) {
                 await logInfoOcr(res)
 
                 last.y = res.y
                 if (keywords.find(function (value) {
                     return res.text.includes(value.trim())
-                }) && (keywordsOk.length === 0 || keywordsOk.find(function (value) {
-                    return !value.includes(res.text)
+                }) && (opJsons.length === 0 || opJsons.find(function (value) {
+                    return !value.text.includes(res.text)
                 }))) {
                     await wait(1)
-                    res.click()
-                    keywordsOk.push(res.text)
+                    opJsons.push({
+                        text: res.text, x: res.x, y: res.y, sort: i
+                    })
+                    // res.click()
+                    // keywordsOk.push(res.text)
                 }
             }
-            if (keywords.length === keywordsOk.length) {
-                await info(`已选中 ${keywordsOk.join(",")}`)
+            await info(`选中 ${opJsons.map(value => value.text).join(",")}`)
+            //实际点击
+            // for (let op of opJsons) {
+            //     wait(100)
+            //     downClick(op.x, op.y)
+            // }
+            opJsons.sort((a, b) => {
+                return a.sort - b.sort
+            })
+            await info(`选中 ${opJsons.map(value => value.text).join(",")}`)
+            for (let op of opJsons) {
+                if (
+                    keywordsOk.length === 0 || keywordsOk.find(function (value) {
+                        return !value.includes(op.text)
+                    })
+                ) {
+                    await info(`sort:${op.sort},text:${op.text},x:${op.x},y:${op.y}`)
+                    await wait(100)
+                    await downClick(op.x, op.y)
+
+                    keywordsOk.push(op.text)
+                }
+
+            }
+
+            if (keywords.length === opJsons.length) {
+                await info(`已选中 ${opJsons.map(value => value.text).join(",")}`)
                 break
             }
             await wait(1)
-            await mTo(genshinJson.width / 2, last.y)
+            await mTo(genshinJson.width / 2, parseInt(genshinJson.height * 3 / 4 + ''))
             await wait(2)
-            await dragBase(0, -parseInt(40 * genshinJson.height / 1080 + ''), parseInt(10 * genshinJson.height / 1080 + ''), config.log_off)
+            // await dragBase(0, -parseInt(40 * genshinJson.height / 1080 + ''), parseInt(10 * genshinJson.height / 1080 + ''), config.log_off)
+            await scrollPage(parseInt(genshinJson.height / 3 + ''))
             await wait(1)
 
             if (last.name_one != null && last.name_one === last.name_two) {
@@ -1647,7 +1702,12 @@ async function main(log_off) {
 // }
 
 (async function () {
-    await main(config.log_off)
+
+    //
+    await openSiftHolyRelicsSuitUI_Start(config.suit, config.log_off)
+    // await main(config.log_off)
+    //
+
 })();
 
 //=========弃用以下=========
