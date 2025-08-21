@@ -1,15 +1,15 @@
-{
+﻿{
   "info": {
     "authors": [
       {
-        "links": "https://github.com/jidingcai",
+        "links": "",
         "name": "呱呱z"
       }
     ],
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1755694491473,
+    "last_modified_time": 1755751020972,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "13-浊水幻灵-枫丹-莫尔泰区-卡布狄斯堡遗迹下-2个",
@@ -19,7 +19,7 @@
       "浊水幻灵"
     ],
     "type": "collect",
-    "version": "1.0"
+    "version": "1.1"
   },
   "positions": [
     {
@@ -28,8 +28,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 3464.1504,
-      "y": 2287.3989
+      "x": 3464.150390625,
+      "y": 2287.39892578125
     },
     {
       "action": "stop_flying",
@@ -37,8 +37,8 @@
       "id": 2,
       "move_mode": "fly",
       "type": "target",
-      "x": 3478.5156,
-      "y": 2239.0991
+      "x": 3478.515625,
+      "y": 2239.09912109375
     },
     {
       "action": "fight",
@@ -46,17 +46,17 @@
       "id": 3,
       "move_mode": "walk",
       "type": "path",
-      "x": 3478.5156,
-      "y": 2239.0991
+      "x": 3478.515625,
+      "y": 2239.09912109375
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
       "move_mode": "dash",
-      "type": "teleport",
-      "x": 3491.9883,
-      "y": 2259.1113
+      "type": "path",
+      "x": 3491.98828125,
+      "y": 2259.111328125
     },
     {
       "action": "fight",
@@ -64,8 +64,8 @@
       "id": 5,
       "move_mode": "dash",
       "type": "target",
-      "x": 3504.165,
-      "y": 2267.8313
+      "x": 3504.1650390625,
+      "y": 2267.831298828125
     }
   ]
 }
