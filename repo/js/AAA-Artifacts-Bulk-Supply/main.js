@@ -317,7 +317,10 @@ async function processArtifacts(times = 1) {
         await sleep(1000);
         await click(670, 45);
         await sleep(500);
-        await findAndClick(decomposeRo);
+        if (!await findAndClick(decomposeRo)) {
+            await genshin.returnMainUi();
+            return 0;
+        }
         await sleep(1000);
 
         //识别已储存经验（1570-880-1650-930）
@@ -337,11 +340,18 @@ async function processArtifacts(times = 1) {
         let firstNumber2 = 0;
 
         if (settings.keep4Star) {
-            await findAndClick(quickChooseRo);
+            if (!await findAndClick(quickChooseRo)) {
+                await genshin.returnMainUi();
+                return 0;
+            }
             moveMouseTo(960, 540);
             await sleep(1000);
 
-            await findAndClick(confirmRo);// 点击“确认选择”按钮
+            // 点击“确认选择”按钮
+            if (!await findAndClick(confirmRo)) {
+                await genshin.returnMainUi();
+                return 0;
+            }
             await sleep(1000);
 
             decomposedNum = await recognizeTextInRegion(regionToCheck3);
@@ -359,11 +369,17 @@ async function processArtifacts(times = 1) {
             }
             keyPress("VK_ESCAPE");
 
-
-            await findAndClick(decomposeRo);
-            await sleep(1000);
+            await sleep(500);
+            if (!await findAndClick(decomposeRo)) {
+                await genshin.returnMainUi();
+                return 0;
+            }
+            await sleep(500);
         }
-        await findAndClick(quickChooseRo);
+        if (!await findAndClick(quickChooseRo)) {
+            await genshin.returnMainUi();
+            return 0;
+        }
         moveMouseTo(960, 540);
         await sleep(1000);
 
@@ -371,7 +387,11 @@ async function processArtifacts(times = 1) {
             await click(370, 370);//取消选择四星
             await sleep(1000);
         }
-        await findAndClick(confirmRo);// 点击“确认选择”按钮
+        // 点击“确认选择”按钮
+        if (!await findAndClick(confirmRo)) {
+            await genshin.returnMainUi();
+            return 0;
+        }
         await sleep(1500);
 
         let decomposedNum2 = await recognizeTextInRegion(regionToCheck3);
@@ -388,6 +408,9 @@ async function processArtifacts(times = 1) {
             log.info("识别失败");
         }
         //识别当前总经验
+        if (settings.notify) {
+            notification.Send(`当前经验如图`);
+        }
         let regionToCheck2 = { x: 1470, y: 880, width: 205, height: 70 };
         let newNum = await recognizeTextInRegion(regionToCheck2);
         let newValue = 0;
@@ -399,20 +422,22 @@ async function processArtifacts(times = 1) {
             log.warn(`在指定区域未识别到有效数字: ${newValue}`);
         }
 
-        if (settings.notify) {
-            notification.Send(`当前总经验: ${newValue}`);
-        }
-
         if (settings.decomposeMode === "分解（经验瓶）") {
             log.info(`用户选择了分解，执行分解`);
             // 根据用户配置，分解狗粮
+            await sleep(1000);
+            // 点击分解按钮
+            if (!await findAndClick(doDecomposeRo)) {
+                await genshin.returnMainUi();
+                return 0;
+            }
             await sleep(500);
 
-            await findAndClick(doDecomposeRo); // 点击分解按钮
-            await sleep(500);
-
-            // 4. "进行分解"按钮
-            await findAndClick(doDecompose2Ro); // 点击进行分解按钮
+            // 4. "进行分解"按钮// 点击进行分解按钮
+            if (!await findAndClick(doDecompose2Ro)) {
+                await genshin.returnMainUi();
+                return 0;
+            }
             await sleep(1000);
 
             // 5. 关闭确认界面
@@ -439,19 +464,26 @@ async function processArtifacts(times = 1) {
         return result;
     }
 
-    async function findAndClick(target, maxAttempts = 3) {
-        let attempts = 0;
-        while (attempts < maxAttempts) {
-            gameRegion = captureGameRegion();
-            let result = gameRegion.find(target);
-            gameRegion.dispose();
-            if (result.isExist) {
-                result.click();
-                break;
+    async function findAndClick(target, maxAttempts = 5) {
+        for (let attempts = 0; attempts < maxAttempts; attempts++) {
+            const gameRegion = captureGameRegion();
+            try {
+                const result = gameRegion.find(target);
+                if (result.isExist) {
+                    result.click();
+                    return true;                 // 成功立刻返回
+                }
+                log.warn(`识别失败，第 ${attempts + 1} 次重试`);
+            } catch (err) {
+            } finally {
+                gameRegion.dispose();
             }
-            attempts++;
-            await sleep(250 * attempts);
+            if (attempts < maxAttempts - 1) {   // 最后一次不再 sleep
+                await sleep(250 * (attempts + 1));
+            }
         }
+        log.error("已达到重试次数上限，仍未找到目标");
+        return false;
     }
 
     async function destroyArtifacts(times = 1) {
@@ -459,7 +491,7 @@ async function processArtifacts(times = 1) {
         await sleep(250);
         keyPress("B");
         await sleep(250);
-        await findAndClick(ArtifactsButtonRo, 5);
+        await findAndClick(ArtifactsButtonRo);
         try {
             for (let i = 0; i < times; i++) {
                 await findAndClick(DeleteButtonRo);// 点击摧毁
@@ -555,6 +587,9 @@ async function mora() {
 
         // 如果识别到了“角色菜单”或“天赋”，则识别“摩拉数值”
         if (recognized) {
+            if (settings.notify) {
+                notification.Send(`当前摩拉如图`);
+            }
             let ocrRegionMora = { x: 1620, y: 25, width: 152, height: 46 }; // 设置对应的识别区域
             recognizedText = await recognizeTextInRegion(ocrRegionMora);
             if (recognizedText) {
@@ -568,9 +603,6 @@ async function mora() {
         }
         await sleep(500);
         tryTimes++;
-        if (settings.notify) {
-            notification.Send(`当前摩拉: ${Number(result)}`);
-        }
         await genshin.returnMainUi();
     }
     return Number(result);
