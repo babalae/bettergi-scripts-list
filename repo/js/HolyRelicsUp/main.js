@@ -1493,7 +1493,7 @@ async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequenc
  * @param log_off - 日志开关
  * @returns {Promise<{sumLevel: number, level: number, ok: boolean,start: boolean,okMsg: string, errorMsg: string}>} - 返回一个Promise对象，表示异步操作的完成
  */
-async function oneUp(operate, source = 'oneUp', log_off) {
+async function upOperate(operate, source = 'upOperate', log_off) {
     let upJson = {
         "sumLevel": 0,//预估可提升至等级
         "level": 0,//实际等级
@@ -1577,7 +1577,7 @@ async function oneUp(operate, source = 'oneUp', log_off) {
  * @param log_off - 是否记录日志的布尔值，用于控制是否输出操作日志
  * @returns {Promise<{sumLevel: number, level: number, await errorMsg: string}>} - 返回一个Promise，表示异步操作的完成，无返回值
  */
-async function oneClickUp(operate, source = 'oneClickUp', log_off = config.log_off, isFirst = true) {
+async function UpClick(operate, source = 'UpClick', log_off = config.log_off, isFirst = true) {
     let reJson = {
         sumLevel: 0,//预估可提升至等级
         level: 0,//实际等级
@@ -1614,7 +1614,7 @@ async function oneClickUp(operate, source = 'oneClickUp', log_off = config.log_o
         await wait(50)  // 等待500毫秒，确保界面响应
         // 调用oneUp函数执行实际的强化操作，传入处理后的operate参数和日志控制参数
         warn(`start==>单个圣遗物第${i + 1}次强化`)
-        let up = await oneUp(operate, source, log_off)
+        let up = await upOperate(operate, source, log_off)
         warn(`end==>单个圣遗物第${i + 1}次强化`)
         reJson.start = up.start
         reJson.ok = up.ok
@@ -1812,7 +1812,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         await wait(ms)
         await openAggrandizement()
         await wait(ms)  // 等待500毫秒，确保界面响应
-        let re = await oneClickUp(operate, source, log_off, i === 0);
+        let re = await UpClick(operate, source, log_off, i === 0);
         warn(`第${i}次强化结果:{sumLevel: ${re.sumLevel},level: ${re.level},errorMsg: ${re.errorMsg},ok: ${re.ok},okMsg: ${re.okMsg},start: ${re.start}}`)
         if (re.ok) {
             lastJson.t_level = re.level
