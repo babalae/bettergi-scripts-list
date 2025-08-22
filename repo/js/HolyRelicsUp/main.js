@@ -41,16 +41,22 @@ function info(msg, must = false) {
     }
 }
 
-function warn(msg) {
-    log.warn(msg)
+function warn(msg, must = false) {
+    if (must) {
+        log.warn(msg)
+    }
 }
 
-function debug(msg) {
-    log.debug(msg)
+function debug(msg, must = false) {
+    if (must) {
+        log.debug(msg)
+    }
 }
 
-function error(msg) {
-    log.error(msg)
+function error(msg, must = false) {
+    if (must) {
+        log.error(msg)
+    }
 }
 
 function throwError(msg) {
@@ -150,7 +156,7 @@ function sortAll() {
     }
     return baseSortArray
 }
-
+const must = true
 const config = {
     suit: settings.suit,
     log_off: !settings.log_off,
@@ -1622,6 +1628,7 @@ async function t() {
     let base_height = Math.floor(genshinJson.height * 189 / 1080)
     let line = 8
     let page = line * 4
+    info(`圣遗物${config.sortMain}强化操作`,must)
     for (let i = 0; i < page + line; i++) {
         let base_count_x = Math.floor(i % line)
         let base_count_y = (i % page) < line ? 0 : Math.floor((i % page) / line);
@@ -1630,7 +1637,6 @@ async function t() {
         warn(`i:${i},base_count_x:${base_count_x},base_count_y:${base_count_y},x:${x},y:${y}`)
         // lastJson.t_y = y
         // lastJson.t_x = x
-        info(`圣遗物${config.sortMain}强化操作`)
         if (config.sortMain.includes('降序')) {
             if (config.upMax >= 20) {
                 // warn(`降序排序功能暂未实现自动强化`)
@@ -1644,7 +1650,7 @@ async function t() {
             }
             let bool = i >= (page) && i % (page) === 0;
             if (bool) {
-                await info(`滑动一页`)
+                await info(`滑动一页`,must)
                 for (let j = 0; j < page / line; j++) {
                     await wait(1)
                     let line = Math.floor(genshinJson.height * 175 / 1080)
@@ -1659,12 +1665,12 @@ async function t() {
             // if (i % 8 === 0) {
             //     await wait(300)
             // }
-            warn(`x:${x},y:${y}`)
+            warn(`x:${x},y:${y}`,must)
             await mTo(x, y)
             await wait(300)
             await downClick(x, y)
             await wait(ms)
-            warn(`点击确认x:${x},y:${y}`)
+            warn(`点击确认x:${x},y:${y}`,must)
             // await wait(10)
             await confirm('降序强化点击确认')
 
@@ -1720,6 +1726,8 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
     let line = 8
     let page = line * 4
 
+    info(`圣遗物${config.sortMain}强化操作`,must)
+
     for (let i = 0; upMaxCount > actualCount; i++) {
         if (upMaxCount === actualCount) {
             info(`{强化次数已达到:${upMaxCount}}`)
@@ -1733,7 +1741,6 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         warn(`i:${i},base_count_x:${base_count_x},base_count_y:${base_count_y},x:${x},y:${y}`)
         lastJson.t_y = y
         lastJson.t_x = x
-        info(`圣遗物${config.sortMain}强化操作`)
         if (config.sortMain.includes('降序') && config.upMax < 20) {
             if (i < 1) {
                 //强制拉到顶
@@ -1742,7 +1749,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             }
             let bool = i >= (page) && i % (page) === 0;
             if (bool) {
-                await info(`滑动一页`)
+                await info(`滑动一页`,must)
                 for (let j = 0; j < page / line; j++) {
                     await wait(1)
                     let line = Math.floor(genshinJson.height * 175 / 1080)
