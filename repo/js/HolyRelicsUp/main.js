@@ -9,6 +9,12 @@ async function main(log_off = config.log_off) {
     // await wait(500)
     // mTo(1270,1000)
     // await wait(500)
+    // let x = Math.floor(genshinJson.width * 200 / 1920)
+    // let y = Math.floor((300 + 500) * genshinJson.height / 1080)
+    // await mTo(x, y)
+    // // await scrollPage(Math.floor(genshinJson.height * 2 / 3), true, 6,30)
+    // await scrollPage(Math.floor(genshinJson.height / 3), false, 6, 30)
+    // await openSiftAll(log_off)
     // return
     let ms = 300
     await setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
@@ -1380,6 +1386,8 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
 
         let name = '设置按键'
         await templateMatchClick(`${path_base_main}${name}.jpg`, `点击${name}`, source, log_off)
+        await mTo(genshinJson.width/2, genshinJson.height/2)
+        await wait(300)
         let name4 = `点击关闭`
         if (operate !== '快捷放入') {
             name4 = `点击开启`
@@ -1391,6 +1399,7 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
     }
     info(`[放入方式]==>${operate}<==[end]`)
     if (isExist(templateMatch1)) {
+        await wait(300)
         templateMatch1.click()
     } else {
         throwError(`[放入方式]-${operate} 未打开`)
@@ -1600,7 +1609,9 @@ async function UpClick(operate, source = 'UpClick', log_off = config.log_off, is
             //强制使用阶段放入
             operate = '阶段放入'
             warn(`强制使用阶段放入`)
+
             operate = await operateDispose(operate, true, log_off)
+            await wait(300)
         }
 
     }
@@ -1613,18 +1624,18 @@ async function UpClick(operate, source = 'UpClick', log_off = config.log_off, is
         operate = await operateDispose(operate, false, log_off)
         await wait(50)  // 等待500毫秒，确保界面响应
         // 调用upOperate函数执行实际的强化操作，传入处理后的operate参数和日志控制参数
-        warn(`start==>单个圣遗物第${i + 1}次强化`)
         let up = await upOperate(operate, source, log_off)
-        warn(`end==>单个圣遗物第${i + 1}次强化`)
         reJson.start = up.start
         reJson.ok = up.ok
         reJson.errorMsg = up.errorMsg
         reJson.okMsg = up.okMsg
+        reJson.level = up.level
+        reJson.sumLevel = up.sumLevel
         warn(`单个圣遗物第${i + 1}次强化`)
         if (up.start && !up.ok) {
             //实际强化过
             // 如果强化失败，记录错误信息
-            throw new Error(`${up.errorMsg}`);
+            // throw new Error(`${up.errorMsg}`);
             throwError(up.errorMsg)
         } else if (!up.start) {
             //已达到要求的圣遗物
@@ -1641,16 +1652,6 @@ async function UpClick(operate, source = 'UpClick', log_off = config.log_off, is
             await info(`强化成功`)
             reJson.ok = true
             reJson.okMsg = '强化成功'
-            if (up.sumLevel % 4 != 0) {
-                let msg2 = `圣遗物预估可提升至等级: ${up.sumLevel}，未达到下一阶段等级，退出强化`;
-                await info(msg2)
-                reJson.errorMsg = msg2
-                reJson.okMsg = msg2
-                // throwError(msg2)
-                break
-            } else {
-                // todo: 预留单次强化成功后操作 后续可考虑 阶段有效词条智能停止强化
-            }
         }
     }
     warn(`执行完成`)
@@ -1765,7 +1766,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
     let page = line * 4
 
     info(`圣遗物${config.sortMain}强化操作`, must)
-
+    let isFirst = false
     for (let i = 0; upMaxCount > actualCount; i++) {
         if (upMaxCount === actualCount) {
             info(`{强化次数已达到:${upMaxCount}}`)
@@ -1819,15 +1820,28 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         await wait(ms)
         await openAggrandizement()
         await wait(ms)  // 等待500毫秒，确保界面响应
-        let re = await UpClick(operate, source, log_off, i === 0);
+
+        let re = await UpClick(operate, source, log_off, i === 0 ? true : isFirst);
         warn(`第${i}次强化结果:{sumLevel: ${re.sumLevel},level: ${re.level},errorMsg: ${re.errorMsg},ok: ${re.ok},okMsg: ${re.okMsg},start: ${re.start}}`)
         if (re.ok) {
             lastJson.t_level = re.level
         }
+
+        //放入方式的判断
+        if (i === 0 && re.start && (!isFirst) && !re.ok) {
+            //只要一次
+            isFirst = true
+        }
+
+        if (i !== 0 && isFirst) {
+            //也只会执行一次 需求 true 变false 一次 中for中 以到达放入方式值操作一次开关
+            isFirst = isFirst && !re.ok
+        }
+
         if (re.ok || !re.start) {
             actualCount++
             // 如果强化成功，则继续下一个圣遗物
-            await info(!re.start ? `符合要求` : `强化成功`)
+            await info(!re.start ? `需求:+${config.upMax},实际:+${re.level},符合要求` : `+${re.level}强化成功`)
             await wait(ms)
             let up_name = '返回键'
             await templateMatchClick(`${path_base_main}${up_name}.jpg`, `圣遗物已经强化到+${config.upMax}退出强化页面 到圣遗物背包界面`, source, log_off)
@@ -1951,7 +1965,7 @@ async function bathClickUp(operate, source = 'bathClickUp', log_off = config.log
         //打开强化界面
         await openAggrandizement()
         await wait(ms)  // 等待500毫秒，确保界面响应
-        let re = await oneClickUp(operate, log_off, i === 1);
+        let re = await UpClick(operate, source, log_off, i === 1);
         if (!re.errorMsg) {
             // 如果强化成功，则继续下一个圣遗物
             await info(`强化成功`)
