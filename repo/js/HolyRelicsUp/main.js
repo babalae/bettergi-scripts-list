@@ -1270,11 +1270,37 @@ async function clickProgressBarTopByHolyRelics() {
     // let y = ocr.y + Math.ceil(ocr.height );
     // // 输出点击坐标信息
     // await info(`x:${x},y:${y}`)
-    await wait(10)
-    let x = Math.ceil(genshinJson.width * 1289 / 1920)
-    let y = Math.ceil(genshinJson.height * 177 / 1080)
-    // 移动鼠标到计算的位置
-    await clickProgressBar(x, y)
+
+
+    /*    await wait(10)
+        let x = Math.ceil(genshinJson.width * 1289 / 1920)
+        let y = Math.ceil(genshinJson.height * 177 / 1080)
+        // 移动鼠标到计算的位置
+        await clickProgressBar(x, y)*/
+
+    // await openSiftAll()
+    await wait(300)
+    // await confirm('强制拉到顶')
+
+
+    let ocrSiftJson = {
+        "text": "筛选",
+        "x": 0,
+        "y": 0,
+        "width": genshinJson.width / 3.0,
+        "height": genshinJson.height
+    }
+    // 查找筛选按钮元素
+    let sift = ocrBase(`${path_base_main}${ocrSiftJson.text}.jpg`, ocrSiftJson.x, ocrSiftJson.y, ocrSiftJson.width, ocrSiftJson.height)
+    // let ocr = await ocrBase(`${path_base_main}确认.jpg`, 0, 0, Math.ceil(genshinJson.width / 2), Math.ceil(genshinJson.height / 2))
+    // logInfoOcr(ocr)
+    if (isExist(sift)) {
+        sift.click()
+        await wait(300)
+        await confirm('强制拉到顶')
+    } else {
+        throwError(`OCR识别失败未找到确认按钮`)
+    }
     await info('强制拉到顶')
 }
 
@@ -1466,37 +1492,37 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
  */
 async function ocrHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequency', log_off) {
 
-    // 定义OCR识别的初始坐标和区域大小
-    let ocr_x = Math.ceil(genshinJson.width / 2); // OCR识别区域的x坐标，设置为屏幕宽度的一半
-    let ocr_y = 0; // OCR识别区域的y坐标，设置为0（屏幕顶部）
-    let width = Math.ceil(genshinJson.width / 2); // OCR识别区域的宽度，设置为屏幕宽度的一半
-    let height = Math.ceil(genshinJson.height); // OCR识别区域的高度，设置为整个屏幕高度
+    // // 定义OCR识别的初始坐标和区域大小
+    // let ocr_x = Math.ceil(genshinJson.width / 2); // OCR识别区域的x坐标，设置为屏幕宽度的一半
+    // let ocr_y = 0; // OCR识别区域的y坐标，设置为0（屏幕顶部）
+    // let width = Math.ceil(genshinJson.width / 2); // OCR识别区域的宽度，设置为屏幕宽度的一半
+    // let height = Math.ceil(genshinJson.height); // OCR识别区域的高度，设置为整个屏幕高度
+    //
+    // // 定义并执行第一次OCR识别，用于识别经验值图标
+    // let up_name = 'exp' // 识别对象名称为经验值图标
+    // let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, ocr_x, ocr_y, width, height) // 执行OCR识别
+    // if (!log_off) {
+    //     await logInfoOcr(ocr, source + '-' + up_name) // 记录OCR识别结果
+    // }
+    //
+    // // 定义并执行第二次OCR识别，用于识别返回键
+    // let up_name1 = '返回键' // 识别对象名称为返回键
+    // let ocr1 = await ocrBase(`${path_base_main}${up_name1}.jpg`, ocr_x, ocr_y, width, height) // 执行OCR识别
+    //
+    // if (!log_off) {
+    //     await logInfoOcr(ocr1, source + '-' + up_name1) // 记录OCR识别结果
+    // }
+    // //todo :bug
+    // // 计算OCR识别的目标区域
+    // let x = Math.min(ocr1.x, ocr.x) // 目标区域的左上角x坐标
+    // let y = Math.min(ocr1.y, ocr.y) // 目标区域的左上角y坐标
+    // let w = Math.ceil(Math.abs(ocr1.x - ocr.x) / 2) // 目标区域的宽度
+    // let h = Math.abs(ocr1.y - ocr.y) // 目标区域的高度
 
-    // 定义并执行第一次OCR识别，用于识别经验值图标
-    let up_name = 'exp' // 识别对象名称为经验值图标
-    let ocr = await ocrBase(`${path_base_main}${up_name}.jpg`, ocr_x, ocr_y, width, height) // 执行OCR识别
-    if (!log_off) {
-        await logInfoOcr(ocr, source + '-' + up_name) // 记录OCR识别结果
-    }
-
-    // 定义并执行第二次OCR识别，用于识别返回键
-    let up_name1 = '返回键' // 识别对象名称为返回键
-    let ocr1 = await ocrBase(`${path_base_main}${up_name1}.jpg`, ocr_x, ocr_y, width, height) // 执行OCR识别
-
-    if (!log_off) {
-        await logInfoOcr(ocr1, source + '-' + up_name1) // 记录OCR识别结果
-    }
-    //todo :bug
-    // 计算OCR识别的目标区域
-    let x = Math.min(ocr1.x, ocr.x) // 目标区域的左上角x坐标
-    let y = Math.min(ocr1.y, ocr.y) // 目标区域的左上角y坐标
-    let w = Math.ceil(Math.abs(ocr1.x - ocr.x) / 2) // 目标区域的宽度
-    let h = Math.abs(ocr1.y - ocr.y) // 目标区域的高度
-
-    // let x = Math.ceil(genshinJson.width * 1170 / 1920)// 目标区域的左上角x坐标
-    // let y = Math.ceil(genshinJson.height * 130 / 1080)// 目标区域的左上角y坐标
-    // let w = Math.ceil(genshinJson.width * 130 / 1920)// 目标区域的宽度
-    // let h = Math.ceil(genshinJson.height * 50 / 1080)// 目标区域的高度
+    let x = Math.ceil(genshinJson.width * 1173 / 1920)// 目标区域的左上角x坐标
+    let y = Math.ceil(genshinJson.height * 34 / 1080)// 目标区域的左上角y坐标
+    let w = Math.ceil(genshinJson.width * 329 / 1920)// 目标区域的宽度
+    let h = Math.ceil(genshinJson.height * 145 / 1080)// 目标区域的高度
 
     await infoLog(`{x:${x},y:${y},w:${w},h:${h}}`, source) // 记录OCR识别结果
     // 截取游戏画面并进行OCR识别
@@ -1896,7 +1922,7 @@ async function bathClickUp(operate, source = 'bathClickUp', log_off = config.log
             await mTo(x, y)
             // await wait(1000)
             await downClick(x, y)
-
+            await openAggrandizement()
         } else {
             //强制拉到顶
             await clickProgressBarTopByHolyRelics()
