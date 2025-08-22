@@ -15,8 +15,8 @@ async function main(log_off = config.log_off) {
     // mTo(1173 + 329, 34 + 145)
     // await ocrHolyRelicsUpFrequency()
     // await openAggrandizement()
-    await t()
-    // await bathClickUpLv1(config.insertionMethod)
+    // await t()
+    await bathClickUpLv1(config.insertionMethod)
     return
     let ms = 300
     await setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
@@ -1348,18 +1348,21 @@ async function clickProgressBarDownBySort() {
  * <前置条件:处于圣遗物背包界面|测试通过:v>
  */
 async function downClickFirstHolyRelics() {
+    let ms =300
     let x = Math.ceil(genshinJson.width * 200 / 1920)
     let y = Math.ceil(genshinJson.height * 250 / 1080)
     // await mTo(200,300)
+    await wait(ms)
     await downClick(x, y)
-    await wait(500)
+    await wait(ms)
     await confirm('点击第一个圣遗物', 'downClickFirstHolyRelics')
-    await wait(500)
+    await wait(ms)
     //避免多次点击
     await mTo(x, y)
+    await wait(ms)
     await info('点击第一个圣遗物')
-    await openAggrandizement()
-    await wait(300)
+    // await openAggrandizement()
+    // await wait(300)
     // let material = config.material
     // await openSelectTheClipCondition(material)
 }
@@ -1756,41 +1759,80 @@ async function oneClickUp(operate, source = 'oneClickUp', log_off = config.log_o
 // await wait(1000)
 // await scrollPage(Math.ceil(genshinJson.height  * 175 / 1080), false, 6)
 async function t() {
-    let base_x = Math.ceil(genshinJson.width * 200 / 1920)
-    let base_y = Math.ceil(genshinJson.height * 250 / 1080)
-    let base_width = Math.ceil(genshinJson.width * 145 / 1920)
-    let base_height = Math.ceil(genshinJson.height * 189 / 1080)
+    let ms = 300
+    let base_x = Math.floor(genshinJson.width * 200 / 1920)
+    let base_y = Math.floor(genshinJson.height * 250 / 1080)
+    let base_width = Math.floor(genshinJson.width * 145 / 1920)
+    let base_height = Math.floor(genshinJson.height * 189 / 1080)
     let line = 8
     let page = line * 4
     for (let i = 0; i < page + line; i++) {
-        let base_count_x = Math.ceil(i % line)
+        let base_count_x = Math.floor(i % line)
         let base_count_y = (i % page) < line ? 0 : Math.floor((i % page) / line);
         let x = base_x + base_count_x * base_width;
         let y = base_y + base_count_y * base_height;
-        //现在完成
-        let bool = i >= (page) && i % (page) === 0;
-        if (bool) {
-            await info(`滑动一页`)
-            for (let j = 0; j < page / line; j++) {
-                await wait(1)
-                let line = Math.ceil(genshinJson.height * 175 / 1080)
-                mTo(Math.ceil(genshinJson.width / 2), Math.ceil(genshinJson.height * 2 / 3))
-                await scrollPage(line, false, 6)
-            }
-            await wait(1)
-        }
-
         warn(`i:${i},base_count_x:${base_count_x},base_count_y:${base_count_y},x:${x},y:${y}`)
-        await wait(1000)
-        warn(`x:${x},y:${y}`)
-        await mTo(x, y)
-        await downClick(x, y)
+        // lastJson.t_y = y
+        // lastJson.t_x = x
+        info(`圣遗物${config.sortMain}强化操作`)
+        if (config.sortMain.includes('降序')) {
+            if (config.upMax >= 20) {
+                // warn(`降序排序功能暂未实现自动强化`)
+                throwError(`降序排序功能暂未实现+20的自动强化`)
+            }
+
+            if (i <= 1) {
+                //强制拉到顶
+                await clickProgressBarTopByHolyRelics()
+                await wait(ms);
+            }
+            let bool = i >= (page) && i % (page) === 0;
+            if (bool) {
+                await info(`滑动一页`)
+                for (let j = 0; j < page / line; j++) {
+                    await wait(1)
+                    let line = Math.ceil(genshinJson.height * 175 / 1080)
+                    mTo(Math.ceil(genshinJson.width / 2), Math.ceil(genshinJson.height * 2 / 3))
+                    await scrollPage(line, false, 6)
+                }
+                await wait(1)
+            }
+
+            //每行8个
+            // throwError(`降序排序功能暂未实现自动强化`)
+            // if (i % 8 === 0) {
+            //     await wait(300)
+            // }
+            warn(`x:${x},y:${y}`)
+            await mTo(x, y)
+            await wait(300)
+            await downClick(x, y)
+            await wait(ms)
+            warn(`点击确认x:${x},y:${y}`)
+            // await wait(10)
+            await confirm('降序强化点击确认')
+
+        } else {
+            //强制拉到顶
+            await clickProgressBarTopByHolyRelics()
+            await wait(ms);
+            // 调用点击第一个圣物遗物的函数，并等待其完成
+            await downClickFirstHolyRelics()
+        }
+        await wait(ms)
+        //打开强化界面
+        await openAggrandizement()
+        await wait(ms)
+        await mTo(genshinJson.width / 2, genshinJson.height / 2)
+        await wait(ms)
+        let up_name = '返回键'
+        await ocrClick(`${path_base_main}${up_name}.jpg`, `圣遗物已经强化到+${config.upMax}退出强化页面 到圣遗物背包界面`)
 
     }
 }
 
 async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = config.log_off) {
-    let ms = 10
+    let ms = 300
     // let index = 0
     let upMaxCount = 0
     if (config.upMaxCount) {
@@ -1815,10 +1857,10 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         t_level: 0,
     }
 
-    let base_x = Math.ceil(genshinJson.width * 200 / 1920)
-    let base_y = Math.ceil(genshinJson.height * 250 / 1080)
-    let base_width = Math.ceil(genshinJson.width * 145 / 1920)
-    let base_height = Math.ceil(genshinJson.height * 189 / 1080)
+    let base_x = Math.floor(genshinJson.width * 200 / 1920)
+    let base_y = Math.floor(genshinJson.height * 250 / 1080)
+    let base_width = Math.floor(genshinJson.width * 145 / 1920)
+    let base_height = Math.floor(genshinJson.height * 189 / 1080)
     let line = 8
     let page = line * 4
 
@@ -1828,7 +1870,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             break
         }
 
-        let base_count_x = Math.ceil(i % line)
+        let base_count_x = Math.floor(i % line)
         let base_count_y = (i % page) < line ? 0 : Math.floor((i % page) / line);
         let x = base_x + base_count_x * base_width;
         let y = base_y + base_count_y * base_height;
@@ -1836,38 +1878,29 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         lastJson.t_y = y
         lastJson.t_x = x
         info(`圣遗物${config.sortMain}强化操作`)
-        if (config.sortMain.includes('降序')) {
-            if (config.upMax >= 20) {
-                // warn(`降序排序功能暂未实现自动强化`)
-                throwError(`降序排序功能暂未实现+20的自动强化`)
-            }
-
-            if (i <= 1) {
+        if (config.sortMain.includes('降序') && config.upMax < 20) {
+            if (i < 1) {
                 //强制拉到顶
                 await clickProgressBarTopByHolyRelics()
                 await wait(ms);
-            } else {
-                let bool = i >= (page) && i % (page) === 0;
-                if (bool) {
-                    await info(`滑动一页`)
-                    for (let j = 0; j < page / line; j++) {
-                        await wait(1)
-                        let line = Math.ceil(genshinJson.height * 175 / 1080)
-                        mTo(Math.ceil(genshinJson.width / 2), Math.ceil(genshinJson.height * 2 / 3))
-                        await scrollPage(line, false, 6)
-                    }
+            }
+            let bool = i >= (page) && i % (page) === 0;
+            if (bool) {
+                await info(`滑动一页`)
+                for (let j = 0; j < page / line; j++) {
                     await wait(1)
+                    let line = Math.ceil(genshinJson.height * 175 / 1080)
+                    mTo(Math.ceil(genshinJson.width / 2), Math.ceil(genshinJson.height * 2 / 3))
+                    await scrollPage(line, false, 6)
                 }
+                await wait(ms)
             }
-            //每行8个
-            // throwError(`降序排序功能暂未实现自动强化`)
-            if (i % 8 === 0) {
-                await wait(300)
-            }
+
             warn(`x:${x},y:${y}`)
             await mTo(x, y)
+            await wait(ms)
             await downClick(x, y)
-            await wait(1000)
+            await wait(ms)
             warn(`点击确认x:${x},y:${y}`)
             // await wait(10)
             await confirm('降序强化点击确认')
