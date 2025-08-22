@@ -36,7 +36,9 @@ async function main(log_off = config.log_off) {
 
 //========================以下为原有封装==============================
 function info(msg) {
-    log.info(msg)
+    if (config.log_off) {
+        log.info(msg)
+    }
 }
 
 function warn(msg) {
@@ -60,7 +62,7 @@ function openCaptureGameRegion() {
 }
 
 function closeCaptureGameRegion(region) {
-     region.Dispose()
+    region.Dispose()
 }
 
 function findByCaptureGameRegion(region, templateMatchObject) {
@@ -233,13 +235,13 @@ const path_base_sort = `${path_base_main}sort/`
 //========================以上为基本配置==============================
 //========================以下为基本操作==============================
 function infoLog(msg, source = '默认', log_off = config.log_off) {
-    if (!log_off) {
+    if (log_off) {
         info(`[${source}] msg: ${msg}`);
     }
 }
 
 function logInfoTemplateBase(res, source = '默认', log_off = config.log_off) {
-    if (!log_off) {
+    if (log_off) {
         info(`[${source}]识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y},width:${res.width},height:${res.height}`);
     }
 }
@@ -343,7 +345,7 @@ function templateMatchClick(path, log_msg, source = 'templateMatchClick', log_of
     // 检查按钮元素是否存在
     if (isExist(button)) {
         // 如果未关闭日志记录功能
-        if (!log_off) {
+        if (log_off) {
             // 记录操作日志信息
             info(`log_msg==>${log_msg}`)
             info(`templateMatchPath==>${path}`)
@@ -400,7 +402,7 @@ async function openKnapsack() {
  * @returns {Promise} 返回一个Promise对象，解析为OCR识别结果
  */
 function templateMatchHolyRelicsKnapsack() {
-    let templateJson = {                 
+    let templateJson = {
         "text": "圣遗物",               // 要识别的文本内容，即"圣遗物"三个字
         "x": 0,                       // 识别区域的起始x坐标，设为0表示从屏幕最左侧开始
         "y": 0,                       // 识别区域的起始y坐标，设为0表示从屏幕最顶部开始
@@ -520,7 +522,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
         await logInfoTemplateBase(sift, 'HolyRelicsSuitUI', log_off)
         // await mTo(siftState.x, siftState.y)
         sift.click()
-        if (!log_off) {
+        if (log_off) {
             await info(`已${siftSiftHolyRelicsSuitUIJson.text}`)
         }
         await wait(10)
@@ -573,11 +575,8 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
                 }
             }
 
-            await info(`LAST ==>${last.name_one} === ${last.name_two}`)
             //画面拆为二分别识别
             await info('开始识别右边画面')
-            await info(`mto ${x1}==${y + height}`)
-            // await mTo(x1, y + height)
             await wait(1)
             templateMatchObject = await recognitionObjectOcr(x1, y, width, height);
             // await mTo(width, 0)
@@ -1262,7 +1261,7 @@ const isInMainUI = () => {
  * <前置条件:处于圣遗物详情界面|测试通过:v>
  */
 async function openAggrandizement() {
-    let ms=300
+    let ms = 300
     // 注释掉的代码：使用模板匹配方法查找强化按钮
     // const aggrandizementRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("${path_base_main}强化.jpg"), 0, 0, genshinJson.width / 3.0, genshinJson.height);
     // // 捕获游戏区域并查找强化按钮
@@ -1380,7 +1379,7 @@ async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequenc
     // // 定义并执行第一次OCR识别，用于识别经验值图标
     // let up_name = 'exp' // 识别对象名称为经验值图标
     // let templateMatch = await templateMatch(`${path_base_main}${up_name}.jpg`, templateMatch_x, templateMatch_y, width, height) // 执行OCR识别
-    // if (!log_off) {
+    // if (log_off) {
     //     await logInfoTemplate(templateMatch, source + '-' + up_name) // 记录OCR识别结果
     // }
     //
@@ -1388,7 +1387,7 @@ async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequenc
     // let up_name1 = '返回键' // 识别对象名称为返回键
     // let templateMatch1 = await templateMatch(`${path_base_main}${up_name1}.jpg`, templateMatch_x, templateMatch_y, width, height) // 执行OCR识别
     //
-    // if (!log_off) {
+    // if (log_off) {
     //     await logInfoTemplate(templateMatch1, source + '-' + up_name1) // 记录OCR识别结果
     // }
     // //todo :bug
@@ -1409,7 +1408,7 @@ async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequenc
     const templateMatchObject = await recognitionObjectOcr(x, y, w, h); // 创建OCR识别对象
     let res = findByCaptureGameRegion(captureRegion, templateMatchObject); // 执行OCR识别
     await wait(10)
-    if (!log_off) {
+    if (log_off) {
         await logInfoTemplate(res, source) // 记录OCR识别结果
     }
 
@@ -1934,7 +1933,6 @@ async function bathClickUp(operate, source = 'bathClickUp', log_off = config.log
     await wait(ms)
     await toMainUi()
 }
-
 
 
 /**
