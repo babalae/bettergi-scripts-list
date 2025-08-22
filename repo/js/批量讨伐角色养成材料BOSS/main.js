@@ -1,80 +1,12 @@
 (async function () {
     try {
-        const autoNavigateToReward = async () => {
-            // 定义识别对象
-            const boxIconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/box.png"));
-
-            let advanceNum = 0;//前进次数
-            //调整为俯视视野
-            middleButtonClick();
-            await sleep(800);
-            moveMouseBy(0, 1030);
-            await sleep(400);
-            moveMouseBy(0, 920);
-            await sleep(400);
-            moveMouseBy(0, 710);
-            log.info("开始领奖");
-            while (true) {
-                // 1. 优先检查是否已到达领奖点
-                let captureRegion = captureGameRegion();
-                let rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 50);
-                let rewardResult = rewardTextArea.find(RecognitionObject.ocrThis);
-                // 检测到特点文字则结束！！！
-                if (rewardResult.text == "接触征讨之花") {
-                    log.info("已到达领奖点，检测到文字: " + rewardResult.text);
-                    return;
-                }
-                else if (advanceNum > 40) {
-                    throw new Error('前进时间超时');
-                }
-                // 2. 未到达领奖点，则调整视野
-                for (let i = 0; i < 100; i++) {
-                    captureRegion = captureGameRegion();
-                    let iconRes = captureRegion.Find(boxIconRo);
-                    let climbTextArea = captureRegion.DeriveCrop(1686, 1030, 60, 23);
-                    let climbResult = climbTextArea.find(RecognitionObject.ocrThis);
-                    // 检查是否处于攀爬状态
-                    if (climbResult.text.toLowerCase() === "space") {
-                        log.info("检侧进入攀爬状态，尝试脱离");
-                        keyPress("x");
-                        await sleep(1000);
-                        keyDown("a");
-                        await sleep(800);
-                        keyUp("a");
-                        keyDown("w");
-                        await sleep(800);
-                        keyUp("w");
-                    }
-                    if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {
-                        advanceNum++;
-                        log.info(`视野已调正，前进第${advanceNum}次`);
-                        break;
-                    } else {
-                        // 小幅度调整
-                        if (iconRes.y >= 520) moveMouseBy(0, 920);
-                        let adjustAmount = iconRes.x < 920 ? -20 : 20;
-                        let distanceToCenter = Math.abs(iconRes.x - 920); // 计算与920的距离
-                        let scaleFactor = Math.max(1, Math.floor(distanceToCenter / 50)); // 根据距离缩放，最小为1
-                        let adjustAmount2 = iconRes.y < 540 ? scaleFactor : 10;
-                        moveMouseBy(adjustAmount * adjustAmount2, 0);
-                        await sleep(100);
-                    }
-                    if (i > 50) throw new Error('视野调整超时');
-                }
-                // 3. 前进一小步
-                keyDown("w");
-                await sleep(500);
-                keyUp("w");
-                await sleep(200); // 等待角色移动稳定
-            }
-        }
-
-        // === 追加Boss ===
+        /**
+         * 追加Boss配置
+         */
         function addBoss() {
-            // 确保 rounds 是有效数字，转换为整数
             const rounds = parseInt(settings.rounds, 10);
             if (isNaN(rounds) || rounds < 0) {
-                console.warn(`无效的挑战次数: ${settings.rounds}，将使用 1 作为默认值。`);
+                console.warn(`⚠️无效的挑战次数: ${settings.rounds}，将使用 1 作为默认值。`);
             }
             const totalCount = isNaN(rounds) ? 1 : rounds;
             const newBoss = {
@@ -86,167 +18,145 @@
                 returnToStatueAfterEachRound: settings.returnToStatueBeforeStart
             };
             config.push(newBoss);
-            log.info(`Boss "${settings.bossSelection}" 已追加。`);
+            log.info(`✅Boss "${settings.bossSelection}" 已追加。`);
         }
 
-        // === 移除所有同名Boss ===
+        /**
+         * 移除所有同名Boss配置
+         */
         function removeBoss() {
             const name = settings.bossSelection;
             const initialLength = config.length;
             config = config.filter(boss => boss.name !== name);
-            log.info(`删除了 ${initialLength - config.length} 个 "${name}"。`);
+            log.info(`🗑️删除了 ${initialLength - config.length} 个 "${name}"。`);
         }
 
-        // === 移除所有Boss ===
+        /**
+         * 清空所有Boss配置
+         */
         function clearAllBosses() {
             config = [];
-            log.info("所有 Boss 配置已清空。");
+            log.info("🪦所有 Boss 配置已清空。");
         }
 
-        // === 开始讨伐 ===
+        /**
+         * 遍历整个boss讨伐列表，然后按照讨伐次数自动讨伐并领取奖励
+         * @async
+         * @param {boolean} goToBoss - 是否需要导航到Boss。
+         * @param {boolean} isClaimFailed - 是否因为体力不足而中止。
+         * @param {boolean} battleSuccess - 当前一轮讨伐是否成功。
+         * @param {boolean} returnToStatueAfterEachRound - 是否在每次讨伐后回到七天神像。
+         */
         async function runMain() {
-            const debug = true;
-            const mainUiRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/mainUi.png"));
-            let isClaimFailed = false;//体力不足标志
-            // === 打印boss剩余次数 ===
+
+            eval(file.readTextSync("reward.js"));
+            // --- 打印所有Boss的剩余次数 ---
             for (let i = 0; i < config.length; i++) {
-                log.info(`${config[i]["name"]} - 剩余: ${config[i]["remainingCount"]}/${config[i]["totalCount"]}, 队伍: ${config[i]["team"]}, 回神像: ${config[i]["returnToStatueAfterEachRound"]},`);
+                log.info(`🎵${config[i]["name"]} - 剩余: ${config[i]["remainingCount"]}/${config[i]["totalCount"]}, 队伍: ${config[i]["team"]}`);
                 //BGI的遮罩日志是12行
                 if (i % 11 === 0 && i > 0) {
-                    log.info("5秒后显示下一页");
+                    log.info("⌛️5秒后显示下一页");
                     await sleep(5000);
                 }
             };
 
-            //遍历boss列表
-            for (let i = 0; i < config.length; i++) {
-                
-                if (isClaimFailed) {
-                    break; // 如果体力不足，跳出循环
-                };
-                const c = config[i];
-                const bossName = c["name"];           // boss 名称
-                const totalCount = c["totalCount"];     // 总次数
-                // const completedCount = c["completedCount"]; // 已完成次数
-                const remainingCount = c["remainingCount"]; // 剩余次数
-                const team = c["team"];           // 使用队伍
-                const returnToStatueAfterEachRound = c["returnToStatueAfterEachRound"];
-
-                if (remainingCount <= 0) {
-                    log.info(`Boss "${bossName}" 已完成全部${totalCount}次讨伐。跳过`);
-                    continue;
-                }
-                log.info(`开始讨伐『${bossName}』，剩余次数：${remainingCount}，使用队伍：${team}，每轮后回七天神像：${returnToStatueAfterEachRound}`);
-                
-                // === 切换队伍 ===
-                if (team !== "不切换") {
-                    log.info(`切换队伍『${team}』`);
-                    await genshin.switchParty(team);
-                }
-
-                // === 是否去七天神像 ===
-                if (returnToStatueAfterEachRound) {
-                    await genshin.tp(2297.630859375, -824.5517578125);
-                    await sleep(3000);
-                }
-                // === 根据剩余次数循环讨伐 ===
-                for (let round = 1; round <= remainingCount; round++) {
-                    let attempt = 1;
-                    let battleSuccess = false;
+            try {
+                // --- 遍历Boss列表 ---
+                for (const boss of config) {
                     let goToBoss = true;
+                    let isClaimFailed = false;
+                    const returnToStatueAfterEachRound = boss.returnToStatueAfterEachRound
+
+                    // --- 检查体力是否足够 ---
                     if (isClaimFailed) {
-                        break; // 体力不足，跳出循环
-                    }
-                    log.info(`当前进度：讨伐『${bossName}』，剩余次数：${remainingCount}，第${round}/${remainingCount}次，使用队伍：${team}，每轮后回七天神像：${returnToStatueAfterEachRound}`);
-                    //尝试讨伐大于2次、战斗成功、体力不足领取失败 任一条件达成则停止
-                    while (attempt <= 2 && !battleSuccess && !isClaimFailed) {
-                        if (goToBoss) {
-                            log.info(`执行前往『${bossName}』的路线`);
-                            await pathingScript.runFile(`assets/Pathing/${bossName}前往.json`);
-                            // await keyMouseScript.runFile(`assets/Pathing/${bossName}前往键鼠.json`);
+                        break; // 如果体力不足，跳出循环
+                    };
+
+                    // --- 检查当前boss剩余需讨伐次数 ---
+                    if (boss.remainingCount <= 0) {
+                        log.info(`Boss "${boss.name}" 已完成全部${boss.totalCount}次讨伐。跳过`);
+                        continue;
+                    };
+
+                    // --- 切换队伍 ---
+                    if (boss.team !== "不切换") {
+                        log.info(`切换队伍『${boss.team}』`);
+                        await genshin.switchParty(boss.team);
+                    };
+
+                    // --- 根据剩余次数循环讨伐 ---
+                    for (let round = 1; round <= boss.remainingCount; round++) {
+                        let battleSuccess = false;
+                        if (isClaimFailed) {
+                            break; // --- 体力不足，停止讨伐 ---
                         }
 
-                        log.info(`开始第 ${attempt} 次讨伐尝试`);
-                        try {
-                            await dispatcher.runTask(new SoloTask("AutoFight"));
-                            await autoNavigateToReward()
+                        log.info(`🪧` +
+                            `当前进度：讨伐『${boss.name}』，` +
+                            `第${round}/${boss.remainingCount}次，` +
+                            `使用队伍：${boss.team}，` +
+                            `每轮后回七天神像：${returnToStatueAfterEachRound ? '是' : '否'}`);
 
-                            // === 领取boss的地脉之花 === 
-                            while (true) {
-                                if (debug) {
-                                    log.info("调试模式，跳过领取奖励");
-                                    break; 
-                                }
-                                captureRegion = captureGameRegion();
 
-                                // 点击F领取Boss地脉花
-                                let rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 50);
-                                let rewardResult = rewardTextArea.find(RecognitionObject.ocrThis);
-                                if (rewardResult.text == "接触征讨之花" && isClaimFailed == false) {
-                                    keyPress("F");
-                                    await sleep(1000);
-                                }
-                                
-                                // 使用脆弱树脂领取奖励
-                                let useTextArea = captureRegion.DeriveCrop(850, 740, 250, 35);
-                                let useResult = useTextArea.find(RecognitionObject.ocrThis);
-                                if ("补充" in closeResult.text) {
-                                    log.info("脆弱树脂不足，跳过领取");
-                                    click(1345, 300);
-                                    await sleep(1000);
-                                    isClaimFailed = true;
-                                }
-                                else if ("使用" in useResult.text) {
-                                    log.info("使用脆弱树脂领取奖励");
-                                    click(useResult.x, useResult.y);
-                                    await sleep(3000);
-                                }
+                        for (let attempt = 1; attempt <= 2; attempt++) {
+                            //体力不足和战斗成功后无需重试
+                            if (isClaimFailed || battleSuccess) {
+                                break;
+                            };
+                            if (goToBoss) {
+                                log.info(`🏃前往『${boss.name}』`);
+                                await pathingScript.runFile(`assets/Pathing/${boss.name}前往.json`);
+                            };
+                            try {
 
-                                // 关闭奖励界面
-                                let closeRewardUi = captureRegion.DeriveCrop(860, 970, 200, 28);
-                                let closeResult = closeRewardUi.find(RecognitionObject.ocrThis);
-                                if ("点击" in closeResult.text) {
-                                    click(975, 1000);//点击空白区域
-                                    await sleep(1000);
-                                }
-                                
-                                // 检查是否回到主界面
-                                let inMainUi = captureRegion.Find(mainUiRo);
-                                if (inMainUi.x > 0) {
-                                    break; 
-                                }
+                                log.info(`⚔️开始第 ${attempt} 次讨伐尝试`);
+                                await dispatcher.runTask(new SoloTask("AutoFight"));
+                                await autoNavigateToReward();
+                                await takeReward(isClaimFailed);
+                                battleSuccess = true;
+                                goToBoss = false;
+                                // === 更新 讨伐完成次数 与 剩余讨伐次数 ===
+                                boss.remainingCount--;
+                                boss.completedCount++;
+                                break;
 
-                            }
-                            // === 领取结束 === 
-                            battleSuccess = true;
-                            // === 更新 讨伐完成次数 与 剩余讨伐次数 ===
-                            config[i]["remainingCount"]--;
-                            config[i]["completedCount"]++;
-                            //防止意外中断，导致已讨伐次数未保存，每次战斗成功都保存一次。
-                            file.writeTextSync("assets/config/config.json", JSON.stringify(config, null, 4));
-                        } catch (error) {
-                            log.error(`战斗失败，重试 ${attempt}/2 次`);
+                            } catch (error) {
+                                log.error(`❌讨伐『${boss.name}』失败，error: ${error}`);
+                                battleSuccess = false;
+                                continue;
+                            };
+
+                        }
+
+                        if (!battleSuccess) {
+                            log.error(`💀战斗失败次数超过2次，跳过当前BOSS ${boss.name}`);
+                            break;
+                        }
+
+                        // 检查是否需要在每次讨伐后回七天神像
+                        if (returnToStatueAfterEachRound) {
+                            await genshin.tp(2297.630859375, -824.5517578125);
+                            await sleep(3000);
                             goToBoss = true;
-                            attempt++;
-                        }
-                    }
+                        };
 
-                    if (!battleSuccess) {
-                        log.error(`战斗失败次数超过2次，跳过BOSS ${bossName}`);
-                        break;
-                    }
-
-                    // 检查是否需要在每次讨伐后回七天神像
-                    if (returnToStatueAfterEachRound) {
-                        await genshin.tp(2297.630859375, -824.5517578125);
-                        await sleep(3000);
-                    } else {
-                        goToBoss = false;
-                        log.debug("等待5s后BOSS刷新");
-                        await sleep(5000);
+                        if (!goToBoss && boss.remainingCount > 0) {
+                            if (["歌裴莉娅的葬送", "科培琉司的劫罚", "纯水精灵"].includes(boss.name)) {
+                                await pathingScript.runFile(`assets/Pathing/${boss.name}战斗后快速前往.json`);
+                            } else {
+                                log.debug("等待5s后BOSS刷新");
+                                await sleep(5000);
+                            };
+                        };
                     }
                 }
             }
+            catch (error) {
+                log.error(`遍历Boss列表失败，error: ${error}`);
+            } finally {
+                file.writeTextSync("assets/config/config.json", JSON.stringify(config, null, 4));
+            }
+
 
         }
 
@@ -269,7 +179,7 @@
         if (handler) {
             await handler();
         } else {
-            log.debug("未知的运行模式:", runMode);
+            log.debug("❓️未知的运行模式:", runMode);
         }
 
         // === 写回配置文件 ===
@@ -278,6 +188,6 @@
         }
 
     } catch (error) {
-        log.error(`脚本执行出错: ${error}`);
+        log.error(`💥脚本执行出错: ${error}`);
     }
 })();
