@@ -1,14 +1,14 @@
 [
    {
-     "name": "enableBatchUp",
-     "type": "checkbox",
-     "label": "启用批量强化",
-     "default": false
-   },
-   {
      "name": "toBag",
      "type": "checkbox",
      "label": "启用自动进入背包",
+     "default": true
+   },
+   {
+     "name": "enableBatchUp",
+     "type": "checkbox",
+     "label": "启用批量强化(注:可单独使用单独使用时\n请处于圣遗物背包筛选未满级状态后)",
      "default": false
    },
    {
@@ -63,7 +63,7 @@
    {
      "name": "toSort",
      "type": "checkbox",
-     "label": "启用自动排序",
+     "label": "启用自动排序(未启用时以下配置 排序 均无效)",
      "default": true
    },
    {
@@ -95,13 +95,13 @@
    {
      "name": "toSift",
      "type": "checkbox",
-     "label": "启用筛选圣遗物开关",
+     "label": "启用筛选圣遗物开关(未启用时以下配置 圣遗物筛选 均无效)",
      "default": true
    },
    {
       "name": "suit",
       "type": "input-text",
-      "label": "筛选圣遗物(使用|分割 的模糊匹配 <无个数限制>如: 如雷|苍白|...)",
+      "label": "圣遗物筛选(使用|分割 的模糊匹配 <无个数限制>如: 如雷|苍白|...)",
       "default": ""
    },
    {
