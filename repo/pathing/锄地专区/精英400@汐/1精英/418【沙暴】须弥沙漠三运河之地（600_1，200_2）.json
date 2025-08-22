@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "418【沙暴】须弥沙漠三运河之地（600_1，200_2）",
     "type": "collect",
@@ -11,7 +11,7 @@
     "authors": [
       {
         "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": ""
       }
     ],
     "enable_monster_loot_split": false,
@@ -20,8 +20,8 @@
   "positions": [
     {
       "id": 1,
-      "x": 5173.603,
-      "y": -498.4917,
+      "x": 5173.60302734375,
+      "y": -498.49169921875,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -29,8 +29,8 @@
     },
     {
       "id": 2,
-      "x": 5162.541,
-      "y": -514.2607,
+      "x": 5162.541015625,
+      "y": -514.2607421875,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
@@ -38,8 +38,8 @@
     },
     {
       "id": 3,
-      "x": 5152.8124,
-      "y": -527.9367,
+      "x": 5152.812393347761,
+      "y": -527.9367269438635,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -47,8 +47,8 @@
     },
     {
       "id": 4,
-      "x": 5146.2484,
-      "y": -541.2508,
+      "x": 5146.248356765498,
+      "y": -541.2507882140999,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -56,8 +56,8 @@
     },
     {
       "id": 5,
-      "x": 5139.5624,
-      "y": -550.8127,
+      "x": 5139.562377547429,
+      "y": -550.8127273694517,
       "action": "",
       "move_mode": "jump",
       "action_params": "",
@@ -65,8 +65,8 @@
     },
     {
       "id": 6,
-      "x": 5099.0703,
-      "y": -598.752,
+      "x": 5099.0703125,
+      "y": -598.751953125,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -74,8 +74,8 @@
     },
     {
       "id": 7,
-      "x": 5099.0703,
-      "y": -598.752,
+      "x": 5099.0703125,
+      "y": -598.751953125,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "wait(1)",
@@ -83,8 +83,8 @@
     },
     {
       "id": 8,
-      "x": 4589.0122,
-      "y": -652.938,
+      "x": 4589.01220703125,
+      "y": -652.93798828125,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -92,8 +92,8 @@
     },
     {
       "id": 9,
-      "x": 4570.2773,
-      "y": -670.4438,
+      "x": 4570.27734375,
+      "y": -670.44384765625,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -101,8 +101,8 @@
     },
     {
       "id": 10,
-      "x": 4550.2236,
-      "y": -719.0088,
+      "x": 4550.2236328125,
+      "y": -719.0087890625,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -110,8 +110,8 @@
     },
     {
       "id": 11,
-      "x": 4540.377,
-      "y": -740.5068,
+      "x": 4540.376953125,
+      "y": -740.5068359375,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "keypress(t),wait(0.2),keypress(t)",
@@ -119,8 +119,8 @@
     },
     {
       "id": 12,
-      "x": 4525.1328,
-      "y": -769.8774,
+      "x": 4525.1328125,
+      "y": -769.87744140625,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "keypress(t),wait(0.2),keypress(t),moveby(0,1000),keydown(w),wait(0.5),keypress(t),wait(0.2),keypress(t),wait(0.5),keyup(w)",
@@ -128,8 +128,8 @@
     },
     {
       "id": 13,
-      "x": 4503.7456,
-      "y": -794.5059,
+      "x": 4503.74560546875,
+      "y": -794.505859375,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(0.5)",
@@ -137,8 +137,8 @@
     },
     {
       "id": 14,
-      "x": 4513.002,
-      "y": -786.5063,
+      "x": 4513.001953125,
+      "y": -786.50634765625,
       "action": "log_output",
       "move_mode": "dash",
       "action_params": "切换[沙暴]状态",
@@ -146,8 +146,8 @@
     },
     {
       "id": 15,
-      "x": 4513.002,
-      "y": -786.5063,
+      "x": 4513.001953125,
+      "y": -786.50634765625,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f)",
@@ -155,8 +155,8 @@
     },
     {
       "id": 16,
-      "x": 5173.603,
-      "y": -498.4917,
+      "x": 5173.60302734375,
+      "y": -498.49169921875,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -164,8 +164,8 @@
     },
     {
       "id": 17,
-      "x": 5162.541,
-      "y": -514.2607,
+      "x": 5162.541015625,
+      "y": -514.2607421875,
       "action": "stop_flying",
       "move_mode": "fly",
       "action_params": "",
@@ -173,8 +173,8 @@
     },
     {
       "id": 18,
-      "x": 5152.8124,
-      "y": -527.9367,
+      "x": 5152.812393347761,
+      "y": -527.9367269438635,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -182,8 +182,8 @@
     },
     {
       "id": 19,
-      "x": 5146.2484,
-      "y": -541.2508,
+      "x": 5146.248356765498,
+      "y": -541.2507882140999,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -191,8 +191,8 @@
     },
     {
       "id": 20,
-      "x": 5139.5624,
-      "y": -550.8127,
+      "x": 5139.562377547429,
+      "y": -550.8127273694517,
       "action": "",
       "move_mode": "jump",
       "action_params": "",
@@ -200,8 +200,8 @@
     },
     {
       "id": 21,
-      "x": 5099.0703,
-      "y": -598.752,
+      "x": 5099.0703125,
+      "y": -598.751953125,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -209,8 +209,8 @@
     },
     {
       "id": 22,
-      "x": 5099.0703,
-      "y": -598.752,
+      "x": 5099.0703125,
+      "y": -598.751953125,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "wait(1)",
