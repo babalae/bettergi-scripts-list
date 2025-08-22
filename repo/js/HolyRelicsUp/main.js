@@ -15,7 +15,8 @@ async function main(log_off = config.log_off) {
     // mTo(1173 + 329, 34 + 145)
     // await ocrHolyRelicsUpFrequency()
     // await openAggrandizement()
-    await bathClickUpLv1(config.insertionMethod)
+    await t()
+    // await bathClickUpLv1(config.insertionMethod)
     return
     let ms = 300
     await setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
@@ -1480,9 +1481,9 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
         mTo(0, 0)
     }
     info(`[放入方式]==>${operate}<==[end]`)
-    if (isExist(ocr1)){
+    if (isExist(ocr1)) {
         ocr1.click()
-    }else {
+    } else {
         throwError(`[放入方式]-${operate} 未打开`)
     }
     info(`[放入方式]-[click]`)
@@ -1754,6 +1755,40 @@ async function oneClickUp(operate, source = 'oneClickUp', log_off = config.log_o
 // // mTo(Math.ceil(genshinJson.width / 2), Math.ceil(genshinJson.height * 2 / 3))
 // await wait(1000)
 // await scrollPage(Math.ceil(genshinJson.height  * 175 / 1080), false, 6)
+async function t() {
+    let base_x = Math.ceil(genshinJson.width * 200 / 1920)
+    let base_y = Math.ceil(genshinJson.height * 250 / 1080)
+    let base_width = Math.ceil(genshinJson.width * 145 / 1920)
+    let base_height = Math.ceil(genshinJson.height * 189 / 1080)
+    let line = 8
+    let page = line * 4
+    for (let i = 0; i < page + line; i++) {
+        let base_count_x = Math.ceil(i % line)
+        let base_count_y = (i % page) < line ? 0 : Math.floor((i % page) / line);
+        let x = base_x + base_count_x * base_width;
+        let y = base_y + base_count_y * base_height;
+        //现在完成
+        let bool = i >= (page) && i % (page) === 0;
+        if (bool) {
+            await info(`滑动一页`)
+            for (let j = 0; j < page / line; j++) {
+                await wait(1)
+                let line = Math.ceil(genshinJson.height * 175 / 1080)
+                mTo(Math.ceil(genshinJson.width / 2), Math.ceil(genshinJson.height * 2 / 3))
+                await scrollPage(line, false, 6)
+            }
+            await wait(1)
+        }
+
+        warn(`i:${i},base_count_x:${base_count_x},base_count_y:${base_count_y},x:${x},y:${y}`)
+        await wait(1000)
+        warn(`x:${x},y:${y}`)
+        await mTo(x, y)
+        await downClick(x, y)
+
+    }
+}
+
 async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = config.log_off) {
     let ms = 10
     // let index = 0
@@ -1787,7 +1822,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
     let line = 8
     let page = line * 4
 
-    while (upMaxCount > actualCount) {
+    for (let i = 0; upMaxCount > actualCount; i++) {
         if (upMaxCount === actualCount) {
             info(`{强化次数已达到:${upMaxCount}}`)
             break
@@ -1797,11 +1832,11 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         let base_count_y = (i % page) < line ? 0 : Math.floor((i % page) / line);
         let x = base_x + base_count_x * base_width;
         let y = base_y + base_count_y * base_height;
-        warn(`i:${i},base_count_x:${base_count_x},base_count_y:${base_count_y}`)
+        warn(`i:${i},base_count_x:${base_count_x},base_count_y:${base_count_y},x:${x},y:${y}`)
         lastJson.t_y = y
         lastJson.t_x = x
         info(`圣遗物${config.sortMain}强化操作`)
-        if (config.sortMain === '降序') {
+        if (config.sortMain.includes('降序')) {
             if (config.upMax >= 20) {
                 // warn(`降序排序功能暂未实现自动强化`)
                 throwError(`降序排序功能暂未实现+20的自动强化`)
@@ -1812,28 +1847,28 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
                 await clickProgressBarTopByHolyRelics()
                 await wait(ms);
             } else {
-
+                let bool = i >= (page) && i % (page) === 0;
+                if (bool) {
+                    await info(`滑动一页`)
+                    for (let j = 0; j < page / line; j++) {
+                        await wait(1)
+                        let line = Math.ceil(genshinJson.height * 175 / 1080)
+                        mTo(Math.ceil(genshinJson.width / 2), Math.ceil(genshinJson.height * 2 / 3))
+                        await scrollPage(line, false, 6)
+                    }
+                    await wait(1)
+                }
             }
             //每行8个
             // throwError(`降序排序功能暂未实现自动强化`)
-
             if (i % 8 === 0) {
                 await wait(300)
-            }
-            let bool = i >= (page) && i % (page) === 0;
-            if (bool) {
-                await info(`滑动一页`)
-                for (let j = 0; j < page / line; j++) {
-                    await wait(1)
-                    let line = Math.ceil(genshinJson.height * 175 / 1080)
-                    mTo(Math.ceil(genshinJson.width / 2), Math.ceil(genshinJson.height * 2 / 3))
-                    await scrollPage(line, false, 6)
-                }
-                await wait(1)
             }
             warn(`x:${x},y:${y}`)
             await mTo(x, y)
             await downClick(x, y)
+            await wait(1000)
+            warn(`点击确认x:${x},y:${y}`)
             // await wait(10)
             await confirm('降序强化点击确认')
             await wait(ms)
@@ -1863,24 +1898,28 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             let up_name = '返回键'
             await ocrClick(`${path_base_main}${up_name}.jpg`, `圣遗物已经强化到+${config.upMax}退出强化页面 到圣遗物背包界面`, source, log_off)
             //返回圣遗物背包
+            if (!re.start) {
+                continue
+            }
         } else {
             // 如果强化失败，则退出循环
             await info(`强化失败:${re.errorMsg}`)
             break
         }
 
+
         lastJson.y = lastJson.t_y
         lastJson.x = lastJson.t_x
         if (re.ok) {
             lastJson.lastLevel = lastJson.t_level
         }
+
         if (upMaxCount !== null && i === upMaxCount - 1) {
             info(`${upMaxCount}个圣遗物已经强化到+${config.upMax}终止运行`)
             await toMainUi()
             await wait(ms)
             break
         }
-        i++
         warn(`当前强化次数:${actualCount} 总强化次数:${upMaxCount}`)
     }
     warn(`圣遗物强化+${config.upMax} 数量：${actualCount}`)
