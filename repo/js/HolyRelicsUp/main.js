@@ -156,10 +156,11 @@ function sortAll() {
     }
     return baseSortArray
 }
+
 const must = true
 const config = {
     suit: settings.suit,
-    log_off: !settings.log_off,
+    log_off: settings.log_off,
     countMaxByHoly: Math.floor(settings.countMaxByHoly),//筛选圣遗物界面最大翻页次数
     enableBatchUp: settings.enableBatchUp,//启用批量强化
     toBag: settings.toBag,//启用自动进入背包
@@ -227,10 +228,10 @@ function attributeReplacement(value) {
     if (value.includes('%')) {
         value = value.replace('%', '')
         let s = attributeMap.get(value);
-        value = (s === null ? value : s) + attributeMap.get('%')
+        value = (s === null || !s ? value : s) + attributeMap.get('%')
     } else {
         let s = attributeMap.get(value);
-        value = (s === null ? value : s)
+        value = (s === null || !s ? value : s)
     }
     return value
 }
@@ -857,16 +858,17 @@ async function resetAttributeSort(log_off = config.log_off) {
  */
 async function attributeSort(keyword = config.sortAttribute, source = 'attributeSort', log_off = config.log_off) {
     if (!keyword) {
-        await info('无属性排序规则')
+        await info('无属性排序规则', must)
         return
     }
     let split = keyword.trim().split('|');
     if (split.length === 0) {
-        await info('无属性排序规则')
+        await info('无属性排序规则', must)
         return
     }
     let specialKey = ''
     let attributeKeys = new Array();
+    warn(split.join(','), must)
     for (let i = 0; i < split.length; i++) {
         if (i >= 3) {
             break
@@ -878,7 +880,7 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
             attributeKeys.push(value)
         }
     }
-    // info(attributeKeys.toString())
+    info('筛选:' + attributeKeys.join(','), must)
     let attributeKeysOk = new Array();
     let x = Math.floor(genshinJson.height * 200 / 1920)
     let y = Math.floor(300 * genshinJson.height / 1080)
@@ -922,7 +924,7 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
                 await downClick(one.x, one.y)
                 attributeKeysOk.push(one.text)
                 await wait(10)
-                await info(`选中 {index: ${one.index}, text: ${one.text}, x: ${one.x}, y: ${one.y}}`)
+                await info(`[Sort] 选中 {index: ${one.index}, text: ${one.text}, x: ${one.x}, y: ${one.y}}`)
             }
         }
 
@@ -956,11 +958,12 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
             for (let one of sort) {
                 await info(`[已到顶]{index: ${one.index}, text: ${one.text}, x: ${one.x}, y: ${one.y}}`)
                 if (attributeKeysOk.indexOf(one.text) < 0) {
-                    await info(`选中 ${one.toString()}`)
+                    await info(`选中 ${one.index}`)
                     await wait(1)
                     await downClick(one.x, one.y)
                     attributeKeysOk.push(one.text)
                     await wait(10)
+                    await info(`[已到顶] 选中 {index: ${one.index}, text: ${one.text}, x: ${one.x}, y: ${one.y}}`)
                 }
             }
 
@@ -1024,7 +1027,7 @@ async function openSortAll(log_off = config.log_off) {
         await openLvSort()
         await wait(1)
         // todo: 可扩展
-        await info(`排序中`)
+        await info(`排序中...`, must)
         if (config.sortArray.length > 0) {
             let width = Math.floor(genshinJson.width * 450 / 1920);
             let captureRegion = openCaptureGameRegion();
@@ -1050,11 +1053,11 @@ async function openSortAll(log_off = config.log_off) {
             }
             await wait(1)
         }
-        await info(`排序中`)
-        //todo:属性排序
+        await info(`[重置排序]操作中耗时长请稍后...`, must)
         await resetAttributeSort(log_off)
         await wait(1)
         await clickProgressBarDownBySort()
+        await info(`[筛选排序]开始属性排序`, must)
         await attributeSort(config.sortAttribute, log_off)
         await wait(1)
         //确认
@@ -1628,7 +1631,7 @@ async function t() {
     let base_height = Math.floor(genshinJson.height * 189 / 1080)
     let line = 8
     let page = line * 4
-    info(`圣遗物${config.sortMain}强化操作`,must)
+    info(`圣遗物${config.sortMain}强化操作`, must)
     for (let i = 0; i < page + line; i++) {
         let base_count_x = Math.floor(i % line)
         let base_count_y = (i % page) < line ? 0 : Math.floor((i % page) / line);
@@ -1650,7 +1653,7 @@ async function t() {
             }
             let bool = i >= (page) && i % (page) === 0;
             if (bool) {
-                await info(`滑动一页`,must)
+                await info(`滑动一页`, must)
                 for (let j = 0; j < page / line; j++) {
                     await wait(1)
                     let line = Math.floor(genshinJson.height * 175 / 1080)
@@ -1665,12 +1668,12 @@ async function t() {
             // if (i % 8 === 0) {
             //     await wait(300)
             // }
-            warn(`x:${x},y:${y}`,must)
+            warn(`x:${x},y:${y}`, config.log_off)
             await mTo(x, y)
             await wait(300)
             await downClick(x, y)
             await wait(ms)
-            warn(`点击确认x:${x},y:${y}`,must)
+            warn(`点击确认x:${x},y:${y}`, config.log_off)
             // await wait(10)
             await confirm('降序强化点击确认')
 
@@ -1726,7 +1729,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
     let line = 8
     let page = line * 4
 
-    info(`圣遗物${config.sortMain}强化操作`,must)
+    info(`圣遗物${config.sortMain}强化操作`, must)
 
     for (let i = 0; upMaxCount > actualCount; i++) {
         if (upMaxCount === actualCount) {
@@ -1749,7 +1752,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             }
             let bool = i >= (page) && i % (page) === 0;
             if (bool) {
-                await info(`滑动一页`,must)
+                await info(`滑动一页`, must)
                 for (let j = 0; j < page / line; j++) {
                     await wait(1)
                     let line = Math.floor(genshinJson.height * 175 / 1080)
@@ -1767,16 +1770,16 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             warn(`点击确认x:${x},y:${y}`)
             // await wait(10)
             await confirm('降序强化点击确认')
-            await wait(ms)
-            //打开强化界面
-            await openAggrandizement()
+            // await wait(ms)
+            // //打开强化界面
+            // await openAggrandizement()
         } else {
             //强制拉到顶
             await clickProgressBarTopByHolyRelics()
             await wait(ms);
             // 调用点击第一个圣物遗物的函数，并等待其完成
             await downClickFirstHolyRelics()
-            await wait(ms);
+            // await wait(ms);
         }
         await wait(ms)
         await openAggrandizement()
@@ -1818,8 +1821,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         }
         warn(`当前强化次数:${actualCount} 总强化次数:${upMaxCount}`)
     }
-    warn(`圣遗物强化+${config.upMax} 数量：${actualCount}`)
-    info(`圣遗物强化+${config.upMax} 数量：${actualCount}`)
+    info(`圣遗物强化+${config.upMax} 数量：${actualCount}`, must)
 
 }
 
