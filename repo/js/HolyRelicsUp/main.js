@@ -35,8 +35,8 @@ async function main(log_off = config.log_off) {
 }
 
 //========================以下为原有封装==============================
-function info(msg) {
-    if (config.log_off) {
+function info(msg, must = false) {
+    if (config.log_off || must) {
         log.info(msg)
     }
 }
