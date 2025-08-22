@@ -1449,9 +1449,7 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
     //自动识别界面元素
     let ocr1 = await ocr(`${path_base_main}${ocr_name}.jpg`)
     // 如果默认元素不存在，则切换为"快捷放入"
-    info(`isExist start`)
     let exist = isExist(ocr1);
-    info(`isExist end`)
     if (!exist) {
         ocr_name = '快捷放入'
     }
@@ -1482,7 +1480,11 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
         mTo(0, 0)
     }
     info(`[放入方式]==>${operate}<==[end]`)
-    ocr1.click()
+    if (isExist(ocr1)){
+        ocr1.click()
+    }else {
+        throwError(`[放入方式]-${operate} 未打开`)
+    }
     info(`[放入方式]-[click]`)
     return operate
 }
