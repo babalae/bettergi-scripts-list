@@ -215,7 +215,7 @@ const attributeList = [
     , '火元素伤害加成'
     , '治疗加成'
     // , '元素精通'
-    , '元素充能效率'
+    // , '元素充能效率'
 ]
 
 /**
@@ -826,6 +826,20 @@ async function scrollPageByAttributeSortInit() {
     await info('拖动到看不见辅助排序规则(影响OCR)')
 }
 
+/**
+ * 根据属性排序点击后的页面滚动函数
+ * 该函数使用异步方式执行页面滚动操作
+ * @returns {Promise<void>} 返回一个Promise，表示滚动操作的完成
+ */
+async function scrollPageByAttributeSortClick() {
+    // 调用scrollPage函数执行页面滚动
+    // 参数说明：
+    // 1. Math.floor(genshinJson.height * 2 / 3) - 计算滚动的高度，为页面高度的2/3并向下取整
+    // 2. true - 表示是否使用平滑滚动
+    // 3. 6 - 可能是滚动的延迟时间或步长参数
+    await scrollPage(Math.floor(genshinJson.height * 2 / 3), true, 6)
+}
+
 //重置属性排序
 /**
  * 重置属性排序的异步函数<1.0.1已修>
@@ -850,7 +864,7 @@ async function resetAttributeSort(log_off = config.log_off) {
     for (let index = 1; index <= 5; index++) {
         await unchecked(log_off)
         await mTo(x, y)
-        await scrollPage(Math.floor(genshinJson.height * 2 / 3), true, 6)
+        await scrollPageByAttributeSortClick()
 
         let templateMatch = await templateMatchBase(`${path_base_main}${template_name}.jpg`, 0, 0, width, genshinJson.height)
         if (isExist(templateMatch)) {
@@ -943,7 +957,7 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
         }
 
         await mTo(x, y)
-        await scrollPage(Math.floor(genshinJson.height * 2 / 3), true, 6)
+        await scrollPageByAttributeSortClick()
         await wait(1)
 
         let templateMatch = templateMatchBase(`${path_base_main}${template_name}.jpg`, 0, 0, width, genshinJson.height)
