@@ -1536,7 +1536,7 @@ async function upOperate(operate, source = 'upOperate', log_off) {
 
     }
 
-    await confirm(`[oneUp]点击确认`)  // 确认操作
+    await confirm(`[upOperate]点击确认`)  // 确认操作
     await mTo(0, 0)
     await wait(30)
     // 定义错误信息为"摩拉不足"
