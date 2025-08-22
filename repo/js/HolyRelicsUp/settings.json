@@ -2,13 +2,13 @@
    {
      "name": "enableBatchUp",
      "type": "checkbox",
-     "label": "启用进入背包批量强化",
+     "label": "启用批量强化",
      "default": false
    },
    {
-     "name": "enableOneUp",
+     "name": "toBag",
      "type": "checkbox",
-     "label": "启用单次强化(暂时无用)",
+     "label": "启用自动进入背包",
      "default": false
    },
    {
@@ -42,6 +42,12 @@
        "default": "默认"
    },
    {
+       "name": "upMaxCount",
+       "type": "input-text",
+       "label": "最大圣遗物强化个数",
+       "default": ""
+   },
+   {
        "name": "upMax",
        "type": "select",
        "label": "最大强化等级(默认4)",
@@ -53,11 +59,12 @@
        ],
        "default": "4"
    },
+
    {
-       "name": "upMaxCount",
-       "type": "input-text",
-       "label": "最大圣遗物强化个数",
-       "default": ""
+     "name": "toSort",
+     "type": "checkbox",
+     "label": "启用自动排序",
+     "default": true
    },
    {
        "name": "sortAttribute",
@@ -84,6 +91,12 @@
          "品质顺序",
        ],
        "default": "等级顺序"
+   },
+   {
+     "name": "toSift",
+     "type": "checkbox",
+     "label": "启用筛选圣遗物开关",
+     "default": true
    },
    {
       "name": "suit",
@@ -152,7 +165,7 @@
    {
      "name": "log_off",
      "type": "checkbox",
-     "label": "日志开关",
+     "label": "日志开关(用于开发者调试)",
      "default": false
    }
 ]

@@ -16,23 +16,25 @@ async function main(log_off = config.log_off) {
     // await ocrHolyRelicsUpFrequency()
     // await openAggrandizement()
     // await t()
-    await bathClickUpLv1(config.insertionMethod)
-    return
     let ms = 300
     await setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
     if (config.enableBatchUp) { // 检查是否启用
-        await wait(ms);
-        await toMainUi()
-        await wait(ms);
-        //打开背包
-        await openKnapsack();
-        await openHolyRelicsKnapsack();
-        await wait(ms);
-        //排序
-        await openPrerequisitesAll(log_off);
-        await wait(ms);
+        if (config.toBag) {
+            await wait(ms);
+            await toMainUi()
+            await wait(ms);
+            //打开背包
+            await openKnapsack();
+            await openHolyRelicsKnapsack();
+        }
 
-        await bathClickUp(config.insertionMethod)
+        if (config.toSort || config.toSift) {
+            await wait(ms);
+            //排序
+            await openPrerequisitesAll(log_off);
+        }
+        await wait(ms);
+        await bathClickUpLv1(config.insertionMethod)
     } else {
         throwError(`未启用批量强化请去浏览文档后开启！`)
     }
@@ -162,19 +164,22 @@ const config = {
     suit: settings.suit,
     log_off: !settings.log_off,
     countMaxByHoly: Math.ceil(settings.countMaxByHoly),//筛选圣遗物界面最大翻页次数
-    enableBatchUp: settings.enableBatchUp,//是否开启批量升级
-    enableOneUp: settings.enableOneUp,//是否开启单次升级
+    enableBatchUp: settings.enableBatchUp,//启用批量强化
+    toBag: settings.toBag,//启用自动进入背包
     enableInsertionMethod: settings.enableInsertionMethod,//是否开启插入方式
     insertionMethod: settings.insertionMethod,//插入方式
     material: settings.material,//材料
     upMax: parseInt(settings.upMax + ''),//升级次数
     upMaxCount: settings.upMaxCount + '',//设置升级圣遗物个数
     knapsackKey: settings.knapsackKey,//背包快捷键
+    toSort: settings.toSort,
     sortAuxiliary: settings.sortAuxiliary,//辅助排序
     sortMain: settings.sortMain,//主排序
     sortAttribute: settings.sortAttribute,//属性条件
-    siftArray: (siftAll()),//筛选条件
-    sortArray: (sortAll())
+    sortArray: (sortAll()),
+    toSift: settings.toSift,
+    siftArray: (siftAll())//筛选条件
+
 }
 const genshinJson = {
     width: genshin.width,
@@ -1208,23 +1213,27 @@ async function openSortAll(log_off = config.log_off) {
  */
 async function openPrerequisitesAll(log_off = config.log_off) {
     let re = true;
-
-    await wait(300)
-    // 首先执行 openSiftAll 函数，传入 log_off 参数
-    let siftOk = await openSiftAll(log_off);
-    if (!siftOk) {
-        throw new Error(`筛选失败`)
-        re = false;
+    let ms = 300
+    await wait(ms)
+    if (config.toSift) {
+        // 首先执行 openSiftAll 函数，传入 log_off 参数
+        let siftOk = await openSiftAll(log_off);
+        if (!siftOk) {
+            throw new Error(`筛选失败`)
+            re = false;
+        }
+        // 然后执行 openSortAll 函数，同样传入 log_off 参数
+        await wait(ms)
     }
-    // 然后执行 openSortAll 函数，同样传入 log_off 参数
-    await wait(1)
-    // 使用 await 确保两个函数按顺序执行
-    let sortOk = await openSortAll(log_off);
-    if (!sortOk) {
-        throw new Error(`排序失败`)
-        re = false;
+    if (config.toSort) {
+        // 使用 await 确保两个函数按顺序执行
+        let sortOk = await openSortAll(log_off);
+        if (!sortOk) {
+            throw new Error(`排序失败`)
+            re = false;
+        }
     }
-    await wait(300)
+    await wait(ms)
     return re
 }
 
@@ -1278,9 +1287,9 @@ async function clickProgressBarTopByHolyRelics() {
         let y = Math.ceil(genshinJson.height * 177 / 1080)
         // 移动鼠标到计算的位置
         await clickProgressBar(x, y)*/
-
+    let ms = 300
     // await openSiftAll()
-    await wait(300)
+    await wait(ms)
     // await confirm('强制拉到顶')
 
 
@@ -1297,7 +1306,7 @@ async function clickProgressBarTopByHolyRelics() {
     // logInfoOcr(ocr)
     if (isExist(sift)) {
         sift.click()
-        await wait(300)
+        await wait(ms)
         await confirm('强制拉到顶')
     } else {
         throwError(`OCR识别失败未找到确认按钮`)
@@ -1348,7 +1357,7 @@ async function clickProgressBarDownBySort() {
  * <前置条件:处于圣遗物背包界面|测试通过:v>
  */
 async function downClickFirstHolyRelics() {
-    let ms =300
+    let ms = 300
     let x = Math.ceil(genshinJson.width * 200 / 1920)
     let y = Math.ceil(genshinJson.height * 250 / 1080)
     // await mTo(200,300)
@@ -1393,6 +1402,7 @@ const isInMainUI = () => {
  * <前置条件:处于圣遗物详情界面|测试通过:v>
  */
 async function openAggrandizement() {
+    let ms=300
     // 注释掉的代码：使用模板匹配方法查找强化按钮
     // const aggrandizementRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("${path_base_main}强化.jpg"), 0, 0, genshinJson.width / 3.0, genshinJson.height);
     // // 捕获游戏区域并查找强化按钮
@@ -1410,7 +1420,7 @@ async function openAggrandizement() {
     await logInfoOcr(aggrandizement, 'openAggrandizement')
     // 检查强化按钮是否存在
     if (isExist(aggrandizement)) {
-        await wait(10);
+        await wait(ms);
         // 输出日志信息，表示正在打开强化界面
         await info('打开强化');
         // 点击强化按钮
@@ -1436,7 +1446,7 @@ async function confirm(log_msg = '点击确认', source = 'confirm') {
 async function clear(source = 'clear') {
     // 通过OCR识别并点击"详情"按钮
     await ocrClick(`${path_base_main}详情.jpg`, "点击详情", source, config.log_off)
-    await wait(1)
+    await wait(300)
     // 通过OCR识别并点击"强化"按钮
     await ocrClick(`${path_base_main}强化.jpg`, "点击强化", source, config.log_off)
 }
