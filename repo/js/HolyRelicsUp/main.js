@@ -154,7 +154,7 @@ function sortAll() {
 const config = {
     suit: settings.suit,
     log_off: !settings.log_off,
-    countMaxByHoly: Math.ceil(settings.countMaxByHoly),//筛选圣遗物界面最大翻页次数
+    countMaxByHoly: Math.floor(settings.countMaxByHoly),//筛选圣遗物界面最大翻页次数
     enableBatchUp: settings.enableBatchUp,//启用批量强化
     toBag: settings.toBag,//启用自动进入背包
     enableInsertionMethod: settings.enableInsertionMethod,//是否开启插入方式
@@ -269,7 +269,7 @@ async function scrollPage(totalDistance, isUp = false, waitCount = 3, stepDistan
     downLeftButton();  // 按下左键
     await wait(50);  // 再次等待50ms
     // 计算总步数
-    let steps = Math.ceil(totalDistance / stepDistance);
+    let steps = Math.floor(totalDistance / stepDistance);
     // 开始循环滚动
     for (let j = 0; j < steps; j++) {
         // 计算剩余距离
@@ -630,10 +630,10 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
                 break
             }
             await wait(1)
-            await mTo(genshinJson.width / 2, Math.ceil(genshinJson.height * 3 / 4))
+            await mTo(genshinJson.width / 2, Math.floor(genshinJson.height * 3 / 4))
             await wait(2)
-            // await dragBase(0, -Math.ceil( genshinJson.height *40 / 1080 ), Math.ceil( genshinJson.height *10  / 1080 ), config.log_off)
-            await scrollPage(Math.ceil(genshinJson.height / 3))
+            // await dragBase(0, -Math.floor( genshinJson.height *40 / 1080 ), Math.floor( genshinJson.height *10  / 1080 ), config.log_off)
+            await scrollPage(Math.floor(genshinJson.height / 3))
             await wait(1)
 
             if (last.name_one != null && last.name_one === last.name_two) {
@@ -672,7 +672,7 @@ async function openSiftAll(log_off) {
         await wait(1)
         // await siftState(log_off)
         // await wait(1)
-        let width = Math.ceil(450 * genshinJson.width / 1080);
+        let width = Math.floor(450 * genshinJson.width / 1080);
         let captureRegion = openCaptureGameRegion();
         const templateMatchObject = recognitionObjectOcr(0, 0, width, genshinJson.height);
         // await mTo(width, 0)
@@ -713,9 +713,9 @@ async function openSiftAll(log_off) {
 async function openSort(log_off = config.log_off) {
     let up_name = '排序'
     // 计算按钮宽度为屏幕宽度的三分之一
-    let width = Math.ceil(genshinJson.width / 3.0);
+    let width = Math.floor(genshinJson.width / 3.0);
     // 获取屏幕高度
-    let height = Math.ceil(genshinJson.height);
+    let height = Math.floor(genshinJson.height);
     // 使用OCR识别指定区域的图像
     let templateMatch = await templateMatchBase(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
     // 检查OCR识别结果是否存在（即升序按钮是否可见）
@@ -735,9 +735,9 @@ async function openUpSort() {
     // 定义未选中状态下的升序按钮名称
     let up_name = '未选中升序1'
     // 计算按钮宽度为屏幕宽度的三分之一
-    let width = Math.ceil(genshinJson.width / 3.0);
+    let width = Math.floor(genshinJson.width / 3.0);
     // 获取屏幕高度
-    let height = Math.ceil(genshinJson.height);
+    let height = Math.floor(genshinJson.height);
     let templateMatch = await templateMatchBase(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
     await wait(1000)
     // 检查OCR识别结果是否存在（即升序按钮是否可见）
@@ -765,9 +765,9 @@ async function openLvSort() {
     // 定义未选中状态下的升序按钮名称
     let up_name = '等级顺序排序'
     // 计算按钮宽度为屏幕宽度的三分之一
-    let width = Math.ceil(genshinJson.width / 3.0);
+    let width = Math.floor(genshinJson.width / 3.0);
     // 获取屏幕高度
-    let height = Math.ceil(genshinJson.height);
+    let height = Math.floor(genshinJson.height);
     // 使用OCR识别指定区域的图像
     let templateMatch = await templateMatchBase(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
     await wait(1000)
@@ -815,20 +815,20 @@ async function unchecked(log_off) {
  */
 async function resetAttributeSort(log_off = config.log_off) {
 
-    let x = Math.ceil(genshinJson.width * 200 / 1920)
-    let y = Math.ceil(genshinJson.height * 300 / 1080)
-    let h = Math.ceil(genshinJson.height * 10 / 1080)
-    let width = Math.ceil(genshinJson.width * 450 / 1920);
+    let x = Math.floor(genshinJson.width * 200 / 1920)
+    let y = Math.floor(genshinJson.height * 300 / 1080)
+    let h = Math.floor(genshinJson.height * 10 / 1080)
+    let width = Math.floor(genshinJson.width * 450 / 1920);
     //拖动到看不见辅助排序规则(影响OCR)
     await mTo(x, y)
-    await scrollPage(Math.ceil(genshinJson.height * 1 / 5 + genshinJson.height * 1 / 6), true, 6)
+    await scrollPage(Math.floor(genshinJson.height * 1 / 5 + genshinJson.height * 1 / 6), true, 6)
     await info('[重置操作]拖动到看不见辅助排序规则(影响OCR)')
     await wait(100)
     let template_name = '属性排序规则'
     for (let index = 1; index <= 5; index++) {
         await unchecked(log_off)
         await mTo(x, y)
-        await scrollPage(Math.ceil(genshinJson.height * 2 / 3), true, 6)
+        await scrollPage(Math.floor(genshinJson.height * 2 / 3), true, 6)
 
         let templateMatch = await templateMatchBase(`${path_base_main}${template_name}.jpg`, 0, 0, width, genshinJson.height)
         if (isExist(templateMatch)) {
@@ -874,21 +874,21 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
     }
     // info(attributeKeys.toString())
     let attributeKeysOk = new Array();
-    let x = Math.ceil(genshinJson.height * 200 / 1920)
-    let y = Math.ceil(300 * genshinJson.height / 1080)
-    let h = Math.ceil(genshinJson.height * 10 / 1080)
+    let x = Math.floor(genshinJson.height * 200 / 1920)
+    let y = Math.floor(300 * genshinJson.height / 1080)
+    let h = Math.floor(genshinJson.height * 10 / 1080)
     await mTo(x, y)
     await wait(1)
-    // await dragBase(0, Math.ceil(26 * genshinJson.height / 1080 ), h, log_off)
-    await scrollPage(Math.ceil(genshinJson.height * 1 / 5 + genshinJson.height * 1 / 6), true, 6)
+    // await dragBase(0, Math.floor(26 * genshinJson.height / 1080 ), h, log_off)
+    await scrollPage(Math.floor(genshinJson.height * 1 / 5 + genshinJson.height * 1 / 6), true, 6)
     await info('拖动到看不见辅助排序规则(影响OCR)')
     // await wait(100)
     let template_name = '属性排序规则'
 
     let sort = new Array()
-    let templateMatch_y = Math.ceil(60 * genshinJson.height / 1080)
+    let templateMatch_y = Math.floor(60 * genshinJson.height / 1080)
     for (let index = 1; index <= 10; index++) {
-        let width = Math.ceil(450 * genshinJson.width / 1920);
+        let width = Math.floor(450 * genshinJson.width / 1920);
         let captureRegion = openCaptureGameRegion();
 
         let templateMatchObject = recognitionObjectOcr(0, templateMatch_y, width, genshinJson.height - templateMatch_y);
@@ -921,7 +921,7 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
         }
 
         await mTo(x, y)
-        await scrollPage(Math.ceil(genshinJson.height * 2 / 3), true, 6)
+        await scrollPage(Math.floor(genshinJson.height * 2 / 3), true, 6)
         await wait(1)
 
         let templateMatch = templateMatchBase(`${path_base_main}${template_name}.jpg`, 0, 0, width, genshinJson.height)
@@ -964,7 +964,7 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
                 await clickProgressBarDownBySort()
                 await wait(1)
                 await mTo(x, y)
-                await scrollPage(Math.ceil(genshinJson.height * 1 / 5 + genshinJson.height * 1 / 6), true, 6)
+                await scrollPage(Math.floor(genshinJson.height * 1 / 5 + genshinJson.height * 1 / 6), true, 6)
 
                 let captureRegion = openCaptureGameRegion();
                 let templateMatchObject = recognitionObjectOcr(0, 0, width, genshinJson.height);
@@ -1020,9 +1020,9 @@ async function openSortAll(log_off = config.log_off) {
         // todo: 可扩展
         await info(`排序中`)
         if (config.sortArray.length > 0) {
-            let width = Math.ceil(genshinJson.width * 450 / 1920);
+            let width = Math.floor(genshinJson.width * 450 / 1920);
             let captureRegion = openCaptureGameRegion();
-            let y = Math.ceil(genshinJson.height / 2);
+            let y = Math.floor(genshinJson.height / 2);
             const templateMatchObject = recognitionObjectOcr(0, y, width, y);
             // await mTo(width, 0)
             // templateMatchObject.threshold = 1.0;
@@ -1119,11 +1119,11 @@ async function clickProgressBarTopByHolyRelics() {
     // let up_name = '进度条顶部箭头'
     // // 计算屏幕宽度的一半
     // // 1300,170
-    // let width = Math.ceil(genshinJson.width / 2 );
+    // let width = Math.floor(genshinJson.width / 2 );
     // // 获取屏幕总高度
-    // let height = Math.ceil(genshinJson.height );
+    // let height = Math.floor(genshinJson.height );
     // // 设置起始点的x坐标为屏幕宽度的一半
-    // var x1 = Math.ceil(genshinJson.width / 2 );
+    // var x1 = Math.floor(genshinJson.width / 2 );
     // // 设置起始点的y坐标为0（顶部）
     // var y1 = 0;
     // // 构建进度条顶部箭头图片的完整路径
@@ -1134,16 +1134,16 @@ async function clickProgressBarTopByHolyRelics() {
     // // 记录OCR识别结果
     // await logInfoTemplate(templateMatch)
     // // 计算点击位置的x坐标（OCR识别区域的中心点）
-    // let x = templateMatch.x + Math.ceil(templateMatch.width / 2 );
+    // let x = templateMatch.x + Math.floor(templateMatch.width / 2 );
     // // 计算点击位置的y坐标（OCR识别区域的底部）
-    // let y = templateMatch.y + Math.ceil(templateMatch.height );
+    // let y = templateMatch.y + Math.floor(templateMatch.height );
     // // 输出点击坐标信息
     // await info(`x:${x},y:${y}`)
 
 
     /*    await wait(10)
-        let x = Math.ceil(genshinJson.width * 1289 / 1920)
-        let y = Math.ceil(genshinJson.height * 177 / 1080)
+        let x = Math.floor(genshinJson.width * 1289 / 1920)
+        let y = Math.floor(genshinJson.height * 177 / 1080)
         // 移动鼠标到计算的位置
         await clickProgressBar(x, y)*/
     let ms = 300
@@ -1161,7 +1161,7 @@ async function clickProgressBarTopByHolyRelics() {
     }
     // 查找筛选按钮元素
     let sift = templateMatchBase(`${path_base_main}${templateMatchJson.text}.jpg`, templateMatchJson.x, templateMatchJson.y, templateMatchJson.width, templateMatchJson.height)
-    // let templateMatch = await templateMatch(`${path_base_main}确认.jpg`, 0, 0, Math.ceil(genshinJson.width / 2), Math.ceil(genshinJson.height / 2))
+    // let templateMatch = await templateMatch(`${path_base_main}确认.jpg`, 0, 0, Math.floor(genshinJson.width / 2), Math.floor(genshinJson.height / 2))
     // logInfoTemplate(templateMatch)
     if (isExist(sift)) {
         sift.click()
@@ -1182,9 +1182,9 @@ async function clickProgressBarDownBySort() {
     // // 定义进度条顶部箭头的名称
     // let up_name = '排序进度条底部箭头'
     // // 计算屏幕宽度的一半
-    // let width = Math.ceil(genshinJson.width / 2);
+    // let width = Math.floor(genshinJson.width / 2);
     // // 获取屏幕总高度
-    // let height = Math.ceil(genshinJson.height);
+    // let height = Math.floor(genshinJson.height);
     // // 设置起始点的x坐标为屏幕宽度的一半
     // let x1 = 0;
     // // 设置起始点的y坐标为0（顶部）
@@ -1198,14 +1198,14 @@ async function clickProgressBarDownBySort() {
     // await mTo(templateMatch.x, templateMatch.y)
     //
     // // 计算点击位置的x坐标（OCR识别区域的中心点）
-    // let x = templateMatch.x + Math.ceil(templateMatch.width / 2);
+    // let x = templateMatch.x + Math.floor(templateMatch.width / 2);
     // // 计算点击位置的y坐标（OCR识别区域的底部）
-    // let y = templateMatch.y - Math.ceil(templateMatch.height);
+    // let y = templateMatch.y - Math.floor(templateMatch.height);
     // // 输出点击坐标信息
     // await info(`x:${x},y:${y}`)
     // await mTo(x, y)
-    let x = Math.ceil(genshinJson.width * 607 / 1920)
-    let y = Math.ceil(genshinJson.height * 938 / 1080)
+    let x = Math.floor(genshinJson.width * 607 / 1920)
+    let y = Math.floor(genshinJson.height * 938 / 1080)
     // 移动鼠标到计算的位置
     await clickProgressBar(x, y)
 }
@@ -1217,8 +1217,8 @@ async function clickProgressBarDownBySort() {
  */
 async function downClickFirstHolyRelics() {
     let ms = 300
-    let x = Math.ceil(genshinJson.width * 200 / 1920)
-    let y = Math.ceil(genshinJson.height * 250 / 1080)
+    let x = Math.floor(genshinJson.width * 200 / 1920)
+    let y = Math.floor(genshinJson.height * 250 / 1080)
     // await mTo(200,300)
     await wait(ms)
     await downClick(x, y)
@@ -1371,10 +1371,10 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
 async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequency', log_off) {
 
     // // 定义OCR识别的初始坐标和区域大小
-    // let templateMatch_x = Math.ceil(genshinJson.width / 2); // OCR识别区域的x坐标，设置为屏幕宽度的一半
+    // let templateMatch_x = Math.floor(genshinJson.width / 2); // OCR识别区域的x坐标，设置为屏幕宽度的一半
     // let templateMatch_y = 0; // OCR识别区域的y坐标，设置为0（屏幕顶部）
-    // let width = Math.ceil(genshinJson.width / 2); // OCR识别区域的宽度，设置为屏幕宽度的一半
-    // let height = Math.ceil(genshinJson.height); // OCR识别区域的高度，设置为整个屏幕高度
+    // let width = Math.floor(genshinJson.width / 2); // OCR识别区域的宽度，设置为屏幕宽度的一半
+    // let height = Math.floor(genshinJson.height); // OCR识别区域的高度，设置为整个屏幕高度
     //
     // // 定义并执行第一次OCR识别，用于识别经验值图标
     // let up_name = 'exp' // 识别对象名称为经验值图标
@@ -1394,13 +1394,13 @@ async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequenc
     // // 计算OCR识别的目标区域
     // let x = Math.min(templateMatch1.x, templateMatch.x) // 目标区域的左上角x坐标
     // let y = Math.min(templateMatch1.y, templateMatch.y) // 目标区域的左上角y坐标
-    // let w = Math.ceil(Math.abs(templateMatch1.x - templateMatch.x) / 2) // 目标区域的宽度
+    // let w = Math.floor(Math.abs(templateMatch1.x - templateMatch.x) / 2) // 目标区域的宽度
     // let h = Math.abs(templateMatch1.y - templateMatch.y) // 目标区域的高度
 
-    let x = Math.ceil(genshinJson.width * 1173 / 1920)// 目标区域的左上角x坐标
-    let y = Math.ceil(genshinJson.height * 34 / 1080)// 目标区域的左上角y坐标
-    let w = Math.ceil(genshinJson.width * 329 / 1920)// 目标区域的宽度
-    let h = Math.ceil(genshinJson.height * 145 / 1080)// 目标区域的高度
+    let x = Math.floor(genshinJson.width * 1173 / 1920)// 目标区域的左上角x坐标
+    let y = Math.floor(genshinJson.height * 34 / 1080)// 目标区域的左上角y坐标
+    let w = Math.floor(genshinJson.width * 329 / 1920)// 目标区域的宽度
+    let h = Math.floor(genshinJson.height * 145 / 1080)// 目标区域的高度
     await wait(10)
     await infoLog(`{x:${x},y:${y},w:${w},h:${h}}`, source) // 记录OCR识别结果
     // 截取游戏画面并进行OCR识别
@@ -1647,8 +1647,8 @@ async function t() {
                 await info(`滑动一页`)
                 for (let j = 0; j < page / line; j++) {
                     await wait(1)
-                    let line = Math.ceil(genshinJson.height * 175 / 1080)
-                    mTo(Math.ceil(genshinJson.width / 2), Math.ceil(genshinJson.height * 2 / 3))
+                    let line = Math.floor(genshinJson.height * 175 / 1080)
+                    mTo(Math.floor(genshinJson.width / 2), Math.floor(genshinJson.height * 2 / 3))
                     await scrollPage(line, false, 6)
                 }
                 await wait(1)
@@ -1745,8 +1745,8 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
                 await info(`滑动一页`)
                 for (let j = 0; j < page / line; j++) {
                     await wait(1)
-                    let line = Math.ceil(genshinJson.height * 175 / 1080)
-                    mTo(Math.ceil(genshinJson.width / 2), Math.ceil(genshinJson.height * 2 / 3))
+                    let line = Math.floor(genshinJson.height * 175 / 1080)
+                    mTo(Math.floor(genshinJson.width / 2), Math.floor(genshinJson.height * 2 / 3))
                     await scrollPage(line, false, 6)
                 }
                 await wait(ms)
@@ -1851,7 +1851,7 @@ async function bathClickUp(operate, source = 'bathClickUp', log_off = config.log
     // let index = 0
     let upMaxCount = 0
     if (config.upMaxCount) {
-        upMaxCount = Math.ceil(config.upMaxCount)
+        upMaxCount = Math.floor(config.upMaxCount)
     }
     if (upMaxCount === null || upMaxCount <= 0) {
         throwError(`圣遗物强化个数 必须大于0`)
@@ -1872,11 +1872,11 @@ async function bathClickUp(operate, source = 'bathClickUp', log_off = config.log
             //每行8个
             // throwError(`降序排序功能暂未实现自动强化`)
             let line = 8
-            let base_x = Math.ceil(genshinJson.height * 200 / 1920)
-            let base_y = Math.ceil(genshinJson.height * 250 / 1080)
-            let base_width = Math.ceil(genshinJson.width * 145 / 1920)
-            let base_height = Math.ceil(genshinJson.height * 189 / 1080)
-            let base_count_x = Math.ceil(i % line)
+            let base_x = Math.floor(genshinJson.height * 200 / 1920)
+            let base_y = Math.floor(genshinJson.height * 250 / 1080)
+            let base_width = Math.floor(genshinJson.width * 145 / 1920)
+            let base_height = Math.floor(genshinJson.height * 189 / 1080)
+            let base_count_x = Math.floor(i % line)
             info("==2")
             let x = base_x + base_count_x * base_width;
             let y = base_y;
@@ -1960,8 +1960,8 @@ async function openSelectTheClipCondition(condition = config.material) {
             await wait(500);
             // 点击按钮并等待界面加载
             // await buttonObject.click();
-            let x = Math.ceil(genshinJson.width * 1524 / 1920)
-            let y = Math.ceil(genshinJson.height * 758 / 1080)
+            let x = Math.floor(genshinJson.width * 1524 / 1920)
+            let y = Math.floor(genshinJson.height * 758 / 1080)
             downClick(x, y)
             await wait(500);
 
@@ -1982,10 +1982,10 @@ async function openSelectTheClipCondition(condition = config.material) {
                 // let templateMatch_height = Math.abs(needMoLa.y - buttonObject.y)
                 await info(`OCR==>x:${templateMatch_x},y:${templateMatch_y},width:${templateMatch_width},height:${templateMatch_height}`)
                 //x:1170,y:758,width:354,height:243
-                let templateMatch_x = Math.ceil(genshinJson.width * 1170 / 1920)
-                let templateMatch_y = Math.ceil(genshinJson.height * 758 / 1080)
-                let templateMatch_width = Math.ceil(genshinJson.width * 354 / 1920)
-                let templateMatch_height = Math.ceil(genshinJson.height * 243 / 1080)
+                let templateMatch_x = Math.floor(genshinJson.width * 1170 / 1920)
+                let templateMatch_y = Math.floor(genshinJson.height * 758 / 1080)
+                let templateMatch_width = Math.floor(genshinJson.width * 354 / 1920)
+                let templateMatch_height = Math.floor(genshinJson.height * 243 / 1080)
                 // 以下代码被注释，可能是用于调试的鼠标移动
                 // await mTo(templateMatch_x, templateMatch_y)
                 // 创建OCR识别对象
