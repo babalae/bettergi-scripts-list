@@ -14,8 +14,9 @@ async function main(log_off = config.log_off) {
     // await wait(1000)
     // mTo(1173 + 329, 34 + 145)
     // await ocrHolyRelicsUpFrequency()
-    // await bathClickUpLv1(config.insertionMethod)
-    // return
+    // await openAggrandizement()
+    await bathClickUpLv1(config.insertionMethod)
+    return
     let ms = 300
     await setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
     if (config.enableBatchUp) { // 检查是否启用
@@ -165,7 +166,7 @@ const config = {
     enableInsertionMethod: settings.enableInsertionMethod,//是否开启插入方式
     insertionMethod: settings.insertionMethod,//插入方式
     material: settings.material,//材料
-    upMax: Math.ceil(settings.upMax),//升级次数
+    upMax: parseInt(settings.upMax + ''),//升级次数
     upMaxCount: settings.upMaxCount + '',//设置升级圣遗物个数
     knapsackKey: settings.knapsackKey,//背包快捷键
     sortAuxiliary: settings.sortAuxiliary,//辅助排序
@@ -1712,7 +1713,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
     // let index = 0
     let upMaxCount = 0
     if (config.upMaxCount) {
-        upMaxCount = Math.ceil(config.upMaxCount)
+        upMaxCount = parseInt(config.upMaxCount)
     }
     if (upMaxCount === null || upMaxCount <= 0) {
         throwError(`圣遗物强化个数 必须大于0`)
@@ -1729,6 +1730,8 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         t_y: 0,//当前临时y
         x: 0,
         y: 0,
+        lastLevel: 0,
+        t_level: 0,
     }
 
     let base_x = Math.ceil(genshinJson.width * 200 / 1920)
@@ -1739,7 +1742,6 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
     let page = line * 4
 
     while (upMaxCount > actualCount) {
-        i++
         if (upMaxCount === actualCount) {
             info(`{强化次数已达到:${upMaxCount}}`)
             break
@@ -1749,21 +1751,26 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         let base_count_y = Math.ceil(i / line)
         let x = base_x + base_count_x * base_width;
         let y = base_y + base_count_y * base_height;
-
+        warn(`i:${i},base_count_x:${base_count_x},base_count_y:${base_count_y}`)
         lastJson.t_y = y
         lastJson.t_x = x
         info(`圣遗物${config.sortMain}强化操作`)
-        if (config.sortMain === '降序' && upMaxCount < 20) {
-
-            if (i === 1) {
+        if (config.sortMain === '降序') {
+            if (config.upMax >= 20) {
+                // warn(`降序排序功能暂未实现自动强化`)
+                throwError(`降序排序功能暂未实现+20的自动强化`)
+            }
+            if (i <= 1) {
                 //强制拉到顶
                 await clickProgressBarTopByHolyRelics()
                 await wait(ms);
+            } else {
+
             }
             //每行8个
             // throwError(`降序排序功能暂未实现自动强化`)
 
-            if (i % 8 === 1) {
+            if (i % 8 === 0) {
                 await wait(300)
             }
             let bool = i >= (page) && i % (page) === 0;
@@ -1777,9 +1784,14 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
                 }
                 await wait(1)
             }
+            warn(`x:${x},y:${y}`)
             await mTo(x, y)
             await downClick(x, y)
-
+            // await wait(10)
+            await confirm('降序强化点击确认')
+            await wait(ms)
+            //打开强化界面
+            await openAggrandizement()
         } else {
             //强制拉到顶
             await clickProgressBarTopByHolyRelics()
@@ -1788,14 +1800,18 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             await downClickFirstHolyRelics()
             await wait(ms);
         }
-        //打开强化界面
+        await wait(ms)
         await openAggrandizement()
         await wait(ms)  // 等待500毫秒，确保界面响应
-        let re = await oneClickUp(operate, source, log_off, i === 1);
+        let re = await oneClickUp(operate, source, log_off, i === 0);
+        warn(`第${i}次强化结果:{sumLevel: ${re.sumLevel},level: ${re.level},errorMsg: ${re.errorMsg},ok: ${re.ok},okMsg: ${re.okMsg},start: ${re.start}}`)
         if (re.ok) {
+            lastJson.t_level = re.level
+        }
+        if (re.ok || !re.start) {
             actualCount++
             // 如果强化成功，则继续下一个圣遗物
-            await info(`强化成功`)
+            await info(!re.start ? `符合要求` : `强化成功`)
             await wait(ms)
             let up_name = '返回键'
             await ocrClick(`${path_base_main}${up_name}.jpg`, `圣遗物已经强化到+${config.upMax}退出强化页面 到圣遗物背包界面`, source, log_off)
@@ -1808,13 +1824,16 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
 
         lastJson.y = lastJson.t_y
         lastJson.x = lastJson.t_x
-
-        if (upMaxCount !== null && i === upMaxCount) {
+        if (re.ok) {
+            lastJson.lastLevel = lastJson.t_level
+        }
+        if (upMaxCount !== null && i === upMaxCount - 1) {
             info(`${upMaxCount}个圣遗物已经强化到+${config.upMax}终止运行`)
             await toMainUi()
             await wait(ms)
             break
         }
+        i++
         warn(`当前强化次数:${actualCount} 总强化次数:${upMaxCount}`)
     }
     warn(`圣遗物强化+${config.upMax} 数量：${actualCount}`)
