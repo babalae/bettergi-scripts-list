@@ -465,7 +465,7 @@ async function processArtifacts(times = 1) {
         return result;
     }
 
-    async function findAndClick(target, maxAttempts = 5) {
+    async function findAndClick(target, maxAttempts = 20) {
         for (let attempts = 0; attempts < maxAttempts; attempts++) {
             const gameRegion = captureGameRegion();
             try {
@@ -480,7 +480,7 @@ async function processArtifacts(times = 1) {
                 gameRegion.dispose();
             }
             if (attempts < maxAttempts - 1) {   // 最后一次不再 sleep
-                await sleep(250 * (attempts + 1));
+                await sleep(250);
             }
         }
         log.error("已达到重试次数上限，仍未找到目标");
@@ -491,13 +491,21 @@ async function processArtifacts(times = 1) {
         await genshin.returnMainUi();
         await sleep(250);
         keyPress("B");
-        await sleep(250);
-        await findAndClick(ArtifactsButtonRo);
+        await sleep(500);
+        await findAndClick(ArtifactsButtonRo, 5)
         try {
             for (let i = 0; i < times; i++) {
-                await findAndClick(DeleteButtonRo);// 点击摧毁
+                // 点击摧毁
+                if (!await findAndClick(DeleteButtonRo)) {
+                    await genshin.returnMainUi();
+                    return;
+                }
                 await sleep(600);
-                await findAndClick(AutoAddButtonRo);// 点击自动添加
+                // 点击自动添加
+                if (!await findAndClick(AutoAddButtonRo)) {
+                    await genshin.returnMainUi();
+                    return;
+                }
                 await sleep(900);
                 click(150, 150);
                 await sleep(300);
@@ -508,11 +516,23 @@ async function processArtifacts(times = 1) {
                     await sleep(300);
                     click(150, 370);
                 }
-                await findAndClick(ConfirmButtonRo);// 点击快捷放入
+                // 点击快捷放入
+                if (!await findAndClick(ConfirmButtonRo)) {
+                    await genshin.returnMainUi();
+                    return;
+                }
                 await sleep(600);
-                await findAndClick(DestoryButtonRo);// 点击摧毁
+                // 点击摧毁
+                if (!await findAndClick(DestoryButtonRo)) {
+                    await genshin.returnMainUi();
+                    return;
+                }
                 await sleep(600);
-                await findAndClick(MidDestoryButtonRo);// 弹出页面点击摧毁
+                // 弹出页面点击摧毁
+                if (!await findAndClick(MidDestoryButtonRo)) {
+                    await genshin.returnMainUi();
+                    return;
+                }
                 await sleep(600);
                 click(960, 1000);// 点击空白处
                 await sleep(1000);
@@ -934,6 +954,7 @@ async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "
             autoSalvageCount++;
         }
         await fakeLog(Path.fileName, false, true, 0);
+        const pathInfo = await parsePathing(Path.fullPath);
         try {
             log.info(`当前进度：${Path.fileName}为${folderFilePath}第${i + 1}/${Paths.length}个`);
             await pathingScript.runFile(Path.fullPath);
@@ -949,7 +970,6 @@ async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "
             break;
         }
         await fakeLog(Path.fileName, false, false, 0);
-        const pathInfo = await parsePathing(Path.fullPath);
         if (pathInfo.ok) {
             //回到主界面
             await genshin.returnMainUi();
@@ -964,11 +984,11 @@ async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "
                     currentPosition.y - pathInfo.y
                 );
 
-                // 距离超过 100 认为路线没有正常完成（卡死或未开图等）
-                if (distToLast >= 100) {
+                // 距离超过 50 认为路线没有正常完成（卡死或未开图等）
+                if (distToLast >= 50) {
                     failcount++;
                     skiprecord = true;
-                    log.warn(`路线${Path.fileName}，没有正常完成，请检查是否开图`);
+                    log.warn(`路线${Path.fileName}没有正常完成`);
                     await sleep(5000);
                 }
             } catch (error) {
@@ -988,21 +1008,31 @@ async function parsePathing(pathFilePath) {
         const raw = await file.readText(pathFilePath);
         const json = JSON.parse(raw);
 
-        if (!Array.isArray(json.positions) || typeof json.map_name !== 'string') {
+        // 只要 positions 不是数组就直接失败
+        if (!Array.isArray(json.positions)) {
+            log.error("文件positions字段异常");
             return { ok: false };
         }
+
+        // map_name 不存在时兜底为 "Teyvat"
+        const map_name =
+            typeof json.map_name === 'string' && json.map_name.trim() !== ''
+                ? json.map_name
+                : 'Teyvat';
 
         // 从后往前找第一个 type !== "orientation" 的点
         for (let i = json.positions.length - 1; i >= 0; i--) {
             const p = json.positions[i];
-            if (p.type !== 'orientation' &&
+            if (
+                p.type !== 'orientation' &&
                 typeof p.x === 'number' &&
-                typeof p.y === 'number') {
+                typeof p.y === 'number'
+            ) {
                 return {
                     ok: true,
                     x: p.x,
                     y: p.y,
-                    map_name: json.map_name
+                    map_name,
                 };
             }
         }
@@ -1012,6 +1042,7 @@ async function parsePathing(pathFilePath) {
         return { ok: false };
     }
 }
+
 
 // fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
 //在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);
