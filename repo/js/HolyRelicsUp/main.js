@@ -813,6 +813,19 @@ async function unchecked(log_off) {
     await wait(1)
 }
 
+
+/**
+ * 初始化页面并根据属性排序进行滚动
+ * 该函数会按照特定比例计算滚动高度并执行滚动操作
+ * @returns {Promise<void>} 异步函数，返回一个Promise
+ */
+async function scrollPageByAttributeSortInit() {
+    // 计算滚动高度：页面总高度的1/5加上1/25
+    // 然后执行滚动操作，true表示平滑滚动，6表示滚动速度
+    await scrollPage(Math.floor(genshinJson.height * (1 / 5 + 1 / 25)), true, 6)
+    await info('拖动到看不见辅助排序规则(影响OCR)')
+}
+
 //重置属性排序
 /**
  * 重置属性排序的异步函数<1.0.1已修>
@@ -831,8 +844,7 @@ async function resetAttributeSort(log_off = config.log_off) {
     let width = Math.floor(genshinJson.width * 450 / 1920);
     //拖动到看不见辅助排序规则(影响OCR)
     await mTo(x, y)
-    await scrollPage(Math.floor(genshinJson.height * 1 / 5 + genshinJson.height * 1 / 6), true, 6)
-    await info('[重置操作]拖动到看不见辅助排序规则(影响OCR)')
+    await scrollPageByAttributeSortInit()
     await wait(100)
     let template_name = '属性排序规则'
     for (let index = 1; index <= 5; index++) {
@@ -891,8 +903,7 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
     await mTo(x, y)
     await wait(1)
     // await dragBase(0, Math.floor(26 * genshinJson.height / 1080 ), h, log_off)
-    await scrollPage(Math.floor(genshinJson.height * 1 / 5 + genshinJson.height * 1 / 6), true, 6)
-    await info('拖动到看不见辅助排序规则(影响OCR)')
+    await scrollPageByAttributeSortInit()
     // await wait(100)
     let template_name = '属性排序规则'
 
