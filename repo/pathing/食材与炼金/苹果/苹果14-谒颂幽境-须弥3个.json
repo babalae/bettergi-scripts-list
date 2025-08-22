@@ -1,57 +1,57 @@
 {
   "info": {
-    "name": "苹果14-谒颂幽境-须弥3个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "苹果14-谒颂幽境-须弥3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 3591.69,
       "y": -787.62
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 3576.94,
-      "y": -840.52,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "y": -840.52
     },
     {
+      "action": "",
       "id": 3,
-      "x": 3564.44,
-      "y": -921.2,
-      "type": "path",
       "move_mode": "run",
-      "action": ""
+      "type": "path",
+      "x": 3564.44,
+      "y": -921.2
     },
     {
+      "action": "stop_flying",
       "id": 4,
-      "x": 3565.9,
-      "y": -964.1,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": 3565.9,
+      "y": -964.1
     },
     {
+      "action": "nahida_collect",
       "id": 5,
-      "x": 3572.44,
-      "y": -970.54,
-      "type": "path",
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": 3572.44,
+      "y": -970.54
     }
   ]
 }

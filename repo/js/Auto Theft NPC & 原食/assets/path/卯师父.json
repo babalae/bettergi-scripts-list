@@ -1,39 +1,39 @@
 {
   "info": {
+    "author": "听雨♪",
+    "bgiVersion": "0.35.1",
+    "description": "",
     "name": "卯师父",
     "type": "collect",
-    "author": "听雨♪",
-    "version": "1.0",
-    "description": "",
-    "bgiVersion": "0.35.1"
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 267.9580078125,
-      "y": -665.1201171875,
-      "action_params": ""
+      "y": -665.1201171875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 226.04296875,
-      "y": -660.0048828125,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 226.04296875,
+      "y": -660.0048828125
     },
     {
-      "id": 3,
-      "x": 227.4072265625,
-      "y": -668.20751953125,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 227.4072265625,
+      "y": -668.20751953125
     }
   ]
 }

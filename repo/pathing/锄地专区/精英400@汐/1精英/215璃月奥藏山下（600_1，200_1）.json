@@ -1,72 +1,72 @@
 {
   "info": {
-    "name": "215璃月奥藏山下（600_1，200_1）",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时66.37秒，包含2只精英，预计收入800摩拉，包含以下怪物：1只幼岩龙蜥、1只岩龙蜥。",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.42.3",
+    "description": "  路线信息：该路线预计用时66.37秒，包含2只精英，预计收入800摩拉，包含以下怪物：1只幼岩龙蜥、1只岩龙蜥。",
+    "name": "215璃月奥藏山下（600_1，200_1）",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 1602.04,
-      "y": 1039.77,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 1039.77
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 1629.5,
-      "y": 1042.5,
-      "action": "",
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 1647,
-      "y": 1055.25,
-      "action": "combat_script",
-      "move_mode": "fly",
-      "action_params": "keypress(VK_SPACE),wait(4),click",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 1649,
-      "y": 1065.75,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 1641.13,
-      "y": 1097.81,
-      "action": "fight",
-      "move_mode": "run",
-      "action_params": "",
       "type": "path",
-      "locked": false
+      "x": 1629.5,
+      "y": 1042.5
     },
     {
-      "id": 6,
-      "x": 1641.13,
-      "y": 1097.81,
       "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(4),click",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1647,
+      "y": 1055.25
+    },
+    {
+      "action": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1649,
+      "y": 1065.75
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
       "move_mode": "run",
+      "type": "path",
+      "x": 1641.13,
+      "y": 1097.81
+    },
+    {
+      "action": "combat_script",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 6,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 1641.13,
+      "y": 1097.81
     }
   ]
 }

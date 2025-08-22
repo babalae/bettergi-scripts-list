@@ -1,109 +1,109 @@
 {
   "info": {
-    "name": "璃月-骗骗花-珉林绝云间东南-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "骗骗花-2个\n璃月-珉林绝云间东南\n经由Economy优化交互触发",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "提瓦特钓鱼玳师",
-        "links": "https://github.com/Hijiwos"
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "骗骗花-2个\n璃月-珉林绝云间东南\n经由Economy优化交互触发",
+    "name": "璃月-骗骗花-珉林绝云间东南-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 1185.77,
-      "y": 620.32,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1185.77,
+      "y": 620.32
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1189.11,
-      "y": 618.14,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 618.14
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 1177.56,
-      "y": 588.98,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 588.98
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": 1151.04,
-      "y": 554.58,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 554.58
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "id": 5,
-      "x": 1158.56,
-      "y": 541.61,
+      "locked": false,
+      "move_mode": "walk",
       "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
-      "locked": false
-    },
-    {
-      "id": 6,
       "x": 1158.56,
-      "y": 541.61,
-      "type": "path",
-      "move_mode": "walk",
+      "y": 541.61
+    },
+    {
       "action": "fight",
-      "action_params": ""
-    },
-    {
-      "id": 7,
-      "x": 1101.08,
-      "y": 509.27,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 8,
-      "x": 1041.75,
-      "y": 524.24,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 9,
-      "x": 1019.27,
-      "y": 544.02,
-      "type": "path",
+      "action_params": "",
+      "id": 6,
       "move_mode": "walk",
+      "type": "path",
+      "x": 1158.56,
+      "y": 541.61
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1101.08,
+      "y": 509.27
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1041.75,
+      "y": 524.24
+    },
+    {
       "action": "combat_script",
       "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
-      "locked": false
+      "id": 9,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1019.27,
+      "y": 544.02
     },
     {
-      "id": 10,
-      "x": 1019.27,
-      "y": 544.02,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1019.27,
+      "y": 544.02
     }
   ]
 }

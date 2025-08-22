@@ -1,105 +1,105 @@
 {
   "info": {
-    "name": "丘丘人射手-15卡布狄斯堡01（高危）",
-    "type": "collect",
-    "version": "1.0",
-    "description": "存在大量炸药桶，有丘丘岩凯王，高危",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "曦",
-        "links": "https://github.com/cx05121"
+        "links": "https://github.com/cx05121",
+        "name": "曦"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "存在大量炸药桶，有丘丘岩凯王，高危",
+    "name": "丘丘人射手-15卡布狄斯堡01（高危）",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": 3376.13,
-      "y": 2697.89,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "x": 3376.13,
+      "y": 2697.89
     },
     {
+      "action": "stop_flying",
       "id": 2,
-      "x": 3401.85,
-      "y": 2561.27,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": 3401.85,
+      "y": 2561.27
     },
     {
+      "action": "fight",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3375.63,
-      "y": 2556.76,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 2556.76
     },
     {
+      "action": "fight",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3307.12,
-      "y": 2587.18,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 2587.18
     },
     {
+      "action": "fight",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3278.5,
-      "y": 2612.85,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 2612.85
     },
     {
+      "action": "fight",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3258.24,
-      "y": 2661.18,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 2661.18
     },
     {
+      "action": "fight",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3236.41,
-      "y": 2676.45,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 2676.45
     },
     {
+      "action": "",
       "id": 8,
-      "x": 3249.82,
-      "y": 2708.06,
-      "type": "path",
       "move_mode": "climb",
-      "action": ""
+      "type": "path",
+      "x": 3249.82,
+      "y": 2708.06
     },
     {
+      "action": "fight",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3284.65,
-      "y": 2690.68,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 2690.68
     },
     {
+      "action": "",
       "id": 10,
-      "x": 3203.62,
-      "y": 2749.44,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 3203.62,
+      "y": 2749.44
     },
     {
+      "action": "fight",
       "id": 11,
-      "x": 3176.38,
-      "y": 2746.6,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 3176.38,
+      "y": 2746.6
     }
   ]
 }

@@ -1,65 +1,65 @@
 {
   "info": {
-    "name": "08-蒲公英-达达乌帕谷南-3个（有怪）",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "秋云",
-        "links": "https://github.com/physligl"
+        "links": "https://github.com/physligl",
+        "name": "秋云"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "08-蒲公英-达达乌帕谷南-3个（有怪）",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": -1024.33,
-      "y": 1174.73,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "x": -1024.33,
+      "y": 1174.73
     },
     {
+      "action": "",
       "id": 2,
-      "x": -1260.47,
-      "y": 1229.67,
-      "type": "path",
       "move_mode": "fly",
-      "action": ""
+      "type": "path",
+      "x": -1260.47,
+      "y": 1229.67
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1310.99,
-      "y": 1173.99,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 1173.99
     },
     {
+      "action": "anemo_collect",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1359.35,
-      "y": 1126.0,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "anemo_collect"
+      "y": 1126.0
     },
     {
+      "action": "anemo_collect",
       "id": 5,
-      "x": -1361.4,
-      "y": 1123.94,
-      "type": "path",
       "move_mode": "walk",
-      "action": "anemo_collect"
+      "type": "path",
+      "x": -1361.4,
+      "y": 1123.94
     },
     {
+      "action": "anemo_collect",
       "id": 6,
-      "x": -1370.21,
-      "y": 1139.57,
-      "type": "path",
       "move_mode": "walk",
-      "action": "anemo_collect"
+      "type": "path",
+      "x": -1370.21,
+      "y": 1139.57
     }
   ]
 }

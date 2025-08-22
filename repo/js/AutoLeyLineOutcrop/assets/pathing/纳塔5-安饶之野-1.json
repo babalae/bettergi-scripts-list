@@ -1,58 +1,58 @@
 {
   "info": {
+    "author": "ddaodan",
+    "bgi_version": "0.42.3",
+    "description": "",
     "name": "纳塔5-安饶之野-1",
     "type": "collect",
-    "author": "ddaodan",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.3"
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 9812.76,
-      "y": -2852.58,
       "action": "force_tp",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9812.76,
+      "y": -2852.58
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 9782.79,
-      "y": -2862.89,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": -2862.89
     },
     {
-      "id": 3,
-      "x": 9724.38,
-      "y": -2905.74,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": 9708.17,
-      "y": -2903.18,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": 9687.15,
-      "y": -2898.19,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
       "action_params": "",
-      "locked": false
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9724.38,
+      "y": -2905.74
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9708.17,
+      "y": -2903.18
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9687.15,
+      "y": -2898.19
     }
   ]
 }

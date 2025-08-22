@@ -1,96 +1,96 @@
 {
   "info": {
-    "name": "04-劫波莲-觉王之殿上方-4个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "jbcaaa",
-        "links": "https://github.com/jbcaaa"
+        "links": "https://github.com/jbcaaa",
+        "name": "jbcaaa"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "04-劫波莲-觉王之殿上方-4个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 3705.6,
       "y": -497.4
     },
     {
+      "action": "stop_flying",
       "id": 2,
-      "x": 3587.88,
-      "y": -416.36,
-      "type": "target",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "target",
+      "x": 3587.88,
+      "y": -416.36
     },
     {
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": 3567.5,
-      "y": -417.75,
-      "move_mode": "fly",
-      "type": "path"
+      "y": -417.75
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "climb",
+      "type": "target",
       "x": 3556.25,
-      "y": -414.75,
-      "type": "target",
-      "move_mode": "climb",
-      "action": ""
+      "y": -414.75
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3548.96,
-      "y": -411.76,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -411.76
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3537.98,
-      "y": -421.03,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -421.03
     },
     {
+      "action": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3544.92,
-      "y": -421.84,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -421.84
     },
     {
+      "action": "",
       "id": 8,
-      "x": 3546.12,
-      "y": -422.26,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 9,
-      "x": 3561.11,
-      "y": -434.72,
       "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying"
+      "x": 3546.12,
+      "y": -422.26
     },
     {
+      "action": "stop_flying",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3561.11,
+      "y": -434.72
+    },
+    {
+      "action": "",
       "id": 10,
-      "x": 3551.55,
-      "y": -439.74,
-      "type": "target",
       "move_mode": "climb",
-      "action": ""
+      "type": "target",
+      "x": 3551.55,
+      "y": -439.74
     }
   ]
 }

@@ -1,333 +1,333 @@
 {
   "info": {
-    "name": "01-幽灯蕈-鹤观-34个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "性价比路线，要求队伍（奶奶-草神-团长-风系挂件，草神不可替换，其余任意替换，建议队伍速度不要太快）",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "彩虹QQ人",
-        "links": "https://github.com/KRdingsan"
+        "links": "https://github.com/KRdingsan",
+        "name": "彩虹QQ人"
       }
-    ]
+    ],
+    "bgi_version": "0.42.3",
+    "description": "性价比路线，要求队伍（奶奶-草神-团长-风系挂件，草神不可替换，其余任意替换，建议队伍速度不要太快）",
+    "name": "01-幽灯蕈-鹤观-34个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -2836.85,
-      "y": -6287.5,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -6287.5
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -2891.22,
-      "y": -6274.23,
-      "action": "",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": -2909.25,
-      "y": -6279.7,
-      "action": "nahida_collect",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": -2919.45,
-      "y": -6281.41,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": -2948.02,
-      "y": -6273.16,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": -2960.01,
-      "y": -6277.09,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": -2972.79,
-      "y": -6290.14,
-      "action": "nahida_collect",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": -2977.94,
-      "y": -6292.73,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": -2612.36,
-      "y": -6508.07,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
-    },
-    {
-      "id": 10,
-      "x": -2594.15,
-      "y": -6485.09,
-      "action": "nahida_collect",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 11,
-      "x": -2584.24,
-      "y": -6446.97,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 12,
-      "x": -2561.16,
-      "y": -6444.44,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 13,
-      "x": -2548.16,
-      "y": -6441.44,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 14,
-      "x": -2540.19,
-      "y": -6426.44,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 15,
-      "x": -2542.81,
-      "y": -6410.69,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 16,
-      "x": -2569.93,
-      "y": -6402.2,
-      "action": "nahida_collect",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 17,
-      "x": -2573.18,
-      "y": -6412.95,
-      "action": "",
-      "move_mode": "climb",
-      "action_params": "",
       "type": "path",
-      "locked": false
+      "x": -2891.22,
+      "y": -6274.23
     },
     {
-      "id": 18,
-      "x": -2556.18,
-      "y": -6420.95,
       "action": "nahida_collect",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2909.25,
+      "y": -6279.7
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 4,
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -2919.45,
+      "y": -6281.41
     },
     {
-      "id": 19,
-      "x": -2550.99,
-      "y": -6410.23,
       "action": "nahida_collect",
-      "move_mode": "run",
       "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 20,
-      "x": -2606.24,
-      "y": -6216.26,
-      "action": "",
+      "id": 5,
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "path",
+      "x": -2948.02,
+      "y": -6273.16
     },
     {
-      "id": 21,
-      "x": -2604.44,
-      "y": -6223.47,
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2960.01,
+      "y": -6277.09
+    },
+    {
       "action": "nahida_collect",
-      "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2972.79,
+      "y": -6290.14
     },
     {
-      "id": 22,
-      "x": -2596.67,
-      "y": -6205.72,
       "action": "",
-      "move_mode": "run",
       "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 23,
-      "x": -2566.15,
-      "y": -6171.32,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 24,
-      "x": -2549.51,
-      "y": -6154.14,
-      "action": "",
+      "id": 8,
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -2977.94,
+      "y": -6292.73
     },
     {
-      "id": 25,
-      "x": -2535.58,
-      "y": -6131.29,
-      "action": "stop_flying",
-      "move_mode": "fly",
+      "action": "",
       "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 26,
-      "x": -2533.14,
-      "y": -6123.56,
-      "action": "nahida_collect",
+      "id": 9,
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "teleport",
+      "x": -2612.36,
+      "y": -6508.07
     },
     {
-      "id": 27,
-      "x": -2554.17,
-      "y": -6121.13,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 28,
-      "x": -2571.76,
-      "y": -6124.44,
       "action": "nahida_collect",
-      "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2594.15,
+      "y": -6485.09
     },
     {
-      "id": 29,
-      "x": -2563.58,
-      "y": -6106.06,
       "action": "",
+      "action_params": "",
+      "id": 11,
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -2584.24,
+      "y": -6446.97
     },
     {
-      "id": 30,
-      "x": -2622.92,
-      "y": -6073.71,
-      "action": "",
-      "move_mode": "swim",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 31,
-      "x": -2629.02,
-      "y": -6072.2,
       "action": "nahida_collect",
-      "move_mode": "climb",
       "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 32,
-      "x": -2635.87,
-      "y": -6070.26,
-      "action": "nahida_collect",
+      "id": 12,
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -2561.16,
+      "y": -6444.44
     },
     {
-      "id": 33,
-      "x": -2672.1,
-      "y": -6079.43,
       "action": "",
-      "move_mode": "run",
       "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 34,
-      "x": -2704.14,
-      "y": -6097.55,
-      "action": "nahida_collect",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 35,
-      "x": -2725.42,
-      "y": -6132.48,
-      "action": "nahida_collect",
+      "id": 13,
       "move_mode": "dash",
+      "type": "path",
+      "x": -2548.16,
+      "y": -6441.44
+    },
+    {
+      "action": "",
       "action_params": "",
-      "type": "path"
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2540.19,
+      "y": -6426.44
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2542.81,
+      "y": -6410.69
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2569.93,
+      "y": -6402.2
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "locked": false,
+      "move_mode": "climb",
+      "type": "path",
+      "x": -2573.18,
+      "y": -6412.95
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2556.18,
+      "y": -6420.95
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2550.99,
+      "y": -6410.23
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2606.24,
+      "y": -6216.26
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2604.44,
+      "y": -6223.47
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2596.67,
+      "y": -6205.72
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2566.15,
+      "y": -6171.32
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2549.51,
+      "y": -6154.14
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2535.58,
+      "y": -6131.29
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2533.14,
+      "y": -6123.56
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 27,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2554.17,
+      "y": -6121.13
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 28,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2571.76,
+      "y": -6124.44
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 29,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2563.58,
+      "y": -6106.06
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 30,
+      "move_mode": "swim",
+      "type": "path",
+      "x": -2622.92,
+      "y": -6073.71
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 31,
+      "move_mode": "climb",
+      "type": "path",
+      "x": -2629.02,
+      "y": -6072.2
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 32,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2635.87,
+      "y": -6070.26
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 33,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2672.1,
+      "y": -6079.43
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 34,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2704.14,
+      "y": -6097.55
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 35,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2725.42,
+      "y": -6132.48
     }
   ]
 }

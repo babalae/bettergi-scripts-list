@@ -1,39 +1,39 @@
 {
   "info": {
+    "author": "听雨♪",
+    "bgiVersion": "0.35.1",
+    "description": "",
     "name": "志村勘兵卫",
     "type": "collect",
-    "author": "听雨♪",
-    "version": "1.0",
-    "description": "",
-    "bgiVersion": "0.35.1"
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -4402.5703125,
-      "y": -3053.0234375,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -3053.0234375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -4418.000213556839,
-      "y": -3083.5625,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -4418.000213556839,
+      "y": -3083.5625
     },
     {
-      "id": 3,
-      "x": -4424.500332199528,
-      "y": -3080.375,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4424.500332199528,
+      "y": -3080.375
     }
   ]
 }

@@ -1,40 +1,40 @@
 {
   "info": {
+    "author": "ddaodan",
+    "bgi_version": "0.42.3",
+    "description": "",
     "name": "纳塔5-安饶之野-2",
     "type": "collect",
-    "author": "ddaodan",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.3"
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 9812.76,
-      "y": -2852.58,
       "action": "force_tp",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 9812.76,
+      "y": -2852.58
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 9782.79,
-      "y": -2862.89,
-      "type": "path",
       "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 9782.79,
+      "y": -2862.89
     },
     {
-      "id": 3,
-      "x": 9754.7,
-      "y": -2904.43,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
       "action_params": "",
-      "locked": false
+      "id": 3,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9754.7,
+      "y": -2904.43
     }
   ]
 }

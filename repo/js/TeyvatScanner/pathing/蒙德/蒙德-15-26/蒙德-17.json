@@ -1,67 +1,67 @@
-﻿{
+{
   "info": {
-    "name": "蒙德-17",
-    "type": "collect",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": ""
+        "links": "",
+        "name": "Tool_tingsu"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1754916757791,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754916757791,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蒙德-17",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -1638.23046875,
-      "y": 2154.22412109375,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -1638.23046875,
+      "y": 2154.22412109375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1633.90234375,
-      "y": 2146.9990234375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2146.9990234375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1634.419921875,
-      "y": 2138.3271484375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2138.3271484375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": -1637.58203125,
-      "y": 2125.058837890625,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -1637.58203125,
+      "y": 2125.058837890625
     },
     {
-      "id": 5,
-      "x": -1640.53515625,
-      "y": 2116.03955078125,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1640.53515625,
+      "y": 2116.03955078125
     }
   ]
 }

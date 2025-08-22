@@ -1,80 +1,80 @@
 {
   "info": {
-    "name": "越石村3只 ",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "baixi",
-        "links": "https://github.com/baixi232310"
+        "links": "https://github.com/baixi232310",
+        "name": "baixi"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "越石村3只 ",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -3684.83,
-      "y": -4278.51,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -4278.51
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -3708.13,
-      "y": -4290.51,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": -3729.38,
-      "y": -4278.69,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": -3755.33,
-      "y": -4261.23,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": -3781.87,
-      "y": -4259.77,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": -3812.73,
-      "y": -4267.34,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": -3836.77,
-      "y": -4272.93,
       "type": "path",
+      "x": -3708.13,
+      "y": -4290.51
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3729.38,
+      "y": -4278.69
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
       "move_mode": "walk",
+      "type": "path",
+      "x": -3755.33,
+      "y": -4261.23
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3781.87,
+      "y": -4259.77
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3812.73,
+      "y": -4267.34
+    },
+    {
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3836.77,
+      "y": -4272.93
     }
   ]
 }

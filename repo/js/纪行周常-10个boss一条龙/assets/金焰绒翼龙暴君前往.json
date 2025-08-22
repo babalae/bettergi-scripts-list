@@ -1,48 +1,48 @@
-﻿{
+{
   "info": {
-    "name": "金焰绒翼龙暴君前往",
-    "type": "collect",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": ""
+        "links": "",
+        "name": "Tool_tingsu"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
+    "description": "",
+    "enable_monster_loot_split": false,
     "last_modified_time": 1753792463678,
-    "enable_monster_loot_split": false
+    "map_name": "Teyvat",
+    "name": "金焰绒翼龙暴君前往",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 9041.6884765625,
-      "y": -1457.52587890625,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 9041.6884765625,
+      "y": -1457.52587890625
     },
     {
-      "id": 2,
-      "x": 8970.724609375,
-      "y": -1441.958984375,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8970.724609375,
+      "y": -1441.958984375
     },
     {
-      "id": 3,
-      "x": 8954.1708984375,
-      "y": -1438.552734375,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8954.1708984375,
+      "y": -1438.552734375
     }
   ]
 }

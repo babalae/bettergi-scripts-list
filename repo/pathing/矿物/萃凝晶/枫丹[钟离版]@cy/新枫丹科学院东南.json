@@ -1,73 +1,73 @@
 {
   "info": {
-    "name": "新枫丹科学院东南",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.43.0",
     "authors": [
       {
         "name": "cy"
       }
-    ]
+    ],
+    "bgi_version": "0.43.0",
+    "description": "",
+    "name": "新枫丹科学院东南",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4001.01,
       "y": 4878.36
     },
     {
-      "id": 2,
-      "x": 4054.82,
-      "y": 4875.81,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "钟离 d(0.2),e(hold)"
+      "action_params": "钟离 d(0.2),e(hold)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4054.82,
+      "y": 4875.81
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4059.93,
-      "y": 4870.97,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 4870.97
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4054.44,
-      "y": 4879.75,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 4879.75
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4051.25,
-      "y": 4878.88,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 4878.88
     },
     {
+      "action": "",
       "id": 6,
-      "x": 4056.81,
-      "y": 4870.48,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 4056.81,
+      "y": 4870.48
     },
     {
+      "action": "",
       "id": 7,
-      "x": 4057.53,
-      "y": 4878.45,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 4057.53,
+      "y": 4878.45
     }
   ]
 }

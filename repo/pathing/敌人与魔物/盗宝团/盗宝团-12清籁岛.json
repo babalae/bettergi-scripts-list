@@ -1,57 +1,57 @@
 {
   "info": {
-    "name": "盗宝团-12清籁岛",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "曦",
-        "links": "https://github.com/cx05121"
+        "links": "https://github.com/cx05121",
+        "name": "曦"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "盗宝团-12清籁岛",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -4184.84,
       "y": -4244.7
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4217.93,
-      "y": -4206.02,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -4206.02
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4271.89,
-      "y": -4187.89,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -4187.89
     },
     {
+      "action": "fight",
       "id": 4,
-      "x": -4325.89,
-      "y": -4231.8,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": -4325.89,
+      "y": -4231.8
     },
     {
+      "action": "fight",
       "id": 5,
-      "x": -4355.76,
-      "y": -4254.96,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": -4355.76,
+      "y": -4254.96
     }
   ]
 }

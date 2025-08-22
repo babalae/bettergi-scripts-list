@@ -1,78 +1,78 @@
 {
   "info": {
-    "name": "E01-胡萝卜-枫丹-枫丹廷-西北-3个",
-    "type": "collect",
     "author": "蜜柑魚",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1754246395515,
     "authors": [
       {
-        "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1754246395515,
+    "map_name": "Teyvat",
+    "name": "E01-胡萝卜-枫丹-枫丹廷-西北-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 4865.53,
-      "y": 3912.89,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 3912.89
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4924.27,
-      "y": 3960.54,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 3960.54
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4975.93,
-      "y": 3991.71,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 3991.71
     },
     {
+      "action": "",
       "id": 4,
-      "x": 5006.44,
-      "y": 4020.58,
-      "action": "",
       "move_mode": "dash",
-      "type": "path"
+      "type": "path",
+      "x": 5006.44,
+      "y": 4020.58
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5034.69,
-      "y": 4014.1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 4014.1
     },
     {
+      "action": "",
       "id": 6,
-      "x": 5035.69,
-      "y": 4013.62,
-      "action": "",
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 5035.69,
+      "y": 4013.62
     },
     {
-      "id": 7,
-      "x": 5035.69,
-      "y": 4013.62,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 5035.69,
+      "y": 4013.62
     }
   ]
 }

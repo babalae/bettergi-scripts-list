@@ -1,20 +1,20 @@
 {
   "info": {
-    "name": "骗骗花-渌华池右",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "san"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "骗骗花-渌华池右",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 260.0,
@@ -22,38 +22,38 @@
     },
     {
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 273.5,
-      "y": -22.25,
-      "move_mode": "run",
-      "type": "path"
+      "y": -22.25
     },
     {
+      "action": "",
       "id": 3,
-      "x": 274.0,
-      "y": 167.02,
       "move_mode": "run",
-      "action": "",
-      "type": "path"
+      "type": "path",
+      "x": 274.0,
+      "y": 167.02
     },
     {
-      "id": 4,
       "action": "",
+      "id": 4,
       "move_mode": "run",
       "type": "path",
       "x": 293.0,
       "y": 171.21
     },
     {
-      "id": 5,
       "action": "stop_flying",
+      "id": 5,
       "move_mode": "fly",
       "type": "path",
       "x": 308.0,
       "y": 195.22
     },
     {
-      "id": 6,
       "action": "fight",
+      "id": 6,
       "move_mode": "walk",
       "type": "path",
       "x": 312.5,

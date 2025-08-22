@@ -1,48 +1,48 @@
 {
   "info": {
+    "author": "寒烟",
+    "bgi_version": "0.42.3",
+    "description": "",
     "name": "须弥2-奥摩斯港西-2-rerun",
     "type": "collect",
-    "author": "寒烟",
-    "version": "1.1",
-    "description": "",
-    "bgi_version": "0.42.3"
+    "version": "1.1"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 2806.49,
-      "y": -1790.54,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 2806.49,
+      "y": -1790.54
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 2821.09,
-      "y": -1793.98,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 3,
-      "x": 2949.95,
-      "y": -1758.38,
       "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": "500"
+      "x": 2821.09,
+      "y": -1793.98
     },
     {
-      "id": 4,
-      "x": 2979.95,
-      "y": -1758.54,
-      "type": "target",
-      "move_mode": "walk",
+      "action": "stop_flying",
+      "action_params": "500",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2949.95,
+      "y": -1758.38
+    },
+    {
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2979.95,
+      "y": -1758.54
     }
   ]
 }

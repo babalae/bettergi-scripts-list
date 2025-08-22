@@ -1,19 +1,4 @@
 {
-  "info": {
-    "name": "纳塔11-呼呼丘-3",
-    "bgi_version": "0.45.0",
-    "type": "collect",
-    "order": 0,
-    "tags": [],
-    "enable_monster_loot_split": false,
-    "map_name": "Teyvat",
-    "map_match_method": "",
-    "items": [],
-    "authors": [],
-    "version": "1.0",
-    "description": "",
-    "last_modified_time": 1754200188083
-  },
   "config": {
     "realtime_triggers": {
       "AutoPick": true
@@ -21,22 +6,37 @@
   },
   "farming_info": {
     "allow_farming_count": false,
-    "normal_mob_count": 0,
-    "elite_mob_count": 0,
-    "primary_target": "",
     "duration_seconds": 0,
     "elite_details": "",
+    "elite_mob_count": 0,
+    "normal_mob_count": 0,
+    "primary_target": "",
     "total_mora": 0
+  },
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "items": [],
+    "last_modified_time": 1754200188083,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "纳塔11-呼呼丘-3",
+    "order": 0,
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 14390.443359375,
-      "y": 470.20263671875,
-      "type": "target",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 1,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 14390.443359375,
+      "y": 470.20263671875
     }
   ]
 }

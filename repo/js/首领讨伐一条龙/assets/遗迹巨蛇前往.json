@@ -1,57 +1,57 @@
-﻿{
+{
   "info": {
-    "name": "遗迹巨蛇前往",
-    "type": "collect",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": ""
+        "links": "",
+        "name": "Tool_tingsu"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "TheChasm",
     "bgi_version": "0.45.0",
-    "tags": [],
+    "description": "",
+    "enable_monster_loot_split": false,
     "last_modified_time": 1753793052904,
-    "enable_monster_loot_split": false
+    "map_name": "TheChasm",
+    "name": "遗迹巨蛇前往",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 887.7176513671875,
-      "y": 762.7557373046875,
-      "action_params": ""
+      "y": 762.7557373046875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 899.0771484375,
-      "y": 760.0130615234375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 760.0130615234375
     },
     {
-      "id": 3,
-      "x": 965.908935546875,
-      "y": 743.64697265625,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 965.908935546875,
+      "y": 743.64697265625
     },
     {
-      "id": 4,
-      "x": 993.7598876953125,
-      "y": 736.390625,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 993.7598876953125,
+      "y": 736.390625
     }
   ]
 }

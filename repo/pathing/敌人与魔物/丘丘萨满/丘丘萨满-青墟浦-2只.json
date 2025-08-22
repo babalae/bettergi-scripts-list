@@ -1,89 +1,89 @@
 {
   "info": {
-    "name": "丘丘萨满-青墟浦-2只",
-    "type": "collect",
-    "version": "1.0",
-    "description": "丘丘萨满-青墟浦-2只",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "ddaodan",
-        "links": "https://github.com/ddaodan"
+        "links": "https://github.com/ddaodan",
+        "name": "ddaodan"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "丘丘萨满-青墟浦-2只",
+    "name": "丘丘萨满-青墟浦-2只",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 1470.18,
-      "y": -728.85,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 1470.18,
+      "y": -728.85
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1447.84,
-      "y": -706.81,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -706.81
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1436.89,
-      "y": -681.79,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -681.79
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1361.52,
-      "y": -680.63,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -680.63
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1316.82,
-      "y": -672.09,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -672.09
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1294.07,
-      "y": -655.2,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": ""
+      "y": -655.2
     },
     {
-      "id": 7,
-      "x": 1291.01,
-      "y": -678.92,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1291.01,
+      "y": -678.92
     },
     {
-      "id": 8,
-      "x": 1308.51,
-      "y": -690.64,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1308.51,
+      "y": -690.64
     }
   ]
 }

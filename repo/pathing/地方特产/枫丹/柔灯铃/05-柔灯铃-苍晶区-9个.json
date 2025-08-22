@@ -1,55 +1,55 @@
 {
   "info": {
-    "name": "05-柔灯铃-苍晶区-9个",
-    "type": "collect",
-    "version": "1.0",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "透明人"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "name": "05-柔灯铃-苍晶区-9个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": 4955.77,
-      "y": 2760.5,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "x": 4955.77,
+      "y": 2760.5
     },
     {
+      "action": "stop_flying",
       "id": 2,
-      "x": 4862.34,
-      "y": 2768.23,
-      "type": "target",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "target",
+      "x": 4862.34,
+      "y": 2768.23
     },
     {
+      "action": "",
       "id": 3,
-      "x": 4848.83,
-      "y": 2769.76,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "x": 4848.83,
+      "y": 2769.76
     },
     {
+      "action": "",
       "id": 4,
-      "x": 4844.63,
-      "y": 2779.07,
-      "type": "target",
       "move_mode": "walk",
-      "action": ""
+      "type": "target",
+      "x": 4844.63,
+      "y": 2779.07
     },
     {
+      "action": "",
       "id": 5,
-      "x": 4822.51,
-      "y": 2766.04,
-      "type": "target",
       "move_mode": "walk",
-      "action": ""
+      "type": "target",
+      "x": 4822.51,
+      "y": 2766.04
     }
   ]
 }

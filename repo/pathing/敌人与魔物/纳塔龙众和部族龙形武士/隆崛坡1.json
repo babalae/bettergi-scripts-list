@@ -1,120 +1,120 @@
 {
   "info": {
-    "name": "隆崛坡1",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "雕茂"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "隆崛坡1",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 7633.42,
       "y": -1646.54
     },
     {
+      "action": "fight",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7608.23,
-      "y": -1673.25,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": -1673.25
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": 7577.02,
-      "y": -1632.49,
-      "type": "path",
-      "move_mode": "fly",
-      "action": ""
+      "y": -1632.49
     },
     {
+      "action": "stop_flying",
       "id": 4,
-      "x": 7514.91,
-      "y": -1568.75,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
-    },
-    {
-      "id": 5,
+      "type": "path",
       "x": 7514.91,
-      "y": -1568.75,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": -1568.75
     },
     {
+      "action": "fight",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7514.91,
+      "y": -1568.75
+    },
+    {
+      "action": "fight",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7493.11,
-      "y": -1613.41,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": -1613.41
     },
     {
+      "action": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7610.03,
-      "y": -1553.13,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -1553.13
     },
     {
+      "action": "fight",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7617.92,
-      "y": -1567.78,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": -1567.78
     },
     {
+      "action": "fight",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7719.55,
-      "y": -1586.9,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": -1586.9
     },
     {
+      "action": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7730.64,
-      "y": -1552.78,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -1552.78
     },
     {
+      "action": "fight",
       "id": 11,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7751.86,
-      "y": -1551.67,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": -1551.67
     },
     {
+      "action": "",
       "id": 12,
-      "x": 7773.58,
-      "y": -1542.82,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 7773.58,
+      "y": -1542.82
     },
     {
+      "action": "fight",
       "id": 13,
-      "x": 7797.49,
-      "y": -1577.33,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 7797.49,
+      "y": -1577.33
     }
   ]
 }

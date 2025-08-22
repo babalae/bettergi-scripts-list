@@ -1,97 +1,97 @@
 {
   "info": {
-    "name": "丘丘王01",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "XS",
-        "links": "https://github.com/xwsqy6"
+        "links": "https://github.com/xwsqy6",
+        "name": "XS"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "丘丘王01",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "fly",
+      "type": "teleport",
       "x": -707.2,
-      "y": 933.25,
-      "action": "",
-      "move_mode": "fly",
-      "type": "teleport"
+      "y": 933.25
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -703.73,
-      "y": 931.33,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 931.33
     },
     {
-      "id": 3,
-      "x": -682.38,
-      "y": 962.2,
-      "type": "path",
-      "move_mode": "fly",
-      "action": ""
-    },
-    {
-      "id": 4,
-      "x": -674.06,
-      "y": 974.85,
-      "type": "path",
-      "move_mode": "fly",
-      "action": ""
-    },
-    {
-      "id": 5,
-      "x": -688.7,
-      "y": 1009.47,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
-    },
-    {
-      "id": 6,
-      "x": -690.79,
-      "y": 1032.36,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
-    },
-    {
-      "id": 7,
-      "x": -693.96,
-      "y": 1056.0,
       "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": -698.82,
-      "y": 1052.61,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 9,
-      "x": -701.08,
-      "y": 1062.23,
-      "type": "path",
+      "id": 3,
       "move_mode": "fly",
-      "action": ""
+      "type": "path",
+      "x": -682.38,
+      "y": 962.2
     },
     {
-      "id": 10,
-      "x": -704.03,
-      "y": 1083.9,
+      "action": "",
+      "id": 4,
+      "move_mode": "fly",
       "type": "path",
+      "x": -674.06,
+      "y": 974.85
+    },
+    {
+      "action": "",
+      "id": 5,
       "move_mode": "run",
-      "action": "fight"
+      "type": "path",
+      "x": -688.7,
+      "y": 1009.47
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": -690.79,
+      "y": 1032.36
+    },
+    {
+      "action": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -693.96,
+      "y": 1056.0
+    },
+    {
+      "action": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -698.82,
+      "y": 1052.61
+    },
+    {
+      "action": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -701.08,
+      "y": 1062.23
+    },
+    {
+      "action": "fight",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": -704.03,
+      "y": 1083.9
     }
   ]
 }

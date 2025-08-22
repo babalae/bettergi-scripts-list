@@ -1,57 +1,57 @@
 {
   "info": {
+    "author": "听雨♪",
+    "bgiVersion": "0.35.1",
+    "description": "",
     "name": "ale",
     "type": "collect",
-    "author": "听雨♪",
-    "version": "1.0",
-    "description": "",
-    "bgiVersion": "0.35.1"
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4645.490234375,
-      "y": 3467.8603515625,
-      "action_params": ""
+      "y": 3467.8603515625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 4635.865234375,
-      "y": 3475.1591796875,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": 3475.1591796875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": 4639.42724609375,
-      "y": 3505.39697265625,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": 3505.39697265625
     },
     {
-      "id": 4,
-      "x": 4622.95654296875,
-      "y": 3509.7421875,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4622.95654296875,
+      "y": 3509.7421875
     },
     {
-      "id": 5,
-      "x": 4602.0556640625,
-      "y": 3515.504150390625,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4602.0556640625,
+      "y": 3515.504150390625
     }
   ]
 }

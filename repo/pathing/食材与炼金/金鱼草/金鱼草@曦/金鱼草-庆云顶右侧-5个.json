@@ -1,89 +1,89 @@
 {
   "info": {
-    "name": "金鱼草-庆云顶右侧-5个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "曦",
-        "links": "https://github.com/cx05121"
+        "links": "https://github.com/cx05121",
+        "name": "曦"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "金鱼草-庆云顶右侧-5个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "fly",
+      "type": "teleport",
       "x": 1474.6,
-      "y": 763.63,
-      "action": "",
-      "move_mode": "fly",
-      "type": "teleport"
+      "y": 763.63
     },
     {
+      "action": "stop_flying",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 1355.83,
-      "y": 827.45,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "type": "path"
+      "y": 827.45
     },
     {
+      "action": "stop_flying",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": 1372.24,
-      "y": 801.16,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "type": "path"
+      "y": 801.16
     },
     {
+      "action": "stop_flying",
       "id": 4,
+      "move_mode": "fly",
+      "type": "path",
       "x": 1377.28,
-      "y": 778.04,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "type": "path"
+      "y": 778.04
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "target",
       "x": 1342.23,
-      "y": 794.19,
-      "action": "",
-      "move_mode": "walk",
-      "type": "target"
+      "y": 794.19
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "target",
       "x": 1323.0,
-      "y": 810.93,
-      "action": "",
-      "move_mode": "walk",
-      "type": "target"
+      "y": 810.93
     },
     {
-      "id": 7,
-      "x": 1302.71,
-      "y": 759.23,
       "action": "stop_flying",
+      "id": 7,
       "move_mode": "fly",
-      "type": "target"
+      "type": "target",
+      "x": 1302.71,
+      "y": 759.23
     },
     {
+      "action": "",
       "id": 8,
-      "x": 1333.06,
-      "y": 755.3,
-      "action": "",
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 1333.06,
+      "y": 755.3
     },
     {
-      "id": 9,
-      "x": 1330.42,
-      "y": 750.81,
       "action": "",
+      "id": 9,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 1330.42,
+      "y": 750.81
     }
   ]
 }

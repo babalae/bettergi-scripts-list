@@ -1,65 +1,65 @@
 {
   "info": {
-    "name": "泡泡桔02-厄里那斯-枫丹9个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "泡泡桔02-厄里那斯-枫丹9个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4876.54,
       "y": 2255.27
     },
     {
+      "action": "stop_flying",
       "id": 2,
-      "x": 4912.99,
-      "y": 2196.42,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": 4912.99,
+      "y": 2196.42
     },
     {
+      "action": "nahida_collect",
       "id": 3,
-      "x": 4913.47,
-      "y": 2195.17,
-      "type": "path",
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": 4913.47,
+      "y": 2195.17
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": 4917.4,
-      "y": 2176.37,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "y": 2176.37
     },
     {
+      "action": "nahida_collect",
       "id": 5,
-      "x": 4931.94,
-      "y": 2132.56,
-      "type": "path",
       "move_mode": "run",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": 4931.94,
+      "y": 2132.56
     },
     {
+      "action": "nahida_collect",
       "id": 6,
-      "x": 4949.99,
-      "y": 2134.16,
-      "type": "path",
       "move_mode": "run",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": 4949.99,
+      "y": 2134.16
     }
   ]
 }

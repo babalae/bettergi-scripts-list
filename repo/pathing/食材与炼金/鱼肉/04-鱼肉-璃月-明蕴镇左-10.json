@@ -1,125 +1,125 @@
 {
   "info": {
-    "name": "04-鱼肉-璃月-明蕴镇左-10",
-    "type": "collect",
-    "version": "1.0",
-    "description": "04-明蕴镇左-10",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "火山",
-        "links": "https://github.com/RRRR623"
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
       }
-    ]
+    ],
+    "bgi_version": "0.42.3",
+    "description": "04-明蕴镇左-10",
+    "name": "04-鱼肉-璃月-明蕴镇左-10",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -56.18,
-      "y": 657.41,
+      "move_mode": "run",
       "type": "teleport",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "x": -56.18,
+      "y": 657.41
     },
     {
+      "action": "combat_script",
+      "action_params": "芙宁娜 wait(0.3),e",
       "id": 2,
-      "x": 1.06,
-      "y": 699.03,
-      "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "芙宁娜 wait(0.3),e"
+      "type": "path",
+      "x": 1.06,
+      "y": 699.03
     },
     {
+      "action": "combat_script",
+      "action_params": "dash",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 2.07,
-      "y": 715.73,
-      "type": "path",
-      "move_mode": "run",
-      "action": "combat_script",
-      "action_params": "dash"
+      "y": 715.73
     },
     {
+      "action": "combat_script",
+      "action_params": "dash",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": -1.31,
-      "y": 718.08,
-      "type": "path",
-      "move_mode": "run",
-      "action": "combat_script",
-      "action_params": "dash"
+      "y": 718.08
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "run",
+      "type": "path",
       "x": -4.17,
-      "y": 713.12,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 713.12
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "run",
+      "type": "path",
       "x": 7.3,
-      "y": 717.41,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 717.41
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "run",
+      "type": "path",
       "x": 7.79,
-      "y": 737.12,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 737.12
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "run",
+      "type": "path",
       "x": -8.7,
-      "y": 745.99,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 745.99
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "run",
+      "type": "path",
       "x": -15.4,
-      "y": 747.38,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 747.38
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
+      "move_mode": "run",
+      "type": "path",
       "x": -14.36,
-      "y": 744.56,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 744.56
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 11,
-      "x": -14.68,
-      "y": 754.18,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -14.68,
+      "y": 754.18
     },
     {
-      "id": 12,
-      "x": -18.84,
-      "y": 760.63,
-      "type": "path",
-      "move_mode": "run",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": -18.84,
+      "y": 760.63
     }
   ]
 }

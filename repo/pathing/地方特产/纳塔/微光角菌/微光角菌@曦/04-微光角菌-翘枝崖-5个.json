@@ -1,121 +1,121 @@
 {
   "info": {
-    "name": "04-微光角菌-翘枝崖-5个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "曦",
-        "links": "https://github.com/cx05121"
+        "links": "https://github.com/cx05121",
+        "name": "曦"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "04-微光角菌-翘枝崖-5个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 9844.85,
-      "y": -1288.97,
       "action": "force_tp",
+      "id": 1,
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 9844.85,
+      "y": -1288.97
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9803.35,
-      "y": -1327.44,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1327.44
     },
     {
+      "action": "stop_flying",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": 9752.6,
-      "y": -1344.1,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "type": "path"
+      "y": -1344.1
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9752.15,
-      "y": -1361.71,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1361.71
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9764.1,
-      "y": -1371.1,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1371.1
     },
     {
+      "action": "stop_flying",
       "id": 6,
+      "move_mode": "fly",
+      "type": "target",
       "x": 9796.51,
-      "y": -1427.28,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "type": "target"
+      "y": -1427.28
     },
     {
+      "action": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9813.23,
-      "y": -1443.28,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1443.28
     },
     {
+      "action": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "target",
       "x": 9818.29,
-      "y": -1434.47,
-      "action": "",
-      "move_mode": "walk",
-      "type": "target"
+      "y": -1434.47
     },
     {
+      "action": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9798.42,
-      "y": -1437.87,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1437.87
     },
     {
-      "id": 10,
-      "x": 9774.88,
-      "y": -1419.26,
       "action": "stop_flying",
+      "id": 10,
       "move_mode": "fly",
-      "type": "target"
+      "type": "target",
+      "x": 9774.88,
+      "y": -1419.26
     },
     {
+      "action": "",
       "id": 11,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9749.13,
-      "y": -1445.03,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1445.03
     },
     {
+      "action": "",
       "id": 12,
-      "x": 9735.84,
-      "y": -1450.6,
-      "action": "",
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 9735.84,
+      "y": -1450.6
     },
     {
-      "id": 13,
-      "x": 9716.68,
-      "y": -1482.39,
       "action": "",
+      "id": 13,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 9716.68,
+      "y": -1482.39
     }
   ]
 }

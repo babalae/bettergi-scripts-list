@@ -1,53 +1,53 @@
 {
   "info": {
-    "name": "稻妻-飘浮灵-海祇岛水月池东南-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "飘浮灵-2个\n稻妻-海祇岛水月池东南",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "提瓦特钓鱼玳师",
-        "links": "https://github.com/Hijiwos"
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "飘浮灵-2个\n稻妻-海祇岛水月池东南",
+    "name": "稻妻-飘浮灵-海祇岛水月池东南-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -1315.18,
-      "y": -3776.18,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -1315.18,
+      "y": -3776.18
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": -1328.35,
-      "y": -3770.05,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -3770.05
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": -1336.42,
-      "y": -3742.58,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -1336.42,
+      "y": -3742.58
     },
     {
-      "id": 4,
-      "x": -1327.31,
-      "y": -3734.34,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1327.31,
+      "y": -3734.34
     }
   ]
 }

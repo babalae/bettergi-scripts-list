@@ -1,57 +1,57 @@
-﻿{
+{
   "info": {
-    "name": "千年珍珠骏麟前往",
-    "type": "collect",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": ""
+        "links": "",
+        "name": "Tool_tingsu"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
+    "description": "",
+    "enable_monster_loot_split": false,
     "last_modified_time": 1753791394637,
-    "enable_monster_loot_split": false
+    "map_name": "Teyvat",
+    "name": "千年珍珠骏麟前往",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 4851.81982421875,
-      "y": 4802.15673828125,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 4851.81982421875,
+      "y": 4802.15673828125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4837.4677734375,
-      "y": 4798.37158203125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 4798.37158203125
     },
     {
-      "id": 3,
-      "x": 4780.36767578125,
-      "y": 4788.42822265625,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4780.36767578125,
+      "y": 4788.42822265625
     },
     {
-      "id": 4,
-      "x": 4766.72998046875,
-      "y": 4786.763671875,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4766.72998046875,
+      "y": 4786.763671875
     }
   ]
 }

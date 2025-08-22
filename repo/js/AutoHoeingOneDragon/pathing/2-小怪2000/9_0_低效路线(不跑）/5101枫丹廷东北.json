@@ -1,189 +1,189 @@
 {
   "info": {
-    "name": "5101枫丹廷东北",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "5101枫丹廷东北",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 4865.45,
-      "y": 3913.16,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 3913.16
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 4899.7,
-      "y": 3911.68,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 3911.68
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": 4918.41,
-      "y": 3886.76,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 3886.76
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 4,
-      "x": 4912.62,
-      "y": 3897.06,
-      "action": "fight",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 4912.62,
+      "y": 3897.06
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4912.62,
-      "y": 3897.06,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 3897.06
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "dash",
+      "type": "path",
       "x": 4925.33,
-      "y": 3870.24,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 3870.24
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 7,
-      "x": 4928.07,
-      "y": 3847.44,
-      "action": "fight",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 4928.07,
+      "y": 3847.44
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4928.07,
-      "y": 3847.44,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 3847.44
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "dash",
+      "type": "path",
       "x": 4954.31,
-      "y": 3835.47,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 3835.47
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 10,
-      "x": 4950.77,
-      "y": 3829.62,
-      "action": "fight",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 4950.77,
+      "y": 3829.62
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 11,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4950.77,
-      "y": 3829.62,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 3829.62
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 12,
+      "move_mode": "dash",
+      "type": "path",
       "x": 4982.8,
-      "y": 3824.1,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 3824.1
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 13,
-      "x": 4998.41,
-      "y": 3798.5,
-      "action": "fight",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 4998.41,
+      "y": 3798.5
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(1)",
       "id": 14,
+      "move_mode": "walk",
+      "type": "orientation",
       "x": 4998.41,
-      "y": 3798.5,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(1)",
-      "type": "orientation"
+      "y": 3798.5
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 15,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 4865.47,
-      "y": 3912.96,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 3912.96
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 16,
+      "move_mode": "dash",
+      "type": "path",
       "x": 4876.57,
-      "y": 3972.33,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 3972.33
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 17,
-      "x": 4851.5,
-      "y": 4016.48,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 4851.5,
+      "y": 4016.48
     },
     {
-      "id": 18,
-      "x": 4839.67,
-      "y": 4011.05,
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4839.67,
+      "y": 4011.05
     },
     {
-      "id": 19,
-      "x": 4839.67,
-      "y": 4011.05,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(1)",
-      "type": "path"
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4839.67,
+      "y": 4011.05
     }
   ]
 }

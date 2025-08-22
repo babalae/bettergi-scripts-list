@@ -1,45 +1,45 @@
 {
   "info": {
-    "name": "219璃月轻策庄 浊水幻灵（200_2）",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时51.18秒，包含2只精英与5000只小怪，预计收入202900摩拉，包含以下怪物：1只浊水粉碎幻灵、1只浊水喷吐幻灵。",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.42.3",
+    "description": "  路线信息：该路线预计用时51.18秒，包含2只精英与5000只小怪，预计收入202900摩拉，包含以下怪物：1只浊水粉碎幻灵、1只浊水喷吐幻灵。",
+    "name": "219璃月轻策庄 浊水幻灵（200_2）",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 547.74,
-      "y": 1766.79,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 547.74,
+      "y": 1766.79
     },
     {
-      "id": 2,
-      "x": 540.83,
-      "y": 1766.03,
       "action": "",
-      "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 540.83,
+      "y": 1766.03
     },
     {
-      "id": 3,
-      "x": 475.23,
-      "y": 1789.23,
       "action": "fight",
-      "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 475.23,
+      "y": 1789.23
     }
   ]
 }

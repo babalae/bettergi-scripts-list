@@ -1,166 +1,166 @@
 {
   "info": {
-    "name": "04-烬芯花-硫晶支脉下方-8个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "感谢 @曦 老师的路线脚本",
+    "authors": [
+      {
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
+      }
+    ],
     "bgi_version": "0.42.3",
+    "description": "感谢 @曦 老师的路线脚本",
+    "name": "04-烬芯花-硫晶支脉下方-8个",
     "tags": [
       "单手剑角色",
       "大剑角色",
       "长枪角色"
     ],
-    "authors": [
-      {
-        "name": "Tool_tingsu",
-        "links": "https://github.com/Tooltingsu"
-      }
-    ]
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 8452.48,
-      "y": -1477.28,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": -1477.28
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8413.33,
-      "y": -1497.73,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1497.73
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": 8367.16,
-      "y": -1523.09,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path"
+      "y": -1523.09
     },
     {
+      "action": "",
       "id": 4,
-      "x": 8362.72,
-      "y": -1523.14,
-      "action": "",
       "move_mode": "climb",
-      "type": "path"
+      "type": "path",
+      "x": 8362.72,
+      "y": -1523.14
     },
     {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
       "id": 5,
-      "x": 8324.57,
-      "y": -1542.77,
-      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "attack(0.2)",
-      "type": "target"
-    },
-    {
-      "id": 6,
-      "x": 8319.18,
-      "y": -1545.59,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "attack(0.2)",
-      "type": "target"
-    },
-    {
-      "id": 7,
-      "x": 8319.85,
-      "y": -1556.05,
       "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "attack(0.2)"
+      "x": 8324.57,
+      "y": -1542.77
     },
     {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8319.18,
+      "y": -1545.59
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8319.85,
+      "y": -1556.05
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
       "id": 8,
+      "move_mode": "walk",
+      "type": "target",
       "x": 8321.43,
-      "y": -1557.23,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "attack(0.2)",
-      "type": "target"
+      "y": -1557.23
     },
     {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
       "id": 9,
+      "move_mode": "walk",
+      "type": "target",
       "x": 8327.02,
-      "y": -1553.79,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "attack(0.2)",
-      "type": "target"
+      "y": -1553.79
     },
     {
+      "action": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8340.54,
-      "y": -1585.97,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1585.97
     },
     {
+      "action": "",
       "id": 11,
+      "move_mode": "fly",
+      "type": "path",
       "x": 8350.39,
-      "y": -1669.19,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path"
+      "y": -1669.19
     },
     {
-      "id": 12,
-      "x": 8356.4,
-      "y": -1671.53,
       "action": "stop_flying",
-      "move_mode": "fly",
       "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 13,
-      "x": 8366.02,
-      "y": -1692.13,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 14,
-      "x": 8403.13,
-      "y": -1737.02,
-      "action": "",
+      "id": 12,
       "move_mode": "fly",
-      "type": "path"
+      "type": "target",
+      "x": 8356.4,
+      "y": -1671.53
     },
     {
-      "id": 15,
-      "x": 8427.66,
-      "y": -1743.39,
       "action": "",
+      "id": 13,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 8366.02,
+      "y": -1692.13
     },
     {
+      "action": "",
+      "id": 14,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8403.13,
+      "y": -1737.02
+    },
+    {
+      "action": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8427.66,
+      "y": -1743.39
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
       "id": 16,
-      "x": 8415.45,
-      "y": -1798.31,
-      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "attack(0.2)",
-      "type": "target"
+      "type": "target",
+      "x": 8415.45,
+      "y": -1798.31
     },
     {
-      "id": 17,
-      "x": 8424.54,
-      "y": -1857.56,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "attack(0.2)",
-      "type": "target"
+      "id": 17,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8424.54,
+      "y": -1857.56
     }
   ]
 }

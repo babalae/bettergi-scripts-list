@@ -1,136 +1,136 @@
 {
   "info": {
-    "name": "03-松茸",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "未知作者"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "03-松茸",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 4301.28,
-      "y": 4765.02,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "y": 4765.02
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4316.26,
-      "y": 4773.19,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 4773.19
     },
     {
+      "action": "nahida_collect",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4325.62,
-      "y": 4763.42,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect"
+      "y": 4763.42
     },
     {
+      "action": "nahida_collect",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4330.58,
-      "y": 4757.13,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect"
+      "y": 4757.13
     },
     {
+      "action": "nahida_collect",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4337.48,
-      "y": 4746.09,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect"
+      "y": 4746.09
     },
     {
+      "action": "stop_flying",
       "id": 6,
-      "x": 4352.36,
-      "y": 4733.11,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": 4352.36,
+      "y": 4733.11
     },
     {
+      "action": "nahida_collect",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4342.69,
-      "y": 4727.12,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect"
+      "y": 4727.12
     },
     {
+      "action": "",
       "id": 8,
+      "move_mode": "run",
+      "type": "path",
       "x": 4348.76,
-      "y": 4686.97,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "y": 4686.97
     },
     {
+      "action": "nahida_collect",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4346.03,
-      "y": 4681.34,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect"
+      "y": 4681.34
     },
     {
+      "action": "",
       "id": 10,
+      "move_mode": "run",
+      "type": "path",
       "x": 4361.98,
-      "y": 4650.41,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "y": 4650.41
     },
     {
+      "action": "nahida_collect",
       "id": 11,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4364.69,
-      "y": 4631.4,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect"
+      "y": 4631.4
     },
     {
+      "action": "nahida_collect",
       "id": 12,
-      "x": 4349.15,
-      "y": 4623.35,
-      "type": "path",
       "move_mode": "run",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": 4349.15,
+      "y": 4623.35
     },
     {
+      "action": "nahida_collect",
       "id": 13,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4345.78,
-      "y": 4621.02,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect"
+      "y": 4621.02
     },
     {
+      "action": "",
       "id": 14,
-      "x": 3865.14,
-      "y": 4492.29,
-      "type": "teleport",
       "move_mode": "walk",
-      "action": ""
+      "type": "teleport",
+      "x": 3865.14,
+      "y": 4492.29
     },
     {
+      "action": "nahida_collect",
       "id": 15,
-      "x": 3867.44,
-      "y": 4496.98,
-      "type": "path",
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": 3867.44,
+      "y": 4496.98
     }
   ]
 }

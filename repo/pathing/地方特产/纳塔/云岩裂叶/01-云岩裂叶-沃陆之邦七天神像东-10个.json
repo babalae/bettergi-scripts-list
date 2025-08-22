@@ -1,188 +1,188 @@
 {
   "info": {
-    "name": "01-云岩裂叶-沃陆之邦七天神像东-10个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.43.5",
     "authors": [
       {
-        "name": "ddaodan",
-        "links": "https://github.com/ddaodan"
+        "links": "https://github.com/ddaodan",
+        "name": "ddaodan"
       }
-    ]
+    ],
+    "bgi_version": "0.43.5",
+    "description": "",
+    "name": "01-云岩裂叶-沃陆之邦七天神像东-10个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "force_tp",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 9795.68,
-      "y": -2665.69,
-      "action": "force_tp",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -2665.69
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 2,
-      "x": 9786.82,
-      "y": -2671.18,
-      "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "",
-      "type": "target"
+      "type": "target",
+      "x": 9786.82,
+      "y": -2671.18
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "target",
       "x": 9786.82,
-      "y": -2671.18,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": -2671.18
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9781.22,
-      "y": -2669.08,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -2669.08
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "target",
       "x": 9798.75,
-      "y": -2646.04,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": -2646.04
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "target",
       "x": 9798.7,
-      "y": -2641.01,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": -2641.01
     },
     {
-      "id": 7,
-      "x": 9795.72,
-      "y": -2665.65,
       "action": "force_tp",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "id": 7,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9795.72,
+      "y": -2665.65
     },
     {
-      "id": 8,
-      "x": 9765.09,
-      "y": -2695.36,
       "action": "stop_flying",
-      "move_mode": "fly",
       "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 9,
+      "id": 8,
+      "move_mode": "fly",
+      "type": "target",
       "x": 9765.09,
-      "y": -2695.36,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": -2695.36
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9765.09,
+      "y": -2695.36
+    },
+    {
+      "action": "",
+      "action_params": "",
       "id": 10,
-      "x": 9761.73,
-      "y": -2702.71,
-      "action": "",
       "move_mode": "fly",
+      "type": "path",
+      "x": 9761.73,
+      "y": -2702.71
+    },
+    {
+      "action": "",
       "action_params": "",
-      "type": "path"
-    },
-    {
       "id": 11,
+      "move_mode": "walk",
+      "type": "target",
       "x": 9757.11,
-      "y": -2716.34,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2716.34
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 12,
+      "move_mode": "walk",
+      "type": "target",
       "x": 9756.32,
-      "y": -2715.82,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2715.82
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 13,
+      "move_mode": "walk",
+      "type": "target",
       "x": 9752.09,
-      "y": -2718.25,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2718.25
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 14,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9737.42,
-      "y": -2717.32,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2717.32
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 15,
+      "move_mode": "walk",
+      "type": "target",
       "x": 9715.77,
-      "y": -2721.2,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2721.2
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 16,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9684.69,
-      "y": -2711.38,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2711.38
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 17,
-      "x": 9676.09,
-      "y": -2692.24,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 9676.09,
+      "y": -2692.24
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 18,
-      "x": 9692.47,
-      "y": -2658.56,
-      "type": "target",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "target",
+      "x": 9692.47,
+      "y": -2658.56
     },
     {
-      "id": 19,
-      "x": 9694.11,
-      "y": -2656.1,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9694.11,
+      "y": -2656.1
     }
   ]
 }

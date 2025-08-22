@@ -1,80 +1,80 @@
 {
   "info": {
-    "name": "04-松茸",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "未知作者"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "04-松茸",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 4434.32,
-      "y": 5091.73,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 5091.73
     },
     {
+      "action": "",
       "id": 2,
-      "x": 4423.78,
-      "y": 5099.37,
+      "move_mode": "run",
       "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "x": 4423.78,
+      "y": 5099.37
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 4386.14,
-      "y": 5126.67,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 5126.67
     },
     {
+      "action": "nahida_collect",
       "id": 4,
-      "x": 4360.97,
-      "y": 5133.63,
-      "action": "nahida_collect",
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 4360.97,
+      "y": 5133.63
     },
     {
+      "action": "nahida_collect",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4353.76,
-      "y": 5144.87,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 5144.87
     },
     {
+      "action": "nahida_collect",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4357.77,
-      "y": 5161.98,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 5161.98
     },
     {
-      "id": 7,
-      "x": 3865.14,
-      "y": 4492.29,
       "action": "",
+      "id": 7,
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 3865.14,
+      "y": 4492.29
     },
     {
-      "id": 8,
-      "x": 3867.52,
-      "y": 4496.96,
       "action": "nahida_collect",
+      "id": 8,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 3867.52,
+      "y": 4496.96
     }
   ]
 }

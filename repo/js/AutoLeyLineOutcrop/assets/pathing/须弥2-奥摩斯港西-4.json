@@ -1,48 +1,48 @@
 {
   "info": {
+    "author": "寒烟",
+    "bgi_version": "0.42.3",
+    "description": "在战斗结束后，刷了两波怪，不确定是否稳定触发",
     "name": "须弥2-奥摩斯港西-4",
     "type": "collect",
-    "author": "寒烟",
-    "version": "1.1",
-    "description": "在战斗结束后，刷了两波怪，不确定是否稳定触发",
-    "bgi_version": "0.42.3"
+    "version": "1.1"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3001.23,
-      "y": -1681.28,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -1681.28
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 2999.12,
-      "y": -1676.27,
-      "type": "path",
       "move_mode": "climb",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 2999.12,
+      "y": -1676.27
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 2987.57,
-      "y": -1649.92,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 2987.57,
+      "y": -1649.92
     },
     {
-      "id": 4,
-      "x": 2981.92,
-      "y": -1641.54,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2981.92,
+      "y": -1641.54
     }
   ]
 }

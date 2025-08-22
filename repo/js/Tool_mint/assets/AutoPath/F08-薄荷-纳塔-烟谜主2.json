@@ -1,80 +1,80 @@
 {
   "info": {
-    "name": "F08-薄荷-纳塔-烟谜主2",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": "https://github.com/Tooltingsu"
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
       }
-    ]
+    ],
+    "bgi_version": "0.42.3",
+    "description": "",
+    "name": "F08-薄荷-纳塔-烟谜主2",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 9471.2,
-      "y": -1673.55,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 9471.2,
+      "y": -1673.55
     },
     {
-      "id": 2,
-      "x": 9499.67,
-      "y": -1638.29,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9499.67,
+      "y": -1638.29
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9482.24,
-      "y": -1603.1,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -1603.1
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9461.35,
-      "y": -1576.59,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -1576.59
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9438.95,
-      "y": -1562.17,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -1562.17
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": 9422.84,
-      "y": -1570.54,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 9422.84,
+      "y": -1570.54
     },
     {
-      "id": 7,
-      "x": 9475.4,
-      "y": -1533.97,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9475.4,
+      "y": -1533.97
     }
   ]
 }

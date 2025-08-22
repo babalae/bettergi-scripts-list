@@ -1,39 +1,39 @@
 {
   "info": {
+    "author": "naralan",
+    "bgi_version": "0.42.3",
+    "description": "",
     "name": "璃月合成台",
     "type": "collect",
-    "author": "naralan",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.3"
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 281.5,
-      "y": -674,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -674
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 264,
-      "y": -660,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 264,
+      "y": -660
     },
     {
-      "id": 3,
-      "x": 267.8,
-      "y": -652.5,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 267.8,
+      "y": -652.5
     }
   ]
 }

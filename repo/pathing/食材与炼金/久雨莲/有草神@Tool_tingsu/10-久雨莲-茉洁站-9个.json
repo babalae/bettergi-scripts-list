@@ -1,137 +1,137 @@
 {
   "info": {
-    "name": "10-久雨莲-茉洁站-9个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1749120119795,
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": "https://github.com/Tooltingsu"
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1749120119795,
+    "map_name": "Teyvat",
+    "name": "10-久雨莲-茉洁站-9个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 3659.43,
-      "y": 3785.69,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 3659.43,
+      "y": 3785.69
     },
     {
-      "id": 2,
-      "x": 3624.56,
-      "y": 3771.21,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3624.56,
+      "y": 3771.21
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "target",
       "x": 3632.74,
-      "y": 3762.94,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "nahida_collect",
-      "action_params": ""
+      "y": 3762.94
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3628.93,
-      "y": 3738.97,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 3738.97
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3633.75,
-      "y": 3728.84,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 3728.84
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3642.49,
-      "y": 3719.16,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 3719.16
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "jump",
+      "type": "path",
       "x": 3634.79,
-      "y": 3711.78,
-      "type": "path",
-      "move_mode": "jump",
-      "action": "",
-      "action_params": ""
+      "y": 3711.78
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "jump",
+      "type": "path",
       "x": 3637.95,
-      "y": 3705.39,
-      "type": "path",
-      "move_mode": "jump",
-      "action": "",
-      "action_params": ""
+      "y": 3705.39
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
-      "x": 3649.58,
-      "y": 3698.12,
-      "type": "path",
       "move_mode": "jump",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 3649.58,
+      "y": 3698.12
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3660.46,
-      "y": 3697.29,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 3697.29
     },
     {
-      "id": 11,
-      "x": 3699.12,
-      "y": 3702.57,
-      "type": "target",
-      "move_mode": "walk",
       "action": "nahida_collect",
-      "action_params": ""
-    },
-    {
-      "id": 12,
-      "x": 3728.72,
-      "y": 3722.99,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 13,
-      "x": 3733.21,
-      "y": 3713.71,
-      "type": "target",
+      "action_params": "",
+      "id": 11,
       "move_mode": "walk",
+      "type": "target",
+      "x": 3699.12,
+      "y": 3702.57
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3728.72,
+      "y": 3722.99
+    },
+    {
       "action": "combat_script",
-      "action_params": "纳西妲 e"
+      "action_params": "纳西妲 e",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3733.21,
+      "y": 3713.71
     }
   ]
 }

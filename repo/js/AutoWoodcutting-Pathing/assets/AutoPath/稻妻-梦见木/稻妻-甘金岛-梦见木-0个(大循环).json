@@ -1,104 +1,104 @@
 {
   "info": {
-    "name": "稻妻-甘金岛-梦见木-0个(大循环)",
-    "type": "collect",
-    "version": "1.1",
-    "description": "",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.42.3",
+    "description": "",
+    "name": "稻妻-甘金岛-梦见木-0个(大循环)",
+    "type": "collect",
+    "version": "1.1"
   },
   "positions": [
     {
-      "id": 1,
-      "x": -4232.2168,
-      "y": -3002.0508,
       "action": "",
+      "id": 1,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
-      "locked": false
+      "x": -4232.2168,
+      "y": -3002.0508
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
       "x": -4217.9102,
-      "y": -2980.3027,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": "",
-      "locked": false
+      "y": -2980.3027
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": -4151.0781,
-      "y": -2968.4287,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -4151.0781,
+      "y": -2968.4287
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "dash",
+      "type": "path",
       "x": -4117.6855,
-      "y": -2916.8291,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -2916.8291
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
       "x": -4011.4844,
-      "y": -2963.8711,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": "",
-      "locked": false
+      "y": -2963.8711
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": -4001.5342,
-      "y": -2960.8496,
-      "action": "",
+      "locked": false,
       "move_mode": "dash",
-      "action_params": "",
       "type": "path",
-      "locked": false
+      "x": -4001.5342,
+      "y": -2960.8496
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
       "x": -3988.7275,
-      "y": -2963.3701,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path",
-      "locked": false
+      "y": -2963.3701
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
-      "x": -3981.168,
-      "y": -2985.2676,
-      "action": "",
+      "locked": false,
       "move_mode": "walk",
-      "action_params": "",
       "type": "path",
-      "locked": false
+      "x": -3981.168,
+      "y": -2985.2676
     },
     {
-      "id": 9,
-      "x": -3996.8633,
-      "y": -2976.5781,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
+      "id": 9,
+      "locked": false,
+      "move_mode": "walk",
       "type": "orientation",
-      "locked": false
+      "x": -3996.8633,
+      "y": -2976.5781
     }
   ]
 }

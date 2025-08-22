@@ -1,73 +1,73 @@
 {
   "info": {
-    "name": "丘丘王05",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "XS",
-        "links": "https://github.com/xwsqy6"
+        "links": "https://github.com/xwsqy6",
+        "name": "XS"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "丘丘王05",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": -164.56,
-      "y": 1182.53,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "x": -164.56,
+      "y": 1182.53
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": -176.5,
-      "y": 1212.19,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "y": 1212.19
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": -161.67,
-      "y": 1248.19,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "y": 1248.19
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -142.32,
-      "y": 1273.02,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 1273.02
     },
     {
+      "action": "",
       "id": 5,
-      "x": -145.66,
-      "y": 1284.12,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": -145.66,
+      "y": 1284.12
     },
     {
+      "action": "",
       "id": 6,
-      "x": -139.64,
-      "y": 1301.33,
-      "type": "path",
       "move_mode": "run",
-      "action": ""
+      "type": "path",
+      "x": -139.64,
+      "y": 1301.33
     },
     {
+      "action": "fight",
       "id": 7,
-      "x": -146.94,
-      "y": 1328.84,
-      "type": "path",
       "move_mode": "run",
-      "action": "fight"
+      "type": "path",
+      "x": -146.94,
+      "y": 1328.84
     }
   ]
 }

@@ -1,48 +1,48 @@
-﻿{
+{
   "info": {
-    "name": "璃月-B086",
-    "type": "collect",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": ""
+        "links": "",
+        "name": "Tool_tingsu"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
+    "description": "",
+    "enable_monster_loot_split": false,
     "last_modified_time": 1753962811111,
-    "enable_monster_loot_split": false
+    "map_name": "Teyvat",
+    "name": "璃月-B086",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 366.71484375,
-      "y": -502.51171875,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 366.71484375,
+      "y": -502.51171875
     },
     {
-      "id": 2,
-      "x": 384.6064453125,
-      "y": -500.1298828125,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 384.6064453125,
+      "y": -500.1298828125
     },
     {
-      "id": 3,
-      "x": 388.0869140625,
-      "y": -500.05224609375,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "w(3),wait(0.5),keypress(x)"
+      "action_params": "w(3),wait(0.5),keypress(x)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 388.0869140625,
+      "y": -500.05224609375
     }
   ]
 }

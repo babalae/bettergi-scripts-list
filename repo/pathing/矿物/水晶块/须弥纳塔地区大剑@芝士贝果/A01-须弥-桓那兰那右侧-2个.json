@@ -1,85 +1,85 @@
 {
   "info": {
-    "name": "A01-须弥-桓那兰那右侧-2个",
-    "type": "collect",
     "authors": [
       {
         "name": "芝士贝果"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1754743208696,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754743208696,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A01-须弥-桓那兰那右侧-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "run",
       "type": "teleport",
       "x": 3254.5596,
-      "y": -189.3179,
-      "action_params": ""
+      "y": -189.3179
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 3236.1123,
-      "y": -189.2456,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": -189.2456
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 3219.1641,
-      "y": -163.2671,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": -163.2671
     },
     {
-      "id": 4,
-      "x": 3187.0566,
-      "y": -156.8203,
-      "type": "path",
-      "move_mode": "run",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3187.0566,
+      "y": -156.8203
     },
     {
-      "id": 5,
-      "x": 3189.7793,
-      "y": -160.8364,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
-    },
-    {
-      "id": 6,
-      "x": 3184.8203,
-      "y": -154.6201,
-      "type": "target",
-      "move_mode": "walk",
       "action": "mining",
       "action_params": "",
-      "locked": false
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3189.7793,
+      "y": -160.8364
     },
     {
-      "id": 7,
-      "x": 3184.8203,
-      "y": -154.6201,
-      "type": "target",
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
       "move_mode": "walk",
+      "type": "target",
+      "x": 3184.8203,
+      "y": -154.6201
+    },
+    {
       "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": "wait(0.5)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3184.8203,
+      "y": -154.6201
     }
   ]
 }

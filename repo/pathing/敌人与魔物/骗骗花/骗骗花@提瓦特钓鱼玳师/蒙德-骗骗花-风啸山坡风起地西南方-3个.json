@@ -1,98 +1,98 @@
 {
   "info": {
-    "name": "蒙德-骗骗花-风啸山坡风起地西南方-3个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "骗骗花-3个\n蒙德-风啸山坡风起地西南方",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "提瓦特钓鱼玳师",
-        "links": "https://github.com/Hijiwos"
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "骗骗花-3个\n蒙德-风啸山坡风起地西南方",
+    "name": "蒙德-骗骗花-风啸山坡风起地西南方-3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -1136.51,
-      "y": 1595.36,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 1595.36
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1158.75,
-      "y": 1630.96,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 1630.96
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": -1162.04,
-      "y": 1663.99,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 1663.99
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": -1134.27,
-      "y": 1710.51,
+      "move_mode": "run",
       "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "x": -1134.27,
+      "y": 1710.51
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1044.25,
-      "y": 1728.96,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 1728.96
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": -1094.0,
-      "y": 1758.39,
-      "action": "",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -1094.0,
+      "y": 1758.39
     },
     {
-      "id": 7,
-      "x": -1155.5,
-      "y": 1765.89,
       "action": "",
+      "action_params": "",
+      "id": 7,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -1155.5,
+      "y": 1765.89
     },
     {
-      "id": 8,
-      "x": -1197.62,
-      "y": 1758.0,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(0.1).kepress(f),wait(0.1).kepress(f),wait(0.1).kepress(f)",
-      "type": "target"
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1197.62,
+      "y": 1758.0
     },
     {
-      "id": 9,
-      "x": -1197.62,
-      "y": 1758.0,
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1197.62,
+      "y": 1758.0
     }
   ]
 }

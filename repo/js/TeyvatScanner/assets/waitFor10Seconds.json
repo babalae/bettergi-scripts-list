@@ -1,24 +1,24 @@
 {
   "info": {
-    "name": "waitFor10Seconds",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1750964027700,
+    "map_name": "Teyvat",
+    "name": "waitFor10Seconds",
     "tags": [],
-    "last_modified_time": 1750964027700
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "combat_script",
+      "action_params": "wait(10)",
+      "id": 1,
       "move_mode": "walk",
       "type": "orientation",
       "x": 0,
-      "y": 0,
-      "action_params": "wait(10)"
+      "y": 0
     }
   ]
 }

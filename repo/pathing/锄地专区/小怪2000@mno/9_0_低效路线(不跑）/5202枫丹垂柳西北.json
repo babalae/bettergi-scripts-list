@@ -1,134 +1,134 @@
 {
   "info": {
-    "name": "5202枫丹垂柳西北",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "5202枫丹垂柳西北",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 3344.12,
-      "y": 3903.33,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 3903.33
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3330.65,
-      "y": 3900.42,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 3900.42
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3300.3,
-      "y": 3888.04,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 3888.04
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3284.05,
-      "y": 3874.01,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 3874.01
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3291.42,
-      "y": 3845.7,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 3845.7
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 6,
-      "x": 3283.35,
-      "y": 3833.05,
-      "action": "fight",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 3283.35,
+      "y": 3833.05
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3283.35,
-      "y": 3833.05,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 3833.05
     },
     {
-      "id": 8,
-      "x": 3262.47,
-      "y": 3826.03,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 3262.47,
+      "y": 3826.03
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 9,
-      "x": 3262.47,
-      "y": 3822.03,
-      "action": "fight",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 3262.47,
+      "y": 3822.03
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3262.47,
-      "y": 3822.03,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 3822.03
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 11,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3264.49,
-      "y": 3802.03,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 3802.03
     },
     {
-      "id": 12,
-      "x": 3246.87,
-      "y": 3776.03,
       "action": "fight",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3246.87,
+      "y": 3776.03
     },
     {
-      "id": 13,
-      "x": 3246.87,
-      "y": 3776.03,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3246.87,
+      "y": 3776.03
     }
   ]
 }

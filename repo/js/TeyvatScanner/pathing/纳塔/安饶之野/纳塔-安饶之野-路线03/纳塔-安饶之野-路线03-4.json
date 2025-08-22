@@ -1,51 +1,51 @@
 {
   "info": {
-    "name": "纳塔-安饶之野-路线03-4",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1750838423003,
+    "map_name": "Teyvat",
+    "name": "纳塔-安饶之野-路线03-4",
     "tags": [],
-    "last_modified_time": 1750838423003
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "dash",
+      "type": "path",
       "x": 9719.0869140625,
-      "y": -2508.744140625,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -2508.744140625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 9750.43359375,
-      "y": -2508.611328125,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -2508.611328125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 9808.4755859375,
-      "y": -2510.8359375,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 9808.4755859375,
+      "y": -2510.8359375
     },
     {
-      "id": 4,
-      "x": 9831.3037109375,
-      "y": -2505.9853515625,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "wait(1)",
-      "type": "target"
+      "id": 4,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 9831.3037109375,
+      "y": -2505.9853515625
     }
   ]
 }

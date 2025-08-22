@@ -1,96 +1,96 @@
 {
   "info": {
-    "name": "02-松果-摘星崖-5个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "玛卡巴卡"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "02-松果-摘星崖-5个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -1558.51,
       "y": 2497.74
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": -1572.62,
-      "y": 2508.75,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "y": 2508.75
     },
     {
+      "action": "nahida_collect",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": -1599.47,
-      "y": 2523.78,
-      "type": "path",
-      "move_mode": "run",
-      "action": "nahida_collect"
+      "y": 2523.78
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": -1623.29,
-      "y": 2554.58,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "y": 2554.58
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "target",
       "x": -1627.67,
-      "y": 2560.24,
-      "type": "target",
-      "move_mode": "walk",
-      "action": ""
+      "y": 2560.24
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "run",
+      "type": "path",
       "x": -1643.82,
-      "y": 2579.89,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "y": 2579.89
     },
     {
+      "action": "",
       "id": 7,
-      "x": -1646.6,
-      "y": 2581.42,
+      "move_mode": "walk",
       "type": "target",
-      "move_mode": "walk",
-      "action": ""
+      "x": -1646.6,
+      "y": 2581.42
     },
     {
+      "action": "nahida_collect",
       "id": 8,
-      "x": -1679.63,
-      "y": 2627.66,
-      "type": "path",
       "move_mode": "run",
-      "action": "nahida_collect"
-    },
-    {
-      "id": 9,
-      "x": -1343.1,
-      "y": 2567.63,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 10,
-      "x": -1324.05,
-      "y": 2564.02,
       "type": "path",
+      "x": -1679.63,
+      "y": 2627.66
+    },
+    {
+      "action": "",
+      "id": 9,
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "teleport",
+      "x": -1343.1,
+      "y": 2567.63
+    },
+    {
+      "action": "nahida_collect",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1324.05,
+      "y": 2564.02
     }
   ]
 }

@@ -1,247 +1,247 @@
 {
   "info": {
-    "name": "02-水晶块-层岩巨渊·地下矿区-地下水泽-东(有战斗,精英200x1,小怪)-7个",
-    "type": "collect",
-    "version": "1.1",
-    "description": "",
-    "map_name": "TheChasm",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "火山",
-        "links": "https://github.com/RRRR623"
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "name": "02-水晶块-层岩巨渊·地下矿区-地下水泽-东(有战斗,精英200x1,小怪)-7个",
+    "type": "collect",
+    "version": "1.1"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 278.46,
-      "y": 767.31,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 767.31
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 329.84,
-      "y": 764.87,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 764.87
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": 366.22,
-      "y": 718.37,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 718.37
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "dash",
+      "type": "path",
       "x": 389.78,
-      "y": 720.24,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 720.24
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "dash",
+      "type": "path",
       "x": 438.76,
-      "y": 753.12,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 753.12
     },
     {
-      "id": 6,
-      "x": 445.81,
-      "y": 760.16,
       "action": "combat_script",
-      "move_mode": "fly",
       "action_params": "keypress(VK_SPACE),wait(1.8),keypress(VK_SPACE)",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": 426.83,
-      "y": 750.26,
-      "action": "stop_flying",
+      "id": 6,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 445.81,
+      "y": 760.16
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 426.83,
+      "y": 750.26
+    },
+    {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "dash",
+      "type": "path",
       "x": 408.5,
-      "y": 734.12,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 734.12
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "dash",
+      "type": "path",
       "x": 380.6,
-      "y": 702.28,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 702.28
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
+      "move_mode": "dash",
+      "type": "path",
       "x": 391.0,
-      "y": 693.44,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 693.44
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 11,
-      "x": 386.9,
-      "y": 710.68,
-      "action": "fight",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path",
       "point_ext_params": {
-        "misidentification": {
-          "type": [
-            "unrecognized"
-          ],
-          "handling_mode": "previousDetectedPoint",
-          "arrival_time": 0
-        },
         "description": "幼岩龙蜥*1",
-        "monster_tag": "elite"
-      }
-    },
-    {
-      "id": 12,
-      "x": 360.26,
-      "y": 693.15,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "type": "target"
-    },
-    {
-      "id": 13,
-      "x": 363.88,
-      "y": 693.03,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "type": "target"
-    },
-    {
-      "id": 14,
-      "x": 379.11,
-      "y": 699.2,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 15,
-      "x": 420.1,
-      "y": 747.41,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 16,
-      "x": 447.47,
-      "y": 740.84,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 17,
-      "x": 488.29,
-      "y": 761.81,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path",
-      "point_ext_params": {
         "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
           "type": [
             "unrecognized"
-          ],
-          "handling_mode": "previousDetectedPoint",
-          "arrival_time": 0
+          ]
         },
-        "description": "蕈兽",
-        "monster_tag": "normal"
-      }
+        "monster_tag": "elite"
+      },
+      "type": "path",
+      "x": 386.9,
+      "y": 710.68
     },
     {
-      "id": 18,
-      "x": 502.86,
-      "y": 764.55,
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 360.26,
+      "y": 693.15
+    },
+    {
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 363.88,
+      "y": 693.03
+    },
+    {
       "action": "",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 379.11,
+      "y": 699.2
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 420.1,
+      "y": 747.41
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 447.47,
+      "y": 740.84
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "point_ext_params": {
+        "description": "蕈兽",
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        },
+        "monster_tag": "normal"
+      },
+      "type": "path",
+      "x": 488.29,
+      "y": 761.81
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 502.86,
+      "y": 764.55
+    },
+    {
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
       "id": 19,
+      "move_mode": "walk",
+      "type": "target",
       "x": 503.56,
-      "y": 780.1,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "type": "target"
+      "y": 780.1
     },
     {
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
       "id": 20,
+      "move_mode": "walk",
+      "type": "target",
       "x": 507.45,
-      "y": 781.35,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "type": "target"
+      "y": 781.35
     },
     {
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
       "id": 21,
+      "move_mode": "walk",
+      "type": "target",
       "x": 508.24,
-      "y": 784.16,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "type": "target"
+      "y": 784.16
     },
     {
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
       "id": 22,
-      "x": 507.03,
-      "y": 786.92,
-      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "type": "target"
+      "type": "target",
+      "x": 507.03,
+      "y": 786.92
     },
     {
-      "id": 23,
-      "x": 507.03,
-      "y": 786.92,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(1)",
-      "type": "target"
+      "id": 23,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 507.03,
+      "y": 786.92
     }
   ]
 }

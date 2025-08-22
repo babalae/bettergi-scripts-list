@@ -1,73 +1,73 @@
 {
   "info": {
-    "name": "蒙德-达达乌帕谷-杉木-0个(大循环)",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "Tim",
-        "links": "https://github.com/Limint"
+        "links": "https://github.com/Limint",
+        "name": "Tim"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "蒙德-达达乌帕谷-杉木-0个(大循环)",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -1432.6875,
       "y": 1464.7153
     },
     {
+      "action": "stop_flying",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": -1408.2314,
-      "y": 1485.6978,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying"
+      "y": 1485.6978
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": -1360.3066,
-      "y": 1526.3979,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "y": 1526.3979
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": -1311.5,
-      "y": 1501.2513,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "y": 1501.2513
     },
     {
+      "action": "",
       "id": 5,
-      "x": -1309.7334,
-      "y": 1485.02,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": -1309.7334,
+      "y": 1485.02
     },
     {
+      "action": "",
       "id": 6,
-      "x": -1320.3926,
-      "y": 1470.6069,
-      "type": "path",
       "move_mode": "fly",
-      "action": ""
+      "type": "path",
+      "x": -1320.3926,
+      "y": 1470.6069
     },
     {
+      "action": "",
       "id": 7,
-      "x": -1354.9961,
-      "y": 1436.0625,
-      "type": "path",
       "move_mode": "run",
-      "action": ""
+      "type": "path",
+      "x": -1354.9961,
+      "y": 1436.0625
     }
   ]
 }

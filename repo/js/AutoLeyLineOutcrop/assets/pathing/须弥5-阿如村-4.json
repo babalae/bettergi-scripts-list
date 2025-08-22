@@ -1,59 +1,59 @@
 {
   "info": {
+    "author": "寒烟",
+    "bgi_version": "0.42.3",
+    "description": "这个也一样用了down",
     "name": "须弥5-阿如村-4",
     "type": "collect",
-    "author": "寒烟",
-    "version": "1.1",
-    "description": "这个也一样用了down",
-    "bgi_version": "0.42.3"
+    "version": "1.1"
   },
   "positions": [
     {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4205.1,
-      "y": -1922.03,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "up_down_grab_leaf",
-      "action_params": ""
+      "y": -1922.03
     },
     {
+      "action": "up_down_grab_leaf",
+      "action_params": "down",
       "id": 2,
-      "x": 4156.99,
-      "y": -1991.5,
-      "type": "path",
+      "locked": false,
       "move_mode": "walk",
-      "action": "up_down_grab_leaf",
-      "action_params": "down",
-      "locked": false
+      "type": "path",
+      "x": 4156.99,
+      "y": -1991.5
     },
     {
+      "action": "up_down_grab_leaf",
+      "action_params": "down",
       "id": 3,
-      "x": 4156.99,
-      "y": -1991.5,
-      "type": "path",
+      "locked": false,
       "move_mode": "walk",
+      "type": "path",
+      "x": 4156.99,
+      "y": -1991.5
+    },
+    {
       "action": "up_down_grab_leaf",
       "action_params": "down",
-      "locked": false
-    },
-    {
       "id": 4,
-      "x": 4156.99,
-      "y": -1991.5,
-      "type": "path",
       "move_mode": "walk",
-      "action": "up_down_grab_leaf",
-      "action_params": "down"
+      "type": "path",
+      "x": 4156.99,
+      "y": -1991.5
     },
     {
-      "id": 5,
-      "x": 4144.18,
-      "y": -2014.48,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4144.18,
+      "y": -2014.48
     }
   ]
 }

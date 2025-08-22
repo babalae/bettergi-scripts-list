@@ -1,49 +1,49 @@
 {
   "info": {
-    "name": "丘丘人射手-02风龙废墟02",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "曦",
-        "links": "https://github.com/cx05121"
+        "links": "https://github.com/cx05121",
+        "name": "曦"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "丘丘人射手-02风龙废墟02",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 338.22,
       "y": 2581.22
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 374.62,
-      "y": 2590.7,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 2590.7
     },
     {
+      "action": "",
       "id": 3,
-      "x": 426.24,
-      "y": 2604.62,
-      "type": "path",
       "move_mode": "fly",
-      "action": ""
+      "type": "path",
+      "x": 426.24,
+      "y": 2604.62
     },
     {
+      "action": "fight",
       "id": 4,
-      "x": 451.27,
-      "y": 2590.69,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 451.27,
+      "y": 2590.69
     }
   ]
 }

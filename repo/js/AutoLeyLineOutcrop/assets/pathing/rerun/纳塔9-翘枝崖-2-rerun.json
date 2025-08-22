@@ -1,57 +1,57 @@
 {
   "info": {
+    "author": "ddaodan",
+    "bgi_version": "0.42.3",
+    "description": "",
     "name": "纳塔9-翘枝崖-2-rerun",
     "type": "collect",
-    "author": "ddaodan",
-    "version": "1.1",
-    "description": "",
-    "bgi_version": "0.42.3"
+    "version": "1.1"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 9839.57,
-      "y": -1290.01,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 9839.57,
+      "y": -1290.01
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 9879.04,
-      "y": -1241.52,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 9879.04,
+      "y": -1241.52
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9889.45,
-      "y": -1172.74,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -1172.74
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 9885.73,
-      "y": -1067.98,
-      "action": "",
       "move_mode": "swim",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 9885.73,
+      "y": -1067.98
     },
     {
-      "id": 5,
-      "x": 9888.22,
-      "y": -1046.55,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9888.22,
+      "y": -1046.55
     }
   ]
 }

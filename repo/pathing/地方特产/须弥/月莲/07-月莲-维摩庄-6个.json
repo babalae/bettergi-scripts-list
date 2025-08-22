@@ -1,133 +1,133 @@
 {
   "info": {
-    "name": "07-月莲-维摩庄-6个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
-    "tags": [
-      "芙宁娜"
-    ],
-    "last_modified_time": 1751168807019,
     "authors": [
       {
         "name": "tignioj"
       },
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1751168807019,
+    "map_name": "Teyvat",
+    "name": "07-月莲-维摩庄-6个",
+    "tags": [
+      "芙宁娜"
+    ],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 2794.12,
-      "y": -1216.44,
       "action": "",
+      "id": 1,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
-      "locked": false
+      "x": 2794.12,
+      "y": -1216.44
     },
     {
+      "action": "",
       "id": 2,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
       "x": 2827.14,
-      "y": -1162.23,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path",
-      "locked": false
+      "y": -1162.23
     },
     {
+      "action": "",
       "id": 3,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
       "x": 2872.96,
-      "y": -1134.97,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path",
-      "locked": false
+      "y": -1134.97
     },
     {
+      "action": "",
       "id": 4,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
       "x": 2913.22,
-      "y": -1132.97,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path",
-      "locked": false
+      "y": -1132.97
     },
     {
-      "id": 5,
-      "x": 2947.61,
-      "y": -1117.85,
       "action": "stop_flying",
+      "id": 5,
+      "locked": false,
       "move_mode": "fly",
       "type": "path",
-      "locked": false
+      "x": 2947.61,
+      "y": -1117.85
     },
     {
+      "action": "",
       "id": 6,
+      "locked": false,
+      "move_mode": "swim",
+      "type": "target",
       "x": 2943.14,
-      "y": -1127.28,
-      "action": "",
-      "move_mode": "swim",
-      "type": "target",
-      "locked": false
+      "y": -1127.28
     },
     {
-      "id": 7,
-      "x": 2942.22,
-      "y": -1135.94,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "芙宁娜 attack,e(wait)"
+      "action_params": "芙宁娜 attack,e(wait)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2942.22,
+      "y": -1135.94
     },
     {
+      "action": "",
       "id": 8,
+      "locked": true,
+      "move_mode": "swim",
+      "type": "target",
       "x": 2948.13,
-      "y": -1127.76,
-      "action": "",
-      "move_mode": "swim",
-      "type": "target",
-      "locked": true
+      "y": -1127.76
     },
     {
+      "action": "",
       "id": 9,
+      "locked": false,
+      "move_mode": "swim",
+      "type": "target",
       "x": 2949.87,
-      "y": -1136.94,
-      "action": "",
-      "move_mode": "swim",
-      "type": "target",
-      "locked": false
+      "y": -1136.94
     },
     {
+      "action": "",
       "id": 10,
+      "locked": false,
+      "move_mode": "swim",
+      "type": "target",
       "x": 2957.83,
-      "y": -1127.46,
-      "action": "",
-      "move_mode": "swim",
-      "type": "target",
-      "locked": false
+      "y": -1127.46
     },
     {
+      "action": "",
       "id": 11,
-      "x": 2957.18,
-      "y": -1121.97,
-      "action": "",
+      "locked": false,
       "move_mode": "swim",
       "type": "target",
-      "locked": false
+      "x": 2957.18,
+      "y": -1121.97
     },
     {
-      "id": 12,
-      "x": 2956.52,
-      "y": -1116.61,
       "action": "",
+      "id": 12,
+      "locked": false,
       "move_mode": "swim",
       "type": "target",
-      "locked": false
+      "x": 2956.52,
+      "y": -1116.61
     }
   ]
 }

@@ -1,81 +1,81 @@
 {
   "info": {
-    "name": "19-水晶块-璃月-望舒客栈西-1个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "火山",
-        "links": "https://github.com/RRRR623"
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "name": "19-水晶块-璃月-望舒客栈西-1个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 730.63,
-      "y": 1062.93,
-      "action_params": ""
+      "y": 1062.93
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 711.93,
-      "y": 981.54,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 981.54
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 689.12,
-      "y": 980.61,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 689.12,
+      "y": 980.61
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 696.67,
-      "y": 981.14,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 981.14
     },
     {
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
       "id": 5,
+      "move_mode": "walk",
+      "type": "target",
       "x": 698.42,
-      "y": 981.83,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "y": 981.83
     },
     {
-      "id": 6,
-      "x": 698.35,
-      "y": 981.71,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 698.35,
+      "y": 981.71
     },
     {
-      "id": 7,
-      "x": 700.14,
-      "y": 977.8,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 700.14,
+      "y": 977.8
     }
   ]
 }

@@ -1,137 +1,137 @@
 {
   "info": {
-    "name": "04-水晶块-蒙德-奔狼领东(有战斗,小怪)-3个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "火山",
-        "links": "https://github.com/RRRR623"
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "name": "04-水晶块-蒙德-奔狼领东(有战斗,小怪)-3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -578.81,
-      "y": 1853.26,
-      "action_params": ""
+      "y": 1853.26
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(2.2)",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": -603.28,
-      "y": 1941.45,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "wait(2.2)"
+      "y": 1941.45
     },
     {
-      "id": 3,
-      "x": -618.36,
-      "y": 1991.79,
-      "type": "path",
-      "move_mode": "fly",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -618.36,
+      "y": 1991.79
     },
     {
-      "id": 4,
-      "x": -633.66,
-      "y": 2024.66,
-      "type": "path",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "attack"
+      "action_params": "attack",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -633.66,
+      "y": 2024.66
     },
     {
-      "id": 5,
-      "x": -628.15,
-      "y": 2009.88,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
       "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
       "point_ext_params": {
+        "description": "史莱姆",
         "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
           "type": [
             "unrecognized"
-          ],
-          "handling_mode": "previousDetectedPoint",
-          "arrival_time": 0
+          ]
         },
-        "description": "史莱姆",
         "monster_tag": "normal"
-      }
+      },
+      "type": "path",
+      "x": -628.15,
+      "y": 2009.88
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "dash",
+      "type": "path",
       "x": -632.42,
-      "y": 2015.35,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 2015.35
     },
     {
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
       "id": 7,
-      "x": -632.86,
-      "y": 2030.27,
-      "type": "target",
       "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "type": "target",
+      "x": -632.86,
+      "y": 2030.27
     },
     {
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
       "id": 8,
+      "move_mode": "walk",
+      "type": "target",
       "x": -629.5,
-      "y": 2032.2,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "y": 2032.2
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": -627.2,
-      "y": 2034.19,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2034.19
     },
     {
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
       "id": 10,
+      "move_mode": "walk",
+      "type": "target",
       "x": -632.02,
-      "y": 2035.48,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "y": 2035.48
     },
     {
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
       "id": 11,
-      "x": -635.14,
-      "y": 2034.75,
-      "type": "target",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)"
+      "type": "target",
+      "x": -635.14,
+      "y": 2034.75
     },
     {
-      "id": 12,
-      "x": -637.88,
-      "y": 2030.88,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -637.88,
+      "y": 2030.88
     }
   ]
 }

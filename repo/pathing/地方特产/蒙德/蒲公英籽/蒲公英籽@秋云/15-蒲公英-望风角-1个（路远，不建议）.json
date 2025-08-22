@@ -1,57 +1,57 @@
 {
   "info": {
-    "name": "15-蒲公英-望风角-1个（路远，不建议）",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "秋云",
-        "links": "https://github.com/physligl"
+        "links": "https://github.com/physligl",
+        "name": "秋云"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "15-蒲公英-望风角-1个（路远，不建议）",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": -1629.35,
-      "y": 2834.3,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "x": -1629.35,
+      "y": 2834.3
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1634.38,
-      "y": 2846.01,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 2846.01
     },
     {
+      "action": "",
       "id": 3,
-      "x": -1643.24,
-      "y": 2867.23,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": -1643.24,
+      "y": 2867.23
     },
     {
+      "action": "",
       "id": 4,
-      "x": -1683.23,
-      "y": 2909.0,
-      "type": "path",
       "move_mode": "fly",
-      "action": ""
+      "type": "path",
+      "x": -1683.23,
+      "y": 2909.0
     },
     {
+      "action": "anemo_collect",
       "id": 5,
-      "x": -1704.01,
-      "y": 2987.65,
-      "type": "path",
       "move_mode": "fly",
-      "action": "anemo_collect"
+      "type": "path",
+      "x": -1704.01,
+      "y": 2987.65
     }
   ]
 }

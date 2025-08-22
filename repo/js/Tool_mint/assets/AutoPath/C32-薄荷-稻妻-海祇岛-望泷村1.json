@@ -1,233 +1,233 @@
 {
   "info": {
-    "name": "C32-薄荷-稻妻-海祇岛-望泷村1",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": "https://github.com/Tooltingsu"
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
       }
-    ]
+    ],
+    "bgi_version": "0.42.3",
+    "description": "",
+    "name": "C32-薄荷-稻妻-海祇岛-望泷村1",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -755.6,
-      "y": -4001.06,
-      "type": "teleport",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "teleport",
+      "x": -755.6,
+      "y": -4001.06
     },
     {
+      "action": "stop_flying",
+      "action_params": "600",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": -756.49,
-      "y": -3962.0,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": "600"
+      "y": -3962.0
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": -766.64,
-      "y": -3883.86,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": ""
+      "y": -3883.86
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -761.57,
-      "y": -3883.15,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -3883.15
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -757.41,
-      "y": -3876.22,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -3876.22
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": -756.65,
-      "y": -3872.42,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -3872.42
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": -756.82,
-      "y": -3879.59,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -3879.59
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 8,
+      "move_mode": "fly",
+      "type": "path",
       "x": -759.4,
-      "y": -3922.49,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": ""
+      "y": -3922.49
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
-      "x": -764.74,
-      "y": -3922.7,
+      "move_mode": "walk",
       "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -764.74,
+      "y": -3922.7
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
-      "x": -755.6,
-      "y": -4001.06,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -755.6,
+      "y": -4001.06
     },
     {
-      "id": 11,
-      "x": -850.42,
-      "y": -3946.47,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
-    },
-    {
-      "id": 12,
-      "x": -873.54,
-      "y": -3950.31,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 13,
-      "x": -884.16,
-      "y": -3953.26,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 14,
-      "x": -898.47,
-      "y": -3960.04,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 15,
-      "x": -906.49,
-      "y": -3963.79,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 16,
-      "x": -918.76,
-      "y": -3966.98,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 17,
-      "x": -927.3,
-      "y": -3965.5,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 18,
-      "x": -935.16,
-      "y": -3969.22,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 19,
-      "x": -943.14,
-      "y": -3972.32,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 20,
-      "x": -943.58,
-      "y": -3977.15,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 21,
-      "x": -944.34,
-      "y": -3984.86,
-      "type": "path",
+      "action_params": "",
+      "id": 11,
       "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -850.42,
+      "y": -3946.47
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -873.54,
+      "y": -3950.31
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -884.16,
+      "y": -3953.26
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -898.47,
+      "y": -3960.04
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -906.49,
+      "y": -3963.79
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -918.76,
+      "y": -3966.98
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -927.3,
+      "y": -3965.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -935.16,
+      "y": -3969.22
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -943.14,
+      "y": -3972.32
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -943.58,
+      "y": -3977.15
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -944.34,
+      "y": -3984.86
+    },
+    {
+      "action": "",
+      "action_params": "",
       "id": 22,
+      "move_mode": "walk",
+      "type": "path",
       "x": -944.93,
-      "y": -3989.8,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -3989.8
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 23,
-      "x": -957.71,
-      "y": -3985.77,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -957.71,
+      "y": -3985.77
     },
     {
-      "id": 24,
-      "x": -967.56,
-      "y": -3971.57,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -967.56,
+      "y": -3971.57
     }
   ]
 }

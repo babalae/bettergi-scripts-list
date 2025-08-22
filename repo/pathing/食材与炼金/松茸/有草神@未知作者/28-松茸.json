@@ -1,88 +1,88 @@
 {
   "info": {
-    "name": "28-松茸",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "未知作者"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "28-松茸",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 1153.46,
-      "y": 142.84,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 142.84
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 1151.55,
-      "y": 99.52,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 99.52
     },
     {
+      "action": "nahida_collect",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 1156.38,
-      "y": 66.81,
-      "action": "nahida_collect",
-      "move_mode": "run",
-      "type": "path"
+      "y": 66.81
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": 1127.81,
-      "y": 57.54,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 57.54
     },
     {
+      "action": "nahida_collect",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1118.33,
-      "y": 57.18,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 57.18
     },
     {
+      "action": "",
       "id": 6,
-      "x": 1089.82,
-      "y": 57.25,
-      "action": "",
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 1089.82,
+      "y": 57.25
     },
     {
+      "action": "nahida_collect",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1088.96,
-      "y": 58.57,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 58.57
     },
     {
-      "id": 8,
-      "x": 259.48,
-      "y": -14.03,
       "action": "",
+      "id": 8,
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 259.48,
+      "y": -14.03
     },
     {
-      "id": 9,
-      "x": 254.22,
-      "y": -10.46,
       "action": "nahida_collect",
+      "id": 9,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 254.22,
+      "y": -10.46
     }
   ]
 }

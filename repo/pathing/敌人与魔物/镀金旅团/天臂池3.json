@@ -1,38 +1,38 @@
 {
   "info": {
-    "name": "天臂池3",
-    "type": "collect",
-    "version": "1.0",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "baixi",
-        "links": "https://github.com/baixi232310"
+        "links": "https://github.com/baixi232310",
+        "name": "baixi"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "name": "天臂池3",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": 3097.2,
-      "y": -355.97,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk"
+      "x": 3097.2,
+      "y": -355.97
     },
     {
       "id": 2,
-      "x": 3043.24,
-      "y": -334.58,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "walk"
+      "x": 3043.24,
+      "y": -334.58
     },
     {
+      "action": "fight",
       "id": 3,
-      "x": 3023.74,
-      "y": -340.24,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 3023.74,
+      "y": -340.24
     }
   ]
 }

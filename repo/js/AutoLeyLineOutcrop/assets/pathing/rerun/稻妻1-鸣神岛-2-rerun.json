@@ -1,57 +1,57 @@
 {
   "info": {
+    "author": "寒烟",
+    "bgi_version": "0.42.3",
+    "description": "",
     "name": "稻妻1-鸣神岛-2-rerun",
     "type": "collect",
-    "author": "寒烟",
-    "version": "1.1",
-    "description": "",
-    "bgi_version": "0.42.3"
+    "version": "1.1"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -4217.9,
-      "y": -2397.83,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -4217.9,
+      "y": -2397.83
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": -4332.49,
-      "y": -2296.32,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": -2296.32
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": -4338.18,
-      "y": -2292.7,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": -4409.11,
-      "y": -2228.86,
       "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "x": -4338.18,
+      "y": -2292.7
     },
     {
-      "id": 5,
-      "x": -4401.19,
-      "y": -2226.96,
-      "type": "target",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4409.11,
+      "y": -2228.86
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -4401.19,
+      "y": -2226.96
     }
   ]
 }

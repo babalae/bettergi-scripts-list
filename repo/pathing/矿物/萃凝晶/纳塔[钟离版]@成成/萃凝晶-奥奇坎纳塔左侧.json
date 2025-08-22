@@ -1,125 +1,125 @@
 {
   "info": {
-    "name": "萃凝晶-奥奇坎纳塔左侧",
-    "type": "collect",
-    "version": "1.0",
-    "description": "需要钟离，有纳西妲可以顺便采集周围的植物\n注意：钟离不可以作为生存位！此路线存在游泳，体力条不是上限的慎用\n\n",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "成成"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "需要钟离，有纳西妲可以顺便采集周围的植物\n注意：钟离不可以作为生存位！此路线存在游泳，体力条不是上限的慎用\n\n",
+    "map_name": "Teyvat",
+    "name": "萃凝晶-奥奇坎纳塔左侧",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 10273.62,
-      "y": -192.19,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 10273.62,
+      "y": -192.19
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 10267.1,
-      "y": -151.31,
-      "type": "path",
       "move_mode": "fly",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 3,
-      "x": 10265.26,
-      "y": -134.85,
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 10267.1,
+      "y": -151.31
     },
     {
-      "id": 4,
-      "x": 10275.96,
-      "y": -116.04,
-      "type": "target",
+      "action": "",
+      "action_params": "",
+      "id": 3,
       "move_mode": "walk",
+      "type": "path",
+      "x": 10265.26,
+      "y": -134.85
+    },
+    {
       "action": "combat_script",
-      "action_params": "钟离 e(hold)"
+      "action_params": "钟离 e(hold)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10275.96,
+      "y": -116.04
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "target",
       "x": 10281.88,
-      "y": -117.28,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -117.28
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "target",
       "x": 10281.35,
-      "y": -122.39,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -122.39
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "target",
       "x": 10277.32,
-      "y": -121.64,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -121.64
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "target",
       "x": 10279.6,
-      "y": -118.31,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -118.31
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "target",
       "x": 10270.58,
-      "y": -116.07,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -116.07
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "target",
       "x": 10272.84,
-      "y": -107.03,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -107.03
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 11,
-      "x": 10276.1,
-      "y": -109.47,
-      "type": "target",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "target",
+      "x": 10276.1,
+      "y": -109.47
     },
     {
-      "id": 12,
-      "x": 10272.69,
-      "y": -113.3,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10272.69,
+      "y": -113.3
     }
   ]
 }

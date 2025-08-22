@@ -1,62 +1,62 @@
 {
   "info": {
-    "name": "稻妻-飘浮灵-清籁岛越石村南-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "飘浮灵-2个\n稻妻-清籁岛越石村南",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "提瓦特钓鱼玳师",
-        "links": "https://github.com/Hijiwos"
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "飘浮灵-2个\n稻妻-清籁岛越石村南",
+    "name": "稻妻-飘浮灵-清籁岛越石村南-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -3891.58,
-      "y": -4389.9,
-      "action_params": ""
+      "y": -4389.9
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": -3887.35,
-      "y": -4399.16,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": -4399.16
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": -3884.15,
-      "y": -4405.37,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": -4405.37
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": -3933.01,
-      "y": -4454.95,
-      "type": "path",
       "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -3933.01,
+      "y": -4454.95
     },
     {
-      "id": 5,
-      "x": -3947.58,
-      "y": -4473.72,
-      "type": "path",
-      "move_mode": "run",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3947.58,
+      "y": -4473.72
     }
   ]
 }

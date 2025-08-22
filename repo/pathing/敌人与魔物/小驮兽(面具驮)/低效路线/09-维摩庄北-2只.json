@@ -1,131 +1,131 @@
 {
   "info": {
-    "name": "09-维摩庄北-2只",
-    "type": "collect",
     "authors": [
       {
-        "name": "jay",
-        "links": ""
+        "links": "",
+        "name": "jay"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1754660782229,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "09-维摩庄北-2只",
     "tags": [
       "驮兽",
       "丘丘面具",
       "兽肉",
       "小驮兽"
     ],
-    "last_modified_time": 1754660782229,
-    "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 2632.1943,
-      "y": -1016.5586,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 2632.1943,
+      "y": -1016.5586
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2645.5957,
-      "y": -1011.251,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -1011.251
     },
     {
-      "id": 3,
-      "x": 2672.7793,
-      "y": -1004.6997,
-      "type": "path",
-      "move_mode": "walk",
       "action": "up_down_grab_leaf",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2672.7793,
+      "y": -1004.6997
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 2686.3242,
-      "y": -1017.3618,
-      "type": "path",
       "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 2686.3242,
+      "y": -1017.3618
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 2693.7871,
-      "y": -1029.7554,
-      "type": "path",
       "move_mode": "jump",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 2693.7871,
+      "y": -1029.7554
     },
     {
-      "id": 6,
-      "x": 2703.9873,
-      "y": -1032.6875,
-      "type": "path",
-      "move_mode": "run",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2703.9873,
+      "y": -1032.6875
     },
     {
       "id": 7,
-      "x": 2733.5,
-      "y": -1012.75,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "walk"
+      "x": 2733.5,
+      "y": -1012.75
     },
     {
       "id": 8,
+      "move_mode": "fly",
+      "type": "path",
       "x": 2806.25,
-      "y": -983.25,
-      "type": "path",
-      "move_mode": "fly"
+      "y": -983.25
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "dash",
+      "type": "path",
       "x": 2801.3896,
-      "y": -960.0142,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -960.0142
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
-      "x": 2810.7344,
-      "y": -866.7344,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 2810.7344,
+      "y": -866.7344
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 11,
-      "x": 2860.6602,
-      "y": -878.1108,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 2860.6602,
+      "y": -878.1108
     },
     {
-      "id": 12,
-      "x": 2871.873,
-      "y": -880.146,
-      "type": "path",
-      "move_mode": "jump",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 12,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 2871.873,
+      "y": -880.146
     }
   ]
 }

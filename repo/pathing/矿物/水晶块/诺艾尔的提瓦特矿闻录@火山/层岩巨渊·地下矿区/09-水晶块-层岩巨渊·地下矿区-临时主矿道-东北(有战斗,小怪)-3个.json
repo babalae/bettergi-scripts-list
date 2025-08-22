@@ -1,110 +1,110 @@
 {
   "info": {
-    "name": "09-水晶块-层岩巨渊·地下矿区-临时主矿道-东北(有战斗,小怪)-3个",
-    "type": "collect",
-    "version": "1.1",
-    "description": "",
-    "map_name": "TheChasm",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "火山",
-        "links": "https://github.com/RRRR623"
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "name": "09-水晶块-层岩巨渊·地下矿区-临时主矿道-东北(有战斗,小怪)-3个",
+    "type": "collect",
+    "version": "1.1"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 663.83,
-      "y": 1058.86,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 1058.86
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 615.47,
-      "y": 1087.07,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 1087.07
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 585.33,
-      "y": 1098.4,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 582.82,
-      "y": 1102.31,
-      "action": "",
-      "move_mode": "jump",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 555.37,
-      "y": 1129.34,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": 548.65,
-      "y": 1129.71,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
       "type": "path",
+      "x": 585.33,
+      "y": 1098.4
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 582.82,
+      "y": 1102.31
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 555.37,
+      "y": 1129.34
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
       "point_ext_params": {
+        "description": "盗宝团",
         "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
           "type": [
             "unrecognized"
-          ],
-          "handling_mode": "previousDetectedPoint",
-          "arrival_time": 0
+          ]
         },
-        "description": "盗宝团",
         "monster_tag": "normal"
-      }
+      },
+      "type": "path",
+      "x": 548.65,
+      "y": 1129.71
     },
     {
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
       "id": 7,
+      "move_mode": "walk",
+      "type": "target",
       "x": 563.01,
-      "y": 1133.66,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "type": "target"
+      "y": 1133.66
     },
     {
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
       "id": 8,
-      "x": 566.82,
-      "y": 1136.01,
-      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "type": "target"
+      "type": "target",
+      "x": 566.82,
+      "y": 1136.01
     },
     {
-      "id": 9,
-      "x": 558.22,
-      "y": 1138.68,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "type": "target"
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 558.22,
+      "y": 1138.68
     }
   ]
 }

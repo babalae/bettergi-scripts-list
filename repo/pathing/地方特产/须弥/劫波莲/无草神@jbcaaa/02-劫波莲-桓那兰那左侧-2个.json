@@ -1,65 +1,65 @@
 {
   "info": {
-    "name": "02-劫波莲-桓那兰那左侧-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "jbcaaa",
-        "links": "https://github.com/jbcaaa"
+        "links": "https://github.com/jbcaaa",
+        "name": "jbcaaa"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "02-劫波莲-桓那兰那左侧-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4041.36,
       "y": -238.58
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 3961.0,
-      "y": -224.0,
-      "move_mode": "fly",
-      "type": "path",
-      "action": ""
+      "y": -224.0
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": 3889.0,
-      "y": -213.0,
-      "move_mode": "fly",
-      "type": "path",
-      "action": ""
+      "y": -213.0
     },
     {
+      "action": "",
       "id": 4,
-      "x": 3807.0,
-      "y": -200.0,
       "move_mode": "fly",
       "type": "path",
-      "action": ""
+      "x": 3807.0,
+      "y": -200.0
     },
     {
+      "action": "stop_flying",
       "id": 5,
-      "x": 3729.26,
-      "y": -188.92,
-      "type": "target",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "target",
+      "x": 3729.26,
+      "y": -188.92
     },
     {
+      "action": "",
       "id": 6,
-      "x": 3737.99,
-      "y": -193.92,
-      "type": "target",
       "move_mode": "fly",
-      "action": ""
+      "type": "target",
+      "x": 3737.99,
+      "y": -193.92
     }
   ]
 }

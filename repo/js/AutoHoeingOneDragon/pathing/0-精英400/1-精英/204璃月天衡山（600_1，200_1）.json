@@ -1,113 +1,113 @@
-﻿{
+{
   "info": {
-    "name": "204璃月天衡山（600_1，200_1）",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时106.27秒，包含2只精英与3只小怪，预计收入921.5摩拉，包含以下怪物：2只打手丘丘人、1只射手丘丘人、1只幼岩龙蜥、1只岩龙蜥。",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
-    "map_name": "Teyvat",
-    "tags": [],
-    "last_modified_time": 1754740695717,
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时106.27秒，包含2只精英与3只小怪，预计收入921.5摩拉，包含以下怪物：2只打手丘丘人、1只射手丘丘人、1只幼岩龙蜥、1只岩龙蜥。",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754740695717,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "204璃月天衡山（600_1，200_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 611.71,
-      "y": -284.67,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 611.71,
+      "y": -284.67
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 616.28,
-      "y": -223.27,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -223.27
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 627.26,
-      "y": -174,
-      "action": "fight",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -174
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": 642,
-      "y": -162.5,
-      "action": "fight",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -162.5
     },
     {
-      "id": 5,
-      "x": 607.5,
-      "y": -124.25,
       "action": "combat_script",
-      "move_mode": "run",
       "action_params": "wait(0.5),keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
-      "type": "path"
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 607.5,
+      "y": -124.25
     },
     {
-      "id": 6,
-      "x": 579.14,
-      "y": -110.94,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 579.14,
+      "y": -110.94
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "run",
+      "type": "path",
       "x": 597.14,
-      "y": -101.94,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -101.94
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "run",
+      "type": "path",
       "x": 595.14,
-      "y": -85.94,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -85.94
     },
     {
-      "id": 9,
-      "x": 590,
-      "y": -97.75,
       "action": "fight",
-      "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": 590,
+      "y": -97.75
     },
     {
-      "id": 10,
-      "x": 590,
-      "y": -97.75,
       "action": "combat_script",
-      "move_mode": "run",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 10,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 590,
+      "y": -97.75
     }
   ]
 }

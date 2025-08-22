@@ -1,155 +1,155 @@
 {
   "info": {
-    "name": "28-冰雾花花朵-枫丹-新枫丹科学院-5个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
+    "authors": [
+      {
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
+      }
+    ],
     "bgi_version": "0.43.0",
+    "description": "",
+    "name": "28-冰雾花花朵-枫丹-新枫丹科学院-5个",
     "tags": [
       "胡桃"
     ],
-    "authors": [
-      {
-        "name": "Tool_tingsu",
-        "links": "https://github.com/Tooltingsu"
-      }
-    ]
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 4299.09,
-      "y": 4763.8,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 4763.8
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4316.21,
-      "y": 4773.86,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 4773.86
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4349.66,
-      "y": 4759.83,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 4759.83
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4377.81,
-      "y": 4723.0,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 4723.0
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4382.16,
-      "y": 4696.49,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 4696.49
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4385.39,
-      "y": 4675.85,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 4675.85
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4387.74,
-      "y": 4666.9,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 4666.9
     },
     {
+      "action": "pyro_collect",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "target",
       "x": 4380.39,
-      "y": 4663.81,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "pyro_collect",
-      "action_params": ""
+      "y": 4663.81
     },
     {
+      "action": "pyro_collect",
+      "action_params": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "target",
       "x": 4390.21,
-      "y": 4659.0,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "pyro_collect",
-      "action_params": ""
+      "y": 4659.0
     },
     {
+      "action": "pyro_collect",
+      "action_params": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "target",
       "x": 4401.15,
-      "y": 4661.85,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "pyro_collect",
-      "action_params": ""
+      "y": 4661.85
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 11,
-      "x": 4498.13,
-      "y": 4710.76,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 4498.13,
+      "y": 4710.76
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 12,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4512.32,
-      "y": 4700.82,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 4700.82
     },
     {
-      "id": 13,
-      "x": 4527.4,
-      "y": 4685.15,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 13,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4527.4,
+      "y": 4685.15
     },
     {
+      "action": "pyro_collect",
+      "action_params": "",
       "id": 14,
-      "x": 4530.44,
-      "y": 4685.66,
-      "type": "target",
       "move_mode": "walk",
-      "action": "pyro_collect",
-      "action_params": ""
+      "type": "target",
+      "x": 4530.44,
+      "y": 4685.66
     },
     {
-      "id": 15,
-      "x": 4540.81,
-      "y": 4693.07,
-      "type": "target",
-      "move_mode": "walk",
       "action": "pyro_collect",
-      "action_params": ""
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4540.81,
+      "y": 4693.07
     }
   ]
 }

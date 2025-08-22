@@ -1,12 +1,16 @@
 {
   "info": {
-    "name": "06-饱饮之丘西-4只",
-    "type": "collect",
     "author": "jay",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
+    "authors": [
+      {
+        "name": "jay"
+      }
+    ],
     "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1754396929164,
+    "map_name": "Teyvat",
+    "name": "06-饱饮之丘西-4只",
     "tags": [
       "驮兽",
       "兽肉",
@@ -14,85 +18,81 @@
       "镀金旅团",
       "沙暴"
     ],
-    "last_modified_time": 1754396929164,
-    "authors": [
-      {
-        "name": "jay"
-      }
-    ]
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 5655.7563,
-      "y": -1821.9902,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -1821.9902
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 5555.4912,
-      "y": -1927.4595,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -1927.4595
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 5666.25,
-      "y": -1970.25,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 5666.25,
+      "y": -1970.25
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5703.5,
-      "y": -1998.25,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -1998.25
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 5,
-      "x": 5830.0,
-      "y": -1967.5,
-      "action": "fight",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 5830.0,
+      "y": -1967.5
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5861.5,
-      "y": -1956.5,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -1956.5
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
-      "x": 5900.1846,
-      "y": -1983.1562,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 5900.1846,
+      "y": -1983.1562
     },
     {
-      "id": 8,
-      "x": 5935.8652,
-      "y": -2024.6738,
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5935.8652,
+      "y": -2024.6738
     }
   ]
 }

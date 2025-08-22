@@ -1,62 +1,62 @@
 {
   "info": {
-    "name": "03-枣椰-阿如村-2个",
-    "type": "collect",
-    "version": "47.1.4",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.47.1-alpha.4",
-    "tags": [],
-    "last_modified_time": 1752595205643,
-    "enable_monster_loot_split": false,
     "authors": [
       {
         "name": "白白喵"
       }
-    ]
+    ],
+    "bgi_version": "0.47.1-alpha.4",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1752595205643,
+    "map_name": "Teyvat",
+    "name": "03-枣椰-阿如村-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "47.1.4"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 3993.15,
-      "y": -1989.54,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": -1989.54
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 3949.09,
-      "y": -1961.97,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": -1961.97
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 3941.44,
-      "y": -1928.7,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": -1928.7
     },
     {
-      "id": 4,
-      "x": 3976.64,
-      "y": -1875.19,
       "action": "",
-      "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3976.64,
+      "y": -1875.19
     },
     {
-      "id": 5,
-      "x": 3969.49,
-      "y": -1863.62,
-      "type": "target",
-      "move_mode": "walk",
       "action": "nahida_collect",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3969.49,
+      "y": -1863.62
     }
   ]
 }

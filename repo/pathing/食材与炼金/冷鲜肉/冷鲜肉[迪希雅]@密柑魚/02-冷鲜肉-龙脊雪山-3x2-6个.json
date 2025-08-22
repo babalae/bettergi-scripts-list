@@ -1,159 +1,159 @@
 {
   "info": {
-    "name": "02-冷鲜肉-龙脊雪山-3x2-6个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "必需使用 60級(突破后) 迪希雅 作為行走位",
-    "map_name": "Teyvat",
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
     "bgi_version": "0.45.0",
+    "description": "必需使用 60級(突破后) 迪希雅 作為行走位",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1755274325346,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-冷鲜肉-龙脊雪山-3x2-6个",
     "tags": [
       "迪希雅"
     ],
-    "last_modified_time": 1755274325346,
-    "authors": [
-      {
-        "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
-      }
-    ],
-    "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -1334.68,
-      "y": 825.72,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 825.72
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": -1318.84,
-      "y": 832.56,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 832.56
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": -1294.46,
-      "y": 812.58,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 812.58
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "dash",
+      "type": "path",
       "x": -1283.16,
-      "y": 765.54,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 765.54
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "dash",
+      "type": "path",
       "x": -1242.04,
-      "y": 752.06,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 752.06
     },
     {
+      "action": "combat_script",
+      "action_params": "迪希雅 wait(0.8),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
       "id": 6,
+      "move_mode": "walk",
+      "type": "target",
       "x": -1208.11,
-      "y": 763.76,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "迪希雅 wait(0.8),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
-      "type": "target"
+      "y": 763.76
     },
     {
+      "action": "pick_around",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "target",
       "x": -1206.5,
-      "y": 763.82,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "pick_around",
-      "action_params": ""
+      "y": 763.82
     },
     {
-      "id": 8,
-      "x": -1180.75,
-      "y": 767.24,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "wait(0.5),keypress(f),wait(1.5)",
-      "type": "target"
+      "id": 8,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -1180.75,
+      "y": 767.24
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "dash",
+      "type": "path",
       "x": -1139.36,
-      "y": 762.29,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 762.29
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
+      "move_mode": "dash",
+      "type": "path",
       "x": -1146.29,
-      "y": 741.84,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 741.84
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 11,
-      "x": -1176.53,
-      "y": 720.13,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -1176.53,
+      "y": 720.13
     },
     {
-      "id": 12,
-      "x": -1168.13,
-      "y": 693.9,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "迪希雅 wait(0.8),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
-      "type": "target"
-    },
-    {
-      "id": 13,
-      "x": -1170.28,
-      "y": 694.79,
+      "id": 12,
+      "move_mode": "walk",
       "type": "target",
-      "move_mode": "walk",
-      "action": "pick_around",
-      "action_params": ""
+      "x": -1168.13,
+      "y": 693.9
     },
     {
-      "id": 14,
-      "x": -1167.9,
-      "y": 690.18,
-      "type": "target",
-      "move_mode": "walk",
       "action": "pick_around",
-      "action_params": ""
-    },
-    {
-      "id": 15,
-      "x": -1164.54,
-      "y": 692.31,
-      "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1170.28,
+      "y": 694.79
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1167.9,
+      "y": 690.18
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1164.54,
+      "y": 692.31
     }
   ]
 }

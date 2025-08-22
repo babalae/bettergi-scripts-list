@@ -1,113 +1,113 @@
-﻿{
+{
   "info": {
-    "name": "326稻妻渊下宫狭间之街西北（600_2，200_2）",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时137.87秒，包含4只精英与2只小怪，预计收入2481摩拉，包含以下怪物：1只丘丘人、1只打手丘丘人、1只丘丘雷兜王、3只深海龙蜥·原种。",
-    "map_name": "Enkanomiya",
-    "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1754746034798,
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时137.87秒，包含4只精英与2只小怪，预计收入2481摩拉，包含以下怪物：1只丘丘人、1只打手丘丘人、1只丘丘雷兜王、3只深海龙蜥·原种。",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754746034798,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "326稻妻渊下宫狭间之街西北（600_2，200_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 630.7,
-      "y": 624.81,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 630.7,
+      "y": 624.81
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 632.28,
-      "y": 662.75,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 662.75
     },
     {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": 671.54,
-      "y": 661.01,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
-      "type": "path"
+      "y": 661.01
     },
     {
-      "id": 4,
-      "x": 698.12,
-      "y": 654,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 698.12,
+      "y": 654
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 5,
+      "move_mode": "dash",
+      "type": "path",
       "x": 709.63,
-      "y": 629.75,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 629.75
     },
     {
-      "id": 6,
-      "x": 748.54,
-      "y": 643.89,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
-      "type": "path"
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 748.54,
+      "y": 643.89
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
-      "x": 792.16,
-      "y": 641.82,
-      "action": "",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 792.16,
+      "y": 641.82
     },
     {
-      "id": 8,
-      "x": 776.12,
-      "y": 657.88,
       "action": "",
+      "action_params": "",
+      "id": 8,
       "move_mode": "jump",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 776.12,
+      "y": 657.88
     },
     {
-      "id": 9,
-      "x": 775.31,
-      "y": 623.71,
       "action": "fight",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 775.31,
+      "y": 623.71
     },
     {
-      "id": 10,
-      "x": 775.31,
-      "y": 623.71,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 10,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 775.31,
+      "y": 623.71
     }
   ]
 }

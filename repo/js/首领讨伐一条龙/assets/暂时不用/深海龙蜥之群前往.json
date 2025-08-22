@@ -1,77 +1,77 @@
-﻿{
+{
   "info": {
-    "name": "深海龙蜥之群前往",
-    "type": "collect",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": ""
+        "links": "",
+        "name": "Tool_tingsu"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Enkanomiya",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1754187157192,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754187157192,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "深海龙蜥之群前往",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 285.5234375,
-      "y": 277.4205322265625,
-      "action_params": ""
+      "y": 277.4205322265625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 257.4517822265625,
-      "y": 274.028564453125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 274.028564453125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 228.92626953125,
-      "y": 270.8372802734375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 270.8372802734375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 216.931884765625,
-      "y": 269.5625,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 216.931884765625,
+      "y": 269.5625
     },
     {
-      "id": 5,
-      "x": 210.154052734375,
-      "y": 268.6961669921875,
-      "type": "path",
-      "move_mode": "fly",
       "action": "combat_script",
       "action_params": "wait(1)",
-      "locked": false
+      "id": 5,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 210.154052734375,
+      "y": 268.6961669921875
     },
     {
-      "id": 6,
-      "x": 210.154052734375,
-      "y": 268.6961669921875,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "4000"
+      "action_params": "4000",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 210.154052734375,
+      "y": 268.6961669921875
     }
   ]
 }

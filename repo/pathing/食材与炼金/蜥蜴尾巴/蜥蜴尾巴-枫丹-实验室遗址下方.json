@@ -1,79 +1,79 @@
 {
   "info": {
-    "name": "蜥蜴尾巴-枫丹-实验室遗址下方",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "ran"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "蜥蜴尾巴-枫丹-实验室遗址下方",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 4143.91,
-      "y": 4423.52,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 4143.91,
+      "y": 4423.52
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 4135.83,
-      "y": 4418.82,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 4418.82
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 4139.4,
-      "y": 4400.72,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 4139.4,
+      "y": 4400.72
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4139.4,
-      "y": 4400.72,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 4400.72
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "run",
+      "type": "target",
       "x": 4154.34,
-      "y": 4401.55,
-      "type": "target",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 4401.55
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": 4148.09,
-      "y": 4398.0,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 4148.09,
+      "y": 4398.0
     },
     {
-      "id": 7,
-      "x": 4110.67,
-      "y": 4415.0,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4110.67,
+      "y": 4415.0
     }
   ]
 }

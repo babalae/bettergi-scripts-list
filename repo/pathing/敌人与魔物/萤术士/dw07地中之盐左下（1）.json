@@ -1,109 +1,109 @@
 {
   "info": {
-    "name": "dw07地中之盐左下（1）",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "下流山汉",
-        "links": "https://github.com/vulgar-rustic"
+        "links": "https://github.com/vulgar-rustic",
+        "name": "下流山汉"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "dw07地中之盐左下（1）",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": -188.55,
-      "y": 972.5,
+      "y": 972.5
+    },
+    {
+      "action": "",
       "action_params": "",
-      "locked": false
-    },
-    {
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -175.22,
-      "y": 974.68,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 974.68
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": -148.75,
-      "y": 974.71,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 974.71
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": -121.81,
-      "y": 976.7,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 976.7
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -103.1,
-      "y": 994.44,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 994.44
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": -87.18,
-      "y": 1010.01,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -87.18,
+      "y": 1010.01
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "run",
+      "type": "path",
       "x": -76.95,
-      "y": 1035.57,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 1035.57
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "run",
+      "type": "path",
       "x": -72.95,
-      "y": 1052.0,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 1052.0
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
-      "x": -70.51,
-      "y": 1059.02,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -70.51,
+      "y": 1059.02
     },
     {
-      "id": 10,
-      "x": -70.63,
-      "y": 1067.23,
-      "type": "path",
-      "move_mode": "run",
       "action": "fight",
       "action_params": "",
-      "locked": true
+      "id": 10,
+      "locked": true,
+      "move_mode": "run",
+      "type": "path",
+      "x": -70.63,
+      "y": 1067.23
     }
   ]
 }

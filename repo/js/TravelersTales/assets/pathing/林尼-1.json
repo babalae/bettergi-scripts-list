@@ -1,78 +1,78 @@
 {
   "info": {
-    "name": "林尼-1",
-    "type": "collect",
     "author": "ddaodan",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1750236621542,
+    "map_name": "Teyvat",
+    "name": "林尼-1",
     "tags": [],
-    "last_modified_time": 1750236621542
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4301.302734375,
-      "y": 4765.01025390625,
-      "action_params": ""
+      "y": 4765.01025390625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4289.541015625,
-      "y": 4764.77734375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 4764.77734375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4268.943359375,
-      "y": 4759.98681640625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 4759.98681640625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "dash",
+      "type": "path",
       "x": 4237.4873046875,
-      "y": 4783.37353515625,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 4783.37353515625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 4230.89111328125,
-      "y": 4788.2646484375,
-      "type": "path",
       "move_mode": "jump",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 6,
-      "x": 4209.32958984375,
-      "y": 4804.1025390625,
       "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "x": 4230.89111328125,
+      "y": 4788.2646484375
     },
     {
-      "id": 7,
-      "x": 4197.10400390625,
-      "y": 4805.5341796875,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4209.32958984375,
+      "y": 4804.1025390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4197.10400390625,
+      "y": 4805.5341796875
     }
   ]
 }

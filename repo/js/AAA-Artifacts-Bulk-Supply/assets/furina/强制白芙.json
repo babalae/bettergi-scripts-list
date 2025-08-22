@@ -1,58 +1,58 @@
-﻿{
+{
   "info": {
-    "name": "强制白芙",
-    "type": "collect",
     "authors": [
       {
-        "name": "汐",
-        "links": ""
+        "links": "",
+        "name": "汐"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1755534261430,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1755534261430,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "强制白芙",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -762.078125,
-      "y": -3798.2978515625,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -3798.2978515625
     },
     {
-      "id": 2,
-      "x": -777.662109375,
-      "y": -3821.849609375,
       "action": "combat_script",
-      "move_mode": "fly",
       "action_params": "attack(0.5),wait(4.5)",
-      "type": "path"
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -777.662109375,
+      "y": -3821.849609375
     },
     {
-      "id": 3,
-      "x": 268.5908203125,
-      "y": -665.69580078125,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "id": 3,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 268.5908203125,
+      "y": -665.69580078125
     },
     {
-      "id": 4,
-      "x": 263.3046875,
-      "y": -662.833984375,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "keypress(f);芙宁娜 attack(0.08),charge;",
-      "type": "orientation"
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 263.3046875,
+      "y": -662.833984375
     }
   ]
 }

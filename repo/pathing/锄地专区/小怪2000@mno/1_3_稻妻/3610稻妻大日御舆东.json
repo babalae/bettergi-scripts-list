@@ -1,56 +1,56 @@
 {
   "info": {
-    "name": "3610稻妻大日御舆东",
-    "enable_monster_loot_split": true,
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Enkanomiya",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": true,
+    "map_name": "Enkanomiya",
+    "name": "3610稻妻大日御舆东",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 64.34,
-      "y": 252.59,
-      "action_params": ""
+      "y": 252.59
     },
     {
-      "id": 2,
-      "x": 60.43,
-      "y": 353.6,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "5000"
+      "action_params": "5000",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 60.43,
+      "y": 353.6
     },
     {
-      "id": 3,
-      "x": 58.77,
-      "y": 365.57,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
       "action_params": "",
-      "locked": false
+      "id": 3,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 58.77,
+      "y": 365.57
     },
     {
-      "id": 4,
-      "x": 58.77,
-      "y": 365.57,
-      "type": "orientation",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "action_params": "wait(1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 58.77,
+      "y": 365.57
     }
   ]
 }

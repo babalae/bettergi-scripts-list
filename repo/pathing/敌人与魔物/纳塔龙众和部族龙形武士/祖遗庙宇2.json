@@ -1,64 +1,64 @@
 {
   "info": {
-    "name": "祖遗庙宇2",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "雕茂"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "祖遗庙宇2",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 7744.92,
       "y": -2251.33
     },
     {
+      "action": "fight",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7779.86,
-      "y": -2231.72,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": -2231.72
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7786.4,
-      "y": -2197.27,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -2197.27
     },
     {
+      "action": "fight",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7700.46,
-      "y": -2122.12,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": -2122.12
     },
     {
+      "action": "",
       "id": 5,
-      "x": 7794.31,
-      "y": -2131.65,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 7794.31,
+      "y": -2131.65
     },
     {
+      "action": "fight",
       "id": 6,
-      "x": 7819.8,
-      "y": -2107.17,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 7819.8,
+      "y": -2107.17
     }
   ]
 }

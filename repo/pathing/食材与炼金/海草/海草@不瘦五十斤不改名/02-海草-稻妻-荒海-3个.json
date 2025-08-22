@@ -1,41 +1,41 @@
 {
   "info": {
-    "name": "02-海草-稻妻-荒海-3个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "02-海草-稻妻-荒海-3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -4217.87,
       "y": -2397.8
     },
     {
+      "action": "stop_flying",
       "id": 2,
-      "x": -4158.26,
-      "y": -2279.86,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": -4158.26,
+      "y": -2279.86
     },
     {
+      "action": "nahida_collect",
       "id": 3,
-      "x": -4157.83,
-      "y": -2279.41,
-      "type": "path",
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": -4157.83,
+      "y": -2279.41
     }
   ]
 }

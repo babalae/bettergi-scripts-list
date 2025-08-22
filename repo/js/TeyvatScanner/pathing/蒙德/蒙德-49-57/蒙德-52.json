@@ -1,40 +1,40 @@
-﻿{
+{
   "info": {
-    "name": "蒙德-52",
-    "type": "collect",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": ""
+        "links": "",
+        "name": "Tool_tingsu"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1755439636085,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1755439636085,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蒙德-52",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": -200.81640625,
-      "y": 1862.1875,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -200.81640625,
+      "y": 1862.1875
     },
     {
-      "id": 2,
-      "x": -194.130859375,
-      "y": 1863.58349609375,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -194.130859375,
+      "y": 1863.58349609375
     }
   ]
 }

@@ -1,12 +1,16 @@
 {
   "info": {
-    "name": "18-愚妄行宫西-2只",
-    "type": "collect",
     "author": "jay",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
+    "authors": [
+      {
+        "name": "jay"
+      }
+    ],
     "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1754396956878,
+    "map_name": "Teyvat",
+    "name": "18-愚妄行宫西-2只",
     "tags": [
       "驮兽",
       "兽肉",
@@ -14,49 +18,45 @@
       "镀金旅团",
       "沙暴"
     ],
-    "last_modified_time": 1754396956878,
-    "authors": [
-      {
-        "name": "jay"
-      }
-    ]
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 4954.3003,
-      "y": -697.313,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -697.313
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 4977.3882,
-      "y": -712.9551,
-      "action": "",
       "move_mode": "jump",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 4977.3882,
+      "y": -712.9551
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 3,
-      "x": 5049.1021,
-      "y": -725.5029,
-      "action": "fight",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 5049.1021,
+      "y": -725.5029
     },
     {
-      "id": 4,
-      "x": 5004.0156,
-      "y": -858.8203,
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5004.0156,
+      "y": -858.8203
     }
   ]
 }

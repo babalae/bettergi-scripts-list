@@ -1,48 +1,48 @@
 {
   "info": {
-    "name": "C04-须弥-落谷山内洞窟上层-2个",
-    "type": "collect",
     "authors": [
       {
         "name": "芝士贝果"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.48.0",
-    "tags": [],
-    "last_modified_time": 1754833030369,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754833030369,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C04-须弥-落谷山内洞窟上层-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4631.9297,
-      "y": -2982.1494,
-      "action_params": ""
+      "y": -2982.1494
     },
     {
+      "action": "mining",
+      "action_params": "",
       "id": 2,
-      "x": 4632.0352,
-      "y": -2967.1865,
-      "type": "target",
       "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
+      "type": "target",
+      "x": 4632.0352,
+      "y": -2967.1865
     },
     {
-      "id": 3,
-      "x": 4649.8545,
-      "y": -2971.3398,
-      "type": "target",
-      "move_mode": "walk",
       "action": "mining",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4649.8545,
+      "y": -2971.3398
     }
   ]
 }

@@ -1,58 +1,58 @@
-﻿{
+{
   "info": {
-    "name": "蒙德-64",
-    "type": "collect",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": ""
+        "links": "",
+        "name": "Tool_tingsu"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1755440969615,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1755440969615,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蒙德-64",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -321.232421875,
-      "y": 1473.59716796875,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -321.232421875,
+      "y": 1473.59716796875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -329.8359375,
-      "y": 1475.64990234375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 1475.64990234375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": -342.029296875,
-      "y": 1473.1279296875,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -342.029296875,
+      "y": 1473.1279296875
     },
     {
-      "id": 4,
-      "x": -374.3515625,
-      "y": 1480.3271484375,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -374.3515625,
+      "y": 1480.3271484375
     }
   ]
 }

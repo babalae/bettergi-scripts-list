@@ -1,81 +1,81 @@
 {
   "info": {
-    "name": "3208稻妻借景之馆",
-    "enable_monster_loot_split": true,
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "enable_monster_loot_split": true,
+    "name": "3208稻妻借景之馆",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -3242.49,
-      "y": -3868.84,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -3868.84
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": -3254.78,
-      "y": -3868.15,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -3868.15
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": -3272.45,
-      "y": -3865.22,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -3865.22
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "dash",
+      "type": "path",
       "x": -3280.87,
-      "y": -3860.27,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -3860.27
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": -3280.6,
-      "y": -3844.28,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -3280.6,
+      "y": -3844.28
     },
     {
-      "id": 6,
-      "x": -3280.33,
-      "y": -3840.57,
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3280.33,
+      "y": -3840.57
     },
     {
-      "id": 7,
-      "x": -3280.33,
-      "y": -3840.57,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -3280.33,
+      "y": -3840.57
     }
   ]
 }

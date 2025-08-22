@@ -1,94 +1,94 @@
 {
   "info": {
-    "name": "422须弥沙漠赤王陵西北岩窟中层（600_1，200_1）",
-    "type": "collect",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时77秒，包含2只精英，预计收入800摩拉，包含以下怪物：1只丘丘岩盔王、1只元能构装体·重塑仪。",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1754765161249,
+    "description": "  路线信息：该路线预计用时77秒，包含2只精英，预计收入800摩拉，包含以下怪物：1只丘丘岩盔王、1只元能构装体·重塑仪。",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754765161249,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "422须弥沙漠赤王陵西北岩窟中层（600_1，200_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 5538.6792,
-      "y": -2051.5518,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -2051.5518
     },
     {
-      "id": 2,
-      "x": 5518.0205,
-      "y": -2046.6631,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "keypress(t),wait(0.2),keypress(t)",
-      "type": "orientation"
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 5518.0205,
+      "y": -2046.6631
     },
     {
-      "id": 3,
-      "x": 5509.3643,
-      "y": -2043.877,
       "action": "combat_script",
-      "move_mode": "jump",
       "action_params": "attack(0.3)",
-      "type": "path"
+      "id": 3,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 5509.3643,
+      "y": -2043.877
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 4,
+      "move_mode": "dash",
+      "type": "path",
       "x": 5519.2441,
-      "y": -2041.4604,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -2041.4604
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "dash",
+      "type": "path",
       "x": 5496.9478,
-      "y": -2048.9766,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -2048.9766
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "dash",
+      "type": "path",
       "x": 5461.229,
-      "y": -2066.875,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -2066.875
     },
     {
-      "id": 7,
-      "x": 5435.7891,
-      "y": -2092.1074,
       "action": "fight",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5435.7891,
+      "y": -2092.1074
     },
     {
-      "id": 8,
-      "x": 5435.7891,
-      "y": -2092.1074,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 5435.7891,
+      "y": -2092.1074
     }
   ]
 }

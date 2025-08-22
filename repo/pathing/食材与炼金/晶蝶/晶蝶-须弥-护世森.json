@@ -1,57 +1,57 @@
 {
   "info": {
-    "name": "晶蝶-须弥-护世森",
-    "type": "collect",
-    "version": "1.0",
-    "description": "晶蝶",
+    "authors": [
+      {
+        "name": "ran"
+      }
+    ],
     "bgi_version": "0.42.0",
+    "description": "晶蝶",
+    "name": "晶蝶-须弥-护世森",
     "tags": [
       "早柚",
       "瑶瑶",
       "蓝砚"
     ],
-    "authors": [
-      {
-        "name": "ran"
-      }
-    ]
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 2342.32,
-      "y": -4.65,
-      "type": "teleport",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "teleport",
+      "x": 2342.32,
+      "y": -4.65
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 2341.02,
-      "y": -9.4,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": -9.4
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 2346.4,
-      "y": -6.97,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 2346.4,
+      "y": -6.97
     },
     {
-      "id": 4,
-      "x": 2338.33,
-      "y": -0.22,
-      "type": "path",
-      "move_mode": "run",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2338.33,
+      "y": -0.22
     }
   ]
 }

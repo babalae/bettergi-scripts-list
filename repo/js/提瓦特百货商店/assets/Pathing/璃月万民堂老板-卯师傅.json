@@ -1,37 +1,37 @@
 {
   "info": {
+    "author": "吉吉喵",
+    "bgi_version": "0.42.3",
+    "description": "鱼肉+螃蟹",
     "name": "璃月万民堂老板卯师傅",
     "type": "collect",
-    "author": "吉吉喵",
-    "version": "1.0",
-    "description": "鱼肉+螃蟹",
-    "bgi_version": "0.42.3"
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 267.9150390625,
-      "y": -665.1591796875,
       "action": "",
+      "id": 1,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
-      "locked": false
+      "x": 267.9150390625,
+      "y": -665.1591796875
     },
     {
+      "action": "",
       "id": 2,
-      "x": 228.953125,
-      "y": -663.4853515625,
-      "action": "",
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 228.953125,
+      "y": -663.4853515625
     },
     {
-      "id": 3,
-      "x": 227.083984375,
-      "y": -668.10791015625,
       "action": "",
+      "id": 3,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 227.083984375,
+      "y": -668.10791015625
     }
   ]
 }

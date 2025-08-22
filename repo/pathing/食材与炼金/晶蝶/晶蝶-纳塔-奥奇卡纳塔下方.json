@@ -1,75 +1,75 @@
 {
   "info": {
-    "name": "晶蝶-纳塔-奥奇卡纳塔下方",
-    "type": "collect",
-    "version": "1.0",
-    "description": "晶蝶",
+    "authors": [
+      {
+        "name": "ran"
+      }
+    ],
     "bgi_version": "0.42.0",
+    "description": "晶蝶",
+    "name": "晶蝶-纳塔-奥奇卡纳塔下方",
     "tags": [
       "早柚",
       "瑶瑶",
       "蓝砚"
     ],
-    "authors": [
-      {
-        "name": "ran"
-      }
-    ]
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 10030.39,
-      "y": -643.4,
+      "move_mode": "run",
       "type": "teleport",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "x": 10030.39,
+      "y": -643.4
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 10034.39,
-      "y": -624.71,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 10034.39,
+      "y": -624.71
     },
     {
-      "id": 3,
-      "x": 10035.47,
-      "y": -618.06,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10035.47,
+      "y": -618.06
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": 10030.97,
-      "y": -613.69,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": -613.69
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 10026.23,
-      "y": -616.93,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 10026.23,
+      "y": -616.93
     },
     {
-      "id": 6,
-      "x": 10030.13,
-      "y": -623.36,
-      "type": "path",
-      "move_mode": "run",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10030.13,
+      "y": -623.36
     }
   ]
 }

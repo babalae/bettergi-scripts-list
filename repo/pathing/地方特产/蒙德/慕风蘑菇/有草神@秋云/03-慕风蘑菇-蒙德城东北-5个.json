@@ -1,98 +1,98 @@
 {
   "info": {
-    "name": "03-慕风蘑菇-蒙德城东北-5个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "秋云",
-        "links": "https://github.com/physligl"
+        "links": "https://github.com/physligl",
+        "name": "秋云"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "03-慕风蘑菇-蒙德城东北-5个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -867.68,
-      "y": 2281.29,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 2281.29
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -869.73,
-      "y": 2293.53,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2293.53
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -887.61,
-      "y": 2328.56,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2328.56
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -898.63,
-      "y": 2315.55,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2315.55
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -910.13,
-      "y": 2310.8,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2310.8
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": -915.18,
-      "y": 2300.06,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2300.06
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": -925.06,
-      "y": 2295.87,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2295.87
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
-      "x": -933.62,
-      "y": 2298.5,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "type": "target",
+      "x": -933.62,
+      "y": 2298.5
     },
     {
-      "id": 9,
-      "x": -935.81,
-      "y": 2288.78,
       "action": "nahida_collect",
-      "move_mode": "climb",
       "action_params": "",
-      "type": "path"
+      "id": 9,
+      "move_mode": "climb",
+      "type": "path",
+      "x": -935.81,
+      "y": 2288.78
     }
   ]
 }

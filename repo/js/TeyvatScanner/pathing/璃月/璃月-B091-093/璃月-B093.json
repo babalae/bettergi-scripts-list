@@ -1,58 +1,58 @@
-﻿{
+{
   "info": {
-    "name": "璃月-B093",
-    "type": "collect",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": ""
+        "links": "",
+        "name": "Tool_tingsu"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1754142577132,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754142577132,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "璃月-B093",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "target",
       "x": 648.0322265625,
-      "y": -302.8017578125,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -302.8017578125
     },
     {
-      "id": 2,
-      "x": 647.041015625,
-      "y": -330.68359375,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "1000"
-    },
-    {
-      "id": 3,
-      "x": 638.5556640625,
-      "y": -345.68505859375,
+      "action_params": "1000",
+      "id": 2,
+      "move_mode": "fly",
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 647.041015625,
+      "y": -330.68359375
     },
     {
-      "id": 4,
-      "x": 635.8173828125,
-      "y": -356.93359375,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 638.5556640625,
+      "y": -345.68505859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 635.8173828125,
+      "y": -356.93359375
     }
   ]
 }

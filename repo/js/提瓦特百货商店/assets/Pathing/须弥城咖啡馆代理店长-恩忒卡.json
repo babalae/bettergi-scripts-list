@@ -1,70 +1,70 @@
 {
   "info": {
+    "author": "吉吉喵",
+    "bgi_version": "0.42.3",
+    "description": "咖啡",
     "name": "须弥城普斯帕咖啡馆代理店长恩忒卡",
     "type": "collect",
-    "author": "吉吉喵",
-    "version": "",
-    "description": "咖啡",
-    "bgi_version": "0.42.3"
+    "version": ""
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 2789.4375,
-      "y": -492.34375,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": -492.34375
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2789.125,
-      "y": -488.28125,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -488.28125
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2772.20703125,
-      "y": -477.16259765625,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -477.16259765625
     },
     {
-      "id": 4,
-      "x": 2770.71875,
-      "y": -465.90625,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2770.71875,
+      "y": -465.90625
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2765.1025390625,
-      "y": -459.37548828125,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -459.37548828125
     },
     {
+      "action": "",
       "id": 6,
-      "x": 2745.6875,
-      "y": -462.09375,
-      "action": "",
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 2745.6875,
+      "y": -462.09375
     },
     {
-      "id": 7,
-      "x": 2743.4736328125,
-      "y": -470.27734375,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(0.5),keypress(F),wait(6),keydown(W),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),keyup(W)",
-      "type": "path"
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2743.4736328125,
+      "y": -470.27734375
     }
   ]
 }

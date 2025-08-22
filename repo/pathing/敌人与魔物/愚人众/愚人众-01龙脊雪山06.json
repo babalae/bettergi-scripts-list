@@ -1,45 +1,45 @@
 {
   "info": {
-    "name": "愚人众-01龙脊雪山06",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "C-01-11011",
-        "links": "https://github.com/C-01-11011"
+        "links": "https://github.com/C-01-11011",
+        "name": "C-01-11011"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "愚人众-01龙脊雪山06",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -492.5,
-      "y": 858.54,
-      "action_params": ""
+      "y": 858.54
     },
     {
-      "id": 2,
       "action": "",
+      "action_params": "",
+      "id": 2,
       "move_mode": "walk",
       "type": "path",
       "x": -510.0,
-      "y": 792.05,
-      "action_params": ""
+      "y": 792.05
     },
     {
-      "id": 3,
       "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
       "move_mode": "walk",
       "type": "target",
       "x": -537.0,
-      "y": 776.55,
-      "action_params": "",
-      "locked": false
+      "y": 776.55
     }
   ]
 }

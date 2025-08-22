@@ -1,146 +1,146 @@
 {
   "info": {
-    "name": "枫丹-卡布狄斯堡遗迹-悬铃木-51个-椴木-33个(大循环)",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.48.1",
     "authors": [
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.48.1",
+    "description": "",
+    "name": "枫丹-卡布狄斯堡遗迹-悬铃木-51个-椴木-33个(大循环)",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 3252.2246,
       "y": 2963.4766
     },
     {
-      "id": 2,
-      "x": 3232.0205,
-      "y": 2843.3057,
-      "type": "path",
-      "move_mode": "run",
       "action": "use_gadget",
-      "action_params": "keypress(VK_Z)"
+      "action_params": "keypress(VK_Z)",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3232.0205,
+      "y": 2843.3057
     },
     {
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 3251.3398,
-      "y": 2795.8491,
-      "type": "path",
-      "move_mode": "run"
+      "y": 2795.8491
     },
     {
+      "action": "use_gadget",
+      "action_params": "keypress(VK_Z)",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3251.6758,
-      "y": 2788.0076,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "keypress(VK_Z)"
+      "y": 2788.0076
     },
     {
-      "id": 5,
-      "x": 3250.0117,
-      "y": 2762.5725,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
-    },
-    {
-      "id": 6,
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
       "x": 3250.0117,
-      "y": 2762.5725,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(2),keypress(VK_Z)"
+      "y": 2762.5725
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(2),keypress(VK_Z)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3250.0117,
+      "y": 2762.5725
+    },
+    {
+      "action": "",
       "id": 7,
-      "x": 3252.6641,
-      "y": 2753.5054,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 3252.6641,
+      "y": 2753.5054
     },
     {
-      "id": 8,
-      "x": 3212.6406,
-      "y": 2730.0439,
-      "type": "path",
-      "move_mode": "walk",
       "action": "use_gadget",
-      "action_params": "keypress(VK_Z)"
+      "action_params": "keypress(VK_Z)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3212.6406,
+      "y": 2730.0439
     },
     {
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3208.0186,
-      "y": 2726.9802,
-      "type": "path",
-      "move_mode": "walk"
+      "y": 2726.9802
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(1),keypress(VK_Z)",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3212.9629,
-      "y": 2713.1687,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(1),keypress(VK_Z)"
+      "y": 2713.1687
     },
     {
+      "action": "use_gadget",
+      "action_params": "keypress(VK_Z)",
       "id": 11,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3191.3779,
-      "y": 2694.7012,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "keypress(VK_Z)"
+      "y": 2694.7012
     },
     {
+      "action": "use_gadget",
+      "action_params": "keypress(VK_Z),wait(0.5)",
       "id": 12,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3202.043,
-      "y": 2720.2837,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "keypress(VK_Z),wait(0.5)"
+      "y": 2720.2837
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(0.5),keypress(VK_Z)",
       "id": 13,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3188.1436,
-      "y": 2733.9587,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(0.5),keypress(VK_Z)"
+      "y": 2733.9587
     },
     {
+      "action": "use_gadget",
+      "action_params": "keypress(VK_Z),wait(1)",
       "id": 14,
-      "x": 3183.2021,
-      "y": 2772.9824,
-      "type": "path",
       "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "keypress(VK_Z),wait(1)"
+      "type": "path",
+      "x": 3183.2021,
+      "y": 2772.9824
     },
     {
-      "id": 15,
-      "x": 3179.9023,
-      "y": 2792.8123,
-      "type": "path",
-      "move_mode": "walk",
       "action": "use_gadget",
-      "action_params": "keypress(VK_Z)"
+      "action_params": "keypress(VK_Z)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3179.9023,
+      "y": 2792.8123
     }
   ]
 }

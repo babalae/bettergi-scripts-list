@@ -1,112 +1,112 @@
 {
   "info": {
-    "name": "04-苍晶螺-白淞镇-3个",
-    "type": "collect",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": "https://github.com/Tooltingsu"
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.47.2",
-    "tags": [],
+    "description": "",
+    "enable_monster_loot_split": false,
     "last_modified_time": 1753510436909,
-    "enable_monster_loot_split": false
+    "map_name": "Teyvat",
+    "name": "04-苍晶螺-白淞镇-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4248.5,
-      "y": 2708.16,
-      "action_params": ""
+      "y": 2708.16
     },
     {
-      "id": 2,
-      "x": 4217.95,
-      "y": 2749.88,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4217.95,
+      "y": 2749.88
     },
     {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(5),keyup(VK_LCONTROL),wait(1),keypress(F),wait(15)",
       "id": 3,
-      "x": 4220.72,
-      "y": 2747.46,
+      "move_mode": "walk",
       "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL),wait(5),keyup(VK_LCONTROL),wait(1),keypress(F),wait(15)"
+      "x": 4220.72,
+      "y": 2747.46
     },
     {
-      "id": 4,
-      "x": 4338.2,
-      "y": 2699.2,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4338.2,
+      "y": 2699.2
     },
     {
-      "id": 5,
-      "x": 4284.24,
-      "y": 2716.5,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL),wait(7),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+      "action_params": "keydown(VK_LCONTROL),wait(7),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4284.24,
+      "y": 2716.5
     },
     {
-      "id": 6,
-      "x": 4295.48,
-      "y": 2711.09,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
       "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL),wait(1)",
-      "locked": false
-    },
-    {
-      "id": 7,
-      "x": 4295.48,
-      "y": 2711.09,
+      "id": 6,
+      "locked": false,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keydown(VK_SPACE),wait(2.5),keyup(VK_SPACE),wait(1),keypress(VK_MBUTTON)"
+      "x": 4295.48,
+      "y": 2711.09
     },
     {
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(2.5),keyup(VK_SPACE),wait(1),keypress(VK_MBUTTON)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4295.48,
+      "y": 2711.09
+    },
+    {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "target",
       "x": 4298.72,
-      "y": 2716.82,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2716.82
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
-      "x": 4284.49,
-      "y": 2726.23,
-      "type": "target",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "target",
+      "x": 4284.49,
+      "y": 2726.23
     },
     {
-      "id": 10,
-      "x": 4292.35,
-      "y": 2720.71,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL)"
+      "action_params": "keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4292.35,
+      "y": 2720.71
     }
   ]
 }

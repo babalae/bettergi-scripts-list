@@ -1,67 +1,67 @@
 {
   "info": {
-    "name": "夏洛蒂-3",
-    "type": "collect",
     "author": "哈少",
-    "version": "1.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "name": "夏洛蒂-3",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "run",
       "type": "teleport",
       "x": 4454.59033203125,
-      "y": 3444.196044921875,
-      "action_params": ""
+      "y": 3444.196044921875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 4430.828125,
-      "y": 3457.917724609375,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 3457.917724609375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 4425.0263671875,
-      "y": 3503.76220703125,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 4425.0263671875,
+      "y": 3503.76220703125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "target",
       "x": 4439.91845703125,
-      "y": 3531.34912109375,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 3531.34912109375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 4440.798828125,
-      "y": 3532.854736328125,
-      "type": "orientation",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "orientation",
+      "x": 4440.798828125,
+      "y": 3532.854736328125
     },
     {
-      "id": 6,
-      "x": 4443.71435546875,
-      "y": 3537.876708984375,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4443.71435546875,
+      "y": 3537.876708984375
     }
   ]
 }

@@ -1,48 +1,48 @@
 {
   "info": {
+    "author": "寒烟",
+    "bgi_version": "0.42.3",
+    "description": "",
     "name": "纳塔10-溶水域-2-rerun",
     "type": "collect",
-    "author": "寒烟",
-    "version": "1.1",
-    "description": "",
-    "bgi_version": "0.42.3"
+    "version": "1.1"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 8291.68,
-      "y": -2922.4,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -2922.4
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8317.14,
-      "y": -2937.59,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -2937.59
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 8477.1,
-      "y": -3018.97,
-      "action": "",
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 8477.1,
+      "y": -3018.97
     },
     {
-      "id": 4,
-      "x": 8495.87,
-      "y": -3019.42,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8495.87,
+      "y": -3019.42
     }
   ]
 }

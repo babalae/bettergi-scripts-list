@@ -1,42 +1,42 @@
 {
   "info": {
-    "name": "06-奇怪的丘丘人-璃月-庆云顶",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "06-奇怪的丘丘人-璃月-庆云顶",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 1433.39,
       "y": 837.08
     },
     {
-      "id": 2,
-      "x": 1461.4,
-      "y": 850.51,
-      "type": "path",
-      "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "wait(0.5),keypress(VK_SPACE),wait(2.5),click"
+      "action_params": "wait(0.5),keypress(VK_SPACE),wait(2.5),click",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1461.4,
+      "y": 850.51
     },
     {
+      "action": "fight",
       "id": 3,
-      "x": 1464.18,
-      "y": 846.43,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 1464.18,
+      "y": 846.43
     }
   ]
 }

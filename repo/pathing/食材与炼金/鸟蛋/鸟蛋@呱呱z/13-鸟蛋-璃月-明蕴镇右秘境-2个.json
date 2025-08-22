@@ -1,49 +1,49 @@
 {
   "info": {
-    "name": "13-鸟蛋-璃月-明蕴镇右秘境-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "13-鸟蛋-璃月-明蕴镇右秘境-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -416.11,
       "y": 729.06
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": -404.68,
-      "y": 716.53,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "y": 716.53
     },
     {
+      "action": "",
       "id": 3,
-      "x": -366.22,
-      "y": 725.52,
-      "type": "path",
       "move_mode": "run",
-      "action": ""
+      "type": "path",
+      "x": -366.22,
+      "y": 725.52
     },
     {
+      "action": "nahida_collect",
       "id": 4,
-      "x": -350.6,
-      "y": 723.74,
-      "type": "path",
       "move_mode": "run",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": -350.6,
+      "y": 723.74
     }
   ]
 }

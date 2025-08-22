@@ -1,81 +1,81 @@
 {
   "info": {
-    "name": "金鱼草-古茶树坡右侧-3个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "曦",
-        "links": "https://github.com/cx05121"
+        "links": "https://github.com/cx05121",
+        "name": "曦"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "金鱼草-古茶树坡右侧-3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "run",
+      "type": "teleport",
       "x": 1468.11,
-      "y": 1997.98,
-      "action": "",
-      "move_mode": "run",
-      "type": "teleport"
+      "y": 1997.98
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 1443.55,
-      "y": 1998.83,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 1998.83
     },
     {
+      "action": "",
       "id": 3,
-      "x": 1423.55,
-      "y": 1974.91,
-      "action": "",
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 1423.55,
+      "y": 1974.91
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1400.87,
-      "y": 1949.51,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1949.51
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1377.27,
-      "y": 1931.7,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1931.7
     },
     {
-      "id": 6,
-      "x": 1336.16,
-      "y": 1850.86,
       "action": "stop_flying",
+      "id": 6,
       "move_mode": "fly",
-      "type": "target"
+      "type": "target",
+      "x": 1336.16,
+      "y": 1850.86
     },
     {
+      "action": "",
       "id": 7,
-      "x": 1300.0,
-      "y": 1833.71,
-      "action": "",
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 1300.0,
+      "y": 1833.71
     },
     {
-      "id": 8,
-      "x": 1311.46,
-      "y": 1813.44,
       "action": "",
+      "id": 8,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 1311.46,
+      "y": 1813.44
     }
   ]
 }

@@ -1,190 +1,190 @@
 {
   "info": {
-    "name": "419【沙暴】须弥沙漠巨人峡谷西北（600_1）",
-    "type": "collect",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时67秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只遗迹重机。",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1755105651055,
+    "description": "  路线信息：该路线预计用时67秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只遗迹重机。",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1755105651055,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "419【沙暴】须弥沙漠巨人峡谷西北（600_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 5485.2217,
-      "y": -1240.5073,
-      "action": "",
+      "locked": false,
       "move_mode": "walk",
-      "action_params": "",
       "type": "teleport",
-      "locked": false
-    },
-    {
-      "id": 2,
-      "x": 5473.3096,
-      "y": -1220.835,
-      "action": "log_output",
-      "move_mode": "fly",
-      "action_params": "此地有沙暴必摔死1次,无法解决",
-      "type": "orientation",
-      "locked": false
-    },
-    {
-      "id": 3,
-      "x": 5473.3096,
-      "y": -1220.835,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 5498.458,
-      "y": -1095.1597,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "fight",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 5,
-      "x": 5498.458,
-      "y": -1095.1597,
-      "type": "orientation",
-      "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "wait(1)"
-    },
-    {
-      "id": 6,
-      "x": 4589.0122,
-      "y": -652.938,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
-    },
-    {
-      "id": 7,
-      "x": 4570.2773,
-      "y": -670.4438,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": 4550.2236,
-      "y": -719.0088,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": 4540.377,
-      "y": -740.5068,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "keypress(t),wait(0.2),keypress(t)",
-      "type": "path"
-    },
-    {
-      "id": 10,
-      "x": 4525.1328,
-      "y": -769.8774,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keypress(t),wait(0.2),keypress(t),moveby(0,1000),keydown(w),wait(0.5),keypress(t),wait(0.2),keypress(t),wait(0.5),keyup(w)",
-      "type": "orientation"
-    },
-    {
-      "id": 11,
-      "x": 4503.7456,
-      "y": -794.5059,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(0.5)",
-      "type": "orientation"
-    },
-    {
-      "id": 12,
-      "x": 4513.002,
-      "y": -786.5063,
-      "action": "log_output",
-      "move_mode": "dash",
-      "action_params": "切换[沙暴]状态",
-      "type": "orientation"
-    },
-    {
-      "id": 13,
-      "x": 4513.002,
-      "y": -786.5063,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f)",
-      "type": "path"
-    },
-    {
-      "id": 14,
       "x": 5485.2217,
-      "y": -1240.5073,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -1240.5073
     },
     {
-      "id": 15,
-      "x": 5473.3096,
-      "y": -1220.835,
       "action": "log_output",
-      "move_mode": "fly",
       "action_params": "此地有沙暴必摔死1次,无法解决",
-      "type": "orientation",
-      "locked": false
-    },
-    {
-      "id": 16,
-      "x": 5473.3096,
-      "y": -1220.835,
-      "action": "",
+      "id": 2,
+      "locked": false,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "orientation",
+      "x": 5473.3096,
+      "y": -1220.835
     },
     {
-      "id": 17,
-      "x": 5498.458,
-      "y": -1095.1597,
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
       "type": "path",
-      "move_mode": "dash",
+      "x": 5473.3096,
+      "y": -1220.835
+    },
+    {
       "action": "fight",
       "action_params": "",
-      "locked": false
+      "id": 4,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5498.458,
+      "y": -1095.1597
     },
     {
-      "id": 18,
-      "x": 5498.458,
-      "y": -1095.1597,
-      "type": "orientation",
-      "move_mode": "dash",
       "action": "combat_script",
       "action_params": "wait(1)",
-      "locked": false
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 5498.458,
+      "y": -1095.1597
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4589.0122,
+      "y": -652.938
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4570.2773,
+      "y": -670.4438
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4550.2236,
+      "y": -719.0088
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4540.377,
+      "y": -740.5068
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),moveby(0,1000),keydown(w),wait(0.5),keypress(t),wait(0.2),keypress(t),wait(0.5),keyup(w)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4525.1328,
+      "y": -769.8774
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(0.5)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4503.7456,
+      "y": -794.5059
+    },
+    {
+      "action": "log_output",
+      "action_params": "切换[沙暴]状态",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4513.002,
+      "y": -786.5063
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4513.002,
+      "y": -786.5063
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5485.2217,
+      "y": -1240.5073
+    },
+    {
+      "action": "log_output",
+      "action_params": "此地有沙暴必摔死1次,无法解决",
+      "id": 15,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "orientation",
+      "x": 5473.3096,
+      "y": -1220.835
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5473.3096,
+      "y": -1220.835
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 17,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5498.458,
+      "y": -1095.1597
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 18,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 5498.458,
+      "y": -1095.1597
     }
   ]
 }

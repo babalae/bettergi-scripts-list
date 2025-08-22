@@ -1,80 +1,80 @@
 {
   "info": {
-    "name": "南天门3只",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "baixi",
-        "links": "https://github.com/baixi232310"
+        "links": "https://github.com/baixi232310",
+        "name": "baixi"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "南天门3只",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 1665.91,
-      "y": 386.57,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 386.57
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1643.49,
-      "y": 388.3,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 388.3
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 1629.54,
-      "y": 395.15,
-      "type": "path",
       "move_mode": "climb",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 1629.54,
+      "y": 395.15
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1612.52,
-      "y": 380.14,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": ""
+      "y": 380.14
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 1665.92,
-      "y": 386.58,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 1665.92,
+      "y": 386.58
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": 1677.54,
-      "y": 285.01,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 1677.54,
+      "y": 285.01
     },
     {
-      "id": 7,
-      "x": 1686.81,
-      "y": 265.51,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1686.81,
+      "y": 265.51
     }
   ]
 }

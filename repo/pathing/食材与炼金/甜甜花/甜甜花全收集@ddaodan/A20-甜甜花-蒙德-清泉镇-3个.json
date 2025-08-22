@@ -1,67 +1,67 @@
 {
   "info": {
-    "name": "A20-甜甜花-蒙德-清泉镇-3个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
+    "authors": [
+      {
+        "links": "https://github.com/ddaodan",
+        "name": "ddaodan"
+      }
+    ],
     "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1748849555874,
+    "map_name": "Teyvat",
+    "name": "A20-甜甜花-蒙德-清泉镇-3个",
     "tags": [
       "甜甜花"
     ],
-    "last_modified_time": 1748849555874,
-    "authors": [
-      {
-        "name": "ddaodan",
-        "links": "https://github.com/ddaodan"
-      }
-    ]
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -867.53,
-      "y": 1992.2,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 1992.2
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -892.82,
-      "y": 2002.59,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.2)"
+      "y": 2002.59
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -891.55,
-      "y": 2023.58,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.2)"
+      "y": 2023.58
     },
     {
-      "id": 4,
-      "x": -867.54,
-      "y": 1992.19,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -867.54,
+      "y": 1992.19
     },
     {
-      "id": 5,
-      "x": -856.16,
-      "y": 1990.13,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.2)"
+      "action_params": "wait(0.2)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -856.16,
+      "y": 1990.13
     }
   ]
 }

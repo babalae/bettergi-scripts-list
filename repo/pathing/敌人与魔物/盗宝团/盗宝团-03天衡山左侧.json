@@ -1,65 +1,65 @@
 {
   "info": {
-    "name": "盗宝团-03天衡山左侧",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "曦",
-        "links": "https://github.com/cx05121"
+        "links": "https://github.com/cx05121",
+        "name": "曦"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "盗宝团-03天衡山左侧",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 524.16,
       "y": -624.55
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 564.44,
-      "y": -626.34,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -626.34
     },
     {
+      "action": "stop_flying",
       "id": 3,
-      "x": 683.07,
-      "y": -685.11,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": 683.07,
+      "y": -685.11
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 671.54,
-      "y": -667.9,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -667.9
     },
     {
+      "action": "",
       "id": 5,
-      "x": 680.63,
-      "y": -653.87,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 680.63,
+      "y": -653.87
     },
     {
+      "action": "fight",
       "id": 6,
-      "x": 682.01,
-      "y": -645.91,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 682.01,
+      "y": -645.91
     }
   ]
 }

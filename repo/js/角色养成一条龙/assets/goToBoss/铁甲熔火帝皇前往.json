@@ -1,57 +1,57 @@
-﻿{
+{
   "info": {
-    "name": "铁甲熔火帝皇前往",
-    "type": "collect",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": ""
+        "links": "",
+        "name": "Tool_tingsu"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
+    "description": "",
+    "enable_monster_loot_split": false,
     "last_modified_time": 1753792049126,
-    "enable_monster_loot_split": false
+    "map_name": "Teyvat",
+    "name": "铁甲熔火帝皇前往",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 4417.4072265625,
-      "y": 2229.10107421875,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 4417.4072265625,
+      "y": 2229.10107421875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4407.68896484375,
-      "y": 2206.82958984375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2206.82958984375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 4400.6142578125,
-      "y": 2190.57421875,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 4400.6142578125,
+      "y": 2190.57421875
     },
     {
-      "id": 4,
-      "x": 4395.05322265625,
-      "y": 2171.19287109375,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4395.05322265625,
+      "y": 2171.19287109375
     }
   ]
 }

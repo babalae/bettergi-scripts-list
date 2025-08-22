@@ -1,11 +1,18 @@
 {
   "info": {
-    "name": "08-避让之丘北-1只",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
+    "authors": [
+      {
+        "links": "",
+        "name": "jay"
+      }
+    ],
     "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1754593195941,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "08-避让之丘北-1只",
     "tags": [
       "驮兽",
       "兽肉",
@@ -13,34 +20,27 @@
       "镀金旅团",
       "沙暴"
     ],
-    "last_modified_time": 1754593195941,
-    "authors": [
-      {
-        "name": "jay",
-        "links": ""
-      }
-    ],
-    "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 5148.5625,
-      "y": -2786.9375,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5148.5625,
+      "y": -2786.9375
     },
     {
-      "id": 2,
-      "x": 5140.7104,
-      "y": -2664.5107,
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5140.7104,
+      "y": -2664.5107
     }
   ]
 }

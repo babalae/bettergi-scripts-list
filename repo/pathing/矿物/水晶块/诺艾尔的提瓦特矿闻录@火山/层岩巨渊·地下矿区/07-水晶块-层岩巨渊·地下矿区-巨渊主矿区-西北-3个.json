@@ -1,126 +1,126 @@
 {
   "info": {
-    "name": "07-水晶块-层岩巨渊·地下矿区-巨渊主矿区-西北-3个",
-    "type": "collect",
-    "version": "1.1",
-    "description": "",
-    "map_name": "TheChasm",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "火山",
-        "links": "https://github.com/RRRR623"
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "name": "07-水晶块-层岩巨渊·地下矿区-巨渊主矿区-西北-3个",
+    "type": "collect",
+    "version": "1.1"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 338.75,
-      "y": 975.02,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 975.02
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 341.74,
-      "y": 982.71,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 982.71
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": 357.63,
-      "y": 984.59,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 984.59
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "dash",
+      "type": "path",
       "x": 379.92,
-      "y": 1007.06,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 1007.06
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 373.98,
-      "y": 1010.27,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 373.98,
+      "y": 1010.27
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "fly",
+      "type": "path",
       "x": 375.94,
-      "y": 1015.53,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": 1015.53
     },
     {
-      "id": 7,
-      "x": 374.5,
-      "y": 1013.72,
       "action": "stop_flying",
-      "move_mode": "fly",
       "action_params": "1500",
-      "type": "path"
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 374.5,
+      "y": 1013.72
     },
     {
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
       "id": 8,
+      "move_mode": "walk",
+      "type": "target",
       "x": 371.54,
-      "y": 1022.18,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "type": "target"
+      "y": 1022.18
     },
     {
-      "id": 9,
-      "x": 369.84,
-      "y": 1029.28,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 369.84,
+      "y": 1029.28
     },
     {
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
       "id": 10,
+      "move_mode": "walk",
+      "type": "target",
       "x": 372.94,
-      "y": 1029.34,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "type": "target"
+      "y": 1029.34
     },
     {
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
       "id": 11,
-      "x": 374.81,
-      "y": 1025.66,
-      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "type": "target"
+      "type": "target",
+      "x": 374.81,
+      "y": 1025.66
     },
     {
-      "id": 12,
-      "x": 374.81,
-      "y": 1025.66,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(0.5)",
-      "type": "target"
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 374.81,
+      "y": 1025.66
     }
   ]
 }

@@ -1,121 +1,121 @@
 {
   "info": {
-    "name": "C03-黎翡区上方传送锚点上面-7个",
-    "type": "collect",
     "authors": [
       {
         "name": "芝士贝果"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.48.0",
-    "tags": [],
-    "last_modified_time": 1755516736398,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1755516736398,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C03-黎翡区上方传送锚点上面-7个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4800.332,
-      "y": 4711.5151,
-      "action_params": "",
-      "locked": false
+      "y": 4711.5151
     },
     {
-      "id": 2,
       "action": "combat_script",
+      "action_params": "moveby(0,571)",
+      "id": 2,
       "move_mode": "walk",
       "type": "path",
       "x": 4800.332,
-      "y": 4711.5151,
-      "action_params": "moveby(0,571)"
+      "y": 4711.5151
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 4893.5059,
-      "y": 4804.7705,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 4804.7705
     },
     {
+      "action": "combat_script",
+      "action_params": "e",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4895.9287,
-      "y": 4820.2974,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "e"
+      "y": 4820.2974
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "run",
+      "type": "path",
       "x": 4952.5605,
-      "y": 4887.1875,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 4887.1875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "run",
+      "type": "path",
       "x": 4990.6191,
-      "y": 4900.9814,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 4900.9814
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
-      "x": 5023.5469,
-      "y": 4939.168,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 5023.5469,
+      "y": 4939.168
     },
     {
+      "action": "combat_script",
+      "action_params": "e",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5034.4062,
-      "y": 4942.9272,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "e"
+      "y": 4942.9272
     },
     {
+      "action": "combat_script",
+      "action_params": "e",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5033.5078,
-      "y": 4947.5078,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "e"
+      "y": 4947.5078
     },
     {
+      "action": "combat_script",
+      "action_params": "e",
       "id": 10,
-      "x": 5031.5273,
-      "y": 4950.9424,
-      "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "e"
+      "type": "path",
+      "x": 5031.5273,
+      "y": 4950.9424
     },
     {
-      "id": 11,
-      "x": 5027.6855,
-      "y": 4947.0781,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "e"
+      "action_params": "e",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5027.6855,
+      "y": 4947.0781
     }
   ]
 }

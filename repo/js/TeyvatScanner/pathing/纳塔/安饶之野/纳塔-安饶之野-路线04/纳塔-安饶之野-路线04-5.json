@@ -1,96 +1,96 @@
 {
   "info": {
-    "name": "纳塔-安饶之野-路线04-5",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1750838432593,
+    "map_name": "Teyvat",
+    "name": "纳塔-安饶之野-路线04-5",
     "tags": [],
-    "last_modified_time": 1750838432593
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 9795.7568359375,
-      "y": -2665.5986328125,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -2665.5986328125
     },
     {
-      "id": 2,
-      "x": 9751.83203125,
-      "y": -2697.76953125,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 9751.83203125,
+      "y": -2697.76953125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": 9745.4794921875,
-      "y": -2707.5126953125,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -2707.5126953125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "dash",
+      "type": "path",
       "x": 9724.880859375,
-      "y": -2716.2294921875,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -2716.2294921875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 9685.8837890625,
-      "y": -2715.498046875,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 9685.8837890625,
+      "y": -2715.498046875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9660.9306640625,
-      "y": -2708.6923828125,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -2708.6923828125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
-      "x": 9647.953125,
-      "y": -2705.0068359375,
-      "action": "",
       "move_mode": "jump",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 9647.953125,
+      "y": -2705.0068359375
     },
     {
-      "id": 8,
-      "x": 9649.1201171875,
-      "y": -2674.4248046875,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9649.1201171875,
+      "y": -2674.4248046875
     },
     {
-      "id": 9,
-      "x": 9646.3056640625,
-      "y": -2674.7177734375,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(1)",
-      "type": "target"
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9646.3056640625,
+      "y": -2674.7177734375
     }
   ]
 }

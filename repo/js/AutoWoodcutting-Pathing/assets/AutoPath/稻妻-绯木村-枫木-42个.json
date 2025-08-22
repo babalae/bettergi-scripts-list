@@ -1,145 +1,145 @@
 {
   "info": {
-    "name": "稻妻-绯木村-枫木-42个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.48.1",
     "authors": [
       {
-        "name": "Tim",
-        "links": "https://github.com/Limint"
+        "links": "https://github.com/Limint",
+        "name": "Tim"
       }
-    ]
+    ],
+    "bgi_version": "0.48.1",
+    "description": "",
+    "name": "稻妻-绯木村-枫木-42个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -2216.0391,
       "y": -3709.5186
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -2225.918,
-      "y": -3696.6592,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -3696.6592
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(0.5),keypress(VK_Z)",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -2218.0957,
-      "y": -3687.4287,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(0.5),keypress(VK_Z)"
+      "y": -3687.4287
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(0.5),keypress(VK_Z)",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -2250.168,
-      "y": -3669.9053,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(0.5),keypress(VK_Z)"
+      "y": -3669.9053
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(2),keypress(VK_Z)",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -2253.5703,
-      "y": -3687.4756,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(2),keypress(VK_Z)"
+      "y": -3687.4756
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": -2252.6865,
-      "y": -3704.5859,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -3704.5859
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(0.5),keypress(VK_Z)",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": -2223.5918,
-      "y": -3737.7178,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(0.5),keypress(VK_Z)"
+      "y": -3737.7178
     },
     {
+      "action": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": -2195.1572,
-      "y": -3730.4102,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -3730.4102
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(0.5),keypress(VK_Z)",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": -2191.1084,
-      "y": -3724.3789,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(0.5),keypress(VK_Z)"
+      "y": -3724.3789
     },
     {
+      "action": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": -2191.3877,
-      "y": -3762.7832,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -3762.7832
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(1),keypress(VK_Z)",
       "id": 11,
+      "move_mode": "walk",
+      "type": "path",
       "x": -2187.2578,
-      "y": -3765.4209,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(1),keypress(VK_Z)"
+      "y": -3765.4209
     },
     {
+      "action": "",
       "id": 12,
+      "move_mode": "jump",
+      "type": "path",
       "x": -2192.4541,
-      "y": -3770.9727,
-      "type": "path",
-      "move_mode": "jump",
-      "action": ""
+      "y": -3770.9727
     },
     {
+      "action": "",
       "id": 13,
-      "x": -2184.876,
-      "y": -3777.0566,
-      "type": "path",
       "move_mode": "jump",
-      "action": ""
+      "type": "path",
+      "x": -2184.876,
+      "y": -3777.0566
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(1),keypress(VK_Z)",
       "id": 14,
-      "x": -2190.501,
-      "y": -3789.6016,
-      "type": "path",
       "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(1),keypress(VK_Z)"
+      "type": "path",
+      "x": -2190.501,
+      "y": -3789.6016
     },
     {
-      "id": 15,
-      "x": -2166.4951,
-      "y": -3789.8467,
-      "type": "path",
-      "move_mode": "walk",
       "action": "use_gadget",
-      "action_params": "wait(0.5),keypress(VK_Z)"
+      "action_params": "wait(0.5),keypress(VK_Z)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2166.4951,
+      "y": -3789.8467
     }
   ]
 }

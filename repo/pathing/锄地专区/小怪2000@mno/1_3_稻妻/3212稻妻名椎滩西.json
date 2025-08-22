@@ -1,90 +1,90 @@
 {
   "info": {
-    "name": "3212稻妻名椎滩西",
-    "enable_monster_loot_split": true,
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "enable_monster_loot_split": true,
+    "name": "3212稻妻名椎滩西",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -2533.37,
-      "y": -3539.67,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -3539.67
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": -2525.54,
-      "y": -3577.18,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -3577.18
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 3,
-      "x": -2515.72,
-      "y": -3562.44,
-      "action": "fight",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -2515.72,
+      "y": -3562.44
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -2515.72,
-      "y": -3562.44,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -3562.44
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "dash",
+      "type": "path",
       "x": -2473.72,
-      "y": -3565.09,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -3565.09
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": -2450.11,
-      "y": -3571.05,
-      "action": "",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -2450.11,
+      "y": -3571.05
     },
     {
-      "id": 7,
-      "x": -2426.37,
-      "y": -3588.78,
       "action": "fight",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2426.37,
+      "y": -3588.78
     },
     {
-      "id": 8,
-      "x": -2426.37,
-      "y": -3588.78,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -2426.37,
+      "y": -3588.78
     }
   ]
 }

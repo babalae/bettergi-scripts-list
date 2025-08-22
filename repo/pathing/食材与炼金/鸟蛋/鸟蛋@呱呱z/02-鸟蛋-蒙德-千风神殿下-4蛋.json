@@ -1,99 +1,99 @@
 {
   "info": {
-    "name": "02-鸟蛋-蒙德-千风神殿下-4蛋",
-    "type": "collect",
-    "version": "1.0",
-    "description": "需要携带纳西妲",
-    "map_name": "Teyvat",
-    "bgi_version": "0.43.0",
     "authors": [
       {
-        "name": "灰林鸮",
-        "links": "https://github.com/Strix-nivicolum"
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
       }
-    ]
+    ],
+    "bgi_version": "0.43.0",
+    "description": "需要携带纳西妲",
+    "map_name": "Teyvat",
+    "name": "02-鸟蛋-蒙德-千风神殿下-4蛋",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": -1638.55,
-      "y": 2153.9,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1638.55,
+      "y": 2153.9
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1629.74,
-      "y": 2163.15,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2163.15
     },
     {
-      "id": 3,
-      "x": -1629.03,
-      "y": 2171.0,
-      "type": "target",
-      "move_mode": "fly",
       "action": "nahida_collect",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -1629.03,
+      "y": 2171.0
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": -1648.53,
-      "y": 2190.31,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -1648.53,
+      "y": 2190.31
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "target",
       "x": -1660.39,
-      "y": 2211.88,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2211.88
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "fly",
+      "type": "path",
       "x": -1663.23,
-      "y": 2217.92,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": 2217.92
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
-      "x": -1672.13,
-      "y": 2216.69,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -1672.13,
+      "y": 2216.69
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
-      "x": -1677.19,
-      "y": 2198.43,
-      "type": "target",
       "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "type": "target",
+      "x": -1677.19,
+      "y": 2198.43
     },
     {
-      "id": 9,
-      "x": -1682.51,
-      "y": 2191.78,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1682.51,
+      "y": 2191.78
     }
   ]
 }

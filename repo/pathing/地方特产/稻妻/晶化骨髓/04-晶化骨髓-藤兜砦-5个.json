@@ -1,113 +1,113 @@
 {
   "info": {
-    "name": "04-晶化骨髓-藤兜砦-5个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "04-晶化骨髓-藤兜砦-5个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -1964.08,
       "y": -3576.5
     },
     {
+      "action": "stop_flying",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": -1959.24,
-      "y": -3561.91,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying"
+      "y": -3561.91
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "target",
       "x": -1962.15,
-      "y": -3566.25,
-      "type": "target",
-      "move_mode": "walk",
-      "action": ""
+      "y": -3566.25
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -1964.2,
-      "y": -3576.49,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "y": -3576.49
     },
     {
+      "action": "stop_flying",
       "id": 5,
+      "move_mode": "fly",
+      "type": "path",
       "x": -1949.18,
-      "y": -3582.45,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying"
+      "y": -3582.45
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "target",
       "x": -1948.51,
-      "y": -3569.44,
-      "type": "target",
-      "move_mode": "walk",
-      "action": ""
+      "y": -3569.44
     },
     {
+      "action": "",
       "id": 7,
-      "x": -1964.12,
-      "y": -3576.49,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "x": -1964.12,
+      "y": -3576.49
     },
     {
+      "action": "stop_flying",
       "id": 8,
-      "x": -1953.81,
-      "y": -3527.44,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
-    },
-    {
-      "id": 9,
-      "x": -1947.06,
-      "y": -3523.26,
-      "type": "target",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 10,
-      "x": -1955.56,
-      "y": -3517.73,
-      "type": "target",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 11,
-      "x": -1951.1,
-      "y": -3512.87,
       "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "x": -1953.81,
+      "y": -3527.44
     },
     {
-      "id": 12,
-      "x": -1953.04,
-      "y": -3508.15,
-      "type": "target",
+      "action": "",
+      "id": 9,
       "move_mode": "walk",
-      "action": ""
+      "type": "target",
+      "x": -1947.06,
+      "y": -3523.26
+    },
+    {
+      "action": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1955.56,
+      "y": -3517.73
+    },
+    {
+      "action": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1951.1,
+      "y": -3512.87
+    },
+    {
+      "action": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1953.04,
+      "y": -3508.15
     }
   ]
 }

@@ -1,49 +1,49 @@
 {
   "info": {
-    "name": "丘丘王02",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "XS",
-        "links": "https://github.com/xwsqy6"
+        "links": "https://github.com/xwsqy6",
+        "name": "XS"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "丘丘王02",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": -1007.8,
-      "y": 848.5,
-      "action": "",
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -1007.8,
+      "y": 848.5
     },
     {
+      "action": "",
       "id": 2,
-      "x": -976.81,
-      "y": 846.0,
-      "action": "",
       "move_mode": "run",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": -929.0,
-      "y": 820.5,
-      "action": "",
-      "move_mode": "fly",
-      "type": "target"
-    },
-    {
-      "id": 4,
-      "x": -926.4,
-      "y": 817.47,
       "type": "path",
+      "x": -976.81,
+      "y": 846.0
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -929.0,
+      "y": 820.5
+    },
+    {
+      "action": "fight",
+      "id": 4,
       "move_mode": "run",
-      "action": "fight"
+      "type": "path",
+      "x": -926.4,
+      "y": 817.47
     }
   ]
 }

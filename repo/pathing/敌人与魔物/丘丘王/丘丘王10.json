@@ -1,48 +1,48 @@
 {
   "info": {
-    "name": "丘丘王10",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "迷茫之途"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "丘丘王10",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": 3555.87,
-      "y": -2021.91,
-      "action": "",
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 3555.87,
+      "y": -2021.91
     },
     {
-      "id": 2,
-      "x": 3578.47,
-      "y": -1994.4,
-      "type": "path",
-      "move_mode": "fly",
-      "action": ""
-    },
-    {
-      "id": 3,
-      "x": 3591.36,
-      "y": -2002.66,
       "action": "",
+      "id": 2,
       "move_mode": "fly",
-      "type": "path"
+      "type": "path",
+      "x": 3578.47,
+      "y": -1994.4
     },
     {
-      "id": 4,
-      "x": 3608.35,
-      "y": -2013.91,
+      "action": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3591.36,
+      "y": -2002.66
+    },
+    {
       "action": "fight",
+      "id": 4,
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 3608.35,
+      "y": -2013.91
     }
   ]
 }

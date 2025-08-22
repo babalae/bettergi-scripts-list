@@ -1,74 +1,74 @@
 {
   "info": {
-    "name": "B10-璃月-碧水原-华池岩岫-东北-3只",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1752249625526,
     "authors": [
       {
-        "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1752249625526,
+    "map_name": "Teyvat",
+    "name": "B10-璃月-碧水原-华池岩岫-东北-3只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 1271.18,
-      "y": 1563.97,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 1563.97
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 1239.12,
-      "y": 1520.45,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 1520.45
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": 1254.65,
-      "y": 1476.31,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 1476.31
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 1244.14,
-      "y": 1439.69,
-      "action": "",
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 1244.14,
+      "y": 1439.69
     },
     {
-      "id": 5,
-      "x": 1245.01,
-      "y": 1393.01,
       "action": "fight",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1245.01,
+      "y": 1393.01
     },
     {
-      "id": 6,
-      "x": 1245.01,
-      "y": 1393.01,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 1245.01,
+      "y": 1393.01
     }
   ]
 }

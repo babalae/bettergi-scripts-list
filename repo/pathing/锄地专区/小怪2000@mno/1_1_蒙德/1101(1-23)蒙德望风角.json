@@ -1,228 +1,228 @@
 {
   "info": {
-    "name": "1101(1-23)蒙德望风角",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
     ],
-    "enable_monster_loot_split": true
+    "bgi_version": "0.42.0",
+    "description": "",
+    "enable_monster_loot_split": true,
+    "name": "1101(1-23)蒙德望风角",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -1628.4,
-      "y": 2834.37,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 2834.37
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 2,
-      "x": -1672.3,
-      "y": 2816.21,
-      "action": "fight",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": -1672.3,
-      "y": 2816.21,
-      "action": "log_output",
-      "move_mode": "walk",
-      "action_params": "本线路预计 精英200*1 小怪*23",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": -1667.4,
-      "y": 2880.46,
-      "action": "",
-      "move_mode": "jump",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": -1655.53,
-      "y": 2892.43,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": -1650.45,
-      "y": 2905.88,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": -1650.45,
-      "y": 2905.88,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": -1664.42,
-      "y": 2938.39,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": -1675.78,
-      "y": 2951.2,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 10,
-      "x": -1675.78,
-      "y": 2951.2,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 11,
-      "x": -1691.66,
-      "y": 2949.16,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 12,
-      "x": -1697.5,
-      "y": 2929.6,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 13,
-      "x": -1697.5,
-      "y": 2929.6,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
       "type": "path",
+      "x": -1672.3,
+      "y": 2816.21
+    },
+    {
+      "action": "log_output",
+      "action_params": "本线路预计 精英200*1 小怪*23",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1672.3,
+      "y": 2816.21
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -1667.4,
+      "y": 2880.46
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1655.53,
+      "y": 2892.43
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1650.45,
+      "y": 2905.88
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1650.45,
+      "y": 2905.88
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1664.42,
+      "y": 2938.39
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1675.78,
+      "y": 2951.2
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1675.78,
+      "y": 2951.2
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1691.66,
+      "y": 2949.16
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1697.5,
+      "y": 2929.6
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
       "point_ext_params": {
         "monster_tag": "elite"
-      }
-    },
-    {
-      "id": 14,
+      },
+      "type": "path",
       "x": -1697.5,
-      "y": 2929.6,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2929.6
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1697.5,
+      "y": 2929.6
+    },
+    {
+      "action": "",
+      "action_params": "",
       "id": 15,
+      "move_mode": "dash",
+      "type": "path",
       "x": -1694.73,
-      "y": 2910.01,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 2910.01
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 16,
-      "x": -1727.05,
-      "y": 2914.31,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -1727.05,
+      "y": 2914.31
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 17,
-      "x": -1732.78,
-      "y": 2946.02,
-      "action": "fight",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -1732.78,
+      "y": 2946.02
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 18,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1732.78,
-      "y": 2946.02,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2946.02
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 19,
+      "move_mode": "dash",
+      "type": "path",
       "x": -1727.05,
-      "y": 2914.31,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 2914.31
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 20,
+      "move_mode": "dash",
+      "type": "path",
       "x": -1784.43,
-      "y": 2910.04,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 2910.04
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 21,
-      "x": -1806.22,
-      "y": 2911.06,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -1806.22,
+      "y": 2911.06
     },
     {
-      "id": 22,
-      "x": -1813.08,
-      "y": 2913.36,
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 22,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1813.08,
+      "y": 2913.36
     },
     {
-      "id": 23,
-      "x": -1813.08,
-      "y": 2913.36,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 23,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -1813.08,
+      "y": 2913.36
     }
   ]
 }

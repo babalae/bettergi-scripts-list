@@ -1,117 +1,117 @@
 {
   "info": {
-    "name": "债务处理人-禅那园右下（1）",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "下流山汉",
-        "links": "https://github.com/vulgar-rustic"
+        "links": "https://github.com/vulgar-rustic",
+        "name": "下流山汉"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "债务处理人-禅那园右下（1）",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 3135.76,
-      "y": -1079.63,
-      "action_params": ""
+      "y": -1079.63
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 3129.45,
-      "y": -1084.36,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": -1084.36
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3129.19,
-      "y": -1089.57,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -1089.57
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3126.0,
-      "y": -1101.94,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -1101.94
     },
     {
-      "id": 5,
-      "x": 3118.92,
-      "y": -1115.24,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": ""
-    },
-    {
-      "id": 6,
-      "x": 3109.29,
-      "y": -1135.29,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 7,
-      "x": 3104.65,
-      "y": -1148.77,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 8,
-      "x": 3094.43,
-      "y": -1182.49,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 9,
-      "x": 3086.83,
-      "y": -1209.21,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
       "action_params": "",
-      "locked": false
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3118.92,
+      "y": -1115.24
     },
     {
-      "id": 10,
-      "x": 3093.14,
-      "y": -1209.91,
-      "type": "path",
-      "move_mode": "run",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3109.29,
+      "y": -1135.29
     },
     {
-      "id": 11,
-      "x": 3101.88,
-      "y": -1215.81,
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
       "type": "path",
+      "x": 3104.65,
+      "y": -1148.77
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3094.43,
+      "y": -1182.49
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 9,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3086.83,
+      "y": -1209.21
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
       "move_mode": "run",
+      "type": "path",
+      "x": 3093.14,
+      "y": -1209.91
+    },
+    {
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 11,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3101.88,
+      "y": -1215.81
     }
   ]
 }

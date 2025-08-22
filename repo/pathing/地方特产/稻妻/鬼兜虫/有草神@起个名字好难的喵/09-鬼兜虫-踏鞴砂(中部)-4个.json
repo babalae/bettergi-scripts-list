@@ -1,81 +1,81 @@
 {
   "info": {
-    "name": "09-鬼兜虫-踏鞴砂(中部)-4个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "09-鬼兜虫-踏鞴砂(中部)-4个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -3157.65,
-      "y": -3890.36,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": -3890.36
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -3153.29,
-      "y": -3853.63,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -3853.63
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -3129.6,
-      "y": -3833.51,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -3833.51
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -3106.64,
-      "y": -3788.42,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -3788.42
     },
     {
-      "id": 5,
-      "x": -3095.08,
-      "y": -3785.43,
       "action": "nahida_collect",
+      "id": 5,
       "move_mode": "walk",
-      "type": "target"
-    },
-    {
-      "id": 6,
-      "x": -3091.47,
-      "y": -3787.1,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 7,
-      "x": -3082.6,
-      "y": -3770.76,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 8,
-      "x": -3089.78,
-      "y": -3764.7,
       "type": "target",
+      "x": -3095.08,
+      "y": -3785.43
+    },
+    {
+      "action": "",
+      "id": 6,
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": -3091.47,
+      "y": -3787.1
+    },
+    {
+      "action": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3082.6,
+      "y": -3770.76
+    },
+    {
+      "action": "nahida_collect",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -3089.78,
+      "y": -3764.7
     }
   ]
 }

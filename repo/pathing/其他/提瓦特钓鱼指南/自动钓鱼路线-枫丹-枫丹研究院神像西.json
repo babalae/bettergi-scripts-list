@@ -1,74 +1,74 @@
 {
   "info": {
-    "name": "自动钓鱼路线-枫丹-枫丹研究院神像西",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.43.0",
     "authors": [
       {
         "name": "鸿羽er"
       },
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.43.0",
+    "description": "",
+    "name": "自动钓鱼路线-枫丹-枫丹研究院神像西",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 3873.0,
-      "y": 4494.56,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 4494.56
     },
     {
-      "id": 2,
-      "x": 3971.06,
-      "y": 4529.56,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 3971.06,
+      "y": 4529.56
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 3977.25,
-      "y": 4530.5,
-      "action": "",
       "move_mode": "climb",
+      "type": "path",
+      "x": 3977.25,
+      "y": 4530.5
+    },
+    {
+      "action": "",
       "action_params": "",
-      "type": "path"
-    },
-    {
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3981.39,
-      "y": 4534.15,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 4534.15
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 3985.04,
-      "y": 4532.57,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 3985.04,
+      "y": 4532.57
     },
     {
-      "id": 6,
-      "x": 4003.4,
-      "y": 4524.64,
-      "type": "orientation",
-      "move_mode": "walk",
       "action": "fishing",
-      "action_params": ""
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4003.4,
+      "y": 4524.64
     }
   ]
 }

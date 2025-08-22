@@ -1,60 +1,60 @@
 {
   "info": {
-    "name": "塔尼特露营地",
-    "type": "collect",
-    "version": "1.0",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "baixi",
-        "links": "https://github.com/baixi232310"
+        "links": "https://github.com/baixi232310",
+        "name": "baixi"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "name": "塔尼特露营地",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
       "id": 1,
-      "x": 5063.82,
-      "y": -1587.74,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk"
+      "x": 5063.82,
+      "y": -1587.74
     },
     {
       "id": 2,
-      "x": 5077.17,
-      "y": -1503.36,
+      "move_mode": "fly",
       "type": "path",
-      "move_mode": "fly"
+      "x": 5077.17,
+      "y": -1503.36
     },
     {
       "id": 3,
-      "x": 5079.81,
-      "y": -1490.07,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "walk"
+      "x": 5079.81,
+      "y": -1490.07
     },
     {
+      "action": "fight",
       "id": 4,
-      "x": 5044.11,
-      "y": -1479.99,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 5044.11,
+      "y": -1479.99
     },
     {
       "id": 5,
-      "x": 5015.77,
-      "y": -1433.4,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "walk"
+      "x": 5015.77,
+      "y": -1433.4
     },
     {
+      "action": "fight",
       "id": 6,
-      "x": 5012.46,
-      "y": -1413.1,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 5012.46,
+      "y": -1413.1
     }
   ]
 }

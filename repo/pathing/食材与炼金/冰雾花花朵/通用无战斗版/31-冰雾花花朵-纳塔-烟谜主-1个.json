@@ -1,56 +1,56 @@
 {
   "info": {
-    "name": "31-冰雾花花朵-纳塔-烟谜主-1个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
+    "authors": [
+      {
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
+      }
+    ],
     "bgi_version": "0.43.0",
+    "description": "",
+    "name": "31-冰雾花花朵-纳塔-烟谜主-1个",
     "tags": [
       "胡桃"
     ],
-    "authors": [
-      {
-        "name": "Tool_tingsu",
-        "links": "https://github.com/Tooltingsu"
-      }
-    ]
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 9782.43,
-      "y": -1764.7,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 9782.43,
+      "y": -1764.7
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9797.18,
-      "y": -1763.11,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -1763.11
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 9802.04,
-      "y": -1787.01,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 9802.04,
+      "y": -1787.01
     },
     {
-      "id": 4,
-      "x": 9790.75,
-      "y": -1818.18,
-      "type": "target",
-      "move_mode": "walk",
       "action": "pyro_collect",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9790.75,
+      "y": -1818.18
     }
   ]
 }

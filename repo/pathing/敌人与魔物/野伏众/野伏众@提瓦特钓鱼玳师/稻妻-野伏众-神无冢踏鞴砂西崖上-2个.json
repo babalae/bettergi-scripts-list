@@ -1,62 +1,62 @@
 {
   "info": {
-    "name": "稻妻-野伏众-神无冢踏鞴砂西崖上-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "野伏众-2个\n稻妻-神无冢踏鞴砂西崖上",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "提瓦特钓鱼玳师",
-        "links": "https://github.com/Hijiwos"
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "野伏众-2个\n稻妻-神无冢踏鞴砂西崖上",
+    "name": "稻妻-野伏众-神无冢踏鞴砂西崖上-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -3156.27,
-      "y": -3885.53,
-      "action_params": ""
+      "y": -3885.53
     },
     {
-      "id": 2,
       "action": "",
+      "action_params": "",
+      "id": 2,
       "move_mode": "walk",
       "type": "path",
       "x": -3133.66,
-      "y": -3844.2,
-      "action_params": ""
+      "y": -3844.2
     },
     {
-      "id": 3,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
       "move_mode": "fly",
       "type": "path",
       "x": -3104.64,
-      "y": -3729.64,
-      "action_params": ""
+      "y": -3729.64
     },
     {
-      "id": 4,
       "action": "fight",
+      "action_params": "",
+      "id": 4,
       "move_mode": "walk",
       "type": "path",
       "x": -3071.75,
-      "y": -3724.25,
-      "action_params": ""
+      "y": -3724.25
     },
     {
-      "id": 5,
       "action": "fight",
+      "action_params": "",
+      "id": 5,
       "move_mode": "walk",
       "type": "target",
       "x": -3086.75,
-      "y": -3667.5,
-      "action_params": ""
+      "y": -3667.5
     }
   ]
 }

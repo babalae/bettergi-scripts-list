@@ -1,86 +1,86 @@
 {
   "info": {
-    "name": "F07-紫晶块-稻妻-鹤观-七天神像-2个",
-    "type": "collect",
     "author": "蜜柑魚",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
     "bgi_version": "0.47.0",
+    "description": "",
+    "last_modified_time": 1751023766005,
+    "map_name": "Teyvat",
+    "name": "F07-紫晶块-稻妻-鹤观-七天神像-2个",
     "tags": [
       "双手剑"
     ],
-    "last_modified_time": 1751023766005,
-    "authors": [
-      {
-        "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
-      }
-    ]
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -3268.88,
-      "y": -6134.48,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -3268.88,
+      "y": -6134.48
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -3256.22,
-      "y": -6117.91,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -6117.91
     },
     {
+      "action": "mining",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -3257.97,
-      "y": -6121.58,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
+      "y": -6121.58
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -3258.25,
-      "y": -6121.62,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "y": -6121.62
     },
     {
-      "id": 5,
-      "x": -3264.37,
-      "y": -6114.94,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 6,
-      "x": -3266.07,
-      "y": -6116.02,
-      "type": "target",
+      "action_params": "",
+      "id": 5,
       "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
-    },
-    {
-      "id": 7,
-      "x": -3266.06,
-      "y": -6115.99,
       "type": "path",
+      "x": -3264.37,
+      "y": -6114.94
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
       "move_mode": "walk",
+      "type": "target",
+      "x": -3266.07,
+      "y": -6116.02
+    },
+    {
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "action_params": "wait(1)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3266.06,
+      "y": -6115.99
     }
   ]
 }

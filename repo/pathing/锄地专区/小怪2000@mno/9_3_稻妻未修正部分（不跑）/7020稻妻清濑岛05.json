@@ -1,63 +1,63 @@
 {
   "info": {
-    "name": "7020稻妻清濑岛05",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "mfkvfhpdx",
-        "links": "https://github.com/mfkvfhpdx"
+        "links": "https://github.com/mfkvfhpdx",
+        "name": "mfkvfhpdx"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "7020稻妻清濑岛05",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": -4171.08,
-      "y": -4570.87,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4171.08,
+      "y": -4570.87
     },
     {
-      "id": 2,
-      "x": -4189.35,
-      "y": -4486.42,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
       "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 3,
+      "id": 2,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
       "x": -4189.35,
-      "y": -4486.42,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": ""
+      "y": -4486.42
     },
     {
-      "id": 4,
-      "x": -4208.58,
-      "y": -4498.39,
-      "type": "path",
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
       "move_mode": "walk",
+      "type": "path",
+      "x": -4189.35,
+      "y": -4486.42
+    },
+    {
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4208.58,
+      "y": -4498.39
     },
     {
-      "id": 5,
-      "x": -4258.65,
-      "y": -4538.78,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4258.65,
+      "y": -4538.78
     }
   ]
 }

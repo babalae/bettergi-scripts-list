@@ -1,101 +1,101 @@
 {
   "info": {
-    "name": "06-鱼肉-璃月-沉玉谷翘英庄-5",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
-    "tags": [],
     "authors": [
       {
-        "name": "火山",
-        "links": "https://github.com/RRRR623"
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
       }
     ],
-    "last_modified_time": 1751627407858
+    "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1751627407858,
+    "map_name": "Teyvat",
+    "name": "06-鱼肉-璃月-沉玉谷翘英庄-5",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 1458.36,
-      "y": 1997.25,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 1997.25
     },
     {
-      "id": 2,
-      "x": 1468.29,
-      "y": 2000.93,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "芙宁娜 wait(0.3),e"
+      "action_params": "芙宁娜 wait(0.3),e",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1468.29,
+      "y": 2000.93
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 1467.37,
-      "y": 2005.75,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": 2005.75
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": 1470.87,
-      "y": 2016.5,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": 2016.5
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1476.07,
-      "y": 2018.32,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2018.32
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1470.08,
-      "y": 2020.56,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2020.56
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1481.48,
-      "y": 2032.69,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2032.69
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
-      "x": 1482.13,
-      "y": 2033.25,
-      "action": "",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 1482.13,
+      "y": 2033.25
     },
     {
-      "id": 9,
-      "x": 1480.72,
-      "y": 2021.23,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1480.72,
+      "y": 2021.23
     }
   ]
 }

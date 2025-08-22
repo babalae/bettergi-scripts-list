@@ -1,86 +1,86 @@
 {
   "info": {
-    "name": "自动钓鱼路线-枫丹-厄里那斯·东北海滩",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.43.0",
     "authors": [
       {
         "name": "鸿羽er"
       },
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.43.0",
+    "description": "",
+    "name": "自动钓鱼路线-枫丹-厄里那斯·东北海滩",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 4704.0,
-      "y": 2951.96,
-      "action": "",
+      "locked": false,
       "move_mode": "walk",
-      "action_params": "",
       "type": "teleport",
-      "locked": false
+      "x": 4704.0,
+      "y": 2951.96
     },
     {
+      "action": "",
       "id": 2,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
       "x": 4710.19,
-      "y": 2961.62,
-      "action": "",
-      "move_mode": "run",
-      "type": "path",
-      "locked": false
+      "y": 2961.62
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
       "x": 4712.81,
-      "y": 2972.37,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path",
-      "locked": false
+      "y": 2972.37
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 4733.56,
-      "y": 2996.56,
-      "action": "",
+      "locked": false,
       "move_mode": "run",
+      "type": "path",
+      "x": 4733.56,
+      "y": 2996.56
+    },
+    {
+      "action": "",
       "action_params": "",
-      "type": "path",
-      "locked": false
-    },
-    {
       "id": 5,
-      "x": 4740.92,
-      "y": 3003.47,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 4740.92,
+      "y": 3003.47
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": 4737.0,
-      "y": 3008.3,
-      "type": "target",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "target",
+      "x": 4737.0,
+      "y": 3008.3
     },
     {
-      "id": 7,
-      "x": 4724.38,
-      "y": 3023.81,
-      "type": "orientation",
-      "move_mode": "walk",
       "action": "fishing",
-      "action_params": ""
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4724.38,
+      "y": 3023.81
     }
   ]
 }

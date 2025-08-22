@@ -1,66 +1,66 @@
-﻿{
+{
   "info": {
-    "name": "璃月-B078",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1753881745721,
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": ""
+        "links": "",
+        "name": "Tool_tingsu"
       }
     ],
-    "enable_monster_loot_split": false
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1753881745721,
+    "map_name": "Teyvat",
+    "name": "璃月-B078",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 26.2666015625,
-      "y": -111.984375,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 26.2666015625,
+      "y": -111.984375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 35.7080078125,
-      "y": -127.916015625,
-      "type": "path",
       "move_mode": "jump",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 35.7080078125,
+      "y": -127.916015625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 40.998046875,
-      "y": -147.06494140625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -147.06494140625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 31.2373046875,
-      "y": -170.751953125,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 31.2373046875,
+      "y": -170.751953125
     },
     {
-      "id": 5,
-      "x": 11.041015625,
-      "y": -213.26123046875,
-      "type": "target",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 11.041015625,
+      "y": -213.26123046875
     }
   ]
 }

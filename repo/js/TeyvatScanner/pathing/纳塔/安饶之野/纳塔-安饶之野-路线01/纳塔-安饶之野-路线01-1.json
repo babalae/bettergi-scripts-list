@@ -1,69 +1,69 @@
 {
   "info": {
-    "name": "纳塔-安饶之野-路线01-1",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1750838384112,
+    "map_name": "Teyvat",
+    "name": "纳塔-安饶之野-路线01-1",
     "tags": [],
-    "last_modified_time": 1750838384112
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 9282.5751953125,
-      "y": -2163.6015625,
       "action": "force_tp",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 9282.5751953125,
+      "y": -2163.6015625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 9261.953125,
-      "y": -2197.5283203125,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -2197.5283203125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": 9248.12890625,
-      "y": -2236.96484375,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -2236.96484375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "dash",
+      "type": "path",
       "x": 9288.189453125,
-      "y": -2261.119140625,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -2261.119140625
     },
     {
-      "id": 5,
-      "x": 9311.0634765625,
-      "y": -2252.6416015625,
       "action": "fight",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9311.0634765625,
+      "y": -2252.6416015625
     },
     {
-      "id": 6,
-      "x": 9311.0634765625,
-      "y": -2252.6416015625,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "wait(1)",
-      "type": "path"
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9311.0634765625,
+      "y": -2252.6416015625
     }
   ]
 }

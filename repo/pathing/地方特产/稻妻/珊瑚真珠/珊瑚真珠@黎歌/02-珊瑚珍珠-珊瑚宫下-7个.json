@@ -1,95 +1,95 @@
 {
   "info": {
-    "name": "02-珊瑚珍珠-珊瑚宫下-7个",
-    "type": "collect",
-    "version": "1.0",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "黎歌"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "name": "02-珊瑚珍珠-珊瑚宫下-7个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": -757.93,
-      "y": -3815.09,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "x": -757.93,
+      "y": -3815.09
     },
     {
+      "action": "",
       "id": 2,
-      "x": -765.29,
-      "y": -3873.98,
-      "type": "path",
       "move_mode": "fly",
-      "action": ""
+      "type": "path",
+      "x": -765.29,
+      "y": -3873.98
     },
     {
+      "action": "stop_flying",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": -765.29,
-      "y": -3873.98,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying"
+      "y": -3873.98
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "target",
       "x": -768.31,
-      "y": -3876.83,
-      "type": "target",
-      "move_mode": "walk",
-      "action": ""
+      "y": -3876.83
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "fly",
+      "type": "path",
       "x": -811.51,
-      "y": -3889.03,
-      "type": "path",
-      "move_mode": "fly",
-      "action": ""
+      "y": -3889.03
     },
     {
+      "action": "stop_flying",
       "id": 6,
-      "x": -811.52,
-      "y": -3889.03,
-      "type": "target",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "target",
+      "x": -811.52,
+      "y": -3889.03
     },
     {
+      "action": "",
       "id": 7,
-      "x": -837.4,
-      "y": -3887.25,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "x": -837.4,
+      "y": -3887.25
     },
     {
+      "action": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "target",
       "x": -840.36,
-      "y": -3887.9,
-      "type": "target",
-      "move_mode": "walk",
-      "action": ""
+      "y": -3887.9
     },
     {
+      "action": "",
       "id": 9,
-      "x": -835.21,
-      "y": -3868.14,
-      "type": "target",
       "move_mode": "walk",
-      "action": ""
+      "type": "target",
+      "x": -835.21,
+      "y": -3868.14
     },
     {
+      "action": "",
       "id": 10,
-      "x": -836.89,
-      "y": -3866.65,
-      "type": "target",
       "move_mode": "walk",
-      "action": ""
+      "type": "target",
+      "x": -836.89,
+      "y": -3866.65
     }
   ]
 }

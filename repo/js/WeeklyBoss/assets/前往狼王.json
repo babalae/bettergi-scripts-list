@@ -1,93 +1,93 @@
 {
   "info": {
+    "author": "柒叶子",
+    "bgi_version": "0.35.1",
+    "description": "前往狼王",
     "name": "未命名路径",
     "type": "collect",
-    "author": "柒叶子",
-    "version": "1.0",
-    "description": "前往狼王",
-    "bgi_version": "0.35.1"
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -251.5966796875,
-      "y": 2256.586181640625,
-      "action_params": ""
+      "y": 2256.586181640625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": -239.8662109375,
-      "y": 2235.255859375,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 2235.255859375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": -243.6318359375,
-      "y": 2219.89599609375,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 2219.89599609375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "fly",
+      "type": "path",
       "x": -250.318359375,
-      "y": 2200.3515625,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": 2200.3515625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "dash",
+      "type": "path",
       "x": -263.7783203125,
-      "y": 2142.494140625,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 2142.494140625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "dash",
+      "type": "path",
       "x": -266.06640625,
-      "y": 2100.711669921875,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 2100.711669921875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
-      "x": -273.099609375,
-      "y": 2053.126220703125,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 8,
-      "x": -276.521484375,
-      "y": 2028.33837890625,
       "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": ""
+      "x": -273.099609375,
+      "y": 2053.126220703125
     },
     {
-      "id": 9,
-      "x": -280.3447265625,
-      "y": 1999.419921875,
-      "type": "target",
-      "move_mode": "dash",
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -276.521484375,
+      "y": 2028.33837890625
+    },
+    {
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -280.3447265625,
+      "y": 1999.419921875
     }
   ]
 }

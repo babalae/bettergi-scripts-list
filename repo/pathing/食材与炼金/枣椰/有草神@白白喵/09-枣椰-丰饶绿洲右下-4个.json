@@ -1,158 +1,158 @@
 {
   "info": {
-    "name": "09-枣椰-丰饶绿洲右下-4个",
-    "type": "collect",
     "authors": [
       {
-        "name": "白白喵",
-        "links": "QQ:867064817; Q群:785263255"
+        "links": "QQ:867064817; Q群:785263255",
+        "name": "白白喵"
       }
     ],
-    "version": "47.1.4",
-    "description": "需要纳西妲采集",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
+    "description": "需要纳西妲采集",
+    "enable_monster_loot_split": false,
     "last_modified_time": 1753374763614,
-    "enable_monster_loot_split": false
+    "map_name": "Teyvat",
+    "name": "09-枣椰-丰饶绿洲右下-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "47.1.4"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 4391.96,
-      "y": -2725.65,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -2725.65
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 4396.11,
-      "y": -2728.15,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 4396.11,
+      "y": -2728.15
     },
     {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4396.11,
-      "y": -2728.15,
-      "action": "up_down_grab_leaf",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -2728.15
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4430.93,
-      "y": -2731.23,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -2731.23
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
       "x": 4445.13,
-      "y": -2709.38,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path",
-      "locked": false
+      "y": -2709.38
     },
     {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
       "id": 6,
-      "x": 4445.0,
-      "y": -2709.5,
-      "action": "up_down_grab_leaf",
+      "locked": false,
       "move_mode": "fly",
-      "action_params": "",
       "type": "path",
-      "locked": false
+      "x": 4445.0,
+      "y": -2709.5
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4458.16,
-      "y": -2688.73,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -2688.73
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "fly",
+      "type": "path",
       "x": 4481.54,
-      "y": -2682.18,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": -2682.18
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "run",
+      "type": "path",
       "x": 4509.64,
-      "y": -2668.53,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -2668.53
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
-      "x": 4519.81,
-      "y": -2654.16,
-      "action": "",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 4519.81,
+      "y": -2654.16
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 11,
-      "x": 4525.68,
-      "y": -2648.32,
-      "action": "",
       "move_mode": "jump",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 4525.68,
+      "y": -2648.32
     },
     {
-      "id": 12,
-      "x": 4525.68,
-      "y": -2648.32,
       "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 12,
       "move_mode": "jump",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 4525.68,
+      "y": -2648.32
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 13,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4544.0,
-      "y": -2625.27,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -2625.27
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 14,
-      "x": 4593.0,
-      "y": -2633.83,
-      "action": "",
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 4593.0,
+      "y": -2633.83
     },
     {
-      "id": 15,
-      "x": 4607.26,
-      "y": -2640.42,
       "action": "nahida_collect",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "id": 15,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4607.26,
+      "y": -2640.42
     }
   ]
 }

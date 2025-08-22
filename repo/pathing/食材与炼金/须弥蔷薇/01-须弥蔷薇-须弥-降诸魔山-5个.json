@@ -1,49 +1,49 @@
 {
   "info": {
-    "version": "1.0",
-    "name": "01-须弥蔷薇-须弥-降诸魔山-5个",
-    "description": "",
-    "type": "collect",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "01-须弥蔷薇-须弥-降诸魔山-5个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": 2246.05,
-      "y": -1680.4,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "x": 2246.05,
+      "y": -1680.4
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 2246.45,
-      "y": -1679.77,
-      "type": "path",
-      "move_mode": "fly",
-      "action": ""
+      "y": -1679.77
     },
     {
+      "action": "stop_flying",
       "id": 3,
-      "x": 2349.68,
-      "y": -1723.12,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": 2349.68,
+      "y": -1723.12
     },
     {
+      "action": "nahida_collect",
       "id": 4,
-      "x": 2361.56,
-      "y": -1715.63,
-      "type": "path",
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": 2361.56,
+      "y": -1715.63
     }
   ]
 }

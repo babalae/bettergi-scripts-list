@@ -1,160 +1,160 @@
 {
   "info": {
-    "name": "24-松茸",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "未知作者"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "24-松茸",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -663.69,
-      "y": 1709.63,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 1709.63
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -659.77,
-      "y": 1718.09,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1718.09
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": -654.64,
-      "y": 1749.2,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path"
+      "y": 1749.2
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": -647.17,
-      "y": 1762.48,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 1762.48
     },
     {
+      "action": "nahida_collect",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -640.57,
-      "y": 1774.09,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1774.09
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "run",
+      "type": "path",
       "x": -680.29,
-      "y": 1787.65,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 1787.65
     },
     {
+      "action": "",
       "id": 7,
+      "move_mode": "run",
+      "type": "path",
       "x": -734.08,
-      "y": 1766.08,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 1766.08
     },
     {
+      "action": "",
       "id": 8,
+      "move_mode": "fly",
+      "type": "path",
       "x": -736.81,
-      "y": 1764.82,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path"
+      "y": 1764.82
     },
     {
+      "action": "",
       "id": 9,
+      "move_mode": "run",
+      "type": "path",
       "x": -749.08,
-      "y": 1761.37,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 1761.37
     },
     {
+      "action": "nahida_collect",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": -746.76,
-      "y": 1755.41,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1755.41
     },
     {
+      "action": "",
       "id": 11,
+      "move_mode": "run",
+      "type": "path",
       "x": -770.34,
-      "y": 1766.92,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 1766.92
     },
     {
+      "action": "",
       "id": 12,
+      "move_mode": "walk",
+      "type": "path",
       "x": -774.02,
-      "y": 1768.76,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1768.76
     },
     {
+      "action": "",
       "id": 13,
+      "move_mode": "fly",
+      "type": "path",
       "x": -777.31,
-      "y": 1770.61,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path"
+      "y": 1770.61
     },
     {
+      "action": "",
       "id": 14,
+      "move_mode": "run",
+      "type": "path",
       "x": -789.98,
-      "y": 1785.92,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 1785.92
     },
     {
+      "action": "nahida_collect",
       "id": 15,
+      "move_mode": "walk",
+      "type": "path",
       "x": -793.18,
-      "y": 1788.7,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1788.7
     },
     {
-      "id": 16,
-      "x": -831.78,
-      "y": 1779.02,
       "action": "",
+      "id": 16,
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": -831.78,
+      "y": 1779.02
     },
     {
-      "id": 17,
-      "x": -850.88,
-      "y": 1778.47,
       "action": "stop_flying",
+      "id": 17,
       "move_mode": "fly",
-      "type": "path"
+      "type": "path",
+      "x": -850.88,
+      "y": 1778.47
     },
     {
-      "id": 18,
-      "x": -851.28,
-      "y": 1779.38,
       "action": "nahida_collect",
+      "id": 18,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": -851.28,
+      "y": 1779.38
     }
   ]
 }

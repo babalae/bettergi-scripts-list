@@ -1,57 +1,57 @@
 {
   "info": {
-    "version": "1.0",
-    "name": "02-须弥蔷薇-须弥-化城郭01-8个",
-    "description": "",
-    "type": "collect",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "02-须弥蔷薇-须弥-化城郭01-8个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": 2631.92,
-      "y": -1016.86,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "x": 2631.92,
+      "y": -1016.86
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2595.76,
-      "y": -979.06,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -979.06
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2556.85,
-      "y": -962.96,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -962.96
     },
     {
+      "action": "nahida_collect",
       "id": 4,
-      "x": 2507.5,
-      "y": -979.63,
-      "type": "path",
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": 2507.5,
+      "y": -979.63
     },
     {
+      "action": "nahida_collect",
       "id": 5,
-      "x": 2486.59,
-      "y": -977.94,
-      "type": "path",
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": 2486.59,
+      "y": -977.94
     }
   ]
 }

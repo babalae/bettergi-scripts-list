@@ -1,50 +1,50 @@
 {
   "info": {
-    "name": "224璃月沉玉谷南陵浅滩（200_3）",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "3玄文兽  路线信息：该路线预计用时66.5秒，包含3只精英，预计收入600摩拉，包含以下怪物：3只玄文兽。",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.42.3",
+    "description": "3玄文兽  路线信息：该路线预计用时66.5秒，包含3只精英，预计收入600摩拉，包含以下怪物：3只玄文兽。",
+    "name": "224璃月沉玉谷南陵浅滩（200_3）",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 2257.04,
-      "y": 934.98,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 934.98
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 2227.89,
-      "y": 901.48,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 901.48
     },
     {
+      "action": "",
       "id": 3,
-      "x": 2202.91,
-      "y": 866.52,
-      "action": "",
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 2202.91,
+      "y": 866.52
     },
     {
-      "id": 4,
-      "x": 2136.23,
-      "y": 838.61,
       "action": "fight",
+      "id": 4,
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 2136.23,
+      "y": 838.61
     }
   ]
 }

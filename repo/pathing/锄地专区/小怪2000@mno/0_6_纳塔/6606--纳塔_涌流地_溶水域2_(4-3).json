@@ -1,107 +1,107 @@
 {
   "info": {
-    "name": "6606--纳塔_涌流地_溶水域2_(4-3)",
-    "enable_monster_loot_split": true,
-    "type": "collect",
-    "version": "1.1",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "Demo"
       },
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       },
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "enable_monster_loot_split": true,
+    "name": "6606--纳塔_涌流地_溶水域2_(4-3)",
+    "type": "collect",
+    "version": "1.1"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 8637.69,
-      "y": -2446.65,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -2446.65
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 8636.91,
-      "y": -2473.83,
-      "action": "",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 8634.07,
-      "y": -2512.38,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 8634.07,
-      "y": -2512.38,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 8666.12,
-      "y": -2499.0,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": 8693.94,
-      "y": -2476.03,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": 8705.89,
-      "y": -2477.83,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": 8725.41,
-      "y": -2477.57,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
       "type": "path",
-      "locked": false
+      "x": 8636.91,
+      "y": -2473.83
     },
     {
-      "id": 9,
-      "x": 8725.41,
-      "y": -2477.57,
-      "action": "combat_script",
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8634.07,
+      "y": -2512.38
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8634.07,
+      "y": -2512.38
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
       "move_mode": "dash",
+      "type": "path",
+      "x": 8666.12,
+      "y": -2499.0
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8693.94,
+      "y": -2476.03
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8705.89,
+      "y": -2477.83
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8725.41,
+      "y": -2477.57
+    },
+    {
+      "action": "combat_script",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 9,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 8725.41,
+      "y": -2477.57
     }
   ]
 }

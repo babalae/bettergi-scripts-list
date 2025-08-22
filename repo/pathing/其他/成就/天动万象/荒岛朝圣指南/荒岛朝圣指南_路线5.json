@@ -1,56 +1,56 @@
 {
   "info": {
-    "name": "荒岛朝圣指南_路线5",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1750600181461,
     "authors": [
       {
-        "name": "花见木易",
-        "links": "https://github.com/Flower-MUYi"
+        "links": "https://github.com/Flower-MUYi",
+        "name": "花见木易"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1750600181461,
+    "map_name": "Teyvat",
+    "name": "荒岛朝圣指南_路线5",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -2405.79,
-      "y": -3912.96,
-      "action_params": ""
+      "y": -3912.96
     },
     {
-      "id": 2,
-      "x": -2390.64,
-      "y": -3915.61,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 3,
-      "x": -2300.23,
-      "y": -3910.74,
-      "type": "target",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": -2300.23,
-      "y": -3910.74,
-      "type": "target",
+      "action_params": "",
+      "id": 2,
       "move_mode": "walk",
+      "type": "path",
+      "x": -2390.64,
+      "y": -3915.61
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -2300.23,
+      "y": -3910.74
+    },
+    {
       "action": "log_output",
-      "action_params": "此处需要与一旁NPC对话，然后再参拜。需要重复四次。"
+      "action_params": "此处需要与一旁NPC对话，然后再参拜。需要重复四次。",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -2300.23,
+      "y": -3910.74
     }
   ]
 }

@@ -1,38 +1,38 @@
 {
   "info": {
-    "name": "07-烬芯花-溶水域-1个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "感谢 @曦 老师的路线脚本",
+    "authors": [
+      {
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
+      }
+    ],
     "bgi_version": "0.42.3",
+    "description": "感谢 @曦 老师的路线脚本",
+    "name": "07-烬芯花-溶水域-1个",
     "tags": [
       "单手剑角色",
       "大剑角色",
       "长枪角色"
     ],
-    "authors": [
-      {
-        "name": "Tool_tingsu",
-        "links": "https://github.com/Tooltingsu"
-      }
-    ]
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 8637.67,
-      "y": -2446.62,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 8637.67,
+      "y": -2446.62
     },
     {
-      "id": 2,
-      "x": 8590.74,
-      "y": -2400.36,
       "action": "stop_flying",
+      "id": 2,
       "move_mode": "fly",
-      "type": "target"
+      "type": "target",
+      "x": 8590.74,
+      "y": -2400.36
     }
   ]
 }

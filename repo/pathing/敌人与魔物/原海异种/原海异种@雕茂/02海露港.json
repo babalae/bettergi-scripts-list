@@ -1,128 +1,128 @@
 {
   "info": {
-    "name": "02海露港",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "雕茂"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "02海露港",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4626.07,
       "y": 2182.27
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4615.23,
-      "y": 2173.49,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 2173.49
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4588.78,
-      "y": 2136.15,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 2136.15
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4572.23,
-      "y": 2114.52,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 2114.52
     },
     {
+      "action": "stop_flying",
       "id": 5,
-      "x": 4545.95,
-      "y": 2094.94,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
-    },
-    {
-      "id": 6,
+      "type": "path",
       "x": 4545.95,
-      "y": 2094.94,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 2094.94
     },
     {
+      "action": "fight",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4545.95,
+      "y": 2094.94
+    },
+    {
+      "action": "fight",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4541.34,
-      "y": 2007.04,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 2007.04
     },
     {
+      "action": "fight",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4578.29,
-      "y": 2027.77,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 2027.77
     },
     {
+      "action": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4615.81,
-      "y": 2040.65,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 2040.65
     },
     {
+      "action": "fight",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4656.23,
-      "y": 1989.22,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 1989.22
     },
     {
+      "action": "fight",
       "id": 11,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4707.86,
-      "y": 1989.28,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 1989.28
     },
     {
+      "action": "",
       "id": 12,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4763.6,
-      "y": 1970.45,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 1970.45
     },
     {
+      "action": "",
       "id": 13,
-      "x": 4777.49,
-      "y": 1922.24,
-      "type": "path",
       "move_mode": "swim",
-      "action": ""
+      "type": "path",
+      "x": 4777.49,
+      "y": 1922.24
     },
     {
+      "action": "fight",
       "id": 14,
-      "x": 4837.85,
-      "y": 1917.16,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 4837.85,
+      "y": 1917.16
     }
   ]
 }

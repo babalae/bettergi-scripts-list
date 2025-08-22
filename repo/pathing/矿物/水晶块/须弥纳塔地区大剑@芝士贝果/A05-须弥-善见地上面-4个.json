@@ -1,129 +1,129 @@
 {
   "info": {
-    "name": "A05-须弥-善见地上面-4个",
-    "type": "collect",
     "authors": [
       {
         "name": "芝士贝果"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1754745000566,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754745000566,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A05-须弥-善见地上面-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 3592.0,
-      "y": -787.3247,
-      "action_params": ""
+      "y": -787.3247
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 3511.1729,
-      "y": -766.3633,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": -766.3633
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 3511.1758,
-      "y": -766.374,
+      "move_mode": "walk",
       "type": "orientation",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 3511.1758,
+      "y": -766.374
     },
     {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3489.8906,
-      "y": -740.1421,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "up_down_grab_leaf",
-      "action_params": ""
+      "y": -740.1421
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3478.1543,
-      "y": -743.4395,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -743.4395
     },
     {
-      "id": 6,
-      "x": 3445.7012,
-      "y": -752.4351,
-      "type": "path",
-      "move_mode": "walk",
       "action": "up_down_grab_leaf",
-      "action_params": ""
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3445.7012,
+      "y": -752.4351
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "run",
+      "type": "path",
       "x": 3409.9941,
-      "y": -742.7759,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": -742.7759
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
-      "x": 3391.752,
-      "y": -755.103,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 3391.752,
+      "y": -755.103
     },
     {
+      "action": "mining",
+      "action_params": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "target",
       "x": 3381.7275,
-      "y": -752.7349,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
+      "y": -752.7349
     },
     {
+      "action": "mining",
+      "action_params": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "target",
       "x": 3381.627,
-      "y": -755.417,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
+      "y": -755.417
     },
     {
+      "action": "mining",
+      "action_params": "",
       "id": 11,
-      "x": 3371.0107,
-      "y": -751.9668,
-      "type": "target",
       "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
+      "type": "target",
+      "x": 3371.0107,
+      "y": -751.9668
     },
     {
-      "id": 12,
-      "x": 3368.5234,
-      "y": -747.4658,
-      "type": "target",
-      "move_mode": "walk",
       "action": "mining",
-      "action_params": ""
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3368.5234,
+      "y": -747.4658
     }
   ]
 }

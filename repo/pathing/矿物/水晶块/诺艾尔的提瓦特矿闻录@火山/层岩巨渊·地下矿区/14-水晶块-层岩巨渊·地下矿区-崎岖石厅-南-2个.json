@@ -1,91 +1,91 @@
 {
   "info": {
-    "name": "14-水晶块-层岩巨渊·地下矿区-崎岖石厅-南-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "TheChasm",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "火山",
-        "links": "https://github.com/RRRR623"
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "name": "14-水晶块-层岩巨渊·地下矿区-崎岖石厅-南-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 357.89,
-      "y": 176.59,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 176.59
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 356.85,
-      "y": 181.71,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 181.71
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": 356.47,
-      "y": 194.09,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": 194.09
     },
     {
-      "id": 4,
-      "x": 360.37,
-      "y": 193.95,
       "action": "stop_flying",
-      "move_mode": "fly",
       "action_params": "2000",
-      "type": "path"
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 360.37,
+      "y": 193.95
     },
     {
-      "id": 5,
-      "x": 351.52,
-      "y": 188.2,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 351.52,
+      "y": 188.2
     },
     {
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
       "id": 6,
-      "x": 349.58,
-      "y": 187.9,
-      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
-      "type": "target"
-    },
-    {
-      "id": 7,
-      "x": 350.27,
-      "y": 184.94,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
       "type": "target",
-      "locked": false
+      "x": 349.58,
+      "y": 187.9
     },
     {
-      "id": 8,
-      "x": 350.27,
-      "y": 184.94,
       "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "id": 7,
+      "locked": false,
       "move_mode": "walk",
+      "type": "target",
+      "x": 350.27,
+      "y": 184.94
+    },
+    {
+      "action": "combat_script",
       "action_params": "wait(2)",
-      "type": "target"
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 350.27,
+      "y": 184.94
     }
   ]
 }

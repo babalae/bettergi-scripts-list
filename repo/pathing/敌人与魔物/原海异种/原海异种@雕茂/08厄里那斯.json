@@ -1,80 +1,80 @@
 {
   "info": {
-    "name": "08厄里那斯",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "雕茂"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "08厄里那斯",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 5117.49,
-      "y": 2543.4,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 2543.4
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5111.97,
-      "y": 2574.39,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 2574.39
     },
     {
+      "action": "fight",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5152.53,
-      "y": 2608.11,
-      "action": "fight",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 2608.11
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5163.15,
-      "y": 2622.34,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 2622.34
     },
     {
+      "action": "fight",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5227.87,
-      "y": 2633.7,
-      "action": "fight",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 2633.7
     },
     {
-      "id": 6,
-      "x": 5230.09,
-      "y": 2638.8,
       "action": "",
+      "id": 6,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 5230.09,
+      "y": 2638.8
     },
     {
-      "id": 7,
-      "x": 5269.56,
-      "y": 2626.53,
       "action": "stop_flying",
+      "id": 7,
       "move_mode": "fly",
-      "type": "path"
+      "type": "path",
+      "x": 5269.56,
+      "y": 2626.53
     },
     {
-      "id": 8,
-      "x": 5315.96,
-      "y": 2622.59,
       "action": "fight",
+      "id": 8,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 5315.96,
+      "y": 2622.59
     }
   ]
 }

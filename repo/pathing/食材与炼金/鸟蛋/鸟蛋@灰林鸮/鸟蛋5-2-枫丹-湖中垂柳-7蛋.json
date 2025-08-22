@@ -1,108 +1,108 @@
 {
   "info": {
-    "name": "鸟蛋5-2-枫丹-湖中垂柳-7蛋",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.43.0",
     "authors": [
       {
-        "name": "灰林鸮",
-        "links": "https://github.com/Strix-nivicolum"
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
       }
-    ]
+    ],
+    "bgi_version": "0.43.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "name": "鸟蛋5-2-枫丹-湖中垂柳-7蛋",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 3258.06,
-      "y": 3672.88,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 3672.88
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3248.65,
-      "y": 3688.32,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 3688.32
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3273.34,
-      "y": 3705.3,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 3705.3
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3278.49,
-      "y": 3733.58,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 3733.58
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 3279.66,
-      "y": 3734.84,
+      "move_mode": "walk",
       "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 3279.66,
+      "y": 3734.84
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": 3258.07,
-      "y": 3672.85,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 3258.07,
+      "y": 3672.85
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3267.93,
-      "y": 3665.49,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 3665.49
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3308.64,
-      "y": 3655.56,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 3655.56
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 9,
-      "x": 3333.48,
-      "y": 3635.47,
-      "action": "nahida_collect",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "target"
+      "type": "target",
+      "x": 3333.48,
+      "y": 3635.47
     },
     {
-      "id": 10,
-      "x": 3326.0,
-      "y": 3583.69,
       "action": "nahida_collect",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "target"
+      "id": 10,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 3326.0,
+      "y": 3583.69
     }
   ]
 }

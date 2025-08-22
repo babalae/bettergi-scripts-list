@@ -1,57 +1,57 @@
 {
   "info": {
-    "name": "12-鬼兜虫-八酝岛(中部)-1个 ",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "12-鬼兜虫-八酝岛(中部)-1个 ",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -2405.63,
-      "y": -3922.05,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": -3922.05
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -2379.14,
-      "y": -3863.71,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -3863.71
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -2354.95,
-      "y": -3847.07,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -3847.07
     },
     {
+      "action": "",
       "id": 4,
-      "x": -2350.11,
-      "y": -3842.4,
-      "action": "",
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": -2350.11,
+      "y": -3842.4
     },
     {
-      "id": 5,
-      "x": -2353.26,
-      "y": -3844.69,
       "action": "",
+      "id": 5,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": -2353.26,
+      "y": -3844.69
     }
   ]
 }

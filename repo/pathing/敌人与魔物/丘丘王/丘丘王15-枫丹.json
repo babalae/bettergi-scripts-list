@@ -1,89 +1,89 @@
 {
   "info": {
-    "name": "丘丘王15-枫丹",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "XS",
-        "links": "https://github.com/xwsqy6"
+        "links": "https://github.com/xwsqy6",
+        "name": "XS"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "丘丘王15-枫丹",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 5117.46,
-      "y": 2543.38,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 2543.38
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 5078.55,
-      "y": 2513.81,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 2513.81
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5040.24,
-      "y": 2474.61,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 2474.61
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5020.58,
-      "y": 2462.68,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 2462.68
     },
     {
+      "action": "",
       "id": 5,
-      "x": 4999.69,
-      "y": 2440.69,
-      "action": "",
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 4999.69,
+      "y": 2440.69
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "run",
+      "type": "path",
       "x": 4981.14,
-      "y": 2451.98,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 2451.98
     },
     {
+      "action": "",
       "id": 7,
+      "move_mode": "run",
+      "type": "path",
       "x": 4967.91,
-      "y": 2460.42,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 2460.42
     },
     {
+      "action": "",
       "id": 8,
-      "x": 4961.01,
-      "y": 2459.19,
-      "action": "",
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 4961.01,
+      "y": 2459.19
     },
     {
-      "id": 9,
-      "x": 4956.81,
-      "y": 2469.68,
       "action": "fight",
+      "id": 9,
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 4956.81,
+      "y": 2469.68
     }
   ]
 }

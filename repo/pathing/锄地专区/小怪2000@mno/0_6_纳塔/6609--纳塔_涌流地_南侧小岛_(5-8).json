@@ -1,89 +1,89 @@
 {
   "info": {
-    "name": "6609--纳塔_涌流地_南侧小岛_(5-8)",
-    "enable_monster_loot_split": true,
-    "type": "collect",
-    "version": "1.1",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "Demo"
       },
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       },
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "enable_monster_loot_split": true,
+    "name": "6609--纳塔_涌流地_南侧小岛_(5-8)",
+    "type": "collect",
+    "version": "1.1"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 8744.71,
-      "y": -3009.56,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 8744.71,
+      "y": -3009.56
     },
     {
-      "id": 2,
-      "x": 8732.92,
-      "y": -2969.49,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "attack(0.5)",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 8746.07,
-      "y": -2975.88,
-      "action": "fight",
+      "id": 2,
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 8770.89,
-      "y": -3005.71,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 8787.93,
-      "y": -3017.75,
-      "action": "fight",
-      "move_mode": "jump",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": 8840.83,
-      "y": -3018.8,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
       "type": "path",
-      "locked": false
+      "x": 8732.92,
+      "y": -2969.49
     },
     {
-      "id": 7,
-      "x": 8840.83,
-      "y": -3018.8,
-      "action": "combat_script",
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
       "move_mode": "dash",
+      "type": "path",
+      "x": 8746.07,
+      "y": -2975.88
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8770.89,
+      "y": -3005.71
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 8787.93,
+      "y": -3017.75
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8840.83,
+      "y": -3018.8
+    },
+    {
+      "action": "combat_script",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 8840.83,
+      "y": -3018.8
     }
   ]
 }

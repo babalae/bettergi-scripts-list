@@ -1,56 +1,56 @@
 {
   "info": {
-    "name": "枫丹风役人08",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "迷茫之途"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "枫丹风役人08",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 4505.67,
-      "y": 4709.36,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 4709.36
     },
     {
+      "action": "fight",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4551.3,
-      "y": 4730.79,
-      "action": "fight",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 4730.79
     },
     {
+      "action": "fight",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 4490.74,
-      "y": 4635.98,
-      "action": "fight",
-      "move_mode": "run",
-      "type": "path"
+      "y": 4635.98
     },
     {
-      "id": 4,
-      "x": 4390.0,
-      "y": 4590.0,
       "action": "",
+      "id": 4,
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 4390.0,
+      "y": 4590.0
     },
     {
-      "id": 5,
-      "x": 4385.79,
-      "y": 4622.98,
       "action": "fight",
+      "id": 5,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 4385.79,
+      "y": 4622.98
     }
   ]
 }

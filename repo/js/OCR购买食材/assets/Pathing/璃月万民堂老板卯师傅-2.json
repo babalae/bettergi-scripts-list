@@ -1,55 +1,55 @@
 {
   "info": {
+    "author": "吉吉喵",
+    "bgi_version": "0.42.3",
+    "description": "璃月万民堂老板卯师傅备选",
     "name": "璃月万民堂老板卯师傅",
     "type": "collect",
-    "author": "吉吉喵",
-    "version": "",
-    "description": "璃月万民堂老板卯师傅备选",
-    "bgi_version": "0.42.3"
+    "version": ""
   },
   "positions": [
     {
-      "id": 1,
-      "x": 267.9150390625,
-      "y": -665.1591796875,
       "action": "",
+      "id": 1,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
-      "locked": false
+      "x": 267.9150390625,
+      "y": -665.1591796875
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 232.9345703125,
-      "y": -663.775390625,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -663.775390625
     },
     {
+      "action": "",
       "id": 3,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
       "x": 231.1435546875,
-      "y": -671.79248046875,
-      "action": "",
-      "move_mode": "walk",
-      "type": "target",
-      "locked": false
+      "y": -671.79248046875
     },
     {
+      "action": "",
       "id": 4,
-      "x": 226.2607421875,
-      "y": -672.33740234375,
-      "action": "",
+      "locked": false,
       "move_mode": "walk",
       "type": "target",
-      "locked": false
+      "x": 226.2607421875,
+      "y": -672.33740234375
     },
     {
-      "id": 5,
-      "x": 227.591796875,
-      "y": -671.0654296875,
       "action": "",
+      "id": 5,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 227.591796875,
+      "y": -671.0654296875
     }
   ]
 }

@@ -1,81 +1,81 @@
 {
   "info": {
-    "name": "01-幽光星星-黎翡区-6个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "jbcaaa",
-        "links": "https://github.com/jbcaaa"
+        "links": "https://github.com/jbcaaa",
+        "name": "jbcaaa"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "01-幽光星星-黎翡区-6个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": 4545.55,
-      "y": 4225.68,
-      "action": "",
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 4545.55,
+      "y": 4225.68
     },
     {
+      "action": "",
       "id": 2,
-      "x": 4469.09,
-      "y": 4238.84,
+      "move_mode": "fly",
       "type": "path",
-      "move_mode": "fly",
-      "action": ""
+      "x": 4469.09,
+      "y": 4238.84
     },
     {
-      "id": 3,
-      "x": 4392.63,
-      "y": 4252.0,
       "action": "stop_flying",
+      "id": 3,
       "move_mode": "fly",
-      "type": "path"
+      "type": "path",
+      "x": 4392.63,
+      "y": 4252.0
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": 4385.36,
-      "y": 4251.14,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 4251.14
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "run",
+      "type": "path",
       "x": 4349.09,
-      "y": 4235.68,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 4235.68
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "run",
+      "type": "path",
       "x": 4287.97,
-      "y": 4200.58,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 4200.58
     },
     {
+      "action": "",
       "id": 7,
-      "x": 4262.64,
-      "y": 4155.9,
-      "action": "",
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 4262.64,
+      "y": 4155.9
     },
     {
-      "id": 8,
-      "x": 4264.48,
-      "y": 4128.45,
       "action": "",
+      "id": 8,
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 4264.48,
+      "y": 4128.45
     }
   ]
 }

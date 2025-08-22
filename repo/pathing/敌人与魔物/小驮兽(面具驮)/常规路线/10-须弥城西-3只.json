@@ -1,63 +1,63 @@
 {
   "info": {
-    "name": "10-须弥城西-3只",
-    "type": "collect",
     "authors": [
       {
-        "name": "jay",
-        "links": ""
+        "links": "",
+        "name": "jay"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1754659142917,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "10-须弥城西-3只",
     "tags": [
       "驮兽",
       "丘丘面具",
       "兽肉",
       "小驮兽"
     ],
-    "last_modified_time": 1754659142917,
-    "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 2871.001,
-      "y": -377.1045,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 2871.001,
+      "y": -377.1045
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 2902.3457,
-      "y": -438.563,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": -438.563
     },
     {
-      "id": 3,
-      "x": 2984.5068,
-      "y": -426.0581,
-      "type": "path",
-      "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "keypress(VK_SPACE),wait(2),attack(0.3)"
+      "action_params": "keypress(VK_SPACE),wait(2),attack(0.3)",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2984.5068,
+      "y": -426.0581
     },
     {
-      "id": 4,
-      "x": 2964.2598,
-      "y": -437.6577,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2964.2598,
+      "y": -437.6577
     }
   ]
 }

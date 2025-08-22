@@ -1,81 +1,81 @@
 {
   "info": {
-    "name": "璃月-骗骗花-珉林奥藏山东方-1个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "骗骗花-1个\n璃月-珉林奥藏山东方",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "提瓦特钓鱼玳师",
-        "links": "https://github.com/Hijiwos"
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "骗骗花-1个\n璃月-珉林奥藏山东方",
+    "name": "璃月-骗骗花-珉林奥藏山东方-1个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 1121.5,
-      "y": 1190.99,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 1190.99
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 1132.62,
-      "y": 1193.06,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": ""
+      "y": 1193.06
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1204.96,
-      "y": 1199.61,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 1199.61
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "fly",
+      "type": "path",
       "x": 1210.46,
-      "y": 1199.21,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": 1199.21
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 1218.81,
-      "y": 1199.51,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 1218.81,
+      "y": 1199.51
     },
     {
-      "id": 6,
-      "x": 1235.14,
-      "y": 1197.27,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
       "action_params": "",
-      "locked": false
+      "id": 6,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1235.14,
+      "y": 1197.27
     },
     {
-      "id": 7,
-      "x": 1235.14,
-      "y": 1197.27,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1235.14,
+      "y": 1197.27
     }
   ]
 }

@@ -1,64 +1,64 @@
 {
   "info": {
-    "name": "217璃月珉林南（600_1）",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时76.27秒，包含1只精英与4只小怪，预计收入762摩拉，包含以下怪物：1只丘丘人、1只冲锋丘丘人、1只火箭丘丘人、1只雷箭丘丘人、1只丘丘岩盔王。",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.42.3",
+    "description": "  路线信息：该路线预计用时76.27秒，包含1只精英与4只小怪，预计收入762摩拉，包含以下怪物：1只丘丘人、1只冲锋丘丘人、1只火箭丘丘人、1只雷箭丘丘人、1只丘丘岩盔王。",
+    "name": "217璃月珉林南（600_1）",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 1045.54,
-      "y": 950.62,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 950.62
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 983.25,
-      "y": 971.75,
-      "action": "",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 938,
-      "y": 982.17,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 933,
-      "y": 973.17,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
       "type": "path",
-      "locked": false
+      "x": 983.25,
+      "y": 971.75
     },
     {
-      "id": 5,
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 938,
+      "y": 982.17
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
       "x": 933,
-      "y": 973.17,
+      "y": 973.17
+    },
+    {
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 933,
+      "y": 973.17
     }
   ]
 }

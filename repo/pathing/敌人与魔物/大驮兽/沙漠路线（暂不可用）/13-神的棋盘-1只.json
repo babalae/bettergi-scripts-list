@@ -1,12 +1,16 @@
 {
   "info": {
-    "name": "13-神的棋盘-1只",
-    "type": "collect",
     "author": "jay",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
+    "authors": [
+      {
+        "name": "jay"
+      }
+    ],
     "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1754396952444,
+    "map_name": "Teyvat",
+    "name": "13-神的棋盘-1只",
     "tags": [
       "驮兽",
       "兽肉",
@@ -14,31 +18,27 @@
       "镀金旅团",
       "沙暴"
     ],
-    "last_modified_time": 1754396952444,
-    "authors": [
-      {
-        "name": "jay"
-      }
-    ]
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 5420.1602,
-      "y": -1463.3745,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5420.1602,
+      "y": -1463.3745
     },
     {
-      "id": 2,
-      "x": 5451.8818,
-      "y": -1478.8115,
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5451.8818,
+      "y": -1478.8115
     }
   ]
 }

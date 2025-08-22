@@ -1,43 +1,43 @@
 {
   "info": {
-    "name": "10-白萝卜-稻妻越石村-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "10-白萝卜-稻妻越石村-2个",
-    "bgi_version": "0.42.3",
     "authors": [
       {
         "name": "小刘忙"
       }
-    ]
+    ],
+    "bgi_version": "0.42.3",
+    "description": "10-白萝卜-稻妻越石村-2个",
+    "name": "10-白萝卜-稻妻越石村-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -4023.3,
-      "y": -4428.81,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -4428.81
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -4001.92,
-      "y": -4388.83,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -4001.92,
+      "y": -4388.83
     },
     {
-      "id": 3,
-      "x": -4002.29,
-      "y": -4388.96,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4002.29,
+      "y": -4388.96
     }
   ]
 }

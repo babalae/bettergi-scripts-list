@@ -1,67 +1,67 @@
 {
   "info": {
-    "name": "鸟蛋2-29-璃月-珉林-2蛋",
-    "type": "collect",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
+    "description": "",
+    "enable_monster_loot_split": false,
     "last_modified_time": 1752172194830,
-    "enable_monster_loot_split": false
+    "map_name": "Teyvat",
+    "name": "鸟蛋2-29-璃月-珉林-2蛋",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 1116.58,
-      "y": 1188.65,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 2,
-      "x": 1133.75,
-      "y": 1179.13,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": ""
-    },
-    {
-      "id": 3,
-      "x": 1175.63,
-      "y": 1147.83,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": 1171.23,
-      "y": 1137.29,
-      "type": "path",
-      "move_mode": "jump",
       "action": "",
       "action_params": "",
-      "locked": false
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1116.58,
+      "y": 1188.65
     },
     {
-      "id": 5,
-      "x": 1171.23,
-      "y": 1137.29,
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
       "type": "path",
-      "move_mode": "climb",
+      "x": 1133.75,
+      "y": 1179.13
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1175.63,
+      "y": 1147.83
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 1171.23,
+      "y": 1137.29
+    },
+    {
       "action": "nahida_collect",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 1171.23,
+      "y": 1137.29
     }
   ]
 }

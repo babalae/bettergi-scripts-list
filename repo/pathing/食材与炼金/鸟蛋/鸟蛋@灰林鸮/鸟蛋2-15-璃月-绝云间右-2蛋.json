@@ -1,54 +1,54 @@
 {
   "info": {
-    "name": "鸟蛋2-15-璃月-绝云间右-2蛋",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.43.0",
     "authors": [
       {
-        "name": "灰林鸮",
-        "links": "https://github.com/Strix-nivicolum"
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
       }
-    ]
+    ],
+    "bgi_version": "0.43.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "name": "鸟蛋2-15-璃月-绝云间右-2蛋",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 897.83,
-      "y": 583.47,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 583.47
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 887.85,
-      "y": 621.58,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 621.58
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 880.34,
-      "y": 674.09,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 880.34,
+      "y": 674.09
     },
     {
-      "id": 4,
-      "x": 873.32,
-      "y": 688.12,
       "action": "nahida_collect",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 873.32,
+      "y": 688.12
     }
   ]
 }

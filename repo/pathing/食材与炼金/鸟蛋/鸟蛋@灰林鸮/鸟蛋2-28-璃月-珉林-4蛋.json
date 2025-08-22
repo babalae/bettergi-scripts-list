@@ -1,111 +1,111 @@
 {
   "info": {
-    "name": "鸟蛋2-28-璃月-珉林-4蛋",
-    "type": "collect",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
+    "description": "",
+    "enable_monster_loot_split": false,
     "last_modified_time": 1752215943695,
-    "enable_monster_loot_split": false
+    "map_name": "Teyvat",
+    "name": "鸟蛋2-28-璃月-珉林-4蛋",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 1045.57,
-      "y": 947.51,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 947.51
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 1073.17,
-      "y": 963.23,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 963.23
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": 1117.62,
-      "y": 957.79,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 957.79
     },
     {
-      "id": 4,
-      "x": 1158.42,
-      "y": 934.85,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "wait(1)",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 1164.83,
-      "y": 929.44,
-      "action": "",
-      "move_mode": "jump",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": 1192.23,
-      "y": 910.3,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": 1197.21,
-      "y": 887.06,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "2000",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": 1192.27,
-      "y": 884.98,
-      "action": "nahida_collect",
-      "move_mode": "climb",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 9,
-      "x": 1200.8,
-      "y": 881.52,
-      "type": "path",
+      "id": 4,
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 1158.42,
+      "y": 934.85
     },
     {
-      "id": 10,
-      "x": 1206.44,
-      "y": 880.55,
-      "type": "path",
-      "move_mode": "jump",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 1164.83,
+      "y": 929.44
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1192.23,
+      "y": 910.3
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1197.21,
+      "y": 887.06
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 1192.27,
+      "y": 884.98
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1200.8,
+      "y": 881.52
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 1206.44,
+      "y": 880.55
     }
   ]
 }

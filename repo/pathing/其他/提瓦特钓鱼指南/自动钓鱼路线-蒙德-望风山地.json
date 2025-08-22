@@ -1,65 +1,65 @@
 {
   "info": {
-    "name": "自动钓鱼路线-蒙德-望风山地",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.43.0",
     "authors": [
       {
         "name": "鸿羽er"
       },
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.43.0",
+    "description": "",
+    "name": "自动钓鱼路线-蒙德-望风山地",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "run",
+      "type": "teleport",
       "x": -1270.62,
-      "y": 2717.75,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "teleport"
+      "y": 2717.75
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -1328.94,
-      "y": 2734.0,
-      "action": "",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": -1330.79,
-      "y": 2735.75,
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -1328.94,
+      "y": 2734.0
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1330.79,
+      "y": 2735.75
+    },
+    {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": -1331.37,
-      "y": 2740.98,
-      "type": "target",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "target",
+      "x": -1331.37,
+      "y": 2740.98
     },
     {
-      "id": 5,
-      "x": -1333.56,
-      "y": 2760.86,
-      "type": "orientation",
-      "move_mode": "walk",
       "action": "fishing",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -1333.56,
+      "y": 2760.86
     }
   ]
 }

@@ -1,104 +1,104 @@
 {
   "info": {
-    "name": "发条机关05",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "½",
-        "links": "https://github.com/Traveler07"
+        "links": "https://github.com/Traveler07",
+        "name": "½"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "发条机关05",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": 3636.05,
-      "y": 4796.06,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "x": 3636.05,
+      "y": 4796.06
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3632.98,
-      "y": 4845.62,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 4845.62
     },
     {
+      "action": "fight",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3600.66,
-      "y": 4900.33,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 4900.33
     },
     {
+      "action": "fight",
       "id": 4,
-      "x": 3687.52,
-      "y": 4961.01,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 3687.52,
+      "y": 4961.01
     },
     {
+      "action": "fight",
       "id": 5,
-      "x": 3710.98,
-      "y": 4906.06,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 3710.98,
+      "y": 4906.06
     },
     {
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3766.5,
-      "y": 4900.25,
-      "type": "path",
-      "move_mode": "walk"
+      "y": 4900.25
     },
     {
+      "action": "fight",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3811.44,
-      "y": 4869.79,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 4869.79
     },
     {
+      "action": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3799.54,
-      "y": 4943.41,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 4943.41
     },
     {
+      "action": "fight",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3783.52,
-      "y": 4971.19,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 4971.19
     },
     {
+      "action": "",
       "id": 10,
-      "x": 3765.05,
-      "y": 4991.25,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 3765.05,
+      "y": 4991.25
     },
     {
+      "action": "fight",
       "id": 11,
-      "x": 3752.92,
-      "y": 4996.05,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 3752.92,
+      "y": 4996.05
     }
   ]
 }

@@ -1,57 +1,57 @@
 {
   "info": {
-    "name": "09-莲蓬-天衡山-3个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "09-莲蓬-天衡山-3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 710.83,
       "y": -772.43
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 714.77,
-      "y": -771.32,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -771.32
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": 717.34,
-      "y": -770.53,
-      "type": "path",
-      "move_mode": "fly",
-      "action": ""
+      "y": -770.53
     },
     {
+      "action": "stop_flying",
       "id": 4,
-      "x": 758.61,
-      "y": -749.21,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": 758.61,
+      "y": -749.21
     },
     {
+      "action": "nahida_collect",
       "id": 5,
-      "x": 758.26,
-      "y": -749.69,
-      "type": "path",
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": 758.26,
+      "y": -749.69
     }
   ]
 }

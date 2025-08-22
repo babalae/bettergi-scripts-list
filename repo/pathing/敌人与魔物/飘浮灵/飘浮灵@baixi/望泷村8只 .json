@@ -1,116 +1,116 @@
 {
   "info": {
-    "name": "望泷村8只 ",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "baixi",
-        "links": "https://github.com/baixi232310"
+        "links": "https://github.com/baixi232310",
+        "name": "baixi"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "望泷村8只 ",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -1057.82,
-      "y": -3946.07,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -3946.07
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": -1075.04,
-      "y": -3954.85,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -3954.85
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": -1103.43,
-      "y": -3966.68,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -3966.68
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1144.5,
-      "y": -3982.62,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -3982.62
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1136.37,
-      "y": -3969.29,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -3969.29
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1132.02,
-      "y": -3977.35,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -3977.35
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 7,
-      "x": -1133.08,
-      "y": -3985.03,
-      "action": "fight",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": -1163.98,
-      "y": -4000.13,
       "type": "path",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": ""
+      "x": -1133.08,
+      "y": -3985.03
     },
     {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1163.98,
+      "y": -4000.13
+    },
+    {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "run",
+      "type": "path",
       "x": -1151.57,
-      "y": -4044.93,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -4044.93
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
-      "x": -1141.38,
-      "y": -4085.89,
-      "action": "",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -1141.38,
+      "y": -4085.89
     },
     {
-      "id": 11,
-      "x": -1141.15,
-      "y": -4071.0,
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1141.15,
+      "y": -4071.0
     }
   ]
 }

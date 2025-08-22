@@ -1,44 +1,44 @@
 {
   "info": {
-    "name": "骗骗花-翠块坡左下",
-    "type": "collect",
-    "version": "1.0",
-    "description": "骗骗花",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "san"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "骗骗花",
+    "name": "骗骗花-翠块坡左下",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 1143.0,
       "y": 137.03
     },
     {
-      "id": 2,
       "action": "",
+      "id": 2,
       "move_mode": "run",
       "type": "path",
       "x": 1101.75,
       "y": 111.5
     },
     {
+      "action": "fight",
       "id": 3,
-      "x": 1102.5,
-      "y": 136.0,
       "move_mode": "run",
       "type": "path",
-      "action": "fight"
+      "x": 1102.5,
+      "y": 136.0
     },
     {
-      "id": 4,
       "action": "",
+      "id": 4,
       "move_mode": "run",
       "type": "path",
       "x": 1071.0,
@@ -46,22 +46,22 @@
     },
     {
       "id": 5,
-      "x": 1044.5,
-      "y": 213.0,
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 1044.5,
+      "y": 213.0
     },
     {
-      "id": 6,
       "action": "",
+      "id": 6,
       "move_mode": "run",
       "type": "path",
       "x": 990.0,
       "y": 187.5
     },
     {
-      "id": 7,
       "action": "fight",
+      "id": 7,
       "move_mode": "run",
       "type": "path",
       "x": 972.0,

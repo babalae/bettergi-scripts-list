@@ -1,39 +1,39 @@
 {
   "info": {
+    "author": "越空",
+    "bgi_version": "0.42.3",
+    "description": "走到稻妻若紫位置，准备购买四方八方之网",
     "name": "四方八方之网",
     "type": "collect",
-    "author": "越空",
-    "version": "1.0",
-    "description": "走到稻妻若紫位置，准备购买四方八方之网",
-    "bgi_version": "0.42.3"
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -4232.1875,
-      "y": -3001.9599609375,
-      "action_params": ""
+      "y": -3001.9599609375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -4236.78515625,
-      "y": -2995.244140625,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -4236.78515625,
+      "y": -2995.244140625
     },
     {
-      "id": 3,
-      "x": -4242.451171875,
-      "y": -2998.5556640625,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4242.451171875,
+      "y": -2998.5556640625
     }
   ]
 }

@@ -1,130 +1,130 @@
 {
   "info": {
-    "name": "青蛙21-4只-蒙德-风龙废墟",
-    "type": "collect",
     "authors": [
       {
-        "name": "今天下雨w",
-        "links": "https://github.com/aqing11520"
+        "links": "https://github.com/aqing11520",
+        "name": "今天下雨w"
       }
     ],
-    "version": "1.0",
-    "description": "需要防惊扰天赋：瑶瑶/蓝砚/早柚，任选其一；生存位不是很建议放技能。",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1755052620428,
+    "description": "需要防惊扰天赋：瑶瑶/蓝砚/早柚，任选其一；生存位不是很建议放技能。",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1755052620428,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "青蛙21-4只-蒙德-风龙废墟",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 265.9102,
-      "y": 2915.1416,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2915.1416
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 258.6982,
-      "y": 2914.8374,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2914.8374
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 157.4648,
-      "y": 2908.5015,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 2908.5015
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 128.4297,
-      "y": 2912.2095,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 128.4297,
+      "y": 2912.2095
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 110.0928,
-      "y": 2913.1511,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2913.1511
     },
     {
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(1.0)",
       "id": 6,
-      "x": 101.2031,
-      "y": 2903.4453,
-      "type": "path",
       "move_mode": "fly",
-      "action": "combat_script",
-      "action_params": "keypress(space),wait(1.0)"
+      "type": "path",
+      "x": 101.2031,
+      "y": 2903.4453
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 101.7656,
-      "y": 2899.7246,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2899.7246
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": 98.1074,
-      "y": 2897.2058,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2897.2058
     },
     {
-      "id": 9,
-      "x": 94.9902,
-      "y": 2901.8608,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keypress(space),wait(2.0)"
+      "action_params": "keypress(space),wait(2.0)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 94.9902,
+      "y": 2901.8608
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
-      "x": 75.3965,
-      "y": 2917.936,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 11,
-      "x": 84.2305,
-      "y": 2918.7925,
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 75.3965,
+      "y": 2917.936
     },
     {
-      "id": 12,
-      "x": -867.6836,
-      "y": 2281.3762,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 84.2305,
+      "y": 2918.7925
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -867.6836,
+      "y": 2281.3762
     }
   ]
 }

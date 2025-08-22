@@ -1,57 +1,57 @@
 {
   "info": {
-    "name": "发条机关02",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "½",
-        "links": "https://github.com/Traveler07"
+        "links": "https://github.com/Traveler07",
+        "name": "½"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "发条机关02",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4143.92,
       "y": 4423.53
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4169.96,
-      "y": 4424.96,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 4424.96
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4181.61,
-      "y": 4421.51,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 4421.51
     },
     {
+      "action": "stop_flying",
       "id": 4,
-      "x": 4211.86,
-      "y": 4412.62,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": 4211.86,
+      "y": 4412.62
     },
     {
+      "action": "fight",
       "id": 5,
-      "x": 4211.87,
-      "y": 4412.63,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 4211.87,
+      "y": 4412.63
     }
   ]
 }

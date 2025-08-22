@@ -1,71 +1,71 @@
 {
   "info": {
-    "name": "13-海灵芝-望泷村东-3个",
-    "type": "collect",
-    "version": "1.0",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "tignioj"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "name": "13-海灵芝-望泷村东-3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": -1058.99,
-      "y": -3947.85,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "x": -1058.99,
+      "y": -3947.85
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": -1006.87,
-      "y": -3952.6,
-      "type": "path",
-      "move_mode": "fly",
-      "action": ""
+      "y": -3952.6
     },
     {
+      "action": "stop_flying",
       "id": 3,
-      "x": -993.53,
-      "y": -3955.21,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
-    },
-    {
-      "id": 4,
-      "x": -986.75,
-      "y": -3962.99,
-      "type": "target",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 5,
-      "x": -975.91,
-      "y": -3960.45,
-      "type": "target",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 6,
-      "x": -960.39,
-      "y": -3960.8,
       "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "x": -993.53,
+      "y": -3955.21
     },
     {
-      "id": 7,
-      "x": -943.4,
-      "y": -3954.65,
-      "type": "target",
+      "action": "",
+      "id": 4,
       "move_mode": "walk",
-      "action": ""
+      "type": "target",
+      "x": -986.75,
+      "y": -3962.99
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -975.91,
+      "y": -3960.45
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -960.39,
+      "y": -3960.8
+    },
+    {
+      "action": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -943.4,
+      "y": -3954.65
     }
   ]
 }

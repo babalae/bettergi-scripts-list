@@ -1,122 +1,122 @@
 {
   "info": {
-    "name": "04-悼灵花-遗忘之路-3个",
-    "type": "collect",
     "authors": [
       {
-        "name": "ddaodan",
-        "links": "https://github.com/ddaodan"
+        "links": "https://github.com/ddaodan",
+        "name": "ddaodan"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.47.2",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1753295627829,
+    "map_name": "Teyvat",
+    "name": "04-悼灵花-遗忘之路-3个",
     "tags": [
       "悼灵花"
     ],
-    "last_modified_time": 1753295627829,
-    "enable_monster_loot_split": false
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 5493.22,
-      "y": 1447.27,
-      "action_params": ""
+      "y": 1447.27
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 5526.4,
-      "y": 1431.37,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 1431.37
     },
     {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5558.69,
-      "y": 1415.1,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "up_down_grab_leaf",
-      "action_params": ""
+      "y": 1415.1
     },
     {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5585.98,
-      "y": 1403.19,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "up_down_grab_leaf",
-      "action_params": ""
+      "y": 1403.19
     },
     {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5614.3,
-      "y": 1391.11,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "up_down_grab_leaf",
-      "action_params": ""
+      "y": 1391.11
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5641.59,
-      "y": 1387.62,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 1387.62
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "dash",
+      "type": "target",
       "x": 5670.5,
-      "y": 1394.78,
-      "type": "target",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 1394.78
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "dash",
+      "type": "target",
       "x": 5689.95,
-      "y": 1391.64,
-      "type": "target",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 1391.64
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5701.26,
-      "y": 1399.38,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 1399.38
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
-      "x": 5714.34,
-      "y": 1403.13,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 5714.34,
+      "y": 1403.13
     },
     {
-      "id": 11,
-      "x": 5750.23,
-      "y": 1393.57,
-      "type": "target",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 5750.23,
+      "y": 1393.57
     }
   ]
 }

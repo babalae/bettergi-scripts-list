@@ -1,121 +1,121 @@
 {
   "info": {
-    "name": "沉玉谷_玄文兽04",
-    "type": "collect",
-    "version": "1.0",
-    "description": "新增一个点位",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "XS",
-        "links": "https://github.com/xwsqy6"
+        "links": "https://github.com/xwsqy6",
+        "name": "XS"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "新增一个点位",
+    "name": "沉玉谷_玄文兽04",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": 2257.04,
-      "y": 934.98,
-      "action": "",
       "move_mode": "walk",
-      "type": "teleport"
-    },
-    {
-      "id": 2,
-      "x": 2227.89,
-      "y": 901.48,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 2202.91,
-      "y": 866.52,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 2136.23,
-      "y": 838.61,
-      "action": "fight",
-      "move_mode": "run",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 2628.1,
-      "y": 1528.54,
       "type": "teleport",
-      "move_mode": "run",
-      "action": "force_tp",
-      "action_params": ""
+      "x": 2257.04,
+      "y": 934.98
     },
     {
-      "id": 6,
-      "x": 2626.88,
-      "y": 1491.04,
-      "type": "path",
-      "move_mode": "run",
       "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 7,
-      "x": 2627.81,
-      "y": 1451.82,
-      "type": "path",
+      "id": 2,
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 2227.89,
+      "y": 901.48
     },
     {
-      "id": 8,
-      "x": 2635.41,
-      "y": 1419.47,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 9,
-      "x": 2634.15,
-      "y": 1404.49,
-      "type": "path",
+      "id": 3,
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 2202.91,
+      "y": 866.52
     },
     {
-      "id": 10,
-      "x": 2637.53,
-      "y": 1401.13,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 11,
-      "x": 2634.93,
-      "y": 1387.13,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 12,
-      "x": 2631.69,
-      "y": 1366.31,
-      "type": "path",
-      "move_mode": "run",
       "action": "fight",
-      "action_params": ""
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2136.23,
+      "y": 838.61
+    },
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "teleport",
+      "x": 2628.1,
+      "y": 1528.54
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2626.88,
+      "y": 1491.04
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2627.81,
+      "y": 1451.82
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2635.41,
+      "y": 1419.47
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2634.15,
+      "y": 1404.49
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2637.53,
+      "y": 1401.13
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2634.93,
+      "y": 1387.13
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2631.69,
+      "y": 1366.31
     }
   ]
 }

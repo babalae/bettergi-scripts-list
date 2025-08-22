@@ -1,57 +1,57 @@
 {
   "info": {
-    "name": "丘丘人射手-08珉林",
-    "type": "collect",
-    "version": "1.0",
-    "description": "含风免",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "曦",
-        "links": "https://github.com/cx05121"
+        "links": "https://github.com/cx05121",
+        "name": "曦"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "含风免",
+    "name": "丘丘人射手-08珉林",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 1120.98,
       "y": 1190.4
     },
     {
+      "action": "fight",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1084.99,
-      "y": 1194.86,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 1194.86
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1067.26,
-      "y": 1183.25,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 1183.25
     },
     {
+      "action": "fight",
       "id": 4,
-      "x": 1032.0,
-      "y": 1191.59,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 1032.0,
+      "y": 1191.59
     },
     {
+      "action": "fight",
       "id": 5,
-      "x": 1042.98,
-      "y": 1166.54,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 1042.98,
+      "y": 1166.54
     }
   ]
 }

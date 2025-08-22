@@ -1,58 +1,58 @@
 {
   "info": {
-    "name": "须弥8-折胫谷-1",
-    "type": "collect",
     "author": "寒烟",
-    "version": "1.1",
+    "bgi_version": "0.45.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "name": "须弥8-折胫谷-1",
+    "type": "collect",
+    "version": "1.1"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 5759.42,
-      "y": -1307.6,
-      "action_params": ""
+      "y": -1307.6
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 5778.25,
-      "y": -1281.61,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -1281.61
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": 5758.5,
-      "y": -1229.14,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -1229.14
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 5740.41,
-      "y": -1161.68,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 5740.41,
+      "y": -1161.68
     },
     {
-      "id": 5,
-      "x": 5758.76,
-      "y": -1154.57,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5758.76,
+      "y": -1154.57
     }
   ]
 }

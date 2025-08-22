@@ -1,76 +1,76 @@
 {
   "info": {
-    "name": "A19-须弥-沙中故里传送锚点旁-1个",
-    "type": "collect",
     "authors": [
       {
-        "name": "芝士贝果",
-        "links": ""
+        "links": "",
+        "name": "芝士贝果"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.48.0",
-    "tags": [],
-    "last_modified_time": 1754799789912,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754799789912,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A19-须弥-沙中故里传送锚点旁-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 3844.2188,
-      "y": -573.186,
-      "action_params": ""
+      "y": -573.186
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3849.1338,
-      "y": -582.0503,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -582.0503
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3853.6484,
-      "y": -583.4072,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -583.4072
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "jump",
+      "type": "path",
       "x": 3849.6045,
-      "y": -589.3896,
-      "type": "path",
-      "move_mode": "jump",
-      "action": "",
-      "action_params": ""
+      "y": -589.3896
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 3845.2812,
-      "y": -594.4844,
-      "type": "path",
       "move_mode": "jump",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 3845.2812,
+      "y": -594.4844
     },
     {
-      "id": 6,
-      "x": 3845.209,
-      "y": -597.8008,
-      "type": "path",
-      "move_mode": "walk",
       "action": "mining",
-      "action_params": ""
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3845.209,
+      "y": -597.8008
     }
   ]
 }

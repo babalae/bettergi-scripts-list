@@ -1,42 +1,42 @@
 {
   "info": {
-    "name": "纳塔-安饶之野-路线10-11",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1750838322920,
+    "map_name": "Teyvat",
+    "name": "纳塔-安饶之野-路线10-11",
     "tags": [],
-    "last_modified_time": 1750838322920
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 10595.28515625,
-      "y": -2654.416015625,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -2654.416015625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 10584.04296875,
-      "y": -2667.5771484375,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 10584.04296875,
+      "y": -2667.5771484375
     },
     {
-      "id": 3,
-      "x": 10586.75390625,
-      "y": -2668.8828125,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10586.75390625,
+      "y": -2668.8828125
     }
   ]
 }

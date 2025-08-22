@@ -1,72 +1,72 @@
 {
   "info": {
-    "name": "鸟蛋2-2-璃月-灵矩关右上-4蛋",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.43.0",
     "authors": [
       {
-        "name": "灰林鸮",
-        "links": "https://github.com/Strix-nivicolum"
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
       }
-    ]
+    ],
+    "bgi_version": "0.43.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "name": "鸟蛋2-2-璃月-灵矩关右上-4蛋",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 978.76,
-      "y": -353.61,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -353.61
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 994.15,
-      "y": -347.37,
+      "move_mode": "dash",
       "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "x": 994.15,
+      "y": -347.37
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 3,
-      "x": 1001.7,
-      "y": -348.64,
-      "action": "nahida_collect",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 4,
-      "x": 1019.37,
-      "y": -341.78,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 1033.86,
-      "y": -344.17,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": 1040.07,
-      "y": -343.92,
       "type": "target",
-      "move_mode": "walk",
+      "x": 1001.7,
+      "y": -348.64
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1019.37,
+      "y": -341.78
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1033.86,
+      "y": -344.17
+    },
+    {
       "action": "nahida_collect",
-      "action_params": ""
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1040.07,
+      "y": -343.92
     }
   ]
 }

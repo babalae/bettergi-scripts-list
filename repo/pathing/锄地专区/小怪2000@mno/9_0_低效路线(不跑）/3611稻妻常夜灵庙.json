@@ -1,101 +1,101 @@
 {
   "info": {
-    "name": "3611稻妻常夜灵庙",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Enkanomiya",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "name": "3611稻妻常夜灵庙",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -308.26,
-      "y": 427.73,
-      "action_params": ""
+      "y": 427.73
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": -267.88,
-      "y": 418.21,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 418.21
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": -249.63,
-      "y": 396.79,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 396.79
     },
     {
-      "id": 4,
-      "x": -225.71,
-      "y": 406.46,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -225.71,
+      "y": 406.46
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 5,
+      "move_mode": "dash",
+      "type": "path",
       "x": -201.45,
-      "y": 396.23,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "fight",
-      "action_params": ""
+      "y": 396.23
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": -218.23,
-      "y": 380.3,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -218.23,
+      "y": 380.3
     },
     {
-      "id": 7,
-      "x": -212.25,
-      "y": 363.1,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
       "action_params": "",
-      "locked": false
+      "id": 7,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -212.25,
+      "y": 363.1
     },
     {
-      "id": 8,
-      "x": -212.25,
-      "y": 363.1,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
       "action_params": "",
-      "locked": false
+      "id": 8,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -212.25,
+      "y": 363.1
     },
     {
-      "id": 9,
-      "x": -212.25,
-      "y": 363.1,
-      "type": "orientation",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "action_params": "wait(1)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -212.25,
+      "y": 363.1
     }
   ]
 }

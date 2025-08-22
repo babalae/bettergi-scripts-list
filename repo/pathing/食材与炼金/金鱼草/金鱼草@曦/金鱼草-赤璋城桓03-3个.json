@@ -1,81 +1,81 @@
 {
   "info": {
-    "name": "金鱼草-赤璋城桓03-3个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "action中缺少T交互少1个",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "曦",
-        "links": "https://github.com/cx05121"
+        "links": "https://github.com/cx05121",
+        "name": "曦"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "action中缺少T交互少1个",
+    "name": "金鱼草-赤璋城桓03-3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "run",
+      "type": "teleport",
       "x": 2257.03,
-      "y": 934.93,
-      "action": "",
-      "move_mode": "run",
-      "type": "teleport"
+      "y": 934.93
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 2275.5,
-      "y": 964.9,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 964.9
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 2296.7,
-      "y": 993.93,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 993.93
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "target",
       "x": 2310.4,
-      "y": 1016.42,
-      "action": "",
-      "move_mode": "walk",
-      "type": "target"
+      "y": 1016.42
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "run",
+      "type": "path",
       "x": 2347.01,
-      "y": 976.95,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 976.95
     },
     {
+      "action": "",
       "id": 6,
-      "x": 2376.7,
-      "y": 974.27,
-      "action": "",
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 2376.7,
+      "y": 974.27
     },
     {
+      "action": "",
       "id": 7,
-      "x": 2417.62,
-      "y": 965.41,
-      "action": "",
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 2417.62,
+      "y": 965.41
     },
     {
-      "id": 8,
-      "x": 2430.43,
-      "y": 965.13,
       "action": "",
+      "id": 8,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 2430.43,
+      "y": 965.13
     }
   ]
 }

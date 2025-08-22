@@ -1,146 +1,146 @@
 {
   "info": {
-    "name": "中央实验室基地东南",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.43.0",
     "authors": [
       {
         "name": "cy"
       }
-    ]
+    ],
+    "bgi_version": "0.43.0",
+    "description": "",
+    "name": "中央实验室基地东南",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 3628.52,
-      "y": 4447.65,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 4447.65
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 3628.53,
-      "y": 4447.58,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 4447.58
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 3634.75,
-      "y": 4473.54,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 4473.54
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": 3622.23,
-      "y": 4494.82,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 4494.82
     },
     {
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)",
       "id": 5,
-      "x": 3636.45,
-      "y": 4510.32,
-      "action": "combat_script",
-      "action_params": "钟离 d(0.2),e(hold)",
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 3636.45,
+      "y": 4510.32
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3637.88,
-      "y": 4508.87,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 4508.87
     },
     {
+      "action": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3637.3,
-      "y": 4514.69,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 4514.69
     },
     {
+      "action": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3636.45,
-      "y": 4509.84,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 4509.84
     },
     {
+      "action": "",
       "id": 9,
-      "x": 3612.27,
-      "y": 4546.97,
-      "action": "",
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 3612.27,
+      "y": 4546.97
     },
     {
+      "action": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3623.94,
-      "y": 4553.95,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 4553.95
     },
     {
+      "action": "",
       "id": 11,
-      "x": 3624.69,
-      "y": 4559.41,
-      "action": "",
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 3624.69,
+      "y": 4559.41
     },
     {
-      "id": 12,
-      "x": 3627.31,
-      "y": 4562.55,
       "action": "combat_script",
       "action_params": "钟离 d(0.2),e(hold)",
+      "id": 12,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 3627.31,
+      "y": 4562.55
     },
     {
+      "action": "",
       "id": 13,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3632.01,
-      "y": 4564.02,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 4564.02
     },
     {
+      "action": "",
       "id": 14,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3622.94,
-      "y": 4562.16,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 4562.16
     },
     {
+      "action": "",
       "id": 15,
-      "x": 3619.3,
-      "y": 4562.64,
-      "action": "",
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 3619.3,
+      "y": 4562.64
     },
     {
-      "id": 16,
-      "x": 3624.04,
-      "y": 4564.2,
       "action": "",
+      "id": 16,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 3624.04,
+      "y": 4564.2
     }
   ]
 }

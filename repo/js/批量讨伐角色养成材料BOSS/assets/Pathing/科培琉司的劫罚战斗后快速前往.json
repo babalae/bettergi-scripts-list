@@ -1,44 +1,44 @@
-﻿{
+{
   "info": {
-    "name": "冰封组曲快速前往",
-    "type": "collect",
     "authors": [],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1755781802879,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1755781802879,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "冰封组曲快速前往",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 3805.1650390625,
-      "y": 3592.691650390625,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 3805.1650390625,
+      "y": 3592.691650390625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 3787.48046875,
-      "y": 3572.779541015625,
-      "type": "target",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "target",
+      "x": 3787.48046875,
+      "y": 3572.779541015625
     },
     {
-      "id": 13,
-      "x": 3787.8408203125,
-      "y": 3571.67578125,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keypress(F),wait(3),click,wait(2),keypress(S),wait(1),keypress(F),wait(6)"
+      "action_params": "keypress(F),wait(3),click,wait(2),keypress(S),wait(1),keypress(F),wait(6)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3787.8408203125,
+      "y": 3571.67578125
     }
   ]
 }

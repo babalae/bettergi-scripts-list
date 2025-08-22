@@ -1,49 +1,49 @@
 {
   "info": {
+    "author": "平面镜&茶包LCB",
+    "bgi_version": "0.44.3",
+    "description": "",
     "name": "枫丹地脉花-路线4 柔灯港上锚点-4：锚点左上++1",
     "type": "collect",
-    "author": "平面镜&茶包LCB",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.44.3"
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 3032.677734375,
-      "y": 3732.448486328125,
-      "action_params": ""
+      "y": 3732.448486328125
     },
     {
       "id": 2,
-      "x": 3038.5537109375,
-      "y": 3718.4228515625,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "walk"
+      "x": 3038.5537109375,
+      "y": 3718.4228515625
     },
     {
       "id": 3,
-      "x": 3067.19921875,
-      "y": 3698.43212890625,
+      "move_mode": "dash",
       "type": "target",
-      "move_mode": "dash"
+      "x": 3067.19921875,
+      "y": 3698.43212890625
     },
     {
       "id": 4,
-      "x": 3079.7314453125,
-      "y": 3675.759765625,
+      "move_mode": "dash",
       "type": "path",
-      "move_mode": "dash"
+      "x": 3079.7314453125,
+      "y": 3675.759765625
     },
     {
       "id": 5,
-      "x": 3091.7978515625,
-      "y": 3654.750732421875,
+      "move_mode": "walk",
       "type": "target",
-      "move_mode": "walk"
+      "x": 3091.7978515625,
+      "y": 3654.750732421875
     }
   ]
 }

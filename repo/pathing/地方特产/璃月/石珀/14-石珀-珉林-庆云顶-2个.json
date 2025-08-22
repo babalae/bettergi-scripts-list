@@ -1,77 +1,77 @@
 {
   "info": {
-    "name": "14-石珀-珉林-庆云顶-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.43.0",
     "authors": [
       {
         "name": "爱凑热闹"
       }
-    ]
+    ],
+    "bgi_version": "0.43.0",
+    "description": "",
+    "name": "14-石珀-珉林-庆云顶-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 1472.06,
       "y": 757.73
     },
     {
-      "id": 2,
-      "x": 1474.81,
-      "y": 757.21,
-      "type": "path",
-      "move_mode": "fly",
-      "action": ""
-    },
-    {
-      "id": 3,
-      "x": 1471.13,
-      "y": 619.44,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": "2500"
-    },
-    {
-      "id": 4,
-      "x": 1475.46,
-      "y": 627.36,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": 1475.46,
-      "y": 627.36,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1474.81,
+      "y": 757.21
     },
     {
-      "id": 6,
-      "x": 1478.37,
-      "y": 628.98,
+      "action": "stop_flying",
+      "action_params": "2500",
+      "id": 3,
+      "move_mode": "fly",
       "type": "path",
-      "move_mode": "walk",
+      "x": 1471.13,
+      "y": 619.44
+    },
+    {
       "action": "mining",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1475.46,
+      "y": 627.36
     },
     {
-      "id": 7,
-      "x": 1478.37,
-      "y": 628.98,
-      "type": "path",
+      "action": "",
+      "action_params": "",
+      "id": 5,
       "move_mode": "walk",
+      "type": "path",
+      "x": 1475.46,
+      "y": 627.36
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1478.37,
+      "y": 628.98
+    },
+    {
       "action": "pick_around",
-      "action_params": ""
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1478.37,
+      "y": 628.98
     }
   ]
 }

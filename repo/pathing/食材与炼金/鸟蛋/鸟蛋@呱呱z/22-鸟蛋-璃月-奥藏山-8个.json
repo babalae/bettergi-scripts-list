@@ -1,58 +1,58 @@
 {
   "info": {
-    "name": "22-鸟蛋-璃月-奥藏山-8个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "呱呱z修改版"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "name": "22-鸟蛋-璃月-奥藏山-8个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 1604.47,
-      "y": 1039.67,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 1039.67
     },
     {
+      "action": "",
       "id": 2,
-      "x": 1608.36,
-      "y": 1038.45,
-      "action": "",
       "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 1609.94,
-      "y": 1037.34,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 1742.41,
-      "y": 956.06,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 1744.56,
-      "y": 954.46,
       "type": "path",
-      "move_mode": "walk",
+      "x": 1608.36,
+      "y": 1038.45
+    },
+    {
       "action": "",
-      "action_params": ""
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1609.94,
+      "y": 1037.34
+    },
+    {
+      "action": "stop_flying",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1742.41,
+      "y": 956.06
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1744.56,
+      "y": 954.46
     }
   ]
 }

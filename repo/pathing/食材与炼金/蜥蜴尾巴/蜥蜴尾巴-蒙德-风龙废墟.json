@@ -1,52 +1,52 @@
 {
   "info": {
-    "name": "蜥蜴尾巴-蒙德-风龙废墟",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "ran"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "蜥蜴尾巴-蒙德-风龙废墟",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 265.57,
-      "y": 2914.9,
+      "move_mode": "run",
       "type": "teleport",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "x": 265.57,
+      "y": 2914.9
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "target",
       "x": 143.96,
-      "y": 2900.15,
-      "type": "target",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 2900.15
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 108.9,
-      "y": 2956.34,
-      "type": "target",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "type": "target",
+      "x": 108.9,
+      "y": 2956.34
     },
     {
-      "id": 4,
-      "x": 104.84,
-      "y": 2955.48,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 104.84,
+      "y": 2955.48
     }
   ]
 }

@@ -1,33 +1,33 @@
 {
   "info": {
-    "name": "16-海草-稻妻-鹤观神像-3个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "16-海草-稻妻-鹤观神像-3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": -3103.55,
-      "y": -6268.53,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -3103.55,
+      "y": -6268.53
     },
     {
-      "id": 2,
-      "x": -3198.68,
-      "y": -6265.74,
       "action": "nahida_collect",
+      "id": 2,
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": -3198.68,
+      "y": -6265.74
     }
   ]
 }

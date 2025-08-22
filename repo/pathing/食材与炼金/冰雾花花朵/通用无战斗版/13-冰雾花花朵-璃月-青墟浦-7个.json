@@ -1,146 +1,146 @@
 {
   "info": {
-    "name": "13-冰雾花花朵-璃月-青墟浦-7个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
+    "authors": [
+      {
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
+      }
+    ],
     "bgi_version": "0.43.0",
+    "description": "",
+    "name": "13-冰雾花花朵-璃月-青墟浦-7个",
     "tags": [
       "胡桃"
     ],
-    "authors": [
-      {
-        "name": "Tool_tingsu",
-        "links": "https://github.com/Tooltingsu"
-      }
-    ]
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 1128.47,
-      "y": -984.34,
-      "action_params": ""
+      "y": -984.34
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 1200.59,
-      "y": -951.94,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": -951.94
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": 1362.34,
-      "y": -899.85,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": ""
+      "y": -899.85
     },
     {
+      "action": "pyro_collect",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "target",
       "x": 1364.55,
-      "y": -904.2,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "pyro_collect",
-      "action_params": ""
+      "y": -904.2
     },
     {
+      "action": "pyro_collect",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "target",
       "x": 1367.64,
-      "y": -915.19,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "pyro_collect",
-      "action_params": ""
+      "y": -915.19
     },
     {
+      "action": "pyro_collect",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "target",
       "x": 1363.04,
-      "y": -913.7,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "pyro_collect",
-      "action_params": ""
+      "y": -913.7
     },
     {
+      "action": "pyro_collect",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "target",
       "x": 1359.76,
-      "y": -912.72,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "pyro_collect",
-      "action_params": ""
+      "y": -912.72
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
-      "x": 710.75,
-      "y": -772.41,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 710.75,
+      "y": -772.41
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "fly",
+      "type": "path",
       "x": 778.32,
-      "y": -777.87,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": -777.87
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": 815.0,
-      "y": -780.64,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -780.64
     },
     {
-      "id": 11,
-      "x": 889.87,
-      "y": -759.36,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 889.87,
+      "y": -759.36
     },
     {
+      "action": "pyro_collect",
+      "action_params": "",
       "id": 12,
+      "move_mode": "walk",
+      "type": "target",
       "x": 897.1,
-      "y": -754.1,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "pyro_collect",
-      "action_params": ""
+      "y": -754.1
     },
     {
+      "action": "pyro_collect",
+      "action_params": "",
       "id": 13,
-      "x": 897.66,
-      "y": -753.22,
-      "type": "target",
       "move_mode": "walk",
-      "action": "pyro_collect",
-      "action_params": ""
+      "type": "target",
+      "x": 897.66,
+      "y": -753.22
     },
     {
-      "id": 14,
-      "x": 902.25,
-      "y": -755.56,
-      "type": "target",
-      "move_mode": "walk",
       "action": "pyro_collect",
-      "action_params": ""
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 902.25,
+      "y": -755.56
     }
   ]
 }

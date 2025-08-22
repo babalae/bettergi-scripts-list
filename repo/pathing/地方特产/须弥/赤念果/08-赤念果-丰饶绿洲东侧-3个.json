@@ -1,82 +1,82 @@
 {
   "info": {
-    "name": "08-赤念果-丰饶绿洲东侧-3个",
-    "type": "collect",
-    "country": "须弥",
-    "version": "1.0",
-    "description": "需要纳西妲",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "½",
-        "links": "https://github.com/Traveler07"
+        "links": "https://github.com/Traveler07",
+        "name": "½"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "country": "须弥",
+    "description": "需要纳西妲",
+    "name": "08-赤念果-丰饶绿洲东侧-3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 4451.95,
-      "y": -2454.03,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": -2454.03
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4416.71,
-      "y": -2483.57,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -2483.57
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4394.45,
-      "y": -2462.05,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -2462.05
     },
     {
+      "action": "nahida_collect",
       "id": 4,
+      "move_mode": "walk",
+      "type": "target",
       "x": 4399.74,
-      "y": -2460.5,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "type": "target"
+      "y": -2460.5
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4422.27,
-      "y": -2514.11,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -2514.11
     },
     {
-      "id": 6,
-      "x": 4436.11,
-      "y": -2527.38,
       "action": "stop_flying",
+      "id": 6,
       "move_mode": "fly",
-      "type": "path"
+      "type": "path",
+      "x": 4436.11,
+      "y": -2527.38
     },
     {
-      "id": 7,
-      "x": 4436.36,
-      "y": -2527.58,
       "action": "",
+      "id": 7,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 4436.36,
+      "y": -2527.58
     },
     {
-      "id": 8,
-      "x": 4439.2,
-      "y": -2519.23,
       "action": "nahida_collect",
+      "id": 8,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 4439.2,
+      "y": -2519.23
     }
   ]
 }

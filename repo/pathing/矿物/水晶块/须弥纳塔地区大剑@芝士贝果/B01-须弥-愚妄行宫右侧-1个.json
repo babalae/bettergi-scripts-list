@@ -1,48 +1,48 @@
 {
   "info": {
-    "name": "B01-须弥-愚妄行宫右侧-1个",
-    "type": "collect",
     "authors": [
       {
         "name": "芝士贝果"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1754814399634,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754814399634,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B01-须弥-愚妄行宫右侧-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4592.5,
-      "y": -647.1943,
-      "action_params": ""
+      "y": -647.1943
     },
     {
-      "id": 2,
-      "x": 4572.7412,
-      "y": -666.5908,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4572.7412,
+      "y": -666.5908
     },
     {
-      "id": 3,
-      "x": 4575.291,
-      "y": -674.314,
-      "type": "target",
-      "move_mode": "walk",
       "action": "mining",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4575.291,
+      "y": -674.314
     }
   ]
 }

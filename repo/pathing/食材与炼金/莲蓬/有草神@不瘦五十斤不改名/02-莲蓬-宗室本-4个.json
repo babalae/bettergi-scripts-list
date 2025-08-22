@@ -1,41 +1,41 @@
 {
   "info": {
-    "name": "02-莲蓬-宗室本-4个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "02-莲蓬-宗室本-4个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 1436.33,
       "y": 1289.95
     },
     {
+      "action": "",
       "id": 2,
-      "x": 1450.42,
-      "y": 1246.17,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 1450.42,
+      "y": 1246.17
     },
     {
+      "action": "nahida_collect",
       "id": 3,
-      "x": 1458.39,
-      "y": 1246.62,
-      "type": "path",
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": 1458.39,
+      "y": 1246.62
     }
   ]
 }

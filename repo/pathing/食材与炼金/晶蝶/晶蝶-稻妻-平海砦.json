@@ -1,66 +1,66 @@
 {
   "info": {
-    "name": "晶蝶-稻妻-平海砦",
-    "type": "collect",
-    "version": "1.0",
-    "description": "晶蝶",
+    "authors": [
+      {
+        "name": "ran"
+      }
+    ],
     "bgi_version": "0.42.0",
+    "description": "晶蝶",
+    "name": "晶蝶-稻妻-平海砦",
     "tags": [
       "早柚",
       "瑶瑶",
       "蓝砚"
     ],
-    "authors": [
-      {
-        "name": "ran"
-      }
-    ]
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -4443.82,
-      "y": -4290.42,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -4443.82,
+      "y": -4290.42
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": -4452.67,
-      "y": -4277.7,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": -4277.7
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": -4448.89,
-      "y": -4271.01,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": -4271.01
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": -4449.96,
-      "y": -4268.81,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -4449.96,
+      "y": -4268.81
     },
     {
-      "id": 5,
-      "x": -4456.29,
-      "y": -4271.51,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4456.29,
+      "y": -4271.51
     }
   ]
 }

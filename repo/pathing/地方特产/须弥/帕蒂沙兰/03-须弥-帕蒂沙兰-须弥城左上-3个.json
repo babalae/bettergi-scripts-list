@@ -1,73 +1,73 @@
 {
   "info": {
-    "name": "03-须弥-帕蒂沙兰-须弥城左上-3个",
-    "type": "collect",
     "author": "jbcaaa",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "jbcaaa",
-        "links": "https://github.com/jbcaaa"
+        "links": "https://github.com/jbcaaa",
+        "name": "jbcaaa"
       }
     ],
-    "map_name": "Teyvat",
-    "tags": [],
-    "last_modified_time": 1755077697898,
+    "bgi_version": "0.45.0",
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1755077697898,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "03-须弥-帕蒂沙兰-须弥城左上-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 2877.02,
-      "y": -292.13,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": -292.13
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "target",
       "x": 2877.36,
-      "y": -285.81,
-      "action": "",
-      "move_mode": "walk",
-      "type": "target"
+      "y": -285.81
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
       "id": 3,
-      "x": 2869.36,
-      "y": -273.29,
-      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
-      "type": "target"
+      "type": "target",
+      "x": 2869.36,
+      "y": -273.29
     },
     {
+      "action": "",
       "id": 4,
-      "x": 2860.24,
-      "y": -295.5,
-      "action": "",
       "move_mode": "run",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 2860.24,
+      "y": -295.5
     },
     {
-      "id": 5,
-      "x": 2822.6,
-      "y": -291.57,
       "action": "",
+      "id": 5,
       "move_mode": "dash",
-      "type": "target"
+      "type": "target",
+      "x": 2822.6,
+      "y": -291.57
     },
     {
-      "id": 6,
-      "x": 2767.21,
-      "y": -287.45,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "wait(0.4)",
-      "type": "target"
+      "id": 6,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 2767.21,
+      "y": -287.45
     }
   ]
 }

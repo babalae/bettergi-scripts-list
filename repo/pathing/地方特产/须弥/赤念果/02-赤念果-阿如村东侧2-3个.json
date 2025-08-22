@@ -1,42 +1,42 @@
 {
   "info": {
-    "name": "02-赤念果-阿如村东侧2-3个",
-    "type": "collect",
-    "country": "须弥",
-    "version": "1.0",
-    "description": "需要纳西妲",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "½",
-        "links": "https://github.com/Traveler07"
+        "links": "https://github.com/Traveler07",
+        "name": "½"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "country": "须弥",
+    "description": "需要纳西妲",
+    "name": "02-赤念果-阿如村东侧2-3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 3992.63,
-      "y": -1989.99,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 3992.63,
+      "y": -1989.99
     },
     {
+      "action": "nahida_collect",
       "id": 2,
-      "x": 4022.64,
-      "y": -1980.67,
-      "action": "nahida_collect",
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 4022.64,
+      "y": -1980.67
     },
     {
-      "id": 3,
-      "x": 4023.19,
-      "y": -1973.27,
       "action": "nahida_collect",
+      "id": 3,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 4023.19,
+      "y": -1973.27
     }
   ]
 }

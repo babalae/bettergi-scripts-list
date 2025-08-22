@@ -1,96 +1,96 @@
 {
   "info": {
-    "name": "马尾3",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "玛卡巴卡"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "马尾3",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 341.46,
       "y": 547.77
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 333.75,
-      "y": 564.46,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "y": 564.46
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 331.77,
-      "y": 595.13,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "y": 595.13
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": 318.78,
-      "y": 607.6,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "y": 607.6
     },
     {
+      "action": "nahida_collect",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 315.41,
-      "y": 611.78,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect"
+      "y": 611.78
     },
     {
+      "action": "nahida_collect",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 316.8,
-      "y": 616.29,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect"
+      "y": 616.29
     },
     {
+      "action": "stop_flying",
       "id": 7,
+      "move_mode": "fly",
+      "type": "path",
       "x": 321.08,
-      "y": 618.66,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying"
+      "y": 618.66
     },
     {
+      "action": "",
       "id": 8,
-      "x": 315.84,
-      "y": 634.59,
-      "type": "path",
       "move_mode": "run",
-      "action": ""
+      "type": "path",
+      "x": 315.84,
+      "y": 634.59
     },
     {
+      "action": "stop_flying",
       "id": 9,
-      "x": 321.07,
-      "y": 633.96,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": 321.07,
+      "y": 633.96
     },
     {
+      "action": "nahida_collect",
       "id": 10,
-      "x": 320.68,
-      "y": 633.75,
-      "type": "path",
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": 320.68,
+      "y": 633.75
     }
   ]
 }

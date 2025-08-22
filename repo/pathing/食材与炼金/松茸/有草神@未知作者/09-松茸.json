@@ -1,64 +1,64 @@
 {
   "info": {
-    "name": "09-松茸",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "未知作者"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "09-松茸",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": 4984.82,
-      "y": 4462.98,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "x": 4984.82,
+      "y": 4462.98
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 5004.12,
-      "y": 4463.67,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "y": 4463.67
     },
     {
+      "action": "nahida_collect",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5007.95,
-      "y": 4462.58,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect"
+      "y": 4462.58
     },
     {
+      "action": "nahida_collect",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": 5009.11,
-      "y": 4433.73,
-      "type": "path",
-      "move_mode": "run",
-      "action": "nahida_collect"
+      "y": 4433.73
     },
     {
+      "action": "",
       "id": 5,
-      "x": 5058.88,
-      "y": 4362.8,
-      "type": "path",
       "move_mode": "run",
-      "action": ""
+      "type": "path",
+      "x": 5058.88,
+      "y": 4362.8
     },
     {
+      "action": "nahida_collect",
       "id": 6,
-      "x": 5063.96,
-      "y": 4360.67,
-      "type": "path",
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": 5063.96,
+      "y": 4360.67
     }
   ]
 }

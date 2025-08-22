@@ -1,33 +1,33 @@
 {
   "info": {
-    "name": "草",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1751302613795,
+    "map_name": "Teyvat",
+    "name": "草",
     "tags": [],
-    "last_modified_time": 1751302613795
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 2297.580078125,
-      "y": -824.5205078125,
-      "action_params": ""
+      "y": -824.5205078125
     },
     {
-      "id": 2,
-      "x": 2295.8798828125,
-      "y": -825.7041015625,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keypress(w); 荧 attack,wait(2),keypress(f); 空 attack,wait(2),keypress(f);"
+      "action_params": "keypress(w); 荧 attack,wait(2),keypress(f); 空 attack,wait(2),keypress(f);",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2295.8798828125,
+      "y": -825.7041015625
     }
   ]
 }

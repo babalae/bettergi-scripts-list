@@ -1,81 +1,81 @@
 {
   "info": {
-    "name": "盗宝团-02璃沙郊右下",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "曦",
-        "links": "https://github.com/cx05121"
+        "links": "https://github.com/cx05121",
+        "name": "曦"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "盗宝团-02璃沙郊右下",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 712.71,
       "y": -771.29
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 709.53,
-      "y": -825.39,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -825.39
     },
     {
+      "action": "fight",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 717.62,
-      "y": -881.91,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": -881.91
     },
     {
+      "action": "fight",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 688.29,
-      "y": -896.31,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": -896.31
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 688.49,
-      "y": -901.25,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -901.25
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 691.89,
-      "y": -921.65,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -921.65
     },
     {
+      "action": "",
       "id": 7,
-      "x": 662.43,
-      "y": -914.32,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 662.43,
+      "y": -914.32
     },
     {
+      "action": "fight",
       "id": 8,
-      "x": 661.9,
-      "y": -917.8,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 661.9,
+      "y": -917.8
     }
   ]
 }

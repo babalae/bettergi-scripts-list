@@ -1,62 +1,62 @@
 {
   "info": {
-    "name": "渊下宫-另外3只",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Enkanomiya",
-    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "Vicissitude"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "name": "渊下宫-另外3只",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -362.48,
-      "y": 238.32,
-      "action_params": ""
+      "y": 238.32
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": -352.54,
-      "y": 243.37,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": 243.37
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": -235.66,
-      "y": 230.08,
-      "type": "path",
       "move_mode": "fly",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": -229.41,
-      "y": 224.33,
       "type": "path",
-      "move_mode": "climb",
-      "action": "",
-      "action_params": ""
+      "x": -235.66,
+      "y": 230.08
     },
     {
-      "id": 5,
-      "x": -215.18,
-      "y": 220.5,
-      "type": "target",
+      "action": "",
+      "action_params": "",
+      "id": 4,
       "move_mode": "climb",
+      "type": "path",
+      "x": -229.41,
+      "y": 224.33
+    },
+    {
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "climb",
+      "type": "target",
+      "x": -215.18,
+      "y": 220.5
     }
   ]
 }

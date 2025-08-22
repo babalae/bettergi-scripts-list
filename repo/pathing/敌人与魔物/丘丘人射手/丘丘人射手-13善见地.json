@@ -1,81 +1,81 @@
 {
   "info": {
-    "name": "丘丘人射手-13善见地",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "曦",
-        "links": "https://github.com/cx05121"
+        "links": "https://github.com/cx05121",
+        "name": "曦"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "丘丘人射手-13善见地",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 3554.35,
       "y": -1998.49
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 3592.12,
-      "y": -1925.91,
-      "type": "path",
-      "move_mode": "fly",
-      "action": ""
+      "y": -1925.91
     },
     {
+      "action": "stop_flying",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": 3607.09,
-      "y": -1929.89,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying"
+      "y": -1929.89
     },
     {
+      "action": "fight",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3612.87,
-      "y": -1928.61,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": -1928.61
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3601.19,
-      "y": -1929.9,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -1929.9
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "fly",
+      "type": "path",
       "x": 3618.77,
-      "y": -1895.07,
-      "type": "path",
-      "move_mode": "fly",
-      "action": ""
+      "y": -1895.07
     },
     {
+      "action": "stop_flying",
       "id": 7,
-      "x": 3637.38,
-      "y": -1894.48,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": 3637.38,
+      "y": -1894.48
     },
     {
+      "action": "fight",
       "id": 8,
-      "x": 3637.38,
-      "y": -1894.48,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 3637.38,
+      "y": -1894.48
     }
   ]
 }

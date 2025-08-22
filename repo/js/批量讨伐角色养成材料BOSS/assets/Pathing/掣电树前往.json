@@ -1,57 +1,57 @@
-﻿{
+{
   "info": {
-    "name": "掣电树前往",
-    "type": "collect",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": ""
+        "links": "",
+        "name": "Tool_tingsu"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
+    "description": "",
+    "enable_monster_loot_split": false,
     "last_modified_time": 1753788008539,
-    "enable_monster_loot_split": false
+    "map_name": "Teyvat",
+    "name": "掣电树前往",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 2080.2138671875,
-      "y": 107.275390625,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 2080.2138671875,
+      "y": 107.275390625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2086.857421875,
-      "y": 95.4287109375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 95.4287109375
     },
     {
-      "id": 3,
-      "x": 2110.9052734375,
-      "y": 63.419921875,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2110.9052734375,
+      "y": 63.419921875
     },
     {
-      "id": 4,
-      "x": 2123.095703125,
-      "y": 49.15185546875,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2123.095703125,
+      "y": 49.15185546875
     }
   ]
 }

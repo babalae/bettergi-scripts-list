@@ -1,79 +1,79 @@
 {
   "info": {
-    "name": "浊水幻灵-枫丹5-柔灯港",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "无狐"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "浊水幻灵-枫丹5-柔灯港",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 2889.84,
-      "y": 3186.46,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 2889.84,
+      "y": 3186.46
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2874.16,
-      "y": 3206.44,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 3206.44
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2849.38,
-      "y": 3245.78,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 3245.78
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2825.3,
-      "y": 3252.55,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 3252.55
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2813.83,
-      "y": 3291.76,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 3291.76
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": 2796.24,
-      "y": 3312.32,
-      "type": "path",
       "move_mode": "swim",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 2796.24,
+      "y": 3312.32
     },
     {
-      "id": 7,
-      "x": 2775.84,
-      "y": 3320.7,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2775.84,
+      "y": 3320.7
     }
   ]
 }

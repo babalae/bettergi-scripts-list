@@ -1,73 +1,73 @@
 {
   "info": {
-    "name": "14-苦种-纳塔-花羽会-4个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "14-苦种-纳塔-花羽会-4个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "force_tp",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 9492.06,
       "y": -1206.79
     },
     {
+      "action": "stop_flying",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 9488.51,
-      "y": -1185.42,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying"
+      "y": -1185.42
     },
     {
+      "action": "stop_flying",
       "id": 3,
-      "x": 9487.21,
-      "y": -1158.2,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": 9487.21,
+      "y": -1158.2
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9457.4,
-      "y": -1162.87,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -1162.87
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9399.92,
-      "y": -1139.63,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -1139.63
     },
     {
+      "action": "",
       "id": 6,
-      "x": 9383.16,
-      "y": -1151.27,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 9383.16,
+      "y": -1151.27
     },
     {
+      "action": "",
       "id": 7,
-      "x": 9382.75,
-      "y": -1152.2,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 9382.75,
+      "y": -1152.2
     }
   ]
 }

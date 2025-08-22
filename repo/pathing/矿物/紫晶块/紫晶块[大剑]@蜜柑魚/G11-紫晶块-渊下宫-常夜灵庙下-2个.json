@@ -1,134 +1,134 @@
 {
   "info": {
-    "name": "G11-紫晶块-渊下宫-常夜灵庙下-2个",
-    "type": "collect",
     "author": "蜜柑魚",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Enkanomiya",
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
     "bgi_version": "0.47.0",
+    "description": "",
+    "last_modified_time": 1751293420336,
+    "map_name": "Enkanomiya",
+    "name": "G11-紫晶块-渊下宫-常夜灵庙下-2个",
     "tags": [
       "双手剑"
     ],
-    "last_modified_time": 1751293420336,
-    "authors": [
-      {
-        "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
-      }
-    ]
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -362.36,
-      "y": 238.31,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 238.31
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -348.0,
-      "y": 210.87,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 210.87
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -342.56,
-      "y": 199.01,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 199.01
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "fly",
+      "type": "path",
       "x": -340.98,
-      "y": 194.31,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": 194.31
     },
     {
-      "id": 5,
-      "x": -325.35,
-      "y": 130.42,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 6,
-      "x": -329.89,
-      "y": 131.82,
-      "action": "mining",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 7,
-      "x": -329.89,
-      "y": 131.82,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(0.5)",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": -329.83,
-      "y": 131.71,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": -331.18,
-      "y": 127.45,
       "type": "target",
+      "x": -325.35,
+      "y": 130.42
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
       "move_mode": "walk",
+      "type": "target",
+      "x": -329.89,
+      "y": 131.82
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -329.89,
+      "y": 131.82
+    },
+    {
       "action": "",
       "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -329.83,
+      "y": 131.71
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
       "point_ext_params": {
+        "description": "",
         "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "mapRecognition",
           "type": [
             "unrecognized",
             "pathTooFar"
-          ],
-          "handling_mode": "mapRecognition",
-          "arrival_time": 0
+          ]
         },
-        "description": "",
         "monster_tag": ""
-      }
+      },
+      "type": "target",
+      "x": -331.18,
+      "y": 127.45
     },
     {
-      "id": 10,
-      "x": -336.1,
-      "y": 128.9,
       "action": "mining",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -336.1,
+      "y": 128.9
     },
     {
-      "id": 11,
-      "x": -336.1,
-      "y": 128.9,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(1)",
-      "type": "path"
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -336.1,
+      "y": 128.9
     }
   ]
 }

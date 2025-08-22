@@ -1,284 +1,284 @@
 {
   "info": {
-    "name": "12-绯樱绣球-影向山-7个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "12-绯樱绣球-影向山-7个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -4375.68,
-      "y": -2498.15,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": -2498.15
     },
     {
+      "action": "",
       "id": 2,
-      "x": -4378.83,
-      "y": -2495.11,
-      "action": "",
       "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": -4373.44,
-      "y": -2468.67,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": -4342.98,
-      "y": -2461.07,
-      "action": "stop_flying",
-      "action_params": "2000",
-      "move_mode": "fly",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": -4342.11,
-      "y": -2460.52,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "type": "target"
-    },
-    {
-      "id": 6,
-      "x": -4353.31,
-      "y": -2449.49,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": -4359.86,
-      "y": -2446.74,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": -4395.95,
-      "y": -2439.18,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": -4408.3,
-      "y": -2442.76,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "type": "target"
-    },
-    {
-      "id": 10,
-      "x": -4432.64,
-      "y": -2464.73,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 11,
-      "x": -4443.05,
-      "y": -2484.26,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 12,
-      "x": -4438.97,
-      "y": -2495.8,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 13,
-      "x": -4431.41,
-      "y": -2499.28,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "type": "target"
-    },
-    {
-      "id": 14,
-      "x": -4438.1,
-      "y": -2489.07,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 15,
-      "x": -4434.41,
-      "y": -2484.6,
-      "action": "",
-      "move_mode": "climb",
-      "type": "path"
-    },
-    {
-      "id": 16,
-      "x": -4430.29,
-      "y": -2474.97,
-      "action": "",
-      "move_mode": "climb",
-      "type": "path"
-    },
-    {
-      "id": 17,
-      "x": -4428.51,
-      "y": -2472.42,
-      "action": "",
-      "move_mode": "climb",
-      "type": "path"
-    },
-    {
-      "id": 18,
-      "x": -4427.88,
-      "y": -2469.45,
-      "action": "",
-      "move_mode": "climb",
-      "type": "path"
-    },
-    {
-      "id": 19,
-      "x": -4421.33,
-      "y": -2456.66,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "type": "target"
-    },
-    {
-      "id": 20,
-      "x": -4414.31,
-      "y": -2458.54,
-      "action": "",
-      "move_mode": "climb",
-      "type": "path"
-    },
-    {
-      "id": 21,
-      "x": -4410.7,
-      "y": -2463.34,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 22,
-      "x": -4423.73,
-      "y": -2476.44,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 23,
-      "x": -4425.16,
-      "y": -2494.08,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 24,
-      "x": -4420.35,
-      "y": -2501.83,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "type": "target"
-    },
-    {
-      "id": 25,
-      "x": -4412.97,
-      "y": -2507.27,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 26,
-      "x": -4390.01,
-      "y": -2538.04,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path"
-    },
-    {
-      "id": 27,
-      "x": -4393.32,
-      "y": -2521.69,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "2000",
-      "type": "path"
-    },
-    {
-      "id": 28,
-      "x": -4368.74,
-      "y": -2508.21,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path"
-    },
-    {
-      "id": 29,
-      "x": -4370.42,
-      "y": -2502.38,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "type": "target"
-    },
-    {
-      "id": 30,
-      "x": -4374.48,
-      "y": -2496.86,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 31,
-      "x": -4388.08,
-      "y": -2503.7,
       "type": "path",
-      "move_mode": "fly",
+      "x": -4378.83,
+      "y": -2495.11
+    },
+    {
       "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 32,
-      "x": -4428.04,
-      "y": -2494.21,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "type": "path"
-    },
-    {
-      "id": 33,
-      "x": -4428.05,
-      "y": -2494.22,
-      "action": "electro_collect",
+      "id": 3,
       "move_mode": "walk",
-      "type": "target"
+      "type": "path",
+      "x": -4373.44,
+      "y": -2468.67
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4342.98,
+      "y": -2461.07
+    },
+    {
+      "action": "electro_collect",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4342.11,
+      "y": -2460.52
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4353.31,
+      "y": -2449.49
+    },
+    {
+      "action": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4359.86,
+      "y": -2446.74
+    },
+    {
+      "action": "stop_flying",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4395.95,
+      "y": -2439.18
+    },
+    {
+      "action": "electro_collect",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4408.3,
+      "y": -2442.76
+    },
+    {
+      "action": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4432.64,
+      "y": -2464.73
+    },
+    {
+      "action": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4443.05,
+      "y": -2484.26
+    },
+    {
+      "action": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4438.97,
+      "y": -2495.8
+    },
+    {
+      "action": "electro_collect",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4431.41,
+      "y": -2499.28
+    },
+    {
+      "action": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4438.1,
+      "y": -2489.07
+    },
+    {
+      "action": "",
+      "id": 15,
+      "move_mode": "climb",
+      "type": "path",
+      "x": -4434.41,
+      "y": -2484.6
+    },
+    {
+      "action": "",
+      "id": 16,
+      "move_mode": "climb",
+      "type": "path",
+      "x": -4430.29,
+      "y": -2474.97
+    },
+    {
+      "action": "",
+      "id": 17,
+      "move_mode": "climb",
+      "type": "path",
+      "x": -4428.51,
+      "y": -2472.42
+    },
+    {
+      "action": "",
+      "id": 18,
+      "move_mode": "climb",
+      "type": "path",
+      "x": -4427.88,
+      "y": -2469.45
+    },
+    {
+      "action": "electro_collect",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4421.33,
+      "y": -2456.66
+    },
+    {
+      "action": "",
+      "id": 20,
+      "move_mode": "climb",
+      "type": "path",
+      "x": -4414.31,
+      "y": -2458.54
+    },
+    {
+      "action": "",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4410.7,
+      "y": -2463.34
+    },
+    {
+      "action": "",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4423.73,
+      "y": -2476.44
+    },
+    {
+      "action": "",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4425.16,
+      "y": -2494.08
+    },
+    {
+      "action": "electro_collect",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4420.35,
+      "y": -2501.83
+    },
+    {
+      "action": "",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4412.97,
+      "y": -2507.27
+    },
+    {
+      "action": "",
+      "id": 26,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4390.01,
+      "y": -2538.04
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 27,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4393.32,
+      "y": -2521.69
+    },
+    {
+      "action": "",
+      "id": 28,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4368.74,
+      "y": -2508.21
+    },
+    {
+      "action": "electro_collect",
+      "id": 29,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4370.42,
+      "y": -2502.38
+    },
+    {
+      "action": "",
+      "id": 30,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4374.48,
+      "y": -2496.86
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 31,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4388.08,
+      "y": -2503.7
+    },
+    {
+      "action": "stop_flying",
+      "id": 32,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4428.04,
+      "y": -2494.21
+    },
+    {
+      "action": "electro_collect",
+      "id": 33,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4428.05,
+      "y": -2494.22
     }
   ]
 }

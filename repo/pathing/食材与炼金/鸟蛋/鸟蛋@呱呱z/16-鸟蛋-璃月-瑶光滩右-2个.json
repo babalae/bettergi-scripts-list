@@ -1,33 +1,33 @@
 {
   "info": {
-    "name": "16-鸟蛋-璃月-瑶光滩右-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "16-鸟蛋-璃月-瑶光滩右-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -473.88,
       "y": 442.28
     },
     {
+      "action": "nahida_collect",
       "id": 2,
-      "x": -446.5,
-      "y": 433.15,
-      "type": "path",
       "move_mode": "run",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": -446.5,
+      "y": 433.15
     }
   ]
 }

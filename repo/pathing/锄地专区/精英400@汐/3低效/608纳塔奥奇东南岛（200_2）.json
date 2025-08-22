@@ -1,65 +1,65 @@
 {
   "info": {
-    "name": "608纳塔奥奇东南岛（200_2）",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时66.97秒，包含2只精英，预计收入400摩拉，包含以下怪物：2只遗迹守卫。",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时66.97秒，包含2只精英，预计收入400摩拉，包含以下怪物：2只遗迹守卫。",
+    "map_name": "Teyvat",
+    "name": "608纳塔奥奇东南岛（200_2）",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 9196.19,
-      "y": -574.31,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -574.31
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 9188.69,
-      "y": -574.31,
-      "action": "",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 9180.13,
-      "y": -572.94,
-      "action": "combat_script",
-      "move_mode": "fly",
-      "action_params": "wait(0.5),keypress(VK_SPACE),wait(1.5),click,wait(5)",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 9180.13,
-      "y": -572.94,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
       "type": "path",
-      "locked": false
+      "x": 9188.69,
+      "y": -574.31
     },
     {
-      "id": 5,
-      "x": 9180.13,
-      "y": -572.94,
       "action": "combat_script",
+      "action_params": "wait(0.5),keypress(VK_SPACE),wait(1.5),click,wait(5)",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9180.13,
+      "y": -572.94
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
       "move_mode": "walk",
+      "type": "path",
+      "x": 9180.13,
+      "y": -572.94
+    },
+    {
+      "action": "combat_script",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9180.13,
+      "y": -572.94
     }
   ]
 }

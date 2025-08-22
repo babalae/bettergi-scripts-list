@@ -1,44 +1,44 @@
 {
   "info": {
-    "name": "[枫丹] 悬铃木x18",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "Patrick-Ze (AyakaMain)",
-        "links": "https://github.com/Patrick-Ze"
+        "links": "https://github.com/Patrick-Ze",
+        "name": "Patrick-Ze (AyakaMain)"
       }
-    ]
+    ],
+    "bgi_version": "0.42.3",
+    "description": "",
+    "name": "[枫丹] 悬铃木x18",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 4683.8,
-      "y": 2426.12,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 4683.8,
+      "y": 2426.12
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 4597.63,
-      "y": 2353.39,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 4597.63,
+      "y": 2353.39
     },
     {
-      "id": 3,
-      "x": 4569.02,
-      "y": 2341.5,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4569.02,
+      "y": 2341.5
     }
   ]
 }

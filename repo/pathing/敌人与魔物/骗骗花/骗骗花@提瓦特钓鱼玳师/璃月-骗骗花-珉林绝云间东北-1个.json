@@ -1,45 +1,45 @@
 {
   "info": {
-    "name": "璃月-骗骗花-珉林绝云间东北-1个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "骗骗花-1个\n璃月-珉林绝云间东北\n经由Economy优化交互触发",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "提瓦特钓鱼玳师",
-        "links": "https://github.com/Hijiwos"
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "骗骗花-1个\n璃月-珉林绝云间东北\n经由Economy优化交互触发",
+    "name": "璃月-骗骗花-珉林绝云间东北-1个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 1045.88,
-      "y": 951.24,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1045.88,
+      "y": 951.24
     },
     {
-      "id": 2,
-      "x": 1076.78,
-      "y": 985.62,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
       "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
-      "locked": false
+      "id": 2,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1076.78,
+      "y": 985.62
     },
     {
-      "id": 3,
-      "x": 1076.78,
-      "y": 985.62,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1076.78,
+      "y": 985.62
     }
   ]
 }

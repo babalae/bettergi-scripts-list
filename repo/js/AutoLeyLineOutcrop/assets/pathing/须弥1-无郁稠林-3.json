@@ -1,58 +1,58 @@
 {
   "info": {
+    "author": "寒烟",
+    "bgi_version": "0.42.3",
+    "description": "",
     "name": "须弥1-无郁稠林-3",
     "type": "collect",
-    "author": "寒烟",
-    "version": "1.1",
-    "description": "",
-    "bgi_version": "0.42.3"
+    "version": "1.1"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 2298.5,
-      "y": -116.38,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
       "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 2,
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2298.5,
-      "y": -116.38,
-      "type": "path",
-      "move_mode": "walk",
+      "y": -116.38
+    },
+    {
       "action": "combat_script",
-      "action_params": "j,wait(0.2),j"
+      "action_params": "j,wait(0.2),j",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2298.5,
+      "y": -116.38
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 2256.65,
-      "y": -101.38,
-      "type": "path",
       "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 2256.65,
+      "y": -101.38
     },
     {
-      "id": 4,
-      "x": 2229.06,
-      "y": -89.72,
-      "type": "path",
-      "move_mode": "walk",
       "action": "up_down_grab_leaf",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2229.06,
+      "y": -89.72
     },
     {
-      "id": 5,
-      "x": 2212.83,
-      "y": -83.02,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2212.83,
+      "y": -83.02
     }
   ]
 }

@@ -1,48 +1,48 @@
 {
   "info": {
+    "author": "寒烟",
+    "bgi_version": "0.42.3",
+    "description": "",
     "name": "稻妻1-鸣神岛-3",
     "type": "collect",
-    "author": "寒烟",
-    "version": "1.1",
-    "description": "",
-    "bgi_version": "0.42.3"
+    "version": "1.1"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -4408.91,
-      "y": -2395.34,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -4408.91,
+      "y": -2395.34
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -4418.38,
-      "y": -2370.38,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -4418.38,
+      "y": -2370.38
     },
     {
-      "id": 3,
-      "x": -4512.55,
-      "y": -2332.07,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "200"
+      "action_params": "200",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4512.55,
+      "y": -2332.07
     },
     {
-      "id": 4,
-      "x": -4509.57,
-      "y": -2332.11,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4509.57,
+      "y": -2332.11
     }
   ]
 }

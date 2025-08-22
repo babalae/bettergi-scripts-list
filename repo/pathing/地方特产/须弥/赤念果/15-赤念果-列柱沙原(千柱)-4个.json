@@ -1,42 +1,42 @@
 {
   "info": {
-    "name": "15-赤念果-列柱沙原(千柱)-4个",
-    "type": "collect",
-    "country": "须弥",
-    "version": "1.0",
-    "description": "需要纳西妲",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "½",
-        "links": "https://github.com/Traveler07"
+        "links": "https://github.com/Traveler07",
+        "name": "½"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "country": "须弥",
+    "description": "需要纳西妲",
+    "name": "15-赤念果-列柱沙原(千柱)-4个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 5655.27,
-      "y": -1822.48,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 5655.27,
+      "y": -1822.48
     },
     {
+      "action": "nahida_collect",
       "id": 2,
-      "x": 5643.91,
-      "y": -1812.26,
-      "action": "nahida_collect",
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 5643.91,
+      "y": -1812.26
     },
     {
-      "id": 3,
-      "x": 5636.09,
-      "y": -1850.38,
       "action": "nahida_collect",
+      "id": 3,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 5636.09,
+      "y": -1850.38
     }
   ]
 }

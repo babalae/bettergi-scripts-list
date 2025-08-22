@@ -1,125 +1,125 @@
 {
   "info": {
-    "name": "萃凝晶-悬木人锚点右下角",
-    "type": "collect",
-    "version": "1.0",
-    "description": "需要钟离，有纳西妲可以顺便采集周围的植物\n",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "成成"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "需要钟离，有纳西妲可以顺便采集周围的植物\n",
+    "map_name": "Teyvat",
+    "name": "萃凝晶-悬木人锚点右下角",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 8372.15,
-      "y": -2196.24,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -2196.24
     },
     {
-      "id": 2,
-      "x": 8392.16,
-      "y": -2245.33,
       "action": "combat_script",
-      "move_mode": "run",
       "action_params": "纳西妲 e(hold)",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 8449.47,
-      "y": -2254.33,
-      "action": "",
+      "id": 2,
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 8392.16,
+      "y": -2245.33
     },
     {
-      "id": 4,
-      "x": 8470.77,
-      "y": -2250.12,
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8449.47,
+      "y": -2254.33
+    },
+    {
       "action": "stop_flying",
-      "move_mode": "fly",
       "action_params": "200",
-      "type": "path"
-    },
-    {
-      "id": 5,
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
       "x": 8470.77,
-      "y": -2250.12,
+      "y": -2250.12
+    },
+    {
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "钟离 e(hold)",
-      "type": "orientation"
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8470.77,
+      "y": -2250.12
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8467.65,
-      "y": -2252.72,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -2252.72
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8462.04,
-      "y": -2252.68,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -2252.68
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8461.5,
-      "y": -2251.08,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -2251.08
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8469.55,
-      "y": -2252.08,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -2252.08
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8472.99,
-      "y": -2257.92,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -2257.92
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 11,
-      "x": 8476.51,
-      "y": -2257.93,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 8476.51,
+      "y": -2257.93
     },
     {
-      "id": 12,
-      "x": 8471.58,
-      "y": -2251.18,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8471.58,
+      "y": -2251.18
     }
   ]
 }

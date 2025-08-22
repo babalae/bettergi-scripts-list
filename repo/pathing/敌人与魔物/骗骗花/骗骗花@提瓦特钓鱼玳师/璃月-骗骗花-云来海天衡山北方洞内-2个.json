@@ -1,62 +1,62 @@
 {
   "info": {
-    "name": "璃月-骗骗花-云来海天衡山北方洞内-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "骗骗花-2个\n璃月-云来海天衡山北方洞内",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "提瓦特钓鱼玳师",
-        "links": "https://github.com/Hijiwos"
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "骗骗花-2个\n璃月-云来海天衡山北方洞内",
+    "name": "璃月-骗骗花-云来海天衡山北方洞内-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 611.96,
-      "y": -284.06,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -284.06
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 614.0,
-      "y": -302.75,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -302.75
     },
     {
-      "id": 3,
-      "x": 594.51,
-      "y": -350.19,
       "action": "combat_script",
-      "move_mode": "fly",
       "action_params": "keypress(space),wait(3),keypress(space)",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 569.49,
-      "y": -353.19,
-      "action": "stop_flying",
+      "id": 3,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 594.51,
+      "y": -350.19
     },
     {
-      "id": 5,
-      "x": 569.49,
-      "y": -353.19,
-      "action": "fight",
-      "move_mode": "walk",
+      "action": "stop_flying",
       "action_params": "",
-      "type": "path"
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 569.49,
+      "y": -353.19
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 569.49,
+      "y": -353.19
     }
   ]
 }

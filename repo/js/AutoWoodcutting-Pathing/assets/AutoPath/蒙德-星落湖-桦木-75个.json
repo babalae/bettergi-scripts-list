@@ -1,118 +1,118 @@
 {
   "info": {
-    "name": "蒙德-星落湖-桦木-75个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.48.1",
     "authors": [
       {
-        "name": "Tim",
-        "links": "https://github.com/Limint"
+        "links": "https://github.com/Limint",
+        "name": "Tim"
       }
-    ]
+    ],
+    "bgi_version": "0.48.1",
+    "description": "",
+    "name": "蒙德-星落湖-桦木-75个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -1330.0518,
-      "y": 2563.9004,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 2563.9004
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1324.2451,
-      "y": 2562.7314,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 2562.7314
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1321.0088,
-      "y": 2566.4104,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 2566.4104
     },
     {
+      "action": "",
       "id": 4,
-      "x": -1299.3506,
-      "y": 2574.8479,
-      "action": "",
       "move_mode": "fly",
-      "type": "path"
+      "type": "path",
+      "x": -1299.3506,
+      "y": 2574.8479
     },
     {
+      "action": "use_gadget",
+      "action_params": "keypress(VK_Z)",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1291.8896,
-      "y": 2577.4204,
-      "action": "use_gadget",
-      "move_mode": "walk",
-      "type": "path",
-      "action_params": "keypress(VK_Z)"
+      "y": 2577.4204
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1285.4482,
-      "y": 2565.7844,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 2565.7844
     },
     {
+      "action": "use_gadget",
+      "action_params": "keypress(VK_Z)",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1311.7754,
-      "y": 2530.9932,
-      "action": "use_gadget",
-      "move_mode": "walk",
-      "type": "path",
-      "action_params": "keypress(VK_Z)"
+      "y": 2530.9932
     },
     {
-      "id": 8,
-      "x": -1321.0752,
-      "y": 2518.4419,
       "action": "",
+      "id": 8,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": -1321.0752,
+      "y": 2518.4419
     },
     {
+      "action": "use_gadget",
+      "action_params": "keypress(VK_Z)",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1338.5195,
-      "y": 2521.9163,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "keypress(VK_Z)"
+      "y": 2521.9163
     },
     {
+      "action": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1369.2441,
-      "y": 2552.9829,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 2552.9829
     },
     {
+      "action": "use_gadget",
+      "action_params": "keypress(VK_Z)",
       "id": 11,
-      "x": -1375.4873,
-      "y": 2553.8157,
-      "action": "use_gadget",
       "move_mode": "walk",
       "type": "path",
-      "action_params": "keypress(VK_Z)"
+      "x": -1375.4873,
+      "y": 2553.8157
     },
     {
-      "id": 12,
-      "x": -1376.4268,
-      "y": 2578.9888,
       "action": "use_gadget",
+      "action_params": "wait(0.8),keypress(VK_Z)",
+      "id": 12,
       "move_mode": "walk",
       "type": "path",
-      "action_params": "wait(0.8),keypress(VK_Z)"
+      "x": -1376.4268,
+      "y": 2578.9888
     }
   ]
 }

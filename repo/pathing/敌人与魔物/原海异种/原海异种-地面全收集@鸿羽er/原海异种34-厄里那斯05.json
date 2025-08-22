@@ -1,79 +1,79 @@
 {
   "info": {
-    "name": "原海异种34-厄里那斯05",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "鸿羽er"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "原海异种34-厄里那斯05",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 5109.5,
-      "y": 2547.04,
-      "action_params": ""
+      "y": 2547.04
     },
     {
-      "id": 2,
-      "x": 5168.5,
-      "y": 2589.5,
-      "move_mode": "run",
       "action": "",
       "action_params": "",
-      "type": "path"
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 5168.5,
+      "y": 2589.5
     },
     {
-      "id": 3,
       "action": "fight",
+      "action_params": "",
+      "id": 3,
       "move_mode": "run",
       "type": "path",
       "x": 5222.0,
-      "y": 2638.51,
-      "action_params": ""
+      "y": 2638.51
     },
     {
-      "id": 4,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
       "move_mode": "fly",
       "type": "path",
       "x": 5301.5,
-      "y": 2618.5,
-      "action_params": ""
+      "y": 2618.5
     },
     {
-      "id": 5,
-      "x": 5317.5,
-      "y": 2619.0,
-      "move_mode": "run",
       "action": "fight",
       "action_params": "",
-      "type": "path"
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 5317.5,
+      "y": 2619.0
     },
     {
-      "id": 6,
       "action": "",
+      "action_params": "",
+      "id": 6,
       "move_mode": "run",
       "type": "path",
       "x": 5332.5,
-      "y": 2637.56,
-      "action_params": ""
+      "y": 2637.56
     },
     {
-      "id": 7,
       "action": "fight",
+      "action_params": "",
+      "id": 7,
       "move_mode": "run",
       "type": "path",
       "x": 5359.0,
-      "y": 2630.0,
-      "action_params": ""
+      "y": 2630.0
     }
   ]
 }

@@ -1,72 +1,72 @@
 {
   "info": {
-    "name": "黑蛇众01-临时主矿区-1个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "TheChasm",
-    "bgi_version": "0.47.2",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": "https://github.com/Tooltingsu"
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
       }
-    ]
+    ],
+    "bgi_version": "0.47.2",
+    "description": "",
+    "map_name": "TheChasm",
+    "name": "黑蛇众01-临时主矿区-1个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 895.73,
-      "y": 1020.94,
-      "action_params": ""
+      "y": 1020.94
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 910.79,
-      "y": 1021.99,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 1021.99
     },
     {
-      "id": 3,
-      "x": 942.18,
-      "y": 1004.13,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "1400"
+      "action_params": "1400",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 942.18,
+      "y": 1004.13
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 947.5,
-      "y": 1009.56,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 1009.56
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 955.98,
-      "y": 1024.46,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 955.98,
+      "y": 1024.46
     },
     {
-      "id": 6,
-      "x": 955.98,
-      "y": 1048.01,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 955.98,
+      "y": 1048.01
     }
   ]
 }

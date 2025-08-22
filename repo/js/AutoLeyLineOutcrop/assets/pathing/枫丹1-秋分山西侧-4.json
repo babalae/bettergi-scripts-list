@@ -1,48 +1,48 @@
 {
   "info": {
+    "author": "平面镜",
+    "bgi_version": "0.42.3",
+    "description": "",
     "name": "枫丹1-秋分山西侧-4",
     "type": "collect",
-    "author": "平面镜",
-    "version": "1.1",
-    "description": "",
-    "bgi_version": "0.42.3"
+    "version": "1.1"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 4375.37,
-      "y": 2281.02,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 2281.02
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 4383.66,
-      "y": 2268.13,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 2268.13
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 4318.1,
-      "y": 2235.66,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 4318.1,
+      "y": 2235.66
     },
     {
-      "id": 4,
-      "x": 4299.75,
-      "y": 2232.59,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4299.75,
+      "y": 2232.59
     }
   ]
 }

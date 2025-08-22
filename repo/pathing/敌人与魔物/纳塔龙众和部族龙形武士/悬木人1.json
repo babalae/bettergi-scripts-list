@@ -1,80 +1,80 @@
 {
   "info": {
-    "name": "悬木人1",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "雕茂"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "悬木人1",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 8597.37,
       "y": -1928.87
     },
     {
+      "action": "fight",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8569.42,
-      "y": -1881.84,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": -1881.84
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8583.15,
-      "y": -1912.13,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -1912.13
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8570.94,
-      "y": -1970.73,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -1970.73
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8558.12,
-      "y": -1999.76,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -1999.76
     },
     {
+      "action": "fight",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8603.38,
-      "y": -2002.89,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": -2002.89
     },
     {
+      "action": "",
       "id": 7,
-      "x": 8643.42,
-      "y": -1993.1,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 8643.42,
+      "y": -1993.1
     },
     {
+      "action": "fight",
       "id": 8,
-      "x": 8654.34,
-      "y": -2033.74,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 8654.34,
+      "y": -2033.74
     }
   ]
 }

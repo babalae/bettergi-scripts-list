@@ -1,116 +1,116 @@
 {
   "info": {
-    "name": "璃月-禽肉-沉玉谷·南陵赤望台东-1个-下落2肉1",
-    "type": "collect",
-    "version": "1.0",
-    "description": "地区: 璃月\n类型: 禽肉\n详细位置: 沉玉谷·南陵赤望台东\n数目: 1\n附加信息: 2禽肉鸟共1只\n注意: 使用前请将游戏时间调到白天，跑图位建议使用绮良良或埃洛伊",
-    "bgi_version": "0.43.1",
     "authors": [
       {
-        "name": "提瓦特钓鱼玳师",
-        "links": "https://github.com/Hijiwos"
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
       }
-    ]
+    ],
+    "bgi_version": "0.43.1",
+    "description": "地区: 璃月\n类型: 禽肉\n详细位置: 沉玉谷·南陵赤望台东\n数目: 1\n附加信息: 2禽肉鸟共1只\n注意: 使用前请将游戏时间调到白天，跑图位建议使用绮良良或埃洛伊",
+    "name": "璃月-禽肉-沉玉谷·南陵赤望台东-1个-下落2肉1",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 2870.04,
-      "y": 1503.27,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 1503.27
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 2813.17,
-      "y": 1480.43,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 2813.17,
+      "y": 1480.43
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2785.1,
-      "y": 1469.35,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 1469.35
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2785.81,
-      "y": 1457.65,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 1457.65
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "fly",
+      "type": "path",
       "x": 2766.47,
-      "y": 1447.99,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": 1447.99
     },
     {
-      "id": 6,
-      "x": 2685.86,
-      "y": 1459.72,
       "action": "combat_script",
-      "move_mode": "fly",
       "action_params": "keypress(space),wait(2),attack(0.1)",
-      "type": "target"
+      "id": 6,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 2685.86,
+      "y": 1459.72
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
-      "x": 2685.06,
-      "y": 1459.03,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "type": "target",
+      "x": 2685.06,
+      "y": 1459.03
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "target",
       "x": 2685.99,
-      "y": 1459.14,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": 1459.14
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "target",
       "x": 2688.26,
-      "y": 1456.92,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": 1456.92
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
-      "x": 2687,
-      "y": 1455.59,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "type": "target",
+      "x": 2687,
+      "y": 1455.59
     },
     {
-      "id": 11,
-      "x": 2685.06,
-      "y": 1455.13,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2685.06,
+      "y": 1455.13
     }
   ]
 }

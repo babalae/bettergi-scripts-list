@@ -1,49 +1,49 @@
-﻿{
+{
   "info": {
-    "name": "蒙德-22",
-    "type": "collect",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": ""
+        "links": "",
+        "name": "Tool_tingsu"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1754917176867,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754917176867,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蒙德-22",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -1427.423828125,
-      "y": 1661.8251953125,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -1427.423828125,
+      "y": 1661.8251953125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -1428.58203125,
-      "y": 1685.107421875,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -1428.58203125,
+      "y": 1685.107421875
     },
     {
-      "id": 3,
-      "x": -1424.033203125,
-      "y": 1734.16015625,
-      "type": "target",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "1000"
+      "action_params": "1000",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -1424.033203125,
+      "y": 1734.16015625
     }
   ]
 }

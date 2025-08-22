@@ -1,287 +1,287 @@
 {
   "info": {
-    "name": "萃凝晶-祖遗庙宇右侧山头",
-    "type": "collect",
-    "version": "1.0",
-    "description": "需要钟离，有纳西妲可以顺便采集周围的植物\n注意：钟离不可以作为生存位！\n-(25.6.14)成成：优化钟离开盾时间",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "成成"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "需要钟离，有纳西妲可以顺便采集周围的植物\n注意：钟离不可以作为生存位！\n-(25.6.14)成成：优化钟离开盾时间",
+    "map_name": "Teyvat",
+    "name": "萃凝晶-祖遗庙宇右侧山头",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 7845.01,
-      "y": -2047.36,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 7845.01,
+      "y": -2047.36
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 7803.89,
-      "y": -2104.49,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -2104.49
     },
     {
+      "action": "combat_script",
+      "action_params": "钟离 e(hold)",
       "id": 3,
+      "move_mode": "walk",
+      "type": "target",
       "x": 7801.23,
-      "y": -2104.09,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "钟离 e(hold)"
+      "y": -2104.09
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7805.14,
-      "y": -2106.71,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2106.71
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7803.63,
-      "y": -2110.56,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2110.56
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7797.55,
-      "y": -2105.44,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2105.44
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7804.34,
-      "y": -2106.34,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2106.34
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7799.47,
-      "y": -2109.77,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2109.77
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7803.04,
-      "y": -2104.0,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2104.0
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7790.17,
-      "y": -2108.66,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2108.66
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 11,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7783.07,
-      "y": -2120.84,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2120.84
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 12,
+      "move_mode": "dash",
+      "type": "path",
       "x": 7807.92,
-      "y": -2152.2,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -2152.2
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 13,
-      "x": 7842.83,
-      "y": -2186.12,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 7842.83,
+      "y": -2186.12
     },
     {
+      "action": "stop_flying",
+      "action_params": "100",
       "id": 14,
+      "move_mode": "fly",
+      "type": "path",
       "x": 7857.37,
-      "y": -2209.85,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": "100"
+      "y": -2209.85
     },
     {
+      "action": "combat_script",
+      "action_params": "钟离 e(hold)",
       "id": 15,
+      "move_mode": "walk",
+      "type": "target",
       "x": 7857.2,
-      "y": -2210.88,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "钟离 e(hold)"
+      "y": -2210.88
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 16,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7849.59,
-      "y": -2207.96,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2207.96
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 17,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7856.69,
-      "y": -2200.38,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2200.38
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 18,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7853.17,
-      "y": -2209.08,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2209.08
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 19,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7851.26,
-      "y": -2204.09,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2204.09
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 20,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7860.41,
-      "y": -2212.9,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2212.9
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 21,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7861.07,
-      "y": -2205.0,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2205.0
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 22,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7865.99,
-      "y": -2207.78,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2207.78
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 23,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7858.71,
-      "y": -2208.29,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2208.29
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 24,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7864.47,
-      "y": -2205.05,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2205.05
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 25,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7858.97,
-      "y": -2212.07,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2212.07
     },
     {
-      "id": 26,
-      "x": 7811.08,
-      "y": -2271.36,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "100"
+      "action_params": "100",
+      "id": 26,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7811.08,
+      "y": -2271.36
     },
     {
-      "id": 27,
-      "x": 7809.24,
-      "y": -2273.62,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "钟离 e(hold)"
+      "action_params": "钟离 e(hold)",
+      "id": 27,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7809.24,
+      "y": -2273.62
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 28,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7806.54,
-      "y": -2273.82,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2273.82
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 29,
-      "x": 7808.48,
-      "y": -2269.61,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 7808.48,
+      "y": -2269.61
     },
     {
-      "id": 30,
-      "x": 7809.54,
-      "y": -2274.12,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 30,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7809.54,
+      "y": -2274.12
     }
   ]
 }

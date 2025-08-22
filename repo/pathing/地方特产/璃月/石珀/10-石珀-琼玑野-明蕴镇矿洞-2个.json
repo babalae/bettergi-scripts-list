@@ -1,108 +1,108 @@
 {
   "info": {
-    "name": "10-石珀-琼玑野-明蕴镇矿洞-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.43.0",
     "authors": [
       {
         "name": "爱凑热闹"
       }
-    ]
+    ],
+    "bgi_version": "0.43.0",
+    "description": "",
+    "name": "10-石珀-琼玑野-明蕴镇矿洞-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -186.12,
-      "y": 971.82,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 971.82
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -122.2,
-      "y": 938.89,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 938.89
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -130.77,
-      "y": 913.8,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 913.8
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -133.17,
-      "y": 897.75,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 897.75
     },
     {
+      "action": "mining",
+      "action_params": "",
       "id": 5,
-      "x": -137.94,
-      "y": 897.87,
-      "action": "mining",
-      "action_params": "",
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": -137.94,
+      "y": 897.87
     },
     {
+      "action": "pick_around",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": -137.94,
-      "y": 897.87,
-      "action": "pick_around",
-      "action_params": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 897.87
     },
     {
+      "action": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": -132.34,
-      "y": 890.77,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 890.77
     },
     {
+      "action": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": -135.24,
-      "y": 888.94,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 888.94
     },
     {
+      "action": "",
       "id": 9,
-      "x": -123.15,
-      "y": 885.05,
-      "action": "",
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": -123.15,
+      "y": 885.05
     },
     {
-      "id": 10,
-      "x": -129.4,
-      "y": 878.78,
       "action": "mining",
       "action_params": "",
+      "id": 10,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": -129.4,
+      "y": 878.78
     },
     {
-      "id": 11,
-      "x": -129.4,
-      "y": 878.78,
       "action": "pick_around",
       "action_params": "",
+      "id": 11,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": -129.4,
+      "y": 878.78
     }
   ]
 }

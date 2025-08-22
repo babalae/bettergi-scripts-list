@@ -1,103 +1,103 @@
 {
   "info": {
-    "name": "鸟蛋1-8-蒙德-晨曦酒庄北-4蛋",
-    "type": "collect",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
+    "description": "",
+    "enable_monster_loot_split": false,
     "last_modified_time": 1752161510097,
-    "enable_monster_loot_split": false
+    "map_name": "Teyvat",
+    "name": "鸟蛋1-8-蒙德-晨曦酒庄北-4蛋",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": -576.96,
-      "y": 1856.02,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 2,
-      "x": -516.67,
-      "y": 1869.73,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 3,
-      "x": -430.55,
-      "y": 1890.06,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": -415.59,
-      "y": 1888.35,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": -415.59,
-      "y": 1888.35,
-      "type": "target",
-      "move_mode": "climb",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 6,
-      "x": -389.19,
-      "y": 1886.68,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 7,
-      "x": -386.48,
-      "y": 1882.5,
-      "type": "target",
-      "move_mode": "climb",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 8,
-      "x": -384.22,
-      "y": 1879.87,
-      "type": "path",
-      "move_mode": "jump",
       "action": "",
       "action_params": "",
-      "locked": false
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -576.96,
+      "y": 1856.02
     },
     {
-      "id": 9,
-      "x": -384.22,
-      "y": 1879.87,
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
       "type": "path",
+      "x": -516.67,
+      "y": 1869.73
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -430.55,
+      "y": 1890.06
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -415.59,
+      "y": 1888.35
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
       "move_mode": "climb",
+      "type": "target",
+      "x": -415.59,
+      "y": 1888.35
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -389.19,
+      "y": 1886.68
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "climb",
+      "type": "target",
+      "x": -386.48,
+      "y": 1882.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -384.22,
+      "y": 1879.87
+    },
+    {
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 9,
+      "move_mode": "climb",
+      "type": "path",
+      "x": -384.22,
+      "y": 1879.87
     }
   ]
 }

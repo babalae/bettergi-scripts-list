@@ -1,25 +1,25 @@
 {
+  "info": {
+    "description": "模拟鼠标滚轮向上滚动120单位",
+    "height": 1080,
+    "name": "滚轮上翻",
+    "recordDpi": 1,
+    "width": 1920,
+    "x": 0,
+    "y": 0
+  },
   "macroEvents": [
     {
-      "type": 6,
       "mouseX": 0,
       "mouseY": 120,
-      "time": 0
+      "time": 0,
+      "type": 6
     },
     {
-      "type": 6,
       "mouseX": 0,
       "mouseY": 0,
-      "time": 16
+      "time": 16,
+      "type": 6
     }
-  ],
-  "info": {
-    "name": "滚轮上翻",
-    "description": "模拟鼠标滚轮向上滚动120单位",
-    "x": 0,
-    "y": 0,
-    "width": 1920,
-    "height": 1080,
-    "recordDpi": 1
-  }
+  ]
 }

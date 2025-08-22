@@ -1,178 +1,178 @@
 {
   "info": {
-    "name": "鸟蛋1-5-蒙德-达达乌帕谷-8蛋",
-    "type": "collect",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
+    "description": "",
+    "enable_monster_loot_split": false,
     "last_modified_time": 1752214558491,
-    "enable_monster_loot_split": false
+    "map_name": "Teyvat",
+    "name": "鸟蛋1-5-蒙德-达达乌帕谷-8蛋",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -1435.89,
-      "y": 1461.4,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -1435.89,
+      "y": 1461.4
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": -1495.04,
-      "y": 1447.77,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": 1447.77
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 3,
-      "x": -1512.84,
-      "y": 1441.21,
-      "action": "nahida_collect",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -1512.84,
+      "y": 1441.21
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(6)",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": -1512.84,
-      "y": 1441.21,
-      "action": "combat_script",
-      "move_mode": "run",
-      "action_params": "wait(6)",
-      "type": "path"
+      "y": 1441.21
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 5,
+      "move_mode": "run",
+      "type": "path",
       "x": -1527.01,
-      "y": 1444.48,
-      "action": "nahida_collect",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": 1444.48
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "dash",
+      "type": "path",
       "x": -1552.24,
-      "y": 1427.84,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 1427.84
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "dash",
+      "type": "path",
       "x": -1588.99,
-      "y": 1408.23,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 1408.23
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 8,
-      "x": -1602.96,
-      "y": 1389.06,
-      "action": "nahida_collect",
+      "locked": false,
       "move_mode": "dash",
-      "action_params": "",
       "type": "path",
-      "locked": false
+      "x": -1602.96,
+      "y": 1389.06
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(6)",
       "id": 9,
-      "x": -1602.96,
-      "y": 1389.06,
-      "action": "combat_script",
+      "locked": false,
       "move_mode": "dash",
-      "action_params": "wait(6)",
       "type": "path",
-      "locked": false
+      "x": -1602.96,
+      "y": 1389.06
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 10,
+      "move_mode": "dash",
+      "type": "path",
       "x": -1602.96,
-      "y": 1389.06,
-      "action": "nahida_collect",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 1389.06
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 11,
-      "x": -1435.89,
-      "y": 1461.4,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -1435.89,
+      "y": 1461.4
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 12,
+      "move_mode": "run",
+      "type": "path",
       "x": -1440.51,
-      "y": 1448.05,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": 1448.05
     },
     {
-      "id": 13,
-      "x": -1445.79,
-      "y": 1433.53,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 13,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -1445.79,
+      "y": 1433.53
     },
     {
-      "id": 14,
-      "x": -1463.94,
-      "y": 1395.22,
       "action": "",
+      "action_params": "",
+      "id": 14,
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -1463.94,
+      "y": 1395.22
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 15,
-      "x": -1464.5,
-      "y": 1380.42,
-      "action": "nahida_collect",
+      "locked": false,
       "move_mode": "run",
-      "action_params": "",
       "type": "path",
-      "locked": false
+      "x": -1464.5,
+      "y": 1380.42
     },
     {
-      "id": 16,
-      "x": -1464.5,
-      "y": 1380.42,
       "action": "combat_script",
-      "move_mode": "run",
       "action_params": "wait(6)",
+      "id": 16,
+      "locked": false,
+      "move_mode": "run",
       "type": "path",
-      "locked": false
+      "x": -1464.5,
+      "y": 1380.42
     },
     {
-      "id": 17,
-      "x": -1464.5,
-      "y": 1380.42,
       "action": "nahida_collect",
-      "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "id": 17,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1464.5,
+      "y": 1380.42
     }
   ]
 }

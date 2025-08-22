@@ -1,182 +1,182 @@
 {
   "info": {
-    "name": "A17-白铁矿-稻妻-稻妻城-5个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1749632192479,
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": "https://github.com/Tooltingsu"
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1749632192479,
+    "map_name": "Teyvat",
+    "name": "A17-白铁矿-稻妻-稻妻城-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -4492.0,
-      "y": -3208.14,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -4492.0,
+      "y": -3208.14
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4507.13,
-      "y": -3221.08,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -3221.08
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4518.23,
-      "y": -3222.62,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -3222.62
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4531.36,
-      "y": -3223.11,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -3223.11
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4544.26,
-      "y": -3225.73,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -3225.73
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4575.04,
-      "y": -3226.02,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -3226.02
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4624.87,
-      "y": -3272.02,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -3272.02
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4629.5,
-      "y": -3291.87,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -3291.87
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
-      "x": -4639.09,
-      "y": -3331.32,
-      "type": "path",
       "move_mode": "jump",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -4639.09,
+      "y": -3331.32
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4644.12,
-      "y": -3349.64,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -3349.64
     },
     {
-      "id": 11,
-      "x": -4674.05,
-      "y": -3385.52,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "2000"
+      "action_params": "2000",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4674.05,
+      "y": -3385.52
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 12,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4664.2,
-      "y": -3379.24,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -3379.24
     },
     {
+      "action": "mining",
+      "action_params": "",
       "id": 13,
+      "move_mode": "walk",
+      "type": "target",
       "x": -4656.65,
-      "y": -3370.62,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
+      "y": -3370.62
     },
     {
-      "id": 14,
-      "x": -4660.3,
-      "y": -3380.05,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4660.3,
+      "y": -3380.05
     },
     {
+      "action": "mining",
+      "action_params": "",
       "id": 15,
+      "move_mode": "walk",
+      "type": "target",
       "x": -4661.05,
-      "y": -3387.32,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
+      "y": -3387.32
     },
     {
+      "action": "mining",
+      "action_params": "",
       "id": 16,
+      "move_mode": "walk",
+      "type": "target",
       "x": -4657.83,
-      "y": -3388.89,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
+      "y": -3388.89
     },
     {
+      "action": "mining",
+      "action_params": "",
       "id": 17,
-      "x": -4661.93,
-      "y": -3401.48,
-      "type": "target",
       "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
+      "type": "target",
+      "x": -4661.93,
+      "y": -3401.48
     },
     {
-      "id": 18,
-      "x": -4652.81,
-      "y": -3401.32,
-      "type": "target",
-      "move_mode": "walk",
       "action": "mining",
-      "action_params": ""
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4652.81,
+      "y": -3401.32
     }
   ]
 }

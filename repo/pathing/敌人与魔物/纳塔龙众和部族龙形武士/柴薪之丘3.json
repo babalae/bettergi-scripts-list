@@ -1,128 +1,128 @@
 {
   "info": {
-    "name": "柴薪之丘3",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "雕茂"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "柴薪之丘3",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 8908.83,
-      "y": -1639.04,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": -1639.04
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8885.05,
-      "y": -1705.48,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1705.48
     },
     {
+      "action": "stop_flying",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": 8885.69,
-      "y": -1751.17,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "type": "path"
+      "y": -1751.17
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8883.89,
-      "y": -1763.8,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1763.8
     },
     {
+      "action": "fight",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8901.57,
-      "y": -1748.76,
-      "action": "fight",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1748.76
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8900.58,
-      "y": -1749.34,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1749.34
     },
     {
-      "id": 7,
-      "x": 8932.49,
-      "y": -1750.62,
       "action": "stop_flying",
+      "id": 7,
       "move_mode": "fly",
-      "type": "path"
+      "type": "path",
+      "x": 8932.49,
+      "y": -1750.62
     },
     {
+      "action": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9005.77,
-      "y": -1747.07,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1747.07
     },
     {
+      "action": "fight",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9027.27,
-      "y": -1736.96,
-      "action": "fight",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1736.96
     },
     {
+      "action": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9002.46,
-      "y": -1750.16,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1750.16
     },
     {
+      "action": "",
       "id": 11,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8965.8,
-      "y": -1761.94,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1761.94
     },
     {
+      "action": "fight",
       "id": 12,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8989.95,
-      "y": -1774.38,
-      "action": "fight",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1774.38
     },
     {
-      "id": 13,
-      "x": 8991.08,
-      "y": -1816.54,
       "action": "",
+      "id": 13,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 8991.08,
+      "y": -1816.54
     },
     {
-      "id": 14,
-      "x": 8975.52,
-      "y": -1816.43,
       "action": "fight",
+      "id": 14,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 8975.52,
+      "y": -1816.43
     }
   ]
 }

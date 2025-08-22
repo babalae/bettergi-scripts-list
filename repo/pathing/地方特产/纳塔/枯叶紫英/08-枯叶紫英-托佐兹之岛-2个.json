@@ -1,41 +1,41 @@
 {
   "info": {
-    "name": "08-枯叶紫英-托佐兹之岛-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "有一个解密，剩余1个枯叶紫英",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "曦",
-        "links": "https://github.com/cx05121"
+        "links": "https://github.com/cx05121",
+        "name": "曦"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "有一个解密，剩余1个枯叶紫英",
+    "name": "08-枯叶紫英-托佐兹之岛-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "force_tp",
       "id": 1,
-      "x": 9670.16,
-      "y": 171.38,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "force_tp"
+      "x": 9670.16,
+      "y": 171.38
     },
     {
+      "action": "",
       "id": 2,
-      "x": 9685.2,
-      "y": 248.93,
-      "type": "target",
       "move_mode": "walk",
-      "action": ""
+      "type": "target",
+      "x": 9685.2,
+      "y": 248.93
     },
     {
+      "action": "",
       "id": 3,
-      "x": 9691.01,
-      "y": 261.84,
-      "type": "target",
       "move_mode": "walk",
-      "action": ""
+      "type": "target",
+      "x": 9691.01,
+      "y": 261.84
     }
   ]
 }

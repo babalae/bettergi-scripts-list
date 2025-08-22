@@ -1,45 +1,45 @@
 {
   "info": {
-    "name": "02-劫波莲-降诸魔山-4个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "lifrom",
-        "links": "https://github.com/pkjsjq"
+        "links": "https://github.com/pkjsjq",
+        "name": "lifrom"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "02-劫波莲-降诸魔山-4个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 2241.63,
       "y": -1686.13
     },
     {
-      "id": 2,
       "action": "nahida_collect",
+      "id": 2,
       "move_mode": "walk",
       "type": "target",
       "x": 2245.38,
       "y": -1640.3
     },
     {
-      "id": 3,
       "action": "",
+      "id": 3,
       "move_mode": "walk",
       "type": "path",
       "x": 2221.37,
       "y": -1640.3
     },
     {
-      "id": 4,
       "action": "nahida_collect",
+      "id": 4,
       "move_mode": "walk",
       "type": "target",
       "x": 2230.37,

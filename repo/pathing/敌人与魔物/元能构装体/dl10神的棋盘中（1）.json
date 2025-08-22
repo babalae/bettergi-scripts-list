@@ -1,87 +1,87 @@
 {
   "info": {
-    "name": "dl10神的棋盘中（1）",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "下流山汉",
-        "links": "https://github.com/vulgar-rustic"
+        "links": "https://github.com/vulgar-rustic",
+        "name": "下流山汉"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "dl10神的棋盘中（1）",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 5759.41,
-      "y": -1307.51,
-      "action": "",
+      "locked": false,
       "move_mode": "walk",
-      "action_params": "",
       "type": "teleport",
-      "locked": false
+      "x": 5759.41,
+      "y": -1307.51
     },
     {
-      "id": 2,
-      "x": 5748.58,
-      "y": -1317.48,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
       "move_mode": "fly",
-      "action_params": "",
       "type": "path",
-      "locked": false
+      "x": 5748.58,
+      "y": -1317.48
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5738.18,
-      "y": -1347.29,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path",
-      "locked": false
+      "y": -1347.29
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 5705.44,
-      "y": -1378.04,
-      "action": "",
+      "locked": false,
       "move_mode": "walk",
-      "action_params": "",
       "type": "path",
-      "locked": false
+      "x": 5705.44,
+      "y": -1378.04
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
       "x": 5691.08,
-      "y": -1386.83,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path",
-      "locked": false
+      "y": -1386.83
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": 5675.5,
-      "y": -1388.66,
-      "action": "",
+      "locked": false,
       "move_mode": "run",
-      "action_params": "",
       "type": "path",
-      "locked": false
+      "x": 5675.5,
+      "y": -1388.66
     },
     {
-      "id": 7,
-      "x": 5662.68,
-      "y": -1392.77,
       "action": "fight",
-      "move_mode": "run",
       "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "run",
       "type": "path",
-      "locked": false
+      "x": 5662.68,
+      "y": -1392.77
     }
   ]
 }

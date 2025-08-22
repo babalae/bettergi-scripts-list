@@ -1,33 +1,33 @@
 {
   "info": {
-    "name": "蒙德-蒙德城-松木-0个(大循环)",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "Tim",
-        "links": "https://github.com/Limint"
+        "links": "https://github.com/Limint",
+        "name": "Tim"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "蒙德-蒙德城-松木-0个(大循环)",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": -749.1172,
-      "y": 2262.842,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -749.1172,
+      "y": 2262.842
     },
     {
-      "id": 2,
-      "x": -780.9994,
-      "y": 2276.7548,
       "action": "stop_flying",
+      "id": 2,
       "move_mode": "fly",
-      "type": "path"
+      "type": "path",
+      "x": -780.9994,
+      "y": 2276.7548
     }
   ]
 }

@@ -1,105 +1,105 @@
 {
   "info": {
-    "name": "07-莲蓬-渌华池-12个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "07-莲蓬-渌华池-12个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 526.18,
       "y": 106.16
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 529.44,
-      "y": 104.27,
-      "type": "path",
-      "move_mode": "fly",
-      "action": ""
+      "y": 104.27
     },
     {
+      "action": "stop_flying",
       "id": 3,
-      "x": 545.0,
-      "y": 104.12,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": 545.0,
+      "y": 104.12
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 610.27,
-      "y": 101.59,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 101.59
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 627.15,
-      "y": 85.58,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 85.58
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 629.0,
-      "y": 83.33,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 83.33
     },
     {
+      "action": "nahida_collect",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 695.66,
-      "y": 111.62,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect"
+      "y": 111.62
     },
     {
+      "action": "nahida_collect",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": 664.18,
-      "y": 148.99,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect"
+      "y": 148.99
     },
     {
+      "action": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": 698.98,
-      "y": 166.0,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 166.0
     },
     {
+      "action": "",
       "id": 10,
-      "x": 717.64,
-      "y": 153.17,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 717.64,
+      "y": 153.17
     },
     {
+      "action": "nahida_collect",
       "id": 11,
-      "x": 737.92,
-      "y": 170.56,
-      "type": "path",
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": 737.92,
+      "y": 170.56
     }
   ]
 }

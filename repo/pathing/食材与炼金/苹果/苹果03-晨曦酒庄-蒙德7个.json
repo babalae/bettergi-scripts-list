@@ -1,73 +1,73 @@
 {
   "info": {
-    "name": "苹果03-晨曦酒庄-蒙德7个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "苹果03-晨曦酒庄-蒙德7个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -578.85,
       "y": 1853.51
     },
     {
+      "action": "nahida_collect",
       "id": 2,
-      "x": -560.32,
-      "y": 1799.23,
-      "type": "path",
       "move_mode": "run",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": -560.32,
+      "y": 1799.23
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -549.32,
-      "y": 1790.41,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 1790.41
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -542.45,
-      "y": 1772.85,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 1772.85
     },
     {
+      "action": "",
       "id": 5,
-      "x": -430.29,
-      "y": 1765.62,
-      "type": "path",
       "move_mode": "fly",
-      "action": ""
+      "type": "path",
+      "x": -430.29,
+      "y": 1765.62
     },
     {
+      "action": "",
       "id": 6,
-      "x": -421.61,
-      "y": 1785.41,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": -421.61,
+      "y": 1785.41
     },
     {
+      "action": "nahida_collect",
       "id": 7,
-      "x": -410.34,
-      "y": 1796.16,
-      "type": "path",
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": -410.34,
+      "y": 1796.16
     }
   ]
 }

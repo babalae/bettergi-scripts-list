@@ -1,73 +1,73 @@
 {
   "info": {
-    "name": "06-劫波莲-谒颂幽境-14个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "lifrom",
-        "links": "https://github.com/pkjsjq"
+        "links": "https://github.com/pkjsjq",
+        "name": "lifrom"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "06-劫波莲-谒颂幽境-14个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 3646.32,
-      "y": -1418.41,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 2,
-      "x": 3666.93,
-      "y": -1348.91,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "type": "target"
-    },
-    {
-      "id": 3,
-      "x": 3653.93,
-      "y": -1353.91,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
-      "type": "path"
+      "type": "teleport",
+      "x": 3646.32,
+      "y": -1418.41
     },
     {
-      "id": 4,
-      "x": 3640.91,
-      "y": -1348.41,
       "action": "nahida_collect",
+      "id": 2,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 3666.93,
+      "y": -1348.91
     },
     {
-      "id": 5,
-      "x": 3647.31,
-      "y": -1243.95,
+      "action": "",
+      "id": 3,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "fly",
-      "action": ""
+      "x": 3653.93,
+      "y": -1353.91
     },
     {
-      "id": 6,
-      "x": 3653.71,
-      "y": -1139.5,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "type": "target"
-    },
-    {
-      "id": 7,
-      "x": 3653.71,
-      "y": -1139.5,
       "action": "nahida_collect",
+      "id": 4,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 3640.91,
+      "y": -1348.41
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3647.31,
+      "y": -1243.95
+    },
+    {
+      "action": "stop_flying",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 3653.71,
+      "y": -1139.5
+    },
+    {
+      "action": "nahida_collect",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3653.71,
+      "y": -1139.5
     }
   ]
 }

@@ -1,49 +1,49 @@
 {
   "info": {
-    "name": "12-奇怪的丘丘人-蒙德-风起地",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "12-奇怪的丘丘人-蒙德-风起地",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -1267.48,
-      "y": 1929.41,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 1929.41
     },
     {
+      "action": "",
       "id": 2,
-      "x": -1276.75,
-      "y": 1919.63,
-      "action": "",
       "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": -1277.64,
-      "y": 1891.91,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": -1272.95,
-      "y": 1886.84,
       "type": "path",
+      "x": -1276.75,
+      "y": 1919.63
+    },
+    {
+      "action": "",
+      "id": 3,
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": -1277.64,
+      "y": 1891.91
+    },
+    {
+      "action": "fight",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1272.95,
+      "y": 1886.84
     }
   ]
 }

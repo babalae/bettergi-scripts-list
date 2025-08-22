@@ -1,70 +1,70 @@
 {
   "info": {
-    "name": "原海异种31-厄里那斯02",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "鸿羽er"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "原海异种31-厄里那斯02",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 5116.0,
-      "y": 2994.04,
-      "action_params": ""
+      "y": 2994.04
     },
     {
-      "id": 2,
       "action": "",
+      "action_params": "",
+      "id": 2,
       "move_mode": "fly",
       "type": "path",
       "x": 5069.5,
-      "y": 3047.02,
-      "action_params": ""
+      "y": 3047.02
     },
     {
-      "id": 3,
       "action": "",
+      "action_params": "",
+      "id": 3,
       "move_mode": "fly",
       "type": "path",
       "x": 5008.5,
-      "y": 3080.01,
-      "action_params": ""
+      "y": 3080.01
     },
     {
-      "id": 4,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
       "move_mode": "fly",
       "type": "path",
       "x": 4885.99,
-      "y": 3095.62,
-      "action_params": ""
+      "y": 3095.62
     },
     {
-      "id": 5,
-      "x": 4867.75,
-      "y": 3093.5,
       "action": "fight",
       "action_params": "",
+      "id": 5,
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 4867.75,
+      "y": 3093.5
     },
     {
-      "id": 6,
       "action": "fight",
+      "action_params": "",
+      "id": 6,
       "move_mode": "fly",
       "type": "target",
       "x": 4880.75,
-      "y": 3108.74,
-      "action_params": ""
+      "y": 3108.74
     }
   ]
 }

@@ -1,146 +1,146 @@
 {
   "info": {
-    "name": "05-久雨莲-卡布狄斯堡遗迹2-9个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1749048654589,
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": "https://github.com/Tooltingsu"
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1749048654589,
+    "map_name": "Teyvat",
+    "name": "05-久雨莲-卡布狄斯堡遗迹2-9个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 3383.26,
-      "y": 2692.28,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 3383.26,
+      "y": 2692.28
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 3345.24,
-      "y": 2675.24,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": 2675.24
     },
     {
-      "id": 3,
-      "x": 3266.5,
-      "y": 2677.47,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "2500"
+      "action_params": "2500",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3266.5,
+      "y": 2677.47
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(3);纳西妲 e",
       "id": 4,
+      "move_mode": "walk",
+      "type": "target",
       "x": 3266.53,
-      "y": 2677.47,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(3);纳西妲 e"
+      "y": 2677.47
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3256.33,
-      "y": 2668.73,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2668.73
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3239.21,
-      "y": 2674.49,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2674.49
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3222.85,
-      "y": 2679.48,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2679.48
     },
     {
+      "action": "combat_script",
+      "action_params": "纳西妲 e",
       "id": 8,
+      "move_mode": "walk",
+      "type": "target",
       "x": 3199.09,
-      "y": 2681.46,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "纳西妲 e"
+      "y": 2681.46
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3192.79,
-      "y": 2696.87,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2696.87
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3188.18,
-      "y": 2712.62,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2712.62
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 11,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3166.63,
-      "y": 2747.58,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2747.58
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 12,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3162.49,
-      "y": 2785.82,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2785.82
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 13,
-      "x": 3150.63,
-      "y": 2794.65,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 3150.63,
+      "y": 2794.65
     },
     {
-      "id": 14,
-      "x": 3138.2,
-      "y": 2801.64,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "纳西妲 e"
+      "action_params": "纳西妲 e",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3138.2,
+      "y": 2801.64
     }
   ]
 }

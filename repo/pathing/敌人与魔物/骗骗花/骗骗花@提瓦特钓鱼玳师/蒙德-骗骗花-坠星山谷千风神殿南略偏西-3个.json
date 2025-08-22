@@ -1,125 +1,125 @@
 {
   "info": {
-    "name": "蒙德-骗骗花-坠星山谷千风神殿南略偏西-3个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "骗骗花-3个\n蒙德-坠星山谷千风神殿南略偏西\n经由Economy优化交互触发",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "提瓦特钓鱼玳师",
-        "links": "https://github.com/Hijiwos"
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "骗骗花-3个\n蒙德-坠星山谷千风神殿南略偏西\n经由Economy优化交互触发",
+    "name": "蒙德-骗骗花-坠星山谷千风神殿南略偏西-3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -1526.5,
-      "y": 1967.26,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 1967.26
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": -1554.0,
-      "y": 2013.79,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": 2013.79
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1575.5,
-      "y": 2054.81,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2054.81
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "id": 4,
+      "move_mode": "walk",
+      "type": "target",
       "x": -1583.0,
-      "y": 2048.25,
-      "action": "combat_script",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
-      "type": "target",
-      "move_mode": "walk"
+      "y": 2048.25
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
       "id": 5,
-      "x": -1582.75,
-      "y": 2043.0,
-      "action": "combat_script",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "move_mode": "walk",
       "type": "target",
-      "move_mode": "walk"
+      "x": -1582.75,
+      "y": 2043.0
     },
     {
-      "id": 6,
-      "x": -1587.0,
-      "y": 2045.3,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
-      "type": "target"
-    },
-    {
-      "id": 7,
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
       "x": -1587.0,
-      "y": 2045.3,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2045.3
     },
     {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1587.0,
+      "y": 2045.3
+    },
+    {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1596.5,
-      "y": 2079.89,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2079.89
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1629.5,
-      "y": 2097.4,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2097.4
     },
     {
-      "id": 10,
-      "x": -1634.0,
-      "y": 2066.39,
       "action": "",
+      "action_params": "",
+      "id": 10,
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -1634.0,
+      "y": 2066.39
     },
     {
-      "id": 11,
-      "x": -1623.5,
-      "y": 2003.85,
       "action": "stop_flying",
-      "move_mode": "fly",
       "action_params": "",
-      "type": "path"
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1623.5,
+      "y": 2003.85
     },
     {
-      "id": 12,
-      "x": -1623.5,
-      "y": 2003.85,
       "action": "fight",
-      "move_mode": "fly",
       "action_params": "",
-      "type": "path"
+      "id": 12,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1623.5,
+      "y": 2003.85
     }
   ]
 }

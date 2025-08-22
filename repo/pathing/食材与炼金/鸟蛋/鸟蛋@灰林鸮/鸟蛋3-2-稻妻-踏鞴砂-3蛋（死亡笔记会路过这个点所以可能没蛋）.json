@@ -1,54 +1,54 @@
 {
   "info": {
-    "name": "鸟蛋3-2-稻妻-踏鞴砂-3蛋（死亡笔记会路过这个点所以可能没蛋）",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.43.0",
     "authors": [
       {
-        "name": "灰林鸮",
-        "links": "https://github.com/Strix-nivicolum"
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
       }
-    ]
+    ],
+    "bgi_version": "0.43.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "name": "鸟蛋3-2-稻妻-踏鞴砂-3蛋（死亡笔记会路过这个点所以可能没蛋）",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": -3016.84,
-      "y": -3623.68,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -3016.84,
+      "y": -3623.68
     },
     {
-      "id": 2,
-      "x": -3007.81,
-      "y": -3569.42,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -3007.81,
+      "y": -3569.42
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 3,
-      "x": -3022.51,
-      "y": -3531.31,
-      "action": "nahida_collect",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -3022.51,
+      "y": -3531.31
     },
     {
-      "id": 4,
-      "x": -3036.59,
-      "y": -3518.66,
       "action": "nahida_collect",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3036.59,
+      "y": -3518.66
     }
   ]
 }

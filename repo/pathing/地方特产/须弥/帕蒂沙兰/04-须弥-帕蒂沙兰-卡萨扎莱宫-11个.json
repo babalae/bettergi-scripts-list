@@ -1,210 +1,210 @@
 {
   "info": {
-    "name": "04-须弥-帕蒂沙兰-卡萨扎莱宫-11个",
-    "type": "collect",
     "author": "jbcaaa",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1755077934561,
     "authors": [
       {
-        "name": "jbcaaa",
-        "links": "https://github.com/jbcaaa"
+        "links": "https://github.com/jbcaaa",
+        "name": "jbcaaa"
       }
     ],
+    "bgi_version": "0.45.0",
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1755077934561,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "04-须弥-帕蒂沙兰-卡萨扎莱宫-11个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 2482.82,
-      "y": 6.11,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 6.11
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 2500.75,
-      "y": 20,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 20
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 2515.5,
-      "y": 36.5,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 36.5
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": 2536.25,
-      "y": 76.75,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 76.75
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "run",
+      "type": "path",
       "x": 2551.78,
-      "y": 82.98,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 82.98
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2555.98,
-      "y": 82.86,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 82.86
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
       "id": 7,
+      "move_mode": "walk",
+      "type": "target",
       "x": 2557.41,
-      "y": 84.07,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(0.4)",
-      "type": "target"
+      "y": 84.07
     },
     {
+      "action": "",
       "id": 8,
+      "move_mode": "run",
+      "type": "path",
       "x": 2581.13,
-      "y": 88.75,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 88.75
     },
     {
+      "action": "",
       "id": 9,
+      "move_mode": "run",
+      "type": "path",
       "x": 2589.93,
-      "y": 83.92,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 83.92
     },
     {
+      "action": "",
       "id": 10,
+      "move_mode": "run",
+      "type": "path",
       "x": 2591.58,
-      "y": 75.04,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 75.04
     },
     {
+      "action": "",
       "id": 11,
+      "move_mode": "run",
+      "type": "path",
       "x": 2596.1,
-      "y": 68.6,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 68.6
     },
     {
+      "action": "",
       "id": 12,
+      "move_mode": "run",
+      "type": "path",
       "x": 2603.55,
-      "y": 64.87,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 64.87
     },
     {
+      "action": "",
       "id": 13,
+      "move_mode": "walk",
+      "type": "target",
       "x": 2617.38,
-      "y": 80.89,
-      "action": "",
-      "move_mode": "walk",
-      "type": "target"
+      "y": 80.89
     },
     {
+      "action": "",
       "id": 14,
-      "x": 2612.75,
-      "y": 88,
-      "action": "",
       "move_mode": "jump",
-      "type": "target"
+      "type": "target",
+      "x": 2612.75,
+      "y": 88
     },
     {
+      "action": "",
       "id": 15,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2603,
-      "y": 87,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 87
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
       "id": 16,
-      "x": 2595.59,
-      "y": 91.45,
-      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4)",
-      "type": "target"
+      "type": "target",
+      "x": 2595.59,
+      "y": 91.45
     },
     {
+      "action": "",
       "id": 17,
+      "move_mode": "run",
+      "type": "path",
       "x": 2612.5,
-      "y": 90.25,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 90.25
     },
     {
+      "action": "",
       "id": 18,
+      "move_mode": "run",
+      "type": "path",
       "x": 2616.89,
-      "y": 93.86,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 93.86
     },
     {
-      "id": 19,
-      "x": 2626.76,
-      "y": 96.29,
       "action": "combat_script",
-      "move_mode": "run",
       "action_params": "wait(0.4)",
-      "type": "path"
-    },
-    {
-      "id": 20,
-      "x": 2625.75,
-      "y": 78,
-      "action": "",
+      "id": 19,
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 2626.76,
+      "y": 96.29
     },
     {
-      "id": 21,
-      "x": 2624.25,
-      "y": 56,
+      "action": "",
+      "id": 20,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2625.75,
+      "y": 78
+    },
+    {
       "action": "stop_flying",
+      "id": 21,
       "move_mode": "fly",
-      "type": "path"
+      "type": "path",
+      "x": 2624.25,
+      "y": 56
     },
     {
+      "action": "",
       "id": 22,
-      "x": 2630.36,
-      "y": 51.5,
-      "action": "",
       "move_mode": "dash",
-      "type": "target"
+      "type": "target",
+      "x": 2630.36,
+      "y": 51.5
     },
     {
-      "id": 23,
-      "x": 2616.46,
-      "y": 47.55,
       "action": "",
+      "id": 23,
       "move_mode": "dash",
-      "type": "target"
+      "type": "target",
+      "x": 2616.46,
+      "y": 47.55
     }
   ]
 }

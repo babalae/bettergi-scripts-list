@@ -1,89 +1,89 @@
 {
   "info": {
-    "name": "7020稻妻清濑岛04",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "mfkvfhpdx",
-        "links": "https://github.com/mfkvfhpdx"
+        "links": "https://github.com/mfkvfhpdx",
+        "name": "mfkvfhpdx"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "7020稻妻清濑岛04",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -4472.31,
-      "y": -4577.43,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -4472.31,
+      "y": -4577.43
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4476.04,
-      "y": -4559.05,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -4559.05
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4523.55,
-      "y": -4547.43,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -4547.43
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4559.69,
-      "y": -4577.66,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -4577.66
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4607.18,
-      "y": -4622.71,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": ""
+      "y": -4622.71
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4619.19,
-      "y": -4597.42,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -4597.42
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
-      "x": -4591.74,
-      "y": -4541.08,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -4591.74,
+      "y": -4541.08
     },
     {
-      "id": 8,
-      "x": -4591.02,
-      "y": -4538.84,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4591.02,
+      "y": -4538.84
     }
   ]
 }

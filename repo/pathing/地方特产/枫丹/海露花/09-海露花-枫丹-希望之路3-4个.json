@@ -1,106 +1,106 @@
 {
   "info": {
-    "name": "09-海露花-枫丹-希望之路3-4个",
-    "type": "collect",
     "authors": [
       {
-        "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1755372507840,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "09-海露花-枫丹-希望之路3-4个",
     "tags": [
       "水下地图"
     ],
-    "last_modified_time": 1755372507840,
-    "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "combat_script",
+      "action_params": "s(0.5),click(middle);",
       "id": 1,
-      "x": 4797.2441,
-      "y": 3358.7256,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "s(0.5),click(middle);"
+      "x": 4797.2441,
+      "y": 3358.7256
     },
     {
+      "action": "combat_script",
+      "action_params": "click(middle);",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 4753.8027,
-      "y": 3312.1692,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "click(middle);"
+      "y": 3312.1692
     },
     {
+      "action": "combat_script",
+      "action_params": "click(middle);",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": 4747.5068,
-      "y": 3284.3931,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "click(middle);"
+      "y": 3284.3931
     },
     {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL)",
       "id": 4,
+      "move_mode": "dash",
+      "type": "path",
       "x": 4720.585,
-      "y": 3273.6763,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL)"
+      "y": 3273.6763
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.4),click(middle);",
       "id": 5,
+      "move_mode": "walk",
+      "type": "target",
       "x": 4720.5879,
-      "y": 3273.6787,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.4),click(middle);"
+      "y": 3273.6787
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.4),click(middle);",
       "id": 6,
-      "x": 4714.8789,
-      "y": 3270.1538,
-      "type": "target",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.4),click(middle);"
+      "type": "target",
+      "x": 4714.8789,
+      "y": 3270.1538
     },
     {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL)",
       "id": 7,
-      "x": 4668.1582,
-      "y": 3235.3433,
-      "type": "path",
       "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL)"
+      "type": "path",
+      "x": 4668.1582,
+      "y": 3235.3433
     },
     {
-      "id": 8,
-      "x": 4643.7822,
-      "y": 3211.4775,
-      "type": "path",
-      "move_mode": "dash",
       "action": "combat_script",
       "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL)",
-      "locked": false
+      "id": 8,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4643.7822,
+      "y": 3211.4775
     },
     {
-      "id": 9,
-      "x": 4643.7822,
-      "y": 3211.4775,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(1),click(middle);"
+      "action_params": "wait(1),click(middle);",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4643.7822,
+      "y": 3211.4775
     }
   ]
 }

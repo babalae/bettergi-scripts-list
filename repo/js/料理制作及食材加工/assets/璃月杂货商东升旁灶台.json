@@ -1,29 +1,29 @@
 {
   "info": {
+    "author": "吉吉喵",
+    "bgi_version": "0.42.3",
+    "description": "",
     "name": "璃月杂货商东升旁灶台",
     "type": "collect",
-    "author": "吉吉喵",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.3"
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 267.92,
-      "y": -665.01,
       "action": "force_tp",
+      "id": 1,
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 267.92,
+      "y": -665.01
     },
     {
-      "id": 2,
-      "x": 255.099609375,
-      "y": -680.1826171875,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 255.099609375,
+      "y": -680.1826171875
     }
   ]
 }

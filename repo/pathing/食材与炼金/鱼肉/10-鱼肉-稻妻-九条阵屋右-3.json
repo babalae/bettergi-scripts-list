@@ -1,103 +1,103 @@
 {
   "info": {
-    "name": "10-鱼肉-稻妻-九条阵屋右-3",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
-    "tags": [],
     "authors": [
       {
-        "name": "火山",
-        "links": "https://github.com/RRRR623"
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
       }
     ],
-    "last_modified_time": 1751628175207
+    "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1751628175207,
+    "map_name": "Teyvat",
+    "name": "10-鱼肉-稻妻-九条阵屋右-3",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -3436.92,
-      "y": -3319.66,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -3436.92,
+      "y": -3319.66
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": -3449.2,
-      "y": -3320.6,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -3320.6
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": -3464.4,
-      "y": -3327.44,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -3327.44
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": -3471.56,
-      "y": -3322.07,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -3322.07
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "run",
+      "type": "path",
       "x": -3472.6,
-      "y": -3324.92,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -3324.92
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": -3487.16,
-      "y": -3327,
-      "action": "",
       "move_mode": "run",
-      "action_params": "",
-      "type": "target"
+      "type": "target",
+      "x": -3487.16,
+      "y": -3327
     },
     {
-      "id": 7,
-      "x": -3501.61,
-      "y": -3343.25,
       "action": "",
-      "move_mode": "fly",
       "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "fly",
       "type": "path",
-      "locked": false
+      "x": -3501.61,
+      "y": -3343.25
     },
     {
-      "id": 8,
-      "x": -3501.61,
-      "y": -3343.25,
       "action": "stop_flying",
-      "move_mode": "fly",
       "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "fly",
       "type": "path",
-      "locked": false
+      "x": -3501.61,
+      "y": -3343.25
     },
     {
-      "id": 9,
-      "x": -3501.61,
-      "y": -3343.25,
       "action": "pick_around",
-      "move_mode": "fly",
       "action_params": "",
-      "type": "path"
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3501.61,
+      "y": -3343.25
     }
   ]
 }

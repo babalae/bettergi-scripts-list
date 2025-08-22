@@ -1,41 +1,41 @@
 {
   "info": {
-    "name": "09-圣金虫-秘仪圣殿北-1个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "Tim",
-        "links": "https://github.com/Limint"
+        "links": "https://github.com/Limint",
+        "name": "Tim"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "09-圣金虫-秘仪圣殿北-1个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4994.08,
       "y": -2161.74
     },
     {
+      "action": "stop_flying",
       "id": 2,
-      "x": 4987.95,
-      "y": -2190.6,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": 4987.95,
+      "y": -2190.6
     },
     {
+      "action": "",
       "id": 3,
-      "x": 4977.11,
-      "y": -2224.54,
-      "type": "target",
       "move_mode": "walk",
-      "action": ""
+      "type": "target",
+      "x": 4977.11,
+      "y": -2224.54
     }
   ]
 }

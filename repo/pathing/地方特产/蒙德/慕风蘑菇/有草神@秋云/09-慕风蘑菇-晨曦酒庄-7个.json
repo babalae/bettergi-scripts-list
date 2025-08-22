@@ -1,263 +1,263 @@
 {
   "info": {
-    "name": "09-慕风蘑菇-晨曦酒庄-7个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "yulalaa"
       },
       {
-        "name": "秋云",
-        "links": "https://github.com/physligl"
+        "links": "https://github.com/physligl",
+        "name": "秋云"
       },
       {
         "name": "取个名字好难"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "09-慕风蘑菇-晨曦酒庄-7个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -578.74,
-      "y": 1853.39,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 1853.39
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -567.62,
-      "y": 1812.0,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": -533.51,
-      "y": 1785.91,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": -502.9,
-      "y": 1737.68,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": -502.3,
-      "y": 1735.78,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "type": "target"
-    },
-    {
-      "id": 6,
-      "x": -508.0,
-      "y": 1736.53,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": -508.71,
-      "y": 1731.61,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": -508.43,
-      "y": 1725.21,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": -507.92,
-      "y": 1722.03,
-      "action": "",
-      "move_mode": "walk",
-      "type": "target"
-    },
-    {
-      "id": 10,
-      "x": -508.09,
-      "y": 1728.29,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 11,
-      "x": -502.87,
-      "y": 1730.51,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 12,
-      "x": -470.34,
-      "y": 1739.82,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 13,
-      "x": -456.68,
-      "y": 1725.78,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "type": "target"
-    },
-    {
-      "id": 14,
-      "x": -456.68,
-      "y": 1725.78,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "type": "target"
-    },
-    {
-      "id": 15,
-      "x": -452.42,
-      "y": 1708.34,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 16,
-      "x": -442.55,
-      "y": 1699.02,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 17,
-      "x": -432.68,
-      "y": 1689.71,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 18,
-      "x": -417.37,
-      "y": 1693.56,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 19,
-      "x": -399.82,
-      "y": 1706.26,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 20,
-      "x": -391.91,
-      "y": 1705.95,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 21,
-      "x": -391.91,
-      "y": 1705.95,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "type": "target",
-      "locked": false
-    },
-    {
-      "id": 22,
-      "x": -391.91,
-      "y": 1705.95,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "type": "target"
-    },
-    {
-      "id": 23,
-      "x": -397.93,
-      "y": 1705.96,
       "type": "path",
-      "move_mode": "walk",
+      "x": -567.62,
+      "y": 1812.0
+    },
+    {
       "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 24,
-      "x": -400.99,
-      "y": 1696.21,
-      "type": "target",
+      "id": 3,
       "move_mode": "walk",
-      "action": "nahida_collect",
-      "action_params": ""
+      "type": "path",
+      "x": -533.51,
+      "y": 1785.91
     },
     {
-      "id": 25,
+      "action": "stop_flying",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -502.9,
+      "y": 1737.68
+    },
+    {
+      "action": "nahida_collect",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -502.3,
+      "y": 1735.78
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -508.0,
+      "y": 1736.53
+    },
+    {
+      "action": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -508.71,
+      "y": 1731.61
+    },
+    {
+      "action": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -508.43,
+      "y": 1725.21
+    },
+    {
+      "action": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -507.92,
+      "y": 1722.03
+    },
+    {
+      "action": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -508.09,
+      "y": 1728.29
+    },
+    {
+      "action": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -502.87,
+      "y": 1730.51
+    },
+    {
+      "action": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -470.34,
+      "y": 1739.82
+    },
+    {
+      "action": "nahida_collect",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -456.68,
+      "y": 1725.78
+    },
+    {
+      "action": "nahida_collect",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -456.68,
+      "y": 1725.78
+    },
+    {
+      "action": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -452.42,
+      "y": 1708.34
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -442.55,
+      "y": 1699.02
+    },
+    {
+      "action": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -432.68,
+      "y": 1689.71
+    },
+    {
+      "action": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -417.37,
+      "y": 1693.56
+    },
+    {
+      "action": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -399.82,
+      "y": 1706.26
+    },
+    {
+      "action": "nahida_collect",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -391.91,
+      "y": 1705.95
+    },
+    {
+      "action": "nahida_collect",
+      "id": 21,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -391.91,
+      "y": 1705.95
+    },
+    {
+      "action": "nahida_collect",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -391.91,
+      "y": 1705.95
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "path",
       "x": -397.93,
-      "y": 1681.12,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1705.96
     },
     {
-      "id": 26,
-      "x": -396.34,
-      "y": 1669.72,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 27,
-      "x": -386.06,
-      "y": 1675.64,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 28,
-      "x": -371.94,
-      "y": 1684.64,
       "action": "nahida_collect",
+      "action_params": "",
+      "id": 24,
       "move_mode": "walk",
       "type": "target",
-      "locked": false
+      "x": -400.99,
+      "y": 1696.21
     },
     {
-      "id": 29,
-      "x": -371.94,
-      "y": 1684.64,
-      "action": "nahida_collect",
+      "action": "",
+      "id": 25,
       "move_mode": "walk",
-      "type": "target"
+      "type": "path",
+      "x": -397.93,
+      "y": 1681.12
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -396.34,
+      "y": 1669.72
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 27,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -386.06,
+      "y": 1675.64
+    },
+    {
+      "action": "nahida_collect",
+      "id": 28,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -371.94,
+      "y": 1684.64
+    },
+    {
+      "action": "nahida_collect",
+      "id": 29,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -371.94,
+      "y": 1684.64
     }
   ]
 }

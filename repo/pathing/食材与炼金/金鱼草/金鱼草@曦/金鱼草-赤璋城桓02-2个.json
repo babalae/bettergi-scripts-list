@@ -1,105 +1,105 @@
 {
   "info": {
-    "name": "金鱼草-赤璋城桓02-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "曦",
-        "links": "https://github.com/cx05121"
+        "links": "https://github.com/cx05121",
+        "name": "曦"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "金鱼草-赤璋城桓02-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 2207.03,
-      "y": 1253.18,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 1253.18
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2227.68,
-      "y": 1242.31,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1242.31
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": 2250.11,
-      "y": 1244.2,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path"
+      "y": 1244.2
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "fly",
+      "type": "path",
       "x": 2255.73,
-      "y": 1255.54,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path"
+      "y": 1255.54
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2269.77,
-      "y": 1260.85,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1260.85
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2284.01,
-      "y": 1255.71,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1255.71
     },
     {
+      "action": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2303.85,
-      "y": 1254.09,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1254.09
     },
     {
+      "action": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2310.01,
-      "y": 1274.12,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1274.12
     },
     {
+      "action": "",
       "id": 9,
+      "move_mode": "fly",
+      "type": "path",
       "x": 2322.61,
-      "y": 1289.26,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path"
+      "y": 1289.26
     },
     {
-      "id": 10,
-      "x": 2342.47,
-      "y": 1275.56,
       "action": "stop_flying",
+      "id": 10,
       "move_mode": "fly",
-      "type": "target"
+      "type": "target",
+      "x": 2342.47,
+      "y": 1275.56
     },
     {
-      "id": 11,
-      "x": 2341.54,
-      "y": 1277.08,
       "action": "",
+      "id": 11,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 2341.54,
+      "y": 1277.08
     }
   ]
 }

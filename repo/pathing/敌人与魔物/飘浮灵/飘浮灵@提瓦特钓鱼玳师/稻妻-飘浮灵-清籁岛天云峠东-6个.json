@@ -1,53 +1,53 @@
 {
   "info": {
-    "name": "稻妻-飘浮灵-清籁岛天云峠东-6个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "飘浮灵-6个\n稻妻-清籁岛天云峠东",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "提瓦特钓鱼玳师",
-        "links": "https://github.com/Hijiwos"
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "飘浮灵-6个\n稻妻-清籁岛天云峠东",
+    "name": "稻妻-飘浮灵-清籁岛天云峠东-6个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -4472.35,
-      "y": -4577.4,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -4472.35,
+      "y": -4577.4
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4500.58,
-      "y": -4610.55,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": ""
+      "y": -4610.55
     },
     {
-      "id": 3,
-      "x": -4475.76,
-      "y": -4594.53,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4475.76,
+      "y": -4594.53
     },
     {
-      "id": 4,
-      "x": -4421.69,
-      "y": -4589.95,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4421.69,
+      "y": -4589.95
     }
   ]
 }

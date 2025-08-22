@@ -1,83 +1,83 @@
 {
   "info": {
-    "name": "荒岛朝圣指南_路线4",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1750598686150,
     "authors": [
       {
-        "name": "花见木易",
-        "links": "https://github.com/Flower-MUYi"
+        "links": "https://github.com/Flower-MUYi",
+        "name": "花见木易"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1750598686150,
+    "map_name": "Teyvat",
+    "name": "荒岛朝圣指南_路线4",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -2405.78,
-      "y": -3912.95,
-      "action_params": ""
+      "y": -3912.95
     },
     {
-      "id": 2,
-      "x": -2391.25,
-      "y": -3916.27,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2391.25,
+      "y": -3916.27
     },
     {
-      "id": 3,
-      "x": -2302.72,
-      "y": -3980.22,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "2000"
-    },
-    {
-      "id": 4,
+      "action_params": "2000",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": -2302.72,
-      "y": -3980.22,
-      "type": "path",
-      "move_mode": "walk",
+      "y": -3980.22
+    },
+    {
       "action": "fight",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": -2302.97,
-      "y": -3972.09,
-      "type": "path",
+      "action_params": "",
+      "id": 4,
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keypress(f)"
+      "type": "path",
+      "x": -2302.72,
+      "y": -3980.22
     },
     {
-      "id": 6,
       "action": "combat_script",
+      "action_params": "keypress(f)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2302.97,
+      "y": -3972.09
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f)",
+      "id": 6,
       "move_mode": "walk",
       "type": "target",
       "x": -2301.5,
-      "y": -4018.61,
-      "action_params": "keypress(f)"
+      "y": -4018.61
     },
     {
-      "id": 7,
-      "x": -2270.56,
-      "y": -4028.68,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keypress(f)"
+      "action_params": "keypress(f)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -2270.56,
+      "y": -4028.68
     }
   ]
 }

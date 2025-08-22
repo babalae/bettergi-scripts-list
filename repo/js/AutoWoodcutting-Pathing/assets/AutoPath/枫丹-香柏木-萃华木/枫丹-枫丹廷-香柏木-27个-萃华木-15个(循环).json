@@ -1,97 +1,97 @@
 {
   "info": {
-    "name": "枫丹-枫丹廷-香柏木-27个-萃华木-15个(循环)",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.48.1",
     "authors": [
       {
-        "name": "Tim",
-        "links": "https://github.com/Limint"
+        "links": "https://github.com/Limint",
+        "name": "Tim"
       }
-    ]
+    ],
+    "bgi_version": "0.48.1",
+    "description": "",
+    "name": "枫丹-枫丹廷-香柏木-27个-萃华木-15个(循环)",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "use_gadget",
+      "action_params": "wait(0.5),keypress(VK_Z)",
       "id": 1,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4639.6904,
-      "y": 3902.562,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(0.5),keypress(VK_Z)"
+      "y": 3902.562
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(0.5),keypress(VK_Z)",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4612.0874,
-      "y": 3899.45,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(0.5),keypress(VK_Z)"
+      "y": 3899.45
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(1),keypress(VK_Z)",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4600.3535,
-      "y": 3876.9326,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(1),keypress(VK_Z)"
+      "y": 3876.9326
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(3),keypress(VK_Z)",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4608.4165,
-      "y": 3869.8027,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(3),keypress(VK_Z)"
+      "y": 3869.8027
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(0.5),keypress(VK_Z)",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4645.9331,
-      "y": 3871.054,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(0.5),keypress(VK_Z)"
+      "y": 3871.054
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(1),keypress(VK_Z)",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4640.2686,
-      "y": 3887.4832,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(1),keypress(VK_Z)"
+      "y": 3887.4832
     },
     {
+      "action": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4653.9873,
-      "y": 3896.0591,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 3896.0591
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(0.5),keypress(VK_Z)",
       "id": 8,
-      "x": 4661.3223,
-      "y": 3892.6667,
-      "type": "path",
       "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(0.5),keypress(VK_Z)"
+      "type": "path",
+      "x": 4661.3223,
+      "y": 3892.6667
     },
     {
-      "id": 9,
-      "x": 4643.0601,
-      "y": 3908.0874,
-      "type": "path",
-      "move_mode": "walk",
       "action": "use_gadget",
-      "action_params": "wait(0.5),keypress(VK_Z)"
+      "action_params": "wait(0.5),keypress(VK_Z)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4643.0601,
+      "y": 3908.0874
     }
   ]
 }

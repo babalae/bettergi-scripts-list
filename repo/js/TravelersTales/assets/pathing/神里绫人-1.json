@@ -1,60 +1,60 @@
 {
   "info": {
-    "name": "神里绫人-1",
-    "type": "collect",
     "author": "ddaodan",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1750412953192,
+    "map_name": "Teyvat",
+    "name": "神里绫人-1",
     "tags": [],
-    "last_modified_time": 1750412953192
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -4492.0078125,
-      "y": -3208.1435546875,
-      "action_params": ""
+      "y": -3208.1435546875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -4479.404296875,
-      "y": -3185.94921875,
-      "type": "path",
       "move_mode": "fly",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 3,
-      "x": -4490.958984375,
-      "y": -3143.4794921875,
       "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "x": -4479.404296875,
+      "y": -3185.94921875
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4490.958984375,
+      "y": -3143.4794921875
+    },
+    {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": -4473.443359375,
-      "y": -3131.95703125,
-      "type": "target",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "target",
+      "x": -4473.443359375,
+      "y": -3131.95703125
     },
     {
-      "id": 5,
-      "x": -4470.8359375,
-      "y": -3130.203125,
-      "type": "orientation",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keypress(w)"
+      "action_params": "keypress(w)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -4470.8359375,
+      "y": -3130.203125
     }
   ]
 }

@@ -1,65 +1,65 @@
 {
   "info": {
-    "name": "自动钓鱼路线-璃月-渌华池",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.43.0",
     "authors": [
       {
         "name": "鸿羽er"
       },
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.43.0",
+    "description": "",
+    "name": "自动钓鱼路线-璃月-渌华池",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 524.0,
-      "y": 101.66,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 101.66
     },
     {
-      "id": 2,
-      "x": 527.0,
-      "y": 106.75,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(2),keydown(Space),wait(0.1),keyup(Space),wait(0.2),keydown(Space),wait(0.1),keyup(Space),wait(5)",
-      "type": "path"
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 527.0,
+      "y": 106.75
     },
     {
-      "id": 3,
-      "x": 530.78,
-      "y": 120.94,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 530.78,
+      "y": 120.94
     },
     {
-      "id": 4,
-      "x": 531.27,
-      "y": 127.31,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 531.27,
+      "y": 127.31
     },
     {
-      "id": 5,
-      "x": 532.79,
-      "y": 147.25,
       "action": "fishing",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "orientation"
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 532.79,
+      "y": 147.25
     }
   ]
 }

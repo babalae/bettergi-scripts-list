@@ -1,142 +1,142 @@
 {
   "info": {
-    "name": "烈焰花花蕊-须弥-饱饮之丘左侧",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "ran"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "烈焰花花蕊-须弥-饱饮之丘左侧",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 5632.65,
-      "y": -1834.24,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 5632.65,
+      "y": -1834.24
     },
     {
+      "action": "hydro_collect",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "target",
       "x": 5652.79,
-      "y": -1808.62,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "hydro_collect",
-      "action_params": ""
+      "y": -1808.62
     },
     {
+      "action": "hydro_collect",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "target",
       "x": 5663.27,
-      "y": -1816.53,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "hydro_collect",
-      "action_params": ""
+      "y": -1816.53
     },
     {
+      "action": "hydro_collect",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5665.11,
-      "y": -1815.15,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "hydro_collect",
-      "action_params": ""
+      "y": -1815.15
     },
     {
+      "action": "hydro_collect",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "target",
       "x": 5667.32,
-      "y": -1817.05,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "hydro_collect",
-      "action_params": ""
+      "y": -1817.05
     },
     {
+      "action": "hydro_collect",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "target",
       "x": 5668.41,
-      "y": -1816.6,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "hydro_collect",
-      "action_params": ""
+      "y": -1816.6
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5674.16,
-      "y": -1822.29,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -1822.29
     },
     {
+      "action": "hydro_collect",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "target",
       "x": 5668.37,
-      "y": -1836.69,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "hydro_collect",
-      "action_params": ""
+      "y": -1836.69
     },
     {
+      "action": "hydro_collect",
+      "action_params": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "target",
       "x": 5667.62,
-      "y": -1839.03,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "hydro_collect",
-      "action_params": ""
+      "y": -1839.03
     },
     {
+      "action": "hydro_collect",
+      "action_params": "",
       "id": 10,
+      "move_mode": "run",
+      "type": "target",
       "x": 5665.36,
-      "y": -1838.46,
-      "type": "target",
-      "move_mode": "run",
-      "action": "hydro_collect",
-      "action_params": ""
+      "y": -1838.46
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 11,
-      "x": 5646.08,
-      "y": -1832.58,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 12,
-      "x": 5643.92,
-      "y": -1839.53,
       "type": "path",
-      "move_mode": "walk",
+      "x": 5646.08,
+      "y": -1832.58
+    },
+    {
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5643.92,
+      "y": -1839.53
     },
     {
+      "action": "hydro_collect",
+      "action_params": "",
       "id": 13,
-      "x": 5646.16,
-      "y": -1841.43,
-      "type": "target",
       "move_mode": "walk",
-      "action": "hydro_collect",
-      "action_params": ""
+      "type": "target",
+      "x": 5646.16,
+      "y": -1841.43
     },
     {
-      "id": 14,
-      "x": 5646.33,
-      "y": -1840.49,
-      "type": "target",
-      "move_mode": "walk",
       "action": "hydro_collect",
-      "action_params": ""
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 5646.33,
+      "y": -1840.49
     }
   ]
 }

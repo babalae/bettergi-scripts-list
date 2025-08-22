@@ -1,98 +1,98 @@
 {
   "info": {
-    "name": "稻妻-飘浮灵-海祇岛水月池南-8个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "飘浮灵-8个\n稻妻-海祇岛水月池南",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "提瓦特钓鱼玳师",
-        "links": "https://github.com/Hijiwos"
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "飘浮灵-8个\n稻妻-海祇岛水月池南",
+    "name": "稻妻-飘浮灵-海祇岛水月池南-8个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -1057.78,
-      "y": -3946.02,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -1057.78,
+      "y": -3946.02
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": -1107.87,
-      "y": -3969.65,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -3969.65
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": -1125.79,
-      "y": -3963.92,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -3963.92
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1142.7,
-      "y": -3975.49,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": ""
+      "y": -3975.49
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1162.67,
-      "y": -4003.47,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": ""
+      "y": -4003.47
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "dash",
+      "type": "path",
       "x": -1164.43,
-      "y": -4025.8,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -4025.8
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "dash",
+      "type": "path",
       "x": -1143.83,
-      "y": -4069.67,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -4069.67
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
-      "x": -1141.78,
-      "y": -4086.05,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -1141.78,
+      "y": -4086.05
     },
     {
-      "id": 9,
-      "x": -1141.57,
-      "y": -4076.93,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1141.57,
+      "y": -4076.93
     }
   ]
 }

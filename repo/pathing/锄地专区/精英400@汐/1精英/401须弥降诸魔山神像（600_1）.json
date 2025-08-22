@@ -1,60 +1,60 @@
 {
   "info": {
-    "name": "401须弥降诸魔山神像（600_1）",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时42.95秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只遗迹重机。",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
-    "map_name": "Teyvat",
-    "tags": [],
-    "last_modified_time": 1754910650632,
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时42.95秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只遗迹重机。",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754910650632,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "401须弥降诸魔山神像（600_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 2567.51,
-      "y": -1424.96,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 2567.51,
+      "y": -1424.96
     },
     {
-      "id": 2,
-      "x": 2599.1,
-      "y": -1413.78,
       "action": "",
+      "action_params": "",
+      "id": 2,
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 2619.9893,
-      "y": -1408.1934,
-      "action": "fight",
-      "move_mode": "run",
-      "action_params": "",
       "type": "path",
-      "locked": false
+      "x": 2599.1,
+      "y": -1413.78
     },
     {
-      "id": 4,
-      "x": 2619.9893,
-      "y": -1408.1934,
-      "action": "combat_script",
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
       "move_mode": "run",
+      "type": "path",
+      "x": 2619.9893,
+      "y": -1408.1934
+    },
+    {
+      "action": "combat_script",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 4,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 2619.9893,
+      "y": -1408.1934
     }
   ]
 }

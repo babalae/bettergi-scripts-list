@@ -1,98 +1,98 @@
 {
   "info": {
-    "name": "蒙德-骗骗花-苍风高地清泉镇东南-1个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "骗骗花-1个\n蒙德-苍风高地清泉镇东南",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "提瓦特钓鱼玳师",
-        "links": "https://github.com/Hijiwos"
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "骗骗花-1个\n蒙德-苍风高地清泉镇东南",
+    "name": "蒙德-骗骗花-苍风高地清泉镇东南-1个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -891.9,
-      "y": 1679.41,
-      "action_params": ""
+      "y": 1679.41
     },
     {
-      "id": 2,
       "action": "",
+      "action_params": "",
+      "id": 2,
       "move_mode": "walk",
       "type": "path",
       "x": -869.25,
-      "y": 1690.46,
-      "action_params": ""
+      "y": 1690.46
     },
     {
-      "id": 3,
       "action": "",
+      "action_params": "",
+      "id": 3,
       "move_mode": "walk",
       "type": "path",
       "x": -879.25,
-      "y": 1705.72,
-      "action_params": ""
+      "y": 1705.72
     },
     {
-      "id": 4,
       "action": "",
+      "action_params": "",
+      "id": 4,
       "move_mode": "fly",
       "type": "path",
       "x": -880.75,
-      "y": 1715.47,
-      "action_params": ""
+      "y": 1715.47
     },
     {
-      "id": 5,
       "action": "",
+      "action_params": "",
+      "id": 5,
       "move_mode": "walk",
       "type": "path",
       "x": -896.0,
-      "y": 1724.73,
-      "action_params": ""
+      "y": 1724.73
     },
     {
-      "id": 6,
       "action": "",
+      "action_params": "",
+      "id": 6,
       "move_mode": "fly",
       "type": "path",
       "x": -923.25,
-      "y": 1736.98,
-      "action_params": ""
+      "y": 1736.98
     },
     {
-      "id": 7,
       "action": "",
+      "action_params": "",
+      "id": 7,
       "move_mode": "walk",
       "type": "path",
       "x": -946.75,
-      "y": 1741.73,
-      "action_params": ""
+      "y": 1741.73
     },
     {
-      "id": 8,
-      "x": -981.0,
-      "y": 1738.48,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -981.0,
+      "y": 1738.48
     },
     {
-      "id": 9,
       "action": "fight",
+      "action_params": "",
+      "id": 9,
       "move_mode": "walk",
       "type": "target",
       "x": -981.0,
-      "y": 1738.48,
-      "action_params": ""
+      "y": 1738.48
     }
   ]
 }

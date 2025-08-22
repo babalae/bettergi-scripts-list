@@ -1,65 +1,65 @@
 {
   "info": {
-    "name": "04-海草-稻妻-离岛-4个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "04-海草-稻妻-离岛-4个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": -3903.23,
-      "y": -2433.14,
-      "type": "teleport",
       "move_mode": "walk",
-      "action": ""
+      "type": "teleport",
+      "x": -3903.23,
+      "y": -2433.14
     },
     {
+      "action": "stop_flying",
       "id": 2,
-      "x": -3926.2,
-      "y": -2436.03,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": -3926.2,
+      "y": -2436.03
     },
     {
+      "action": "nahida_collect",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": -3919.04,
-      "y": -2415.35,
-      "type": "path",
-      "move_mode": "run",
-      "action": "nahida_collect"
+      "y": -2415.35
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": -3912.03,
-      "y": -2406.83,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "y": -2406.83
     },
     {
+      "action": "",
       "id": 5,
-      "x": -3889.5,
-      "y": -2406.76,
-      "type": "path",
       "move_mode": "run",
-      "action": ""
+      "type": "path",
+      "x": -3889.5,
+      "y": -2406.76
     },
     {
+      "action": "nahida_collect",
       "id": 6,
-      "x": -3879.0,
-      "y": -2380.99,
-      "type": "path",
       "move_mode": "run",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": -3879.0,
+      "y": -2380.99
     }
   ]
 }

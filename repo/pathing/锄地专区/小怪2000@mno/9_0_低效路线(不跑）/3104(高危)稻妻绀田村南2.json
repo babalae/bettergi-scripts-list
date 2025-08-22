@@ -1,107 +1,107 @@
 {
   "info": {
-    "name": "3104(高危)稻妻绀田村南2",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "3104(高危)稻妻绀田村南2",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -4124.55,
-      "y": -2759.94,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -2759.94
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": -4135.75,
-      "y": -2731.03,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -2731.03
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": -4171.28,
-      "y": -2723.13,
-      "action": "",
       "move_mode": "jump",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -4171.28,
+      "y": -2723.13
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "dash",
+      "type": "path",
       "x": -4206.39,
-      "y": -2740.58,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -2740.58
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 5,
-      "x": -4236.08,
-      "y": -2766.11,
-      "action": "fight",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -4236.08,
+      "y": -2766.11
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": -4236.08,
-      "y": -2766.11,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -4236.08,
+      "y": -2766.11
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "dash",
+      "type": "path",
       "x": -4289.49,
-      "y": -2770.21,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -2770.21
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "dash",
+      "type": "path",
       "x": -4313.16,
-      "y": -2755.54,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -2755.54
     },
     {
-      "id": 9,
-      "x": -4348.88,
-      "y": -2746.59,
       "action": "fight",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4348.88,
+      "y": -2746.59
     },
     {
-      "id": 10,
-      "x": -4348.88,
-      "y": -2746.59,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 10,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -4348.88,
+      "y": -2746.59
     }
   ]
 }

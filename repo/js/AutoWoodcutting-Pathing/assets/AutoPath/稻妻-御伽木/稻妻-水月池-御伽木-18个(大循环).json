@@ -1,134 +1,134 @@
 {
   "info": {
-    "name": "稻妻-水月池-御伽木-18个(大循环)",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.48.1",
     "authors": [
       {
-        "name": "Tim",
-        "links": "https://github.com/Limint"
+        "links": "https://github.com/Limint",
+        "name": "Tim"
       }
-    ]
+    ],
+    "bgi_version": "0.48.1",
+    "description": "",
+    "name": "稻妻-水月池-御伽木-18个(大循环)",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -765.9766,
       "y": -3557.2373
     },
     {
+      "action": "use_gadget",
+      "action_params": "keypress(VK_Z)",
       "id": 2,
       "move_mode": "walk",
       "type": "path",
       "x": -769.4824,
-      "y": -3564.5176,
-      "action": "use_gadget",
-      "action_params": "keypress(VK_Z)"
+      "y": -3564.5176
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(0.5),keypress(VK_Z)",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": -816.1904,
-      "y": -3573.5,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "use_gadget",
-      "action_params": "wait(0.5),keypress(VK_Z)"
+      "y": -3573.5
     },
     {
+      "action": "",
       "id": 4,
-      "x": -821.5322,
-      "y": -3574.7109,
-      "type": "path",
       "move_mode": "climb",
-      "action": ""
+      "type": "path",
+      "x": -821.5322,
+      "y": -3574.7109
     },
     {
+      "action": "use_gadget",
+      "action_params": "keypress(VK_Z)",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -849.0186,
-      "y": -3570.8975,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "keypress(VK_Z)"
+      "y": -3570.8975
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": -864.9805,
-      "y": -3567.7686,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -3567.7686
     },
     {
+      "action": "",
       "id": 7,
+      "move_mode": "fly",
+      "type": "path",
       "x": -887.6641,
-      "y": -3559.5879,
-      "type": "path",
-      "move_mode": "fly",
-      "action": ""
+      "y": -3559.5879
     },
     {
+      "action": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": -910.5625,
-      "y": -3562.71,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -3562.71
     },
     {
+      "action": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": -917.7031,
-      "y": -3575.3076,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -3575.3076
     },
     {
+      "action": "use_gadget",
+      "action_params": "keypress(VK_Z)",
       "id": 10,
-      "x": -931.0029,
-      "y": -3580.3096,
-      "type": "path",
       "move_mode": "jump",
-      "action": "use_gadget",
-      "action_params": "keypress(VK_Z)"
+      "type": "path",
+      "x": -931.0029,
+      "y": -3580.3096
     },
     {
+      "action": "",
       "id": 11,
+      "move_mode": "walk",
+      "type": "path",
       "x": -951.0801,
-      "y": -3576.3467,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -3576.3467
     },
     {
-      "id": 12,
-      "x": -966.1562,
-      "y": -3581.2559,
-      "type": "path",
-      "move_mode": "walk",
       "action": "use_gadget",
-      "action_params": "keypress(VK_Z)"
+      "action_params": "keypress(VK_Z)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -966.1562,
+      "y": -3581.2559
     },
     {
-      "id": 13,
-      "x": -964.043,
-      "y": -3596.123,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "2400"
+      "action_params": "2400",
+      "id": 13,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -964.043,
+      "y": -3596.123
     },
     {
       "id": 14,
-      "x": -984.0889,
-      "y": -3598.5723,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "walk"
+      "x": -984.0889,
+      "y": -3598.5723
     }
   ]
 }

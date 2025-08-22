@@ -1,106 +1,106 @@
 {
   "info": {
-    "name": "02-沙脂蛹-巨人峡谷（低成功率）",
-    "type": "collect",
-    "version": "1.0",
-    "description": "之前有些路径不太准确，修正了路径",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "无狐"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "之前有些路径不太准确，修正了路径",
+    "name": "02-沙脂蛹-巨人峡谷（低成功率）",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 5487.29,
-      "y": -1232.42,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -1232.42
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 5471.68,
-      "y": -1230.72,
-      "action": "",
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 5471.68,
+      "y": -1230.72
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "climb",
+      "type": "path",
       "x": 5464.12,
-      "y": -1230.01,
-      "action": "",
-      "move_mode": "climb",
-      "action_params": "",
-      "type": "path"
+      "y": -1230.01
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5433.56,
-      "y": -1220.45,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -1220.45
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "climb",
+      "type": "path",
       "x": 5440.98,
-      "y": -1219.05,
-      "type": "path",
-      "move_mode": "climb",
-      "action": "",
-      "action_params": ""
+      "y": -1219.05
     },
     {
-      "id": 6,
-      "x": 5440.76,
-      "y": -1207.58,
-      "type": "path",
-      "move_mode": "climb",
       "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 7,
-      "x": 5429.97,
-      "y": -1174.21,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 8,
-      "x": 5434.06,
-      "y": -1163.16,
-      "type": "path",
-      "move_mode": "climb",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 9,
-      "x": 5449.22,
-      "y": -1161.39,
-      "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 6,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 5440.76,
+      "y": -1207.58
     },
     {
-      "id": 10,
-      "x": 5462.33,
-      "y": -1170.55,
-      "type": "path",
-      "move_mode": "climb",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5429.97,
+      "y": -1174.21
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 5434.06,
+      "y": -1163.16
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5449.22,
+      "y": -1161.39
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 5462.33,
+      "y": -1170.55
     }
   ]
 }

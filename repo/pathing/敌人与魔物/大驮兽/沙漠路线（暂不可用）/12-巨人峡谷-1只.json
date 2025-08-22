@@ -1,12 +1,16 @@
 {
   "info": {
-    "name": "12-巨人峡谷-1只",
-    "type": "collect",
     "author": "jay",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
+    "authors": [
+      {
+        "name": "jay"
+      }
+    ],
     "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1754396948920,
+    "map_name": "Teyvat",
+    "name": "12-巨人峡谷-1只",
     "tags": [
       "驮兽",
       "兽肉",
@@ -14,40 +18,36 @@
       "镀金旅团",
       "沙暴"
     ],
-    "last_modified_time": 1754396948920,
-    "authors": [
-      {
-        "name": "jay"
-      }
-    ]
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 5196.8623,
-      "y": -1336.6216,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5196.8623,
+      "y": -1336.6216
     },
     {
-      "id": 2,
-      "x": 5178.0771,
-      "y": -1323.3418,
       "action": "stop_flying",
-      "move_mode": "fly",
       "action_params": "",
-      "type": "path"
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5178.0771,
+      "y": -1323.3418
     },
     {
-      "id": 3,
-      "x": 5159.5,
-      "y": -1310.5,
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5159.5,
+      "y": -1310.5
     }
   ]
 }

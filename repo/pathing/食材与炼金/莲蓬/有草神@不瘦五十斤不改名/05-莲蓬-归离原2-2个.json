@@ -1,49 +1,49 @@
 {
   "info": {
-    "name": "05-莲蓬-归离原2-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "05-莲蓬-归离原2-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 341.33,
       "y": 548.05
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 321.67,
-      "y": 556.81,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 556.81
     },
     {
+      "action": "",
       "id": 3,
-      "x": 279.66,
-      "y": 523.75,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 279.66,
+      "y": 523.75
     },
     {
+      "action": "nahida_collect",
       "id": 4,
-      "x": 258.32,
-      "y": 516.02,
-      "type": "path",
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": 258.32,
+      "y": 516.02
     }
   ]
 }

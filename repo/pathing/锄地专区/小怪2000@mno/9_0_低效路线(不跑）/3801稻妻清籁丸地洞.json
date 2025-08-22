@@ -1,136 +1,136 @@
 {
   "info": {
-    "name": "3801稻妻清籁丸地洞",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "name": "3801稻妻清籁丸地洞",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -3891.57,
-      "y": -4389.89,
-      "type": "teleport",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "teleport",
+      "x": -3891.57,
+      "y": -4389.89
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": -3863.85,
-      "y": -4389.49,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -4389.49
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": -3856.42,
-      "y": -4394.52,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -4394.52
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": -3822.26,
-      "y": -4381.95,
+      "move_mode": "dash",
       "type": "target",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "x": -3822.26,
+      "y": -4381.95
     },
     {
-      "id": 5,
-      "x": -3816.05,
-      "y": -4380.23,
-      "type": "path",
-      "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "wait(3)"
+      "action_params": "wait(3)",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3816.05,
+      "y": -4380.23
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 6,
+      "move_mode": "fly",
+      "type": "path",
       "x": -3845.46,
-      "y": -4392.96,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": ""
+      "y": -4392.96
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "dash",
+      "type": "path",
       "x": -3842.34,
-      "y": -4410.92,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -4410.92
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "dash",
+      "type": "path",
       "x": -3836.21,
-      "y": -4422.41,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -4422.41
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "dash",
+      "type": "path",
       "x": -3821.9,
-      "y": -4436.18,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -4436.18
     },
     {
-      "id": 10,
-      "x": -3823.03,
-      "y": -4437.97,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "fight",
-      "action_params": ""
-    },
-    {
-      "id": 11,
-      "x": -3799.38,
-      "y": -4416.5,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": ""
-    },
-    {
-      "id": 12,
-      "x": -3793.45,
-      "y": -4398.89,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
       "action_params": "",
-      "locked": false
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3823.03,
+      "y": -4437.97
     },
     {
-      "id": 13,
-      "x": -3793.45,
-      "y": -4398.89,
-      "type": "orientation",
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3799.38,
+      "y": -4416.5
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "locked": false,
       "move_mode": "dash",
+      "type": "path",
+      "x": -3793.45,
+      "y": -4398.89
+    },
+    {
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "action_params": "wait(1)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3793.45,
+      "y": -4398.89
     }
   ]
 }

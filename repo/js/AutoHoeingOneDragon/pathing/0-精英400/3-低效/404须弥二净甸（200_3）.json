@@ -1,135 +1,135 @@
 {
   "info": {
-    "name": "404须弥二净甸（200_3）",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "3遗迹龙兽  路线信息：该路线预计用时144.25秒，包含3只精英与3只小怪，预计收入721.5摩拉，包含以下怪物：1只遗迹龙兽·地巡、2只遗迹龙兽·空巡、1只旋转冰蕈兽、2只伸缩火蕈兽。",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.42.3",
+    "description": "3遗迹龙兽  路线信息：该路线预计用时144.25秒，包含3只精英与3只小怪，预计收入721.5摩拉，包含以下怪物：1只遗迹龙兽·地巡、2只遗迹龙兽·空巡、1只旋转冰蕈兽、2只伸缩火蕈兽。",
+    "name": "404须弥二净甸（200_3）",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 3252.83,
-      "y": -591.32,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -591.32
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 3250.81,
-      "y": -521.88,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -521.88
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 3241.1,
-      "y": -526.36,
-      "action": "fight",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -526.36
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 3067.79,
-      "y": -713.76,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -713.76
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "run",
+      "type": "path",
       "x": 3051.05,
-      "y": -642.73,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -642.73
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 6,
+      "move_mode": "run",
+      "type": "path",
       "x": 3034.78,
-      "y": -636.95,
-      "action": "fight",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -636.95
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
-      "x": 3204.71,
-      "y": -911.67,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 3204.71,
+      "y": -911.67
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "run",
+      "type": "path",
       "x": 3202.94,
-      "y": -903.71,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -903.71
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 9,
+      "move_mode": "fly",
+      "type": "path",
       "x": 3203.86,
-      "y": -890.14,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": -890.14
     },
     {
-      "id": 10,
-      "x": 3198.98,
-      "y": -848.47,
       "action": "",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3198.98,
+      "y": -848.47
     },
     {
-      "id": 11,
-      "x": 3194.23,
-      "y": -820.77,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 11,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 3194.23,
+      "y": -820.77
     },
     {
-      "id": 12,
-      "x": 3195.82,
-      "y": -806.45,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "keypress(f)",
-      "type": "path"
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3195.82,
+      "y": -806.45
     },
     {
-      "id": 13,
-      "x": 3203.36,
-      "y": -808.95,
       "action": "fight",
-      "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "id": 13,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3203.36,
+      "y": -808.95
     }
   ]
 }

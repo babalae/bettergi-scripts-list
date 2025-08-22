@@ -1,88 +1,88 @@
 {
   "info": {
-    "name": "原海异种16-枫丹科学院南09",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "鸿羽er"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "原海异种16-枫丹科学院南09",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4150.25,
-      "y": 4419.72,
-      "action_params": ""
+      "y": 4419.72
     },
     {
-      "id": 2,
       "action": "",
+      "action_params": "",
+      "id": 2,
       "move_mode": "walk",
       "type": "path",
       "x": 4136.5,
-      "y": 4425.97,
-      "action_params": ""
+      "y": 4425.97
     },
     {
-      "id": 3,
       "action": "",
+      "action_params": "",
+      "id": 3,
       "move_mode": "run",
       "type": "path",
       "x": 4131.0,
-      "y": 4401.98,
-      "action_params": ""
+      "y": 4401.98
     },
     {
-      "id": 4,
       "action": "",
+      "action_params": "",
+      "id": 4,
       "move_mode": "run",
       "type": "path",
       "x": 4156.5,
-      "y": 4376.97,
-      "action_params": ""
+      "y": 4376.97
     },
     {
-      "id": 5,
       "action": "",
+      "action_params": "",
+      "id": 5,
       "move_mode": "run",
       "type": "path",
       "x": 4176.5,
-      "y": 4338.96,
-      "action_params": ""
+      "y": 4338.96
     },
     {
-      "id": 6,
       "action": "",
+      "action_params": "",
+      "id": 6,
       "move_mode": "walk",
       "type": "path",
       "x": 4224.75,
-      "y": 4325.46,
-      "action_params": ""
+      "y": 4325.46
     },
     {
-      "id": 7,
-      "x": 4297.25,
-      "y": 4240.99,
       "action": "stop_flying",
       "action_params": "",
+      "id": 7,
       "move_mode": "fly",
-      "type": "path"
+      "type": "path",
+      "x": 4297.25,
+      "y": 4240.99
     },
     {
-      "id": 8,
       "action": "fight",
+      "action_params": "",
+      "id": 8,
       "move_mode": "walk",
       "type": "target",
       "x": 4294.5,
-      "y": 4236.46,
-      "action_params": ""
+      "y": 4236.46
     }
   ]
 }

@@ -1,134 +1,134 @@
 {
   "info": {
-    "name": "蒙德-骗骗花-风啸山坡达达乌帕谷西方略偏北-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "骗骗花-2个\n蒙德-风啸山坡达达乌帕谷西方略偏北\n经由Economy优化交互触发",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "提瓦特钓鱼玳师",
-        "links": "https://github.com/Hijiwos"
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "骗骗花-2个\n蒙德-风啸山坡达达乌帕谷西方略偏北\n经由Economy优化交互触发",
+    "name": "蒙德-骗骗花-风啸山坡达达乌帕谷西方略偏北-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -1136.51,
-      "y": 1595.36,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 1595.36
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": -1181.5,
-      "y": 1547.91,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": 1547.91
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1216.0,
-      "y": 1551.91,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 1551.91
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(0.5),keypress(f),wait(0.5),keypress(f),dash",
       "id": 4,
+      "move_mode": "walk",
+      "type": "target",
       "x": -1221.87,
-      "y": 1549.62,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(0.5),keypress(f),wait(0.5),keypress(f),wait(0.5),keypress(f),dash",
-      "type": "target"
+      "y": 1549.62
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1221.75,
-      "y": 1549.75,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 1549.75
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1217.5,
-      "y": 1499.38,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 1499.38
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "fly",
+      "type": "path",
       "x": -1215.25,
-      "y": 1490.25,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": 1490.25
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1212.0,
-      "y": 1447.85,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 1447.85
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1256.5,
-      "y": 1413.25,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 1413.25
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
-      "x": -1283.0,
-      "y": 1393.33,
-      "action": "",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -1283.0,
+      "y": 1393.33
     },
     {
-      "id": 11,
-      "x": -1300.0,
-      "y": 1379.82,
       "action": "",
+      "action_params": "",
+      "id": 11,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -1300.0,
+      "y": 1379.82
     },
     {
-      "id": 12,
-      "x": -1319.75,
-      "y": 1380.75,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(0.5),keypress(f),wait(0.5),keypress(f),wait(0.5),keypress(f),dash",
-      "type": "target"
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1319.75,
+      "y": 1380.75
     },
     {
-      "id": 13,
-      "x": -1319.75,
-      "y": 1380.75,
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1319.75,
+      "y": 1380.75
     }
   ]
 }

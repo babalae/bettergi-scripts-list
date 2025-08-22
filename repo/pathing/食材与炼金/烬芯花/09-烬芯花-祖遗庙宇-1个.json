@@ -1,54 +1,54 @@
 {
   "info": {
-    "name": "09-烬芯花-祖遗庙宇-1个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "感谢 @曦 老师的路线脚本",
+    "authors": [
+      {
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
+      }
+    ],
     "bgi_version": "0.42.3",
+    "description": "感谢 @曦 老师的路线脚本",
+    "name": "09-烬芯花-祖遗庙宇-1个",
     "tags": [
       "单手剑角色",
       "大剑角色",
       "长枪角色"
     ],
-    "authors": [
-      {
-        "name": "Tool_tingsu",
-        "links": "https://github.com/Tooltingsu"
-      }
-    ]
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 7974.32,
-      "y": -2226.28,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": -2226.28
     },
     {
+      "action": "",
       "id": 2,
-      "x": 7977.03,
-      "y": -2211.91,
-      "action": "",
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 7977.03,
+      "y": -2211.91
     },
     {
-      "id": 3,
-      "x": 7980.83,
-      "y": -2182.39,
       "action": "",
+      "id": 3,
       "move_mode": "fly",
-      "type": "path"
+      "type": "path",
+      "x": 7980.83,
+      "y": -2182.39
     },
     {
-      "id": 4,
-      "x": 7967.28,
-      "y": -2167.98,
       "action": "stop_flying",
+      "id": 4,
       "move_mode": "fly",
-      "type": "target"
+      "type": "target",
+      "x": 7967.28,
+      "y": -2167.98
     }
   ]
 }

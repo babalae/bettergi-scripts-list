@@ -1,292 +1,292 @@
 {
   "info": {
-    "name": "日落果12-18个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "纳西妲",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "今天下雨w"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "纳西妲",
+    "map_name": "Teyvat",
+    "name": "日落果12-18个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 207.54,
-      "y": 1573.01,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 1573.01
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 240.12,
-      "y": 1557.96,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": ""
+      "y": 1557.96
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 254.2,
-      "y": 1542.02,
-      "type": "path",
-      "move_mode": "run",
-      "action": "nahida_collect",
-      "action_params": ""
+      "y": 1542.02
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 801.62,
-      "y": 1796.21,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 1796.21
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 799.5,
-      "y": 1770.67,
-      "type": "path",
+      "locked": false,
       "move_mode": "fly",
-      "action": "",
-      "action_params": "",
-      "locked": false
+      "type": "path",
+      "x": 799.5,
+      "y": 1770.67
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 799.5,
-      "y": 1770.67,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect",
-      "action_params": ""
+      "y": 1770.67
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
-      "x": 792.78,
-      "y": 1761.45,
-      "type": "path",
+      "locked": false,
       "move_mode": "fly",
-      "action": "",
-      "action_params": "",
-      "locked": false
+      "type": "path",
+      "x": 792.78,
+      "y": 1761.45
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": 792.78,
-      "y": 1761.45,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect",
-      "action_params": ""
+      "y": 1761.45
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 9,
+      "move_mode": "fly",
+      "type": "path",
       "x": 807.27,
-      "y": 1750.49,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": ""
+      "y": 1750.49
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": 806.36,
-      "y": 1739.35,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect",
-      "action_params": ""
+      "y": 1739.35
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 11,
+      "move_mode": "run",
+      "type": "path",
       "x": 809.12,
-      "y": 1718.45,
-      "type": "path",
-      "move_mode": "run",
-      "action": "nahida_collect",
-      "action_params": ""
+      "y": 1718.45
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 12,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 489.79,
-      "y": 1435.13,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 1435.13
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 13,
+      "move_mode": "walk",
+      "type": "path",
       "x": 491.28,
-      "y": 1436.61,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 1436.61
     },
     {
-      "id": 14,
-      "x": 462.6,
-      "y": 1372.84,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 14,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 462.6,
+      "y": 1372.84
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 15,
-      "x": 462.57,
-      "y": 1372.76,
-      "type": "path",
+      "locked": false,
       "move_mode": "walk",
-      "action": "nahida_collect",
-      "action_params": "",
-      "locked": false
+      "type": "path",
+      "x": 462.57,
+      "y": 1372.76
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 16,
+      "move_mode": "walk",
+      "type": "path",
       "x": 462.57,
-      "y": 1372.76,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect",
-      "action_params": ""
+      "y": 1372.76
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 17,
-      "x": 253.01,
-      "y": 1285.14,
+      "locked": false,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 18,
       "x": 253.01,
-      "y": 1285.14,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect",
-      "action_params": ""
+      "y": 1285.14
     },
     {
-      "id": 19,
-      "x": 268.93,
-      "y": 1266.11,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect",
-      "action_params": ""
-    },
-    {
-      "id": 20,
-      "x": 231.67,
-      "y": 1265.61,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 21,
-      "x": 220.52,
-      "y": 1246.42,
-      "type": "path",
-      "move_mode": "run",
-      "action": "nahida_collect",
-      "action_params": ""
-    },
-    {
-      "id": 22,
-      "x": 244.88,
-      "y": 1198.86,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 23,
-      "x": 254.12,
-      "y": 1190.52,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 24,
-      "x": 295.27,
-      "y": 1133.44,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 25,
-      "x": 306.78,
-      "y": 1130.62,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect",
-      "action_params": ""
-    },
-    {
-      "id": 26,
-      "x": 312.98,
-      "y": 1138.54,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 27,
-      "x": 365.61,
-      "y": 1106.14,
-      "type": "path",
-      "move_mode": "run",
-      "action": "nahida_collect",
-      "action_params": ""
-    },
-    {
-      "id": 28,
-      "x": 390.94,
-      "y": 1043.14,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 29,
-      "x": 387.14,
-      "y": 1022.2,
-      "type": "path",
-      "move_mode": "walk",
       "action": "nahida_collect",
       "action_params": "",
-      "locked": false
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 253.01,
+      "y": 1285.14
     },
     {
-      "id": 30,
-      "x": 387.14,
-      "y": 1022.2,
-      "type": "path",
-      "move_mode": "walk",
       "action": "nahida_collect",
-      "action_params": ""
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 268.93,
+      "y": 1266.11
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "run",
+      "type": "path",
+      "x": 231.67,
+      "y": 1265.61
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "run",
+      "type": "path",
+      "x": 220.52,
+      "y": 1246.42
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "run",
+      "type": "path",
+      "x": 244.88,
+      "y": 1198.86
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 254.12,
+      "y": 1190.52
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "run",
+      "type": "path",
+      "x": 295.27,
+      "y": 1133.44
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 306.78,
+      "y": 1130.62
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 312.98,
+      "y": 1138.54
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 27,
+      "move_mode": "run",
+      "type": "path",
+      "x": 365.61,
+      "y": 1106.14
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 28,
+      "move_mode": "run",
+      "type": "path",
+      "x": 390.94,
+      "y": 1043.14
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 29,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 387.14,
+      "y": 1022.2
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 30,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 387.14,
+      "y": 1022.2
     }
   ]
 }

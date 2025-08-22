@@ -1,53 +1,53 @@
 {
   "info": {
-    "name": "稻妻-骗骗花-八酝岛名椎滩-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "骗骗花-2个\n稻妻-八酝岛名椎滩",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "提瓦特钓鱼玳师",
-        "links": "https://github.com/Hijiwos"
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "骗骗花-2个\n稻妻-八酝岛名椎滩",
+    "name": "稻妻-骗骗花-八酝岛名椎滩-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": -2536.38,
-      "y": -3541.02,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
-    },
-    {
-      "id": 2,
-      "x": -2562.57,
-      "y": -3517.27,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 3,
-      "x": -2628.14,
-      "y": -3566.79,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": -2722.23,
-      "y": -3570.89,
-      "type": "path",
+      "id": 1,
       "move_mode": "walk",
+      "type": "teleport",
+      "x": -2536.38,
+      "y": -3541.02
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2562.57,
+      "y": -3517.27
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2628.14,
+      "y": -3566.79
+    },
+    {
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2722.23,
+      "y": -3570.89
     }
   ]
 }

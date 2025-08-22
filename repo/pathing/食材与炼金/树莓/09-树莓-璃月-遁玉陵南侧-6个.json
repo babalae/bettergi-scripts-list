@@ -1,73 +1,73 @@
 {
   "info": {
-    "name": "09-树莓-璃月-遁玉陵南侧-6个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "树莓",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "风埠",
-        "links": "https://github.com/jhkif"
+        "links": "https://github.com/jhkif",
+        "name": "风埠"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "树莓",
+    "name": "09-树莓-璃月-遁玉陵南侧-6个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 978.78,
       "y": -353.48
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 979.05,
-      "y": -332.59,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -332.59
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 999.89,
-      "y": -329.88,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -329.88
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "target",
       "x": 1026.8,
-      "y": -335.86,
-      "type": "target",
-      "move_mode": "walk",
-      "action": ""
+      "y": -335.86
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1028.21,
-      "y": -304.42,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -304.42
     },
     {
+      "action": "stop_flying",
       "id": 6,
-      "x": 1027.2,
-      "y": -295.68,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": 1027.2,
+      "y": -295.68
     },
     {
+      "action": "",
       "id": 7,
-      "x": 1024.11,
-      "y": -286.59,
-      "type": "target",
       "move_mode": "walk",
-      "action": ""
+      "type": "target",
+      "x": 1024.11,
+      "y": -286.59
     }
   ]
 }

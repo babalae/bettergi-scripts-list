@@ -1,102 +1,102 @@
-﻿{
+{
   "info": {
-    "name": "未命名路径",
-    "type": "collect",
     "authors": [
       {
         "name": "芝士贝果"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.48.0",
-    "tags": [],
-    "last_modified_time": 1754702751073,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754702751073,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "未命名路径",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "run",
       "type": "teleport",
       "x": 13755.111328125,
-      "y": 380.19482421875,
-      "action_params": ""
+      "y": 380.19482421875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 13787.70703125,
-      "y": 371.02294921875,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 371.02294921875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": 13810.38671875,
-      "y": 382.26806640625,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 382.26806640625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 13825.21484375,
-      "y": 404.3056640625,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 13825.21484375,
+      "y": 404.3056640625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "dash",
+      "type": "path",
       "x": 13842.732421875,
-      "y": 405.677734375,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 405.677734375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "dash",
+      "type": "path",
       "x": 13861.65625,
-      "y": 399.267578125,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 399.267578125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "dash",
+      "type": "path",
       "x": 13888.0849609375,
-      "y": 400.69921875,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 400.69921875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
-      "x": 13904.5380859375,
-      "y": 412.7275390625,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 13904.5380859375,
+      "y": 412.7275390625
     },
     {
-      "id": 9,
-      "x": 13918.6708984375,
-      "y": 410.32666015625,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 13918.6708984375,
+      "y": 410.32666015625
     }
   ]
 }

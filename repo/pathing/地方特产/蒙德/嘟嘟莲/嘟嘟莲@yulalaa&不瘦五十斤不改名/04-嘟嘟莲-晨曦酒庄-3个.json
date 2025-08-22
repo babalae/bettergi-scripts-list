@@ -1,68 +1,68 @@
 {
   "info": {
-    "name": "04-嘟嘟莲-晨曦酒庄-3个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "yulalaa"
       },
       {
-        "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "04-嘟嘟莲-晨曦酒庄-3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": -321.59,
-      "y": 1473.34,
-      "action": "",
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -321.59,
+      "y": 1473.34
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": -262.93,
-      "y": 1590.72,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": 1590.72
     },
     {
-      "id": 3,
-      "x": -256.47,
-      "y": 1599.08,
       "action": "stop_flying",
+      "id": 3,
       "move_mode": "fly",
-      "type": "path"
+      "type": "path",
+      "x": -256.47,
+      "y": 1599.08
     },
     {
-      "id": 4,
-      "x": -256.25,
-      "y": 1602.25,
       "action": "nahida_collect",
+      "id": 4,
       "move_mode": "run",
-      "type": "target"
+      "type": "target",
+      "x": -256.25,
+      "y": 1602.25
     },
     {
+      "action": "",
       "id": 5,
-      "x": -347.09,
-      "y": 1646.92,
-      "action": "",
       "move_mode": "run",
-      "type": "target"
+      "type": "target",
+      "x": -347.09,
+      "y": 1646.92
     },
     {
-      "id": 6,
-      "x": -395.73,
-      "y": 1624.0,
       "action": "",
+      "id": 6,
       "move_mode": "run",
-      "type": "target"
+      "type": "target",
+      "x": -395.73,
+      "y": 1624.0
     }
   ]
 }

@@ -1,58 +1,58 @@
 {
   "info": {
-    "name": "429须弥沙漠赤王陵（200_2）",
-    "type": "collect",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时40秒，包含2只精英，预计收入400摩拉，包含以下怪物：2只元能构装体·力场发生器。",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1754765802725,
+    "description": "  路线信息：该路线预计用时40秒，包含2只精英，预计收入400摩拉，包含以下怪物：2只元能构装体·力场发生器。",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754765802725,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "429须弥沙漠赤王陵（200_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 5391.6904,
-      "y": -2340.3105,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 5391.6904,
+      "y": -2340.3105
     },
     {
-      "id": 2,
-      "x": 5429.8096,
-      "y": -2349.8799,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "keydown(w),wait(0.2),dash,wait(1),keyup(w)",
-      "type": "orientation"
-    },
-    {
-      "id": 3,
-      "x": 5429.8096,
-      "y": -2349.8799,
-      "action": "fight",
+      "id": 2,
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "orientation",
+      "x": 5429.8096,
+      "y": -2349.8799
     },
     {
-      "id": 4,
-      "x": 5435.0601,
-      "y": -2351.584,
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5429.8096,
+      "y": -2349.8799
+    },
+    {
       "action": "combat_script",
-      "move_mode": "run",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 4,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 5435.0601,
+      "y": -2351.584
     }
   ]
 }

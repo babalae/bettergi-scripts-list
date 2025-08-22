@@ -1,111 +1,111 @@
 {
   "info": {
+    "author": "寒烟",
+    "bgi_version": "0.42.3",
+    "description": "",
     "name": "须弥10-荼泥黑渊-4-rerun",
     "type": "collect",
-    "author": "寒烟",
-    "version": "1.1",
-    "description": "",
-    "bgi_version": "0.42.3"
+    "version": "1.1"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 6339.59,
-      "y": 738.39,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 6339.59,
+      "y": 738.39
     },
     {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 6313.89,
-      "y": 716.15,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "up_down_grab_leaf",
-      "action_params": ""
+      "y": 716.15
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": 6293.14,
-      "y": 684.53,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 684.53
     },
     {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 6270.56,
-      "y": 673.75,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "up_down_grab_leaf",
-      "action_params": ""
+      "y": 673.75
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "dash",
+      "type": "path",
       "x": 6237.06,
-      "y": 651.24,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 651.24
     },
     {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 6207.31,
-      "y": 629.93,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "up_down_grab_leaf",
-      "action_params": ""
+      "y": 629.93
     },
     {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 6181.21,
-      "y": 608.3,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "up_down_grab_leaf",
-      "action_params": ""
+      "y": 608.3
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": 6169.15,
-      "y": 603.37,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 603.37
     },
     {
-      "id": 9,
-      "x": 6170.17,
-      "y": 603.18,
-      "type": "path",
-      "move_mode": "walk",
       "action": "up_down_grab_leaf",
-      "action_params": ""
-    },
-    {
-      "id": 10,
-      "x": 6164.25,
-      "y": 615.41,
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "x": 6170.17,
+      "y": 603.18
     },
     {
-      "id": 11,
-      "x": 6280.81,
-      "y": 616.8,
-      "type": "target",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 6164.25,
+      "y": 615.41
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 6280.81,
+      "y": 616.8
     }
   ]
 }

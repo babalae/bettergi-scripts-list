@@ -1,105 +1,105 @@
 {
   "info": {
-    "name": "10-绯樱绣球-鸣神大社神樱-3个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "10-绯樱绣球-鸣神大社神樱-3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -4380.88,
-      "y": -2501.35,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": -2501.35
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4392.6,
-      "y": -2485.59,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -2485.59
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4389.96,
-      "y": -2477.75,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -2477.75
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4396.8,
-      "y": -2472.09,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -2472.09
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4402.98,
-      "y": -2477.38,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -2477.38
     },
     {
+      "action": "electro_collect",
       "id": 6,
-      "x": -4419.17,
-      "y": -2473.04,
-      "action": "electro_collect",
       "move_mode": "walk",
-      "type": "target"
-    },
-    {
-      "id": 7,
-      "x": -4422.56,
-      "y": -2470.76,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": -4424.26,
-      "y": -2474.27,
       "type": "target",
-      "move_mode": "walk",
-      "action": "electro_collect"
+      "x": -4419.17,
+      "y": -2473.04
     },
     {
-      "id": 9,
-      "x": -4416.27,
-      "y": -2477.59,
       "action": "",
+      "id": 7,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": -4422.56,
+      "y": -2470.76
     },
     {
-      "id": 10,
-      "x": -4408.76,
-      "y": -2466.94,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 11,
-      "x": -4414.43,
-      "y": -2459.37,
       "action": "electro_collect",
+      "id": 8,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": -4424.26,
+      "y": -2474.27
+    },
+    {
+      "action": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4416.27,
+      "y": -2477.59
+    },
+    {
+      "action": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4408.76,
+      "y": -2466.94
+    },
+    {
+      "action": "electro_collect",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4414.43,
+      "y": -2459.37
     }
   ]
 }

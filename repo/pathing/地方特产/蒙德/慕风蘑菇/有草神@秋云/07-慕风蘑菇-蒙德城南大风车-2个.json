@@ -1,62 +1,62 @@
 {
   "info": {
-    "name": "07-慕风蘑菇-蒙德城南大风车-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "秋云",
-        "links": "https://github.com/physligl"
+        "links": "https://github.com/physligl",
+        "name": "秋云"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "07-慕风蘑菇-蒙德城南大风车-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -749.39,
-      "y": 2263.16,
-      "action_params": ""
+      "y": 2263.16
     },
     {
-      "id": 2,
-      "x": -771.97,
-      "y": 2253.2,
-      "type": "path",
-      "move_mode": "fly",
       "action": "log_output",
-      "action_params": "扫码两次，因为蘑菇有概率被风车挡住。"
-    },
-    {
-      "id": 3,
-      "x": -795.92,
-      "y": 2228.38,
-      "type": "path",
+      "action_params": "扫码两次，因为蘑菇有概率被风车挡住。",
+      "id": 2,
       "move_mode": "fly",
+      "type": "path",
+      "x": -771.97,
+      "y": 2253.2
+    },
+    {
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -795.92,
+      "y": 2228.38
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 4,
-      "x": -795.92,
-      "y": 2228.38,
-      "type": "target",
       "move_mode": "walk",
-      "action": "nahida_collect",
-      "action_params": ""
+      "type": "target",
+      "x": -795.92,
+      "y": 2228.38
     },
     {
-      "id": 5,
-      "x": -795.92,
-      "y": 2228.38,
-      "type": "target",
-      "move_mode": "walk",
       "action": "nahida_collect",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -795.92,
+      "y": 2228.38
     }
   ]
 }

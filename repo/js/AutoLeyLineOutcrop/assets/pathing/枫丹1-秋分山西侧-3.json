@@ -1,31 +1,31 @@
 {
   "info": {
-    "name": "枫丹1-秋分山西侧-3",
-    "type": "collect",
     "author": "寒烟",
-    "version": "1.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "name": "枫丹1-秋分山西侧-3",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 4197.62,
-      "y": 2418.39,
-      "type": "path",
-      "move_mode": "run",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 1,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4197.62,
+      "y": 2418.39
     },
     {
-      "id": 2,
-      "x": 4246.26,
-      "y": 2373.88,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "500"
+      "action_params": "500",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4246.26,
+      "y": 2373.88
     }
   ]
 }

@@ -1,97 +1,97 @@
 {
   "info": {
-    "name": "遗迹守卫12-须弥沙漠2",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "XS",
-        "links": "https://github.com/xwsqy6"
+        "links": "https://github.com/xwsqy6",
+        "name": "XS"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "遗迹守卫12-须弥沙漠2",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 5759.5,
-      "y": -1307.73,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": -1307.73
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5773.71,
-      "y": -1294.61,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1294.61
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5776.5,
-      "y": -1281.39,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1281.39
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5770.39,
-      "y": -1256.93,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -1256.93
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "run",
+      "type": "path",
       "x": 5752.89,
-      "y": -1223.42,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": -1223.42
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "run",
+      "type": "path",
       "x": 5740.74,
-      "y": -1185.05,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": -1185.05
     },
     {
+      "action": "",
       "id": 7,
-      "x": 5724.26,
-      "y": -1166.69,
-      "action": "",
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 5724.26,
+      "y": -1166.69
     },
     {
+      "action": "",
       "id": 8,
+      "move_mode": "run",
+      "type": "path",
       "x": 5712.38,
-      "y": -1190.13,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": -1190.13
     },
     {
+      "action": "",
       "id": 9,
-      "x": 5703.34,
-      "y": -1212.43,
-      "action": "",
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 5703.34,
+      "y": -1212.43
     },
     {
-      "id": 10,
-      "x": 5700.04,
-      "y": -1223.48,
       "action": "fight",
+      "id": 10,
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 5700.04,
+      "y": -1223.48
     }
   ]
 }

@@ -1,62 +1,62 @@
 {
   "info": {
-    "name": "稻妻-野伏众-鸣神岛鸣神大社北岸边-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "野伏众-2个\n稻妻-鸣神岛鸣神大社北岸边",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "提瓦特钓鱼玳师",
-        "links": "https://github.com/Hijiwos"
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "野伏众-2个\n稻妻-鸣神岛鸣神大社北岸边",
+    "name": "稻妻-野伏众-鸣神岛鸣神大社北岸边-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -4406.43,
-      "y": -2399.86,
-      "action_params": ""
+      "y": -2399.86
     },
     {
-      "id": 2,
       "action": "",
+      "action_params": "",
+      "id": 2,
       "move_mode": "walk",
       "type": "path",
       "x": -4409.17,
-      "y": -2390.07,
-      "action_params": ""
+      "y": -2390.07
     },
     {
-      "id": 3,
       "action": "",
+      "action_params": "",
+      "id": 3,
       "move_mode": "fly",
       "type": "path",
       "x": -4420.68,
-      "y": -2337.54,
-      "action_params": ""
+      "y": -2337.54
     },
     {
-      "id": 4,
-      "x": -4399.74,
-      "y": -2336.5,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4399.74,
+      "y": -2336.5
     },
     {
-      "id": 5,
       "action": "fight",
+      "action_params": "",
+      "id": 5,
       "move_mode": "walk",
       "type": "target",
       "x": -4399.67,
-      "y": -2336.54,
-      "action_params": ""
+      "y": -2336.54
     }
   ]
 }

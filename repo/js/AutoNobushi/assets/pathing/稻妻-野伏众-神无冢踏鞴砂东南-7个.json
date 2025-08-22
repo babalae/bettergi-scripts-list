@@ -1,66 +1,66 @@
 {
-    "info": {
-        "name": "稻妻-野伏众-神无冢踏鞴砂东南-7个",
-        "type": "collect",
-        "author": "提瓦特钓鱼玳师",
-        "version": "1.0",
-        "description": "野伏众-7个\n稻妻-神无冢踏鞴砂东南",
-        "bgi_version": "0.39.1"
+  "info": {
+    "author": "提瓦特钓鱼玳师",
+    "bgi_version": "0.39.1",
+    "description": "野伏众-7个\n稻妻-神无冢踏鞴砂东南",
+    "name": "稻妻-野伏众-神无冢踏鞴砂东南-7个",
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3236.07,
+      "y": -3534.18
     },
-    "positions": [
-        {
-            "id": 1,
-            "x": -3236.07,
-            "y": -3534.18,
-            "action": "",
-            "move_mode": "walk",
-            "action_params": "",
-            "type": "teleport"
-        },
-        {
-            "id": 2,
-            "x": -3230.55,
-            "y": -3582.05,
-            "action": "fight",
-            "move_mode": "walk",
-            "action_params": "",
-            "type": "path"
-        },
-        {
-            "id": 3,
-            "x": -3241.8,
-            "y": -3578.3,
-            "action": "",
-            "move_mode": "walk",
-            "action_params": "",
-            "type": "path"
-        },
-        {
-            "id": 4,
-            "x": -3265.57,
-            "y": -3549.78,
-            "action": "stop_flying",
-            "move_mode": "fly",
-            "action_params": "",
-            "type": "path"
-        },
-        {
-            "id": 5,
-            "x": -3265.49,
-            "y": -3550.0,
-            "action": "fight",
-            "move_mode": "walk",
-            "action_params": "",
-            "type": "path"
-        },
-        {
-            "id": 6,
-            "x": -3305.09,
-            "y": -3564.54,
-            "action": "fight",
-            "move_mode": "walk",
-            "action_params": "",
-            "type": "target"
-        }
-    ]
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3230.55,
+      "y": -3582.05
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3241.8,
+      "y": -3578.3
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3265.57,
+      "y": -3549.78
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3265.49,
+      "y": -3550.0
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -3305.09,
+      "y": -3564.54
+    }
+  ]
 }

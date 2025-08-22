@@ -1,121 +1,121 @@
 {
   "info": {
-    "name": "金鱼草-绝云间-4个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "曦",
-        "links": "https://github.com/cx05121"
+        "links": "https://github.com/cx05121",
+        "name": "曦"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "金鱼草-绝云间-4个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 1182.73,
-      "y": 626.09,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 626.09
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1189.11,
-      "y": 614.81,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 614.81
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": 1194.33,
-      "y": 605.26,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path"
+      "y": 605.26
     },
     {
-      "id": 4,
-      "x": 1201.86,
-      "y": 590.11,
       "action": "stop_flying",
+      "id": 4,
       "move_mode": "fly",
-      "type": "target"
-    },
-    {
-      "id": 5,
-      "x": 1203.63,
-      "y": 587.62,
-      "action": "",
-      "move_mode": "walk",
-      "type": "target"
-    },
-    {
-      "id": 6,
-      "x": 1225.82,
-      "y": 628.52,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": 1230.57,
-      "y": 652.47,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": 1196.18,
-      "y": 667.57,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": 1149.21,
-      "y": 663.18,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
-    },
-    {
-      "id": 10,
-      "x": 1137.12,
-      "y": 659.01,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 11,
-      "x": 1140.48,
-      "y": 654.14,
-      "action": "",
-      "move_mode": "walk",
-      "type": "target"
-    },
-    {
-      "id": 12,
-      "x": 1128.22,
-      "y": 660.05,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 13,
-      "x": 1121.22,
-      "y": 668.05,
       "type": "target",
+      "x": 1201.86,
+      "y": 590.11
+    },
+    {
+      "action": "",
+      "id": 5,
       "move_mode": "walk",
-      "action": ""
+      "type": "target",
+      "x": 1203.63,
+      "y": 587.62
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1225.82,
+      "y": 628.52
+    },
+    {
+      "action": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1230.57,
+      "y": 652.47
+    },
+    {
+      "action": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1196.18,
+      "y": 667.57
+    },
+    {
+      "action": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1149.21,
+      "y": 663.18
+    },
+    {
+      "action": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1137.12,
+      "y": 659.01
+    },
+    {
+      "action": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1140.48,
+      "y": 654.14
+    },
+    {
+      "action": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1128.22,
+      "y": 660.05
+    },
+    {
+      "action": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1121.22,
+      "y": 668.05
     }
   ]
 }

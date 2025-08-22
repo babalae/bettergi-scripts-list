@@ -1,161 +1,161 @@
 {
   "info": {
-    "name": "12-蒲公英-晨曦酒庄北-3个（路远，不建议）",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "秋云",
-        "links": "https://github.com/physligl"
+        "links": "https://github.com/physligl",
+        "name": "秋云"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "12-蒲公英-晨曦酒庄北-3个（路远，不建议）",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -577.17,
-      "y": 1857.54,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 1857.54
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -540.22,
-      "y": 1854.65,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1854.65
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -524.88,
-      "y": 1871.45,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1871.45
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -486.45,
-      "y": 1871.52,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1871.52
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -463.72,
-      "y": 1890.17,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1890.17
     },
     {
+      "action": "anemo_collect",
       "id": 6,
+      "move_mode": "walk",
+      "type": "target",
       "x": -447.65,
-      "y": 1926.89,
-      "action": "anemo_collect",
-      "move_mode": "walk",
-      "type": "target"
+      "y": 1926.89
     },
     {
+      "action": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": -426.44,
-      "y": 1955.84,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1955.84
     },
     {
+      "action": "",
       "id": 8,
+      "move_mode": "fly",
+      "type": "path",
       "x": -422.55,
-      "y": 1977.69,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path"
+      "y": 1977.69
     },
     {
+      "action": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": -396.8,
-      "y": 1996.49,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1996.49
     },
     {
+      "action": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": -393.79,
-      "y": 2030.77,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 2030.77
     },
     {
+      "action": "",
       "id": 11,
+      "move_mode": "walk",
+      "type": "path",
       "x": -376.53,
-      "y": 2054.54,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 2054.54
     },
     {
+      "action": "anemo_collect",
       "id": 12,
+      "move_mode": "walk",
+      "type": "target",
       "x": -382.66,
-      "y": 2057.42,
-      "action": "anemo_collect",
-      "move_mode": "walk",
-      "type": "target"
+      "y": 2057.42
     },
     {
+      "action": "",
       "id": 13,
+      "move_mode": "walk",
+      "type": "path",
       "x": -376.24,
-      "y": 2054.25,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 2054.25
     },
     {
+      "action": "",
       "id": 14,
+      "move_mode": "walk",
+      "type": "path",
       "x": -393.99,
-      "y": 2030.24,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 2030.24
     },
     {
+      "action": "",
       "id": 15,
+      "move_mode": "walk",
+      "type": "path",
       "x": -396.24,
-      "y": 1997.54,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1997.54
     },
     {
+      "action": "",
       "id": 16,
+      "move_mode": "walk",
+      "type": "path",
       "x": -392.24,
-      "y": 1983.11,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1983.11
     },
     {
-      "id": 17,
-      "x": -390.25,
-      "y": 1965.25,
       "action": "stop_flying",
+      "id": 17,
       "move_mode": "fly",
-      "type": "path"
+      "type": "path",
+      "x": -390.25,
+      "y": 1965.25
     },
     {
-      "id": 18,
-      "x": -389.56,
-      "y": 1966.01,
       "action": "anemo_collect",
+      "id": 18,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": -389.56,
+      "y": 1966.01
     }
   ]
 }

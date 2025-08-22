@@ -1,59 +1,59 @@
 {
   "info": {
-    "name": "A41-甜甜花-蒙德-苍风高地-2个",
-    "type": "collect",
     "authors": [
       {
-        "name": "ddaodan",
-        "links": "https://github.com/ddaodan"
+        "links": "https://github.com/ddaodan",
+        "name": "ddaodan"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1752592132188,
+    "map_name": "Teyvat",
+    "name": "A41-甜甜花-蒙德-苍风高地-2个",
     "tags": [
       "甜甜花"
     ],
-    "last_modified_time": 1752592132188,
-    "enable_monster_loot_split": false
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -1130.48,
-      "y": 1598.2,
-      "type": "teleport",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "teleport",
+      "x": -1130.48,
+      "y": 1598.2
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": -1129.69,
-      "y": 1619.13,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 1619.13
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
       "id": 3,
-      "x": -1113.72,
-      "y": 1626.87,
-      "type": "path",
       "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "wait(0.2)"
+      "type": "path",
+      "x": -1113.72,
+      "y": 1626.87
     },
     {
-      "id": 4,
-      "x": -1107.15,
-      "y": 1638.41,
-      "type": "path",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "wait(0.2)"
+      "action_params": "wait(0.2)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1107.15,
+      "y": 1638.41
     }
   ]
 }

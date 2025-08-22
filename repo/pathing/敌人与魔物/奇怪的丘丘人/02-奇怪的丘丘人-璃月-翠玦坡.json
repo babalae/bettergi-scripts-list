@@ -1,49 +1,49 @@
 {
   "info": {
-    "name": "02-奇怪的丘丘人-璃月-翠玦坡",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "02-奇怪的丘丘人-璃月-翠玦坡",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 837.54,
-      "y": 235.13,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 235.13
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 846.95,
-      "y": 257.68,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 257.68
     },
     {
-      "id": 3,
-      "x": 852.0,
-      "y": 408.25,
       "action": "stop_flying",
+      "id": 3,
       "move_mode": "fly",
-      "type": "path"
+      "type": "path",
+      "x": 852.0,
+      "y": 408.25
     },
     {
-      "id": 4,
-      "x": 861.25,
-      "y": 406.75,
       "action": "fight",
+      "id": 4,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 861.25,
+      "y": 406.75
     }
   ]
 }

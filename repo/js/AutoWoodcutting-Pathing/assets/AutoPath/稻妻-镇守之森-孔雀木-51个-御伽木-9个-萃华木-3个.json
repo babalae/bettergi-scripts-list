@@ -1,135 +1,135 @@
 {
   "info": {
-    "name": "稻妻-镇守之森-孔雀木-51个-御伽木-9个-萃华木-3个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.48.1",
     "authors": [
       {
-        "name": "Tim",
-        "links": "https://github.com/Limint"
+        "links": "https://github.com/Limint",
+        "name": "Tim"
       }
-    ]
+    ],
+    "bgi_version": "0.48.1",
+    "description": "",
+    "name": "稻妻-镇守之森-孔雀木-51个-御伽木-9个-萃华木-3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": -4429.8633,
-      "y": -2798.4961,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "x": -4429.8633,
+      "y": -2798.4961
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(0.5),keypress(VK_Z)",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4430.5254,
-      "y": -2782.0,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(0.5),keypress(VK_Z)"
+      "y": -2782.0
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4422.7422,
-      "y": -2775.1377,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -2775.1377
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(1),keypress(VK_Z)",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4411.7637,
-      "y": -2781.9844,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(1),keypress(VK_Z)"
+      "y": -2781.9844
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4408.1641,
-      "y": -2791.5205,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -2791.5205
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(1),keypress(VK_Z)",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4412.8887,
-      "y": -2802.6055,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(1),keypress(VK_Z)"
+      "y": -2802.6055
     },
     {
+      "action": "",
       "id": 7,
-      "x": -4423.6133,
-      "y": -2810.6416,
-      "type": "path",
       "move_mode": "jump",
-      "action": ""
+      "type": "path",
+      "x": -4423.6133,
+      "y": -2810.6416
     },
     {
+      "action": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4431.3789,
-      "y": -2809.3682,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -2809.3682
     },
     {
+      "action": "",
       "id": 9,
-      "x": -4449.6055,
-      "y": -2809.2783,
-      "type": "path",
       "move_mode": "fly",
-      "action": ""
+      "type": "path",
+      "x": -4449.6055,
+      "y": -2809.2783
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(0.5),keypress(VK_Z)",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4457.7344,
-      "y": -2810.7695,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(0.5),keypress(VK_Z)"
+      "y": -2810.7695
     },
     {
+      "action": "",
       "id": 11,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4470.1348,
-      "y": -2815.0703,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -2815.0703
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(1),keypress(VK_Z)",
       "id": 12,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4482.8906,
-      "y": -2802.5693,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "use_gadget",
-      "action_params": "wait(1),keypress(VK_Z)"
+      "y": -2802.5693
     },
     {
+      "action": "",
       "id": 13,
-      "x": -4487.6133,
-      "y": -2782.6162,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": -4487.6133,
+      "y": -2782.6162
     },
     {
-      "id": 14,
-      "x": -4502.7598,
-      "y": -2787.2031,
-      "type": "path",
-      "move_mode": "walk",
       "action": "use_gadget",
-      "action_params": "wait(0.5),keypress(VK_Z)"
+      "action_params": "wait(0.5),keypress(VK_Z)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4502.7598,
+      "y": -2787.2031
     }
   ]
 }

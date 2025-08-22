@@ -1,107 +1,107 @@
 {
   "info": {
-    "name": "萃凝晶-流晶支脉右侧",
-    "type": "collect",
-    "version": "1.0",
-    "description": "需要钟离，有纳西妲可以顺便采集周围的植物\n注意：钟离不可以作为生存位！\n-(25.6.14)成成：优化钟离开盾时间",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "成成"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "需要钟离，有纳西妲可以顺便采集周围的植物\n注意：钟离不可以作为生存位！\n-(25.6.14)成成：优化钟离开盾时间",
+    "map_name": "Teyvat",
+    "name": "萃凝晶-流晶支脉右侧",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 7973.65,
-      "y": -1557.58,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 7973.65,
+      "y": -1557.58
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 8025.04,
-      "y": -1539.29,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": -1539.29
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 8054.23,
-      "y": -1522.97,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 8054.23,
+      "y": -1522.97
     },
     {
-      "id": 4,
-      "x": 8078.76,
-      "y": -1487.46,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "100"
+      "action_params": "100",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8078.76,
+      "y": -1487.46
     },
     {
-      "id": 5,
-      "x": 8075.25,
-      "y": -1483.76,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "钟离 e(hold)"
+      "action_params": "钟离 e(hold)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8075.25,
+      "y": -1483.76
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8077.99,
-      "y": -1478.08,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -1478.08
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8080.07,
-      "y": -1478.33,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -1478.33
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8072.07,
-      "y": -1486.74,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -1486.74
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
-      "x": 8073.17,
-      "y": -1488.36,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 8073.17,
+      "y": -1488.36
     },
     {
-      "id": 10,
-      "x": 8080.63,
-      "y": -1481.31,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8080.63,
+      "y": -1481.31
     }
   ]
 }

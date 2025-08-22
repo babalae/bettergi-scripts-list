@@ -1,102 +1,102 @@
 {
   "info": {
-    "name": "B13-萃凝晶-纳塔-花羽会03(有战斗)",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
+    "authors": [
+      {
+        "links": "https://github.com/non-repeating001",
+        "name": "无限不循环"
+      }
+    ],
     "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1751657175938,
+    "map_name": "Teyvat",
+    "name": "B13-萃凝晶-纳塔-花羽会03(有战斗)",
     "tags": [
       "双手剑"
     ],
-    "last_modified_time": 1751657175938,
-    "authors": [
-      {
-        "name": "无限不循环",
-        "links": "https://github.com/non-repeating001"
-      }
-    ]
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 9548.28,
-      "y": -1116.56,
       "action": "force_tp",
+      "id": 1,
       "move_mode": "fly",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 9548.28,
+      "y": -1116.56
     },
     {
-      "id": 2,
-      "x": 9597.46,
-      "y": -1149.51,
       "action": "stop_flying",
-      "move_mode": "fly",
       "action_params": "1500",
-      "type": "path"
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9597.46,
+      "y": -1149.51
     },
     {
-      "id": 3,
-      "x": 9598.46,
-      "y": -1150.51,
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9598.46,
+      "y": -1150.51
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 9601.34,
-      "y": -1151.21,
-      "action": "",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 9601.34,
+      "y": -1151.21
     },
     {
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
       "id": 5,
-      "x": 9598.39,
-      "y": -1155.04,
-      "action": "mining",
       "move_mode": "walk",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
-      "type": "target"
+      "type": "target",
+      "x": 9598.39,
+      "y": -1155.04
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(1)",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9598.39,
-      "y": -1155.04,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(1)",
-      "type": "path"
+      "y": -1155.04
     },
     {
-      "id": 7,
-      "x": 9594.37,
-      "y": -1149.93,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9594.37,
+      "y": -1149.93
     },
     {
-      "id": 8,
-      "x": 9591.64,
-      "y": -1152.48,
       "action": "mining",
-      "move_mode": "walk",
       "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
-      "type": "target"
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9591.64,
+      "y": -1152.48
     },
     {
-      "id": 9,
-      "x": 9591.64,
-      "y": -1152.48,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(1)",
-      "type": "path"
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9591.64,
+      "y": -1152.48
     }
   ]
 }

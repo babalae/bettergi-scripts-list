@@ -1,85 +1,85 @@
 {
   "info": {
-    "name": "璃月8-南天门南-6",
-    "type": "collect",
     "author": "火山",
-    "version": "1.1",
+    "bgi_version": "0.45.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "name": "璃月8-南天门南-6",
+    "type": "collect",
+    "version": "1.1"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 897.75,
-      "y": 583.52,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 897.75,
+      "y": 583.52
     },
     {
-      "id": 2,
-      "x": 884.41,
-      "y": 573.41,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(2)"
+      "action_params": "wait(2)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 884.41,
+      "y": 573.41
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 880.83,
-      "y": 564.01,
-      "type": "path",
       "move_mode": "jump",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 880.83,
+      "y": 564.01
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "dash",
+      "type": "path",
       "x": 842.36,
-      "y": 565.15,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 565.15
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 812.93,
-      "y": 541.3,
+      "move_mode": "dash",
       "type": "target",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "x": 812.93,
+      "y": 541.3
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "fly",
+      "type": "path",
       "x": 790.31,
-      "y": 528.86,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": 528.86
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
-      "x": 719.43,
-      "y": 527.48,
-      "type": "path",
       "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 719.43,
+      "y": 527.48
     },
     {
-      "id": 8,
-      "x": 683.33,
-      "y": 529.05,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 683.33,
+      "y": 529.05
     }
   ]
 }

@@ -1,121 +1,121 @@
-﻿{
+{
   "info": {
-    "name": "蒙德-02",
-    "type": "collect",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": ""
+        "links": "",
+        "name": "Tool_tingsu"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1754708264290,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754708264290,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蒙德-02",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -1273.4609375,
-      "y": 2721.984375,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -1273.4609375,
+      "y": 2721.984375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1267.873046875,
-      "y": 2739.348876953125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2739.348876953125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1263.392578125,
-      "y": 2753.22412109375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2753.22412109375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": -1251.712890625,
-      "y": 2756.9130859375,
-      "type": "path",
       "move_mode": "jump",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -1251.712890625,
+      "y": 2756.9130859375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1239.34375,
-      "y": 2760.3583984375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2760.3583984375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1230.720703125,
-      "y": 2763.0361328125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2763.0361328125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1222.7421875,
-      "y": 2775.61376953125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2775.61376953125
     },
     {
-      "id": 8,
-      "x": -1212.3828125,
-      "y": 2790.74951171875,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1212.3828125,
+      "y": 2790.74951171875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1211.1015625,
-      "y": 2795.025390625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2795.025390625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
-      "x": -1199.64453125,
-      "y": 2797.599609375,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -1199.64453125,
+      "y": 2797.599609375
     },
     {
-      "id": 11,
-      "x": -1192.974609375,
-      "y": 2808.06689453125,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1192.974609375,
+      "y": 2808.06689453125
     }
   ]
 }

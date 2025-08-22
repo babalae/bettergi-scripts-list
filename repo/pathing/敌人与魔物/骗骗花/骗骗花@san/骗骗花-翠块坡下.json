@@ -1,40 +1,40 @@
 {
   "info": {
-    "name": "骗骗花-翠块坡下",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "san"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "骗骗花-翠块坡下",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 838.0,
-      "y": 237.49,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 838.0,
+      "y": 237.49
     },
     {
-      "id": 2,
-      "x": 854.0,
-      "y": 197.25,
       "action": "stop_flying",
+      "id": 2,
       "move_mode": "fly",
-      "type": "target"
+      "type": "target",
+      "x": 854.0,
+      "y": 197.25
     },
     {
-      "id": 3,
-      "x": 886.0,
-      "y": 213.48,
       "action": "fight",
+      "id": 3,
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 886.0,
+      "y": 213.48
     }
   ]
 }

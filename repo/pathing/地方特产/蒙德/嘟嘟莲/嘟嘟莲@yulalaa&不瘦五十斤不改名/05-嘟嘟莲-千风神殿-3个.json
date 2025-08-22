@@ -1,44 +1,44 @@
 {
   "info": {
-    "name": "05-嘟嘟莲-千风神殿-3个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "yulalaa"
       },
       {
-        "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "05-嘟嘟莲-千风神殿-3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": -1505.91,
-      "y": 2296.21,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -1505.91,
+      "y": 2296.21
     },
     {
-      "id": 2,
-      "x": -1468.29,
-      "y": 2290.94,
       "action": "stop_flying",
+      "id": 2,
       "move_mode": "fly",
-      "type": "path"
+      "type": "path",
+      "x": -1468.29,
+      "y": 2290.94
     },
     {
-      "id": 3,
-      "x": -1468.88,
-      "y": 2291.86,
       "action": "nahida_collect",
+      "id": 3,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": -1468.88,
+      "y": 2291.86
     }
   ]
 }

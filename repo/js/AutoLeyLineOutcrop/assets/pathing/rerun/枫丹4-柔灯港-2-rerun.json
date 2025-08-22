@@ -1,57 +1,57 @@
 {
   "info": {
+    "author": "平面镜",
+    "bgi_version": "0.42.3",
+    "description": "",
     "name": "枫丹4-柔灯港-2-rerun",
     "type": "collect",
-    "author": "平面镜",
-    "version": "1.1",
-    "description": "",
-    "bgi_version": "0.42.3"
+    "version": "1.1"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 3032.66,
-      "y": 3732.42,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 3732.42
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "target",
       "x": 3019.81,
-      "y": 3712.95,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": 3712.95
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "target",
       "x": 3015.82,
-      "y": 3665.19,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "target"
+      "y": 3665.19
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 3010.95,
-      "y": 3624.05,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 3010.95,
+      "y": 3624.05
     },
     {
-      "id": 5,
-      "x": 3008.4,
-      "y": 3602.59,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3008.4,
+      "y": 3602.59
     }
   ]
 }

@@ -1,57 +1,57 @@
 {
   "info": {
-    "name": "13-奇怪的丘丘人-蒙德-誓言岬",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "13-奇怪的丘丘人-蒙德-誓言岬",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -1999.12,
       "y": 1434.8
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -2043.04,
-      "y": 1477.04,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 1477.04
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -2080.34,
-      "y": 1556.13,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 1556.13
     },
     {
+      "action": "",
       "id": 4,
-      "x": -2118.66,
-      "y": 1612.79,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": -2118.66,
+      "y": 1612.79
     },
     {
+      "action": "fight",
       "id": 5,
-      "x": -2127.93,
-      "y": 1629.07,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": -2127.93,
+      "y": 1629.07
     }
   ]
 }

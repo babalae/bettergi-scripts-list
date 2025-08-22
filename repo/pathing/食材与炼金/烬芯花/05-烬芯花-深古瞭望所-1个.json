@@ -1,63 +1,63 @@
 {
   "info": {
-    "name": "05-烬芯花-深古瞭望所-1个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "感谢 @曦 老师的路线脚本",
+    "authors": [
+      {
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
+      }
+    ],
     "bgi_version": "0.42.3",
+    "description": "感谢 @曦 老师的路线脚本",
+    "name": "05-烬芯花-深古瞭望所-1个",
     "tags": [
       "单手剑角色",
       "大剑角色",
       "长枪角色"
     ],
-    "authors": [
-      {
-        "name": "Tool_tingsu",
-        "links": "https://github.com/Tooltingsu"
-      }
-    ]
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 8179.42,
-      "y": -1868.02,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": -1868.02
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 8201.14,
-      "y": -1869.09,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": -1869.09
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 8226.42,
-      "y": -1896.41,
-      "action": "",
-      "move_mode": "run",
-      "type": "path"
+      "y": -1896.41
     },
     {
+      "action": "",
       "id": 4,
-      "x": 8249.57,
-      "y": -1933.3,
-      "action": "",
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 8249.57,
+      "y": -1933.3
     },
     {
-      "id": 5,
-      "x": 8271.61,
-      "y": -1949.27,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "attack(0.2)",
-      "type": "target"
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8271.61,
+      "y": -1949.27
     }
   ]
 }

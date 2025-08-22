@@ -1,51 +1,51 @@
 {
   "info": {
-    "name": "璃月-B043",
-    "type": "collect",
     "author": "Tool_tingsu",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1751699753755,
+    "map_name": "Teyvat",
+    "name": "璃月-B043",
     "tags": [],
-    "last_modified_time": 1751699753755
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 1045.8955078125,
-      "y": 950.923828125,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 1045.8955078125,
+      "y": 950.923828125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 1000.86328125,
-      "y": 933.90234375,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": 933.90234375
     },
     {
-      "id": 3,
-      "x": 952.80859375,
-      "y": 914.96923828125,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 952.80859375,
+      "y": 914.96923828125
     },
     {
-      "id": 4,
-      "x": 941.244140625,
-      "y": 911.765625,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 941.244140625,
+      "y": 911.765625
     }
   ]
 }

@@ -1,99 +1,99 @@
 {
   "info": {
-    "name": "3210稻妻公义飞萤",
-    "enable_monster_loot_split": true,
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "enable_monster_loot_split": true,
+    "name": "3210稻妻公义飞萤",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -3156.62,
-      "y": -3886.01,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -3886.01
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": -3168.06,
-      "y": -3883.38,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -3883.38
     },
     {
-      "id": 3,
-      "x": -3204.63,
-      "y": -3876.54,
       "action": "stop_flying",
-      "move_mode": "fly",
       "action_params": "2500",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": -3210.37,
-      "y": -3876.99,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": -3236.53,
-      "y": -3879.96,
-      "action": "stop_flying",
+      "id": 3,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -3204.63,
+      "y": -3876.54
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3210.37,
+      "y": -3876.99
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3236.53,
+      "y": -3879.96
+    },
+    {
+      "action": "fight",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": -3237.4,
-      "y": -3879.99,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -3879.99
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
-      "x": -3250.04,
-      "y": -3848.97,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -3250.04,
+      "y": -3848.97
     },
     {
-      "id": 8,
-      "x": -3250.04,
-      "y": -3848.97,
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3250.04,
+      "y": -3848.97
     },
     {
-      "id": 9,
-      "x": -3250.04,
-      "y": -3848.97,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "orientation"
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -3250.04,
+      "y": -3848.97
     }
   ]
 }

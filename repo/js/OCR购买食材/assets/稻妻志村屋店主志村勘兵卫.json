@@ -1,44 +1,44 @@
 {
   "info": {
+    "author": "吉吉喵",
+    "bgi_version": "0.42.0",
+    "description": "鱼肉+螃蟹",
     "name": "稻妻志村屋店主志村堪兵卫",
     "type": "collect",
-    "author": "吉吉喵",
-    "version": "1.0",
-    "description": "鱼肉+螃蟹",
-    "bgi_version": "0.42.0"
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "force_tp",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -4402.56,
       "y": -3052.88
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4409.03125,
-      "y": -3067.2666015625,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -3067.2666015625
     },
     {
+      "action": "",
       "id": 3,
-      "x": -4421.849609375,
-      "y": -3084.564453125,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": -4421.849609375,
+      "y": -3084.564453125
     },
     {
+      "action": "",
       "id": 4,
-      "x": -4425.07421875,
-      "y": -3082.072265625,
-      "type": "target",
       "move_mode": "walk",
-      "action": ""
+      "type": "target",
+      "x": -4425.07421875,
+      "y": -3082.072265625
     }
   ]
 }

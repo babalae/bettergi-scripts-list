@@ -1,33 +1,33 @@
 {
   "info": {
-    "name": "40-鸟蛋-纳塔-回声之子下方锚点-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "40-鸟蛋-纳塔-回声之子下方锚点-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 7633.81,
       "y": -1646.67
     },
     {
+      "action": "nahida_collect",
       "id": 2,
-      "x": 7637.47,
-      "y": -1641.02,
-      "type": "target",
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "target",
+      "x": 7637.47,
+      "y": -1641.02
     }
   ]
 }

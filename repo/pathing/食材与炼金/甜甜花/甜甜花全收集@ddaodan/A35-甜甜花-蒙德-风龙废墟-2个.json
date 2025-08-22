@@ -1,94 +1,94 @@
 {
   "info": {
-    "name": "A35-甜甜花-蒙德-风龙废墟-2个",
-    "type": "collect",
     "authors": [
       {
-        "name": "ddaodan",
-        "links": "https://github.com/ddaodan"
+        "links": "https://github.com/ddaodan",
+        "name": "ddaodan"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1751906815061,
+    "map_name": "Teyvat",
+    "name": "A35-甜甜花-蒙德-风龙废墟-2个",
     "tags": [
       "甜甜花"
     ],
-    "last_modified_time": 1751906815061
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 177.47,
-      "y": 2647.39,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 177.47,
+      "y": 2647.39
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 179.78,
-      "y": 2638.07,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2638.07
     },
     {
-      "id": 3,
-      "x": 165.05,
-      "y": 2614.51,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 165.05,
+      "y": 2614.51
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 156.56,
-      "y": 2608.22,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 156.56,
+      "y": 2608.22
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "dash",
+      "type": "path",
       "x": 140.27,
-      "y": 2598.96,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 2598.96
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
       "id": 6,
+      "move_mode": "dash",
+      "type": "path",
       "x": 111.76,
-      "y": 2605.23,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "wait(0.2)"
+      "y": 2605.23
     },
     {
-      "id": 7,
-      "x": 100.32,
-      "y": 2613.14,
-      "type": "path",
-      "move_mode": "jump",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 100.32,
+      "y": 2613.14
     },
     {
-      "id": 8,
-      "x": 87.33,
-      "y": 2623.5,
-      "type": "path",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "wait(0.2)"
+      "action_params": "wait(0.2)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 87.33,
+      "y": 2623.5
     }
   ]
 }

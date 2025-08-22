@@ -1,290 +1,290 @@
 {
   "info": {
-    "name": "3201稻妻九条阵屋",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
     ],
-    "enable_monster_loot_split": true
+    "bgi_version": "0.42.0",
+    "description": "",
+    "enable_monster_loot_split": true,
+    "name": "3201稻妻九条阵屋",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -3437.05,
-      "y": -3319.76,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -3319.76
     },
     {
-      "id": 2,
-      "x": -3430.68,
-      "y": -3389.36,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -3430.68,
+      "y": -3389.36
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 3,
-      "x": -3433.68,
-      "y": -3389.36,
-      "action": "fight",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -3433.68,
+      "y": -3389.36
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -3433.68,
-      "y": -3389.36,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -3389.36
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "dash",
+      "type": "path",
       "x": -3469.86,
-      "y": -3388.67,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -3388.67
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "dash",
+      "type": "path",
       "x": -3482.33,
-      "y": -3367.81,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -3367.81
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 7,
-      "x": -3489.08,
-      "y": -3357.67,
-      "action": "fight",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -3489.08,
+      "y": -3357.67
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": -3489.08,
-      "y": -3357.67,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -3357.67
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "dash",
+      "type": "path",
       "x": -3514.25,
-      "y": -3343.31,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -3343.31
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
+      "move_mode": "dash",
+      "type": "path",
       "x": -3540.55,
-      "y": -3360.41,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -3360.41
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 11,
+      "move_mode": "dash",
+      "type": "path",
       "x": -3553.38,
-      "y": -3373.57,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -3373.57
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 12,
+      "move_mode": "dash",
+      "type": "path",
       "x": -3587.91,
-      "y": -3318.56,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -3318.56
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 13,
+      "move_mode": "walk",
+      "type": "path",
       "x": -3589.7,
-      "y": -3312.57,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -3312.57
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 14,
-      "x": -3570.85,
-      "y": -3298.85,
-      "action": "fight",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -3570.85,
+      "y": -3298.85
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 15,
+      "move_mode": "walk",
+      "type": "path",
       "x": -3570.85,
-      "y": -3298.85,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -3298.85
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 16,
+      "move_mode": "walk",
+      "type": "path",
       "x": -3580.05,
-      "y": -3281.48,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -3281.48
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 17,
+      "move_mode": "walk",
+      "type": "path",
       "x": -3587.28,
-      "y": -3263.56,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -3263.56
     },
     {
+      "action": "fight",
+      "action_params": "",
+      "enable_monster_loot_split": true,
       "id": 18,
-      "x": -3600.96,
-      "y": -3263.1,
-      "action": "fight",
       "move_mode": "dash",
-      "action_params": "",
       "type": "path",
-      "enable_monster_loot_split": true
+      "x": -3600.96,
+      "y": -3263.1
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 19,
-      "x": -3600.96,
-      "y": -3263.1,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 20,
-      "x": -3622.24,
-      "y": -3242.04,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 21,
-      "x": -3616.68,
-      "y": -3227.06,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 22,
-      "x": -3622.24,
-      "y": -3242.04,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 23,
-      "x": -3649.85,
-      "y": -3287.58,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 24,
-      "x": -3658.19,
-      "y": -3332.6,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 25,
-      "x": -3662.3,
-      "y": -3354.6,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 26,
-      "x": -3662.3,
-      "y": -3354.6,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 27,
-      "x": -3728.51,
-      "y": -3353.72,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 28,
-      "x": -3703.25,
-      "y": -3355.26,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 29,
-      "x": -3713.45,
-      "y": -3357.1,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
       "type": "path",
-      "enable_monster_loot_split": true
+      "x": -3600.96,
+      "y": -3263.1
     },
     {
-      "id": 30,
-      "x": -3713.45,
-      "y": -3357.1,
-      "action": "combat_script",
+      "action": "fight",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3622.24,
+      "y": -3242.04
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
       "move_mode": "walk",
+      "type": "path",
+      "x": -3616.68,
+      "y": -3227.06
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3622.24,
+      "y": -3242.04
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3649.85,
+      "y": -3287.58
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3658.19,
+      "y": -3332.6
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3662.3,
+      "y": -3354.6
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3662.3,
+      "y": -3354.6
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 27,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3728.51,
+      "y": -3353.72
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 28,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3703.25,
+      "y": -3355.26
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "enable_monster_loot_split": true,
+      "id": 29,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3713.45,
+      "y": -3357.1
+    },
+    {
+      "action": "combat_script",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 30,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -3713.45,
+      "y": -3357.1
     }
   ]
 }

@@ -1,49 +1,49 @@
-﻿{
+{
   "info": {
-    "name": "秘源机兵·统御械前往",
-    "type": "collect",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": ""
+        "links": "",
+        "name": "Tool_tingsu"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1754186646369,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754186646369,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "秘源机兵·统御械前往",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 11953.5166015625,
-      "y": -3641.2392578125,
-      "action_params": ""
+      "y": -3641.2392578125
     },
     {
-      "id": 2,
-      "x": 11962.9072265625,
-      "y": -3683.81640625,
-      "type": "path",
-      "move_mode": "fly",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 11962.9072265625,
+      "y": -3683.81640625
     },
     {
-      "id": 3,
-      "x": 11967.5966796875,
-      "y": -3718.607421875,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 11967.5966796875,
+      "y": -3718.607421875
     }
   ]
 }

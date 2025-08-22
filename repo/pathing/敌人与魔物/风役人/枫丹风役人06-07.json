@@ -1,48 +1,48 @@
 {
   "info": {
-    "name": "枫丹风役人06-07",
-    "type": "collect",
-    "version": "1.1",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "迷茫之途"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "枫丹风役人06-07",
+    "type": "collect",
+    "version": "1.1"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 4986.66,
-      "y": 4465.68,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 4465.68
     },
     {
+      "action": "fight",
       "id": 2,
-      "x": 5098.27,
-      "y": 4527.0,
-      "action": "fight",
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 5098.27,
+      "y": 4527.0
     },
     {
-      "id": 3,
-      "x": 5098.27,
-      "y": 4527.0,
       "action": "",
+      "id": 3,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 5098.27,
+      "y": 4527.0
     },
     {
-      "id": 4,
-      "x": 5072.81,
-      "y": 4615.25,
       "action": "fight",
+      "id": 4,
       "move_mode": "run",
-      "type": "path"
+      "type": "path",
+      "x": 5072.81,
+      "y": 4615.25
     }
   ]
 }

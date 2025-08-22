@@ -1,102 +1,102 @@
 {
   "info": {
-    "name": "13-水晶块-层岩巨渊·地下矿区-崎岖石厅-南2(有战斗,小怪)-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "TheChasm",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "火山",
-        "links": "https://github.com/RRRR623"
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "name": "13-水晶块-层岩巨渊·地下矿区-崎岖石厅-南2(有战斗,小怪)-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 357.89,
-      "y": 176.59,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 357.89,
+      "y": 176.59
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 357.93,
-      "y": 176.58,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": 176.58
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": 379.85,
-      "y": 161.78,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": 161.78
     },
     {
-      "id": 4,
-      "x": 426.37,
-      "y": 130.19,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "1500"
+      "action_params": "1500",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 426.37,
+      "y": 130.19
     },
     {
-      "id": 5,
-      "x": 424.79,
-      "y": 137.2,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
       "action_params": "wait(3)",
-      "locked": false
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 424.79,
+      "y": 137.2
     },
     {
-      "id": 6,
-      "x": 424.79,
-      "y": 137.2,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
       "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
       "point_ext_params": {
+        "description": "史莱姆",
         "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
           "type": [
             "unrecognized"
-          ],
-          "handling_mode": "previousDetectedPoint",
-          "arrival_time": 0
+          ]
         },
-        "description": "史莱姆",
         "monster_tag": "normal"
-      }
+      },
+      "type": "path",
+      "x": 424.79,
+      "y": 137.2
     },
     {
+      "action": "combat_script",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
       "id": 7,
-      "x": 421.03,
-      "y": 126.26,
-      "type": "target",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)"
+      "type": "target",
+      "x": 421.03,
+      "y": 126.26
     },
     {
-      "id": 8,
-      "x": 425.18,
-      "y": 121.65,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)"
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 425.18,
+      "y": 121.65
     }
   ]
 }

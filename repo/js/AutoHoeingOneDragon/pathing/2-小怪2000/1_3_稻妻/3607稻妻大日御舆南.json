@@ -1,65 +1,65 @@
 {
   "info": {
-    "name": "3607稻妻大日御舆南",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Enkanomiya",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "name": "3607稻妻大日御舆南",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 372.82,
-      "y": 107.14,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 372.82,
+      "y": 107.14
     },
     {
-      "id": 2,
-      "x": 334.92,
-      "y": 122.96,
       "action": "",
-      "move_mode": "dash",
       "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "dash",
       "type": "path",
-      "locked": false
-    },
-    {
-      "id": 3,
-      "x": 318.07,
-      "y": 111.22,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "e,attack(1)",
-      "type": "path"
-    },
-    {
-      "id": 4,
       "x": 334.92,
-      "y": 122.96,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 122.96
     },
     {
-      "id": 5,
-      "x": 318.07,
-      "y": 111.22,
       "action": "combat_script",
+      "action_params": "e,attack(1)",
+      "id": 3,
       "move_mode": "dash",
+      "type": "path",
+      "x": 318.07,
+      "y": 111.22
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 334.92,
+      "y": 122.96
+    },
+    {
+      "action": "combat_script",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 318.07,
+      "y": 111.22
     }
   ]
 }

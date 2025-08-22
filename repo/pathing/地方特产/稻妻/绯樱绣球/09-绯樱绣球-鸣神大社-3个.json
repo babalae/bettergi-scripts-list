@@ -1,66 +1,66 @@
 {
   "info": {
-    "name": "09-绯樱绣球-鸣神大社-3个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "09-绯樱绣球-鸣神大社-3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": -4377.85,
-      "y": -2501.14,
-      "action": "",
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -4377.85,
+      "y": -2501.14
     },
     {
+      "action": "electro_collect",
       "id": 2,
+      "move_mode": "walk",
+      "type": "target",
       "x": -4374.12,
-      "y": -2469.8,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "type": "target"
+      "y": -2469.8
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": -4386.04,
-      "y": -2463.12,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -4386.04,
+      "y": -2463.12
     },
     {
+      "action": "electro_collect",
       "id": 4,
+      "move_mode": "walk",
+      "type": "target",
       "x": -4387.54,
-      "y": -2468.89,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "type": "target"
+      "y": -2468.89
     },
     {
-      "id": 5,
-      "x": -4377.85,
-      "y": -2501.14,
       "action": "",
+      "id": 5,
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -4377.85,
+      "y": -2501.14
     },
     {
-      "id": 6,
-      "x": -4412.14,
-      "y": -2494.03,
       "action": "electro_collect",
+      "id": 6,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": -4412.14,
+      "y": -2494.03
     }
   ]
 }

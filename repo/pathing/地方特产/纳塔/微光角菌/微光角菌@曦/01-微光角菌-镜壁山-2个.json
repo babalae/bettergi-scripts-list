@@ -1,41 +1,41 @@
 {
   "info": {
-    "name": "01-微光角菌-镜壁山-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "曦",
-        "links": "https://github.com/cx05121"
+        "links": "https://github.com/cx05121",
+        "name": "曦"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "01-微光角菌-镜壁山-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 9520.92,
-      "y": -1779.77,
       "action": "force_tp",
+      "id": 1,
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 9520.92,
+      "y": -1779.77
     },
     {
+      "action": "",
       "id": 2,
-      "x": 9526.01,
-      "y": -1778.95,
-      "action": "",
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 9526.01,
+      "y": -1778.95
     },
     {
-      "id": 3,
-      "x": 9524.2,
-      "y": -1777.89,
       "action": "",
+      "id": 3,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 9524.2,
+      "y": -1777.89
     }
   ]
 }

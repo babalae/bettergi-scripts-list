@@ -1,60 +1,60 @@
 {
   "info": {
-    "name": "璃月7-遁玉陵-5",
-    "type": "collect",
     "author": "秋云",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "description": "",
+    "last_modified_time": 1749400498877,
+    "map_name": "Teyvat",
+    "name": "璃月7-遁玉陵-5",
     "tags": [],
-    "last_modified_time": 1749400498877
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 876.75,
-      "y": 587.25,
-      "type": "teleport",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "teleport",
+      "x": 876.75,
+      "y": 587.25
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 868.48,
-      "y": 570.17,
-      "type": "path",
       "move_mode": "jump",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 868.48,
+      "y": 570.17
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": 840.12,
-      "y": 562.36,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 562.36
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 761.5,
-      "y": 561.25,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 761.5,
+      "y": 561.25
     },
     {
-      "id": 5,
-      "x": 681.46,
-      "y": 528.76,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 681.46,
+      "y": 528.76
     }
   ]
 }

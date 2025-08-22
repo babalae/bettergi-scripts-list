@@ -1,107 +1,107 @@
 {
   "info": {
-    "name": "18-松茸-蒙德-风起地右-2朵",
-    "type": "collect",
-    "version": "1.0",
-    "description": "历时:0分46秒; 推荐双风配队琴团长跑图.",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "白白喵"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "历时:0分46秒; 推荐双风配队琴团长跑图.",
+    "map_name": "Teyvat",
+    "name": "18-松茸-蒙德-风起地右-2朵",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -1536.81,
-      "y": 1978.71,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -1536.81,
+      "y": 1978.71
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1533.86,
-      "y": 1974.83,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 1974.83
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": -1532.75,
-      "y": 1976.91,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": 1976.91
     },
     {
-      "id": 4,
-      "x": -1514.47,
-      "y": 2017.56,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1514.47,
+      "y": 2017.56
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "target",
       "x": -1507.96,
-      "y": 2029.97,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2029.97
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "run",
+      "type": "path",
       "x": -1537.05,
-      "y": 2009.69,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 2009.69
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "run",
+      "type": "path",
       "x": -1542.29,
-      "y": 2007.21,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 2007.21
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "run",
+      "type": "path",
       "x": -1575.62,
-      "y": 2013.19,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 2013.19
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
-      "x": -1585.72,
-      "y": 2013.58,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -1585.72,
+      "y": 2013.58
     },
     {
-      "id": 10,
-      "x": -1593.81,
-      "y": 2000.57,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1593.81,
+      "y": 2000.57
     }
   ]
 }

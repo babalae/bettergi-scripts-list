@@ -1,49 +1,49 @@
 {
   "info": {
-    "name": "盗宝团-11荒海",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "曦",
-        "links": "https://github.com/cx05121"
+        "links": "https://github.com/cx05121",
+        "name": "曦"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "盗宝团-11荒海",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -4217.91,
       "y": -2397.8
     },
     {
+      "action": "stop_flying",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": -4204.48,
-      "y": -2383.21,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying"
+      "y": -2383.21
     },
     {
+      "action": "stop_flying",
       "id": 3,
-      "x": -4139.16,
-      "y": -2372.97,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": -4139.16,
+      "y": -2372.97
     },
     {
+      "action": "fight",
       "id": 4,
-      "x": -4170.87,
-      "y": -2399.97,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": -4170.87,
+      "y": -2399.97
     }
   ]
 }

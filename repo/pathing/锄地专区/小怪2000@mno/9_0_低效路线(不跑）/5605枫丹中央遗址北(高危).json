@@ -1,116 +1,116 @@
 {
   "info": {
-    "name": "5605枫丹中央遗址北(高危)",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "5605枫丹中央遗址北(高危)",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 3811.69,
-      "y": 4952.58,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 4952.58
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3814.94,
-      "y": 4948.73,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 4948.73
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 3,
-      "x": 3860.69,
-      "y": 4940.63,
-      "action": "fight",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 3860.69,
+      "y": 4940.63
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3860.69,
-      "y": 4940.63,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 4940.63
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3830.42,
-      "y": 4912.06,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 4912.06
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 6,
-      "x": 3813.08,
-      "y": 4874.84,
-      "action": "fight",
       "move_mode": "jump",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 7,
+      "type": "path",
       "x": 3813.08,
-      "y": 4874.84,
+      "y": 4874.84
+    },
+    {
       "action": "",
+      "action_params": "",
+      "id": 7,
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 3813.08,
+      "y": 4874.84
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3825.52,
-      "y": 4870.54,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 4870.54
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3853.41,
-      "y": 4875.58,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 4875.58
     },
     {
-      "id": 10,
-      "x": 3882.14,
-      "y": 4865.38,
       "action": "fight",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3882.14,
+      "y": 4865.38
     },
     {
-      "id": 11,
-      "x": 3882.14,
-      "y": 4865.38,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 11,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 3882.14,
+      "y": 4865.38
     }
   ]
 }

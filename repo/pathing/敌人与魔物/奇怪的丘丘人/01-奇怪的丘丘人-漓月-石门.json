@@ -1,75 +1,75 @@
 {
   "info": {
-    "name": "01-奇怪的丘丘人-漓月-石门",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "01-奇怪的丘丘人-漓月-石门",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 207.42,
-      "y": 1572.97,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 1572.97
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 188.27,
-      "y": 1559.71,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1559.71
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": 170.12,
-      "y": 1545.16,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path"
+      "y": 1545.16
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 165.7,
-      "y": 1554.58,
-      "type": "path",
       "move_mode": "climb",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": 159.86,
-      "y": 1566.85,
       "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "x": 165.7,
+      "y": 1554.58
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 159.86,
+      "y": 1566.85
+    },
+    {
+      "action": "",
       "id": 6,
-      "x": 163.99,
-      "y": 1570.41,
-      "action": "",
       "move_mode": "fly",
-      "type": "path"
+      "type": "path",
+      "x": 163.99,
+      "y": 1570.41
     },
     {
-      "id": 7,
-      "x": 172.56,
-      "y": 1575.04,
       "action": "fight",
+      "id": 7,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 172.56,
+      "y": 1575.04
     }
   ]
 }

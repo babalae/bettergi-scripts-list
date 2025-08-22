@@ -1,89 +1,89 @@
 {
   "info": {
-    "name": "06-慕风蘑菇-蒙德城南大风车-4个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "秋云",
-        "links": "https://github.com/physligl"
+        "links": "https://github.com/physligl",
+        "name": "秋云"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "06-慕风蘑菇-蒙德城南大风车-4个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -749.35,
-      "y": 2263.05,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 2263.05
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -749.89,
-      "y": 2258.55,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2258.55
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": -767.49,
-      "y": 2232.37,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": 2232.37
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "fly",
+      "type": "path",
       "x": -770.02,
-      "y": 2216.21,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": 2216.21
     },
     {
-      "id": 5,
-      "x": -761.24,
-      "y": 2213.0,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -761.24,
+      "y": 2213.0
     },
     {
-      "id": 6,
-      "x": -761.7,
-      "y": 2200.57,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -761.7,
+      "y": 2200.57
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 7,
-      "x": -773.97,
-      "y": 2192.1,
-      "action": "nahida_collect",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "type": "target",
+      "x": -773.97,
+      "y": 2192.1
     },
     {
-      "id": 8,
-      "x": -786.8,
-      "y": 2189.55,
       "action": "nahida_collect",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -786.8,
+      "y": 2189.55
     }
   ]
 }

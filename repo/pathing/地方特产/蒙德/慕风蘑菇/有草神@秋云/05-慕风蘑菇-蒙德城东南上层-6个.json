@@ -1,152 +1,152 @@
 {
   "info": {
-    "name": "05-慕风蘑菇-蒙德城东南上层-6个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "秋云",
-        "links": "https://github.com/physligl"
+        "links": "https://github.com/physligl",
+        "name": "秋云"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "05-慕风蘑菇-蒙德城东南上层-6个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -755.63,
-      "y": 2259.62,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 2259.62
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": -773.18,
-      "y": 2253.12,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": 2253.12
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": -814.63,
-      "y": 2225.77,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": 2225.77
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -812.66,
-      "y": 2221.13,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2221.13
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -817.81,
-      "y": 2221.93,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2221.93
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 6,
+      "move_mode": "fly",
+      "type": "target",
       "x": -842.18,
-      "y": 2214.52,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "target"
+      "y": 2214.52
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": -843.5,
-      "y": 2217.25,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2217.25
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": -846.06,
-      "y": 2217.47,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 2217.47
     },
     {
-      "id": 9,
-      "x": -848.1,
-      "y": 2216.64,
       "action": "log_output",
-      "move_mode": "walk",
       "action_params": "扫码两次，因为蘑菇有概率被风车挡住。",
-      "type": "path"
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -848.1,
+      "y": 2216.64
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 10,
-      "x": -863.85,
-      "y": 2212.13,
-      "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -863.85,
+      "y": 2212.13
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 11,
-      "x": -863.85,
-      "y": 2212.13,
-      "action": "nahida_collect",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "type": "target",
+      "x": -863.85,
+      "y": 2212.13
     },
     {
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 12,
-      "x": -863.85,
-      "y": 2212.13,
-      "action": "nahida_collect",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "type": "target",
+      "x": -863.85,
+      "y": 2212.13
     },
     {
-      "id": 13,
-      "x": -883.96,
-      "y": 2186.47,
       "action": "stop_flying",
-      "move_mode": "fly",
       "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 14,
+      "id": 13,
+      "move_mode": "fly",
+      "type": "path",
       "x": -883.96,
-      "y": 2186.47,
-      "action": "nahida_collect",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "target"
+      "y": 2186.47
     },
     {
-      "id": 15,
-      "x": -901.5,
-      "y": 2195.05,
       "action": "nahida_collect",
-      "move_mode": "climb",
       "action_params": "",
-      "type": "target"
+      "id": 14,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -883.96,
+      "y": 2186.47
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "climb",
+      "type": "target",
+      "x": -901.5,
+      "y": 2195.05
     }
   ]
 }

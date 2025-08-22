@@ -1,154 +1,154 @@
 {
   "info": {
-    "name": "蒙德-03-铭记之谷南-4个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.43.0",
     "authors": [
       {
-        "name": "愚溪",
-        "links": "https://github.com/Kupder"
+        "links": "https://github.com/Kupder",
+        "name": "愚溪"
       }
-    ]
+    ],
+    "bgi_version": "0.43.0",
+    "description": "",
+    "name": "蒙德-03-铭记之谷南-4个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -663.49,
-      "y": 1709.72,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 1709.72
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -654.65,
-      "y": 1703.34,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 1703.34
     },
     {
+      "action": "",
       "id": 3,
-      "x": -652.43,
-      "y": 1687.34,
-      "type": "path",
       "move_mode": "climb",
-      "action": ""
+      "type": "path",
+      "x": -652.43,
+      "y": 1687.34
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -656.47,
-      "y": 1679.14,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1679.14
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -710.49,
-      "y": 1675.85,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1675.85
     },
     {
+      "action": "",
       "id": 6,
-      "x": -719.26,
-      "y": 1675.34,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": -714.67,
-      "y": 1673.75,
       "move_mode": "walk",
       "type": "path",
+      "x": -719.26,
+      "y": 1675.34
+    },
+    {
       "action": "combat_script",
-      "action_params": "钟离 d(0.2),e(hold)"
+      "action_params": "钟离 d(0.2),e(hold)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -714.67,
+      "y": 1673.75
     },
     {
+      "action": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": -718.65,
-      "y": 1673.76,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1673.76
     },
     {
+      "action": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": -719.26,
-      "y": 1671.35,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1671.35
     },
     {
+      "action": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": -719.25,
-      "y": 1667.26,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1667.26
     },
     {
+      "action": "",
       "id": 11,
+      "move_mode": "walk",
+      "type": "path",
       "x": -719.85,
-      "y": 1663.31,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1663.31
     },
     {
+      "action": "",
       "id": 12,
+      "move_mode": "walk",
+      "type": "path",
       "x": -711.99,
-      "y": 1675.44,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1675.44
     },
     {
+      "action": "",
       "id": 13,
+      "move_mode": "walk",
+      "type": "path",
       "x": -707.37,
-      "y": 1674.1,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 1674.1
     },
     {
+      "action": "",
       "id": 14,
-      "x": -710.0,
-      "y": 1675.84,
-      "action": "",
       "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 15,
-      "x": -711.07,
-      "y": 1678.47,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 16,
-      "x": -713.06,
-      "y": 1681.01,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 17,
-      "x": -715.07,
-      "y": 1682.3,
       "type": "path",
+      "x": -710.0,
+      "y": 1675.84
+    },
+    {
+      "action": "",
+      "id": 15,
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": -711.07,
+      "y": 1678.47
+    },
+    {
+      "action": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -713.06,
+      "y": 1681.01
+    },
+    {
+      "action": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -715.07,
+      "y": 1682.3
     }
   ]
 }

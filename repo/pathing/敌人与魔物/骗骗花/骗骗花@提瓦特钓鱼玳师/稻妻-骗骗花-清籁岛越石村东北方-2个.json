@@ -1,91 +1,91 @@
 {
   "info": {
-    "name": "稻妻-骗骗花-清籁岛越石村东北方-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "骗骗花-2个\n稻妻-清籁岛越石村东北方\n经由Economy优化交互触发",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "提瓦特钓鱼玳师",
-        "links": "https://github.com/Hijiwos"
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "骗骗花-2个\n稻妻-清籁岛越石村东北方\n经由Economy优化交互触发",
+    "name": "稻妻-骗骗花-清籁岛越石村东北方-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": -4189.73,
-      "y": -4244.81,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4189.73,
+      "y": -4244.81
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -4150.12,
-      "y": -4223.08,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 3,
-      "x": -4115.76,
-      "y": -4245.92,
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -4150.12,
+      "y": -4223.08
     },
     {
-      "id": 4,
-      "x": -4101.47,
-      "y": -4255.78,
-      "type": "target",
+      "action": "",
+      "action_params": "",
+      "id": 3,
       "move_mode": "walk",
+      "type": "path",
+      "x": -4115.76,
+      "y": -4245.92
+    },
+    {
       "action": "combat_script",
       "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
-      "locked": false
-    },
-    {
-      "id": 5,
-      "x": -4101.47,
-      "y": -4255.78,
-      "type": "path",
+      "id": 4,
+      "locked": false,
       "move_mode": "walk",
-      "action": "fight",
-      "action_params": ""
-    },
-    {
-      "id": 6,
-      "x": -4105.13,
-      "y": -4303.56,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 7,
-      "x": -4078.47,
-      "y": -4323.53,
       "type": "target",
+      "x": -4101.47,
+      "y": -4255.78
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
       "move_mode": "walk",
+      "type": "path",
+      "x": -4101.47,
+      "y": -4255.78
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4105.13,
+      "y": -4303.56
+    },
+    {
       "action": "combat_script",
       "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
-      "locked": false
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4078.47,
+      "y": -4323.53
     },
     {
-      "id": 8,
-      "x": -4078.47,
-      "y": -4323.53,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4078.47,
+      "y": -4323.53
     }
   ]
 }

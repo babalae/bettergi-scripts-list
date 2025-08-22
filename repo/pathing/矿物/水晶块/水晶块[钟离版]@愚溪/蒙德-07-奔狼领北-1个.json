@@ -1,90 +1,90 @@
 {
   "info": {
-    "name": "蒙德-07-奔狼领北-1个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.43.0",
     "authors": [
       {
-        "name": "愚溪",
-        "links": "https://github.com/Kupder"
+        "links": "https://github.com/Kupder",
+        "name": "愚溪"
       }
-    ]
+    ],
+    "bgi_version": "0.43.0",
+    "description": "",
+    "name": "蒙德-07-奔狼领北-1个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -386.19,
-      "y": 2297.55,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 2297.55
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -369.82,
-      "y": 2339.21,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 2339.21
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -338.38,
-      "y": 2358.62,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 2358.62
     },
     {
-      "id": 4,
-      "x": -329.44,
-      "y": 2389.09,
-      "move_mode": "walk",
-      "type": "path",
       "action": "combat_script",
-      "action_params": "钟离 d(0.2),e(hold)"
-    },
-    {
-      "id": 5,
-      "x": -332.46,
-      "y": 2387.24,
-      "action": "",
+      "action_params": "钟离 d(0.2),e(hold)",
+      "id": 4,
       "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": -334.41,
-      "y": 2383.96,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": -329.14,
-      "y": 2379.81,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": -332.45,
-      "y": 2377.02,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": -334.02,
-      "y": 2376.28,
       "type": "path",
+      "x": -329.44,
+      "y": 2389.09
+    },
+    {
+      "action": "",
+      "id": 5,
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": -332.46,
+      "y": 2387.24
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -334.41,
+      "y": 2383.96
+    },
+    {
+      "action": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -329.14,
+      "y": 2379.81
+    },
+    {
+      "action": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -332.45,
+      "y": 2377.02
+    },
+    {
+      "action": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -334.02,
+      "y": 2376.28
     }
   ]
 }

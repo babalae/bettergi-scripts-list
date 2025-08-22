@@ -1,71 +1,71 @@
 {
   "info": {
-    "name": "15-海露花-枫丹-苍白的遗荣3-2个",
-    "type": "collect",
     "authors": [
       {
-        "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1755289688057,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "15-海露花-枫丹-苍白的遗荣3-2个",
     "tags": [
       "水下地图"
     ],
-    "last_modified_time": 1755289688057,
-    "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 4399.8945,
-      "y": 3083.4019,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "click(middle);"
+      "action_params": "click(middle);",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4399.8945,
+      "y": 3083.4019
     },
     {
-      "id": 2,
-      "x": 4442.5596,
-      "y": 3110.209,
-      "type": "path",
-      "move_mode": "run",
       "action": "combat_script",
       "action_params": "keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL)",
-      "locked": false
-    },
-    {
-      "id": 3,
-      "x": 4442.5596,
-      "y": 3110.209,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.4),click(middle);"
-    },
-    {
-      "id": 4,
-      "x": 4446.5391,
-      "y": 3134.0156,
+      "id": 2,
+      "locked": false,
+      "move_mode": "run",
       "type": "path",
+      "x": 4442.5596,
+      "y": 3110.209
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4),click(middle);",
+      "id": 3,
       "move_mode": "walk",
+      "type": "target",
+      "x": 4442.5596,
+      "y": 3110.209
+    },
+    {
       "action": "combat_script",
       "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL)",
-      "locked": false
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4446.5391,
+      "y": 3134.0156
     },
     {
-      "id": 5,
-      "x": 4446.5391,
-      "y": 3134.0156,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(1),click(middle);"
+      "action_params": "wait(1),click(middle);",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4446.5391,
+      "y": 3134.0156
     }
   ]
 }

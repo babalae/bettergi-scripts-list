@@ -1,33 +1,33 @@
 {
   "info": {
-    "name": "12-鸟蛋-璃月-明蕴镇上-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "12-鸟蛋-璃月-明蕴镇上-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": -188.5,
-      "y": 972.43,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -188.5,
+      "y": 972.43
     },
     {
-      "id": 2,
-      "x": -190.85,
-      "y": 967.81,
       "action": "nahida_collect",
+      "id": 2,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": -190.85,
+      "y": 967.81
     }
   ]
 }

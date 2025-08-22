@@ -1,256 +1,256 @@
 {
   "info": {
-    "name": "B05-卡布狄斯堡遗迹右侧-17个",
-    "type": "collect",
     "authors": [
       {
         "name": "芝士贝果"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.48.0",
-    "tags": [],
-    "last_modified_time": 1755581125133,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1755581125133,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B05-卡布狄斯堡遗迹右侧-17个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 3072.9072,
-      "y": 2676.6511,
-      "action_params": "",
-      "locked": false
+      "y": 2676.6511
     },
     {
-      "id": 2,
       "action": "combat_script",
+      "action_params": "moveby(0,-100)",
+      "id": 2,
       "move_mode": "walk",
       "type": "path",
       "x": 3072.9072,
-      "y": 2676.6511,
-      "action_params": "moveby(0,-100)"
+      "y": 2676.6511
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3109.832,
-      "y": 2693.9766,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 2693.9766
     },
     {
+      "action": "combat_script",
+      "action_params": "e;moveby(0,1000)",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3112.6445,
-      "y": 2695.6255,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "e;moveby(0,1000)"
+      "y": 2695.6255
     },
     {
+      "action": "combat_script",
+      "action_params": "e",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3120.4824,
-      "y": 2696.0212,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "e"
+      "y": 2696.0212
     },
     {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(2);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,1000)",
       "id": 6,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3129.5703,
-      "y": 2745.3438,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL);wait(2);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,1000)"
+      "y": 2745.3438
     },
     {
+      "action": "combat_script",
+      "action_params": "e",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3128.7441,
-      "y": 2745.8276,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "e"
+      "y": 2745.8276
     },
     {
+      "action": "combat_script",
+      "action_params": "e",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3128.3037,
-      "y": 2727.7888,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "e"
+      "y": 2727.7888
     },
     {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(7);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,1000)",
       "id": 9,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3098.6748,
-      "y": 2729.0867,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL);wait(7);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,1000)"
+      "y": 2729.0867
     },
     {
+      "action": "combat_script",
+      "action_params": "e",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3091.9492,
-      "y": 2729.4553,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "e"
+      "y": 2729.4553
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 11,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3090.4521,
-      "y": 2754.7314,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 2754.7314
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 12,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3079.7041,
-      "y": 2790.6597,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 2790.6597
     },
     {
+      "action": "combat_script",
+      "action_params": "e",
       "id": 13,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3077.9785,
-      "y": 2797.8884,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "e"
+      "y": 2797.8884
     },
     {
+      "action": "combat_script",
+      "action_params": "e",
       "id": 14,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3074.9551,
-      "y": 2799.9634,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "e"
+      "y": 2799.9634
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 15,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3043.6523,
-      "y": 2802.0188,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 2802.0188
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 16,
+      "move_mode": "dash",
+      "type": "path",
       "x": 3028.3652,
-      "y": 2817.8723,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 2817.8723
     },
     {
+      "action": "combat_script",
+      "action_params": "e",
       "id": 17,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3025.6348,
-      "y": 2820.7639,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "e"
+      "y": 2820.7639
     },
     {
+      "action": "combat_script",
+      "action_params": "e",
       "id": 18,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3022.1064,
-      "y": 2824.9946,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "e"
+      "y": 2824.9946
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 19,
+      "move_mode": "dash",
+      "type": "path",
       "x": 2999.2959,
-      "y": 2822.6089,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 2822.6089
     },
     {
+      "action": "combat_script",
+      "action_params": "e",
       "id": 20,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2990.4434,
-      "y": 2821.4937,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "e"
+      "y": 2821.4937
     },
     {
+      "action": "combat_script",
+      "action_params": "e",
       "id": 21,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2987.4004,
-      "y": 2819.656,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "e"
+      "y": 2819.656
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 22,
+      "move_mode": "dash",
+      "type": "path",
       "x": 2963.9102,
-      "y": 2926.9548,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 2926.9548
     },
     {
+      "action": "combat_script",
+      "action_params": "e",
       "id": 23,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2961.2549,
-      "y": 2943.321,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "e"
+      "y": 2943.321
     },
     {
-      "id": 24,
-      "x": 2937.0645,
-      "y": 2943.5913,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 24,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2937.0645,
+      "y": 2943.5913
     },
     {
+      "action": "combat_script",
+      "action_params": "e",
       "id": 25,
-      "x": 2933.0137,
-      "y": 2946.7048,
-      "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "e"
+      "type": "path",
+      "x": 2933.0137,
+      "y": 2946.7048
     },
     {
-      "id": 26,
-      "x": 2930.5039,
-      "y": 2953.2988,
-      "type": "path",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "e"
+      "action_params": "e",
+      "id": 26,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2930.5039,
+      "y": 2953.2988
     }
   ]
 }

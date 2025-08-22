@@ -1,95 +1,95 @@
-﻿{
+{
   "info": {
-    "name": "509枫丹厄里那斯西（600_1，400_1，200_3）",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时173.91秒，包含6只精英，预计收入1800摩拉，包含以下怪物：1只大型狂蔓隙境原体、2只狂蔓隙境原体、1只遗迹猎者、1只遗迹重机。",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
-    "map_name": "Teyvat",
-    "tags": [],
-    "last_modified_time": 1754750852740,
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时173.91秒，包含6只精英，预计收入1800摩拉，包含以下怪物：1只大型狂蔓隙境原体、2只狂蔓隙境原体、1只遗迹猎者、1只遗迹重机。",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754750852740,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "509枫丹厄里那斯西（600_1，400_1，200_3）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 4954.93,
-      "y": 2760.1000000000004,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 2760.1000000000004
     },
     {
-      "id": 2,
-      "x": 5038.619999999999,
-      "y": 2781.66,
       "action": "combat_script",
-      "move_mode": "fly",
       "action_params": "keypress(VK_SPACE),wait(2.6),click",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 5047.720000000001,
-      "y": 2785.2199999999993,
-      "action": "stop_flying",
+      "id": 2,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 5038.619999999999,
+      "y": 2781.66
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5047.720000000001,
+      "y": 2785.2199999999993
+    },
+    {
+      "action": "fight",
+      "action_params": "",
       "id": 4,
-      "x": 5051.5,
-      "y": 2783.869999999999,
-      "action": "fight",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 5051.5,
+      "y": 2783.869999999999
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 5073.25,
-      "y": 2782.499734403047,
-      "action": "",
       "move_mode": "climb",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 5073.25,
+      "y": 2782.499734403047
     },
     {
-      "id": 6,
-      "x": 5067.869999999999,
-      "y": 2808.9699999999993,
       "action": "",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5067.869999999999,
+      "y": 2808.9699999999993
     },
     {
-      "id": 7,
-      "x": 5071.130000000001,
-      "y": 2841.290000000001,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "keypress(x)",
-      "type": "path"
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5071.130000000001,
+      "y": 2841.290000000001
     },
     {
-      "id": 8,
-      "x": 5075.200000000001,
-      "y": 2862.290000000001,
       "action": "fight",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5075.200000000001,
+      "y": 2862.290000000001
     }
   ]
 }

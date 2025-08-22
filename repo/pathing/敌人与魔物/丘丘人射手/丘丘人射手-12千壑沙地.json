@@ -1,65 +1,65 @@
 {
   "info": {
-    "name": "丘丘人射手-12千壑沙地",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "曦",
-        "links": "https://github.com/cx05121"
+        "links": "https://github.com/cx05121",
+        "name": "曦"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "丘丘人射手-12千壑沙地",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4592.26,
       "y": -647.52
     },
     {
+      "action": "stop_flying",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 4596.41,
-      "y": -675.3,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying"
+      "y": -675.3
     },
     {
+      "action": "fight",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4596.54,
-      "y": -675.46,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": -675.46
     },
     {
+      "action": "",
       "id": 4,
-      "x": 4590.03,
-      "y": -652.3,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "x": 4590.03,
+      "y": -652.3
     },
     {
+      "action": "stop_flying",
       "id": 5,
-      "x": 4621.67,
-      "y": -642.85,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": 4621.67,
+      "y": -642.85
     },
     {
+      "action": "fight",
       "id": 6,
-      "x": 4637.66,
-      "y": -639.24,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 4637.66,
+      "y": -639.24
     }
   ]
 }

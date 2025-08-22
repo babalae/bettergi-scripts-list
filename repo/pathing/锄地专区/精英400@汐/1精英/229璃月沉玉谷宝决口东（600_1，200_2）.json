@@ -1,91 +1,91 @@
 {
   "info": {
-    "name": "229璃月沉玉谷宝决口东（600_1，200_2）",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时102.65秒，包含3只精英，预计收入1000摩拉，包含以下怪物：1只岩龙蜥、2只玄文兽。",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.42.3",
+    "description": "  路线信息：该路线预计用时102.65秒，包含3只精英，预计收入1000摩拉，包含以下怪物：1只岩龙蜥、2只玄文兽。",
+    "name": "229璃月沉玉谷宝决口东（600_1，200_2）",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 2053.77,
-      "y": 1799.61,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 1799.61
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 2055,
-      "y": 1797.69,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 2057.54,
-      "y": 1771.67,
-      "action": "fight",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 2062.72,
-      "y": 1704,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 2103.71,
-      "y": 1716.5,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": 2108.69,
-      "y": 1715.88,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": 2093.71,
-      "y": 1714.5,
-      "action": "fight",
-      "move_mode": "run",
-      "action_params": "",
       "type": "path",
-      "locked": false
+      "x": 2055,
+      "y": 1797.69
     },
     {
-      "id": 8,
-      "x": 2093.71,
-      "y": 1714.5,
-      "action": "combat_script",
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
       "move_mode": "run",
+      "type": "path",
+      "x": 2057.54,
+      "y": 1771.67
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2062.72,
+      "y": 1704
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2103.71,
+      "y": 1716.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2108.69,
+      "y": 1715.88
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2093.71,
+      "y": 1714.5
+    },
+    {
+      "action": "combat_script",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 8,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 2093.71,
+      "y": 1714.5
     }
   ]
 }

@@ -1,85 +1,85 @@
 {
   "info": {
-    "name": "枫丹-很明亮的地方-炬木-36个",
-    "type": "collect",
     "authors": [
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.48.1",
-    "tags": [],
-    "last_modified_time": 1753711626346,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": "TemplateMatch"
+    "last_modified_time": 1753711626346,
+    "map_match_method": "TemplateMatch",
+    "map_name": "Teyvat",
+    "name": "枫丹-很明亮的地方-炬木-36个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 4713.2051,
-      "y": 2391.5508,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4713.2051,
+      "y": 2391.5508
     },
     {
+      "action": "use_gadget",
+      "action_params": "keypress(VK_Z)",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 4717.0029,
-      "y": 2387.1792,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "use_gadget",
-      "action_params": "keypress(VK_Z)"
+      "y": 2387.1792
     },
     {
+      "action": "use_gadget",
+      "action_params": "keypress(VK_Z)",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": 4693.106,
-      "y": 2393.0996,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "use_gadget",
-      "action_params": "keypress(VK_Z)"
+      "y": 2393.0996
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(2),keypress(VK_Z)",
       "id": 4,
+      "move_mode": "dash",
+      "type": "path",
       "x": 4680.8965,
-      "y": 2386.0247,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "use_gadget",
-      "action_params": "wait(2),keypress(VK_Z)"
+      "y": 2386.0247
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(1.5),keypress(VK_Z)",
       "id": 5,
+      "move_mode": "dash",
+      "type": "path",
       "x": 4691.4717,
-      "y": 2373.5291,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "use_gadget",
-      "action_params": "wait(1.5),keypress(VK_Z)"
+      "y": 2373.5291
     },
     {
+      "action": "use_gadget",
+      "action_params": "wait(1.5),keypress(VK_Z)",
       "id": 6,
-      "x": 4681.293,
-      "y": 2356.0234,
-      "type": "path",
       "move_mode": "dash",
-      "action": "use_gadget",
-      "action_params": "wait(1.5),keypress(VK_Z)"
+      "type": "path",
+      "x": 4681.293,
+      "y": 2356.0234
     },
     {
-      "id": 7,
-      "x": 4700.3086,
-      "y": 2336.3958,
-      "type": "path",
-      "move_mode": "dash",
       "action": "use_gadget",
-      "action_params": "keypress(VK_Z)"
+      "action_params": "keypress(VK_Z)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4700.3086,
+      "y": 2336.3958
     }
   ]
 }

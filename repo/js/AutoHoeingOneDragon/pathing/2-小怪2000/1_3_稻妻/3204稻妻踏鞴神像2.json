@@ -1,126 +1,126 @@
 {
   "info": {
-    "name": "3204稻妻踏鞴神像2",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时96.66秒，包含6只小怪，预计收入364.5摩拉，包含以下怪物：2只野伏·阵刀番、1只野伏·机巧番、2只海乱鬼·炎威、1只海乱鬼·雷腾。",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "  路线信息：该路线预计用时96.66秒，包含6只小怪，预计收入364.5摩拉，包含以下怪物：2只野伏·阵刀番、1只野伏·机巧番、2只海乱鬼·炎威、1只海乱鬼·雷腾。",
+    "name": "3204稻妻踏鞴神像2",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -3233.22,
-      "y": -3534.15,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -3534.15
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": -3238.77,
-      "y": -3569.19,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -3569.19
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": -3231.13,
-      "y": -3570.36,
-      "action": "",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -3231.13,
+      "y": -3570.36
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "dash",
+      "type": "path",
       "x": -3225.34,
-      "y": -3581.16,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -3581.16
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 5,
+      "move_mode": "dash",
+      "type": "path",
       "x": -3231.53,
-      "y": -3585.47,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -3585.47
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": -3236.79,
-      "y": -3581.65,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -3581.65
     },
     {
-      "id": 7,
-      "x": -3263.7,
-      "y": -3556.99,
       "action": "stop_flying",
-      "move_mode": "fly",
       "action_params": "500",
-      "type": "path"
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3263.7,
+      "y": -3556.99
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 8,
-      "x": -3266.7,
-      "y": -3556.99,
-      "action": "fight",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -3266.7,
+      "y": -3556.99
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": -3266.7,
-      "y": -3556.99,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -3556.99
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
+      "move_mode": "dash",
+      "type": "path",
       "x": -3293.34,
-      "y": -3560.22,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -3560.22
     },
     {
-      "id": 11,
-      "x": -3316.66,
-      "y": -3562.65,
       "action": "fight",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3316.66,
+      "y": -3562.65
     },
     {
-      "id": 12,
-      "x": -3316.66,
-      "y": -3562.65,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 12,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -3316.66,
+      "y": -3562.65
     }
   ]
 }

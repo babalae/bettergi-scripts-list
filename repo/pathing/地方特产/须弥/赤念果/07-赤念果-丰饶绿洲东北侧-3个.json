@@ -1,58 +1,58 @@
 {
   "info": {
-    "name": "07-赤念果-丰饶绿洲东北侧-3个",
-    "type": "collect",
-    "country": "须弥",
-    "version": "1.0",
-    "description": "需要纳西妲",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "½",
-        "links": "https://github.com/Traveler07"
+        "links": "https://github.com/Traveler07",
+        "name": "½"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "country": "须弥",
+    "description": "需要纳西妲",
+    "name": "07-赤念果-丰饶绿洲东北侧-3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 4691.22,
-      "y": -2345.83,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": -2345.83
     },
     {
+      "action": "nahida_collect",
       "id": 2,
+      "move_mode": "walk",
+      "type": "target",
       "x": 4698.92,
-      "y": -2340.17,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "type": "target"
+      "y": -2340.17
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4727.03,
-      "y": -2366.6,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -2366.6
     },
     {
+      "action": "",
       "id": 4,
-      "x": 4763.3,
-      "y": -2433.98,
-      "action": "",
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": 4763.3,
+      "y": -2433.98
     },
     {
-      "id": 5,
-      "x": 4767.28,
-      "y": -2454.39,
       "action": "nahida_collect",
+      "id": 5,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 4767.28,
+      "y": -2454.39
     }
   ]
 }

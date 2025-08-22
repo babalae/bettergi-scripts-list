@@ -1,43 +1,43 @@
 {
   "info": {
-    "name": "纳塔龙众-万火之瓯2",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "老马RYO"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "纳塔龙众-万火之瓯2",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 8733.81,
-      "y": -1855.92,
-      "action_params": ""
+      "y": -1855.92
     },
     {
-      "id": 2,
-      "x": 8763.0,
-      "y": -1834.5,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8763.0,
+      "y": -1834.5
     },
     {
-      "id": 3,
       "action": "fight",
+      "action_params": "",
+      "id": 3,
       "move_mode": "walk",
       "type": "target",
       "x": 8763.26,
-      "y": -1819.75,
-      "action_params": ""
+      "y": -1819.75
     }
   ]
 }

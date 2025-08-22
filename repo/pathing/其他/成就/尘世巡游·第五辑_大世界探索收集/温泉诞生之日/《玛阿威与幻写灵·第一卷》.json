@@ -1,53 +1,53 @@
 {
   "info": {
-    "name": "《玛阿威与幻写灵·第一卷》",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "花见木易",
-        "links": "https://github.com/Flower-MUYi"
+        "links": "https://github.com/Flower-MUYi",
+        "name": "花见木易"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "《玛阿威与幻写灵·第一卷》",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 9035.82,
-      "y": -2906.14,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 9035.82,
+      "y": -2906.14
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9047.95,
-      "y": -2859.15,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2859.15
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 9030.67,
-      "y": -2834.93,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 9030.67,
+      "y": -2834.93
     },
     {
-      "id": 4,
-      "x": 9033.89,
-      "y": -2825.59,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9033.89,
+      "y": -2825.59
     }
   ]
 }

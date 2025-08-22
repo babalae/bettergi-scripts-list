@@ -1,116 +1,116 @@
 {
   "info": {
-    "name": "稻妻-野伏众-鸣神岛刃连岛崖下-13个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "野伏众-13个\n稻妻-鸣神岛刃连岛崖下",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "提瓦特钓鱼玳师",
-        "links": "https://github.com/Hijiwos"
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "野伏众-13个\n稻妻-鸣神岛刃连岛崖下",
+    "name": "稻妻-野伏众-鸣神岛刃连岛崖下-13个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -4122.26,
-      "y": -1774.45,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -1774.45
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": -4162.99,
-      "y": -1846.24,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": -1846.24
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4179.5,
-      "y": -1860.0,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -1860.0
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4182.19,
-      "y": -1874.1,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -1874.1
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4215.71,
-      "y": -1888.61,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -1888.61
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4224.99,
-      "y": -1954.51,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -1954.51
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4284.28,
-      "y": -1899.79,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -1899.79
     },
     {
-      "id": 8,
-      "x": -4304.5,
-      "y": -1890.25,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4304.5,
+      "y": -1890.25
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 9,
-      "x": -4261.26,
-      "y": -1848.77,
-      "action": "fight",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -4261.26,
+      "y": -1848.77
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 10,
-      "x": -4273.27,
-      "y": -1823.76,
-      "action": "fight",
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -4273.27,
+      "y": -1823.76
     },
     {
-      "id": 11,
-      "x": -4226.25,
-      "y": -1845.51,
       "action": "fight",
-      "move_mode": "fly",
       "action_params": "",
-      "type": "target"
+      "id": 11,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -4226.25,
+      "y": -1845.51
     }
   ]
 }

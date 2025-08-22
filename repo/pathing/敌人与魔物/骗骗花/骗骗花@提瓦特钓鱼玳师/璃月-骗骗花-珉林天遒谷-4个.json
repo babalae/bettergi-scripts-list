@@ -1,71 +1,71 @@
 {
   "info": {
-    "name": "璃月-骗骗花-珉林天遒谷-4个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "骗骗花-4个\n璃月-珉林天遒谷\n经由Economy优化交互触发",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "提瓦特钓鱼玳师",
-        "links": "https://github.com/Hijiwos"
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "骗骗花-4个\n璃月-珉林天遒谷\n经由Economy优化交互触发",
+    "name": "璃月-骗骗花-珉林天遒谷-4个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 1153.32,
-      "y": 143.49,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 1153.32,
+      "y": 143.49
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 1248.39,
-      "y": 184.54,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 184.54
     },
     {
-      "id": 3,
-      "x": 1295.57,
-      "y": 217.21,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash"
-    },
-    {
-      "id": 4,
-      "x": 1153.32,
-      "y": 143.49,
-      "action": "",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "id": 3,
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
-    },
-    {
-      "id": 5,
-      "x": 1137.61,
-      "y": 90.67,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 6,
-      "x": 1109.87,
-      "y": 36.7,
       "type": "target",
+      "x": 1295.57,
+      "y": 217.21
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1153.32,
+      "y": 143.49
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
       "move_mode": "run",
+      "type": "path",
+      "x": 1137.61,
+      "y": 90.67
+    },
+    {
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "target",
+      "x": 1109.87,
+      "y": 36.7
     }
   ]
 }

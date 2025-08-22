@@ -1,64 +1,64 @@
 {
   "info": {
-    "name": "01-松果-望风角-5个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "玛卡巴卡"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "01-松果-望风角-5个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": -1629.37,
-      "y": 2834.4,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "x": -1629.37,
+      "y": 2834.4
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": -1660.22,
-      "y": 2789.52,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "y": 2789.52
     },
     {
+      "action": "",
       "id": 3,
-      "x": -1662.32,
-      "y": 2786.1,
-      "type": "path",
       "move_mode": "climb",
-      "action": ""
+      "type": "path",
+      "x": -1662.32,
+      "y": 2786.1
     },
     {
+      "action": "nahida_collect",
       "id": 4,
-      "x": -1665.46,
-      "y": 2777.63,
-      "type": "target",
       "move_mode": "walk",
-      "action": "nahida_collect"
+      "type": "target",
+      "x": -1665.46,
+      "y": 2777.63
     },
     {
+      "action": "nahida_collect",
       "id": 5,
-      "x": -1680.05,
-      "y": 2774.24,
-      "type": "path",
       "move_mode": "run",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": -1680.05,
+      "y": 2774.24
     },
     {
+      "action": "nahida_collect",
       "id": 6,
-      "x": -1663.52,
-      "y": 2751.42,
-      "type": "path",
       "move_mode": "run",
-      "action": "nahida_collect"
+      "type": "path",
+      "x": -1663.52,
+      "y": 2751.42
     }
   ]
 }

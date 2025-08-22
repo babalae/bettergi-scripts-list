@@ -1,96 +1,96 @@
 {
   "info": {
-    "name": "01海露港",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "雕茂"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "01海露港",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4722.26,
       "y": 1855.67
     },
     {
+      "action": "fight",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4666.72,
-      "y": 1906.13,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 1906.13
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4651.26,
-      "y": 1894.89,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 1894.89
     },
     {
+      "action": "fight",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4628.51,
-      "y": 1845.34,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 1845.34
     },
     {
+      "action": "fight",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4586.95,
-      "y": 1845.95,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 1845.95
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4542.14,
-      "y": 1884.76,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 1884.76
     },
     {
+      "action": "fight",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4485.77,
-      "y": 1925.43,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 1925.43
     },
     {
+      "action": "",
       "id": 8,
-      "x": 4439.88,
-      "y": 1936.03,
-      "type": "path",
       "move_mode": "swim",
-      "action": ""
+      "type": "path",
+      "x": 4439.88,
+      "y": 1936.03
     },
     {
+      "action": "",
       "id": 9,
-      "x": 4403.4,
-      "y": 2014.26,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 4403.4,
+      "y": 2014.26
     },
     {
+      "action": "fight",
       "id": 10,
-      "x": 4397.06,
-      "y": 2021.04,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 4397.06,
+      "y": 2021.04
     }
   ]
 }

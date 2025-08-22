@@ -1,76 +1,76 @@
-﻿{
+{
   "info": {
-    "name": "蒙德-13",
-    "type": "collect",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": ""
+        "links": "",
+        "name": "Tool_tingsu"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1754712360499,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754712360499,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蒙德-13",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -1505.578125,
-      "y": 2296.5419921875,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -1505.578125,
+      "y": 2296.5419921875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1499.89453125,
-      "y": 2302.80908203125,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2302.80908203125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": -1455.939453125,
-      "y": 2309.76123046875,
-      "type": "path",
       "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -1455.939453125,
+      "y": 2309.76123046875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1409.064453125,
-      "y": 2318.2412109375,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 2318.2412109375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": -1390.23046875,
-      "y": 2314.91552734375,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -1390.23046875,
+      "y": 2314.91552734375
     },
     {
-      "id": 6,
-      "x": -1365.375,
-      "y": 2331.9091796875,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1365.375,
+      "y": 2331.9091796875
     }
   ]
 }

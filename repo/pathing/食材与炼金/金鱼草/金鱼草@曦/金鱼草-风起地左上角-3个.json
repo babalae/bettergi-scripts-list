@@ -1,49 +1,49 @@
 {
   "info": {
-    "name": "金鱼草-风起地左上角-3个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "曦",
-        "links": "https://github.com/cx05121"
+        "links": "https://github.com/cx05121",
+        "name": "曦"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "金鱼草-风起地左上角-3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": -1120.89,
-      "y": 2190.58,
-      "action": "",
       "move_mode": "fly",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -1120.89,
+      "y": 2190.58
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1094.76,
-      "y": 2224.95,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 2224.95
     },
     {
+      "action": "",
       "id": 3,
-      "x": -1088.4,
-      "y": 2235.66,
-      "action": "",
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": -1088.4,
+      "y": 2235.66
     },
     {
-      "id": 4,
-      "x": -1088.18,
-      "y": 2261.41,
       "action": "",
+      "id": 4,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": -1088.18,
+      "y": 2261.41
     }
   ]
 }

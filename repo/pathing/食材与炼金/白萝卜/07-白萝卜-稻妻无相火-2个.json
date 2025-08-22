@@ -1,43 +1,43 @@
 {
   "info": {
-    "name": "07-白萝卜-稻妻无相火-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "07-白萝卜-稻妻无相火-2个",
-    "bgi_version": "0.42.3",
     "authors": [
       {
         "name": "小刘忙"
       }
-    ]
+    ],
+    "bgi_version": "0.42.3",
+    "description": "07-白萝卜-稻妻无相火-2个",
+    "name": "07-白萝卜-稻妻无相火-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -3233.99,
-      "y": -3155.45,
-      "action": "",
       "move_mode": "run",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -3233.99,
+      "y": -3155.45
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -3236.42,
-      "y": -2983.42,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -3236.42,
+      "y": -2983.42
     },
     {
-      "id": 3,
-      "x": -3236.91,
-      "y": -2982.27,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -3236.91,
+      "y": -2982.27
     }
   ]
 }

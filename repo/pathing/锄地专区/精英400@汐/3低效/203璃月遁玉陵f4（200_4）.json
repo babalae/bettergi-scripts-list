@@ -1,140 +1,140 @@
 {
   "info": {
-    "name": "203璃月遁玉陵f4（200_4）",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时162.8秒，包含4只精英，预计收入800摩拉，包含以下怪物：3只遗迹守卫、1只遗迹猎者。",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
-    "map_name": "Teyvat",
-    "tags": [],
-    "last_modified_time": 1754763417853,
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时162.8秒，包含4只精英，预计收入800摩拉，包含以下怪物：3只遗迹守卫、1只遗迹猎者。",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754763417853,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "203璃月遁玉陵f4（200_4）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 981.38,
-      "y": -343.15,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -343.15
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 1044.5,
-      "y": -312.75,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -312.75
     },
     {
-      "id": 3,
-      "x": 1092.56,
-      "y": -290.5,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 1092.56,
+      "y": -290.5
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 4,
+      "move_mode": "dash",
+      "type": "path",
       "x": 1110,
-      "y": -313.5,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -313.5
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "run",
+      "type": "path",
       "x": 1138.25,
-      "y": -338.25,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -338.25
     },
     {
-      "id": 6,
-      "x": 1154.13,
-      "y": -345.75,
       "action": "combat_script",
-      "move_mode": "run",
       "action_params": "wait(3.5),",
-      "type": "path"
-    },
-    {
-      "id": 7,
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
       "x": 1154.13,
-      "y": -345.75,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -345.75
     },
     {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1154.13,
+      "y": -345.75
+    },
+    {
+      "action": "",
+      "action_params": "",
       "id": 8,
-      "x": 1161.75,
-      "y": -345.94,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 1161.75,
+      "y": -345.94
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "run",
+      "type": "path",
       "x": 1185,
-      "y": -313.5,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -313.5
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
-      "x": 1200.63,
-      "y": -277.75,
-      "action": "",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 1200.63,
+      "y": -277.75
     },
     {
-      "id": 11,
-      "x": 1194.81,
-      "y": -260.25,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "wait(2),keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;",
-      "type": "path"
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1194.81,
+      "y": -260.25
     },
     {
-      "id": 12,
-      "x": 1200.63,
-      "y": -277.75,
       "action": "",
-      "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1200.63,
+      "y": -277.75
     },
     {
-      "id": 13,
-      "x": 1190.81,
-      "y": -292.94,
       "action": "fight",
-      "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "id": 13,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1190.81,
+      "y": -292.94
     }
   ]
 }

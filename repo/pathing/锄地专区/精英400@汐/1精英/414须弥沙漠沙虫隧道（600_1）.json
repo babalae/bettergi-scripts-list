@@ -1,68 +1,68 @@
 {
   "info": {
-    "name": "414须弥沙漠沙虫隧道（600_1）",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时62.47秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只遗迹重机。",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
-    "map_name": "Teyvat",
-    "tags": [],
-    "last_modified_time": 1754750129278,
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时62.47秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只遗迹重机。",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1754750129278,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "414须弥沙漠沙虫隧道（600_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 4572.27,
-      "y": -1070.77,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 4572.27,
+      "y": -1070.77
     },
     {
-      "id": 2,
-      "x": 4593.98,
-      "y": -1031.59,
       "action": "combat_script",
-      "move_mode": "run",
       "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
-      "type": "path"
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4593.98,
+      "y": -1031.59
     },
     {
-      "id": 3,
-      "x": 4599.19,
-      "y": -1023.56,
       "action": "",
+      "action_params": "",
+      "id": 3,
       "move_mode": "jump",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 4599.19,
+      "y": -1023.56
     },
     {
-      "id": 4,
-      "x": 4625.56,
-      "y": -996.19,
       "action": "fight",
-      "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4625.56,
+      "y": -996.19
     },
     {
-      "id": 5,
-      "x": 4625.56,
-      "y": -996.19,
       "action": "combat_script",
-      "move_mode": "run",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 5,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 4625.56,
+      "y": -996.19
     }
   ]
 }

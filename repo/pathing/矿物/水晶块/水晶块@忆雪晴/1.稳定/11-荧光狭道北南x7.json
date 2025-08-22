@@ -1,11 +1,15 @@
 {
   "info": {
-    "name": "11-荧光狭道北南x7",
-    "type": "collect",
-    "version": "V1-领队版",
-    "description": "[无须战斗][周一、四定期挖矿]钟离无柱阻挡挖矿，解决全命座柱子卡人问题。刚需钟离，录制队友无任何加速效果，如双风，佳明，迪希雅，罗莎莉亚等。  地图追踪需要关闭钟离生存位的可能，需要在设置组选择中规避钟离不定时开盾。//鸣谢: 白可佬儿  V1-25年五月28",
-    "map_name": "TheChasm",
+    "authors": [
+      {
+        "name": "忆雪晴-828632080"
+      }
+    ],
     "bgi_version": "0.45.0",
+    "description": "[无须战斗][周一、四定期挖矿]钟离无柱阻挡挖矿，解决全命座柱子卡人问题。刚需钟离，录制队友无任何加速效果，如双风，佳明，迪希雅，罗莎莉亚等。  地图追踪需要关闭钟离生存位的可能，需要在设置组选择中规避钟离不定时开盾。//鸣谢: 白可佬儿  V1-25年五月28",
+    "last_modified_time": 1748445239066,
+    "map_name": "TheChasm",
+    "name": "11-荧光狭道北南x7",
     "tags": [
       "钟离",
       "钟离无阻挡挖矿",
@@ -14,265 +18,261 @@
       "高效线路",
       "周一四刷矿"
     ],
-    "last_modified_time": 1748445239066,
-    "authors": [
-      {
-        "name": "忆雪晴-828632080"
-      }
-    ]
+    "type": "collect",
+    "version": "V1-领队版"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "run",
+      "type": "teleport",
       "x": 812.62,
-      "y": 339.49,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "teleport"
+      "y": 339.49
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 811.13,
-      "y": 356.05,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": 356.05
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 811.34,
-      "y": 360.93,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": 360.93
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "fly",
+      "type": "path",
       "x": 819.53,
-      "y": 385.62,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": 385.62
     },
     {
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),keypress(e)",
       "id": 5,
+      "move_mode": "walk",
+      "type": "target",
       "x": 818.81,
-      "y": 387.45,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "钟离 d(0.2),keypress(e)",
-      "type": "target"
+      "y": 387.45
     },
     {
+      "action": "mining",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "target",
       "x": 817.02,
-      "y": 396.58,
-      "action": "mining",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": 396.58
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "target",
       "x": 814.44,
-      "y": 401.46,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": 401.46
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "target",
       "x": 814.07,
-      "y": 398.12,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": 398.12
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "target",
       "x": 815.07,
-      "y": 396.12,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": 396.12
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "target",
       "x": 818.83,
-      "y": 392.64,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": 392.64
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 11,
+      "move_mode": "walk",
+      "type": "target",
       "x": 815.95,
-      "y": 390.85,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": 390.85
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 12,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 812.63,
-      "y": 339.5,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 339.5
     },
     {
-      "id": 13,
-      "x": 800.53,
-      "y": 315.06,
       "action": "combat_script",
-      "move_mode": "run",
       "action_params": "钟离 e(hold)",
-      "type": "path"
+      "id": 13,
+      "move_mode": "run",
+      "type": "path",
+      "x": 800.53,
+      "y": 315.06
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 14,
+      "move_mode": "run",
+      "type": "path",
       "x": 812.43,
-      "y": 296.48,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": 296.48
     },
     {
-      "id": 15,
-      "x": 825.95,
-      "y": 287.81,
       "action": "log_output",
-      "move_mode": "run",
       "action_params": "========= ============可选战斗，默认关闭========= ========= ========= ============可选战斗，默认关闭========= ========= ========= ============可选战斗，默认关闭========= ========= ========= ============可选战斗，默认关闭========= =========",
-      "type": "path"
-    },
-    {
-      "id": 16,
-      "x": 806.56,
-      "y": 235.75,
-      "action": "combat_script",
+      "id": 15,
       "move_mode": "run",
-      "action_params": "钟离 d(0.2),keypress(e)",
-      "type": "path"
+      "type": "path",
+      "x": 825.95,
+      "y": 287.81
     },
     {
-      "id": 17,
-      "x": 801.78,
-      "y": 235.62,
       "action": "combat_script",
-      "move_mode": "walk",
+      "action_params": "钟离 d(0.2),keypress(e)",
+      "id": 16,
+      "move_mode": "run",
+      "type": "path",
+      "x": 806.56,
+      "y": 235.75
+    },
+    {
+      "action": "combat_script",
       "action_params": "钟离 a(0.2),keypress(e),s(0.1)",
-      "type": "path"
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 801.78,
+      "y": 235.62
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 18,
+      "move_mode": "fly",
+      "type": "path",
       "x": 789.61,
-      "y": 232.96,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": 232.96
     },
     {
-      "id": 19,
-      "x": 781.06,
-      "y": 231.16,
       "action": "stop_flying",
-      "move_mode": "fly",
       "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 20,
+      "id": 19,
+      "move_mode": "fly",
+      "type": "path",
       "x": 781.06,
-      "y": 231.16,
-      "action": "mining",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": 231.16
     },
     {
+      "action": "mining",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 781.06,
+      "y": 231.16
+    },
+    {
+      "action": "",
+      "action_params": "",
       "id": 21,
+      "move_mode": "walk",
+      "type": "target",
       "x": 778.37,
-      "y": 229.36,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": 229.36
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 22,
+      "move_mode": "walk",
+      "type": "target",
       "x": 783.83,
-      "y": 227.23,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": 227.23
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 23,
+      "move_mode": "walk",
+      "type": "target",
       "x": 783.04,
-      "y": 230.65,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": 230.65
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 24,
-      "x": 791.59,
-      "y": 237.76,
-      "action": "",
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 791.59,
+      "y": 237.76
     },
     {
-      "id": 25,
-      "x": 793.77,
-      "y": 239.9,
       "action": "mining",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "id": 25,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 793.77,
+      "y": 239.9
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 26,
+      "move_mode": "walk",
+      "type": "target",
       "x": 792.77,
-      "y": 241.9,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": 241.9
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 27,
-      "x": 796.98,
-      "y": 235.08,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "type": "target",
+      "x": 796.98,
+      "y": 235.08
     },
     {
-      "id": 28,
-      "x": 795.02,
-      "y": 233.37,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "id": 28,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 795.02,
+      "y": 233.37
     }
   ]
 }

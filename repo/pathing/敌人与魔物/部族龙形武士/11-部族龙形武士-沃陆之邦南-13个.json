@@ -1,106 +1,106 @@
 {
   "info": {
-    "name": "11-部族龙形武士-沃陆之邦南-13个",
-    "type": "collect",
-    "version": "1.1",
-    "description": "共13个",
-    "bgi_version": "0.42.3",
     "authors": [
       {
         "name": "Economy"
       }
-    ]
+    ],
+    "bgi_version": "0.42.3",
+    "description": "共13个",
+    "name": "11-部族龙形武士-沃陆之邦南-13个",
+    "type": "collect",
+    "version": "1.1"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 9923.63,
-      "y": -3277.63,
-      "action_params": ""
+      "y": -3277.63
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9950.29,
-      "y": -3221.14,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -3221.14
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 9957.99,
-      "y": -3201.58,
-      "type": "path",
-      "move_mode": "run",
-      "action": "fight",
-      "action_params": ""
+      "y": -3201.58
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "run",
+      "type": "path",
       "x": 9962.39,
-      "y": -3212.09,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": -3212.09
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "run",
+      "type": "path",
       "x": 10017.07,
-      "y": -3197.86,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": -3197.86
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 6,
+      "move_mode": "run",
+      "type": "path",
       "x": 10012.03,
-      "y": -3169.3,
-      "type": "path",
-      "move_mode": "run",
-      "action": "fight",
-      "action_params": ""
+      "y": -3169.3
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
-      "x": 10793.66,
-      "y": -3069.49,
-      "type": "teleport",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "teleport",
+      "x": 10793.66,
+      "y": -3069.49
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
-      "x": 10821.17,
-      "y": -3030.5,
-      "type": "path",
       "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 10821.17,
+      "y": -3030.5
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
-      "x": 10830.6,
-      "y": -3038.57,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 10830.6,
+      "y": -3038.57
     },
     {
-      "id": 10,
-      "x": 10832.05,
-      "y": -3052.92,
-      "type": "path",
-      "move_mode": "run",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10832.05,
+      "y": -3052.92
     }
   ]
 }

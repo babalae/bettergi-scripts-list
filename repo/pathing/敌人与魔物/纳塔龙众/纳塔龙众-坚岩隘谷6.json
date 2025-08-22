@@ -1,133 +1,133 @@
 {
   "info": {
-    "name": "纳塔龙众-坚岩隘谷6",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "老马RYO"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "纳塔龙众-坚岩隘谷6",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 8674.68,
-      "y": -1263.61,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -1263.61
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8687.0,
-      "y": -1251.0,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -1251.0
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "target",
       "x": 8692.0,
-      "y": -1252.5,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": -1252.5
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "fly",
+      "type": "path",
       "x": 8695.42,
-      "y": -1285.6,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": -1285.6
     },
     {
-      "id": 5,
-      "x": 8673.5,
-      "y": -1301.87,
       "action": "stop_flying",
-      "move_mode": "fly",
       "action_params": "",
-      "type": "path"
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8673.5,
+      "y": -1301.87
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "target",
       "x": 8664.25,
-      "y": -1297.75,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": -1297.75
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "target",
       "x": 8665.94,
-      "y": -1346.31,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": -1346.31
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "target",
       "x": 8601.5,
-      "y": -1302.5,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": -1302.5
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "target",
       "x": 8518.5,
-      "y": -1369.5,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": -1369.5
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "target",
       "x": 8507.5,
-      "y": -1308.01,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": -1308.01
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 11,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8512.1,
-      "y": -1290.44,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -1290.44
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 12,
-      "x": 8522.6,
-      "y": -1263.71,
-      "action": "",
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 8522.6,
+      "y": -1263.71
     },
     {
-      "id": 13,
-      "x": 8518.26,
-      "y": -1230.75,
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8518.26,
+      "y": -1230.75
     }
   ]
 }

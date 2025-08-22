@@ -1,104 +1,104 @@
 {
   "info": {
-    "name": "17-苍晶螺-卡布狄斯堡遗迹-3个",
-    "type": "collect",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": "https://github.com/Tooltingsu"
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.47.2",
-    "tags": [],
+    "description": "",
+    "enable_monster_loot_split": false,
     "last_modified_time": 1753607568231,
-    "enable_monster_loot_split": false
+    "map_name": "Teyvat",
+    "name": "17-苍晶螺-卡布狄斯堡遗迹-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 3660.6035,
-      "y": 2926.1548,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
       "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 2,
-      "x": 3660.6035,
-      "y": 2926.1548,
-      "type": "path",
+      "id": 1,
+      "locked": false,
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keydown(VK_SPACE),wait(20),keyup(VK_SPACE),wait(1),keypress(VK_MBUTTON)"
-    },
-    {
-      "id": 3,
-      "x": 3759.2227,
-      "y": 2975.9539,
-      "type": "target",
-      "move_mode": "run",
-      "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL),wait(5),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
-    },
-    {
-      "id": 4,
-      "x": 3759.0674,
-      "y": 2972.2053,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
-    },
-    {
-      "id": 5,
-      "x": 3546.1562,
-      "y": 2704.6123,
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 3660.6035,
+      "y": 2926.1548
     },
     {
-      "id": 6,
-      "x": 3548.9453,
-      "y": 2711.8418,
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(20),keyup(VK_SPACE),wait(1),keypress(VK_MBUTTON)",
+      "id": 2,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+      "x": 3660.6035,
+      "y": 2926.1548
     },
     {
-      "id": 7,
-      "x": 3745.4229,
-      "y": 2621.1362,
-      "type": "target",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(5),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 3,
       "move_mode": "run",
-      "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL),wait(27),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+      "type": "target",
+      "x": 3759.2227,
+      "y": 2975.9539
     },
     {
-      "id": 8,
-      "x": 3745.3662,
-      "y": 2626.0979,
-      "type": "target",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 4,
       "move_mode": "walk",
+      "type": "target",
+      "x": 3759.0674,
+      "y": 2972.2053
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3546.1562,
+      "y": 2704.6123
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3548.9453,
+      "y": 2711.8418
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(27),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 7,
+      "move_mode": "run",
+      "type": "target",
+      "x": 3745.4229,
+      "y": 2621.1362
+    },
+    {
       "action": "combat_script",
       "action_params": "keydown(VK_SPACE),wait(1),keyup(VK_SPACE),wait(1),keypress(VK_MBUTTON)",
-      "locked": false
+      "id": 8,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3745.3662,
+      "y": 2626.0979
     },
     {
-      "id": 9,
-      "x": 3745.3662,
-      "y": 2626.0979,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3745.3662,
+      "y": 2626.0979
     }
   ]
 }

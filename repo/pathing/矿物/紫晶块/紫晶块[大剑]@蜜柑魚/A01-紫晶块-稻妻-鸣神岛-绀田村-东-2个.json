@@ -1,115 +1,115 @@
 {
   "info": {
-    "name": "A01-紫晶块-稻妻-鸣神岛-绀田村-东-2个",
-    "type": "collect",
+    "author": "this-Fish",
     "authors": [
       {
-        "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1752695211025,
+    "map_name": "Teyvat",
+    "name": "A01-紫晶块-稻妻-鸣神岛-绀田村-东-2个",
     "tags": [
       "双手剑"
     ],
-    "last_modified_time": 1752695211025,
-    "enable_monster_loot_split": false,
-    "author": "this-Fish"
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -4050.08,
-      "y": -2657.42,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -2657.42
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -4042.07,
-      "y": -2628.27,
-      "action": "",
+      "locked": false,
       "move_mode": "dash",
-      "action_params": "",
       "type": "path",
-      "locked": false
+      "x": -4042.07,
+      "y": -2628.27
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4041.03,
-      "y": -2624.5,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -2624.5
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4034.25,
-      "y": -2623.7,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -2623.7
     },
     {
-      "id": 5,
-      "x": -3936.77,
-      "y": -2611.1,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "玛薇卡 wait(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.4),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(0.7),e;",
-      "type": "orientation"
-    },
-    {
-      "id": 6,
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
       "x": -3936.77,
-      "y": -2611.1,
+      "y": -2611.1
+    },
+    {
       "action": "",
+      "action_params": "",
+      "id": 6,
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -3936.77,
+      "y": -2611.1
     },
     {
+      "action": "mining",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "target",
       "x": -3937.8,
-      "y": -2606.46,
-      "action": "mining",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": -2606.46
     },
     {
-      "id": 8,
-      "x": -3938.04,
-      "y": -2606.41,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(0.5)",
-      "type": "path"
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3938.04,
+      "y": -2606.41
     },
     {
-      "id": 9,
-      "x": -3941.43,
-      "y": -2602.51,
       "action": "mining",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -3941.43,
+      "y": -2602.51
     },
     {
-      "id": 10,
-      "x": -3941.67,
-      "y": -2602.46,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(1)",
-      "type": "path"
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3941.67,
+      "y": -2602.46
     }
   ]
 }

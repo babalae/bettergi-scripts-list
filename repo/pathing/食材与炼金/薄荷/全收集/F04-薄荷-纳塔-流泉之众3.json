@@ -1,44 +1,44 @@
 {
   "info": {
-    "name": "F04-薄荷-纳塔-流泉之众3",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "Tool_tingsu",
-        "links": "https://github.com/Tooltingsu"
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
       }
-    ]
+    ],
+    "bgi_version": "0.42.3",
+    "description": "",
+    "name": "F04-薄荷-纳塔-流泉之众3",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 8581.96,
-      "y": -2675.29,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -2675.29
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 8550.77,
-      "y": -2680.36,
-      "action": "",
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 8550.77,
+      "y": -2680.36
     },
     {
-      "id": 3,
-      "x": 8542.66,
-      "y": -2688.59,
       "action": "stop_flying",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8542.66,
+      "y": -2688.59
     }
   ]
 }

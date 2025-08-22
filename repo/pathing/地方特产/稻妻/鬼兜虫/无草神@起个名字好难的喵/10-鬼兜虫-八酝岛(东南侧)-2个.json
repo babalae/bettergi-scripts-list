@@ -1,74 +1,74 @@
 {
   "info": {
-    "name": "10-鬼兜虫-八酝岛(东南侧)-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "10-鬼兜虫-八酝岛(东南侧)-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -2404.59,
-      "y": -3921.55,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": -3921.55
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -2412.14,
-      "y": -3928.14,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -3928.14
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "target",
       "x": -2412.51,
-      "y": -3933.14,
-      "action": "",
-      "move_mode": "fly",
-      "type": "target"
+      "y": -3933.14
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -2404.95,
-      "y": -3921.88,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": -3921.88
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -2448.89,
-      "y": -3915.67,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -3915.67
     },
     {
-      "id": 6,
-      "x": -2526.12,
-      "y": -3947.11,
       "action": "stop_flying",
-      "move_mode": "fly",
       "action_params": "3500",
-      "type": "path"
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2526.12,
+      "y": -3947.11
     },
     {
-      "id": 7,
-      "x": -2517.33,
-      "y": -3946.81,
       "action": "",
+      "id": 7,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": -2517.33,
+      "y": -3946.81
     }
   ]
 }

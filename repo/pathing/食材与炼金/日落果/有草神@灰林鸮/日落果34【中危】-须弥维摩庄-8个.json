@@ -1,118 +1,118 @@
 {
   "info": {
-    "name": "日落果34【中危】-须弥维摩庄-8个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "需携带纳西妲，部分危险路径刚需盾位",
-    "map_name": "Teyvat",
-    "bgi_version": "0.44.0",
     "authors": [
       {
-        "name": "灰林鸮",
-        "links": "https://github.com/Strix-nivicolum"
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
       }
-    ]
+    ],
+    "bgi_version": "0.44.0",
+    "description": "需携带纳西妲，部分危险路径刚需盾位",
+    "map_name": "Teyvat",
+    "name": "日落果34【中危】-须弥维摩庄-8个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 2631.95,
-      "y": -1016.89,
-      "action_params": ""
+      "y": -1016.89
     },
     {
-      "id": 2,
-      "x": 2633.4,
-      "y": -1040.0,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "nahida_collect",
-      "action_params": ""
-    },
-    {
-      "id": 3,
-      "x": 2628.95,
-      "y": -1005.22,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": 2541.71,
-      "y": -961.04,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": 2464.38,
-      "y": -986.96,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 6,
-      "x": 2438.08,
-      "y": -951.74,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 7,
-      "x": 2372.92,
-      "y": -986.96,
-      "type": "path",
-      "move_mode": "dash",
       "action": "nahida_collect",
       "action_params": "",
-      "locked": false
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2633.4,
+      "y": -1040.0
     },
     {
-      "id": 8,
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2628.95,
+      "y": -1005.22
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2541.71,
+      "y": -961.04
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2464.38,
+      "y": -986.96
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2438.08,
+      "y": -951.74
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
       "x": 2372.92,
-      "y": -986.96,
-      "type": "path",
+      "y": -986.96
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 8,
       "move_mode": "walk",
-      "action": "nahida_collect",
-      "action_params": ""
+      "type": "path",
+      "x": 2372.92,
+      "y": -986.96
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
+      "move_mode": "dash",
+      "type": "path",
       "x": 2353.61,
-      "y": -1051.4,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -1051.4
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
-      "x": 2334.2,
-      "y": -1070.19,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 2334.2,
+      "y": -1070.19
     },
     {
-      "id": 11,
-      "x": 2293.96,
-      "y": -1088.61,
-      "type": "target",
-      "move_mode": "dash",
       "action": "nahida_collect",
-      "action_params": ""
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 2293.96,
+      "y": -1088.61
     }
   ]
 }

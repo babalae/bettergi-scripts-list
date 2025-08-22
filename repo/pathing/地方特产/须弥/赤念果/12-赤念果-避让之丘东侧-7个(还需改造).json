@@ -1,138 +1,138 @@
 {
   "info": {
-    "name": "12-赤念果-避让之丘东侧-7个(还需改造)",
-    "type": "collect",
-    "country": "须弥",
-    "version": "1.0",
-    "description": "需要纳西妲",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "½",
-        "links": "https://github.com/Traveler07"
+        "links": "https://github.com/Traveler07",
+        "name": "½"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "country": "须弥",
+    "description": "需要纳西妲",
+    "name": "12-赤念果-避让之丘东侧-7个(还需改造)",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 4809.9,
-      "y": -2733.81,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": -2733.81
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 4875.18,
-      "y": -2705.99,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path"
+      "y": -2705.99
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": 4944.45,
-      "y": -2731.45,
-      "action": "",
-      "move_mode": "fly",
-      "type": "path"
+      "y": -2731.45
     },
     {
-      "id": 4,
-      "x": 4953.27,
-      "y": -2738.7,
       "action": "stop_flying",
+      "id": 4,
       "move_mode": "fly",
-      "type": "path"
+      "type": "path",
+      "x": 4953.27,
+      "y": -2738.7
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "target",
       "x": 4950.27,
-      "y": -2726.25,
-      "action": "",
-      "move_mode": "walk",
-      "type": "target"
+      "y": -2726.25
     },
     {
+      "action": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "target",
       "x": 4968.15,
-      "y": -2719.74,
-      "action": "",
-      "move_mode": "walk",
-      "type": "target"
+      "y": -2719.74
     },
     {
+      "action": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4993.77,
-      "y": -2779.53,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -2779.53
     },
     {
+      "action": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5017.85,
-      "y": -2850.31,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -2850.31
     },
     {
+      "action": "",
       "id": 9,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5076.65,
-      "y": -2899.55,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -2899.55
     },
     {
+      "action": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5121.09,
-      "y": -2923.7,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -2923.7
     },
     {
+      "action": "nahida_collect",
       "id": 11,
+      "move_mode": "walk",
+      "type": "target",
       "x": 5152.81,
-      "y": -2936.15,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "type": "target"
+      "y": -2936.15
     },
     {
+      "action": "",
       "id": 12,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5155.12,
-      "y": -2924.2,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -2924.2
     },
     {
+      "action": "",
       "id": 13,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5204.65,
-      "y": -2929.75,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -2929.75
     },
     {
+      "action": "",
       "id": 14,
-      "x": 5236.69,
-      "y": -2941.21,
-      "action": "",
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 5236.69,
+      "y": -2941.21
     },
     {
-      "id": 15,
-      "x": 5280.37,
-      "y": -2943.35,
       "action": "nahida_collect",
+      "id": 15,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": 5280.37,
+      "y": -2943.35
     }
   ]
 }

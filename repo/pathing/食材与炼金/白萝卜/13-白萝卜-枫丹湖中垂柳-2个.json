@@ -1,97 +1,97 @@
 {
   "info": {
-    "name": "13-白萝卜-枫丹湖中垂柳-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "13-白萝卜-枫丹湖中垂柳-2个",
-    "bgi_version": "0.42.3",
     "authors": [
       {
         "name": "小刘忙"
       }
-    ]
+    ],
+    "bgi_version": "0.42.3",
+    "description": "13-白萝卜-枫丹湖中垂柳-2个",
+    "name": "13-白萝卜-枫丹湖中垂柳-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 3032.77,
-      "y": 3732.37,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 3732.37
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3016.69,
-      "y": 3736.94,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 3736.94
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": 3003.51,
-      "y": 3747.57,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": 3747.57
     },
     {
-      "id": 4,
-      "x": 2962.17,
-      "y": 3772.82,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 2962.17,
+      "y": 3772.82
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 2962.43,
-      "y": 3773.29,
+      "move_mode": "walk",
       "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 2962.43,
+      "y": 3773.29
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2968.56,
-      "y": 3792.19,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 3792.19
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 2977.33,
-      "y": 3848.08,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": 3848.08
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
-      "x": 2980.56,
-      "y": 3858.74,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 2980.56,
+      "y": 3858.74
     },
     {
-      "id": 9,
-      "x": 2986.95,
-      "y": 3856.8,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2986.95,
+      "y": 3856.8
     }
   ]
 }

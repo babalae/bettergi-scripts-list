@@ -1,135 +1,135 @@
 {
   "info": {
-    "name": "鸟蛋3-1-稻妻-绀田村-6蛋",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.43.0",
     "authors": [
       {
-        "name": "灰林鸮",
-        "links": "https://github.com/Strix-nivicolum"
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
       }
-    ]
+    ],
+    "bgi_version": "0.43.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "name": "鸟蛋3-1-稻妻-绀田村-6蛋",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -4124.51,
-      "y": -2759.93,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -4124.51,
+      "y": -2759.93
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": -4126.75,
-      "y": -2767.22,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -2767.22
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "target",
       "x": -4119.78,
-      "y": -2773.21,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2773.21
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "fly",
+      "type": "path",
       "x": -4115.0,
-      "y": -2776.6,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": -2776.6
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4112.42,
-      "y": -2776.79,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2776.79
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "fly",
+      "type": "target",
       "x": -4096.57,
-      "y": -2774.73,
-      "type": "target",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "y": -2774.73
     },
     {
-      "id": 7,
-      "x": -4103.48,
-      "y": -2748.38,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
-    },
-    {
-      "id": 8,
-      "x": -4112.33,
-      "y": -2733.84,
-      "type": "target",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 9,
-      "x": -4114.69,
-      "y": -2730.03,
-      "type": "target",
+      "action_params": "",
+      "id": 7,
       "move_mode": "fly",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 10,
-      "x": -4117.03,
-      "y": -2733.11,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 11,
-      "x": -4129.85,
-      "y": -2763.76,
       "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "x": -4103.48,
+      "y": -2748.38
     },
     {
-      "id": 12,
-      "x": -4143.64,
-      "y": -2763.63,
-      "type": "target",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -4112.33,
+      "y": -2733.84
     },
     {
-      "id": 13,
-      "x": -4142.53,
-      "y": -2770.81,
-      "type": "target",
+      "action": "",
+      "action_params": "",
+      "id": 9,
       "move_mode": "fly",
+      "type": "target",
+      "x": -4114.69,
+      "y": -2730.03
+    },
+    {
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4117.03,
+      "y": -2733.11
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4129.85,
+      "y": -2763.76
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -4143.64,
+      "y": -2763.63
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -4142.53,
+      "y": -2770.81
     }
   ]
 }

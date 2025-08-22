@@ -1,230 +1,230 @@
 {
   "info": {
-    "name": "04-绯樱绣球-荒海-8个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "久歧忍可采集全，引战导致雷元素法师漏采集最后1~2个",
+    "authors": [
+      {
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
+      }
+    ],
     "bgi_version": "0.42.3",
+    "description": "久歧忍可采集全，引战导致雷元素法师漏采集最后1~2个",
+    "name": "04-绯樱绣球-荒海-8个",
     "tags": [
       "久岐忍"
     ],
-    "authors": [
-      {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
-      }
-    ]
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -4217.91,
-      "y": -2397.82,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -4217.91,
+      "y": -2397.82
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4221.71,
-      "y": -2402.12,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -2402.12
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 3,
+      "move_mode": "fly",
+      "type": "path",
       "x": -4254.48,
-      "y": -2431.51,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": -2431.51
     },
     {
+      "action": "electro_collect",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "target",
       "x": -4261.97,
-      "y": -2438.45,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": -2438.45
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -4217.91,
-      "y": -2397.82,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -2397.82
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 6,
+      "move_mode": "fly",
+      "type": "path",
       "x": -4168.29,
-      "y": -2480.51,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": -2480.51
     },
     {
+      "action": "electro_collect",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "target",
       "x": -4162.05,
-      "y": -2483.9,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": -2483.9
     },
     {
+      "action": "electro_collect",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "target",
       "x": -4178.68,
-      "y": -2506.46,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": -2506.46
     },
     {
+      "action": "",
       "id": 9,
-      "x": -4217.63,
-      "y": -2397.2,
-      "action": "",
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -4217.63,
+      "y": -2397.2
     },
     {
+      "action": "stop_flying",
       "id": 10,
+      "move_mode": "fly",
+      "type": "path",
       "x": -4277.25,
-      "y": -2343.76,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "type": "path"
+      "y": -2343.76
     },
     {
+      "action": "electro_collect",
       "id": 11,
+      "move_mode": "walk",
+      "type": "target",
       "x": -4283.62,
-      "y": -2338.46,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "type": "target"
+      "y": -2338.46
     },
     {
+      "action": "",
       "id": 12,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4285.75,
-      "y": -2309.25,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -2309.25
     },
     {
+      "action": "electro_collect",
       "id": 13,
+      "move_mode": "walk",
+      "type": "target",
       "x": -4249.62,
-      "y": -2311.34,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "type": "target"
+      "y": -2311.34
     },
     {
+      "action": "",
       "id": 14,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4265.25,
-      "y": -2295.99,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -2295.99
     },
     {
+      "action": "",
       "id": 15,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4269.0,
-      "y": -2242.23,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -2242.23
     },
     {
+      "action": "electro_collect",
       "id": 16,
+      "move_mode": "walk",
+      "type": "target",
       "x": -4284.77,
-      "y": -2240.04,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "type": "target"
+      "y": -2240.04
     },
     {
+      "action": "",
       "id": 17,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4295.0,
-      "y": -2243.5,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": -2243.5
     },
     {
+      "action": "electro_collect",
       "id": 18,
+      "move_mode": "walk",
+      "type": "target",
       "x": -4278.98,
-      "y": -2266.82,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "type": "target"
+      "y": -2266.82
     },
     {
+      "action": "electro_collect",
       "id": 19,
+      "move_mode": "walk",
+      "type": "target",
       "x": -4291.89,
-      "y": -2285.14,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "type": "target"
+      "y": -2285.14
     },
     {
-      "id": 20,
-      "x": -4217.63,
-      "y": -2397.2,
       "action": "",
+      "id": 20,
       "move_mode": "walk",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -4217.63,
+      "y": -2397.2
     },
     {
-      "id": 21,
-      "x": -4236.0,
-      "y": -2353.0,
       "action": "stop_flying",
+      "id": 21,
       "move_mode": "fly",
-      "type": "path"
+      "type": "path",
+      "x": -4236.0,
+      "y": -2353.0
     },
     {
+      "action": "combat_script",
+      "action_params": "丽莎 attack,wait(0.5),attack,wait(1); 瓦雷莎 charge,wait(2); 八重神子 charge",
       "id": 22,
-      "x": -4237.95,
-      "y": -2346.99,
-      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "丽莎 attack,wait(0.5),attack,wait(1); 瓦雷莎 charge,wait(2); 八重神子 charge",
-      "type": "target"
+      "type": "target",
+      "x": -4237.95,
+      "y": -2346.99
     },
     {
+      "action": "electro_collect",
       "id": 23,
+      "move_mode": "walk",
+      "type": "target",
       "x": -4237.95,
-      "y": -2346.99,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "type": "target"
+      "y": -2346.99
     },
     {
-      "id": 24,
-      "x": -4218.33,
-      "y": -2343.69,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "丽莎 attack,wait(0.5),attack,wait(1); 瓦雷莎 charge,wait(2); 八重神子 charge",
-      "type": "target"
+      "id": 24,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4218.33,
+      "y": -2343.69
     },
     {
-      "id": 25,
-      "x": -4218.33,
-      "y": -2343.69,
       "action": "electro_collect",
+      "id": 25,
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "x": -4218.33,
+      "y": -2343.69
     }
   ]
 }

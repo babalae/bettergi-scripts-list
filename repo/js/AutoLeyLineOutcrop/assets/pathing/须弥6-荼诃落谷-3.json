@@ -1,57 +1,57 @@
 {
   "info": {
+    "author": "秋云",
+    "bgi_version": "0.42.3",
+    "description": "",
     "name": "须弥6-荼诃落谷-3",
     "type": "collect",
-    "author": "秋云",
-    "version": "1.1",
-    "description": "",
-    "bgi_version": "0.42.3"
+    "version": "1.1"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4711.08,
-      "y": -3047.72,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -3047.72
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 4780.83,
-      "y": -3020.04,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": -3020.04
     },
     {
-      "id": 3,
-      "x": 4811.0,
-      "y": -3000.5,
       "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 3,
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 4811.0,
+      "y": -3000.5
     },
     {
-      "id": 4,
-      "x": 4834.5,
-      "y": -2984.0,
       "action": "stop_flying",
-      "move_mode": "fly",
       "action_params": "",
-      "type": "path"
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4834.5,
+      "y": -2984.0
     },
     {
-      "id": 5,
-      "x": 4886.54,
-      "y": -2940.45,
       "action": "",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4886.54,
+      "y": -2940.45
     }
   ]
 }

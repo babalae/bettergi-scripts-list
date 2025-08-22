@@ -1,115 +1,115 @@
 {
   "info": {
-    "name": "纳塔龙众-坚岩隘谷3",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "老马RYO"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "纳塔龙众-坚岩隘谷3",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 8194.53,
-      "y": -1865.34,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -1865.34
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8176.0,
-      "y": -1835.5,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -1835.5
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8141.59,
-      "y": -1818.4,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -1818.4
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8076.5,
-      "y": -1804.25,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -1804.25
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "run",
+      "type": "path",
       "x": 8031.15,
-      "y": -1805.9,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -1805.9
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 6,
-      "x": 8014.5,
-      "y": -1810.5,
-      "action": "fight",
       "move_mode": "run",
-      "action_params": "",
-      "type": "target"
+      "type": "target",
+      "x": 8014.5,
+      "y": -1810.5
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8029.24,
-      "y": -1812.24,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -1812.24
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8026.16,
-      "y": -1791.41,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -1791.41
     },
     {
-      "id": 9,
-      "x": 8014.74,
-      "y": -1760.75,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 9,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 8014.74,
+      "y": -1760.75
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 10,
-      "x": 7997.0,
-      "y": -1742.26,
-      "action": "fight",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "type": "target",
+      "x": 7997.0,
+      "y": -1742.26
     },
     {
-      "id": 11,
-      "x": 8020.16,
-      "y": -1715.45,
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "target"
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8020.16,
+      "y": -1715.45
     }
   ]
 }

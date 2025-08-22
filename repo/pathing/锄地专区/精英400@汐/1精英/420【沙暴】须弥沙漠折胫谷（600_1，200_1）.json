@@ -1,292 +1,292 @@
 {
   "info": {
-    "name": "420【沙暴】须弥沙漠折胫谷（600_1，200_1）",
-    "type": "collect",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时120秒，包含2只精英，预计收入800摩拉，包含以下怪物：1只遗迹守卫、1只遗迹重机。",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1755105731448,
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时120秒，包含2只精英，预计收入800摩拉，包含以下怪物：1只遗迹守卫、1只遗迹重机。",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1755105731448,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "420【沙暴】须弥沙漠折胫谷（600_1，200_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 5686.6738,
-      "y": -706.0337,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 5686.6738,
+      "y": -706.0337
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 5692.8413,
-      "y": -703.374,
-      "action": "",
       "move_mode": "climb",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 5692.8413,
+      "y": -703.374
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 5713.6177,
-      "y": -728.2056,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 5713.6177,
+      "y": -728.2056
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 5718.0977,
-      "y": -753.3647,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 5718.0977,
+      "y": -753.3647
     },
     {
+      "action": "combat_script",
+      "action_params": "keypress(t)",
       "id": 5,
-      "x": 5723.8726,
-      "y": -788.5928,
-      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(t)",
-      "type": "orientation"
+      "type": "orientation",
+      "x": 5723.8726,
+      "y": -788.5928
     },
     {
+      "action": "stop_flying",
+      "action_params": "1200",
       "id": 6,
-      "x": 5770.123,
-      "y": -835.1924,
-      "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "1200",
-      "type": "path"
+      "type": "path",
+      "x": 5770.123,
+      "y": -835.1924
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
-      "x": 5810.6689,
-      "y": -849.2017,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 5810.6689,
+      "y": -849.2017
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
-      "x": 5849.8125,
-      "y": -848.4379,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 5849.8125,
+      "y": -848.4379
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 9,
-      "x": 5885.3818,
-      "y": -847.7798,
-      "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 5885.3818,
+      "y": -847.7798
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 10,
-      "x": 5889.8936,
-      "y": -882.1929,
-      "action": "fight",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 5889.8936,
+      "y": -882.1929
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(1)",
       "id": 11,
-      "x": 5889.8936,
-      "y": -882.1929,
-      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(1)",
-      "type": "orientation"
+      "type": "orientation",
+      "x": 5889.8936,
+      "y": -882.1929
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 12,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 4589.0122,
-      "y": -652.938,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -652.938
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 13,
+      "move_mode": "run",
+      "type": "path",
       "x": 4570.2773,
-      "y": -670.4438,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -670.4438
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 14,
-      "x": 4550.2236,
-      "y": -719.0088,
-      "action": "",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 4550.2236,
+      "y": -719.0088
     },
     {
-      "id": 15,
-      "x": 4540.377,
-      "y": -740.5068,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "keypress(t),wait(0.2),keypress(t)",
-      "type": "path"
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4540.377,
+      "y": -740.5068
     },
     {
-      "id": 16,
-      "x": 4525.1328,
-      "y": -769.8774,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "keypress(t),wait(0.2),keypress(t),moveby(0,1000),keydown(w),wait(0.5),keypress(t),wait(0.2),keypress(t),wait(0.5),keyup(w)",
-      "type": "orientation"
+      "id": 16,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4525.1328,
+      "y": -769.8774
     },
     {
-      "id": 17,
-      "x": 4503.7456,
-      "y": -794.5059,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(0.5)",
-      "type": "orientation"
+      "id": 17,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4503.7456,
+      "y": -794.5059
     },
     {
-      "id": 18,
-      "x": 4513.002,
-      "y": -786.5063,
       "action": "log_output",
-      "move_mode": "dash",
       "action_params": "切换[沙暴]状态",
-      "type": "orientation"
-    },
-    {
-      "id": 19,
+      "id": 18,
+      "move_mode": "dash",
+      "type": "orientation",
       "x": 4513.002,
-      "y": -786.5063,
+      "y": -786.5063
+    },
+    {
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f)",
-      "type": "path"
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4513.002,
+      "y": -786.5063
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 20,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 5686.6738,
-      "y": -706.0337,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -706.0337
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 21,
-      "x": 5692.8413,
-      "y": -703.374,
-      "action": "",
       "move_mode": "climb",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 5692.8413,
+      "y": -703.374
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 22,
+      "move_mode": "dash",
+      "type": "path",
       "x": 5713.6177,
-      "y": -728.2056,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -728.2056
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 23,
+      "move_mode": "dash",
+      "type": "path",
       "x": 5718.0977,
-      "y": -753.3647,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -753.3647
     },
     {
-      "id": 24,
-      "x": 5723.8726,
-      "y": -788.5928,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "keypress(t)",
-      "type": "orientation"
+      "id": 24,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 5723.8726,
+      "y": -788.5928
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 25,
+      "move_mode": "fly",
+      "type": "path",
       "x": 5770.123,
-      "y": -835.1924,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "y": -835.1924
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 26,
+      "move_mode": "dash",
+      "type": "path",
       "x": 5810.6689,
-      "y": -849.2017,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -849.2017
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 27,
+      "move_mode": "dash",
+      "type": "path",
       "x": 5849.8125,
-      "y": -848.4379,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -848.4379
     },
     {
-      "id": 28,
-      "x": 5885.3818,
-      "y": -847.7798,
       "action": "stop_flying",
-      "move_mode": "fly",
       "action_params": "1200",
-      "type": "path"
+      "id": 28,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5885.3818,
+      "y": -847.7798
     },
     {
-      "id": 29,
-      "x": 5889.8936,
-      "y": -882.1929,
       "action": "fight",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 29,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5889.8936,
+      "y": -882.1929
     },
     {
-      "id": 30,
-      "x": 5889.8936,
-      "y": -882.1929,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 30,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 5889.8936,
+      "y": -882.1929
     }
   ]
 }

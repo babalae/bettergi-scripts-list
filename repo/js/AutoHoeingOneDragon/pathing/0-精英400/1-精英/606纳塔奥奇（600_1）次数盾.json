@@ -1,64 +1,64 @@
 {
   "info": {
-    "name": "606纳塔奥奇（600_1）次数盾",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时83.93秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只深邃拟覆叶。",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时83.93秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只深邃拟覆叶。",
+    "map_name": "Teyvat",
+    "name": "606纳塔奥奇（600_1）次数盾",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 9757.93,
-      "y": -613.62,
       "action": "force_tp",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9757.93,
+      "y": -613.62
     },
     {
-      "id": 2,
-      "x": 9767.55,
-      "y": -603.87,
       "action": "",
+      "action_params": "",
+      "id": 2,
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 9767.55,
+      "y": -603.87
     },
     {
-      "id": 3,
-      "x": 9802.44,
-      "y": -609.74,
       "action": "stop_flying",
-      "move_mode": "fly",
       "action_params": "1700",
-      "type": "path"
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9802.44,
+      "y": -609.74
     },
     {
-      "id": 4,
-      "x": 9825.85,
-      "y": -632.36,
       "action": "fight",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9825.85,
+      "y": -632.36
     },
     {
-      "id": 5,
-      "x": 9825.85,
-      "y": -632.36,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "wait(1)",
-      "type": "orientation"
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9825.85,
+      "y": -632.36
     }
   ]
 }

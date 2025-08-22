@@ -1,49 +1,49 @@
 {
   "info": {
-    "name": "璃月8-南天门南-3",
-    "type": "collect",
     "author": "火山",
-    "version": "1.1",
+    "bgi_version": "0.45.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "name": "璃月8-南天门南-3",
+    "type": "collect",
+    "version": "1.1"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 1152.67,
-      "y": 141.57,
-      "action_params": ""
+      "y": 141.57
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 1155.31,
-      "y": 139.27,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": 139.27
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 1162.27,
-      "y": 88.68,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 1162.27,
+      "y": 88.68
     },
     {
-      "id": 4,
-      "x": 1160.17,
-      "y": 86.75,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1160.17,
+      "y": 86.75
     }
   ]
 }

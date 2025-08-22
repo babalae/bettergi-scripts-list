@@ -1,73 +1,73 @@
 {
   "info": {
-    "name": "06-树莓-蒙德-千风神殿西侧-9个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "树莓",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "风埠",
-        "links": "https://github.com/jhkif"
+        "links": "https://github.com/jhkif",
+        "name": "风埠"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "树莓",
+    "name": "06-树莓-蒙德-千风神殿西侧-9个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -1505.87,
       "y": 2296.2
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1516.98,
-      "y": 2291.9,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 2291.9
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "target",
       "x": -1556.45,
-      "y": 2345.11,
-      "type": "target",
-      "move_mode": "walk",
-      "action": ""
+      "y": 2345.11
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "target",
       "x": -1624.8,
-      "y": 2370.25,
-      "type": "target",
-      "move_mode": "walk",
-      "action": ""
+      "y": 2370.25
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": -1608.42,
-      "y": 2320.01,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 2320.01
     },
     {
+      "action": "stop_flying",
       "id": 6,
-      "x": -1610.15,
-      "y": 2303.32,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": -1610.15,
+      "y": 2303.32
     },
     {
+      "action": "",
       "id": 7,
-      "x": -1603.93,
-      "y": 2302.31,
-      "type": "target",
       "move_mode": "walk",
-      "action": ""
+      "type": "target",
+      "x": -1603.93,
+      "y": 2302.31
     }
   ]
 }

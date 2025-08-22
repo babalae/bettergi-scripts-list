@@ -1,96 +1,96 @@
 {
   "info": {
-    "name": "09厄里那斯",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "雕茂"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "09厄里那斯",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 5113.64,
       "y": 2998.23
     },
     {
+      "action": "stop_flying",
       "id": 2,
+      "move_mode": "fly",
+      "type": "path",
       "x": 5081.86,
-      "y": 3015.5,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying"
+      "y": 3015.5
     },
     {
+      "action": "fight",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5081.71,
-      "y": 3016.99,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
+      "y": 3016.99
     },
     {
+      "action": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5128.04,
-      "y": 3021.37,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 3021.37
     },
     {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5182.41,
-      "y": 3000.73,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 3000.73
     },
     {
+      "action": "stop_flying",
       "id": 6,
-      "x": 5264.79,
-      "y": 2958.33,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": 5264.79,
+      "y": 2958.33
     },
     {
+      "action": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5298.95,
-      "y": 2934.3,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 2934.3
     },
     {
+      "action": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5305.02,
-      "y": 2914.57,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 2914.57
     },
     {
+      "action": "fight",
       "id": 9,
-      "x": 5317.64,
-      "y": 2916.36,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 5317.64,
+      "y": 2916.36
     },
     {
+      "action": "fight",
       "id": 10,
-      "x": 5330.52,
-      "y": 2901.31,
-      "type": "path",
       "move_mode": "walk",
-      "action": "fight"
+      "type": "path",
+      "x": 5330.52,
+      "y": 2901.31
     }
   ]
 }

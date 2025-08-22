@@ -1,47 +1,47 @@
 {
   "info": {
-    "name": "06-柔灯铃-苍晶区-3个",
-    "type": "collect",
-    "version": "1.0",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "透明人"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "name": "06-柔灯铃-苍晶区-3个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": 5117.53,
-      "y": 2543.36,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "x": 5117.53,
+      "y": 2543.36
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 5085.94,
-      "y": 2548.2,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 2548.2
     },
     {
+      "action": "",
       "id": 3,
-      "x": 5067.64,
-      "y": 2556.47,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 5067.64,
+      "y": 2556.47
     },
     {
+      "action": "",
       "id": 4,
-      "x": 5067.5,
-      "y": 2551.62,
-      "type": "target",
       "move_mode": "walk",
-      "action": ""
+      "type": "target",
+      "x": 5067.5,
+      "y": 2551.62
     }
   ]
 }

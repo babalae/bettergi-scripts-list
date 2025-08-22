@@ -1,62 +1,62 @@
 {
   "info": {
-    "name": "债务处理人-巨人峡谷下（1）",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "下流山汉",
-        "links": "https://github.com/vulgar-rustic"
+        "links": "https://github.com/vulgar-rustic",
+        "name": "下流山汉"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "债务处理人-巨人峡谷下（1）",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 5207.88,
-      "y": -1338.75,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 5207.88,
+      "y": -1338.75
     },
     {
-      "id": 2,
-      "x": 5200.8,
-      "y": -1359.92,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 5200.8,
+      "y": -1359.92
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
       "x": 5208.12,
-      "y": -1378.82,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "y": -1378.82
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 5230.11,
-      "y": -1392.2,
-      "action": "",
       "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 5230.11,
+      "y": -1392.2
     },
     {
-      "id": 5,
-      "x": 5249.33,
-      "y": -1398.83,
       "action": "fight",
-      "move_mode": "run",
       "action_params": "",
-      "type": "path"
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 5249.33,
+      "y": -1398.83
     }
   ]
 }

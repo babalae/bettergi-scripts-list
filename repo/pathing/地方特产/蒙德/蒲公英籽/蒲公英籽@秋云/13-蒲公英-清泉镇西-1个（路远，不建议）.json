@@ -1,65 +1,65 @@
 {
   "info": {
-    "name": "13-蒲公英-清泉镇西-1个（路远，不建议）",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "秋云",
-        "links": "https://github.com/physligl"
+        "links": "https://github.com/physligl",
+        "name": "秋云"
       }
-    ]
+    ],
+    "bgi_version": "0.42.0",
+    "description": "",
+    "name": "13-蒲公英-清泉镇西-1个（路远，不建议）",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -578.77,
-      "y": 1858.76,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": 1858.76
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -595.86,
-      "y": 1896.71,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1896.71
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": -608.87,
-      "y": 1933.47,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "y": 1933.47
     },
     {
+      "action": "stop_flying",
       "id": 4,
-      "x": -663.58,
-      "y": 1932.0,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
-    },
-    {
-      "id": 5,
-      "x": -663.58,
-      "y": 1932.0,
       "type": "path",
-      "move_mode": "walk",
-      "action": "anemo_collect"
+      "x": -663.58,
+      "y": 1932.0
     },
     {
-      "id": 6,
-      "x": -666.72,
-      "y": 1931.95,
-      "action": "",
+      "action": "anemo_collect",
+      "id": 5,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": -663.58,
+      "y": 1932.0
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -666.72,
+      "y": 1931.95
     }
   ]
 }

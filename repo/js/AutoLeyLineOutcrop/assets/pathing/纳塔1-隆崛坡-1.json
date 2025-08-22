@@ -1,50 +1,50 @@
 {
   "info": {
+    "author": "ddaodan",
+    "bgi_version": "0.42.3",
+    "description": "",
     "name": "纳塔1-隆崛坡-1",
     "type": "collect",
-    "author": "ddaodan",
-    "version": "1.1",
-    "description": "",
-    "bgi_version": "0.42.3"
+    "version": "1.1"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 7796.08,
-      "y": -1873.18,
-      "action_params": ""
+      "y": -1873.18
     },
     {
-      "id": 2,
-      "x": 7820.1,
-      "y": -1865.8,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7820.1,
+      "y": -1865.8
     },
     {
-      "id": 3,
-      "x": 7864.95,
-      "y": -1823.96,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
       "action_params": "",
-      "locked": false
+      "id": 3,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7864.95,
+      "y": -1823.96
     },
     {
-      "id": 4,
-      "x": 7864.95,
-      "y": -1823.96,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
       "action_params": "",
-      "locked": false
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7864.95,
+      "y": -1823.96
     }
   ]
 }

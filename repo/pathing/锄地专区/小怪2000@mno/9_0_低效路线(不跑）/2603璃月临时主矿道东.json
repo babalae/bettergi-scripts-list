@@ -1,94 +1,94 @@
 {
   "info": {
-    "name": "2603璃月临时主矿道东",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "TheChasm",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "name": "2603璃月临时主矿道东",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 663.85,
-      "y": 1058.84,
-      "action_params": ""
+      "y": 1058.84
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 668.65,
-      "y": 1053.72,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 668.65,
+      "y": 1053.72
     },
     {
+      "action": "stop_flying",
+      "action_params": "1000",
       "id": 3,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
       "x": 648.66,
-      "y": 1007.52,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": "1000",
-      "locked": false
+      "y": 1007.52
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 4,
-      "x": 650.58,
-      "y": 1010.67,
-      "type": "path",
+      "locked": false,
       "move_mode": "walk",
-      "action": "fight",
-      "action_params": "",
-      "locked": false
+      "type": "path",
+      "x": 650.58,
+      "y": 1010.67
     },
     {
-      "id": 5,
-      "x": 650.58,
-      "y": 1010.67,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 650.58,
+      "y": 1010.67
     },
     {
-      "id": 6,
-      "x": 678.9,
-      "y": 961.18,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
       "action_params": "1000",
-      "locked": false
+      "id": 6,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 678.9,
+      "y": 961.18
     },
     {
-      "id": 7,
-      "x": 680.9,
-      "y": 961.18,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
       "action_params": "",
-      "locked": false
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 680.9,
+      "y": 961.18
     },
     {
-      "id": 8,
-      "x": 680.9,
-      "y": 961.18,
-      "type": "orientation",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "action_params": "wait(1)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 680.9,
+      "y": 961.18
     }
   ]
 }

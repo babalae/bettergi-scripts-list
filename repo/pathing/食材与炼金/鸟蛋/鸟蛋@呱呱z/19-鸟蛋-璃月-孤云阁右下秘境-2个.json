@@ -1,42 +1,42 @@
 {
   "info": {
-    "name": "19-鸟蛋-璃月-孤云阁右下秘境-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "呱呱z修改版"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "name": "19-鸟蛋-璃月-孤云阁右下秘境-2个",
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -963.37,
-      "y": -288.94,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": -288.94
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -959.38,
-      "y": -278.55,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -959.38,
+      "y": -278.55
     },
     {
-      "id": 3,
-      "x": -976.57,
-      "y": -260.21,
       "action": "nahida_collect",
+      "id": 3,
       "move_mode": "walk",
-      "type": "path"
+      "type": "path",
+      "x": -976.57,
+      "y": -260.21
     }
   ]
 }
