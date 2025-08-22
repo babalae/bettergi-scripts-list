@@ -3,19 +3,13 @@
  * @returns {Promise<void>}
  */
 async function main(log_off = config.log_off) {
-    // await clickProgressBarTopByHolyRelics()
-    // await clickProgressBarDownBySort()
-    // await openSelectTheClipConditionFix()
-    // mTo(1173, 100)
-    // await wait(1000)
-    // mTo(1200, 200)
-    // await wait(1000)
-    // mTo(1300, 200)
-    // await wait(1000)
-    // mTo(1173 + 329, 34 + 145)
-    // await ocrHolyRelicsUpFrequency()
-    // await openAggrandizement()
-    // await t()
+    // mTo(1170,800)
+    // await wait(500)
+    // mTo(1270,800)
+    // await wait(500)
+    // mTo(1270,1000)
+    // await wait(500)
+    // return
     let ms = 300
     await setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
     if (config.enableBatchUp) { // 检查是否启用
@@ -38,11 +32,6 @@ async function main(log_off = config.log_off) {
     } else {
         throwError(`未启用批量强化请去浏览文档后开启！`)
     }
-
-    ////选择升级素材 //禁用 存在异常
-    // await openSelectTheClipCondition('1星素材');
-    ////强化
-    // await oneClickUp('快捷放入',null);
 }
 
 //========================以下为原有封装==============================
