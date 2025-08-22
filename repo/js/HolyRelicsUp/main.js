@@ -267,11 +267,11 @@ function logInfoTemplate(res, source = '默认',) {
  * 滚动页面的异步函数
  * @param {number} totalDistance - 总滚动距离
  * @param {boolean} [isUp=false] - 是否向上滚动，默认为false(向下滚动)
- * @param {number} [waitCount=3] - 每隔多少步等待一次
- * @param {number} [stepDistance=10] - 每步滚动的距离
+ * @param {number} [waitCount=6] - 每隔多少步等待一次
+ * @param {number} [stepDistance=30] - 每步滚动的距离
  * @param {number} [delayMs=1] - 等待的延迟时间(毫秒)
  */
-async function scrollPage(totalDistance, isUp = false, waitCount = 3, stepDistance = 10, delayMs = 1) {
+async function scrollPage(totalDistance, isUp = false, waitCount = 6, stepDistance = 30, delayMs = 1) {
     await wait(50);  // 初始等待50ms
     downLeftButton();  // 按下左键
     await wait(50);  // 再次等待50ms
@@ -518,9 +518,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
         "width": genshinJson.width / 3.0,  // 按钮的宽度为屏幕宽度的1/3
         "height": genshinJson.height      // 按钮的高度为整个屏幕高度
     }
-    keywords.forEach(value => {
-        info("==>key:" + value + "<==")
-    })
+    info('筛选:' + keywords.join(','), must)
     let sift = await templateMatchBase(`${path_base_main}${siftSiftHolyRelicsSuitUIJson.text}.jpg`, siftSiftHolyRelicsSuitUIJson.x, siftSiftHolyRelicsSuitUIJson.y, siftSiftHolyRelicsSuitUIJson.width, siftSiftHolyRelicsSuitUIJson.height)
     await wait(300)
     let exist = isExist(sift);
@@ -568,7 +566,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
                 }
 
                 // last.y = res.y
-                if (keywords.find(function (value) {
+                if (keywordsOk.indexOf(res.text) < 0 && keywords.find(function (value) {
                     return res.text.includes(value.trim())
                 }) && (opJsons.length === 0 || opJsons.find(function (value) {
                     return !value.text.includes(res.text)
@@ -577,8 +575,11 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
                     opJsons.push({
                         text: res.text, x: res.x, y: res.y, sort: i
                     })
-                    // res.click()
-                    // keywordsOk.push(res.text)
+                    res.click()
+                    keywordsOk.push(res.text)
+                    if (keywords.length <= opJsons.length) {
+                        break
+                    }
                 }
             }
 
@@ -595,7 +596,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
                 await logInfoTemplate(res, source)
 
                 last.y = res.y
-                if (keywords.find(function (value) {
+                if (keywordsOk.indexOf(res.text) < 0 && keywords.find(function (value) {
                     return res.text.includes(value.trim())
                 }) && (opJsons.length === 0 || opJsons.find(function (value) {
                     return !value.text.includes(res.text)
@@ -604,43 +605,45 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
                     opJsons.push({
                         text: res.text, x: res.x, y: res.y, sort: i
                     })
-                    // res.click()
-                    // keywordsOk.push(res.text)
+                    res.click()
+                    keywordsOk.push(res.text)
+                    if (keywords.length <= opJsons.length) {
+                        break
+                    }
                 }
             }
-            await info(`选中 ${opJsons.map(value => value.text).join(",")}`)
-            //实际点击
-            // for (let op of opJsons) {
-            //     wait(100)
-            //     downClick(op.x, op.y)
-            // }
-            opJsons.sort((a, b) => {
-                return a.sort - b.sort
-            })
-            await info(`选中 ${opJsons.map(value => value.text).join(",")}`)
-            for (let op of opJsons) {
-                if (
-                    keywordsOk.length === 0 || keywordsOk.find(function (value) {
-                        return !value.includes(op.text)
-                    })
-                ) {
-                    await info(`sort:${op.sort},text:${op.text},x:${op.x},y:${op.y}`)
-                    await wait(100)
-                    await downClick(op.x, op.y)
-                    keywordsOk.push(op.text)
-                }
+            /*            await info(`选中 ${opJsons.map(value => value.text).join(",")}`)
+                        //实际点击
+                        for (let op of opJsons) {
+                            wait(100)
+                            downClick(op.x, op.y)
+                        }
+                        opJsons.sort((a, b) => {
+                            return a.sort - b.sort
+                        })
+                        await info(`选中 ${opJsons.map(value => value.text).join(",")}`)
+                        for (let op of opJsons) {
+                            if (
+                                keywordsOk.length === 0 || keywordsOk.find(function (value) {
+                                    return !value.includes(op.text)
+                                })
+                            ) {
+                                await info(`sort:${op.sort},text:${op.text},x:${op.x},y:${op.y}`)
+                                await wait(100)
+                                // await downClick(op.x, op.y)
+                                keywordsOk.push(op.text)
+                            }
 
-            }
-
-            if (keywords.length === opJsons.length) {
-                await info(`已选中 ${opJsons.map(value => value.text).join(",")}`)
+                        }*/
+            if (keywords.length <= opJsons.length) {
+                await info(`已选中 ${opJsons.map(value => value.text).join(",")}`, must)
                 break
             }
             await wait(1)
             await mTo(genshinJson.width / 2, Math.floor(genshinJson.height * 3 / 4))
             await wait(2)
             // await dragBase(0, -Math.floor( genshinJson.height *40 / 1080 ), Math.floor( genshinJson.height *10  / 1080 ), config.log_off)
-            await scrollPage(Math.floor(genshinJson.height / 3))
+            await scrollPage(Math.floor(genshinJson.height * 4 / 9), false, 6, 40)
             await wait(1)
 
             if (last.name_one != null && last.name_one === last.name_two) {
@@ -653,7 +656,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
             }
         }
         if (keywordsOk.length > 0) {
-            await info(`已选中 ${keywordsOk.join(",")}`)
+            await info(`已选中 ${keywordsOk.join(",")}`, must)
         }
         await wait(1)
         await confirm(`${source} 点击确认`, source)
@@ -674,8 +677,6 @@ async function openSiftAll(log_off) {
     let reOk = await resetSift();
     let op = false
     if (reOk) {
-        await wait(1)
-        await openSiftHolyRelicsSuitUI_Start(config.suit)
         await wait(1)
         // await siftState(log_off)
         // await wait(1)
@@ -700,6 +701,8 @@ async function openSiftAll(log_off) {
                 await res.click()
             }
         }
+        await wait(1)
+        await openSiftHolyRelicsSuitUI_Start(config.suit)
         await wait(1)
         //确认
         let ok = await confirm()
