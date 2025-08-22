@@ -1479,8 +1479,11 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
         await ocrClick(`${path_base_main}${name4}.jpg`, `${name4}`, source, log_off)
         let name5 = `关闭设置`
         await ocrClick(`${path_base_main}${name5}.jpg`, `${name5}`, source, log_off)
+        mTo(0, 0)
     }
     info(`[放入方式]==>${operate}<==[end]`)
+    ocr1.click()
+    info(`[放入方式]-[click]`)
     return operate
 }
 
@@ -1523,7 +1526,7 @@ async function ocrHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequency', log_of
     let y = Math.ceil(genshinJson.height * 34 / 1080)// 目标区域的左上角y坐标
     let w = Math.ceil(genshinJson.width * 329 / 1920)// 目标区域的宽度
     let h = Math.ceil(genshinJson.height * 145 / 1080)// 目标区域的高度
-
+    await wait(10)
     await infoLog(`{x:${x},y:${y},w:${w},h:${h}}`, source) // 记录OCR识别结果
     // 截取游戏画面并进行OCR识别
     let captureRegion = openCaptureGameRegion(); // 截取游戏画面
@@ -1542,13 +1545,26 @@ async function ocrHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequency', log_of
     if (res.text.includes('+')) {
         //保留数字和+
         let va = res.text.replace(/[^+\d]/g, "")
+        // 如果最后不是数字，去掉末尾的 +
+        va = va.replace(/\+$/g, "");
         let str = "0" + va;
+        let level = parseInt(str.split("+")[1])//实际等级
+        //16识别成166
+        if (level > 20) {
+            warn(`异常识别修正`)
+            let t_level = Math.floor(level / 10)
+            va = va.replace(`+${level}`, `+${t_level}`)
+            level = t_level
+        }
+
+        str = "0" + va;
+
+        await infoLog(res.text, source) // 记录OCR识别结果
         await infoLog(str, source) // 记录OCR识别结果
         let result = new Function(`return ${str}`)() + "";
         await infoLog(result, source) // 记录OCR识别结果
         let sumLevel = parseInt(result)//计算等级
         await info(`圣遗物预估可提升至等级: ${sumLevel}`); // 20
-        let level = parseInt(str.split("+")[1])//实际等级
 
         await info(`圣遗物实际等级: ${level}`)
         levelJson.sumLevel = sumLevel
@@ -1604,7 +1620,6 @@ async function oneUp(operate, source = 'oneUp', log_off) {
         //     await ocrClick(`${path_base_main}${up_name}.jpg`, logMsg, source, log_off)
         // } else {
         // }
-
         return upJson
 
     }
@@ -1628,7 +1643,8 @@ async function oneUp(operate, source = 'oneUp', log_off) {
     await wait(300)
 
     let levelJson = await ocrHolyRelicsUpFrequency();
-    if (ocrHolyRelics.level === levelJson.level) {
+    if ((!upJson.start) && ocrHolyRelics.level === levelJson.level) {
+        //真实强化过
         upJson.errorMsg = '强化失败:狗粮不足'
         upJson.ok = false;
         throwError(upJson.errorMsg)
@@ -1661,11 +1677,12 @@ async function oneClickUp(operate, source = 'oneClickUp', log_off = config.log_o
     let count = 1
     let upMax = config.upMax
 
+    // operate = await operateDispose(operate, false, log_off)
+    // await wait(50)  // 等待500毫秒，确保界面响应
+
     if (isFirst) {
         // 调用operateDispose函数处理操作参数，处理后的结果重新赋值给operate变量
-        operate = await operateDispose(operate, false, log_off)
         warn(`首次操作`)
-        await wait(50)  // 等待500毫秒，确保界面响应
 
         if (upMax < 20) {
             //强制使用阶段放入
@@ -1681,7 +1698,8 @@ async function oneClickUp(operate, source = 'oneClickUp', log_off = config.log_o
     }
 
     for (let i = 0; i < count; i++) {
-        await wait(1)
+        operate = await operateDispose(operate, false, log_off)
+        await wait(50)  // 等待500毫秒，确保界面响应
         // 调用oneUp函数执行实际的强化操作，传入处理后的operate参数和日志控制参数
         warn(`start==>单个圣遗物第${i + 1}次强化`)
         let up = await oneUp(operate, source, log_off)
@@ -1774,7 +1792,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         }
 
         let base_count_x = Math.ceil(i % line)
-        let base_count_y = Math.ceil(i / line)
+        let base_count_y = (i % page) < line ? 0 : Math.floor((i % page) / line);
         let x = base_x + base_count_x * base_width;
         let y = base_y + base_count_y * base_height;
         warn(`i:${i},base_count_x:${base_count_x},base_count_y:${base_count_y}`)
@@ -1786,6 +1804,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
                 // warn(`降序排序功能暂未实现自动强化`)
                 throwError(`降序排序功能暂未实现+20的自动强化`)
             }
+
             if (i <= 1) {
                 //强制拉到顶
                 await clickProgressBarTopByHolyRelics()
