@@ -1572,7 +1572,7 @@ async function upOperate(operate, source = 'upOperate', log_off) {
 /**
  * 单次强化函数
  *
- * 该函数用于执行一次强化操作，通过调用operateDispose处理操作参数，然后调用oneUp执行实际强化
+ * 该函数用于执行一次强化操作，通过调用operateDispose处理操作参数，然后调用upOperate执行实际强化
  * @param operate - 操作参数对象，包含强化所需的相关配置信息
  * @param log_off - 是否记录日志的布尔值，用于控制是否输出操作日志
  * @returns {Promise<{sumLevel: number, level: number, await errorMsg: string}>} - 返回一个Promise，表示异步操作的完成，无返回值
@@ -1612,7 +1612,7 @@ async function UpClick(operate, source = 'UpClick', log_off = config.log_off, is
     for (let i = 0; i < count; i++) {
         operate = await operateDispose(operate, false, log_off)
         await wait(50)  // 等待500毫秒，确保界面响应
-        // 调用oneUp函数执行实际的强化操作，传入处理后的operate参数和日志控制参数
+        // 调用upOperate函数执行实际的强化操作，传入处理后的operate参数和日志控制参数
         warn(`start==>单个圣遗物第${i + 1}次强化`)
         let up = await upOperate(operate, source, log_off)
         warn(`end==>单个圣遗物第${i + 1}次强化`)
@@ -1629,6 +1629,13 @@ async function UpClick(operate, source = 'UpClick', log_off = config.log_off, is
         } else if (!up.start) {
             //已达到要求的圣遗物
             warn(`该圣遗物已符合要求${reJson.okMsg}==>{level:${up.level},sumLevel:${up.sumLevel}}`)
+            break
+        } else if ((!up.ok) && up.sumLevel % 4 != 0) {
+            let msg2 = `圣遗物预估可提升至等级: ${up.sumLevel}，未达到下一阶段等级，退出强化`;
+            await info(msg2)
+            reJson.errorMsg = msg2
+            reJson.okMsg = msg2
+            // throwError(msg2)
             break
         } else {
             await info(`强化成功`)
