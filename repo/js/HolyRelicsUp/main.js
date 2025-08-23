@@ -1506,7 +1506,7 @@ async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequenc
 
     let x = Math.floor(genshinJson.width * 1173 / 1920)// 目标区域的左上角x坐标
     let y = Math.floor(genshinJson.height * 34 / 1080)// 目标区域的左上角y坐标
-    let w = Math.floor(genshinJson.width * 320 / 1920)// 目标区域的宽度
+    let w = Math.floor(genshinJson.width * 310 / 1920)// 目标区域的宽度
     let h = Math.floor(genshinJson.height * 145 / 1080)// 目标区域的高度
     await wait(10)
     await infoLog(`{x:${x},y:${y},w:${w},h:${h}}`, source) // 记录OCR识别结果
