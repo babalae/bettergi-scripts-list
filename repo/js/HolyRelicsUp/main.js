@@ -1899,14 +1899,14 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         let template_name = '祝圣精华'
         let template = await templateMatch(`${path_base_main}${template_name}.jpg`)
         if (isExist(template)) {
-            error(`[匹配到${template}-退出强化]圣遗物强化+${config.upMax} 数量：${actualCount}`, must)
+            error(`[匹配到${template_name}-退出强化]圣遗物强化+${config.upMax} 数量：${actualCount}`, must)
             break
         }
         await wait(ms)
         template_name = '祝圣油膏'
         template = await templateMatch(`${path_base_main}${template_name}.jpg`)
         if (isExist(template)) {
-            error(`[匹配到${template}-退出强化]圣遗物强化+${config.upMax} 数量：${actualCount}`, must)
+            error(`[匹配到${template_name}-退出强化]圣遗物强化+${config.upMax} 数量：${actualCount}`, must)
             break
         }
 
