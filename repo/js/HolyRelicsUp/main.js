@@ -1506,7 +1506,7 @@ async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequenc
 
     let x = Math.floor(genshinJson.width * 1173 / 1920)// 目标区域的左上角x坐标
     let y = Math.floor(genshinJson.height * 34 / 1080)// 目标区域的左上角y坐标
-    let w = Math.floor(genshinJson.width * 329 / 1920)// 目标区域的宽度
+    let w = Math.floor(genshinJson.width * 320 / 1920)// 目标区域的宽度
     let h = Math.floor(genshinJson.height * 145 / 1080)// 目标区域的高度
     await wait(10)
     await infoLog(`{x:${x},y:${y},w:${w},h:${h}}`, source) // 记录OCR识别结果
@@ -1843,7 +1843,8 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         warn(`i:${i},base_count_x:${base_count_x},base_count_y:${base_count_y},x:${x},y:${y}`)
         lastJson.t_y = y
         lastJson.t_x = x
-        if (config.sortMain.includes('降序') && config.upMax < 20) {
+        let isBool = config.sortMain.includes('降序') && config.upMax < 20;
+        if (isBool) {
             if (i < 1) {
                 //强制拉到顶
                 await clickProgressBarTopByHolyRelics()
@@ -1885,6 +1886,15 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             await downClickFirstHolyRelics()
             // await wait(ms);
         }
+
+        let log_msg = isBool ? '降序强化点击确认' : '点击第一个圣遗物'
+        await confirm(log_msg, isBool ? '降序confirm' : 'downClickFirstHolyRelics')
+        await wait(ms)
+        //避免多次点击
+        await mTo(x, y)
+        await wait(ms)
+        await info(log_msg)
+
         //检查
         let template_name = '祝圣精华'
         let template = await templateMatch(`${path_base_main}${template_name}.jpg`)
