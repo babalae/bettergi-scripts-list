@@ -255,6 +255,7 @@ function logInfoTemplate(res, source = '默认',) {
     logInfoTemplateBase(res, source)
 }
 
+
 /**
  * 通过圣遗物页面滑动功能
  * @param {boolean} isUp - 是否向上滑动，默认为false（向下滑动）
@@ -285,7 +286,7 @@ async function scrollPagesByHolyRelics(isUp = false, pages = 1) {
     // 循环执行滑动操作，次数由pages参数决定
     for (let i = 0; i < pages; i++) {
         moveByMouse(genshinJson.width / 2, genshinJson.height / 2); // 移走鼠标，防止干扰识别
-        await wait(200); // 等待200毫秒
+        await wait(); // 等待200毫秒
 
         // 查找向上和向下的滑块
         let slide_bar_up = await templateMatchFind(`${path_base_main}slide_bar_main_up.png`, templateMatch_x, templateMatch_y, templateMatch_width, templateMatch_height, threshold);
@@ -297,7 +298,7 @@ async function scrollPagesByHolyRelics(isUp = false, pages = 1) {
             downClick(click_x, direction === "down" ? slide_bar_down.y + page_distance : slide_bar_up.y - page_distance); // 向上下滑动（点击）
 
             if (slide_bar_down.y > bottom_y && direction === "down") {
-                await wait(300);
+                await wait();
                 mTo(genshinJson.width / 2, genshinJson.height / 2)
                 //85 10次滑动偏移量小
                 await scrollPage(Math.floor(genshinJson.height * 80 / 1080), isUp, 6, 18)
@@ -311,14 +312,14 @@ async function scrollPagesByHolyRelics(isUp = false, pages = 1) {
                 return true;
             }
             //反方向拉动 保证定位
-            await wait(300);
+            await wait();
             mTo(genshinJson.width / 2, genshinJson.height / 2)
             //80 18次滑动偏移量  46次测试未发现偏移
             await scrollPage(Math.floor(genshinJson.height * 80 / 1080), !isUp, 6, 18)
 
-            await wait(100);
+            await wait();
         } else {
-            throwError("未找到滑块，无法执行页面滑动操作！");
+            error("未找到滑块，无法执行页面滑动操作！", must);
             return false;
         }
     }
@@ -357,7 +358,7 @@ async function scrollPage(totalDistance, isUp = false, waitCount = 6, stepDistan
         // await wait(delayMs);
         // 每隔waitCount步等待一次
         if (j % waitCount === 0) {
-            await wait(delayMs)
+            await wait(delayMs);
         }
     }
     // 滚动完成后释放左键
@@ -464,7 +465,7 @@ async function openKnapsack() {
         await info(`尝试按下${knapsackKey}键打开背包`)
         // 打开背包
         await keyPress(knapsackKey);
-        await wait(300);
+        await wait();
         exist = true
     }
     return exist
@@ -536,14 +537,14 @@ async function resetSift() {
     }
     // 查找筛选按钮元素
     let sift = templateMatchFind(`${path_base_main}${templateMatchJson.text}.jpg`, templateMatchJson.x, templateMatchJson.y, templateMatchJson.width, templateMatchJson.height)
-    await wait(100);
+    await wait();
     // 判断筛选按钮是否存在
     let exist = isExist(sift);
     let exist1 = false
     if (exist) {
         await info('打开筛选'); // 记录日志：打开筛选
         await sift.click(); // 点击筛选按钮
-        await wait(100);
+        await wait();
 
         // const resetRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("${path_base_main}重置.jpg"), 0, 0, genshinJson.width / 3.0, genshinJson.height);
         // // 查找重置按钮元素
@@ -557,13 +558,13 @@ async function resetSift() {
         }
         // 查找重置按钮元素
         let reset = await templateMatchFind(`${path_base_main}${templateResetJson.text}.jpg`, templateResetJson.x, templateResetJson.y, templateResetJson.width, templateResetJson.height)
-        await wait(100);
+        await wait();
         // 判断重置按钮是否存在
         exist1 = isExist(reset);
         if (exist1) {
             await info('重置'); // 记录日志：重置
             await reset.click(); // 点击重置按钮
-            await wait(100);
+            await wait();
         }
     }
     return exist && exist1
@@ -594,7 +595,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
     }
     info('筛选:' + keywords.join(','), must)
     let sift = await templateMatchFind(`${path_base_main}${siftSiftHolyRelicsSuitUIJson.text}.jpg`, siftSiftHolyRelicsSuitUIJson.x, siftSiftHolyRelicsSuitUIJson.y, siftSiftHolyRelicsSuitUIJson.width, siftSiftHolyRelicsSuitUIJson.height)
-    await wait(100)
+    await wait()
     let exist = isExist(sift);
 
     if (exist) {
@@ -604,7 +605,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
         if (log_off) {
             await info(`已${siftSiftHolyRelicsSuitUIJson.text}`)
         }
-        await wait(200)
+        await wait()
         //2.start
         let last = {
             name_one: null,
@@ -630,7 +631,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
             // templateMatchObject.threshold = 1.0;
             let opJsons = new Array()
             let resList = findMultiByCaptureGameRegion(captureRegion, templateMatchObject);
-            await wait(200)
+            await wait()
             for (let res of resList) {
                 await logInfoTemplate(res, source)
                 if (i % 2 !== 0) {
@@ -645,7 +646,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
                 }) && (opJsons.length === 0 || opJsons.find(function (value) {
                     return !value.text.includes(res.text)
                 }))) {
-                    await wait(1)
+                    await wait()
                     opJsons.push({
                         text: res.text, x: res.x, y: res.y, sort: i
                     })
@@ -659,13 +660,13 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
 
             //画面拆为二分别识别
             await info('开始识别右边画面')
-            await wait(200)
+            await wait()
             templateMatchObject = await recognitionObjectOcr(x1, y, width, height);
             // await mTo(width, 0)
             // templateMatchObject.threshold = 1.0;
             resList = findMultiByCaptureGameRegion(captureRegion, templateMatchObject);
             closeCaptureGameRegion(captureRegion)
-            await wait(200)
+            await wait()
             for (let res of resList) {
                 await logInfoTemplate(res, source)
 
@@ -675,7 +676,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
                 }) && (opJsons.length === 0 || opJsons.find(function (value) {
                     return !value.text.includes(res.text)
                 }))) {
-                    await wait(300)
+                    await wait()
                     opJsons.push({
                         text: res.text, x: res.x, y: res.y, sort: i
                     })
@@ -713,12 +714,12 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
                 // await info(`已选中 ${opJsons.map(value => value.text).join(",")}`, must)
                 break
             }
-            await wait(300)
+            await wait()
             await mTo(genshinJson.width / 2, Math.floor(genshinJson.height * 3 / 4))
-            await wait(300)
+            await wait()
             // await dragBase(0, -Math.floor( genshinJson.height *40 / 1080 ), Math.floor( genshinJson.height *10  / 1080 ), config.log_off)
             await scrollPage(Math.floor(genshinJson.height * 4 / 9), false, 6, 40)
-            await wait(300)
+            await wait()
 
             if (last.name_one != null && last.name_one === last.name_two) {
                 await info('已达底部')
@@ -732,7 +733,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
         if (keywordsOk.length > 0) {
             await info(`已选中 ${keywordsOk.join(",")}`, must)
         }
-        await wait(300)
+        await wait()
         await confirm(`${source} 点击确认`, source)
         return
     }
@@ -824,7 +825,7 @@ async function openUpSort() {
     // 获取屏幕高度
     let height = Math.floor(genshinJson.height);
     let templateMatch = await templateMatchFind(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
-    await wait(500)
+    await wait()
     // 检查OCR识别结果是否存在（即升序按钮是否可见）
     if (isExist(templateMatch)) {
         // 更新按钮名称为选中状态
@@ -879,13 +880,13 @@ async function unchecked(log_off) {
     let source = 'unchecked'
     // 执行第一次模板匹配点击，点击"取消选择1"按钮，并等待1秒
     await templateMatchClick(`${path_base_sort}1.jpg`, "取消选择1", source, log_off)
-    await wait(300)
+    await wait()
     // 执行第二次模板匹配点击，点击"取消选择2"按钮，并等待1秒
     await templateMatchClick(`${path_base_sort}2.jpg`, "取消选择2", source, log_off)
-    await wait(300)
+    await wait()
     // 执行第三次模板匹配点击，点击"取消选择3"按钮，并等待1秒
     await templateMatchClick(`${path_base_sort}3.jpg`, "取消选择3", source, log_off)
-    await wait(300)
+    await wait()
 }
 
 
@@ -934,7 +935,7 @@ async function resetAttributeSort(log_off = config.log_off) {
     //拖动到看不见辅助排序规则
     await mTo(x, y)
     await scrollPageByAttributeSortInit()
-    await wait(1)
+    await wait()
     let template_name = '属性排序规则'
     for (let index = 1; index <= 5; index++) {
         await unchecked(log_off)
@@ -990,7 +991,7 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
     let y = Math.floor(300 * genshinJson.height / 1080)
     let h = Math.floor(genshinJson.height * 10 / 1080)
     await mTo(x, y)
-    await wait(500)
+    await wait()
     // await dragBase(0, Math.floor(26 * genshinJson.height / 1080 ), h, log_off)
     await scrollPageByAttributeSortInit()
     // await wait(100)
@@ -1023,17 +1024,17 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
         for (let one of sort) {
             await info(`[Sort]{index: ${one.index}, text: ${one.text}, x: ${one.x}, y: ${one.y}}`)
             if (attributeKeysOk.indexOf(one.text) < 0) {
-                await wait(50)
+                await wait()
                 await downClick(one.x, one.y)
                 attributeKeysOk.push(one.text)
-                await wait(500)
+                await wait()
                 await info(`[Sort] 选中 {index: ${one.index}, text: ${one.text}, x: ${one.x}, y: ${one.y}}`)
             }
         }
 
         await mTo(x, y)
         await scrollPageByAttributeSortClick()
-        await wait(1)
+        await wait()
 
         let templateMatch = templateMatchFind(`${path_base_main}${template_name}.jpg`, 0, 0, width, genshinJson.height)
         if (isExist(templateMatch)) {
@@ -1049,11 +1050,11 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
             for (let res of resList) {
                 await logInfoTemplate(res, source)
                 if (attributeKeys.indexOf(res.text) >= 0 && attributeKeysOk.indexOf(res.text) < 0) {
-                    await wait(1)
+                    await wait()
                     // res.click()
                     // attributeKeysOk.push(res.text)
                     sort.push({index: attributeKeys.indexOf(res.text), text: res.text, x: res.x, y: res.y})
-                    await wait(10)
+                    await wait()
                 }
             }
 
@@ -1062,10 +1063,10 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
                 await info(`[已到顶]{index: ${one.index}, text: ${one.text}, x: ${one.x}, y: ${one.y}}`)
                 if (attributeKeysOk.indexOf(one.text) < 0) {
                     await info(`选中 ${one.index}`)
-                    await wait(1)
+                    await wait()
                     await downClick(one.x, one.y)
                     attributeKeysOk.push(one.text)
-                    await wait(10)
+                    await wait()
                     await info(`[已到顶] 选中 {index: ${one.index}, text: ${one.text}, x: ${one.x}, y: ${one.y}}`)
                 }
             }
@@ -1074,7 +1075,7 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
                 //特殊排序处理
                 // await wait(1)
                 await clickProgressBarDownBySort()
-                await wait(1)
+                await wait()
                 await mTo(x, y)
                 await scrollPage(Math.floor(genshinJson.height * 1 / 5 + genshinJson.height * 1 / 6), true, 6)
 
@@ -1091,7 +1092,7 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
                         // await wait(1)
                         res.click()
                         attributeKeysOk.push(res.text)
-                        await wait(10)
+                        await wait()
                         break
                     }
                 }
@@ -1422,7 +1423,7 @@ async function confirm(log_msg = '点击确认', source = 'confirm') {
 async function clear(source = 'clear') {
     // 通过OCR识别并点击"详情"按钮
     await templateMatchClick(`${path_base_main}详情.jpg`, "点击详情", source, config.log_off)
-    await wait(30)
+    await wait()
     // 通过OCR识别并点击"强化"按钮
     await templateMatchClick(`${path_base_main}强化.jpg`, "点击强化", source, config.log_off)
 }
@@ -1461,7 +1462,7 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
         let name = '设置按键'
         await templateMatchClick(`${path_base_main}${name}.jpg`, `点击${name}`, source, log_off)
         await mTo(genshinJson.width / 2, genshinJson.height / 2)
-        await wait(100)
+        await wait()
         let name4 = `点击关闭`
         if (operate !== '快捷放入') {
             name4 = `点击开启`
@@ -1473,7 +1474,7 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
     }
     info(`[放入方式]==>${operate}<==[end]`)
     if (isExist(templateMatch1)) {
-        await wait(100)
+        await wait()
         templateMatch1.click()
     } else {
         throwError(`[放入方式]-${operate} 未打开`)
@@ -1536,7 +1537,7 @@ async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequenc
     let captureRegion = openCaptureGameRegion(); // 截取游戏画面
     const templateMatchObject = await recognitionObjectOcr(all.x, all.y, all.width, all.height); // 创建OCR识别对象
     let res = findByCaptureGameRegion(captureRegion, templateMatchObject); // 执行OCR识别
-    await wait(100)
+    await wait()
     if (log_off) {
         await logInfoTemplate(res, source) // 记录OCR识别结果
     }
@@ -1598,7 +1599,7 @@ async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequenc
         await info(`圣遗物实际等级: ${level}`)
         levelJson.sumLevel = sumLevel
         levelJson.level = level
-        await wait(100)
+        await wait()
     }
     closeCaptureGameRegion(captureRegion)
     return levelJson
@@ -1621,13 +1622,13 @@ async function upOperate(operate, source = 'upOperate', log_off) {
         "start": true // 强化过
     }
 
-    await wait(100)
+    await wait()
     //点击operate按钮
     await templateMatchClick(`${path_base_main}${operate}.jpg`, `点击${operate}`, source, log_off)  // 调用模板匹配识别并点击指定按钮
-    await wait(100)
+    await wait()
 
     let templateMatchHolyRelics = await templateMatchHolyRelicsUpFrequency();
-    await wait(100)
+    await wait()
     upJson.level = templateMatchHolyRelics.level
     upJson.sumLevel = templateMatchHolyRelics.sumLevel
     // 输出当前圣遗物等级的日志信息
@@ -1656,7 +1657,7 @@ async function upOperate(operate, source = 'upOperate', log_off) {
 
     await confirm(`[upOperate]点击确认`)  // 确认操作
     await mTo(0, 0)
-    await wait(200)
+    await wait()
     // 定义错误信息为"摩拉不足"
     let err = '摩拉不足'
     // 检查强化是否成功
@@ -1670,7 +1671,7 @@ async function upOperate(operate, source = 'upOperate', log_off) {
     } else {
         upJson.ok = true;  // 设置强化成功的标志
     }
-    await wait(100)
+    await wait()
 
     let levelJson = await templateMatchHolyRelicsUpFrequency();
     if ((!upJson.start) && templateMatchHolyRelics.level === levelJson.level) {
@@ -1720,7 +1721,7 @@ async function UpClick(operate, source = 'UpClick', log_off = config.log_off, is
             warn(`强制使用阶段放入`)
 
             operate = await operateDispose(operate, true, log_off)
-            await wait(10)
+            await wait()
         }
 
     }
@@ -1731,7 +1732,7 @@ async function UpClick(operate, source = 'UpClick', log_off = config.log_off, is
 
     for (let i = 0; i < count; i++) {
         operate = await operateDispose(operate, false, log_off)
-        await wait(200)  // 等待500毫秒，确保界面响应
+        await wait()  // 等待500毫秒，确保界面响应
         // 调用upOperate函数执行实际的强化操作，传入处理后的operate参数和日志控制参数
         let up = await upOperate(operate, source, log_off)
         reJson.start = up.start
@@ -1858,12 +1859,12 @@ async function test() {
             if (bool) {
                 await info(`滑动一页`, must)
                 for (let j = 0; j < page / line; j++) {
-                    await wait(1)
+                    await wait()
                     let line = Math.floor(genshinJson.height * 175 / 1080)
                     mTo(Math.floor(genshinJson.width / 2), Math.floor(genshinJson.height * 2 / 3))
                     await scrollPage(line, false, 6)
                 }
-                await wait(1)
+                await wait()
             }
 
             //每行8个
@@ -1873,7 +1874,7 @@ async function test() {
             // }
             warn(`x:${x},y:${y}`, config.log_off)
             await mTo(x, y)
-            await wait(300)
+            await wait()
             await downClick(x, y)
             await wait()
             warn(`点击确认x:${x},y:${y}`, config.log_off)
