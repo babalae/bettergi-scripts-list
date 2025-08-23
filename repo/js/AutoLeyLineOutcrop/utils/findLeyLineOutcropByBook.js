@@ -1,15 +1,17 @@
 /**
- * 通过冒险之证查找地脉花位置 - 制作中
+ * 通过冒险之证查找地脉花位置 - 【测试中】
  * @param {string} country - 国家名称
  * @param {string} type - 地脉花类型
  * @returns {Promise<void>}
- */this.findLeyLineOutcropByBook = 
-async function (country, type) {
+ */
+this.findLeyLineOutcropByBook = async function (country, type) {
+  await genshin.returnMainUi();
+  await sleep(1000);
   log.info("使用冒险之证寻找地脉花");
   //确保运行时位于主界面
   keyPress("F1");
   await sleep(1000);
-  click(300,550); //点击讨伐
+  click(300, 550); //点击讨伐
   await sleep(1000);
   click(500, 200); //点击筛选
   await sleep(1000);
@@ -37,5 +39,8 @@ async function (country, type) {
   await sleep(1000);
   //获取地脉花位置
   const center = genshin.getPositionFromBigMap();
+  leyLineX = center.x;
+  leyLineY = center.y;
   log.info(`找到地脉花的坐标：(${center.x}, ${center.y})`);
+  return center;
 }
