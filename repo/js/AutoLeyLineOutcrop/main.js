@@ -42,6 +42,7 @@ const ocrRoThis = RecognitionObject.ocrThis;
     }
     finally {
         if (!marksStatus) {
+            // 任何时候都确保自定义标记处于打开状态
             await openCustomMarks();
         }
         log.info("全自动地脉花运行结束");
