@@ -3,6 +3,10 @@
  * @returns {Promise<void>}
  */
 async function main(log_off = config.log_off) {
+    for (let i = 0; i < 50; i++) {
+        await scrollPagesByHolyRelics()
+    }
+    return
     let ms = 300
     await setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
     if (config.enableBatchUp) { // 检查是否启用
@@ -313,8 +317,8 @@ async function scrollPagesByHolyRelics(isUp = false, pages = 1) {
             //反方向拉动 保证定位
             await wait();
             mTo(genshinJson.width / 2, genshinJson.height / 2)
-            //80 18次滑动偏移量  46次测试未发现偏移
-            await scrollPage(Math.floor(genshinJson.height * 80 / 1080), !isUp, 6, 18)
+            //80 10次滑动偏移量  46次测试未发现偏移
+            await scrollPage(Math.floor(genshinJson.height * 80 / 1080), !isUp, 6, 10)
 
             await wait();
         } else {
