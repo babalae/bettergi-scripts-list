@@ -94,7 +94,7 @@ function moveByMouse(x, y) {
 
 async function wait(ms) {
     // 等待300毫秒，确保按下操作生效
-    await sleep(1000);
+    await sleep(ms);
 }
 
 function downClick(x, y) {
@@ -847,7 +847,7 @@ async function openLvSort() {
     let height = Math.floor(genshinJson.height);
     // 使用OCR识别指定区域的图像
     let templateMatch = await templateMatchFind(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
-    await wait(100)
+    // await wait(100)
     if (isExist(templateMatch)) {
         // 更新按钮名称为选中状态
         up_name = '等级顺序排序'
@@ -926,7 +926,7 @@ async function resetAttributeSort(log_off = config.log_off) {
     //拖动到看不见辅助排序规则
     await mTo(x, y)
     await scrollPageByAttributeSortInit()
-    await wait(100)
+    await wait(1)
     let template_name = '属性排序规则'
     for (let index = 1; index <= 5; index++) {
         await unchecked(log_off)
