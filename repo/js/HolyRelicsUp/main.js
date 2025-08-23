@@ -3,19 +3,6 @@
  * @returns {Promise<void>}
  */
 async function main(log_off = config.log_off) {
-    // mTo(1170,800)
-    // await wait(500)
-    // mTo(1270,800)
-    // await wait(500)
-    // mTo(1270,1000)
-    // await wait(500)
-    // let x = Math.floor(genshinJson.width * 200 / 1920)
-    // let y = Math.floor((300 + 500) * genshinJson.height / 1080)
-    // await mTo(x, y)
-    // // await scrollPage(Math.floor(genshinJson.height * 2 / 3), true, 6,30)
-    // await scrollPage(Math.floor(genshinJson.height / 3), false, 6, 30)
-    // await openSiftAll(log_off)
-    // return
     let ms = 300
     await setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
     if (config.enableBatchUp) { // 检查是否启用
@@ -331,7 +318,7 @@ async function scrollPagesByHolyRelics(isUp = false, pages = 1) {
 
             await wait(100);
         } else {
-            error("未找到滑块，无法执行页面滑动操作！", must);
+            throwError("未找到滑块，无法执行页面滑动操作！");
             return false;
         }
     }
@@ -1832,6 +1819,8 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         t_level: 0,
     }
 
+    let isDown = false
+
     let base_x = Math.floor(genshinJson.width * 200 / 1920)
     let base_y = Math.floor(genshinJson.height * 250 / 1080)
     let base_width = Math.floor(genshinJson.width * 145 / 1920)
@@ -1863,12 +1852,17 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             let bool = i >= (page) && i % (page) === 0;
             if (bool) {
                 await info(`滑动一页`, must)
-                for (let j = 0; j < page / line; j++) {
+                /*for (let j = 0; j < page / line; j++) {
                     await wait(1)
                     let line = Math.floor(genshinJson.height * 175 / 1080)
                     mTo(Math.floor(genshinJson.width / 2), Math.floor(genshinJson.height * 2 / 3))
                     await scrollPage(line, false, 6)
+                }*/
+                if (isDown) {
+                    info(`已滑动到底部`, must)
+                    break
                 }
+                isDown = await scrollPagesByHolyRelics();
                 await wait(ms)
             }
 
@@ -1891,6 +1885,21 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             await downClickFirstHolyRelics()
             // await wait(ms);
         }
+        //检查
+        let template_name = '祝圣精华'
+        let template = await templateMatch(`${path_base_main}${template_name}.jpg`)
+        if (isExist(template)) {
+            error(`[匹配到${template}-退出强化]圣遗物强化+${config.upMax} 数量：${actualCount}`, must)
+            break
+        }
+        await wait(ms)
+        template_name = '祝圣油膏'
+        template = await templateMatch(`${path_base_main}${template_name}.jpg`)
+        if (isExist(template)) {
+            error(`[匹配到${template}-退出强化]圣遗物强化+${config.upMax} 数量：${actualCount}`, must)
+            break
+        }
+
         await wait(ms)
         await openAggrandizement()
         await wait(ms)  // 等待500毫秒，确保界面响应
