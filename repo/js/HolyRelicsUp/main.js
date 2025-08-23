@@ -255,7 +255,6 @@ function logInfoTemplate(res, source = '默认',) {
     logInfoTemplateBase(res, source)
 }
 
-
 /**
  * 通过圣遗物页面滑动功能
  * @param {boolean} isUp - 是否向上滑动，默认为false（向下滑动）
@@ -286,7 +285,7 @@ async function scrollPagesByHolyRelics(isUp = false, pages = 1) {
     // 循环执行滑动操作，次数由pages参数决定
     for (let i = 0; i < pages; i++) {
         moveByMouse(genshinJson.width / 2, genshinJson.height / 2); // 移走鼠标，防止干扰识别
-        await wait(); // 等待200毫秒
+        await wait()
 
         // 查找向上和向下的滑块
         let slide_bar_up = await templateMatchFind(`${path_base_main}slide_bar_main_up.png`, templateMatch_x, templateMatch_y, templateMatch_width, templateMatch_height, threshold);
@@ -336,9 +335,9 @@ async function scrollPagesByHolyRelics(isUp = false, pages = 1) {
  * @param {number} [delayMs=1] - 等待的延迟时间(毫秒)
  */
 async function scrollPage(totalDistance, isUp = false, waitCount = 6, stepDistance = 30, delayMs = 1000) {
-    await wait();  // 初始等待50ms
+    await wait();
     downLeftButton();  // 按下左键
-    await wait();  // 再次等待50ms
+    await wait();
     // 计算总步数
     let steps = Math.floor(totalDistance / stepDistance);
     // 开始循环滚动
@@ -476,7 +475,7 @@ async function openKnapsack() {
  * 该函数通过模板匹配游戏界面中的圣遗物背包区域
  * @returns {Promise} 返回一个Promise对象，解析为OCR识别结果
  */
-function templateMatchHolyRelicsKnapsack() {
+async function templateMatchHolyRelicsKnapsack() {
     let templateJson = {
         "text": "已选中圣遗物背包",               // 要识别的文本内容，即"圣遗物"三个字
         "x": 0,                       // 识别区域的起始x坐标，设为0表示从屏幕最左侧开始
@@ -485,9 +484,9 @@ function templateMatchHolyRelicsKnapsack() {
         "height": genshinJson.height / 5.0   // 识别区域的高度（屏幕宽度的五分之一）
     }
     let holyRelicsKnapsack = templateMatchFind(`${path_base_main}${templateJson.text}.jpg`, templateJson.x, templateJson.y, templateJson.width, templateJson.height, 0.6)
-    wait()
-    if(!isExist(holyRelicsKnapsack)){
-        templateJson.text="圣遗物"
+    await wait()
+    if (!isExist(holyRelicsKnapsack)) {
+        templateJson.text = "圣遗物"
         holyRelicsKnapsack = templateMatchFind(`${path_base_main}${templateJson.text}.jpg`, templateJson.x, templateJson.y, templateJson.width, templateJson.height, 0.6)
     }
     return holyRelicsKnapsack
@@ -501,7 +500,7 @@ function templateMatchHolyRelicsKnapsack() {
 async function openHolyRelicsKnapsack() {
     let re = false;
     await wait(500);
-    let holyRelicsKnapsack = templateMatchHolyRelicsKnapsack()
+    let holyRelicsKnapsack = await templateMatchHolyRelicsKnapsack()
     // 检查圣遗物背包图标是否存在
     if (isExist(holyRelicsKnapsack)) {
         // 打开圣遗物背包
