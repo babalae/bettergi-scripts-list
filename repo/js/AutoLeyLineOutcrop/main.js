@@ -537,11 +537,12 @@ function recognizeFightText(captureRegion) {
 async function autoFight(timeout) {
     const cts = new CancellationTokenSource();
     log.info("开始战斗");
-    dispatcher.RunTask(new SoloTask("AutoFight"), cts);
+    let fightTask = dispatcher.RunTask(new SoloTask("AutoFight"), cts);
     let fightResult = await recognizeTextInRegion(timeout);
     logFightResult = fightResult ? "成功" : "失败";
     log.info(`战斗结束，战斗结果：${logFightResult}`);
     cts.cancel();
+    await fightTask;
     return fightResult;
 }
 
