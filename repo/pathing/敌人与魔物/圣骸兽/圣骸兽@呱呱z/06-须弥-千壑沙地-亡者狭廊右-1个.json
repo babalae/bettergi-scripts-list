@@ -1,0 +1,98 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jidingcai",
+        "name": "呱呱z"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1755797564787,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "06-须弥-千壑沙地-亡者狭廊右-1个",
+    "tags": [
+      "精英怪",
+      "圣骸兽",
+      "等级100+"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4572.2324,
+      "y": -1071.8262
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(4)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4568.5723,
+      "y": -1091.7158
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4567.5898,
+      "y": -1093.3755
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4542.334,
+      "y": -1102.6387
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4510.6914,
+      "y": -1125.0034
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4511.2461,
+      "y": -1123.2646
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4489.5938,
+      "y": -1101.0527
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4459.8145,
+      "y": -1087.3071
+    }
+  ]
+}
