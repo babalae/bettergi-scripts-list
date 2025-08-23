@@ -79,43 +79,52 @@ async function autoNavigateToReward() {
 async function takeReward(isClaimFailed) {
     try {
         const mainUiRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/mainUi.png"));
-        while (true) {
+        for (let attempt = 1; attempt <= 100; attempt++) {
+            log.debug(`尝试领取奖励，第${attempt}次`);
             captureRegion = captureGameRegion();
 
             // 点击F领取Boss地脉花
+            log.debug("尝试接触征讨之花");
             let rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 50);
             let rewardResult = rewardTextArea.find(RecognitionObject.ocrThis);
             if (rewardResult.text === "接触征讨之花" && isClaimFailed == false) {
                 keyPress("F");
                 await sleep(1000);
+                captureRegion = captureGameRegion();
             }
 
             // 使用脆弱树脂领取奖励
             let useTextArea = captureRegion.DeriveCrop(850, 740, 250, 35);
             let useResult = useTextArea.find(RecognitionObject.ocrThis);
+            log.debug("领取奖励检测到文字: " + useResult.text);
             if (useResult.text.includes("补充")) {
                 log.info("脆弱树脂不足，跳过领取");
                 click(1345, 300);
                 await sleep(1000);
+                captureRegion = captureGameRegion();
                 isClaimFailed = true;
             }
             else if (useResult.text.includes("使用"))  {
                 log.info("使用脆弱树脂领取奖励");
                 click(useResult.x, useResult.y);
+                captureRegion = captureGameRegion();
                 await sleep(3000);
             }
 
             // 关闭奖励界面
             let closeRewardUi = captureRegion.DeriveCrop(860, 970, 200, 28);
             let closeResult = closeRewardUi.find(RecognitionObject.ocrThis);
+            log.debug("底部检测到文字: " + closeResult.text);
             if (closeResult.text.includes("点击")){
                 click(975, 1000);//点击空白区域
                 await sleep(1000);
+                captureRegion = captureGameRegion();
             }
 
             // 检查是否回到主界面
             let inMainUi = captureRegion.Find(mainUiRo);
-            if (inMainUi.x > 0) {
+            if (inMainUi.x > 0 && !useResult.text.includes("树脂")) {
+                log.debug("回到主界面");
                 return isClaimFailed;
             }
             captureRegion.Dispose();
@@ -125,8 +134,9 @@ async function takeReward(isClaimFailed) {
             await sleep(500);
 
         }
+        throw new Error('领取奖励超时');
     } catch (error) {
-        log.error(`领取奖励失败，error: ${error}`);
+        log.error(`领取奖励失败: ${error}`);
     }
 
 }
