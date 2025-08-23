@@ -703,7 +703,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
 
                         }*/
             if (keywords.length <= opJsons.length) {
-                await info(`已选中 ${opJsons.map(value => value.text).join(",")}`, must)
+                // await info(`已选中 ${opJsons.map(value => value.text).join(",")}`, must)
                 break
             }
             await wait(1)
@@ -964,7 +964,7 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
     }
     let specialKey = ''
     let attributeKeys = new Array();
-    warn(split.join(','), must)
+    // warn(split.join(','), must)
     for (let i = 0; i < split.length; i++) {
         if (i >= 3) {
             break
@@ -1763,10 +1763,10 @@ async function ocrTest() {
     // await logInfoTemplate(t, "测试")
     // let key = await templateMatch(`${path_base_main}test/key.jpg`)
     // await logInfoTemplate(key, "key")
-/*    mTo(Math.ceil(genshinJson.width *3/4), Math.ceil(genshinJson.height * 0.5))
-    await scrollPage(200,true)
-    let key = await templateMatch(`${path_base_main}test/+17.jpg`)
-    await logInfoTemplate(key, "key")*/
+    /*    mTo(Math.ceil(genshinJson.width *3/4), Math.ceil(genshinJson.height * 0.5))
+        await scrollPage(200,true)
+        let key = await templateMatch(`${path_base_main}test/+17.jpg`)
+        await logInfoTemplate(key, "key")*/
     // return
     // await templateMatchHolyRelicsUpFrequency()
 
@@ -1929,7 +1929,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
     let isFirst = false
     for (let i = 0; upMaxCount > actualCount; i++) {
         if (upMaxCount === actualCount) {
-            info(`{强化次数已达到:${upMaxCount}}`)
+            info(`强化次数已达到:${upMaxCount}`,must)
             break
         }
 
@@ -2032,7 +2032,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         if (re.ok || !re.start) {
             actualCount++
             // 如果强化成功，则继续下一个圣遗物
-            await info(!re.start ? `需求:+${config.upMax},实际:+${re.level},符合要求` : `+${re.level}强化成功`)
+            await info(!re.start ? `需求:+${config.upMax},实际:+${re.level},符合要求` : `+${re.level}强化成功`,must)
             await wait(ms)
             let up_name = '返回键'
             await templateMatchClick(`${path_base_main}${up_name}.jpg`, `圣遗物已经强化到+${config.upMax}退出强化页面 到圣遗物背包界面`, source, log_off)
