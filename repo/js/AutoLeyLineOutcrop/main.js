@@ -9,7 +9,6 @@ let leyLineX = 0;         // 地脉花X坐标
 let leyLineY = 0;         // 地脉花Y坐标
 let currentFlower = null; // 当前花的引用
 let strategyName = "";    // 任务策略名称
-let retryCount = 0;       // 重试次数
 let marksStatus = true;   // 自定义标记状态
 let currentRunTimes = 0;  // 当前运行次数
 let isNotification = false; // 是否发送通知
@@ -31,17 +30,21 @@ const ocrRoThis = RecognitionObject.ocrThis;
  * 主函数 - 脚本入口点
  */
 (async function () {
-    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     try {
         await runLeyLineOutcropScript();
-    } catch (error) {
-        log.error("出错了！ {error}", error.message);
+    }
+    catch (error) {
+        // 全局错误捕获，记录并发送错误日志
+        log.error("出错了: {error}", error.message);
         if (isNotification) {
-            notification.error("出错了！ {error}", error.message);
+            notification.error("出错了: {error}", error.message);
         }
+    }
+    finally {
         if (!marksStatus) {
             await openCustomMarks();
         }
+        log.info("全自动地脉花运行结束");
     }
 })();
 
@@ -51,29 +54,19 @@ const ocrRoThis = RecognitionObject.ocrThis;
  */
 async function runLeyLineOutcropScript() {
     // 初始化加载配置和设置并校验
-    await initialize();
-    await loadConfig();
-    loadSettings();
-    retryCount = 0;
-
+    initialize();
     await prepareForLeyLineRun();
 
     // 执行地脉花挑战
     await runLeyLineChallenges();
-
-    // 完成后恢复自定义标记
-    if (!marksStatus) {
-        await openCustomMarks();
-    }
 }
 
 /**
  * 初始化
  * @returns {Promise<void>}
  */
-async function initialize() {
-    await genshin.returnMainUi();
-    setGameMetrics(1920, 1080, 1);
+function initialize() {
+    // 预定义工具函数
     try {
         const utils = [
             "attemptReward.js",
@@ -85,30 +78,49 @@ async function initialize() {
             "locateLeyLineOutcrop.js",
             "processLeyLineOutcrop.js",
             "recognizeTextInRegion.js"
-        ];
+        ]; 
         for (const fileName of utils) {
             eval(file.readTextSync(`utils/${fileName}`));
-            log.debug(`utils/${fileName} 加载成功`);
         }
     } catch (error) {
-        throw new Error(`JS文件缺失，请重新安装脚本！ ${error.message}`); 
+        throw new Error(`JS文件缺失: ${error.message}`); 
+    }
+    // 2. 加载配置文件
+    try {
+        config = JSON.parse(file.readTextSync("config.json"));
+        loadSettings();
+    } catch (error) {
+        throw new Error("配置文件加载失败，请检查config.json文件是否存在");
     }
 }
 
 
 /**
  * 执行地脉花挑战前的准备工作
+ * 1. 传送七天神像和切换战斗队伍
+ * 2. 关闭自定义标记
+ * 3. 添加自动拾取实时任务
+ * 注意：该函数运行结束之后位于大地图界面
  * @returns {Promise<void>}
  */
 async function prepareForLeyLineRun() {
-    // 开局传送到七天神像
-    await genshin.tpToStatueOfTheSeven();
+    // 0. 回到主界面
+    await genshin.returnMainUi();  // 回到主界面
+    setGameMetrics(1920, 1080, 1); // 看起来没什么用
+    // 1. 开局传送到七天神像
+    // TODO：考虑添加选项禁用这个特性，看起来有点浪费时间，需要提示风险
+    await genshin.tpToStatueOfTheSeven(); 
 
-    // 切换战斗队伍
+    // 2. 切换战斗队伍
     if (settings.team) {
         log.info(`切换至队伍 ${settings.team}`);
         await genshin.switchParty(settings.team);
     }
+    // 3. 关闭自定义标记
+    await closeCustomMarks();
+    // 4. 添加自动拾取实时任务
+    // TODO: 个性化拾取策略
+    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
 }
 
 /**
@@ -435,19 +447,6 @@ async function handleNoStrategyFound() {
     }
 }
 
-/**
- * 加载配置文件
- * @returns {Promise<void>}
- */
-async function loadConfig() {
-    try {
-        const configData = JSON.parse(await file.readText("config.json"));
-        config = configData; // 直接赋值给全局变量
-    } catch (error) {
-        log.error(`加载配置文件失败: ${error.message}`);
-        throw new Error("配置文件加载失败，请检查config.json文件是否存在");
-    }
-}
 
 /**
  * 地脉花寻找和定位相关函数
@@ -818,12 +817,11 @@ async function openCustomMarks() {
             let b = button[i];
             if (b.y > 280 && b.y < 350) {
                 log.info("打开自定义标记");
-                marksStatus = true;
                 click(Math.round(b.x + b.width / 2), Math.round(b.y + b.height / 2));
             }
         }
     } else {
         log.error("未找到开关按钮");
-        keyPress("ESCAPE");
+        genshin.returnMainUi();
     }
 }
