@@ -3,28 +3,32 @@
  * @returns {Promise<void>}
  */
 async function main(log_off = config.log_off) {
-    for (let i = 0; i < 50; i++) {
-        await scrollPagesByHolyRelics()
-    }
-    return
-    let ms = 300
+    let ms = 500
     await setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
     if (config.enableBatchUp) { // 检查是否启用
         if (config.toBag) {
-            await wait();
+            await wait(ms);
             await toMainUi()
-            await wait();
+            await wait(ms);
             //打开背包
             await openKnapsack();
             await openHolyRelicsKnapsack();
         }
 
         if (config.toSort || config.toSift) {
-            await wait();
+            await wait(ms);
             //排序
             await openPrerequisitesAll(log_off);
         }
-        await wait();
+
+        if (!config.toSift) {
+            let template = await templateMatch(`${path_base_main}已经筛选.jpg`)
+            if (isExist(template)) {
+                config.toSift = true
+            }
+        }
+
+        await wait(ms);
         await bathClickUpLv1(config.insertionMethod)
     } else {
         throwError(`未启用批量强化请去浏览文档后开启！`)
@@ -98,7 +102,7 @@ function moveByMouse(x, y) {
 
 async function wait(ms = 1000) {
     // 等待300毫秒，确保按下操作生效
-   await sleep(ms);
+    await sleep(ms);
 }
 
 function downClick(x, y) {
@@ -261,9 +265,27 @@ function logInfoTemplate(res, source = '默认',) {
 
 /**
  * 通过圣遗物页面滑动功能
+ * @param isUp 是否向上滑动，默认为false（向下滑动）
+ * @param onTopOrDown 处于顶部or底部
+ * @returns {Promise<void>}
+ */
+async function scrollPagesByHolyRelicsSelect(isUp = false, onTopOrDown = false) {
+    let isSelect = config.toSift || config.toSort;
+    mTo(genshinJson.width / 2, genshinJson.height / 2)
+    if (!isSelect) {
+        //未开启筛选或排序的滑动操作'
+        //80 18次滑动偏移量  46次测试未发现偏移
+        await scrollPage(Math.floor(genshinJson.height * 80 / 1080), onTopOrDown ? isUp : !isUp, 6, 18)
+    } else {
+        await scrollPage(Math.floor(genshinJson.height * 89 / 1080), onTopOrDown ? isUp : !isUp, 1, 10, 100)
+    }
+}
+
+/**
+ * 通过圣遗物页面滑动功能
  * @param {boolean} isUp - 是否向上滑动，默认为false（向下滑动）
  * @param {number} pages - 滑动页数，默认为1
- * @returns {Promise<boolean>} - 返回操作是否成功
+ * @returns {Promise<boolean>}
  */
 async function scrollPagesByHolyRelics(isUp = false, pages = 1) {
     let direction = "down" // 默认滑动方向为向下
@@ -301,32 +323,27 @@ async function scrollPagesByHolyRelics(isUp = false, pages = 1) {
             downClick(click_x, direction === "down" ? slide_bar_down.y + page_distance : slide_bar_up.y - page_distance); // 向上下滑动（点击）
 
             if (slide_bar_down.y > bottom_y && direction === "down") {
-                await wait();
-                mTo(genshinJson.width / 2, genshinJson.height / 2)
-                //85 10次滑动偏移量小
-                await scrollPage(Math.floor(genshinJson.height * 80 / 1080), isUp, 6, 18)
+                await wait(200);
+                await scrollPagesByHolyRelicsSelect(isUp, true)
                 info(`滑块已经滑动到底部...`);
                 return true;
             } else if (slide_bar_up.y < top_y && direction === "up") {
-                mTo(genshinJson.width / 2, genshinJson.height / 2)
-                //85 10次滑动偏移量小
-                await scrollPage(Math.floor(genshinJson.height * 80 / 1080), isUp, 6, 18)
+                await wait(200);
+                await scrollPagesByHolyRelicsSelect(isUp, true)
                 info(`滑块已经滑动到顶部...`);
                 return true;
             }
             //反方向拉动 保证定位
-            await wait();
+            await wait(200);
             mTo(genshinJson.width / 2, genshinJson.height / 2)
-            //80 10次滑动偏移量  46次测试未发现偏移
-            await scrollPage(Math.floor(genshinJson.height * 80 / 1080), !isUp, 6, 10)
-
-            await wait();
+            await scrollPagesByHolyRelicsSelect(isUp, false)
+            await wait(200);
         } else {
-            error("未找到滑块，无法执行页面滑动操作！", must);
+            throwError("未找到滑块，无法执行页面滑动操作！");
             return false;
         }
     }
-    return true;
+    return false;
 }
 
 // 滚动页面函数
@@ -1396,7 +1413,7 @@ async function openAggrandizement() {
     await logInfoTemplate(aggrandizement, 'openAggrandizement')
     // 检查强化按钮是否存在
     if (isExist(aggrandizement)) {
-        await wait();
+        await wait(ms);
         // 输出日志信息，表示正在打开强化界面
         await info('打开强化');
         // 点击强化按钮
@@ -1831,80 +1848,65 @@ async function ocrTest() {
 }
 
 async function test() {
-    let ms = 300
-    let base_x = Math.floor(genshinJson.width * 200 / 1920)
-    let base_y = Math.floor(genshinJson.height * 250 / 1080)
+    let isDown = false
+    let base_x = Math.floor(genshinJson.width * 178 / 1920)
+    let base_y = Math.floor(genshinJson.height * 200 / 1080)
     let base_width = Math.floor(genshinJson.width * 145 / 1920)
     let base_height = Math.floor(genshinJson.height * 189 / 1080)
     let line = 8
     let page = line * 4
-    info(`圣遗物${config.sortMain}强化操作`, must)
-    for (let i = 0; i < page + line; i++) {
+    let startPage = 20//开始页数
+    let pageNumber = 20//开始页数后每多少页偏移一次
+    await clickProgressBarTopByHolyRelics()
+    for (let i = 0; i < page * 200; i++) {
+
+
+        //从10页开始偏移一次后 每20页偏移一次
+        if ((!isDown) && (((i + 1) / page === startPage && (i + 1) % page === 0) || (Math.floor((i + 1) / page) > startPage && (i + 1 - startPage) % (pageNumber * page) === 0))) {
+            warn(`第${i < startPage ? 1 : (i + 1 - startPage) / (pageNumber * page)}次加滑动修偏移运行`, must)
+            await scrollPagesByHolyRelicsSelect()
+            await wait(300)
+        }
+
+        let bool = i >= (page) && i % (page) === 0;
+        if (bool) {
+            warn(`第${Math.floor((i + 1) / (page))}次运行`, must)
+            await info(`滑动一页`, must)
+            /*for (let j = 0; j < page / line; j++) {
+                await wait(1)
+                let line = Math.floor(genshinJson.height * 175 / 1080)
+                mTo(Math.floor(genshinJson.width / 2), Math.floor(genshinJson.height * 2 / 3))
+                await scrollPage(line, false, 6)
+            }*/
+            if (isDown) {
+                info(`已滑动到底部`, must)
+                break
+            }
+            isDown = await scrollPagesByHolyRelics();
+            await wait(300)
+
+        }
+
+        if (isDown) {
+            // base_x=
+            base_y = Math.floor(genshinJson.height * 270 / 1080)
+        }
+
         let base_count_x = Math.floor(i % line)
         let base_count_y = (i % page) < line ? 0 : Math.floor((i % page) / line);
         let x = base_x + base_count_x * base_width;
         let y = base_y + base_count_y * base_height;
-        warn(`i:${i},base_count_x:${base_count_x},base_count_y:${base_count_y},x:${x},y:${y}`)
-        // lastJson.t_y = y
-        // lastJson.t_x = x
-        if (config.sortMain.includes('降序')) {
-            if (config.upMax >= 20) {
-                // warn(`降序排序功能暂未实现自动强化`)
-                throwError(`降序排序功能暂未实现+20的自动强化`)
-            }
 
-            if (i <= 1) {
-                //强制拉到顶
-                await clickProgressBarTopByHolyRelics()
-                await wait();
-            }
-            let bool = i >= (page) && i % (page) === 0;
-            if (bool) {
-                await info(`滑动一页`, must)
-                for (let j = 0; j < page / line; j++) {
-                    await wait()
-                    let line = Math.floor(genshinJson.height * 175 / 1080)
-                    mTo(Math.floor(genshinJson.width / 2), Math.floor(genshinJson.height * 2 / 3))
-                    await scrollPage(line, false, 6)
-                }
-                await wait()
-            }
-
-            //每行8个
-            // throwError(`降序排序功能暂未实现自动强化`)
-            // if (i % 8 === 0) {
-            //     await wait(300)
-            // }
-            warn(`x:${x},y:${y}`, config.log_off)
-            await mTo(x, y)
-            await wait()
-            await downClick(x, y)
-            await wait()
-            warn(`点击确认x:${x},y:${y}`, config.log_off)
-            // await wait(10)
-            /*        await confirm('降序强化点击确认')*/
-
-        } else {
-            //强制拉到顶
-            await clickProgressBarTopByHolyRelics()
-            await wait();
-            // 调用点击第一个圣物遗物的函数，并等待其完成
-            await downClickFirstHolyRelics()
-        }
-        await wait()
-        /*        //打开强化界面
-                await openAggrandizement()
-                await wait()
-                await mTo(genshinJson.width / 2, genshinJson.height / 2)
-                await wait()
-                let up_name = '返回键'
-                await templateMatchClick(`${path_base_main}${up_name}.jpg`, `圣遗物已经强化到+${config.upMax}退出强化页面 到圣遗物背包界面`)*/
-
+        // await mTo(x, y)
+        //测试等待值调低
+        await wait(150)
+        await downClick(x, y)
     }
 }
 
+
 async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = config.log_off) {
-    let ms = 20
+    let ms = 300
     // let index = 0
     let upMaxCount = 0
     if (config.upMaxCount) {
@@ -1931,12 +1933,15 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
 
     let isDown = false
 
-    let base_x = Math.floor(genshinJson.width * 200 / 1920)
-    let base_y = Math.floor(genshinJson.height * 250 / 1080)
+    let base_x = Math.floor(genshinJson.width * 178 / 1920)
+    let base_y = Math.floor(genshinJson.height * 200 / 1080)
     let base_width = Math.floor(genshinJson.width * 145 / 1920)
     let base_height = Math.floor(genshinJson.height * 189 / 1080)
     let line = 8
     let page = line * 4
+    let startPage = 20//开始页数
+    let pageNumber = 20//开始页数后每多少页偏移一次
+// await clickProgressBarTopByHolyRelics()
 
     info(`圣遗物${config.sortMain}强化操作`, must)
     let isFirst = false
@@ -1944,6 +1949,10 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         if (upMaxCount === actualCount) {
             info(`强化次数已达到:${upMaxCount}`, must)
             break
+        }
+
+        if (config.sortMain.includes('降序') && isDown) {
+            base_y = Math.floor(genshinJson.height * 270 / 1080)
         }
 
         let base_count_x = Math.floor(i % line)
@@ -1958,8 +1967,16 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             if (i < 1) {
                 //强制拉到顶
                 await clickProgressBarTopByHolyRelics()
-                await wait();
+                await wait(ms);
             }
+
+            //从10页开始偏移一次后 每20页偏移一次
+            if ((!isDown) && (((i + 1) / page === startPage && (i + 1) % page === 0) || (Math.floor((i + 1) / page) > startPage && (i + 1 - startPage) % (pageNumber * page) === 0))) {
+                warn(`第${i < startPage ? 1 : (i + 1 - startPage) / (pageNumber * page)}次加滑动修偏移运行`, must)
+                await scrollPagesByHolyRelicsSelect()
+                await wait(ms)
+            }
+
             let bool = i >= (page) && i % (page) === 0;
             if (bool) {
                 await info(`滑动一页`, must)
@@ -1974,14 +1991,13 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
                     break
                 }
                 isDown = await scrollPagesByHolyRelics();
-                await wait()
+                await wait(ms)
             }
 
-            warn(`x:${x},y:${y}`)
-            await mTo(x, y)
-            await wait()
+            // warn(`x:${x},y:${y}`)
+            // await mTo(x, y)
+            await wait(ms)
             await downClick(x, y)
-
             warn(`点击确认x:${x},y:${y}`)
             // await wait(10)
             // await confirm('降序强化点击确认')
@@ -1991,19 +2007,19 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         } else {
             //强制拉到顶
             await clickProgressBarTopByHolyRelics()
-            await wait();
+            await wait(ms);
             // 调用点击第一个圣物遗物的函数，并等待其完成
             await downClickFirstHolyRelics()
             // await wait();
         }
 
-        await wait()
+        await wait(ms)
         let log_msg = isBool ? '降序强化点击确认' : '点击第一个圣遗物'
         await confirm(log_msg, isBool ? '降序confirm' : 'downClickFirstHolyRelics')
-        await wait()
+        await wait(ms)
         //避免多次点击
         await mTo(x, y)
-        await wait()
+        await wait(ms)
         await info(log_msg)
 
         //检查
@@ -2013,7 +2029,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             error(`[匹配到${template_name}-退出强化]圣遗物强化+${config.upMax} 数量：${actualCount}`, must)
             break
         }
-        await wait()
+        await wait(ms)
         template_name = '祝圣油膏'
         template = await templateMatch(`${path_base_main}${template_name}.jpg`)
         if (isExist(template)) {
@@ -2021,9 +2037,9 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             break
         }
 
-        await wait()
+        await wait(ms)
         await openAggrandizement()
-        await wait()  // 等待500毫秒，确保界面响应
+        await wait(ms)  // 等待500毫秒，确保界面响应
 
         let re = await UpClick(operate, source, log_off, i === 0 ? true : isFirst);
         warn(`第${i}次强化结果:{sumLevel: ${re.sumLevel},level: ${re.level},errorMsg: ${re.errorMsg},ok: ${re.ok},okMsg: ${re.okMsg},start: ${re.start}}`)
@@ -2046,7 +2062,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             actualCount++
             // 如果强化成功，则继续下一个圣遗物
             await info(!re.start ? `需求:+${config.upMax},实际:+${re.level},符合要求` : `+${re.level}强化成功`, must)
-            await wait()
+            await wait(ms)
             let up_name = '返回键'
             await templateMatchClick(`${path_base_main}${up_name}.jpg`, `圣遗物已经强化到+${config.upMax}退出强化页面 到圣遗物背包界面`, source, log_off)
             //返回圣遗物背包
@@ -2069,7 +2085,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         if (upMaxCount !== null && i === upMaxCount - 1) {
             info(`${upMaxCount}个圣遗物已经强化到+${config.upMax}终止运行`)
             await toMainUi()
-            await wait()
+            await wait(ms)
             break
         }
         warn(`当前强化次数:${actualCount} 总强化次数:${upMaxCount}`)
