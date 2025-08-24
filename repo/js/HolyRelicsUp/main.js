@@ -3,8 +3,16 @@
  * @returns {Promise<void>}
  */
 async function main(log_off = config.log_off) {
-    // await openSortAll()
-    // return
+    /*    let x = Math.floor(genshinJson.width * 1300 / 1920)
+        let y = Math.floor(genshinJson.height * 760 / 1080)
+        await downClick(x, y)
+        await wait(600)
+        let template = await templateMatch(`${path_base_main}4行.jpg`)
+        await logInfoTemplate(template)*/
+
+/*    await openSelectTheClipCondition()
+
+    return*/
     let ms = 600
     await setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
     if (config.enableBatchUp) { // 检查是否启用
@@ -2248,32 +2256,89 @@ async function bathClickUp(operate, source = 'bathClickUp', log_off = config.log
  * todo:<前置条件:处于圣遗物强化界面|测试通过:x> 出现问题：执行完成后会自动点击按键 任务结束后也会出现 执行下其他脚本后消失
  */
 async function openSelectTheClipCondition(condition = config.material) {
+    let ms = 100
     // 检查是否传入了有效的素材条件
     await info(condition)
     if (condition === null || condition === '默认') {
         await info(`使用默认素材`)
     } else {
-        // const selectTheClipConditionButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${path_base_main}选择素材条件按键.jpg`), 0, 0, genshinJson.width, genshinJson.height);
+        let captureRegion = openCaptureGameRegion();
+        let tmJson = {
+            x: Math.floor(genshinJson.width * 1300 / 1920),
+            y: Math.floor(genshinJson.height * 760 / 1080),
+            width: Math.floor(genshinJson.width * 162 / 1920),
+            height: Math.floor(genshinJson.height * 173 / 1080)
+        }
+        // 创建OCR识别对象
+        let tm = await recognitionObjectOcr(tmJson.x, tmJson.y, tmJson.width, tmJson.height);
+        let res = findByCaptureGameRegion(captureRegion, tm);
+
+        if (isExist(res) && condition===res.text) {
+            closeCaptureGameRegion(captureRegion)
+            return
+        }
+
+        let x = Math.floor(genshinJson.width * 1300 / 1920)
+        let y = Math.floor(genshinJson.height * 760 / 1080)
+        await downClick(x, y)
+        await wait(ms)
+        await mTo(genshinJson.width / 2, genshinJson.height / 2)
+        // await wait(ms)
+
+        //x: 1194, y: 803,width: 162, height: 173
+        let templateMatch={
+            x: Math.floor(genshinJson.width * 1194 / 1920),
+            y: Math.floor(genshinJson.height * 803 / 1080),
+            width: Math.floor(genshinJson.width * 162 / 1920),
+            height: Math.floor(genshinJson.height * 173 / 1080)
+        }
+
+        // 创建OCR识别对象
+        let templateMatchObject = await recognitionObjectOcr(templateMatch.x, templateMatch.y, templateMatch.width, templateMatch.height);
+        // 捕获游戏界面并执行OCR识别
+
+        let resList = findMultiByCaptureGameRegion(captureRegion, templateMatchObject);
+        closeCaptureGameRegion(captureRegion)
+
+        let index = 0;
+        // 遍历OCR识别结果
+        for (let res of resList) {
+            await info(`[==]${index}识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y}`);
+            // 跳过第一个结果（可能是标题），查找匹配条件的选项
+            if (index !== 0 && res.text.includes(condition)) {
+                await info(`点击${res.text}`)
+                // await wait(ms);
+                res.click();
+                // await downClick(res.x, res.y);
+                await mTo(genshinJson.width / 2, genshinJson.height / 2)
+                await info('[break]')
+                break;
+            }
+            index++
+        }
+
+        return
+/*        // const selectTheClipConditionButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${path_base_main}选择素材条件按键.jpg`), 0, 0, genshinJson.width, genshinJson.height);
 
         // 捕获游戏界面并查找"选择素材条件"按钮
         // let buttonObject = captureGameRegion().find(selectTheClipConditionButtonRo);
         let buttonObject = await templateMatchFind(`${path_base_main}选择素材条件按键.jpg`, 0, 0, genshinJson.width, genshinJson.height)
-        await wait(300)
+        await wait(ms)
         // 检查按钮是否存在
         if (isExist(buttonObject)) {
             await info('打开选择素材条件')
-            await wait(500);
+            await wait(ms);
             // 点击按钮并等待界面加载
             // await buttonObject.click();
             let x = Math.floor(genshinJson.width * 1524 / 1920)
             let y = Math.floor(genshinJson.height * 758 / 1080)
             downClick(x, y)
-            await wait(500);
+            await wait(ms);
 
             await info(`素材条件==>x:${buttonObject.x},y:${buttonObject.y}`)
 
             let needMoLa = await templateMatchFind(`${path_base_main}需要摩拉.jpg`, 0, 0, genshinJson.width, genshinJson.height)
-            await wait(300)
+            await wait(ms)
             // 检查是否能定位到"需要摩拉"文本区域
             if (!isExist(needMoLa)) {
                 let msg = `无法定位识别！`
@@ -2306,7 +2371,7 @@ async function openSelectTheClipCondition(condition = config.material) {
                     // 跳过第一个结果（可能是标题），查找匹配条件的选项
                     if (index !== 0 && res.text.includes(condition)) {
                         await info(`点击${res.text}`)
-                        await wait();
+                        await wait(ms);
                         res.click();
                         // await downClick(res.x, res.y);
                         await mTo(genshinJson.width / 2, genshinJson.height / 2)
@@ -2317,7 +2382,7 @@ async function openSelectTheClipCondition(condition = config.material) {
                 }
             }
 
-        }
+        }*/
     }
 
 }
