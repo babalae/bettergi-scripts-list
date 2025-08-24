@@ -8,7 +8,7 @@
     "bgi_version": "0.48.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1755929674753,
+    "last_modified_time": 1756003725680,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "C08-黎翡区下方传送锚点右下角至水下洞窟-12个",
@@ -21,7 +21,6 @@
       "action": "",
       "action_params": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4753.8574,
@@ -29,7 +28,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "moveby(0,-2275)",
+      "action_params": "click(middle);wait(0.5);moveby(0,-2100)",
       "id": 2,
       "move_mode": "walk",
       "type": "path",
@@ -49,7 +48,6 @@
       "action": "combat_script",
       "action_params": "wait(0.1);e",
       "id": 4,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 4813.8379,
@@ -214,13 +212,22 @@
       "id": 22,
       "move_mode": "dash",
       "type": "path",
+      "x": 4918.369140625,
+      "y": 4296.48876953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "dash",
+      "type": "path",
       "x": 4931.0312,
       "y": 4311.2744
     },
     {
       "action": "combat_script",
       "action_params": "e",
-      "id": 23,
+      "id": 24,
       "move_mode": "walk",
       "type": "path",
       "x": 4932.0996,
@@ -229,7 +236,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 24,
+      "id": 25,
       "move_mode": "dash",
       "type": "path",
       "x": 4927.9336,
@@ -238,7 +245,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 25,
+      "id": 26,
       "move_mode": "dash",
       "type": "path",
       "x": 4950.2217,
@@ -247,7 +254,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 26,
+      "id": 27,
       "move_mode": "dash",
       "type": "path",
       "x": 4948.252,
@@ -256,7 +263,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 27,
+      "id": 28,
       "move_mode": "dash",
       "type": "path",
       "x": 4956.9648,
@@ -265,7 +272,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 28,
+      "id": 29,
       "move_mode": "dash",
       "type": "path",
       "x": 5001.4648,
@@ -274,7 +281,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 29,
+      "id": 30,
       "move_mode": "dash",
       "type": "path",
       "x": 5032.373,
@@ -283,7 +290,16 @@
     {
       "action": "",
       "action_params": "",
-      "id": 30,
+      "id": 31,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5040.5654296875,
+      "y": 4276.63623046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 32,
       "move_mode": "dash",
       "type": "path",
       "x": 5029.2168,
@@ -292,7 +308,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 31,
+      "id": 33,
       "move_mode": "dash",
       "type": "path",
       "x": 5036.2402,
@@ -301,7 +317,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 32,
+      "id": 34,
       "move_mode": "dash",
       "type": "path",
       "x": 5053.4023,
@@ -310,7 +326,7 @@
     {
       "action": "combat_script",
       "action_params": "e",
-      "id": 33,
+      "id": 35,
       "move_mode": "walk",
       "type": "path",
       "x": 5057.2363,
@@ -319,7 +335,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 34,
+      "id": 36,
       "move_mode": "dash",
       "type": "path",
       "x": 5050.2461,
@@ -328,7 +344,7 @@
     {
       "action": "combat_script",
       "action_params": "e",
-      "id": 35,
+      "id": 37,
       "move_mode": "walk",
       "type": "path",
       "x": 5042.2412,
