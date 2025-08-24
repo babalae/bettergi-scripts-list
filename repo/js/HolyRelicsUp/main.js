@@ -1626,7 +1626,7 @@ async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequenc
 
     if (res.text.includes('+')) {
         //保留数字和+
-        let va = res.text.replace(/[^+\d]/g, "")
+        let va = res.text.replace(/[^+\d]/g, "").replaceAll('++', '+')
         va = keepBeforeThirdPlus(va)
         // 如果最后不是数字，去掉末尾的 +
         va = va.replace(/\+$/g, "");
@@ -1737,6 +1737,7 @@ async function upOperate(operate, source = 'upOperate', log_off) {
     }
     upJson.sumLevel = levelJson.sumLevel
     upJson.level = levelJson.level
+    warn(`[upOperate] {level: ${upJson.level},sumLevel ,${upJson.sumLevel}}`)
     // upJson.upOk = upJson.level !== 0 && upJson.level === upJson.sumLevel
     return upJson
 }
@@ -1819,6 +1820,7 @@ async function UpClick(operate, source = 'UpClick', log_off = config.log_off, is
             reJson.okMsg = '强化成功'
         }
     }
+    warn(`[UpClick] {level: ${reJson.level},sumLevel ,${reJson.sumLevel}}`)
     warn(`执行完成`)
     return reJson
 }
@@ -2181,7 +2183,6 @@ async function bathClickUp(operate, source = 'bathClickUp', log_off = config.log
                 await clickProgressBarTopByHolyRelics()
                 await wait(ms);
             }
-            info("==1")
             //每行8个
             // throwError(`降序排序功能暂未实现自动强化`)
             let line = 8
@@ -2190,7 +2191,6 @@ async function bathClickUp(operate, source = 'bathClickUp', log_off = config.log
             let base_width = Math.floor(genshinJson.width * 145 / 1920)
             let base_height = Math.floor(genshinJson.height * 189 / 1080)
             let base_count_x = Math.floor(i % line)
-            info("==2")
             let x = base_x + base_count_x * base_width;
             let y = base_y;
             if (i % 8 === 1) {
@@ -2273,7 +2273,7 @@ async function openSelectTheClipCondition(condition = config.material) {
         let tm = await recognitionObjectOcr(tmJson.x, tmJson.y, tmJson.width, tmJson.height);
         let res = findByCaptureGameRegion(captureRegion, tm);
 
-        if (isExist(res) && condition===res.text) {
+        if (isExist(res) && condition === res.text) {
             closeCaptureGameRegion(captureRegion)
             return
         }
@@ -2286,7 +2286,7 @@ async function openSelectTheClipCondition(condition = config.material) {
         // await wait(ms)
 
         //x: 1194, y: 803,width: 162, height: 173
-        let templateMatch={
+        let templateMatch = {
             x: Math.floor(genshinJson.width * 1194 / 1920),
             y: Math.floor(genshinJson.height * 803 / 1080),
             width: Math.floor(genshinJson.width * 162 / 1920),
