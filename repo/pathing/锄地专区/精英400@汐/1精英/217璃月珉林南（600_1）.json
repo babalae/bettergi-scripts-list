@@ -5,13 +5,18 @@
     "author": "汐",
     "version": "1.0",
     "description": "  路线信息：该路线预计用时76.27秒，包含1只精英与4只小怪，预计收入762摩拉，包含以下怪物：1只丘丘人、1只冲锋丘丘人、1只火箭丘丘人、1只雷箭丘丘人、1只丘丘岩盔王。",
-    "bgi_version": "0.42.3",
+    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1755623463372,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -25,8 +30,8 @@
     },
     {
       "id": 2,
-      "x": 983.25,
-      "y": 971.75,
+      "x": 989.25,
+      "y": 977.7521,
       "action": "",
       "move_mode": "run",
       "action_params": "",
@@ -34,8 +39,8 @@
     },
     {
       "id": 3,
-      "x": 938,
-      "y": 982.17,
+      "x": 945.4629,
+      "y": 963.8672,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -43,17 +48,16 @@
     },
     {
       "id": 4,
-      "x": 933,
+      "x": 933.0,
       "y": 973.17,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 5,
-      "x": 933,
+      "x": 933.0,
       "y": 973.17,
       "action": "combat_script",
       "move_mode": "walk",

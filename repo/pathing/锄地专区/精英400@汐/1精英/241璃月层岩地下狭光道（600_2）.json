@@ -8,7 +8,7 @@
     "map_name": "TheChasm",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1754847085302,
+    "last_modified_time": 1755541642302,
     "authors": [
       {
         "name": "汐",
@@ -68,10 +68,10 @@
       "id": 6,
       "x": 735.9062,
       "y": 302.3437,
-      "type": "path",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "keypress(f);钟离 d(0.1),wait(0.2),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;"
+      "move_mode": "dash",
+      "action_params": "keypress(f);钟离 d(0.1),wait(0.2),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;",
+      "type": "path"
     },
     {
       "id": 7,
@@ -80,8 +80,7 @@
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "w(0.5),dash,wait(0.5),s(0.2),dash",
-      "type": "orientation",
-      "locked": false
+      "type": "orientation"
     },
     {
       "id": 8,
@@ -96,10 +95,10 @@
       "id": 9,
       "x": 729.0938,
       "y": 322.6871,
-      "type": "orientation",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "w(0.1),dash,wait(0.5),dash"
+      "move_mode": "walk",
+      "action_params": "keydown(w),wait(0.2),dash,wait(0.5),dash,keyup(w)",
+      "type": "orientation"
     },
     {
       "id": 10,
@@ -127,6 +126,15 @@
       "move_mode": "walk",
       "action_params": "wait(1)",
       "type": "orientation"
+    },
+    {
+      "id": 13,
+      "x": 729.3,
+      "y": 323.4,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
     }
   ]
 }

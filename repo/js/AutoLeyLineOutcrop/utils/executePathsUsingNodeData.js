@@ -3,8 +3,7 @@
  * @param {Object} position - 位置对象
  * @returns {Promise<void>}
  */
-this.executePathsUsingNodeData =
-async function (position) {
+this.executePathsUsingNodeData = async function (position) {
     try {
         const nodeData = await loadNodeData();
         let currentNodePosition = position;
