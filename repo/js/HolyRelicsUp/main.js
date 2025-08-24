@@ -1658,7 +1658,7 @@ async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequenc
  * @returns {Promise<{sumLevel: number, level: number, ok: boolean,start: boolean,okMsg: string, errorMsg: string}>} - 返回一个Promise对象，表示异步操作的完成
  */
 async function upOperate(operate, source = 'upOperate', log_off) {
-    let ms = 600
+    let ms = 800
     let upJson = {
         "sumLevel": 0,//预估可提升至等级
         "level": 0,//实际等级
@@ -1933,7 +1933,7 @@ async function test() {
 
 
 async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = config.log_off) {
-    let ms = 300
+    let ms = 600
     // let index = 0
     let upMaxCount = 0
     if (config.upMaxCount) {
