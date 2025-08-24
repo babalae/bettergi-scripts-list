@@ -28,6 +28,9 @@ const doDecompose2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("as
 const p2InBigMapRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/2pInBigMap.png"));
 const p3InBigMapRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/3pInBigMap.png"));
 const p4InBigMapRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/4pInBigMap.png"));
+const kickAllRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/kickAll.png"));
+const confirmKickRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/confirmKick.png"));
+const leaveTeamRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/leaveTeam.png"));
 
 //初始化变量
 let artifactExperienceDiff = 0;
@@ -40,7 +43,11 @@ let _infoPoints = null;          // 缓存 assets/info.json 解析后的数组
 (async function () {
     setGameMetrics(1920, 1080, 1);
     const groupNumBer = await getPlayerSign();
-    log.info(`在队伍中编号为${groupNumBer}`);
+    if (groupNumBer != 0) {
+        log.info(`在队伍中编号为${groupNumBer}`);
+    } else {
+        log.info(`不处于联机模式或识别异常`);
+    }
 
     if (groupNumBer === 1) {
         //自己是房主，检测总人数
@@ -57,19 +64,26 @@ let _infoPoints = null;          // 缓存 assets/info.json 解析后的数组
             artifactExperienceDiff -= await processArtifacts(21);
         }
 
-        moraDiff -= await mora();
-*/
+        moraDiff -= await mora();*/
+
         //循环检测，直到其他人所有人到位
-        await waitForReady(totalNumber, 30000);
+        await waitForReady(totalNumber);
 
         //根据人数决定执行路线
-
         for (let i = 1; i <= totalNumber; i++) {
             //执行第i条收尾路线
             await runEndingPath(i);
         }
 
         //运行结束，解散队伍？
+        await genshin.returnMainUi();
+        await keyPress("F2");
+        await sleep(2000);
+        await findAndClick(kickAllRo);
+        await sleep(500);
+        await findAndClick(confirmKickRo);
+        await waitForMainUI(true);//等待直到回到主界面
+        await genshin.returnMainUi();
 
         //运行后按自定义配置清理狗粮
         /*artifactExperienceDiff += await processArtifacts(21);
@@ -85,13 +99,105 @@ let _infoPoints = null;          // 缓存 assets/info.json 解析后的数组
             notification.Send(`日期:${record.lastRunDate}，狗粮经验${artifactExperienceDiff}，摩拉${moraDiff}`);
         }
         await writeRecord(accountName);//修改记录文件*/
-    } else {
+    } else if (groupNumBer > 1) {
         //自己是队员，前往对应的占位点
         await goToTarget(groupNumBer);
         //等待到房主解散队伍并返回主界面？
+        if (await waitForMainUI(false, 60 * 60 * 1000)) {
+            await waitForMainUI(true);
+            await genshin.returnMainUi();
+        } else {
+            log.info("超时仍未回到主界面，主动退出");
+        }
     }
 
-})();
+    for (i = 0; i < 3; i++) {
+        //确保回到单机模式
+        const finalPlayerSign = await getPlayerSign();
+        if (finalPlayerSign != 0) {
+            await genshin.returnMainUi();
+            await keyPress("F2");
+            await sleep(2000);
+            if (finalPlayerSign === 1) {
+                await findAndClick(kickAllRo);
+                await sleep(500);
+                await findAndClick(confirmKickRo);
+                await waitForMainUI(true);//等待直到回到主界面
+                await genshin.returnMainUi();
+            } else {
+                await findAndClick(leaveTeamRo);
+                await sleep(500);
+                await waitForMainUI(true);//等待直到回到主界面
+                await genshin.returnMainUi();
+            }
+        } else {
+            log.info("已成功回到单人模式");
+            break;
+        }
+    }
+}
+)();
+
+//等待主界面状态
+async function waitForMainUI(requirement, timeOut = 60 * 1000) {
+    const startTime = Date.now();
+    while (Date.now() - startTime < timeOut) {
+        const mainUIState = await isMainUI();
+        if (mainUIState === requirement) return true;
+
+        const elapsed = Date.now() - startTime;
+        const min = Math.floor(elapsed / 60000);
+        const sec = Math.floor((elapsed % 60000) / 1000);
+        const ms = elapsed % 1000;
+        log.info(`已等待 ${min}分 ${sec}秒 ${ms}毫秒`);
+
+        await sleep(1000);
+    }
+    log.error("超时仍未到达指定状态");
+    return false;
+}
+
+
+//检查是否在主界面
+async function isMainUI() {
+    // 修改后的图像路径
+    const imagePath = "assets/RecognitionObject/MainUI.png";
+    // 修改后的识别区域（左上角区域）
+    const xMin = 0;
+    const yMin = 0;
+    const width = 150; // 识别区域宽度
+    const height = 150; // 识别区域高度
+    let template = file.ReadImageMatSync(imagePath);
+    let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
+
+    // 尝试次数设置为 2 次
+    const maxAttempts = 2;
+
+    let attempts = 0;
+    while (attempts < maxAttempts && !state.cancelRequested) {
+        try {
+
+            gameRegion = captureGameRegion();
+            let result = gameRegion.find(recognitionObject);
+            gameRegion.dispose();
+            if (result.isExist()) {
+                return true; // 如果找到图标，返回 true
+            }
+        } catch (error) {
+            log.error(`识别图像时发生异常: ${error.message}`);
+            if (state.cancelRequested) {
+                break; // 如果请求了取消，则退出循环
+            }
+            return false; // 发生异常时返回 false
+        }
+        attempts++; // 增加尝试次数
+        await sleep(50); // 每次检测间隔 50 毫秒
+    }
+    if (state.cancelRequested) {
+        log.info("图像识别任务已取消");
+    }
+    return false; // 如果尝试次数达到上限或取消，返回 false
+}
 
 
 //获取联机世界的当前玩家标识
@@ -165,10 +271,8 @@ async function findTotalNumber() {
  * @param {number} totalNumber  联机总人数（包含自己）
  * @param {number} timeOut      最长等待毫秒
  */
-async function waitForReady(totalNumber, timeOut = 30000) {
-    await genshin.returnMainUi();
-    await keyPress("M");          // 打开多人地图/界面
-    await sleep(2000);             // 给 UI 一点加载时间
+async function waitForReady(totalNumber, timeOut = 300000) {
+    await genshin.tpToStatueOfTheSeven();
 
     // 实际需要检测的队友编号：2 ~ totalNumber
     const needCheck = totalNumber - 1;          // 队友人数
@@ -178,6 +282,9 @@ async function waitForReady(totalNumber, timeOut = 30000) {
     while (Date.now() - startTime < timeOut) {
 
         let allReady = true;
+        await genshin.returnMainUi();
+        await keyPress("M");          // 打开多人地图/界面
+        await sleep(2000);             // 给 UI 一点加载时间
 
         for (let i = 0; i < needCheck; i++) {
             // 已就绪的队友跳过
@@ -208,28 +315,42 @@ async function waitForReady(totalNumber, timeOut = 30000) {
 }
 
 async function checkReady(i) {
+    /* 1. 先把地图移到目标点位（point 来自 info.json） */
+    const point = await getPointByPlayer(i);
+    if (!point) return false;
+    await genshin.moveMapTo(Math.round(point.x), Math.round(point.y));
 
-    //await genshin.moveMapTo(x, y, forceCountry);x,y,country由占位地图追踪决定,待写
-
-    // 获取玩家 i 的图标坐标
+    /* 2. 取图标屏幕坐标 */
     const pos = await getPlayerIconPos(i);
-    if (!pos) return false;          // 没找到图标直接算失败
+    if (!pos || !pos.found) return false;
 
-    // 屏幕中心
-    const centerX = 1920 / 2;
-    const centerY = 1080 / 2;
+    /* 3. 屏幕坐标 → 地图坐标（图标）*/
+    const mapZoomLevel = 2.0;
+    await genshin.setBigMapZoomLevel(mapZoomLevel);
+    const mapScaleFactor = 2.361;
 
-    // 图标中心
-    const iconCenterX = pos.x + pos.width / 2;
-    const iconCenterY = pos.y + pos.height / 2;
+    const center = genshin.getPositionFromBigMap();   // 仅用于坐标系转换
+    const iconScreenX = pos.x;
+    const iconScreenY = pos.y;
 
-    // 欧氏距离
-    const dx = iconCenterX - centerX;
-    const dy = iconCenterY - centerY;
+    const iconMapX = (960 - iconScreenX) * mapZoomLevel / mapScaleFactor + center.x;
+    const iconMapY = (540 - iconScreenY) * mapZoomLevel / mapScaleFactor + center.y;
+
+    /* 4. 计算“图标地图坐标”与“目标点位”的距离 */
+    const dx = iconMapX - point.x;
+    const dy = iconMapY - point.y;
     const dist = Math.sqrt(dx * dx + dy * dy);
 
-    return dist <= 30;   // ≤10px 算就绪
+    /* 5. 打印两种坐标及距离 */
+    log.info(`玩家 ${i}P`);
+    log.info(`├─ 屏幕坐标: (${iconScreenX}, ${iconScreenY})`);
+    log.info(`├─ 图标地图坐标: (${iconMapX.toFixed(2)}, ${iconMapY.toFixed(2)})`);
+    log.info(`├─ 目标点位坐标: (${point.x}, ${point.y})`);
+    log.info(`└─ 图标与目标点位距离: ${dist.toFixed(2)} m`);
+
+    return dist <= 20;   // 20 m 阈值，可按需调整
 }
+
 
 /**
  * 根据玩家编号返回该路线在 assets/info.json 中记录的点位坐标
@@ -309,7 +430,7 @@ async function getPlayerIconPos(playerIndex, timeout = 2000) {
             gameRegion = captureGameRegion();
             const res = gameRegion.find(recognitionObj);
             if (res.isExist()) {
-                log.info(`${playerIndex}P，在屏幕上的坐标为(${res.x + 10},${res.y + 10})`)
+                log.info(`${playerIndex}P，在屏幕上的坐标为(${res.x + 10},${res.y + 10})`);//图标大小为20*20
                 return {
                     x: res.x + 10,
                     y: res.y + 10,

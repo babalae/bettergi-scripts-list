@@ -1,0 +1,86 @@
+﻿{
+  "info": {
+    "name": "纳塔-度假村多人狗粮踩点",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755700674183,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 13977.25390625,
+      "y": 468.34619140625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 13982.29296875,
+      "y": 463.09814453125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.4)",
+      "type": "orientation"
+    },
+    {
+      "id": 3,
+      "x": 14034.53125,
+      "y": 459.5859375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(w),wait(0.2),keypress(e),wait(1.7),keypress(e),wait(1.2),keyup(w)",
+      "type": "orientation"
+    },
+    {
+      "id": 4,
+      "x": 14034.53125,
+      "y": 459.5859375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 14032.1982421875,
+      "y": 450.791015625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 14031.06640625,
+      "y": 440.19580078125,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(0.2),dash,wait(1),dash,keyup(w),wait(1.5)",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 14031.06640625,
+      "y": 440.19580078125,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
