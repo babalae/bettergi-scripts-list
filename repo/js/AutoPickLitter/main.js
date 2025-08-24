@@ -21,8 +21,8 @@ async function performOcr(keyWords, xRange, yRange,judge) {
                 let correctedText = ocrResult.text;
                 return correctedText; 
             } else {
-                log.warn(`OCR 识别区域未找到内容`);
-                return null; 
+                // log.warn(`OCR 识别区域未找到内容`);
+                return ""; 
             }
         } else {
             
@@ -36,7 +36,6 @@ async function performOcr(keyWords, xRange, yRange,judge) {
             for (let i = 0; i < resList.count; i++) {
                 let res = resList[i];
                 let correctedText = res.text;
-                // log.info("{s}",keyWords);
                 if (correctedText.includes(keyWords)) {
                     results.push({ text: correctedText, x: res.x, y: res.y, width: res.width, height: res.height });
                     //点击中心
@@ -60,9 +59,6 @@ async function performOcr(keyWords, xRange, yRange,judge) {
     }
 
 }
-
-
-
 
 
 //图标识别，并返回相关信息
@@ -99,26 +95,26 @@ async function findImgIcon(imagePath, xRange, yRange) {
     //蒙德清泉镇圣水
     if (settings.water) {
         await genshin.returnMainUi();
-        await pathingScript.runFile("assets/蒙德清泉镇路线.json");
+        await pathingScript.runFile("assets/霍普金斯.json");
         await genshin.returnMainUi();
-        await sleep(3000);
+        await pathingScript.runFile("assets/蒙德清泉镇路线.json");
+        await sleep(1000);
         //识别区域
         try {
             //识别对话位置，并点击
-            // let ocrResults = await performOcr("神奇的", { min: 1058, max: 1551 }, { min: 394, max: 680 }, "false");
             let ocrResults = await performOcr("神奇的", xZone, yZone, "false");
-            if (ocrResults) {
+            if (ocrResults.length != 0) {
                 await genshin.chooseTalkOption("如何才能获得强大的力量");
                 await sleep(1000);
                 leftButtonClick();
                 await sleep(1000);
                 let recognizedOveer = await performOcr("已",{ min: 1482, max: 1630 }, { min: 912, max: 957 }, "false")
                 if (recognizedOveer.length != 0) {
-                    log.info("恭喜你已经获得了圣水");
+                    log.info("已售罄！！！");
                     await genshin.returnMainUi();
                 } else {
-                    let recognizedOver = await performOcr("", { min: 1600, max: 1780 }, { min: 30, max: 60 }, "true")
-                    if (BigInt(recognizedOver) >= 300) {
+                    let recognizedMora = await performOcr("", { min: 1600, max: 1780 }, { min: 30, max: 60 }, "true")
+                    if (BigInt(recognizedMora) >= 300) {
                         await sleep(800);
                         await click(1636,1019);
                         await sleep(1000);
@@ -129,9 +125,8 @@ async function findImgIcon(imagePath, xRange, yRange) {
                         await genshin.returnMainUi();
                     };
                 };
-            } else {
-                log.error(`识别图像时发生异常: ${error.message}`);
-            }
+            };
+        await genshin.returnMainUi();
         } catch (error) {
             log.error(`识别图像时发生异常: ${error.message}`);
         }
@@ -190,7 +185,7 @@ async function findImgIcon(imagePath, xRange, yRange) {
                 await sleep(2000);
                 let ocrResults1 = await performOcr("求签吧", xZone, yZone, "false");
                 if (ocrResults1.length != 0) {
-                    await sleep(5000);
+                    await sleep(3000);
                     leftButtonClick();
                     await sleep(5000);
                     leftButtonClick();
@@ -206,45 +201,48 @@ async function findImgIcon(imagePath, xRange, yRange) {
                     if (ocrResults3.length != 0) {
                         await sleep(700);
                         leftButtonClick();
-                        await sleep(700);
+                        await sleep(1500);
                         //交互道具，直接选择位置点击
                         await click(111,184);
-                        await sleep(700);
+                        await sleep(1000);
                         await click(1250,817);
-                        await sleep(700);
+                        await sleep(1000);
                         await click(1603,1013);
                         await sleep(1500);
+                        await genshin.returnMainUi();
+                        //打开背包找签
+                        await keyPress("B");
+                        await sleep(1000);
+                        await click(1150,50);
+                        await sleep(700);
+                        for(let i = 0; i <= 4; i++){
+                            //{ min: 93, max: 1283 }, { min: 99, max: 823 }
+                            let img = await findImgIcon("assets/RecognitionObject/YuShenQian.png", { min: 99, max: 1295 }, { min: 104, max: 967 })
+                            if (img.length != 0) {
+                                break;
+                            }
+                            await keyMouseScript.runFile(`assets/移动4行.json`);
+                        };
+                        await sleep(2000);
+                        await click(1670,1025);
+                        await sleep(2000);
+                        let recognizedText = await performOcr("", { min: 720, max: 790 }, { min: 111, max: 155 }, "true");
+                        if(recognizedText == "大凶" || recognizedText == "凶-"){
+                                await genshin.returnMainUi();
+                                await pathingScript.runFile("assets/挂签路线.json");
+                                await performOcr("挂起来吧", { min: 900, max: 1700 }, { min: 380, max: 880 }, "false");
+                                await sleep(700);
+                                leftButtonClick();
+                                log.info("事事顺利");
+                        };
                     } else {
                         await genshin.chooseTalkOption("再见");
                         await sleep(700);
                         leftButtonClick();
                         await sleep(1500);
+                        log.info("对话出现再见，默认解签完毕以及查看签操作！！！");
                     };
-                    //打开背包找签
-                    await keyPress("B");
-                    await sleep(700);
-                    await click(1150,50);
-                    await sleep(700);
-                    for(let i = 0; i <= 4; i++){
-                        //{ min: 93, max: 1283 }, { min: 99, max: 823 }
-                        let img = await findImgIcon("assets/RecognitionObject/YuShenQian.png", { min: 99, max: 1295 }, { min: 104, max: 967 })
-                        if (img.length != 0) {
-                            break;
-                        }
-                        await keyMouseScript.runFile(`assets/移动4行.json`);
-                    };
-                    await sleep(1000);
-                    await click(1670,1025);
-                    await sleep(700);
-                    let recognizedText = await performOcr("", { min: 720, max: 790 }, { min: 111, max: 155 }, "true");
-                    if(recognizedText == "大凶" || recognizedText == "凶-"){
-                            await genshin.returnMainUi();
-                            await pathingScript.runFile("assets/挂签路线.json");
-                            await performOcr("挂起来吧", { min: 900, max: 1700 }, { min: 380, max: 880 }, "false");
-                            await sleep(700);
-                            leftButtonClick();
-                            log.info("事事顺利");
-                    };
+                    
                 };
 
 
@@ -269,22 +267,23 @@ async function findImgIcon(imagePath, xRange, yRange) {
             let ocrResults = await performOcr("布兰", xZone, yZone, "false");
             if (ocrResults.length != 0) {
                 await sleep(1000);
-                let ocrResults1 = await performOcr("为什么", xZone, yZone, "false");
+                let ocrResults1 = await performOcr("没什么", xZone, yZone, "false");
                 if(ocrResults1.length != 0){
                     await sleep(700);
+                    log.info("对话出现没什么，默认领取和使用过！！！");
                 } else{
                     await genshin.chooseTalkOption("给我一份福利餐");
-                    await sleep(700);
+                    await sleep(1000);
                     leftButtonClick();
-                    await sleep(700);
+                    await sleep(1000);
                     leftButtonClick();
                     await sleep(1500);
                     //打开背包找签
+                    log.info("打开背包");
                     await keyPress("B");
-                    await sleep(700);
+                    await sleep(1000);
                     await click(1250,50); 
                     await sleep(1000);
-
                     for(let i = 0; i <= 2; i++){
                         let img = await findImgIcon("assets/RecognitionObject/WelffareMeal.png", { min: 99, max: 1295 }, { min: 104, max: 967 })
                         if (img.length != 0) {
@@ -292,23 +291,19 @@ async function findImgIcon(imagePath, xRange, yRange) {
                         }
                         await keyMouseScript.runFile(`assets/移动4行.json`);
                     };
+                    //这里是点击使用
                     await sleep(1000);
                     await click(1670,1025);
+                    await sleep(2000);
+                    //识别获得的食物名称
+                    let recognizedText = await performOcr("", { min: 813, max: 985 }, { min: 585, max: 619 }, "true");
+                    log.info(`获得：${recognizedText}`);
+                    //点击幸运签，并识别内容
                     await sleep(1000);
-                    // 后续功能 
-                    // let recognizedText = await performOcr("", { min: , max:  }, { min: , max:  }, "true");
-                    await click(1150,50);
-                    await sleep(1000);
-                    for(let i = 0; i <= 4; i++){
-                        let img = await findImgIcon("assets/RecognitionObject/LuckySign.png", { min: 99, max: 1295 }, { min: 104, max: 967 })
-                        if (img.length != 0) {
-                            break;
-                        }
-                        await keyMouseScript.runFile(`assets/移动4行.json`);
-                    };
-
-                    // 后续功能 坐标正确的
-                    // let recognizedText1 = await performOcr("", { min: 1309, max: 1800 }, { min: 405, max: 500 }, "true");
+                    await click(1000,520);
+                    await sleep(2000);
+                    let recognizedText1 = await performOcr("", { min: 716, max: 1200 }, { min: 631, max: 710 }, "true");
+                    log.info(`幸运签内容：${recognizedText1}`);
                 };
 
             } else {
@@ -382,6 +377,8 @@ async function findImgIcon(imagePath, xRange, yRange) {
         }
         await genshin.returnMainUi();
     };
+
+
 
 
 })();
