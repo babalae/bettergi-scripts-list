@@ -1,3 +1,4 @@
+eval(file.readTextSync("reward.js"));
 (async function () {
     try {
         /**
@@ -48,23 +49,41 @@
          * @param {boolean} returnToStatueAfterEachRound - 是否在每次讨伐后回到七天神像。
          */
         async function runMain() {
-
-            eval(file.readTextSync("reward.js"));
+            
             // --- 打印所有Boss的剩余次数 ---
             for (let i = 0; i < config.length; i++) {
-                log.info(`🎵${config[i]["name"]} - 剩余: ${config[i]["remainingCount"]}/${config[i]["totalCount"]}, 队伍: ${config[i]["team"]}`);
-                //BGI的遮罩日志是12行
-                if (i % 11 === 0 && i > 0) {
-                    log.info("⌛️5秒后显示下一页");
-                    await sleep(5000);
+                if (i % 10 === 0) {
+                    let currentPage = Math.floor(i / 10) + 1;
+                    log.info(`--- 当前boss队列 (第 ${currentPage} 页) ---`);
                 }
-            };
 
+                log.info(`🎵${i + 1}.${config[i]["name"]} - 剩余: ${config[i]["remainingCount"]}/${config[i]["totalCount"]}, 队伍: ${config[i]["team"]}`);
+
+                const isEndOfPage = (i + 1) % 10 === 0;
+                const isLastItem = i === config.length - 1;
+
+                if (isEndOfPage || isLastItem) {
+                    // 补齐空行到10行
+                    const linesToPad = 10 - (i - (Math.floor(i / 10) * 10) + 1);
+                    for (let p = 0; p < linesToPad; p++) {
+                        log.info("");
+                    }
+
+                    if (isEndOfPage && !isLastItem) {
+                        let currentPage = Math.floor((i + 1) / 10);
+                        log.info(`⌛️当前第 ${currentPage} 页结束，5秒后显示下一页`);
+                        await sleep(5000);
+                    } else if (isLastItem) {
+                        log.info(`🔚列表显示完毕，5秒后继续`);
+                        await sleep(5000);
+                    }
+                }
+            }
             try {
+                let isClaimFailed = false;
                 // --- 遍历Boss列表 ---
                 for (const boss of config) {
                     let goToBoss = true;
-                    let isClaimFailed = false;
                     const returnToStatueAfterEachRound = boss.returnToStatueAfterEachRound
 
                     // --- 检查体力是否足够 ---
@@ -91,12 +110,8 @@
                             break; // --- 体力不足，停止讨伐 ---
                         }
 
-                        log.info(`🪧` +
-                            `当前进度：讨伐『${boss.name}』，` +
-                            `第${round}/${boss.remainingCount}次，` +
-                            `使用队伍：${boss.team}，` +
-                            `每轮后回七天神像：${returnToStatueAfterEachRound ? '是' : '否'}`);
-
+                        log.info(`📢当前进度：讨伐『${boss.name}』，第${round}/${boss.remainingCount}次`);
+                        log.info(`使用队伍：${boss.team}，每轮回七天神像：${returnToStatueAfterEachRound ? '是' : '否'}`);
 
                         for (let attempt = 1; attempt <= 2; attempt++) {
                             //体力不足和战斗成功后无需重试
@@ -112,16 +127,18 @@
                                 log.info(`⚔️开始第 ${attempt} 次讨伐尝试`);
                                 await dispatcher.runTask(new SoloTask("AutoFight"));
                                 await autoNavigateToReward();
-                                await takeReward(isClaimFailed);
+                                isClaimFailed = await takeReward(isClaimFailed);
                                 battleSuccess = true;
                                 goToBoss = false;
                                 // === 更新 讨伐完成次数 与 剩余讨伐次数 ===
-                                boss.remainingCount--;
-                                boss.completedCount++;
+                                if (!isClaimFailed) {
+                                    boss.remainingCount--;
+                                    boss.completedCount++;
+                                };
                                 break;
 
                             } catch (error) {
-                                log.error(`❌讨伐『${boss.name}』失败，error: ${error}`);
+                                log.error(`❌讨伐『${boss.name}』失败: ${error}`);
                                 battleSuccess = false;
                                 continue;
                             };
@@ -140,7 +157,7 @@
                             goToBoss = true;
                         };
 
-                        if (!goToBoss && boss.remainingCount > 0) {
+                        if (!goToBoss && boss.remainingCount > 0 && !isClaimFailed) {
                             if (["歌裴莉娅的葬送", "科培琉司的劫罚", "纯水精灵"].includes(boss.name)) {
                                 await pathingScript.runFile(`assets/Pathing/${boss.name}战斗后快速前往.json`);
                             } else {

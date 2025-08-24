@@ -8,10 +8,10 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 (async function () {
     const startTime = Date.now();
     // 启用自动拾取的实时任务
-    if (settings.pickupMode == "自动拾取") {
+    if (convertToTrueIfNotBoolean(settings.pickupMode)) {
         dispatcher.addTimer(new RealtimeTimer("AutoPick"));
         log.info("已 启用 自动拾取任务");
-    } else if (settings.pickupMode == "不拾取") {
+    } else {
         log.info("已 禁用 自动拾取任务");
     }
     runTimes = await calulateRunTimes();
@@ -52,7 +52,9 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     log.info(`${enemyType}好感运行总时长：${LogTimeTaken(startTime)}`);
 })();
 
-
+function convertToTrueIfNotBoolean(value) {
+  return typeof value === 'boolean' ? value : true;
+}
 // 执行 path 任务
 async function AutoPath(locationName) {
     try {
