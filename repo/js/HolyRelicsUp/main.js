@@ -596,12 +596,15 @@ async function resetSift() {
  * @param log_off
  * @returns {Promise<void>}
  */
-async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitUI', log_off = config.log_off) {
+async function openSiftHolyRelicsSuitUI_Start(keyword = config.suit, source = 'HolyRelicsSuitUI', log_off = config.log_off) {
+    let ms = 600
     if (!keyword) {
+        info('无套装筛选')
         return
     }
     let keywords = keyword.trim().split('|');
     if (keywords.length <= 0) {
+        info('无套装筛选')
         return
     }
     let keywordsOk = new Array()
@@ -615,7 +618,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
     }
     info('筛选:' + keywords.join(','), must)
     let sift = await templateMatchFind(`${path_base_main}${siftSiftHolyRelicsSuitUIJson.text}.jpg`, siftSiftHolyRelicsSuitUIJson.x, siftSiftHolyRelicsSuitUIJson.y, siftSiftHolyRelicsSuitUIJson.width, siftSiftHolyRelicsSuitUIJson.height)
-    await wait()
+    await wait(ms)
     let exist = isExist(sift);
 
     if (exist) {
@@ -625,7 +628,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
         if (log_off) {
             await info(`已${siftSiftHolyRelicsSuitUIJson.text}`)
         }
-        await wait()
+        await wait(ms)
         //2.start
         let last = {
             name_one: null,
@@ -651,8 +654,9 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
             // templateMatchObject.threshold = 1.0;
             let opJsons = new Array()
             let resList = findMultiByCaptureGameRegion(captureRegion, templateMatchObject);
-            await wait()
+            await wait(ms)
             for (let res of resList) {
+
                 await logInfoTemplate(res, source)
                 if (i % 2 !== 0) {
                     last.name_one = res.text
@@ -666,7 +670,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
                 }) && (opJsons.length === 0 || opJsons.find(function (value) {
                     return !value.text.includes(res.text)
                 }))) {
-                    await wait()
+                    await wait(ms)
                     opJsons.push({
                         text: res.text, x: res.x, y: res.y, sort: i
                     })
@@ -676,18 +680,23 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
                         break
                     }
                 }
+
+                if (keywords.length === keywordsOk.length) {
+                    break
+                }
             }
 
             //画面拆为二分别识别
             await info('开始识别右边画面')
-            await wait()
+            await wait(ms)
             templateMatchObject = await recognitionObjectOcr(x1, y, width, height);
             // await mTo(width, 0)
             // templateMatchObject.threshold = 1.0;
             resList = findMultiByCaptureGameRegion(captureRegion, templateMatchObject);
             closeCaptureGameRegion(captureRegion)
-            await wait()
+            await wait(ms)
             for (let res of resList) {
+
                 await logInfoTemplate(res, source)
 
                 last.y = res.y
@@ -696,7 +705,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
                 }) && (opJsons.length === 0 || opJsons.find(function (value) {
                     return !value.text.includes(res.text)
                 }))) {
-                    await wait()
+                    await wait(ms)
                     opJsons.push({
                         text: res.text, x: res.x, y: res.y, sort: i
                     })
@@ -705,6 +714,10 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
                     if (keywords.length <= opJsons.length) {
                         break
                     }
+                }
+
+                if (keywords.length === keywordsOk.length) {
+                    break
                 }
             }
             /*            await info(`选中 ${opJsons.map(value => value.text).join(",")}`)
@@ -734,12 +747,18 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
                 // await info(`已选中 ${opJsons.map(value => value.text).join(",")}`, must)
                 break
             }
-            await wait()
+
+            await wait(ms)
             await mTo(genshinJson.width / 2, Math.floor(genshinJson.height * 3 / 4))
-            await wait()
+            await wait(ms)
+
+            if (keywords.length === keywordsOk.length) {
+                break
+            }
+
             // await dragBase(0, -Math.floor( genshinJson.height *40 / 1080 ), Math.floor( genshinJson.height *10  / 1080 ), config.log_off)
-            await scrollPage(Math.floor(genshinJson.height * 4 / 9), false, 6, 40)
-            await wait()
+            await scrollPage(Math.floor(genshinJson.height * 400 / 1080), false, 6, 30)
+            await wait(ms)
 
             if (last.name_one != null && last.name_one === last.name_two) {
                 await info('已达底部')
@@ -753,7 +772,7 @@ async function openSiftHolyRelicsSuitUI_Start(keyword, source = 'HolyRelicsSuitU
         if (keywordsOk.length > 0) {
             await info(`已选中 ${keywordsOk.join(",")}`, must)
         }
-        await wait()
+        await wait(ms)
         await confirm(`${source} 点击确认`, source)
         return
     }
@@ -773,7 +792,7 @@ async function openSiftAll(log_off) {
     let reOk = await resetSift();
     let op = false
     if (reOk) {
-        await wait()
+        await wait(ms)
         // await siftState(log_off)
         // await wait(1)
         let width = Math.floor(450 * genshinJson.width / 1080);
@@ -797,9 +816,9 @@ async function openSiftAll(log_off) {
                 await res.click()
             }
         }
-        await wait()
+        await wait(ms)
         await openSiftHolyRelicsSuitUI_Start(config.suit)
-        await wait()
+        await wait(ms)
         //确认
         let ok = await confirm()
         if (isExist(ok)) {
@@ -1206,8 +1225,8 @@ async function openSortAll(log_off = config.log_off) {
  */
 async function openPrerequisitesAll(log_off = config.log_off) {
     let re = true;
-    let ms = 1000
-    await wait()
+    let ms = 500
+    await wait(ms)
     if (config.toSift) {
         // 首先执行 openSiftAll 函数，传入 log_off 参数
         let siftOk = await openSiftAll(log_off);
@@ -1216,7 +1235,7 @@ async function openPrerequisitesAll(log_off = config.log_off) {
             re = false;
         }
         // 然后执行 openSortAll 函数，同样传入 log_off 参数
-        await wait()
+        await wait(ms)
     }
     if (config.toSort) {
         // 使用 await 确保两个函数按顺序执行
@@ -1226,7 +1245,7 @@ async function openPrerequisitesAll(log_off = config.log_off) {
             re = false;
         }
     }
-    await wait()
+    await wait(ms)
     return re
 }
 
@@ -1280,9 +1299,9 @@ async function clickProgressBarTopByHolyRelics() {
         let y = Math.floor(genshinJson.height * 177 / 1080)
         // 移动鼠标到计算的位置
         await clickProgressBar(x, y)*/
-    let ms = 300
+    let ms = 500
     // await openSiftAll()
-    await wait()
+    await wait(ms)
     // await confirm('强制拉到顶')
 
 
@@ -1299,7 +1318,7 @@ async function clickProgressBarTopByHolyRelics() {
     // logInfoTemplate(templateMatch)
     if (isExist(sift)) {
         sift.click()
-        await wait()
+        await wait(ms)
         await confirm('强制拉到顶')
     } else {
         throwError(`OCR识别失败未找到确认按钮`)
@@ -1354,14 +1373,14 @@ async function downClickFirstHolyRelics() {
     let x = Math.floor(genshinJson.width * 200 / 1920)
     let y = Math.floor(genshinJson.height * 250 / 1080)
     // await mTo(200,300)
-    await wait()
+    await wait(ms)
     await downClick(x, y)
-    await wait()
+    await wait(ms)
     await confirm('点击第一个圣遗物', 'downClickFirstHolyRelics')
-    await wait()
+    await wait(ms)
     //避免多次点击
     await mTo(x, y)
-    await wait()
+    await wait(ms)
     await info('点击第一个圣遗物')
     // await openAggrandizement()
     // await wait(300)
@@ -1443,7 +1462,7 @@ async function confirm(log_msg = '点击确认', source = 'confirm') {
 async function clear(source = 'clear') {
     // 通过OCR识别并点击"详情"按钮
     await templateMatchClick(`${path_base_main}详情.jpg`, "点击详情", source, config.log_off)
-    await wait()
+    await wait(300)
     // 通过OCR识别并点击"强化"按钮
     await templateMatchClick(`${path_base_main}强化.jpg`, "点击强化", source, config.log_off)
 }
@@ -1482,7 +1501,7 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
         let name = '设置按键'
         await templateMatchClick(`${path_base_main}${name}.jpg`, `点击${name}`, source, log_off)
         await mTo(genshinJson.width / 2, genshinJson.height / 2)
-        await wait()
+        await wait(300)
         let name4 = `点击关闭`
         if (operate !== '快捷放入') {
             name4 = `点击开启`
@@ -1494,7 +1513,7 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
     }
     info(`[放入方式]==>${operate}<==[end]`)
     if (isExist(templateMatch1)) {
-        await wait()
+        await wait(300)
         templateMatch1.click()
     } else {
         throwError(`[放入方式]-${operate} 未打开`)
@@ -1557,7 +1576,7 @@ async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequenc
     let captureRegion = openCaptureGameRegion(); // 截取游戏画面
     const templateMatchObject = await recognitionObjectOcr(all.x, all.y, all.width, all.height); // 创建OCR识别对象
     let res = findByCaptureGameRegion(captureRegion, templateMatchObject); // 执行OCR识别
-    await wait()
+    await wait(300)
     if (log_off) {
         await logInfoTemplate(res, source) // 记录OCR识别结果
     }
@@ -1619,7 +1638,7 @@ async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequenc
         await info(`圣遗物实际等级: ${level}`)
         levelJson.sumLevel = sumLevel
         levelJson.level = level
-        await wait()
+        await wait(300)
     }
     closeCaptureGameRegion(captureRegion)
     return levelJson
