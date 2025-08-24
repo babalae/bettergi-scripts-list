@@ -1,0 +1,49 @@
+﻿{
+  "info": {
+    "name": "稻妻-踏鞴砂多人狗粮踩点",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755710835874,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3393.80859375,
+      "y": -3555.3330078125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -3354.048828125,
+      "y": -3578.935546875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -3354.048828125,
+      "y": -3578.9404296875,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

@@ -99,9 +99,12 @@ let furinaState = "unknown";
     await runNormalPath(false);
     if (state.cancel) return;
 
-    //执行收尾和额外路线
-    await runEndingAndExtraPath();
-    if (state.cancel) return;
+
+    if (!onlyActivate) {
+        //执行收尾和额外路线
+        await runEndingAndExtraPath();
+        if (state.cancel) return;
+    }
 
     //切回黑芙
     if (settings.furina) {
@@ -854,6 +857,18 @@ async function runActivatePath() {
             ? "assets/ArtifactsPath/优先收尾路线"
             : "assets/ArtifactsPath/替补收尾路线";
     }
+    if (onlyActivate) {
+        log.warn("勾选了联机狗粮，将只激活，不执行收尾和额外路线");
+        endingPath = state.runningEndingAndExtraRoute === "收尾额外A"
+            ? "assets/ArtifactsPath/联机收尾/优先收尾路线"
+            : "assets/ArtifactsPath/联机收尾/替补收尾路线";
+        if (forceAlternate) {
+            endingPath = state.runningRoute === "A"
+                ? "assets/ArtifactsPath/优先收尾路线"
+                : "assets/ArtifactsPath/替补收尾路线";
+        }
+
+    }
     const endingActivatePath = endingPath + "/激活";
     const endingCombatPath = endingPath + "/清怪";
     const endingPreparePath = endingPath + "/准备";
@@ -973,7 +988,7 @@ async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "
         if (pathInfo.ok) {
             //回到主界面
             await genshin.returnMainUi();
-            await sleep(100);
+            await sleep(500);
             try {
                 // 获取当前人物在指定地图上的坐标
                 const currentPosition = await genshin.getPositionFromMap(pathInfo.map_name);
