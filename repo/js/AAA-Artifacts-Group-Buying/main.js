@@ -7,6 +7,7 @@ let p1EndingRoute = settings.p1EndingRoute || "踏鞴砂";
 let p2EndingRoute = settings.p2EndingRoute || "度假村";
 let p3EndingRoute = settings.p3EndingRoute || "智障厅";
 let p4EndingRoute = settings.p4EndingRoute || "清籁丸";
+let accountName = settings.accountName || "默认账户";
 
 //文件路径
 //摧毁狗粮
@@ -34,6 +35,7 @@ let moraDiff = 0;
 let failcount = 0;
 let autoSalvageCount = 0;
 let furinaState = "unknown";
+let _infoPoints = null;          // 缓存 assets/info.json 解析后的数组
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
@@ -229,6 +231,53 @@ async function checkReady(i) {
     return dist <= 30;   // ≤10px 算就绪
 }
 
+/**
+ * 根据玩家编号返回该路线在 assets/info.json 中记录的点位坐标
+ * @param {number} playerIndex 1 | 2 | 3 | 4
+ * @returns {{x:number,y:number}|null}
+ */
+async function getPointByPlayer(playerIndex) {
+    // 1. 只读一次：第一次调用时加载并缓存
+    if (_infoPoints === null) {
+        try {
+            const jsonStr = file.ReadTextSync('assets/info.json');
+            _infoPoints = JSON.parse(jsonStr);
+            if (!Array.isArray(_infoPoints)) {
+                log.error('assets/info.json 不是数组格式');
+                _infoPoints = [];     // 防止后续再读
+                return null;
+            }
+        } catch (err) {
+            log.error(`读取或解析 assets/info.json 失败: ${err.message}`);
+            _infoPoints = [];
+            return null;
+        }
+    }
+
+    // 2. 外部已准备好的路线名称映射
+    const routeMap = {
+        1: p1EndingRoute,
+        2: p2EndingRoute,
+        3: p3EndingRoute,
+        4: p4EndingRoute
+    };
+    const routeName = routeMap[playerIndex];
+    if (!routeName) {
+        log.error(`无效玩家编号: ${playerIndex}`);
+        return null;
+    }
+
+    // 3. 遍历缓存数组
+    for (let i = 0; i < _infoPoints.length; i++) {
+        const p = _infoPoints[i];
+        if (p && p.name === routeName) {
+            return { x: p.position.x, y: p.position.y };
+        }
+    }
+
+    log.warn(`在 info.json 中找不到 name 为 "${routeName}" 的点`);
+    return null;
+}
 
 /**
  * 根据玩家编号获取 2/3/4P 图标在屏幕上的坐标
