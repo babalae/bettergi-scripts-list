@@ -10,9 +10,9 @@ async function main(log_off = config.log_off) {
         let template = await templateMatch(`${path_base_main}4行.jpg`)
         await logInfoTemplate(template)*/
 
-/*    await openSelectTheClipCondition()
+    /*    await openSelectTheClipCondition()
 
-    return*/
+        return*/
     let ms = 600
     await setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
     if (config.enableBatchUp) { // 检查是否启用
@@ -53,19 +53,19 @@ function info(msg, must = false) {
 }
 
 function warn(msg, must = false) {
-    if (must) {
+    if (config.log_off || must) {
         log.warn(msg)
     }
 }
 
 function debug(msg, must = false) {
-    if (must) {
+    if (config.log_off || must) {
         log.debug(msg)
     }
 }
 
 function error(msg, must = false) {
-    if (must) {
+    if (config.log_off || must) {
         log.error(msg)
     }
 }
@@ -1596,8 +1596,8 @@ async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequenc
     }
 
     let levelJson = {
-        "sumLevel": 0,//预估可提升至等级
-        "level": 0//实际等级
+        "sumLevel": -1,//预估可提升至等级
+        "level": -1//实际等级
     }
 
     function keepBeforeThirdPlus(str) {
@@ -1653,8 +1653,12 @@ async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequenc
         levelJson.sumLevel = sumLevel
         levelJson.level = level
         await wait(ms)
+    } else {
+        throwError(`识别异常==>${res.text}<==`)
     }
     closeCaptureGameRegion(captureRegion)
+
+    await warn(`[OCR]-level:${levelJson.level}-sumLevel:${levelJson.sumLevel}`)
     return levelJson
 }
 
@@ -1728,6 +1732,9 @@ async function upOperate(operate, source = 'upOperate', log_off) {
     await wait(ms)
 
     let levelJson = await templateMatchHolyRelicsUpFrequency();
+    upJson.sumLevel = levelJson.sumLevel
+    upJson.level = levelJson.level
+
     if ((!upJson.start) && templateMatchHolyRelics.level === levelJson.level) {
         //真实强化过
         upJson.errorMsg = '强化失败:狗粮不足'
@@ -1735,8 +1742,7 @@ async function upOperate(operate, source = 'upOperate', log_off) {
         throwError(upJson.errorMsg)
         return upJson
     }
-    upJson.sumLevel = levelJson.sumLevel
-    upJson.level = levelJson.level
+
     warn(`[upOperate] {level: ${upJson.level},sumLevel ,${upJson.sumLevel}}`)
     // upJson.upOk = upJson.level !== 0 && upJson.level === upJson.sumLevel
     return upJson
@@ -1810,6 +1816,7 @@ async function UpClick(operate, source = 'UpClick', log_off = config.log_off, is
         } else if ((!up.ok) && up.sumLevel % 4 != 0) {
             let msg2 = `圣遗物预估可提升至等级: ${up.sumLevel}，未达到下一阶段等级，退出强化`;
             await info(msg2)
+            await warn(msg2, must)
             reJson.errorMsg = msg2
             reJson.okMsg = msg2
             // throwError(msg2)
@@ -1817,6 +1824,7 @@ async function UpClick(operate, source = 'UpClick', log_off = config.log_off, is
         } else {
             await info(`强化成功`)
             reJson.ok = true
+            reJson.start = false
             reJson.okMsg = '强化成功'
         }
     }
@@ -2009,7 +2017,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
 
             //从10页开始偏移一次后 每20页偏移一次
             if ((!isDown) && (((i + 1) / page === startPage && (i + 1) % page === 0) || (Math.floor((i + 1) / page) > startPage && (i + 1 - startPage) % (pageNumber * page) === 0))) {
-                warn(`第${i < startPage ? 1 : (i + 1 - startPage) / (pageNumber * page)}次加滑动修偏移运行`, must)
+                warn(`第${i < startPage ? 1 : (i + 1 - startPage) / (pageNumber * page)}次加滑动修偏移运行`)
                 await scrollPagesByHolyRelicsSelect()
                 await wait(ms)
             }
@@ -2098,7 +2106,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         if (re.ok || !re.start) {
             actualCount++
             // 如果强化成功，则继续下一个圣遗物
-            await info(!re.start ? `需求:+${config.upMax},实际:+${re.level},符合要求` : `+${re.level}强化成功`, must)
+            await info(((!re.ok) && !re.start) ? `需求:+${config.upMax},实际:+${re.level},符合要求` : `需求:+${re.level} 强化成功`, must)
             await wait(ms)
             let up_name = '返回键'
             await templateMatchClick(`${path_base_main}${up_name}.jpg`, `圣遗物已经强化到+${config.upMax}退出强化页面 到圣遗物背包界面`, source, log_off)
@@ -2108,7 +2116,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             }
         } else {
             // 如果强化失败，则退出循环
-            await info(`强化失败:${re.errorMsg}`)
+            await infoLog(`强化失败:${re.errorMsg}`, source)
             break
         }
 
@@ -2318,71 +2326,71 @@ async function openSelectTheClipCondition(condition = config.material) {
         }
 
         return
-/*        // const selectTheClipConditionButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${path_base_main}选择素材条件按键.jpg`), 0, 0, genshinJson.width, genshinJson.height);
+        /*        // const selectTheClipConditionButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${path_base_main}选择素材条件按键.jpg`), 0, 0, genshinJson.width, genshinJson.height);
 
-        // 捕获游戏界面并查找"选择素材条件"按钮
-        // let buttonObject = captureGameRegion().find(selectTheClipConditionButtonRo);
-        let buttonObject = await templateMatchFind(`${path_base_main}选择素材条件按键.jpg`, 0, 0, genshinJson.width, genshinJson.height)
-        await wait(ms)
-        // 检查按钮是否存在
-        if (isExist(buttonObject)) {
-            await info('打开选择素材条件')
-            await wait(ms);
-            // 点击按钮并等待界面加载
-            // await buttonObject.click();
-            let x = Math.floor(genshinJson.width * 1524 / 1920)
-            let y = Math.floor(genshinJson.height * 758 / 1080)
-            downClick(x, y)
-            await wait(ms);
+                // 捕获游戏界面并查找"选择素材条件"按钮
+                // let buttonObject = captureGameRegion().find(selectTheClipConditionButtonRo);
+                let buttonObject = await templateMatchFind(`${path_base_main}选择素材条件按键.jpg`, 0, 0, genshinJson.width, genshinJson.height)
+                await wait(ms)
+                // 检查按钮是否存在
+                if (isExist(buttonObject)) {
+                    await info('打开选择素材条件')
+                    await wait(ms);
+                    // 点击按钮并等待界面加载
+                    // await buttonObject.click();
+                    let x = Math.floor(genshinJson.width * 1524 / 1920)
+                    let y = Math.floor(genshinJson.height * 758 / 1080)
+                    downClick(x, y)
+                    await wait(ms);
 
-            await info(`素材条件==>x:${buttonObject.x},y:${buttonObject.y}`)
+                    await info(`素材条件==>x:${buttonObject.x},y:${buttonObject.y}`)
 
-            let needMoLa = await templateMatchFind(`${path_base_main}需要摩拉.jpg`, 0, 0, genshinJson.width, genshinJson.height)
-            await wait(ms)
-            // 检查是否能定位到"需要摩拉"文本区域
-            if (!isExist(needMoLa)) {
-                let msg = `无法定位识别！`
-                await error(msg)
-                throwError(msg)
-            } else {
-                // 计算OCR识别区域的坐标和尺寸
-                // let templateMatch_x = Math.min(needMoLa.x, buttonObject.x)
-                // let templateMatch_y = Math.min(needMoLa.y, buttonObject.y)
-                // let templateMatch_width = Math.abs(needMoLa.x - buttonObject.x)
-                // let templateMatch_height = Math.abs(needMoLa.y - buttonObject.y)
-                await info(`OCR==>x:${templateMatch_x},y:${templateMatch_y},width:${templateMatch_width},height:${templateMatch_height}`)
-                //x:1170,y:758,width:354,height:243
-                let templateMatch_x = Math.floor(genshinJson.width * 1170 / 1920)
-                let templateMatch_y = Math.floor(genshinJson.height * 758 / 1080)
-                let templateMatch_width = Math.floor(genshinJson.width * 354 / 1920)
-                let templateMatch_height = Math.floor(genshinJson.height * 243 / 1080)
-                // 以下代码被注释，可能是用于调试的鼠标移动
-                // await mTo(templateMatch_x, templateMatch_y)
-                // 创建OCR识别对象
-                let templateMatchObject = await recognitionObjectOcr(templateMatch_x, templateMatch_y, templateMatch_width, templateMatch_height);
-                // 捕获游戏界面并执行OCR识别
-                let captureRegion = openCaptureGameRegion();
-                let resList = findMultiByCaptureGameRegion(captureRegion, templateMatchObject);
-                closeCaptureGameRegion(captureRegion)
-                let index = 0;
-                // 遍历OCR识别结果
-                for (let res of resList) {
-                    await info(`[==]${index}识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y}`);
-                    // 跳过第一个结果（可能是标题），查找匹配条件的选项
-                    if (index !== 0 && res.text.includes(condition)) {
-                        await info(`点击${res.text}`)
-                        await wait(ms);
-                        res.click();
-                        // await downClick(res.x, res.y);
-                        await mTo(genshinJson.width / 2, genshinJson.height / 2)
-                        await info('[break]')
-                        break;
+                    let needMoLa = await templateMatchFind(`${path_base_main}需要摩拉.jpg`, 0, 0, genshinJson.width, genshinJson.height)
+                    await wait(ms)
+                    // 检查是否能定位到"需要摩拉"文本区域
+                    if (!isExist(needMoLa)) {
+                        let msg = `无法定位识别！`
+                        await error(msg)
+                        throwError(msg)
+                    } else {
+                        // 计算OCR识别区域的坐标和尺寸
+                        // let templateMatch_x = Math.min(needMoLa.x, buttonObject.x)
+                        // let templateMatch_y = Math.min(needMoLa.y, buttonObject.y)
+                        // let templateMatch_width = Math.abs(needMoLa.x - buttonObject.x)
+                        // let templateMatch_height = Math.abs(needMoLa.y - buttonObject.y)
+                        await info(`OCR==>x:${templateMatch_x},y:${templateMatch_y},width:${templateMatch_width},height:${templateMatch_height}`)
+                        //x:1170,y:758,width:354,height:243
+                        let templateMatch_x = Math.floor(genshinJson.width * 1170 / 1920)
+                        let templateMatch_y = Math.floor(genshinJson.height * 758 / 1080)
+                        let templateMatch_width = Math.floor(genshinJson.width * 354 / 1920)
+                        let templateMatch_height = Math.floor(genshinJson.height * 243 / 1080)
+                        // 以下代码被注释，可能是用于调试的鼠标移动
+                        // await mTo(templateMatch_x, templateMatch_y)
+                        // 创建OCR识别对象
+                        let templateMatchObject = await recognitionObjectOcr(templateMatch_x, templateMatch_y, templateMatch_width, templateMatch_height);
+                        // 捕获游戏界面并执行OCR识别
+                        let captureRegion = openCaptureGameRegion();
+                        let resList = findMultiByCaptureGameRegion(captureRegion, templateMatchObject);
+                        closeCaptureGameRegion(captureRegion)
+                        let index = 0;
+                        // 遍历OCR识别结果
+                        for (let res of resList) {
+                            await info(`[==]${index}识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y}`);
+                            // 跳过第一个结果（可能是标题），查找匹配条件的选项
+                            if (index !== 0 && res.text.includes(condition)) {
+                                await info(`点击${res.text}`)
+                                await wait(ms);
+                                res.click();
+                                // await downClick(res.x, res.y);
+                                await mTo(genshinJson.width / 2, genshinJson.height / 2)
+                                await info('[break]')
+                                break;
+                            }
+                            index++
+                        }
                     }
-                    index++
-                }
-            }
 
-        }*/
+                }*/
     }
 
 }
