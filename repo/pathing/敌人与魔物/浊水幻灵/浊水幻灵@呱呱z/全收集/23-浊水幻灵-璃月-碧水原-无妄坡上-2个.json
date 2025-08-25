@@ -9,13 +9,12 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756018982189,
+    "last_modified_time": 1756104793763,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "17-浊水幻灵-枫丹-苍晶区-厄里那斯右-2个",
+    "name": "23-浊水幻灵-璃月-碧水原-无妄坡上-2个",
     "tags": [
       "精英怪",
-      "等级100+",
       "浊水幻灵",
       "高效"
     ],
@@ -29,8 +28,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 4705.9072265625,
-      "y": 2951.892333984375
+      "x": 386.1240234375,
+      "y": 1689.501953125
     },
     {
       "action": "",
@@ -38,17 +37,35 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 4682.0947265625,
-      "y": 2911.535888671875
+      "x": 336.724609375,
+      "y": 1721.15869140625
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 3,
-      "move_mode": "fly",
-      "type": "target",
-      "x": 4658.05859375,
-      "y": 2861.29541015625
+      "move_mode": "dash",
+      "type": "path",
+      "x": 319.095703125,
+      "y": 1719.8662109375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(0.55),attack;",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 311.17578125,
+      "y": 1712.20361328125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 306.4013671875,
+      "y": 1705.1513671875
     }
   ]
 }
