@@ -26,6 +26,8 @@ const confirmRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/
 const doDecomposeRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/doDecompose.png"));
 const doDecompose2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/doDecompose2.png"));
 
+const outDatedRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/ConfirmButton.png"), 760, 700, 100, 100);
+
 const normalPathA = "assets/ArtifactsPath/普通A";
 const normalPathB = "assets/ArtifactsPath/普通B";
 const normalPathC = "assets/ArtifactsPath/普通C";
@@ -318,6 +320,10 @@ async function processArtifacts(times = 1) {
 
     async function decomposeArtifacts() {
         keyPress("B");
+        if (await findAndClick(outDatedRo)) {
+            log.info("检测到过期物品弹窗，处理");
+            await sleep(1000);
+        }
         await sleep(1000);
         await click(670, 45);
         await sleep(500);
@@ -486,7 +492,6 @@ async function processArtifacts(times = 1) {
                 await sleep(250);
             }
         }
-        log.error("已达到重试次数上限，仍未找到目标");
         return false;
     }
 
@@ -494,6 +499,10 @@ async function processArtifacts(times = 1) {
         await genshin.returnMainUi();
         await sleep(250);
         keyPress("B");
+        if (await findAndClick(outDatedRo)) {
+            log.info("检测到过期物品弹窗，处理");
+            await sleep(1000);
+        }
         await sleep(500);
         await findAndClick(ArtifactsButtonRo, 5)
         try {
