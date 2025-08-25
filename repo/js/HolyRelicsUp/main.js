@@ -1586,18 +1586,19 @@ async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequenc
         width: Math.ceil(genshinJson.width * 124 / 1920),
         height: Math.ceil(genshinJson.height * 41 / 1080)
     }
-
+    await wait(ms)
     let captureRegion = openCaptureGameRegion(); // 截取游戏画面
     const templateMatchObject = await recognitionObjectOcr(all.x, all.y, all.width, all.height); // 创建OCR识别对象
     let res = findByCaptureGameRegion(captureRegion, templateMatchObject); // 执行OCR识别
+    closeCaptureGameRegion(captureRegion)
     await wait(ms)
     if (log_off) {
         await logInfoTemplate(res, source) // 记录OCR识别结果
     }
 
     let levelJson = {
-        "sumLevel": -1,//预估可提升至等级
-        "level": -1//实际等级
+        sumLevel: -1,//预估可提升至等级
+        level: -1//实际等级
     }
 
     function keepBeforeThirdPlus(str) {
@@ -1656,7 +1657,6 @@ async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequenc
     } else {
         throwError(`识别异常==>${res.text}<==`)
     }
-    closeCaptureGameRegion(captureRegion)
 
     await warn(`[OCR]-level:${levelJson.level}-sumLevel:${levelJson.sumLevel}`)
     return levelJson
@@ -1672,12 +1672,12 @@ async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequenc
 async function upOperate(operate, source = 'upOperate', log_off) {
     let ms = 800
     let upJson = {
-        "sumLevel": 0,//预估可提升至等级
-        "level": 0,//实际等级
-        "ok": false, // 是否强化成功的标志
-        "errorMsg": '', // 强化失败的错误信息
-        "okMsg": '', // 强化失败的错误信息
-        "start": true // 强化过
+        sumLevel: 0,//预估可提升至等级
+        level: 0,//实际等级
+        ok: false, // 是否强化成功的标志
+        errorMsg: '', // 强化失败的错误信息
+        okMsg: '', // 强化失败的错误信息
+        start: true // 强化过
     }
 
     await wait(ms)
@@ -1729,7 +1729,8 @@ async function upOperate(operate, source = 'upOperate', log_off) {
     } else {
         upJson.ok = true;  // 设置强化成功的标志
     }
-    await wait(ms)
+    //等待时间过短导致识别不上
+    await wait(1600)
 
     let levelJson = await templateMatchHolyRelicsUpFrequency();
     upJson.sumLevel = levelJson.sumLevel
