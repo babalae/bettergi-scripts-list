@@ -307,7 +307,7 @@ async function readFolder(folderPath, onlyJson) {
                     genshin.returnMainUi();
 
                     //切换到指定配队
-                    if (partyNamesArray[groupNumber - 1] !== "") {
+                    if (groupNumber - 1 < partyNamesArray.length && partyNamesArray[groupNumber - 1] !== "") { //队伍配置存在且不为空
                         await genshin.switchParty(partyNamesArray[groupNumber - 1])
                     }
 
