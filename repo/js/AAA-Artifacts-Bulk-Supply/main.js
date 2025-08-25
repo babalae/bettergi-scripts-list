@@ -60,10 +60,7 @@ let furinaState = "unknown";
     const epochTime = new Date('1970-01-01T20:00:00.000Z');
     const now = new Date();
     state.runningRoute = Math.floor((now - epochTime) / (24 * 60 * 60 * 1000)) % 2 === 0 ? 'A' : 'B';//根据日期奇偶数确定普通路线
-    if (new Date() - record.lastActivateTime < 12 * 60 * 60) {
-        //距离上次激活不足12小时时启用备用C路线
-        //state.runningRoute = `C`;
-    }
+
     state.currentParty = "";
     state.cancel = false;
     log.info(`今日运行普通${state.runningRoute}路线`);
@@ -102,7 +99,7 @@ let furinaState = "unknown";
     if (state.cancel) return;
 
 
-    if (!onlyActivate) {
+    if (!onlyActivate || state.runningEndingAndExtraRoute != "收尾额外A") {
         //执行收尾和额外路线
         await runEndingAndExtraPath();
         if (state.cancel) return;
@@ -914,6 +911,17 @@ async function runEndingAndExtraPath() {
         endingPath = state.runningRoute === "A"
             ? "assets/ArtifactsPath/优先收尾路线"
             : "assets/ArtifactsPath/替补收尾路线";
+    }
+    if (onlyActivate) {
+        endingPath = state.runningEndingAndExtraRoute === "收尾额外A"
+            ? "assets/ArtifactsPath/联机收尾/优先收尾路线"
+            : "assets/ArtifactsPath/联机收尾/替补收尾路线";
+        if (forceAlternate) {
+            endingPath = state.runningRoute === "A"
+                ? "assets/ArtifactsPath/优先收尾路线"
+                : "assets/ArtifactsPath/替补收尾路线";
+        }
+
     }
     let extraPath = state.runningEndingAndExtraRoute === "收尾额外A"
         ? "assets/ArtifactsPath/额外/所有额外"
