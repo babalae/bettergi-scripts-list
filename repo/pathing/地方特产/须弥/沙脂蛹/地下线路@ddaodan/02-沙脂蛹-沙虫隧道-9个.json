@@ -1,0 +1,194 @@
+{
+  "info": {
+    "name": "02-沙脂蛹-沙虫隧道-9个",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.47.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4572.240234375,
+      "y": -1071.8505859375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4568.6162109375,
+      "y": -1033.431640625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4565.75390625,
+      "y": -1018.0341796875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(SPACE),wait(3),keypress(SPACE)"
+    },
+    {
+      "id": 4,
+      "x": 4530.9111328125,
+      "y": -1051.302734375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 4530.9111328125,
+      "y": -1051.302734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 6,
+      "x": 4529.6005859375,
+      "y": -1050.6826171875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 7,
+      "x": 4530.38623046875,
+      "y": -1042.75048828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 8,
+      "x": 4542.7373046875,
+      "y": -1022.4130859375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 4546.6015625,
+      "y": -1016.384765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 4573.71142578125,
+      "y": -982.4248046875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 11,
+      "x": 4575.736328125,
+      "y": -983.42333984375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 12,
+      "x": 4595.7236328125,
+      "y": -991.259765625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 4599.216796875,
+      "y": -996.25537109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 14,
+      "x": 4604.23974609375,
+      "y": -999.42822265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 15,
+      "x": 4605.86279296875,
+      "y": -999.74755859375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 16,
+      "x": 4611.65625,
+      "y": -1049.51416015625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 17,
+      "x": 4611.23486328125,
+      "y": -1052.0302734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 18,
+      "x": 4635.95361328125,
+      "y": -1053.4990234375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "x": 4639.70068359375,
+      "y": -1057.8369140625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 20,
+      "x": 4652.708984375,
+      "y": -1049.701171875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "info": {
+    "name": "03-沙脂蛹-沙虫隧道-4个",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.47.1",
+    "tags": [],
+    "last_modified_time": 1751450924519
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4592.50634765625,
+      "y": -647.16796875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4626.7529296875,
+      "y": -739.826171875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1000"
+    },
+    {
+      "id": 3,
+      "x": 4635.34130859375,
+      "y": -775.49658203125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4665.693359375,
+      "y": -822.4443359375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4651.7509765625,
+      "y": -872.67138671875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 6,
+      "x": 4645.5849609375,
+      "y": -871.93017578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 7,
+      "x": 4640.6650390625,
+      "y": -856.55517578125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 8,
+      "x": 4636.59375,
+      "y": -854.986328125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    }
+  ]
+}
