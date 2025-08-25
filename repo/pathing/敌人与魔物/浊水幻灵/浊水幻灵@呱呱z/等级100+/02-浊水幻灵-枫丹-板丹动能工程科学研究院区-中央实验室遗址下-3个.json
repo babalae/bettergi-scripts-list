@@ -1,15 +1,15 @@
-{
+﻿{
   "info": {
     "authors": [
       {
-        "links": "https://github.com/jidingcai",
+        "links": "",
         "name": "呱呱z"
       }
     ],
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1755683081131,
+    "last_modified_time": 1756107556144,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "02-浊水幻灵-枫丹-板丹动能工程科学研究院区-中央实验室遗址下-3个",
@@ -19,7 +19,7 @@
       "浊水幻灵"
     ],
     "type": "collect",
-    "version": "1.0"
+    "version": "1.1"
   },
   "positions": [
     {
@@ -28,8 +28,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 3847.1914,
-      "y": 4653.0884
+      "x": 3847.19140625,
+      "y": 4653.08837890625
     },
     {
       "action": "",
@@ -37,8 +37,8 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 3824.5449,
-      "y": 4615.5811
+      "x": 3824.544921875,
+      "y": 4615.5810546875
     },
     {
       "action": "",
@@ -46,26 +46,25 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 3787.6035,
-      "y": 4643.8218
+      "x": 3787.603515625,
+      "y": 4643.82177734375
+    },
+    {
+      "action": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3780.9970703125,
+      "y": 4639.456787109375
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 3774.3906,
-      "y": 4635.0918
-    },
-    {
-      "action": "",
-      "action_params": "",
       "id": 5,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 3743.2734,
-      "y": 4681.7554
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3774.390625,
+      "y": 4635.091796875
     },
     {
       "action": "",
@@ -73,53 +72,62 @@
       "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": 3724.6475,
-      "y": 4696.521
-    },
-    {
-      "action": "combat_script",
-      "action_params": "keypress(F),wait(0.15),keypress(F),wait(0.15),keypress(F),wait(0.15)",
-      "id": 7,
-      "move_mode": "dash",
-      "type": "target",
-      "x": 3715.4756,
-      "y": 4716.2368
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "dash",
-      "type": "target",
-      "x": 3715.4756,
-      "y": 4716.2368
+      "x": 3743.2734375,
+      "y": 4681.75537109375
     },
     {
       "action": "",
       "action_params": "",
-      "id": 9,
+      "id": 7,
       "move_mode": "dash",
       "type": "path",
-      "x": 3770.291,
-      "y": 4741.3623
+      "x": 3724.6474609375,
+      "y": 4696.52099609375
     },
     {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 10,
-      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(F),wait(0.15),keypress(F),wait(0.15),keypress(F),wait(0.15),keypress(F),wait(0.15)",
+      "id": 8,
+      "move_mode": "dash",
       "type": "target",
-      "x": 3818.1143,
-      "y": 4760.749
+      "x": 3715.4755859375,
+      "y": 4716.23681640625
     },
     {
       "action": "fight",
       "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 3715.4755859375,
+      "y": 4716.23681640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3770.291015625,
+      "y": 4741.3623046875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 11,
       "move_mode": "fly",
       "type": "target",
-      "x": 3818.1143,
-      "y": 4760.749
+      "x": 3818.1142578125,
+      "y": 4760.7490234375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 3818.1142578125,
+      "y": 4760.7490234375
     }
   ]
 }
