@@ -9,6 +9,7 @@ this.processLeyLineOutcrop =
 async function (timeout, targetPath, retries = 0) {
     const MAX_RETRIES = 3;
     let captureRegion = null;
+    timeout = timeout * 1000;
     
     try {
         // 检查重试次数，避免死循环
