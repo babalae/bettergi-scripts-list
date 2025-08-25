@@ -1,15 +1,15 @@
-{
+﻿{
   "info": {
     "authors": [
       {
-        "links": "https://github.com/jidingcai",
+        "links": "",
         "name": "呱呱z"
       }
     ],
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1755953341950,
+    "last_modified_time": 1756096108044,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "05-须弥-千壑沙地-愚妄行宫右上(沙暴时失效)-1个",
@@ -19,7 +19,7 @@
       "等级100+"
     ],
     "type": "collect",
-    "version": "1.0"
+    "version": "1.1"
   },
   "positions": [
     {
@@ -28,8 +28,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 4592.5049,
-      "y": -647.1694
+      "x": 4592.5048828125,
+      "y": -647.16943359375
     },
     {
       "action": "combat_script",
@@ -37,8 +37,8 @@
       "id": 2,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 4610.3223,
-      "y": -657.2915
+      "x": 4610.322265625,
+      "y": -657.29150390625
     },
     {
       "action": "",
@@ -46,8 +46,8 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 4610.3223,
-      "y": -657.2915
+      "x": 4610.322265625,
+      "y": -657.29150390625
     },
     {
       "action": "",
@@ -55,8 +55,8 @@
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 4621.0977,
-      "y": -676.2007
+      "x": 4621.09765625,
+      "y": -676.20068359375
     },
     {
       "action": "combat_script",
@@ -64,8 +64,8 @@
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": 4624.1113,
-      "y": -729.9668
+      "x": 4624.111328125,
+      "y": -729.966796875
     },
     {
       "action": "",
@@ -73,8 +73,8 @@
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": 4648.3086,
-      "y": -800.6899
+      "x": 4648.30859375,
+      "y": -800.68994140625
     },
     {
       "action": "up_down_grab_leaf",
@@ -82,17 +82,18 @@
       "id": 7,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 4674.9053,
-      "y": -821.9004
+      "x": 4674.9052734375,
+      "y": -821.900390625
     },
     {
       "action": "stop_flying",
       "action_params": "",
       "id": 8,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": 4687.7363,
-      "y": -835.4434
+      "x": 4695.892578125,
+      "y": -836.2578125
     },
     {
       "action": "fight",
@@ -100,8 +101,8 @@
       "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": 4687.7363,
-      "y": -835.4434
+      "x": 4695.892578125,
+      "y": -836.2578125
     }
   ]
 }
