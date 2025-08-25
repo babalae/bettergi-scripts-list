@@ -48,10 +48,15 @@ const timeMove = (+settings.timeMove || 1000);
 
     const priorityTags = (settings.priorityTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
     const excludeTags = (settings.excludeTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
+    if (pickupMode != "模板匹配拾取，默认只拾取狗粮" && pickupMode != "ocr拾取，默认只拾取狗粮和晶蝶") {
+        excludeTags.push("沙暴");
+        log.warn("拾取模式不是模板匹配或ocr，无法处理沙暴路线，自动排除所有沙暴路线");
+    }
     const accountName = settings.accountName || "默认账户";
     // 拾取黑白名单处理
     const ocrPickupContent = await file.readText("assets/拾取名单.json");
     const ocrPickupJson = JSON.parse(ocrPickupContent);
+    ocrPickupJson["白名单"].push("镇压");
     const whitelistKeywords = ocrPickupJson["白名单"];
     const blacklistKeywords = ocrPickupJson["黑名单"];
 
