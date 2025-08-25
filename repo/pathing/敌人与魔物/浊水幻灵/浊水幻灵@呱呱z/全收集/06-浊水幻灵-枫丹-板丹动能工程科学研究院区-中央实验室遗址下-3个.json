@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1755694402048,
+    "last_modified_time": 1756102630352,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "06-浊水幻灵-枫丹-板丹动能工程科学研究院区-中央实验室遗址下-3个",
@@ -19,7 +19,7 @@
       "浊水幻灵"
     ],
     "type": "collect",
-    "version": "1.0"
+    "version": "1.1"
   },
   "positions": [
     {
@@ -50,9 +50,17 @@
       "y": 4643.8218
     },
     {
+      "action": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3780.9971,
+      "y": 4639.4568
+    },
+    {
       "action": "fight",
       "action_params": "",
-      "id": 4,
+      "id": 5,
       "move_mode": "walk",
       "type": "target",
       "x": 3774.3906,
@@ -61,7 +69,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 5,
+      "id": 6,
       "move_mode": "dash",
       "type": "path",
       "x": 3743.2734,
@@ -70,7 +78,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 6,
+      "id": 7,
       "move_mode": "dash",
       "type": "path",
       "x": 3724.6475,
@@ -78,8 +86,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(F),wait(0.15),keypress(F),wait(0.15),keypress(F),wait(0.15)",
-      "id": 7,
+      "action_params": "keypress(F),wait(0.15),keypress(F),wait(0.15),keypress(F),wait(0.15),keypress(F),wait(0.15)",
+      "id": 8,
       "move_mode": "dash",
       "type": "target",
       "x": 3715.4756,
@@ -88,7 +96,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 8,
+      "id": 9,
       "move_mode": "dash",
       "type": "target",
       "x": 3715.4756,
@@ -97,7 +105,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 9,
+      "id": 10,
       "move_mode": "dash",
       "type": "path",
       "x": 3770.291,
@@ -106,7 +114,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 10,
+      "id": 11,
       "move_mode": "fly",
       "type": "target",
       "x": 3818.1143,
@@ -115,7 +123,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 11,
+      "id": 12,
       "move_mode": "fly",
       "type": "target",
       "x": 3818.1143,

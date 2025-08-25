@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1755694366655,
+    "last_modified_time": 1756101875876,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "02-浊水幻灵-枫丹-枫丹廷区-枫丹廷右上-1个",
@@ -18,7 +18,7 @@
       "浊水幻灵"
     ],
     "type": "collect",
-    "version": "1.0"
+    "version": "1.2"
   },
   "positions": [
     {
@@ -31,8 +31,8 @@
       "y": 3799.1785
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(2),keyup(VK_SPACE),keypress(VK_MBUTTON),",
       "id": 2,
       "move_mode": "run",
       "type": "path",
@@ -44,7 +44,7 @@
       "action_params": "",
       "id": 3,
       "move_mode": "dash",
-      "type": "path",
+      "type": "orientation",
       "x": 4251.3496,
       "y": 3763.4341
     },
@@ -54,22 +54,31 @@
       "id": 4,
       "move_mode": "dash",
       "type": "path",
+      "x": 4251.3496,
+      "y": 3763.4341
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
       "x": 4277.9961,
       "y": 3767.658
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 5,
+      "id": 6,
       "move_mode": "dash",
-      "type": "target",
-      "x": 4375.0244,
-      "y": 3811.3633
+      "type": "path",
+      "x": 4379.5,
+      "y": 3813.217
     },
     {
-      "action": "",
-      "action_params": "",
-      "id": 6,
+      "action": "combat_script",
+      "action_params": "万叶 e,attack;",
+      "id": 7,
       "move_mode": "walk",
       "type": "path",
       "x": 4394.2295,

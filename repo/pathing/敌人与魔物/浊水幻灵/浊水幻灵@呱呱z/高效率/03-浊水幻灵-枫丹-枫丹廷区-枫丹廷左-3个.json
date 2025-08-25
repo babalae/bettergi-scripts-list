@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1755690746600,
+    "last_modified_time": 1756108136915,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "03-浊水幻灵-枫丹-枫丹廷区-枫丹廷左-3个",
@@ -19,7 +19,7 @@
       "高效"
     ],
     "type": "collect",
-    "version": "1.0"
+    "version": "1.1"
   },
   "positions": [
     {
@@ -54,9 +54,9 @@
       "action_params": "",
       "id": 4,
       "move_mode": "dash",
-      "type": "path",
-      "x": 4920.0117,
-      "y": 3621.3474
+      "type": "target",
+      "x": 4922.0009,
+      "y": 3621.6251
     },
     {
       "action": "",
@@ -72,14 +72,23 @@
       "action_params": "",
       "id": 6,
       "move_mode": "dash",
-      "type": "path",
+      "type": "target",
       "x": 4976.7178,
       "y": 3662.6912
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4977.4668,
+      "y": 3672.5815
+    },
+    {
       "action": "combat_script",
       "action_params": "attack;attack;attack;",
-      "id": 7,
+      "id": 8,
       "move_mode": "dash",
       "type": "path",
       "x": 4969.3516,

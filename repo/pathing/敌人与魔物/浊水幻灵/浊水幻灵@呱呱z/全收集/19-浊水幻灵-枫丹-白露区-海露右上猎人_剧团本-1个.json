@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1755694560923,
+    "last_modified_time": 1756104211357,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "19-浊水幻灵-枫丹-白露区-海露右上猎人_剧团本-1个",
@@ -19,7 +19,7 @@
       "高效"
     ],
     "type": "collect",
-    "version": "1.0"
+    "version": "1.2"
   },
   "positions": [
     {
@@ -68,31 +68,31 @@
       "y": 1962.9023
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "万叶 wait(1.5),e,attack;",
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": 4728.7246,
-      "y": 1953.7666
+      "x": 4728.2998,
+      "y": 1953.5972
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "万叶 wait(1.5),e,attack;",
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": 4739.8232,
-      "y": 1965.0654
+      "x": 4740.7676,
+      "y": 1966.6797
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "万叶 wait(1.5),e,attack;",
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": 4722.1025,
-      "y": 1966.0625
+      "x": 4721.7129,
+      "y": 1965.4434
     }
   ]
 }
