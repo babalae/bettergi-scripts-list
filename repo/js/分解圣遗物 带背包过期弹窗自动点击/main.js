@@ -79,8 +79,8 @@ function basename(filePath) {
     const coords = [
         [670, 40], [660, 1010], [300, 1020],
         // [200, 150, 500], [200, 220, 500],
-        [200, 300, 500, settings.autoSalvage3 !== '是'],
-        [200, 380, 500, settings.autoSalvage4 !== '是'],
+        [200, 300, 500, settings.autoSalvage3 === '否'],
+        [200, 380, 500, settings.autoSalvage4 === '否'],
         [340, 1000], [1720, 1015], [1320, 756],
         [1840, 45, 1500], [1840, 45], [1840, 45]
     ];
@@ -93,4 +93,5 @@ function basename(filePath) {
         }
     }
 })();
+
 
