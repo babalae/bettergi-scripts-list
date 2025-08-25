@@ -13,6 +13,11 @@ async function main(log_off = config.log_off) {
     /*    await openSelectTheClipCondition()
 
         return*/
+
+    /*    let template = await templateMatch(`${path_base_main}test.jpg`)
+        await logInfoTemplate(template)
+        return*/
+
     let ms = 600
     await setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
     if (config.enableBatchUp) { // 检查是否启用
@@ -22,6 +27,7 @@ async function main(log_off = config.log_off) {
             await wait(ms);
             //打开背包
             await openKnapsack();
+            await wait(ms);
             await openHolyRelicsKnapsack();
         }
 
@@ -536,6 +542,7 @@ async function openHolyRelicsKnapsack() {
     let ms = 600
     let re = false;
     await wait(ms);
+    warn(``)
     let holyRelicsKnapsack = await templateMatchHolyRelicsKnapsack()
     // 检查圣遗物背包图标是否存在
     if (isExist(holyRelicsKnapsack)) {
@@ -1443,13 +1450,14 @@ async function openAggrandizement() {
     // 使用模板匹配方法查找强化按钮
     let aggrandizement = templateMatchFind(`${path_base_main}${templateJson.text}.jpg`, templateJson.x, templateJson.y, templateJson.width, templateJson.height)
     await logInfoTemplate(aggrandizement, 'openAggrandizement')
+
     // 检查强化按钮是否存在
     if (isExist(aggrandizement)) {
         await wait(ms);
         // 输出日志信息，表示正在打开强化界面
         await info('打开强化');
         // 点击强化按钮
-        aggrandizement.click();
+        await aggrandizement.click();
         // 等待500毫秒以确保界面完全打开
         mTo(genshinJson.width / 2, genshinJson.height / 2)
     } else {
@@ -1950,6 +1958,53 @@ async function test() {
     }
 }
 
+/**
+ * @returns {Promise<{err: boolean, cont: boolean,  msg: string}>} - 返回一个Promise，表示异步操作的完成，无返回值
+ */
+async function examine() {
+    let ms = 600
+    let reJson = {
+        err: false,
+        cont: false,
+        msg: ''
+    }
+    //检查
+    let template_name = '祝圣精华'
+    let template = await templateMatch(`${path_base_main}${template_name}.jpg`)
+    if (isExist(template)) {
+        // error(`[匹配到${template_name}-退出强化]圣遗物强化+${config.upMax} 数量：${actualCount}`, must)
+        reJson.err = true
+        reJson.msg = `[匹配到${template_name}-退出强化]`
+        return reJson
+    }
+    await wait(ms)
+    template_name = '祝圣油膏'
+    template = await templateMatch(`${path_base_main}${template_name}.jpg`)
+    if (isExist(template)) {
+        // error(`[匹配到${template_name}-退出强化]圣遗物强化+${config.upMax} 数量：${actualCount}`, must)
+        reJson.err = true
+        reJson.msg = `[匹配到${template_name}-退出强化]`
+        return reJson
+    }
+    let teJson = {
+        x: Math.ceil(genshinJson.width * 1314 / 1920),
+        y: Math.ceil(genshinJson.height * 128 / 1080),
+        width: Math.floor(genshinJson.width * 475 / 1920),
+        height: Math.floor(genshinJson.height * 762 / 1080)
+    }
+    await mTo(Math.floor(teJson.x + teJson.width / 2), Math.floor(teJson.y + teJson.height / 2))
+    await wait(ms)
+    await scrollPage(100, true, 6, 30, 1)
+    //检查
+    let te_name = '五星'
+    let te = await templateMatchFind(`${path_base_main}${te_name}.jpg`, teJson.x, teJson.y, teJson.width, teJson.height)
+    if (!isExist(te)) {
+        // warn(`[匹配到非${te_name}-跳过]`, must)
+        reJson.cont = true
+        reJson.msg = `[匹配到非${te_name}-跳过]`
+    }
+    return reJson
+}
 
 async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = config.log_off) {
     let ms = 600
@@ -2058,32 +2113,25 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             await downClickFirstHolyRelics()
             // await wait();
         }
-
-        await wait(ms)
+        let ex = await examine()
+        if (ex.err) {
+            await error(ex.msg, must)
+            break
+        } else if (ex.cont) {
+            await warn(ex.msg, must)
+            continue
+        }
         let log_msg = isBool ? '降序强化点击确认' : '点击第一个圣遗物'
         await confirm(log_msg, isBool ? '降序confirm' : 'downClickFirstHolyRelics')
-        await wait(ms)
+        // await wait(ms)
         //避免多次点击
-        await mTo(x, y)
+        await mTo(genshinJson.width / 2, genshinJson.height / 2)
         await wait(ms)
         await info(log_msg)
 
-        //检查
-        let template_name = '祝圣精华'
-        let template = await templateMatch(`${path_base_main}${template_name}.jpg`)
-        if (isExist(template)) {
-            error(`[匹配到${template_name}-退出强化]圣遗物强化+${config.upMax} 数量：${actualCount}`, must)
-            break
-        }
-        await wait(ms)
-        template_name = '祝圣油膏'
-        template = await templateMatch(`${path_base_main}${template_name}.jpg`)
-        if (isExist(template)) {
-            error(`[匹配到${template_name}-退出强化]圣遗物强化+${config.upMax} 数量：${actualCount}`, must)
-            break
-        }
-
-        await wait(ms)
+        // await wait(ms)
+        // //避免多次点击
+        // await mTo(x, y)
         await openAggrandizement()
         await wait(ms)  // 等待500毫秒，确保界面响应
 
