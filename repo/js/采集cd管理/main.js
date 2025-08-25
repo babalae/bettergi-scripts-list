@@ -122,7 +122,7 @@ if (!userSettings.infoFileName) {
         userSettings.pathGroup2CdType,
         userSettings.pathGroup3CdType,
         userSettings.otherPathGroupsCdTypes,
-    ].join(".");
+    ].join("_");
 }
 
 // 定义自定义函数 basename，用于获取文件名
