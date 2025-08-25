@@ -28,6 +28,7 @@ const ocrRo3 = RecognitionObject.ocr(ocrRegion3.x, ocrRegion3.y, ocrRegion3.widt
 const ocrRoThis = RecognitionObject.ocrThis;
 /**
  * 主函数 - 脚本入口点
+ * 1. 全局异常处理，记录日志并发送通知
  */
 (async function () {
     try {
@@ -37,7 +38,7 @@ const ocrRoThis = RecognitionObject.ocrThis;
         // 全局错误捕获，记录并发送错误日志
         log.error("出错了: {error}", error.message);
         if (isNotification) {
-            notification.error("出错了: {error}", error.message);
+            notification.error("出错了: ${error.message}");
         }
     }
     finally {
@@ -76,7 +77,6 @@ function initialize() {
             "findLeyLineOutcrop.js",
             "findLeyLineOutcropByBook.js",
             "loadSettings.js",
-            "locateLeyLineOutcrop.js",
             "processLeyLineOutcrop.js",
             "recognizeTextInRegion.js"
         ]; 
@@ -131,6 +131,7 @@ async function prepareForLeyLineRun() {
 async function runLeyLineChallenges() {
     while (currentRunTimes < settings.timesValue) {
         // 寻找地脉花位置
+        // 数据保存在全局变量中 leyLineX，leyLineY
         if (settings.useAdventurerHandbook) {
             await findLeyLineOutcropByBook(settings.country, settings.leyLineOutcropType);
         } else {
@@ -542,7 +543,18 @@ async function autoFight(timeout) {
     logFightResult = fightResult ? "成功" : "失败";
     log.info(`战斗结束，战斗结果：${logFightResult}`);
     cts.cancel();
-    await fightTask;
+    
+    try {
+        await fightTask;
+    } catch (error) {
+        // 忽略取消任务产生的异常
+        if (error.message && error.message.includes("取消")) {
+            log.debug("战斗任务已正常取消");
+        } else {
+            log.warn(`战斗任务结束时出现异常: ${error.message}`);
+        }
+    }
+    
     return fightResult;
 }
 

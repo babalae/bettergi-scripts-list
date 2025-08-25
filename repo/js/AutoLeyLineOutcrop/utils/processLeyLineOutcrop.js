@@ -7,45 +7,68 @@
  */
 this.processLeyLineOutcrop = 
 async function (timeout, targetPath, retries = 0) {
-    // 设置最大重试次数，防止死循环
     const MAX_RETRIES = 3;
+    let captureRegion = null;
+    
+    try {
+        // 检查重试次数，避免死循环
+        if (retries >= MAX_RETRIES) {
+            const errorMsg = `开启地脉花失败，已重试${MAX_RETRIES}次，终止处理`;
+            log.error("我辣么大一个地脉花哪去了？");
+            throw new Error(errorMsg);
+        }
 
-    // 如果超过最大重试次数，记录错误并返回，避免死循环
-    if (retries >= MAX_RETRIES) {
-        log.error(`开启地脉花失败，已重试${MAX_RETRIES}次，终止处理`);
-        log.error("我辣么大一个地脉花哪去了？");
-        throw new Error("开启地脉花失败");
-    }
-
-    let captureRegion = captureGameRegion();
-    let result = captureRegion.find(ocrRo2);
-    let result2 = captureRegion.find(ocrRo3);
-    if (result2.text.includes("地脉之花")) {
-        log.info("识别到地脉之花");
-        await switchToFriendshipTeamIfNeeded();
-        return;
-    }
-    if (result2.text.includes("地脉溢口")) {
-        log.info("识别到地脉溢口");
-        keyPress("F");
-        await sleep(300);
-        keyPress("F");     // 两次重试避免开花失败
-        await sleep(500);
-    } else if (result.text.includes("打倒所有敌人")) {
-        log.info("地脉花已经打开，直接战斗");
-    } else {
-        log.warn(`未识别到地脉花文本，当前重试次数: ${retries + 1}/${MAX_RETRIES}`);
-        try {
-            await pathingScript.runFile(targetPath);
-            await processLeyLineOutcrop(timeout, targetPath, retries + 1);
+        // 截图并识别
+        captureRegion = captureGameRegion();
+        const result = captureRegion.find(ocrRo2);
+        const result2 = captureRegion.find(ocrRo3);
+        
+        // 检查地脉之花状态 - 已完成状态，准备领取奖励
+        if (result2.text.includes("地脉之花")) {
+            log.info("识别到地脉之花，准备领取奖励");
+            await switchToFriendshipTeamIfNeeded();
             return;
-        } catch (error) {
-            throw new Error(`未识别到地脉花: ${error.message}`);
+        }
+        
+        // 处理地脉溢口
+        if (result2.text.includes("地脉溢口")) {
+            log.info("识别到地脉溢口");
+            keyPress("F");
+            await sleep(300);
+            keyPress("F");
+            await sleep(500);
+        } else if (result.text.includes("打倒所有敌人")) {
+            log.info("地脉花已经打开，直接战斗");
+        } else {
+            // 未识别到目标，需要重新导航
+            log.warn("未识别到地脉花文本，尝试重新导航");
+            await pathingScript.runFile(targetPath);
+            return await this.processLeyLineOutcrop(timeout, targetPath, retries + 1);
+        }
+        
+        // 执行战斗
+        const fightResult = await autoFight(timeout);
+        if (!fightResult) {
+            throw new Error("战斗失败");
+        }
+        
+        // 完成后续操作
+        await switchToFriendshipTeamIfNeeded();
+        await autoNavigateToReward();
+        
+    } catch (error) {
+        // 保留原始错误信息
+        const errorMsg = `地脉花处理失败 (重试${retries}/${MAX_RETRIES}): ${error.message}`;
+        log.error(errorMsg);
+        throw error;
+    } finally {
+        // 确保资源释放
+        if (captureRegion) {
+            try {
+                captureRegion.dispose();
+            } catch (disposeError) {
+                log.warn(`截图资源释放失败: ${disposeError.message}`);
+            }
         }
     }
-    if(!await autoFight(timeout)){
-        throw new Error("战斗失败");
-    }
-    await switchToFriendshipTeamIfNeeded();
-    await autoNavigateToReward();
 }
