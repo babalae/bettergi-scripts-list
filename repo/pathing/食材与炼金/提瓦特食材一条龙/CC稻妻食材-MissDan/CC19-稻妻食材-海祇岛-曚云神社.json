@@ -1,0 +1,184 @@
+﻿{
+  "info": {
+    "name": "CC19-稻妻食材-海祇岛-曚云神社",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "MissDan",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755520528820,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -575.00390625,
+      "y": -3831.857421875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -581.15625,
+      "y": -3837.595703125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -599.875,
+      "y": -3848.962890625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -604.755859375,
+      "y": -3850.990234375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -611.8125,
+      "y": -3880.2724609375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -572.24609375,
+      "y": -3889.7734375,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -584.685546875,
+      "y": -3908.4873046875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.4)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -564.453125,
+      "y": -3916.3916015625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -511.966796875,
+      "y": -3892.845703125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -473.138671875,
+      "y": -3934.197265625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -466.908203125,
+      "y": -3947.759765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -464.568359375,
+      "y": -3949.796875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -464.484375,
+      "y": -3946.794921875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -462.439453125,
+      "y": -3939.8193359375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -441.5859375,
+      "y": -3941.2041015625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -439.919921875,
+      "y": -3942.259765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -439.1171875,
+      "y": -3942.8798828125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": -439.560546875,
+      "y": -3945.080078125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.4)",
+      "type": "path"
+    }
+  ]
+}
