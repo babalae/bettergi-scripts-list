@@ -8,6 +8,7 @@ let p2EndingRoute = settings.p2EndingRoute || "度假村";
 let p3EndingRoute = settings.p3EndingRoute || "智障厅";
 let p4EndingRoute = settings.p4EndingRoute || "清籁丸";
 let accountName = settings.accountName || "默认账户";
+let runExtra = settings.runExtra || false;
 
 //文件路径
 //摧毁狗粮
@@ -50,6 +51,8 @@ let _infoPoints = null;          // 缓存 assets/info.json 解析后的数组
     }
 
     if (groupNumBer === 1) {
+        // 启用自动拾取的实时任务
+        dispatcher.addTimer(new RealtimeTimer("AutoPick"));
         //自己是房主，检测总人数
         log.info("是1p，检测当前总人数");
         const totalNumber = await findTotalNumber();
@@ -109,6 +112,11 @@ let _infoPoints = null;          // 缓存 assets/info.json 解析后的数组
         } else {
             log.info("超时仍未回到主界面，主动退出");
         }
+    } else if (runExtra) {
+        log.info("请确保联机收尾已结束，将开始运行额外路线");
+        // 启用自动拾取的实时任务
+        dispatcher.addTimer(new RealtimeTimer("AutoPick"));
+        await runExtraPath();
     }
 
     for (i = 0; i < 3; i++) {
@@ -140,6 +148,7 @@ let _infoPoints = null;          // 缓存 assets/info.json 解析后的数组
 
 //等待主界面状态
 async function waitForMainUI(requirement, timeOut = 60 * 1000) {
+    log.info(`等待至多${timeOut}毫秒`)
     const startTime = Date.now();
     while (Date.now() - startTime < timeOut) {
         const mainUIState = await isMainUI();
@@ -170,31 +179,27 @@ async function isMainUI() {
     let template = file.ReadImageMatSync(imagePath);
     let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
 
-    // 尝试次数设置为 2 次
-    const maxAttempts = 2;
+    // 尝试次数设置为 5 次
+    const maxAttempts = 5;
 
     let attempts = 0;
-    while (attempts < maxAttempts && !state.cancelRequested) {
+    while (attempts < maxAttempts) {
         try {
 
             gameRegion = captureGameRegion();
             let result = gameRegion.find(recognitionObject);
             gameRegion.dispose();
             if (result.isExist()) {
+                //log.info("处于主界面");
                 return true; // 如果找到图标，返回 true
             }
         } catch (error) {
             log.error(`识别图像时发生异常: ${error.message}`);
-            if (state.cancelRequested) {
-                break; // 如果请求了取消，则退出循环
-            }
+
             return false; // 发生异常时返回 false
         }
         attempts++; // 增加尝试次数
         await sleep(50); // 每次检测间隔 50 毫秒
-    }
-    if (state.cancelRequested) {
-        log.info("图像识别任务已取消");
     }
     return false; // 如果尝试次数达到上限或取消，返回 false
 }
@@ -483,6 +488,27 @@ async function runEndingPath(i) {
 }
 
 /**
+ * 执行额外路线
+ */
+async function runExtraPath() {
+
+    const folderPath = `assets/ArtifactsPath/额外/执行`;
+    const files = await readFolder(folderPath, true);
+
+    if (files.length === 0) {
+        log.warn(`文件夹 ${folderPath} 下未找到任何 JSON 路线文件`);
+        return;
+    }
+
+    for (const { fullPath } of files) {
+        log.info(`开始执行路线: ${fullPath}`);
+        await pathingScript.runFile(fullPath);
+    }
+
+    log.info(`${folderName} 的全部路线已跑完`);
+}
+
+/**
  * 根据玩家编号执行占位路线的全部 JSON 文件
  * @param {number} i  1 | 2 | 3 | 4
  */
@@ -616,6 +642,28 @@ async function writeRecord(accountName) {
     } catch (e) {
         log.error(`写入 ${recordFilePath} 失败:`, e);
     }
+}
+
+async function findAndClick(target, maxAttempts = 20) {
+    for (let attempts = 0; attempts < maxAttempts; attempts++) {
+        const gameRegion = captureGameRegion();
+        try {
+            const result = gameRegion.find(target);
+            if (result.isExist) {
+                result.click();
+                return true;                 // 成功立刻返回
+            }
+            log.warn(`识别失败，第 ${attempts + 1} 次重试`);
+        } catch (err) {
+        } finally {
+            gameRegion.dispose();
+        }
+        if (attempts < maxAttempts - 1) {   // 最后一次不再 sleep
+            await sleep(250);
+        }
+    }
+    log.error("已达到重试次数上限，仍未找到目标");
+    return false;
 }
 
 async function processArtifacts(times = 1) {
@@ -786,27 +834,7 @@ async function processArtifacts(times = 1) {
         return result;
     }
 
-    async function findAndClick(target, maxAttempts = 20) {
-        for (let attempts = 0; attempts < maxAttempts; attempts++) {
-            const gameRegion = captureGameRegion();
-            try {
-                const result = gameRegion.find(target);
-                if (result.isExist) {
-                    result.click();
-                    return true;                 // 成功立刻返回
-                }
-                log.warn(`识别失败，第 ${attempts + 1} 次重试`);
-            } catch (err) {
-            } finally {
-                gameRegion.dispose();
-            }
-            if (attempts < maxAttempts - 1) {   // 最后一次不再 sleep
-                await sleep(250);
-            }
-        }
-        log.error("已达到重试次数上限，仍未找到目标");
-        return false;
-    }
+
 
     async function destroyArtifacts(times = 1) {
         await genshin.returnMainUi();
