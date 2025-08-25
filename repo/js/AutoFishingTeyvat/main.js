@@ -516,8 +516,8 @@
 
         log.info(`该钓鱼点的时间: ${fishing_time}`);
 
-        // 检查垂钓点CD
-        if (fishing_cd) {
+        // 检查垂钓点CD(调式模式不记录)
+        if (fishing_cd && !is_con) {
             let current_cd = read_archive(file_name, uid);
             if (current_cd !== null) {
                 const now = Date.now();
