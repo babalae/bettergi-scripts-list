@@ -21,6 +21,12 @@ async function main(log_off = config.log_off) {
     let ms = 600
     setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
 
+
+    if(genshinJson.width!= 1920 || genshinJson.height != 1080){
+        warn(`分辨率不是1920x1080，请修改分辨率后运行！`,must)
+        return
+    }
+
     if (config.enableBatchUp) { // 检查是否启用
         if (config.toBag) {
             await wait(ms);
