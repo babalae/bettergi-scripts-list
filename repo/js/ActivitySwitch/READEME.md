@@ -17,5 +17,5 @@
 
 ## 其它
 
-作者：Kirito520Asuna
+作者：云端客
 脚本反馈邮箱：doutianmianxia@qq.com
