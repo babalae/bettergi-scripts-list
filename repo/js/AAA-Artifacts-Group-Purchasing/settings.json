@@ -83,5 +83,11 @@
     "type": "input-text",
     "label": "账户名称\n用于多账户运行时区分不同账户\n单账户无需修改",
     "default": "默认账户"
+  },
+  {
+    "name": "forceGroupNumber",
+    "type": "input-text",
+    "label": "强制指定自己在队伍中的编号，在识别异常时使用，填0不指定",
+    "default": "0"
   }
 ]
