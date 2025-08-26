@@ -22,7 +22,7 @@ async function main(log_off = config.log_off) {
     setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
 
 
-    if(genshinJson.width!= 1920 || genshinJson.height != 1080){
+    if(genshinJson.width!= 1920 && genshinJson.height != 1080){
         warn(`分辨率不是1920x1080，请修改分辨率后运行！`,must)
         return
     }
