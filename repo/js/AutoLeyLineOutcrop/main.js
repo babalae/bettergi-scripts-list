@@ -38,7 +38,7 @@ const ocrRoThis = RecognitionObject.ocrThis;
         // 全局错误捕获，记录并发送错误日志
         log.error("出错了: {error}", error.message);
         if (isNotification) {
-            notification.error("出错了: ${error.message}");
+            notification.error(`出错了: ${error.message}`);
         }
     }
     finally {

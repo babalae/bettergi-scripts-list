@@ -25,8 +25,7 @@ this.findLeyLineOutcropByBook = async function (country, type) {
   await sleep(1000);
   click(1300, 800); //点击推荐
   await sleep(1000);
-  let captureRegion = captureGameRegion();
-  let resList = captureRegion.findMulti(RecognitionObject.ocrThis);
+  let resList = captureGameRegion().findMulti(ocrRoThis);
   for (let i = 0; i < resList.count; i++) {
     let res = resList[i];
     if (res.text.includes(country)) {
@@ -34,6 +33,14 @@ this.findLeyLineOutcropByBook = async function (country, type) {
     }
   }
   await sleep(1000);
+  let resList2 = captureGameRegion().findMulti(ocrRoThis);
+  for (let i = 0; i < resList2.count; i++) {
+    let res = resList2[i];
+    if (res.text.includes("停止追踪")) {
+      res.click();
+      await sleep(1000);
+    }
+  }
   click(1500, 850);
   click(1500, 850); //点击追踪，连点两次防止点不到
   await sleep(1000);
@@ -41,6 +48,27 @@ this.findLeyLineOutcropByBook = async function (country, type) {
   const center = genshin.getPositionFromBigMap();
   leyLineX = center.x;
   leyLineY = center.y;
-  log.info(`找到地脉花的坐标：(${center.x}, ${center.y})`);
+  log.info(`找到地脉花的坐标：(${leyLineX}, ${leyLineY})`);
+
+  // 取消追踪
+  click(960, 540);
+  await sleep(1000);
+  let zhuizong = captureGameRegion().findMulti(ocrRoThis);
+  if (zhuizong && zhuizong.count > 0) {
+    for (let i = 0; i < zhuizong.count; i++) {
+      if (zhuizong[i].text.includes("停止追踪")) {
+        zhuizong[i].click();
+        log.debug("点击取消追踪");
+        await sleep(1000);
+        return;
+      } else if (zhuizong[i].text.includes("地脉") || zhuizong[i].text.includes("衍出")) {
+        zhuizong[i].click();
+        await sleep(1000);
+        click(1700, 1010);
+        log.debug("点击取消追踪");
+        await sleep(1000);
+      }
+    }
+  }
   return center;
 }
