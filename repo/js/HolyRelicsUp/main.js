@@ -19,7 +19,8 @@ async function main(log_off = config.log_off) {
         return*/
 
     let ms = 600
-    await setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
+    setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
+
     if (config.enableBatchUp) { // 检查是否启用
         if (config.toBag) {
             await wait(ms);
