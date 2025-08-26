@@ -1,13 +1,9 @@
 [
   {
     "name": "pickupMode",
-    "type": "select",
-    "label": "拾取模式",
-    "options": [
-      "自动拾取",
-      "不拾取"
-    ],
-    "default": "自动拾取"
+    "type": "checkbox",
+    "label": "是否启用自动拾取实时任务",
+    "default": true
   },
   {
     "name": "enemyType",

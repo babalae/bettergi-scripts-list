@@ -1,0 +1,275 @@
+{
+  "info": {
+    "name": "416【沙暴】须弥沙漠五绿洲的子遗地下（600_1，200_3）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时133.89秒，包含4只精英，预计收入1200摩拉，包含以下怪物：1只遗迹重机、1只元能构装体·力场发生器、1只元能构装体·重塑仪、1只元能构装体·勘探机。",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1755366797881,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4693.95,
+      "y": -262.04,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4715.4,
+      "y": -268.52,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4746.63,
+      "y": -263.02,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4746.63,
+      "y": -263.02,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4765.6289,
+      "y": -285.8115,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4781.4297,
+      "y": -295.4619,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4780.1875,
+      "y": -301.5937,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4782.9688,
+      "y": -310.1252,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(F),wait(0.2),keypress(F),w(0.2),keypress(F),wait(0.2),keypress(F)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4766.91,
+      "y": -290.08,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "w(0.2),wait(8)",
+      "type": "orientation"
+    },
+    {
+      "id": 10,
+      "x": 4766.91,
+      "y": -290.08,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 4771.91,
+      "y": -285.08,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 4589.0122,
+      "y": -652.938,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 13,
+      "x": 4570.2773,
+      "y": -670.4438,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 4550.2236,
+      "y": -719.0088,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 4540.377,
+      "y": -740.5068,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(t),wait(0.2),keypress(t)",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 4525.1328,
+      "y": -769.8774,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(t),wait(0.2),keypress(t),moveby(0,1000),keydown(w),wait(0.5),keypress(t),wait(0.2),keypress(t),wait(0.5),keypress(t),keyup(w)",
+      "type": "orientation"
+    },
+    {
+      "id": 17,
+      "x": 4503.7456,
+      "y": -794.5059,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 4513.002,
+      "y": -786.5063,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 4693.95,
+      "y": -262.04,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 20,
+      "x": 4715.4,
+      "y": -268.52,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 4746.63,
+      "y": -263.02,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": 4765.6289,
+      "y": -285.8115,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": 4781.4297,
+      "y": -295.4619,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 24,
+      "x": 4780.1875,
+      "y": -301.5937,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 25,
+      "x": 4782.9688,
+      "y": -310.1252,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(F),wait(0.2),keypress(F),w(0.2),keypress(F),wait(0.2),keypress(F)",
+      "type": "path"
+    },
+    {
+      "id": 26,
+      "x": 4766.91,
+      "y": -290.08,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "w(0.2),wait(8)",
+      "type": "orientation"
+    },
+    {
+      "id": 27,
+      "x": 4766.91,
+      "y": -290.08,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 28,
+      "x": 4771.91,
+      "y": -285.08,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

@@ -2,15 +2,21 @@
   "info": {
     "name": "233璃月沉玉谷灵濛山东北（600_1，200_1）",
     "type": "collect",
+    "author": "汐",
     "version": "1.0",
-    "description": "1丘丘王 1丘丘游侠",
-    "bgi_version": "0.42.3",
+    "description": "  路线信息：该路线预计用时92.3秒，包含2只精英与4只小怪，预计收入962摩拉，包含以下怪物：2只射手丘丘人、2只雷箭丘丘人、1只丘丘岩盔王、1只丘丘水行游侠。",
+    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "汐",
         "links": "https://github.com/jiegedabaobei"
       }
-    ]
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1754742314270,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -35,9 +41,9 @@
       "id": 3,
       "x": 1901.75,
       "y": 2329.56,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "run",
-      "action_params": "",
+      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
       "type": "path"
     },
     {
@@ -53,9 +59,9 @@
       "id": 5,
       "x": 1871.61,
       "y": 2301.47,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "run",
-      "action_params": "",
+      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;",
       "type": "path"
     },
     {

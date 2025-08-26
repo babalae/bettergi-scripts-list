@@ -9,7 +9,7 @@
     "tags": [
       "芭芭拉"
     ],
-    "last_modified_time": 1755063710547,
+    "last_modified_time": 1755413442617,
     "authors": [
       {
         "name": "寥寥轻舟"
@@ -21,8 +21,8 @@
   "positions": [
     {
       "id": 1,
-      "x": 3773.99,
-      "y": 3784.0,
+      "x": 3635.47,
+      "y": 3801.45,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -30,35 +30,35 @@
     },
     {
       "id": 2,
-      "x": 3729.9,
-      "y": 3729.06,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
+      "x": 3635.47,
+      "y": 3801.45,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1);芭芭拉 e;",
       "type": "path"
     },
     {
       "id": 3,
-      "x": 3704.92,
-      "y": 3653.46,
-      "action": "",
-      "move_mode": "walk",
+      "x": 3594.99,
+      "y": 3813.02,
+      "action": "stop_flying",
+      "move_mode": "fly",
       "action_params": "",
       "type": "path"
     },
     {
       "id": 4,
-      "x": 3692.45,
-      "y": 3652.56,
+      "x": 3594.99,
+      "y": 3813.02,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "芭芭拉 charge(0.5)",
+      "action_params": "wait(8);",
       "type": "path"
     },
     {
       "id": 5,
-      "x": 3688.07,
-      "y": 3652.04,
+      "x": 3562.53,
+      "y": 3805.34,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -66,17 +66,17 @@
     },
     {
       "id": 6,
-      "x": 3670.97,
-      "y": 3651.14,
+      "x": 3553.19,
+      "y": 3832.84,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "芭芭拉 charge(0.5)",
+      "action_params": "芭芭拉 e",
       "type": "path"
     },
     {
       "id": 7,
-      "x": 3667.71,
-      "y": 3651.1,
+      "x": 3552.3,
+      "y": 3835.89,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
@@ -84,38 +84,119 @@
     },
     {
       "id": 8,
-      "x": 3681.66,
-      "y": 3663.35,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(1);芭芭拉 e;",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": 3685.84,
-      "y": 3667.39,
+      "x": 3569.82,
+      "y": 3875.4,
       "action": "",
       "move_mode": "walk",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 10,
-      "x": 3688.0098,
-      "y": 3662.1084,
-      "type": "path",
+      "id": 9,
+      "x": 3552.24,
+      "y": 3925.47,
+      "action": "combat_script",
       "move_mode": "walk",
+      "action_params": "芭芭拉 charge(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 3551.28,
+      "y": 3929,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 11,
-      "x": 3690.98,
-      "y": 3672.06,
+      "x": 3547.04,
+      "y": 3938.77,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 3532.31,
+      "y": 3911.9,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "芭芭拉 e",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 3530.99,
+      "y": 3908.78,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 3530.5,
+      "y": 3938.74,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 3544.52,
+      "y": 3965.54,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 3521.43,
+      "y": 4016.83,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 charge(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 3519.3,
+      "y": 4020.19,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 3482.67,
+      "y": 4013.07,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 3469.97,
+      "y": 4017.76,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 charge(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 3467.47,
+      "y": 4018.64,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1);",
       "type": "path"
     }
   ]

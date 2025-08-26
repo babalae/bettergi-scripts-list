@@ -982,7 +982,9 @@ async function scrollPageByAttributeSortClick() {
     // 1. Math.floor(genshinJson.height * 2 / 3) - 计算滚动的高度，为页面高度的2/3并向下取整
     // 2. true - 表示是否使用平滑滚动
     // 3. 6 - 可能是滚动的延迟时间或步长参数
+
     await scrollPage(Math.floor(genshinJson.height * 1 / 3), true, 6, 30, 600)
+
 }
 
 //重置属性排序
@@ -1057,6 +1059,7 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
     }
     info('筛选:' + attributeKeys.join(','), must)
     let attributeKeysOk = new Array();
+
     let x = Math.floor(genshinJson.width * 200 / 1920)
     let y = Math.floor(200 * genshinJson.height / 1080)
     let h = Math.floor(genshinJson.height * 10 / 1080)

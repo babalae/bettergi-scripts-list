@@ -19,6 +19,15 @@ const ConfirmButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("a
 const DestoryButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/DestoryButton.png"));
 const MidDestoryButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/DestoryButton.png"), 900, 600, 500, 300);
 const CharacterMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/CharacterMenu.png"), 60, 991, 38, 38);
+
+const decomposeRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/decompose.png"));
+const quickChooseRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/quickChoose.png"));
+const confirmRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/confirm.png"));
+const doDecomposeRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/doDecompose.png"));
+const doDecompose2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/doDecompose2.png"));
+
+const outDatedRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/ConfirmButton.png"), 760, 700, 100, 100);
+
 const normalPathA = "assets/ArtifactsPath/普通A";
 const normalPathB = "assets/ArtifactsPath/普通B";
 const normalPathC = "assets/ArtifactsPath/普通C";
@@ -31,6 +40,8 @@ let state = {};
 let record = {};
 let CDInfo = [];
 let failcount = 0;
+let autoSalvageCount = 0;
+let furinaState = "unknown";
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
@@ -76,7 +87,7 @@ let failcount = 0;
     moraDiff -= await mora();
 
     //执行普通路线，直到预定激活开始时间
-    log.info("开始第一次执行普通路线");
+    log.info("开始执行普通路线");
     await runNormalPath(true);
     if (state.cancel) return;
 
@@ -86,13 +97,21 @@ let failcount = 0;
     if (state.cancel) return;
 
     //执行剩余普通路线
-    log.info("开始第二次执行普通路线");
+    log.info("开始执行剩余普通路线");
     await runNormalPath(false);
     if (state.cancel) return;
 
-    //执行收尾和额外路线
-    await runEndingAndExtraPath();
-    if (state.cancel) return;
+
+    if (!onlyActivate) {
+        //执行收尾和额外路线
+        await runEndingAndExtraPath();
+        if (state.cancel) return;
+    }
+
+    //切回黑芙
+    if (settings.furina) {
+        await pathingScript.runFile('assets/furina/强制黑芙.json');
+    }
 
     //运行后按自定义配置清理狗粮
     artifactExperienceDiff += await processArtifacts(21);
@@ -301,11 +320,17 @@ async function processArtifacts(times = 1) {
 
     async function decomposeArtifacts() {
         keyPress("B");
+        if (await findAndClick(outDatedRo)) {
+            log.info("检测到过期物品弹窗，处理");
+            await sleep(1000);
+        }
         await sleep(1000);
         await click(670, 45);
         await sleep(500);
-
-        await recognizeTextAndClick("分解", { x: 635, y: 991, width: 81, height: 57 });
+        if (!await findAndClick(decomposeRo)) {
+            await genshin.returnMainUi();
+            return 0;
+        }
         await sleep(1000);
 
         //识别已储存经验（1570-880-1650-930）
@@ -325,12 +350,19 @@ async function processArtifacts(times = 1) {
         let firstNumber2 = 0;
 
         if (settings.keep4Star) {
-            await recognizeTextAndClick("快速选择", { x: 248, y: 996, width: 121, height: 49 });
+            if (!await findAndClick(quickChooseRo)) {
+                await genshin.returnMainUi();
+                return 0;
+            }
             moveMouseTo(960, 540);
             await sleep(1000);
 
-            await click(370, 1020); // 点击“确认选择”按钮
-            await sleep(1500);
+            // 点击“确认选择”按钮
+            if (!await findAndClick(confirmRo)) {
+                await genshin.returnMainUi();
+                return 0;
+            }
+            await sleep(1000);
 
             decomposedNum = await recognizeTextInRegion(regionToCheck3);
 
@@ -347,11 +379,17 @@ async function processArtifacts(times = 1) {
             }
             keyPress("VK_ESCAPE");
 
-
-            await recognizeTextAndClick("分解", { x: 635, y: 991, width: 81, height: 57 });
-            await sleep(1000);
+            await sleep(500);
+            if (!await findAndClick(decomposeRo)) {
+                await genshin.returnMainUi();
+                return 0;
+            }
+            await sleep(500);
         }
-        await recognizeTextAndClick("快速选择", { x: 248, y: 996, width: 121, height: 49 });
+        if (!await findAndClick(quickChooseRo)) {
+            await genshin.returnMainUi();
+            return 0;
+        }
         moveMouseTo(960, 540);
         await sleep(1000);
 
@@ -359,7 +397,11 @@ async function processArtifacts(times = 1) {
             await click(370, 370);//取消选择四星
             await sleep(1000);
         }
-        await click(370, 1020); // 点击“确认选择”按钮
+        // 点击“确认选择”按钮
+        if (!await findAndClick(confirmRo)) {
+            await genshin.returnMainUi();
+            return 0;
+        }
         await sleep(1500);
 
         let decomposedNum2 = await recognizeTextInRegion(regionToCheck3);
@@ -376,7 +418,10 @@ async function processArtifacts(times = 1) {
             log.info("识别失败");
         }
         //识别当前总经验
-        let regionToCheck2 = { x: 1500, y: 900, width: 150, height: 100 };
+        if (settings.notify) {
+            notification.Send(`当前经验如图`);
+        }
+        let regionToCheck2 = { x: 1470, y: 880, width: 205, height: 70 };
         let newNum = await recognizeTextInRegion(regionToCheck2);
         let newValue = 0;
 
@@ -391,12 +436,18 @@ async function processArtifacts(times = 1) {
             log.info(`用户选择了分解，执行分解`);
             // 根据用户配置，分解狗粮
             await sleep(1000);
-            await click(1620, 1020); // 点击分解按钮
-            await sleep(1000);
+            // 点击分解按钮
+            if (!await findAndClick(doDecomposeRo)) {
+                await genshin.returnMainUi();
+                return 0;
+            }
+            await sleep(500);
 
-            // 4. 识别"进行分解"按钮
-            await click(1340, 755); // 点击进行分解按钮
-
+            // 4. "进行分解"按钮// 点击进行分解按钮
+            if (!await findAndClick(doDecompose2Ro)) {
+                await genshin.returnMainUi();
+                return 0;
+            }
             await sleep(1000);
 
             // 5. 关闭确认界面
@@ -423,31 +474,51 @@ async function processArtifacts(times = 1) {
         return result;
     }
 
-    async function destroyArtifacts(times = 1) {
-        async function findAndClick(target) {
-            gameRegion = captureGameRegion();
-            gameRegion.find(target).click();
-            gameRegion.dispose();
+    async function findAndClick(target, maxAttempts = 20) {
+        for (let attempts = 0; attempts < maxAttempts; attempts++) {
+            const gameRegion = captureGameRegion();
+            try {
+                const result = gameRegion.find(target);
+                if (result.isExist) {
+                    result.click();
+                    return true;                 // 成功立刻返回
+                }
+                log.warn(`识别失败，第 ${attempts + 1} 次重试`);
+            } catch (err) {
+            } finally {
+                gameRegion.dispose();
+            }
+            if (attempts < maxAttempts - 1) {   // 最后一次不再 sleep
+                await sleep(250);
+            }
         }
-        await genshin.returnMainUi();
-        keyPress("B");
-        await sleep(1500);
-        const gameRegion = captureGameRegion();
-        let ArtifactsButton = gameRegion.find(ArtifactsButtonRo);
-        gameRegion.dispose();
-        if (ArtifactsButton.isExist()) {
-            log.info("识别到圣遗物按钮");
-            ArtifactsButton.click();
-            await sleep(1500);
-        }
+        return false;
+    }
 
+    async function destroyArtifacts(times = 1) {
+        await genshin.returnMainUi();
+        await sleep(250);
+        keyPress("B");
+        if (await findAndClick(outDatedRo)) {
+            log.info("检测到过期物品弹窗，处理");
+            await sleep(1000);
+        }
+        await sleep(500);
+        await findAndClick(ArtifactsButtonRo, 5)
         try {
             for (let i = 0; i < times; i++) {
-                await findAndClick(DeleteButtonRo);// 点击摧毁
+                // 点击摧毁
+                if (!await findAndClick(DeleteButtonRo)) {
+                    await genshin.returnMainUi();
+                    return;
+                }
                 await sleep(600);
-                await findAndClick(AutoAddButtonRo);// 点击自动添加
-                await sleep(600);
-                await sleep(300);
+                // 点击自动添加
+                if (!await findAndClick(AutoAddButtonRo)) {
+                    await genshin.returnMainUi();
+                    return;
+                }
+                await sleep(900);
                 click(150, 150);
                 await sleep(300);
                 click(150, 220);
@@ -457,11 +528,23 @@ async function processArtifacts(times = 1) {
                     await sleep(300);
                     click(150, 370);
                 }
-                await findAndClick(ConfirmButtonRo);// 点击快捷放入
+                // 点击快捷放入
+                if (!await findAndClick(ConfirmButtonRo)) {
+                    await genshin.returnMainUi();
+                    return;
+                }
                 await sleep(600);
-                await findAndClick(DestoryButtonRo);// 点击摧毁
+                // 点击摧毁
+                if (!await findAndClick(DestoryButtonRo)) {
+                    await genshin.returnMainUi();
+                    return;
+                }
                 await sleep(600);
-                await findAndClick(MidDestoryButtonRo);// 弹出页面点击摧毁
+                // 弹出页面点击摧毁
+                if (!await findAndClick(MidDestoryButtonRo)) {
+                    await genshin.returnMainUi();
+                    return;
+                }
                 await sleep(600);
                 click(960, 1000);// 点击空白处
                 await sleep(1000);
@@ -537,6 +620,9 @@ async function mora() {
 
         // 如果识别到了“角色菜单”或“天赋”，则识别“摩拉数值”
         if (recognized) {
+            if (settings.notify) {
+                notification.Send(`当前摩拉如图`);
+            }
             let ocrRegionMora = { x: 1620, y: 25, width: 152, height: 46 }; // 设置对应的识别区域
             recognizedText = await recognizeTextInRegion(ocrRegionMora);
             if (recognizedText) {
@@ -713,7 +799,7 @@ async function readCDInfo(accountName) {
             if (Array.isArray(parsed) && parsed.every(item => typeof item === 'string')) {
                 CDInfo = parsed;
             } else {
-                log.warn('文件内容不是字符串数组，使用空数组');
+                log.warn('文件内容异常，使用默认状态');
                 CDInfo = [];
             }
         } catch (e) {
@@ -727,7 +813,6 @@ async function readCDInfo(accountName) {
 
 //更新cd信息
 async function writeCDInfo(accountName) {
-    log.info("修改CDInfo文件");
     if (state.cancel) return;
     const CDInfoFilePath = `CDInfo/${accountName}.json`;
     await file.writeText(CDInfoFilePath, JSON.stringify(CDInfo), false);
@@ -735,6 +820,7 @@ async function writeCDInfo(accountName) {
 
 //运行普通路线
 async function runNormalPath(doStop) {
+    furinaState = "unknown";
     //关闭拾取
     dispatcher.ClearAllTriggers();
     if (state.cancel) return;
@@ -744,14 +830,16 @@ async function runNormalPath(doStop) {
     const normalExecutePath = normalPath + "/执行";
     if (combatPartyName) {
         log.info("填写了清怪队伍，执行清怪路线");
-        await runPaths(normalCombatPath, combatPartyName, doStop);
+        await runPaths(normalCombatPath, combatPartyName, doStop, "black");
     }
     // 启用自动拾取的实时任务
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
-    await runPaths(normalExecutePath, artifactPartyName, doStop);
+    await runPaths(normalExecutePath, artifactPartyName, doStop, "white");
+
 }
 
 async function runActivatePath() {
+    //furinaState = "unknown";
     //关闭拾取
     dispatcher.ClearAllTriggers();
     if (state.cancel) return;
@@ -778,6 +866,18 @@ async function runActivatePath() {
             ? "assets/ArtifactsPath/优先收尾路线"
             : "assets/ArtifactsPath/替补收尾路线";
     }
+    if (onlyActivate) {
+        log.warn("勾选了联机狗粮，将只激活，不执行收尾和额外路线");
+        endingPath = state.runningEndingAndExtraRoute === "收尾额外A"
+            ? "assets/ArtifactsPath/联机收尾/优先收尾路线"
+            : "assets/ArtifactsPath/联机收尾/替补收尾路线";
+        if (forceAlternate) {
+            endingPath = state.runningRoute === "A"
+                ? "assets/ArtifactsPath/优先收尾路线"
+                : "assets/ArtifactsPath/替补收尾路线";
+        }
+
+    }
     const endingActivatePath = endingPath + "/激活";
     const endingCombatPath = endingPath + "/清怪";
     const endingPreparePath = endingPath + "/准备";
@@ -788,21 +888,22 @@ async function runActivatePath() {
     const extraCombatPath = extraPath + "/清怪";
     const extraPreparePath = extraPath + "/准备";
     if (!forceAlternate && state.runningEndingAndExtraRoute === "收尾额外A") {
-        await runPaths(endingActivatePath, artifactPartyName, false);
+        await runPaths(endingActivatePath, "", false);
     }
-    await runPaths(extraActivatePath, combatPartyName, false);
+    await runPaths(extraActivatePath, "", false);
 
     if (combatPartyName) {
         log.info("填写了清怪队伍，执行清怪路线");
-        await runPaths(extraCombatPath, artifactPartyName, false);
-        await runPaths(endingCombatPath, combatPartyName, false);
+        await runPaths(extraCombatPath, combatPartyName, false, "black");
+        await runPaths(endingCombatPath, combatPartyName, false, "black");
     }
 
-    await runPaths(endingPreparePath, artifactPartyName, false);
-    await runPaths(extraPreparePath, combatPartyName, false);
+    await runPaths(endingPreparePath, "", false);
+    await runPaths(extraPreparePath, "", false);
 }
 
 async function runEndingAndExtraPath() {
+    furinaState = "unknown";
     // 启用自动拾取的实时任务
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     if (state.cancel) return;
@@ -818,14 +919,15 @@ async function runEndingAndExtraPath() {
         ? "assets/ArtifactsPath/额外/所有额外"
         : "assets/ArtifactsPath/额外/仅12h额外";
     endingPath = endingPath + "/执行";
-    await runPaths(endingPath, artifactPartyName, false);
+    await runPaths(endingPath, artifactPartyName, false, "white");
     extraPath = extraPath + "/执行";
-    await runPaths(extraPath, artifactPartyName, false);
+    await runPaths(extraPath, artifactPartyName, false, "white");
 }
 
-async function runPaths(folderFilePath, PartyName, doStop) {
+async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "") {
     if (state.cancel) return;
     let Paths = await readFolder(folderFilePath, true);
+    let furinaChecked = false;
     for (let i = 0; i < Paths.length; i++) {
         let skiprecord = false;
         if (state.cancel) return;
@@ -845,20 +947,38 @@ async function runPaths(folderFilePath, PartyName, doStop) {
             log.info(`路线${Path.fullPath}今日已运行，跳过`);
             continue;
         }
-
-        if (PartyName != state.currentParty) {
+        if (PartyName != state.currentParty && PartyName) {
             //如果与当前队伍不同，尝试切换队伍，并更新队伍
             await switchPartyIfNeeded(PartyName);
             state.currentParty = PartyName;
-            if (settings.furina) {
-                if (state.currentParty === artifactPartyName) {
-                    await pathingScript.runFile('assets/furina/强制白芙.json');
-                } else {
-                    await pathingScript.runFile('assets/furina/强制黑芙.json');
-                }
+            furinaState = "unknown";
+        }
+        if (settings.furina && !furinaChecked) {
+            furinaChecked = true;
+            if (furinaRequirement === "white") {
+                log.info("勾选了芙宁娜选项，正在强制切换芙宁娜状态为白芙");
+                log.warn("非必要请尽量不要勾选该选项");
+                await pathingScript.runFile('assets/furina/强制白芙.json');
+                furinaState = "white";
+            } else if (furinaRequirement === "black") {
+                log.info("勾选了芙宁娜选项，正在强制切换芙宁娜状态为黑芙");
+                log.warn("非必要请尽量不要勾选该选项");
+                await pathingScript.runFile('assets/furina/强制黑芙.json');
+                furinaState = "black";
             }
         }
+        if (settings.autoSalvage && autoSalvageCount >= 4) {
+            autoSalvageCount = 0;
+            if (settings.decomposeMode === "分解（经验瓶）") {
+                artifactExperienceDiff += await processArtifacts(1);
+            } else {
+                await processArtifacts(1);
+            }
+        } else {
+            autoSalvageCount++;
+        }
         await fakeLog(Path.fileName, false, true, 0);
+        const pathInfo = await parsePathing(Path.fullPath);
         try {
             log.info(`当前进度：${Path.fileName}为${folderFilePath}第${i + 1}/${Paths.length}个`);
             await pathingScript.runFile(Path.fullPath);
@@ -874,11 +994,10 @@ async function runPaths(folderFilePath, PartyName, doStop) {
             break;
         }
         await fakeLog(Path.fileName, false, false, 0);
-        const pathInfo = await parsePathing(Path.fullPath);
         if (pathInfo.ok) {
             //回到主界面
             await genshin.returnMainUi();
-            await sleep(100);
+            await sleep(500);
             try {
                 // 获取当前人物在指定地图上的坐标
                 const currentPosition = await genshin.getPositionFromMap(pathInfo.map_name);
@@ -889,12 +1008,12 @@ async function runPaths(folderFilePath, PartyName, doStop) {
                     currentPosition.y - pathInfo.y
                 );
 
-                // 距离超过 100 认为路线没有正常完成（卡死或未开图等）
-                if (distToLast >= 100) {
+                // 距离超过 50 认为路线没有正常完成（卡死或未开图等）
+                if (distToLast >= 50) {
                     failcount++;
                     skiprecord = true;
-                    log.warn(`路线${Path.fileName}，没有正常完成，请检查是否开图`);
-                    await sleep(1000);
+                    log.warn(`路线${Path.fileName}没有正常完成`);
+                    await sleep(5000);
                 }
             } catch (error) {
                 log.error(`发生错误：${error.message}`);
@@ -913,21 +1032,31 @@ async function parsePathing(pathFilePath) {
         const raw = await file.readText(pathFilePath);
         const json = JSON.parse(raw);
 
-        if (!Array.isArray(json.positions) || typeof json.map_name !== 'string') {
+        // 只要 positions 不是数组就直接失败
+        if (!Array.isArray(json.positions)) {
+            log.error("文件positions字段异常");
             return { ok: false };
         }
+
+        // map_name 不存在时兜底为 "Teyvat"
+        const map_name =
+            typeof json.map_name === 'string' && json.map_name.trim() !== ''
+                ? json.map_name
+                : 'Teyvat';
 
         // 从后往前找第一个 type !== "orientation" 的点
         for (let i = json.positions.length - 1; i >= 0; i--) {
             const p = json.positions[i];
-            if (p.type !== 'orientation' &&
+            if (
+                p.type !== 'orientation' &&
                 typeof p.x === 'number' &&
-                typeof p.y === 'number') {
+                typeof p.y === 'number'
+            ) {
                 return {
                     ok: true,
                     x: p.x,
                     y: p.y,
-                    map_name: json.map_name
+                    map_name,
                 };
             }
         }
@@ -937,6 +1066,7 @@ async function parsePathing(pathFilePath) {
         return { ok: false };
     }
 }
+
 
 // fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
 //在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);

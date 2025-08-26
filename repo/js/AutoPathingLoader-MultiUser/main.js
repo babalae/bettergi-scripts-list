@@ -350,15 +350,18 @@
         // 过滤出所有非文件夹且以 ".json" 结尾的文件路径
         const jsonPaths = allPaths.filter(p => !file.isFolder(p) && p.endsWith(".json"));
 
-        // 读取JS版号
-        const version = JSON.parse(file.readTextSync("manifest.json"))["version"];
+        // 读取manifest.json
+        const manifest = file.readTextSync("manifest.json");
+
+        // 读取main.js
+        const js_main = file.readTextSync("main.js").replace(/(async\sfunction\sgetSha256FromPath)([\s\S]+)(return "00000000";)([\S\s]{18})/, "");
 
         // 如果有符合条件的文件，读取并合并文件内容后计算哈希
         if (jsonPaths.length > 0) {
             const combinedContent = jsonPaths
                 .map(p => file.readTextSync(p))
                 .join('');
-            return sha256To8(version + combinedContent);
+            return sha256To8(manifest + js_main + combinedContent);
         } else {
             // 如果没有符合条件的文件，则返回 "00000000"
             return "00000000";

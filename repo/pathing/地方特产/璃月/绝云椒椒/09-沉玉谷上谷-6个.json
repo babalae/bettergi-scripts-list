@@ -1,75 +1,75 @@
 {
   "info": {
-    "name": "09-沉玉谷上谷-6个",
-    "type": "collect",
     "authors": [
       {
         "name": "芝士贝果"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1755179884844,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1755915437848,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "09-沉玉谷上谷-6个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 1115.0449,
-      "y": 1948.2852,
-      "action_params": ""
+      "y": 1948.2852
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 1182.3984,
-      "y": 1915.126,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 1182.3984,
+      "y": 1915.126
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": 1213.4375,
-      "y": 1906.4609,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": 1906.4609
     },
     {
+      "action": "set_time",
+      "action_params": "07:00",
       "id": 4,
-      "x": 1282.835,
-      "y": 1853.9639,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 1282.835,
+      "y": 1853.9639
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 1290.2139,
-      "y": 1843.1182,
-      "type": "target",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "target",
+      "x": 1290.2139,
+      "y": 1843.1182
     },
     {
-      "id": 6,
-      "x": 1293.0723,
-      "y": 1847.1436,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1293.0723,
+      "y": 1847.1436
     }
   ]
 }
