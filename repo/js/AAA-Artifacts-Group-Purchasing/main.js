@@ -9,6 +9,8 @@ let p3EndingRoute = settings.p3EndingRoute || "智障厅";
 let p4EndingRoute = settings.p4EndingRoute || "清籁丸";
 let accountName = settings.accountName || "默认账户";
 let runExtra = settings.runExtra || false;
+let forceGroupNumber = settings.forceGroupNumber || 0;
+
 
 //文件路径
 //摧毁狗粮
@@ -43,11 +45,16 @@ let _infoPoints = null;          // 缓存 assets/info.json 解析后的数组
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
-    const groupNumBer = await getPlayerSign();
+    let groupNumBer = await getPlayerSign();
     if (groupNumBer != 0) {
         log.info(`在队伍中编号为${groupNumBer}`);
     } else {
         log.info(`不处于联机模式或识别异常`);
+    }
+
+    if (forceGroupNumber != 0) {
+        groupNumBer = forceGroupNumber;
+        log.info(`将自己在队伍中的编号强制指定为${groupNumBer}`);
     }
 
     if (groupNumBer === 1) {
@@ -106,7 +113,7 @@ let _infoPoints = null;          // 缓存 assets/info.json 解析后的数组
         //自己是队员，前往对应的占位点
         await goToTarget(groupNumBer);
         //等待到房主解散队伍并返回主界面？
-        if (await waitForMainUI(false, 60 * 60 * 1000)) {
+        if (await waitForMainUI(false, 2 * 60 * 60 * 1000)) {
             await waitForMainUI(true);
             await genshin.returnMainUi();
         } else {
@@ -186,7 +193,7 @@ async function isMainUI() {
     while (attempts < maxAttempts) {
         try {
 
-            gameRegion = captureGameRegion();
+            let gameRegion = captureGameRegion();
             let result = gameRegion.find(recognitionObject);
             gameRegion.dispose();
             if (result.isExist()) {
@@ -226,6 +233,7 @@ async function getPlayerSign() {
     let p2 = gameRegion.Find(p2Ro);
     let p3 = gameRegion.Find(p3Ro);
     let p4 = gameRegion.Find(p4Ro);
+    gameRegion.dispose();
     if (p1.isExist()) return 1;
     if (p2.isExist()) return 2;
     if (p3.isExist()) return 3;
@@ -266,6 +274,8 @@ async function findTotalNumber() {
         log.info("发现 4P");
         count++;
     }
+
+    gameRegion.dispose();
 
     log.info(`当前联机世界玩家总数（含自己）：${count}`);
     return count;
@@ -505,7 +515,7 @@ async function runExtraPath() {
         await pathingScript.runFile(fullPath);
     }
 
-    log.info(`${folderName} 的全部路线已跑完`);
+    log.info(`额外 的全部路线已跑完`);
 }
 
 /**

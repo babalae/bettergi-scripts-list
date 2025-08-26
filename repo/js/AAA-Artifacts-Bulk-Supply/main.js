@@ -330,17 +330,21 @@ async function processArtifacts(times = 1) {
         }
         await sleep(1000);
 
-        //识别已储存经验（1570-880-1650-930）
-        let regionToCheck1 = { x: 1570, y: 880, width: 80, height: 50 };
-        let initialNum = await recognizeTextInRegion(regionToCheck1);
-        let initialValue = 0;
+        // 识别已储存经验（1570-880-1650-930）
+        const regionToCheck1 = { x: 1570, y: 880, width: 80, height: 50 };
+        const raw = await recognizeTextInRegion(regionToCheck1);
 
-        if (initialNum && !isNaN(parseInt(initialNum, 10))) {
-            initialValue = parseInt(initialNum, 10);
+        // 把识别到的文字里所有非数字字符去掉，只保留数字
+        const digits = (raw || '').replace(/\D/g, '');
+
+        let initialValue = 0;
+        if (digits) {
+            initialValue = parseInt(digits, 10);
             log.info(`已储存经验识别成功: ${initialValue}`);
         } else {
             log.warn(`在指定区域未识别到有效数字: ${initialValue}`);
         }
+
         let regionToCheck3 = { x: 100, y: 885, width: 170, height: 50 };
         let decomposedNum = 0;
         let firstNumber = 0;
@@ -418,12 +422,16 @@ async function processArtifacts(times = 1) {
         if (settings.notify) {
             notification.Send(`当前经验如图`);
         }
-        let regionToCheck2 = { x: 1470, y: 880, width: 205, height: 70 };
-        let newNum = await recognizeTextInRegion(regionToCheck2);
-        let newValue = 0;
+        // 当前总经验（1470-880-205-70）
+        const regionToCheck2 = { x: 1470, y: 880, width: 205, height: 70 };
+        const raw2 = await recognizeTextInRegion(regionToCheck2);
 
-        if (newNum && !isNaN(parseInt(newNum, 10))) {
-            newValue = parseInt(newNum, 10);
+        // 只保留数字
+        const digits2 = (raw2 || '').replace(/\D/g, '');
+
+        let newValue = 0;
+        if (digits2) {
+            newValue = parseInt(digits2, 10);
             log.info(`当前总经验识别成功: ${newValue}`);
         } else {
             log.warn(`在指定区域未识别到有效数字: ${newValue}`);
