@@ -280,6 +280,7 @@ async function run_pathing_script(name, path_state_change, current_states) {
 
 
 async function main() {
+    await genshin.returnMainUi();
     load_filename_to_path_map();
     load_persistent_data();
     load_disabled_paths();
@@ -314,7 +315,7 @@ async function main() {
     log.info("已有水晶块{a}个，紫晶块{b}个，萃凝晶{c}个", original_inventory.crystal_chunks, original_inventory.amethyst_lumps, original_inventory.condessence_crystals);
     if (target_yield !== null) {
         log.info("将挖矿{a}个", target_yield);
-    } else if (target_runnning_minutes !== null) {
+    } else if (target_running_minutes !== null) {
         log.info("将标挖矿{a}分钟", target_running_minutes);
     } else {
         log.info("将标挖所有矿");
