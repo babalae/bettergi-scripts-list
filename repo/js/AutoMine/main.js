@@ -40,7 +40,7 @@ function get_exclude_tags() {
 }
 
 function get_profile_name() {
-    if (settings.profile_id.length === 0) {
+    if (!settings.profile_id) {
         return null;
     }
     return settings.profile_id;
@@ -69,7 +69,11 @@ function load_filename_to_path_map() {
 var persistent_data = {};
 
 function load_persistent_data() {
-    const file_content = file.readTextSync("records/persistent_data.json");
+    var file_content = "";
+    try {
+      file_content = file.readTextSync("records/persistent_data.json");
+    } catch (error) {
+    }
     if (file_content.length !== 0) {
         persistent_data = JSON.parse(file_content);
     }
@@ -272,6 +276,8 @@ async function run_pathing_script(name, path_state_change, current_states) {
     await pathingScript.run(json_content);
     if (!cancellation_token.isCancellationRequested) {
         await mark_task_finished(name);
+    } else {
+        throw new Error("Cancelled");
     }
 
     current_states = current_states.intersection(new Set(path_state_change.sustain));
@@ -338,7 +344,12 @@ async function main() {
         }
         for (const [name, data] of tasks) {
             cached_inventory_data = null;
-            await run_pathing_script(name, data.state_change, current_states);
+            try {
+                await run_pathing_script(name, data.state_change, current_states);
+            } catch (e) {
+                finished = true;
+                break;
+            }
             estimated_yield += data.statistics.avg_yield;
 
             if (target_yield !== null && estimated_yield >= target_yield + 5) {
