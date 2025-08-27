@@ -1,0 +1,506 @@
+{
+  "info": {
+    "name": "A04-萃凝晶-枫丹-新枫丹科学院-4（火神赶路-有战斗-14个)",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "双手剑",
+      "火神赶路",
+      "战斗"
+    ],
+    "last_modified_time": 1755287453703,
+    "authors": [
+      {
+        "name": "无限不循环",
+        "links": "https://github.com/non-repeating001"
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4301.645,
+      "y": 4765.2676,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 4289.5469,
+      "y": 4756.5303,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 4283.2773,
+      "y": 4741.8945,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 4269.9077,
+      "y": 4739.7324,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 4264.8735,
+      "y": 4731.8125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 4257.7505,
+      "y": 4705.0176,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 4256.501,
+      "y": 4703.0044,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 4256.501,
+      "y": 4703.0044,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 4258.9141,
+      "y": 4702.8594,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 4258.9141,
+      "y": 4702.8594,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 4258.9141,
+      "y": 4702.8594,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 4253.1216,
+      "y": 4699.2412,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": 4255.9517,
+      "y": 4697.0703,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 14,
+      "x": 4255.9526,
+      "y": 4697.0718,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 15,
+      "x": 4263.9951,
+      "y": 4689.668,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 16,
+      "x": 4276.8164,
+      "y": 4659.7588,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 17,
+      "x": 4275.5605,
+      "y": 4661.6948,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 18,
+      "x": 4275.5605,
+      "y": 4661.6948,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "locked": false
+    },
+    {
+      "id": 19,
+      "x": 4275.8999,
+      "y": 4658.9717,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 20,
+      "x": 4273.0771,
+      "y": 4659.6553,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 21,
+      "x": 4273.0771,
+      "y": 4659.6553,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 22,
+      "x": 4272.4419,
+      "y": 4660.5635,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 23,
+      "x": 4272.4419,
+      "y": 4660.5635,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 24,
+      "x": 4272.4419,
+      "y": 4660.5635,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 25,
+      "x": 4280.209,
+      "y": 4650.4712,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 26,
+      "x": 4278.25,
+      "y": 4651.627,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 27,
+      "x": 4278.25,
+      "y": 4651.627,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 28,
+      "x": 4297.6343,
+      "y": 4660.8853,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 29,
+      "x": 4296.855,
+      "y": 4662.2881,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 30,
+      "x": 4296.855,
+      "y": 4662.2881,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 31,
+      "x": 4298.7773,
+      "y": 4664.2134,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 32,
+      "x": 4298.7773,
+      "y": 4664.2134,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 33,
+      "x": 4381.3564,
+      "y": 4594.7515,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.3),attack, wait(2),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),e;",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 34,
+      "x": 4381.3564,
+      "y": 4594.7515,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 35,
+      "x": 4381.3564,
+      "y": 4594.7515,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 36,
+      "x": 4383.1416,
+      "y": 4598.8638,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 37,
+      "x": 4383.1494,
+      "y": 4598.8516,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "locked": false
+    },
+    {
+      "id": 38,
+      "x": 4383.1797,
+      "y": 4599.8027,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 39,
+      "x": 4383.1797,
+      "y": 4599.8032,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "locked": false
+    },
+    {
+      "id": 40,
+      "x": 4383.1797,
+      "y": 4599.8032,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 41,
+      "x": 4381.3564,
+      "y": 4594.7515,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path",
+      "locked": true
+    },
+    {
+      "id": 42,
+      "x": 4323.0005,
+      "y": 4571.48,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "玛薇卡 w(0.1),e(hold),keydown(VK_W),dash(3.2),keyup(VK_W),wait(0.5),e",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 43,
+      "x": 4323.0005,
+      "y": 4571.48,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 44,
+      "x": 4317.499,
+      "y": 4573.8716,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 45,
+      "x": 4317.499,
+      "y": 4573.8716,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 46,
+      "x": 4316.123,
+      "y": 4572.6807,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 47,
+      "x": 4316.123,
+      "y": 4572.6807,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 48,
+      "x": 4316.1196,
+      "y": 4572.6753,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    }
+  ]
+}
