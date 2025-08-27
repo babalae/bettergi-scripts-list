@@ -1,4 +1,4 @@
-//当前js版本 1.4.12
+//当前js版本 1.5.0
 
 //拾取时上下滑动的时间
 let timeMoveUp;
@@ -12,10 +12,13 @@ if (settings.activeDumperMode) { //处理泥头车信息
 let gameRegion;
 let targetItemPath = "assets/targetItems";
 let targetItems;
+let isFourGod;
 
 const rollingDelay = (+settings.rollingDelay || 25);
 const pickupDelay = (+settings.pickupDelay || 100);
 const timeMove = (+settings.timeMove || 1000);
+
+let warnMessage = [];
 
 (async function () {
     //自定义配置处理
@@ -71,7 +74,8 @@ const timeMove = (+settings.timeMove || 1000);
     timeMoveUp = Math.round(timeMove * 0.45);
     timeMoveDown = Math.round(timeMove * 0.55);
     if (!settings.accountName) {
-        for (let i = 0; i < 120; i++) {
+        warnMessage.push("请先阅读js文件夹中的【README.md】后使用");
+        for (let i = 0; i < 5; i++) {
             // 原始文本
             let originalMessage = "   请先阅读js文件夹中的【README.md】后使用";
             // 计算轮替的偏移量，每次循环偏移一位
@@ -126,7 +130,52 @@ const timeMove = (+settings.timeMove || 1000);
         await copyPathingsByGroup(pathings);
         await updateRecords(pathings, accountName);
     } else if (operationMode === "运行锄地路线") {
-        await switchPartyIfNeeded(partyName)
+        await switchPartyIfNeeded(partyName);
+        // 检测四神队伍并输出当前角色
+        const avatars = getAvatars() || [];
+        const need = ['钟离', '芙宁娜', '纳西妲', '雷电将军'];
+
+        let improperTeam = true;
+        for (let i = 0; i < need.length; i++) {
+            let found = false;
+            for (let j = 0; j < avatars.length; j++) {
+                if (avatars[j] === need[i]) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                improperTeam = false;
+                break;
+            }
+        }
+
+        // 手动拼接角色名，避免 join 报错
+        let teamStr = '';
+        for (let k = 0; k < avatars.length; k++) {
+            teamStr += avatars[k];
+            if (k < avatars.length - 1) {
+                teamStr += '、';
+            }
+        }
+
+        log.info('当前队伍：' + teamStr);
+        if (improperTeam) {
+            warnMessage.push("配队不合理，请阅读readme中的锄地配队建议");
+            warnMessage.push("如果已经阅读过，请忽略该警告");
+            //for (let i = 0; i < 5; i++) {
+                // 原始文本
+                let originalMessage = "\n\n配队不合理，请阅读readme中的锄地配队建议\n\n如果已经阅读过，请忽略该警告";
+                // 计算轮替的偏移量，每次循环偏移一位
+                //let offset = i % originalMessage.length; // 每次循环偏移一位
+                // 构造轮替后的文本
+                //let message = originalMessage.slice(-offset) + originalMessage.slice(0, -offset);
+                // 输出内容
+                // log.error(message);
+                log.warn(originalMessage);
+                await sleep(3000);
+            //}
+        }
         log.info("开始运行锄地路线");
         await updateRecords(pathings, accountName);
         await processPathingsByGroup(pathings, whitelistKeywords, blacklistKeywords, accountName);
@@ -841,6 +890,29 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
         }
     }
 
+    // 新增：warnTask 函数，与其他任务函数并列
+    async function warnLoop() {
+        while (!state.completed && !state.cancelRequested) {
+            if (Array.isArray(warnMessage) && warnMessage.length) {
+                for (let i = 0; i < warnMessage.length; i++) {
+                    log.error(warnMessage[i]);
+                }
+            }
+            for (let j = 0; j < 30; j++) {
+                if (state.completed || state.cancelRequested) {
+                    break;
+                }
+                await sleep(1000);
+            }
+            if (state.completed || state.cancelRequested) {
+                break;
+            }
+        }
+    }
+
+    // 启动任务，变量名仍叫 warnTask
+    // const warnTask = warnLoop();
+
     // 启动路径文件执行任务
     const pathTask = executePathFile(pathFilePath);
 
@@ -858,6 +930,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
 
     // 等待所有任务完成
     try {
+        // await Promise.allSettled([pathTask, ocrTask, dumperTask, warnTask]);
         await Promise.allSettled([pathTask, ocrTask, dumperTask]);
     } catch (error) {
         console.error(`执行任务时发生错误：${error.message}`);
