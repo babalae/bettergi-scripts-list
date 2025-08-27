@@ -163,17 +163,18 @@ let warnMessage = [];
         if (improperTeam) {
             warnMessage.push("配队不合理，请阅读readme中的锄地配队建议");
             warnMessage.push("如果已经阅读过，请忽略该警告");
-            for (let i = 0; i < 5; i++) {
+            //for (let i = 0; i < 5; i++) {
                 // 原始文本
-                let originalMessage = "   配队不合理，请阅读readme中的锄地配队建议";
+                let originalMessage = "\n\n配队不合理，请阅读readme中的锄地配队建议\n\n如果已经阅读过，请忽略该警告";
                 // 计算轮替的偏移量，每次循环偏移一位
-                let offset = i % originalMessage.length; // 每次循环偏移一位
+                //let offset = i % originalMessage.length; // 每次循环偏移一位
                 // 构造轮替后的文本
-                let message = originalMessage.slice(-offset) + originalMessage.slice(0, -offset);
+                //let message = originalMessage.slice(-offset) + originalMessage.slice(0, -offset);
                 // 输出内容
-                log.error(message);
-                await sleep(500);
-            }
+                // log.error(message);
+                log.warn(originalMessage);
+                await sleep(3000);
+            //}
         }
         log.info("开始运行锄地路线");
         await updateRecords(pathings, accountName);
@@ -910,7 +911,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
     }
 
     // 启动任务，变量名仍叫 warnTask
-    const warnTask = warnLoop();
+    // const warnTask = warnLoop();
 
     // 启动路径文件执行任务
     const pathTask = executePathFile(pathFilePath);
@@ -929,7 +930,8 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
 
     // 等待所有任务完成
     try {
-        await Promise.allSettled([pathTask, ocrTask, dumperTask, warnTask]);
+        // await Promise.allSettled([pathTask, ocrTask, dumperTask, warnTask]);
+        await Promise.allSettled([pathTask, ocrTask, dumperTask]);
     } catch (error) {
         console.error(`执行任务时发生错误：${error.message}`);
         state.cancelRequested = true; // 设置取消标志
