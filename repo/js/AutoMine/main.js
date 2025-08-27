@@ -240,10 +240,11 @@ async function run_pathing_script(name, path_state_change, current_states) {
     path_state_change.add ||= [];
     path_state_change.sustain ||= [];
 
+    const statistics = JSON.parse(file.readTextSync("assets/statistics.json")).data;
+
     for (const s of path_state_change.require) {
         if (!current_states.has(s)) {
             log.debug("Trying to get {s}", s);
-            const statistics = JSON.parse(file.readTextSync("assets/statistics.json")).data;
             for (const [name, data] of Object.entries(statistics)) {
                 const add_states = data.state_change?.add || [];
                 if (add_states.includes(s)) {
@@ -266,6 +267,28 @@ async function run_pathing_script(name, path_state_change, current_states) {
                 modified = true;
             }
         }
+        // scale underwater mining actions
+        if (statistics[name].tags.includes("fontaine underwater") && genshin.screenDpiScale !== 1.0) {
+            for (const i of json_obj.positions) {
+                if (i.action_params) {
+                    const new_actions = [];
+                    for (const a of i.action_params.split(";")) {
+                        if (a.startsWith("moveby(")) {
+                            const [x, y] = a.slice(7, -1).split(",");
+                            const new_val = "moveby(" + String(Math.round(x * genshin.screenDpiScale)) + "," + String(Math.round(y * genshin.screenDpiScale)) + ")";
+                            new_actions.push(new_val);
+                        } else {
+                            new_actions.push(a);
+                        }
+                    }
+                    const new_action_params = new_actions.join(";");
+                    if (new_action_params !== i.action_params) {
+                        i.action_params = new_action_params;
+                        modified = true;
+                    }
+                }
+            }
+        }
         if (modified) {
             log.debug("Patched mining action");
             json_content = JSON.stringify(json_obj);
@@ -279,8 +302,11 @@ async function run_pathing_script(name, path_state_change, current_states) {
         throw new Error("Cancelled");
     }
 
-    current_states = current_states.intersection(new Set(path_state_change.sustain));
-    current_states = current_states.union(new Set(path_state_change.add));
+    const new_states = current_states.intersection(new Set(path_state_change.sustain)).union(new Set(path_state_change.add));
+    current_states.clear();
+    for (const s of new_states) {
+        current_states.add(s);
+    }
 }
 
 
