@@ -1,0 +1,165 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756277596658,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "12-堇瓜-神无冢-踏鞴砂(上方)-8个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3016.5,
+      "y": -3623.3935546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3048.015625,
+      "y": -3609.173828125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -3044.87890625,
+      "y": -3587.115234375
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3040.12890625,
+      "y": -3588.484375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3025.64453125,
+      "y": -3574.138671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3022.99609375,
+      "y": -3527.7001953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e;",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3028.23828125,
+      "y": -3524.958984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3016.4921875,
+      "y": -3623.390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3015.58984375,
+      "y": -3631.373046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2987.09765625,
+      "y": -3640.12890625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2980.837890625,
+      "y": -3654.484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2970.890625,
+      "y": -3662.880859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2966.189453125,
+      "y": -3701.9921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2958.6796875,
+      "y": -3707.01953125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2949.443359375,
+      "y": -3738.8662109375
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2950.59375,
+      "y": -3736.1630859375
+    }
+  ]
+}

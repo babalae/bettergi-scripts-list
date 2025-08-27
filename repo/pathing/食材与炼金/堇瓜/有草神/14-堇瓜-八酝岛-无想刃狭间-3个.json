@@ -1,0 +1,74 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756201435326,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "14-堇瓜-八酝岛-无想刃狭间-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2532.998046875,
+      "y": -3539.3369140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2512.072265625,
+      "y": -3533.109375
+    },
+    {
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2509.5011877366196,
+      "y": -3529
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2474.697265625,
+      "y": -3480.0556640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.8)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2427.14453125,
+      "y": -3497.5634765625
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2420.447265625,
+      "y": -3513.3916015625
+    }
+  ]
+}
