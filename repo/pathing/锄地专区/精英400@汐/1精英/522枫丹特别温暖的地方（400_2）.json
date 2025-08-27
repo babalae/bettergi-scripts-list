@@ -7,61 +7,70 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时67秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只遗迹重机。",
+    "description": "  路线信息：该路线预计用时65秒，包含2只精英，预计收入800摩拉，包含以下怪物：2只大型狂蔓隙境原体。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756152217373,
+    "last_modified_time": 1756237946173,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "419【沙暴】须弥沙漠巨人峡谷西北（600_1）",
+    "name": "522枫丹特别温暖的地方（400_2）",
     "tags": [],
     "type": "collect",
     "version": "1.0"
   },
   "positions": [
     {
-      "action": "",
+      "action": "force_tp",
       "action_params": "",
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 5485.2217,
-      "y": -1240.5073
+      "x": 4795.1553,
+      "y": 2510.6379
     },
     {
-      "action": "log_output",
-      "action_params": "此地有沙暴必摔死1次,无法解决",
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "move_mode": "fly",
+      "move_mode": "dash",
       "type": "orientation",
-      "x": 5473.3096,
-      "y": -1220.835
+      "x": 4824.3809,
+      "y": 2582.4192
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "fly",
+      "move_mode": "dash",
       "type": "path",
-      "x": 5473.3096,
-      "y": -1220.835
+      "x": 4824.3809,
+      "y": 2582.4192
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 5498.458,
-      "y": -1095.1597
+      "x": 4800.5732,
+      "y": 2618.52
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4803.623,
+      "y": 2646.7905
     },
     {
       "action": "combat_script",
       "action_params": "wait(1)",
-      "id": 5,
+      "id": 6,
       "move_mode": "dash",
       "type": "orientation",
-      "x": 5498.458,
-      "y": -1095.1597
+      "x": 4803.623,
+      "y": 2646.7905
     }
   ]
 }
