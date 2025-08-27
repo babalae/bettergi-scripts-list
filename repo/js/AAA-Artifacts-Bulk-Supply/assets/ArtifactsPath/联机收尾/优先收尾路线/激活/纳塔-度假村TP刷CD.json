@@ -1,0 +1,76 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756055576667,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "纳塔-度假村TP刷CD",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 13977.25390625,
+      "y": 468.34619140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.4)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 13982.29296875,
+      "y": 463.09814453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(0.2),keypress(e),wait(1.7),keypress(e),wait(1.2),keyup(w)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 14034.53125,
+      "y": 459.5859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14034.53125,
+      "y": 459.5859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14032.1982421875,
+      "y": 450.791015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14151.96875,
+      "y": 422.8125
+    }
+  ]
+}

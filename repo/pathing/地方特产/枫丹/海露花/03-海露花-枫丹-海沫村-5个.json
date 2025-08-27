@@ -54,13 +54,13 @@
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL),wait(10),keyup(VK_LCONTROL),click(middle);"
+      "action_params": "keydown(VK_LCONTROL),wait(10.5),keyup(VK_LCONTROL),click(middle);"
     },
     {
       "id": 5,
       "x": 4953.835,
       "y": 2410.8911,
-      "type": "path",
+      "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
       "action_params": "keydown(VK_LCONTROL),wait(2.5),keyup(VK_LCONTROL)",
@@ -82,7 +82,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL)",
+      "action_params": "keydown(VK_LCONTROL),wait(1.5),keyup(VK_LCONTROL)",
       "locked": false
     },
     {
@@ -101,7 +101,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL)",
+      "action_params": "keydown(VK_LCONTROL),wait(1.5),keyup(VK_LCONTROL)",
       "locked": false
     },
     {
@@ -130,7 +130,7 @@
       "type": "target",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.4),click(middle);"
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(0.4),click(middle);"
     },
     {
       "id": 13,
@@ -139,7 +139,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL)",
+      "action_params": "keydown(VK_LCONTROL),wait(1.5),keyup(VK_LCONTROL)",
       "locked": false
     },
     {

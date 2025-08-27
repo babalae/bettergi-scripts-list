@@ -180,8 +180,13 @@ async function runClearMode() {
 
 function scanSpecialCollectMethod(jsonFiles) {
     const actions = jsonFiles.flatMap((filePath) => {
-        const data = JSON.parse(file.readTextSync(filePath));
-        return data.positions.map((p) => p.action).filter((a) => a);
+        try {
+            const data = JSON.parse(file.readTextSync(filePath));
+            return data.positions.map((p) => p.action).filter((a) => a);
+        } catch (e) {
+            log.warn(`json文件无效: {0}: ${e.message}`, filePath);
+            return [];
+        }
     });
     return [...new Set(actions)];
 }

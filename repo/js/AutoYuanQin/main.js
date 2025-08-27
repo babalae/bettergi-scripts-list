@@ -1,4 +1,4 @@
-(async function () { // 优化了单曲循环逻辑、优化乐谱读取逻辑、修复了连音中的休止符的时长计算错误、修复了队列留空导致的错误
+(async function () { // 待解决问题: 连音总时值如果为3个四分音符无法表示
 
     // 乐曲名（带序号）
     const music_list = [
@@ -8,7 +8,8 @@
         "4.铃芽之旅[Suzume]",
         "5.Flower Dance",
         "6.起风了",
-        "7.千本樱 (Eric Chen)"
+        "7.千本樱 (Eric Chen)",
+        "8.春よ、来い（春天，来吧）"
     ]
     const base_path = "assets/score_file/"
 
