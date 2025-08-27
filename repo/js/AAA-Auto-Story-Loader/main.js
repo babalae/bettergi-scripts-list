@@ -1,7 +1,12 @@
 (async function () {
   // 版本和编译信息
-  const VERSION = "1.0";
-  const BUILD_TIME = "2025.08.18";
+  const VERSION = "1.1";
+  const BUILD_TIME = "2025.08.26";
+
+  // 读取设置
+  const team = settings.team || "";
+  const elementTeam = settings.elementTeam || "";
+  const selectedProcess = settings.process_selector || "刷新剧情列表";
 
   async function errorlog() {
     // 输出版本和编译时间信息
@@ -1701,45 +1706,49 @@
   //Main
   const Main = async () => {
     log.debug("版本: {version}", VERSION);
-    
     try {
-        // 读取设置
-        const team = settings.team || "";
-        const elementTeam = settings.elementTeam || "";
-        const selectedProcess = settings.process_selector || "刷新剧情列表";
-        
-        if (selectedProcess === "刷新剧情列表") {
-            // 刷新操作：扫描所有process.json并更新设置
-            await refreshProcessList();
-            log.info("委托列表已刷新，请重新选择并运行");
-        } else {
-            // 解析选中的委托路径
-            const pathParts = selectedProcess.split('-');
-            
-            // 确保至少有两个文件夹层级
-            if (pathParts.length < 2) {
-                throw new Error("无效的委托路径格式");
-            }
-            
-            // 提取最后两个文件夹名
-            const folder1 = pathParts[pathParts.length - 2];
-            const folder2 = pathParts[pathParts.length - 1];
-            
-            // 设置动态基础路径（倒数第二个文件夹之前的所有部分）
-            Datas.TALK_PROCESS_BASE_PATH = "process/"+pathParts.slice(0, pathParts.length - 2).join('/');
-            
-            log.info("执行委托: {path}", selectedProcess);
-            log.debug("基础路径: {basePath}", Datas.TALK_PROCESS_BASE_PATH);
-            log.debug("文件夹1: {folder1}, 文件夹2: {folder2}", folder1, folder2);
-            
-            await Execute.executeTalkCommission(folder1, folder2);
-            dispatcher.ClearAllTriggers();
+      if (selectedProcess === "刷新剧情列表") {
+        // 刷新操作：扫描所有process.json并更新设置
+        await refreshProcessList();
+        log.info("委托列表已刷新，请重新选择并运行");
+      } else {
+        // 解析选中的委托路径
+        const pathParts = selectedProcess.split('-');
+
+        // 确保至少有两个文件夹层级
+        if (pathParts.length < 2) {
+          throw new Error("无效的委托路径格式");
         }
+
+        // 提取最后两个文件夹名
+        const folder1 = pathParts[pathParts.length - 2];
+        const folder2 = pathParts[pathParts.length - 1];
+
+        // 设置动态基础路径（倒数第二个文件夹之前的所有部分）
+        Datas.TALK_PROCESS_BASE_PATH = "process/" + pathParts.slice(0, pathParts.length - 2).join('/');
+
+        log.info("执行任务: {path}", selectedProcess);
+        log.debug("基础路径: {basePath}", Datas.TALK_PROCESS_BASE_PATH);
+        log.debug("文件夹1: {folder1}, 文件夹2: {folder2}", folder1, folder2);
+        log.info("启用自动剧情");
+        dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
+        if (!settings.noSkip) {
+          log.info("启用自动拾取");
+          dispatcher.AddTrigger(new RealtimeTimer("AutoPick"));
+        }
+        if (!settings.noEat) {
+          log.info("启用自动吃药");
+          dispatcher.AddTrigger(new RealtimeTimer("AutoEat"));
+        }
+        await switchPartyIfNeeded(team);
+        await Execute.executeTalkCommission(folder1, folder2);
+        dispatcher.ClearAllTriggers();
+      }
     } catch (error) {
-        log.error("执行出错: {error}", error.message);
-        errorlog();
+      log.error("执行出错: {error}", error.message);
+      errorlog();
     }
-};
+  };
 
 
 // 刷新委托列表（保留完整路径结构）
@@ -1836,7 +1845,7 @@ async function readFolder(folderPath, onlyJson) {
             if (file.IsFolder(itemPath)) {
                 subFolders.push(itemPath);
             } else if (!onlyJson || itemPath.toLowerCase().endsWith(".json")) {
-                const pathParts = itemPath.split(/[\\/]/).filter(Boolean);
+                const pathParts = itemPath.split(/[\\\/]/).filter(Boolean);
                 const fileName = pathParts.pop();
                 files.push({
                     fullPath: itemPath,
@@ -1851,6 +1860,26 @@ async function readFolder(folderPath, onlyJson) {
     }
 
     return files;
+}
+
+//切换队伍
+async function switchPartyIfNeeded(partyName) {
+  if (!partyName) {
+      await genshin.returnMainUi();
+      return;
+  }
+  try {
+      log.info("正在尝试切换至" + partyName);
+      if (!await genshin.switchParty(partyName)) {
+          log.info("切换队伍失败，前往七天神像重试");
+          await genshin.tpToStatueOfTheSeven();
+          await genshin.switchParty(partyName);
+      }
+  } catch {
+      log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
+      notification.error(`队伍切换失败，可能处于联机模式或其他不可切换状态`);
+      await genshin.returnMainUi();
+  }
 }
 
 await Main();
