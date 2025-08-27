@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756220777662,
+    "last_modified_time": 1756317963720,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "509【收尾】枫丹-科学院工坊高塔②-6",
@@ -20,7 +20,7 @@
   "positions": [
     {
       "action": "combat_script",
-      "action_params": "s(0.01),wait(0.4),s(0.01),wait(0.1),keypress(f),wait(0.1),keypress(f),dash,wait(5)",
+      "action_params": "s(0.01),wait(0.4),s(0.01),wait(0.1),keypress(f),wait(0.1),keypress(f),dash,wait(5.5)",
       "id": 1,
       "move_mode": "climb",
       "type": "target",
@@ -29,7 +29,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.3),wait(2)",
+      "action_params": "attack(0.5),wait(7)",
       "id": 2,
       "move_mode": "fly",
       "type": "path",
@@ -38,12 +38,12 @@
     },
     {
       "action": "stop_flying",
-      "action_params": "1300",
+      "action_params": "600",
       "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 4419.58203125,
-      "y": 4992.91943359375
+      "x": 4418.8203125,
+      "y": 4996.89306640625
     },
     {
       "action": "combat_script",
@@ -177,8 +177,8 @@
       "id": 18,
       "move_mode": "climb",
       "type": "path",
-      "x": 4516.2412109375,
-      "y": 4996.7705078125
+      "x": 4514.630859375,
+      "y": 4997.4736328125
     },
     {
       "action": "combat_script",
@@ -195,8 +195,8 @@
       "id": 20,
       "move_mode": "climb",
       "type": "target",
-      "x": 4512.501953125,
-      "y": 4999.88818359375
+      "x": 4511.287109375,
+      "y": 4998.91162109375
     },
     {
       "action": "combat_script",
@@ -218,16 +218,16 @@
     },
     {
       "action": "combat_script",
-      "action_params": "a(0.15),wait(0.1),keypress(t),wait(0.2),keypress(t),wait(0.3),keypress(f)",
+      "action_params": "a(0.15),wait(0.1),keypress(t),wait(0.2),keypress(t),wait(0.4),keypress(f)",
       "id": 23,
       "move_mode": "climb",
-      "type": "path",
-      "x": 4504.87109375,
-      "y": 4992.9931640625
+      "type": "target",
+      "x": 4505.6640625,
+      "y": 4992.7861328125
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.3),j,wait(0.12),j,wait(1),j,wait(0.12),j,wait(1.5)",
+      "action_params": "wait(0.3),j,wait(0.12),j,wait(1),j,wait(0.12),j,wait(1.2)",
       "id": 24,
       "move_mode": "run",
       "type": "path",
