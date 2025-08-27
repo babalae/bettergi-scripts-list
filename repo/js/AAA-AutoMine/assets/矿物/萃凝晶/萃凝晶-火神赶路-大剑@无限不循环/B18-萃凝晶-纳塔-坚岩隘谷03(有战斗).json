@@ -1,0 +1,113 @@
+{
+  "info": {
+    "name": "B18-萃凝晶-纳塔-坚岩隘谷03(有战斗)",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "无限不循环",
+        "links": "https://github.com/non-repeating001"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "双手剑"
+    ],
+    "last_modified_time": 1752953824645,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8670.95,
+      "y": -1269.61,
+      "action": "",
+      "move_mode": "fly",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8665.85,
+      "y": -1354.19,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "2500",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 8665.85,
+      "y": -1354.19,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 8665.85,
+      "y": -1354.19,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 8666.87,
+      "y": -1350.24,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 8671.57,
+      "y": -1343.28,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 8671.57,
+      "y": -1343.28,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 8672.55,
+      "y": -1341.1,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 8672.55,
+      "y": -1341.1,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 8672.55,
+      "y": -1341.1,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
