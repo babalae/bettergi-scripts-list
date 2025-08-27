@@ -71,9 +71,8 @@ var persistent_data = {};
 function load_persistent_data() {
     var file_content = "";
     try {
-      file_content = file.readTextSync("records/persistent_data.json");
-    } catch (error) {
-    }
+        file_content = file.readTextSync("records/persistent_data.json");
+    } catch (error) {}
     if (file_content.length !== 0) {
         persistent_data = JSON.parse(file_content);
     }
@@ -128,7 +127,7 @@ function is_ore_respawned(t) {
 }
 
 function get_some_tasks() {
-    const statistics = JSON.parse(file.readTextSync("assets/statistics.json"));
+    const statistics = JSON.parse(file.readTextSync("assets/statistics.json")).data;
     const exclude_tags = new Set(get_exclude_tags());
     var filtered_statistics = [];
     for (const [key, value] of Object.entries(statistics)) {
@@ -244,7 +243,7 @@ async function run_pathing_script(name, path_state_change, current_states) {
     for (const s of path_state_change.require) {
         if (!current_states.has(s)) {
             log.debug("Trying to get {s}", s);
-            const statistics = JSON.parse(file.readTextSync("assets/statistics.json"));
+            const statistics = JSON.parse(file.readTextSync("assets/statistics.json")).data;
             for (const [name, data] of Object.entries(statistics)) {
                 const add_states = data.state_change?.add || [];
                 if (add_states.includes(s)) {
@@ -302,6 +301,9 @@ async function main() {
     const start_time = Date.now();
     var target_yield = null;
     var target_running_minutes = null;
+    var run_until_hour = null;
+    var run_until_minute = null;
+    var run_until_unix_time = null;
     switch (settings.arg_mode) {
         case "最速480矿":
             target_yield = 480;
@@ -311,6 +313,16 @@ async function main() {
             break;
         case "挖一段时间（手动填写）":
             target_running_minutes = Number(settings.arg_amount);
+            break;
+        case "挖，直到某个时间（手动填写）":
+            [run_until_hour, run_until_minute] = settings.arg_amount.replace("：", ":").split(":").map(Number);
+            const current_unix_time = Date.now();
+            const current_cst_time = (current_unix_time / 1000 + 8 * 3600) % 86400 / 3600;
+            var diff_hours = run_until_hour + run_until_minute / 60 - current_cst_time;
+            if (diff_hours < 0) {
+                diff_hours += 24;
+            }
+            run_until_unix_time = current_unix_time + diff_hours * 3600 * 1000;
             break;
         case "挖所有矿":
             break;
@@ -322,7 +334,10 @@ async function main() {
     if (target_yield !== null) {
         log.info("将挖矿{a}个", target_yield);
     } else if (target_running_minutes !== null) {
-        log.info("将标挖矿{a}分钟", target_running_minutes);
+        log.info("将挖矿{a}分钟", target_running_minutes);
+    } else if (run_until_hour !== null && run_until_minute !== null && run_until_unix_time !== null) {
+        const num_hours = (run_until_unix_time - Date.now()) / 1000 / 3600;
+        log.info("将挖矿到{h}:{m}（{nh}小时后）", String(run_until_hour).padStart(2, "0"), String(run_until_minute).padStart(2, "0"), num_hours.toFixed(2));
     } else {
         log.info("将标挖所有矿");
     }
@@ -370,6 +385,10 @@ async function main() {
                     finished = true;
                     break;
                 }
+            }
+            if (run_until_unix_time !== null && Date.now() >= run_until_unix_time) {
+                finished = true;
+                break;
             }
         }
     }
