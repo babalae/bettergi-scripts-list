@@ -1,0 +1,68 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756149874173,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "26-堇瓜-清籁岛-越石村-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3891.2969,
+      "y": -4389.6641
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -3912.3047,
+      "y": -4356.0342
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3912.3047,
+      "y": -4356.0342
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3912.3047,
+      "y": -4356.0342
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3912.3047,
+      "y": -4356.0342
+    }
+  ]
+}

@@ -1,7 +1,8 @@
 {
   "info": {
-    "name": "04-堇瓜-鸣神岛-镇守之森-6个",
+    "name": "08-堇瓜-鸣神岛-荒海-6个",
     "type": "collect",
+    "author": "起个名字好难的喵",
     "version": "1.0",
     "description": "",
     "bgi_version": "0.42.3",
@@ -10,7 +11,8 @@
         "name": "起个名字好难的喵",
         "links": "https://github.com/MisakaAldrich"
       }
-    ]
+    ],
+    "tags": []
   },
   "positions": [
     {
@@ -18,32 +20,32 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": -4429.85,
-      "y": -2798.6,
+      "x": -4217.88,
+      "y": -2397.83,
       "action_params": ""
     },
     {
       "id": 2,
-      "x": -4453.52,
-      "y": -2801.11,
+      "x": -4218.28,
+      "y": -2482.5,
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1000"
     },
     {
       "id": 3,
-      "x": -4488.51,
-      "y": -2792.11,
+      "x": -4216.97,
+      "y": -2484.97,
       "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "action": "combat_script",
+      "action_params": "wait(1)"
     },
     {
       "id": 4,
-      "x": -4498.45,
-      "y": -2790.74,
+      "x": -4216.97,
+      "y": -2484.97,
       "type": "path",
       "move_mode": "walk",
       "action": "nahida_collect",
@@ -51,8 +53,8 @@
     },
     {
       "id": 5,
-      "x": -4429.84,
-      "y": -2798.6,
+      "x": -4217.89,
+      "y": -2397.84,
       "type": "teleport",
       "move_mode": "walk",
       "action": "",
@@ -60,17 +62,26 @@
     },
     {
       "id": 6,
-      "x": -4365.88,
-      "y": -2775.89,
+      "x": -4191.62,
+      "y": -2300.51,
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1500"
     },
     {
       "id": 7,
-      "x": -4301.69,
-      "y": -2796.39,
+      "x": -4193.2,
+      "y": -2301.42,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    },
+    {
+      "id": 8,
+      "x": -4193.2,
+      "y": -2301.42,
       "type": "path",
       "move_mode": "walk",
       "action": "nahida_collect",

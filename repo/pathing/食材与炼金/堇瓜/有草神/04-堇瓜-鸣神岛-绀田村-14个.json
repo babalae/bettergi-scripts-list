@@ -1,16 +1,22 @@
 {
   "info": {
-    "name": "03-堇瓜-鸣神岛-绀田村-14个",
+    "name": "04-堇瓜-鸣神岛-绀田村-14个",
     "type": "collect",
+    "author": "起个名字好难的喵",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.3",
+    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "起个名字好难的喵",
         "links": "https://github.com/MisakaAldrich"
       }
-    ]
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1755630742788,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -27,7 +33,7 @@
       "x": -4131.64,
       "y": -2764.48,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
@@ -36,7 +42,7 @@
       "x": -4142.25,
       "y": -2760.86,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action_params": "",
       "type": "path"
     },
@@ -44,10 +50,10 @@
       "id": 4,
       "x": -4147.21,
       "y": -2755.84,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "纳西妲 e,wait(1)",
+      "type": "path"
     },
     {
       "id": 5,
@@ -62,9 +68,9 @@
       "id": 6,
       "x": -4112.56,
       "y": -2733.07,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "",
+      "action_params": "纳西妲 e",
       "type": "target"
     },
     {
@@ -81,7 +87,7 @@
       "x": -4115.02,
       "y": -2755.64,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
@@ -90,7 +96,7 @@
       "x": -4106.89,
       "y": -2766.65,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
@@ -105,15 +111,24 @@
     },
     {
       "id": 11,
+      "x": -4104.4492,
+      "y": -2769.9102,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "纳西妲 e",
+      "type": "target"
+    },
+    {
+      "id": 12,
       "x": -4108.08,
       "y": -2771.63,
       "action": "",
-      "move_mode": "walk",
+      "move_mode": "dash",
       "action_params": "",
       "type": "path"
     },
     {
-      "id": 12,
+      "id": 13,
       "x": -4095.83,
       "y": -2791.62,
       "action": "",
@@ -122,7 +137,7 @@
       "type": "path"
     },
     {
-      "id": 13,
+      "id": 14,
       "x": -4084.76,
       "y": -2795.06,
       "action": "nahida_collect",
@@ -131,7 +146,7 @@
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 15,
       "x": -4039.15,
       "y": -2797.35,
       "action": "nahida_collect",
@@ -140,7 +155,7 @@
       "type": "path"
     },
     {
-      "id": 15,
+      "id": 16,
       "x": -4050.05,
       "y": -2657.41,
       "action": "",
@@ -149,7 +164,7 @@
       "type": "teleport"
     },
     {
-      "id": 16,
+      "id": 17,
       "x": -4037.48,
       "y": -2677.99,
       "action": "nahida_collect",
