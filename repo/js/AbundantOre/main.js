@@ -268,7 +268,7 @@ async function get_inventory() {
     return inventory_result;
 }
 
-async function run_pathing_script(name, path_state_change, current_states, skip_forging_log) {
+async function run_pathing_script(name, path_state_change, current_states) {
     path_state_change ||= {};
     path_state_change.require ||= [];
     path_state_change.add ||= [];
