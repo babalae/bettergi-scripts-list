@@ -347,6 +347,7 @@ async function getMaxOreType() {
                 }
             }
         }
+        await genshin.returnMainUi()
         return maxOre;
     } catch (error) {
         if (notice) {
