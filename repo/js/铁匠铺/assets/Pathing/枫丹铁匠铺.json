@@ -1,48 +1,62 @@
-{
+﻿{
   "info": {
-    "name": "枫丹铁匠铺",
-    "type": "collect",
-    "author": "寒露",
-    "version": "1.0",
+    "authors": [
+      {
+        "links": "",
+        "name": "寒露"
+      },
+      {
+        "links": "",
+        "name": "呱呱z"
+      }
+    ],
+    "bgi_version": "0.45.0",
     "description": "",
-    "bgi_version": "0.42.3"
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756367313887,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "枫丹铁匠铺",
+    "tags": [],
+    "type": "collect",
+    "version": "1.1"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "run",
       "type": "teleport",
       "x": 4514.0908203125,
-      "y": 3630.588623046875,
-      "action_params": ""
+      "y": 3630.588623046875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "run",
+      "type": "path",
       "x": 4518.59765625,
-      "y": 3601.3916015625,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "y": 3601.3916015625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 4563.74755859375,
-      "y": 3593.390869140625,
-      "type": "path",
       "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 4563.74755859375,
+      "y": 3593.390869140625
     },
     {
-      "id": 4,
-      "x": 4580.56640625,
-      "y": 3603.6337890625,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 4580.56640625,
+      "y": 3603.6337890625
     }
   ]
 }
