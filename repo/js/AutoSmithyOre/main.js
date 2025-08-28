@@ -2,7 +2,7 @@
     ///
     // 读取用户配置
     ///
-    let smithyName = settings.smithyName != undefined ? settings.smithyName : "枫丹铁匠铺";
+    let smithyName = settings.smithyName != undefined ? settings.smithyName : "蒙德铁匠铺";
 
     ///
     // 定义函数

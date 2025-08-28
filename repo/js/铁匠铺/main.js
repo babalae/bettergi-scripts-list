@@ -1,7 +1,7 @@
 /*********************** 配置与常量 ***********************/
 
 // 用户配置
-let smithyName = settings.smithyName || "枫丹铁匠铺";          // 铁匠铺地区
+let smithyName = settings.smithyName || "蒙德铁匠铺";          // 铁匠铺地区
 let primaryOre = settings.ore || "水晶块";                      // 主选矿石
 let secondaryOre = settings.secondaryOre || "萃凝晶";           // 备选矿石1
 let tertiaryOre = settings.tertiaryOre || "紫晶块";             // 备选矿石2
