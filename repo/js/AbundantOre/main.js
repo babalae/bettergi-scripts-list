@@ -81,7 +81,7 @@ function load_persistent_data() {
 const disabled_paths = new Set();
 
 function load_disabled_paths() {
-    const file_content = file.readTextSync("assets/disabled_paths.txt");
+    const file_content = file.readTextSync("assets/disabled_paths.conf");
     for (var l of file_content.split("\n")) {
         l = l.trim();
         if (l.length === 0) {
@@ -92,6 +92,12 @@ function load_disabled_paths() {
         }
         disabled_paths.add(l);
     }
+}
+
+var statistics = {};
+
+function load_statistics_data() {
+    statistics = JSON.parse(file.readTextSync("assets/statistics.json")).data;
 }
 
 async function flush_persistent_data() {
@@ -127,7 +133,6 @@ function is_ore_respawned(t) {
 }
 
 function get_some_tasks() {
-    const statistics = JSON.parse(file.readTextSync("assets/statistics.json")).data;
     const exclude_tags = new Set(get_exclude_tags());
     var filtered_statistics = [];
     for (const [key, value] of Object.entries(statistics)) {
@@ -240,8 +245,6 @@ async function run_pathing_script(name, path_state_change, current_states) {
     path_state_change.add ||= [];
     path_state_change.sustain ||= [];
 
-    const statistics = JSON.parse(file.readTextSync("assets/statistics.json")).data;
-
     for (const s of path_state_change.require) {
         if (!current_states.has(s)) {
             log.debug("Trying to get {s}", s);
@@ -315,6 +318,7 @@ async function main() {
     load_filename_to_path_map();
     load_persistent_data();
     load_disabled_paths();
+    load_statistics_data();
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     if (["natlan", "fontaine terrestrial", "sumeru", "inazuma", "liyue", "chasm underground", "mondstadt"].filter(i => !get_exclude_tags().includes(i)).length > 0) {
         if (!Array.from(getAvatars()).includes("诺艾尔")) {
