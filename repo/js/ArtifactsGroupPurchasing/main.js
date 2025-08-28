@@ -3,10 +3,10 @@ let decomposeMode = settings.decomposeMode || "保留";//狗粮分解模式
 let keep4Star = settings.keep4Star;//保留四星
 let autoSalvage = settings.autoSalvage;//启用自动分解
 let notify = settings.notify;//启用通知
-let p1EndingRoute = settings.p1EndingRoute || "踏鞴砂";
+let p1EndingRoute = settings.p1EndingRoute || "枫丹高塔";
 let p2EndingRoute = settings.p2EndingRoute || "度假村";
 let p3EndingRoute = settings.p3EndingRoute || "智障厅";
-let p4EndingRoute = settings.p4EndingRoute || "清籁丸";
+let p4EndingRoute = settings.p4EndingRoute || "踏鞴砂";
 let accountName = settings.accountName || "默认账户";
 let runExtra = settings.runExtra || false;
 let forceGroupNumber = settings.forceGroupNumber || 0;
@@ -125,31 +125,32 @@ let _infoPoints = null;          // 缓存 assets/info.json 解析后的数组
         dispatcher.addTimer(new RealtimeTimer("AutoPick"));
         await runExtraPath();
     }
-
-    for (i = 0; i < 3; i++) {
-        //确保回到单机模式
-        const finalPlayerSign = await getPlayerSign();
-        if (finalPlayerSign != 0) {
-            await genshin.returnMainUi();
-            await keyPress("F2");
-            await sleep(2000);
-            if (finalPlayerSign === 1) {
-                await findAndClick(kickAllRo);
-                await sleep(500);
-                await findAndClick(confirmKickRo);
-                await waitForMainUI(true);//等待直到回到主界面
+    /*
+        for (i = 0; i < 3; i++) {
+            //确保回到单机模式
+            const finalPlayerSign = await getPlayerSign();
+            if (finalPlayerSign != 0) {
                 await genshin.returnMainUi();
+                await keyPress("F2");
+                await sleep(2000);
+                if (finalPlayerSign === 1) {
+                    await findAndClick(kickAllRo);
+                    await sleep(500);
+                    await findAndClick(confirmKickRo);
+                    await waitForMainUI(true);//等待直到回到主界面
+                    await genshin.returnMainUi();
+                } else {
+                    await findAndClick(leaveTeamRo);
+                    await sleep(500);
+                    await waitForMainUI(true);//等待直到回到主界面
+                    await genshin.returnMainUi();
+                }
             } else {
-                await findAndClick(leaveTeamRo);
-                await sleep(500);
-                await waitForMainUI(true);//等待直到回到主界面
-                await genshin.returnMainUi();
+                log.info("已成功回到单人模式");
+                break;
             }
-        } else {
-            log.info("已成功回到单人模式");
-            break;
         }
-    }
+            */
 }
 )();
 
