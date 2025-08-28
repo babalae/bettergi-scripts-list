@@ -8,7 +8,7 @@ function forge_pathing_start_log(name) {
 }
 
 function forge_pathing_end_log(name, elapsed_time) {
-    const elapsed_min = Math.round(elapsed_time / 1000 / 60);
+    const elapsed_min = Math.floor(elapsed_time / 1000 / 60);
     const elapsed_sec = (elapsed_time / 1000 % 60).toFixed(3);
     const t = new Date();
     const timestamp = t.toTimeString().slice(0, 8) + "." + String(t.getMilliseconds()).padStart(3, "0");
