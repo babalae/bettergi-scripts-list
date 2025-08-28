@@ -18,10 +18,13 @@
           if (afterBehavior===1){if (xa===0 & ya===0){log.info("点击模式:开");}await sleep(1000);click(res.x+xa, res.y+ya);}else{if (debugmodel===1 & xa===0 & ya===0){log.info("点击模式:关")}}
           if (afterBehavior===2){if (xa===0 & ya===0){log.info("F模式:开");}await sleep(1000);keyPress("F");}else{if (debugmodel===1 & xa===0 & ya===0){log.info("F模式:关")}}
           if (debugmodel===1 & xa===0 & ya===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);}else{if(ii<=1) log.info("识别到元素");}
+          captureRegion.dispose();
           return result = { x: res.x+xa, y: res.y+ya, w:res.width,h:res.Height,found: true }
         }
         const NowTime = new Date();
-        if ((NowTime - startTime)>timeout*1000){if (debugmodel===1 & xa===0 & ya===0){log.info(`${timeout}秒超时退出，未找到图片`);}return result = {found: false };}else{ii=8}
+        if ((NowTime - startTime)>timeout*1000){if (debugmodel===1 & xa===0 & ya===0){log.info(`${timeout}秒超时退出，未找到图片`);}
+        captureRegion.dispose();
+        return result = {found: false };}else{ii=8}
         await sleep(200); 
         }
         await sleep(1200); 
@@ -43,6 +46,7 @@
                     if (debugcode === 1){
                         if (x === 0 & y === 0){
                             log.info("全图代码位置：({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);
+                            captureRegion.dispose();
                             return result = { text: res.text, x: res.x, y: res.y, found: true }}
                         }
                         else{if (x === 0 & y === 0){log.info("文本OCR完成'{text}'", res.text);}
@@ -52,14 +56,17 @@
                     if (debugcode===3){ 
                         break;
                     }
+                    captureRegion.dispose();
                     return result = { text: res.text, x: res.x, y: res.y, found: true }
                 }
                 if (debugcode===2 && !res.isEmpty()){
+                    captureRegion.dispose();
                     return result = { text: res.text, x: res.x, y: res.y, found: true }
                 }
             }
 
             if (debugcode===3 && (resList.count <=0 || res1!=wenzi) ){
+                captureRegion.dispose();
                 return result = { found: true }
             }
 
@@ -68,6 +75,7 @@
                 if (x===0 & y===0){
                     log.info(`${chaotime}秒超时退出，·${wenzi}·未找到`);
                 }
+                captureRegion.dispose();
                 return result = {found: false};
             }
             else{
@@ -149,7 +157,7 @@
     }  
     var timesConfig = { value: timesValue };
 
-    log.warn(`全自动枫丹地脉花: v3.6 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
+    log.warn(`全自动枫丹地脉花: v3.7 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
     log.warn(`使用树脂类型数量：${rewards.length}`);
     log.warn(`使用树脂顺序：${golbalRewardText.join(" ->")}`); 
 
@@ -345,6 +353,7 @@
 
             log.warn("·便携式营养袋· 中可放入血量恢复和复活药..."); 
             log.warn("可到 ·实时触发->自动吃药· 中配置检测间隔..."); 
+            log.warn("目前BGI本体·自动吃药·有小BUG，酌情使用..."); 
         }        
 
         for(let i = 0;i<5;i++){
@@ -1035,6 +1044,7 @@
                                 if (text.includes(keyword)) {
                                     log.info("检测到战斗成功关键词: {0}", keyword);
                                     resolve(true);
+                                    captureRegion.dispose();
                                     return;
                                 }
                             }
@@ -1044,6 +1054,7 @@
                                 if (text.includes(keyword)) {
                                     log.warn("检测到战斗失败关键词: {0}", keyword);
                                     resolve(false);
+                                    captureRegion.dispose();
                                     return;
                                 }
                             }
@@ -1055,6 +1066,7 @@
                                     await sleep(1000);
                                     result3.click();                                    
                                     resolve(false);
+                                    captureRegion.dispose();
                                     return;
                                 }
                             }                         
@@ -1068,6 +1080,7 @@
                                 if (noTextCount >= 12) {
                                     log.warn("已离开战斗区域");
                                     resolve(false);
+                                    captureRegion.dispose();
                                     return;
                                 }
                             }
@@ -1076,6 +1089,7 @@
                             }
                         }
                         catch (error) {
+                            captureRegion.dispose();
                             log.error("OCR过程中出错: {0}", error);
                         }
     
@@ -1319,6 +1333,7 @@
     }      
 
     try { 
+         dispatcher.ClearAllTriggers();
         //根据SHUOVER决定模式
         while (SHUOVER<=1){           
             if (!(await PathCheak(0))){
@@ -1357,5 +1372,6 @@
         log.error(`执行过程中发生错误：${error.message}`);
     }finally{
         await genshin.returnMainUi(); 
+        dispatcher.ClearAllTriggers();
     }
 })();
