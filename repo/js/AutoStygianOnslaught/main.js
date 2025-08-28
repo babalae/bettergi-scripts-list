@@ -84,18 +84,24 @@
                 res1=res.text
                 if (res.text===wenzi) {
                     log.info(`识别到 ·${res1}·`);
-                    if (debugcode===1){if (x===0 & y===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);return result = { text: res.text, x: res.x, y: res.y, found: true }}}else{if (x===0 & y===0){log.info("文本OCR完成'{text}'", res.text);}}
+                    if (debugcode===1){if (x===0 & y===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);
+                    captureRegion.dispose();
+                    return result = { text: res.text, x: res.x, y: res.y, found: true }}}else{if (x===0 & y===0){log.info("文本OCR完成'{text}'", res.text);}}
                     if (clickocr===1){await sleep(1000);await click(res.x, res.y);}else{}  
                     if (clickocr===2){await sleep(100);await keyPress("F");}else{}
+                    captureRegion.dispose();
                     return result = { text: res.text, x: res.x, y: res.y, found: true }
                 }
                 if (debugcode===2 && !res.isEmpty()){
                     // log.info("({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);
+                    captureRegion.dispose();
                     return result = { text: res.text, x: res.x, y: res.y, found: true }
                 }
             }
             const NowTime = new Date();
-            if (Math.abs(NowTime - startTime)>chaotime*1000){if (x===0 & y===0){log.info(`${chaotime}秒超时退出，"${wenzi}"未找到`);}return result = {found: false };}else{ii=8;if (x !== 861){if(debugcode!==3){await keyPress("VK_W");}};}
+            if (Math.abs(NowTime - startTime)>chaotime*1000){if (x===0 & y===0){log.info(`${chaotime}秒超时退出，"${wenzi}"未找到`);}
+            captureRegion.dispose();
+            return result = {found: false };}else{ii=8;if (x !== 861){if(debugcode!==3){await keyPress("VK_W");}};}
             await sleep(100);
         }   
     }
@@ -113,11 +119,13 @@
           if (afterBehavior===1){if (xa===0 & ya===0){log.info("点击模式:开");}await sleep(1000);click(res.x+xa, res.y+ya);}else{if (debugmodel===1 & xa===0 & ya===0){log.info("点击模式:关")}}
           if (afterBehavior===2){if (xa===0 & ya===0){log.info("F模式:开");}await sleep(1000);keyPress("F");}else{if (debugmodel===1 & xa===0 & ya===0){log.info("F模式:关")}}
           if (debugmodel===1 & xa===0 & ya===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x+xa, res.y+ya, res.width, res.Height);}else{ log.info("识别到页面元素");}
-          
+          captureRegion.dispose();
           return result = { x: res.x+xa, y: res.y+ya, w:res.width,h:res.Height,found: true }
         }
         const NowTime = new Date();
-        if ((NowTime - startTime)>timeout*1000){if (debugmodel===1 & xa===0 & ya===0){log.info(`${timeout}秒超时退出，未找到图片`);}return result = {found: false };}else{ii=8}
+        if ((NowTime - startTime)>timeout*1000){if (debugmodel===1 & xa===0 & ya===0){log.info(`${timeout}秒超时退出，未找到图片`);}
+        captureRegion.dispose();
+        return result = {found: false };}else{ii=8}
         await sleep(200); 
         }
         await sleep(1200); 
@@ -254,6 +262,8 @@
             // 检测到特点文字则结束！！！
             if (rewardResult.text.includes("之花") || rewardResult.text.includes("激活")) {
                 log.info("已到达领奖点，检测到文字: " + rewardResult.text);
+                captureRegion.dispose();
+                rewardTextArea.dispose();
                 return true;
             }
             else if(advanceNum > 40){
@@ -286,10 +296,12 @@
                         verticalNum = 0;
                         await getOut();
                         await await genshin.returnMainUi();
+                        captureRegion.dispose();
                         throw new Error('领取超时');              
                     }  
                     log.info("领取超时，重新尝试1次");
                     await sleep(1000);
+                    captureRegion.dispose();
                     return false;
                 } 
             }
@@ -362,6 +374,7 @@
                                 if (text.includes(keyword)) {
                                     log.info("检测到战斗成功关键词: {0}", keyword);
                                     resolve(true);
+                                    captureRegion.dispose();
                                     return;
                                 }
                             }                          
@@ -371,11 +384,13 @@
                                 if (text2.includes(keyword)) {
                                     log.warn("检测到战斗失败关键词: {0}", keyword);
                                     resolve(false);
+                                    captureRegion.dispose();
                                     return;
                                 }
                             }                        
                         }
                         catch (error) {
+                            captureRegion.dispose();
                             log.error("OCR过程中出错: {0}", error);
                         }
 
@@ -576,7 +591,7 @@
 
     }
 
-    log.warn("自动幽境危战版本：v1.8");
+    log.warn("自动幽境危战版本：v1.9");
     log.warn("请保证队伍战斗实力，战斗失败或执行错误，会重试两次...");
     log.warn("使用前请在 <<幽境危战>> 中配置好战斗队伍...");
     log.info("使用树脂类型数量：{0} ", rewards.length)
