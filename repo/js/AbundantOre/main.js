@@ -1,3 +1,23 @@
+function forge_pathing_start_log(name) {
+    const t = new Date();
+    const timestamp = t.toTimeString().slice(0, 8) + "." + String(t.getMilliseconds()).padStart(3, "0");
+    var c = "Forging start log\n\n";
+    c += `[${timestamp}] [INF] BetterGenshinImpact.Service.ScriptService\n------------------------------\n\n`;
+    c += `[${timestamp}] [INF] BetterGenshinImpact.Service.ScriptService\n→ 开始执行地图追踪任务: "${name}"`;
+    log.debug(c);
+}
+
+function forge_pathing_end_log(name, elapsed_time) {
+    const elapsed_min = Math.round(elapsed_time / 1000 / 60);
+    const elapsed_sec = (elapsed_time / 1000 % 60).toFixed(3);
+    const t = new Date();
+    const timestamp = t.toTimeString().slice(0, 8) + "." + String(t.getMilliseconds()).padStart(3, "0");
+    var c = "Forging end log\n\n";
+    c += `[${timestamp}] [INF] BetterGenshinImpact.Service.ScriptService\n→ 脚本执行结束: "${name}", 耗时: ${elapsed_min}分${elapsed_sec}秒\n\n`;
+    c += `[${timestamp}] [INF] BetterGenshinImpact.Service.ScriptService\n------------------------------`;
+    log.debug(c);
+}
+
 function get_exclude_tags() {
     var tags = [];
     if (settings.exclude_fights) {
@@ -67,11 +87,12 @@ function load_filename_to_path_map() {
 }
 
 var persistent_data = {};
+const in_memory_skip_tasks = new Set();
 
 function load_persistent_data() {
     var file_content = "";
     try {
-        file_content = file.readTextSync("records/persistent_data.json");
+        file_content = file.readTextSync("local/persistent_data.json");
     } catch (error) {}
     if (file_content.length !== 0) {
         persistent_data = JSON.parse(file_content);
@@ -81,16 +102,21 @@ function load_persistent_data() {
 const disabled_paths = new Set();
 
 function load_disabled_paths() {
-    const file_content = file.readTextSync("assets/disabled_paths.conf");
-    for (var l of file_content.split("\n")) {
-        l = l.trim();
-        if (l.length === 0) {
-            continue;
+    for (const path of ["assets/disabled_paths.conf", "local/disabled_paths.txt"]) {
+        var file_content = "";
+        try {
+            file_content = file.readTextSync(path);
+        } catch (error) {}
+        for (var l of file_content.split("\n")) {
+            l = l.trim();
+            if (l.length === 0) {
+                continue;
+            }
+            if (l.startsWith("//") || l.startsWith("#")) {
+                continue;
+            }
+            disabled_paths.add(l);
         }
-        if (l.startsWith("//") || l.startsWith("#")) {
-            continue;
-        }
-        disabled_paths.add(l);
     }
 }
 
@@ -101,7 +127,7 @@ function load_statistics_data() {
 }
 
 async function flush_persistent_data() {
-    await file.writeText("records/persistent_data.json", JSON.stringify(persistent_data, null, "  "));
+    await file.writeText("local/persistent_data.json", JSON.stringify(persistent_data, null, "  "));
 }
 
 async function mark_task_finished(task_name) {
@@ -136,6 +162,9 @@ function get_some_tasks() {
     const exclude_tags = new Set(get_exclude_tags());
     var filtered_statistics = [];
     for (const [key, value] of Object.entries(statistics)) {
+        if (in_memory_skip_tasks.has(key)) {
+            continue;
+        }
         if (disabled_paths.has(key)) {
             continue;
         }
@@ -239,7 +268,7 @@ async function get_inventory() {
     return inventory_result;
 }
 
-async function run_pathing_script(name, path_state_change, current_states) {
+async function run_pathing_script(name, path_state_change, current_states, skip_forging_log) {
     path_state_change ||= {};
     path_state_change.require ||= [];
     path_state_change.add ||= [];
@@ -298,9 +327,18 @@ async function run_pathing_script(name, path_state_change, current_states) {
         }
     }
     const cancellation_token = dispatcher.getLinkedCancellationToken();
+    const t0 = Date.now();
+    forge_pathing_start_log(name);
     await pathingScript.run(json_content);
+    const elapsed_time = Date.now() - t0;
+    forge_pathing_end_log(name, elapsed_time);
     if (!cancellation_token.isCancellationRequested) {
-        await mark_task_finished(name);
+        if (elapsed_time > 5000) {
+            await mark_task_finished(name);
+        } else {
+            in_memory_skip_tasks.add(name);
+            log.warn("脚本运行时间小于5秒，可能发生了错误，不写记录");
+        }
     } else {
         throw new Error("Cancelled");
     }
