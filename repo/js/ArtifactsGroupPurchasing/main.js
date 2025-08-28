@@ -125,31 +125,32 @@ let _infoPoints = null;          // 缓存 assets/info.json 解析后的数组
         dispatcher.addTimer(new RealtimeTimer("AutoPick"));
         await runExtraPath();
     }
-
-    for (i = 0; i < 3; i++) {
-        //确保回到单机模式
-        const finalPlayerSign = await getPlayerSign();
-        if (finalPlayerSign != 0) {
-            await genshin.returnMainUi();
-            await keyPress("F2");
-            await sleep(2000);
-            if (finalPlayerSign === 1) {
-                await findAndClick(kickAllRo);
-                await sleep(500);
-                await findAndClick(confirmKickRo);
-                await waitForMainUI(true);//等待直到回到主界面
+    /*
+        for (i = 0; i < 3; i++) {
+            //确保回到单机模式
+            const finalPlayerSign = await getPlayerSign();
+            if (finalPlayerSign != 0) {
                 await genshin.returnMainUi();
+                await keyPress("F2");
+                await sleep(2000);
+                if (finalPlayerSign === 1) {
+                    await findAndClick(kickAllRo);
+                    await sleep(500);
+                    await findAndClick(confirmKickRo);
+                    await waitForMainUI(true);//等待直到回到主界面
+                    await genshin.returnMainUi();
+                } else {
+                    await findAndClick(leaveTeamRo);
+                    await sleep(500);
+                    await waitForMainUI(true);//等待直到回到主界面
+                    await genshin.returnMainUi();
+                }
             } else {
-                await findAndClick(leaveTeamRo);
-                await sleep(500);
-                await waitForMainUI(true);//等待直到回到主界面
-                await genshin.returnMainUi();
+                log.info("已成功回到单人模式");
+                break;
             }
-        } else {
-            log.info("已成功回到单人模式");
-            break;
         }
-    }
+            */
 }
 )();
 
