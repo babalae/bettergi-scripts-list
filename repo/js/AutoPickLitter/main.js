@@ -87,8 +87,89 @@ async function findImgIcon(imagePath, xRange, yRange) {
     }
 }
 
+//添加信息
+function writeContentToFile(content, judge) {
+    let finalAccountName = settings.accountName || "默认账户";
+    try {
+        const illegalCharacters = /[\\/:*?"<>|]/;
+        const reservedNames = [
+            "CON", "PRN", "AUX", "NUL",
+            "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
+            "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
+        ];
 
+        if (finalAccountName === "" ||
+            finalAccountName.startsWith(" ") ||
+            finalAccountName.endsWith(" ") ||
+            illegalCharacters.test(finalAccountName) ||
+            reservedNames.includes(finalAccountName.toUpperCase()) ||
+            finalAccountName.length > 255
+        ) {
+            log.error(`账户名 "${finalAccountName}" 不合法，将使用默认值`);
+            finalAccountName = "默认账户";
+        } 
+    } catch (error) {
+        // 只在文件完全不存在时创建，避免覆盖
+        file.writeTextSync(finalAccountName, content, false);
+        log.info(`创建新文件: ${finalAccountName}`);
+    }
+    
 
+    let filePath = `records/${finalAccountName}.txt`;
+    //读取现有内容
+    let existingContent = "";
+    try {
+        existingContent = file.readTextSync(filePath);
+    } catch (e) {
+    }
+
+    if (judge == "true") {
+        runDate = `========${new Date().getFullYear()}年${String(new Date().getMonth() + 1).padStart(2, '0')}月${String(new Date().getDate()).padStart(2, '0')}日========`;
+        const finalContent1 = runDate + "\n" + existingContent;
+        //按行分割，保留最近365条完整记录（按原始换行分割，不过滤）
+        const lines = finalContent1.split("\n");
+        const keepLines = lines.length > 365 * 5 ? lines.slice(0, 365 * 5) : lines; // 假设每条记录最多5行
+        const result1 = file.writeTextSync(filePath, keepLines.join("\n"), false);
+
+        if (result1) {
+            log.info(`写入成功: ${filePath}`);
+        } else {
+            log.error(`写入失败: ${filePath}`);
+        }
+
+    } else {
+
+        //拼接
+        const finalContent = content + existingContent;
+        //按行分割，保留最近365条完整记录（按原始换行分割，不过滤）
+        const lines = finalContent.split("\n");
+        const keepLines = lines.length > 365 * 5 ? lines.slice(0, 365 * 5) : lines; // 假设每条记录最多5行
+        const result = file.writeTextSync(filePath, keepLines.join("\n"), false);
+
+        if (result) {
+            log.info(`写入成功: ${filePath}`);
+        } else {
+            log.error(`写入失败: ${filePath}`);
+        }
+    }
+}
+
+// 滚动页面
+async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
+    moveMouseTo(999, 750);
+    await sleep(50);
+    leftButtonDown();
+    const steps = Math.ceil(totalDistance / stepDistance);
+    for (let j = 0; j < steps; j++) {
+        const remainingDistance = totalDistance - j * stepDistance;
+        const moveDistance = remainingDistance < stepDistance ? remainingDistance : stepDistance;
+        moveMouseBy(0, -moveDistance);
+        await sleep(delayMs);
+    }
+    await sleep(700);
+    leftButtonUp();
+    await sleep(100);
+}
 
 
 (async function() {
@@ -108,8 +189,8 @@ async function findImgIcon(imagePath, xRange, yRange) {
                 await sleep(1000);
                 leftButtonClick();
                 await sleep(1000);
-                let recognizedOveer = await performOcr("已",{ min: 1482, max: 1630 }, { min: 912, max: 957 }, "false")
-                if (recognizedOveer.length != 0) {
+                let recognizedOver = await performOcr("已",{ min: 1482, max: 1630 }, { min: 912, max: 957 }, "false")
+                if (recognizedOver.length != 0) {
                     log.info("已售罄！！！");
                     await genshin.returnMainUi();
                 } else {
@@ -185,7 +266,7 @@ async function findImgIcon(imagePath, xRange, yRange) {
                 await sleep(2000);
                 let ocrResults1 = await performOcr("求签吧", xZone, yZone, "false");
                 if (ocrResults1.length != 0) {
-                    await sleep(3000);
+                    await sleep(2000);
                     leftButtonClick();
                     await sleep(5000);
                     leftButtonClick();
@@ -196,7 +277,7 @@ async function findImgIcon(imagePath, xRange, yRange) {
                 if (ocrResults2.length != 0) {
                     await sleep(700);
                     leftButtonClick();
-                    await sleep(3000);
+                    await sleep(700);
                     let ocrResults3 = await performOcr("我要", xZone, yZone, "false");
                     if (ocrResults3.length != 0) {
                         await sleep(700);
@@ -215,25 +296,38 @@ async function findImgIcon(imagePath, xRange, yRange) {
                         await sleep(1000);
                         await click(1150,50);
                         await sleep(700);
-                        for(let i = 0; i <= 4; i++){
-                            //{ min: 93, max: 1283 }, { min: 99, max: 823 }
-                            let img = await findImgIcon("assets/RecognitionObject/YuShenQian.png", { min: 99, max: 1295 }, { min: 104, max: 967 })
-                            if (img.length != 0) {
+                        for(let scroll = 0; scroll <= 22; scroll++){
+                            //识别御神签
+                            let img1 = await findImgIcon("assets/RecognitionObject/YuShenQianHalf.png", { min: 99, max: 1295 }, { min: 104, max: 967 })
+                            if (img1.length != 0) {
                                 break;
-                            }
-                            await keyMouseScript.runFile(`assets/移动4行.json`);
+                            };
+                            //判断是否到底
+                            let img = await findImgIcon("assets/RecognitionObject/SliderBottom.png", { min: 1284, max: 1293 }, { min: 916, max: 942 })
+                            if (img.length != 0) {
+                                log.info("已到达最后一页！");
+                                break;
+                            };
+                            //滑动背包
+                            await scrollPage(680, 10, 5);
+                            await sleep(100);
                         };
                         await sleep(2000);
                         await click(1670,1025);
-                        await sleep(2000);
-                        let recognizedText = await performOcr("", { min: 720, max: 790 }, { min: 111, max: 155 }, "true");
-                        if(recognizedText == "大凶" || recognizedText == "凶-"){
-                                await genshin.returnMainUi();
-                                await pathingScript.runFile("assets/挂签路线.json");
-                                await performOcr("挂起来吧", { min: 900, max: 1700 }, { min: 380, max: 880 }, "false");
-                                await sleep(700);
-                                leftButtonClick();
-                                log.info("事事顺利");
+                        await sleep(2500);
+                        let recognizedText = await performOcr("", { min: 630, max: 800 }, { min: 100, max: 160 }, "true");
+                        if(recognizedText.includes("区")){
+                            await pathingScript.runFile("assets/挂签路线.json");
+                            await performOcr("御签挂", { min: 900, max: 1700 }, { min: 380, max: 880 }, "false");
+                            await genshin.chooseTalkOption("挂起来吧");
+                            await click(111,184);
+                            await sleep(1000);
+                            await click(1250,817);
+                            await sleep(1000);
+                            await click(1603,1013);
+                            await sleep(1500);
+                            await genshin.returnMainUi();
+                            log.info("事事顺利");
                         };
                     } else {
                         await genshin.chooseTalkOption("再见");
@@ -284,12 +378,15 @@ async function findImgIcon(imagePath, xRange, yRange) {
                     await sleep(1000);
                     await click(1250,50); 
                     await sleep(1000);
-                    for(let i = 0; i <= 2; i++){
+                    for(let scroll = 0; scroll <= 10; scroll++){
                         let img = await findImgIcon("assets/RecognitionObject/WelffareMeal.png", { min: 99, max: 1295 }, { min: 104, max: 967 })
                         if (img.length != 0) {
                             break;
                         }
-                        await keyMouseScript.runFile(`assets/移动4行.json`);
+                        //滑动背包
+                        await sleep(1000);
+                        await scrollPage(680, 10, 5);
+                        await sleep(1000);
                     };
                     //这里是点击使用
                     await sleep(1000);
@@ -304,6 +401,7 @@ async function findImgIcon(imagePath, xRange, yRange) {
                     await sleep(2000);
                     let recognizedText1 = await performOcr("", { min: 716, max: 1200 }, { min: 631, max: 710 }, "true");
                     log.info(`幸运签内容：${recognizedText1}`);
+                    writeContentToFile(`获得的食物:${recognizedText}\n幸运签内容:${recognizedText1}`,"false");
                 };
 
             } else {
@@ -344,20 +442,26 @@ async function findImgIcon(imagePath, xRange, yRange) {
                     switch (settings.pickupDragonEgg) {
                         case "闪闪礼蛋·山之血":
                             figure = 1;
+                            writeContentToFile(`获得龙蛋:闪闪礼蛋·山之血\n`,"false");
                             break;
                         case "闪闪礼蛋·太阳的轰鸣":
                             figure = 2;
+                            writeContentToFile(`获得龙蛋:闪闪礼蛋·太阳的轰鸣\n`,"false");
                             break;
                         case "闪闪礼蛋·圣龙君临":
+                            writeContentToFile(`获得龙蛋:闪闪礼蛋·圣龙君临\n`,"false");
                             figure = 3;
                             break;
                         case "闪闪礼蛋·菲耶蒂娜":
+                            writeContentToFile(`获得龙蛋:闪闪礼蛋·菲耶蒂娜\n`,"false");
                             figure = 4;
                             break;
                         case "闪闪礼蛋·献给小酒杯":
+                            writeContentToFile(`获得龙蛋:闪闪礼蛋·献给小酒杯\n`,"false");
                             figure = 5;
                             break;
                         case "闪闪礼蛋·飞澜鲨鲨":
+                            writeContentToFile(`获得龙蛋:闪闪礼蛋·飞澜鲨鲨\n`,"false");
                             figure = 6;
                             break;
                         default:
@@ -378,7 +482,9 @@ async function findImgIcon(imagePath, xRange, yRange) {
         await genshin.returnMainUi();
     };
 
+    //输出日期
+    writeContentToFile("", "true");
 
-
-
+    
+    
 })();
