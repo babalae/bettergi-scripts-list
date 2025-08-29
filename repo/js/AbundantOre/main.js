@@ -300,7 +300,7 @@ async function run_pathing_script(name, path_state_change, current_states) {
             }
         }
         // scale underwater mining actions
-        if (statistics[name].tags.includes("fontaine underwater") && genshin.screenDpiScale !== 1.0) {
+        if (settings.enable_dpi_scaling && statistics[name].tags.includes("fontaine underwater") && genshin.screenDpiScale !== 1.0) {
             for (const i of json_obj.positions) {
                 if (i.action_params) {
                     const new_actions = [];
@@ -358,6 +358,8 @@ async function main() {
     load_disabled_paths();
     load_statistics_data();
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
+    // Run an empty pathing script to give BGI a chance to switch team if the user specifies one.
+    await pathingScript.runFile("assets/empty_pathing.json");
     if (["natlan", "fontaine terrestrial", "sumeru", "inazuma", "liyue", "chasm underground", "mondstadt"].filter(i => !get_exclude_tags().includes(i)).length > 0) {
         if (!Array.from(getAvatars()).includes("诺艾尔")) {
             log.error("地面挖矿必须带诺艾尔");
