@@ -183,7 +183,7 @@
 - `Assets`用于存放脚本使用到的资源文件，其中
   
   - `Pathing`用于存放[地图追踪](https://bettergi.com/feats/autos/pathing-dev.html)文件
-  - `RecognitionObject`用于存放[模板匹配](https://bettergi.com/dev/js/rec.html#%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D)对象
+  - `RecognitionObject`用于存放[模板匹配、图像识别](https://bettergi.com/dev/js/rec.html#%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D)对象
 
 **其他注意事项**
 
