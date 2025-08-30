@@ -124,7 +124,7 @@ function writeContentToFile(content, judge) {
     }
 
     if (judge == "true") {
-        runDate = `========${new Date().getFullYear()}年${String(new Date().getMonth() + 1).padStart(2, '0')}月${String(new Date().getDate()).padStart(2, '0')}日========`;
+        runDate = `==========${new Date().getFullYear()}年${String(new Date().getMonth() + 1).padStart(2, '0')}月${String(new Date().getDate()).padStart(2, '0')}日==========`;
         const finalContent1 = runDate + "\n" + existingContent;
         //按行分割，保留最近365条完整记录（按原始换行分割，不过滤）
         const lines = finalContent1.split("\n");
@@ -185,6 +185,7 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
             //识别对话位置，并点击
             let ocrResults = await performOcr("神奇的", xZone, yZone, "false");
             if (ocrResults.length != 0) {
+                await sleep(1000);
                 await genshin.chooseTalkOption("如何才能获得强大的力量");
                 await sleep(1000);
                 leftButtonClick();
@@ -225,6 +226,7 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
             // let ocrResults = await performOcr("王平安", { min: 1058, max: 1551 }, { min: 394, max: 680 },"false");
             let ocrResults = await performOcr("王平安", xZone, yZone,"false");
             if (ocrResults.length != 0) {
+                await sleep(1000);
                 await genshin.chooseTalkOption("能给我几支香吗");
                 await sleep(700);
                 leftButtonClick();
@@ -235,9 +237,9 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
                 // let ocrResults1 = await performOcr("敬香", { min: 1060, max: 1550 }, { min: 400, max: 680 },"false");
                 let ocrResults1 = await performOcr("敬香", xZone, yZone,"false");
                 if(ocrResults1.length != 0){
-                    await sleep(1000);
+                    await sleep(700);
                     await click(1168,785);
-                    await sleep(1000);
+                    await sleep(700);
                 } else {
                     log.error(`未识别到对话`);
                     await genshin.returnMainUi();
@@ -268,7 +270,7 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
                 if (ocrResults1.length != 0) {
                     await sleep(2000);
                     leftButtonClick();
-                    await sleep(5000);
+                    await sleep(4000);
                     leftButtonClick();
                     await sleep(3000);
                 };
@@ -282,7 +284,7 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
                     if (ocrResults3.length != 0) {
                         await sleep(700);
                         leftButtonClick();
-                        await sleep(1500);
+                        await sleep(1000);
                         //交互道具，直接选择位置点击
                         await click(111,184);
                         await sleep(1000);
@@ -319,6 +321,7 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
                         if(recognizedText.includes("区")){
                             await pathingScript.runFile("assets/挂签路线.json");
                             await performOcr("御签挂", { min: 900, max: 1700 }, { min: 380, max: 880 }, "false");
+                            await sleep(1000);
                             await genshin.chooseTalkOption("挂起来吧");
                             await click(111,184);
                             await sleep(1000);
@@ -330,6 +333,7 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
                             log.info("事事顺利");
                         };
                     } else {
+                        await sleep(1000);
                         await genshin.chooseTalkOption("再见");
                         await sleep(700);
                         leftButtonClick();
@@ -401,7 +405,7 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
                     await sleep(2000);
                     let recognizedText1 = await performOcr("", { min: 716, max: 1200 }, { min: 631, max: 710 }, "true");
                     log.info(`幸运签内容：${recognizedText1}`);
-                    writeContentToFile(`获得的食物:${recognizedText}\n幸运签内容:${recognizedText1}`,"false");
+                    writeContentToFile(`获得的食物:${recognizedText}\n幸运签内容:${recognizedText1}\n`,"false");
                 };
 
             } else {
@@ -442,26 +446,26 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
                     switch (settings.pickupDragonEgg) {
                         case "闪闪礼蛋·山之血":
                             figure = 1;
-                            writeContentToFile(`获得龙蛋:闪闪礼蛋·山之血\n`,"false");
+                            writeContentToFile("获得龙蛋:闪闪礼蛋·山之血\n","false");
                             break;
                         case "闪闪礼蛋·太阳的轰鸣":
                             figure = 2;
-                            writeContentToFile(`获得龙蛋:闪闪礼蛋·太阳的轰鸣\n`,"false");
+                            writeContentToFile("获得龙蛋:闪闪礼蛋·太阳的轰鸣\n","false");
                             break;
                         case "闪闪礼蛋·圣龙君临":
-                            writeContentToFile(`获得龙蛋:闪闪礼蛋·圣龙君临\n`,"false");
+                            writeContentToFile("获得龙蛋:闪闪礼蛋·圣龙君临\n","false");
                             figure = 3;
                             break;
                         case "闪闪礼蛋·菲耶蒂娜":
-                            writeContentToFile(`获得龙蛋:闪闪礼蛋·菲耶蒂娜\n`,"false");
+                            writeContentToFile("获得龙蛋:闪闪礼蛋·菲耶蒂娜\n","false");
                             figure = 4;
                             break;
                         case "闪闪礼蛋·献给小酒杯":
-                            writeContentToFile(`获得龙蛋:闪闪礼蛋·献给小酒杯\n`,"false");
+                            writeContentToFile("获得龙蛋:闪闪礼蛋·献给小酒杯\n","false");
                             figure = 5;
                             break;
                         case "闪闪礼蛋·飞澜鲨鲨":
-                            writeContentToFile(`获得龙蛋:闪闪礼蛋·飞澜鲨鲨\n`,"false");
+                            writeContentToFile("获得龙蛋:闪闪礼蛋·飞澜鲨鲨\n","false");
                             figure = 6;
                             break;
                         default:
