@@ -1,102 +1,112 @@
 {
   "info": {
-    "name": "C03-须弥-舍身步道-3个",
-    "type": "collect",
     "authors": [
       {
         "name": "芝士贝果"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.48.0",
-    "tags": [],
-    "last_modified_time": 1754832590316,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1756436257426,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C03-须弥-舍身步道-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4377.793,
-      "y": -2097.1738,
-      "action_params": ""
+      "y": -2097.1738
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(1)",
       "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
       "x": 4368.8281,
-      "y": -2106.4629,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2106.4629
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 4358.4785,
-      "y": -2103.6299,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 4368.8281,
+      "y": -2106.4629
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 4344.8955,
-      "y": -2102.0049,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "fly",
+      "x": 4358.4785,
+      "y": -2103.6299
+    },
+    {
       "action": "stop_flying",
-      "action_params": ""
-    },
-    {
+      "action_params": "",
       "id": 5,
-      "x": 4344.9961,
-      "y": -2123.4375,
+      "move_mode": "fly",
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 4344.8955,
+      "y": -2102.0049
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": 4342.2363,
-      "y": -2125.6426,
-      "type": "target",
       "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
-    },
-    {
-      "id": 7,
-      "x": 4339.9023,
-      "y": -2129.2246,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
-    },
-    {
-      "id": 8,
-      "x": 4349.2832,
-      "y": -2132.291,
       "type": "path",
-      "move_mode": "jump",
-      "action": "",
-      "action_params": ""
+      "x": 4344.9961,
+      "y": -2123.4375
     },
     {
-      "id": 9,
-      "x": 4341.9873,
-      "y": -2133.8926,
-      "type": "target",
-      "move_mode": "walk",
       "action": "mining",
-      "action_params": ""
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4342.2363,
+      "y": -2125.6426
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4339.9023,
+      "y": -2129.2246
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 4349.2832,
+      "y": -2132.291
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4341.9873,
+      "y": -2133.8926
     }
   ]
 }
