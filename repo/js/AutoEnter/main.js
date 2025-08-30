@@ -12,14 +12,16 @@ const maxEnterCount = +settings.maxEnterCount || 3;
 const enterUIDRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/enterUID.png"));
 const searchRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/search.png"));
 const requestEnterRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/requestEnter.png"));
-const requestEnter2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/requestEnter.png"), 1480, 300, 280, 100);
+const requestEnter2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/requestEnter.png"), 1480, 300, 280, 600);
 const yUIRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/yUI.png"));
 const allowEnterRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/allowEnter.png"), 1250, 300, 150, 130);
 const targetsPath = "targets";
 let enterCount = 0;
 let targetsRo;
+let checkToEnd = false;
 // 先初始化空数组
 let targetList = [];
+let enteredPlayers = [];
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
@@ -51,11 +53,20 @@ let targetList = [];
 
     while (new Date() - start < timeOut * 60 * 1000) {
         if (enterMode === "进入他人世界") {
+            //检验队伍编号
+            const playerSign = await getPlayerSign();
+            await sleep(500);
+            if (playerSign != 0) {
+                log.info(`加入世界成功，在队伍中的编号为${playerSign}`);
+                break;
+            } else {
+                log.error(`不处于多人世界，开始尝试加入`);
+                await genshin.returnMainUi();
+                await sleep(500);
+            }
             //反复敲门进入他人世界
             //我要cia进来llo
             if (enteringUID) {
-                await genshin.returnMainUi();
-                await sleep(500);
                 await keyPress("F2");
                 //点击输入uid
                 await sleep(500);
@@ -63,6 +74,7 @@ let targetList = [];
                     await genshin.returnMainUi();
                     continue;
                 }
+                await sleep(500);
                 inputText(enteringUID);
                 //点击搜索
                 await sleep(500);
@@ -83,64 +95,83 @@ let targetList = [];
                     continue;
                 }
                 //等待加入完成
-                await waitForMainUI(true, 5 * 1000);
-
-                //检验新的队伍编号
-                const playerSign2 = await getPlayerSign();
-                await sleep(500);
-                if (playerSign2 != 0) {
-                    log.info(`加入世界成功，在队伍中的编号为${playerSign2}`);
-                    break;
-                } else {
-                    log.error(`加入世界失败，开始重试`);
-                    await genshin.returnMainUi();
-                    await sleep(500);
-                    continue;
-                }
+                await waitForMainUI(true, 20 * 1000);
             } else {
                 log.error("未填写有效的uid，请检查后重试");
                 break;
             }
         } else {
             //等待他人进入世界
-            if (await isYUI()) {
-                keyPress("VK_ESCAPE");
-            }
-            await genshin.returnMainUi();
-            keyPress("Y");
-            await sleep(250);
-            if (await isYUI()) {
-                log.info("处于y界面开始识别");
-                let attempts = 0;
-                while (attempts < 20) {
-                    attempts++;
-                    if (permissionMode === "无条件通过") {
-                        //无需筛选，全部通过
-                        if (await findAndClick(allowEnterRo)) {
-                            enterCount++;
-                            break;
+            if (enterCount < maxEnterCount) {
+                if (await isYUI()) {
+                    keyPress("VK_ESCAPE");
+                }
+                await genshin.returnMainUi();
+                keyPress("Y");
+                await sleep(250);
+                if (await isYUI()) {
+                    log.info("处于y界面开始识别");
+                    let attempts = 0;
+                    while (attempts < 5) {
+                        attempts++;
+                        if (permissionMode === "无条件通过") {
+                            //无需筛选，全部通过
+                            if (await findAndClick(allowEnterRo)) {
+                                //等待加入完成
+                                await waitForMainUI(true, 20 * 1000);
+                                enterCount++;
+                                break;
+                            }
+                        } else {
+                            //需要筛选，开始识别第一行申请
+                            const result = await recognizeRequest();
+                            if (result) {
+                                if (await findAndClick(allowEnterRo)) {
+                                    //等待加入完成
+                                    await waitForMainUI(true, 20 * 1000);
+                                    enterCount++;
+                                    log.info(`允许${result}加入世界`);
+                                    // 把 result 加入 enteredPlayers，并立即去重
+                                    enteredPlayers = [...new Set([...enteredPlayers, result])];
+                                    await sleep(1000);
+                                    if (await isYUI()) {
+                                        keyPress("VK_ESCAPE");
+                                        await genshin.returnMainUi();
+                                    }
+                                    break;
+                                } else {
+                                    if (await isYUI()) {
+                                        keyPress("VK_ESCAPE");
+                                        await genshin.returnMainUi();
+                                    }
+                                }
+
+                            }
                         }
-                    } else {
-                        //需要筛选，开始识别第一行申请
-                        const result = await recognizeRequest();
-                        if (result) {
-                            await findAndClick(allowEnterRo);
-                            log.info(`允许${result}加入世界`);
-                            enterCount++;
-                            break;
-                        }
+                        await sleep(500);
                     }
-                    await sleep(500);
+                }
+                if (await isYUI()) {
+                    keyPress("VK_ESCAPE");
+                    await genshin.returnMainUi();
                 }
             }
-            if (await isYUI()) {
-                keyPress("VK_ESCAPE");
+            if (enterCount >= maxEnterCount || checkToEnd) {
+                log.info("准备结束js");
+                checkToEnd = true;
+                if (await isYUI()) {
+                    keyPress("VK_ESCAPE");
+                    await genshin.returnMainUi();
+                }
+                await sleep(20000);
+                if (await findTotalNumber() === maxEnterCount + 1) {
+                    break;
+                } else {
+                    enterCount--;
+                }
             }
         }
-        if (enterCount >= maxEnterCount) {
-            log.info("已达到预定人数，结束js");
-            break;
-        }
+
     }
 
 }
@@ -231,46 +262,6 @@ async function getPlayerSign() {
     if (p3.isExist()) return 3;
     if (p4.isExist()) return 4;
     return 0;
-}
-
-async function findTotalNumber() {
-    await genshin.returnMainUi();
-    await keyPress("F2");
-    await sleep(2000);
-
-    // 定义模板
-    const kick2pRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/kickButton.png"), 1520, 277, 230, 120);
-    const kick3pRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/kickButton.png"), 1520, 400, 230, 120);
-    const kick4pRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/kickButton.png"), 1520, 527, 230, 120);
-
-    moveMouseTo(1555, 860); // 防止鼠标干扰
-    const gameRegion = captureGameRegion();
-    await sleep(200);
-
-    let count = 1; // 先算上自己
-
-    // 依次匹配 2P
-    if (gameRegion.Find(kick2pRo).isExist()) {
-        log.info("发现 2P");
-        count++;
-    }
-
-    // 依次匹配 3P
-    if (gameRegion.Find(kick3pRo).isExist()) {
-        log.info("发现 3P");
-        count++;
-    }
-
-    // 依次匹配 4P
-    if (gameRegion.Find(kick4pRo).isExist()) {
-        log.info("发现 4P");
-        count++;
-    }
-
-    gameRegion.dispose();
-
-    log.info(`当前联机世界玩家总数（含自己）：${count}`);
-    return count;
 }
 
 async function confirmSearchResult() {
@@ -444,4 +435,44 @@ async function readFolder(folderPath, onlyJson) {
     }
 
     return files;
+}
+
+async function findTotalNumber() {
+    await genshin.returnMainUi();
+    await keyPress("F2");
+    await sleep(2000);
+
+    // 定义模板
+    const kick2pRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/kickButton.png"), 1520, 277, 230, 120);
+    const kick3pRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/kickButton.png"), 1520, 400, 230, 120);
+    const kick4pRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/kickButton.png"), 1520, 527, 230, 120);
+
+    moveMouseTo(1555, 860); // 防止鼠标干扰
+    const gameRegion = captureGameRegion();
+    await sleep(200);
+
+    let count = 1; // 先算上自己
+
+    // 依次匹配 2P
+    if (gameRegion.Find(kick2pRo).isExist()) {
+        log.info("发现 2P");
+        count++;
+    }
+
+    // 依次匹配 3P
+    if (gameRegion.Find(kick3pRo).isExist()) {
+        log.info("发现 3P");
+        count++;
+    }
+
+    // 依次匹配 4P
+    if (gameRegion.Find(kick4pRo).isExist()) {
+        log.info("发现 4P");
+        count++;
+    }
+
+    gameRegion.dispose();
+
+    log.info(`当前联机世界玩家总数（含自己）：${count}`);
+    return count;
 }
