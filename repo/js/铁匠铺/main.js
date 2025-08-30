@@ -287,6 +287,9 @@ function determineOre(oreType) {
 async function getMaxOreType() {
     try {
         //开启背包
+        await sleep(1000);
+        await genshin.returnMainUi();
+        keyPress("B"); await sleep(1000);
         //【背包】界面检测
         if (!await findAndInteract(InventoryInterFaceRo, {
             singleAttempt: true
@@ -298,19 +301,31 @@ async function getMaxOreType() {
             log.info("检测到处于背包界面");
         }
 
-        // 【材料】见面检测
-        if (!await findAndInteract(MaterialsFaceRo,
-            {
-                singleAttempt: true
-            })) {
-            log.info("未处于材料界面，准备点击材料界面图标");
-            await findAndInteract(DisabledMaterialsFaceRo,
+        // 【材料】界面检测，多次尝试，避免过期道具卡弹窗
+        let maxAttempts = 10; // 最大尝试次数，防止无限循环
+        let attempts = 0;
+
+        while (attempts < maxAttempts) {
+            if (await findAndInteract(MaterialsFaceRo,
                 {
-                    useClick: true
-                })
-            await sleep(600);
+                    singleAttempt: true
+                })) {
+                log.info("已经处于材料界面，准备识别矿物数量");
+                break; // 成功进入界面，退出循环
+            } else {
+                log.info("未处于材料界面，准备点击材料界面图标");
+                await findAndInteract(DisabledMaterialsFaceRo,
+                    {
+                        useClick: true
+                    });
+                await sleep(600); // 等待界面响应
+                attempts++;
+            }
+        }
+        if (attempts === maxAttempts) {
+            log.error("多次尝试后仍未能进入材料界面，请检查界面状态或操作逻辑");
         } else {
-            log.info("已经处于材料界面，准备点击料理区域");
+            log.info("成功进入材料界面");
         }
 
         const oreResults = [
@@ -340,15 +355,16 @@ async function getMaxOreType() {
             if (oreNum > maxCount) {
                 maxCount = oreNum;
                 maxOre = ore.name;
-                if (notice) {
-                    notification.info(`当前最多矿石为: ${OreChineseMap[ore.name]} 数量: ${oreNum}`);
-                } else {
-                    log.info(`当前最多矿石为: ${OreChineseMap[ore.name]} 数量: ${oreNum}`);
-                }
+                /*
+                                if (notice) {
+                                    notification.send(`当前最多矿石为: ${OreChineseMap[ore.name]} 数量: ${oreNum}`);
+                                } else {
+                                    log.info(`当前最多矿石为: ${OreChineseMap[ore.name]} 数量: ${oreNum}`);
+                                }
+                */
             }
         }
-        await genshin.returnMainUi()
-        return maxOre;
+        return maxOre ? { name: maxOre, count: maxCount } : null; // 修改返回值
     } catch (error) {
         if (notice) {
             notification.error(`自动识别背包中数量最多的矿石失败，错误: ${error.message}`);
@@ -357,20 +373,22 @@ async function getMaxOreType() {
         }
         return null;
     }
-
 }
 
 // 自动前往铁匠铺
 async function autoSmithy(smithyName) {
+    await genshin.returnMainUi();
+    await sleep(1000);
     log.info(`自动前往 ${smithyName}`);
     try {
         if (smithyName === "纳塔铁匠铺") {
             keyPress("M"); await sleep(1000);
-            click(1845, 1015); await sleep(100);
-            click(1650, 355); await sleep(100);
+            click(1845, 1015); await sleep(250);
+            click(1650, 355); await sleep(250);
             await genshin.setBigMapZoomLevel(1.0);
-            click(845, 615); await sleep(100);
-            click(1475, 1005); await sleep(100);
+            click(845, 615); await sleep(250);
+            click(1475, 1005); await sleep(250);
+            await genshin.returnMainUi();// 通过返回主界面，等待传送完成
         }
         let filePath = `assets/Pathing/${smithyName}.json`;
         await pathingScript.runFile(filePath);
@@ -422,7 +440,7 @@ async function tryForgeOre(oreType, skipCheckOres = []) {
             if (imageResult) {
                 found = true;
                 imageResult.click();
-                await sleep(100);
+                await sleep(250);
                 // if (notice) {
                 // notification.send(`找到矿石: ${OreChineseMap[oreType]}`);
                 // } else {
@@ -452,7 +470,7 @@ async function tryForgeOre(oreType, skipCheckOres = []) {
                             } else {
                                 log.info("检测到 今日已无法锻造 结束锻造");
                             }
-                            await sleep(100);
+                            await sleep(250);
                             await click(960, 1042);
                             await sleep(200);
                             await click(960, 1042);// 多次点击结束弹窗
@@ -465,7 +483,7 @@ async function tryForgeOre(oreType, skipCheckOres = []) {
                                 log.info("检测到 材料不足 跳过当前矿物。请检查背包，及时补充矿物。");
                             }
                             clickAttempts--; // 出现材料不足时减去一次点击计数
-                            await sleep(100);
+                            await sleep(250);
                             await click(960, 1042);
                             await sleep(200);
                             await click(960, 1042);// 多次点击结束弹窗
@@ -477,6 +495,8 @@ async function tryForgeOre(oreType, skipCheckOres = []) {
                         if (notice) {
                             notification.send(`锻造已完成，使用了 ${OreChineseMap[oreType]}`);
                         } else {
+                            // 偽造拾取
+                            log.info(`交互或拾取："使用了[${OreChineseMap[oreType]}]"`);
                             log.info(`锻造已完成，使用了 ${OreChineseMap[oreType]}`);
                         }
                         return true; // 达到点击上限，终止锻造流程
@@ -644,14 +664,21 @@ async function forgeOre(smithyName, maxOre = null) {
     let maxOre = null;
     if (forgedOrNot === "是") {
         if (model === "模式一") {
-            maxOre = await getMaxOreType();
-            if (maxOre) {
-                log.info(`自动选择数量最多的矿石为: ${maxOre}`);
+            const maxOreResult = await getMaxOreType();
+            if (maxOreResult) {
+                maxOre = maxOreResult.name;
                 primaryOre = maxOre;
+                //log.info(`自动选择数量最多的矿石为: ${maxOre}`);
+                if (notice) {
+                    notification.send(`当前最多矿石为: ${OreChineseMap[maxOre]}，数量: ${maxOreResult.count}`);
+                } else {
+                    log.info(`当前最多矿石为: ${OreChineseMap[maxOre]}，数量: ${maxOreResult.count}`);
+                }
             } else {
                 log.warn("自动识别矿石失败，将使用默认配置");
             }
         }
+        await genshin.returnMainUi();
         await autoSmithy(smithyName);
         await forgeOre(smithyName, maxOre);
     }
