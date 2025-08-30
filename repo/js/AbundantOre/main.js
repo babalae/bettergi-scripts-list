@@ -367,55 +367,59 @@ async function main() {
         }
     }
 
-    const original_inventory = await get_inventory();
-    const start_time = Date.now();
-    var target_yield = null;
-    var target_running_minutes = null;
-    var run_until_hour = null;
-    var run_until_minute = null;
-    var run_until_unix_time = null;
-    switch (settings.arg_mode) {
-        case "最速480矿":
-            target_yield = 480;
-            break;
-        case "挖指定数目的矿（手动填写）":
-            target_yield = Number(settings.arg_amount);
-            break;
-        case "挖一段时间（手动填写）":
-            target_running_minutes = Number(settings.arg_amount);
-            break;
-        case "挖，直到某个时间（手动填写）":
-            [run_until_hour, run_until_minute] = settings.arg_amount.replace("：", ":").split(":").map(Number);
-            const current_unix_time = Date.now();
-            const current_cst_time = (current_unix_time / 1000 + 8 * 3600) % 86400 / 3600;
-            var diff_hours = run_until_hour + run_until_minute / 60 - current_cst_time;
-            if (diff_hours < 0) {
-                diff_hours += 24;
+    const get_current_cst_hour = () => (Date.now() / 1000 + 8 * 3600) % 86400 / 3600;
+    var run_until_unix_time = settings.target_running_minutes ? (Date.now() + Number(settings.target_running_minutes) * 60 * 1000) : null;
+    if (settings.time_range) {
+        const time_range = settings.time_range.replace("～", "~").replace("：", ":");
+        if (time_range.includes("~")) {
+
+            const [
+                [start_h, start_m],
+                [end_h, end_m]
+            ] = time_range.split("~").map(i => i.split(":").map(Number));
+            const start_time = start_h + start_m / 60;
+            const end_time = end_h + end_m / 60;
+            const current_time = get_current_cst_hour();
+            if (start_time < end_time && !(current_time >= start_time && current_time < end_time)) {
+                // format like 01:30~03:50
+                log.info("不在允许运行的时间内，退出");
+                return;
             }
-            run_until_unix_time = current_unix_time + diff_hours * 3600 * 1000;
-            break;
-        case "挖所有矿":
-            break;
-        default:
-            log.error("Unknown running mode");
-            return;
-    }
-    log.info("已有水晶块{a}个，紫晶块{b}个，萃凝晶{c}个", original_inventory.crystal_chunks, original_inventory.amethyst_lumps, original_inventory.condessence_crystals);
-    if (target_yield !== null) {
-        log.info("将挖矿{a}个", target_yield);
-    } else if (target_running_minutes !== null) {
-        log.info("将挖矿{a}分钟", target_running_minutes);
-    } else if (run_until_hour !== null && run_until_minute !== null && run_until_unix_time !== null) {
-        const num_hours = (run_until_unix_time - Date.now()) / 1000 / 3600;
-        log.info("将挖矿到{h}:{m}（{nh}小时后）", String(run_until_hour).padStart(2, "0"), String(run_until_minute).padStart(2, "0"), num_hours.toFixed(2));
-    } else {
-        log.info("将标挖所有矿");
+            if (start_time > end_time && current_time < start_time && current_time > end_time) {
+                // format like 23:30~4:00
+                log.info("不在允许运行的时间内，退出");
+                return;
+            }
+            const run_until_unix_time2 = ((end_time - current_time + 24) % 24) * 3600 * 1000 + Date.now();
+            run_until_unix_time = Math.min(run_until_unix_time2, run_until_unix_time || Number.MAX_VALUE);
+        } else {
+            // format like 03:50
+            const [end_h, end_m] = time_range.split(":").map(Number);
+            const end_time = end_h + end_m / 60;
+            const run_until_unix_time2 = (end_time - get_current_cst_hour() + 24) % 24 * 3600 * 1000 + Date.now();
+            run_until_unix_time = Math.min(run_until_unix_time2, run_until_unix_time || Number.MAX_VALUE);
+        }
     }
 
+    const original_inventory = await get_inventory();
+    log.info("已有水晶块{a}个，紫晶块{b}个，萃凝晶{c}个", original_inventory.crystal_chunks, original_inventory.amethyst_lumps, original_inventory.condessence_crystals);
+    const target_yield = settings.target_amount ? Math.floor(Number(settings.target_amount)) : null;
+    if (target_yield && !run_until_unix_time) {
+        log.info("将挖矿{a}个", target_yield);
+    } else if (!target_yield && run_until_unix_time) {
+        const running_minutes = Math.round((run_until_unix_time - Date.now()) / 60 / 1000);
+        log.info("将挖矿{a}分钟", running_minutes);
+    } else if (target_yield && run_until_unix_time) {
+        const running_minutes = Math.round((run_until_unix_time - Date.now()) / 60 / 1000);
+        log.info("将挖矿{a}个或{b}分钟，任何一个先发生", target_yield, running_minutes);
+    } else {
+        log.info("将持续挖矿");
+    }
+
+    const start_time = Date.now();
     var accurate_yield = 0;
     var estimated_yield = 0;
     var cached_inventory_data = null;
-
 
     var finished = false;
     const current_states = new Set();
@@ -448,13 +452,6 @@ async function main() {
             if (target_yield !== null && accurate_yield >= target_yield) {
                 finished = true;
                 break;
-            }
-            if (target_running_minutes !== null) {
-                const duration_mins = (Date.now() - start_time) / 1000 / 60;
-                if (duration_mins > target_running_minutes) {
-                    finished = true;
-                    break;
-                }
             }
             if (run_until_unix_time !== null && Date.now() >= run_until_unix_time) {
                 finished = true;
