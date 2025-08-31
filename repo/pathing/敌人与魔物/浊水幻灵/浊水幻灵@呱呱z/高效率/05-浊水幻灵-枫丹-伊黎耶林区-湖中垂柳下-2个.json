@@ -9,18 +9,17 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1755690753227,
+    "last_modified_time": 1756108204247,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "05-浊水幻灵-枫丹-伊黎耶林区-湖中垂柳下-2个",
     "tags": [
       "精英怪",
       "等级100+",
-      "浊水幻灵",
-      "高效"
+      "浊水幻灵"
     ],
     "type": "collect",
-    "version": "1.0"
+    "version": "1.1"
   },
   "positions": [
     {
@@ -61,7 +60,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "纳西妲 keypress(E),",
+      "action_params": "纳西妲 e;",
       "id": 5,
       "move_mode": "dash",
       "type": "path",
@@ -73,7 +72,7 @@
       "action_params": "",
       "id": 6,
       "move_mode": "dash",
-      "type": "path",
+      "type": "target",
       "x": 3218.9043,
       "y": 3731.4976
     }
