@@ -1,7 +1,8 @@
 {
   "info": {
-    "name": "07-青蜜莓-坚岩隘谷-5×3个",
+    "name": "01-青蜜莓-踞石山上-4×3个",
     "type": "collect",
+    "author": "黎歌",
     "version": "1.0",
     "bgi_version": "0.42.0",
     "authors": [
@@ -13,72 +14,64 @@
   "positions": [
     {
       "id": 1,
-      "x": 8258.29,
-      "y": -1744.66,
+      "x": 7845.1,
+      "y": -2047.38,
       "type": "teleport",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 2,
-      "x": 8218.15,
-      "y": -1754.16,
-      "type": "target",
+      "x": 7846.71,
+      "y": -2045.65,
+      "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 3,
-      "x": 8138.89,
-      "y": -1706.31,
-      "type": "target",
-      "move_mode": "walk",
+      "x": 7855.83,
+      "y": -2018.21,
+      "type": "path",
+      "move_mode": "fly",
       "action": ""
     },
     {
       "id": 4,
-      "x": 8132.25,
-      "y": -1701.48,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "x": 7855.83,
+      "y": -2018.21,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying"
     },
     {
       "id": 5,
-      "x": 8134.78,
-      "y": -1711.06,
-      "type": "target",
+      "x": 7870.0,
+      "y": -2039.59,
+      "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 6,
-      "x": 8103.64,
-      "y": -1694.72,
-      "type": "path",
+      "x": 7869.01,
+      "y": -2054.92,
+      "type": "target",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 7,
-      "x": 8075.06,
-      "y": -1689.48,
-      "type": "path",
+      "x": 7893.7,
+      "y": -2058.13,
+      "type": "target",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 8,
-      "x": 8021.86,
-      "y": -1714.07,
-      "type": "target",
-      "move_mode": "fly",
-      "action": ""
-    },
-    {
-      "id": 9,
-      "x": 8019.16,
-      "y": -1711.59,
+      "x": 7888.44,
+      "y": -2084.88,
       "type": "target",
       "move_mode": "walk",
       "action": ""
