@@ -500,8 +500,10 @@ async function openOutcrop(targetPath) {
         captureRegion = captureGameRegion();
         if (recognizeFightText(captureRegion)) {
             recognized = true;
+            captureRegion.dispose();
             break;
         }
+        captureRegion.dispose();
         keyPress("F");
         await sleep(500);
     }
@@ -640,38 +642,42 @@ async function startRewardTextDetection(cts) {
                     // 首先检查异常界面
                     let captureRegion = captureGameRegion();
 
-                    // 检查是否误触发其他页面
-                    if (captureRegion.Find(paimonMenuRo).IsEmpty()) {
-                        log.debug("误触发其他页面，尝试关闭页面");
-                        await genshin.returnMainUi();
-                        await sleep(300);
-                        continue;
-                    }
+                    try {
+                        // 检查是否误触发其他页面
+                        if (captureRegion.Find(paimonMenuRo).IsEmpty()) {
+                            log.debug("误触发其他页面，尝试关闭页面");
+                            await genshin.returnMainUi();
+                            await sleep(300);
+                            continue;
+                        }
 
-                    // 检查是否已经到达领奖界面
-                    let resList = captureRegion.findMulti(ocrRoThis); // 使用预定义的ocrRoThis对象
-                    if (resList && resList.count > 0) {
-                        for (let i = 0; i < resList.count; i++) {
-                            if (resList[i].text.includes("原粹树脂")) {
-                                log.debug("已到达领取页面，可以领奖");
-                                resolve(true);
-                                return;
+                        // 检查是否已经到达领奖界面
+                        let resList = captureRegion.findMulti(ocrRoThis); // 使用预定义的ocrRoThis对象
+                        if (resList && resList.count > 0) {
+                            for (let i = 0; i < resList.count; i++) {
+                                if (resList[i].text.includes("原粹树脂")) {
+                                    log.debug("已到达领取页面，可以领奖");
+                                    resolve(true);
+                                    return;
+                                }
                             }
                         }
-                    }
 
-                    let ocrResults = captureRegion.findMulti(ocrRo3);
+                        let ocrResults = captureRegion.findMulti(ocrRo3);
 
-                    if (ocrResults && ocrResults.count > 0) {
-                        for (let i = 0; i < ocrResults.count; i++) {
-                            if (ocrResults[i].text.includes("接触") ||
-                                ocrResults[i].text.includes("地脉") ||
-                                ocrResults[i].text.includes("之花")) {
-                                log.debug("检测到文字: " + ocrResults[i].text);
-                                resolve(true);
-                                return;
+                        if (ocrResults && ocrResults.count > 0) {
+                            for (let i = 0; i < ocrResults.count; i++) {
+                                if (ocrResults[i].text.includes("接触") ||
+                                    ocrResults[i].text.includes("地脉") ||
+                                    ocrResults[i].text.includes("之花")) {
+                                    log.debug("检测到文字: " + ocrResults[i].text);
+                                    resolve(true);
+                                    return;
+                                }
                             }
                         }
+                    } finally {
+                        captureRegion.dispose();
                     }
 
                     await sleep(200);
@@ -740,7 +746,7 @@ async function adjustViewForReward(boxIconRo, token) {
 
         let captureRegion = captureGameRegion();
         let iconRes = captureRegion.Find(boxIconRo);
-
+        captureRegion.dispose();
         if (!iconRes.isExist()) {
             log.warn("未找到图标，等待一下");
             await sleep(1000); 
@@ -801,7 +807,9 @@ async function closeCustomMarks() {
     click(60, 1020);
     await sleep(600);
 
-    let button = captureGameRegion().find(openRo);
+    let captureRegion1 = captureGameRegion();
+    let button = captureRegion1.find(openRo);
+    captureRegion1.dispose();
     if (button.isExist()) {
         marksStatus = false;
         log.info("关闭自定义标记");
@@ -825,7 +833,9 @@ async function openCustomMarks() {
     click(60, 1020);
     await sleep(600);
 
-    let button = captureGameRegion().find(closeRo);
+    let captureRegion2 = captureGameRegion();
+    let button = captureRegion2.find(closeRo);
+    captureRegion2.dispose();
     if (button.isExist()) {
         for (let i = 0; i < button.count; i++) {
             let b = button[i];

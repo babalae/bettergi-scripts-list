@@ -13,7 +13,9 @@ this.clickWithVerification = async function(x, y, targetText, maxRetries = 20) {
         await sleep(400); 
         
         // 验证目标文字是否消失
-        let resList = captureGameRegion().findMulti(ocrRoThis);
+        let captureRegion = captureGameRegion();
+        let resList = captureRegion.findMulti(ocrRoThis);
+        captureRegion.dispose();
         let textFound = false;
         
         if (resList && resList.count > 0) {
@@ -50,7 +52,9 @@ this.attemptReward = async function (retryCount = 0) {
     await sleep(500);
 
     // 识别是否为地脉之花界面
-    let resList = captureGameRegion().findMulti(ocrRoThis); // 使用预定义的ocrRoThis对象
+    let captureRegion = captureGameRegion();
+    let resList = captureRegion.findMulti(ocrRoThis); // 使用预定义的ocrRoThis对象
+    captureRegion.dispose();
     let isValid = false;
     let condensedResin = null;
     let originalResin = null;

@@ -1,0 +1,31 @@
+﻿{
+  "info": {
+    "name": "wait",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "星野",
+        "links": "https://github.com/LX666-666"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754823797666,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 0,
+      "y": 0,
+      "action_params": "wait(1)"
+    }
+  ]
+}

@@ -71,7 +71,10 @@ let furinaState = "unknown";
     }
     await writeCDInfo(accountName);
     //更新日期信息
-    record.lastRunDate = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/${String(new Date().getDate()).padStart(2, '0')}`;
+    record.lastRunDate = new Date(Date.now() - 4 * 60 * 60 * 1000)
+        .toLocaleDateString('zh-CN', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit' })
+        .replace(/\//g, '/');
+
     await writeRecord(accountName);
 
     //运行前按自定义配置清理狗粮
@@ -240,12 +243,14 @@ async function readRecord(accountName) {
         log.error("读取或解析 manifest.json 失败:", err);
     }
 
-    /* ---------- 判断今日是否运行 ---------- */
+    /* ---------- 判断今日是否运行（北京时间 04:00 分界，手动拼接 UTC 20 点） ---------- */
     if (record.lastRunDate) {
         const [y, m, d] = record.lastRunDate.split("/").map(Number);
-        const lastRun4AM = new Date(y, m - 1, d, 4, 0, 0);
-        const now = new Date();
+        // 东八区 04:00 对应 UTC 20:00
+        const lastRun4AM = new Date(`${y}-${String(m).padStart(2, '0')}-${String(d - 1).padStart(2, '0')}T20:00:00.000Z`).getTime();
+        //log.info(`lastRun4AM = ${new Date(lastRun4AM).toISOString()}`);
 
+        const now = Date.now();
         if (now - lastRun4AM < 24 * 60 * 60 * 1000) {
             log.info("今日已经运行过狗粮");
             state.runnedToday = true;
@@ -253,7 +258,7 @@ async function readRecord(accountName) {
             state.runnedToday = false;
         }
 
-        if (record.lastActivateTime - lastRun4AM > 0 && state.runnedToday) {
+        if (record.lastActivateTime.getTime() - lastRun4AM > 0 && state.runnedToday) {
             log.info("今日已经运行过激活路线");
             state.activatedToday = true;
         } else {
@@ -330,17 +335,21 @@ async function processArtifacts(times = 1) {
         }
         await sleep(1000);
 
-        //识别已储存经验（1570-880-1650-930）
-        let regionToCheck1 = { x: 1570, y: 880, width: 80, height: 50 };
-        let initialNum = await recognizeTextInRegion(regionToCheck1);
-        let initialValue = 0;
+        // 识别已储存经验（1570-880-1650-930）
+        const regionToCheck1 = { x: 1570, y: 880, width: 80, height: 50 };
+        const raw = await recognizeTextInRegion(regionToCheck1);
 
-        if (initialNum && !isNaN(parseInt(initialNum, 10))) {
-            initialValue = parseInt(initialNum, 10);
+        // 把识别到的文字里所有非数字字符去掉，只保留数字
+        const digits = (raw || '').replace(/\D/g, '');
+
+        let initialValue = 0;
+        if (digits) {
+            initialValue = parseInt(digits, 10);
             log.info(`已储存经验识别成功: ${initialValue}`);
         } else {
             log.warn(`在指定区域未识别到有效数字: ${initialValue}`);
         }
+
         let regionToCheck3 = { x: 100, y: 885, width: 170, height: 50 };
         let decomposedNum = 0;
         let firstNumber = 0;
@@ -418,12 +427,16 @@ async function processArtifacts(times = 1) {
         if (settings.notify) {
             notification.Send(`当前经验如图`);
         }
-        let regionToCheck2 = { x: 1470, y: 880, width: 205, height: 70 };
-        let newNum = await recognizeTextInRegion(regionToCheck2);
-        let newValue = 0;
+        // 当前总经验（1470-880-205-70）
+        const regionToCheck2 = { x: 1470, y: 880, width: 205, height: 70 };
+        const raw2 = await recognizeTextInRegion(regionToCheck2);
 
-        if (newNum && !isNaN(parseInt(newNum, 10))) {
-            newValue = parseInt(newNum, 10);
+        // 只保留数字
+        const digits2 = (raw2 || '').replace(/\D/g, '');
+
+        let newValue = 0;
+        if (digits2) {
+            newValue = parseInt(digits2, 10);
             log.info(`当前总经验识别成功: ${newValue}`);
         } else {
             log.warn(`在指定区域未识别到有效数字: ${newValue}`);
@@ -1003,31 +1016,43 @@ async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "
         }
         await fakeLog(Path.fileName, false, false, 0);
         if (pathInfo.ok) {
-            //回到主界面
             await genshin.returnMainUi();
             await sleep(500);
-            try {
-                // 获取当前人物在指定地图上的坐标
-                const currentPosition = await genshin.getPositionFromMap(pathInfo.map_name);
 
-                // 计算与最后一个非 orientation 点的距离
-                const distToLast = Math.hypot(
-                    currentPosition.x - pathInfo.x,
-                    currentPosition.y - pathInfo.y
-                );
+            const maxAttempts = 3;
+            let attempts = 0;
 
-                // 距离超过 50 认为路线没有正常完成（卡死或未开图等）
-                if (distToLast >= 50) {
-                    failcount++;
+            while (attempts < maxAttempts) {
+                try {
+                    const cur = await genshin.getPositionFromMap(pathInfo.map_name);
+                    const dist = Math.hypot(cur.x - pathInfo.x, cur.y - pathInfo.y);
+
+                    if (dist < 50) break;   // 成功跳出
+
+                    attempts++;
+                    log.warn(
+                        `路线 ${Path.fileName} 第 ${attempts} 次检测失败 ` +
+                        `(距离 ${dist.toFixed(2)}) —— ` +
+                        `当前(${cur.x.toFixed(2)}, ${cur.y.toFixed(2)}) ` +
+                        `目标(${pathInfo.x.toFixed(2)}, ${pathInfo.y.toFixed(2)})`
+                    );
+
+                    if (attempts === maxAttempts) {
+                        failcount++;
+                        skiprecord = true;
+                        await sleep(5000);
+                        break;
+                    }
+
+                    await sleep(1000);
+                } catch (err) {
+                    log.error(`发生错误：${err.message}`);
                     skiprecord = true;
-                    log.warn(`路线${Path.fileName}没有正常完成`);
-                    await sleep(5000);
+                    break;
                 }
-            } catch (error) {
-                log.error(`发生错误：${error.message}`);
-                skiprecord = true;
             }
         }
+
         if (!skiprecord) {
             CDInfo = [...new Set([...CDInfo, Path.fullPath])];
             await writeCDInfo(accountName);
