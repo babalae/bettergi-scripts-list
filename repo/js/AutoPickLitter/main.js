@@ -360,8 +360,6 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
                         await sleep(2000);
                         await click(1670,1025);
                         await sleep(2500);
-                            
-
                         // 通过图片识别
                         // 大凶or凶
                         let img2 = await findImgIcon("assets/RecognitionObject/Bad.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
@@ -409,7 +407,7 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
                             writeContentToFile(`抽签的结果:吉\n`, false);
                         } else {
                             log.info("抽签的结果:末吉");
-                            writeContentToFile(`抽签的结果:末凶\n`, false);
+                            writeContentToFile(`抽签的结果:末吉\n`, false);
                         };
                         
 
@@ -584,7 +582,7 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
                                 case 4:
                                     writeContentToFile("获得的龙蛋:闪闪礼蛋·菲耶蒂娜\n", false);
                                     break;
-                                case 6:
+                                case 5:
                                     writeContentToFile("获得的龙蛋:闪闪礼蛋·献给小酒杯\n", false);
                                     break;
                                 default:
@@ -607,58 +605,6 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
     };
 
     //输出日期
-    // writeContentToFile("", true);
-
-    
-                        // // 大凶or凶
-                        // let img2 = await findImgIcon("assets/RecognitionObject/Bad.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
-                        // let img3 = await findImgIcon("assets/RecognitionObject/BigBad.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
-                        // // 大吉、吉、末吉
-                        // let img4 = await findImgIcon("assets/RecognitionObject/BigLuck.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
-                        // let img5 = await findImgIcon("assets/RecognitionObject/luck.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
-                        // let img6 = await findImgIcon("assets/RecognitionObject/EndLuck.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
-                        // await genshin.returnMainUi();
-                        // if (img2.length !== 0) {
-                        //     log.info("抽签的结果:凶");
-                        //     writeContentToFile(`抽签的结果:凶\n`, false);
-                        //     await pathingScript.runFile("assets/挂签路线.json");
-                        //     await performOcr("御签挂", { min: 900, max: 1700 }, { min: 380, max: 880 }, false);
-                        //     await sleep(700);
-                        //     await genshin.chooseTalkOption("挂起来吧");
-                        //     await click(111,184);
-                        //     await sleep(1000);
-                        //     await click(1250,817);
-                        //     await sleep(1000);
-                        //     await click(1603,1013);
-                        //     await sleep(1500);
-                        //     await genshin.returnMainUi();
-                        //     log.info("事事顺利");
-                        // } else if (img3.length !== 0) {
-                        //     log.info("抽签的结果:大凶");
-                        //     writeContentToFile(`抽签的结果:大凶\n`, false);
-                        //     await pathingScript.runFile("assets/挂签路线.json");
-                        //     await performOcr("御签挂", { min: 900, max: 1700 }, { min: 380, max: 880 }, false);
-                        //     await sleep(700);
-                        //     await genshin.chooseTalkOption("挂起来吧");
-                        //     await click(111,184);
-                        //     await sleep(1000);
-                        //     await click(1250,817);
-                        //     await sleep(1000);
-                        //     await click(1603,1013);
-                        //     await sleep(1500);
-                        //     await genshin.returnMainUi();
-                        //     log.info("事事顺利");
-                        // } else if (img4.length !== 0) {
-                        //     log.info("抽签的结果:大吉");
-                        //     writeContentToFile(`抽签的结果:大吉\n`, false);
-                        // } else if (img5.length !== 0) {
-                        //     log.info("抽签的结果:吉");
-                        //     writeContentToFile(`抽签的结果:吉\n`, false);
-                        // } else {
-                        //     log.info("抽签的结果:末吉");
-                        //     writeContentToFile(`抽签的结果:末吉\n`, false);
-                        // };
-
-
+    writeContentToFile("", true);
 
 })();
