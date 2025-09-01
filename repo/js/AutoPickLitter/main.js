@@ -1,23 +1,27 @@
-//初始化
+// 初始化游戏截图区域
 let gameRegion;
 
-//对话识别区域
-xZone = { min: 900, max: 1700 }; 
-yZone = { min: 380, max: 880 };
+// 对话识别区域
+const dialogZone = { x: { min: 900, max: 1700 }, y: { min: 380, max: 880 } };
 
 
 
 
 //文字识别,并返回相关信息
-async function performOcr(keyWords, xRange, yRange,judge) {
+async function performOcr(keyWords, xRange, yRange, judge) {
+    //截取游戏截图
     gameRegion = captureGameRegion();
     try {
-        if (judge == "true") {
+        if (judge) {
+            //单个识别
             let ocrResult = gameRegion.find(RecognitionObject.ocr(
                 xRange.min, yRange.min,
                 xRange.max - xRange.min, yRange.max - yRange.min
             ));
+            //释放内存
+            gameRegion.dispose();
             if (ocrResult) {
+                //识别结果
                 let correctedText = ocrResult.text;
                 return correctedText; 
             } else {
@@ -25,11 +29,12 @@ async function performOcr(keyWords, xRange, yRange,judge) {
                 return ""; 
             }
         } else {
-            
+            //多个识别
             let resList = gameRegion.findMulti(RecognitionObject.ocr(
                 xRange.min, yRange.min,
                 xRange.max - xRange.min, yRange.max - yRange.min
             ));
+            //释放内存
             gameRegion.dispose();
             // 遍历识别结果，检查是否找到目标文本
             let results = [];
@@ -61,27 +66,50 @@ async function performOcr(keyWords, xRange, yRange,judge) {
 }
 
 
-//图标识别，并返回相关信息
-async function findImgIcon(imagePath, xRange, yRange) {
+//图像识别，并返回相关信息
+async function findImgIcon(imagePath, xRange, yRange, judge) {
+    // 读取图像模板
     let template = file.ReadImageMatSync(imagePath);
+    // 创建识别对象
     let recognitionObject = RecognitionObject.TemplateMatch(template, xRange.min, yRange.min,
-            xRange.max - xRange.min, yRange.max - yRange.min);
+        xRange.max - xRange.min, yRange.max - yRange.min);
     let results = [];
+    let results1 = [];
+    // 捕捉游戏截图
+    gameRegion = captureGameRegion();
+    // 查找图像
+    let result = gameRegion.find(recognitionObject);
+    // 释放内存
+    gameRegion.dispose();
     try {
-        gameRegion = captureGameRegion();
-        let result = gameRegion.find(recognitionObject);
-        if (result.isExist()) {
-            results.push({ success: true, x: result.x, y: result.y, width: result.width, height: result.height });
-            keyDown("VK_MENU");
-            await sleep(500);
-            moveMouseTo(result.x, result.y);
-            leftButtonClick();
-            await sleep(800);
-            keyUp("VK_MENU");
+        // 如果需要判断
+        if (judge) {
+            // 如果找到
+            if (result.isExist()) {
+                // 保存结果
+                results.push({ success: true, x: result.x, y: result.y, width: result.width, height: result.height });
+                // 点击该位置
+                keyDown("VK_MENU");
+                await sleep(500);
+                moveMouseTo(result.x, result.y);
+                leftButtonClick();
+                await sleep(800);
+                keyUp("VK_MENU");
+            } else {
+                // log.info("图像识别失败");
+            }
+            return results;
         } else {
-            // log.info("图像识别失败");
+            // 如果找到
+            if (result.isExist()) {
+                // 保存结果
+                results1.push({ success: true, x: result.x, y: result.y, width: result.width, height: result.height });
+            } else {
+                // log.info("图像识别失败");
+            }
+            return results1;
         }
-        return results;
+        
     } catch (error) {
         log.error(`识别图像时发生异常: ${error.message}`);
     }
@@ -123,7 +151,7 @@ function writeContentToFile(content, judge) {
     } catch (e) {
     }
 
-    if (judge == "true") {
+    if (judge) {
         runDate = `==========${new Date().getFullYear()}年${String(new Date().getMonth() + 1).padStart(2, '0')}月${String(new Date().getDate()).padStart(2, '0')}日==========`;
         const finalContent1 = runDate + "\n" + existingContent;
         //按行分割，保留最近365条完整记录（按原始换行分割，不过滤）
@@ -155,19 +183,34 @@ function writeContentToFile(content, judge) {
 }
 
 // 滚动页面
+// totalDistance: 需要滚动的总距离
+// stepDistance: 每次滚动的距离
+// delayMs: 两次滚动之间的延迟
 async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
+    // 移动鼠标到(999, 750)并按下左键
     moveMouseTo(999, 750);
     await sleep(50);
     leftButtonDown();
+
+    // 估算需要滚动的步数
     const steps = Math.ceil(totalDistance / stepDistance);
+    // 依次滚动
     for (let j = 0; j < steps; j++) {
+        // 计算本次滚动剩余的距离
         const remainingDistance = totalDistance - j * stepDistance;
+        // 如果剩余距离小于 stepDistance，则滚动剩余的距离
+        // 否则滚动 stepDistance
         const moveDistance = remainingDistance < stepDistance ? remainingDistance : stepDistance;
+        // 滚动
         moveMouseBy(0, -moveDistance);
+        // 等待 delayMs ms
         await sleep(delayMs);
     }
+    // 等待700ms
     await sleep(700);
+    // 释放左键
     leftButtonUp();
+    // 等待100ms
     await sleep(100);
 }
 
@@ -183,19 +226,19 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
         //识别区域
         try {
             //识别对话位置，并点击
-            let ocrResults = await performOcr("神奇的", xZone, yZone, "false");
+            let ocrResults = await performOcr("神奇的", dialogZone.x, dialogZone.y, false);
             if (ocrResults.length != 0) {
-                await sleep(1000);
+                await sleep(700);
                 await genshin.chooseTalkOption("如何才能获得强大的力量");
                 await sleep(1000);
                 leftButtonClick();
                 await sleep(1000);
-                let recognizedOver = await performOcr("已",{ min: 1482, max: 1630 }, { min: 912, max: 957 }, "false")
+                let recognizedOver = await performOcr("已",{ min: 1482, max: 1630 }, { min: 912, max: 957 }, false)
                 if (recognizedOver.length != 0) {
                     log.info("已售罄！！！");
                     await genshin.returnMainUi();
                 } else {
-                    let recognizedMora = await performOcr("", { min: 1600, max: 1780 }, { min: 30, max: 60 }, "true")
+                    let recognizedMora = await performOcr("", { min: 1600, max: 1780 }, { min: 30, max: 60 }, true)
                     if (BigInt(recognizedMora) >= 300) {
                         await sleep(800);
                         await click(1636,1019);
@@ -223,10 +266,10 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
         //识别区域
         try {
             //识别对话位置，并点击
-            // let ocrResults = await performOcr("王平安", { min: 1058, max: 1551 }, { min: 394, max: 680 },"false");
-            let ocrResults = await performOcr("王平安", xZone, yZone,"false");
+            // let ocrResults = await performOcr("王平安", { min: 1058, max: 1551 }, { min: 394, max: 680 }, false);
+            let ocrResults = await performOcr("王平安", dialogZone.x, dialogZone.y, false);
             if (ocrResults.length != 0) {
-                await sleep(1000);
+                await sleep(700);
                 await genshin.chooseTalkOption("能给我几支香吗");
                 await sleep(700);
                 leftButtonClick();
@@ -234,8 +277,8 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
                 leftButtonClick();
                 await sleep(1500);
                 
-                // let ocrResults1 = await performOcr("敬香", { min: 1060, max: 1550 }, { min: 400, max: 680 },"false");
-                let ocrResults1 = await performOcr("敬香", xZone, yZone,"false");
+                // let ocrResults1 = await performOcr("敬香", { min: 1060, max: 1550 }, { min: 400, max: 680 }, false);
+                let ocrResults1 = await performOcr("敬香", dialogZone.x, dialogZone.y, false);
                 if(ocrResults1.length != 0){
                     await sleep(700);
                     await click(1168,785);
@@ -261,12 +304,12 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
         //识别区域
         try {
             //识别对话位置，并点击
-            let ocrResults = await performOcr("御神签箱", xZone, yZone, "false");
+            let ocrResults = await performOcr("御神签箱", dialogZone.x, dialogZone.y, false);
             if (ocrResults.length != 0) {
                 await sleep(700);
                 leftButtonClick();
                 await sleep(2000);
-                let ocrResults1 = await performOcr("求签吧", xZone, yZone, "false");
+                let ocrResults1 = await performOcr("求签吧", dialogZone.x, dialogZone.y, false);
                 if (ocrResults1.length != 0) {
                     await sleep(2000);
                     leftButtonClick();
@@ -275,16 +318,16 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
                     await sleep(3000);
                 };
 
-                let ocrResults2 = await performOcr("玄冬林", xZone, yZone,"false");
+                let ocrResults2 = await performOcr("玄冬林", dialogZone.x, dialogZone.y, false);
                 if (ocrResults2.length != 0) {
-                    await sleep(700);
+                    await sleep(1000);
                     leftButtonClick();
                     await sleep(700);
-                    let ocrResults3 = await performOcr("我要", xZone, yZone, "false");
+                    let ocrResults3 = await performOcr("我要", dialogZone.x, dialogZone.y, false);
                     if (ocrResults3.length != 0) {
                         await sleep(700);
                         leftButtonClick();
-                        await sleep(1000);
+                        await sleep(1500);
                         //交互道具，直接选择位置点击
                         await click(111,184);
                         await sleep(1000);
@@ -300,13 +343,13 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
                         await sleep(700);
                         for(let scroll = 0; scroll <= 22; scroll++){
                             //识别御神签
-                            let img1 = await findImgIcon("assets/RecognitionObject/YuShenQianHalf.png", { min: 99, max: 1295 }, { min: 104, max: 967 })
-                            if (img1.length != 0) {
+                            let img = await findImgIcon("assets/RecognitionObject/YuShenQianHalf.png", { min: 99, max: 1295 }, { min: 104, max: 967 }, true)
+                            if (img.length != 0) {
                                 break;
                             };
                             //判断是否到底
-                            let img = await findImgIcon("assets/RecognitionObject/SliderBottom.png", { min: 1284, max: 1293 }, { min: 916, max: 942 })
-                            if (img.length != 0) {
+                            let img1 = await findImgIcon("assets/RecognitionObject/SliderBottom.png", { min: 1284, max: 1293 }, { min: 916, max: 942 }, false)
+                            if (img1.length != 0) {
                                 log.info("已到达最后一页！");
                                 break;
                             };
@@ -317,11 +360,23 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
                         await sleep(2000);
                         await click(1670,1025);
                         await sleep(2500);
-                        let recognizedText = await performOcr("", { min: 630, max: 800 }, { min: 100, max: 160 }, "true");
-                        if(recognizedText.includes("区")){
+                            
+
+                        // 通过图片识别
+                        // 大凶or凶
+                        let img2 = await findImgIcon("assets/RecognitionObject/Bad.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
+                        let img3 = await findImgIcon("assets/RecognitionObject/BigBad.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
+                        // 大吉、吉、末吉
+                        let img4 = await findImgIcon("assets/RecognitionObject/BigLuck.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
+                        let img5 = await findImgIcon("assets/RecognitionObject/luck.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
+                        let img6 = await findImgIcon("assets/RecognitionObject/EndLuck.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
+                        await genshin.returnMainUi();
+                        if (img2.length !== 0) {
+                            log.info("抽签的结果:凶");
+                            writeContentToFile(`抽签的结果:凶\n`, false);
                             await pathingScript.runFile("assets/挂签路线.json");
-                            await performOcr("御签挂", { min: 900, max: 1700 }, { min: 380, max: 880 }, "false");
-                            await sleep(1000);
+                            await performOcr("御签挂", { min: 900, max: 1700 }, { min: 380, max: 880 }, false);
+                            await sleep(700);
                             await genshin.chooseTalkOption("挂起来吧");
                             await click(111,184);
                             await sleep(1000);
@@ -331,9 +386,54 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
                             await sleep(1500);
                             await genshin.returnMainUi();
                             log.info("事事顺利");
+                        } else if (img3.length !== 0) {
+                            log.info("抽签的结果:大凶");
+                            writeContentToFile(`抽签的结果:大凶\n`, false);
+                            await pathingScript.runFile("assets/挂签路线.json");
+                            await performOcr("御签挂", { min: 900, max: 1700 }, { min: 380, max: 880 }, false);
+                            await sleep(700);
+                            await genshin.chooseTalkOption("挂起来吧");
+                            await click(111,184);
+                            await sleep(1000);
+                            await click(1250,817);
+                            await sleep(1000);
+                            await click(1603,1013);
+                            await sleep(1500);
+                            await genshin.returnMainUi();
+                            log.info("事事顺利");
+                        } else if (img4.length !== 0) {
+                            log.info("抽签的结果:大吉");
+                            writeContentToFile(`抽签的结果:大吉\n`, false);
+                        } else if (img5.length !== 0) {
+                            log.info("抽签的结果:吉");
+                            writeContentToFile(`抽签的结果:吉\n`, false);
+                        } else {
+                            log.info("抽签的结果:末吉");
+                            writeContentToFile(`抽签的结果:末凶\n`, false);
                         };
+                        
+
+
+                        // // 通过文字识别
+                        // let recognizedText = await performOcr("", { min: 630, max: 800 }, { min: 100, max: 160 }, true);
+                        // await genshin.returnMainUi();
+                        // if(recognizedText.includes("区")){
+                        //     await pathingScript.runFile("assets/挂签路线.json");
+                        //     await performOcr("御签挂", { min: 900, max: 1700 }, { min: 380, max: 880 }, false);
+                        //     await sleep(700);
+                        //     await genshin.chooseTalkOption("挂起来吧");
+                        //     await click(111,184);
+                        //     await sleep(1000);
+                        //     await click(1250,817);
+                        //     await sleep(1000);
+                        //     await click(1603,1013);
+                        //     await sleep(1500);
+                        //     await genshin.returnMainUi();
+                        //     log.info("事事顺利");
+                        // };
+                        
                     } else {
-                        await sleep(1000);
+                        await sleep(700);
                         await genshin.chooseTalkOption("再见");
                         await sleep(700);
                         leftButtonClick();
@@ -360,12 +460,12 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
     if(settings.meal){
         await genshin.returnMainUi();
         await pathingScript.runFile("assets/枫丹梅洛彼得堡路线.json");
-        await sleep(1000);
+        await sleep(700);
         try {
-            let ocrResults = await performOcr("布兰", xZone, yZone, "false");
+            let ocrResults = await performOcr("布兰", dialogZone.x, dialogZone.y, false);
             if (ocrResults.length != 0) {
                 await sleep(1000);
-                let ocrResults1 = await performOcr("没什么", xZone, yZone, "false");
+                let ocrResults1 = await performOcr("没什么", dialogZone.x, dialogZone.y, false);
                 if(ocrResults1.length != 0){
                     await sleep(700);
                     log.info("对话出现没什么，默认领取和使用过！！！");
@@ -383,7 +483,7 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
                     await click(1250,50); 
                     await sleep(1000);
                     for(let scroll = 0; scroll <= 10; scroll++){
-                        let img = await findImgIcon("assets/RecognitionObject/WelffareMeal.png", { min: 99, max: 1295 }, { min: 104, max: 967 })
+                        let img = await findImgIcon("assets/RecognitionObject/WelffareMealHalf.png", { min: 99, max: 1295 }, { min: 104, max: 967 }, true)
                         if (img.length != 0) {
                             break;
                         }
@@ -397,15 +497,15 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
                     await click(1670,1025);
                     await sleep(2000);
                     //识别获得的食物名称
-                    let recognizedText = await performOcr("", { min: 813, max: 985 }, { min: 585, max: 619 }, "true");
-                    log.info(`获得：${recognizedText}`);
+                    let recognizedText = await performOcr("", { min: 813, max: 985 }, { min: 585, max: 619 }, true);
+                    log.info(`获得:${recognizedText}`);
                     //点击幸运签，并识别内容
                     await sleep(1000);
                     await click(1000,520);
                     await sleep(2000);
-                    let recognizedText1 = await performOcr("", { min: 716, max: 1200 }, { min: 631, max: 710 }, "true");
-                    log.info(`幸运签内容：${recognizedText1}`);
-                    writeContentToFile(`获得的食物:${recognizedText}\n幸运签内容:${recognizedText1}\n`,"false");
+                    let recognizedText1 = await performOcr("", { min: 716, max: 1200 }, { min: 631, max: 710 }, true);
+                    log.info(`幸运签内容:${recognizedText1}`);
+                    writeContentToFile(`获得的食物:${recognizedText}\n幸运签内容:${recognizedText1}\n`, false);
                 };
 
             } else {
@@ -424,21 +524,21 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
         await pathingScript.runFile("assets/纳塔悠悠集市路线.json");
         await sleep(1000);
         try {
-            let ocrResults = await performOcr("察尔瓦", xZone, yZone, "false");
+            let ocrResults = await performOcr("察尔瓦", dialogZone.x, dialogZone.y, false);
 
                 await sleep(700);
                 leftButtonClick();
                 await sleep(2000);
                 
-                let ocrResults1 = await performOcr("让我挑一枚", xZone, yZone, "false");
+                let ocrResults1 = await performOcr("让我挑一枚", dialogZone.x, dialogZone.y, false);
                 if (ocrResults1 != 0) {
                     await sleep(5000);
                     let figure = 0;
                     //六龙蛋位置
                     let coordinates = [
                         [551, 153],
-                        [1087, 161],
                         [881, 341],
+                        [1087, 161],
                         [1342, 357],
                         [472, 572],
                         [572, 721]
@@ -446,31 +546,51 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
                     switch (settings.pickupDragonEgg) {
                         case "闪闪礼蛋·山之血":
                             figure = 1;
-                            writeContentToFile("获得龙蛋:闪闪礼蛋·山之血\n","false");
+                            writeContentToFile("获得的龙蛋:闪闪礼蛋·山之血\n", false);
                             break;
                         case "闪闪礼蛋·太阳的轰鸣":
                             figure = 2;
-                            writeContentToFile("获得龙蛋:闪闪礼蛋·太阳的轰鸣\n","false");
+                            writeContentToFile("获得的龙蛋:闪闪礼蛋·太阳的轰鸣\n", false);
                             break;
                         case "闪闪礼蛋·圣龙君临":
-                            writeContentToFile("获得龙蛋:闪闪礼蛋·圣龙君临\n","false");
+                            writeContentToFile("获得的龙蛋:闪闪礼蛋·圣龙君临\n", false);
                             figure = 3;
                             break;
                         case "闪闪礼蛋·菲耶蒂娜":
-                            writeContentToFile("获得龙蛋:闪闪礼蛋·菲耶蒂娜\n","false");
+                            writeContentToFile("获得的龙蛋:闪闪礼蛋·菲耶蒂娜\n", false);
                             figure = 4;
                             break;
                         case "闪闪礼蛋·献给小酒杯":
-                            writeContentToFile("获得龙蛋:闪闪礼蛋·献给小酒杯\n","false");
+                            writeContentToFile("获得的龙蛋:闪闪礼蛋·献给小酒杯\n", false);
                             figure = 5;
                             break;
                         case "闪闪礼蛋·飞澜鲨鲨":
-                            writeContentToFile("获得龙蛋:闪闪礼蛋·飞澜鲨鲨\n","false");
+                            writeContentToFile("获得的龙蛋:闪闪礼蛋·飞澜鲨鲨\n", false);
                             figure = 6;
                             break;
                         default:
                             figure = Math.floor(Math.random() * 6) + 1;
                             log.info(`随机到第${figure}个蛋`);
+                            switch (figure) {
+                                case 1:
+                                    writeContentToFile("获得的龙蛋:闪闪礼蛋·山之血\n", false);
+                                    break;
+                                case 2:
+                                    writeContentToFile("获得的龙蛋:闪闪礼蛋·太阳的轰鸣\n", false);
+                                    break;
+                                case 3:
+                                    writeContentToFile("获得的龙蛋:闪闪礼蛋·圣龙君临\n", false);
+                                    break;
+                                case 4:
+                                    writeContentToFile("获得的龙蛋:闪闪礼蛋·菲耶蒂娜\n", false);
+                                    break;
+                                case 6:
+                                    writeContentToFile("获得的龙蛋:闪闪礼蛋·献给小酒杯\n", false);
+                                    break;
+                                default:
+                                    writeContentToFile("获得的龙蛋:闪闪礼蛋·飞澜鲨鲨\n", false);
+                                    break;
+                            }
                             break;
                     };
                     moveMouseTo(coordinates[figure - 1][0],coordinates[figure - 1][1]);
@@ -487,8 +607,58 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
     };
 
     //输出日期
-    writeContentToFile("", "true");
+    // writeContentToFile("", true);
 
     
-    
+                        // // 大凶or凶
+                        // let img2 = await findImgIcon("assets/RecognitionObject/Bad.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
+                        // let img3 = await findImgIcon("assets/RecognitionObject/BigBad.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
+                        // // 大吉、吉、末吉
+                        // let img4 = await findImgIcon("assets/RecognitionObject/BigLuck.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
+                        // let img5 = await findImgIcon("assets/RecognitionObject/luck.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
+                        // let img6 = await findImgIcon("assets/RecognitionObject/EndLuck.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
+                        // await genshin.returnMainUi();
+                        // if (img2.length !== 0) {
+                        //     log.info("抽签的结果:凶");
+                        //     writeContentToFile(`抽签的结果:凶\n`, false);
+                        //     await pathingScript.runFile("assets/挂签路线.json");
+                        //     await performOcr("御签挂", { min: 900, max: 1700 }, { min: 380, max: 880 }, false);
+                        //     await sleep(700);
+                        //     await genshin.chooseTalkOption("挂起来吧");
+                        //     await click(111,184);
+                        //     await sleep(1000);
+                        //     await click(1250,817);
+                        //     await sleep(1000);
+                        //     await click(1603,1013);
+                        //     await sleep(1500);
+                        //     await genshin.returnMainUi();
+                        //     log.info("事事顺利");
+                        // } else if (img3.length !== 0) {
+                        //     log.info("抽签的结果:大凶");
+                        //     writeContentToFile(`抽签的结果:大凶\n`, false);
+                        //     await pathingScript.runFile("assets/挂签路线.json");
+                        //     await performOcr("御签挂", { min: 900, max: 1700 }, { min: 380, max: 880 }, false);
+                        //     await sleep(700);
+                        //     await genshin.chooseTalkOption("挂起来吧");
+                        //     await click(111,184);
+                        //     await sleep(1000);
+                        //     await click(1250,817);
+                        //     await sleep(1000);
+                        //     await click(1603,1013);
+                        //     await sleep(1500);
+                        //     await genshin.returnMainUi();
+                        //     log.info("事事顺利");
+                        // } else if (img4.length !== 0) {
+                        //     log.info("抽签的结果:大吉");
+                        //     writeContentToFile(`抽签的结果:大吉\n`, false);
+                        // } else if (img5.length !== 0) {
+                        //     log.info("抽签的结果:吉");
+                        //     writeContentToFile(`抽签的结果:吉\n`, false);
+                        // } else {
+                        //     log.info("抽签的结果:末吉");
+                        //     writeContentToFile(`抽签的结果:末吉\n`, false);
+                        // };
+
+
+
 })();
