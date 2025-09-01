@@ -13,7 +13,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1755963878409,
+    "last_modified_time": 1756396615259,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "CC25-稻妻食材-清籁岛-天云峠右",
@@ -1116,7 +1116,7 @@
       "action": "",
       "action_params": "",
       "id": 110,
-      "locked": true,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": -4597.0918,
@@ -1124,27 +1124,17 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.3),keypress(f)",
+      "action_params": "wait(0.1),keypress(t),wait(0.1),keypress(t)",
       "id": 111,
       "move_mode": "walk",
       "type": "path",
-      "x": -4596.4805,
-      "y": -4563.54
+      "x": -4608.627,
+      "y": -4555.9639
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1),keypress(t)",
+      "action_params": "wait(0.1),keypress(t),wait(0.1),keypress(t)",
       "id": 112,
-      "locked": false,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -4606.2266,
-      "y": -4558.0273
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.1),keypress(t)",
-      "id": 113,
       "locked": false,
       "move_mode": "fly",
       "type": "path",
@@ -1153,8 +1143,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1),keypress(t)",
-      "id": 114,
+      "action_params": "wait(0.1),keypress(t),wait(0.1),keypress(t)",
+      "id": 113,
       "locked": false,
       "move_mode": "fly",
       "type": "path",
@@ -1163,8 +1153,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1),keypress(t)",
-      "id": 115,
+      "action_params": "wait(0.1),keypress(t),wait(0.1),keypress(t)",
+      "id": 114,
       "locked": false,
       "move_mode": "fly",
       "type": "path",
@@ -1174,7 +1164,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 116,
+      "id": 115,
       "locked": false,
       "move_mode": "fly",
       "type": "path",
@@ -1184,7 +1174,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 117,
+      "id": 116,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
@@ -1194,7 +1184,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 118,
+      "id": 117,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
@@ -1204,7 +1194,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.4)",
-      "id": 119,
+      "id": 118,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
