@@ -2,17 +2,21 @@
   "info": {
     "authors": [
       {
-        "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
+        "links": "https://github.com/xd1145",
+        "name": "小大"
+      },
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
       }
     ],
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756148017774,
+    "last_modified_time": 1756654110221,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "21-堇瓜-海祇岛-水月池-6个",
+    "name": "12-青蜜梅-火山顶-3x1+5个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,44 +28,44 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -1133.87,
-      "y": -3605.18
+      "x": 10279.5801,
+      "y": -3109.7793
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10284.1768,
+      "y": -3111.9258
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10289.6084,
+      "y": -3117.4785
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),w(0.4),keypress(f),wait(1),keypress(t),wait(0.5),keypress(t),wait(0.5),keypress(t),wait(0.5)",
-      "id": 2,
-      "move_mode": "dash",
-      "type": "target",
-      "x": -1138.82,
-      "y": -3596.62
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "fly",
-      "type": "target",
-      "x": -1147.1602,
-      "y": -3593.3633
-    },
-    {
-      "action": "",
-      "action_params": "",
+      "action_params": "wait(0.2)",
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": -1154.4648,
-      "y": -3601.2305
+      "x": 10292.4424,
+      "y": -3136.5781
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
       "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": -1140.5332,
-      "y": -3622.4258
+      "x": 10294.5625,
+      "y": -3144.0635
     },
     {
       "action": "",
@@ -69,8 +73,8 @@
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": -1117.7773,
-      "y": -3624.5781
+      "x": 10300.2139,
+      "y": -3148.5879
     },
     {
       "action": "",
@@ -78,8 +82,8 @@
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": -1074.6211,
-      "y": -3669.1367
+      "x": 10303.0703,
+      "y": -3154.0449
     },
     {
       "action": "",
@@ -87,26 +91,26 @@
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": -1043.1953,
-      "y": -3713.3633
+      "x": 10306.2803,
+      "y": -3143.0078
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10307.4619,
+      "y": -3155.916
     },
     {
       "action": "",
       "action_params": "",
-      "id": 9,
-      "move_mode": "fly",
-      "type": "path",
-      "x": -1034.2363,
-      "y": -3717.2949
-    },
-    {
-      "action": "nahida_collect",
-      "action_params": "",
       "id": 10,
       "move_mode": "walk",
       "type": "path",
-      "x": -1007.2168,
-      "y": -3743.4717
+      "x": 10311.9121,
+      "y": -3157.4834
     },
     {
       "action": "",
@@ -114,44 +118,35 @@
       "id": 11,
       "move_mode": "walk",
       "type": "path",
-      "x": -1011.9355,
-      "y": -3707.8438
+      "x": 10323.7061,
+      "y": -3159.748
     },
     {
       "action": "",
       "action_params": "",
       "id": 12,
-      "move_mode": "walk",
+      "move_mode": "jump",
       "type": "path",
-      "x": -999.0117,
-      "y": -3698.8535
+      "x": 10325.3945,
+      "y": -3168.8076
     },
     {
       "action": "",
       "action_params": "",
       "id": 13,
-      "move_mode": "fly",
+      "move_mode": "walk",
       "type": "path",
-      "x": -990.3184,
-      "y": -3694.7061
+      "x": 10340.4453,
+      "y": -3171.0391
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.8)",
+      "action_params": "wait(1)",
       "id": 14,
       "move_mode": "walk",
-      "type": "path",
-      "x": -979.8145,
-      "y": -3690.3496
-    },
-    {
-      "action": "nahida_collect",
-      "action_params": "",
-      "id": 15,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -971.582,
-      "y": -3689.6924
+      "type": "target",
+      "x": 10338.7539,
+      "y": -3174.4414
     }
   ]
 }

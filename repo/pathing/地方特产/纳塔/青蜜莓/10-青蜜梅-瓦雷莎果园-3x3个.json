@@ -2,17 +2,17 @@
   "info": {
     "authors": [
       {
-        "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
+        "links": "https://github.com/xd1145",
+        "name": "小大"
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "",
+    "description": "青蜜梅补充",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756203023278,
+    "last_modified_time": 1755844248216,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "18-堇瓜-八酝岛-蛇骨矿洞-東-6个",
+    "name": "10-青蜜梅-瓦雷莎果园-3x3个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -2405.4805,
-      "y": -3912.6396
+      "x": 10260.9922,
+      "y": -2538.3125
     },
     {
       "action": "",
@@ -33,35 +33,35 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": -2441.0117,
-      "y": -3902.7246
+      "x": 10255.4551,
+      "y": -2535.5293
     },
     {
-      "action": "stop_flying",
-      "action_params": "2500",
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "move_mode": "fly",
-      "type": "target",
-      "x": -2531.6816,
-      "y": -3953.3281
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10249.5449,
+      "y": -2531.4893
     },
     {
-      "action": "nahida_collect",
+      "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": -2540.3574,
-      "y": -3952.7773
+      "x": 10241.9805,
+      "y": -2526.6289
     },
     {
       "action": "",
       "action_params": "",
       "id": 5,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": -2524.0859,
-      "y": -3955.2363
+      "x": 10234.0752,
+      "y": -2521.0859
     },
     {
       "action": "",
@@ -69,8 +69,8 @@
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": -2513.2949,
-      "y": -3978.3828
+      "x": 10225.8457,
+      "y": -2516.6484
     },
     {
       "action": "",
@@ -78,8 +78,8 @@
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": -2493.4785,
-      "y": -3982.46
+      "x": 10218.5068,
+      "y": -2512.5068
     },
     {
       "action": "",
@@ -87,8 +87,8 @@
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": -2476.0977,
-      "y": -3989.8857
+      "x": 10219.9629,
+      "y": -2511.0596
     },
     {
       "action": "",
@@ -96,8 +96,8 @@
       "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": -2461.7051,
-      "y": -4013.8291
+      "x": 10215.3965,
+      "y": -2508.0029
     },
     {
       "action": "",
@@ -105,27 +105,8 @@
       "id": 10,
       "move_mode": "walk",
       "type": "path",
-      "x": -2462.5938,
-      "y": -4064.6719
-    },
-    {
-      "action": "nahida_collect",
-      "action_params": "",
-      "id": 11,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -2461.4219,
-      "y": -4076.4062
-    },
-    {
-      "action": "nahida_collect",
-      "action_params": "",
-      "id": 12,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -2461.4219,
-      "y": -4076.4062
+      "x": 10214.4648,
+      "y": -2507.5703
     }
   ]
 }

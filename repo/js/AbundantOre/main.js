@@ -158,7 +158,14 @@ function is_ore_respawned(t) {
     return respawn_time < Date.now() / 1000;
 }
 
-function get_some_tasks() {
+function get_some_tasks(hints) {
+    hints.target_running_seconds = Math.min(7200, hints.target_running_seconds || Number.MAX_VALUE);
+    if (hints.target_yield) {
+        log.debug("Schedule with target yield {a}", hints.target_yield);
+    }
+    if (hints.target_running_seconds) {
+        log.debug("Schedule with target runnning seconds {a}", hints.target_running_seconds);
+    }
     const exclude_tags = new Set(get_exclude_tags());
     var filtered_statistics = [];
     for (const [key, value] of Object.entries(statistics)) {
@@ -190,39 +197,52 @@ function get_some_tasks() {
     filtered_statistics.sort((a, b) =>
         b[1].statistics.avg_yield_per_min - a[1].statistics.avg_yield_per_min
     );
+    var candidates = [];
+    var sum_yield = 0;
+    var sum_running_seconds = 0;
+    for (const [key, value] of filtered_statistics) {
+        candidates.push([key, value]);
+        sum_yield += value.statistics.avg_yield;
+        sum_running_seconds += value.statistics.avg_time_consumed;
+        if (hints.target_yield !== null && sum_yield >= hints.target_yield) {
+            break;
+        }
+        if (hints.target_running_seconds !== null && sum_running_seconds >= hints.target_running_seconds) {
+            break;
+        }
+    }
 
-    // We don't want to teleport around all the time. So add some spacial affinity here.
-    const look_ahead_num = 20;
-    var sorted_filtered_statistics = [];
-    for (var i = 0; i < filtered_statistics.length; ++i) {
-        if (!filtered_statistics[i]) {
-            continue;
-        }
-        const filename = filtered_statistics[i][0];
-        const value = filtered_statistics[i][1];
+    const candidate_groups = {};
+    for (const [key, value] of candidates) {
         const group_name = value.group;
-        sorted_filtered_statistics.push([filename, value]);
-        filtered_statistics[i] = null;
-        for (var j = i + 1; j <= i + look_ahead_num && j < filtered_statistics.length; ++j) {
-            if (!filtered_statistics[j]) {
-                continue;
-            }
-            const filename2 = filtered_statistics[j][0];
-            const value2 = filtered_statistics[j][1];
-            const group_name2 = value2.group;
-            if (group_name2 === group_name) {
-                sorted_filtered_statistics.push([filename2, value2]);
-                filtered_statistics[j] = null;
-            }
+        if (!candidate_groups.hasOwnProperty(group_name)) {
+            candidate_groups[group_name] = {
+                sum_yield: 0,
+                sum_running_seconds: 0,
+                tasks: [],
+            };
         }
+        candidate_groups[group_name].tasks.push(key);
+        candidate_groups[group_name].sum_yield += value.statistics.avg_yield;
+        candidate_groups[group_name].sum_running_seconds += value.statistics.avg_time_consumed;
     }
-    if (sorted_filtered_statistics.length === 0) {
-        return [];
+    for (const i of Object.values(candidate_groups)) {
+        i.avg_yield_per_min = sum_yield / sum_running_seconds * 60;
+        i.tasks.sort();
     }
-    const first_out_of_group_index = sorted_filtered_statistics.findIndex(i => i[1].group !== sorted_filtered_statistics[0][1].group);
-    const first_group = sorted_filtered_statistics.slice(0, first_out_of_group_index);
-    first_group.sort((a, b) => a[0].localeCompare(b[0]));
-    return first_group;
+    const tasks = Array.from(Object.values(candidate_groups)).sort((a, b) => b.avg_yield_per_min - a.avg_yield_per_min).map(i => i.tasks).flat();
+    var log_content = "";
+    sum_yield = 0;
+    sum_running_seconds = 0;
+    for (const i of tasks) {
+        const s = statistics[i]
+        log_content += `    ${s.statistics.avg_yield_per_min.toFixed(2)} ${i}\n`;
+        sum_yield += s.statistics.avg_yield;
+        sum_running_seconds += s.statistics.avg_time_consumed;
+    }
+    log.debug(log_content);
+    log.debug("Expected yield {a}, time {b} min", sum_yield, sum_running_seconds / 60);
+    return tasks.map(i => [i, statistics[i]]);
 }
 
 async function get_inventory() {
@@ -367,60 +387,82 @@ async function main() {
         }
     }
 
-    const original_inventory = await get_inventory();
-    const start_time = Date.now();
-    var target_yield = null;
-    var target_running_minutes = null;
-    var run_until_hour = null;
-    var run_until_minute = null;
-    var run_until_unix_time = null;
-    switch (settings.arg_mode) {
-        case "最速480矿":
-            target_yield = 480;
-            break;
-        case "挖指定数目的矿（手动填写）":
-            target_yield = Number(settings.arg_amount);
-            break;
-        case "挖一段时间（手动填写）":
-            target_running_minutes = Number(settings.arg_amount);
-            break;
-        case "挖，直到某个时间（手动填写）":
-            [run_until_hour, run_until_minute] = settings.arg_amount.replace("：", ":").split(":").map(Number);
-            const current_unix_time = Date.now();
-            const current_cst_time = (current_unix_time / 1000 + 8 * 3600) % 86400 / 3600;
-            var diff_hours = run_until_hour + run_until_minute / 60 - current_cst_time;
-            if (diff_hours < 0) {
-                diff_hours += 24;
+    const get_current_cst_hour = () => (Date.now() / 1000 + 8 * 3600) % 86400 / 3600;
+    var run_until_unix_time = settings.target_running_minutes ? (Date.now() + Number(settings.target_running_minutes) * 60 * 1000) : null;
+    if (settings.time_range) {
+        const time_range = settings.time_range.replace("～", "~").replace("：", ":");
+        if (time_range.includes("~")) {
+            const [
+                [start_h, start_m],
+                [end_h, end_m]
+            ] = time_range.split("~").map(i => i.split(":").map(Number));
+            const start_time = start_h + start_m / 60;
+            const end_time = end_h + end_m / 60;
+            const current_time = get_current_cst_hour();
+            if (start_time < end_time && !(current_time >= start_time && current_time < end_time)) {
+                // format like 01:30~03:50
+                log.info("不在允许运行的时间内，退出");
+                return;
             }
-            run_until_unix_time = current_unix_time + diff_hours * 3600 * 1000;
-            break;
-        case "挖所有矿":
-            break;
-        default:
-            log.error("Unknown running mode");
-            return;
-    }
-    log.info("已有水晶块{a}个，紫晶块{b}个，萃凝晶{c}个", original_inventory.crystal_chunks, original_inventory.amethyst_lumps, original_inventory.condessence_crystals);
-    if (target_yield !== null) {
-        log.info("将挖矿{a}个", target_yield);
-    } else if (target_running_minutes !== null) {
-        log.info("将挖矿{a}分钟", target_running_minutes);
-    } else if (run_until_hour !== null && run_until_minute !== null && run_until_unix_time !== null) {
-        const num_hours = (run_until_unix_time - Date.now()) / 1000 / 3600;
-        log.info("将挖矿到{h}:{m}（{nh}小时后）", String(run_until_hour).padStart(2, "0"), String(run_until_minute).padStart(2, "0"), num_hours.toFixed(2));
-    } else {
-        log.info("将标挖所有矿");
+            if (start_time > end_time && current_time < start_time && current_time > end_time) {
+                // format like 23:30~4:00
+                log.info("不在允许运行的时间内，退出");
+                return;
+            }
+            const run_until_unix_time2 = ((end_time - current_time + 24) % 24) * 3600 * 1000 + Date.now();
+            run_until_unix_time = Math.min(run_until_unix_time2, run_until_unix_time || Number.MAX_VALUE);
+        } else {
+            // format like 03:50
+            const [end_h, end_m] = time_range.split(":").map(Number);
+            const end_time = end_h + end_m / 60;
+            const run_until_unix_time2 = (end_time - get_current_cst_hour() + 24) % 24 * 3600 * 1000 + Date.now();
+            run_until_unix_time = Math.min(run_until_unix_time2, run_until_unix_time || Number.MAX_VALUE);
+        }
     }
 
+    const original_inventory = await get_inventory();
+    log.info("已有水晶块{a}个，紫晶块{b}个，萃凝晶{c}个", original_inventory.crystal_chunks, original_inventory.amethyst_lumps, original_inventory.condessence_crystals);
+    const target_yield = settings.target_amount ? Math.ceil(Number(settings.target_amount)) : null;
+    if (target_yield && !run_until_unix_time) {
+        log.info("将挖矿{a}个", target_yield);
+    } else if (!target_yield && run_until_unix_time) {
+        const running_minutes = Math.round((run_until_unix_time - Date.now()) / 60 / 1000);
+        log.info("将挖矿{a}分钟", running_minutes);
+    } else if (target_yield && run_until_unix_time) {
+        const running_minutes = Math.round((run_until_unix_time - Date.now()) / 60 / 1000);
+        log.info("将挖矿{a}个或{b}分钟，任何一个先发生", target_yield, running_minutes);
+    } else {
+        log.info("将持续挖矿");
+    }
+
+    const start_time = Date.now();
     var accurate_yield = 0;
     var estimated_yield = 0;
-    var cached_inventory_data = null;
-
+    var cached_inventory_data = original_inventory;
 
     var finished = false;
     const current_states = new Set();
     while (!finished) {
-        const tasks = get_some_tasks();
+        const hints = {
+            target_yield: target_yield ? (target_yield - estimated_yield + 5) : null,
+            target_running_seconds: run_until_unix_time ? (run_until_unix_time - Date.now()) / 1000 : null,
+        };
+        {
+            const now = Math.floor(Date.now() / 1000);
+            var next_refresh_unix_time = Math.floor(now / 86400) * 86400 + 16 * 3600;
+            next_refresh_unix_time += 180; // to avoid the effect of clock skew
+            if (next_refresh_unix_time < now) {
+                next_refresh_unix_time += 86400;
+            }
+            if (!(hints.target_yield || hints.target_running_seconds)) {
+                hints.target_yield = 500;
+            }
+            const target_running_seconds2 = next_refresh_unix_time - now;
+            if (!hints.target_running_seconds || target_running_seconds2 < hints.target_running_seconds) {
+                hints.target_running_seconds = target_running_seconds2;
+            }
+        }
+        const tasks = get_some_tasks(hints);
         if (tasks.length === 0) {
             log.info("没有更多任务可运行，退出");
             finished = true;
@@ -448,13 +490,6 @@ async function main() {
             if (target_yield !== null && accurate_yield >= target_yield) {
                 finished = true;
                 break;
-            }
-            if (target_running_minutes !== null) {
-                const duration_mins = (Date.now() - start_time) / 1000 / 60;
-                if (duration_mins > target_running_minutes) {
-                    finished = true;
-                    break;
-                }
             }
             if (run_until_unix_time !== null && Date.now() >= run_until_unix_time) {
                 finished = true;
