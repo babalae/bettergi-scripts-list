@@ -26,7 +26,7 @@ function () {
         }
 
         // 为了向后兼容，确保某些设置有默认值
-        settings.timeout = settings.timeout * 1000 || 120000;
+        //settings.timeout = settings.timeout * 1000 || 120000;
 
         // 处理刷取次数
         if (!settings.count || !/^-?\d+\.?\d*$/.test(settings.count)) {

@@ -1,5 +1,10 @@
 (async function () {
 
+        var Threshold = genshin.width > 2560 ? 0.65 
+        : genshin.width > 1920 ? 0.7 
+        : 0.8;
+        log.warn(`屏幕分辨率${genshin.width}，识别阈值调整为${Threshold}...`);
+
         let challengeNum = settings.challengeNum;//挑战次数
         if (challengeNum === undefined || challengeNum === ""){challengeNum = 15; }//挑战次数
         let challengeName = settings.challengeName;//挑战BOSS
@@ -63,9 +68,16 @@
         var originalResin = "assets/original_resin_count.png";
         var fragileResin = "assets/fragile_resin_count.png";
         var momentResin = "assets/moment_resin_count.png";
-        var oneResin = "assets/one.png";
         var enterButton = "assets/enter.png";
         var rewardsButton = "assets/rewards.png";
+
+        var resinImages = [
+            "assets/model/one.png",
+            "assets/model/two.png",
+            "assets/model/three.png",
+            "assets/model/four.png",
+            "assets/model/five.png"
+        ];
 
     //文字识别封装函数
     async function Textocr(wenzi="空参数",chaotime=10,clickocr=0,debugcode=0,x=0,y=0,w=1920,h=1080) {
@@ -84,26 +96,38 @@
                 res1=res.text
                 if (res.text===wenzi) {
                     log.info(`识别到 ·${res1}·`);
-                    if (debugcode===1){if (x===0 & y===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);return result = { text: res.text, x: res.x, y: res.y, found: true }}}else{if (x===0 & y===0){log.info("文本OCR完成'{text}'", res.text);}}
+                    if (debugcode===1){if (x===0 & y===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);
+                    captureRegion.dispose();
+                    return result = { text: res.text, x: res.x, y: res.y, found: true }}}else{if (x===0 & y===0){log.info("文本OCR完成'{text}'", res.text);}}
                     if (clickocr===1){await sleep(1000);await click(res.x, res.y);}else{}  
                     if (clickocr===2){await sleep(100);await keyPress("F");}else{}
+                    captureRegion.dispose();
                     return result = { text: res.text, x: res.x, y: res.y, found: true }
                 }
                 if (debugcode===2 && !res.isEmpty()){
                     // log.info("({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);
+                    captureRegion.dispose();
                     return result = { text: res.text, x: res.x, y: res.y, found: true }
                 }
             }
             const NowTime = new Date();
-            if (Math.abs(NowTime - startTime)>chaotime*1000){if (x===0 & y===0){log.info(`${chaotime}秒超时退出，"${wenzi}"未找到`);}return result = {found: false };}else{ii=8;if (x !== 861){if(debugcode!==3){await keyPress("VK_W");}};}
+            if (Math.abs(NowTime - startTime)>chaotime*1000){if (x===0 & y===0){log.info(`${chaotime}秒超时退出，"${wenzi}"未找到`);}
+            captureRegion.dispose();
+            return result = {found: false };}else{ii=8;if (x !== 861){if(debugcode!==3){await keyPress("VK_W");}};}
             await sleep(100);
         }   
     }
 
     // 图片识别封装函数
-    async function imageRecognition(imagefilePath="空参数",timeout=10,afterBehavior=0,debugmodel=0,xa=0,ya=0,wa=1920,ha=1080) {
+    async function imageRecognition(imagefilePath="空参数",timeout=10,afterBehavior=0,debugmodel=0,xa=0,ya=0,wa=1920,ha=1080,tt=0.8) {
         const startTime = new Date();
-        const Imagidentify = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagefilePath));
+
+        const Imagidentify = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagefilePath),true);
+        if (tt !== 0.8){
+            Imagidentify.Threshold=tt;
+            Imagidentify.InitTemplate();        
+        }
+
         for (let ii = 0; ii < 10; ii++) {    
             captureRegion = captureGameRegion();  // 获取一张截图
             res = captureRegion.DeriveCrop(xa, ya, wa, ha).Find(Imagidentify);
@@ -113,11 +137,13 @@
           if (afterBehavior===1){if (xa===0 & ya===0){log.info("点击模式:开");}await sleep(1000);click(res.x+xa, res.y+ya);}else{if (debugmodel===1 & xa===0 & ya===0){log.info("点击模式:关")}}
           if (afterBehavior===2){if (xa===0 & ya===0){log.info("F模式:开");}await sleep(1000);keyPress("F");}else{if (debugmodel===1 & xa===0 & ya===0){log.info("F模式:关")}}
           if (debugmodel===1 & xa===0 & ya===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x+xa, res.y+ya, res.width, res.Height);}else{ log.info("识别到页面元素");}
-          
+          captureRegion.dispose();
           return result = { x: res.x+xa, y: res.y+ya, w:res.width,h:res.Height,found: true }
         }
         const NowTime = new Date();
-        if ((NowTime - startTime)>timeout*1000){if (debugmodel===1 & xa===0 & ya===0){log.info(`${timeout}秒超时退出，未找到图片`);}return result = {found: false };}else{ii=8}
+        if ((NowTime - startTime)>timeout*1000){if (debugmodel===1 & xa===0 & ya===0){log.info(`${timeout}秒超时退出，未找到图片`);}
+        captureRegion.dispose();
+        return result = {found: false };}else{ii=8}
         await sleep(200); 
         }
         await sleep(1200); 
@@ -127,13 +153,30 @@
     async function getRemainResinStatus() {
         var condensedResinCount = 0; // 浓缩树脂
         var originalResinCount = 0; // 原粹树脂
-        var fragileResinCount = 0; // 脆弱树脂 
-        var momentResinCount = 0; // 须臾树脂
+        var fragileResinCount = 0; // 脆弱树脂
+        var momentResinCount = 0; //须臾树脂
 
-        var originalResinCountRa = await imageRecognition(originalResin,0.3, 0, 0,1500,0,200,90);
+        // 浓缩树脂
+        var condensedResinCountRa = await imageRecognition(condensedResin,0.2, 0, 0,800,15,700,70,Threshold);
+        if (condensedResinCountRa.found) {  
+            for (let i = 0; i < resinImages.length; i++) {
+                if(i==0){await sleep(1000);}
+                let countArea = await imageRecognition(resinImages[i],0.2, 0, 0,condensedResinCountRa.x+condensedResinCountRa.w*0.9,condensedResinCountRa.y,condensedResinCountRa.w*2,condensedResinCountRa.h,Threshold);
+                if (countArea.found){                                      
+                    condensedResinCount =i+1;  
+                    break;               
+                }
+                if (i==4){log.info("未检测到浓缩数量，强制为1"); condensedResinCount=1;}                          
+            }
+            
+        }else{
+            log.info("未检测到浓缩树脂图标");        
+        }       
+
+        var originalResinCountRa = await imageRecognition(originalResin,0.1, 0, 0,1555,0,100,100,Threshold);
         if (originalResinCountRa.found) {  
             // await moveMouseTo(originalResinCountRa.x,originalResinCountRa.y);   
-            let countArea = await Textocr("",1, 0, 2,originalResinCountRa.x+originalResinCountRa.w,originalResinCountRa.y,originalResinCountRa.w*3,originalResinCountRa.h);//
+            let countArea = await Textocr("",0.5, 0, 2,originalResinCountRa.x+originalResinCountRa.w,originalResinCountRa.y,originalResinCountRa.w*3,originalResinCountRa.h,Threshold);//
             if (countArea.found){
                 log.info("原粹树脂识别数量结果："+ countArea.text);
                 let match = countArea.text.match(/(\d+)\s*[/17]\s*(2|20|200)/);
@@ -141,11 +184,13 @@
                     originalResinCount = match[1];
                     // log.info("脆弱树脂识别数量提取："+ originalResinCount);
                 }
-                else{
+                else
+                {
                     log.info("原粹树脂识别数量提取失败");
                 }                
             }
-            else{
+            else
+            {
                 log.info("原粹树脂识别数量结果：：无");
             }
 
@@ -153,81 +198,51 @@
             log.info("未检测到原粹树脂图标");
         }
 
-        // 浓缩树脂
-        var condensedResinCountRa = await imageRecognition(condensedResin,0.1, 0, 0,960,0,800,100);
-        if (condensedResinCountRa.found) {  
-            // await moveMouseTo(condensedResinCountRa.x,condensedResinCountRa.y);   
-            let countArea = await Textocr("",0.5, 0, 2,condensedResinCountRa.x+condensedResinCountRa.w,condensedResinCountRa.y,condensedResinCountRa.w,condensedResinCountRa.h);//
-            if (countArea.found){
-                // log.info("浓缩树脂识别数量结果： "+ countArea.text);
-                condensedResinCount = countArea.text
-                if (countArea.text == "")
-                {
-                    log.info("浓缩树脂识别强制为： 1");//
-                    condensedResinCount = "1";
+        var momentResinCountRa = await imageRecognition(momentResin,0.2, 0, 1,1170,0,500,100,0.7,Threshold);
+        if (momentResinCountRa.found) {          
+                
+            for (let i = 0; i < resinImages.length; i++) {
+                let countArea = await imageRecognition(resinImages[i],0.2, 0, 0,momentResinCountRa.x+momentResinCountRa.w,momentResinCountRa.y,momentResinCountRa.w*2,momentResinCountRa.h,Threshold);
+                if (countArea.found){
+                    momentResinCount =i+1;  
+                    break;               
                 }
-            }
-            else{
-                condensedResinCount = "1";
-                log.info("浓缩树脂识别数量结果：1");//不知道为什么，1无法识别，0是不显示图标的，所以就当时1了，反正也没啥影响
-            }
-
-        } else {
-            log.info("未检测到浓缩树脂图标");
-        }       
-
-        var momentResinCountRa = await imageRecognition(momentResin,0.1, 0, 1,1170,0,300,100);
-        if (momentResinCountRa.found) {  
-            // await moveMouseTo(momentResinCountRa.x,momentResinCountRa.y);   
-            let countArea = await Textocr("",0.5, 0, 2,momentResinCountRa.x+momentResinCountRa.w+20,momentResinCountRa.y-15,60,40);//
-            if (countArea.found){
-                //log.info("须臾树脂识别数量结果："+ countArea.text);
-                momentResinCount = countArea.text                
-            }
-            else{                
-                var oneRa = await imageRecognition(oneResin,0.1, 0, 1,momentResinCountRa.x+momentResinCountRa.w+20,momentResinCountRa.y-15,60,40);
-                if (oneRa.found){
-                    momentResinCount = "1";
-                 }else{
-                    log.info("须臾树脂强制为 1 ");
-                    momentResinCount = "1";
-                }
-            }
-            log.info("脆弱树脂强制为 1 ");//须臾树脂出现，脆弱树脂不显示，强制设置为1，情况非常少，大不了打多一次
+                if (i==4){log.info("未检测到须臾图标，强制为1"); momentResinCount=1;}                          
+            } 
+            
             fragileResinCount = "1";
+            log.info("未检测到脆弱树脂图标,可能被须臾图标覆盖，脆弱树脂强制为 1 ");//有图标说明至少为1       
+            
         }else
         { 
-            var fragileResinCountRa = await imageRecognition(fragileResin,0.1, 0, 1,1170,0,300,100);
+            log.info("未检测到须臾树脂图标"); 
+
+            var fragileResinCountRa = await imageRecognition(fragileResin,0.1, 0, 1,1170,0,300,100,Threshold);
             if (fragileResinCountRa.found) {  
-                // await moveMouseTo(fragileResinCountRa.x+fragileResinCountRa.w+20,fragileResinCountRa.y-15);   
-                let countArea = await Textocr("",0.5, 0, 2,fragileResinCountRa.x+fragileResinCountRa.w+20,fragileResinCountRa.y-15,60,40);//
+                // await moveMouseTo(fragileResinCountRa.x+fragileResinCountRa.w+20,fragileResinCountRa.y-15);               
+                let countArea = await Textocr("",0.5, 0, 2,fragileResinCountRa.x+fragileResinCountRa.w,fragileResinCountRa.y,fragileResinCountRa.w*2,fragileResinCountRa.h,Threshold);//
                 if (countArea.found){
                     // log.info("脆弱树脂识别数量结果："+ countArea.text);
                     fragileResinCount = countArea.text
-                    if (countArea.text == "")
-                {
-                    log.info("脆弱树脂识别强制为： 1");//
-                    fragileResinCount = "1";
-                }
                 }
                 else{
-                    var oneRa = await imageRecognition(oneResin,0.1, 0, 1,fragileResinCountRa.x+fragileResinCountRa.w+20,fragileResinCountRa.y-15,60,40);
+                    var oneRa = await imageRecognition(resinImages[0],0.1, 0, 1,fragileResinCountRa.x+fragileResinCountRa.w,fragileResinCountRa.y,60,40,Threshold);
                     if (oneRa.found){
                         fragileResinCount = "1";
                     }else{
-                        fragileResinCount = "1";
-                        log.info("脆弱树脂识别强制为 1 ");//有图标说明至少为1
+                       
                     }
                 }
             } 
             else {
-                 log.info("未检测到脆弱树脂图标");          
+                fragileResinCount = "1";
+                log.info("未检测到脆弱树脂图标,脆弱树脂识别强制为 1 ");//有图标说明至少为1       
             }
         }
 
         log.info("树脂状态：浓缩{0} 原粹{1} 脆弱{2} 须臾{3}", condensedResinCount, originalResinCount, fragileResinCount,momentResinCount)
         return {condensedResinCount,originalResinCount,fragileResinCount,momentResinCount}
-    }
+    }   
     
     
     //征讨之花领奖寻找函数
@@ -254,6 +269,8 @@
             // 检测到特点文字则结束！！！
             if (rewardResult.text.includes("之花") || rewardResult.text.includes("激活")) {
                 log.info("已到达领奖点，检测到文字: " + rewardResult.text);
+                captureRegion.dispose();
+                rewardTextArea.dispose();
                 return true;
             }
             else if(advanceNum > 40){
@@ -286,10 +303,12 @@
                         verticalNum = 0;
                         await getOut();
                         await await genshin.returnMainUi();
+                        captureRegion.dispose();
                         throw new Error('领取超时');              
                     }  
                     log.info("领取超时，重新尝试1次");
                     await sleep(1000);
+                    captureRegion.dispose();
                     return false;
                 } 
             }
@@ -362,6 +381,7 @@
                                 if (text.includes(keyword)) {
                                     log.info("检测到战斗成功关键词: {0}", keyword);
                                     resolve(true);
+                                    captureRegion.dispose();
                                     return;
                                 }
                             }                          
@@ -371,11 +391,13 @@
                                 if (text2.includes(keyword)) {
                                     log.warn("检测到战斗失败关键词: {0}", keyword);
                                     resolve(false);
+                                    captureRegion.dispose();
                                     return;
                                 }
                             }                        
                         }
                         catch (error) {
+                            captureRegion.dispose();
                             log.error("OCR过程中出错: {0}", error);
                         }
 
@@ -490,6 +512,9 @@
                     log.info(`${resinTypeMap[rewards[i]]} 获取奖励...`);
                     
                     await Textocr("锁定辅助",10,0,0,1768,0,115,90);
+
+                    await sleep(500);
+
                     let { condensedResinCount, originalResinCount, fragileResinCount , momentResinCount} = await getRemainResinStatus();                        
                     let shouldExit = true;
                 
@@ -576,7 +601,7 @@
 
     }
 
-    log.warn("自动幽境危战版本：v1.8");
+    log.warn("自动幽境危战版本：v2.0");
     log.warn("请保证队伍战斗实力，战斗失败或执行错误，会重试两次...");
     log.warn("使用前请在 <<幽境危战>> 中配置好战斗队伍...");
     log.info("使用树脂类型数量：{0} ", rewards.length)

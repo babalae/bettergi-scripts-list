@@ -122,7 +122,7 @@ if (!userSettings.infoFileName) {
         userSettings.pathGroup2CdType,
         userSettings.pathGroup3CdType,
         userSettings.otherPathGroupsCdTypes,
-    ].join(".");
+    ].join("_");
 }
 
 // 定义自定义函数 basename，用于获取文件名
@@ -307,7 +307,7 @@ async function readFolder(folderPath, onlyJson) {
                     genshin.returnMainUi();
 
                     //切换到指定配队
-                    if (partyNamesArray[groupNumber - 1] !== "") {
+                    if (groupNumber - 1 < partyNamesArray.length && partyNamesArray[groupNumber - 1] !== "") { //队伍配置存在且不为空
                         await genshin.switchParty(partyNamesArray[groupNumber - 1])
                     }
 
@@ -337,7 +337,11 @@ async function readFolder(folderPath, onlyJson) {
 
                             // 新增校验：若当前时间的小时数和 skipTimeRanges 一致，则跳过任务
                             const currentHour = startTime.getHours(); // 获取当前时间的小时数
-                            const skipHours = userSettings.skipTimeRanges.split(';').map(Number); // 将 skipTimeRanges 转换为数字数组
+                            const skipHours = userSettings.skipTimeRanges
+                                .split(';')
+                                .map(s => s.trim())
+                                .filter(s => s !== '' && !isNaN(s)) // 过滤空字符串和非数字
+                                .map(Number); // 将 skipTimeRanges 转换为数字数组
                             if (skipHours.includes(currentHour)) {
                                 log.info(`当前时间的小时数为 ${currentHour}，在跳过时间范围内，跳过任务 ${entryName}`);
                                 continue; // 跳过当前任务

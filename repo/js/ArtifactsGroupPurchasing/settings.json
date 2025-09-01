@@ -1,0 +1,93 @@
+[
+  {
+    "name": "p1EndingRoute",
+    "type": "select",
+    "label": "####################################################################\n收尾路线配置\n请确保每个人在该部分的选项【完全一致】\n\n1p收尾路线",
+    "options": [
+      "枫丹高塔",
+      "度假村",
+      "智障厅",
+      "踏鞴砂"
+    ],
+    "default": "枫丹高塔"
+  },
+  {
+    "name": "p2EndingRoute",
+    "type": "select",
+    "label": "2p收尾路线",
+    "options": [
+      "枫丹高塔",
+      "度假村",
+      "智障厅",
+      "踏鞴砂"
+    ],
+    "default": "度假村"
+  },
+  {
+    "name": "p3EndingRoute",
+    "type": "select",
+    "label": "3p收尾路线",
+    "options": [
+      "枫丹高塔",
+      "度假村",
+      "智障厅",
+      "踏鞴砂"
+    ],
+    "default": "智障厅"
+  },
+  {
+    "name": "p4EndingRoute",
+    "type": "select",
+    "label": "4p收尾路线",
+    "options": [
+      "枫丹高塔",
+      "度假村",
+      "智障厅",
+      "踏鞴砂"
+    ],
+    "default": "踏鞴砂"
+  },
+  {
+    "name": "runExtra",
+    "type": "checkbox",
+    "label": "运行额外路线，运行完联机收尾后单人运行时勾选"
+  },
+  {
+    "name": "decomposeMode",
+    "type": "select",
+    "label": "####################################################################\n狗粮分解配置\n\n狗粮分解模式",
+    "options": [
+      "保留",
+      "分解（经验瓶）",
+      "销毁（摩拉）"
+    ],
+    "default": "保留"
+  },
+  {
+    "name": "keep4Star",
+    "type": "checkbox",
+    "label": "是否保留四星（默认不保留）"
+  },
+  {
+    "name": "autoSalvage",
+    "type": "checkbox",
+    "label": "是否沿路自动分解（默认：否)"
+  },
+  {
+    "name": "notify",
+    "type": "checkbox",
+    "label": "####################################################################\n其他配置\n\n是否通知信息"
+  },
+  {
+    "name": "accountName",
+    "type": "input-text",
+    "label": "账户名称\n用于多账户运行时区分不同账户\n单账户无需修改",
+    "default": "默认账户"
+  },
+  {
+    "name": "forceGroupNumber",
+    "type": "input-text",
+    "label": "强制指定自己在队伍中的编号，在识别异常时使用，填0不指定",
+    "default": "0"
+  }
+]

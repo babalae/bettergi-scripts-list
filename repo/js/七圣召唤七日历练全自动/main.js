@@ -203,26 +203,41 @@ async function isTaskRefreshed(filePath, options = {}) {
 
 //检查挑战结果   await checkChallengeResults();
 async function checkChallengeResults() {
-    const region1 = RecognitionObject.ocr(785, 890, 340, 82); // 对话区域
+    const region1 = RecognitionObject.ocr(785, 200, 380, 270); // 结果区域
     let capture = captureGameRegion();
     let res1 = capture.find(region1);
-    if (res1.isEmpty()) {
+    log.info(`结果识别：${res1.text}`);
+    if (res1.text.includes("对局失败")) {
+        log.info("对局失败");
         await sleep(1000);
-        click(960, 540);
-        await sleep(500);
-        click(1860, 50); //避免失败卡死
-        await sleep(1000);
-        click(1600, 260);
-        await sleep(1000);
-        click(1180, 756);
-        await sleep(6000);
         click(754, 915); //退出挑战
         await sleep(4000);
         await autoConversation();
         await sleep(1000);
         return;
-    } else {
+        }
+    else if (res1.text.includes("对局胜利")) {
+        log.info("对局胜利");
         await sleep(1000);
+        click(754, 915); //退出挑战
+        await sleep(4000);
+        await autoConversation();
+        await sleep(1000);
+        return;
+        
+    } else {
+        log.info("挑战异常中断，对局失败");
+        await sleep(1000);
+        click(960, 540);
+        await sleep(500);
+        click(960, 540);
+        await sleep(500);
+        click(1860,50); //点击齿轮图标
+        await sleep(1000);
+        click(1600, 200);//点击退出选项
+        await sleep(1000);
+        click(1180, 756);//点击确认
+        await sleep(6000);
         click(754, 915); //退出挑战
         await sleep(4000);
         await autoConversation();
@@ -700,3 +715,4 @@ await main();
 
 
 })();
+
