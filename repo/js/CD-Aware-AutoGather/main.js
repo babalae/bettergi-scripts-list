@@ -327,10 +327,41 @@ async function runPathTaskIfCooldownExpired(account, pathTask) {
                 // "队伍中没有对应元素角色"的错误不会抛出为异常，只能通过路径文件迅速结束来推测
                 if (settings.partyName && settings.partyName2nd) {
                     let newParty = (currentParty === settings.partyName) ? settings.partyName2nd : settings.partyName;
+                    
                     log.info("当前队伍{0}缺少该路线所需角色，尝试切换到{1}", currentParty, newParty);
                     await switchPartySafely(newParty);
-                    await runPathScriptFile(jsonPath);
+                    
+                    // 记录第二次执行的开始时间
+                    let secondPathStartTime = new Date();
+                    const secondCancel = await runPathScriptFile(jsonPath);
+                    let secondDiffTime = new Date() - secondPathStartTime;
+
+                    if (secondDiffTime < 1000) {
+                        log.info(`${progress}{0}: 切换队伍后仍无法完成，不更新记录`, pathName);
+                    }
+                    // 检查第二次执行是否被用户取消
+                    else if (secondCancel) {
+                        log.info(`${progress}{0}: 用户取消任務，不更新记录`, pathName);
+                        throw new UserCancelled(secondCancel);
+                    }
+                    // 检查第二次执行是否成功（执行时间是否足够长）
+                    else if (secondDiffTime >= 5000) {
+                        // 只有第二次执行成功才更新记录
+                        recordMap[fileName] = calculateNextRunTime(new Date(), jsonPath);
+                        const lines = [];
+                        for (const [p, t] of Object.entries(recordMap)) {
+                            lines.push(`${p}\t${formatDateTime(t)}`);
+                        }
+                        const content = lines.join("\n");
+                        file.writeTextSync(recordFile, content);
+                        log.info(`${progress}{0}: 已完成，下次刷新: ${formatDateTimeShort(recordMap[fileName])}`, pathName);
+                    } else {
+                        log.info(`${progress}{0}: 执行时间过短，不更新记录`, pathName);
+                    }
                 }
+            } else if (cancel) {
+                // 用户取消的情况
+                log.info(`${progress}{0}: 用户取消任務，不更新记录`, pathName);
             } else if (diffTime > 5000) {
                 recordMap[fileName] = calculateNextRunTime(new Date(), jsonPath);
                 const lines = [];
