@@ -967,7 +967,7 @@ async function unchecked(log_off) {
 async function scrollPageByAttributeSortInit() {
     // 计算滚动高度：页面总高度的1/5加上1/25
     // 然后执行滚动操作，true表示平滑滚动，6表示滚动速度
-    await scrollPage(Math.floor(genshinJson.height * (1 / 5 + 1 / 25)), true, 6)
+    await scrollPage(Math.floor(genshinJson.height * (165 / 1080)), true, 6)
     await info('拖动到看不见辅助排序规则(影响OCR)')
 }
 
