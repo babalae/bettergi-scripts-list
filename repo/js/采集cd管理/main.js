@@ -159,8 +159,11 @@ async function readFolder(folderPath, onlyJson) {
         // 临时数组，用于存储子文件夹路径
         const subFolders = [];
         for (const filePath of filesInSubFolder) {
-            if (file.IsFolder(filePath)) {
-                // 如果是文件夹，先存储到临时数组中
+            if (file.IsFolder(filePath)) { // 如果是文件夹，先存储到临时数组中
+                if (filePath.toLowerCase().endsWith(".disabled")) { // 跳过以.disabled结尾的被禁用的文件或路径
+                    log.info(`跳过禁用的文件夹：${filePath}`);
+                    continue;
+                }
                 subFolders.push(filePath);
             } else {
                 // 如果是文件，根据 onlyJson 判断是否存储
