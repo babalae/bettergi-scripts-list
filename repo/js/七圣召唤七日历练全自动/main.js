@@ -236,7 +236,7 @@ async function checkChallengeResults() {
         click(1860,50); //点击齿轮图标
         await sleep(1000);
         let res2 = captureGameRegion().find(region2);
-        if (res2.text == '设置') click(1600, 260);//点击退出-选项4
+        if (res2.text.includes('设置')) click(1600, 260);//点击退出-选项4
         else click(1600, 200);//点击退出-选项3
         await sleep(1000);
         click(1180, 756);//点击确认
