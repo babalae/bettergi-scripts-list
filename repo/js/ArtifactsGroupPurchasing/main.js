@@ -81,7 +81,6 @@
         }
         //如果勾选了额外，在结束后再执行一次额外路线
         if (settings.runExtra) {
-            await switchPartyIfNeeded(settings.partyName)
             await runGroupPurchasing();
         }
     }
@@ -137,6 +136,7 @@ async function runGroupPurchasing() {
 
     // ===== 4. 主流程 =====
     setGameMetrics(1920, 1080, 1);
+    await genshin.clearPartyCache();
     let groupNumBer = await getPlayerSign();
     if (groupNumBer !== 0) log.info(`在队伍中编号为${groupNumBer}`);
     else log.info(`不处于联机模式或识别异常`);
