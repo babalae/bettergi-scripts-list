@@ -239,10 +239,10 @@ async function readFolder(folderPath, onlyJson) {
                 const targetFolder = `pathing/路径组${i}`; // 动态生成目标文件夹路径
                 const files = await readFolder(targetFolder, true);
                 const filePaths = files.map(file => file.fullPath);
-                // 如果文件夹为空，退出循环
+                // 如果文件夹为空，跳过当前路径组
                 if (filePaths.length === 0) {
-                    log.info(`路径组${i} 文件夹为空，停止处理`);
-                    break;
+                    log.info(`路径组${i} 文件夹为空，跳过`);
+                    continue;
                 }
                 // 用于存储符合条件的文件名的数组
                 const jsonFileNames = [];
