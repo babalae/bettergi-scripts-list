@@ -378,6 +378,92 @@ function selectOptimalPath(paths) {
 }
 
 /**
+ * 
+ * @param {脚本名字或者地图追踪名字} name 
+ * @param {是否是js脚本} isJs 
+ * @param {是否是开始} isStart 
+ * @param {duration项目仅在伪造结束信息时有效，且无实际作用，可以任意填写，当你需要在日志中输出特定值时才需要，单位为毫秒} duration 
+ * @returns 
+ */
+async function fakeLog(name, isJs, isStart, duration) {
+    await sleep(10);
+    const currentTime = Date.now();
+    // 参数检查
+    if (typeof name !== 'string') {
+        log.error("参数 'name' 必须是字符串类型！");
+        return;
+    }
+    if (typeof isJs !== 'boolean') {
+        log.error("参数 'isJs' 必须是布尔型！");
+        return;
+    }
+    if (typeof isStart !== 'boolean') {
+        log.error("参数 'isStart' 必须是布尔型！");
+        return;
+    }
+    if (typeof currentTime !== 'number' || !Number.isInteger(currentTime)) {
+        log.error("参数 'currentTime' 必须是整数！");
+        return;
+    }
+    if (typeof duration !== 'number' || !Number.isInteger(duration)) {
+        log.error("参数 'duration' 必须是整数！");
+        return;
+    }
+
+    // 将 currentTime 转换为 Date 对象并格式化为 HH:mm:ss.sss
+    const date = new Date(currentTime);
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    const milliseconds = String(date.getMilliseconds()).padStart(3, '0');
+    const formattedTime = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+
+    // 将 duration 转换为分钟和秒，并保留三位小数
+    const durationInSeconds = duration / 1000; // 转换为秒
+    const durationMinutes = Math.floor(durationInSeconds / 60);
+    const durationSeconds = (durationInSeconds % 60).toFixed(3); // 保留三位小数
+
+    // 使用四个独立的 if 语句处理四种情况
+    if (isJs && isStart) {
+        // 处理 isJs = true 且 isStart = true 的情况
+        const logMessage = `正在伪造js开始的日志记录\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `------------------------------\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `→ 开始执行JS脚本: "${name}"`;
+        log.debug(logMessage);
+    }
+    if (isJs && !isStart) {
+        // 处理 isJs = true 且 isStart = false 的情况
+        const logMessage = `正在伪造js结束的日志记录\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `------------------------------`;
+        log.debug(logMessage);
+    }
+    if (!isJs && isStart) {
+        // 处理 isJs = false 且 isStart = true 的情况
+        const logMessage = `正在伪造地图追踪开始的日志记录\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `------------------------------\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `→ 开始执行地图追踪任务: "${name}"`;
+        log.debug(logMessage);
+    }
+    if (!isJs && !isStart) {
+        // 处理 isJs = false 且 isStart = false 的情况
+        const logMessage = `正在伪造地图追踪结束的日志记录\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `------------------------------`;
+        log.debug(logMessage);
+    }
+}
+
+
+/**
  * 执行路径
  * @param {Object} path - 路径对象
  * @returns {Promise<void>}
@@ -391,11 +477,16 @@ async function executePath(path) {
         const routePath = path.routes[i];
         log.info(`执行路径 ${i + 1}/${path.routes.length}: ${routePath}`);
 
+        //伪造日志
+        await fakeLog(routePath, false, true, 100);
+
         try {
             // 运行路径文件
             await pathingScript.runFile(routePath);
+            await fakeLog(routePath, false, false, 100);
         } catch (error) {
             log.error(`执行路径 ${i + 1} 时出错: ${error.message}`);
+            await fakeLog(routePath, false, false, 100);
             throw error;
         }
     }
