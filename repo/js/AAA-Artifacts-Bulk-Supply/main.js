@@ -920,14 +920,14 @@ async function runActivatePath() {
     }
     await runPaths(extraActivatePath, "", false);
 
+    await runPaths(endingPreparePath, "", false);
+    await runPaths(extraPreparePath, "", false);
+
     if (combatPartyName) {
         log.info("填写了清怪队伍，执行清怪路线");
         await runPaths(extraCombatPath, combatPartyName, false, "black");
         await runPaths(endingCombatPath, combatPartyName, false, "black");
     }
-
-    await runPaths(endingPreparePath, "", false);
-    await runPaths(extraPreparePath, "", false);
 }
 
 async function runEndingAndExtraPath() {
