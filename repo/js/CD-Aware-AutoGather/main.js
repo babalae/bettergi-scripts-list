@@ -327,7 +327,6 @@ async function runPathTaskIfCooldownExpired(account, pathTask) {
                 // "队伍中没有对应元素角色"的错误不会抛出为异常，只能通过路径文件迅速结束来推测
                 if (settings.partyName && settings.partyName2nd) {
                     let newParty = (currentParty === settings.partyName) ? settings.partyName2nd : settings.partyName;
-                    
                     log.info("当前队伍{0}缺少该路线所需角色，尝试切换到{1}", currentParty, newParty);
                     await switchPartySafely(newParty);
                     
