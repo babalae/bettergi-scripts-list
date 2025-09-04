@@ -60,6 +60,7 @@ jobs:
         
         echo "🆕 创建新的 orphan 分支"
         git checkout --orphan release
+        git rm -rf .
         
         echo "📦 检出 main 分支的内容到工作区"
         git checkout main -- repo .gitignore
@@ -75,7 +76,7 @@ jobs:
     - name: 🚀 提交并推送到 Release 分支
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        commit_message: "🔄 重置 release 分支 - 自动构建于 $(date '+%Y-%m-%d %H:%M:%S')"
+        commit_message: "rebuild release branch"
         branch: release
         push_options: '--force'
         repository: bettergi-scripts-list
