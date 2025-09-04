@@ -1,0 +1,72 @@
+name: Scheduled Build and Release
+
+on:
+  schedule:
+    # 每天下午18点执行 (UTC时间10点)
+    - cron: '0 10 * * *'
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'babalae'
+    
+    permissions:
+      contents: write
+      actions: read
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        path: bettergi-scripts-list
+        fetch-depth: 0
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    
+    - name: Build project
+      run: |
+        cd bettergi-scripts-list
+        node ./build/build.js --force --gzip
+    
+    - name: Copy generated files
+      run: |
+        cp bettergi-scripts-list/repo.json .
+        cp bettergi-scripts-list/repo.json.gz .
+    
+    - name: Discard changes in bettergi-scripts-list
+      run: |
+        cd bettergi-scripts-list
+        git checkout -- .
+        git clean -fd
+    
+    - name: Reset and switch to release branch
+      run: |
+        cd bettergi-scripts-list
+        
+        # 删除本地release分支（如果存在）
+        git branch -D release || true
+        
+        # 创建新的orphan分支
+        git checkout --orphan release
+        
+        # 将main分支的内容检出到工作区
+        git checkout main -- repo .gitignore
+        
+        # 复制生成好的repo.json文件
+        cp ../repo.json .
+        cp ../repo.json.gz .
+        
+        # 添加所有文件
+        git add .
+        
+        # 提交
+        git commit -m "reset the release branch"
+        
+        # 强制推送到远程release分支
+        git push -f origin release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
