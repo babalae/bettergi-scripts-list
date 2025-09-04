@@ -20,6 +20,11 @@ jobs:
         fetch-depth: 0  # 获取完整的git历史记录
         token: ${{ secrets.GITHUB_TOKEN }}
     
+    - name: Fetch all branches
+      run: |
+        git fetch --all
+        git branch -r | grep -v '\->' | while read remote; do git branch --track "${remote#origin/}" "$remote" 2>/dev/null || true; done
+    
     - name: Set up Git
       run: |
         git config --global user.name "github-actions[bot]"
