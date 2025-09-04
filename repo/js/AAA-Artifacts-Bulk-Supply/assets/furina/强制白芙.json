@@ -1,58 +1,58 @@
 ﻿{
   "info": {
-    "name": "强制白芙",
-    "type": "collect",
     "authors": [
       {
-        "name": "汐",
-        "links": ""
+        "links": "",
+        "name": "汐"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1755534261430,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1757015986343,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "强制白芙",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -762.078125,
-      "y": -3798.2978515625,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -3798.2978515625
     },
     {
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(0.25),dash,wait(1.5),attack(0.3),wait(3),keyup(w),wait(1)",
       "id": 2,
-      "x": -777.662109375,
-      "y": -3821.849609375,
-      "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "attack(0.5),wait(4.5)",
-      "type": "path"
+      "type": "orientation",
+      "x": -821.607421875,
+      "y": -3831.3037109375
     },
     {
-      "id": 3,
-      "x": 268.5908203125,
-      "y": -665.69580078125,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "id": 3,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 370.740234375,
+      "y": -505.421875
     },
     {
-      "id": 4,
-      "x": 263.3046875,
-      "y": -662.833984375,
       "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 attack(0.08),e,wait(0.6),charge;",
+      "id": 4,
       "move_mode": "walk",
-      "action_params": "keypress(f);芙宁娜 attack(0.08),charge;",
-      "type": "orientation"
+      "type": "orientation",
+      "x": 349.337890625,
+      "y": -499.35302734375
     }
   ]
 }
