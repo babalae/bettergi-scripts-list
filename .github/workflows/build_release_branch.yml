@@ -50,14 +50,6 @@ jobs:
         git clean -fd
         echo "✅ 工作目录清理完成"
     
-    - name: ⚙️ 配置 Git 用户信息
-      run: |
-        echo "🔧 配置 Git 用户身份信息..."
-        cd bettergi-scripts-list
-        git config user.name "github-actions[bot]"
-        git config user.email "github-actions[bot]@users.noreply.github.com"
-        echo "✅ Git 用户信息配置完成"
-    
     - name: 🌿 准备 Release 分支
       run: |
         echo "🔄 开始准备 Release 分支..."
@@ -87,3 +79,8 @@ jobs:
         branch: release
         push_options: '--force'
         repository: bettergi-scripts-list
+        file_pattern: .
+        skip_dirty_check: true
+        skip_fetch: false
+        skip_checkout: true
+        create_branch: false
