@@ -25,7 +25,9 @@ this.findLeyLineOutcropByBook = async function (country, type) {
   await sleep(1000);
   click(1300, 800); //点击推荐
   await sleep(1000);
-  let resList = captureGameRegion().findMulti(ocrRoThis);
+  let captureRegion1 = captureGameRegion();
+  let resList = captureRegion1.findMulti(ocrRoThis);
+  captureRegion1.dispose();
   for (let i = 0; i < resList.count; i++) {
     let res = resList[i];
     if (res.text.includes(country)) {
@@ -33,7 +35,9 @@ this.findLeyLineOutcropByBook = async function (country, type) {
     }
   }
   await sleep(1000);
-  let resList2 = captureGameRegion().findMulti(ocrRoThis);
+  let captureRegion2 = captureGameRegion();
+  let resList2 = captureRegion2.findMulti(ocrRoThis);
+  captureRegion2.dispose();
   for (let i = 0; i < resList2.count; i++) {
     let res = resList2[i];
     if (res.text.includes("停止追踪")) {
@@ -53,7 +57,9 @@ this.findLeyLineOutcropByBook = async function (country, type) {
   // 取消追踪
   click(960, 540);
   await sleep(1000);
-  let zhuizong = captureGameRegion().findMulti(ocrRoThis);
+  let captureRegion3 = captureGameRegion();
+  let zhuizong = captureRegion3.findMulti(ocrRoThis);
+  captureRegion3.dispose();
   if (zhuizong && zhuizong.count > 0) {
     for (let i = 0; i < zhuizong.count; i++) {
       if (zhuizong[i].text.includes("停止追踪")) {

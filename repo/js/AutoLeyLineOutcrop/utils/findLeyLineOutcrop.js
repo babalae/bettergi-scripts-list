@@ -46,7 +46,9 @@ async function (type) {
         ? "assets/icon/Blossom_of_Revelation.png"
         : "assets/icon/Blossom_of_Wealth.png";
 
-    const flowerList = captureGameRegion().findMulti(RecognitionObject.TemplateMatch(file.ReadImageMatSync(iconPath)));
+    const captureRegion = captureGameRegion();
+    const flowerList = captureRegion.findMulti(RecognitionObject.TemplateMatch(file.ReadImageMatSync(iconPath)));
+    captureRegion.dispose();
 
     if (flowerList && flowerList.count > 0) {
         currentFlower = flowerList[0];

@@ -1,0 +1,54 @@
+[
+  {
+    "name": "enterMode",
+    "type": "select",
+    "label": "进入世界选项",
+    "options": [
+      "进入他人世界",
+      "等待他人进入"
+    ],
+    "default": "进入他人世界"
+  },
+  {
+    "name": "enteringUID",
+    "type": "input-text",
+    "label": "要进入的世界的uid，只在进入他人世界状态下生效"
+  },
+  {
+    "name": "permissionMode",
+    "type": "select",
+    "label": "允许加入模式，只在等待他人加入状态下生效",
+    "options": [
+      "无条件通过",
+      "只通过特定用户"
+    ],
+    "default": "无条件通过"
+  },
+  {
+    "name": "maxEnterCount",
+    "type": "input-text",
+    "label": "最大加入人数",
+    "default": 3
+  },
+  {
+    "name": "nameToPermit1",
+    "type": "input-text",
+    "label": "允许加入的用户名称1"
+  },
+  {
+    "name": "nameToPermit2",
+    "type": "input-text",
+    "label": "允许加入的用户名称2"
+  },
+  {
+    "name": "nameToPermit3",
+    "type": "input-text",
+    "label": "允许加入的用户名称3"
+  },
+  {
+    "name": "timeOut",
+    "type": "input-text",
+    "label": "超时时间，单位分钟",
+    "default": "5"
+  }
+]

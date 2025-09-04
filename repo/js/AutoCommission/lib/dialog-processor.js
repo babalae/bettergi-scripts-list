@@ -1,7 +1,7 @@
 // 原神每日委托自动执行脚本 - 对话处理器模块
 var DialogProcessor = {
   // 执行优化的自动对话
-  executeOptimizedAutoTalk: async function(
+  executeOptimizedAutoTalk: async function (
     extractedName,
     skipCount,
     customPriorityOptions,
@@ -12,7 +12,7 @@ var DialogProcessor = {
     skipCount = skipCount || 5;
     customPriorityOptions = customPriorityOptions || null;
     customNpcWhiteList = customNpcWhiteList || null;
-    
+
     // 使用传入的参数，不再加载默认配置
     var effectivePriorityOptions = customPriorityOptions || [];
     var effectiveNpcWhiteList = customNpcWhiteList || [];
@@ -70,11 +70,12 @@ var DialogProcessor = {
             click(res.x, res.y);
             leftButtonClick();
             keyUp("VK_MENU");
-            clickedWhitelistNPC = true;
-            break;
           }
         }
-        if (clickedWhitelistNPC) break;
+        if (!isInMainUI()) {
+          clickedWhitelistNPC = true;
+          break;
+        }
       }
 
       // 如果没有点击白名单NPC，尝试点击包含提取到的人名的选项
