@@ -2,9 +2,9 @@ name: Sync to Mirror Repositories
 
 on:
   workflow_run:
-    workflows: ["Build repo.json"]
+    workflows: ["Build repo.json", "Scheduled Build and Release"]
     types:
-      - completed  # 当第一个工作流完成时触发
+      - completed  # 当工作流完成时触发
   workflow_dispatch:  # 允许手动触发
 
 jobs:
@@ -28,19 +28,19 @@ jobs:
     - name: Sync to GitCode
       run: |
         git remote add gitcode https://gitcode.com/huiyadanli/bettergi-scripts-list.git || true
-        git push https://huiyadanli:${{ secrets.GITCODE_TOKEN }}@gitcode.com/huiyadanli/bettergi-scripts-list.git main
+        git push https://huiyadanli:${{ secrets.GITCODE_TOKEN }}@gitcode.com/huiyadanli/bettergi-scripts-list.git --all --force
       continue-on-error: true
     
     - name: Sync to CNB
       run: |
         git remote add cnb https://cnb.cool/bettergi/bettergi-scripts-list.git || true
-        git push https://cnb:${{ secrets.CNB_TOKEN }}@cnb.cool/bettergi/bettergi-scripts-list.git main
+        git push https://cnb:${{ secrets.CNB_TOKEN }}@cnb.cool/bettergi/bettergi-scripts-list.git --all --force
       continue-on-error: true
     
     - name: Sync to Gitee
       run: |
         git remote add gitee https://gitee.com/babalae/bettergi-scripts-list.git || true
-        git push https://huiyadanli:${{ secrets.GITEE_TOKEN }}@gitee.com/babalae/bettergi-scripts-list.git main
+        git push https://huiyadanli:${{ secrets.GITEE_TOKEN }}@gitee.com/babalae/bettergi-scripts-list.git --all --force
       continue-on-error: true
     
     - name: Report sync status
