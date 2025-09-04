@@ -20,7 +20,6 @@ jobs:
       uses: actions/checkout@v4
       with:
         path: bettergi-scripts-list
-        fetch-depth: 0
     
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -59,14 +58,11 @@ jobs:
         # 复制生成好的repo.json文件
         cp ../repo.json .
         cp ../repo.json.gz .
-        
-        # 添加所有文件
-        git add .
-        
-        # 提交
-        git commit -m "reset the release branch"
-        
-        # 强制推送到远程release分支
-        git push -f origin release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Commit and push to release branch
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "reset the release branch"
+        branch: release
+        push_options: '--force'
+        repository: bettergi-scripts-list
