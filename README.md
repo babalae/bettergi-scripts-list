@@ -152,15 +152,15 @@
 
 #### 文件夹命名规则
 
-- 脚本的文件夹名称**应体现脚本的用途**，简要用途可在描述文件[manifest.json](https://bettergi.com/dev/js/create.html#manifest-json)中说明，详细用途可在`README.md`中说明
+- 脚本的文件夹名称**应体现脚本的用途**，简要用途可在描述文件 [manifest.json](https://bettergi.com/dev/js/create.html#manifest-json) 中说明，详细用途可在`README.md`(大小写敏感，要求全部大写的文件名) 中说明
 
-- 脚本的主体文件夹名称可采用`英文`、`中文`、`英文缩写+中文`等命名方式，名称中不应包含空格，如：
+- 脚本的主体文件夹名称可采用 [大驼峰式命名法](https://zh.wikipedia.org/wiki/%E9%A7%9D%E5%B3%B0%E5%BC%8F%E5%A4%A7%E5%B0%8F%E5%AF%AB) 等命名方式，名称中不应包含空格，如：
   
   ```
   repo/js
-  ├── OCR购买材料
+  ├── 
   ├── AutoLeyLineOutcrop
-  ├── 使用历练点完成每日委托
+  ├── AutoXXX
   └── ...
   ```
 
@@ -168,7 +168,7 @@
   
   ```
   repo/js
-  └── 你的脚本名称
+  └── jsName
       ├── Assets
       │   ├── Pathing
       │   │   └── xxx.json
