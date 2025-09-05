@@ -118,7 +118,9 @@ async function prepareForLeyLineRun() {
         await genshin.switchParty(settings.team);
     }
     // 3. 关闭自定义标记
-    await closeCustomMarks();
+    if (!settings.useAdventurerHandbook) {
+        await closeCustomMarks();
+    }
     // 4. 添加自动拾取实时任务
     // TODO: 个性化拾取策略
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));

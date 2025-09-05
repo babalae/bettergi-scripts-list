@@ -1,11 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
+const zlib = require('zlib');
 const { execSync } = require('child_process');
 
 // 处理命令行参数
 const args = process.argv.slice(2);
 const forceFullUpdate = args.includes('--force') || args.includes('-f');
+const enableGzip = args.includes('--gzip') || args.includes('-g');
 
 // 在文件开头添加全局变量
 const pathingDirsWithoutIcon = new Set();
@@ -48,12 +49,7 @@ try {
     console.warn('读取现有repo.json文件出错，将执行全量更新', e);
 }
 
-function calculateSHA1(filePath) {
-    const fileBuffer = fs.readFileSync(filePath);
-    const hashSum = crypto.createHash('sha1');
-    hashSum.update(fileBuffer);
-    return hashSum.digest('hex');
-}
+
 
 function getGitTimestamp(filePath) {
     try {
@@ -266,10 +262,9 @@ function extractInfoFromCombatFile(filePath) {
     const gitTimestamp = getGitTimestamp(filePath);
     const lastUpdated = formatLastUpdated(gitTimestamp);
     
-    // 优先使用文件中的版本号，其次使用提交时间，最后使用 SHA
+    // 优先使用文件中的版本号，其次使用提交时间
     const version = versionMatch ? versionMatch[1].trim() : 
-                   (gitTimestamp ? formatTime(gitTimestamp) : 
-                    calculateSHA1(filePath).substring(0, 7));
+                   (gitTimestamp ? formatTime(gitTimestamp) : '');
     
     const authorString = authorMatch ? authorMatch[1].trim() : '';
     return {
@@ -346,10 +341,9 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
     const gitTimestamp = getGitTimestamp(filePath);
     const lastUpdated = formatLastUpdated(gitTimestamp);
     
-    // 优先使用文件中的版本号，其次使用提交时间，最后使用 SHA
+    // 优先使用文件中的版本号，其次使用提交时间
     const version = contentObj.info?.version || 
-                   (gitTimestamp ? formatTime(gitTimestamp) : 
-                    calculateSHA1(filePath).substring(0, 7));
+                   (gitTimestamp ? formatTime(gitTimestamp) : '');
     
     // 从父文件夹获取默认标签
     let tags = parentFolders.slice(2)
@@ -384,7 +378,7 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
         if (actions.includes('log_output')) tags.push('有日志');
         if (actions.includes('pick_around')) tags.push('转圈拾取');
         if (actions.includes('fishing')) tags.push('钓鱼');
-        if (actions.includes('set_time')) tag.push('时间调整');
+        if (actions.includes('set_time')) tags.push('时间调整');
         const move_modes = contentObj.positions.map(pos => pos.move_mode);
         if (move_modes.includes('climb')) tags.push("有攀爬");
         
@@ -430,10 +424,9 @@ function extractInfoFromTCGFile(filePath, parentFolder) {
         tags = ['酒馆挑战', ...tags];
     }
     
-    // 优先使用文件中的版本号，其次使用提交时间，最后使用 SHA
+    // 优先使用文件中的版本号，其次使用提交时间
     const version = versionMatch ? versionMatch[1].trim() : 
-                   (gitTimestamp ? formatTime(gitTimestamp) : 
-                    calculateSHA1(filePath).substring(0, 7));    return {
+                   (gitTimestamp ? formatTime(gitTimestamp) : '');    return {
         author: processAuthorInfo(authorMatch ? authorMatch[1].trim() : '') || '',
         authors: processDetailedAuthorInfo(authorMatch ? authorMatch[1].trim() : ''),
         description: descriptionMatch ? convertNewlines(descriptionMatch[1].trim()) : '',
@@ -529,8 +522,7 @@ function generateDirectoryTree(dir, currentDepth = 0, parentFolders = []) {
             const manifestPath = path.join(dir, 'manifest.json');
             if (fs.existsSync(manifestPath)) {
                 const jsInfo = extractInfoFromJSFolder(dir);
-                info.hash = calculateSHA1(manifestPath);
-                info.version = jsInfo.version || info.hash.substring(0, 7);
+                info.version = jsInfo.version || '';
                 info.author = jsInfo.author;
                 info.authors = jsInfo.authors;
                 info.description = jsInfo.description;
@@ -573,9 +565,7 @@ function generateDirectoryTree(dir, currentDepth = 0, parentFolders = []) {
             return null;
         }
 
-        const hash = calculateSHA1(dir);
-        info.hash = hash;
-        info.version = hash.substring(0, 7);
+        info.version = '';
 
         const category = parentFolders[0];
         try {
@@ -659,3 +649,14 @@ const repoJson = {
 
 fs.writeFileSync(repoJsonPath, JSON.stringify(repoJson, null, 2));
 console.log('repo.json 文件已创建并保存在 repo 同级目录中。');
+
+// 创建gzip压缩文件（仅当启用gzip参数时）
+if (enableGzip) {
+    const gzipPath = repoJsonPath + '.gz';
+    const jsonContent = fs.readFileSync(repoJsonPath);
+    const compressedContent = zlib.gzipSync(jsonContent);
+    fs.writeFileSync(gzipPath, compressedContent);
+    console.log('repo.json.gz 压缩文件已创建并保存。');
+} else {
+    console.log('未启用gzip压缩，跳过创建repo.json.gz文件。如需启用，请使用--gzip或-g参数。');
+}

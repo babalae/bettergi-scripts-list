@@ -25,14 +25,15 @@ async function (timeout, targetPath, retries = 0) {
         const result2 = captureRegion.find(ocrRo3);
         
         // 检查地脉之花状态 - 已完成状态，准备领取奖励
-        if (result2.text.includes("地脉之花")) {
+        log.debug(`地脉花状态：${result2.text}`);
+        if (result2.text.includes("之花")) {
             log.info("识别到地脉之花，准备领取奖励");
             await switchToFriendshipTeamIfNeeded();
             return;
         }
         
         // 处理地脉溢口
-        if (result2.text.includes("地脉溢口")) {
+        if (result2.text.includes("溢口")) {
             log.info("识别到地脉溢口");
             keyPress("F");
             await sleep(300);
