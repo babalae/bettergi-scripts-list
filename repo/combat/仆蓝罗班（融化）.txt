@@ -1,0 +1,14 @@
+// 作者: 火山
+// 描述: 副本（推荐）（已优化仆人输出轴，加强蓝砚护盾覆盖率)
+// 正常练度，仆人1命有抗打断，蓝砚2命堆面板攻击力，蓝砚6命全循环，罗莎莉亚充能不够堆充能
+//注：蓝砚非6命会卡e盾
+
+//版本：1.0
+仆人 attack,e
+蓝砚 e,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click
+班尼特 e,keypress(F1),wait(0.5),keypress(ESCAPE),wait(1.5),keypress(q)
+罗莎莉亚 e,wait(0.5),keypress(q),wait(1.0)
+蓝砚 attack,keypress(q),wait(0.3),e,wait(0.2),click,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click
+仆人 charge(0.35),j,attack(3.2),wait(1.5),attack(1),keypress(q)
+
+//e元素战技，click配合蓝砚双扩，q元素爆发，charge(0.0)重击·时间，attack普攻，dash冲刺，j跳跃，wait(0.0)等待·时间，keypress(F1)点击F1键，keypress(ESCAPE)点击ESC键，keypress(q)使用高级语法，减少大招因为充能不够的情况下站着挨打

@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "稻妻-野伏众-鸣神岛鸣神大社北崖上-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "野伏众-2个\n稻妻-鸣神岛鸣神大社北崖上",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4380.6,
+      "y": -2485.14,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4414.6,
+      "y": -2458.63,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4422.75,
+      "y": -2429.24,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4422.61,
+      "y": -2429.62,
+      "action_params": ""
+    }
+  ]
+}

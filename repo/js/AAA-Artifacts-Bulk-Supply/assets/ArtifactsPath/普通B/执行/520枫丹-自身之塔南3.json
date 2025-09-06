@@ -1,0 +1,138 @@
+﻿{
+  "info": {
+    "name": "520枫丹-自身之塔南3",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752300634971,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3656.1953125,
+      "y": 2433.50244140625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3617.5,
+      "y": 2437.25035412927,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "moveby(0,380)",
+      "type": "orientation"
+    },
+    {
+      "id": 3,
+      "x": 3617.5,
+      "y": 2437.25035412927,
+      "action": "",
+      "move_mode": "climb",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3604.1875,
+      "y": 2438.625243463872,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 3598.34375,
+      "y": 2426.249701203429,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "moveby(0,680)",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 3598.34375,
+      "y": 2426.249701203429,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3589.0771484375,
+      "y": 2406.619384765625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "moveby(0,600),wait(0.5),keydown(w),dash,wait(1),dash,wait(1),dash,keyup(w)",
+      "type": "orientation"
+    },
+    {
+      "id": 8,
+      "x": 3589.0771484375,
+      "y": 2406.619384765625,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3589.923828125,
+      "y": 2402.342529296875,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(1);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 3577.873046875,
+      "y": 2396.091552734375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 3577.873046875,
+      "y": 2396.091552734375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 3550.533203125,
+      "y": 2393.361328125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 3548.30078125,
+      "y": 2393.09521484375,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),d(0.1);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "target"
+    }
+  ]
+}

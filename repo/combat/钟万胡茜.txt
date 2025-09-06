@@ -1,0 +1,23 @@
+//作者：FEiiL
+//描述v1.1：建议一命以上胡桃，钟离血量大于5w，奶奶和万叶不作特别要求，战斗脚本根据【虹灵的净土】设计。手法参考自”爱司基模人“
+//      v1.2：胡桃改aaz跳，理论零命可用（没有零命胡桃🤣），优化了一部分动作
+//v1.2
+钟离 s(0.1),e(hold),wait(0.3),w(0.1)
+茜特菈莉 w(0.8),e
+万叶 e,attack
+胡桃 e,wait(0.3),attack,attack,charge(0.35),j,wait(0.55),attack,attack,charge(0.3),j,wait(0.55),attack,attack,charge(0.3),j,wait(0.55),attack,attack,charge(0.3),j,wait(0.55),attack,attack,charge(0.3),j
+万叶 e,attack,q
+钟离 q,e(hold),wait(0.3)
+茜特菈莉 e,q
+万叶 e,attack
+胡桃 e,q,wait(0.3),attack,attack,charge(0.35),j,wait(0.6),attack,attack,charge(0.35),j,wait(0.6),attack,attack,charge(0.35),j,wait(0.6),attack,attack,charge(0.35),j,wait(0.6),attack,attack,charge(0.35),j
+//v1.1
+//钟离 s(0.1),e(hold),wait(0.3),w(0.1)
+//茜特菈莉 w(0.8),e
+//万叶 e,attack
+//胡桃 e,wait(0.3),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),j,wait(0.52),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),j,wait(0.52),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),j,wait(0.52),charge(0.3),wait(0.1),dash,wait(0.1)
+//万叶 e,attack,q
+//钟离 q,s(0.1),e(hold),wait(0.3),w(0.1)
+//茜特菈莉 e,q
+//万叶 e,attack
+//胡桃 e,q,wait(0.3),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),j,wait(0.52),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),j,wait(0.52),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),j,wait(0.52),charge(0.3),wait(0.1),dash,wait(0.1)

@@ -1,0 +1,38 @@
+{
+    "info": {
+        "name": "狗粮-枫丹-白露区-秋分山东侧-2个-f~m",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgi_version": "0.42.0"
+    },
+    "positions": [
+        {
+            "x": 3917.1767578125,
+            "y": 2576.28662109375,
+            "type": "teleport"
+        },
+        {
+            "x": 3904.10498046875,
+            "y": 2547.26171875,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 3899.5673828125,
+            "y": 2543.31640625,
+            "type": "target",
+            "move_mode": "walk",
+            "#" : "1"
+        },
+        {
+            "x": 3883.2314453125,
+            "y": 2526.55029296875,
+            "type": "target",
+            "move_mode": "run",
+            "action": "combat_script",
+            "action_params": "wait(0.8)",
+            "#" : "2"
+        }
+    ]
+}

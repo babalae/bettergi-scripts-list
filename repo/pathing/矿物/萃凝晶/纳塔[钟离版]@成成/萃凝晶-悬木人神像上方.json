@@ -1,0 +1,143 @@
+{
+  "info": {
+    "name": "萃凝晶-悬木人神像上方",
+    "type": "collect",
+    "version": "1.1",
+    "description": "需要钟离\n-(25.6.13)修复钟离不长按e的bug",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "成成"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8660.72,
+      "y": -2220.58,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8654.66,
+      "y": -2182.14,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "100",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 8653.66,
+      "y": -2183.14,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "钟离 e(hold)",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 8653.77,
+      "y": -2179.81,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 8655.28,
+      "y": -2179.39,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 8656.34,
+      "y": -2182.8,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 8654.55,
+      "y": -2184.44,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 8652.23,
+      "y": -2180.3,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 8637.03,
+      "y": -2185.28,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 8596.92,
+      "y": -2187.74,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1);钟离 e(hold)",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 8593.87,
+      "y": -2191.94,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 8591.39,
+      "y": -2189.26,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 8593.04,
+      "y": -2184.96,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 8594.98,
+      "y": -2186.11,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

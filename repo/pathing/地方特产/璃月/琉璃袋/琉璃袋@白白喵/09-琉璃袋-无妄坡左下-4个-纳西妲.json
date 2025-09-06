@@ -1,0 +1,98 @@
+{
+  "info": {
+    "name": "09-琉璃袋-无妄坡左下-4个-纳西妲",
+    "type": "collect",
+    "version": "1.0",
+    "description": "琉璃袋-无妄坡左下小土堆-4枚-白白喵-需要纳西妲",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "白白喵"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 490.14,
+      "y": 1434.79,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 492.0,
+      "y": 1436.25,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 569.05,
+      "y": 1421.69,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 572.69,
+      "y": 1421.62,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 574.06,
+      "y": 1422.12,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 578.97,
+      "y": 1425.09,
+      "action": "nahida_collect",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 578.88,
+      "y": 1428.44,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 581.04,
+      "y": 1430.65,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 585.06,
+      "y": 1431.0,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

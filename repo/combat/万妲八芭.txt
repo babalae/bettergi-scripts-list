@@ -1,0 +1,21 @@
+// 战斗脚本 by 无狐
+
+// 1. 纳西妲不用e(hold)的稳定视角方向的战斗脚本
+// 2. 优化了神子的位移（虽然现在还是会有位置偏移、可能跳崖）
+// 3. 基本不放大招，有需要的话自己加
+// 4. 芭芭拉替换了万妲八钟里的钟离，锄地/副本有回血，血线会更稳定（代价是没有抗打断）
+
+// 纳西妲加个平A，确保切人（不然会跳过她）
+纳西妲 attack,keydown(E),wait(0.4),moveby(3690,0),wait(0.4),keyup(E)
+
+// 如果要打两轮e，可能会乱跑
+八重神子 keydown(W),wait(0.1),e,wait(0.1),keyup(W),wait(0.2)
+八重神子 keydown(A),keydown(S),wait(0.1),e,wait(0.1),keyup(A),keyup(S),wait(0.2)
+八重神子 keydown(D),keydown(S),wait(0.1),e,wait(0.1),keyup(D),keyup(S),wait(0.2)
+
+// w(0.3)调整方向，防止乱跑
+枫原万叶 w(0.4),e(hold),wait(0.1),attack
+
+// 芭芭拉wait(2)，等待万叶CD，战斗脚本结束时刚好万叶CD能好
+// （避免万叶拾取时CD没好，需要等待6+秒；反正这个战斗基本就是挂机）
+芭芭拉 e,wait(0.1),q,wait(3)

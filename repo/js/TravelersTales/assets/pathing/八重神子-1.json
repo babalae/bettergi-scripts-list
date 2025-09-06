@@ -1,0 +1,51 @@
+{
+  "info": {
+    "name": "八重神子-1",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1750328452356
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4375.716796875,
+      "y": -2498.1533203125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4393.720703125,
+      "y": -2484.8095703125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4398.73828125,
+      "y": -2491.287109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -4424.5078125,
+      "y": -2475.228515625,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(3),keyup(w)"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "manifest_version": 1,
+  "name": "等待到指定时间点",
+  "version": "1.2",
+  "bgi_version": "0.42.0",
+  "description": "等待到指定时间:\n脚本将暂停所有操作，直至到达您设置的特定时间（24小时制）后結束等待，让后面的任务在您设置的特定时间后才开始运行。\n例如：设置04:00会让脚本等到凌晨4点再继续执行\n使用时务必先设置目标时间，否则脚本不会正常运行\n详见README.md",
+  "authors": [
+    {
+      "name": "蜜柑魚",
+      "links": "https://github.com/this-Fish"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js"
+}
