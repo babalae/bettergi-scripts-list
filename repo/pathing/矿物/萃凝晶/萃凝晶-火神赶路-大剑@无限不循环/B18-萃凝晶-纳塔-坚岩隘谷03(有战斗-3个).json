@@ -9,10 +9,10 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756493227588,
+    "last_modified_time": 1757019069023,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B01-萃凝晶-纳塔-万火之瓯01（2个）",
+    "name": "B18-萃凝晶-纳塔-坚岩隘谷03(有战斗-3个)",
     "tags": [
       "双手剑"
     ],
@@ -23,37 +23,37 @@
     {
       "action": "",
       "id": 1,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "teleport",
-      "x": 8598.1,
-      "y": -1925.07
+      "x": 8670.95,
+      "y": -1269.61
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "stop_flying",
+      "action_params": "2500",
       "id": 2,
-      "move_mode": "dash",
+      "move_mode": "fly",
       "type": "path",
-      "x": 8603.05,
-      "y": -1894.42
-    },
-    {
-      "action": "mining",
-      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
-      "id": 3,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 8604.6,
-      "y": -1889.5
+      "x": 8665.85,
+      "y": -1354.19
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.5)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8665.85,
+      "y": -1354.19
+    },
+    {
+      "action": "fight",
+      "action_params": "",
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": 8604.6,
-      "y": -1889.5
+      "x": 8665.85,
+      "y": -1354.19
     },
     {
       "action": "",
@@ -61,8 +61,8 @@
       "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": 8608.29,
-      "y": -1891.53
+      "x": 8666.87,
+      "y": -1350.24
     },
     {
       "action": "mining",
@@ -70,8 +70,8 @@
       "id": 6,
       "move_mode": "walk",
       "type": "target",
-      "x": 8608.71,
-      "y": -1890.66
+      "x": 8671.57,
+      "y": -1343.28
     },
     {
       "action": "combat_script",
@@ -79,17 +79,35 @@
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": 8608.71,
-      "y": -1890.66
+      "x": 8671.57,
+      "y": -1343.28
+    },
+    {
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8672.55,
+      "y": -1341.1
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8672.55,
+      "y": -1341.1
     },
     {
       "action": "pick_around",
       "action_params": "",
-      "id": 8,
+      "id": 10,
       "move_mode": "walk",
       "type": "path",
-      "x": 8605.8935546875,
-      "y": -1888.73974609375
+      "x": 8672.55,
+      "y": -1341.1
     }
   ]
 }

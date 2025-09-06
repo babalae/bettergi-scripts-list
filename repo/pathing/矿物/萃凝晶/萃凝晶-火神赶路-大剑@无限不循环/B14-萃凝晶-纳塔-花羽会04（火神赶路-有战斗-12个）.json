@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756841014497,
+    "last_modified_time": 1757185045565,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B14-萃凝晶-纳塔-花羽会04（火神赶路-有战斗-12个）",
@@ -34,8 +34,8 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": 9550.7197,
-      "y": -1113.5771
+      "x": 9550.7197265625,
+      "y": -1113.5771484375
     },
     {
       "action": "combat_script",
@@ -43,8 +43,8 @@
       "id": 3,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 9750.6797,
-      "y": -1068.1099
+      "x": 9750.6796875,
+      "y": -1068.10986328125
     },
     {
       "action": "",
@@ -52,8 +52,8 @@
       "id": 4,
       "move_mode": "run",
       "type": "path",
-      "x": 9750.748,
-      "y": -1068.0884
+      "x": 9750.748046875,
+      "y": -1068.08837890625
     },
     {
       "action": "combat_script",
@@ -61,8 +61,8 @@
       "id": 5,
       "move_mode": "run",
       "type": "path",
-      "x": 9750.7432,
-      "y": -1068.0835
+      "x": 9750.7431640625,
+      "y": -1068.08349609375
     },
     {
       "action": "fight",
@@ -70,8 +70,8 @@
       "id": 6,
       "move_mode": "run",
       "type": "path",
-      "x": 9750.7432,
-      "y": -1068.0835
+      "x": 9750.7431640625,
+      "y": -1068.08349609375
     },
     {
       "action": "",
@@ -79,8 +79,8 @@
       "id": 7,
       "move_mode": "dash",
       "type": "path",
-      "x": 9740.9688,
-      "y": -1097.1743
+      "x": 9740.96875,
+      "y": -1097.17431640625
     },
     {
       "action": "mining",
@@ -161,7 +161,7 @@
       "move_mode": "run",
       "type": "path",
       "x": 9736.07,
-      "y": -1079.0
+      "y": -1079
     },
     {
       "action": "mining",
@@ -241,8 +241,8 @@
       "id": 25,
       "move_mode": "run",
       "type": "path",
-      "x": 9758.9756,
-      "y": -1044.1567
+      "x": 9758.9755859375,
+      "y": -1044.15673828125
     },
     {
       "action": "",
@@ -250,8 +250,8 @@
       "id": 26,
       "move_mode": "dash",
       "type": "path",
-      "x": 9826.9219,
-      "y": -1048.9395
+      "x": 9826.921875,
+      "y": -1048.939453125
     },
     {
       "action": "fight",
@@ -340,8 +340,8 @@
       "id": 36,
       "move_mode": "run",
       "type": "path",
-      "x": 9882.627,
-      "y": -981.769
+      "x": 9882.626953125,
+      "y": -981.76904296875
     },
     {
       "action": "",
@@ -349,12 +349,12 @@
       "id": 37,
       "move_mode": "walk",
       "type": "path",
-      "x": 9891.8164,
-      "y": -979.4883
+      "x": 9891.81640625,
+      "y": -979.48828125
     },
     {
       "action": "combat_script",
-      "action_params": "玛薇卡 w(0.1),attack(0.3),e(hold),keydown(VK_W),dash(4),keyup(VK_W),e",
+      "action_params": "玛薇卡 w(0.1),attack(0.3),e(hold),keydown(VK_W),dash(4),keyup(VK_W),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
       "id": 38,
       "move_mode": "walk",
       "type": "orientation",
@@ -367,8 +367,8 @@
       "id": 39,
       "move_mode": "run",
       "type": "path",
-      "x": 9941.0898,
-      "y": -916.9834
+      "x": 9941.08984375,
+      "y": -916.9833984375
     },
     {
       "action": "",
