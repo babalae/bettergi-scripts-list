@@ -245,12 +245,30 @@ async function readRecord(accountName) {
 
     /* ---------- 判断今日是否运行（北京时间 04:00 分界，手动拼接 UTC 20 点） ---------- */
     if (record.lastRunDate) {
-        const [y, m, d] = record.lastRunDate.split("/").map(Number);
-        // 东八区 04:00 对应 UTC 20:00
-        const lastRun4AM = new Date(`${y}-${String(m).padStart(2, '0')}-${String(d - 1).padStart(2, '0')}T20:00:00.000Z`).getTime();
+        const [y, m, d] = record.lastRunDate.split('/').map(Number);
+
+        // 1. 用 UTC 构造记录日期 00:00:00
+        const recordUtc = Date.UTC(y, m - 1, d);          // 毫秒
+
+        // 2. 减 24 小时得到“前一天”
+        const prevUtc = recordUtc - 24 * 60 * 60 * 1000;
+
+        // 3. 从毫秒时间戳里取出 UTC 年月日
+        const prev = new Date(prevUtc);
+        const yy = prev.getUTCFullYear();
+        const mm = prev.getUTCMonth() + 1;                // 1-based
+        const dd = prev.getUTCDate();
+
+        // 4. 严格按模板字符串拼成合法日期
+        const lastRun4AM = new Date(
+            `${yy}-${String(mm).padStart(2, '0')}-${String(dd).padStart(2, '0')}T20:00:00.000Z`
+        ).getTime();
+
         //log.info(`lastRun4AM = ${new Date(lastRun4AM).toISOString()}`);
 
-        const now = Date.now();
+        const now = Date.now();        // 当前毫秒时间戳
+        //log.info(`时间差为 ${now - lastRun4AM} ms`);
+
         if (now - lastRun4AM < 24 * 60 * 60 * 1000) {
             log.info("今日已经运行过狗粮");
             state.runnedToday = true;
@@ -902,14 +920,14 @@ async function runActivatePath() {
     }
     await runPaths(extraActivatePath, "", false);
 
+    await runPaths(endingPreparePath, "", false);
+    await runPaths(extraPreparePath, "", false);
+
     if (combatPartyName) {
         log.info("填写了清怪队伍，执行清怪路线");
         await runPaths(extraCombatPath, combatPartyName, false, "black");
         await runPaths(endingCombatPath, combatPartyName, false, "black");
     }
-
-    await runPaths(endingPreparePath, "", false);
-    await runPaths(extraPreparePath, "", false);
 }
 
 async function runEndingAndExtraPath() {
