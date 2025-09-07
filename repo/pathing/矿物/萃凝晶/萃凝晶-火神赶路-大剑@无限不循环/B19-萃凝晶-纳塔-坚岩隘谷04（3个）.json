@@ -9,13 +9,11 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757184378818,
+    "last_modified_time": 1757019162480,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "A28-萃凝晶-枫丹-幽林雾道（火神赶路-有战斗-2个）",
+    "name": "B19-萃凝晶-纳塔-坚岩隘谷04（3个）",
     "tags": [
-      "火神赶路",
-      "有战斗",
       "双手剑"
     ],
     "type": "collect",
@@ -24,48 +22,47 @@
   "positions": [
     {
       "action": "",
-      "action_params": "",
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 3595.8984,
-      "y": 3254.5925
+      "x": 7633.79,
+      "y": -1646.65
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7647.98,
+      "y": -1546.73
     },
     {
       "action": "",
       "action_params": "",
-      "id": 2,
+      "id": 3,
       "move_mode": "walk",
       "type": "path",
-      "x": 3586.7979,
-      "y": 3227.7307
+      "x": 7649.76,
+      "y": -1544.57
+    },
+    {
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7649.39,
+      "y": -1539.42
     },
     {
       "action": "combat_script",
-      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.8),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.8),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
-      "id": 3,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 3512.4189,
-      "y": 3179.3491
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "run",
-      "type": "path",
-      "x": 3512.4189,
-      "y": 3179.3491
-    },
-    {
-      "action": "fight",
-      "action_params": "",
+      "action_params": "wait(0.5)",
       "id": 5,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 3507.5801,
-      "y": 3189.7095
+      "x": 7649.39,
+      "y": -1539.42
     },
     {
       "action": "",
@@ -73,17 +70,17 @@
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": 3510.8965,
-      "y": 3179.7029
+      "x": 7645.83,
+      "y": -1539.36
     },
     {
       "action": "mining",
-      "action_params": "",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
       "id": 7,
       "move_mode": "walk",
       "type": "target",
-      "x": 3506.4043,
-      "y": 3176.8425
+      "x": 7645.22,
+      "y": -1536.6
     },
     {
       "action": "combat_script",
@@ -91,8 +88,8 @@
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": 3506.4043,
-      "y": 3176.8425
+      "x": 7645.22,
+      "y": -1536.6
     },
     {
       "action": "",
@@ -100,17 +97,17 @@
       "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": 3506.334,
-      "y": 3182.1226
+      "x": 7642.43,
+      "y": -1540.45
     },
     {
       "action": "mining",
-      "action_params": "",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
       "id": 10,
       "move_mode": "walk",
       "type": "target",
-      "x": 3504.374,
-      "y": 3181.6431
+      "x": 7641.68,
+      "y": -1538.93
     },
     {
       "action": "combat_script",
@@ -118,8 +115,8 @@
       "id": 11,
       "move_mode": "walk",
       "type": "path",
-      "x": 3504.375,
-      "y": 3181.6431
+      "x": 7641.68,
+      "y": -1538.93
     }
   ]
 }
