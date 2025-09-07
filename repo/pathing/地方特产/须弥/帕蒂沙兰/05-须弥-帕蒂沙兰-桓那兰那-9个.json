@@ -1,16 +1,24 @@
-{
+﻿{
   "info": {
     "author": "jbcaaa",
     "authors": [
       {
-        "name": "jbcaaa",
-        "links": "https://github.com/jbcaaa"
+        "links": "https://github.com/jbcaaa",
+        "name": "jbcaaa"
+      },
+      {
+        "links": "",
+        "name": "芝麻糊"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
       }
     ],
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756504136032,
+    "last_modified_time": 1757244376271,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "05-须弥-帕蒂沙兰-桓那兰那-9个",
@@ -123,7 +131,7 @@
       "id": 13,
       "move_mode": "walk",
       "type": "path",
-      "x": 3511.0,
+      "x": 3511,
       "y": -154.0625
     },
     {
@@ -139,8 +147,8 @@
       "id": 15,
       "move_mode": "walk",
       "type": "target",
-      "x": 3513.4766,
-      "y": -155.1138
+      "x": 3513.4765625,
+      "y": -155.11376953125
     },
     {
       "action": "",
@@ -217,22 +225,32 @@
     {
       "action": "stop_flying",
       "id": 25,
+      "locked": false,
       "move_mode": "fly",
       "type": "target",
       "x": 3528.63,
       "y": -188.82
     },
     {
-      "action": "",
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
       "id": 26,
       "move_mode": "walk",
+      "type": "target",
+      "x": 3528.63,
+      "y": -188.82
+    },
+    {
+      "action": "",
+      "id": 27,
+      "move_mode": "jump",
       "type": "path",
       "x": 3528.35,
       "y": -192.54
     },
     {
       "action": "",
-      "id": 27,
+      "id": 28,
       "move_mode": "run",
       "type": "path",
       "x": 3508.75,
@@ -240,7 +258,7 @@
     },
     {
       "action": "",
-      "id": 28,
+      "id": 29,
       "move_mode": "walk",
       "type": "target",
       "x": 3506.5,
@@ -248,7 +266,7 @@
     },
     {
       "action": "",
-      "id": 29,
+      "id": 30,
       "move_mode": "walk",
       "type": "path",
       "x": 3506.88,
@@ -256,7 +274,7 @@
     },
     {
       "action": "",
-      "id": 30,
+      "id": 31,
       "move_mode": "run",
       "type": "path",
       "x": 3518.26,
@@ -264,7 +282,7 @@
     },
     {
       "action": "",
-      "id": 31,
+      "id": 32,
       "move_mode": "run",
       "type": "path",
       "x": 3535.08,
@@ -272,7 +290,7 @@
     },
     {
       "action": "",
-      "id": 32,
+      "id": 33,
       "move_mode": "dash",
       "type": "path",
       "x": 3550.19,
@@ -280,7 +298,7 @@
     },
     {
       "action": "",
-      "id": 33,
+      "id": 34,
       "move_mode": "dash",
       "type": "path",
       "x": 3570.28,
@@ -288,7 +306,7 @@
     },
     {
       "action": "",
-      "id": 34,
+      "id": 35,
       "move_mode": "dash",
       "type": "path",
       "x": 3589.22,
@@ -296,7 +314,7 @@
     },
     {
       "action": "",
-      "id": 35,
+      "id": 36,
       "move_mode": "dash",
       "type": "path",
       "x": 3607.57,
@@ -304,7 +322,7 @@
     },
     {
       "action": "",
-      "id": 36,
+      "id": 37,
       "move_mode": "walk",
       "type": "path",
       "x": 3610.44,
@@ -312,7 +330,7 @@
     },
     {
       "action": "",
-      "id": 37,
+      "id": 38,
       "move_mode": "walk",
       "type": "target",
       "x": 3613.3,
@@ -320,7 +338,7 @@
     },
     {
       "action": "",
-      "id": 38,
+      "id": 39,
       "move_mode": "walk",
       "type": "target",
       "x": 3610.61,
@@ -328,15 +346,15 @@
     },
     {
       "action": "",
-      "id": 39,
+      "id": 40,
       "move_mode": "walk",
-      "type": "path",
+      "type": "target",
       "x": 3617.82,
       "y": -195.75
     },
     {
       "action": "",
-      "id": 40,
+      "id": 41,
       "move_mode": "dash",
       "type": "path",
       "x": 3610.26,
@@ -344,7 +362,7 @@
     },
     {
       "action": "",
-      "id": 41,
+      "id": 42,
       "move_mode": "dash",
       "type": "path",
       "x": 3638.67,
@@ -352,7 +370,7 @@
     },
     {
       "action": "",
-      "id": 42,
+      "id": 43,
       "move_mode": "walk",
       "type": "target",
       "x": 3641.07,
@@ -361,7 +379,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.8)",
-      "id": 43,
+      "id": 44,
       "move_mode": "walk",
       "type": "target",
       "x": 3643.7,

@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756126563580,
+    "last_modified_time": 1757244411101,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "09-须弥-帕蒂沙兰-觉王之殿下方-3朵",
@@ -22,9 +22,10 @@
       "action": "",
       "action_params": "",
       "id": 1,
+      "locked": false,
       "move_mode": "fly",
       "type": "teleport",
-      "x": 3592.0,
+      "x": 3592,
       "y": -787.3306
     },
     {
@@ -32,7 +33,7 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 3584.0,
+      "x": 3584,
       "y": -754.75
     },
     {
@@ -41,8 +42,8 @@
       "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 3582.0723,
-      "y": -716.9102
+      "x": 3582.072265625,
+      "y": -716.91015625
     },
     {
       "action": "",
@@ -60,7 +61,7 @@
       "move_mode": "dash",
       "type": "path",
       "x": 3594.4375,
-      "y": -703.2739
+      "y": -703.27392578125
     },
     {
       "action": "",
@@ -87,6 +88,15 @@
       "type": "path",
       "x": 3620.5674,
       "y": -715.1758
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "teleport",
+      "x": 3592,
+      "y": -787.3306
     }
   ]
 }
