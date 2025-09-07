@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756841014497,
+    "last_modified_time": 1757185045565,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B14-萃凝晶-纳塔-花羽会04（火神赶路-有战斗-12个）",
@@ -354,7 +354,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "玛薇卡 w(0.1),attack(0.3),e(hold),keydown(VK_W),dash(4),keyup(VK_W),e",
+      "action_params": "玛薇卡 w(0.1),attack(0.3),e(hold),keydown(VK_W),dash(4),keyup(VK_W),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
       "id": 38,
       "move_mode": "walk",
       "type": "orientation",

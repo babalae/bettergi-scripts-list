@@ -20,8 +20,10 @@ function forge_pathing_end_log(name, elapsed_time) {
 
 function get_exclude_tags() {
     var tags = [];
-    if (settings.exclude_fights) {
+    if (settings.fight_option === "全跳过") {
         tags.push("fight");
+    } else if (settings.fight_option === "只跳过与精英怪战斗的路线") {
+        tags.push("elite enemy");
     }
     if (settings.exclude_natlan) {
         tags.push("natlan");
