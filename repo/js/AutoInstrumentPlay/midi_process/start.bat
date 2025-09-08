@@ -41,9 +41,15 @@ if not "!channels!"=="" (
 )
 
 REM 二值化阈值
-set /p "threshold=二值化阈值?(1-126,默认值为64): "
+set /p "threshold=输入二值化阈值(1-126,默认值为64): "
 if not "!threshold!"=="" (
     set "command=!command! --threshold !threshold!"
+)
+
+REM 乐器选择
+set /p "instrument=选择乐器(使用--help查看可用输入): "
+if not "!instrument!"=="" (
+    set "command=!command! --instrument !instrument!"
 )
 
 :execute
