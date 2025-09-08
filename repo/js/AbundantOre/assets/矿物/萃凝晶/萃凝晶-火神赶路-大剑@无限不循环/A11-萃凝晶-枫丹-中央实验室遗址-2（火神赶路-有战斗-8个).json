@@ -9,14 +9,15 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1755892051904,
+    "last_modified_time": 1757181738514,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A11-萃凝晶-枫丹-中央实验室遗址-2（火神赶路-有战斗-8个)",
     "tags": [
       "火神赶路",
       "有战斗",
-      "双手剑"
+      "双手剑",
+      "精英怪"
     ],
     "type": "collect",
     "version": "1.0"
@@ -222,7 +223,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "玛薇卡 w(0.1),e(hold),keydown(VK_W),wait(4),keyup(VK_W),wait(0.5),e",
+      "action_params": "玛薇卡 w(0.1),e(hold),keydown(VK_W),wait(4),keyup(VK_W),wait(0.5),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
       "id": 23,
       "move_mode": "walk",
       "type": "orientation",

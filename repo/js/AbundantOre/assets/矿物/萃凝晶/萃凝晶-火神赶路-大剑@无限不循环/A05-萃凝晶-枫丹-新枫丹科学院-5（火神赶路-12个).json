@@ -9,14 +9,13 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1755891407778,
+    "last_modified_time": 1757179068855,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "A05-萃凝晶-枫丹-新枫丹科学院-5（火神赶路-有战斗12个)",
+    "name": "A05-萃凝晶-枫丹-新枫丹科学院-5（火神赶路-12个)",
     "tags": [
       "火神赶路",
-      "双手剑",
-      "战斗"
+      "双手剑"
     ],
     "type": "collect",
     "version": "1.0"
@@ -42,7 +41,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.5),e;",
+      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.5),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
       "id": 3,
       "move_mode": "walk",
       "type": "orientation",
@@ -114,7 +113,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "玛薇卡 w(0.1),e(hold),keydown(VK_W),dash(3.2),keyup(VK_W),e",
+      "action_params": "玛薇卡 w(0.1),e(hold),keydown(VK_W),dash(3.2),keyup(VK_W),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
       "id": 11,
       "move_mode": "walk",
       "type": "orientation",
@@ -204,7 +203,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),e;",
+      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
       "id": 21,
       "move_mode": "walk",
       "type": "orientation",
@@ -375,7 +374,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.0),attack,wait(1.5),wait(4),keyup(VK_W),wait(0.5),e",
+      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.0),attack,wait(1.5),wait(4),keyup(VK_W),wait(0.5),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
       "id": 40,
       "move_mode": "walk",
       "type": "orientation",
