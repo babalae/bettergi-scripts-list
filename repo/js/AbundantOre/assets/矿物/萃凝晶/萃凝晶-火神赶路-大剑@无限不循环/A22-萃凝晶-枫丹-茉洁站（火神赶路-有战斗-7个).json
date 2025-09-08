@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1755893094437,
+    "last_modified_time": 1757183737941,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A22-萃凝晶-枫丹-茉洁站（火神赶路-有战斗-7个)",
@@ -33,7 +33,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": " 玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01), j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.7),keydown(VK_W),dash(1.3),keyup(VK_W),e;",
+      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01), j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.7),keydown(VK_W),dash(1.3),keyup(VK_W),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
       "id": 2,
       "move_mode": "walk",
       "type": "orientation",
@@ -132,7 +132,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(0.7),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(0.7),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(0.7),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(0.7),e,",
+      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(0.7),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(0.7),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(0.7),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(0.7),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
       "id": 13,
       "move_mode": "walk",
       "type": "orientation",
@@ -204,7 +204,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.2),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,  wait(1.2),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.2),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.2),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),e;",
+      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.2),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,  wait(1.2),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.2),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.2),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
       "id": 21,
       "move_mode": "walk",
       "type": "orientation",
