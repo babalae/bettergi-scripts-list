@@ -180,6 +180,115 @@
                 .replace(/\/\[([^\]]+)\]/g, '{[$1]}')   // 替换 /[content] 为 {[content]}
                 .replace(/[\/\>]/g, "");                // 删除所有 / 和 >
         };
+
+        /**
+         * @typedef {Array} noteInfo 
+         * @param {String} processedString 处理完成的字符串，只有A-Z，0，-，()[]{}
+         * @returns {[noteInfo[]]}
+         * noteInfo[0] : 开始拍数 eg. 6.25  
+         * noteInfo[1] : 按键  
+         * noteInfo[2] : 持续拍数 eg. 1.25  
+         */
+        const keySheetParse = (processedString) => {
+            const SINGLE = 0;
+            const NOTES_CTU = 1; // continuous
+            const NOTES_UCTU = 2; // uncontinuous
+            const NOTE_WEIGHT = 3;
+
+            const isLeftBrackets = (char) => ((char.length === 1) && (/[\(\[\{]/.test(char)));
+            const isRightBrackets = (char) => ((char.length === 1) && (/[\)\]\}]/.test(char)));
+            const isNote = (char) => ((char.length === 1) && (/[A-Z0]/.test(char)));
+            const state = (brackets) => {
+                switch (brackets) {
+                    case "(": return NOTES_CTU;
+                    case "[": return NOTE_WEIGHT;
+                    case "{": return NOTES_UCTU;
+                    default: return SINGLE;
+                }
+            }
+            const genNote = (type, listKey) => ({ type: state(type), listKey: listKey, mult: 1 });
+
+            class GroupProcess {
+                constructor() {
+                    /**
+                     * const SINGLE = 0;
+                     * const NOTES_CTU = 1; // continuous
+                     * const NOTES_UCTU = 2; // uncontinuous
+                     * const NOTE_WEIGHT = 3;
+                     */
+                    this.stack = new Array();
+                    this.listKey = new Array();
+                    this.unMatchBrackets = 0;
+                }
+                push(char) {
+                    if (isLeftBrackets(char)) {
+                        this.stack.push(char);
+                        this.listKey.push([]);
+                        this.unMatchBrackets += 1;
+                    }
+                    else if (isRightBrackets(char)) { (this.unMatchBrackets > 0) ? (this.unMatchBrackets -= 1) : (0); }
+                    else if (!isRightBrackets(char) && char !== "-") {
+                        const lastIndex = this.listKey.length - 1;
+                        // if (lastIndex >= 0) this.listKey[lastIndex].push(char);
+                        if (lastIndex >= 0) this.listKey[this.unMatchBrackets - 1].push(char);
+                        else {
+                            this.stack.push(undefined)
+                            this.listKey.push([char]);
+                        }
+                    } else { ; }
+                    return this;
+                }
+                pop() { return this.stack.pop(); }
+                last() { return this.stack[this.stack.length - 1]; }
+                isEmpty() { return this.stack.length === 0; }
+                invaildMatch() { return ((this.unMatchBrackets === 0) && (this.stack.length !== 0)); }
+                clear() {
+                    this.stack = [];
+                    this.listKey = [];
+                    this.unMatchBrackets = 0;
+                }
+                genAll() {
+                    let brackets = this.stack;   // 左括号的栈
+                    let key = this.listKey;      // 每个左括号对应的键数组
+                    let current = genNote(brackets.pop(), key.pop());
+                    let outerNote = undefined;
+                    while (brackets.length > 0) {
+                        outerNote = genNote(brackets.pop(), key.pop());
+                        outerNote.listKey.push(current);
+                        current = outerNote;
+                    }
+                    this.clear();
+                    return current;
+                }
+            }
+
+            let group = new GroupProcess(); // 处理流程1
+            let groupProess = new Array(); // 处理流程2
+            let untime = undefined;
+            for (let i = 0; i < processedString.length; i++) {
+                const char = processedString[i];
+                /**
+                 * 1: group.stack已空, 整组解析完毕
+                 * 2: group.stack不为空，
+                 */
+                if (char !== "-") { group.push(char); }
+                else if (group.isEmpty()) { groupProess[groupProess.length - 1].mult += 1; }
+
+                if (group.invaildMatch()) {
+                    untime = group.genAll();
+                    groupProess.push(untime);
+                }
+            }
+
+            let groupQueue = new Array(); // 处理流程3
+            let countBeat = 0;
+            let pressed_key = new Set()
+            let noteInfo = new Array()
+            return groupProess;
+        }
+        
+        let processedString = keySheetProcess(stringSheet);
+        let processedList = keySheetParse(processedString);
     }
 
     /**
