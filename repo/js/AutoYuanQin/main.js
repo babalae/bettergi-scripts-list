@@ -9,7 +9,9 @@
         "5.Flower Dance",
         "6.起风了",
         "7.千本樱 (Eric Chen)",
-        "8.春よ、来い（春天，来吧）"
+        "8.春よ、来い（春天，来吧）",
+        "9.One Last Kiss",
+        "10.卡农(MIDI转谱)"
     ]
     const base_path = "assets/score_file/"
 
@@ -225,7 +227,11 @@
             // 谱师
             music_msg_dic["arranger"] = file_text.match(regex_arranger)[0];
             // 曲谱内容(删除换行符)
-            music_msg_dic["notes"] = file_text.match(regex_notes)[0].replace(regex_blank, '');
+            if (music_msg_dic["author"] !== "MidiTrans") {
+                music_msg_dic["notes"] = file_text.match(regex_notes)[0].replace(regex_blank, '');
+            } else {
+                music_msg_dic["notes"] = JSON.parse(file_text)["notes"];
+            }
         } catch(error) {
             log.info(`曲谱解析错误：${error}\n请检查曲谱文件格式是否正确`);
             return null;
@@ -246,69 +252,74 @@
      * 附：
      * 中括号（-前表示音符类型-后用于区分特殊音符）：[填4表示4分音符，填16表示16分音符...-填#表示装饰音，填3表示三连音] 例：[16-#]
      *
-     * @param sheet {string} 乐谱
+     * @param sheet {string} 乐谱 [DEBUG]更新midi后这里也会是一个字典
      * @returns {Object[][]}
      */
     function parseMusicSheet(sheet) {
-        // 将输入字符串按照小节分割
-        let bars = sheet.split('|');
         let result = [];
 
-        // 遍历每个小节
-        bars.forEach(bar => {
-            let i = 0;
+        if (typeof(sheet) === "object") {
+            result = sheet;
+        } else {
+            // 将输入字符串按照小节分割
+            let bars = sheet.split('|');
 
-            // 逐个字符解析小节中的音符及其属性
-            while (i < bar.length) {
-                let note = ''; // 存储音符
-                let type = ''; // 存储音符类型
-                let chord = false; // 判断是否为和弦
-                let spl = 'none'; // 存储特殊音符属性，默认值为 "none"
+            // 遍历每个小节
+            bars.forEach(bar => {
+                let i = 0;
 
-                // 检查是否为和弦（和弦用圆括号包裹）
-                if (bar[i] === '(') {
-                    chord = true;
-                    i++;
-                    while (bar[i] !== ')') {
-                        note += bar[i];
+                // 逐个字符解析小节中的音符及其属性
+                while (i < bar.length) {
+                    let note = ''; // 存储音符
+                    let type = ''; // 存储音符类型
+                    let chord = false; // 判断是否为和弦
+                    let spl = 'none'; // 存储特殊音符属性，默认值为 "none"
+
+                    // 检查是否为和弦（和弦用圆括号包裹）
+                    if (bar[i] === '(') {
+                        chord = true;
+                        i++;
+                        while (bar[i] !== ')') {
+                            note += bar[i];
+                            i++;
+                        }
+                        i++; // 跳过闭合圆括号
+                    } else if (bar[i] === '@') {
+                        // 处理休止符
+                        note = '@';
+                        i++;
+                    } else {
+                        note = bar[i];
                         i++;
                     }
-                    i++; // 跳过闭合圆括号
-                } else if (bar[i] === '@') {
-                    // 处理休止符
-                    note = '@';
-                    i++;
-                } else {
-                    note = bar[i];
-                    i++;
-                }
 
-                // 解析音符类型（用方括号包裹）
-                if (bar[i] === '[') {
-                    i++;
-                    while (bar[i] !== ']') {
-                        type += bar[i];
+                    // 解析音符类型（用方括号包裹）
+                    if (bar[i] === '[') {
                         i++;
+                        while (bar[i] !== ']') {
+                            type += bar[i];
+                            i++;
+                        }
+                        i++; // 跳过闭合方括号
                     }
-                    i++; // 跳过闭合方括号
-                }
 
-                // 解析特殊音符属性（如果type中包含'-'）
-                if (type.includes('-')) {
-                    let splIndex = type.indexOf('-');
-                    spl = type.slice(splIndex + 1);
-                    type = parseInt(type.slice(0, splIndex), 10);
-                }
+                    // 解析特殊音符属性（如果type中包含'-'）
+                    if (type.includes('-')) {
+                        let splIndex = type.indexOf('-');
+                        spl = type.slice(splIndex + 1);
+                        type = parseInt(type.slice(0, splIndex), 10);
+                    }
 
-                // 将解析结果添加到parsedNotes数组中
-                result.push({
-                    "note": note,
-                    "type": type,
-                    "chord": chord,
-                    "spl": spl
-                });
-            }
-        });
+                    // 将解析结果添加到parsedNotes数组中
+                    result.push({
+                        "note": note,
+                        "type": type,
+                        "chord": chord,
+                        "spl": spl
+                    });
+                }
+            });
+        }
 
         return result;
     }
@@ -323,101 +334,112 @@
      * @returns {Promise<void>}
      */
     async function play_sheet(sheet_list, bpm, ts) {
-        // 确定是以几分音符为一拍
-        let symbol = parseInt(ts.split("/")[1], 10);
-        // 每拍所需的时间
-        let symbol_time = Math.round(60000 / bpm);
-        // 装饰音时长
-        let ornament_time = Math.round(symbol_time / 16)
-        // 存储连音
-        let temp_legato = [];
-
-        // test 需要额外计算装饰音时值的影响
-        for (let i = 0; i < sheet_list.length; i++) {
-            // 显示正在演奏的音符
-            log.info(`${sheet_list[i]["note"]}[${sheet_list[i]["type"]}-${sheet_list[i]["spl"]}]`);
-            if (sheet_list[i]["spl"] === 'none') { // 单音、休止符或和弦
-                if (sheet_list[i]["chord"]) {
-                    await play_chord(sheet_list[i]["note"]); // 和弦
+        if (Object.keys(sheet_list[0]).length === 3) {
+            for (let i = 0; i < sheet_list.length; i++) {
+                await sleep(Math.round(sheet_list[i]["time"]));
+                if (sheet_list[i]["type"] === "on") {
+                    keyDown(sheet_list[i]["note"]);
                 } else {
-                    if (sheet_list[i]["note"] === '@') { // 休止符
-                        // pass
+                    keyUp(sheet_list[i]["note"]);
+                }
+            }
+        } else {
+            // 确定是以几分音符为一拍
+            let symbol = parseInt(ts.split("/")[1], 10);
+            // 每拍所需的时间
+            let symbol_time = Math.round(60000 / bpm);
+            // 装饰音时长
+            let ornament_time = Math.round(symbol_time / 16)
+            // 存储连音
+            let temp_legato = [];
+
+            // test 需要额外计算装饰音时值的影响
+            for (let i = 0; i < sheet_list.length; i++) {
+                // 显示正在演奏的音符
+                log.info(`${sheet_list[i]["note"]}[${sheet_list[i]["type"]}-${sheet_list[i]["spl"]}]`);
+                if (sheet_list[i]["spl"] === 'none') { // 单音、休止符或和弦
+                    if (sheet_list[i]["chord"]) {
+                        await play_chord(sheet_list[i]["note"]); // 和弦
                     } else {
-                        await play_note(sheet_list[i]["note"]); // 单音
-                    }
-                }
-
-                if (i !== sheet_list.length - 1) {
-                    await sleep(cal_time_ornament(sheet_list, symbol_time, symbol, sheet_list[i]["type"], i));
-                }
-            } else if (sheet_list[i]["spl"] === '#') { // 装饰音（不会包含休止符），时值为symbol的时值的1/16
-                if (sheet_list[i]["chord"]) {
-                    await play_chord(sheet_list[i]["note"]); // 和弦
-                } else {
-                    await play_note(sheet_list[i]["note"]); // 单音
-                }
-                if (i !== sheet_list.length - 1) {
-                    await sleep(ornament_time);
-                }
-            } else if (/\.3|\.6|\.\$/.test(sheet_list[i]["spl"])) { // 三连音/六连音（可能包含休止符）
-                temp_legato.push({
-                    "note": sheet_list[i]["note"],
-                    "chord": sheet_list[i]["chord"],
-                    "type": sheet_list[i]["type"]
-                });
-
-                // 演奏连音
-                if ("$".includes(sheet_list[i]["spl"])) {
-                    // 连音的总时长
-                    let time_legato = Math.round(symbol_time * (symbol / sheet_list[i]["type"]));
-                    // 当前音符类型
-                    let current_type = parseInt(sheet_list[i]["spl"].split(".")[0])
-                    // 连音的音符数值总和（用于计算当前音符时长）
-                    let time_all = temp_legato.reduce((sum, each) => sum + 1 / parseInt(each["spl"].split(".")[0]), 0);
-                    // 当前音符时长
-                    let time_current = Math.round(time_legato * (1 / current_type) / time_all);
-                    // 计数
-                    let count = undefined;
-
-                    for (const note_legato of temp_legato) {
-                        if (sheet_list[i]["chord"]) {
-                            await play_chord(sheet_list[i]["note"]); // 和弦
+                        if (sheet_list[i]["note"] === '@') { // 休止符
+                            // pass
                         } else {
-                            if (sheet_list[i]["note"] === '@') { // 休止符
-                                // pass
-                            } else {
-                                await play_note(sheet_list[i]["note"]); // 单音
-                            }
+                            await play_note(sheet_list[i]["note"]); // 单音
                         }
-
-                        if (count === temp_legato.length - 1 && i !== sheet_list.length - 1) {
-                            // 计算连音的最后一个音的时值（计算装饰音）
-                            await sleep(cal_time_ornament(sheet_list, symbol_time, symbol, sheet_list[i]["type"], i, time_current));
-                            // 重置连音缓存区
-                            temp_legato = [];
-                        } else if (i !== sheet_list.length - 1) {
-                            await sleep(time_current);
-                        }
-                        count += 1;
                     }
-                }
-            } else if (sheet_list[i]["spl"] === '*') { // 附点音符
-                if (sheet_list[i]["chord"]) {
-                    await play_chord(sheet_list[i]["note"]); // 和弦
-                } else {
-                    if (sheet_list[i]["note"] === '@') { // 休止符
-                        // pass
+
+                    if (i !== sheet_list.length - 1) {
+                        await sleep(cal_time_ornament(sheet_list, symbol_time, symbol, sheet_list[i]["type"], i));
+                    }
+                } else if (sheet_list[i]["spl"] === '#') { // 装饰音（不会包含休止符），时值为symbol的时值的1/16
+                    if (sheet_list[i]["chord"]) {
+                        await play_chord(sheet_list[i]["note"]); // 和弦
                     } else {
                         await play_note(sheet_list[i]["note"]); // 单音
                     }
+                    if (i !== sheet_list.length - 1) {
+                        await sleep(ornament_time);
+                    }
+                } else if (/\.3|\.6|\.\$/.test(sheet_list[i]["spl"])) { // 三连音/六连音（可能包含休止符）
+                    temp_legato.push({
+                        "note": sheet_list[i]["note"],
+                        "chord": sheet_list[i]["chord"],
+                        "type": sheet_list[i]["type"]
+                    });
+
+                    // 演奏连音
+                    if ("$".includes(sheet_list[i]["spl"])) {
+                        // 连音的总时长
+                        let time_legato = Math.round(symbol_time * (symbol / sheet_list[i]["type"]));
+                        // 当前音符类型
+                        let current_type = parseInt(sheet_list[i]["spl"].split(".")[0])
+                        // 连音的音符数值总和（用于计算当前音符时长）
+                        let time_all = temp_legato.reduce((sum, each) => sum + 1 / parseInt(each["spl"].split(".")[0]), 0);
+                        // 当前音符时长
+                        let time_current = Math.round(time_legato * (1 / current_type) / time_all);
+                        // 计数
+                        let count = undefined;
+
+                        for (const note_legato of temp_legato) {
+                            if (sheet_list[i]["chord"]) {
+                                await play_chord(sheet_list[i]["note"]); // 和弦
+                            } else {
+                                if (sheet_list[i]["note"] === '@') { // 休止符
+                                    // pass
+                                } else {
+                                    await play_note(sheet_list[i]["note"]); // 单音
+                                }
+                            }
+
+                            if (count === temp_legato.length - 1 && i !== sheet_list.length - 1) {
+                                // 计算连音的最后一个音的时值（计算装饰音）
+                                await sleep(cal_time_ornament(sheet_list, symbol_time, symbol, sheet_list[i]["type"], i, time_current));
+                                // 重置连音缓存区
+                                temp_legato = [];
+                            } else if (i !== sheet_list.length - 1) {
+                                await sleep(time_current);
+                            }
+                            count += 1;
+                        }
+                    }
+                } else if (sheet_list[i]["spl"] === '*') { // 附点音符
+                    if (sheet_list[i]["chord"]) {
+                        await play_chord(sheet_list[i]["note"]); // 和弦
+                    } else {
+                        if (sheet_list[i]["note"] === '@') { // 休止符
+                            // pass
+                        } else {
+                            await play_note(sheet_list[i]["note"]); // 单音
+                        }
+                    }
+                    // 排除尾音
+                    if (i !== sheet_list.length - 1) {
+                        await sleep(cal_time_ornament(sheet_list, symbol_time * 1.5, symbol, sheet_list[i]["type"], i));
+                    }
+                } else {
+                    log.info(`错误: ${sheet_list[i]["spl"]}`);
+                    return null;
                 }
-                // 排除尾音
-                if (i !== sheet_list.length - 1) {
-                    await sleep(cal_time_ornament(sheet_list, symbol_time * 1.5, symbol, sheet_list[i]["type"], i));
-                }
-            } else {
-                log.info(`错误: ${sheet_list[i]["spl"]}`);
-                return null;
             }
         }
     }
@@ -427,7 +449,7 @@
         if (settings_msg == null) {
             return null
         }
-        try {
+        // try {
             if (settings_msg["type"] === "single") { // 单曲
                 // 读取乐谱
                 const music_msg = await get_music_msg(settings_msg["music"]);
@@ -475,9 +497,9 @@
                     }
                 }
             }
-        } catch (error) {
-            log.error(`出现错误: ${error}`);
-        }
+        // } catch (error) {
+        //     log.error(`出现错误: ${error}`);
+        // }
 
     }
 

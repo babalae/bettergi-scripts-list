@@ -61,6 +61,7 @@ this.attemptReward = async function (retryCount = 0) {
     let fragileResin = null;
     let isResinEmpty = false;
     let dobuleReward = false;
+    let isOriginalResinEmpty = false;
 
     if (resList && resList.count > 0) {
         // 分析识别到的文本
@@ -78,12 +79,15 @@ this.attemptReward = async function (retryCount = 0) {
             } else if (res.text.includes("双倍掉落")) {
                 isValid = true;
                 dobuleReward = true;
+            } else if (res.text.includes("补充")){
+                isValid = true;
+                isOriginalResinEmpty = true;
             } else {
                 isValid = true;
                 isResinEmpty = true;
             }
         }        // 处理不同的树脂情况
-        if (originalResin && dobuleReward) {
+        if (originalResin && dobuleReward && !isOriginalResinEmpty) {
             log.info("选择使用原粹树脂，获得双倍产出");
             await clickWithVerification(
                 Math.round(originalResin.x + originalResin.width / 2) + 400, 
@@ -97,7 +101,7 @@ this.attemptReward = async function (retryCount = 0) {
                 Math.round(condensedResin.y + condensedResin.height / 2),
                 "使用"
             );
-        } else if (originalResin) {
+        } else if (originalResin && !isOriginalResinEmpty) {
             log.info("选择使用原粹树脂");
             await clickWithVerification(
                 Math.round(originalResin.x + originalResin.width / 2) + 400, 
@@ -111,10 +115,10 @@ this.attemptReward = async function (retryCount = 0) {
                 Math.round(fragileResin.y + fragileResin.height / 2),
                 "使用"
             );
-        } else if (isResinEmpty) {
+        } else if (isResinEmpty && isOriginalResinEmpty) {
             log.error("树脂用完了呢");
             keyPress("VK_ESCAPE");
-            throw new Error("树脂已用完");
+            throw new Error("原粹树脂不足20，无法领取奖励");
         }
         if (settings.friendshipTeam) {
             log.info("切换回战斗队伍");

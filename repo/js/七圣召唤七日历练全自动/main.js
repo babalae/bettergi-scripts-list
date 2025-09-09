@@ -204,6 +204,7 @@ async function isTaskRefreshed(filePath, options = {}) {
 //检查挑战结果   await checkChallengeResults();
 async function checkChallengeResults() {
     const region1 = RecognitionObject.ocr(785, 200, 380, 270); // 结果区域
+    const region2 = RecognitionObject.ocr(1520, 170, 160, 40); // 退出位置
     let capture = captureGameRegion();
     let res1 = capture.find(region1);
     log.info(`结果识别：${res1.text}`);
@@ -234,7 +235,9 @@ async function checkChallengeResults() {
         await sleep(500);
         click(1860,50); //点击齿轮图标
         await sleep(1000);
-        click(1600, 200);//点击退出选项
+        let res2 = captureGameRegion().find(region2);
+        if (res2.text.includes('设置')) click(1600, 260);//点击退出-选项4
+        else click(1600, 200);//点击退出-选项3
         await sleep(1000);
         click(1180, 756);//点击确认
         await sleep(6000);
@@ -715,4 +718,5 @@ await main();
 
 
 })();
+
 

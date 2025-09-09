@@ -10,7 +10,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756320123152,
+    "last_modified_time": 1757245692971,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "304【多人】稻妻-神无卓6",
@@ -137,22 +137,21 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
       "id": 14,
-      "locked": false,
       "move_mode": "climb",
       "type": "target",
-      "x": -3420.478515625,
-      "y": -3574.73046875
+      "x": -3420.4453125,
+      "y": -3574.65234375
     },
     {
-      "action": "set_time",
-      "action_params": "06:00",
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 15,
-      "move_mode": "climb",
-      "type": "orientation",
-      "x": -3420.478515625,
-      "y": -3574.73046875
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3418.21875,
+      "y": -3572.119140625
     }
   ]
 }

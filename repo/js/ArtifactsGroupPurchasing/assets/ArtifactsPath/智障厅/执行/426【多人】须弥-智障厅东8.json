@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756319910593,
+    "last_modified_time": 1757246912663,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "426【多人】须弥-智障厅东8",
@@ -310,18 +310,8 @@
       "action": "combat_script",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 33,
-      "locked": false,
       "move_mode": "climb",
       "type": "target",
-      "x": 5336.0830078125,
-      "y": -2403.33203125
-    },
-    {
-      "action": "set_time",
-      "action_params": "06:00",
-      "id": 34,
-      "move_mode": "climb",
-      "type": "orientation",
       "x": 5336.0830078125,
       "y": -2403.33203125
     }

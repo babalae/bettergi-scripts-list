@@ -69,15 +69,15 @@ let enteredPlayers = [];
             if (enteringUID) {
                 await keyPress("F2");
                 //点击输入uid
-                await sleep(500);
+                await sleep(2000);
                 if (!await findAndClick(enterUIDRo)) {
                     await genshin.returnMainUi();
                     continue;
                 }
-                await sleep(500);
+                await sleep(1000);
                 inputText(enteringUID);
                 //点击搜索
-                await sleep(500);
+                await sleep(1000);
                 if (!await findAndClick(searchRo)) {
                     await genshin.returnMainUi();
                     continue;
@@ -265,7 +265,7 @@ async function getPlayerSign() {
 }
 
 async function confirmSearchResult() {
-    maxAttempts = 3;
+    maxAttempts = 5;
     for (let attempts = 0; attempts < maxAttempts; attempts++) {
         const gameRegion = captureGameRegion();
         try {
