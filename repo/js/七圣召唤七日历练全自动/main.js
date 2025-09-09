@@ -1,18 +1,14 @@
 // 存储挑战玩家信息
 let textArray = [];
 let skipNum = 0;
-let teamName = settings.partyName1;
-let folderName = "1号卡牌策略";
 
 // 切换到指定的队伍
-async function switchCardTeam(Name) {
+async function switchCardTeam(Name, shareCode) {
     let captureRegion = captureGameRegion();
     let teamName = captureRegion.find(RecognitionObject.ocr(1305, 793, 206, 46));
     log.info("当前队伍名称: {text}", teamName.text);
-    if (teamName.text != Name) {
-        click(1312, 812); //点击队伍名称的糟糕UI
-        await sleep(1000);
 
+    async function selectTargetTeam(targetTeam) {
         moveMouseTo(100, 200);
         leftButtonDown();
         // 不能一次移动太多,否则会丢拖动
@@ -28,44 +24,73 @@ async function switchCardTeam(Name) {
         for (let i = 0; i < 4; i++) {
             let x = 135 + 463 * i;
             let res = captureRegion.find(RecognitionObject.ocr(x, 762, 230, 46));
-            if (res.text == Name) {
+            if (res.text == targetTeam) {
                 log.info("切换至队伍: {text}", res.text);
                 res.click();
                 await sleep(500);
-                click(1164, 1016); // 选择
-                await sleep(4000); // 等待"出战牌组"的强制延时框消失
                 break;
             }
         }
     }
-}
 
-async function runCardStrategyFromFolder(folderName) {
-    try {
-        // 构建策略文件路径
-        const strategyFilePath = `${folderName}.txt`;
-
-        // 读取策略文件内容
-        const strategyContent = await file.readText(strategyFilePath);
-
-        // 检查策略内容是否为空
-        if (!strategyContent || strategyContent.trim() === "") {
-            log.error("策略文件内容为空");
-            return false;
-        }
-        log.info(`开始执行 ${folderName} `);
-        // 执行策略
-        await dispatcher.runTask(
-            new SoloTask("AutoGeniusInvokation", {
-                strategy: strategyContent,
-            })
-        );
-
+    if (teamName.text != Name || settings.overwritePartyName == Name) {
+        click(1312, 812); //点击队伍名称的糟糕UI
+        await sleep(1000);
+        await selectTargetTeam(Name);
+    } else {
         return true;
-    } catch (error) {
-        log.error(`执行策略失败: ${error}，默认使用独立任务中的设置`);
-        return false;
     }
+
+    async function stopNow() {
+        await sleep(250);
+        click(1795, 465); // 点空白处以便立即终止延时对话框
+        await sleep(250);
+    }
+
+    let userDefault = false;
+    if (shareCode) {
+        captureRegion = captureGameRegion();
+        let res = captureRegion.find(RecognitionObject.ocr(1140, 732, 83, 55));
+        if (res.text === "确认") {
+            res.click();
+        } else {
+            click(731, 998); // 编辑牌组
+        }
+        await sleep(800);
+        click(1756, 48);    // ... 按钮
+        await sleep(200);
+        click(1546, 178);   // 使用分享码
+        await sleep(500);
+        click(960, 520);    // 输入区域
+        await sleep(500);
+        log.info("输入分享码 {0}", shareCode);
+        await inputText(shareCode);
+        await sleep(500);
+        click(1166, 750);   // 导入
+        await stopNow();
+        click(1720, 1020);  // 保存
+        await stopNow();
+        captureRegion = captureGameRegion();
+        res = captureRegion.find(RecognitionObject.ocr(770, 516, 381, 43));
+        if (res.text.includes("无法出战")) {
+            log.error(res.text);
+            userDefault = true;
+            await sleep(500);
+            click(1162, 760); // 保存修改
+            await stopNow();
+        }
+        click(1843, 46); // 关闭
+        await sleep(1000);
+    }
+
+    if (userDefault) {
+        log.info("分享码导入的牌组无法出战，切换到默认牌组: {0}", settings.defaultPartyName);
+        await selectTargetTeam(settings.defaultPartyName);
+    }
+
+    click(1164, 1016); // 选择
+    await sleep(4000); // 等待"出战牌组"的强制延时框消失
+    return !userDefault;
 }
 
 /**
@@ -416,6 +441,48 @@ function isTextMatch(target, source) {
     return true;
 }
 
+// 获取某个角色的专用牌组的分享码。如无专用策略，则返回 null
+function getShareCodeOfCharStrategy(charName) {
+    const allFilesRaw = file.ReadPathSync("牌组策略");
+    let strategyMap = {};
+    for (const filePath of allFilesRaw) {
+        if (filePath.endsWith(".txt")) {
+            const parts = filePath.split("\\");
+            const fileName = parts.slice(-1)[0];
+            const baseName = fileName.split(".").slice(0, -1).join(".");
+            strategyMap[baseName] = filePath;
+        }
+    }
+
+    const content = file.readTextSync("牌组策略/雷神柯莱刻晴.txt");
+    let result = { team: settings.defaultPartyName, shareCode: null, defaultContent: content, content: content };
+    const matchFile = strategyMap[charName];
+    if (matchFile) {
+        const content = file.readTextSync(matchFile);
+        let shareCode = null;
+        for (const line of content.split("\n")) {
+            const trimmedLine = line.trim();
+            if (trimmedLine.startsWith("//") && trimmedLine.includes("shareCode=")) {
+                const parts = trimmedLine.split("=");
+                if (parts[1]) {
+                    shareCode = parts.slice(1, parts.length).join("=");
+                    break;
+                }
+            }
+        }
+        if (shareCode) {
+            result.team = settings.overwritePartyName;
+            result.shareCode = shareCode;
+            result.content = content;
+            log.debug("charName={0}, shareCode={1}", charName, shareCode);
+        } else {
+            log.error("策略文件中未找到有效的shareCode: {0}", matchFile);
+        }
+    }
+    log.info("使用牌组{0}与{1}对战", result.team, charName);
+    return result;
+}
+
 //检查是否有对应的挑战对手
 async function searchAndClickTexts() {
     middleButtonClick();
@@ -455,7 +522,8 @@ async function searchAndClickTexts() {
             res.click();
             await sleep(500);
             await keyMouseScript.runFile(`assets/ALT释放.json`);
-            await Playcards();
+            const strategy = getShareCodeOfCharStrategy(textArray[index].text);
+            await Playcards(strategy);
 
             // 从数组中移除已处理的文本
             textArray.splice(index, 1);
@@ -520,17 +588,18 @@ async function waitOrCheckMaxCoin(wait_time_ms) {
 }
 
 //函数：对话和打牌
-async function Playcards() {
+async function Playcards(strategy) {
     await sleep(800); //略微俯视，避免名字出现在选项框附近，导致错误点击
     moveMouseBy(0, 1030);
     await sleep(1000);
     await autoConversation();
     log.info("对话完成");
     await sleep(1500);
-    await switchCardTeam(teamName);
+    const success = await switchCardTeam(strategy.team, strategy.shareCode);
+    const content = success ? strategy.content : strategy.defaultContent;
     click(1610, 900); //点击挑战
     await waitOrCheckMaxCoin(8000);
-    await runCardStrategyFromFolder(folderName);
+    await dispatcher.runTask(new SoloTask("AutoGeniusInvokation", { strategy: content }));
     await sleep(3000);
     await checkChallengeResults();
     await sleep(1000);
@@ -673,32 +742,22 @@ async function main() {
     await captureAndStoreTexts();
     notification.send(`打牌结束、剩余挑战人数:${textArray.length}`);
     // 更新最后完成时间
-    if (textArray.length === 0) await file.writeText("assets/weekly.txt", nowTime.toISOString());
+    if (textArray.length === 0) {
+        await file.writeText("assets/weekly.txt", nowTime.toISOString());
+    }
 }
 
 (async function () {
-    if (
-        await isTaskRefreshed("assets/weekly.txt", {
-            refreshType: "weekly",
-            weeklyDay: 1, // 周一
-            weeklyHour: 4, // 凌晨4点
-        })
-    ) {
-        if (settings.partyName1) {
-            await main();
-        }
-        teamName = settings.partyName2;
-        folderName = "2号卡牌策略";
-
-        if (textArray.length != 0 && settings.partyName2) {
-            log.info(`尝试2号卡牌策略`);
-            await main();
-        }
-        teamName = settings.partyName3;
-        folderName = "3号卡牌策略";
-        if (textArray.length != 0 && settings.partyName3) {
-            log.info(`尝试3号卡牌策略`);
-            await main();
-        }
+    const refresh = {
+        refreshType: "weekly",
+        weeklyDay: 1, // 周一
+        weeklyHour: 4, // 凌晨4点
+    };
+    if (!settings.defaultPartyName || !settings.overwritePartyName || settings.defaultPartyName == settings.overwritePartyName) {
+        log.error("需要在JS脚本配置中设置两个牌组且名称不能相同");
+        return;
+    }
+    if ((await isTaskRefreshed("assets/weekly.txt"), refresh)) {
+        await main();
     }
 })();
