@@ -1,3 +1,9 @@
+// 存储挑战玩家信息
+let textArray = [];
+let skipNum = 0;
+let teamName = settings.partyName1;
+let folderName = "1号卡牌策略";
+
 // 切换到指定的队伍
 async function switchCardTeam(Name) {
     let captureRegion = captureGameRegion();
@@ -38,39 +44,29 @@ async function runCardStrategyFromFolder(folderName) {
     try {
         // 构建策略文件路径
         const strategyFilePath = `${folderName}.txt`;
-        
+
         // 读取策略文件内容
         const strategyContent = await file.readText(strategyFilePath);
-        
+
         // 检查策略内容是否为空
-        if (!strategyContent || strategyContent.trim() === '') {
-            log.error('策略文件内容为空');
+        if (!strategyContent || strategyContent.trim() === "") {
+            log.error("策略文件内容为空");
             return false;
         }
         log.info(`开始执行 ${folderName} `);
         // 执行策略
-        await dispatcher.runTask(new SoloTask("AutoGeniusInvokation", {
-            strategy: strategyContent
-        }));
-        
-        
+        await dispatcher.runTask(
+            new SoloTask("AutoGeniusInvokation", {
+                strategy: strategyContent,
+            })
+        );
+
         return true;
     } catch (error) {
         log.error(`执行策略失败: ${error}，默认使用独立任务中的设置`);
         return false;
     }
 }
-
-
-(async function () {
-
-
-    // 存储挑战玩家信息
-    let textArray = [];
-    let skipNum = 0;
-    let teamName = settings.partyName1; 
-    let folderName = "1号卡牌策略"; 
-
 
 /**
  * 判断任务是否已刷新
@@ -87,13 +83,13 @@ async function runCardStrategyFromFolder(folderName) {
  */
 async function isTaskRefreshed(filePath, options = {}) {
     const {
-        refreshType = 'hourly', // 默认每小时刷新
-        customHours = 24,       // 自定义刷新小时数默认24
-        dailyHour = 4,          // 每日刷新默认凌晨4点
-        weeklyDay = 1,          // 每周刷新默认周一(0是周日)
-        weeklyHour = 4,         // 每周刷新默认凌晨4点
-        monthlyDay = 1,         // 每月刷新默认第1天
-        monthlyHour = 4          // 每月刷新默认凌晨4点
+        refreshType = "hourly", // 默认每小时刷新
+        customHours = 24, // 自定义刷新小时数默认24
+        dailyHour = 4, // 每日刷新默认凌晨4点
+        weeklyDay = 1, // 每周刷新默认周一(0是周日)
+        weeklyHour = 4, // 每周刷新默认凌晨4点
+        monthlyDay = 1, // 每月刷新默认第1天
+        monthlyHour = 4, // 每月刷新默认凌晨4点
     } = options;
 
     try {
@@ -101,21 +97,19 @@ async function isTaskRefreshed(filePath, options = {}) {
         let content = await file.readText(filePath);
         const lastTime = new Date(content);
         const nowTime = new Date();
-        
 
         let shouldRefresh = false;
-        
 
         switch (refreshType) {
-            case 'hourly': // 每小时刷新
-                shouldRefresh = (nowTime - lastTime) >= 3600 * 1000;
+            case "hourly": // 每小时刷新
+                shouldRefresh = nowTime - lastTime >= 3600 * 1000;
                 break;
-                
-            case 'daily': // 每天固定时间刷新
+
+            case "daily": // 每天固定时间刷新
                 // 检查是否已经过了当天的刷新时间
                 const todayRefresh = new Date(nowTime);
                 todayRefresh.setHours(dailyHour, 0, 0, 0);
-                
+
                 // 如果当前时间已经过了今天的刷新时间，检查上次完成时间是否在今天刷新之前
                 if (nowTime >= todayRefresh) {
                     shouldRefresh = lastTime < todayRefresh;
@@ -126,15 +120,15 @@ async function isTaskRefreshed(filePath, options = {}) {
                     shouldRefresh = lastTime < yesterdayRefresh;
                 }
                 break;
-                
-            case 'weekly': // 每周固定时间刷新
+
+            case "weekly": // 每周固定时间刷新
                 // 获取本周的刷新时间
                 const thisWeekRefresh = new Date(nowTime);
                 // 计算与本周指定星期几的差值
                 const dayDiff = (thisWeekRefresh.getDay() - weeklyDay + 7) % 7;
                 thisWeekRefresh.setDate(thisWeekRefresh.getDate() - dayDiff);
                 thisWeekRefresh.setHours(weeklyHour, 0, 0, 0);
-                
+
                 // 如果当前时间已经过了本周的刷新时间
                 if (nowTime >= thisWeekRefresh) {
                     shouldRefresh = lastTime < thisWeekRefresh;
@@ -145,14 +139,14 @@ async function isTaskRefreshed(filePath, options = {}) {
                     shouldRefresh = lastTime < lastWeekRefresh;
                 }
                 break;
-                
-            case 'monthly': // 每月固定时间刷新
+
+            case "monthly": // 每月固定时间刷新
                 // 获取本月的刷新时间
                 const thisMonthRefresh = new Date(nowTime);
                 // 设置为本月指定日期的凌晨
                 thisMonthRefresh.setDate(monthlyDay);
                 thisMonthRefresh.setHours(monthlyHour, 0, 0, 0);
-                
+
                 // 如果当前时间已经过了本月的刷新时间
                 if (nowTime >= thisMonthRefresh) {
                     shouldRefresh = lastTime < thisMonthRefresh;
@@ -164,42 +158,37 @@ async function isTaskRefreshed(filePath, options = {}) {
                 }
                 break;
 
-            case 'custom': // 自定义小时数刷新
-                shouldRefresh = (nowTime - lastTime) >= customHours * 3600 * 1000;
+            case "custom": // 自定义小时数刷新
+                shouldRefresh = nowTime - lastTime >= customHours * 3600 * 1000;
                 break;
-                
+
             default:
                 throw new Error(`未知的刷新类型: ${refreshType}`);
         }
-        
+
         // 如果文件内容无效或不存在，视为需要刷新
         if (!content || isNaN(lastTime.getTime())) {
-            await file.writeText(filePath, '');
+            await file.writeText(filePath, "");
             shouldRefresh = true;
         }
-        
+
         if (shouldRefresh) {
             notification.send(`七圣召唤七日历练周期已经刷新，执行脚本`);
 
-            
             return true;
         } else {
             log.info(`七圣召唤七日历练未刷新`);
             return false;
         }
-        
     } catch (error) {
         // 如果文件不存在，创建新文件并返回true(视为需要刷新)
-        const createResult = await file.writeText(filePath, '');
+        const createResult = await file.writeText(filePath, "");
         if (createResult) {
             log.info("创建新时间记录文件成功，执行脚本");
             return true;
-        }
-        else throw new Error(`创建新文件失败`);
+        } else throw new Error(`创建新文件失败`);
     }
 }
-
-
 
 //检查挑战结果   await checkChallengeResults();
 async function checkChallengeResults() {
@@ -216,8 +205,7 @@ async function checkChallengeResults() {
         await autoConversation();
         await sleep(1000);
         return;
-        }
-    else if (res1.text.includes("对局胜利")) {
+    } else if (res1.text.includes("对局胜利")) {
         log.info("对局胜利");
         await sleep(1000);
         click(754, 915); //退出挑战
@@ -225,7 +213,6 @@ async function checkChallengeResults() {
         await autoConversation();
         await sleep(1000);
         return;
-        
     } else {
         log.info("挑战异常中断，对局失败");
         await sleep(1000);
@@ -233,13 +220,13 @@ async function checkChallengeResults() {
         await sleep(500);
         click(960, 540);
         await sleep(500);
-        click(1860,50); //点击齿轮图标
+        click(1860, 50); //点击齿轮图标
         await sleep(1000);
         let res2 = captureGameRegion().find(region2);
-        if (res2.text.includes('设置')) click(1600, 260);//点击退出-选项4
-        else click(1600, 200);//点击退出-选项3
+        if (res2.text.includes("设置")) click(1600, 260); //点击退出-选项4
+        else click(1600, 200); //点击退出-选项3
         await sleep(1000);
-        click(1180, 756);//点击确认
+        click(1180, 756); //点击确认
         await sleep(6000);
         click(754, 915); //退出挑战
         await sleep(4000);
@@ -258,22 +245,21 @@ async function autoConversation() {
     log.info("准备开始对话");
     //最多10次对话
     while (talkTime < 30) {
-    let talk = captureGameRegion().find(talkRo);
-    if (talk.isExist()) {
+        let talk = captureGameRegion().find(talkRo);
+        if (talk.isExist()) {
             await sleep(300);
             keyPress("VK_SPACE");
             await sleep(300);
             keyPress("F");
             talkTimes++;
-        await sleep(1500);
+            await sleep(1500);
+        } else if (talkTimes) {
+            log.info("对话结束");
+            return;
+        }
+        talkTime++;
+        await sleep(1200);
     }
-    else if(talkTimes){
-    log.info("对话结束");
-    return ;
-    }
-    talkTime++;
-    await sleep(1200);
-}
     throw new Error("对话时间超时");
 }
 
@@ -308,13 +294,13 @@ const detectCardPlayer = async () => {
         { x: 1680, y: 780, action: async () => await gotoTable2() }, // 2号桌
         { x: 1645, y: 575, action: async () => await gotoTable3() }, // 3号桌
         { x: 1460, y: 360, action: async () => await gotoTable4() }, // 4号桌
-        { x: 1550, y: 0    , action: async () => await gotoTable5() }, // 包间1
+        { x: 1550, y: 0, action: async () => await gotoTable5() }, // 包间1
         { x: 1130, y: 520, action: async () => await gotoTable6() }, // 包间2
     ];
 
     keyPress("M");
     await sleep(1200);
-    await genshin.setBigMapZoomLevel(1.0);  //放大地图
+    await genshin.setBigMapZoomLevel(1.0); //放大地图
     await sleep(300);
 
     //地图拖动到指定位置
@@ -386,7 +372,7 @@ async function captureAndStoreTexts() {
     for (const pos of positions) {
         // 创建OCR识别区域
         const ocrRo = RecognitionObject.ocr(pos.x, pos.y, width, height); //挑战者名字区域
-        const ocrRo2 = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/completed.png"),pos.x, pos.y + 60, width, height+80);
+        const ocrRo2 = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/completed.png"), pos.x, pos.y + 60, width, height + 80);
         // 在指定区域进行OCR识别
         const result = captureRegion.find(ocrRo);
         let res2 = captureRegion.find(ocrRo2);
@@ -414,10 +400,10 @@ async function captureAndStoreTexts() {
 function isTextMatch(target, source) {
     // 如果完全匹配直接返回true
     if (target === source) return true;
-    
+
     // 如果长度不同，直接不匹配
     if (target.length !== source.length) return false;
-    
+
     let diffCount = 0;
     for (let i = 0; i < target.length; i++) {
         if (target[i] !== source[i]) {
@@ -667,56 +653,52 @@ async function gotoTable6() {
 }
 
 async function main() {
-//主流程
-const nowTime = new Date();
-log.info(`前往猫尾酒馆`);
-await gotoTavern();
-await captureAndStoreTexts();
-if (textArray.length != 0) {
-    await detectCardPlayer();
-    await searchAndClickTexts();
-}
-for (let i = 0; i < 20; i++) {
-    //循环兜底，避免角色未到达指定位置
-    if (textArray.length === 0) break;
+    //主流程
+    const nowTime = new Date();
+    log.info(`前往猫尾酒馆`);
     await gotoTavern();
-    await detectCardPlayer();
-    await searchAndClickTexts();
-}
-await genshin.returnMainUi();
-await captureAndStoreTexts();
-notification.send(`打牌结束、剩余挑战人数:${textArray.length}`);
-// 更新最后完成时间
-if(textArray.length === 0) await file.writeText("assets/weekly.txt", nowTime.toISOString());
-           
-          
-}
-
-
-if( await isTaskRefreshed("assets/weekly.txt", {
-    refreshType: 'weekly',
-    weeklyDay: 1, // 周一
-    weeklyHour: 4 // 凌晨4点
-})){
-
-
-if(settings.partyName1) await main();
-    teamName = settings.partyName2; 
-    folderName = "2号卡牌策略"; 
-
-if(textArray.length != 0 && settings.partyName2){
-log.info(`尝试2号卡牌策略`);
-await main();
-} 
-    teamName = settings.partyName3; 
-    folderName = "3号卡牌策略"; 
-if(textArray.length != 0 && settings.partyName3){
-log.info(`尝试3号卡牌策略`);
-await main();
-} 
+    await captureAndStoreTexts();
+    if (textArray.length != 0) {
+        await detectCardPlayer();
+        await searchAndClickTexts();
+    }
+    for (let i = 0; i < 20; i++) {
+        //循环兜底，避免角色未到达指定位置
+        if (textArray.length === 0) break;
+        await gotoTavern();
+        await detectCardPlayer();
+        await searchAndClickTexts();
+    }
+    await genshin.returnMainUi();
+    await captureAndStoreTexts();
+    notification.send(`打牌结束、剩余挑战人数:${textArray.length}`);
+    // 更新最后完成时间
+    if (textArray.length === 0) await file.writeText("assets/weekly.txt", nowTime.toISOString());
 }
 
+(async function () {
+    if (
+        await isTaskRefreshed("assets/weekly.txt", {
+            refreshType: "weekly",
+            weeklyDay: 1, // 周一
+            weeklyHour: 4, // 凌晨4点
+        })
+    ) {
+        if (settings.partyName1) {
+            await main();
+        }
+        teamName = settings.partyName2;
+        folderName = "2号卡牌策略";
 
+        if (textArray.length != 0 && settings.partyName2) {
+            log.info(`尝试2号卡牌策略`);
+            await main();
+        }
+        teamName = settings.partyName3;
+        folderName = "3号卡牌策略";
+        if (textArray.length != 0 && settings.partyName3) {
+            log.info(`尝试3号卡牌策略`);
+            await main();
+        }
+    }
 })();
-
-
