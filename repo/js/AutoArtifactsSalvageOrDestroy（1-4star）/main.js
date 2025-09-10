@@ -2,7 +2,7 @@ const outDatedRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets
 
 (async function () {
     // 读取用户设置
-    let operationType = settings.operationType || "分解"; // 默认为分解
+    let operationType = settings.operationType || "分解（经验瓶）"; // 默认为分解
     let times = settings.times || 1; // 默认为1
     let includeOneStar = settings.includeOneStar || false;
     let includeTwoStar = settings.includeTwoStar || false;
@@ -94,10 +94,10 @@ const outDatedRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets
     }
 
     // 执行操作
-    if (operationType === "分解") {
+    if (operationType === "分解（经验瓶）") {
         await salvage();
         log.info("分解完成。");
-    } else if (operationType === "摧毁") {
+    } else if (operationType === "摧毁（摩拉）") {
         await destroy();
         log.info("摧毁完成。");
     }
