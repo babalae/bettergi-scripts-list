@@ -73,7 +73,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(t);wait(0.5);keypress(t);wait(0.5);keypress(t);wait(0.5);keypress(t);wait(0.5);",
+      "action_params": "keypress(t);wait(1);keypress(t);wait(1);keypress(t);wait(1);keypress(t);wait(0.5)",
       "id": 7,
       "move_mode": "walk",
       "type": "orientation",
@@ -82,7 +82,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(t);wait(0.5);keypress(t);wait(0.5);",
+      "action_params": "keypress(t);wait(1);keypress(t);wait(0.5)",
       "id": 8,
       "move_mode": "walk",
       "type": "orientation",
