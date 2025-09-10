@@ -1,0 +1,111 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果"
+      }
+    ],
+    "bgi_version": "0.49.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757489616409,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "03-伦波岛右侧-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9746.0742,
+      "y": 1916.3296
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9723.4707,
+      "y": 1915.709
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9679.8838,
+      "y": 1901.3765
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9679.4258,
+      "y": 1888.7939
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9687.7051,
+      "y": 1900.0825
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9690.6523,
+      "y": 1897.4912
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t);wait(0.5);keypress(t);wait(0.5);keypress(t);wait(0.5);keypress(t);wait(0.5);",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9687.8027,
+      "y": 1887.21
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t);wait(0.5);keypress(t);wait(0.5);",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9696.9541,
+      "y": 1892.4521
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9671.834,
+      "y": 1895.374
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t);wait(0.5);keypress(t);wait(0.5);",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9662.8242,
+      "y": 1889.6792
+    }
+  ]
+}
