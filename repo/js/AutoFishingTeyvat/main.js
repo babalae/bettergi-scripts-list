@@ -671,8 +671,8 @@
 
         if (is_time_kill) {
             let now = new Date();
-            time_target.setHours(parseInt(kill_hour), 10);
-            time_target.setMinutes(parseInt(kill_minute), 10);
+            time_target.setHours(parseInt(kill_hour, 10));
+            time_target.setMinutes(parseInt(kill_minute, 10));
             time_target.setSeconds(0);
             time_target.setMilliseconds(0);
             if (time_target < now) { // 不是当天终止，天数+1

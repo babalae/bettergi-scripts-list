@@ -1,19 +1,20 @@
 (async function () { // 待解决问题: 连音总时值如果为3个四分音符无法表示
 
-    // 乐曲名（带序号）
-    const music_list = [
-        "1.小星星",
-        "2.小星星变奏曲",
-        "3.Unknown Mother Goose [アンノウン・マザーグース]",
-        "4.铃芽之旅[Suzume]",
-        "5.Flower Dance",
-        "6.起风了",
-        "7.千本樱 (Eric Chen)",
-        "8.春よ、来い（春天，来吧）",
-        "9.One Last Kiss",
-        "10.卡农(MIDI转谱)"
-    ]
+    // // 乐曲名（带序号）
+    // const music_list = [
+    //     "0001.小星星",
+    //     "0002.小星星变奏曲",
+    //     "0003.Unknown Mother Goose [アンノウン・マザーグース]",
+    //     "0004.铃芽之旅[Suzume]",
+    //     "0005.Flower Dance",
+    //     "0006.起风了",
+    //     "0007.千本樱 (Eric Chen)",
+    //     "0008.春よ、来い（春天，来吧）",
+    //     "0009.One Last Kiss",
+    //     "0010.卡农(MIDI转谱)"
+    // ]
     const base_path = "assets/score_file/"
+    const regex_name = /(?<=score_file\\)[\s\S]*?(?=.json)/
 
     /**
      *
@@ -108,8 +109,10 @@
      *  - music {string}|{Array.string} 乐曲名（type为"single"时为 {string}, type为"queue"时为 {Array.<string>}）
      *
      */
-    function get_settings() {
+    function get_settings(music_list) {
         try{
+            // 读取开始时间
+            let music_start = typeof(settings.music_start) === 'undefined' ? "" : settings.music_start;
             // 读取选择的单曲
             let music_single = typeof(settings.music_selector) === 'undefined' ? 0 : settings.music_selector;
             // 读取循环次数
@@ -137,6 +140,7 @@
                 if (music_single !== 0) {
                     return {
                         "type": "single",
+                        "start": music_start,
                         "repeat": music_repeat,
                         "repeat_interval": repeat_interval,
                         "music": local_music_dic[music_single.split(".")[0]]
@@ -158,9 +162,9 @@
                     }
 
                 }
-
                 return {
                     "type": "queue",
+                    "start": music_start,
                     "repeat": music_repeat,
                     "repeat_interval": repeat_interval,
                     "repeat_mode": repeat_mode,
@@ -198,39 +202,14 @@
             log.info(`文件读取成功: ${music_path}`);
         }
 
-        let music_msg_dic = {};
-
-        // 正则表达式，用于匹配如下内容
-        let regex_name = /(?<="name": ")[\s\S]*?(?=")/
-        let regex_author = /(?<="author": ")[\s\S]*?(?=")/
-        let regex_description = /(?<="description": ")[\s\S]*?(?=")/
-        let regex_bpm = /(?<="bpm": ")[\s\S]*?(?=")/
-        let regex_time_signature = /(?<="time_signature": ")[\s\S]*?(?=")/
-        let regex_composer = /(?<="composer": ")[\s\S]*?(?=")/
-        let regex_arranger = /(?<="arranger": ")[\s\S]*?(?=")/
-        let regex_notes = /(?<="notes": ")[\s\S]*?(?=")/
-
-        let regex_blank = /[\\n]/g
+        let music_msg_dic = JSON.parse(file_text);
+        let regex_blank = /[\n]/g
         try {
-            // 歌曲名
-            music_msg_dic["name"] = file_text.match(regex_name)[0];
-            // 录谱人
-            music_msg_dic["author"] = file_text.match(regex_author)[0];
-            // 描述
-            music_msg_dic["description"] = file_text.match(regex_description)[0];
-            // 歌曲BPM
-            music_msg_dic["bpm"] = file_text.match(regex_bpm)[0];
-            // 拍号
-            music_msg_dic["time_signature"] = file_text.match(regex_time_signature)[0];
-            // 曲师
-            music_msg_dic["composer"] = file_text.match(regex_composer)[0];
-            // 谱师
-            music_msg_dic["arranger"] = file_text.match(regex_arranger)[0];
             // 曲谱内容(删除换行符)
             if (music_msg_dic["author"] !== "MidiTrans") {
-                music_msg_dic["notes"] = file_text.match(regex_notes)[0].replace(regex_blank, '');
+                music_msg_dic["notes"] = music_msg_dic["notes"].replace(regex_blank, '');
             } else {
-                music_msg_dic["notes"] = JSON.parse(file_text)["notes"];
+                music_msg_dic["notes"] = JSON.parse(music_msg_dic["notes"])["notes"];
             }
         } catch(error) {
             log.info(`曲谱解析错误：${error}\n请检查曲谱文件格式是否正确`);
@@ -445,10 +424,76 @@
     }
 
     async function main() {
-        const settings_msg = get_settings();
-        if (settings_msg == null) {
-            return null
+        // 首先检测本地曲谱文件与主程序中是否一致(本地已有的曲谱为最高优先级)
+        // 1.读取本地所有JSON曲谱文件
+        let music_list = [];
+        const all_scores = Array.from(file.readPathSync("assets/score_file")).filter(p => !file.isFolder(p) && p.endsWith(".json"));
+        for (let i = 0; i < all_scores.length; i++) {
+            music_list.push(all_scores[i].match(regex_name)[0]);
         }
+        // 2.读取JS脚本配置中的曲谱列表
+        let setting_list = [];
+        let ori_set_list = JSON.parse(file.readTextSync("settings.json"))[1]["options"];
+        for (let i = 0; i < ori_set_list.length; i++) {
+            setting_list.push(ori_set_list[i]);
+        }
+        // 3.核对
+        if (!(setting_list.sort().join() == music_list.sort().join())) { // 曲谱配置不相同
+            // 以本地曲谱为准
+            let temp_json = JSON.parse(file.readTextSync("settings.json"));
+            temp_json[0]["options"] = music_list;
+            file.writeTextSync("settings.json", JSON.stringify(temp_json, null, 2)); // 覆写settings
+            log.warn("检测到曲谱文件不一致，已自动修改settings(以本地曲谱文件为基准)...");
+            log.warn("JS脚本配置已更新，请重新运行脚本！");
+            return null;
+        }
+        const settings_msg = get_settings(music_list);
+        // 检测开始时间
+        // if (settings_msg["start"] !== "") {
+        //     let target_time = new Date();
+        //     for (let i = 0; i < settings_msg["start"].length; i++) {
+        //         if (i == 0) {
+        //             time_target.setHours(parseInt(settings_msg["start"][i], 10));
+        //             time_target.setMinutes(0);
+        //             time_target.setSeconds(0);
+        //             time_target.setMilliseconds(0);
+        //         } else if (i == 1) {
+        //             time_target.setMinutes(parseInt(settings_msg["start"][i], 10));
+        //             time_target.setSeconds(0);
+        //             time_target.setMilliseconds(0);
+        //         } else if (i == 2) {
+        //             time_target.setSeconds(parseInt(settings_msg["start"][i], 10));
+        //             time_target.setMilliseconds(0);
+        //         } else if (i == 3) {
+        //             time_target.setMilliseconds(parseInt(settings_msg["start"][i], 10));
+        //         }
+        //     }
+        // }
+        let time_target = new Date();
+        if (settings_msg.start !== "") {
+            const setters = ["setHours", "setMinutes", "setSeconds", "setMilliseconds"];
+            let start_time_list = settings_msg.start.split(":");
+            start_time_list.forEach((val, i) => {
+                time_target[setters[i]](parseInt(val, 10));
+                // 清零更小的单位
+                for (let j = i + 1; j < setters.length; j++) {
+                    time_target[setters[j]](0);
+                }
+            });
+
+            // 如果剩余时间大于 1 秒，先等待到目标时间前 1 秒
+            let diff = time_target - new Date();
+            if (diff > 1000) await sleep(diff - 1000);
+            // 最后 1 秒内用短间隔检查
+            while (new Date() < time_target) {
+                continue;
+            }
+        }
+
+        // if (settings_msg == null) {
+        //     return null
+        // }
+
         // try {
             if (settings_msg["type"] === "single") { // 单曲
                 // 读取乐谱
