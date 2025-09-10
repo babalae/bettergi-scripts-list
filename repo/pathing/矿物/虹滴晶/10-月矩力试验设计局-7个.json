@@ -8,7 +8,7 @@
     "bgi_version": "0.49.1",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757496200350,
+    "last_modified_time": 1757506266902,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "10-月矩力试验设计局-7个",
@@ -147,6 +147,15 @@
       "action": "",
       "action_params": "",
       "id": 15,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 10114.6943,
+      "y": 3340.5569
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
       "move_mode": "dash",
       "type": "path",
       "x": 10107.2871,
@@ -155,7 +164,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 16,
+      "id": 17,
       "move_mode": "dash",
       "type": "path",
       "x": 10109.4189,
@@ -164,7 +173,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 17,
+      "id": 18,
       "move_mode": "walk",
       "type": "target",
       "x": 10109.4375,
@@ -173,7 +182,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 19,
       "move_mode": "walk",
       "type": "path",
       "x": 10103.9727,
@@ -182,16 +191,25 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 19,
+      "id": 20,
       "move_mode": "walk",
       "type": "target",
       "x": 10106.4121,
       "y": 3361.4304
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10106.8945,
+      "y": 3357.8701
+    },
+    {
       "action": "mining",
       "action_params": "",
-      "id": 20,
+      "id": 22,
       "move_mode": "jump",
       "type": "target",
       "x": 10107.9375,
