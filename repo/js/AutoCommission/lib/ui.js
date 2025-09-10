@@ -13,6 +13,7 @@ var UI = {
       await sleep(1000);
       click(300, 350);
       await sleep(100);
+      click(300, 350);
       log.debug("已进入委托界面");
       return true;
     } catch (error) {

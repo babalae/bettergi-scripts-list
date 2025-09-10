@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1755956776775,
+    "last_modified_time": 1756997167681,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "CC02-稻妻食材-鸣神岛-绀田村",
@@ -182,6 +182,7 @@
       "action": "",
       "action_params": "",
       "id": 17,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": -4117.3086,
@@ -211,7 +212,7 @@
       "action": "combat_script",
       "action_params": "wait(0.4)",
       "id": 20,
-      "locked": true,
+      "locked": false,
       "move_mode": "walk",
       "type": "target",
       "x": -4112.4668,
@@ -242,17 +243,17 @@
       "action_params": "",
       "id": 23,
       "locked": false,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": -4082.082,
-      "y": -2759.9678
+      "x": -4083.5312,
+      "y": -2770.4961
     },
     {
       "action": "",
       "action_params": "",
       "id": 24,
       "locked": false,
-      "move_mode": "walk",
+      "move_mode": "jump",
       "type": "path",
       "x": -4086.1426,
       "y": -2763.3408
@@ -278,8 +279,8 @@
       "y": -2772.6348
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
       "id": 27,
       "locked": false,
       "move_mode": "walk",
@@ -288,8 +289,8 @@
       "y": -2774.291
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
       "id": 28,
       "locked": false,
       "move_mode": "fly",
@@ -303,7 +304,7 @@
       "id": 29,
       "locked": false,
       "move_mode": "walk",
-      "type": "path",
+      "type": "target",
       "x": -4103.4023,
       "y": -2769.5273
     },
@@ -313,7 +314,7 @@
       "id": 30,
       "locked": false,
       "move_mode": "walk",
-      "type": "path",
+      "type": "target",
       "x": -4107.3809,
       "y": -2772.373
     },
@@ -321,18 +322,26 @@
       "action": "",
       "action_params": "",
       "id": 31,
-      "locked": false,
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "path",
-      "x": -4099.6016,
-      "y": -2783.5742
+      "x": -4101.0508,
+      "y": -2781.5488
     },
     {
       "action": "",
       "action_params": "",
       "id": 32,
-      "locked": false,
-      "move_mode": "jump",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4105.0391,
+      "y": -2793.8633
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 33,
+      "locked": true,
+      "move_mode": "walk",
       "type": "path",
       "x": -4100.2148,
       "y": -2805.2021
@@ -340,7 +349,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 33,
+      "id": 34,
       "locked": false,
       "move_mode": "run",
       "type": "path",
@@ -350,7 +359,7 @@
     {
       "action": "combat_script",
       "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
-      "id": 34,
+      "id": 35,
       "locked": false,
       "move_mode": "walk",
       "type": "path",
@@ -360,7 +369,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 35,
+      "id": 36,
       "locked": false,
       "move_mode": "run",
       "type": "path",
@@ -370,7 +379,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 36,
+      "id": 37,
       "locked": false,
       "move_mode": "run",
       "type": "path",
@@ -380,7 +389,7 @@
     {
       "action": "combat_script",
       "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
-      "id": 37,
+      "id": 38,
       "locked": false,
       "move_mode": "walk",
       "type": "path",
@@ -390,7 +399,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 38,
+      "id": 39,
       "locked": false,
       "move_mode": "walk",
       "type": "path",
@@ -400,7 +409,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 39,
+      "id": 40,
       "locked": false,
       "move_mode": "fly",
       "type": "path",
@@ -410,7 +419,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 40,
+      "id": 41,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
@@ -420,7 +429,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 41,
+      "id": 42,
       "locked": false,
       "move_mode": "run",
       "type": "path",
@@ -428,9 +437,9 @@
       "y": -2851.0527
     },
     {
-      "action": "",
-      "action_params": "",
-      "id": 42,
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 43,
       "locked": false,
       "move_mode": "dash",
       "type": "path",

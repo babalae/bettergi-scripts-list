@@ -1,6 +1,6 @@
 # 曲谱 JSON 文件说明
 * **注意** 
-	- 制谱优先使用AutoYuanQin\assets\tutorial_file目录下的制谱软件(index.html)，有任何疑问请来看这个使用说明
+	- 制谱优先使用AutoYuanQin\assets\tutorial_file目录下的制谱软件(五线谱制谱器.html)，有任何疑问请来看这个使用说明
 此文档供曲谱制作人阅读，本文档详细说明了一个标准格式的曲谱.json文件格式，包括各个字段的解释以及曲谱内容的格式要求。
 
 重要：即使制作了曲谱的JSON文件，放到了正确的路径下，在调度器的JS脚本配置里也不会出现你制作的曲谱（上传方法如下）
@@ -12,8 +12,14 @@
 
 3.发送邮件到hijiwos@hotmail.com并说明，你的谱子将会在一段时间内更新到仓库
 
+## MIDI翻谱器使用方法
+**MIDI翻谱器路径: AutoYuanQin\assets\tutorial_file\MIDI翻谱器.html**
+**声明：本翻谱器生成的曲谱文件为标准格式（区别于五线谱制谱器，生成的是MIDI版本的JSON标准格式）**
+
+使用浏览器打开```MIDI翻谱器.html```即可，注意**千万不要手动修改翻谱器生成的JSON文件中的author**
+
 ## 曲谱制作器使用方法
-**制谱器路径: AutoYuanQin\assets\tutorial_file\index.html(请确保 五线谱注解.png与制谱器位于同一目录下)**
+**制谱器路径: AutoYuanQin\assets\tutorial_file\五线谱制谱器.html(请确保 五线谱注解.png与制谱器位于同一目录下)**
 **声明：本制谱器生成的曲谱文件为标准格式**
 
 * 使用步骤如下（顺序）

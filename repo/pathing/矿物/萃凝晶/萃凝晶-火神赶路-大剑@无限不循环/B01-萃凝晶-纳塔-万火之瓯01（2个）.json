@@ -1,0 +1,95 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/non-repeating001",
+        "name": "无限不循环"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756493227588,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B01-萃凝晶-纳塔-万火之瓯01（2个）",
+    "tags": [
+      "双手剑"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8598.1,
+      "y": -1925.07
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8603.05,
+      "y": -1894.42
+    },
+    {
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8604.6,
+      "y": -1889.5
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8604.6,
+      "y": -1889.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8608.29,
+      "y": -1891.53
+    },
+    {
+      "action": "mining",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8608.71,
+      "y": -1890.66
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8608.71,
+      "y": -1890.66
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8605.8936,
+      "y": -1888.7397
+    }
+  ]
+}
