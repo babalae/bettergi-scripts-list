@@ -1,0 +1,90 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757489982772,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-宿影花-蓝珀湖左下-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9224.416015625,
+      "y": 2246.370361328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9274.12109375,
+      "y": 2228.64892578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9272.8857421875,
+      "y": 2223.6298828125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "j",
+      "id": 4,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9263.638671875,
+      "y": 2189.7919921875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9263.638671875,
+      "y": 2189.7919921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9263.203125,
+      "y": 2186.626220703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9261.962890625,
+      "y": 2182.75830078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9254.6201171875,
+      "y": 2186.099365234375
+    }
+  ]
+}
