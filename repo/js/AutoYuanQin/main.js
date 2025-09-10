@@ -118,6 +118,8 @@
 
 
 
+
+
     /**
      * 音符小节序列演奏
      * @typedef {[Number,[Map]]} Bar 
@@ -225,52 +227,88 @@
     }
 
     /**
-     * 解析乐谱JSON文件并返回其元数据和音符信息
-     * 
-     * @async
-     * @function getMusicMsg
-     * @param {string} music_name - 要解析的乐谱文件名称
-     * @returns {Promise<Object|undefined>} 包含乐谱元数据和音符信息的对象，解析失败时返回undefined
-     * @property {string} name - 乐谱名称
-     * @property {string} archor - 乐谱作者
-     * @property {string} description - 乐谱描述
-     * @property {string} instrument - 乐谱推荐演奏乐器
-     * @property {string} type - 乐谱类型(合法值："yuanqin", "keyboard", "midi")
-     * @property {number} bpm - 乐谱的每分钟节拍数
-     * @property {string} timeSignature - 乐谱拍号(如："3/4")
-     * @property {string} composer - 乐谱作曲者
-     * @property {string} arranger - 乐谱编曲者
-     * @property {any} notes - 解析后的乐谱音符信息，具体格式取决于乐谱类型
+     * 获取JS脚本配置
+     *
+     * @returns {Object} 包含解析后JS脚本配置的对象，具有以下属性：
+     *  - type {string} 执行类型：单曲和队列
+     *  - repeat {integer} 单曲重复次数
+     *  - interval {integer} 队列间隔时间(type为"single"时无此属性)
+     *  - music {string}|{Array.string} 乐曲名（type为"single"时为 {string}, type为"queue"时为 {Array.<string>}）
+     *
      */
-    async function getMusicInfo(music_name) {
-        function jsonCheck(json) {
-            try {
-                // 必要信息检查
-                if (json.name === undefined) throw new Error(`乐谱名称为空`);
-                if (json.type === undefined) throw new Error(`乐谱类型为空`);
-                if (json.bpm === undefined) throw new Error(`乐谱BPM为空`);
-                if (json.notes === undefined) throw new Error(`乐谱音符信息为空`);
-                if ((json.time_signature === undefined) == (json.type !== "keyboard")) throw new Error(`乐谱拍号为空`);
-                return true;
-            }
-            catch (error) {
-                log.error(`解析乐谱失败: ${error}`);
-                return false;
+    function get_settings() {
+        try {
+            // 读取选择的单曲
+            let music_single = typeof (settings.music_selector) === 'undefined' ? 0 : settings.music_selector;
+            // 读取循环次数
+            let music_repeat = typeof (settings.music_repeat) === 'undefined' ? 1 : parseInt(settings.music_repeat, 10);
+            // 读取循环间隔时间
+            let repeat_interval = typeof (settings.repeat_interval) === 'undefined' ? 0 : parseInt(settings.repeat_interval, 10);
+            // 读取循环模式
+            let repeat_mode = typeof (settings.repeat_mode) === 'undefined' ? "单曲循环" : settings.repeat_mode;
+            // 读取乐曲队列
+            let music_queue = typeof (settings.music_queue) === 'undefined' ? 0 : settings.music_queue;
+            // 读取队列间隔时间
+            let music_interval = typeof (settings.music_interval) === 'undefined' ? 0 : parseInt(settings.music_interval, 10);
+
+            let local_music_dic = {}; // 存储本地乐曲对照字典
+            // 写入本地乐曲对照字典
+            for (const each of music_list) {
+                if (each !== "example") {
+                    // 从文件名提取编号
+                    let temp_num = each.split(".")[0];
+                    local_music_dic[temp_num] = each;
+                }
             }
 
+            if (music_queue === 0 || music_queue === "") { // 单曲执行
+                if (music_single !== 0) {
+                    return {
+                        "type": "single",
+                        "repeat": music_repeat,
+                        "repeat_interval": repeat_interval,
+                        "music": local_music_dic[music_single.split(".")[0]]
+                    };
+                } else {
+                    log.error(`错误：JS脚本配置有误（单曲未选择）`);
+                    return null;
+                }
+            } else { // 队列执行
+                let temp_music_list = []; // 存储乐曲名
+
+                // 读取乐曲队列配置
+                for (const num of music_queue.split(" ")) {
+                    if (Object.keys(local_music_dic).includes(num)) {
+                        temp_music_list.push(local_music_dic[num]);
+                        log.info(`乐曲: ${local_music_dic[num]} 已加入队列`)
+                    } else {
+                        log.info(`编号不存在，已跳过(编号：${num})`)
+                    }
+
+                }
+
+                return {
+                    "type": "queue",
+                    "repeat": music_repeat,
+                    "repeat_interval": repeat_interval,
+                    "repeat_mode": repeat_mode,
+                    "interval": music_interval,
+                    "music": temp_music_list
+                };
+            }
+        } catch (error) {
+            log.error(`读取JS脚本配置时出错：${error}`);
         }
-        const musicMessage = {
-            name: undefined,
-            archor: undefined,
-            description: undefined,
-            instrument: undefined,
-            type: undefined,
-            bpm: undefined,
-            timeSignature: undefined,
-            composer: undefined,
-            arranger: undefined,
-            notes: undefined,
-        };
+    }
+
+    /**
+     *
+     * 读取并解析一个乐谱文件
+     *
+     * @param music_name {string} 乐曲文件名
+     * @returns {Promise<{}|null>}
+     */
+    async function get_music_msg(music_name) {
 
         let music_path = path_join(music_name);
         let jsonObj = null; // 存储解析后的乐曲文件
@@ -281,30 +319,51 @@
         catch (error) {
             log.error(`解析乐谱失败: ${error}`);
         }
-        if (jsonCheck(jsonObj) === false) return null;
 
-        // 必要信息
-        musicMessage.name = (typeof jsonObj.name !== "undefined") ? ("未知乐曲") : (jsonObj.name);
-        musicMessage.type = (typeof jsonObj.type === "undefined") ? ("yuanqin") : (jsonObj.type);
-        musicMessage.bpm = (isNaN(parseInt(jsonObj.bpm, 10))) ? (120) : (parseInt(jsonObj.bpm, 10));
-        musicMessage.timeSignature = (typeof jsonObj.ts === "undefined") ? ("4/4") : (jsonObj.ts);
-        musicMessage.notes = (typeof jsonObj.notes === "undefined") ? ("") : (jsonObj.notes);
-        // 可选信息
-        musicMessage.instrument = (typeof jsonObj.instrument !== "undefined") ? (jsonObj.instrument) : ("无推荐乐器");
-        musicMessage.archor = (typeof jsonObj.author !== "undefined") ? (jsonObj.author) : ("未知作者");
-        musicMessage.description = (typeof jsonObj.description !== "undefined") ? (jsonObj.description) : ("无描述");
-        musicMessage.composer = (typeof jsonObj.composer !== "undefined") ? (jsonObj.composer) : ("未知作曲");
-        musicMessage.arranger = (typeof jsonObj.arranger !== "undefined") ? (jsonObj.arranger) : ("未知编曲");
-        // 乐谱解析 TODO
-        if (musicMessage.type === "yuanqin") {
-            musicMessage.notes = parseMusicSheet(jsonObj.notes.replace(/[\r\n]/g, ""));
+        if (file_text == null) { // 检测文件是否读取
+            log.error(`读取文件 ${music_path} 错误，文件为空`);
+            return null;
+        } else {
+            log.info(`文件读取成功: ${music_path}`);
         }
-        else if (musicMessage.type === "keyboard") {
-            musicMessage.notes = keySheetSerialization(jsonObj.notes);
-        }
-        else if (musicMessage.type === "midi") {
-            log.info("MIDI乐谱解析中，请稍候...");
-            musicMessage.notes = musicMessage.notes;
+
+        let music_msg_dic = {};
+
+        // 正则表达式，用于匹配如下内容
+        let regex_name = /(?<="name": ")[\s\S]*?(?=")/
+        let regex_author = /(?<="author": ")[\s\S]*?(?=")/
+        let regex_description = /(?<="description": ")[\s\S]*?(?=")/
+        let regex_bpm = /(?<="bpm": ")[\s\S]*?(?=")/
+        let regex_time_signature = /(?<="time_signature": ")[\s\S]*?(?=")/
+        let regex_composer = /(?<="composer": ")[\s\S]*?(?=")/
+        let regex_arranger = /(?<="arranger": ")[\s\S]*?(?=")/
+        let regex_notes = /(?<="notes": ")[\s\S]*?(?=")/
+
+        let regex_blank = /[\\n]/g
+        try {
+            // 歌曲名
+            music_msg_dic["name"] = file_text.match(regex_name)[0];
+            // 录谱人
+            music_msg_dic["author"] = file_text.match(regex_author)[0];
+            // 描述
+            music_msg_dic["description"] = file_text.match(regex_description)[0];
+            // 歌曲BPM
+            music_msg_dic["bpm"] = file_text.match(regex_bpm)[0];
+            // 拍号
+            music_msg_dic["time_signature"] = file_text.match(regex_time_signature)[0];
+            // 曲师
+            music_msg_dic["composer"] = file_text.match(regex_composer)[0];
+            // 谱师
+            music_msg_dic["arranger"] = file_text.match(regex_arranger)[0];
+            // 曲谱内容(删除换行符)
+            if (music_msg_dic["author"] !== "MidiTrans") {
+                music_msg_dic["notes"] = file_text.match(regex_notes)[0].replace(regex_blank, '');
+            } else {
+                music_msg_dic["notes"] = JSON.parse(file_text)["notes"];
+            }
+        } catch (error) {
+            log.info(`曲谱解析错误：${error}\n请检查曲谱文件格式是否正确`);
+            return null;
         }
 
         return musicMessage;
@@ -401,6 +460,7 @@
 
         return result;
     }
+
 
 
     /**
@@ -760,83 +820,62 @@
     }
 
     async function main() {
-        try {
-            const scriptSettings = get_settings();
-            if (scriptSettings.musicQueue.length === 0) {
-                log.error("乐曲列表为空，请检查脚本配置");
-                return;
-            }
-            log.info("当前设置  :");
-            log.info(`播放模式  : ${settings.type_select}`);
-            log.info(`乐曲列表  : ${scriptSettings.musicQueue}`);
-            log.info(`队列内间隔: ${scriptSettings.queueInterval}s`);
-            log.info(`循环间隔  : ${scriptSettings.repeatInterval}s`);
-            const alwaysPlay = ((scriptSettings.playMode === PlayMode.SingleMusicRepeat || scriptSettings.playMode === PlayMode.QueueMusicRepeat) && (scriptSettings.repeatCount === 0));
-            if (alwaysPlay) {
-                log.info("循环次数  : 无限循环");
-            }
-            else {
-                log.info(`循环次数  : ${scriptSettings.repeatCount}`);
-            }
-            const musicQueue = new Array();
-            // 解析乐谱
-            for (let music_name of scriptSettings.musicQueue) {
-                let musicInfo = await getMusicInfo(music_name);
-                if (musicInfo === null) {
-                    log.error(`乐曲 ${music_name} 信息获取失败，跳过此曲`);
-                    continue;
-                }
-                musicQueue.push(musicInfo);
-            }
-            do {
-                for (let music of musicQueue) {
-                    let music_name = music.name;
-                    let music_bpm = music.bpm;
-                    let music_type = music.type;
-                    let music_ts = music.timeSignature;
-                    let music_notes = music.notes;
+        const settings_msg = get_settings();
+        if (settings_msg == null) {
+            return null
+        }
+        // try {
+        if (settings_msg["type"] === "single") { // 单曲
+            // 读取乐谱
+            const music_msg = await get_music_msg(settings_msg["music"]);
+            const music_sheet = parseMusicSheet(music_msg["notes"]);
 
-                    log.info("----------");
-                    log.info(`开始演奏乐曲: ${music_name}`);
-                    log.info(`乐曲类型  : ${music_type}`);
-                    log.info(`乐曲BPM: ${music_bpm} 乐曲拍号  : ${music_ts} 推荐乐器 : ${music.instrument}`);
-                    log.info(`乐曲作者  : ${music.archor} 作曲 : ${music.composer} 编曲 : ${music.arranger}`);
-                    log.info(`乐曲描述  : ${music.description}`);
-                    log.info("----------");
-                    switch (music_type) {
-                        case "yuanqin":
-                            await play_sheet(music_notes, music_bpm, music_ts);
-                            break;
-                        case "keyboard":
-                            await listNotePlay(music_notes, Math.round(60000 / music_bpm));
-                            break;
-                        case "midi":
-                            await play_sheet(music_notes, music_bpm, music_ts);
-                            break;
-                        default:
-                            break;
+            for (let i = 0; i < settings_msg["repeat"]; i++) {
+                await play_sheet(music_sheet, music_msg["bpm"], music_msg["time_signature"]);
+
+                // 单曲循环间隔
+                if (settings_msg["repeat"] !== 1 && i !== settings_msg["repeat"] - 1) {
+                    await sleep(settings_msg["repeat_interval"] * 1000);
+                }
+            }
+        } else { // 队列
+            // 存储读取的乐谱
+            let music_msg_list = [];
+            // 读取乐谱
+            for (let i = 0; i < settings_msg["music"].length; i++) {
+                const music_msg = await get_music_msg(settings_msg["music"][i]);
+                const music_sheet = parseMusicSheet(music_msg["notes"]);
+
+                music_msg_list.push([settings_msg["music"][i], music_msg, music_sheet]);
+            }
+
+            let repeat_queue = settings_msg["repeat_mode"] === "队列循环" ? settings_msg["repeat"] : 1;
+            let repeat_single = settings_msg["repeat_mode"] !== "队列循环" ? settings_msg["repeat"] : 1;
+
+            for (let r = 0; r < repeat_queue; r++) {
+                for (let j = 0; j < music_msg_list.length; j++) {
+                    for (let i = 0; i < repeat_single; i++) {
+                        await play_sheet(music_msg_list[j][2], music_msg_list[j][1]["bpm"], music_msg_list[j][1]["time_signature"]);
+                        log.info(`曲目: ${music_msg_list[j][0]} 演奏完成`);
+                        if (repeat_single !== 1) {
+                            await sleep(settings_msg["repeat_interval"] * 1000); // 单曲循环间隔
+                        }
                     }
-                    if (scriptSettings.playMode === PlayMode.QueueMusicOnce || scriptSettings.playMode === PlayMode.QueueMusicRepeat) {
-                        await sleep(scriptSettings.queueInterval * 1000);
+                    // 队列内间隔
+                    if (music_msg_list.indexOf(music_msg_list[j]) !== music_msg_list.length - 1) {
+                        await sleep(settings_msg["interval"] * 1000);
                     }
                 }
-                if (scriptSettings.playMode === PlayMode.SingleMusicOnce) {
-                    break;
+                // 队列循环间隔
+                if (repeat_queue !== 1 && r !== repeat_queue - 1) {
+                    await sleep(settings_msg["repeat_interval"] * 1000);
                 }
-                else if (scriptSettings.playMode === PlayMode.QueueMusicOnce) {
-                    break;
-                } else if (scriptSettings.playMode === PlayMode.SingleMusicRepeat) {
-                    await sleep(scriptSettings.repeatInterval * 1000);
-                } else if (scriptSettings.playMode === PlayMode.QueueMusicRepeat) {
-                    await sleep(scriptSettings.repeatInterval * 1000);
-                }
-                scriptSettings.repeatCount -= 1;
-            } while (alwaysPlay || scriptSettings.repeatCount > 0)
+            }
         }
-        catch (error) {
-            log.error(`获取脚本配置失败: ${error}`);
-            return;
-        }
+        // } catch (error) {
+        //     log.error(`出现错误: ${error}`);
+        // }
+
     }
 
     await main();
