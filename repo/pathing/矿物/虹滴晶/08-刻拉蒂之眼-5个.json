@@ -8,10 +8,10 @@
     "bgi_version": "0.49.1",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757503224579,
+    "last_modified_time": 1757511992023,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "02-那夏镇左侧-8个",
+    "name": "08-刻拉蒂之眼-5个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -21,19 +21,19 @@
       "action": "",
       "action_params": "",
       "id": 1,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "teleport",
-      "x": 9657.6367,
-      "y": 1724.9336
+      "x": 8945.6094,
+      "y": 2498.6035
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
-      "x": 9661.2617,
-      "y": 1699.0645
+      "x": 8908.5117,
+      "y": 2515.1433
     },
     {
       "action": "",
@@ -41,17 +41,17 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 9655.7168,
-      "y": 1684.5977
+      "x": 8888.5693,
+      "y": 2526.3242
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "stop_flying",
+      "action_params": "3000",
       "id": 4,
-      "move_mode": "dash",
+      "move_mode": "fly",
       "type": "path",
-      "x": 9663.1504,
-      "y": 1667.4224
+      "x": 8825.9541,
+      "y": 2480.8796
     },
     {
       "action": "",
@@ -59,8 +59,8 @@
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": 9656.6221,
-      "y": 1653.1528
+      "x": 8811.0332,
+      "y": 2473.3076
     },
     {
       "action": "",
@@ -68,8 +68,8 @@
       "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": 9659.9434,
-      "y": 1632.7827
+      "x": 8796.4746,
+      "y": 2451.8037
     },
     {
       "action": "",
@@ -77,8 +77,8 @@
       "id": 7,
       "move_mode": "dash",
       "type": "path",
-      "x": 9655.7012,
-      "y": 1597.3477
+      "x": 8781.5293,
+      "y": 2434.4373
     },
     {
       "action": "",
@@ -86,35 +86,35 @@
       "id": 8,
       "move_mode": "dash",
       "type": "path",
-      "x": 9651.5273,
-      "y": 1588.6782
+      "x": 8745.7461,
+      "y": 2367.3352
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 9,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 9647.9414,
-      "y": 1585.1401
+      "x": 8728.9082,
+      "y": 2345.5713
     },
     {
       "action": "",
       "action_params": "",
       "id": 10,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 9648.7246,
-      "y": 1588.3965
+      "x": 8732.7354,
+      "y": 2352.1675
     },
     {
       "action": "mining",
       "action_params": "",
       "id": 11,
       "move_mode": "walk",
-      "type": "path",
-      "x": 9645.7158,
-      "y": 1585.6489
+      "type": "target",
+      "x": 8731.6387,
+      "y": 2353.9219
     },
     {
       "action": "",
@@ -122,17 +122,17 @@
       "id": 12,
       "move_mode": "walk",
       "type": "path",
-      "x": 9651.6221,
-      "y": 1588.5981
+      "x": 8748.3916,
+      "y": 2357.6602
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t)",
       "id": 13,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 9655.1387,
-      "y": 1561.335
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8760.7529,
+      "y": 2347.0022
     },
     {
       "action": "",
@@ -140,8 +140,8 @@
       "id": 14,
       "move_mode": "dash",
       "type": "path",
-      "x": 9659.2285,
-      "y": 1544.8652
+      "x": 8724.0781,
+      "y": 2364.6497
     },
     {
       "action": "",
@@ -149,8 +149,8 @@
       "id": 15,
       "move_mode": "dash",
       "type": "path",
-      "x": 9671.9609,
-      "y": 1527.0645
+      "x": 8705.9199,
+      "y": 2369.9438
     },
     {
       "action": "",
@@ -158,17 +158,17 @@
       "id": 16,
       "move_mode": "dash",
       "type": "path",
-      "x": 9704.7363,
-      "y": 1529.6099
+      "x": 8662.9727,
+      "y": 2325.5007
     },
     {
       "action": "",
       "action_params": "",
       "id": 17,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": 9768.1641,
-      "y": 1527.4272
+      "x": 8639.8037,
+      "y": 2310.155
     },
     {
       "action": "",
@@ -176,71 +176,26 @@
       "id": 18,
       "move_mode": "dash",
       "type": "path",
-      "x": 9785.8584,
-      "y": 1531.6313
+      "x": 8643.7441,
+      "y": 2295.3804
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8652.3789,
+      "y": 2283.1736
     },
     {
       "action": "mining",
-      "action_params": "",
-      "id": 19,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 9788.6191,
-      "y": 1532.4849
-    },
-    {
-      "action": "",
       "action_params": "",
       "id": 20,
       "move_mode": "walk",
-      "type": "path",
-      "x": 9790.751,
-      "y": 1529.0605
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 21,
-      "move_mode": "walk",
       "type": "target",
-      "x": 9793.2852,
-      "y": 1530.6206
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 22,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 9797.3711,
-      "y": 1528.1157
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 23,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 9799.3604,
-      "y": 1530.3984
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 24,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 9797.3965,
-      "y": 1532.479
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 25,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 9802.8691,
-      "y": 1536.8389
+      "x": 8653.8125,
+      "y": 2281.5227
     }
   ]
 }
