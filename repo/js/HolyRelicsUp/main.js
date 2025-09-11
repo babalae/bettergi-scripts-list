@@ -3,8 +3,6 @@
  * @returns {Promise<void>}
  */
 async function main(log_off = config.log_off) {
-    await ocrAttributeHolyRelic()
-    return
     let ms = 600
     setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
 
