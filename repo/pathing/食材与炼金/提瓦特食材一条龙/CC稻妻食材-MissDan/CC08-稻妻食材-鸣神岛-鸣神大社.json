@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757069895536,
+    "last_modified_time": 1757427563105,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "CC08-稻妻食材-鸣神岛-鸣神大社",
@@ -163,8 +163,8 @@
       "y": -2399.3125
     },
     {
-      "action": "combat_script",
-      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "action": "",
+      "action_params": "",
       "id": 17,
       "move_mode": "walk",
       "type": "path",
@@ -172,13 +172,13 @@
       "y": -2397.3418
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
       "id": 18,
       "move_mode": "walk",
       "type": "path",
-      "x": -4365.6797,
-      "y": -2398.9219
+      "x": -4365.59765625,
+      "y": -2398.7939453125
     },
     {
       "action": "",
@@ -186,8 +186,8 @@
       "id": 19,
       "move_mode": "walk",
       "type": "path",
-      "x": -4366.9141,
-      "y": -2396.0547
+      "x": -4367.953125,
+      "y": -2397.138671875
     },
     {
       "action": "combat_script",
