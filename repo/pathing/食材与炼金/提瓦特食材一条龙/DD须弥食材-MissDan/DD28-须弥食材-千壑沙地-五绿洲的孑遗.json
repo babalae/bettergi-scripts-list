@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757059987338,
+    "last_modified_time": 1757570796615,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "DD28-须弥食材-千壑沙地-五绿洲的孑遗",
@@ -192,6 +192,15 @@
       "action": "",
       "action_params": "",
       "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4749.1055,
+      "y": -203.5815
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
       "locked": false,
       "move_mode": "walk",
       "type": "path",
@@ -201,37 +210,34 @@
     {
       "action": "",
       "action_params": "",
-      "id": 19,
-      "locked": true,
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4754.9434,
+      "y": -187.3105
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(t),keypress(t)",
+      "id": 21,
       "move_mode": "fly",
       "type": "path",
-      "x": 4792.26,
-      "y": -178.0
+      "x": 4766.1934,
+      "y": -185.6992
     },
     {
       "action": "",
       "action_params": "",
-      "id": 20,
-      "locked": false,
-      "move_mode": "jump",
+      "id": 22,
+      "move_mode": "walk",
       "type": "path",
-      "x": 4794.3828,
-      "y": -181.9214
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 21,
-      "locked": false,
-      "move_mode": "jump",
-      "type": "path",
-      "x": 4795.0645,
-      "y": -186.4243
+      "x": 4796.5654,
+      "y": -188.5181
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.4)",
-      "id": 22,
+      "id": 23,
       "locked": false,
       "move_mode": "walk",
       "type": "target",
@@ -241,7 +247,7 @@
     {
       "action": "up_down_grab_leaf",
       "action_params": "",
-      "id": 23,
+      "id": 24,
       "locked": false,
       "move_mode": "walk",
       "type": "path",
@@ -251,7 +257,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.4)",
-      "id": 24,
+      "id": 25,
       "locked": false,
       "move_mode": "walk",
       "type": "path",
@@ -261,7 +267,7 @@
     {
       "action": "up_down_grab_leaf",
       "action_params": "",
-      "id": 25,
+      "id": 26,
       "locked": false,
       "move_mode": "walk",
       "type": "path",
@@ -271,7 +277,7 @@
     {
       "action": "up_down_grab_leaf",
       "action_params": "",
-      "id": 26,
+      "id": 27,
       "locked": false,
       "move_mode": "walk",
       "type": "path",
@@ -281,7 +287,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 27,
+      "id": 28,
       "locked": false,
       "move_mode": "fly",
       "type": "path",
@@ -291,17 +297,17 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.4)",
-      "id": 28,
+      "id": 29,
       "locked": false,
       "move_mode": "walk",
-      "type": "path",
+      "type": "target",
       "x": 4858.0977,
       "y": -133.208
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.4)",
-      "id": 29,
+      "id": 30,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
@@ -311,7 +317,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 30,
+      "id": 31,
       "locked": false,
       "move_mode": "fly",
       "type": "path",
@@ -321,7 +327,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.4)",
-      "id": 31,
+      "id": 32,
       "locked": false,
       "move_mode": "walk",
       "type": "path",
