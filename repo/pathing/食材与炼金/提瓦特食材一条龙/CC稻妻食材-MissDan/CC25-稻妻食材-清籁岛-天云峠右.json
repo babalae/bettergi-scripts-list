@@ -13,7 +13,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757069929074,
+    "last_modified_time": 1757427505180,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "CC25-稻妻食材-清籁岛-天云峠右",
@@ -1004,9 +1004,18 @@
       "y": -4564.3867
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 110,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4605.626953125,
+      "y": -4562.9638671875
+    },
+    {
       "action": "combat_script",
       "action_params": "wait(0.1),keypress(t),wait(0.1),keypress(t)",
-      "id": 110,
+      "id": 111,
       "move_mode": "walk",
       "type": "path",
       "x": -4608.626953125,
@@ -1015,7 +1024,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.1),keypress(t),wait(0.1),keypress(t)",
-      "id": 111,
+      "id": 112,
       "move_mode": "fly",
       "type": "path",
       "x": -4615.4473,
@@ -1024,7 +1033,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.1),keypress(t),wait(0.1),keypress(t)",
-      "id": 112,
+      "id": 113,
       "move_mode": "fly",
       "type": "path",
       "x": -4634.9023,
@@ -1033,7 +1042,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.1),keypress(t),wait(0.1),keypress(t)",
-      "id": 113,
+      "id": 114,
       "move_mode": "fly",
       "type": "path",
       "x": -4649.543,
@@ -1042,7 +1051,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 114,
+      "id": 115,
       "move_mode": "fly",
       "type": "path",
       "x": -4679.1094,
@@ -1051,7 +1060,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 115,
+      "id": 116,
       "move_mode": "dash",
       "type": "path",
       "x": -4685.2305,
@@ -1060,7 +1069,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 116,
+      "id": 117,
       "move_mode": "dash",
       "type": "path",
       "x": -4687.9473,
@@ -1069,7 +1078,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.4)",
-      "id": 117,
+      "id": 118,
       "move_mode": "dash",
       "type": "path",
       "x": -4699.875,
