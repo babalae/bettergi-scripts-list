@@ -3,7 +3,8 @@
  * @returns {Promise<void>}
  */
 async function main(log_off = config.log_off) {
-
+    await ocrAttributeHolyRelic()
+    return
     let ms = 600
     setGameMetrics(1920, 1080, 1); // 设置游戏窗口大小和DPI
 
@@ -199,6 +200,10 @@ const config = {
     inputAttributeHolyRelic: settings.inputAttributeHolyRelic,//自定义圣遗物属性
     commonAttributeHolyRelic: settings.commonAttributeHolyRelic,//通用圣遗物属性
     coverAttributeHolyRelic: settings.coverAttributeHolyRelic,//覆盖圣遗物通用属性以部件为单位
+    coverSiftAttributeHolyRelic: settings.coverSiftAttributeHolyRelic,//覆盖圣遗物通用属性以筛选条件为单位
+    meetAllSiftAttributeHolyRelic: settings.meetAllSiftAttributeHolyRelic,//满足所有筛选条件
+    commonSiftAttributeHolyRelic: settings.commonSiftAttributeHolyRelic,//通用筛选条件
+    inputSiftAttributeHolyRelic: settings.inputSiftAttributeHolyRelic,//自定义筛选条件
 }
 
 
@@ -264,6 +269,9 @@ const HolyRelicParts = ['生之花', '死之羽', '理之冠', '时之沙', '空
 // ]
 const commonHolyRelicPartMap = !config.enableAttributeHolyRelic ? [] : parseHolyRelicToMap(config.commonAttributeHolyRelic)
 const holyRelicPartMap = !config.enableAttributeHolyRelic ? [] : (!config.coverAttributeHolyRelic ? parseHolyRelicToMap() : takeDifferentHolyRelicToMap(parseHolyRelicToMap(), commonHolyRelicPartMap))
+
+const commonHolyRelicPartMapBySift = !config.enableAttributeHolyRelic ? [] : parseHolyRelicToMap(config.commonSiftAttributeHolyRelic)
+const holyRelicPartMapBySift = !config.enableAttributeHolyRelic ? [] : (!config.coverSiftAttributeHolyRelic ? parseHolyRelicToMap(config.inputSiftAttributeHolyRelic) : takeDifferentHolyRelicToMap(parseHolyRelicToMap(config.inputSiftAttributeHolyRelic), commonHolyRelicPartMapBySift))
 
 /**
  * 属性值替换函数
@@ -1258,7 +1266,7 @@ async function ocrAttributeHolyRelic() {
     let sub = {
         x: Math.floor(genshinJson.width * 1195 / 1920),
         y: Math.floor(genshinJson.height * 304 / 1080),
-        width: Math.floor(genshinJson.width * 171 / 1920),
+        width: Math.floor(genshinJson.width * 253 / 1920),
         height: Math.floor(genshinJson.height * 209 / 1080)
     }
     // await wait(ms)
@@ -1288,6 +1296,10 @@ async function ocrAttributeHolyRelic() {
         }
         let subName = subList[index] + "";
         let subValue = subVRes.text + "";
+        let key = '（待激活）'
+        if (subName.includes(key)) {
+            subName = key + subName.split(key)[0].trim()
+        }
         if (AttributeHolyRelickeys.includes(subName) && subValue.includes('%')) {
             subName = subName + '百分比'
         }
@@ -2215,22 +2227,54 @@ async function UpClickLv1(operate, source = 'UpClickLv1', log_off = config.log_o
 
     for (let i = 0; i < count; i++) {
         let one = await ocrAttributeHolyRelic()
-        if (holyRelicPartMap.get(name) && holyRelicPartMap.get(name).main.length > 0 && !holyRelicPartMap.get(name).main.includes(one.main)) {
-            //未命中主属性跳过
-            reJson.start = false
-            reJson.missed = true
-            reJson.missedMsg = `未命中主属性${JSON.stringify(holyRelicPartMap.get(name).main.join(','))}跳过`
-            await warn(reJson.missedMsg)
-            return reJson
+
+        if (i < 1) {
+            if (holyRelicPartMap.get(name) && holyRelicPartMap.get(name).main.length > 0 && !holyRelicPartMap.get(name).main.includes(one.main)) {
+                //未命中主属性跳过
+                reJson.start = false
+                reJson.missed = true
+                reJson.missedMsg = `未命中主属性${JSON.stringify(holyRelicPartMap.get(name).main.join(','))}跳过`
+                await warn(reJson.missedMsg)
+                return reJson
+            }
+
+            if (config.meetAllSiftAttributeHolyRelic) {
+                //&&操作
+                let meetCount = 0
+                one.sub.forEach((item) => {
+                    if (holyRelicPartMapBySift.get(name).sub.includes(item.name)) {
+                        meetCount++
+                    }
+                })
+                if (meetCount !== one.sub.length) {
+                    //未命中全部子属性跳过
+                    reJson.start = false
+                    reJson.missed = true
+                    reJson.missedMsg = `未命中全部子属性${JSON.stringify(holyRelicPartMapBySift.get(name).sub.join(','))}跳过`
+                    await warn(reJson.missedMsg)
+                    return reJson
+                }
+            } else {
+                if (holyRelicPartMapBySift.get(name) && holyRelicPartMapBySift.get(name).sub.length > 0 && !one.sub.find((item => holyRelicPartMapBySift.get(name).sub.includes(item.name)))) {
+                    //未命中子属性跳过
+                    reJson.start = false
+                    reJson.missed = true
+                    reJson.missedMsg = `未命中子属性${JSON.stringify(holyRelicPartMapBySift.get(name).sub.join(','))}跳过`
+                    await warn(reJson.missedMsg)
+                    return reJson
+                }
+            }
+        } else {
+            if (holyRelicPartMap.get(name) && holyRelicPartMap.get(name).sub.length > 0 && !one.sub.find((item => holyRelicPartMap.get(name).sub.includes(item.name)))) {
+                //未命中子属性跳过
+                reJson.start = false
+                reJson.missed = true
+                reJson.missedMsg = `未命中子属性${JSON.stringify(holyRelicPartMap.get(name).sub.join(','))}跳过`
+                await warn(reJson.missedMsg)
+                return reJson
+            }
         }
-        if (holyRelicPartMap.get(name) && holyRelicPartMap.get(name).sub.length > 0 && !one.sub.find((item => holyRelicPartMap.get(name).sub.includes(item.name)))) {
-            //未命中子属性跳过
-            reJson.start = false
-            reJson.missed = true
-            reJson.missedMsg = `未命中子属性${JSON.stringify(holyRelicPartMap.get(name).sub.join(','))}跳过`
-            await warn(reJson.missedMsg)
-            return reJson
-        }
+
         await wait(ms)  // 等待500毫秒，确保界面响应
         operate = await operateDispose(operate, false, log_off)
 
