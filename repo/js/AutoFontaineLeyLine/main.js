@@ -186,9 +186,13 @@
     var Threshold = genshin.width > 2560 ? 0.65 
             : genshin.width > 1920 ? 0.7 
             : 0.8;
-    log.warn(`屏幕分辨率${genshin.width}，识别阈值调整为${Threshold}...`);
+    log.warn(`屏幕宽度：${genshin.width}，识别阈值调整为${Threshold}...`);
 
-    log.warn(`全自动枫丹地脉花: v3.9 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
+    var Thresholdr = genshin.width > 2560 ? 0.8
+    : genshin.width > 1920 ? 0.8
+    : 0.9;
+
+    log.warn(`全自动枫丹地脉花: v4.0 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
     log.warn(`使用树脂类型数量：${rewards.length}`);
     log.warn(`使用树脂顺序：${golbalRewardText.join(" ->")}`); 
 
@@ -872,7 +876,7 @@
                             condensedResinCount--;
                             break;
                         case 2:
-                            originalResinCount -= 20;
+                            originalResinCount -= 40;
                             break;
                         case 3:
                             fragileResinCount--;
@@ -880,13 +884,16 @@
                         case 4:
                             momentResinCount--;
                             break;
+                        case 5:
+                            originalResinCount -= 20;
+                            break;
                     }                    
 
                     if (resinTypes.includes("1"))
                     {
                         shouldExit &= (parseInt(condensedResinCount, 10) <= 0);
                     }
-                    if (resinTypes.includes("2"))
+                    if (resinTypes.includes("2") || resinTypes.includes("5"))
                     {
                         shouldExit &= (parseInt(originalResinCount, 10) < 20);
                     }
@@ -928,6 +935,12 @@
         if(primogemUseCount > 0 && resinDone){
 
             log.warn("树脂耗尽，尝试使用原石 {0}/{1} ...", primogemUseDone+1, primogemUseCount);
+         
+            let SHU =  await Textocr("兑换",0,0,0,510,380,800,600);
+            if (SHU.found) {
+                resinTypeMap2.length = 0;
+                log.warn("{t}","原石不足，执行结束...");
+            }
 
             for (let k = 0; k < resinTypeMap2.length; k++) {
                 let SHU =  await Textocr(resinTypeMap2[k],0.1,0,0,510,380,640,600);
@@ -971,28 +984,47 @@
         var fragileResinCount = 0; // 脆弱树脂
         var momentResinCount = 0; //须臾树脂
 
+        // var shuz = []
         // 浓缩树脂
         var condensedResinCountRa = await imageRecognition(condensedResin,0.2, 0, 0,800,15,700,70,Threshold);
-        if (condensedResinCountRa.found) {  
+        if (condensedResinCountRa.found) { 
+            //测试用 
+            // log.info("检测到浓缩树脂图标");  
+            // await moveMouseTo(condensedResinCountRa.x+condensedResinCountRa.w,condensedResinCountRa.y);
+            // log.warn("X{0} Y{1} W{2} H{3}",condensedResinCountRa.x,condensedResinCountRa.y,condensedResinCountRa.w,condensedResinCountRa.h,);
+            // if (Math.abs(condensedResinCountRa.x - 1256) > 5 || condensedResinCountRa.y != 33){
+            //     throw new Error("浓缩图标错误");
+            // }
+            // log.warn("T{0}",Thresholdr);
+            // log.warn("L{0}",resinImages.length);
             for (let i = 0; i < resinImages.length; i++) {
-                if(i==0){await sleep(1000);}
-                let countArea = await imageRecognition(resinImages[i],0.1, 0, 0,condensedResinCountRa.x+condensedResinCountRa.w,condensedResinCountRa.y,condensedResinCountRa.w*2,condensedResinCountRa.h,Threshold);
-                if (countArea.found){                                      
+                if(i==0){await sleep(500);}
+                // log.warn("i{0}",i);
+                let countArea = await imageRecognition(resinImages[i],0, 0, 0,condensedResinCountRa.x+condensedResinCountRa.w+15,condensedResinCountRa.y,30,32,Thresholdr);
+                if (countArea.found){   
+                    // await moveMouseTo(countArea.x,countArea.y);            
                     condensedResinCount =i;  
+                    // shuz.push(i);
                     break;               
                 }
-                if (i==4){log.info("未检测到浓缩数量，强制为1"); condensedResinCount=1;}                          
+                if (i==5){log.info("未检测到浓缩数量，强制为1"); condensedResinCount=1;}                          
             }
-            
+             //测试用
+            // log.warn("{0}",shuz);
+            // if (shuz.length != 1 || shuz[0] != 0){
+            //     // log.warn("错误");
+            //     // await sleep(2000);
+            //     throw new Error("错误");
+            // }
         }else{
             log.info("未检测到浓缩树脂图标");        
-        }       
+        }  
 
         //脆弱树脂
         var originalResinCountRa = await imageRecognition(originalResin,0.1, 0, 0,1325,0,100,500,Threshold);
         if (originalResinCountRa.found) {  
             // await moveMouseTo(originalResinCountRa.x,originalResinCountRa.y);   
-            let countArea = await Textocr("",0.5, 0, 2,originalResinCountRa.x+originalResinCountRa.w,originalResinCountRa.y,originalResinCountRa.w*3,originalResinCountRa.h,Threshold);//
+            let countArea = await Textocr("",0.5, 0, 2,originalResinCountRa.x+originalResinCountRa.w,originalResinCountRa.y,originalResinCountRa.w*3,originalResinCountRa.h);//
             if (countArea.found){
                 log.info("原粹树脂识别数量结果："+ countArea.text);
                 let match = countArea.text.match(/(\d+)\s*[/17]\s*(2|20|200)/);
@@ -1019,12 +1051,12 @@
         if (momentResinCountRa.found) {          
                 
             for (let i = 0; i < resinImages.length; i++) {
-                let countArea = await imageRecognition(resinImages[i],0.1, 0, 0,momentResinCountRa.x+momentResinCountRa.w,momentResinCountRa.y,momentResinCountRa.w*2,momentResinCountRa.h,Threshold);
+                let countArea = await imageRecognition(resinImages[i],0, 0, 0,momentResinCountRa.x+momentResinCountRa.w+10,momentResinCountRa.y,30,35,Thresholdr);
                 if (countArea.found){
                     momentResinCount =i;  
                     break;               
                 }
-                if (i==4){log.info("未检测到须臾数量，强制为1"); momentResinCount=1;}                          
+                if (i==5){log.info("未检测到须臾数量，强制为1"); momentResinCount=1;}                          
             } 
             
             fragileResinCount = "1";
@@ -1039,17 +1071,18 @@
             if (fragileResinCountRa.found) {  
                 // await moveMouseTo(fragileResinCountRa.x+fragileResinCountRa.w+20,fragileResinCountRa.y-15);             
             
-                let countArea = await Textocr("",0.1, 0, 2,fragileResinCountRa.x+fragileResinCountRa.w,fragileResinCountRa.y,fragileResinCountRa.w*2,fragileResinCountRa.h,Threshold);//
+                let countArea = await Textocr("",0.1, 0, 2,fragileResinCountRa.x+fragileResinCountRa.w,fragileResinCountRa.y,fragileResinCountRa.w*2,fragileResinCountRa.h);//
                 if (countArea.found){
                     // log.info("脆弱树脂识别数量结果："+ countArea.text);
                     fragileResinCount = countArea.text
                 }
                 else{
-                    var oneRa = await imageRecognition(resinImages[0],0.1, 0, 1,fragileResinCountRa.x+fragileResinCountRa.w,fragileResinCountRa.y,60,40,Threshold);
+                    var oneRa = await imageRecognition(resinImages[1],0.1, 0, 1,fragileResinCountRa.x+fragileResinCountRa.w,fragileResinCountRa.y,60,40,Threshold);
                     if (oneRa.found){
                         fragileResinCount = "1";
                     }else{
-                       
+                        fragileResinCount = "1";
+                        log.info("2未检测到脆弱树脂图标,脆弱树脂识别强制为 1 ");//有图标说明至少为1     
                     }
                 }
             } 
@@ -1418,12 +1451,14 @@
         return isUpdated; 
     }    
 
-    // //测试
-    // while (true) {
-    //     await getRemainResinStatus();          
-    //     await sleep(500);
+    //测试
+    // var ii=1000;
+    // while (ii>0) {
+    //      await getRemainResinStatus();  
+    //     // await sleep(500);
+    //     ii--;
     // }
-    //     return;
+    // return;
 
     // UID获取存在概率不成功，慎用！请更换背景纯色的名片提高OCR成功率
     let uidNumbers = nowuidString.match(/\d+/g);
