@@ -208,53 +208,74 @@ const config = {
 const genshinJson = {
     width: genshin.width,
     height: genshin.height,
+    language: genshin.language,
 }
 
-const attributeMap = new Map([
-    ['%', '百分比'],
-    ['生命', '生命值'],
-    ['防御', '防御力'],
-    ['攻击', '攻击力'],
-    ['暴率', '暴击率'],
-    ['爆率', '暴击率'],
-    ['暴伤', '暴击伤害'],
-    ['爆伤', '暴击伤害'],
-    ['物伤', '物理伤害加成'],
-    ['风伤', '风元素伤害加成'],
-    ['水伤', '水元素伤害加成'],
-    ['雷伤', '雷元素伤害加成'],
-    ['岩伤', '岩元素伤害加成'],
-    ['草伤', '草元素伤害加成'],
-    ['冰伤', '冰元素伤害加成'],
-    ['火伤', '火元素伤害加成'],
-    ['治疗', '治疗加成'],
-    ['精通', '元素精通'],
-    ['充能', '元素充能效率'],
-]);
-const attributeList = [
-    '物理伤害加成'
-    , '风元素伤害加成'
-    , '水元素伤害加成'
-    , '雷元素伤害加成'
-    , '岩元素伤害加成'
-    , '草元素伤害加成'
-    , '冰元素伤害加成'
-    , '火元素伤害加成'
-    , '治疗加成'
-    // , '元素精通'
-    // , '元素充能效率'
-]
-const AttributeHolyRelickeys = ['生命值', '防御力', '攻击力']
-const HolyRelicPartsAsMap = new Map([
-    ['花', '生之花'],
-    ['羽', '死之羽'],
-    ['羽毛', '死之羽'],
-    ['冠', '理之冠'],
-    ['沙', '时之沙'],
-    ['杯', '空之杯'],
-    ['杯子', '空之杯'],
-]);
-const HolyRelicParts = ['生之花', '死之羽', '理之冠', '时之沙', '空之杯'];
+const LanguageALLConfigMap = new Map([
+    ['zh-cn',
+        {
+            attributeMap: new Map([
+                ['%', '百分比'],
+                ['生命', '生命值'],
+                ['防御', '防御力'],
+                ['攻击', '攻击力'],
+                ['暴率', '暴击率'],
+                ['爆率', '暴击率'],
+                ['暴伤', '暴击伤害'],
+                ['爆伤', '暴击伤害'],
+                ['物伤', '物理伤害加成'],
+                ['风伤', '风元素伤害加成'],
+                ['水伤', '水元素伤害加成'],
+                ['雷伤', '雷元素伤害加成'],
+                ['岩伤', '岩元素伤害加成'],
+                ['草伤', '草元素伤害加成'],
+                ['冰伤', '冰元素伤害加成'],
+                ['火伤', '火元素伤害加成'],
+                ['治疗', '治疗加成'],
+                ['精通', '元素精通'],
+                ['充能', '元素充能效率'],
+            ]),
+            attributeList: [
+                '物理伤害加成'
+                , '风元素伤害加成'
+                , '水元素伤害加成'
+                , '雷元素伤害加成'
+                , '岩元素伤害加成'
+                , '草元素伤害加成'
+                , '冰元素伤害加成'
+                , '火元素伤害加成'
+                , '治疗加成'
+                // , '元素精通'
+                // , '元素充能效率'
+            ],
+            attributeHolyRelickeys: ['生命值', '防御力', '攻击力'],
+            holyRelicPartsAsMap: new Map([
+                ['花', '生之花'],
+                ['羽', '死之羽'],
+                ['羽毛', '死之羽'],
+                ['冠', '理之冠'],
+                ['沙', '时之沙'],
+                ['杯', '空之杯'],
+                ['杯子', '空之杯'],
+            ]),
+            holyRelicParts: ['生之花', '死之羽', '理之冠', '时之沙', '空之杯'],
+        }
+    ],
+])
+
+const LanguageMap = new Map([
+    ['简体中文', 'zh-cn']
+])
+const LanguageKey=LanguageMap.get(genshinJson.language)
+if (LanguageKey === null || !LanguageKey) {
+    throwError(`未找到[${genshinJson.language}]语言配置,支持语言：[${Array.from(LanguageMap.keys()).join(',')}]`)
+}
+const LanguageConfigJson = LanguageALLConfigMap.get(LanguageKey)
+const attributeMap = LanguageConfigJson.attributeMap
+const attributeList = LanguageConfigJson.attributeList
+const AttributeHolyRelickeys = LanguageConfigJson.attributeHolyRelickeys
+const HolyRelicPartsAsMap = LanguageConfigJson.holyRelicPartsAsMap
+const HolyRelicParts = LanguageConfigJson.holyRelicParts
 // @ -- 表示部件 # -- 表示主词条 * --表示副词条
 // | -- 表示部件终止(多个部件不可忽略) & -- 表示主词条终止(主词条存在不可忽略) ! --表示副词条终止(可忽略)
 //(全)==>(简)
@@ -291,7 +312,7 @@ function attributeReplacement(value) {
 }
 
 //基础目录
-const path_base_main = `assets/language/zh-cn/`
+const path_base_main = `assets/language/${LanguageKey}/`
 // const path_base_sort = `${path_base_main}sort/`
 
 const commonPath = `assets/common/`
