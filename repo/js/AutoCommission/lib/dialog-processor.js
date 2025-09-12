@@ -70,11 +70,12 @@ var DialogProcessor = {
             click(res.x, res.y);
             leftButtonClick();
             keyUp("VK_MENU");
+            await sleep(200);
+            if (!isInMainUI()) {
+              clickedWhitelistNPC = true;
+              break;
+            }
           }
-        }
-        if (!isInMainUI()) {
-          clickedWhitelistNPC = true;
-          break;
         }
       }
 
@@ -90,8 +91,11 @@ var DialogProcessor = {
             click(res.x, res.y);
             leftButtonClick();
             keyUp("VK_MENU");
-            clickedExtractedName = true;
-            break;
+            await sleep(200);
+            if (!isInMainUI()) {
+              clickedExtractedName = true;
+              break;
+            }
           }
         }
       }
@@ -101,7 +105,9 @@ var DialogProcessor = {
     if (!clickedWhitelistNPC && !clickedExtractedName) {
       log.info("未找到匹配的NPC，使用默认触发方式");
       keyPress("F"); // 默认触发剧情
-      await sleep(500);
+      await sleep(100);
+      keyPress("F"); // 默认触发剧情
+      await sleep(400);
     }
 
     // 重复执行自动剧情，直到返回主界面
@@ -116,7 +122,15 @@ var DialogProcessor = {
       attempts++;
 
       // 正常跳过对话
-      await genshin.chooseTalkOption("纳西妲美貌举世无双", skipCount, false);
+      //await genshin.chooseTalkOption("纳西妲美貌举世无双", skipCount, false); 不好用
+
+      var startTime = new Date().getTime();
+
+        // 1秒内按空格键跳过
+        while (new Date().getTime() - startTime < 1000) {
+          keyPress("VK_SPACE");
+          await sleep(200);
+        }
 
       if (isInMainUI()) {
         log.info("检测到已返回主界面，结束循环");
@@ -175,7 +189,8 @@ var DialogProcessor = {
 
           // 如果没有找到优先选项，则使用默认跳过
           if (!foundPriorityOption) {
-            await genshin.chooseTalkOption("", 1, false);
+            keyPress("F");
+            await sleep(100);
           }
         }
       }

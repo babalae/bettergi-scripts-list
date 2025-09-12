@@ -20,8 +20,10 @@ function forge_pathing_end_log(name, elapsed_time) {
 
 function get_exclude_tags() {
     var tags = [];
-    if (settings.exclude_fights) {
+    if (settings.fight_option === "全跳过") {
         tags.push("fight");
+    } else if (settings.fight_option === "只跳过与精英怪战斗的路线") {
+        tags.push("elite enemy");
     }
     if (settings.exclude_natlan) {
         tags.push("natlan");
@@ -309,13 +311,16 @@ async function run_pathing_script(name, path_state_change, current_states) {
     log.info("运行 {name}", name);
     var json_content = await file.readText(filename_to_path_map[name]);
     {
-        // set Noelle mining action
         const json_obj = JSON.parse(json_content);
         var modified = false;
         for (const i of json_obj.positions) {
             if (i.action === "mining" && !i.action_params) {
+                // set Noelle mining action
                 i.action = "combat_script";
-                i.action_params = "诺艾尔 attack(2.0)";
+                i.action_params = settings.custom_mining_action || "诺艾尔 attack(2.0)";
+                modified = true;
+            } else if (settings.custom_mining_action && i.action === "combat_script" && i.action_params.includes("诺艾尔 ")) {
+                i.action_params = settings.custom_mining_action;
                 modified = true;
             }
         }
@@ -381,8 +386,8 @@ async function main() {
     // Run an empty pathing script to give BGI a chance to switch team if the user specifies one.
     await pathingScript.runFile("assets/empty_pathing.json");
     if (["natlan", "fontaine terrestrial", "sumeru", "inazuma", "liyue", "chasm underground", "mondstadt"].filter(i => !get_exclude_tags().includes(i)).length > 0) {
-        if (!Array.from(getAvatars()).includes("诺艾尔")) {
-            log.error("地面挖矿必须带诺艾尔");
+        if (!Array.from(getAvatars()).includes("诺艾尔") && !settings.custom_mining_action) {
+            log.error("地面挖矿请带诺艾尔");
             return;
         }
     }

@@ -1076,6 +1076,15 @@ async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "
             await writeCDInfo(accountName);
         }
     }
+
+    if (doStop && new Date() < state.aimActivateTime) {
+        const maxWaitMs = settings.maxWaitingTime * 60 * 1000;
+        const needWaitMs = state.aimActivateTime - new Date();
+        if (needWaitMs <= maxWaitMs && needWaitMs > 0) {
+            log.info(`等待 ${needWaitMs} 毫秒到达预定时间`);
+            await sleep(needWaitMs);
+        }
+    }
 }
 
 async function parsePathing(pathFilePath) {

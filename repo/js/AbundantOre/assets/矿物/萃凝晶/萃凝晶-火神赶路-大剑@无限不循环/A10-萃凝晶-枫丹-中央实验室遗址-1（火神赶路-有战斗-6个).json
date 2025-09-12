@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1755891694957,
+    "last_modified_time": 1757179458466,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A10-萃凝晶-枫丹-中央实验室遗址-1（火神赶路-有战斗-6个)",
@@ -32,7 +32,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(0.7),dash(1.5),e",
+      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(0.7),dash(1.5),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
       "id": 2,
       "move_mode": "walk",
       "type": "orientation",
@@ -59,7 +59,7 @@
     },
     {
       "action": "mining",
-      "action_params": "",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
       "id": 5,
       "move_mode": "walk",
       "type": "target",
@@ -86,7 +86,7 @@
     },
     {
       "action": "mining",
-      "action_params": "",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
       "id": 8,
       "move_mode": "walk",
       "type": "target",
@@ -113,7 +113,7 @@
     },
     {
       "action": "mining",
-      "action_params": "",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
       "id": 11,
       "move_mode": "walk",
       "type": "target",
@@ -140,7 +140,7 @@
     },
     {
       "action": "mining",
-      "action_params": "",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
       "id": 14,
       "move_mode": "walk",
       "type": "target",
@@ -167,7 +167,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.7),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.2),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.3),attack,wait(0.8),dash(1.5),e",
+      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.7),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.2),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.3),attack,wait(0.8),dash(1.5),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
       "id": 17,
       "move_mode": "walk",
       "type": "orientation",
@@ -185,7 +185,7 @@
     },
     {
       "action": "mining",
-      "action_params": "",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
       "id": 19,
       "move_mode": "walk",
       "type": "target",
@@ -212,7 +212,7 @@
     },
     {
       "action": "mining",
-      "action_params": "",
+      "action_params": "诺艾尔 attack(0.2), attack(0.2),wait(0.3),attack(0.2),wait(1)",
       "id": 22,
       "move_mode": "walk",
       "type": "target",

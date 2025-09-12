@@ -20,6 +20,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         path: bettergi-scripts-list
+        fetch-depth: 0
     
     - name: 🚀 配置 Node.js 环境
       uses: actions/setup-node@v4

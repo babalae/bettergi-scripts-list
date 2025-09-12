@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756916416345,
+    "last_modified_time": 1757092873329,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "638纳塔-浪浪湾9",
@@ -146,7 +146,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.3),keydown(Q),keypress(f),wait(0.8),keypress(f),keyup(Q),wait(0.1),j,keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);wait(0.3),moveby(0,4000),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(0.6)",
+      "action_params": "wait(0.3),keydown(Q),keypress(f),wait(0.8),keypress(f),keyup(Q),wait(0.1),j,keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);wait(0.3),moveby(0,4000),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(0.8),click(middle)",
       "id": 15,
       "move_mode": "climb",
       "type": "target",
@@ -267,8 +267,8 @@
       "id": 28,
       "move_mode": "walk",
       "type": "path",
-      "x": 14544.9296875,
-      "y": 962.48486328125
+      "x": 14547.177734375,
+      "y": 963.18896484375
     }
   ]
 }

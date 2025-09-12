@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756392615191,
+    "last_modified_time": 1757427581450,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "CC02-稻妻食材-鸣神岛-绀田村",
@@ -253,8 +253,8 @@
       "y": -2772.6348
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
       "id": 27,
       "move_mode": "walk",
       "type": "path",
@@ -262,8 +262,8 @@
       "y": -2774.291
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
       "id": 28,
       "move_mode": "fly",
       "type": "path",
@@ -275,7 +275,7 @@
       "action_params": "",
       "id": 29,
       "move_mode": "walk",
-      "type": "path",
+      "type": "target",
       "x": -4103.4023,
       "y": -2769.5273
     },
@@ -284,7 +284,7 @@
       "action_params": "",
       "id": 30,
       "move_mode": "walk",
-      "type": "path",
+      "type": "target",
       "x": -4107.3809,
       "y": -2772.373
     },
@@ -292,16 +292,25 @@
       "action": "",
       "action_params": "",
       "id": 31,
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "path",
-      "x": -4099.6016,
-      "y": -2783.5742
+      "x": -4101.0508,
+      "y": -2781.5488
     },
     {
       "action": "",
       "action_params": "",
       "id": 32,
-      "move_mode": "jump",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4105.0391,
+      "y": -2793.8633
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 33,
+      "move_mode": "walk",
       "type": "path",
       "x": -4100.2148,
       "y": -2805.2021
@@ -309,7 +318,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 33,
+      "id": 34,
       "move_mode": "run",
       "type": "path",
       "x": -4093.7031,
@@ -318,7 +327,7 @@
     {
       "action": "combat_script",
       "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
-      "id": 34,
+      "id": 35,
       "move_mode": "walk",
       "type": "path",
       "x": -4080.8379,
@@ -327,7 +336,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 35,
+      "id": 36,
       "move_mode": "run",
       "type": "path",
       "x": -4074.0176,
@@ -336,7 +345,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 36,
+      "id": 37,
       "move_mode": "run",
       "type": "path",
       "x": -4050.3828,
@@ -345,7 +354,7 @@
     {
       "action": "combat_script",
       "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
-      "id": 37,
+      "id": 38,
       "move_mode": "walk",
       "type": "path",
       "x": -4043.7676,
@@ -354,7 +363,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 38,
+      "id": 39,
       "move_mode": "walk",
       "type": "path",
       "x": -4037.498,
@@ -363,7 +372,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 39,
+      "id": 40,
       "move_mode": "fly",
       "type": "path",
       "x": -4006.3242,
@@ -372,7 +381,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 40,
+      "id": 41,
       "move_mode": "dash",
       "type": "path",
       "x": -3996.2266,
@@ -381,7 +390,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 41,
+      "id": 42,
       "move_mode": "run",
       "type": "path",
       "x": -4003.5977,
@@ -390,7 +399,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.4)",
-      "id": 42,
+      "id": 43,
       "move_mode": "dash",
       "type": "path",
       "x": -4042.5996,
