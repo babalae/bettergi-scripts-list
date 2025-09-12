@@ -30,7 +30,10 @@
       "0008.春よ、来い（春天，来吧）",
       "0009.One Last Kiss",
       "0010.卡农(MIDI转谱)",
-      "0011.圆号卡农"
+      "0011.圆号卡农",
+      "0012.悠可琴千本樱",
+      "0013.Counting Stars",
+      "0014.Bad Apple"
     ]
   },
   {
@@ -52,5 +55,14 @@
     "name": "repeat_interval",
     "type": "input-text",
     "label": "循环间隔时间（单位：s, 循环模式下生效，默认：0s）"
+  },
+  {
+    "name": "debug_mode",
+    "type": "select",
+    "label": "调试模式（默认：禁用）",
+    "options": [
+      "禁用",
+      "启用"
+    ]
   }
 ]
