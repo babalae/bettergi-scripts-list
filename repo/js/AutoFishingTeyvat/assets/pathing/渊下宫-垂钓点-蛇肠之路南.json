@@ -1,0 +1,85 @@
+{
+    "info": {
+        "name": "渊下宫-垂钓点-蛇肠之路南",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "地区: 渊下宫\n类型: 垂钓点\n详细位置: 蛇肠之路南\n鱼类: 水晶宴、肺棘鱼、佛玛洛鳐、迪芙妲鳐\n饵类: 果酿饵、赤糜饵、飞蝇假饵\n附加信息: 普通",
+        "map_name": "Enkanomiya",
+        "bgi_version": "0.45.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 1409.515,
+            "y": -462.347,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 1410.812,
+            "y": -480.44,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 1407.039,
+            "y": -488.239,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 1409.159,
+            "y": -500.089,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 1404.23,
+            "y": -514.432,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": 1391.264,
+            "y": -523.862,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 7,
+            "x": 1373.303,
+            "y": -522.7,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 8,
+            "x": 1375.642,
+            "y": -520.469,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+        }
+    ]
+}

@@ -1,0 +1,111 @@
+{
+    "info": {
+        "name": "纳塔-垂钓点-奥奇卡纳塔西",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.4",
+        "description": "地区: 纳塔\n类型: 垂钓点\n详细位置: 奥奇卡纳塔西\n鱼类: 深潜斗士急流鱼、繁花斗士急流鱼、伪装鲨鲨独角鱼\n饵类: 澄晶果粒饵\n附加信息: 普通",
+        "bgi_version": "0.42.4"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": 10165.79,
+            "y": -395.63,
+            "type": "teleport",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 10199.27,
+            "y": -416.33,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 10224.55,
+            "y": -423.99,
+            "type": "path",
+            "move_mode": "swim",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 10254.72,
+            "y": -431.42,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 10259.89,
+            "y": -453.22,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": 10270.64,
+            "y": -485.59,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 7,
+            "x": 10276.17,
+            "y": -482.59,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 8,
+            "x": 10280.81,
+            "y": -479.83,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 9,
+            "x": 10295.81,
+            "y": -479.8,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 10,
+            "x": 10319.17,
+            "y": -490.23,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "stop_flying",
+            "action_params": ""
+        },
+        {
+            "id": 11,
+            "x": 10327.2,
+            "y": -489.55,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(2),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+        }
+    ]
+}

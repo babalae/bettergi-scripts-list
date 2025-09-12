@@ -1,0 +1,93 @@
+{
+    "info": {
+        "name": "稻妻-垂钓点-鹤观逢岳之野西南",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.2",
+        "description": "地区: 稻妻\n类型: 垂钓点\n详细位置: 鹤观逢岳之野西南\n鱼类: 花鳉、肺棘鱼、赤魔王、流纹京紫蝶鱼\n饵类: 果酿饵、赤糜饵、蠕虫假饵\n附加信息: 普通",
+        "bgi_version": "0.42.4"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -2612.34,
+            "y": -6508.26,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": -2606.01,
+            "y": -6504.53,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": -2585.35,
+            "y": -6493.05,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": -2512.4,
+            "y": -6451.26,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": -2463.86,
+            "y": -6447.19,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": -2452.94,
+            "y": -6447.46,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 7,
+            "x": -2381.32,
+            "y": -6416.21,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "stop_flying",
+            "action_params": ""
+        },
+        {
+            "id": 8,
+            "x": -2375.78,
+            "y": -6425.19,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 9,
+            "x": -2378.45,
+            "y": -6426.49,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+        }
+    ]
+}

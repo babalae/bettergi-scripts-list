@@ -1,0 +1,84 @@
+{
+    "info": {
+        "name": "须弥-垂钓点-千壑沙地「五绿洲」的孑遗",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.3",
+        "description": "地区: 须弥\n类型: 垂钓点\n详细位置: 千壑沙地「五绿洲」的孑遗\n鱼类: 真果角鲀、吹沙角鲀、暮云角鲀、青金斧枪鱼、翡玉斧枪鱼\n饵类: 甘露饵\n附加信息: 战斗",
+        "bgi_version": "0.42.4"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": 4693.99,
+            "y": -261.94,
+            "type": "teleport",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 4704.69,
+            "y": -260.78,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 4735.3,
+            "y": -219.63,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 4740.08,
+            "y": -214.55,
+            "action": "combat_script",
+            "move_mode": "walk",
+            "action_params": "wait(0.5),keypress(t)",
+            "type": "path"
+        },
+        {
+            "id": 5,
+            "x": 4760.5,
+            "y": -201.04,
+            "action": "combat_script",
+            "move_mode": "walk",
+            "action_params": "wait(0.5),keypress(t)",
+            "type": "path"
+        },
+        {
+            "id": 6,
+            "x": 4811.19,
+            "y": -178.01,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "stop_flying",
+            "action_params": ""
+        },
+        {
+            "id": 7,
+            "x": 4812.44,
+            "y": -179.03,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "fight",
+            "action_params": ""
+        },
+        {
+            "id": 8,
+            "x": 4812.44,
+            "y": -179.03,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(10.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+        }
+    ]
+}
