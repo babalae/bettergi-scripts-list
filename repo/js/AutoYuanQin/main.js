@@ -7,6 +7,7 @@
         QueueMusicOnce: 2, // 队列单次执行
         QueueMusicRepeat: 3, // 队列循环执行
     };
+    let DEBUG = false;
     /**
      * -------- 工具函数 --------
      */
@@ -40,6 +41,7 @@
      * @property {Number} queueInterval - 乐曲队列间隔时间，单位为秒
      * @property {Number} repeatTimes - 循环执行次数
      * @property {Number} repeatInterval - 循环间隔时间，单位为秒
+     * @property {Boolean} debug - 是否启用调试模式
      *
      */
     function get_settings() {
@@ -49,7 +51,8 @@
             musicQueue: [],
             queueInterval: 0,
             repeatTimes: 1,
-            repeatInterval: 0
+            repeatInterval: 0,
+            debug: false
         }
 
 
@@ -106,15 +109,19 @@
                 Settings.musicQueue.push((typeof (settings.music_selector) === 'undefined') ? (undefined) : (settings.music_selector));
             }
             else {
-                let musicIndex = (typeof (settings.music_queue) === 'undefined') ? (undefined) : (settings.music_queue);
-                musicIndex = Array.from(new Set(musicIndex.split(' ').filter(item => item !== ""))); // 去重
+                let music_queue = (typeof (settings.music_queue) === 'undefined') ? (undefined) : (settings.music_queue);
+                if (music_queue === undefined) throw new Error("队列执行无序号");
+                let musicIndex = Array.from(new Set(music_queue.split(' ').filter(item => item !== ""))); // 去重
                 musicList().forEach(music => {
-                    if (music.includes(musicIndex[0])) {
-                        Settings.musicQueue.push(music);
-                        musicIndex.shift();
+                    for (let index = 0; index < musicIndex.length; index += 1) {
+                        if (music.includes(musicIndex[index])) {
+                            Settings.musicQueue.push(music);
+                            musicIndex.splice(index, 1);
+                        }
                     }
                 });
             }
+            Settings.debug = (typeof (settings.debug) === 'undefined') ? (false) : (settings.debug === "启用");
             return Settings;
 
         } catch (error) {
@@ -204,6 +211,7 @@
 
         return MusicInfo;
     }
+
     /**
      *
      * 执行单音
@@ -257,7 +265,7 @@
             await sleep(Math.floor(time * gap));
             keyUp(key);
         }
-        log.info(`总计 ${bar_list.length} 小节, 预计演奏时长 ${bar_list.length * gap * 4 / 1000}秒`);
+        log.info(`总计 ${bar_list.length} 小节, 预计演奏时长 ${(bar_list.length * gap * bar_list[0][0] / 1000).toFixed(2)}秒`);
         for (let i = 0; i < bar_list.length; i++) {
             let bar = bar_list[i];
             let barTime = bar[0];
@@ -266,9 +274,12 @@
                 let note = notes[j];
                 notePlay(note, gap); // 启动音符异步函数
             }
-            await sleep(barTime * gap); // 等待小节结束
+            if (DEBUG) {
+                log.info(`${i} / ${bar_list.length} ${(i / bar_list.length * 100).toFixed(2)}%`)
+            }
+            await sleep(Math.floor(barTime * gap)); // 等待小节结束
         }
-        await sleep(gap * 8); // 额外等待
+        await sleep(Math.floor(gap * 8)); // 额外等待
     }
 
     /**
@@ -605,6 +616,7 @@
         // 如果是midi转换的乐谱
         if (Object.keys(sheet_list[0]).length === 3) {
             for (let i = 0; i < sheet_list.length; i++) {
+                log.info(`时长：${sheet_list[i]["time"]}`)
                 await sleep(Math.round(sheet_list[i]["time"]));
                 if (sheet_list[i]["type"] === "on") {
                     keyDown(sheet_list[i]["note"]);
@@ -625,7 +637,9 @@
             // test 需要额外计算装饰音时值的影响
             for (let i = 0; i < sheet_list.length; i++) {
                 // 显示正在演奏的音符
-                log.info(`${sheet_list[i]["note"]}[${sheet_list[i]["type"]}-${sheet_list[i]["spl"]}]`);
+                if (DEBUG) {
+                    log.info(`${sheet_list[i]["note"]}[${sheet_list[i]["type"]}-${sheet_list[i]["spl"]}]`);
+                }
                 if (sheet_list[i]["spl"] === 'none') { // 单音、休止符或和弦
                     if (sheet_list[i]["chord"]) {
                         await play_chord(sheet_list[i]["note"]); // 和弦
@@ -718,7 +732,6 @@
         if (now.getTime() >= targetTimeStamp) return;
         log.info(`等待至目标时间: ${new Date(targetTimeStamp).toLocaleString()}`);
         if ((targetTimeStamp - now.getTime()) > 100) {
-            log.info(`${Math.floor((targetTimeStamp - now.getTime()) / 1000)}秒后开始`);
             await sleep(targetTimeStamp - now.getTime() - 100);
         }
         while (Date.now() < targetTimeStamp) {
@@ -779,8 +792,8 @@
         if (!checkSheetFile()) return;
 
         let settings_msg = get_settings();
+        DEBUG = settings_msg.debug;
         console.log(`${settings_msg}`)
-        file.writeTextSync("last_settings.json", `${settings_msg}`);
 
         const music_infos = [];
         for (const music_name of settings_msg.musicQueue) {
@@ -795,26 +808,44 @@
 
         const alwaysRepeat = ((settings_msg.playType === PlayType.SingleMusicRepeat || settings_msg.playType === PlayType.QueueMusicRepeat) && (settings_msg.repeatTimes === 0));
         await waitTargetTime(settings_msg.startTime);
-        do {
-            for (const music_info of music_infos) {
-                log.info(`开始演奏: ${music_info.name} - ${music_info.author}`);
-                switch (music_info.type) {
-                    case "yuanqin":
-                        await play_sheet(music_info.notes, music_info.bpm, music_info.time_signature);
-                        break;
-                    case "midi":
-                        await play_sheet(music_info.notes, music_info.bpm, music_info.time_signature);
-                        break;
-                    case "keyboard":
-                        await listNotePlay(music_info.notes, (60000 / music_info.bpm));
-                        break;
-                    default:
-                        break;
+        try {
+            do {
+                for (const music_info of music_infos) {
+                    log.info(`开始演奏: ${music_info.name} - ${music_info.author}`);
+                    switch (music_info.type) {
+                        case "yuanqin":
+                            await play_sheet(music_info.notes, music_info.bpm, music_info.time_signature);
+                            break;
+                        case "midi":
+                            await play_sheet(music_info.notes, music_info.bpm, music_info.time_signature);
+                            break;
+                        case "keyboard":
+                            if (DEBUG) {
+                                log.info(`乐曲已打印至${music_info.name}.json`)
+                                let info = []
+                                music_info.notes.forEach((note, index) => {
+                                    info.push([index, ...note]);
+                                });
+                                file.writeTextSync(`${music_info.name}.json`, `${JSON.stringify(info)}`);
+                            }
+                            await listNotePlay(music_info.notes, (60000 / music_info.bpm));
+                            break;
+                        default:
+                            break;
+                    }
+                    if (settings_msg.queueInterval > 0) await sleep(settings_msg.queueInterval * 1000);
                 }
-                if (settings_msg.queueInterval > 0) await sleep(settings_msg.queueInterval * 1000);
+                if (settings_msg.repeatInterval > 0) await sleep(settings_msg.repeatInterval * 1000);
+            } while (alwaysRepeat || --settings_msg.repeatTimes > 0);
+        } catch (error) {
+            if (DEBUG) {
+                log.error(`脚本执行错误 ${error} erron.txt 已打印`)
+                file.writeTextSync("erron.txt", `${error.stack}`);
             }
-            if (settings_msg.repeatInterval > 0) await sleep(settings_msg.repeatInterval * 1000);
-        } while (alwaysRepeat || --settings_msg.repeatTimes > 0);
+            else {
+                log.error(`脚本执行错误 ${error}`)
+            }
+        }
     }
     await main();
 })();
