@@ -1,0 +1,48 @@
+{
+    "info": {
+        "name": "纳塔-垂钓点-翘枝崖花羽会北",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.2",
+        "description": "地区: 纳塔\n类型: 垂钓点\n详细位置: 翘枝崖花羽会北\n鱼类: 晚霞翻车鲀、深潜斗士急流鱼、伪装鲨鲨独角鱼\n饵类: 澄晶果粒饵\n附加信息: 普通",
+        "bgi_version": "0.42.4"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 9548.26,
+            "y": -1116.55,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 9556.78,
+            "y": -1105.44,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 9570.33,
+            "y": -1059.8,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(space),wait(3.5),attack(0.1)"
+        },
+        {
+            "id": 4,
+            "x": 9574.55,
+            "y": -1051.32,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+        }
+    ]
+}
