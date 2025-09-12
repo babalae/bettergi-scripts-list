@@ -7,7 +7,7 @@
 //如此便可以在js运行过程中伪造地图追踪的日志信息，可以在日志分析等中查看
 
 async function fakeLog(name, isJs, isStart, duration) {
-    await sleep(10);
+    await sleep(1);
     const currentTime = Date.now();
     // 参数检查
     if (typeof name !== 'string') {
@@ -97,8 +97,20 @@ const userSettings = {
     otherPathGroupsCdTypes: settings.otherPathGroupsCdTypes || "",
     partyNames: settings.partyNames || "",
     skipTimeRanges: settings.skipTimeRanges || "",
-    infoFileName: settings.infoFileName || ""
+    infoFileName: settings.infoFileName || "",
+    disableJsons: settings.disableJsons || ""
 };
+
+// 解析禁用名单
+let disableArray = [];
+if (userSettings.disableJsons) {
+    tmp = userSettings.disableJsons.split('；');
+    for (k = 0; k < tmp.length; k++) {
+        s = tmp[k].trim();
+        if (s) disableArray[disableArray.length] = s;
+    }
+}
+
 
 // 将 partyNames 分割并存储到一个数组中
 const partyNamesArray = userSettings.partyNames.split(";").map(name => name.trim());
@@ -122,7 +134,7 @@ if (!userSettings.infoFileName) {
         userSettings.pathGroup2CdType,
         userSettings.pathGroup3CdType,
         userSettings.otherPathGroupsCdTypes,
-    ].join("_");
+    ].join(".");
 }
 
 // 定义自定义函数 basename，用于获取文件名
@@ -159,11 +171,8 @@ async function readFolder(folderPath, onlyJson) {
         // 临时数组，用于存储子文件夹路径
         const subFolders = [];
         for (const filePath of filesInSubFolder) {
-            if (file.IsFolder(filePath)) { // 如果是文件夹，先存储到临时数组中
-                if (filePath.toLowerCase().endsWith(".disabled")) { // 跳过以.disabled结尾的被禁用的路径
-                    log.info(`跳过禁用的文件夹：${filePath}`);
-                    continue;
-                }
+            if (file.IsFolder(filePath)) {
+                // 如果是文件夹，先存储到临时数组中
                 subFolders.push(filePath);
             } else {
                 // 如果是文件，根据 onlyJson 判断是否存储
@@ -197,6 +206,25 @@ async function readFolder(folderPath, onlyJson) {
     return files;
 }
 
+//切换队伍
+async function switchPartyIfNeeded(partyName) {
+    if (!partyName) {
+        await genshin.returnMainUi();
+        return;
+    }
+    try {
+        log.info("正在尝试切换至" + partyName);
+        if (!await genshin.switchParty(partyName)) {
+            log.info("切换队伍失败，前往七天神像重试");
+            await genshin.tpToStatueOfTheSeven();
+            await genshin.switchParty(partyName);
+        }
+    } catch {
+        log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
+        notification.error(`队伍切换失败，可能处于联机模式或其他不可切换状态`);
+        await genshin.returnMainUi();
+    }
+}
 
 (async function () {
     try {
@@ -239,10 +267,10 @@ async function readFolder(folderPath, onlyJson) {
                 const targetFolder = `pathing/路径组${i}`; // 动态生成目标文件夹路径
                 const files = await readFolder(targetFolder, true);
                 const filePaths = files.map(file => file.fullPath);
-                // 如果文件夹为空，跳过当前路径组
+                // 如果文件夹为空，退出循环
                 if (filePaths.length === 0) {
-                    log.info(`路径组${i} 文件夹为空，跳过`);
-                    continue;
+                    log.info(`路径组${i} 文件夹为空，停止处理`);
+                    break;
                 }
                 // 用于存储符合条件的文件名的数组
                 const jsonFileNames = [];
@@ -307,18 +335,12 @@ async function readFolder(folderPath, onlyJson) {
                     let groupNumber = i;
                     const pathGroupFilePath = `${subFolderPath}/路径组${groupNumber}.txt`; // 动态生成路径组文件路径
 
-                    genshin.returnMainUi();
-
-                    //切换到指定配队
-                    if (groupNumber - 1 < partyNamesArray.length && partyNamesArray[groupNumber - 1] !== "") { //队伍配置存在且不为空
-                        await genshin.switchParty(partyNamesArray[groupNumber - 1])
-                    }
-
-                    genshin.returnMainUi();
+                    await genshin.returnMainUi();
 
                     try {
                         let pathGroupContent = await file.readText(pathGroupFilePath);
                         let pathGroupEntries = pathGroupContent.trim().split('\n');
+                        let changedParty = false;
                         for (let i = 0; i < pathGroupEntries.length; i++) {
                             const entryWithTimestamp = pathGroupEntries[i].trim();
                             const [entryName, entryTimestamp] = entryWithTimestamp.split('::');
@@ -334,23 +356,51 @@ async function readFolder(folderPath, onlyJson) {
                             const entryDate = new Date(entryTimestamp);
                             if (startTime <= entryDate) {
                                 log.info(`当前任务 ${entryName} 未刷新，跳过任务 ${i + 1}/${pathGroupEntries.length} 个`);
-                                await sleep(10);
                                 continue; // 跳过当前任务
                             }
 
                             // 新增校验：若当前时间的小时数和 skipTimeRanges 一致，则跳过任务
-                            const currentHour = startTime.getHours(); // 获取当前时间的小时数
-                            const skipHours = userSettings.skipTimeRanges
-                                .split(';')
-                                .map(s => s.trim())
-                                .filter(s => s !== '' && !isNaN(s)) // 过滤空字符串和非数字
-                                .map(Number); // 将 skipTimeRanges 转换为数字数组
-                            if (skipHours.includes(currentHour)) {
-                                log.info(`当前时间的小时数为 ${currentHour}，在跳过时间范围内，跳过任务 ${entryName}`);
-                                continue; // 跳过当前任务
+                            let currentHour = startTime.getHours(); // 获取当前时间的小时数
+                            const currentMin = startTime.getMinutes(); // 获取当前分钟数
+                            const skipHours = userSettings.skipTimeRanges.split(';').map(Number); // 将 skipTimeRanges 转换为数字数组
+
+                            // 10分钟内等待逻辑
+                            const nextHour = (currentHour + 1) % 24;
+                            if (skipHours.includes(nextHour) && currentMin >= 50) {
+                                const waitMin = 60 - currentMin;
+                                log.info(`接近目标时间，开始等待${waitMin}分钟`);
+                                await sleep(waitMin * 60 * 1000);
+                                currentHour = nextHour;
+                                break; // 只等待一次
                             }
 
+                            // 原跳过判断
+                            if (skipHours.includes(currentHour)) {
+                                log.info(`当前时间的小时数为 ${currentHour}，在跳过时间范围内，跳过任务 ${i + 1}/${pathGroupEntries.length} 个`);
+                                await sleep(10);
+                                break; // 跳过当前任务
+                            }
 
+                            let doSkip = false;
+
+                            // 禁用名单跳过（includes 子串匹配）
+                            for (k = 0; k < disableArray.length; k++) {
+                                if (pathingFilePath.includes(disableArray[k])) {
+                                    log.info('路径文件 ' + pathingFilePath + ' 包含禁用关键词 "' + disableArray[k] + '"，跳过任务 ' + entryName);
+                                    doSkip = true;   // 立即进入下一轮任务
+                                    break;
+                                }
+                            }
+
+                            if (doSkip) continue;
+
+                            //切换到指定配队
+                            if (!changedParty) {
+                                if (partyNamesArray[groupNumber - 1] !== "") {
+                                    await switchPartyIfNeeded(partyNamesArray[groupNumber - 1]);
+                                }
+                                changedParty = true;
+                            }
                             //伪造地图追踪开始的日志
                             await fakeLog(entryName, false, true, 0);
 
@@ -368,7 +418,7 @@ async function readFolder(folderPath, onlyJson) {
 
                             //捕获任务取消的信息并跳出循环
                             try {
-                                await sleep(10); // 假设 sleep 是一个异步函数，休眠 10 毫秒
+                                await sleep(1); // 假设 sleep 是一个异步函数，休眠 1 毫秒
                             } catch (error) {
                                 log.error(`发生错误: ${error}`);
                                 break; // 终止循环
