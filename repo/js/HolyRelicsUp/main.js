@@ -1940,10 +1940,9 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
         width: genshinJson.width,
         height: genshinJson.height
     }
-    // 查找筛选按钮元素
-    let aggrandizement = await templateMatchFindByJson(templateJson)
+
     //自动识别界面元素
-    let templateMatch1 = await templateMatch(`${path_base_main}${templateMatch_name}.jpg`)
+    let templateMatch1 = await templateMatchFindByJson(templateJson)
     // 如果默认元素不存在，则切换为"快捷放入"
     let exist = isExist(templateMatch1);
     if (!exist) {
