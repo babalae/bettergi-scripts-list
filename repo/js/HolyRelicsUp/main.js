@@ -249,6 +249,10 @@ const LanguageALLConfigMap = new Map([
                 // , '元素精通'
                 // , '元素充能效率'
             ],
+            attributeFixedMap: new Map([
+                ['生之花', ['生命值']],
+                ['死之羽', ['攻击力']],
+            ]),
             attributeHolyRelickeys: ['生命值', '防御力', '攻击力'],
             holyRelicPartsAsMap: new Map([
                 ['花', '生之花'],
@@ -294,6 +298,7 @@ if (LanguageKey === null || !LanguageKey) {
 const LanguageConfigJson = LanguageALLConfigMap.get(LanguageKey)
 const attributeMap = LanguageConfigJson.attributeMap
 const attributeList = LanguageConfigJson.attributeList
+const attributeFixedMap = LanguageConfigJson.attributeFixedMap
 const AttributeHolyRelickeys = LanguageConfigJson.attributeHolyRelickeys
 const HolyRelicPartsAsMap = LanguageConfigJson.holyRelicPartsAsMap
 const HolyRelicParts = LanguageConfigJson.holyRelicParts
@@ -653,7 +658,7 @@ function templateMatchClickByJson(json, log_msg, source = 'templateMatchClickByJ
  */
 async function openKnapsack() {
     let ms = 600
-    let bag=getJsonPath('bag')
+    let bag = getJsonPath('bag')
     let templateJson = {
         path_base: bag.path,
         text: bag.name,
@@ -1128,7 +1133,7 @@ async function openLvSort() {
     let width = Math.floor(genshinJson.width / 3.0);
     // 获取屏幕高度
     let height = Math.floor(genshinJson.height);
-    let level_sort=getJsonPath('level_sort')
+    let level_sort = getJsonPath('level_sort')
     // 使用OCR识别指定区域的图像
     let templateJson = {
         path_base: level_sort.path,
@@ -1267,10 +1272,9 @@ function parseHolyRelicToMap(input = config.inputAttributeHolyRelic) {
                 warn(`ADD==>name=${name}`);
                 // 处理 main 属性
                 let main;
-                if (name === '生之花') {
-                    main = ['生命值'];
-                } else if (name === '死之羽') {
-                    main = ['攻击力'];
+
+                if (attributeFixedMap.get(name)) {
+                    main = attributeFixedMap.get(name)
                 } else {
                     let mainMatch = p.match(/#([^&*]+)/); // 匹配 # 后的主属性
                     main = mainMatch
@@ -2057,8 +2061,8 @@ async function confirm(log_msg = '点击确认', source = 'confirm') {
  */
 async function clear(source = 'clear') {
     // 通过OCR识别并点击"详情"按钮
-    let info=getJsonPath('info')
-    let strengthen=getJsonPath('strengthen')
+    let info = getJsonPath('info')
+    let strengthen = getJsonPath('strengthen')
     let json = {
         text: info.name,
         type: info.type,
