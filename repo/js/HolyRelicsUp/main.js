@@ -531,6 +531,10 @@ function templateMatchClick(path, log_msg, source = 'templateMatchClick', log_of
     return button
 }
 
+function templateMatchClickByJson(json, log_msg, source = 'templateMatchClickByJson', log_off = config.log_off) {
+    return templateMatchClick(`${json.path_base}${json.name}${json.type}`, log_msg, source, log_off)
+}
+
 //========================以上为基本操作==============================
 //========================以下为实际操作==============================
 
@@ -1049,15 +1053,15 @@ async function unchecked(log_off) {
         text: "1",
         type: ".jpg",
     }
-    await templateMatchClick(`${json.path_base}${json.text}${json.type}`, "取消选择1", source, log_off)
+    await templateMatchClickByJson(json, "取消选择1", source, log_off)
     json.text = '2'
     await wait()
     // 执行第二次模板匹配点击，点击"取消选择2"按钮，并等待1秒
-    await templateMatchClick(`${json.path_base}${json.text}${json.type}`, "取消选择2", source, log_off)
+    await templateMatchClickByJson(json, "取消选择2", source, log_off)
     json.text = '3'
     await wait()
     // 执行第三次模板匹配点击，点击"取消选择3"按钮，并等待1秒
-    await templateMatchClick(`${json.path_base}${json.text}${json.type}`, "取消选择3", source, log_off)
+    await templateMatchClickByJson(json, "取消选择3", source, log_off)
     await wait()
 }
 
@@ -1906,7 +1910,12 @@ async function openAggrandizement() {
  * @returns {Promise<void>}
  */
 async function confirm(log_msg = '点击确认', source = 'confirm') {
-    return await templateMatchClick(`${path_base_main}确认.jpg`, log_msg, source, config.log_off)
+    let json = {
+        text: "确认",
+        type: '.jpg',
+        path_base: path_base_main,
+    }
+    return await templateMatchClickByJson(json, log_msg, source, config.log_off)
 }
 
 /**
@@ -1915,10 +1924,16 @@ async function confirm(log_msg = '点击确认', source = 'confirm') {
  */
 async function clear(source = 'clear') {
     // 通过OCR识别并点击"详情"按钮
-    await templateMatchClick(`${path_base_main}详情.jpg`, "点击详情", source, config.log_off)
+    let json = {
+        text: "详情",
+        type: '.jpg',
+        path_base: path_base_main,
+    }
+    await templateMatchClickByJson(json, "点击详情", source, config.log_off)
+    json.text = '强化'
     await wait(600)
     // 通过OCR识别并点击"强化"按钮
-    await templateMatchClick(`${path_base_main}强化.jpg`, "点击强化", source, config.log_off)
+    await templateMatchClickByJson(json, "点击强化", source, config.log_off)
 }
 
 /**
@@ -1964,16 +1979,31 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
         await info(`${operate} 未打开`)
 
         let name = '设置按键'
-        await templateMatchClick(`${path_base_main}${name}.jpg`, `点击${name}`, source, log_off)
+        let json = {
+            text: name,
+            type: '.jpg',
+            path_base: path_base_main,
+        }
+        await templateMatchClickByJson(json, `点击${name}`, source, log_off)
         await mTo(genshinJson.width / 2, genshinJson.height / 2)
         await wait(ms)
         let name4 = `点击关闭`
         if (operate !== '快捷放入') {
             name4 = `点击开启`
         }
-        await templateMatchClick(`${path_base_main}${name4}.jpg`, `${name4}`, source, log_off)
+        let Json4 = {
+            text: name4,
+            type: '.jpg',
+            path_base: path_base_main,
+        }
+        await templateMatchClickByJson(Json4, `${name4}`, source, log_off)
         let name5 = `关闭设置`
-        await templateMatchClick(`${path_base_main}${name5}.jpg`, `${name5}`, source, log_off)
+        let Json5 = {
+            text: name5,
+            type: '.jpg',
+            path_base: path_base_main,
+        }
+        await templateMatchClickByJson(Json5, `${name5}`, source, log_off)
         mTo(0, 0)
     }
     info(`[放入方式]==>${operate}<==[end]`)
@@ -2133,7 +2163,12 @@ async function upOperate(operate, source = 'upOperate', log_off) {
 
     await wait(ms)
     //点击operate按钮
-    await templateMatchClick(`${path_base_main}${operate}.jpg`, `点击${operate}`, source, log_off)  // 调用模板匹配识别并点击指定按钮
+    let operateJson = {
+        text: operate,
+        path_base: path_base_main,
+        type: '.jpg',
+    }
+    await templateMatchClickByJson(operateJson, `点击${operate}`, source, log_off)  // 调用模板匹配识别并点击指定按钮
     await wait(ms)
 
     let templateMatchHolyRelics = await templateMatchHolyRelicsUpFrequency();
@@ -2169,8 +2204,13 @@ async function upOperate(operate, source = 'upOperate', log_off) {
     await wait(ms)
     // 定义错误信息为"摩拉不足"
     let err = '摩拉不足'
+    let errJson = {
+        text: err,
+        path_base: path_base_main,
+        type: '.jpg',
+    }
     // 检查强化是否成功
-    let upOk = await templateMatchClick(`${path_base_main}${err}.jpg`, `确认强化是否成功`, log_off)
+    let upOk = await templateMatchClickByJson(errJson, `确认强化是否成功`, log_off)
     // 如果识别到错误信息
     if (isExist(upOk)) {
         error(`${err}!`);  // 输出错误信息
@@ -2576,7 +2616,7 @@ async function examine() {
     //检查
     let json = {
         path_base: path_base_main,
-        text:  '祝圣精华',
+        text: '祝圣精华',
         type: '.jpg',
     }
     let template = await templateMatchFindByJson(json)
@@ -2755,7 +2795,12 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             await info(((!re.ok) && !re.start) ? `需求:+${config.upMax},实际:+${re.level},符合要求` : `需求:+${re.level} 强化成功`, must)
             await wait(ms)
             let up_name = '返回键'
-            await templateMatchClick(`${path_base_main}${up_name}.jpg`, `圣遗物已经强化到+${config.upMax}退出强化页面 到圣遗物背包界面`, source, log_off)
+            let upJson = {
+                text: up_name,
+                path_base: path_base_main,
+                type: '.jpg',
+            }
+            await templateMatchClickByJson(upJson, `圣遗物已经强化到+${config.upMax}退出强化页面 到圣遗物背包界面`, source, log_off)
             //返回圣遗物背包
             if (!re.start) {
                 if (!config.sortMain.includes('降序')) {
@@ -2944,8 +2989,8 @@ async function bathClickUpLv2(operate, source = 'bathClickUpLv2', log_off = conf
             await info(msg, must)
             await wait(ms)
             // let up_name = '返回键'
-            let up_json = {name: '返回键', type: '.jpg'}
-            await templateMatchClick(`${path_base_main}${up_json.name}${up_json.type}`, `${msg_log},退出强化页面 到圣遗物背包界面`, source, log_off)
+            let up_json = {text: '返回键', type: '.jpg', path_base: path_base_main}
+            await templateMatchClickByJson(up_json, `${msg_log},退出强化页面 到圣遗物背包界面`, source, log_off)
             //返回圣遗物背包
             if (re.missed || !re.start) {
                 if (!config.sortMain.includes('降序')) {
