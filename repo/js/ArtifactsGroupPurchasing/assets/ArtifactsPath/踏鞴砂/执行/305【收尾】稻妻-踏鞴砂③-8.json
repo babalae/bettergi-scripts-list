@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756487552624,
+    "last_modified_time": 1757695555374,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "305【收尾】稻妻-踏鞴砂③-8",
@@ -108,7 +108,6 @@
     {
       "action": "",
       "id": 11,
-      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
       "x": -3115.250039500832,
@@ -423,14 +422,15 @@
       "id": 48,
       "move_mode": "dash",
       "type": "path",
-      "x": -3027.78125,
-      "y": -3639.155862671112
+      "x": -3031.1171875,
+      "y": -3636.2080078125
     },
     {
       "action": "",
+      "action_params": "",
       "id": 49,
-      "move_mode": "climb",
-      "type": "target",
+      "move_mode": "run",
+      "type": "path",
       "x": -3031.5654296875,
       "y": -3640.2451171875
     },
@@ -438,10 +438,10 @@
       "action": "combat_script",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 50,
-      "move_mode": "run",
-      "type": "path",
-      "x": -3031.8408203125,
-      "y": -3640.0625
+      "move_mode": "climb",
+      "type": "target",
+      "x": -3031.5654296875,
+      "y": -3640.2451171875
     },
     {
       "action": "",

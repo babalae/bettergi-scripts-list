@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757245829673,
+    "last_modified_time": 1757530289290,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "622纳塔-悠悠集市栈道南7",
@@ -182,7 +182,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(x),wait(0.3),keydown(Q),keypress(f),wait(0.8),keypress(f),keyup(Q),wait(0.1),j,keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),attack(0.08)",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
       "id": 19,
       "move_mode": "climb",
       "type": "target",
