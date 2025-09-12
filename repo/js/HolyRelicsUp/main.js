@@ -209,6 +209,7 @@ const genshinJson = {
     width: genshin.width,
     height: genshin.height,
 }
+
 const attributeMap = new Map([
     ['%', '百分比'],
     ['生命', '生命值'],
@@ -291,7 +292,60 @@ function attributeReplacement(value) {
 
 //基础目录
 const path_base_main = `assets/main/`
-const path_base_sort = `${path_base_main}sort/`
+// const path_base_sort = `${path_base_main}sort/`
+
+const commonPath = `assets/common/`
+const commonMap = new Map([
+    ['exp', {name: 'exp', type: '.jpg'}],
+    ['slide_bar_main_down', {name: 'slide_bar_main_down', type: '.png'}],
+    ['slide_bar_main_up', {name: 'slide_bar_main_up', type: '.png'}],
+    ['main_interface', {name: '主界面', type: '.png'}],
+    ['five_star', {name: '五星', type: '.jpg'}],
+    ['close_settings', {name: '关闭设置', type: '.jpg'}],
+    // ['delete', {name: '删除键', type: '.jpg'}],
+    // ['package', {name: '包裹', type: '.jpg'}],
+    ['holy_relic', {name: '圣遗物', type: '.jpg'}],
+    ['sort', {name: '排序', type: '.jpg'}],
+    // ['sort_progress_bar_bottom_arrow', {name: '排序进度条底部箭头', type: '.jpg'}],
+    ['click_close', {name: '点击关闭', type: '.jpg'}],
+    ['click_open', {name: '点击开启', type: '.jpg'}],
+    ['confirm', {name: '确认', type: '.jpg'}],
+    ['sift', {name: '筛选', type: '.jpg'}],
+    // ['sift_holy_relic', {name: '筛选圣遗物套装', type: '.jpg'}],
+    ['return_key', {name: '返回键', type: '.jpg'}],
+    ['enter_filter_holy_relic_ui', {name: '进入筛选圣遗物界面', type: '.jpg'}],
+    // ['progress_bar', {name: '进度条', type: '.jpg'}],
+    // ['enter_progress_bar_bottom', {name: '进度条底部', type: '.jpg'}],
+    // ['enter_progress_bar_top', {name: '进度条顶部', type: '.jpg'}],
+    // ['enter_progress_bar_top_arrow', {name: '进度条顶部箭头', type: '.jpg'}],
+    // ['send_gift_gift_choose', {name: '选择素材条件按键', type: '.jpg'}],
+    ['reset', {name: '重置', type: '.jpg'}],
+    ['setting_button', {name: '设置按键', type: '.jpg'}],
+    ['common_sort1', {name: '1', type: '.jpg', sub: 'sort'}],
+    ['common_sort2', {name: '2', type: '.jpg', sub: 'sort'}],
+    ['common_sort3', {name: '3', type: '.jpg', sub: 'sort'}],
+]);
+
+function getJsonPath(key) {
+    let commonJson = commonMap.get(key);
+    if (commonJson && commonJson.sub) {
+        return {
+            name: commonJson.name,
+            type: commonJson.type,
+            path: `${commonPath}${commonJson.sub}/`
+        }
+    } else if (commonJson) {
+        return {
+            name: commonJson.name,
+            type: commonJson.type,
+            path: `${commonPath}`
+        }
+    } else {
+        throwError(`不存在图片`)
+        return undefined
+    }
+}
+
 //========================以上为基本配置==============================
 //========================以下为基本操作==============================
 function infoLog(msg, source = '默认', log_off = config.log_off) {
@@ -360,20 +414,23 @@ async function scrollPagesByHolyRelics(isUp = false, pages = 1) {
     let click_x = Math.floor(genshinJson.width * 1289 / 1920)
     let page_distance = Math.floor(genshinJson.height * 15 / 1080)
     let threshold = 0.6 // 模板匹配的阈值
+
+    let slideBarUpJson = getJsonPath('slide_bar_main_up');
     let slideBarUp = {
-        path_base: `${path_base_main}`,
-        name: `slide_bar_main_up`,
-        type: `.png`,
+        path_base: slideBarUpJson.path,
+        name: slideBarUpJson.name,
+        type: slideBarUpJson.type,
         x: templateMatch_x,
         y: templateMatch_y,
         width: templateMatch_width,
         height: templateMatch_height,
         threshold: threshold
     }
+    let slideBarDownJson = getJsonPath('slide_bar_main_down');
     let slideBarDown = {
-        path_base: `${path_base_main}`,
-        name: `slide_bar_main_down`,
-        type: `.png`,
+        path_base: slideBarDownJson.path,
+        name: slideBarDownJson.name,
+        type: slideBarDownJson.type,
         x: templateMatch_x,
         y: templateMatch_y,
         width: templateMatch_width,
@@ -594,7 +651,11 @@ async function templateMatchHolyRelicsKnapsack() {
     let holyRelicsKnapsack = templateMatchFindByJson(templateJson)
     await wait(ms)
     if (!isExist(holyRelicsKnapsack)) {
-        templateJson.text = "圣遗物"
+        // templateJson.text = "圣遗物"
+        let holy_relic = getJsonPath('holy_relic')
+        templateJson.text = holy_relic.name
+        templateJson.type = holy_relic.type
+        templateJson.path_base = holy_relic.path
         holyRelicsKnapsack = templateMatchFindByJson(templateJson)
     }
     return holyRelicsKnapsack
@@ -637,10 +698,11 @@ async function openHolyRelicsKnapsack() {
  */
 async function resetSift() {
     let ms = 600
+    let siftJson = getJsonPath('sift')
     let templateMatchJson = {
-        path_base: `${path_base_main}`,
-        text: "筛选",
-        type: ".jpg",
+        path_base: siftJson.path,
+        text: siftJson.name,
+        type: siftJson.type,
         x: 0,
         y: 0,
         width: genshinJson.width / 3.0,
@@ -660,10 +722,11 @@ async function resetSift() {
         // const resetRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("${path_base_main}重置.jpg"), 0, 0, genshinJson.width / 3.0, genshinJson.height);
         // // 查找重置按钮元素
         // let reset = captureGameRegion().find(resetRo);
+        let resetJson = getJsonPath('reset');
         let templateResetJson = {
-            text: "重置",
-            path_base: `${path_base_main}`,
-            type: ".jpg",
+            text: resetJson.name,
+            path_base: resetJson.path,
+            type: resetJson.type,
             x: 0,
             y: 0,
             width: genshinJson.width / 3.0,
@@ -703,10 +766,11 @@ async function openSiftHolyRelicsSuitUI_Start(keyword = config.suit, source = 'H
     info('开始筛选圣遗物套装请稍后...', must)
     let keywordsOk = new Array()
     //1.open
+    let uiJson = getJsonPath("enter_filter_holy_relic_ui")
     let siftSiftHolyRelicsSuitUIJson = {
-        text: "进入筛选圣遗物界面",    // 按钮显示的文本内容
-        path_base: `${path_base_main}`,
-        type: ".jpg",
+        text: uiJson.name,    // 按钮显示的文本内容
+        path_base: uiJson.path,
+        type: uiJson.type,
         x: 0,                    // 按钮的x坐标
         y: 0,                    // 按钮的y坐标
         width: genshinJson.width / 3.0,  // 按钮的宽度为屏幕宽度的1/3
@@ -936,11 +1000,11 @@ async function openSort(log_off = config.log_off) {
     let width = Math.floor(genshinJson.width / 3.0);
     // 获取屏幕高度
     let height = Math.floor(genshinJson.height);
-
+    let sortJsonPath = getJsonPath('sort');
     let templateJson = {
-        path_base: `${path_base_main}`,
-        text: "排序",
-        type: ".jpg",
+        path_base: sortJsonPath.path,
+        text: sortJsonPath.name,
+        type: sortJsonPath.type,
         x: 0,
         y: 0,
         width: width,
@@ -1048,17 +1112,29 @@ async function openLvSort() {
 async function unchecked(log_off) {
     let source = 'unchecked'
     // 执行第一次模板匹配点击，点击"取消选择1"按钮，并等待1秒
+    let sort1 = getJsonPath('common_sort1')
+    let sort2 = getJsonPath('common_sort2')
+    let sort3 = getJsonPath('common_sort3')
+
     let json = {
-        path_base: `${path_base_sort}`,
-        text: "1",
-        type: ".jpg",
+        path_base: sort1.path,
+        text: sort1.name,
+        type: sort1.type,
     }
     await templateMatchClickByJson(json, "取消选择1", source, log_off)
-    json.text = '2'
+    json = {
+        path_base: sort2.path,
+        text: sort2.name,
+        type: sort2.type,
+    }
     await wait()
     // 执行第二次模板匹配点击，点击"取消选择2"按钮，并等待1秒
     await templateMatchClickByJson(json, "取消选择2", source, log_off)
-    json.text = '3'
+    json = {
+        path_base: sort3.path,
+        text: sort3.name,
+        type: sort3.type,
+    }
     await wait()
     // 执行第三次模板匹配点击，点击"取消选择3"按钮，并等待1秒
     await templateMatchClickByJson(json, "取消选择3", source, log_off)
@@ -1844,10 +1920,11 @@ async function downClickFirstHolyRelics() {
 
 // 判断是否在主界面的函数
 const isInMainUI = () => {
-    let name = '主界面'
+    // let name = '主界面'
+    let main_interface = getJsonPath('main_interface');
     // 定义识别对象
     let paimonMenuRo = RecognitionObject.TemplateMatch(
-        file.ReadImageMatSync(`${path_base_main}${name}.png`),
+        file.ReadImageMatSync(`${main_interface.path}${main_interface.name}${main_interface.type}`),
         0,
         0,
         genshin.width / 3.0,
@@ -1910,10 +1987,11 @@ async function openAggrandizement() {
  * @returns {Promise<void>}
  */
 async function confirm(log_msg = '点击确认', source = 'confirm') {
+    let confirmJson = getJsonPath('confirm');
     let json = {
-        text: "确认",
-        type: '.jpg',
-        path_base: path_base_main,
+        text: confirmJson.name,
+        type: confirmJson.type,
+        path_base: confirmJson.path,
     }
     return await templateMatchClickByJson(json, log_msg, source, config.log_off)
 }
@@ -1978,32 +2056,38 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
         //和自动识别互斥  自启动 阶段放入||快捷放入
         await info(`${operate} 未打开`)
 
-        let name = '设置按键'
+        // let name = '设置按键'
+        let settingButtonJsonPath = getJsonPath('setting_button');
         let json = {
-            text: name,
-            type: '.jpg',
-            path_base: path_base_main,
+            text: settingButtonJsonPath.name,
+            type: settingButtonJsonPath.type,
+            path_base: settingButtonJsonPath.path,
         }
-        await templateMatchClickByJson(json, `点击${name}`, source, log_off)
+        await templateMatchClickByJson(json, `点击${json.text}`, source, log_off)
         await mTo(genshinJson.width / 2, genshinJson.height / 2)
         await wait(ms)
-        let name4 = `点击关闭`
+        let clickJsonPath
+        // let name4 = `点击关闭`
         if (operate !== '快捷放入') {
-            name4 = `点击开启`
+            // name4 = `点击开启`
+            clickJsonPath = getJsonPath('click_open');
+        } else {
+            clickJsonPath = getJsonPath('click_close');
         }
         let Json4 = {
-            text: name4,
-            type: '.jpg',
-            path_base: path_base_main,
+            text: clickJsonPath.name,
+            type: clickJsonPath.type,
+            path_base: clickJsonPath.path,
         }
-        await templateMatchClickByJson(Json4, `${name4}`, source, log_off)
-        let name5 = `关闭设置`
+        await templateMatchClickByJson(Json4, `${clickJsonPath.name}`, source, log_off)
+        // let name5 = `关闭设置`
+        let closeSettingsJsonPath = getJsonPath('close_settings');
         let Json5 = {
-            text: name5,
-            type: '.jpg',
-            path_base: path_base_main,
+            text: closeSettingsJsonPath.name,
+            type: closeSettingsJsonPath.type,
+            path_base: closeSettingsJsonPath.path,
         }
-        await templateMatchClickByJson(Json5, `${name5}`, source, log_off)
+        await templateMatchClickByJson(Json5, `${Json5.text}`, source, log_off)
         mTo(0, 0)
     }
     info(`[放入方式]==>${operate}<==[end]`)
@@ -2636,10 +2720,11 @@ async function examine() {
         return reJson
     }
 
+    let five_star_json = getJsonPath('five_star');
     let teJson = {
-        path_base: path_base_main,
-        text: '五星',
-        type: '.jpg',
+        path_base: five_star_json.path,
+        text: five_star_json.name,
+        type: five_star_json.type,
         x: Math.ceil(genshinJson.width * 1314 / 1920),
         y: Math.ceil(genshinJson.height * 128 / 1080),
         width: Math.floor(genshinJson.width * 475 / 1920),
@@ -2794,11 +2879,12 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             // 如果强化成功，则继续下一个圣遗物
             await info(((!re.ok) && !re.start) ? `需求:+${config.upMax},实际:+${re.level},符合要求` : `需求:+${re.level} 强化成功`, must)
             await wait(ms)
-            let up_name = '返回键'
+            // let up_name = '返回键'
+            let return_key_json = getJsonPath('return_key')
             let upJson = {
-                text: up_name,
-                path_base: path_base_main,
-                type: '.jpg',
+                text: return_key_json.name,
+                path_base: return_key_json.path,
+                type: return_key_json.type,
             }
             await templateMatchClickByJson(upJson, `圣遗物已经强化到+${config.upMax}退出强化页面 到圣遗物背包界面`, source, log_off)
             //返回圣遗物背包
