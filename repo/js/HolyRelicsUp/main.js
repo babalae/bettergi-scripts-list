@@ -360,15 +360,34 @@ async function scrollPagesByHolyRelics(isUp = false, pages = 1) {
     let click_x = Math.floor(genshinJson.width * 1289 / 1920)
     let page_distance = Math.floor(genshinJson.height * 15 / 1080)
     let threshold = 0.6 // 模板匹配的阈值
-
+    let slideBarUp = {
+        path_base: `${path_base_main}`,
+        name: `slide_bar_main_up`,
+        type: `.png`,
+        x: templateMatch_x,
+        y: templateMatch_y,
+        width: templateMatch_width,
+        height: templateMatch_height,
+        threshold: threshold
+    }
+    let slideBarDown = {
+        path_base: `${path_base_main}`,
+        name: `slide_bar_main_down`,
+        type: `.png`,
+        x: templateMatch_x,
+        y: templateMatch_y,
+        width: templateMatch_width,
+        height: templateMatch_height,
+        threshold: threshold
+    }
     // 循环执行滑动操作，次数由pages参数决定
     for (let i = 0; i < pages; i++) {
         moveByMouse(genshinJson.width / 2, genshinJson.height / 2); // 移走鼠标，防止干扰识别
         await wait(ms)
 
         // 查找向上和向下的滑块
-        let slide_bar_up = await templateMatchFind(`${path_base_main}slide_bar_main_up.png`, templateMatch_x, templateMatch_y, templateMatch_width, templateMatch_height, threshold);
-        let slide_bar_down = await templateMatchFind(`${path_base_main}slide_bar_main_down.png`, templateMatch_x, templateMatch_y, templateMatch_width, templateMatch_height, threshold);
+        let slide_bar_up = await templateMatchFindByJson(slideBarUp);
+        let slide_bar_down = await templateMatchFindByJson(slideBarDown);
 
         // closeCaptureGameRegion(gameRegion)
         if (isExist(slide_bar_up) && isExist(slide_bar_down)) {
@@ -454,7 +473,7 @@ async function scrollPage(totalDistance, isUp = false, waitCount = 6, stepDistan
  * @param threshold {number}
  * @returns {Promise<*>} - 返回一个Promise对象，解析为识别结果
  */
-function templateMatchFind(path, x, y, width, height, threshold = undefined) {
+function templateMatchFind(path, x = 0, y = 0, width = genshinJson.width, height = genshinJson.height, threshold = undefined) {
     // 使用模板匹配方法创建识别对象
     // 从指定路径读取图像矩阵并进行模板匹配
     let templateMatchButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${path}`), x, y, width, height);
@@ -469,6 +488,9 @@ function templateMatchFind(path, x, y, width, height, threshold = undefined) {
     return button
 }
 
+function templateMatchFindByJson(json) {
+    return templateMatchFind(`${json.path_base}${json.name}${json.type}`, json.x, json.y, json.width, json.height, json.threshold)
+}
 
 /**
  * 模板匹配函数，用于在指定路径下进行图像模板匹配
@@ -477,7 +499,7 @@ function templateMatchFind(path, x, y, width, height, threshold = undefined) {
  */
 function templateMatch(path) {
     // 调用基础模板匹配函数，传入路径、初始坐标(0,0)以及目标图像的宽高
-    return templateMatchFind(`${path}`, 0, 0, genshinJson.width, genshinJson.height)
+    return templateMatchFind(`${path}`)
 }
 
 
@@ -520,13 +542,15 @@ function templateMatchClick(path, log_msg, source = 'templateMatchClick', log_of
 async function openKnapsack() {
     let ms = 600
     let templateJson = {
-        "text": "背包",
-        "x": 0,
-        "y": 0,
-        "width": genshinJson.width / 3.0,
-        "height": genshinJson.width / 5.0
+        path_base: `${path_base_main}`,
+        text: "背包",
+        type: ".jpg",
+        x: 0,
+        y: 0,
+        width: genshinJson.width / 3.0,
+        height: genshinJson.width / 5.0
     }
-    let knapsack = await templateMatchFind(`${path_base_main}${templateJson.text}.jpg`, templateJson.x, templateJson.y, templateJson.width, templateJson.height)
+    let knapsack = await templateMatchFindByJson(templateJson)
     // 如果背包不存在（即背包未打开）
     let exist = isExist(knapsack);
     if (!exist) {
@@ -554,17 +578,20 @@ async function openKnapsack() {
 async function templateMatchHolyRelicsKnapsack() {
     let ms = 600
     let templateJson = {
-        "text": "已选中圣遗物背包",               // 要识别的文本内容，即"圣遗物"三个字
-        "x": 0,                       // 识别区域的起始x坐标，设为0表示从屏幕最左侧开始
-        "y": 0,                       // 识别区域的起始y坐标，设为0表示从屏幕最顶部开始
-        "width": genshinJson.width,    // 识别区域的宽度（屏幕宽度的一半）
-        "height": genshinJson.height / 5.0   // 识别区域的高度（屏幕宽度的五分之一）
+        path_base: `${path_base_main}`,
+        text: "已选中圣遗物背包",               // 要识别的文本内容，即"圣遗物"三个字
+        type: ".jpg",
+        x: 0,                       // 识别区域的起始x坐标，设为0表示从屏幕最左侧开始
+        y: 0,                       // 识别区域的起始y坐标，设为0表示从屏幕最顶部开始
+        width: genshinJson.width,    // 识别区域的宽度（屏幕宽度的一半）
+        height: genshinJson.height / 5.0,   // 识别区域的高度（屏幕宽度的五分之一）
+        threshold: 0.6
     }
-    let holyRelicsKnapsack = templateMatchFind(`${path_base_main}${templateJson.text}.jpg`, templateJson.x, templateJson.y, templateJson.width, templateJson.height, 0.6)
+    let holyRelicsKnapsack = templateMatchFindByJson(templateJson)
     await wait(ms)
     if (!isExist(holyRelicsKnapsack)) {
         templateJson.text = "圣遗物"
-        holyRelicsKnapsack = templateMatchFind(`${path_base_main}${templateJson.text}.jpg`, templateJson.x, templateJson.y, templateJson.width, templateJson.height, 0.6)
+        holyRelicsKnapsack = templateMatchFindByJson(templateJson)
     }
     return holyRelicsKnapsack
 }
@@ -607,14 +634,16 @@ async function openHolyRelicsKnapsack() {
 async function resetSift() {
     let ms = 600
     let templateMatchJson = {
-        "text": "筛选",
-        "x": 0,
-        "y": 0,
-        "width": genshinJson.width / 3.0,
-        "height": genshinJson.height
+        path_base: `${path_base_main}`,
+        text: "筛选",
+        type: ".jpg",
+        x: 0,
+        y: 0,
+        width: genshinJson.width / 3.0,
+        height: genshinJson.height
     }
     // 查找筛选按钮元素
-    let sift = templateMatchFind(`${path_base_main}${templateMatchJson.text}.jpg`, templateMatchJson.x, templateMatchJson.y, templateMatchJson.width, templateMatchJson.height)
+    let sift = templateMatchFindByJson(templateMatchJson)
     await wait(ms);
     // 判断筛选按钮是否存在
     let exist = isExist(sift);
@@ -628,14 +657,16 @@ async function resetSift() {
         // // 查找重置按钮元素
         // let reset = captureGameRegion().find(resetRo);
         let templateResetJson = {
-            "text": "重置",
-            "x": 0,
-            "y": 0,
-            "width": genshinJson.width / 3.0,
-            "height": genshinJson.height
+            text: "重置",
+            path_base: `${path_base_main}`,
+            type: ".jpg",
+            x: 0,
+            y: 0,
+            width: genshinJson.width / 3.0,
+            height: genshinJson.height
         }
         // 查找重置按钮元素
-        let reset = await templateMatchFind(`${path_base_main}${templateResetJson.text}.jpg`, templateResetJson.x, templateResetJson.y, templateResetJson.width, templateResetJson.height)
+        let reset = await templateMatchFindByJson(templateResetJson)
         await wait(ms);
         // 判断重置按钮是否存在
         exist1 = isExist(reset);
@@ -669,14 +700,16 @@ async function openSiftHolyRelicsSuitUI_Start(keyword = config.suit, source = 'H
     let keywordsOk = new Array()
     //1.open
     let siftSiftHolyRelicsSuitUIJson = {
-        "text": "进入筛选圣遗物界面",    // 按钮显示的文本内容
-        "x": 0,                    // 按钮的x坐标
-        "y": 0,                    // 按钮的y坐标
-        "width": genshinJson.width / 3.0,  // 按钮的宽度为屏幕宽度的1/3
-        "height": genshinJson.height      // 按钮的高度为整个屏幕高度
+        text: "进入筛选圣遗物界面",    // 按钮显示的文本内容
+        path_base: `${path_base_main}`,
+        type: ".jpg",
+        x: 0,                    // 按钮的x坐标
+        y: 0,                    // 按钮的y坐标
+        width: genshinJson.width / 3.0,  // 按钮的宽度为屏幕宽度的1/3
+        height: genshinJson.height      // 按钮的高度为整个屏幕高度
     }
     info('筛选:' + keywords.join(','), must)
-    let sift = await templateMatchFind(`${path_base_main}${siftSiftHolyRelicsSuitUIJson.text}.jpg`, siftSiftHolyRelicsSuitUIJson.x, siftSiftHolyRelicsSuitUIJson.y, siftSiftHolyRelicsSuitUIJson.width, siftSiftHolyRelicsSuitUIJson.height)
+    let sift = await templateMatchFindByJson(siftSiftHolyRelicsSuitUIJson)
     await wait(ms)
     let exist = isExist(sift);
 
@@ -895,13 +928,23 @@ async function openSiftAll(log_off = config.log_off) {
  * <前置条件:处于圣遗物背包界面|测试通过:v>
  */
 async function openSort(log_off = config.log_off) {
-    let up_name = '排序'
     // 计算按钮宽度为屏幕宽度的三分之一
     let width = Math.floor(genshinJson.width / 3.0);
     // 获取屏幕高度
     let height = Math.floor(genshinJson.height);
+
+    let templateJson = {
+        path_base: `${path_base_main}`,
+        text: "排序",
+        type: ".jpg",
+        x: 0,
+        y: 0,
+        width: width,
+        height: height
+    }
+
     // 使用模板指定区域的图像
-    let templateMatch = await templateMatchFind(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
+    let templateMatch = await templateMatchFindByJson(templateJson)
     // 检查模板结果是否存在（即升序按钮是否可见）
     if (isExist(templateMatch)) {
         await logInfoTemplate(templateMatch, 'openSort')
@@ -922,7 +965,20 @@ async function openUpSort() {
     let width = Math.floor(genshinJson.width / 3.0);
     // 获取屏幕高度
     let height = Math.floor(genshinJson.height);
-    let templateMatch = await templateMatchFind(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
+
+    let templateJson = {
+        path_base: `${path_base_main}`,
+        text: up_name,
+        type: ".jpg",
+        x: 0,
+        y: 0,
+        width: width,
+        height: height
+    }
+
+    // 使用模板指定区域的图像
+    let templateMatch = await templateMatchFindByJson(templateJson)
+
     await wait()
     // 检查OCR识别结果是否存在（即升序按钮是否可见）
     if (isExist(templateMatch)) {
@@ -953,7 +1009,18 @@ async function openLvSort() {
     // 获取屏幕高度
     let height = Math.floor(genshinJson.height);
     // 使用OCR识别指定区域的图像
-    let templateMatch = await templateMatchFind(`${path_base_main}${up_name}.jpg`, 0, 0, width, height)
+    let templateJson = {
+        path_base: `${path_base_main}`,
+        text: up_name,
+        type: ".jpg",
+        x: 0,
+        y: 0,
+        width: width,
+        height: height
+    }
+
+    // 使用模板指定区域的图像
+    let templateMatch = await templateMatchFindByJson(templateJson)
     // await wait(100)
     if (isExist(templateMatch)) {
         // 更新按钮名称为选中状态
@@ -977,13 +1044,20 @@ async function openLvSort() {
 async function unchecked(log_off) {
     let source = 'unchecked'
     // 执行第一次模板匹配点击，点击"取消选择1"按钮，并等待1秒
-    await templateMatchClick(`${path_base_sort}1.jpg`, "取消选择1", source, log_off)
+    let json = {
+        path_base: `${path_base_sort}`,
+        text: "1",
+        type: ".jpg",
+    }
+    await templateMatchClick(`${json.path_base}${json.text}${json.type}`, "取消选择1", source, log_off)
+    json.text = '2'
     await wait()
     // 执行第二次模板匹配点击，点击"取消选择2"按钮，并等待1秒
-    await templateMatchClick(`${path_base_sort}2.jpg`, "取消选择2", source, log_off)
+    await templateMatchClick(`${json.path_base}${json.text}${json.type}`, "取消选择2", source, log_off)
+    json.text = '3'
     await wait()
     // 执行第三次模板匹配点击，点击"取消选择3"按钮，并等待1秒
-    await templateMatchClick(`${path_base_sort}3.jpg`, "取消选择3", source, log_off)
+    await templateMatchClick(`${json.path_base}${json.text}${json.type}`, "取消选择3", source, log_off)
     await wait()
 }
 
@@ -1330,12 +1404,23 @@ async function resetAttributeSort(log_off = config.log_off) {
     await scrollPageByAttributeSortInit()
     await wait()
     let template_name = '属性排序规则'
+
+    let templateJson = {
+        path_base: `${path_base_main}`,
+        text: template_name,
+        type: ".jpg",
+        x: 0,
+        y: 0,
+        width: width,
+        height: genshinJson.height
+    }
+
     for (let index = 1; index <= 5; index++) {
         await unchecked(log_off)
         await mTo(x, y)
         await scrollPageByAttributeSortClick()
 
-        let templateMatch = await templateMatchFind(`${path_base_main}${template_name}.jpg`, 0, 0, width, genshinJson.height)
+        let templateMatch = await templateMatchFindByJson(templateJson)
         if (isExist(templateMatch)) {
             await unchecked(log_off)
             await info(`已到顶`)
@@ -1391,6 +1476,15 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
     await scrollPageByAttributeSortInit()
     // await wait(100)
     let template_name = '属性排序规则'
+    let templateJson = {
+        path_base: `${path_base_main}`,
+        text: template_name,
+        type: ".jpg",
+        x: 0,
+        y: 0,
+        width: width,
+        height: genshinJson.height
+    }
 
     let sort = new Array()
     let templateMatch_y = Math.floor(60 * genshinJson.height / 1080)
@@ -1430,7 +1524,7 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
         await scrollPageByAttributeSortClick()
         await wait(ms)
 
-        let templateMatch = templateMatchFind(`${path_base_main}${template_name}.jpg`, 0, 0, width, genshinJson.height)
+        let templateMatch = await templateMatchFindByJson(templateJson)
         if (isExist(templateMatch)) {
 
             let captureRegion = openCaptureGameRegion();
@@ -1658,14 +1752,17 @@ async function clickProgressBarTopByHolyRelics() {
 
 
     let templateMatchJson = {
-        "text": "筛选",
-        "x": 0,
-        "y": 0,
-        "width": genshinJson.width / 3.0,
-        "height": genshinJson.height
+        text: "筛选",
+        type: '.jpg',
+        path_base: path_base_main,
+        x: 0,
+        y: 0,
+        width: genshinJson.width / 3.0,
+        height: genshinJson.height
     }
     // 查找筛选按钮元素
-    let sift = templateMatchFind(`${path_base_main}${templateMatchJson.text}.jpg`, templateMatchJson.x, templateMatchJson.y, templateMatchJson.width, templateMatchJson.height)
+    let sift = await templateMatchFindByJson(templateMatchJson)
+
     // let templateMatch = await templateMatch(`${path_base_main}确认.jpg`, 0, 0, Math.floor(genshinJson.width / 2), Math.floor(genshinJson.height / 2))
     // logInfoTemplate(templateMatch)
     if (isExist(sift)) {
@@ -1773,14 +1870,17 @@ async function openAggrandizement() {
     // let aggrandizement = captureGameRegion().find(aggrandizementRo);
     // 定义OCR识别的JSON对象，包含文本和位置信息
     let templateJson = {
-        "text": "强化",    // 要识别的文本内容
-        "x": 0,           // 识别区域的左上角x坐标
-        "y": 0,           // 识别区域的左上角y坐标
-        "width": genshinJson.width,    // 识别区域的宽度
-        "height": genshinJson.height   // 识别区域的高度
+        text: "强化",
+        type: '.jpg',
+        path_base: path_base_main,
+        x: 0,
+        y: 0,
+        width: genshinJson.width,
+        height: genshinJson.height
     }
-    // 使用模板匹配方法查找强化按钮
-    let aggrandizement = templateMatchFind(`${path_base_main}${templateJson.text}.jpg`, templateJson.x, templateJson.y, templateJson.width, templateJson.height)
+    // 查找筛选按钮元素
+    let aggrandizement = await templateMatchFindByJson(templateJson)
+
     await logInfoTemplate(aggrandizement, 'openAggrandizement')
 
     // 检查强化按钮是否存在
@@ -1831,6 +1931,17 @@ async function clear(source = 'clear') {
 async function operateDispose(operate, enableInsertionMethod, source = 'operateDispose', log_off) {
     let ms = 600
     let templateMatch_name = '阶段放入'  // 默认使用"阶段放入"进行OCR识别
+    let templateJson = {
+        text: templateMatch_name,
+        type: '.jpg',
+        path_base: path_base_main,
+        x: 0,
+        y: 0,
+        width: genshinJson.width,
+        height: genshinJson.height
+    }
+    // 查找筛选按钮元素
+    let aggrandizement = await templateMatchFindByJson(templateJson)
     //自动识别界面元素
     let templateMatch1 = await templateMatch(`${path_base_main}${templateMatch_name}.jpg`)
     // 如果默认元素不存在，则切换为"快捷放入"
@@ -2464,24 +2575,32 @@ async function examine() {
         msg: ''
     }
     //检查
-    let template_name = '祝圣精华'
-    let template = await templateMatch(`${path_base_main}${template_name}.jpg`)
+    let json = {
+        path_base: path_base_main,
+        text:  '祝圣精华',
+        type: '.jpg',
+    }
+    let template = await templateMatchFindByJson(json)
     if (isExist(template)) {
         // error(`[匹配到${template_name}-退出强化]圣遗物强化+${config.upMax} 数量：${actualCount}`, must)
         reJson.err = true
-        reJson.msg = `[匹配到${template_name}-退出强化]`
+        reJson.msg = `[匹配到${json.text}-退出强化]`
         return reJson
     }
     await wait(ms)
-    template_name = '祝圣油膏'
-    template = await templateMatch(`${path_base_main}${template_name}.jpg`)
+    json.text = '祝圣油膏'
+    template = await templateMatchFindByJson(json)
     if (isExist(template)) {
         // error(`[匹配到${template_name}-退出强化]圣遗物强化+${config.upMax} 数量：${actualCount}`, must)
         reJson.err = true
-        reJson.msg = `[匹配到${template_name}-退出强化]`
+        reJson.msg = `[匹配到${json.text}-退出强化]`
         return reJson
     }
+
     let teJson = {
+        path_base: path_base_main,
+        text: '五星',
+        type: '.jpg',
         x: Math.ceil(genshinJson.width * 1314 / 1920),
         y: Math.ceil(genshinJson.height * 128 / 1080),
         width: Math.floor(genshinJson.width * 475 / 1920),
@@ -2491,12 +2610,12 @@ async function examine() {
     await wait(ms)
     await scrollPage(100, true, 6, 30, 1)
     //检查
-    let te_name = '五星'
-    let te = await templateMatchFind(`${path_base_main}${te_name}.jpg`, teJson.x, teJson.y, teJson.width, teJson.height)
+
+    let te = await templateMatchFindByJson(teJson)
     if (!isExist(te)) {
         // warn(`[匹配到非${te_name}-跳过]`, must)
         reJson.cont = true
-        reJson.msg = `[匹配到非${te_name}-跳过]`
+        reJson.msg = `[匹配到非${teJson.text}-跳过]`
     }
     return reJson
 }
@@ -2825,8 +2944,9 @@ async function bathClickUpLv2(operate, source = 'bathClickUpLv2', log_off = conf
             }
             await info(msg, must)
             await wait(ms)
-            let up_name = '返回键'
-            await templateMatchClick(`${path_base_main}${up_name}.jpg`, `${msg_log},退出强化页面 到圣遗物背包界面`, source, log_off)
+            // let up_name = '返回键'
+            let up_json = {name: '返回键', type: '.jpg'}
+            await templateMatchClick(`${path_base_main}${up_json.name}${up_json.type}`, `${msg_log},退出强化页面 到圣遗物背包界面`, source, log_off)
             //返回圣遗物背包
             if (re.missed || !re.start) {
                 if (!config.sortMain.includes('降序')) {
