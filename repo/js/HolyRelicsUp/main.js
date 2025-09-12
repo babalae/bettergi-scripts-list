@@ -30,7 +30,7 @@ async function main(log_off = config.log_off) {
         }
 
         if (!config.toSift) {
-            let filteredJson = getJsonPath('filtered');
+            let filteredJson = getJsonPath('filtered',false);
             let template = await templateMatch(`${filteredJson.path}${filteredJson.name}${filteredJson.type}`)
             if (isExist(template)) {
                 config.toSift = true
@@ -203,13 +203,13 @@ const config = {
     meetAllSiftAttributeHolyRelic: settings.meetAllSiftAttributeHolyRelic,//满足所有筛选条件
     commonSiftAttributeHolyRelic: settings.commonSiftAttributeHolyRelic,//通用筛选条件
     inputSiftAttributeHolyRelic: settings.inputSiftAttributeHolyRelic,//自定义筛选条件
+    language: '简体中文',
 }
 
 
 const genshinJson = {
     width: genshin.width,
     height: genshin.height,
-    language: genshin.language,
 }
 
 const LanguageALLConfigMap = new Map([
@@ -271,7 +271,7 @@ const LanguageALLConfigMap = new Map([
                 ['saint_relic_backpack_selected', {name: '已选中圣遗物背包', type: '.jpg'}],
                 // ['open_the_function', {name: '开启阶段放入功能', type: '.jpg'}],
                 ['strengthen', {name: '强化', type: '.jpg'}],
-                ['quickly_put_in', {name: '快捷放入', type: '.jpg'}],
+                // ['quickly_put_in', {name: '快捷放入', type: '.jpg'}],
                 ['stage_put_in', {name: '阶段放入', type: '.jpg'}],
                 ['morra_is_not_enough', {name: '摩拉不足', type: '.jpg'}],
                 ['ascending_order_not_selected', {name: '未选中升序1', type: '.jpg'}],
@@ -279,7 +279,6 @@ const LanguageALLConfigMap = new Map([
                 ['consecration_essence', {name: '祝圣精华', type: '.jpg'}],
                 ['level_sort', {name: '等级顺序排序', type: '.jpg'}],
                 // ['level_not_max', {name: '筛选未满级', type: '.jpg'}],
-                ['bag', {name: '背包', type: '.jpg'}],
                 ['info', {name: '详情', type: '.jpg'}],
                 // ['up_materials_select', {name: '请选择升级材料', type: '.jpg'}],
                 // ['morra_need', {name: '需要摩拉', type: '.jpg'}],
@@ -291,9 +290,9 @@ const LanguageALLConfigMap = new Map([
 const LanguageMap = new Map([
     ['简体中文', 'zh-cn']
 ])
-const LanguageKey = LanguageMap.get(genshinJson.language)
+const LanguageKey = LanguageMap.get(config.language)
 if (LanguageKey === null || !LanguageKey) {
-    throwError(`未找到[${genshinJson.language}]语言配置,支持语言：[${Array.from(LanguageMap.keys()).join(',')}]`)
+    throwError(`未找到[${config.language}]语言配置,支持语言：[${Array.from(LanguageMap.keys()).join(',')}]`)
 }
 const LanguageConfigJson = LanguageALLConfigMap.get(LanguageKey)
 const attributeMap = LanguageConfigJson.attributeMap
@@ -343,7 +342,8 @@ const path_base_main = `assets/language/${LanguageKey}/`
 
 const commonPath = `assets/common/`
 const commonMap = new Map([
-    ['exp', {name: 'exp', type: '.jpg'}],
+    ['bag', {name: '背包', type: '.jpg'}],
+    // ['exp', {name: 'exp', type: '.jpg'}],
     ['slide_bar_main_down', {name: 'slide_bar_main_down', type: '.png'}],
     ['slide_bar_main_up', {name: 'slide_bar_main_up', type: '.png'}],
     ['main_interface', {name: '主界面', type: '.png'}],
@@ -374,32 +374,35 @@ const commonMap = new Map([
 ]);
 const languageMap = LanguageConfigJson.languageMap;
 
-function getJsonPath(key) {
-    let commonJson = commonMap.get(key);
-    if (commonJson && commonJson.sub) {
-        return {
-            name: commonJson.name,
-            type: commonJson.type,
-            path: `${commonPath}${commonJson.sub}/`
-        }
-    } else if (commonJson) {
-        return {
-            name: commonJson.name,
-            type: commonJson.type,
-            path: `${commonPath}`
-        }
-    } else {
-        let languageJson = languageMap.get(key);
-        if (languageJson) {
+function getJsonPath(key, isCommon = true) {
+    if (isCommon){
+        let commonJson = commonMap.get(key);
+        warn('commonJson==>' + JSON.stringify(commonJson))
+        if (commonJson && commonJson.sub) {
             return {
                 name: commonJson.name,
                 type: commonJson.type,
-                path: `${path_base_main}`
+                path: `${commonPath}${commonJson.sub}/`
+            }
+        } else if (commonJson) {
+            return {
+                name: commonJson.name,
+                type: commonJson.type,
+                path: `${commonPath}`
             }
         }
-        throwError(`不存在图片`)
-        return undefined
+    }else {
+        let languageJson = languageMap.get(key);
+        warn('languageJson==>' + JSON.stringify(languageJson))
+        if (languageJson) {
+            return {
+                name: languageJson.name,
+                type: languageJson.type,
+                path: `${path_base_main}`
+            }
+        } 
     }
+    throwError(`未找到key=${key}的配置`)
 }
 
 //========================以上为基本配置==============================
@@ -602,7 +605,8 @@ function templateMatchFind(path, x = 0, y = 0, width = genshinJson.width, height
 }
 
 function templateMatchFindByJson(json) {
-    return templateMatchFind(`${json.path_base}${json.name}${json.type}`, json.x, json.y, json.width, json.height, json.threshold)
+    warn("templateMatchFindByJson==>" + JSON.stringify(json))
+    return templateMatchFind(`${json.path_base}${json.text}${json.type}`, json.x, json.y, json.width, json.height, json.threshold)
 }
 
 /**
@@ -645,7 +649,7 @@ function templateMatchClick(path, log_msg, source = 'templateMatchClick', log_of
 }
 
 function templateMatchClickByJson(json, log_msg, source = 'templateMatchClickByJson', log_off = config.log_off) {
-    return templateMatchClick(`${json.path_base}${json.name}${json.type}`, log_msg, source, log_off)
+    return templateMatchClick(`${json.path_base}${json.text}${json.type}`, log_msg, source, log_off)
 }
 
 //========================以上为基本操作==============================
@@ -668,6 +672,7 @@ async function openKnapsack() {
         width: genshinJson.width / 3.0,
         height: genshinJson.width / 5.0
     }
+    await warn('openKnapsack==>' + JSON.stringify(templateJson), must)
     let knapsack = await templateMatchFindByJson(templateJson)
     // 如果背包不存在（即背包未打开）
     let exist = isExist(knapsack);
@@ -695,7 +700,7 @@ async function openKnapsack() {
  */
 async function templateMatchHolyRelicsKnapsack() {
     let ms = 600
-    let saint_relic_backpack_selected = getJsonPath('saint_relic_backpack_selected')
+    let saint_relic_backpack_selected = getJsonPath('saint_relic_backpack_selected',false)
     let templateJson = {
         path_base: saint_relic_backpack_selected.path,
         text: saint_relic_backpack_selected.name,               // 要识别的文本内容，即"圣遗物"三个字
@@ -1090,7 +1095,7 @@ async function openUpSort() {
     let width = Math.floor(genshinJson.width / 3.0);
     // 获取屏幕高度
     let height = Math.floor(genshinJson.height);
-    let ascending_order_not_selected = getJsonPath('ascending_order_not_selected')
+    let ascending_order_not_selected = getJsonPath('ascending_order_not_selected',false)
     let templateJson = {
         path_base: ascending_order_not_selected.path,
         text: ascending_order_not_selected.name,
@@ -1133,7 +1138,7 @@ async function openLvSort() {
     let width = Math.floor(genshinJson.width / 3.0);
     // 获取屏幕高度
     let height = Math.floor(genshinJson.height);
-    let level_sort = getJsonPath('level_sort')
+    let level_sort = getJsonPath('level_sort',false)
     // 使用OCR识别指定区域的图像
     let templateJson = {
         path_base: level_sort.path,
@@ -1541,7 +1546,7 @@ async function resetAttributeSort(log_off = config.log_off) {
     await scrollPageByAttributeSortInit()
     await wait()
     // let template_name = '属性排序规则'
-    let attribute_sort_rules = getJsonPath('attribute_sort_rules')
+    let attribute_sort_rules = getJsonPath('attribute_sort_rules',false)
     let templateJson = {
         path_base: attribute_sort_rules.path,
         text: attribute_sort_rules.name,
@@ -1614,7 +1619,9 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
     // await wait(100)
 
     // let template_name = '属性排序规则'
-    let attribute_sort_rules = getJsonPath('attribute_sort_rules')
+    let attribute_sort_rules = getJsonPath('attribute_sort_rules',false)
+    let width = Math.floor(450 * genshinJson.width / 1920);
+
     let templateJson = {
         path_base: attribute_sort_rules.path,
         text: attribute_sort_rules.name,
@@ -1627,7 +1634,6 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
     let sort = new Array()
     let templateMatch_y = Math.floor(60 * genshinJson.height / 1080)
     for (let index = 1; index <= 10; index++) {
-        let width = Math.floor(450 * genshinJson.width / 1920);
         let captureRegion = openCaptureGameRegion();
 
         let templateMatchObject = recognitionObjectOcr(0, templateMatch_y, width, genshinJson.height - templateMatch_y);
@@ -1664,7 +1670,7 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
 
         let templateMatch = await templateMatchFindByJson(templateJson)
         if (isExist(templateMatch)) {
-
+            // let width = Math.floor(450 * genshinJson.width / 1920);
             let captureRegion = openCaptureGameRegion();
             let templateMatchObject = recognitionObjectOcr(0, templateMatch_y, width, genshinJson.height - templateMatch_y);
             // await mTo(width, 0)
@@ -1889,10 +1895,11 @@ async function clickProgressBarTopByHolyRelics() {
     // await confirm('强制拉到顶')
 
 
+   let siftJson= getJsonPath('sift')
     let templateMatchJson = {
-        text: "筛选",
-        type: '.jpg',
-        path_base: path_base_main,
+        text: siftJson.name,
+        type: siftJson.type,
+        path_base: siftJson.path,
         x: 0,
         y: 0,
         width: genshinJson.width / 3.0,
@@ -2008,7 +2015,7 @@ async function openAggrandizement() {
     // // 捕获游戏区域并查找强化按钮
     // let aggrandizement = captureGameRegion().find(aggrandizementRo);
     // 定义OCR识别的JSON对象，包含文本和位置信息
-    let strengthen = getJsonPath('strengthen')
+    let strengthen = getJsonPath('strengthen',false)
     let templateJson = {
         text: strengthen.name,
         type: strengthen.type,
@@ -2061,8 +2068,8 @@ async function confirm(log_msg = '点击确认', source = 'confirm') {
  */
 async function clear(source = 'clear') {
     // 通过OCR识别并点击"详情"按钮
-    let info = getJsonPath('info')
-    let strengthen = getJsonPath('strengthen')
+    let info = getJsonPath('info',false)
+    let strengthen = getJsonPath('strengthen',false)
     let json = {
         text: info.name,
         type: info.type,
@@ -2088,7 +2095,7 @@ async function clear(source = 'clear') {
 async function operateDispose(operate, enableInsertionMethod, source = 'operateDispose', log_off) {
     let ms = 600
     // let templateMatch_name = '阶段放入'  // 默认使用"阶段放入"进行OCR识别
-    let stage_put_in = getJsonPath('stage_put_in')
+    let stage_put_in = getJsonPath('stage_put_in',false)
     let templateJson = {
         text: stage_put_in.name,
         type: stage_put_in.type,
@@ -2098,7 +2105,7 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
         width: genshinJson.width,
         height: genshinJson.height
     }
-
+    let templateMatch_name=templateJson.text
     //自动识别界面元素
     let templateMatch1 = await templateMatchFindByJson(templateJson)
     // 如果默认元素不存在，则切换为"快捷放入"
@@ -2353,7 +2360,7 @@ async function upOperate(operate, source = 'upOperate', log_off) {
     await wait(ms)
     // 定义错误信息为"摩拉不足"
     // let err = '摩拉不足'
-    let morra_is_not_enough = getJsonPath('morra_is_not_enough')
+    let morra_is_not_enough = getJsonPath('morra_is_not_enough',false)
     let errJson = {
         text: morra_is_not_enough.name,
         path_base: morra_is_not_enough.path,
@@ -2764,8 +2771,8 @@ async function examine() {
         cont: false,
         msg: ''
     }
-    let consecration_oil_paste = getJsonPath('consecration_oil_paste')
-    let consecration_essence = getJsonPath('consecration_essence')
+    let consecration_oil_paste = getJsonPath('consecration_oil_paste',false)
+    let consecration_essence = getJsonPath('consecration_essence',false)
     let five_star_json = getJsonPath('five_star');
 
     //检查
@@ -3148,8 +3155,14 @@ async function bathClickUpLv2(operate, source = 'bathClickUpLv2', log_off = conf
             await info(msg, must)
             await wait(ms)
             // let up_name = '返回键'
-            let up_json = {text: '返回键', type: '.jpg', path_base: path_base_main}
-            await templateMatchClickByJson(up_json, `${msg_log},退出强化页面 到圣遗物背包界面`, source, log_off)
+            let return_key_json = getJsonPath('return_key')
+            let upJson = {
+                text: return_key_json.name,
+                path_base: return_key_json.path,
+                type: return_key_json.type,
+            }
+            // let up_json = {text: '返回键', type: '.jpg', path_base: path_base_main}
+            await templateMatchClickByJson(upJson, `${msg_log},退出强化页面 到圣遗物背包界面`, source, log_off)
             //返回圣遗物背包
             if (re.missed || !re.start) {
                 if (!config.sortMain.includes('降序')) {
