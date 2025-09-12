@@ -291,7 +291,7 @@ function attributeReplacement(value) {
 }
 
 //基础目录
-const path_base_main = `assets/main/`
+const path_base_main = `assets/language/zh-cn/`
 // const path_base_sort = `${path_base_main}sort/`
 
 const commonPath = `assets/common/`
