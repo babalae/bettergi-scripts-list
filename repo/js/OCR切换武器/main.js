@@ -85,16 +85,17 @@
     }
 
     // OCR识别文本
-    async function recognizeText(targetText, ocrRegion, aliasToNameMap, timeout = 10000, retryInterval = 20, maxAttempts = 5) {
+    async function recognizeText(targetText, ocrRegion, aliasToNameMap, timeout = 100, retryInterval = 20, maxAttempts = 5, captureRegion = null) {
         let startTime = Date.now();
         let retryCount = 0;
         const targetFormalName = aliasToNameMap ? aliasToNameMap[targetText] || targetText : targetText;
 
+        captureRegion?.dispose();
+        captureRegion = captureGameRegion();
+        const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
+        ocrObject.threshold = 0.8;
         while (Date.now() - startTime < timeout && retryCount < maxAttempts) {
             try {
-                let captureRegion = captureGameRegion();
-                let ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
-                ocrObject.threshold = 0.8;
                 let resList = captureRegion.findMulti(ocrObject);
 
                 for (let res of resList) {
@@ -108,7 +109,7 @@
                     recognizedFormalName = fuzzyMatch(correctedText, Object.values(aliasToNameMap)) || recognizedFormalName;
 
                     if (recognizedFormalName === targetFormalName) {
-                        return { success: true, text: recognizedFormalName, x: res.x, y: res.y };
+                        return { text: recognizedFormalName, x: res.x, y: res.y };
                     }
                 }
             } catch (error) {
@@ -117,7 +118,8 @@
             }
             await sleep(retryInterval);
         }
-        return { success: false };
+        captureRegion?.dispose();
+        return false;
     }
 
     // 模糊匹配文本
@@ -205,8 +207,8 @@
     async function selectCharacter(characterName) {
         const SwitchingSteps = 99; // 最大切换次数
         for (let i = 0; i < SwitchingSteps; i++) {
-            let result = await recognizeText(characterName, ocrRegion, aliasToNameMap, 200);
-            if (result.success) {
+            let result = await recognizeText(characterName, ocrRegion, aliasToNameMap, 100);
+            if (result) {
                 // log.info(`找到 ${characterName}，识别结果: ${result.text}，坐标: x=${result.x}, y=${result.y}`);
                 return true;
             }
@@ -240,13 +242,14 @@
     }
 
     // 识别并组合武器名称
-    async function recognizeAndCombineWeaponName(ocrRegion, maxAttempts = 5) {
+    async function recognizeAndCombineWeaponName(ocrRegion, maxAttempts = 5, captureRegion = null) {
         const allResults = [];
+        captureRegion?.dispose();
+        captureRegion = captureGameRegion();
+        const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
+        ocrObject.threshold = 0.9;
         for (let i = 0; i < maxAttempts; i++) {
             try {
-                let captureRegion = captureGameRegion();
-                let ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
-                ocrObject.threshold = 0.8;
                 let resList = captureRegion.findMulti(ocrObject);
                 for (let res of resList) {
                     let correctedText = res.text;
@@ -262,6 +265,7 @@
             await sleep(20);
         }
 
+        captureRegion?.dispose();
         const combinedResult = combineResults(allResults);
         // log.info(`组合后的识别结果: ${combinedResult}`);
         return combinedResult;
@@ -310,6 +314,41 @@
     const maxColumns = 4;
 
     for (let scroll = 0; scroll <= pageScrollCount; scroll++) {
+            // ======================================
+            // 【新增】前置武器识别：行列循环前先识别一次
+            // ======================================
+            log.info(`第 ${scroll + 1} 页 - 开始前置武器识别`);
+            const preRecognized = await recognizeAndCombineWeaponName(ocrRegion);
+            let isPreMatched = false;
+
+            if (preRecognized) {
+                // 前置识别结果匹配目标武器
+                let preWeaponName2 = fuzzyMatch(preRecognized, weaponNames, 1);
+                if (!preWeaponName2) {
+                    log.warn(`前置识别：未匹配已知武器，使用原始识别结果 ${preRecognized} 匹配`);
+                    preWeaponName2 = preRecognized;
+                }
+
+                // 计算匹配占比（排除干扰词）
+                const preMatchRatio = calculateMatchRatio(weaponName1, preWeaponName2);
+                if (preMatchRatio >= 0.8) {
+                    log.info(`✅ 前置识别成功！目标武器(${weaponName1}) 与 当前武器(${preWeaponName2}) 匹配，占比 ${preMatchRatio.toFixed(2)}`);
+                    // 执行确认逻辑
+                    await click(1600, 1005); // 点击确认
+                    await sleep(1000);
+                    await click(1320, 755); // 点击确认
+                    await sleep(1000);
+                    return true; // 匹配成功，直接返回，跳过后续行列循环
+                } else {
+                    log.info(`❌ 前置识别不匹配：目标(${weaponName1}) vs 当前(${preWeaponName2})，占比 ${preMatchRatio.toFixed(2)}`);
+                }
+            } else {
+                log.info(`❌ 前置识别未读取到任何武器名称`);
+            }
+
+            // ======================================
+            // 前置识别失败：执行原有的行列循环（逐个格子检查）
+            // ======================================
         for (let row = 0; row < maxRows; row++) {
             for (let column = 0; column < maxColumns; column++) {
                 const clickX = Math.round(startX + column * columnWidth);
@@ -320,7 +359,7 @@
                 const combinedWeaponName2 = await recognizeAndCombineWeaponName(ocrRegion);
 
                 if (!combinedWeaponName2) {
-                    log.warn("OCR 识别失败，未找到任何武器名");
+                        log.warn(`格子(${row},${column})：未识别到武器名称`);
                     continue;
                 }
 
@@ -336,7 +375,7 @@
                 // 计算匹配占比，排除干扰词
                 const matchRatio = calculateMatchRatio(weaponName1, weaponName2);
                 if (matchRatio >= 0.8) { // 如果匹配占比大于等于 80%，则认为匹配成功
-                    log.info(`成功匹配武器：${weaponName1}，匹配占比 ${matchRatio.toFixed(2)}`);
+                        log.info(`✅ 格子(${row},${column}) 匹配成功：目标(${weaponName1}) vs 当前(${weaponName2})，占比 ${matchRatio.toFixed(2)}`);
                     await click(1600, 1005); // 点击确认
                     await sleep(1000);
                     await click(1320, 755); // 点击确认
