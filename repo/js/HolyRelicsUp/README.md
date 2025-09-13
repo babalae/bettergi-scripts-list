@@ -246,5 +246,9 @@
   - 圣遗物属性 待激活 属性适配 
 ## 其他
 
+- **多语言适配(开发者)请注意**：
+  - utils/languageUtils 为 多语言模块框架 的全部配置
+  - assets/language/ 为 多语言模块框架 的本地语言匹配图片
+
 - **作者**：云端客
 - **脚本反馈邮箱**：doutianmianxia@qq.com
