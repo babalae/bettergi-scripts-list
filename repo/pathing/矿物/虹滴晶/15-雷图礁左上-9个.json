@@ -5,10 +5,10 @@
         "name": "芝士贝果"
       }
     ],
-    "bgi_version": "0.49.1",
+    "bgi_version": "0.50.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757508533897,
+    "last_modified_time": 1757729492254,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "15-雷图礁左上-9个",
@@ -111,7 +111,6 @@
       "action": "combat_script",
       "action_params": "keypress(t)",
       "id": 11,
-      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
       "x": 11099.5938,
@@ -206,6 +205,42 @@
       "type": "path",
       "x": 11142.0684,
       "y": 1659.8706
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 11121.333,
+      "y": 1699.9932
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11120.7109,
+      "y": 1701.9033
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t)",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 11121.7061,
+      "y": 1714.3267
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11120.3867,
+      "y": 1708.2598
     }
   ]
 }
