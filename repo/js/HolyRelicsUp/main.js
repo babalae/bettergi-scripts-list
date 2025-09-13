@@ -86,11 +86,11 @@ function closeCaptureGameRegion(region) {
 }
 
 function findByCaptureGameRegion(region, templateMatchObject) {
-    return holyRelicsUpUtils.findByCaptureGameRegion(region,templateMatchObject)
+    return holyRelicsUpUtils.findByCaptureGameRegion(region, templateMatchObject)
 }
 
 function findMultiByCaptureGameRegion(region, templateMatchObject) {
-    return holyRelicsUpUtils.findMultiByCaptureGameRegion(region,templateMatchObject)
+    return holyRelicsUpUtils.findMultiByCaptureGameRegion(region, templateMatchObject)
 }
 
 function mTo(x, y) {
@@ -137,9 +137,13 @@ function isExist(res) {
 const LanguageALLConfigMap = languageUtils.getLanguageALLConfigMap()
 
 const LanguageMap = languageUtils.getLanguageMap()
+const LanguageMsgMap = languageUtils.getLanguageMsgMap()
 const LanguageKey = LanguageMap.get(settings.language)
 if (LanguageKey === null || !LanguageKey) {
-    throwError(`未找到[${settings.language}]语言配置,支持语言：[${Array.from(LanguageMap.keys()).join(',')}]`)
+    let languageMsg = LanguageMsgMap.get(settings.language)
+        .replace('language-key',`${settings.language}`)
+        .replace('languageList-key',`${Array.from(LanguageMap.keys()).join(',')}`)
+    throwError(languageMsg)
 }
 const LanguageConfigJson = LanguageALLConfigMap.get(LanguageKey)
 //魔法值
@@ -1435,12 +1439,12 @@ async function ocrAttributeHolyRelic() {
         }
         let subName = subList[index] + "";
         let subValue = subVRes.text + "";
-        let key = '（待激活）'
+        let key = mana.get('toBeActivated')
         if (subName.includes(key)) {
             subName = key + subName.split(key)[0].trim()
         }
         if (AttributeHolyRelickeys.includes(subName) && subValue.includes('%')) {
-            subName = subName + '百分比'
+            subName = subName + mana.get('percentage')
         }
         holyRelicAttribute.sub.push({name: subName, value: subValue})
         await logInfoTemplate(subVRes)

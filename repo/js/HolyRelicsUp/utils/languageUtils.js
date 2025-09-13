@@ -1,3 +1,14 @@
+function getLanguageMsgMap() {
+    let LanguageMsgMap = new Map([
+        ['简体中文', '未找到[language-key]语言配置,支持语言：[languageList-key]'],
+        ['繁體中文', '未找到[language-key]語言配置，支持語言：[languageList-key]'],
+        ['日本語', '[language-key]の言語設定が見つかりません。サポートされている言語：[languageList-key]'],
+        ['한국어', '[language-key] 언어 구성을 찾을 수 없습니다. 지원 언어: [languageList-key]'],
+        ['English', 'Language configuration for [language-key] not found. Supported languages: [languageList-key]'],
+    ])
+    return LanguageMsgMap
+}
+
 function getLanguageMap() {
     let LanguageMap = new Map([
         ['简体中文', 'zh-cn']
@@ -6,6 +17,7 @@ function getLanguageMap() {
 }
 
 function getLanguageALLConfigMap() {
+    //key 值为 ./assets/language 下的语言 文件夹 value为配置json
     let LanguageALLConfigMap = new Map([
         ['zh-cn',
             {
@@ -58,6 +70,7 @@ function getLanguageALLConfigMap() {
                     ['杯子', '空之杯'],
                 ]),
                 holyRelicParts: ['生之花', '死之羽', '理之冠', '时之沙', '空之杯'],
+                //languageMap 不同语言请保持 key值不变
                 languageMap: new Map([
                     // ['ascending_order', {name: '升序', type: '.jpg'}],
                     ['attribute_sort_rules', {name: '属性排序规则', type: '.jpg'}],
@@ -77,7 +90,7 @@ function getLanguageALLConfigMap() {
                     // ['up_materials_select', {name: '请选择升级材料', type: '.jpg'}],
                     // ['morra_need', {name: '需要摩拉', type: '.jpg'}],
                 ]),
-                //魔法值
+                //魔法值 不同语言请保持 key值不变
                 mana: new Map([
                     ['holyRelicsNoMax', '未满级'],
                     ['holyRelicsLockMark', '标记'],
@@ -90,7 +103,10 @@ function getLanguageALLConfigMap() {
                     ['desc_order', '降序'],
                     ['asc_order', '升序'],
 
-                    ['quality_order', '品质顺序']
+                    ['quality_order', '品质顺序'],
+
+                    ['percentage', '百分比'],
+                    ['toBeActivated', '（待激活）']
                 ]),
             }
         ],
@@ -101,4 +117,5 @@ function getLanguageALLConfigMap() {
 this.languageUtils = {
     getLanguageMap,
     getLanguageALLConfigMap,
+    getLanguageMsgMap,
 };

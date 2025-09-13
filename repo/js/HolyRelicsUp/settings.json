@@ -2,9 +2,13 @@
    {
        "name": "language",
        "type": "select",
-       "label": "语言",
+       "label": "语言|語言|Language|言語|언어",
        "options": [
          "简体中文",
+         "繁體中文",
+         "English",
+         "日本語",
+         "한국어",
        ],
        "default": "简体中文"
    },
@@ -221,7 +225,7 @@
    {
      "name": "log_off",
      "type": "checkbox",
-     "label": "日志开关(用于开发者调试)",
+     "label": "日志开关(用于开发者调试-日志输出为中文)",
      "default": false
    }
 ]
