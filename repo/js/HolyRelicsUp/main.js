@@ -1,3 +1,6 @@
+// 加载 utils 模块
+eval(file.readTextSync("./utils/holyRelicsUpUtils.js"));
+
 /**
  * 主方法
  * @returns {Promise<void>}
@@ -30,7 +33,7 @@ async function main(log_off = config.log_off) {
         }
 
         if (!config.toSift) {
-            let filteredJson = getJsonPath('filtered',false);
+            let filteredJson = getJsonPath('filtered', false);
             let template = await templateMatch(`${filteredJson.path}${filteredJson.name}${filteredJson.type}`)
             if (isExist(template)) {
                 config.toSift = true
@@ -54,76 +57,68 @@ async function main(log_off = config.log_off) {
 
 //========================以下为原有封装==============================
 function info(msg, must = false) {
-    if (config.log_off || must) {
-        log.info(msg)
-    }
+    holyRelicsUpUtils.info(msg, must, config.log_off)
 }
 
 function warn(msg, must = false) {
-    if (config.log_off || must) {
-        log.warn(msg)
-    }
+    holyRelicsUpUtils.warn(msg, must, config.log_off)
 }
 
 function debug(msg, must = false) {
-    if (config.log_off || must) {
-        log.debug(msg)
-    }
+    holyRelicsUpUtils.debug(msg, must, config.log_off)
 }
 
 function error(msg, must = false) {
-    if (config.log_off || must) {
-        log.error(msg)
-    }
+    holyRelicsUpUtils.error(msg, must, config.log_off)
 }
 
 function throwError(msg) {
-    notification.error(`${msg}`);
+    holyRelicsUpUtils.throwError(msg)
 }
 
 function openCaptureGameRegion() {
-    return captureGameRegion()
+    return holyRelicsUpUtils.openCaptureGameRegion()
 }
 
 function closeCaptureGameRegion(region) {
-    region.Dispose()
+    holyRelicsUpUtils.closeCaptureGameRegion(region)
 }
 
 function findByCaptureGameRegion(region, templateMatchObject) {
-    return region.find(templateMatchObject)
+    return holyRelicsUpUtils.findByCaptureGameRegion(region,templateMatchObject)
 }
 
 function findMultiByCaptureGameRegion(region, templateMatchObject) {
-    return region.findMulti(templateMatchObject)
+    return holyRelicsUpUtils.findMultiByCaptureGameRegion(region,templateMatchObject)
 }
 
 function mTo(x, y) {
-    moveMouseTo(x, y);
+    holyRelicsUpUtils.mTo(x, y);
 }
 
 function recognitionObjectOcr(x, y, width, height) {
-    return RecognitionObject.Ocr(x, y, width, height)
+    return holyRelicsUpUtils.recognitionObjectOcr(x, y, width, height)
 }
 
 function downLeftButton() {
-    leftButtonDown();
+    holyRelicsUpUtils.downLeftButton();
 }
 
 function upLeftButton() {
-    leftButtonUp();
+    holyRelicsUpUtils.upLeftButton();
 }
 
 function moveByMouse(x, y) {
-    moveMouseBy(x, y);
+    holyRelicsUpUtils.moveByMouse(x, y);
 }
 
 async function wait(ms = 1000) {
     // 等待300毫秒，确保按下操作生效
-    await sleep(ms);
+    await holyRelicsUpUtils.wait(ms);
 }
 
 function downClick(x, y) {
-    click(x, y);
+    holyRelicsUpUtils.downClick(x, y);
 }
 
 /**
@@ -133,7 +128,7 @@ function downClick(x, y) {
  *                  true表示资源存在，false表示资源不存在
  */
 function isExist(res) {
-    return res.isExist() // 调用资源对象的isExist方法获取存在状态
+    return holyRelicsUpUtils.isExist(res) // 调用资源对象的isExist方法获取存在状态
 }
 
 //========================以上为原有封装==============================
@@ -375,7 +370,7 @@ const commonMap = new Map([
 const languageMap = LanguageConfigJson.languageMap;
 
 function getJsonPath(key, isCommon = true) {
-    if (isCommon){
+    if (isCommon) {
         let commonJson = commonMap.get(key);
         warn('commonJson==>' + JSON.stringify(commonJson))
         if (commonJson && commonJson.sub) {
@@ -391,7 +386,7 @@ function getJsonPath(key, isCommon = true) {
                 path: `${commonPath}`
             }
         }
-    }else {
+    } else {
         let languageJson = languageMap.get(key);
         warn('languageJson==>' + JSON.stringify(languageJson))
         if (languageJson) {
@@ -400,7 +395,7 @@ function getJsonPath(key, isCommon = true) {
                 type: languageJson.type,
                 path: `${path_base_main}`
             }
-        } 
+        }
     }
     throwError(`未找到key=${key}的配置`)
 }
@@ -700,7 +695,7 @@ async function openKnapsack() {
  */
 async function templateMatchHolyRelicsKnapsack() {
     let ms = 600
-    let saint_relic_backpack_selected = getJsonPath('saint_relic_backpack_selected',false)
+    let saint_relic_backpack_selected = getJsonPath('saint_relic_backpack_selected', false)
     let templateJson = {
         path_base: saint_relic_backpack_selected.path,
         text: saint_relic_backpack_selected.name,               // 要识别的文本内容，即"圣遗物"三个字
@@ -1095,7 +1090,7 @@ async function openUpSort() {
     let width = Math.floor(genshinJson.width / 3.0);
     // 获取屏幕高度
     let height = Math.floor(genshinJson.height);
-    let ascending_order_not_selected = getJsonPath('ascending_order_not_selected',false)
+    let ascending_order_not_selected = getJsonPath('ascending_order_not_selected', false)
     let templateJson = {
         path_base: ascending_order_not_selected.path,
         text: ascending_order_not_selected.name,
@@ -1138,7 +1133,7 @@ async function openLvSort() {
     let width = Math.floor(genshinJson.width / 3.0);
     // 获取屏幕高度
     let height = Math.floor(genshinJson.height);
-    let level_sort = getJsonPath('level_sort',false)
+    let level_sort = getJsonPath('level_sort', false)
     // 使用OCR识别指定区域的图像
     let templateJson = {
         path_base: level_sort.path,
@@ -1546,7 +1541,7 @@ async function resetAttributeSort(log_off = config.log_off) {
     await scrollPageByAttributeSortInit()
     await wait()
     // let template_name = '属性排序规则'
-    let attribute_sort_rules = getJsonPath('attribute_sort_rules',false)
+    let attribute_sort_rules = getJsonPath('attribute_sort_rules', false)
     let templateJson = {
         path_base: attribute_sort_rules.path,
         text: attribute_sort_rules.name,
@@ -1619,7 +1614,7 @@ async function attributeSort(keyword = config.sortAttribute, source = 'attribute
     // await wait(100)
 
     // let template_name = '属性排序规则'
-    let attribute_sort_rules = getJsonPath('attribute_sort_rules',false)
+    let attribute_sort_rules = getJsonPath('attribute_sort_rules', false)
     let width = Math.floor(450 * genshinJson.width / 1920);
 
     let templateJson = {
@@ -1895,7 +1890,7 @@ async function clickProgressBarTopByHolyRelics() {
     // await confirm('强制拉到顶')
 
 
-   let siftJson= getJsonPath('sift')
+    let siftJson = getJsonPath('sift')
     let templateMatchJson = {
         text: siftJson.name,
         type: siftJson.type,
@@ -2015,7 +2010,7 @@ async function openAggrandizement() {
     // // 捕获游戏区域并查找强化按钮
     // let aggrandizement = captureGameRegion().find(aggrandizementRo);
     // 定义OCR识别的JSON对象，包含文本和位置信息
-    let strengthen = getJsonPath('strengthen',false)
+    let strengthen = getJsonPath('strengthen', false)
     let templateJson = {
         text: strengthen.name,
         type: strengthen.type,
@@ -2068,8 +2063,8 @@ async function confirm(log_msg = '点击确认', source = 'confirm') {
  */
 async function clear(source = 'clear') {
     // 通过OCR识别并点击"详情"按钮
-    let info = getJsonPath('info',false)
-    let strengthen = getJsonPath('strengthen',false)
+    let info = getJsonPath('info', false)
+    let strengthen = getJsonPath('strengthen', false)
     let json = {
         text: info.name,
         type: info.type,
@@ -2095,7 +2090,7 @@ async function clear(source = 'clear') {
 async function operateDispose(operate, enableInsertionMethod, source = 'operateDispose', log_off) {
     let ms = 600
     // let templateMatch_name = '阶段放入'  // 默认使用"阶段放入"进行OCR识别
-    let stage_put_in = getJsonPath('stage_put_in',false)
+    let stage_put_in = getJsonPath('stage_put_in', false)
     let templateJson = {
         text: stage_put_in.name,
         type: stage_put_in.type,
@@ -2105,7 +2100,7 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
         width: genshinJson.width,
         height: genshinJson.height
     }
-    let templateMatch_name=templateJson.text
+    let templateMatch_name = templateJson.text
     //自动识别界面元素
     let templateMatch1 = await templateMatchFindByJson(templateJson)
     // 如果默认元素不存在，则切换为"快捷放入"
@@ -2360,7 +2355,7 @@ async function upOperate(operate, source = 'upOperate', log_off) {
     await wait(ms)
     // 定义错误信息为"摩拉不足"
     // let err = '摩拉不足'
-    let morra_is_not_enough = getJsonPath('morra_is_not_enough',false)
+    let morra_is_not_enough = getJsonPath('morra_is_not_enough', false)
     let errJson = {
         text: morra_is_not_enough.name,
         path_base: morra_is_not_enough.path,
@@ -2771,8 +2766,8 @@ async function examine() {
         cont: false,
         msg: ''
     }
-    let consecration_oil_paste = getJsonPath('consecration_oil_paste',false)
-    let consecration_essence = getJsonPath('consecration_essence',false)
+    let consecration_oil_paste = getJsonPath('consecration_oil_paste', false)
+    let consecration_essence = getJsonPath('consecration_essence', false)
     let five_star_json = getJsonPath('five_star');
 
     //检查
