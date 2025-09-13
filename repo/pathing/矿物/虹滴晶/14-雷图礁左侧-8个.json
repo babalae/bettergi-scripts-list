@@ -1,0 +1,201 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757512758415,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "14-雷图礁左侧-8个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 11060.6133,
+      "y": 1592.02
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 11102.7266,
+      "y": 1611.1978
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 11110.3994,
+      "y": 1614.9146
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 11114.8359,
+      "y": 1607.5557
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 11117.1035,
+      "y": 1604.4399
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11117.4355,
+      "y": 1603.9614
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11109.8945,
+      "y": 1596.147
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 11103.752,
+      "y": 1592.502
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11106.8457,
+      "y": 1595.0674
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "jump",
+      "type": "target",
+      "x": 11101.8105,
+      "y": 1588.3418
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,1000);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 11108.7578,
+      "y": 1594.0254
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11104.1387,
+      "y": 1592.1367
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 11110.6094,
+      "y": 1594.3052
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 11122.7969,
+      "y": 1599.4097
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 15,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 11140.0215,
+      "y": 1602.627
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 11135.2012,
+      "y": 1603.1948
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11135.877,
+      "y": 1603.0259
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11140.2129,
+      "y": 1602.3799
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t)",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 11143.665,
+      "y": 1598.1953
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 11143.665,
+      "y": 1598.1953
+    }
+  ]
+}

@@ -1,0 +1,171 @@
+[
+  {
+    "name": "operationMode",
+    "type": "select",
+    "label": "第一部分：路径组执行配置\n根据每个配置组的具体需求填写\n######################################################\n\n执行模式",
+    "options": [
+      "运行锄地路线",
+      "输出地图追踪文件",
+      "强制刷新所有运行记录"
+    ],
+    "default": "运行锄地路线"
+  },
+  {
+    "name": "groupIndex",
+    "type": "select",
+    "label": "选择执行第几个路径组",
+    "options": [
+      "路径组一",
+      "路径组二",
+      "路径组三",
+      "路径组四",
+      "路径组五",
+      "路径组六",
+      "路径组七",
+      "路径组八",
+      "路径组九",
+      "路径组十"
+    ],
+    "default": "路径组一"
+  },
+  {
+    "name": "partyName",
+    "type": "input-text",
+    "label": "本路径组使用配队名称"
+  },
+  {
+    "name": "pickupMode",
+    "type": "select",
+    "label": "拾取模式",
+    "options": [
+      "模板匹配拾取，默认只拾取狗粮",
+      "ocr拾取，默认只拾取狗粮和晶蝶",
+      "bgi原版拾取",
+      "不拾取任何物品"
+    ],
+    "default": "模板匹配拾取，默认只拾取狗粮"
+  },
+  {
+    "name": "rollingDelay",
+    "type": "input-text",
+    "label": "滚轮滚动后延时(毫秒)，观察到漏捡时建议调大",
+    "default": "25"
+  },
+  {
+    "name": "pickupDelay",
+    "type": "input-text",
+    "label": "拾取后延时(毫秒)，观察到误捡时建议调大",
+    "default": "100"
+  },
+  {
+    "name": "timeMove",
+    "type": "input-text",
+    "label": "单次滚动周期(毫秒)，滚动不全时",
+    "default": "1000"
+  },
+  {
+    "name": "activeDumperMode",
+    "type": "input-text",
+    "label": "泥头车模式,将在接近战斗点前提前释放部分角色e技能\n需要启用时填写这些角色在队伍中的编号\n有多个角色需要释放时用【中文逗号】分隔"
+  },
+  {
+    "name": "runByEfficiency",
+    "type": "checkbox",
+    "label": "组内按照效率降序运行\n会略微增加传送花费时间，用于在时间有限时优先跑高效路线\n建议配合下一项配置使用"
+  },
+  {
+    "name": "timeRule",
+    "type": "input-text",
+    "label": "输入不运行的时间或时间段的小时数，以本地时间为准\n将提前结束路线运行，并等待到对应时间\n允许填入【单个数字】如4表示小时数为4时不运行\n或【时间段】如4-6表示小时数为4-6时都不运行\n允许多项，由【中文逗号】分隔"
+  },
+  {
+    "name": "accountName",
+    "type": "input-text",
+    "label": "######################################################\n\n第二部分：路线选择与分组配置\n确保不同路径组中该部分配置【完全相同】\n######################################################\n\n账户名称\n用于多用户运行时区分不同账户的记录\n单用户请勿修改",
+    "default": "默认账户"
+  },
+  {
+    "name": "tagsForGroup1",
+    "type": "input-text",
+    "label": "允许使用的标签：\n水免，次数盾，高危，传奇，蕈兽，小怪，沙暴\n多个标签使用【中文逗号】分隔\n\n路径组一要【排除】的标签",
+    "default": "蕈兽，传奇"
+  },
+  {
+    "name": "tagsForGroup2",
+    "type": "input-text",
+    "label": "路径组二要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup3",
+    "type": "input-text",
+    "label": "路径组三要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup4",
+    "type": "input-text",
+    "label": "路径组四要【选择】的标签"
+  },
+  {
+    "name": "efficiencyIndex",
+    "type": "input-text",
+    "label": "路线效率计算权重，填0以上的数字\n越大越倾向于花费较多时间提高总收益",
+    "default": "0.5"
+  },
+  {
+    "name": "disableSelfOptimization",
+    "type": "checkbox",
+    "label": "勾选后禁用根据运行记录优化路线选择的功能\n完全使用路线原有信息"
+  },
+  {
+    "name": "targetEliteNum",
+    "type": "input-text",
+    "label": "目标精英数量",
+    "default": "400"
+  },
+  {
+    "name": "targetMonsterNum",
+    "type": "input-text",
+    "label": "目标小怪数量",
+    "default": "2000"
+  },
+  {
+    "name": "priorityTags",
+    "type": "input-text",
+    "label": "优先关键词，含关键词的路线会被视为最高效率\n不同关键词使用【中文逗号】分隔\n例如填骗骗花，可以优先选择含有骗骗花的路线\n建议使用怪物图鉴中的名字"
+  },
+  {
+    "name": "excludeTags",
+    "type": "input-text",
+    "label": "排除关键词，含关键词的路线会被完全排除\n不同关键词使用【中文逗号】分隔\n例如填火斧丘丘暴徒，可以排除所有含有火斧丘丘暴徒的路线\n建议使用怪物图鉴中的名字"
+  },
+  {
+    "name": "tagsForGroup5",
+    "type": "input-text",
+    "label": "路径组五要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup6",
+    "type": "input-text",
+    "label": "路径组六要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup7",
+    "type": "input-text",
+    "label": "路径组七要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup8",
+    "type": "input-text",
+    "label": "路径组八要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup9",
+    "type": "input-text",
+    "label": "路径组九要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup10",
+    "type": "input-text",
+    "label": "路径组十要【选择】的标签"
+  }
+]

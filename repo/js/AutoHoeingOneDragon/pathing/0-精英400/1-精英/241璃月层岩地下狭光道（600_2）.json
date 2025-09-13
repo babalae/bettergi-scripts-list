@@ -1,0 +1,140 @@
+﻿{
+  "info": {
+    "name": "241璃月层岩地下狭光道（600_2）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时113.15秒，包含2只精英与3只小怪，预计收入1321.5摩拉，包含以下怪物：1只黯色空壳·破阵、1只岩龙蜥、3只浮游水蕈兽。",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755541642302,
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 808.73,
+      "y": 339.3899999999999,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 814.0700000000002,
+      "y": 294.6399999999999,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 818.71,
+      "y": 293.3899999999999,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 814.0700000000002,
+      "y": 294.6399999999999,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 769.69,
+      "y": 293.1300000000001,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 735.9061630981753,
+      "y": 302.3436969471279,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f);钟离 d(0.1),wait(0.2),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 730.22,
+      "y": 309.94000000000005,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "w(0.5),dash,wait(0.5),s(0.2),dash",
+      "type": "orientation"
+    },
+    {
+      "id": 8,
+      "x": 730.22,
+      "y": 309.94000000000005,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(x),wait(0.2),keypress(x)",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 729.0938408519075,
+      "y": 322.68712105091345,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(w),wait(0.2),dash,wait(0.5),dash,keyup(w)",
+      "type": "orientation"
+    },
+    {
+      "id": 10,
+      "x": 729.2810366955214,
+      "y": 323.43631767884995,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 735.56,
+      "y": 350.30999999999995,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 735.56,
+      "y": 350.30999999999995,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    },
+    {
+      "id": 13,
+      "x": 729.3,
+      "y": 323.4,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

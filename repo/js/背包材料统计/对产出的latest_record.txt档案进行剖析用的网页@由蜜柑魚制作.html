@@ -1,0 +1,1171 @@
+<!--
+1.0
+    由蜜柑魚(QQ 3450286580)制作
+    使用说明
+        使用电脑端打开网页，拖放latest_record至网页中，即可显示结果
+        请先至少扫瞄两次记录
+        功能
+            1.显示两次扫描记录中，背包材料各个物品的变更数量
+            2.点击表格中的标题"变更数量"，切换变更数量 由少至多 或 由多至少 排序
+            3.怪物掉落素材独有，依照稀有度排序，快速看到多了多少个不能分解的紫色、蓝色材料
+            4.当物品数量大于9000时会标记红色，提示用户作出处理
+        快捷键
+            Alt+f   =   进入或退出全屏模式
+            w       =   向上滚动
+            s       =   向下滚动
+            ~       =   切換淺色模式,深色模式
+
+
+1.1
+    1.修好了只有一项扫描时 不显示的问题
+    2.更新了可多次拖放档案进行读取
+1.2
+    适配各种Windows系统时间格式，避免因时间格式不同而不显示的问题
+1.3
+    00:00~06:30 预设深色模式
+1.4
+    新增 依据背包材料数量排序
+        点击表格中的标题[较新日斯]，切换依据背包材料数量 由少至多 或 由多至少 排序
+-->
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>原神材料扫描分析工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: #f8f9fa;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 深色模式样式 */
+        body.dark-mode {
+            background: #121212;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode header {
+            background: #1e1e1e;
+            border-bottom: 1px solid #333;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode header h1 {
+            color: #f0f0f0;
+        }
+
+        body.dark-mode #resultsSection {
+            background: #1e1e1e;
+            border: 1px solid #333;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode #dropZone {
+            border: 2px dashed #555;
+            background: #1a1a1a;
+        }
+
+        body.dark-mode #dropZone h2 {
+            color: #d0d0d0;
+        }
+
+        body.dark-mode #dropZone p {
+            color: #aaa;
+        }
+
+        body.dark-mode .upload-btn {
+            background: #4a6fa5;
+        }
+
+        body.dark-mode .upload-btn:hover {
+            background: #5a86c0;
+        }
+
+        body.dark-mode .loading {
+            background: rgba(30, 30, 30, 0.9);
+        }
+
+        body.dark-mode .spinner {
+            border: 4px solid rgba(74, 111, 165, 0.2);
+            border-top: 4px solid #4a6fa5;
+        }
+
+        body.dark-mode .error {
+            background: #2c1a1a;
+            color: #ff6b6b;
+            border: 1px solid #5a2a2a;
+        }
+
+        body.dark-mode .category-section {
+            border: 1px solid #333;
+        }
+
+        body.dark-mode .category-header {
+            background: #2a2a2a;
+            border-bottom: 1px solid #333;
+        }
+
+        body.dark-mode .category-header h3 {
+            color: #f0f0f0;
+        }
+
+        body.dark-mode .toggle-btn {
+            color: #aaa;
+        }
+
+        body.dark-mode .material-table th {
+            background: #252525;
+            color: #d0d0d0;
+            border-bottom: 1px solid #333;
+        }
+
+        body.dark-mode .material-table td {
+            border-bottom: 1px solid #333;
+        }
+
+        body.dark-mode .material-table tr:nth-child(even) {
+            background-color: #1a1a1a;
+        }
+
+        body.dark-mode .material-table tr:hover {
+            background-color: #2a2a2a;
+        }
+
+        body.dark-mode footer {
+            color: #aaa;
+            border-top: 1px solid #333;
+            background: #1e1e1e;
+        }
+
+        /* 浅色模式原有样式 */
+        header {
+            background: #fff;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 100%;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        #resultsSection {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            position: relative;
+        }
+
+        #dropZone {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            background: #fdfdfd;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        #dropZone.drag-over {
+            border-color: #3498db;
+            background-color: #f0f7ff;
+        }
+
+        #dropZone i {
+            font-size: 48px;
+            color: #a0aec0;
+            margin-bottom: 20px;
+        }
+
+        #dropZone h2 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #4a5568;
+            margin-bottom: 15px;
+        }
+
+        #dropZone p {
+            color: #718096;
+            max-width: 500px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .upload-btn {
+            padding: 12px 28px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .upload-btn:hover {
+            background: #2980b9;
+        }
+
+        .loading {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(52, 152, 219, 0.2);
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error {
+            display: none;
+            background: #fef2f2;
+            color: #e53e3e;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border: 1px solid #feb2b2;
+        }
+
+        .results {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            overflow: auto;
+            padding: 0;
+        }
+
+        .category-section {
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .category-header {
+            background: #f7fafc;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .category-header h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #2d3748;
+        }
+
+        .toggle-btn {
+            font-size: 1.2rem;
+            color: #718096;
+        }
+
+        .material-table {
+            width: 100%;
+            border-collapse: collapse;
+            display: table;
+        }
+
+        .material-table th {
+            background: #f1f5f9;
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 500;
+            color: #4a5568;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .material-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .material-table tr:nth-child(even) {
+            background-color: #f9fbfd;
+        }
+
+        .material-table tr:hover {
+            background-color: #f0f4f8;
+        }
+
+        .increase {
+            color: #38a169;
+            font-weight: 500;
+        }
+
+        .decrease {
+            color: #e53e3e;
+            font-weight: 500;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #718096;
+            font-size: 0.9rem;
+            border-top: 1px solid #e2e8f0;
+            background: #fff;
+        }
+
+        .theme-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            z-index: 1000;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .material-table {
+                font-size: 0.9rem;
+            }
+
+            .material-table th,
+            .material-table td {
+                padding: 10px 12px;
+            }
+        }
+
+        /* 新增样式：数量超过9000的红色标记 */
+        .high-quantity {
+            color: red !important;
+            font-weight: bold;
+        }
+
+        /* 深色模式下的高数量样式 */
+        body.dark-mode .high-quantity {
+            color: #ff6b6b !important;
+        }
+
+        /* 排序按钮样式 */
+        .sortable {
+            position: relative;
+            padding-right: 20px;
+            /* 为箭头留出空间 */
+            cursor: pointer;
+        }
+
+        .sortable:hover {
+            background-color: #e0e0e0;
+        }
+
+        body.dark-mode .sortable:hover {
+            background-color: #2a2a2a;
+        }
+
+        .sortable::after {
+            content: "";
+            position: absolute;
+            right: 8px;
+            font-size: 0.8em;
+        }
+
+        .sortable.asc::after {
+            content: "↑";
+        }
+
+        .sortable.desc::after {
+            content: "↓";
+        }
+
+        /* 稀有度背景色样式 */
+        .rarity-5 {
+            background-color: #72679C;
+            color: white;
+        }
+
+        .rarity-4 {
+            background-color: #5F8AAA;
+            color: white;
+        }
+
+        .rarity-3 {
+            background-color: #629183;
+            color: white;
+        }
+
+        .rarity-2 {
+            background-color: #8D9196;
+            color: white;
+        }
+
+        /* 深色模式下的稀有度样式 */
+        body.dark-mode .rarity-5 {
+            background-color: #5e5380;
+        }
+
+        body.dark-mode .rarity-4 {
+            background-color: #4c6a82;
+        }
+
+        body.dark-mode .rarity-3 {
+            background-color: #4f735d;
+        }
+
+        body.dark-mode .rarity-2 {
+            background-color: #6d7075;
+        }
+
+        /* 说明卡片样式 */
+        .info-card {
+            background: #f0f7ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        body.dark-mode .info-card {
+            background: #1a2a3a;
+            border-left: 4px solid #4a6fa5;
+        }
+
+        .info-card h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        body.dark-mode .info-card h3 {
+            color: #e0e0e0;
+        }
+
+        .rarity-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        /* 稀有度排序按钮样式 */
+        .rare-sort-btn {
+            padding: 4px 8px;
+            background: #e0e0e0;
+            color: #333;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            margin-left: 8px;
+            transition: all 0.2s;
+        }
+
+        .rare-sort-btn:hover {
+            background: #d0d0d0;
+        }
+
+        .rare-sort-btn.active {
+            background: #3498db;
+            color: white;
+        }
+
+        body.dark-mode .rare-sort-btn {
+            background: #555;
+            color: #eee;
+        }
+
+        body.dark-mode .rare-sort-btn:hover {
+            background: #666;
+        }
+
+        body.dark-mode .rare-sort-btn.active {
+            background: #4a6fa5;
+        }
+
+        /* 新增：结果区域拖放样式 */
+        #resultsSection.drag-over {
+            border: 2px dashed #3498db;
+            background-color: #f0f7ff;
+        }
+
+        body.dark-mode #resultsSection.drag-over {
+            border: 2px dashed #4a6fa5;
+            background-color: #1a2a3a;
+        }
+
+        /* 新增样式：未激活排序的指示符 */
+        .sortable.inactive::after {
+            content: "↕";
+            color: #999;
+            opacity: 0.5;
+        }
+
+        /* 深色模式下的未激活排序指示符 */
+        body.dark-mode .sortable.inactive::after {
+            color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="theme-indicator" id="themeIndicator">深色模式已启用</div>
+    <div class="container">
+        <div id="resultsSection">
+            <div id="dropZone">
+                <h2>拖拽 latest_record.txt 文件到此处</h2>
+            </div>
+
+            <div class="loading" id="loadingIndicator">
+                <div class="spinner"></div>
+                <p>正在分析材料数据...</p>
+            </div>
+
+            <div class="error" id="errorMessage"></div>
+
+            <div class="results" id="resultsContainer">
+                <div class="info-card">
+                    <h3>怪物掉落素材稀有度说明</h3>
+                    <p>本工具根据材料稀有度自动着色：</p>
+                    <div class="rarity-legend">
+                        <div class="legend-item rarity-5">★★★★★ 稀有度</div>
+                        <div class="legend-item rarity-4">★★★★ 稀有度</div>
+                        <div class="legend-item rarity-3">★★★ 稀有度</div>
+                        <div class="legend-item rarity-2">★★ 稀有度</div>
+                    </div>
+                    <p style="margin-top: 15px; font-weight: bold; color: #3498db;">
+                        提示：点击"物品名"列标题可切换稀有度排序模式
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 稀有度物品列表
+        // 紫
+        const RARITY_5_ITEMS = [
+            '茁壮菌核', '混沌真眼', '偏光棱镜', '幽邃刻像', '石化的骨片', '锲纹的横脊', '督察长祭刀',
+            '地脉的新芽', '雾虚灯芯', '漫游者的盛放之花', '黑晶号角', '混沌锚栓', '混沌炉心',
+            '辉光棱晶', '隐兽鬼爪', '初生的浊水幻灵', '异界生命核', '役人的时时刻刻', '渊光鳍翅',
+            '未熄的剑柄', '秘源真芯', '意志巡游的符像', '聚燃的游像眼', '迷光的蜷叶之心', '明燃的棱状壳',
+            '大英雄的经验'
+        ];
+
+        // 藍
+        const RARITY_4_ITEMS = [
+            '攫金鸦印', '史莱姆原浆', '禁咒绘卷', '尉官的徽记', '历战的箭簇', '原素花蜜', '不祥的面具',
+            '名刀镡', '浮游晶化核', '孢囊晶尘', '休眠菌核', '织金红绸', '奇械机芯齿轮', '异色结晶石',
+            '横行霸者的利齿', '龙冠武士的金哨', '混沌枢纽', '水晶棱镜', '夤夜刻像', '结实的骨片',
+            '密固的横脊', '地脉的枯叶', '混浊棱晶', '雾虚草囊', '特工祭刀', '黑铜号角', '混沌回路',
+            '混沌模块', '何人所珍藏之花', '隐兽利爪', '浊水的一掬', '外世突触', '役人的制式怀表',
+            '月色鳍翅', '裂断的剑柄', '秘源机鞘', '意志明晰的寄偶', '聚燃的命种', '惑光的阔叶', '蕴热的背壳',
+            '冒险家的经验'
+        ];
+
+        // 綠
+        const RARITY_3_ITEMS = [
+            '士官的徽记', '锐利的箭簇', '污秽的面具', '封魔绘卷', '史莱姆清', '微光花蜜', '藏银鸦印',
+            '影打刀镡', '浮游幽核', '荧光孢粉', '失活菌核', '镶边红绸', '机关正齿轮', '异海之块',
+            '老练的坚齿', '战士的铁哨', '混沌机关', '黯淡棱镜', '晦暗刻像', '沉重号角', '地脉的旧枝',
+            '混沌装置', '雾虚花粉', '猎兵祭刀', '脆弱的骨片', '隐兽指爪', '残毁的横脊', '来自何处的待放之花',
+            '破缺棱晶', '混沌容器', '浊水的一滴', '隙间之核', '老旧的役人怀表', '羽状鳍翅', '残毁的剑柄',
+            '秘源轴', '意志破碎的残片', '聚燃的石块', '折光的胚芽', '冷裂壳块', '流浪者的经验'
+        ];
+
+        // 灰
+        const RARITY_2_ITEMS = [
+            '牢固的箭簇', '史莱姆凝液', '寻宝鸦印', '新兵的徽记', '破损的面具', '导能绘卷', '骗骗花蜜',
+            '破旧的刀镡', '浮游干核', '蕈兽孢子', '褪色红绸', '啮合齿轮', '异海凝珠', '稚嫩的尖齿', '卫从的木哨'
+        ];
+
+        window.onload = function () {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const minutes = now.getMinutes(); // 分钟
+            if ((currentHour < 6) || (currentHour === 6 && minutes <= 30)) {
+                document.body.classList.add('dark-mode');
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropZone = document.getElementById('dropZone');
+            const resultsSection = document.getElementById('resultsSection');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const errorMessage = document.getElementById('errorMessage');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const themeIndicator = document.getElementById('themeIndicator');
+            const body = document.body;
+
+            // 监听~键切换主题
+            document.addEventListener('keydown', function (e) {
+                if (e.key === '~' || e.key === '`' || e.code === 'Backquote') {
+                    // 切换主题
+                    body.classList.toggle('dark-mode');
+
+                    // 显示主题提示
+                    themeIndicator.textContent = body.classList.contains('dark-mode')
+                        ? '深色模式已启用'
+                        : '浅色模式已启用';
+                    themeIndicator.style.display = 'block';
+
+                    // 3秒后隐藏提示
+                    setTimeout(() => {
+                        themeIndicator.style.display = 'none';
+                    }, 2000);
+                }
+            });
+
+            // 文件拖拽功能 - 修改为监听整个结果区域
+            resultsSection.addEventListener('dragover', function (e) {
+                e.preventDefault();
+                this.classList.add('drag-over');
+            });
+
+            resultsSection.addEventListener('dragleave', function () {
+                this.classList.remove('drag-over');
+            });
+
+            resultsSection.addEventListener('drop', function (e) {
+                e.preventDefault();
+                this.classList.remove('drag-over');
+
+                if (e.dataTransfer.files.length) {
+                    processFile(e.dataTransfer.files[0]);
+                }
+            });
+
+            // 处理上传的文件
+            function processFile(file) {
+                if (file.type !== 'text/plain' && !file.name.endsWith('.txt')) {
+                    showError('请上传TXT格式的文件');
+                    return;
+                }
+
+                dropZone.style.display = 'none';
+                loadingIndicator.style.display = 'flex';
+                errorMessage.style.display = 'none';
+                resultsContainer.style.display = 'none';
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    try {
+                        const content = e.target.result;
+                        const result = parseFileContent(content);
+                        displayResults(result);
+                        loadingIndicator.style.display = 'none';
+                        resultsContainer.style.display = 'flex';
+                    } catch (error) {
+                        console.error(error);
+                        showError('解析文件时出错: ' + error.message);
+                        loadingIndicator.style.display = 'none';
+                        dropZone.style.display = 'flex';
+                    }
+                };
+                reader.onerror = function () {
+                    showError('读取文件时出错');
+                    loadingIndicator.style.display = 'none';
+                    dropZone.style.display = 'flex';
+                };
+                reader.readAsText(file);
+            }
+            // 改进的时间格式解析函数
+            function parseDateTime(timeStr) {
+                // 尝试匹配各种格式
+                const patterns = [
+                    // YYYY/M/D TT HH:mm:ss 或 YYYY/M/D TT H:mm:ss
+                    /(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})[^\d]*([上下午AMP]{2})[^\d]*(\d{1,2}):(\d{2}):(\d{2})/,
+                    // YYYY/M/D HH:mm:ss 或 YYYY/M/D H:mm:ss
+                    /(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})[^\d]*(\d{1,2}):(\d{2}):(\d{2})/
+                ];
+
+                let match;
+                for (const pattern of patterns) {
+                    match = timeStr.match(pattern);
+                    if (match) break;
+                }
+
+                if (!match) {
+                    console.error(`无法解析时间格式: ${timeStr}`);
+                    return null;
+                }
+
+                // 根据匹配结果解析组件
+                let year, month, day, hour, minute, second, period = null;
+
+                if (match.length === 8) {
+                    // 第一种格式（带周期标识）
+                    [year, month, day, period, hour, minute, second] =
+                        [match[1], match[2], match[3], match[4], match[5], match[6], match[7]];
+                } else if (match.length === 7) {
+                    // 第二种格式（24小时制）
+                    [year, month, day, hour, minute, second] =
+                        [match[1], match[2], match[3], match[4], match[5], match[6]];
+                }
+
+                // 处理12小时制
+                let hour24 = parseInt(hour, 10);
+                if (period) {
+                    const isPM = period === "下午" || period === "PM" || period === "pm";
+                    if (isPM && hour24 < 12) hour24 += 12;
+                    if (!isPM && hour24 === 12) hour24 = 0;
+                }
+
+                // 格式化为两位数
+                const pad = num => num.toString().padStart(2, '0');
+
+                return `${year}/${pad(month)}/${pad(day)} ${pad(hour24)}:${pad(minute)}:${pad(second)}`;
+            }
+
+            function parseFileContent(content) {
+                const lines = content.split('\n');
+                const records = {};
+
+                let currentCategory = null;
+                let currentTimestamp = null;
+                let currentItems = {};
+
+                for (let line of lines) {
+                    line = line.trim();
+
+                    // 匹配时间戳行
+                    const parsedTime = parseDateTime(line);
+                    if (line.match(/\d{4}[\/-]\d{1,2}[\/-]\d{1,2}/)) {
+                        const parsedTime = parseDateTime(line);
+                        if (parsedTime) {
+                            // 保存之前的记录
+                            if (currentTimestamp) {
+                                const categoryKey = currentCategory || "未分类材料";
+                                if (!records[categoryKey]) {
+                                    records[categoryKey] = [];
+                                }
+                                records[categoryKey].push({
+                                    timestamp: currentTimestamp, // 使用已存储的时间戳
+                                    items: { ...currentItems }
+                                });
+                                console.log("保存记录:", {
+                                    category: categoryKey,
+                                    timestamp: currentTimestamp,
+                                    items: Object.keys(currentItems)
+                                });
+                            }
+
+                            // 重置当前记录
+                            currentTimestamp = parsedTime;
+                            currentItems = {};
+                            continue;
+                        }
+                    }
+
+                    // 匹配类别行
+                    const categoryMatch = line.match(/全材料扫描 - (.+) 种类: \d+ 数量:/);
+                    if (categoryMatch) {
+                        currentCategory = categoryMatch[1];
+                        continue;
+                    }
+
+                    // 匹配物品行
+                    if (currentCategory && line.includes(':')) {
+                        const itemPairs = line.split(',');
+                        for (let pair of itemPairs) {
+                            const itemMatch = pair.match(/(.+): (\d+|\?)/);
+                            if (itemMatch) {
+                                const itemName = itemMatch[1].trim();
+                                const quantity = itemMatch[2] === '?' ? '?' : parseInt(itemMatch[2]);
+                                currentItems[itemName] = quantity;
+                            }
+                        }
+                    }
+                }
+
+                // 保存最后一条记录
+                if (currentTimestamp) {
+                    const categoryKey = currentCategory || "未分类材料";
+                    if (!records[categoryKey]) {
+                        records[categoryKey] = [];
+                    }
+                    records[categoryKey].push({
+                        timestamp: currentTimestamp,
+                        items: { ...currentItems }
+                    });
+                    console.log("保存记录:", {
+                        category: categoryKey,
+                        timestamp: currentTimestamp,
+                        items: Object.keys(currentItems)
+                    });
+                }
+                console.log(records)
+                return records;
+            }
+
+            // 转换为24小时制
+            function convertTo24HourFormat(timeStr) {
+                const [datePart, timePart] = timeStr.split(' ');
+                const [year, month, day] = datePart.split('/');
+                const [period, time] = timePart.includes('午') ?
+                    [timePart.substring(0, 2), timePart.substring(2)] :
+                    ['', timePart];
+
+                let [hours, minutes, seconds] = time.split(':').map(Number);
+
+                if (period === '下午' && hours < 12) hours += 12;
+                if (period === '上午' && hours === 12) hours = 0;
+
+                return `${year}/${month.padStart(2, '0')}/${day.padStart(2, '0')} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+
+            // 获取物品的稀有度等级
+            function getRarityLevel(itemName) {
+                if (RARITY_5_ITEMS.includes(itemName)) return 5;
+                if (RARITY_4_ITEMS.includes(itemName)) return 4;
+                if (RARITY_3_ITEMS.includes(itemName)) return 3;
+                if (RARITY_2_ITEMS.includes(itemName)) return 2;
+                return 1; // 其他为1（最低）
+            }
+
+            // 显示解析结果
+            function displayResults(records) {
+                resultsContainer.innerHTML = ``;
+
+                for (const [category, scans] of Object.entries(records)) {
+                    // 只处理有至少两次扫描的类别
+                    if (scans.length < 2) continue;
+                    const latestScan = scans[0];
+                    const previousScan = scans[1];
+
+                    // 创建表格
+                    const section = document.createElement('div');
+                    section.className = 'category-section';
+                    section.innerHTML = `
+                        <div class="category-header">
+                            <h3>${category}</h3>
+                            <span class="toggle-btn">▼</span>
+                        </div>
+                        <table class="material-table">
+                            <thead>
+                                <tr>
+                                    <th class="item-name-header">
+                                        物品名 
+                                        <button class="rare-sort-btn">稀有度排序</button>
+                                    </th>
+                                    <th>${previousScan.timestamp}</th>
+                                    <!-- 添加 inactive 类表示初始未激活状态 -->
+                                    <th class="sortable inactive" data-sort-type="newQty" data-sort="none">${latestScan.timestamp}</th>
+                                    <th class="sortable" data-sort-type="change" data-sort="desc">变更数量</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    `;
+
+                    const tbody = section.querySelector('tbody');
+                    const toggleBtn = section.querySelector('.category-header');
+                    const sortHeaders = section.querySelectorAll('.sortable');
+                    const rareSortBtn = section.querySelector('.rare-sort-btn');
+
+                    // 添加折叠功能
+                    toggleBtn.addEventListener('click', function () {
+                        const table = section.querySelector('table');
+                        if (table.style.display === 'none') {
+                            table.style.display = 'table';
+                            section.querySelector('.toggle-btn').textContent = '▼';
+                        } else {
+                            table.style.display = 'none';
+                            section.querySelector('.toggle-btn').textContent = '▶';
+                        }
+                    });
+
+                    // 为所有可排序列添加点击事件
+                    sortHeaders.forEach(header => {
+                        header.addEventListener('click', function () {
+                            const sortType = this.getAttribute('data-sort-type');
+                            const currentSort = this.getAttribute('data-sort');
+
+                            // 确定新排序方向
+                            let newSort;
+                            if (currentSort === 'none') {
+                                newSort = 'desc'; // 从未激活状态开始设为降序
+                            } else {
+                                newSort = currentSort === 'desc' ? 'asc' : 'desc';
+                            }
+
+                            // 更新排序状态
+                            this.setAttribute('data-sort', newSort);
+
+                            // 移除所有排序状态类
+                            this.classList.remove('asc', 'desc', 'inactive');
+
+                            // 添加新状态类
+                            this.classList.add(newSort);
+
+                            // 重置其他排序列的状态
+                            sortHeaders.forEach(otherHeader => {
+                                if (otherHeader !== this) {
+                                    otherHeader.setAttribute('data-sort', 'none');
+                                    otherHeader.classList.remove('asc', 'desc');
+                                    otherHeader.classList.add('inactive');
+                                }
+                            });
+
+                            // 获取稀有度排序状态
+                            const useRareSort = rareSortBtn.classList.contains('active');
+
+                            // 调用排序函数
+                            sortTable(tbody, sortType, newSort, useRareSort);
+                        });
+                    });
+
+                    // 更新稀有度排序按钮事件
+                    rareSortBtn.addEventListener('click', function (e) {
+                        e.stopPropagation();
+
+                        // 切换按钮状态
+                        const isActive = this.classList.toggle('active');
+
+                        // 获取当前激活的排序列
+                        const activeHeader = section.querySelector('.sortable.asc, .sortable.desc');
+                        let sortType = 'change'; // 默认使用变更数量排序
+                        let sortDirection = 'desc';
+
+                        if (activeHeader) {
+                            sortType = activeHeader.getAttribute('data-sort-type');
+                            sortDirection = activeHeader.getAttribute('data-sort');
+                        }
+
+                        // 重新排序
+                        sortTable(tbody, sortType, sortDirection, isActive);
+                    });
+
+                    // 处理每个物品
+                    for (const [item, latestQty] of Object.entries(latestScan.items)) {
+                        const previousQty = previousScan.items[item];
+
+                        if (previousQty === undefined ||
+                            latestQty === '?' ||
+                            previousQty === '?' ||
+                            latestQty === previousQty) {
+                            continue;
+                        }
+
+                        const change = latestQty - previousQty;
+                        const changeClass = change > 0 ? 'increase' : 'decrease';
+                        const changeSign = change > 0 ? '+' : '';
+
+                        // 确定物品的稀有度类
+                        let rarityClass = '';
+                        if (RARITY_5_ITEMS.includes(item)) {
+                            rarityClass = 'rarity-5';
+                        } else if (RARITY_4_ITEMS.includes(item)) {
+                            rarityClass = 'rarity-4';
+                        } else if (RARITY_3_ITEMS.includes(item)) {
+                            rarityClass = 'rarity-3';
+                        } else if (RARITY_2_ITEMS.includes(item)) {
+                            rarityClass = 'rarity-2';
+                        }
+
+                        // 检查数量是否超过9000
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                        <td class="${rarityClass}">${item}</td>
+                        <td class="${previousQty > 9000 ? 'high-quantity' : ''}">${previousQty}</td>
+                        <td class="${latestQty > 9000 ? 'high-quantity' : ''}">${latestQty}</td>
+                        <td class="${changeClass}">${changeSign}${change}</td>
+                    `;
+
+                        // 存储稀有度等级用于排序
+                        row.dataset.rarity = getRarityLevel(item);
+
+                        tbody.appendChild(row);
+                    }
+
+                    // 如果有变化才添加到结果
+                    if (tbody.children.length > 0) {
+                        resultsContainer.appendChild(section);
+                        // 初始排序（由多到少）
+                        sortTable(tbody, 'change', 'desc', false);
+
+                        // 给变更数量列添加默认排序指示
+                        const changeHeader = section.querySelector('[data-sort-type="change"]');
+                        changeHeader.classList.add('desc');
+
+                        // 给较新日期列添加未激活指示
+                        const newQtyHeader = section.querySelector('[data-sort-type="newQty"]');
+                        newQtyHeader.classList.add('inactive');
+                    }
+                }
+
+                // 如果没有数据显示提示
+                if (resultsContainer.children.length === 0) {
+                    resultsContainer.innerHTML = '<div class="no-data" style="padding: 20px; text-align: center;">没有检测到材料数量变化</div>';
+                }
+            }
+
+            // 排序函数
+            function sortTable(tbody, sortType, sortDirection, useRareSort) {
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+
+                rows.sort((a, b) => {
+                    // 如果启用了稀有度排序
+                    if (useRareSort) {
+                        const aRarity = parseInt(a.dataset.rarity);
+                        const bRarity = parseInt(b.dataset.rarity);
+
+                        // 先按稀有度降序排序（5>4>3>2>1）
+                        if (aRarity !== bRarity) {
+                            return bRarity - aRarity;
+                        }
+                    }
+
+                    // 根据排序类型获取值
+                    let aValue, bValue;
+
+                    if (sortType === 'change') {
+                        // 变更数量在第四列（索引3）
+                        aValue = parseInt(a.cells[3].textContent);
+                        bValue = parseInt(b.cells[3].textContent);
+                    } else if (sortType === 'newQty') {
+                        // 新时间数量在第三列（索引2）
+                        aValue = parseInt(a.cells[2].textContent);
+                        bValue = parseInt(b.cells[2].textContent);
+                    } else {
+                        // 默认按变更数量
+                        aValue = parseInt(a.cells[3].textContent);
+                        bValue = parseInt(b.cells[3].textContent);
+                    }
+
+                    // 根据排序方向排序
+                    return sortDirection === 'desc' ? bValue - aValue : aValue - bValue;
+                });
+
+                // 清空表格并重新添加排序后的行
+                while (tbody.firstChild) {
+                    tbody.removeChild(tbody.firstChild);
+                }
+
+                rows.forEach(row => {
+                    tbody.appendChild(row);
+                });
+            }
+            
+            // 显示错误信息
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+            }
+        });
+
+        window.addEventListener('keydown', function (e) {
+            const scrollAmount = 150; // 滚动距离
+            if (e.key.toLowerCase() === 'w') {
+                window.scrollBy({ top: -scrollAmount, behavior: 'smooth' });
+            } else if (e.key.toLowerCase() === 's') {
+                window.scrollBy({ top: scrollAmount, behavior: 'smooth' });
+            }
+        });
+
+        // 監聽鍵盤按下
+        document.onkeydown = function (e) {
+            var keyNum = window.event;       //獲取被按下的鍵值 
+            if (keyNum.keyCode == 70 && keyNum.altKey) {
+                // alt +  f
+                changeFullScreen();
+            }
+        }
+
+        // 切換全屏模式
+        function changeFullScreen() {
+            // 判断当前是否全屏
+            if (!document.fullscreenElement) {
+                // 进入全屏（兼容不同浏览器）
+                const element = document.documentElement;
+                if (element.requestFullscreen) {
+                    element.requestFullscreen();
+                } else if (element.mozRequestFullScreen) { // Firefox
+                    element.mozRequestFullScreen();
+                } else if (element.webkitRequestFullscreen) { // Chrome/Safari
+                    element.webkitRequestFullscreen();
+                } else if (element.msRequestFullscreen) { // IE/Edge
+                    element.msRequestFullscreen();
+                }
+            } else {
+                // 退出全屏（兼容不同浏览器）
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { // Firefox
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { // Chrome/Safari
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { // IE/Edge
+                    document.msExitFullscreen();
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+{
+  "info": {
+    "name": "01-须弥-帕蒂沙兰-须弥城-3个",
+    "type": "collect",
+    "author": "jbcaaa",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "jbcaaa",
+        "links": "https://github.com/jbcaaa"
+      }
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1755077127188,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2694.08,
+      "y": -416.44,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2711.64,
+      "y": -409.25,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 2711.64,
+      "y": -409.25,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.4)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 2724.9,
+      "y": -411.28,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 2743.21,
+      "y": -429.44,
+      "action": "",
+      "move_mode": "run",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 2751.72,
+      "y": -431.19,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 2753.54,
+      "y": -428.45,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.4)",
+      "type": "target"
+    }
+  ]
+}

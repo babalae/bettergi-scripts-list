@@ -1,0 +1,91 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1755959475140,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "202璃月-渌华池3",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 489.3623046875,
+      "y": 222.2685546875
+    },
+    {
+      "action": "log_output",
+      "action_params": "\n富A路线预计(双风buff+迪希雅)78分钟162个调查点≈10W经验\n富B路线预计(双风buff+迪希雅)55分钟135个调查点≈8.3W经验\n超详解析请看JS里README说明书",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "orientation",
+      "x": 438.9375,
+      "y": 228.62524346387272
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 438.9375,
+      "y": 228.62524346387272
+    },
+    {
+      "action": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 427.3125,
+      "y": 230.3439049315557
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "id": 5,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 424.5,
+      "y": 232.0001549315557
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "id": 6,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 423.9062796256221,
+      "y": 234.56230294647503
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 426.7041015625,
+      "y": 232.0400390625
+    },
+    {
+      "action": "set_time",
+      "action_params": "06:00",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 426.7041015625,
+      "y": 232.0400390625
+    }
+  ]
+}

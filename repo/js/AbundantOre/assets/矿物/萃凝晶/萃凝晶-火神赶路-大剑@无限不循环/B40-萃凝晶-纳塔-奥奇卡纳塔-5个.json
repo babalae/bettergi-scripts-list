@@ -1,0 +1,212 @@
+{
+  "info": {
+    "name": "B40-萃凝晶-纳塔-奥奇卡纳塔-5个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "无限不循环",
+        "links": "https://github.com/non-repeating001"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "双手剑"
+    ],
+    "last_modified_time": 1752957038434,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 10273.61,
+      "y": -192.19,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 10265.18,
+      "y": -135.39,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 10275.76,
+      "y": -124.83,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 10279.24,
+      "y": -121.13,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 10279.24,
+      "y": -121.13,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 10279.5723,
+      "y": -117.4746,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 10280.1,
+      "y": -119.09,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": true
+    },
+    {
+      "id": 8,
+      "x": 10280.1,
+      "y": -119.09,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 10280.1,
+      "y": -119.09,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 10274.43,
+      "y": -116.3,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 10272.24,
+      "y": -115.11,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 10272.24,
+      "y": -115.11,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": 10276.85,
+      "y": -113,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 14,
+      "x": 10274.31,
+      "y": -111.49,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 15,
+      "x": 10274.31,
+      "y": -111.49,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 16,
+      "x": 10275.68,
+      "y": -109.46,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 17,
+      "x": 10274.1,
+      "y": -108.86,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 18,
+      "x": 10274.1,
+      "y": -108.86,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 19,
+      "x": 10274.1,
+      "y": -108.86,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    }
+  ]
+}

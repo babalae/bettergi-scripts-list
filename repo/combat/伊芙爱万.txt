@@ -1,0 +1,17 @@
+//作者：古又
+//该战斗策略优化，战斗结束，开大后未检查就切人，导致角色还继续放技能
+//模式：1、精英模式，排除标签：传奇；
+//          2、打小怪可去掉万叶后面代码【, keypress(q), wait(0.4)】，也可以换其他角色
+//注意：其他设置       没提及的就是没有填！！！
+//          自动检测战斗结束-------打开
+//          更快检查结束战斗参数---打开----参数填写(0;伊涅芙;芙宁娜;爱可菲;枫原万叶;)
+伊涅芙 e, wait(0.3), keypress(q), wait(0.6)
+枫原万叶 e(hold), wait(0.7), attack, click(middle), wait(0.5), keypress(q), wait(0.4)
+芙宁娜 e, wait(0.5), keypress(q), wait(0.6)
+爱可菲 e, wait(0.4), keypress(q), wait(0.4)
+伊涅芙 e, wait(0.3), keypress(q), wait(0.6)
+芙宁娜 e, wait(0.5), keypress(q), wait(0.6)
+爱可菲 e, wait(0.4), keypress(q), wait(0.4)
+
+
+

@@ -1,0 +1,60 @@
+{
+  "info": {
+    "name": "未命名路径",
+    "type": "collect",
+    "author": "芝士贝果",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753530663767
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -755.603515625,
+      "y": -4001.08203125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -812.1298828125,
+      "y": -3964.3564453125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -853.462890625,
+      "y": -3962.9912109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -848.955078125,
+      "y": -3968.189453125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -847.505859375,
+      "y": -3968.3828125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

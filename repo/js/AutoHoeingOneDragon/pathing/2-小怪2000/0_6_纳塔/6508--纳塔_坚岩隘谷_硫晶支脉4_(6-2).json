@@ -1,0 +1,125 @@
+{
+  "info": {
+    "name": "6508--纳塔_坚岩隘谷_硫晶支脉4_(6-2)",
+    "type": "collect",
+    "author": "Demo&汐&mno",
+    "version": "1.1",
+    "description": "  路线信息：该路线预计用时186.82秒，包含8只小怪，预计收入567摩拉，包含以下怪物：2只幼嵴锋龙、6只嵴锋龙。",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8452.52,
+      "y": -1477.26,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8520.79,
+      "y": -1489.02,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 8526.19,
+      "y": -1473,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 8445.68,
+      "y": -1518.63,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 8406.64,
+      "y": -1469.65,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 8401.83,
+      "y": -1468.1,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(w),wait(0.1),keydown(VK_LSHIFT),wait(3.5),keyup(VK_LSHIFT),keyup(w),attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 8353.69,
+      "y": -1464.12,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 8332.44,
+      "y": -1503.44,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.6)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 8327.88,
+      "y": -1479.81,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 8305.68,
+      "y": -1494,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 8305.68,
+      "y": -1494,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}

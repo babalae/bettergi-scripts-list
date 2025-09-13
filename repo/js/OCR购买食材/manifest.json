@@ -1,0 +1,19 @@
+{
+  "manifest_version": 1,
+  "name": "选择购买食材OCR",
+  "version": "1.30515",
+  "description": "至少需要0.48版本bgi，对NPC和材料进行文字、图像识别。\n一般食材杂货在蒙德、璃月、稻妻、枫丹杂货商购买。\n10鱼肉、10螃蟹在卯师傅、珀姆、布特罗斯、阿扎莱和志村勘兵卫购买。\n咖啡豆在须弥、枫丹咖啡馆购买。\n增加对话F图像识别，增加个别字识别容错；增加香辛料，在阿扎莱处购买。\nv1.30513修复循环套叠，优化F未识别后的尝试方案。",
+  "authors": [
+    {
+      "name": "吉吉喵",
+      "links": "https://github.com/JJMdzh"
+    }
+  ],
+  "tags": [
+    "购买食材",
+    "OCR",
+    "图像识别"
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js"
+}

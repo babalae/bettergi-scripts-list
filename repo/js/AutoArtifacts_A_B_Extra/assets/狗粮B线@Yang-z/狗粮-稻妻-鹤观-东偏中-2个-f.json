@@ -1,0 +1,44 @@
+{
+    "info": {
+        "name": "狗粮-稻妻-鹤观-东偏中-2个-f",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgi_version": "0.42.0"
+    },
+    "positions": [
+        {
+            "x": -3103.740234375,
+            "y": -6268.5400390625,
+            "type": "teleport",
+            "move_mode": "walk"
+        },
+        {
+            "x": -3037.77734375,
+            "y": -6187.048828125,
+            "type": "path",
+            "move_mode": "dash"
+        },
+
+        {
+            "x": -3034.7744140625,
+            "y": -6181.5390625,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "1"
+        },
+        {
+            "x": -3032.583984375,
+            "y": -6182.5283203125,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "2"
+        },
+        {
+            "x": -3030.5546875,
+            "y": -6181.2529296875,
+            "type": "path",
+            "move_mode": "walk"
+        }
+    ]
+}

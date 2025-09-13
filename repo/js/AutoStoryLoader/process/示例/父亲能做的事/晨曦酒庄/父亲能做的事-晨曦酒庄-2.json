@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "父亲能做的事-晨曦酒庄-2",
+    "type": "collect",
+    "author": "11",
+    "version": "1.0",
+    "description": "父亲能做的事-晨曦酒庄-2",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -749.4365234375,
+      "y": 2263.11474609375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -748.0517578125,
+      "y": 2264.512451171875,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -719.00390625,
+      "y": 2301.57080078125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -705.7412109375,
+      "y": 2353.3037109375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -697.658203125,
+      "y": 2357.437255859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -684.8525390625,
+      "y": 2355.17578125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack,wait(1),walk(w,0.2),wait(2),keypress(f),wait(14),walk(w,1.6),wait(2),walk(a,0.6),wait(1),moveby(286,0),walk(w,6.3),wait(2),walk(d,0.2),wait(2),keypress(s),",
+      "type": "path"
+    }
+  ]
+}

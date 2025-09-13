@@ -1,0 +1,57 @@
+{
+    "info": {
+        "name": "枫丹-垂钓点-莫尔泰区欧庇克莱歌剧院南",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.3",
+        "description": "地区: 枫丹\n类型: 垂钓点\n详细位置: 莫尔泰区欧庇克莱歌剧院南\n鱼类: 海涛斧枪鱼、烘烘心羽鲈、维护机关·水域清理者、维护机关·态势控制者、维护机关·澄金领队型\n饵类: 甘露饵、酸橘饵、维护机关频闪诱饵\n附加信息: 普通",
+        "bgi_version": "0.42.4"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 3958.74,
+            "y": 2882.63,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 3954.76,
+            "y": 2881.53,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 3945.67,
+            "y": 2914.06,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 3834.11,
+            "y": 2977.14,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "stop_flying",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 3822.74,
+            "y": 2958.43,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+        }
+    ]
+}

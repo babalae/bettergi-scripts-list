@@ -1,0 +1,47 @@
+[
+  {
+    "name": "runMode",
+    "type": "select",
+    "label": "运行模式",
+    "options": [
+      "扫描文件夹更新可选材料列表",
+      "采集选中的材料",
+      "清除运行记录（重置材料刷新时间）"
+    ]
+  },
+  {
+    "name": "subscribeMode",
+    "type": "select",
+    "label": "'地图追踪'中已订阅的任务目录的处理方式：",
+    "options": [
+      "每次自动扫描，并采集扫描到的所有材料",
+      "手动扫描，并采集扫描到的所有材料",
+      "手动扫描，只采集已勾选的材料"
+    ]
+  },
+  {
+    "name": "partyName",
+    "type": "input-text",
+    "label": "设置首选队伍名称（留空则不进行切换）"
+  },
+  {
+    "name": "partyName2nd",
+    "type": "input-text",
+    "label": "设置备选队伍名称（首选队伍缺少对应的采集角色时使用）"
+  },
+  {
+    "name": "stopAtTime",
+    "type": "input-text",
+    "label": "停止运行时间（HH:mm，24小时制。例如09:28为上午9点28分）"
+  },
+  {
+    "name": "iHaveMultipleAccounts",
+    "type": "checkbox",
+    "label": "我肝的账号不止一个（选中后将分账号维护对应的材料刷新时间）"
+  },
+  {
+    "name": "acceptMultiplePathOfSameMaterial",
+    "type": "checkbox",
+    "label": "即使同一种材料有多个版本的路线，也全都执行采集"
+  }
+]

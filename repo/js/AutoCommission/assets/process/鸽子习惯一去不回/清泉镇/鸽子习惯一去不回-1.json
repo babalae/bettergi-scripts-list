@@ -1,0 +1,87 @@
+{
+  "info": {
+    "name": "鸽子习惯一去不回-1",
+    "type": "collect",
+    "author": "云闲vsv",
+    "version": "1.0",
+    "description": "鸽子习惯一去不回-1",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751447956213
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -867.9482421875,
+      "y": 1992.02685546875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -911.3984375,
+      "y": 1975.8359375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -916.0224609375,
+      "y": 1963.8603515625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -927.671875,
+      "y": 1951.90185546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -917.8017578125,
+      "y": 1929.73193359375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -927.4892578125,
+      "y": 1917.6005859375,
+      "action": "set_time",
+      "move_mode": "walk",
+      "action_params": "20:00",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -935.8974609375,
+      "y": 1924.3876953125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -940.9462890625,
+      "y": 1928.05322265625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "manifest_version": 1,
+  "name": "锄地一条龙",
+  "version": "1.5.1",
+  "description": "一站式解决自动化锄地，支持只拾取狗粮，请仔细阅读README.md后使用",
+  "authors": [
+    {
+      "name": "mno",
+      "links": "https://github.com/Bedrockx"
+    },
+    {
+      "name": "汐",
+      "links": "https://github.com/jiegedabaobei"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "saved_files": [
+    "records/*.json",
+    "assets/拾取名单.json"
+  ]
+}

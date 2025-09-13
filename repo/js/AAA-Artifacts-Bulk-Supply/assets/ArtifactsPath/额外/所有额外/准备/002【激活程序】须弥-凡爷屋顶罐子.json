@@ -1,0 +1,111 @@
+﻿{
+  "info": {
+    "name": "002【激活程序】须弥-凡爷屋顶罐子",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752762951919,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4403.0673828125,
+      "y": -1870.4541015625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4390.72265625,
+      "y": -1875.52783203125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4302.42431640625,
+      "y": -1889.50146484375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(t),wait(2.5),keypress(t),wait(0.5),keypress(t),wait(1.6),keypress(t),wait(0.5),keypress(t),wait(0.5),keypress(t)",
+      "type": "orientation"
+    },
+    {
+      "id": 4,
+      "x": 4240.0224609375,
+      "y": -1850.310546875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4215.19921875,
+      "y": -1831.75830078125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(t)",
+      "type": "orientation"
+    },
+    {
+      "id": 6,
+      "x": 4157.42041015625,
+      "y": -1827.27734375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4118.218726299502,
+      "y": -1832.15625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4116.48876953125,
+      "y": -1832.42333984375,
+      "action": "log_output",
+      "move_mode": "walk",
+      "action_params": "\n[激活路径]激活完\"超限点\"不拾取!!!\n[激活路径]\"超限点\"不拾取!!!\n[激活路径]不拾取!!!\n[激活路径]别再狗叫为什么漏了!!!",
+      "type": "orientation"
+    },
+    {
+      "id": 9,
+      "x": 4116.48876953125,
+      "y": -1832.42333984375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(x);迪希雅 e;万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);玛薇卡 e;砂糖 e;早柚 charge(2);珐露珊 q;琳妮特 q;蓝砚 charge;流浪者 e,attack(0.2);爱可菲 e;卡齐娜 attack(0.08),keydown(E),wait(1),keyup(E),attack(0.35);瑶瑶 e;申鹤 q;云堇 e;雷电将军 e;罗莎莉亚 e,q;钟离 e(hold);香菱 e,q;丝柯克 charge(1);千织 e,q;芙宁娜 e,q;久岐忍 e;神里绫华 e;阿贝多 e;琴 q;班尼特 q;多莉 e;诺艾尔 e,charge(1.5);雷泽 e(hold);",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 4116.48876953125,
+      "y": -1832.42333984375,
+      "action": "log_output",
+      "move_mode": "walk",
+      "action_params": "\n[激活路径]激活完\"超限点\"不拾取!!!\n[激活路径]\"超限点\"不拾取!!!\n[激活路径]不拾取!!!\n[激活路径]别再狗叫为什么漏了!!!",
+      "type": "orientation"
+    }
+  ]
+}
