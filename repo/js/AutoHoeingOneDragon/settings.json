@@ -18,7 +18,13 @@
       "路径组一",
       "路径组二",
       "路径组三",
-      "路径组四"
+      "路径组四",
+      "路径组五",
+      "路径组六",
+      "路径组七",
+      "路径组八",
+      "路径组九",
+      "路径组十"
     ],
     "default": "路径组一"
   },
@@ -40,15 +46,27 @@
     "default": "模板匹配拾取，默认只拾取狗粮"
   },
   {
-    "name": "trigger",
+    "name": "rollingDelay",
     "type": "input-text",
-    "label": "触发器间隔(毫秒)，只对js拾取生效\n越长占用性能越低，拾取越慢，只建议性能不足时调高至不超过200",
-    "default": "50"
+    "label": "滚轮滚动后延时(毫秒)，观察到漏捡时建议调大",
+    "default": "25"
+  },
+  {
+    "name": "pickupDelay",
+    "type": "input-text",
+    "label": "拾取后延时(毫秒)，观察到误捡时建议调大",
+    "default": "100"
+  },
+  {
+    "name": "timeMove",
+    "type": "input-text",
+    "label": "单次滚动周期(毫秒)，滚动不全时",
+    "default": "1000"
   },
   {
     "name": "activeDumperMode",
     "type": "input-text",
-    "label": "泥头车模式,将在接近战斗点前提前释放部分角色e技能\n需要启用时填写这些角色在队伍中的编号\n有多个角色需要释放时用中文逗号分隔"
+    "label": "泥头车模式,将在接近战斗点前提前释放部分角色e技能\n需要启用时填写这些角色在队伍中的编号\n有多个角色需要释放时用【中文逗号】分隔"
   },
   {
     "name": "runByEfficiency",
@@ -69,8 +87,8 @@
   {
     "name": "tagsForGroup1",
     "type": "input-text",
-    "label": "允许使用的标签：\n水免，次数盾，高危，传奇，蕈兽，小怪\n多个标签使用【中文逗号】分隔\n\n路径组一要【排除】的标签",
-    "default": "蕈兽"
+    "label": "允许使用的标签：\n水免，次数盾，高危，传奇，蕈兽，小怪，沙暴\n多个标签使用【中文逗号】分隔\n\n路径组一要【排除】的标签",
+    "default": "蕈兽，传奇"
   },
   {
     "name": "tagsForGroup2",
@@ -119,5 +137,35 @@
     "name": "excludeTags",
     "type": "input-text",
     "label": "排除关键词，含关键词的路线会被完全排除\n不同关键词使用【中文逗号】分隔\n例如填火斧丘丘暴徒，可以排除所有含有火斧丘丘暴徒的路线\n建议使用怪物图鉴中的名字"
+  },
+  {
+    "name": "tagsForGroup5",
+    "type": "input-text",
+    "label": "路径组五要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup6",
+    "type": "input-text",
+    "label": "路径组六要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup7",
+    "type": "input-text",
+    "label": "路径组七要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup8",
+    "type": "input-text",
+    "label": "路径组八要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup9",
+    "type": "input-text",
+    "label": "路径组九要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup10",
+    "type": "input-text",
+    "label": "路径组十要【选择】的标签"
   }
 ]

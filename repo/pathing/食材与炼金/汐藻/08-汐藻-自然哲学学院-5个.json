@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757424026929,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "08-汐藻-自然哲学学院-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4242.4014,
+      "y": 3118.7153
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(0.5),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4232.3086,
+      "y": 3107.0896
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(1),keyup(VK_SPACE),wait(1),keypress(VK_MBUTTON)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4232.3086,
+      "y": 3107.0896
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4214.0557,
+      "y": 3123.3911
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4210.3389,
+      "y": 3124.4565
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4188.1113,
+      "y": 3150.3894
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4181.9492,
+      "y": 3158.248
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(8),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4174.2441,
+      "y": 3159.4431
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(1.5),keyup(VK_SPACE),wait(1),keypress(VK_MBUTTON)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4153.7793,
+      "y": 3167.2004
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4153.4072,
+      "y": 3190.4011
+    }
+  ]
+}

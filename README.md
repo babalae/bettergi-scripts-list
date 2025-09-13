@@ -152,15 +152,15 @@
 
 #### 文件夹命名规则
 
-- 脚本的文件夹名称**应体现脚本的用途**，简要用途可在描述文件[manifest.json](https://bettergi.com/dev/js/create.html#manifest-json)中说明，详细用途可在`README.md`中说明
+- 脚本的文件夹名称**应体现脚本的用途**，简要用途可在描述文件 [manifest.json](https://bettergi.com/dev/js/create.html#manifest-json) 中说明，详细用途可在`README.md`(大小写敏感，要求全部大写的文件名) 中说明
 
-- 脚本的主体文件夹名称可采用`英文`、`中文`、`英文缩写+中文`等命名方式，名称中不应包含空格，如：
+- 脚本的主体文件夹名称可采用 [大驼峰式命名法](https://zh.wikipedia.org/wiki/%E9%A7%9D%E5%B3%B0%E5%BC%8F%E5%A4%A7%E5%B0%8F%E5%AF%AB) 等命名方式，名称中不应包含空格，如：
   
   ```
   repo/js
-  ├── OCR购买材料
+  ├── 
   ├── AutoLeyLineOutcrop
-  ├── 使用历练点完成每日委托
+  ├── AutoXXX
   └── ...
   ```
 
@@ -168,7 +168,7 @@
   
   ```
   repo/js
-  └── 你的脚本名称
+  └── jsName
       ├── Assets
       │   ├── Pathing
       │   │   └── xxx.json
@@ -183,7 +183,7 @@
 - `Assets`用于存放脚本使用到的资源文件，其中
   
   - `Pathing`用于存放[地图追踪](https://bettergi.com/feats/autos/pathing-dev.html)文件
-  - `RecognitionObject`用于存放[模板匹配](https://bettergi.com/dev/js/rec.html#%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D)对象
+  - `RecognitionObject`用于存放[模板匹配、图像识别](https://bettergi.com/dev/js/rec.html#%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D)对象
 
 **其他注意事项**
 

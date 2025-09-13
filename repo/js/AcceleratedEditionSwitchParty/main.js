@@ -150,7 +150,9 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 			ConfigureStatue = true;
 		}
 		return ConfigureStatue;
-	}	// Main
+	}
+
+	// Main
 	if (!!settings.partyName) {
 		try {
 			if (!settings.disableGoStatue) {
@@ -173,6 +175,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 					await SwitchParty(settings.partyName);
 				}
 			}
+			genshin.clearPartyCache();
 		} catch (error) {
 			log.error("队伍切换失败：" + error.message);
 			notification.error("队伍切换失败：" + error.message);

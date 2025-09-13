@@ -331,7 +331,6 @@ async function autoFightAsync() {
     }
 }
 
-//返回当前体力值
 async function queryStaminaValue() {
     try {
         await genshin.returnMainUi();
@@ -341,26 +340,20 @@ async function queryStaminaValue() {
         click(300, 540);
         await sleep(1000);
         click(1570, 203);
-        await sleep(1000);
+        await sleep(1500);
         let captureRegion = captureGameRegion();
         let stamina = captureRegion.find(RecognitionObject.ocr(1580, 20, 210, 55));
-        
-        // 改进的分割方法
+        log.info(`OCR原始文本：${stamina.text}`);
         const staminaText = stamina.text.replace(/\s/g, ''); // 移除所有空格
-        // 使用正则表达式匹配数字部分（包括/或可能被误识别为其他字符的情况）
-        const matches = staminaText.match(/(\d+)[^\d]+(\d+)/);
-        
-        if (!matches || matches.length < 3) {
-            throw new Error("无法解析体力值格式");
-        }
-        const currentValue = matches[1]; // 第一个数字是当前体力值
-        let validatedStamina = positiveIntegerJudgment(currentValue);
-        log.info(`剩余体力为：${validatedStamina}`);
-        await genshin.returnMainUi();
-        return validatedStamina;
-        
+         const standardMatch = staminaText.match(/(\d+)/);
+            if (standardMatch) {
+                const currentValue = standardMatch[1];
+                let validatedStamina = positiveIntegerJudgment(currentValue);
+                if (validatedStamina > 11200) validatedStamina = (validatedStamina-1200)/10000;
+           return validatedStamina;
+            }       
     } catch (error) {
-        log.error(`体力识别失败，默认为零`);
+        log.error(`体力识别失败：${error.message}，默认为零`);
         await genshin.returnMainUi();
         return 0;
     }      

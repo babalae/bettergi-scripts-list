@@ -1,0 +1,193 @@
+{
+  "info": {
+    "name": "B28-萃凝晶-纳塔-踞石山04-3个(有战斗、高危)",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "双手剑"
+    ],
+    "last_modified_time": 1751657630582,
+    "authors": [
+      {
+        "name": "无限不循环",
+        "links": "https://github.com/non-repeating001"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 7633.81,
+      "y": -1646.69,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 7634.73,
+      "y": -1759.37,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 7632.73,
+      "y": -1819.81,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 7652.54,
+      "y": -1868.63,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 7650.62,
+      "y": -1883.19,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 7652.94,
+      "y": -1908.47,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 7667.19,
+      "y": -1922.49,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 7675.01,
+      "y": -1947.74,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 7700.98,
+      "y": -1947.34,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 7682.31,
+      "y": -1947.83,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 7689.37,
+      "y": -1947.58,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 7698.5,
+      "y": -1944.28,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": 7698.5,
+      "y": -1944.28,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 7694.64,
+      "y": -1951.37,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 7698.61,
+      "y": -1950.84,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 16,
+      "x": 7698.61,
+      "y": -1950.84,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 7700.55,
+      "y": -1957.39,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 7702.24,
+      "y": -1952.58,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 19,
+      "x": 7702.24,
+      "y": -1952.58,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    }
+  ]
+}

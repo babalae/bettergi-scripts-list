@@ -13,7 +13,7 @@
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1754330531969,
+    "last_modified_time": 1755409118613,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -25,8 +25,7 @@
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "teleport",
-      "locked": false
+      "type": "teleport"
     },
     {
       "id": 2,
@@ -66,12 +65,12 @@
     },
     {
       "id": 6,
-      "x": 4420.2138671875,
-      "y": 4841.82177734375,
-      "type": "path",
-      "move_mode": "dash",
+      "x": 4424.969050206304,
+      "y": 4843.905742208224,
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 7,
@@ -80,8 +79,7 @@
       "action": "",
       "move_mode": "walk",
       "action_params": "",
-      "type": "teleport",
-      "locked": false
+      "type": "teleport"
     },
     {
       "id": 8,
@@ -90,8 +88,7 @@
       "action": "",
       "move_mode": "run",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 9,
@@ -100,17 +97,16 @@
       "action": "",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 10,
       "x": 4283.94140625,
       "y": 4642.21875,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
     }
   ]
 }

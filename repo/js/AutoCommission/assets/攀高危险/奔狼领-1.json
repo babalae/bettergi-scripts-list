@@ -1,75 +1,58 @@
-{
+﻿{
   "info": {
-    "name": "奔狼领-1",
-    "type": "collect",
-    "author": "1",
-    "version": "1.0",
+    "authors": [
+      {
+        "links": "",
+        "name": "星野"
+      }
+    ],
+    "bgi_version": "0.45.0",
     "description": "",
-    "bgi_version": "0.42.0"
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757315272020,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "奔狼领-1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -510.04,
-      "y": 2193.18,
-      "action_params": ""
+      "y": 2193.18
     },
     {
-      "id": 2,
       "action": "fight",
+      "action_params": "",
+      "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": -510.0,
-      "y": 2210.0,
-      "action_params": ""
+      "x": -510,
+      "y": 2210
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path",
-      "x": -490.92,
-      "y": 2221.81,
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path",
-      "x": -497.42,
-      "y": 2235.31,
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path",
-      "x": -510.79,
-      "y": 2235.68,
-      "action_params": ""
-    },
-    {
-      "id": 6,
-      "action": "",
       "move_mode": "walk",
       "type": "path",
       "x": -508.29,
-      "y": 2222.93,
-      "action_params": ""
+      "y": 2222.93
     },
     {
-      "id": 7,
       "action": "fight",
+      "action_params": "",
+      "id": 4,
       "move_mode": "walk",
       "type": "path",
       "x": -500.92,
-      "y": 2228.68,
-      "action_params": ""
+      "y": 2228.68
     }
   ]
 }

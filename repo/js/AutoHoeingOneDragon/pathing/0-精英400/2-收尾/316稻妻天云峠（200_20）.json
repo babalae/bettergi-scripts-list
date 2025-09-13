@@ -14,7 +14,7 @@
       }
     ],
     "tags": [],
-    "last_modified_time": 1754769656858,
+    "last_modified_time": 1755703617645,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -126,8 +126,8 @@
     },
     {
       "id": 13,
-      "x": -4229.0625,
-      "y": -4635.500752524698,
+      "x": -4226.5625,
+      "y": -4640.12663784787,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
@@ -135,8 +135,8 @@
     },
     {
       "id": 14,
-      "x": -4235,
-      "y": -4650.435884285209,
+      "x": -4230.234375,
+      "y": -4661.4716796875,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -144,19 +144,19 @@
     },
     {
       "id": 15,
-      "x": -4258.0625,
-      "y": -4659.312035205334,
+      "x": -4249.53125,
+      "y": -4658.906692661587,
       "action": "combat_script",
-      "move_mode": "jump",
+      "move_mode": "fly",
       "action_params": "wait(0.6)",
       "type": "path"
     },
     {
       "id": 16,
-      "x": -4273.53515625,
-      "y": -4665.169921875,
+      "x": -4275.767578125,
+      "y": -4655.43359375,
       "action": "combat_script",
-      "move_mode": "jump",
+      "move_mode": "fly",
       "action_params": "attack(0.3)",
       "type": "path"
     },
@@ -167,8 +167,7 @@
       "action": "",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 18,

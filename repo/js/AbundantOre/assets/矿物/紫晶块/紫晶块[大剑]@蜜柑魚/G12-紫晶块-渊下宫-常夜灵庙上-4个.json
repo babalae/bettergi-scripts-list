@@ -1,0 +1,258 @@
+{
+  "info": {
+    "name": "G12-紫晶块-渊下宫-常夜灵庙上-4个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "双手剑"
+    ],
+    "last_modified_time": 1752694794120,
+    "enable_monster_loot_split": false,
+    "author": "this-Fish"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -409.05,
+      "y": 575.27,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -413.42,
+      "y": 559.52,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -413.42,
+      "y": 559.52,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": -390.75,
+      "y": 554.03,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -391.84,
+      "y": 560.32,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "w(0.8)",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": -391.84,
+      "y": 560.32,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": -391.84,
+      "y": 560.32,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -393.88,
+      "y": 560.05,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -396.91,
+      "y": 561.0,
+      "action": "mining",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": -396.91,
+      "y": 561.0,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -396.0,
+      "y": 560.23,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -409.12,
+      "y": 575.24,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 13,
+      "x": -392.83,
+      "y": 563.14,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -341.13,
+      "y": 504.7,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "j,wait(2),j,attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 15,
+      "x": -341.13,
+      "y": 504.7,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -342.5,
+      "y": 510.01,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -344.08,
+      "y": 506.0,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "w(0.4)",
+      "type": "target"
+    },
+    {
+      "id": 18,
+      "x": -344.08,
+      "y": 506.0,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 19,
+      "x": -344.5,
+      "y": 506.0,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": -344.04,
+      "y": 506.35,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": -330.07,
+      "y": 528.62,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": -309.97,
+      "y": 534.18,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": -307.57,
+      "y": 537.1,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 24,
+      "x": -311.8,
+      "y": 538.12,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 25,
+      "x": -311.8,
+      "y": 538.12,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 26,
+      "x": -311.7,
+      "y": 538.1,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

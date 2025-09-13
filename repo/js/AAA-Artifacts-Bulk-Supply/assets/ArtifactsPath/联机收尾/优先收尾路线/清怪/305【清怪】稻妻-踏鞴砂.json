@@ -1,0 +1,103 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757012985237,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "305【清怪】稻妻-踏鞴砂",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3291.32421875,
+      "y": -3653.3291015625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3341.99609375,
+      "y": -3661.564453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.25);迪希雅 e;芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3342.0312835757068,
+      "y": -3661.0936059993473
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3352.73828125,
+      "y": -3652.2373046875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3334.818359375,
+      "y": -3623.345703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3319.34375,
+      "y": -3593.4951171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3314.56640625,
+      "y": -3557.91015625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3285.06640625,
+      "y": -3568.37890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.5);迪希雅 e;芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3261.853515625,
+      "y": -3583.9267578125
+    }
+  ]
+}

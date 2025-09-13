@@ -411,10 +411,15 @@ async function spikChat(npcName) {
 	count = 5
 	await sleep(1000);
 	if (npcName == "布纳马") {
+
+		await sleep(1000);
+		// 设置游戏分辨率和DPI缩放
+		setGameMetrics(1920, 1080, 1);
+	
 		// 交互
 		for (let i = 0; i < 3; i++) {
 			keyPress("VK_F");
-			await sleep(1300);
+			await sleep(1500);
 		}
 
 		// 点击有什么卖的
@@ -422,17 +427,19 @@ async function spikChat(npcName) {
 		let resList = captureRegion.findMulti(RecognitionObject.ocrThis);
 		for (let i = 0; i < resList.count; i++) {
 			if (resList[i].text.includes("有什么卖的")) {
+				await sleep(500);
 				click(resList[i].x + 30, resList[i].y + 30); // 点击有什么卖的
+				await sleep(500);
+
 				// 使用完后释放资源
 				captureRegion.dispose();
 			}
 		}
 
-		await sleep(1300);
+		await sleep(1500);
 		keyPress("VK_F");
-		await sleep(1300);
+		await sleep(1500);
 	} else {
-
 		for (let i = 0; i < count; i++) {
 			keyPress("VK_F");
 			await sleep(1300);

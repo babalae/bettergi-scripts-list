@@ -1,0 +1,295 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/non-repeating001",
+        "name": "无限不循环"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757181822730,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A13-萃凝晶-枫丹-下落BOOS-1（火神赶路-9个)",
+    "tags": [
+      "双手剑",
+      "火神赶路"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3923.3682,
+      "y": 4234.1128
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.1),e(hold),keydown(VK_W),dash(3.5),keyup(VK_W),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3873.8652,
+      "y": 4267.2148
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3873.8623,
+      "y": 4267.2188
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3820.4961,
+      "y": 4271.6777
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3818.1006,
+      "y": 4298.813
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3815.0908,
+      "y": 4324.1816
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3813.9941,
+      "y": 4320.5649
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3813.9941,
+      "y": 4320.5649
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3817.9336,
+      "y": 4327.0557
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3819.7148,
+      "y": 4323.9883
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3819.7148,
+      "y": 4323.9883
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3819.7148,
+      "y": 4323.9883
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3923.3682,
+      "y": 4234.0991
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3916.918,
+      "y": 4239.3447
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.1),e(hold),keydown(VK_W),dash(3.5),keyup(VK_W),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3952.3115,
+      "y": 4325.5898
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3952.3105,
+      "y": 4325.5898
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3950.3438,
+      "y": 4322.9326
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3950.3438,
+      "y": 4322.9326
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3948.6035,
+      "y": 4323.9731
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3948.6035,
+      "y": 4323.9731
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3973.5947,
+      "y": 4358.7212
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3975.8574,
+      "y": 4365.9106
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3974.1758,
+      "y": 4364.7866
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3974.1758,
+      "y": 4364.7866
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3972.7305,
+      "y": 4362.748
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 26,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3972.7305,
+      "y": 4362.748
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 27,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3923.3682,
+      "y": 4234.0991
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 28,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4137.7061,
+      "y": 4240.1572
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 29,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4133.6641,
+      "y": 4242.9209
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 30,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4133.6641,
+      "y": 4242.9209
+    }
+  ]
+}

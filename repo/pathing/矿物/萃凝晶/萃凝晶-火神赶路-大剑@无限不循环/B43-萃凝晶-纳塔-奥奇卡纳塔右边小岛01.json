@@ -1,0 +1,156 @@
+{
+  "info": {
+    "name": "B43-萃凝晶-纳塔-奥奇卡纳塔右边小岛01",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "双手剑"
+    ],
+    "last_modified_time": 1751658357022,
+    "authors": [
+      {
+        "name": "无限不循环",
+        "links": "https://github.com/non-repeating001"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9424.41,
+      "y": -354.64,
+      "action": "force_tp",
+      "move_mode": "fly",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9230.53,
+      "y": -339.5,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9194.36,
+      "y": -333.8,
+      "action": "",
+      "move_mode": "swim",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9169.23,
+      "y": -310.66,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9174.46,
+      "y": -310.55,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 9174.46,
+      "y": -310.55,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 9169.73,
+      "y": -310.52,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 9171.58,
+      "y": -309.11,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 9171.58,
+      "y": -309.11,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 9170.68,
+      "y": -305.4,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 9172.92,
+      "y": -305.61,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 9172.92,
+      "y": -305.61,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 9171.27,
+      "y": -298.55,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 9174.66,
+      "y": -298.85,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 15,
+      "x": 9174.66,
+      "y": -298.85,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    }
+  ]
+}

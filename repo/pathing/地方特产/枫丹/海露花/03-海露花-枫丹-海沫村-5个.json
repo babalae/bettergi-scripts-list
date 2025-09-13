@@ -1,0 +1,155 @@
+{
+  "info": {
+    "name": "03-海露花-枫丹-海沫村-5个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "水下地图"
+    ],
+    "last_modified_time": 1755202203638,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4905.9883,
+      "y": 2429.0962,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4928.9238,
+      "y": 2412.001,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4953.1035,
+      "y": 2415.8516,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4959.7666,
+      "y": 2424.6099,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(10.5),keyup(VK_LCONTROL),click(middle);"
+    },
+    {
+      "id": 5,
+      "x": 4953.835,
+      "y": 2410.8911,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(2.5),keyup(VK_LCONTROL)",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 4953.835,
+      "y": 2410.8911,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.4),click(middle);"
+    },
+    {
+      "id": 7,
+      "x": 4948.9883,
+      "y": 2415.427,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1.5),keyup(VK_LCONTROL)",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 4948.9883,
+      "y": 2415.427,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.4),click(middle);"
+    },
+    {
+      "id": 9,
+      "x": 4932.6797,
+      "y": 2407.5112,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1.5),keyup(VK_LCONTROL)",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 4932.6797,
+      "y": 2407.5112,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.4),keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE)"
+    },
+    {
+      "id": 11,
+      "x": 4951.9629,
+      "y": 2399.6897,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 4951.9629,
+      "y": 2399.6897,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(0.4),click(middle);"
+    },
+    {
+      "id": 13,
+      "x": 4920.9482,
+      "y": 2379.5708,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1.5),keyup(VK_LCONTROL)",
+      "locked": false
+    },
+    {
+      "id": 14,
+      "x": 4920.9482,
+      "y": 2379.5708,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1),click(middle);"
+    }
+  ]
+}

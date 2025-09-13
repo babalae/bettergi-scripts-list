@@ -1,18 +1,23 @@
-//当前js版本 1.4.2
+//当前js版本 1.5.1
 
 //拾取时上下滑动的时间
-let timeMoveUp = 500;
-let timeMoveDown = 1000;
+let timeMoveUp;
+let timeMoveDown;
 let pickupMode = settings.pickupMode || "模板匹配拾取，默认只拾取狗粮";
 if (settings.activeDumperMode) { //处理泥头车信息
     dumpers = settings.activeDumperMode.split('，').map(Number).filter(num => num === 1 || num === 2 || num === 3 || num === 4);
 } else {
     dumpers = [];
 }
-trigger = (+settings.trigger || 50);
 let gameRegion;
 let targetItemPath = "assets/targetItems";
 let targetItems;
+
+const rollingDelay = (+settings.rollingDelay || 25);
+const pickupDelay = (+settings.pickupDelay || 100);
+const timeMove = (+settings.timeMove || 1000);
+
+let warnMessage = [];
 
 (async function () {
     //自定义配置处理
@@ -35,24 +40,25 @@ let targetItems;
     targetMonsterNum += 25;//预留漏怪
     const partyName = settings.partyName || "";
 
-    // 获取 settings 中的标签，如果没有则使用默认值
-    const group1Settings = settings.tagsForGroup1 || "蕈兽";
-    const group2Settings = settings.tagsForGroup2 || "";
-    const group3Settings = settings.tagsForGroup3 || "";
-    const group4Settings = settings.tagsForGroup4 || "";
-    let group1Tags = group1Settings.split("，").filter(Boolean);
-    const group2Tags = group2Settings.split("，").filter(Boolean);
-    const group3Tags = group3Settings.split("，").filter(Boolean);
-    const group4Tags = group4Settings.split("，").filter(Boolean);
-    // 将 group2Tags、group3Tags 和 group4Tags 的内容添加到 group1Tags 中，并去除重复项
-    group1Tags = [...new Set([...group1Tags, ...group2Tags, ...group3Tags, ...group4Tags])];
+    //读取 settings（没有时用默认值）
+    const groupSettings = Array.from({ length: 10 }, (_, i) =>
+        settings[`tagsForGroup${i + 1}`] || (i === 0 ? '蕈兽' : '') // 第 0 组默认“蕈兽”，其余默认空串
+    );
+    const groupTags = groupSettings.map(str => str.split('，').filter(Boolean));
+    groupTags[0] = [...new Set(groupTags.flat())];
+
 
     const priorityTags = (settings.priorityTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
     const excludeTags = (settings.excludeTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
+    if (pickupMode != "模板匹配拾取，默认只拾取狗粮" && pickupMode != "ocr拾取，默认只拾取狗粮和晶蝶") {
+        excludeTags.push("沙暴");
+        log.warn("拾取模式不是模板匹配或ocr，无法处理沙暴路线，自动排除所有沙暴路线");
+    }
     const accountName = settings.accountName || "默认账户";
     // 拾取黑白名单处理
     const ocrPickupContent = await file.readText("assets/拾取名单.json");
     const ocrPickupJson = JSON.parse(ocrPickupContent);
+    ocrPickupJson["白名单"].push("镇压");
     const whitelistKeywords = ocrPickupJson["白名单"];
     const blacklistKeywords = ocrPickupJson["黑名单"];
 
@@ -63,11 +69,12 @@ let targetItems;
             targetItem.template = file.ReadImageMatSync(targetItem.fullPath);
             targetItem.itemName = targetItem.fileName.replace(/\.png$/, '');
         }
-        timeMoveUp = trigger * 8;
-        timeMoveDown = trigger * 8;
     }
+    timeMoveUp = Math.round(timeMove * 0.45);
+    timeMoveDown = Math.round(timeMove * 0.55);
     if (!settings.accountName) {
-        for (let i = 0; i < 120; i++) {
+        warnMessage.push("请先阅读js文件夹中的【README.md】后使用");
+        for (let i = 0; i < 5; i++) {
             // 原始文本
             let originalMessage = "   请先阅读js文件夹中的【README.md】后使用";
             // 计算轮替的偏移量，每次循环偏移一位
@@ -90,13 +97,13 @@ let targetItems;
     await initializeCdTime(pathings, accountName);
 
     //按照用户配置标记路线
-    await markPathings(pathings, group1Tags, group2Tags, group3Tags, group4Tags, priorityTags, excludeTags);
+    await markPathings(pathings, groupTags, priorityTags, excludeTags);
 
     //找出最优组合
     await findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum);
 
     //分配到不同路径组
-    await assignGroups(pathings, group1Tags, group2Tags, group3Tags, group4Tags);
+    await assignGroups(pathings, groupTags);
     /*
         //分配结果输出
         pathings.forEach((pathing, index) => {
@@ -122,7 +129,37 @@ let targetItems;
         await copyPathingsByGroup(pathings);
         await updateRecords(pathings, accountName);
     } else if (operationMode === "运行锄地路线") {
-        await switchPartyIfNeeded(partyName)
+        await switchPartyIfNeeded(partyName);
+        // 检测四神队伍并输出当前角色
+        const avatars = getAvatars() || [];
+        const need = ['钟离', '芙宁娜', '纳西妲', '雷电将军'];
+
+        let improperTeam = true;
+        for (let i = 0; i < need.length; i++) {
+            let found = false;
+            for (let j = 0; j < avatars.length; j++) {
+                if (avatars[j] === need[i]) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                improperTeam = false;
+                break;
+            }
+        }
+
+        // 手动拼接角色名，避免 join 报错
+        let teamStr = '';
+        for (let k = 0; k < avatars.length; k++) {
+            teamStr += avatars[k];
+            if (k < avatars.length - 1) {
+                teamStr += '、';
+            }
+        }
+
+        log.info('当前队伍：' + teamStr);
+
         log.info("开始运行锄地路线");
         await updateRecords(pathings, accountName);
         await processPathingsByGroup(pathings, whitelistKeywords, blacklistKeywords, accountName);
@@ -243,53 +280,34 @@ async function processPathings() {
     return pathings; // 返回处理后的 pathings 数组
 }
 
-async function markPathings(pathings, group1Tags, group2Tags, group3Tags, group4Tags, priorityTags, excludeTags) {
-    // 找出存在于 group1Tags 中且不在其他组标签中的标签
-    const uniqueTags = group1Tags.filter(tag => {
-        return !group2Tags.includes(tag) && !group3Tags.includes(tag) && !group4Tags.includes(tag);
-    });
+async function markPathings(pathings, groupTags, priorityTags, excludeTags) {
+    // 取出第 0 组并剔除与其他 9 组重复的标签
+    const uniqueTags = groupTags[0].filter(tag =>
+        !groupTags.slice(1).some(arr => arr.includes(tag))
+    );
 
     pathings.forEach(pathing => {
-        // 初始化 pathing.tags 和 pathing.monsterInfo 以确保它们存在
         pathing.tags = pathing.tags || [];
         pathing.monsterInfo = pathing.monsterInfo || {};
-
-        // 初始化 pathing.prioritized 为 false
         pathing.prioritized = false;
 
-        // 检查路径的 tags 是否包含 uniqueTags
         const containsUniqueTag = uniqueTags.some(uniqueTag => pathing.tags.includes(uniqueTag));
 
-        // 检查 fullPath、tags 或 monsterInfo 是否包含 excludeTags 中的任意一个子字符串
         const containsExcludeTag = excludeTags.some(excludeTag => {
-            // 检查 fullPath 是否包含 excludeTag
             const fullPathContainsExcludeTag = pathing.fullPath && pathing.fullPath.includes(excludeTag);
-            // 检查 tags 是否包含 excludeTag
             const tagsContainExcludeTag = pathing.tags.some(tag => tag.includes(excludeTag));
-            // 检查 monsterInfo 的键是否包含 excludeTag
             const monsterInfoContainsExcludeTag = Object.keys(pathing.monsterInfo).some(monsterName => monsterName.includes(excludeTag));
-
-            // 返回是否包含任意一个 excludeTag
             return fullPathContainsExcludeTag || tagsContainExcludeTag || monsterInfoContainsExcludeTag;
         });
 
-        // 检查 fullPath、tags 或 monsterInfo 是否包含 priorityTags 中的任意一个子字符串
         const containsPriorityTag = priorityTags.some(priorityTag => {
-            // 检查 fullPath 是否包含 priorityTag
             const fullPathContainsPriorityTag = pathing.fullPath && pathing.fullPath.includes(priorityTag);
-            // 检查 tags 是否包含 priorityTag
             const tagsContainPriorityTag = pathing.tags.some(tag => tag.includes(priorityTag));
-            // 检查 monsterInfo 的键是否包含 priorityTag
             const monsterInfoContainsPriorityTag = Object.keys(pathing.monsterInfo).some(monsterName => monsterName.includes(priorityTag));
-
-            // 返回是否包含任意一个 priorityTag
             return fullPathContainsPriorityTag || tagsContainPriorityTag || monsterInfoContainsPriorityTag;
         });
 
-        // 如果包含 uniqueTags 或 excludeTags，则标记为 false，否则标记为 true
         pathing.available = !(containsUniqueTag || containsExcludeTag);
-
-        // 如果包含 priorityTags，则标记为 true
         pathing.prioritized = containsPriorityTag;
     });
 }
@@ -438,50 +456,25 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
     log.info(`预计总用时: ${hours} 时 ${minutes} 分 ${seconds.toFixed(0)} 秒`);
 }
 
-async function assignGroups(pathings, group1Tags, group2Tags, group3Tags, group4Tags) {
-    // 初始化记录各组路线数量的对象
-    const groupCounts = {
-        0: 0, // 默认组
-        1: 0, // 不包含 group1Tags 的组
-        2: 0, // 包含 group1Tags 且包含 group2Tags 的组
-        3: 0, // 包含 group1Tags 但不包含 group2Tags，包含 group3Tags 的组
-        4: 0  // 包含 group1Tags 但不包含 group2Tags 和 group3Tags，包含 group4Tags 的组
-    };
-
+async function assignGroups(pathings, groupTags) {
     // 遍历 pathings 数组
     pathings.forEach(pathing => {
-        // 只处理 selected 为 true 的项
         if (pathing.selected) {
-            // 默认 group 为 0
             pathing.group = 0;
 
-            // 如果 tags 不包含 group1Tags 中的任意一个，则改为 1
-            if (!group1Tags.some(tag => pathing.tags.includes(tag))) {
+            if (!groupTags[0].some(tag => pathing.tags.includes(tag))) {
                 pathing.group = 1;
             } else {
-                // 如果包含 group1Tags 中的任意一个，则检查 group2Tags
-                if (group2Tags.some(tag => pathing.tags.includes(tag))) {
-                    pathing.group = 2;
-                } else {
-                    // 如果包含 group1Tags 但不包含 group2Tags，则检查 group3Tags
-                    if (group3Tags.some(tag => pathing.tags.includes(tag))) {
-                        pathing.group = 3;
-                    } else {
-                        // 如果包含 group1Tags 但不包含 group2Tags 和 group3Tags，则检查 group4Tags
-                        if (group4Tags.some(tag => pathing.tags.includes(tag))) {
-                            pathing.group = 4;
-                        }
+                // 依次判断 groupTags[1] ~ groupTags[9]
+                for (let i = 1; i <= 9; i++) {
+                    if (groupTags[i].some(tag => pathing.tags.includes(tag))) {
+                        pathing.group = i + 1;
+                        break;
                     }
                 }
             }
-
-            // 更新对应的组计数
-            groupCounts[pathing.group]++;
         }
     });
-
-    // 返回组计数对象
-    return groupCounts;
 }
 
 async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywords) {
@@ -508,8 +501,8 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
         let template = file.ReadImageMatSync(imagePath);
         let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
 
-        // 尝试次数设置为 3 次
-        const maxAttempts = 3;
+        // 尝试次数设置为 2 次
+        const maxAttempts = 2;
 
         let attempts = 0;
         while (attempts < maxAttempts && !state.cancelRequested) {
@@ -529,7 +522,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 return false; // 发生异常时返回 false
             }
             attempts++; // 增加尝试次数
-            await sleep(trigger); // 每次检测间隔 trigger 毫秒
+            await sleep(50); // 每次检测间隔 50 毫秒
         }
         if (state.cancelRequested) {
             log.info("图像识别任务已取消");
@@ -569,7 +562,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 return false; // 发生异常时返回 false
             }
             attempts++; // 增加尝试次数
-            await sleep(trigger); // 每次检测间隔 trigger 毫秒
+            await sleep(100); // 每次检测间隔 100 毫秒
         }
         if (state.cancelRequested) {
             log.info("图像识别任务已取消");
@@ -648,6 +641,8 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
         }
 
         while (!state.completed && !state.cancelRequested) {
+            let lastcenterYF = 0;
+            let lastItemName = "";
             // 尝试找到 F 图标并返回其坐标
             async function findFIcon(imagePath, xMin, yMin, width, height, timeout = 500) {
                 let template = file.ReadImageMatSync(imagePath);
@@ -669,7 +664,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                         }
                         return null;
                     }
-                    await sleep(trigger * 2); // 找不到f时等待 trigger*2 毫秒
+                    await sleep(100); // 找不到f时等待 100 毫秒
                 }
                 if (state.cancelRequested) {
                     log.info("图像识别任务已取消");
@@ -706,7 +701,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     let centerYTargetText = ocrResult.y + ocrResult.height / 2;
                     if (Math.abs(centerYTargetText - centerYF) <= texttolerance) {
                         keyPress("F"); // 执行交互操作
-                        await sleep(250); // 操作后暂停 250 毫秒
+                        await sleep(pickupDelay); // 操作后暂停 pickupDelay 毫秒
                         foundTarget = true;
                         if ((new Date() - lastPickupTime) > 1000 || ocrResult.text != lastPickupItem) {
                             log.info(`交互或拾取："${ocrResult.text}"`);
@@ -722,12 +717,22 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 //let end = new Date();
                 //log.info(`调试-匹配用时${end - start}毫秒`)
                 if (itemName) {
-                    keyPress("F"); // 执行交互操作
-                    log.info(`交互或拾取："${itemName}"`);
-                    await sleep(250); // 操作后暂停250 毫秒
-                    foundTarget = true;
+                    if (Math.abs(lastcenterYF - centerYF) <= 20 && lastItemName === itemName) {
+                        log.debug("调试-物品名和坐标相同，等待2*pickupDelay");
+                        await sleep(2 * pickupDelay);
+                        foundTarget = true;
+                        lastcenterYF = 0;
+                    } else {
+                        keyPress("F"); // 执行交互操作
+                        log.info(`交互或拾取："${itemName}"`);
+                        await sleep(pickupDelay); // 操作后暂停 pickupDelay 毫秒
+                        //foundTarget = true;
+                    }
+                    lastcenterYF = centerYF;
+                    lastItemName = itemName;
+                } else {
+                    lastItemName = "";
                 }
-
             }
             // 如果在当前页面中没有找到任何目标文本，则根据时间决定滚动方向
             if (!foundTarget) {
@@ -751,13 +756,9 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                     // 否则执行下翻
                     await keyMouseScript.runFile(`assets/滚轮上翻.json`);
                 }
-                if (pickupMode === "模板匹配拾取，默认只拾取狗粮") {
-                    await sleep(Math.round(trigger / 3));
-                } else {
-                    await sleep(Math.round(trigger));
-                }
+                //滚轮后延时
+                await sleep(rollingDelay);
             }
-
             if (state.cancelRequested) {
                 break;
             }
@@ -873,6 +874,8 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
         }
     }
 
+
+
     // 启动路径文件执行任务
     const pathTask = executePathFile(pathFilePath);
 
@@ -975,13 +978,21 @@ async function processPathingsByGroup(pathings, whitelistKeywords, blacklistKeyw
     let lastX = 0;
     let lastY = 0;
     let runningFailCount = 0;
-    // 定义路径组名称到组号的映射
+
+    // 定义路径组名称到组号的映射（10 个）
     const groupMapping = {
         "路径组一": 1,
         "路径组二": 2,
         "路径组三": 3,
-        "路径组四": 4
+        "路径组四": 4,
+        "路径组五": 5,
+        "路径组六": 6,
+        "路径组七": 7,
+        "路径组八": 8,
+        "路径组九": 9,
+        "路径组十": 10
     };
+
     // 从全局 settings 中获取用户选择的路径组名称
     const selectedGroupName = settings.groupIndex || "路径组一"; // 默认值为 "路径组一"
 
@@ -1065,6 +1076,17 @@ async function processPathingsByGroup(pathings, whitelistKeywords, blacklistKeyw
             // 输出路径已刷新并开始处理的信息
             log.info(`该路线已刷新，开始处理。`);
             await fakeLog(`${pathing.fileName}`, false, true, 0);
+            try {
+                await genshin.returnMainUi();
+                const miniMapPosition = await genshin.getPositionFromMap(pathing.map_name);
+                // 更新坐标
+                lastX = miniMapPosition.X;
+                lastY = miniMapPosition.Y;
+                //log.info(`当前位于${pathing.map_name}地图的（${miniMapPosition.X}，${miniMapPosition.Y}，距离上次距离${(diffX + diffY)}`);
+            } catch (error) {
+                log.error(`获取坐标时发生错误：${error.message}`);
+                runningFailCount++;
+            }
             // 调用 runPath 函数处理路径
             await runPath(pathing.fullPath, pathing.map_name, whitelistKeywords, blacklistKeywords);
             try {
@@ -1089,12 +1111,12 @@ async function processPathingsByGroup(pathings, whitelistKeywords, blacklistKeyw
                 }
                 //log.info(`当前位于${pathing.map_name}地图的（${miniMapPosition.X}，${miniMapPosition.Y}，距离上次距离${(diffX + diffY)}`);
             } catch (error) {
-                log.error(`执行任务时发生错误：${error.message}`);
+                log.error(`获取坐标时发生错误：${error.message}`);
                 runningFailCount++;
             }
 
             if (runningFailCount >= 1) {
-                log.error("连续两条路线终止时坐标不变，不记录运行数据");
+                log.error("出发点与终点过于接近，或坐标获取异常，不记录运行数据");
                 continue;
             }
 

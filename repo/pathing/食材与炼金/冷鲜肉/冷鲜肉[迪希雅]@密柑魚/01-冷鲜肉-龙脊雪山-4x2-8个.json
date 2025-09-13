@@ -3,19 +3,21 @@
     "name": "01-冷鲜肉-龙脊雪山-4x2-8个",
     "type": "collect",
     "version": "1.0",
-    "description": "必需使用 60級(突破后) 迪希雅 作為行走位",
+    "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [
       "迪希雅"
     ],
-    "last_modified_time": 1753170814385,
+    "last_modified_time": 1755274325346,
     "authors": [
       {
         "name": "蜜柑魚",
         "links": "https://github.com/this-Fish"
       }
-    ]
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -51,7 +53,7 @@
       "y": 836.73,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "迪希雅 wait(0.2),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
+      "action_params": "迪希雅 wait(0.8),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
       "type": "target"
     },
     {
@@ -67,10 +69,10 @@
       "id": 6,
       "x": -1242.36,
       "y": 837.51,
-      "type": "target",
-      "move_mode": "walk",
       "action": "pick_around",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 7,
@@ -85,10 +87,10 @@
       "id": 8,
       "x": -1241.64,
       "y": 881.27,
-      "type": "target",
-      "move_mode": "walk",
       "action": "pick_around",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     },
     {
       "id": 9,
@@ -105,44 +107,62 @@
       "y": 901.5,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.2),keypress(f),wait(0.5)",
-      "type": "target"
+      "action_params": "wait(0.3),keypress(f),wait(0.5)",
+      "type": "path"
     },
     {
       "id": 11,
+      "x": -1247.625,
+      "y": 899.5059,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
       "x": -1241.28,
       "y": 929.35,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "wait(1.5)",
-      "type": "target"
+      "type": "path"
     },
     {
-      "id": 12,
+      "id": 13,
       "x": -1248.67,
       "y": 939.5,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "迪希雅 wait(0.2),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
+      "action_params": "迪希雅 wait(0.8),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
       "type": "target"
     },
     {
-      "id": 13,
+      "id": 14,
       "x": -1246.29,
       "y": 941.21,
-      "type": "target",
-      "move_mode": "dash",
       "action": "pick_around",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
     },
     {
-      "id": 14,
+      "id": 15,
+      "x": -1245.2715,
+      "y": 944.584,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
       "x": -1252.67,
       "y": 938.66,
-      "type": "target",
-      "move_mode": "dash",
       "action": "pick_around",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
     }
   ]
 }

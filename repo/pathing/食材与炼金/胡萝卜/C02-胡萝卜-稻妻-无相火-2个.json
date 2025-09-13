@@ -2,19 +2,20 @@
   "info": {
     "name": "C02-胡萝卜-稻妻-无相火-2个",
     "type": "collect",
-    "author": "不瘦五十斤不改名",
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1754247247054,
+    "last_modified_time": 1755333593047,
     "authors": [
       {
         "name": "不瘦五十斤不改名",
         "links": "https://github.com/PanZic"
       }
-    ]
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
   },
   "positions": [
     {
@@ -38,16 +39,16 @@
       "x": -3235.23,
       "y": -2995.38,
       "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "move_mode": "dash",
+      "type": "target"
     },
     {
       "id": 4,
       "x": -3233.11,
       "y": -2991.89,
       "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "move_mode": "dash",
+      "type": "target"
     },
     {
       "id": 5,

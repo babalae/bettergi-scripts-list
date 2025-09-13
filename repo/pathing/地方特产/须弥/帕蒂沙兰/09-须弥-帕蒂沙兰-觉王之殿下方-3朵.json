@@ -1,74 +1,102 @@
 {
   "info": {
-    "name": "09-须弥-帕蒂沙兰-觉王之殿下方-3朵",
-    "type": "collect",
     "authors": [
       {
-        "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1755083509957,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1757244411101,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "09-须弥-帕蒂沙兰-觉王之殿下方-3朵",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "teleport",
       "x": 3592.0,
-      "y": -787.3306,
-      "action": "",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "teleport"
+      "y": -787.3306
     },
     {
+      "action": "",
       "id": 2,
-      "x": 3584.0,
-      "y": -754.75,
-      "action": "",
       "move_mode": "dash",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 3586.916,
-      "y": -712.2134,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 4,
-      "x": 3604.375,
-      "y": -705.9375,
-      "action": "",
-      "move_mode": "dash",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 3623.2578,
-      "y": -710.4868,
       "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "x": 3584.0,
+      "y": -754.75
     },
     {
-      "id": 6,
-      "x": 3620.5674,
-      "y": -715.1758,
-      "action": "combat_script",
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3582.0723,
+      "y": -716.9102
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3586.916,
+      "y": -712.2134
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
       "move_mode": "dash",
-      "action_params": "wait(0.3)",
-      "type": "path"
+      "type": "path",
+      "x": 3594.4375,
+      "y": -703.2739
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3604.375,
+      "y": -705.9375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3623.2578,
+      "y": -710.4868
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.8)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3620.5674,
+      "y": -715.1758
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "teleport",
+      "x": 3592.0,
+      "y": -787.3306
     }
   ]
 }
