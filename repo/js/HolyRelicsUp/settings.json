@@ -1,5 +1,14 @@
 [
    {
+       "name": "language",
+       "type": "select",
+       "label": "语言",
+       "options": [
+         "简体中文",
+       ],
+       "default": "简体中文"
+   },
+   {
      "name": "toBag",
      "type": "checkbox",
      "label": "启用自动进入背包",

@@ -77,6 +77,21 @@ function getLanguageALLConfigMap() {
                     // ['up_materials_select', {name: '请选择升级材料', type: '.jpg'}],
                     // ['morra_need', {name: '需要摩拉', type: '.jpg'}],
                 ]),
+                //魔法值
+                mana: new Map([
+                    ['holyRelicsNoMax', '未满级'],
+                    ['holyRelicsLockMark', '标记'],
+                    ['holyRelicsLockY', '仅锁定'],
+                    ['holyRelicsLockN', '未锁定'],
+                    ['holyRelicsEquipY', '已装备'],
+                    ['holyRelicsEquipN', '未装备'],
+                    ['holyRelicsSourceFrostSaint', '祝圣之霜定义'],
+
+                    ['desc_order', '降序'],
+                    ['asc_order', '升序'],
+
+                    ['quality_order', '品质顺序']
+                ]),
             }
         ],
     ])

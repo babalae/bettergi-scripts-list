@@ -134,27 +134,38 @@ function isExist(res) {
 
 //========================以上为原有封装==============================
 //========================以下为基本配置==============================
+const LanguageALLConfigMap = languageUtils.getLanguageALLConfigMap()
+
+const LanguageMap = languageUtils.getLanguageMap()
+const LanguageKey = LanguageMap.get(settings.language)
+if (LanguageKey === null || !LanguageKey) {
+    throwError(`未找到[${settings.language}]语言配置,支持语言：[${Array.from(LanguageMap.keys()).join(',')}]`)
+}
+const LanguageConfigJson = LanguageALLConfigMap.get(LanguageKey)
+//魔法值
+const mana = LanguageConfigJson.mana
 
 function siftAll() {
     //筛选条件
-    let baseSiftArray = new Array('未满级')
+    let baseSiftArray = new Array()
+    baseSiftArray.push(mana.get('holyRelicsNoMax'))
     if (settings.holyRelicsLockMark) {
-        baseSiftArray.push('标记')
+        baseSiftArray.push(mana.get('holyRelicsLockMark'))
     }
     if (settings.holyRelicsLockY) {
-        baseSiftArray.push('仅锁定')
+        baseSiftArray.push(mana.get('holyRelicsLockY'))
     }
     if (settings.holyRelicsLockN) {
-        baseSiftArray.push('未锁定')
+        baseSiftArray.push(mana.get('holyRelicsLockN'))
     }
     if (settings.holyRelicsEquipY) {
-        baseSiftArray.push('已装备')
+        baseSiftArray.push(mana.get('holyRelicsEquipY'))
     }
     if (settings.holyRelicsEquipN) {
-        baseSiftArray.push('未装备')
+        baseSiftArray.push(mana.get('holyRelicsEquipN'))
     }
     if (settings.holyRelicsSourceFrostSaint) {
-        baseSiftArray.push('祝圣之霜定义')
+        baseSiftArray.push(mana.get('holyRelicsSourceFrostSaint'))
     }
     return baseSiftArray
 }
@@ -162,10 +173,10 @@ function siftAll() {
 function sortAll() {
     //筛选条件
     let baseSortArray = new Array()
-    if (settings.sortMain === '降序') {
+    if (settings.sortMain === mana.get('desc_order')) {
         baseSortArray.push(settings.sortMain)
     }
-    if (settings.sortAuxiliary === '品质顺序') {
+    if (settings.sortAuxiliary === mana.get('quality_order')) {
         baseSortArray.push(settings.sortAuxiliary)
     }
     return baseSortArray
@@ -199,7 +210,7 @@ const config = {
     meetAllSiftAttributeHolyRelic: settings.meetAllSiftAttributeHolyRelic,//满足所有筛选条件
     commonSiftAttributeHolyRelic: settings.commonSiftAttributeHolyRelic,//通用筛选条件
     inputSiftAttributeHolyRelic: settings.inputSiftAttributeHolyRelic,//自定义筛选条件
-    language: '简体中文',
+    language: settings.language,
 }
 
 
@@ -208,14 +219,7 @@ const genshinJson = {
     height: genshin.height,
 }
 
-const LanguageALLConfigMap = languageUtils.getLanguageALLConfigMap()
 
-const LanguageMap = languageUtils.getLanguageMap()
-const LanguageKey = LanguageMap.get(config.language)
-if (LanguageKey === null || !LanguageKey) {
-    throwError(`未找到[${config.language}]语言配置,支持语言：[${Array.from(LanguageMap.keys()).join(',')}]`)
-}
-const LanguageConfigJson = LanguageALLConfigMap.get(LanguageKey)
 const attributeMap = LanguageConfigJson.attributeMap
 const attributeList = LanguageConfigJson.attributeList
 const attributeFixedMap = LanguageConfigJson.attributeFixedMap
