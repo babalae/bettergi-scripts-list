@@ -5,10 +5,10 @@
         "name": "芝士贝果"
       }
     ],
-    "bgi_version": "0.49.1",
+    "bgi_version": "0.50.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757508533897,
+    "last_modified_time": 1757736702811,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "15-雷图礁左上-9个",
@@ -108,10 +108,18 @@
       "y": 1660.5352
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11098.6318,
+      "y": 1661.3467
+    },
+    {
       "action": "combat_script",
       "action_params": "keypress(t)",
-      "id": 11,
-      "locked": false,
+      "id": 12,
       "move_mode": "walk",
       "type": "orientation",
       "x": 11099.5938,
@@ -120,7 +128,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 12,
+      "id": 13,
       "move_mode": "walk",
       "type": "path",
       "x": 11099.5938,
@@ -129,7 +137,7 @@
     {
       "action": "combat_script",
       "action_params": "click(middle)",
-      "id": 13,
+      "id": 14,
       "move_mode": "walk",
       "type": "path",
       "x": 11101.2725,
@@ -138,7 +146,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(t)",
-      "id": 14,
+      "id": 15,
       "move_mode": "walk",
       "type": "orientation",
       "x": 11107.7539,
@@ -147,7 +155,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 15,
+      "id": 16,
       "move_mode": "walk",
       "type": "path",
       "x": 11105.5898,
@@ -156,7 +164,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 16,
+      "id": 17,
       "move_mode": "dash",
       "type": "path",
       "x": 11109.1855,
@@ -165,7 +173,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 18,
       "move_mode": "dash",
       "type": "path",
       "x": 11119.252,
@@ -174,7 +182,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 19,
       "move_mode": "jump",
       "type": "path",
       "x": 11131.1914,
@@ -183,7 +191,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 19,
+      "id": 20,
       "move_mode": "walk",
       "type": "path",
       "x": 11138.4883,
@@ -192,7 +200,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t)",
-      "id": 20,
+      "id": 21,
       "move_mode": "walk",
       "type": "orientation",
       "x": 11142.5898,
@@ -201,11 +209,47 @@
     {
       "action": "",
       "action_params": "",
-      "id": 21,
+      "id": 22,
       "move_mode": "walk",
       "type": "path",
       "x": 11142.0684,
       "y": 1659.8706
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 11121.333,
+      "y": 1699.9932
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11120.7109,
+      "y": 1701.9033
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t)",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 11121.7061,
+      "y": 1714.3267
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11120.3867,
+      "y": 1708.2598
     }
   ]
 }
