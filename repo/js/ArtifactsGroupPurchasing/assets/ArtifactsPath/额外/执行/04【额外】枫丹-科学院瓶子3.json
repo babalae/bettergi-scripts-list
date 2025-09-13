@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1755889573606,
+    "last_modified_time": 1757530817575,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "04【额外】枫丹-科学院瓶子3",
@@ -64,7 +64,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.3),keypress(f),attack(0.3),keypress(f),attack(0.5),keypress(f);迪希雅 e;",
+      "action_params": "attack(0.3),keypress(f),attack(0.3),keypress(f),attack(0.5),keypress(f),s(0.2);迪希雅 e;",
       "id": 6,
       "move_mode": "dash",
       "type": "path",
@@ -128,7 +128,7 @@
       "action": "",
       "action_params": "",
       "id": 13,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
       "x": 4439.24462890625,
       "y": 4852.3349609375

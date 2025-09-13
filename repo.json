@@ -1,5 +1,5 @@
 {
-  "time": "20250912200759",
+  "time": "20250913221646",
   "url": "https://github.com/babalae/bettergi-scripts-list/archive/refs/heads/main.zip",
   "file": "repo.json",
   "indexes": [
@@ -7959,14 +7959,14 @@
                           "link": "https://github.com/Tooltingsu"
                         }
                       ],
-                      "description": "",
+                      "description": "0.50版本在完成支线任务后大地图会改变影响识别，症状为摇头晃脑",
                       "tags": [
                         "bgi≥0.49.1",
                         "地方特产",
                         "挪德卡莱",
                         "月落银"
                       ],
-                      "lastUpdated": "2025-09-11 14:55:42"
+                      "lastUpdated": "2025-09-13 11:40:24"
                     }
                   ]
                 },
@@ -42288,1096 +42288,544 @@
                   "type": "directory",
                   "children": [
                     {
-                      "name": "scaling-1.0",
-                      "type": "directory",
-                      "children": [
+                      "name": "A00-塞洛海原（学习螃蟹技能）.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
                         {
-                          "name": "A00-塞洛海原（学习螃蟹技能）.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "A01-塞洛海原左侧-18个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-09-03 11:20:14"
-                        },
-                        {
-                          "name": "A02-塞洛海原右侧-8个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "A03-塔拉塔海谷-6个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "A04-塔拉塔海谷上方-16个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "A05-塔拉塔海谷下方-3个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "A06-欧蒂克莱尔左侧-8个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "A07-欧蒂克莱尔右侧-5个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "A08-伊黎耶岛地下水脉左分支和右分支-17个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-23 22:56:53"
-                        },
-                        {
-                          "name": "B01-自体自身之塔左下-4个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "B02-自体自身之塔右下-3个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "B03-自体自身之塔右上-3个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "B04-卡布狄斯堡遗迹右下-10个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "B05-卡布狄斯堡遗迹右侧-17个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "C01-枫丹动能工程科学研究院区左侧-8个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "C02-枫丹动能工程科学研究院区右侧-10个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "C03-黎翡区上方传送锚点上面-7个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-22 22:37:42"
-                        },
-                        {
-                          "name": "C04-黎翡区上方传送锚点左侧-11个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "C05-黎翡区下方传送锚点低处-4个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "C06-黎翡区下方传送锚点高处-12个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-24 13:21:17"
-                        },
-                        {
-                          "name": "C07-黎翡区下方传送锚点右侧-8个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "C08-黎翡区下方传送锚点右下角至水下洞窟-12个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-24 11:01:22"
-                        },
-                        {
-                          "name": "D01-苍晶区七天神像下方-8个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "D02-优兰妮亚湖左侧水坑-5个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-24 13:21:17"
-                        },
-                        {
-                          "name": "D03-卡布狄斯堡遗迹右侧水坑-8个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "D04-柔灯港上方-13个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-23 22:56:53"
-                        },
-                        {
-                          "name": "D05-莫尔泰区七天神像右侧-17个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "D06-柔灯港左侧-33个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-23 22:56:53"
-                        },
-                        {
-                          "name": "D07-伊黎耶岛地下水脉下分支-不稳定-8个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-09-08 14:44:58"
-                        },
-                        {
-                          "name": "D08-伊黎耶岛地下水脉上分支-7个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-09-08 14:44:58"
+                          "name": "芝士贝果"
                         }
-                      ]
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
                     },
                     {
-                      "name": "scaling-1.75",
-                      "type": "directory",
-                      "children": [
+                      "name": "A01-塞洛海原左侧-18个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
                         {
-                          "name": "A00-塞洛海原（学习螃蟹技能）.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "A01-塞洛海原左侧-18个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-09-03 11:20:14"
-                        },
-                        {
-                          "name": "A02-塞洛海原右侧-8个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "A03-塔拉塔海谷-6个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "A04-塔拉塔海谷上方-16个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "A05-塔拉塔海谷下方-3个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "A06-欧蒂克莱尔左侧-8个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "A07-欧蒂克莱尔右侧-5个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "A08-伊黎耶岛地下水脉左分支和右分支-17个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-23 22:56:53"
-                        },
-                        {
-                          "name": "B01-自体自身之塔左下-4个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "B02-自体自身之塔右下-3个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "B03-自体自身之塔右上-3个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "B04-卡布狄斯堡遗迹右下-10个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "B05-卡布狄斯堡遗迹右侧-17个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "C01-枫丹动能工程科学研究院区左侧-8个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "C02-枫丹动能工程科学研究院区右侧-10个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "C03-黎翡区上方传送锚点上面-7个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-22 22:37:42"
-                        },
-                        {
-                          "name": "C04-黎翡区上方传送锚点左侧-11个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "C05-黎翡区下方传送锚点低处-4个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "C06-黎翡区下方传送锚点高处-12个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-24 13:21:17"
-                        },
-                        {
-                          "name": "C07-黎翡区下方传送锚点右侧-8个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "C08-黎翡区下方传送锚点右下角至水下洞窟-12个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-24 11:01:22"
-                        },
-                        {
-                          "name": "D01-苍晶区七天神像下方-8个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "D02-优兰妮亚湖左侧水坑-5个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-24 13:21:17"
-                        },
-                        {
-                          "name": "D03-卡布狄斯堡遗迹右侧水坑-8个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "D04-柔灯港上方-13个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-23 22:56:53"
-                        },
-                        {
-                          "name": "D05-莫尔泰区七天神像右侧-17个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-20 18:52:21"
-                        },
-                        {
-                          "name": "D06-柔灯港左侧-33个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-08-23 14:27:46"
-                        },
-                        {
-                          "name": "D07-伊黎耶岛地下水脉下分支-不稳定-8个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-09-08 14:44:58"
-                        },
-                        {
-                          "name": "D08-伊黎耶岛地下水脉上分支-7个.json",
-                          "type": "file",
-                          "version": "1.0",
-                          "author": "芝士贝果",
-                          "authors": [
-                            {
-                              "name": "芝士贝果"
-                            }
-                          ],
-                          "description": "",
-                          "tags": [
-                            "bgi≥0.48.0",
-                            "矿物",
-                            "萃凝晶"
-                          ],
-                          "lastUpdated": "2025-09-08 14:44:58"
+                          "name": "芝士贝果"
                         }
-                      ]
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "A02-塞洛海原右侧-8个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "A03-塔拉塔海谷-6个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "A04-塔拉塔海谷上方-16个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "A05-塔拉塔海谷下方-3个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "A06-欧蒂克莱尔左侧-8个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "A07-欧蒂克莱尔右侧-5个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "A08-伊黎耶岛地下水脉左分支和右分支-17个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "B01-自体自身之塔左下-4个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "B02-自体自身之塔右下-3个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "B03-自体自身之塔右上-3个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "B04-卡布狄斯堡遗迹右下-10个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "B05-卡布狄斯堡遗迹右侧-17个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "C01-枫丹动能工程科学研究院区左侧-8个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "C02-枫丹动能工程科学研究院区右侧-10个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "C03-黎翡区上方传送锚点上面-7个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "C04-黎翡区上方传送锚点左侧-11个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "C05-黎翡区下方传送锚点低处-4个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "C06-黎翡区下方传送锚点高处-12个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "C07-黎翡区下方传送锚点右侧-8个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "C08-黎翡区下方传送锚点右下角至水下洞窟-12个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "D01-苍晶区七天神像下方-8个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "D02-优兰妮亚湖左侧水坑-5个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "D03-卡布狄斯堡遗迹右侧水坑-8个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "D04-柔灯港上方-13个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "D05-莫尔泰区七天神像右侧-17个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "D06-柔灯港左侧-33个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "D07-伊黎耶岛地下水脉下分支-不稳定-8个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
+                    },
+                    {
+                      "name": "D08-伊黎耶岛地下水脉上分支-7个.json",
+                      "type": "file",
+                      "version": "1.0",
+                      "author": "芝士贝果",
+                      "authors": [
+                        {
+                          "name": "芝士贝果"
+                        }
+                      ],
+                      "description": "",
+                      "tags": [
+                        "bgi≥0.50.0",
+                        "矿物",
+                        "萃凝晶"
+                      ],
+                      "lastUpdated": "2025-09-13 15:48:04"
                     }
                   ]
                 },
@@ -45769,12 +45217,12 @@
                   ],
                   "description": "",
                   "tags": [
-                    "bgi≥0.49.1",
+                    "bgi≥0.50.0",
                     "矿物",
                     "虹滴晶",
                     "挖矿"
                   ],
-                  "lastUpdated": "2025-09-10 16:52:09"
+                  "lastUpdated": "2025-09-13 15:47:38"
                 },
                 {
                   "name": "02-那夏镇左侧-8个.json",
@@ -45788,12 +45236,12 @@
                   ],
                   "description": "",
                   "tags": [
-                    "bgi≥0.49.1",
+                    "bgi≥0.50.0",
                     "矿物",
                     "虹滴晶",
                     "挖矿"
                   ],
-                  "lastUpdated": "2025-09-10 22:07:53"
+                  "lastUpdated": "2025-09-13 15:47:38"
                 },
                 {
                   "name": "03-伦波岛右侧-4个.json",
@@ -45807,11 +45255,11 @@
                   ],
                   "description": "",
                   "tags": [
-                    "bgi≥0.49.1",
+                    "bgi≥0.50.0",
                     "矿物",
                     "虹滴晶"
                   ],
-                  "lastUpdated": "2025-09-10 22:07:53"
+                  "lastUpdated": "2025-09-13 15:47:38"
                 },
                 {
                   "name": "04-伦波岛左侧和上方-7个.json",
@@ -45825,12 +45273,12 @@
                   ],
                   "description": "",
                   "tags": [
-                    "bgi≥0.49.1",
+                    "bgi≥0.50.0",
                     "矿物",
                     "虹滴晶",
                     "挖矿"
                   ],
-                  "lastUpdated": "2025-09-10 22:07:53"
+                  "lastUpdated": "2025-09-13 15:47:38"
                 },
                 {
                   "name": "05-叮铃哐啷蛋卷工坊-7个.json",
@@ -45844,12 +45292,12 @@
                   ],
                   "description": "",
                   "tags": [
-                    "bgi≥0.49.1",
+                    "bgi≥0.50.0",
                     "矿物",
                     "虹滴晶",
                     "挖矿"
                   ],
-                  "lastUpdated": "2025-09-10 22:07:53"
+                  "lastUpdated": "2025-09-13 15:47:38"
                 },
                 {
                   "name": "06-蓝珀湖左侧-4个.json",
@@ -45863,12 +45311,12 @@
                   ],
                   "description": "",
                   "tags": [
-                    "bgi≥0.49.1",
+                    "bgi≥0.50.0",
                     "矿物",
                     "虹滴晶",
                     "挖矿"
                   ],
-                  "lastUpdated": "2025-09-10 22:07:53"
+                  "lastUpdated": "2025-09-13 15:47:38"
                 },
                 {
                   "name": "07-蓝珀湖下方-14个.json",
@@ -45882,12 +45330,12 @@
                   ],
                   "description": "",
                   "tags": [
-                    "bgi≥0.49.1",
+                    "bgi≥0.50.0",
                     "矿物",
                     "虹滴晶",
                     "挖矿"
                   ],
-                  "lastUpdated": "2025-09-10 22:07:53"
+                  "lastUpdated": "2025-09-13 15:47:38"
                 },
                 {
                   "name": "08-刻拉蒂之眼-5个.json",
@@ -45901,13 +45349,12 @@
                   ],
                   "description": "",
                   "tags": [
-                    "bgi≥0.49.1",
+                    "bgi≥0.50.0",
                     "矿物",
                     "虹滴晶",
-                    "挖矿",
-                    "战斗"
+                    "挖矿"
                   ],
-                  "lastUpdated": "2025-09-10 22:07:53"
+                  "lastUpdated": "2025-09-13 19:40:42"
                 },
                 {
                   "name": "09-帕哈岛-4个.json",
@@ -45921,12 +45368,13 @@
                   ],
                   "description": "",
                   "tags": [
-                    "bgi≥0.49.1",
+                    "bgi≥0.50.0",
                     "矿物",
                     "虹滴晶",
+                    "精英怪",
                     "战斗"
                   ],
-                  "lastUpdated": "2025-09-10 22:07:53"
+                  "lastUpdated": "2025-09-13 15:47:38"
                 },
                 {
                   "name": "10-月矩力试验设计局-7个.json",
@@ -45940,13 +45388,14 @@
                   ],
                   "description": "",
                   "tags": [
-                    "bgi≥0.49.1",
+                    "bgi≥0.50.0",
                     "矿物",
                     "虹滴晶",
+                    "精英怪",
                     "挖矿",
                     "战斗"
                   ],
-                  "lastUpdated": "2025-09-10 22:07:53"
+                  "lastUpdated": "2025-09-13 15:47:38"
                 },
                 {
                   "name": "11-沐光之台-4个.json",
@@ -45960,12 +45409,12 @@
                   ],
                   "description": "",
                   "tags": [
-                    "bgi≥0.49.1",
+                    "bgi≥0.50.0",
                     "矿物",
                     "虹滴晶",
                     "挖矿"
                   ],
-                  "lastUpdated": "2025-09-10 22:07:53"
+                  "lastUpdated": "2025-09-13 15:47:38"
                 },
                 {
                   "name": "12-雷图礁右侧-5个.json",
@@ -45979,11 +45428,11 @@
                   ],
                   "description": "",
                   "tags": [
-                    "bgi≥0.49.1",
+                    "bgi≥0.50.0",
                     "矿物",
                     "虹滴晶"
                   ],
-                  "lastUpdated": "2025-09-10 22:07:53"
+                  "lastUpdated": "2025-09-13 19:40:42"
                 },
                 {
                   "name": "13-雷图礁右上-3个.json",
@@ -45997,12 +45446,12 @@
                   ],
                   "description": "",
                   "tags": [
-                    "bgi≥0.49.1",
+                    "bgi≥0.50.0",
                     "矿物",
                     "虹滴晶",
                     "战斗"
                   ],
-                  "lastUpdated": "2025-09-10 22:07:53"
+                  "lastUpdated": "2025-09-13 15:47:38"
                 },
                 {
                   "name": "14-雷图礁左侧-8个.json",
@@ -46016,11 +45465,11 @@
                   ],
                   "description": "",
                   "tags": [
-                    "bgi≥0.49.1",
+                    "bgi≥0.50.0",
                     "矿物",
                     "虹滴晶"
                   ],
-                  "lastUpdated": "2025-09-10 22:07:53"
+                  "lastUpdated": "2025-09-13 15:47:38"
                 },
                 {
                   "name": "15-雷图礁左上-9个.json",
@@ -46034,11 +45483,11 @@
                   ],
                   "description": "",
                   "tags": [
-                    "bgi≥0.49.1",
+                    "bgi≥0.50.0",
                     "矿物",
                     "虹滴晶"
                   ],
-                  "lastUpdated": "2025-09-10 22:07:53"
+                  "lastUpdated": "2025-09-13 15:47:38"
                 }
               ]
             },
@@ -49660,6 +49109,192 @@
                     "宿影花"
                   ],
                   "lastUpdated": "2025-09-10 22:11:52"
+                }
+              ]
+            },
+            {
+              "name": "寒涌石",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "01-伦波岛-北方训练场上方-7个.json",
+                  "type": "file",
+                  "version": "1.0",
+                  "author": "芝士贝果",
+                  "authors": [
+                    {
+                      "name": "芝士贝果"
+                    }
+                  ],
+                  "description": "",
+                  "tags": [
+                    "bgi≥0.50.0",
+                    "食材与炼金",
+                    "寒涌石"
+                  ],
+                  "lastUpdated": "2025-09-13 20:53:39"
+                },
+                {
+                  "name": "02-伦波岛-星沙滩-21个.json",
+                  "type": "file",
+                  "version": "1.0",
+                  "author": "芝士贝果",
+                  "authors": [
+                    {
+                      "name": "芝士贝果"
+                    }
+                  ],
+                  "description": "",
+                  "tags": [
+                    "bgi≥0.50.0",
+                    "食材与炼金",
+                    "寒涌石"
+                  ],
+                  "lastUpdated": "2025-09-13 20:53:39"
+                },
+                {
+                  "name": "03-伦波岛-星珀湖下方-7个.json",
+                  "type": "file",
+                  "version": "1.0",
+                  "author": "芝士贝果",
+                  "authors": [
+                    {
+                      "name": "芝士贝果"
+                    }
+                  ],
+                  "description": "",
+                  "tags": [
+                    "bgi≥0.50.0",
+                    "食材与炼金",
+                    "寒涌石"
+                  ],
+                  "lastUpdated": "2025-09-13 20:53:39"
+                },
+                {
+                  "name": "04-伦波岛-星珀湖上方-5个.json",
+                  "type": "file",
+                  "version": "1.0",
+                  "author": "芝士贝果",
+                  "authors": [
+                    {
+                      "name": "芝士贝果"
+                    }
+                  ],
+                  "description": "",
+                  "tags": [
+                    "bgi≥0.50.0",
+                    "食材与炼金",
+                    "寒涌石"
+                  ],
+                  "lastUpdated": "2025-09-13 20:53:39"
+                },
+                {
+                  "name": "05-帕哈岛-绯沙盐沼-12个.json",
+                  "type": "file",
+                  "version": "1.0",
+                  "author": "芝士贝果",
+                  "authors": [
+                    {
+                      "name": "芝士贝果"
+                    }
+                  ],
+                  "description": "",
+                  "tags": [
+                    "bgi≥0.50.0",
+                    "食材与炼金",
+                    "寒涌石"
+                  ],
+                  "lastUpdated": "2025-09-13 20:53:39"
+                },
+                {
+                  "name": "06-希汐岛-霜月之坊-10个.json",
+                  "type": "file",
+                  "version": "1.0",
+                  "author": "芝士贝果",
+                  "authors": [
+                    {
+                      "name": "芝士贝果"
+                    }
+                  ],
+                  "description": "",
+                  "tags": [
+                    "bgi≥0.50.0",
+                    "食材与炼金",
+                    "寒涌石"
+                  ],
+                  "lastUpdated": "2025-09-13 20:53:39"
+                },
+                {
+                  "name": "07-希汐岛-下方传送锚点下方-6个.json",
+                  "type": "file",
+                  "version": "1.0",
+                  "author": "芝士贝果",
+                  "authors": [
+                    {
+                      "name": "芝士贝果"
+                    }
+                  ],
+                  "description": "",
+                  "tags": [
+                    "bgi≥0.50.0",
+                    "食材与炼金",
+                    "寒涌石"
+                  ],
+                  "lastUpdated": "2025-09-13 20:53:39"
+                },
+                {
+                  "name": "08-希汐岛-下方传送锚点上方-8个.json",
+                  "type": "file",
+                  "version": "1.0",
+                  "author": "芝士贝果",
+                  "authors": [
+                    {
+                      "name": "芝士贝果"
+                    }
+                  ],
+                  "description": "",
+                  "tags": [
+                    "bgi≥0.50.0",
+                    "食材与炼金",
+                    "寒涌石"
+                  ],
+                  "lastUpdated": "2025-09-13 20:53:39"
+                },
+                {
+                  "name": "09-希汐岛-失落的月庭左侧-13个.json",
+                  "type": "file",
+                  "version": "1.0",
+                  "author": "芝士贝果",
+                  "authors": [
+                    {
+                      "name": "芝士贝果"
+                    }
+                  ],
+                  "description": "",
+                  "tags": [
+                    "bgi≥0.50.0",
+                    "食材与炼金",
+                    "寒涌石"
+                  ],
+                  "lastUpdated": "2025-09-13 20:53:39"
+                },
+                {
+                  "name": "10-希汐岛-守誓者的圣所左侧-11个.json",
+                  "type": "file",
+                  "version": "1.0",
+                  "author": "芝士贝果",
+                  "authors": [
+                    {
+                      "name": "芝士贝果"
+                    }
+                  ],
+                  "description": "",
+                  "tags": [
+                    "bgi≥0.50.0",
+                    "食材与炼金",
+                    "寒涌石"
+                  ],
+                  "lastUpdated": "2025-09-13 20:53:39"
                 }
               ]
             },
@@ -75411,7 +75046,7 @@
         {
           "name": "AAA-Artifacts-Bulk-Supply",
           "type": "directory",
-          "version": "1.2.9",
+          "version": "1.2.9.1",
           "author": "mno",
           "authors": [
             {
@@ -75427,7 +75062,7 @@
           "tags": [
             "狗粮"
           ],
-          "lastUpdated": "2025-09-07 22:42:40"
+          "lastUpdated": "2025-09-13 02:06:42"
         },
         {
           "name": "AEscoffier_chef",
@@ -75470,7 +75105,7 @@
         {
           "name": "AbundantOre",
           "type": "directory",
-          "version": "0.7",
+          "version": "0.8",
           "author": "芝士贝果",
           "authors": [
             {
@@ -75479,9 +75114,9 @@
           ],
           "description": "矿产资源批发~|~自动记录矿石刷新时间，优先选择效率最高的路线，支持按区域、种类、数量自动规划挖矿路线",
           "tags": [
-            "bgi≥0.49.0"
+            "bgi≥0.50.0"
           ],
-          "lastUpdated": "2025-09-10 10:33:55"
+          "lastUpdated": "2025-09-13 15:48:16"
         },
         {
           "name": "AcceleratedEditionSwitchParty",
@@ -75539,7 +75174,7 @@
         {
           "name": "ArtifactsGroupPurchasing",
           "type": "directory",
-          "version": "1.2.3",
+          "version": "1.2.4",
           "author": "mno",
           "authors": [
             {
@@ -75555,7 +75190,7 @@
           "tags": [
             "狗粮"
           ],
-          "lastUpdated": "2025-09-08 14:44:11"
+          "lastUpdated": "2025-09-13 02:06:42"
         },
         {
           "name": "Auto Theft NPC & 原食",
@@ -75704,7 +75339,7 @@
         {
           "name": "AutoFishingTeyvat",
           "type": "directory",
-          "version": "2.2.7",
+          "version": "2.3.0",
           "author": "提瓦特钓鱼玳师",
           "authors": [
             {
@@ -75716,7 +75351,7 @@
           "tags": [
             "bgi≥0.47.0"
           ],
-          "lastUpdated": "2025-09-10 17:15:22"
+          "lastUpdated": "2025-09-13 07:14:17"
         },
         {
           "name": "AutoFontaineLeyLine",
@@ -75928,7 +75563,7 @@
         {
           "name": "AutoPickLitter",
           "type": "directory",
-          "version": "1.1",
+          "version": "1.1.1",
           "author": "古又",
           "authors": [
             {
@@ -75942,7 +75577,7 @@
             "收集",
             "成就"
           ],
-          "lastUpdated": "2025-09-06 18:40:44"
+          "lastUpdated": "2025-09-13 01:40:11"
         },
         {
           "name": "AutoRefinedCondensationResin",
@@ -76504,7 +76139,7 @@
         {
           "name": "OCR购买食材",
           "type": "directory",
-          "version": "1.30514",
+          "version": "1.30515",
           "author": "吉吉喵",
           "authors": [
             {
@@ -76518,14 +76153,18 @@
             "OCR",
             "图像识别"
           ],
-          "lastUpdated": "2025-08-07 11:01:25"
+          "lastUpdated": "2025-09-13 15:48:38"
         },
         {
           "name": "OcrMonsterNum",
           "type": "directory",
           "version": "5.6",
-          "author": "Tool_tingsu",
+          "author": "mno",
           "authors": [
+            {
+              "name": "mno",
+              "link": "https://github.com/Bedrockx"
+            },
             {
               "name": "Tool_tingsu",
               "link": "https://github.com/Tooltingsu"
@@ -76535,7 +76174,7 @@
           "tags": [
             "bgi≥0.45.1"
           ],
-          "lastUpdated": "2025-07-04 23:14:44"
+          "lastUpdated": "2025-09-13 17:46:31"
         },
         {
           "name": "ParametricTrans",
@@ -77418,23 +77057,19 @@
         {
           "name": "采集cd管理",
           "type": "directory",
-          "version": "1.3.3",
+          "version": "1.3.4",
           "author": "mno",
           "authors": [
             {
               "name": "mno",
               "link": "https://github.com/Bedrockx"
-            },
-            {
-              "name": "Juhao73692",
-              "link": "https://github.com/Juhao73692"
             }
           ],
           "description": "采集cd管理~|~仅面对会操作文件和读readme的用户，基于文件夹操作自动管理采集路线的cd，会按照路径组的顺序依次运行，直到指定的时间，并会按照给定的cd类型，自动跳过未刷新的路线",
           "tags": [
             "bgi≥0.44.8"
           ],
-          "lastUpdated": "2025-09-04 04:22:26"
+          "lastUpdated": "2025-09-13 01:42:27"
         },
         {
           "name": "铁匠铺",
@@ -77486,17 +77121,12 @@
           "author": "吉吉喵",
           "authors": [
             {
-              "name": "吉吉喵",
-              "link": "https://github.com/JJMdzh"
+              "name": "吉吉喵"
             }
           ],
-          "description": "选择加工食材~|~食材加工 识图 复选框。",
-          "tags": [
-            "食材",
-            "料理",
-            "模板匹配"
-          ],
-          "lastUpdated": "2025-08-29 10:06:00"
+          "description": "选择加工 食材~|~食材加工 识图 复选框。适配黑麦粉、酸奶油",
+          "tags": [],
+          "lastUpdated": "2025-09-13 18:03:25"
         },
         {
           "name": "首领讨伐一条龙",
@@ -81302,6 +80932,25 @@
                 "刻晴"
               ],
               "lastUpdated": "2025-01-12 20:46:13"
+            },
+            {
+              "name": "酒馆挑战30源焰之主的怒号.txt",
+              "type": "file",
+              "version": "20250913154848",
+              "author": "HSHMENG",
+              "authors": [
+                {
+                  "name": "HSHMENG"
+                }
+              ],
+              "description": "莫娜 卡维 吞星之鲸 全3费牌 可认真对局(ps:这个酒馆挑战的不确定性很大，如果第一次失败了可以尝试重新，因为伤害主要是关系到你弃置和调和的手牌数量，越多吞星之鲸血量越高，主要就是给吞星之鲸叠BUFF)",
+              "tags": [
+                "酒馆挑战",
+                "莫娜",
+                "卡维",
+                "吞星之鲸"
+              ],
+              "lastUpdated": "2025-09-13 15:48:48"
             },
             {
               "name": "酒馆挑战3冰萤术士.txt",

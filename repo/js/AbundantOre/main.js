@@ -324,28 +324,6 @@ async function run_pathing_script(name, path_state_change, current_states) {
                 modified = true;
             }
         }
-        // scale underwater mining actions
-        if (settings.enable_dpi_scaling && statistics[name].tags.includes("fontaine underwater") && genshin.screenDpiScale !== 1.0) {
-            for (const i of json_obj.positions) {
-                if (i.action_params) {
-                    const new_actions = [];
-                    for (const a of i.action_params.split(";")) {
-                        if (a.startsWith("moveby(")) {
-                            const [x, y] = a.slice(7, -1).split(",");
-                            const new_val = "moveby(" + String(Math.round(x * genshin.screenDpiScale)) + "," + String(Math.round(y * genshin.screenDpiScale)) + ")";
-                            new_actions.push(new_val);
-                        } else {
-                            new_actions.push(a);
-                        }
-                    }
-                    const new_action_params = new_actions.join(";");
-                    if (new_action_params !== i.action_params) {
-                        i.action_params = new_action_params;
-                        modified = true;
-                    }
-                }
-            }
-        }
         if (modified) {
             log.debug("Patched mining action");
             json_content = JSON.stringify(json_obj);

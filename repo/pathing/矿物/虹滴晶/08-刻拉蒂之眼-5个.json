@@ -5,10 +5,10 @@
         "name": "芝士贝果"
       }
     ],
-    "bgi_version": "0.49.1",
+    "bgi_version": "0.50.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757511992023,
+    "last_modified_time": 1757751545978,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "08-刻拉蒂之眼-5个",
@@ -138,6 +138,51 @@
       "action": "",
       "action_params": "",
       "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8750.5674,
+      "y": 2358.6189
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8761.2715,
+      "y": 2354.8328
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 8751.8555,
+      "y": 2354.3545
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 8758.0693,
+      "y": 2353.4399
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 8749.0068,
+      "y": 2358.1462
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
       "move_mode": "dash",
       "type": "path",
       "x": 8724.0781,
@@ -146,7 +191,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 15,
+      "id": 20,
       "move_mode": "dash",
       "type": "path",
       "x": 8705.9199,
@@ -155,7 +200,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 16,
+      "id": 21,
       "move_mode": "dash",
       "type": "path",
       "x": 8662.9727,
@@ -164,7 +209,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 22,
       "move_mode": "dash",
       "type": "path",
       "x": 8639.8037,
@@ -173,16 +218,16 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 23,
       "move_mode": "dash",
       "type": "path",
       "x": 8643.7441,
       "y": 2295.3804
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
-      "id": 19,
+      "id": 24,
       "move_mode": "dash",
       "type": "path",
       "x": 8652.3789,
@@ -191,7 +236,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 20,
+      "id": 25,
       "move_mode": "walk",
       "type": "target",
       "x": 8653.8125,
