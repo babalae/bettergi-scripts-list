@@ -11,7 +11,7 @@ function warn(msg, must = false,log_off=false) {
 }
 
 function debug(msg, must = false,log_off=false) {
-    if (config.log_off || must) {
+    if (log_off || must) {
         log.debug(msg)
     }
 }
