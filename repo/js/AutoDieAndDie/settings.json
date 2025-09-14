@@ -1,0 +1,40 @@
+[
+  {
+    "name": "lookHere",
+    "type": "checkbox",
+    "label": "               点击勾选，才能执行               \n\n--------------------------------"
+  },
+  {
+    "name": "food",
+    "type": "select",
+    "label": "选择塞满的食物",
+    "options": [
+      "苹果",
+      "日落果",
+      "星蕈",
+      "活化的星蕈",
+      "枯焦的星蕈",
+      "泡泡桔",
+      "烛伞蘑菇"
+    ],
+    "default": "苹果"
+  },
+  {
+    "name": "foodNum",
+    "type": "input-text",
+    "label": "食材数量\n一次性吃掉多少个(最高99)",
+    "default": "99"
+  },
+  {
+    "name": "runNum",
+    "type": "input-text",
+    "label": "运行次数",
+    "default": "1"
+  },
+  {
+        "name": "accountName",
+        "type": "input-text",
+        "label": "账户名称\n用于多用户运行时区分不同账户\n单用户无需修改",
+        "default": "默认账户"
+  }
+]
