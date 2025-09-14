@@ -21,17 +21,17 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "3合1路线",
+    "description": "",
     "enable_monster_loot_split": false,
     "items": [],
-    "last_modified_time": 1757685510954,
+    "last_modified_time": 1757848307397,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "稻妻踏鞴砂路线",
     "order": 0,
     "tags": [],
     "type": "collect",
-    "version": "3.0"
+    "version": "4.0"
   },
   "positions": [
     {
@@ -47,7 +47,7 @@
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
       "x": -3024.7734375,
       "y": -3560.5029296875
@@ -63,7 +63,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.2),keypress(f);",
+      "action_params": "keypress(f);",
       "id": 4,
       "move_mode": "walk",
       "type": "path",
@@ -72,7 +72,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.2),keypress(f);",
+      "action_params": "keypress(f);",
       "id": 5,
       "move_mode": "walk",
       "type": "path",
@@ -92,7 +92,7 @@
       "action": "",
       "action_params": "",
       "id": 7,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
       "x": -3069,
       "y": -3503.5
@@ -175,7 +175,7 @@
       "action": "combat_script",
       "action_params": "wait(0.2),keypress(f),wait(0.2),keypress(f);",
       "id": 15,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
       "x": -2958.42578125,
       "y": -3439.11328125
@@ -209,7 +209,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2);",
+      "action_params": "wait(0.2),keypress(f);",
       "id": 19,
       "move_mode": "dash",
       "type": "path",
@@ -217,17 +217,17 @@
       "y": -3378.4228515625
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.2),keypress(f);",
       "id": 20,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -3016.740234375,
       "y": -3378.591796875
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2);",
+      "action_params": "wait(0.2),keypress(f);",
       "id": 21,
       "move_mode": "dash",
       "type": "path",
@@ -245,7 +245,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2);",
+      "action_params": "wait(0.2),keypress(f);",
       "id": 23,
       "move_mode": "dash",
       "type": "path",
@@ -258,17 +258,17 @@
       "id": 24,
       "move_mode": "run",
       "type": "path",
-      "x": -3032.84375,
-      "y": -3463.021484375
+      "x": -3034.443359375,
+      "y": -3461.5
     },
     {
       "action": "",
       "action_params": "",
       "id": 25,
       "move_mode": "run",
-      "type": "target",
-      "x": -3039.576171875,
-      "y": -3460.64453125
+      "type": "path",
+      "x": -3039.61328125,
+      "y": -3460.5390625
     }
   ]
 }
