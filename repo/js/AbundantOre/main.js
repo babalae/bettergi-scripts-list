@@ -322,7 +322,7 @@ async function run_pathing_script(name, path_state_change, current_states) {
         const json_obj = JSON.parse(json_content);
         var modified = false;
         for (const i of json_obj.positions) {
-            if (i.action === "mining" && !i.action_params) {
+            if (i.action === "mining") {
                 // set Noelle mining action
                 i.action = "combat_script";
                 i.action_params = settings.custom_mining_action || "诺艾尔 attack(2.0)";
