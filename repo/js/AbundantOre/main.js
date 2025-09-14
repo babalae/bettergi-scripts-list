@@ -58,6 +58,9 @@ function get_exclude_tags() {
     if (settings.exclude_amethyst_lumps) {
         tags.push("amethyst lump");
     }
+    if (settings.exclude_rainbowdrop_crystals) {
+        tags.push("rainbowdrop crystal");
+    }
     return tags;
 }
 
@@ -265,7 +268,7 @@ async function get_inventory() {
     const inventory_result = {
         crystal_chunks: 0,
         condessence_crystals: 0,
-        amethyst_lumps: 0
+        amethyst_lumps: 0,
         rainbowdrop_crystals: 0,
     };
     for (const [name, path] of Object.entries(ore_image_map)) {
