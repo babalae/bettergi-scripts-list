@@ -862,7 +862,6 @@ let afterStamina = await queryStaminaValue();
                          log.info(`挑战失败，再来一次`);
                          await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
                          await pathingScript.runFile(`assets/goToBoss/${bossName}前往.json`);
-                         await keyMouseScript.runFile(`assets/goToBoss/${bossName}前往键鼠.json`);
                          await dispatcher.runTask(new SoloTask("AutoFight"));
                      }
                      await sleep(1000);
@@ -957,3 +956,4 @@ else log.info(`没有选择挑战首领，跳过执行`);
 
 
 })();
+
