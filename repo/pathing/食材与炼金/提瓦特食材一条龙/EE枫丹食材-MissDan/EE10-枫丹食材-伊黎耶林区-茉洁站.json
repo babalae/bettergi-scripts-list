@@ -109,8 +109,8 @@
       "y": 3665.03
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
       "id": 10,
       "locked": false,
       "move_mode": "walk",
@@ -219,7 +219,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.8)",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(1)",
       "id": 22,
       "move_mode": "walk",
       "type": "path",
@@ -403,8 +403,8 @@
       "y": 4021.5898
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
       "id": 42,
       "move_mode": "walk",
       "type": "path",

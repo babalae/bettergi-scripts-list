@@ -58,6 +58,9 @@ function get_exclude_tags() {
     if (settings.exclude_amethyst_lumps) {
         tags.push("amethyst lump");
     }
+    if (settings.exclude_rainbowdrop_crystals) {
+        tags.push("rainbowdrop crystal");
+    }
     return tags;
 }
 
@@ -180,10 +183,10 @@ function get_some_tasks(hints) {
         if (value.tags.some(i => exclude_tags.has(i))) {
             continue;
         }
-        if (value.statistics.avg_num_defeats > 0) {
+        if (value.statistics.avg_num_defeats > 0.1) {
             continue;
         }
-        if (value.statistics.avg_abnormal_exits > 0) {
+        if (value.statistics.avg_abnormal_exits > 0.1) {
             continue;
         }
         if (!filename_to_path_map.hasOwnProperty(key)) {
@@ -252,6 +255,7 @@ async function get_inventory() {
         amethyst_lumps: "assets/images/amethyst_lump.png",
         crystal_chunks: "assets/images/crystal_chunk.png",
         condessence_crystals: "assets/images/condessence_crystal.png",
+        rainbowdrop_crystals: "assets/images/rainbowdrop_crystal.png",
     };
 
     await genshin.returnMainUi();
@@ -264,7 +268,8 @@ async function get_inventory() {
     const inventory_result = {
         crystal_chunks: 0,
         condessence_crystals: 0,
-        amethyst_lumps: 0
+        amethyst_lumps: 0,
+        rainbowdrop_crystals: 0,
     };
     for (const [name, path] of Object.entries(ore_image_map)) {
         let match_obj = RecognitionObject.TemplateMatch(file.ReadImageMatSync(path));
@@ -285,6 +290,9 @@ async function get_inventory() {
                 inventory_result[name] = Number(ocr_res.text);
             }
         }
+    }
+    if (inventory_result.crystal_chunks + inventory_result.condessence_crystals + inventory_result.amethyst_lumps + inventory_result.rainbowdrop_crystals === 0) {
+        log.error("获取背包矿石数量失败");
     }
     await genshin.returnMainUi();
     return inventory_result;
@@ -314,7 +322,7 @@ async function run_pathing_script(name, path_state_change, current_states) {
         const json_obj = JSON.parse(json_content);
         var modified = false;
         for (const i of json_obj.positions) {
-            if (i.action === "mining" && !i.action_params) {
+            if (i.action === "mining") {
                 // set Noelle mining action
                 i.action = "combat_script";
                 i.action_params = settings.custom_mining_action || "诺艾尔 attack(2.0)";
@@ -404,7 +412,7 @@ async function main() {
     }
 
     const original_inventory = await get_inventory();
-    log.info("已有水晶块{a}个，紫晶块{b}个，萃凝晶{c}个", original_inventory.crystal_chunks, original_inventory.amethyst_lumps, original_inventory.condessence_crystals);
+    log.info("已有水晶块{a}个，紫晶块{b}个，萃凝晶{c}个，虹滴晶{d}个", original_inventory.crystal_chunks, original_inventory.amethyst_lumps, original_inventory.condessence_crystals, original_inventory.rainbowdrop_crystals);
     const target_yield = settings.target_amount ? Math.ceil(Number(settings.target_amount)) : null;
     if (target_yield && !run_until_unix_time) {
         log.info("将挖矿{a}个", target_yield);
@@ -468,6 +476,7 @@ async function main() {
                 accurate_yield += current_inventory.crystal_chunks - original_inventory.crystal_chunks;
                 accurate_yield += current_inventory.condessence_crystals - original_inventory.condessence_crystals;
                 accurate_yield += current_inventory.amethyst_lumps - original_inventory.amethyst_lumps;
+                accurate_yield += current_inventory.rainbowdrop_crystals - original_inventory.rainbowdrop_crystals;
                 estimated_yield = accurate_yield;
             }
             if (target_yield !== null && accurate_yield >= target_yield) {
@@ -494,12 +503,15 @@ async function main() {
     if (latest_inventory.amethyst_lumps - original_inventory.amethyst_lumps) {
         total_yield_str.push(`${latest_inventory.amethyst_lumps - original_inventory.amethyst_lumps}紫晶块`);
     }
+    if (latest_inventory.rainbowdrop_crystals - original_inventory.rainbowdrop_crystals) {
+        total_yield_str.push(`${latest_inventory.rainbowdrop_crystals - original_inventory.rainbowdrop_crystals}虹滴晶`);
+    }
     if (total_yield_str.length > 0) {
         total_yield_str = "收获" + total_yield_str.join("，");
     } else {
         total_yield_str = "无收获";
     }
-    log.info("现有水晶块{a}个，紫晶块{b}个，萃凝晶{c}个", latest_inventory.crystal_chunks, latest_inventory.amethyst_lumps, latest_inventory.condessence_crystals);
+    log.info("现有水晶块{a}个，紫晶块{b}个，萃凝晶{c}个，虹滴晶{d}个", latest_inventory.crystal_chunks, latest_inventory.amethyst_lumps, latest_inventory.condessence_crystals, latest_inventory.rainbowdrop_crystals);
     log.info("运行{m}分钟，{y}", running_minutes.toFixed(2), total_yield_str);
 }
 

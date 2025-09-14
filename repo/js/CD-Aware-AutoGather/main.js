@@ -73,7 +73,7 @@ async function runScanMode() {
     let config = JSON.parse(templateText);
 
     // 将地方特产按照国家顺序排序
-    const countryList = ["蒙德", "璃月", "稻妻", "须弥", "枫丹", "纳塔", "至冬"];
+    const countryList = ["蒙德", "璃月", "稻妻", "须弥", "枫丹", "纳塔", "挪德卡莱", "至冬"];
     const sortedList = pathList.slice().sort((a, b) => {
         const getRegion = (p) => p.split("\\")[2];
         const aIndex = countryList.indexOf(getRegion(a));
@@ -92,6 +92,7 @@ async function runScanMode() {
             log.info("{0}内无json文件，跳过", path);
         } else if (info.coolType === null) {
             log.warn("路径{0}未匹配到对应的刷新机制，跳过", path);
+            await sleep(100);
         } else {
             config.push({
                 name: info.name,
