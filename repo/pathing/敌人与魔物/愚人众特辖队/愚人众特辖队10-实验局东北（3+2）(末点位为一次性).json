@@ -1,0 +1,90 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757857476793,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "愚人众特辖队10-实验局东北（3+2）(末点位为一次性)",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9597.526236903046,
+      "y": 3389.4825615750124
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9512.074478950584,
+      "y": 3408.978148585831
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9490.999576824144,
+      "y": 3427.499857645511
+    },
+    {
+      "id": 4,
+      "x": 9536.75198892652,
+      "y": 3400.497900271277
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9606.000930986882,
+      "y": 3403.250106765867
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9671.497714850379,
+      "y": 3389.999572936531
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9698.500930986882,
+      "y": 3385.000142354489
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9730.500338540685,
+      "y": 3434.2504626520913
+    }
+  ]
+}

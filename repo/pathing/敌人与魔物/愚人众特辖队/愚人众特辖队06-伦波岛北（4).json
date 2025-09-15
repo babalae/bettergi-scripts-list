@@ -1,0 +1,67 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757857465027,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "愚人众特辖队06-伦波岛北（4)",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9189.856341439327,
+      "y": 2836.4885976754704
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9205.750401280897,
+      "y": 2881.7500456092985
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9206.000702241567,
+      "y": 2931.499908781403
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9250.75662113478,
+      "y": 2932
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9259.12369583709,
+      "y": 2932.7500456092985
+    }
+  ]
+}

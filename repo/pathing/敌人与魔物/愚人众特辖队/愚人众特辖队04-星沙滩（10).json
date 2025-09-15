@@ -1,0 +1,94 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757857457281,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "愚人众特辖队04-星沙滩（10)",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9559.852729911265,
+      "y": 2130.9408903496333
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9544.746488792163,
+      "y": 2168.4962600375547
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9547.25,
+      "y": 2248.7503192650875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9520.497893275297,
+      "y": 2213.4989509861425
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9501.250300960672,
+      "y": 2253.252098027713
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9473.998394876417,
+      "y": 2260.9996807349125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9530.49719103373,
+      "y": 2285.5001368278936
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "target",
+      "x": 9605.746288151715,
+      "y": 2309.749635125616
+    }
+  ]
+}
