@@ -216,6 +216,16 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
 
 
 (async function() {
+    //判断你是不是老手
+    if(!settings.water && !settings.sticks && !settings.lots && !settings.conchs && !settings.meal && !settings.eggs){
+        log.error(`亲，这面请您点击【打开脚本目录】找到AutoPickLitter文件并打开然后去阅读README！！！`);
+        log.error(`亲，这面请您点击【打开脚本目录】找到AutoPickLitter文件并打开然后去阅读README！！！`);
+        log.error(`亲，这面请您点击【打开脚本目录】找到AutoPickLitter文件并打开然后去阅读README！！！`);
+        return 0;
+    };
+
+
+
     //蒙德清泉镇圣水
     if (settings.water) {
         await genshin.returnMainUi();
