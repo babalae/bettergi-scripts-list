@@ -62,14 +62,12 @@ let warnMessage = [];
     const whitelistKeywords = ocrPickupJson["白名单"];
     const blacklistKeywords = ocrPickupJson["黑名单"];
 
-    targetItems = await readFolder(targetItemPath, false);   // 拿到旧对象
-    if (settings.enableNewTargets) {
-        const newtargetItems = await readFolder('assets/newTargets', false); // 拿到新对象
+    targetItems = await readFolder(targetItemPath, false);
 
-        // 把 newtargetItems 的所有自有属性合并到 targetItems
-        for (const key of Object.keys(newtargetItems)) {
-            targetItems[key] = newtargetItems[key];
-        }
+    if (settings.enableNewTargets) {
+        const newItems = await readFolder('assets/newTargets', false);
+        // 逐个 push
+        for (const f of newItems) targetItems.push(f);
     }
 
     //模板匹配对象处理
@@ -77,6 +75,7 @@ let warnMessage = [];
         for (const targetItem of targetItems) {
             targetItem.template = file.ReadImageMatSync(targetItem.fullPath);
             targetItem.itemName = targetItem.fileName.replace(/\.png$/, '');
+            //log.info(targetItem.itemName);
         }
     }
     timeMoveUp = Math.round(timeMove * 0.45);
@@ -633,7 +632,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 let itemName = null;
                 // 在捕获的区域内进行模板匹配识别
                 for (const targetItem of targetItems) {
-                    let recognitionObject = RecognitionObject.TemplateMatch(targetItem.template, 1210, centerYF - 35, 150, 70);
+                    let recognitionObject = RecognitionObject.TemplateMatch(targetItem.template, 1200, centerYF - 35, 160, 70);
                     result = gameRegion.find(recognitionObject);
                     if (result.isExist()) {
                         itemName = targetItem.itemName;
