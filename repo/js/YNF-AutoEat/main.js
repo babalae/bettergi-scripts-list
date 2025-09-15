@@ -281,6 +281,8 @@
           await sleep(300);
           await click(970, 760);
 
+          log.info("猜猜为什么要连续点击这个位置呢~");
+
           await sleep(1000);
           await click(860, 50);//点开背包,可做图像识别优化
 
@@ -298,12 +300,18 @@
                return;
           }
           await sleep(500);
-          
+
           await textOCR("使用", 5, 1, 0, 1620, 987, 225, 50);
           await sleep(1000);
 
           const ifzjz = await imageRecognitionEnhanced(zjz, 5, 1, 0, 625, 290, 700, 360, true);
-          if(!ifzjz.found){log.error("未识别到伊涅芙"); return; }
+          await sleep(300);
+          leftButtonClick();
+          await sleep(300);
+          leftButtonClick();
+          await sleep(300);
+
+          if (!ifzjz.found) { log.error("未识别到伊涅芙"); return; }
 
           for (let i = 0; i < foodCount; i++) {
                click(1251, 630);
@@ -327,7 +335,8 @@
           await sleep(3000);
      }
 
-     log.warn("使用前请确保食材充足！");
+     log.warn("使用前请仔细阅读readme并进行相关设置！");
+     log.warn("请确保食材充足！");
 
      //设置分辨率和缩放
      setGameMetrics(1920, 1080, 1);
@@ -349,6 +358,8 @@
      } catch (error) {
           log.error(`识别图像时发生异常: ${error.message}`);
      }
+
+     await genshin.tpToStatueOfTheSeven();
 
 })();
 
