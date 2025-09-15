@@ -46,10 +46,15 @@
     "default": "模板匹配拾取，默认只拾取狗粮"
   },
   {
-    "name": "rollingDelay",
-    "type": "input-text",
-    "label": "滚轮滚动后延时(毫秒)，观察到漏捡时建议调大",
-    "default": "25"
+    "name": "disableSelfOptimization",
+    "type": "checkbox",
+    "label": "勾选后禁用根据运行记录优化路线选择的功能\n完全使用路线原有信息"
+  },
+  {
+    "name": "enableNewTargets",
+    "type": "checkbox",
+    "label": "勾选后使用模板匹配拾取模式时将会拾取新材料\n默认为挪德卡莱地区所有怪物材料\n可在assets/newTargets文件中查看并调整",
+    "default": "true"
   },
   {
     "name": "pickupDelay",

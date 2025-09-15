@@ -1,4 +1,4 @@
-//当前js版本 1.5.1
+//当前js版本 1.6.0
 
 //拾取时上下滑动的时间
 let timeMoveUp;
@@ -63,11 +63,19 @@ let warnMessage = [];
     const blacklistKeywords = ocrPickupJson["黑名单"];
 
     targetItems = await readFolder(targetItemPath, false);
+
+    if (settings.enableNewTargets) {
+        const newItems = await readFolder('assets/newTargets', false);
+        // 逐个 push
+        for (const f of newItems) targetItems.push(f);
+    }
+
     //模板匹配对象处理
     if (pickupMode === "模板匹配拾取，默认只拾取狗粮") {
         for (const targetItem of targetItems) {
             targetItem.template = file.ReadImageMatSync(targetItem.fullPath);
             targetItem.itemName = targetItem.fileName.replace(/\.png$/, '');
+            //log.info(targetItem.itemName);
         }
     }
     timeMoveUp = Math.round(timeMove * 0.45);
@@ -624,7 +632,7 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
                 let itemName = null;
                 // 在捕获的区域内进行模板匹配识别
                 for (const targetItem of targetItems) {
-                    let recognitionObject = RecognitionObject.TemplateMatch(targetItem.template, 1220, centerYF - 35, 70, 70);
+                    let recognitionObject = RecognitionObject.TemplateMatch(targetItem.template, 1200, centerYF - 35, 160, 70);
                     result = gameRegion.find(recognitionObject);
                     if (result.isExist()) {
                         itemName = targetItem.itemName;
