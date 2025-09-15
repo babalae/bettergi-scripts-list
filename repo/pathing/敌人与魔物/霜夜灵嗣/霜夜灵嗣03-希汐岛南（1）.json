@@ -1,0 +1,54 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757910174158,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "霜夜灵嗣03-希汐岛南（1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10551.991022061444,
+      "y": 1761.2267731925695
+    },
+    {
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10577.00015338164,
+      "y": 1795.9822726394032
+    },
+    {
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10599.250352777768,
+      "y": 1753.2528261009647
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10587.25000511272,
+      "y": 1734.2476020961512
+    }
+  ]
+}
