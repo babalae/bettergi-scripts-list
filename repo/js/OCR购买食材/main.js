@@ -296,7 +296,7 @@ async function clickSelectedIngredients(selectedIngredients, filePath, npcNames)
             await click(1300, 650); await sleep(500);
             await click(1300, 650); await sleep(1000);
             await click(1320, 780); await sleep(1000);
-        } else if (filePath === azaleVillMerPath || filePath === sumiGroceryFilePath) {
+        } else if (filePath === sumiGroceryFilePath) {
             log.info("执行须弥杂货商等的点击操作");
             await click(1300, 660); await sleep(1000);
             await click(1300, 660); await sleep(1000);
