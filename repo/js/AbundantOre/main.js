@@ -272,22 +272,26 @@ async function get_inventory() {
         rainbowdrop_crystals: 0,
     };
     for (const [name, path] of Object.entries(ore_image_map)) {
-        let match_obj = RecognitionObject.TemplateMatch(file.ReadImageMatSync(path));
-        match_obj.threshold = 0.85;
-        match_obj.Use3Channels = true;
-        const match_res = game_region.Find(match_obj);
-        if (match_res.isExist()) {
-            log.debug(`Found ${name} image at (${match_res.x}, ${match_res.y})`);
+        for (const suffix of ["", "_new"]) {
+            const filename_with_suffix = path.replace(".png", suffix + ".png");
+            let match_obj = RecognitionObject.TemplateMatch(file.ReadImageMatSync(filename_with_suffix));
+            match_obj.threshold = 0.85;
+            match_obj.Use3Channels = true;
+            const match_res = game_region.Find(match_obj);
+            if (match_res.isExist()) {
+                log.debug(`Found ${name} image at (${match_res.x}, ${match_res.y})`);
 
-            const text_x = match_res.x - 0;
-            const text_y = match_res.y + 120;
-            const text_w = 120;
-            const text_h = 40;
+                const text_x = match_res.x - 0;
+                const text_y = match_res.y + 120;
+                const text_w = 120;
+                const text_h = 40;
 
-            const ocr_res = game_region.find(RecognitionObject.ocr(text_x, text_y, text_w, text_h));
+                const ocr_res = game_region.find(RecognitionObject.ocr(text_x, text_y, text_w, text_h));
 
-            if (ocr_res) {
-                inventory_result[name] = Number(ocr_res.text);
+                if (ocr_res) {
+                    inventory_result[name] = Number(ocr_res.text);
+                }
+                break;
             }
         }
     }
@@ -512,7 +516,9 @@ async function main() {
         total_yield_str = "无收获";
     }
     log.info("现有水晶块{a}个，紫晶块{b}个，萃凝晶{c}个，虹滴晶{d}个", latest_inventory.crystal_chunks, latest_inventory.amethyst_lumps, latest_inventory.condessence_crystals, latest_inventory.rainbowdrop_crystals);
-    log.info("运行{m}分钟，{y}", running_minutes.toFixed(2), total_yield_str);
+    const summary = `运行${running_minutes.toFixed(2)}分钟，${total_yield_str}`;
+    log.info(summary);
+    notification.send(summary);
 }
 
 (async function() {
