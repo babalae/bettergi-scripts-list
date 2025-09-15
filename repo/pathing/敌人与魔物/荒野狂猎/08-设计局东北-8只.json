@@ -1,0 +1,107 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "jay"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757929412302,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "08-设计局东北-8只",
+    "tags": [
+      "荒野狂猎",
+      "bgi≥0.50.0",
+      "战斗"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9590.75,
+      "y": 3399.39404296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9521.4716796875,
+      "y": 3461.66748046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9524.3076171875,
+      "y": 3507.47119140625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9522.1767578125,
+      "y": 3542.1875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9522.169921875,
+      "y": 3542.56298828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9590.75,
+      "y": 3399.39404296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9603.361328125,
+      "y": 3409.778076171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9646.54296875,
+      "y": 3445.19873046875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9677.890625,
+      "y": 3470.827880859375
+    }
+  ]
+}
