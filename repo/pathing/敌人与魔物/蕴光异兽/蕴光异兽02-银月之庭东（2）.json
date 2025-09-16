@@ -1,0 +1,72 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758003607626,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蕴光异兽02-银月之庭东（2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10821.458050216272,
+      "y": 1940.072450952006
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10870.471743668992,
+      "y": 1892.5840979135592
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 10931.500978103766,
+      "y": 1910.9993148846152
+    },
+    {
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10893.373723031194,
+      "y": 1970.6252997379815
+    },
+    {
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10892.748369827057,
+      "y": 2054.738010480756
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10907.250054339098,
+      "y": 2066.7507707548084
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758003241083,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蕴光异兽01-希汐岛西南（2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 11061.971961025383,
+      "y": 1578.0721083943135
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 11026.464244873454,
+      "y": 1573.0738211827775
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 11022.500434712785,
+      "y": 1531.7490579663445
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 11069.755922961693,
+      "y": 1535.2567655144303
+    },
+    {
+      "id": 5,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 11062.252608276707,
+      "y": 1578.2649868990557
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 11054.996739654114,
+      "y": 1700.9809024086317
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "target",
+      "x": 11077.752119224826,
+      "y": 1712.4390247306983
+    }
+  ]
+}

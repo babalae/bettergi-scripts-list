@@ -1,0 +1,131 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758005989625,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蕴光异兽06-苔骨荒原（3）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9350.50006839812,
+      "y": 1852.9408903496333
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9290.500074210991,
+      "y": 1881.4460898096204
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9316.50000082349,
+      "y": 1837.001185841751
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9335.000002325149,
+      "y": 1829.999817562808
+    },
+    {
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9393.00000082349,
+      "y": 1822.50072974877
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9456.999999903119,
+      "y": 1804.49927025123
+    },
+    {
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9481.500001404776,
+      "y": 1834.9917903263377
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9530.499997868614,
+      "y": 1910.503192650869
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 9533.999989875916,
+      "y": 1951.9946181028208
+    },
+    {
+      "id": 10,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9224.000020102847,
+      "y": 1893.4802055646142
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 9194.999998982748,
+      "y": 1924.499452688422
+    },
+    {
+      "id": 12,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9355.000006975446,
+      "y": 2101.5082096736623
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 9343.249999878899,
+      "y": 2152.2485861117584
+    }
+  ]
+}

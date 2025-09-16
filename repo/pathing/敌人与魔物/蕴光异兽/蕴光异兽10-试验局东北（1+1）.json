@@ -1,0 +1,65 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758008624479,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蕴光异兽10-试验局东北（1+1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9595.50002518911,
+      "y": 3390.4288494949305
+    },
+    {
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9613.49999997578,
+      "y": 3394.249817562808
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9665.499998643663,
+      "y": 3385.999543907019
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "target",
+      "x": 9699.25000079927,
+      "y": 3384.2495895163174
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 9726.500012497674,
+      "y": 3436.437241605785
+    }
+  ]
+}

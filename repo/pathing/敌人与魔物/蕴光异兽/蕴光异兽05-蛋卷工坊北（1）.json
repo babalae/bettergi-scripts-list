@@ -1,0 +1,54 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758005058681,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蕴光异兽05-蛋卷工坊北（1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9966.000035652278,
+      "y": 1822.9425322843672
+    },
+    {
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9927.750000217982,
+      "y": 1827.000547311578
+    },
+    {
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9894.250001283675,
+      "y": 1871.0007753580685
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9886.50000004844,
+      "y": 1896.2481300187774
+    }
+  ]
+}

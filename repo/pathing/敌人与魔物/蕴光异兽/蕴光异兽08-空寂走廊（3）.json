@@ -1,0 +1,108 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758007527883,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蕴光异兽08-空寂走廊（3）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8949.5000309051,
+      "y": 2498.9411640054223
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8797.00004567948,
+      "y": 2491.939886945076
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8808.500000290644,
+      "y": 2490.500273655789
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9214.500037250818,
+      "y": 2503.433866517724
+    },
+    {
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9181.999999854677,
+      "y": 2547.7494982977205
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9171,
+      "y": 2593.999179032633
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9189.00002451094,
+      "y": 2847.955120450648
+    },
+    {
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9169.499998425681,
+      "y": 2840.9962600375547
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9141.62499993945,
+      "y": 2848.124931586053
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9116.99999995156,
+      "y": 2872.8122833558336
+    }
+  ]
+}
