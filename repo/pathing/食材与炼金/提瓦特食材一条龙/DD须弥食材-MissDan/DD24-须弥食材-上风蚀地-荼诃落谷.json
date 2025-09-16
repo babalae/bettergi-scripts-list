@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757851209457,
+    "last_modified_time": 1758011024372,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "DD24-须弥食材-上风蚀地-荼诃落谷",
@@ -22,15 +22,25 @@
       "action": "",
       "action_params": "",
       "id": 1,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4791.0078,
       "y": -3182.2969
     },
     {
+      "action": "set_time",
+      "action_params": "06:00",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4791.0078,
+      "y": -3182.2969
+    },
+    {
       "action": "",
       "action_params": "",
-      "id": 2,
+      "id": 3,
       "move_mode": "walk",
       "type": "path",
       "x": 4798.9297,
@@ -39,7 +49,7 @@
     {
       "action": "up_down_grab_leaf",
       "action_params": "",
-      "id": 3,
+      "id": 4,
       "move_mode": "walk",
       "type": "path",
       "x": 4818.9219,
@@ -48,7 +58,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 4,
+      "id": 5,
       "move_mode": "fly",
       "type": "path",
       "x": 4820.0254,
@@ -57,7 +67,7 @@
     {
       "action": "up_down_grab_leaf",
       "action_params": "",
-      "id": 5,
+      "id": 6,
       "move_mode": "walk",
       "type": "path",
       "x": 4834.0537,
@@ -66,7 +76,7 @@
     {
       "action": "up_down_grab_leaf",
       "action_params": "",
-      "id": 6,
+      "id": 7,
       "move_mode": "walk",
       "type": "path",
       "x": 4834.2578,
@@ -75,7 +85,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 7,
+      "id": 8,
       "move_mode": "walk",
       "type": "path",
       "x": 4830.2773,
@@ -84,7 +94,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 8,
+      "id": 9,
       "move_mode": "dash",
       "type": "path",
       "x": 4795.4023,
@@ -93,7 +103,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 9,
+      "id": 10,
       "move_mode": "fly",
       "type": "path",
       "x": 4771.2832,
@@ -102,7 +112,7 @@
     {
       "action": "up_down_grab_leaf",
       "action_params": "",
-      "id": 10,
+      "id": 11,
       "move_mode": "walk",
       "type": "orientation",
       "x": 4741.5898,
@@ -111,7 +121,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 11,
+      "id": 12,
       "move_mode": "walk",
       "type": "path",
       "x": 4736.6055,
@@ -120,7 +130,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 12,
+      "id": 13,
       "move_mode": "dash",
       "type": "path",
       "x": 4720.1914,
@@ -129,7 +139,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 13,
+      "id": 14,
       "move_mode": "dash",
       "type": "path",
       "x": 4717.9033,
@@ -138,7 +148,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 14,
+      "id": 15,
       "move_mode": "walk",
       "type": "path",
       "x": 4711.5186,
@@ -147,7 +157,7 @@
     {
       "action": "stop_flying",
       "action_params": "1500",
-      "id": 15,
+      "id": 16,
       "move_mode": "fly",
       "type": "path",
       "x": 4599.874,
@@ -156,7 +166,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.4)",
-      "id": 16,
+      "id": 17,
       "move_mode": "walk",
       "type": "path",
       "x": 4586.9248,
@@ -165,7 +175,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 18,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4471.0352,
@@ -174,7 +184,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 19,
       "move_mode": "walk",
       "type": "path",
       "x": 4462.9219,
@@ -183,7 +193,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 19,
+      "id": 20,
       "move_mode": "fly",
       "type": "path",
       "x": 4399.958,
@@ -192,7 +202,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 20,
+      "id": 21,
       "move_mode": "walk",
       "type": "path",
       "x": 4408.9658,
@@ -201,7 +211,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 21,
+      "id": 22,
       "move_mode": "walk",
       "type": "path",
       "x": 4403.8008,
@@ -210,7 +220,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 22,
+      "id": 23,
       "move_mode": "walk",
       "type": "path",
       "x": 4400.0039,
@@ -219,7 +229,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 23,
+      "id": 24,
       "move_mode": "walk",
       "type": "path",
       "x": 4364.6133,
@@ -228,7 +238,7 @@
     {
       "action": "stop_flying",
       "action_params": "2500",
-      "id": 24,
+      "id": 25,
       "move_mode": "fly",
       "type": "path",
       "x": 4314.9414,
@@ -237,7 +247,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 25,
+      "id": 26,
       "move_mode": "walk",
       "type": "path",
       "x": 4305.3545,
@@ -246,7 +256,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 26,
+      "id": 27,
       "move_mode": "walk",
       "type": "path",
       "x": 4304.0693,
