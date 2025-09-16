@@ -25,6 +25,9 @@ function get_exclude_tags() {
     } else if (settings.fight_option === "只跳过与精英怪战斗的路线") {
         tags.push("elite enemy");
     }
+    if (settings.exclude_nod_krai) {
+        tags.push("nod-krai");
+    }
     if (settings.exclude_natlan) {
         tags.push("natlan");
     }
