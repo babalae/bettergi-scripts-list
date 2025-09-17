@@ -1,69 +1,65 @@
-﻿{
+{
   "info": {
+    "name": "242璃月层岩地下无名遗迹（600_1）",
+    "type": "collect",
     "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时76.93秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只黯色空壳·近卫。",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0",
     "authors": [
       {
-        "links": "https://github.com/jiegedabaobei",
-        "name": "汐"
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
       }
-    ],
-    "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时76.93秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只黯色空壳·近卫。",
-    "enable_monster_loot_split": false,
-    "last_modified_time": 1758036392767,
-    "map_match_method": "",
-    "map_name": "TheChasm",
-    "name": "242璃月层岩地下无名遗迹（600_1）",
-    "tags": [],
-    "type": "collect",
-    "version": "1.0"
+    ]
   },
   "positions": [
     {
-      "action": "",
-      "action_params": "",
       "id": 1,
-      "move_mode": "walk",
-      "type": "teleport",
       "x": 522.56,
-      "y": 528.8499999999999
-    },
-    {
+      "y": 528.85,
       "action": "",
+      "move_mode": "walk",
       "action_params": "",
+      "type": "teleport"
+    },
+    {
       "id": 2,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 538.532470703125,
-      "y": 502.444091796875
-    },
-    {
-      "action": "stop_flying",
+      "x": 533.5,
+      "y": 508.75,
+      "action": "",
+      "move_mode": "run",
       "action_params": "",
-      "id": 3,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 590.5135498046875,
-      "y": 419.4241943359375
+      "type": "path"
     },
     {
+      "id": 3,
+      "x": 590.13,
+      "y": 410.32,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "300",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 595.07,
+      "y": 406.65,
+      "type": "path",
+      "move_mode": "walk",
       "action": "fight",
       "action_params": "",
-      "id": 4,
-      "locked": false,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 598.1407470703125,
-      "y": 406.8447265625
+      "locked": false
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(1)",
       "id": 5,
-      "move_mode": "dash",
+      "x": 595.07,
+      "y": 406.65,
       "type": "orientation",
-      "x": 598.1407470703125,
-      "y": 406.8447265625
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
     }
   ]
 }
