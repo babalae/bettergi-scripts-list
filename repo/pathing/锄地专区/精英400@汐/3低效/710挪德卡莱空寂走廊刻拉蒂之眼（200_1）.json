@@ -2,17 +2,17 @@
   "info": {
     "authors": [
       {
-        "links": "",
-        "name": "半夏"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "",
+    "description": "  路线信息：该路线预计用时42.79秒，包含以下怪物：1只蔓结·霜夜灵嗣。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757833940063,
+    "last_modified_time": 1758034047013,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "17挪德卡莱帕哈岛（200_1）",
+    "name": "710挪德卡莱空寂走廊刻拉蒂之眼（200_1）",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,35 +24,26 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 9597.5,
-      "y": 3386.5
+      "x": 8836.8652,
+      "y": 2206.4937
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": 9625.5,
-      "y": 3389
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 9699.875,
-      "y": 3383.5
+      "x": 8762.4492,
+      "y": 2168.1304
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
+      "id": 3,
+      "move_mode": "dash",
       "type": "path",
-      "x": 9699.875,
-      "y": 3383.5
+      "x": 8736.0498,
+      "y": 2146.8286
     }
   ]
 }

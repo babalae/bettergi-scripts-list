@@ -2,17 +2,17 @@
   "info": {
     "authors": [
       {
-        "links": "",
-        "name": "半夏"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "",
+    "description": "  路线信息：该路线预计用时127.88秒，包含以下怪物：1只荒野狂狩士、4只荒野幽徒、1只蔓结·霜夜灵嗣。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757901415294,
+    "last_modified_time": 1758034788120,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "01挪德卡莱伦波岛小怪（16）",
+    "name": "715挪德卡莱月矩力设计局东北（400_1，200_5）",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,17 +24,17 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 9558.25,
-      "y": 2134.75
+      "x": 9593.4414,
+      "y": 3398.0659
     },
     {
-      "action": "stop_flying",
+      "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "fly",
+      "move_mode": "dash",
       "type": "path",
-      "x": 9513.7,
-      "y": 2201.2
+      "x": 9529.7499,
+      "y": 3436.8759
     },
     {
       "action": "fight",
@@ -42,8 +42,8 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 9513.7,
-      "y": 2201.2
+      "x": 9467.5195,
+      "y": 3459.4912
     },
     {
       "action": "",
@@ -51,35 +51,35 @@
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 9490.6,
-      "y": 2215.3
+      "x": 9455.1768,
+      "y": 3480.7051
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": 9468.6,
-      "y": 2254.5
+      "x": 9484.1875,
+      "y": 3516.0996
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 6,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": 9468.6,
-      "y": 2254.5
+      "x": 9518.7012,
+      "y": 3540.2134
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 7,
       "move_mode": "dash",
       "type": "path",
-      "x": 9506.2,
-      "y": 2281.5
+      "x": 9523.2217,
+      "y": 3543.2546
     },
     {
       "action": "fight",
@@ -87,17 +87,17 @@
       "id": 8,
       "move_mode": "dash",
       "type": "path",
-      "x": 9542.5,
-      "y": 2251.75
+      "x": 9523.2217,
+      "y": 3543.2546
     },
     {
-      "action": "fight",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(1)",
       "id": 9,
       "move_mode": "dash",
-      "type": "path",
-      "x": 9595.75,
-      "y": 2314.25
+      "type": "orientation",
+      "x": 9523.2217,
+      "y": 3543.2546
     }
   ]
 }
