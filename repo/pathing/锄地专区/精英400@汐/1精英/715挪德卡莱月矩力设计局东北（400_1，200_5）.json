@@ -1,19 +1,18 @@
-﻿{
+{
   "info": {
-    "author": "汐",
     "authors": [
       {
-        "links": "https://github.com/jiegedabaobei",
+        "links": "",
         "name": "汐"
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时113.15秒，包含2只精英与3只小怪，预计收入1321.5摩拉，包含以下怪物：1只黯色空壳·破阵、1只岩龙蜥。",
+    "description": "  路线信息：该路线预计用时127.88秒，包含以下怪物：1只荒野狂狩士、4只荒野幽徒、1只蔓结·霜夜灵嗣。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757931791530,
+    "last_modified_time": 1758034788120,
     "map_match_method": "",
-    "map_name": "TheChasm",
-    "name": "241璃月层岩地下狭光道（600_2）",
+    "map_name": "Teyvat",
+    "name": "715挪德卡莱月矩力设计局东北（400_1，200_5）",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -23,11 +22,10 @@
       "action": "",
       "action_params": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 808.73,
-      "y": 339.3899999999999
+      "x": 9593.44140625,
+      "y": 3398.06591796875
     },
     {
       "action": "",
@@ -35,8 +33,8 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 814.0700000000002,
-      "y": 294.6399999999999
+      "x": 9529.749897297843,
+      "y": 3436.875909477807
     },
     {
       "action": "fight",
@@ -44,18 +42,17 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 818.71,
-      "y": 293.3899999999999
+      "x": 9467.51953125,
+      "y": 3459.4912109375
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": 808.73,
-      "y": 339.3899999999999
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9455.1767578125,
+      "y": 3480.705078125
     },
     {
       "action": "",
@@ -63,36 +60,35 @@
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": 783.7510288065844,
-      "y": 314
+      "x": 9484.1875,
+      "y": 3516.099609375
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 6,
       "move_mode": "fly",
       "type": "path",
-      "x": 762.228271484375,
-      "y": 291.156005859375
+      "x": 9518.701171875,
+      "y": 3540.21337890625
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 7,
-      "move_mode": "fly",
+      "move_mode": "dash",
       "type": "path",
-      "x": 726.5004115226338,
-      "y": 321.25
+      "x": 9523.2216796875,
+      "y": 3543.254638671875
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 8,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 733.870849609375,
-      "y": 352.2474365234375
+      "x": 9523.2216796875,
+      "y": 3543.254638671875
     },
     {
       "action": "combat_script",
@@ -100,8 +96,8 @@
       "id": 9,
       "move_mode": "dash",
       "type": "orientation",
-      "x": 733.870849609375,
-      "y": 352.2474365234375
+      "x": 9523.2216796875,
+      "y": 3543.254638671875
     }
   ]
 }

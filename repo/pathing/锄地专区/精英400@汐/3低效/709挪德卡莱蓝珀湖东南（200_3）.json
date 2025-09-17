@@ -3,16 +3,16 @@
     "authors": [
       {
         "links": "",
-        "name": "半夏"
+        "name": "汐"
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "",
+    "description": "  路线信息：该路线预计用时135.7秒，包含以下怪物：2只水史莱姆、1只蕴光奇羊、2只蕴光璇蛸。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757901415294,
+    "last_modified_time": 1758033985518,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "01挪德卡莱伦波岛小怪（16）",
+    "name": "709挪德卡莱蓝珀湖东南（200_3）",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,26 +24,26 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 9558.25,
-      "y": 2134.75
+      "x": 9097.6318359375,
+      "y": 2296.713623046875
     },
     {
-      "action": "stop_flying",
+      "action": "",
       "action_params": "",
       "id": 2,
       "move_mode": "fly",
       "type": "path",
-      "x": 9513.7,
-      "y": 2201.2
+      "x": 9093.2783203125,
+      "y": 2280.0087890625
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 9513.7,
-      "y": 2201.2
+      "x": 9069.125,
+      "y": 2269.704833984375
     },
     {
       "action": "",
@@ -51,8 +51,8 @@
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 9490.6,
-      "y": 2215.3
+      "x": 9055.9794921875,
+      "y": 2224.7255859375
     },
     {
       "action": "fight",
@@ -60,26 +60,26 @@
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": 9468.6,
-      "y": 2254.5
+      "x": 9041.0693359375,
+      "y": 2211.619384765625
     },
     {
       "action": "",
       "action_params": "",
       "id": 6,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 9468.6,
-      "y": 2254.5
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 7,
       "move_mode": "dash",
       "type": "path",
-      "x": 9506.2,
-      "y": 2281.5
+      "x": 9029.750189603981,
+      "y": 2197.250121263707
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1300",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8999.874853846932,
+      "y": 2161.250712424282
     },
     {
       "action": "fight",
@@ -87,17 +87,26 @@
       "id": 8,
       "move_mode": "dash",
       "type": "path",
-      "x": 9542.5,
-      "y": 2251.75
+      "x": 8997.0244140625,
+      "y": 2158.02783203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.5)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8922.80078125,
+      "y": 2178.556396484375
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 9,
+      "id": 10,
       "move_mode": "dash",
       "type": "path",
-      "x": 9595.75,
-      "y": 2314.25
+      "x": 8942.56640625,
+      "y": 2175.955322265625
     }
   ]
 }

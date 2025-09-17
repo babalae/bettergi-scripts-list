@@ -3,16 +3,16 @@
     "authors": [
       {
         "links": "",
-        "name": "半夏"
+        "name": "汐"
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "",
+    "description": "  路线信息：该路线预计用时55.07秒，包含以下怪物：1只辉电·霜夜灵嗣。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757833953327,
+    "last_modified_time": 1758033707380,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "12挪德卡莱希汐岛（200_1）",
+    "name": "707挪德卡莱蓝珀湖西北（200_1）",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,44 +24,35 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 11058,
-      "y": 1590
+      "x": 9249.146484375,
+      "y": 2349.779541015625
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": 11048.75,
-      "y": 1575.25
+      "x": 9273.009765625,
+      "y": 2355.837646484375
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "fly",
+      "move_mode": "dash",
       "type": "path",
-      "x": 11031.5,
-      "y": 1550.75
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 11072.5,
-      "y": 1533.5
+      "x": 9336.197265625,
+      "y": 2380.83642578125
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 5,
-      "move_mode": "run",
+      "id": 4,
+      "move_mode": "dash",
       "type": "path",
-      "x": 11072.5,
-      "y": 1533.5
+      "x": 9362.3779296875,
+      "y": 2379.968505859375
     }
   ]
 }
