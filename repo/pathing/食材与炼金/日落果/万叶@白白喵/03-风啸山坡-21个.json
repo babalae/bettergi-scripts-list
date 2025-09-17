@@ -1,16 +1,19 @@
 {
   "info": {
-    "name": "02-日落果-风啸山坡-21个",
+    "name": "03-风啸山坡-21个",
     "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "白白喵"
       }
-    ]
+    ],
+    "version": "3.0",
+    "description": "带万叶采集日落果",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755218034506,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -44,15 +47,15 @@
       "id": 4,
       "x": -1352.2552,
       "y": 1645.3772,
-      "type": "path",
-      "move_mode": "run",
       "action": "",
-      "action_params": ""
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 5,
       "x": -1349.2502,
-      "y": 1647.0,
+      "y": 1647,
       "action": "",
       "move_mode": "fly",
       "action_params": "",
@@ -222,11 +225,11 @@
     },
     {
       "id": 24,
-      "x": -1119.1562,
-      "y": 1779.9686,
+      "x": -1121.375,
+      "y": 1780.8755,
       "action": "combat_script",
       "move_mode": "run",
-      "action_params": "万叶 e(hold),attack,wait(3.0)",
+      "action_params": "万叶 wait(0.5),e(hold),attack,wait(3.0)",
       "type": "target"
     },
     {
@@ -348,8 +351,8 @@
     },
     {
       "id": 38,
-      "x": -1287.8748,
-      "y": 1756.0614,
+      "x": -1287.0318,
+      "y": 1757.4993,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "万叶 e(hold),attack,wait(3.0)",
