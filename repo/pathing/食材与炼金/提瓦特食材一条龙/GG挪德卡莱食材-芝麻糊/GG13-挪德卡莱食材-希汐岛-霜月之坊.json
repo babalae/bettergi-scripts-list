@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758077712044,
+    "last_modified_time": 1758207311931,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "GG13-挪德卡莱食材-希汐岛-霜月之坊",
@@ -298,13 +298,22 @@
       "y": 1820.0547
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.4)",
+      "action": "",
+      "action_params": "",
       "id": 32,
       "move_mode": "dash",
-      "type": "target",
+      "type": "path",
       "x": 10686.8271,
       "y": 1819.4746
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 33,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 10684.7812,
+      "y": 1820.0322
     }
   ]
 }
