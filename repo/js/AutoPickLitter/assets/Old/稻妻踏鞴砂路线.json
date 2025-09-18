@@ -21,10 +21,10 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "",
+    "description": "3合1路线",
     "enable_monster_loot_split": false,
     "items": [],
-    "last_modified_time": 1757126413936,
+    "last_modified_time": 1757685510954,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "稻妻踏鞴砂路线",
@@ -148,6 +148,15 @@
       "action": "",
       "action_params": "",
       "id": 12,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -2999.97265625,
+      "y": -3477.474609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
       "move_mode": "walk",
       "type": "path",
       "x": -2990.884765625,
@@ -156,7 +165,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.2),keypress(f);",
-      "id": 13,
+      "id": 14,
       "move_mode": "dash",
       "type": "path",
       "x": -2984.275390625,
@@ -165,16 +174,16 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.2),keypress(f),wait(0.2),keypress(f);",
-      "id": 14,
+      "id": 15,
       "move_mode": "dash",
       "type": "path",
-      "x": -2958.71484375,
-      "y": -3439.4755859375
+      "x": -2958.42578125,
+      "y": -3439.11328125
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2);",
-      "id": 15,
+      "id": 16,
       "move_mode": "dash",
       "type": "path",
       "x": -2980.548828125,
@@ -183,29 +192,83 @@
     {
       "action": "",
       "action_params": "",
-      "id": 16,
-      "move_mode": "run",
-      "type": "path",
-      "x": -2997.9453125,
-      "y": -3417.5146484375
-    },
-    {
-      "action": "",
-      "action_params": "",
       "id": 17,
       "move_mode": "run",
       "type": "path",
-      "x": -3034.443359375,
-      "y": -3461.5
+      "x": -2986.845703125,
+      "y": -3413.5947265625
     },
     {
       "action": "",
       "action_params": "",
       "id": 18,
       "move_mode": "run",
+      "type": "path",
+      "x": -2985.08203125,
+      "y": -3399.38671875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2);",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2999.705078125,
+      "y": -3378.4228515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3016.740234375,
+      "y": -3378.591796875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2);",
+      "id": 21,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3026.380859375,
+      "y": -3387.8671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3035.2734375,
+      "y": -3410.71875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2);",
+      "id": 23,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3025.44921875,
+      "y": -3421.1103515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3032.84375,
+      "y": -3463.021484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "run",
       "type": "target",
-      "x": -3039.61328125,
-      "y": -3460.5390625
+      "x": -3039.576171875,
+      "y": -3460.64453125
     }
   ]
 }
