@@ -222,17 +222,13 @@
 
      //切换队伍
      async function switchPartyIfNeeded(partyName) {
-          if (!partyName) {
-               await genshin.returnMainUi();
-               return;
-          }
           try {
-               log.info("正在尝试切换至" + partyName);
                if (!await genshin.switchParty(partyName)) {
                     log.info("切换队伍失败，前往七天神像重试");
                     await genshin.tpToStatueOfTheSeven();
                     await genshin.switchParty(partyName);
                }
+               return true;
           } catch {
                log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
                notification.error(`队伍切换失败，可能处于联机模式或其他不可切换状态`);
@@ -242,13 +238,19 @@
 
      // 传送并进入副本
      async function fuben() {
-          await genshin.tp(-887.193359375, 1679.44287109375);
-
-          await switchPartyIfNeeded(party);
-
+          // 先判断一次，队伍里有伊涅芙就直接开始运行，没有的话就切换指定队伍
           let ifynf = await textOCR("伊涅芙", 3, 0, 0, 1670, 200, 120, 400);
-          if (!ifynf.found) { log.error("未识别到伊涅芙，请在设置中输入包含伊涅芙的队伍！"); return; }
+          let ifswitch;
+          if (!ifynf.found) {
+               ifswitch = await switchPartyIfNeeded(party);
+               if (!ifswitch) { log.error("未识别到指定队伍，请检查队伍名是否正确！"); return false; }//找不到指定队伍就直接报错停止
 
+               ifynf = await textOCR("伊涅芙", 3, 0, 0, 1670, 200, 120, 400);
+               if (!ifynf.found) { log.error("未识别到伊涅芙，请在设置中输入包含伊涅芙的队伍！"); return false; }//切换到指定队伍后再进行判定
+          }
+          log.info("已检测到伊涅芙，即将开始后续动作……");
+
+          await genshin.tp(-887.193359375, 1679.44287109375);//沉眠之庭
           keyDown("w");
           await sleep(2500);
           keyUp("w");
@@ -261,11 +263,13 @@
           leftButtonClick();
           await sleep(1500);
 
-          log.info("古又老师说让你先die一下");
+          log.info("古又老师说让你先die一下");//先降低点生命值避免满血弹窗
           keyDown("A");
           await sleep(3000);
           keyUp("A");
           await sleep(3000);
+
+          return true;
      }
 
      // 伊涅芙跳楼机
@@ -276,9 +280,9 @@
 
           //连续点击三次防止过期道具卡背包
           await click(970, 760);
-          await sleep(300);
+          await sleep(100);
           await click(970, 760);
-          await sleep(300);
+          await sleep(100);
           await click(970, 760);
 
           log.info("猜猜为什么要连续点击这个位置呢~");
@@ -289,36 +293,34 @@
           const ifshiwu = await textOCR("食物", 3, 0, 0, 126, 17, 99, 53);
           if (!ifshiwu.found) {
                await genshin.returnMainUi();
-               log.warn("未打开'食物'页面");
-               return;
+               throw new Error("未打开'食物'页面");
           }//确认在食物界面
           await sleep(500);
           const ifpingguo = await imageRecognitionEnhanced(pingguo, 1, 1, 0, 115, 120, 1150, 155);//识别"苹果"图片
           if (!ifpingguo.found) {
                await genshin.returnMainUi();
-               log.warn("没有找到指定的食物");
-               return;
+               throw new Error("没有找到指定的食物");
           }
           await sleep(500);
 
-          await textOCR("使用", 5, 1, 0, 1620, 987, 225, 50);
+          await click(1700, 1020);//点击使用
           await sleep(1000);
 
-          const ifzjz = await imageRecognitionEnhanced(zjz, 5, 1, 0, 625, 290, 700, 360, true);
-          await sleep(300);
+          const ifzjz = await imageRecognitionEnhanced(zjz, 5, 1, 0, 625, 290, 700, 360, true);//点击伊涅芙证件照
+          await sleep(100);
+          leftButtonClick();//连续点击确保吃食物的是伊涅芙
+          await sleep(100);
           leftButtonClick();
-          await sleep(300);
-          leftButtonClick();
-          await sleep(300);
+          await sleep(100);
 
-          if (!ifzjz.found) { log.error("未识别到伊涅芙"); return; }
+          if (!ifzjz.found) { throw new Error("未识别到伊涅芙"); }
 
           for (let i = 0; i < foodCount; i++) {
                click(1251, 630);
-               await sleep(300);
+               await sleep(150);
           }
 
-          await textOCR("确认", 5, 1, 0, 1100, 740, 225, 50);
+          await click(1180, 770);//点击确认
           await sleep(500);
 
           await sleep(1000);
@@ -326,31 +328,47 @@
           await sleep(1000);
           await keyPress("ESCAPE");
 
+          await sleep(1000);
+
+          if (n == 1) { return; }
+
           log.info("再见了伊涅芙，希望你喜欢这几分钟的戏份");
 
-          await sleep(1000);
           keyDown("A");
           await sleep(3000);
           keyUp("A");
           await sleep(3000);
      }
 
-     log.warn("使用前请仔细阅读readme并进行相关设置！");
-     log.warn("请确保食材充足！");
+     // ==================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
+     //main
+     //===================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
+
+     // 预处理
+     const party = settings.n;//设置好要切换的队伍
+     const food = settings.food;//设置要吃的食物
+     const foodCount = settings.foodNumber - 1;//点击“+”的次数，比食物数量少1
+     const n = settings.runNumber;//运行次数
+
+     const pingguo = `assets/${food}.png`;//食物图片路径
+     const zjz = `assets/zhengjianzhao.png`;//伊涅芙证件照
+
+     // 添加验证
+     if (!party) { log.error("请仔细阅读readme并进行设置后再使用此脚本！"); return; }// 队伍为空说明大概率没进行设置
+     if (foodCount > 98 || foodCount < 0) { log.error("食材数量请填写1-99之间的数字！"); return; }//确保食材数量1~99
+     if (n < 0 || n == 0) { log.error("不是哥们，运行次数还能小于0？？？"); return; }//确保运行次数合法
+
 
      //设置分辨率和缩放
      setGameMetrics(1920, 1080, 1);
-     await genshin.returnMainUi();
+     await genshin.returnMainUi();//回到主界面，在秘境中可能会卡几秒
 
-     const food = settings.food;
-     const party = settings.n;
-     const n = settings.runNumber;
-     const foodCount = settings.foodNumber - 1;
-     const pingguo = `assets/${food}.png`;
-     const zjz = `assets/zhengjianzhao.png`;
+     log.warn("使用前请仔细阅读readme并进行相关设置！");
+     log.warn("请确保食材充足！");
 
-     await fuben();
+     const iffuben = await fuben(); if (!iffuben) { return; }//前期准备，进入副本并降低一部分血量
 
+     // 循环控制运行次数
      try {
           for (let i = 0; i < n; i++) {
                await doit();
@@ -358,9 +376,7 @@
      } catch (error) {
           log.error(`识别图像时发生异常: ${error.message}`);
      }
+     log.info("运行结束！今天的" + food + "味道不错哦~");
 
      await genshin.tpToStatueOfTheSeven();
-
 })();
-
-
