@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758013087022,
+    "last_modified_time": 1758079675744,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "GG12-挪德卡莱食材-帕哈岛-月矩力试验设计局",
@@ -180,7 +180,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(0.5)",
       "id": 19,
       "move_mode": "dash",
       "type": "path",
@@ -301,13 +301,21 @@
       "id": 32,
       "move_mode": "dash",
       "type": "path",
-      "x": 9833.1191,
-      "y": 3552.4287
+      "x": 9806.5064,
+      "y": 3566.25
+    },
+    {
+      "action": "",
+      "id": 33,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9832.0,
+      "y": 3552.75
     },
     {
       "action": "",
       "action_params": "",
-      "id": 33,
+      "id": 34,
       "move_mode": "dash",
       "type": "path",
       "x": 9823.002,
@@ -316,7 +324,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 34,
+      "id": 35,
       "move_mode": "jump",
       "type": "path",
       "x": 9828.0244,
@@ -325,7 +333,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 35,
+      "id": 36,
       "move_mode": "dash",
       "type": "path",
       "x": 9824.8438,
@@ -333,7 +341,7 @@
     },
     {
       "action": "",
-      "id": 36,
+      "id": 37,
       "move_mode": "dash",
       "type": "path",
       "x": 9812.8208,
@@ -342,7 +350,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 37,
+      "id": 38,
       "move_mode": "dash",
       "type": "path",
       "x": 9800.7979,
@@ -351,16 +359,16 @@
     {
       "action": "",
       "action_params": "",
-      "id": 38,
+      "id": 39,
       "move_mode": "dash",
       "type": "path",
-      "x": 9805.7549,
-      "y": 3468.9497
+      "x": 9788.2542,
+      "y": 3481.0
     },
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 39,
+      "id": 40,
       "move_mode": "fly",
       "type": "path",
       "x": 9787.7285,
@@ -369,7 +377,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 40,
+      "id": 41,
       "move_mode": "dash",
       "type": "path",
       "x": 9765.7402,
@@ -378,7 +386,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 41,
+      "id": 42,
       "move_mode": "fly",
       "type": "path",
       "x": 9754.2148,
@@ -387,7 +395,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 42,
+      "id": 43,
       "move_mode": "dash",
       "type": "path",
       "x": 9740.6738,
@@ -396,7 +404,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 43,
+      "id": 44,
       "move_mode": "dash",
       "type": "path",
       "x": 9704.2344,
@@ -405,7 +413,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 44,
+      "id": 45,
       "move_mode": "dash",
       "type": "path",
       "x": 9701.1582,
@@ -414,7 +422,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 45,
+      "id": 46,
       "move_mode": "dash",
       "type": "path",
       "x": 9699.1543,
@@ -423,7 +431,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 46,
+      "id": 47,
       "move_mode": "dash",
       "type": "path",
       "x": 9686.0928,
@@ -432,7 +440,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 47,
+      "id": 48,
       "move_mode": "dash",
       "type": "path",
       "x": 9699.498,
@@ -441,7 +449,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 48,
+      "id": 49,
       "move_mode": "dash",
       "type": "path",
       "x": 9725.7148,
@@ -450,7 +458,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 49,
+      "id": 50,
       "move_mode": "dash",
       "type": "path",
       "x": 9723.0195,
@@ -459,7 +467,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 50,
+      "id": 51,
       "move_mode": "dash",
       "type": "path",
       "x": 9738.1758,
@@ -468,7 +476,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 51,
+      "id": 52,
       "move_mode": "dash",
       "type": "path",
       "x": 9742.2598,
@@ -477,7 +485,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 52,
+      "id": 53,
       "move_mode": "dash",
       "type": "path",
       "x": 9754.8086,
@@ -486,7 +494,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 53,
+      "id": 54,
       "move_mode": "dash",
       "type": "path",
       "x": 9766.5449,
@@ -495,7 +503,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 54,
+      "id": 55,
       "move_mode": "dash",
       "type": "path",
       "x": 9781.8818,
@@ -504,7 +512,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 55,
+      "id": 56,
       "move_mode": "dash",
       "type": "path",
       "x": 9828.4961,
@@ -513,7 +521,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.4)",
-      "id": 56,
+      "id": 57,
       "move_mode": "dash",
       "type": "target",
       "x": 9835.9932,
@@ -522,7 +530,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 57,
+      "id": 58,
       "move_mode": "dash",
       "type": "teleport",
       "x": 10103.2188,
@@ -531,7 +539,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 58,
+      "id": 59,
       "move_mode": "dash",
       "type": "path",
       "x": 10100.1055,
@@ -540,7 +548,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 59,
+      "id": 60,
       "move_mode": "dash",
       "type": "path",
       "x": 10100.5029,
@@ -549,7 +557,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 60,
+      "id": 61,
       "move_mode": "dash",
       "type": "path",
       "x": 10108.0195,
@@ -558,7 +566,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 61,
+      "id": 62,
       "move_mode": "dash",
       "type": "path",
       "x": 10115.0039,
@@ -567,7 +575,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 62,
+      "id": 63,
       "move_mode": "dash",
       "type": "path",
       "x": 10116.4541,
@@ -576,7 +584,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 63,
+      "id": 64,
       "move_mode": "dash",
       "type": "path",
       "x": 10126.2295,
@@ -585,7 +593,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 64,
+      "id": 65,
       "move_mode": "dash",
       "type": "path",
       "x": 10127.3896,
@@ -594,7 +602,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 65,
+      "id": 66,
       "move_mode": "dash",
       "type": "path",
       "x": 10127.9707,
@@ -603,7 +611,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 66,
+      "id": 67,
       "move_mode": "dash",
       "type": "path",
       "x": 10140.3643,
@@ -612,7 +620,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 67,
+      "id": 68,
       "move_mode": "dash",
       "type": "path",
       "x": 10136.918,
@@ -621,7 +629,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 68,
+      "id": 69,
       "move_mode": "dash",
       "type": "path",
       "x": 10123.1543,
@@ -630,7 +638,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 69,
+      "id": 70,
       "move_mode": "dash",
       "type": "path",
       "x": 10110.3252,
@@ -639,7 +647,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 70,
+      "id": 71,
       "move_mode": "dash",
       "type": "path",
       "x": 10110.0801,
@@ -648,7 +656,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 71,
+      "id": 72,
       "move_mode": "dash",
       "type": "path",
       "x": 10139.3027,
@@ -657,7 +665,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 72,
+      "id": 73,
       "move_mode": "dash",
       "type": "path",
       "x": 10159.2188,
@@ -666,7 +674,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 73,
+      "id": 74,
       "move_mode": "dash",
       "type": "path",
       "x": 10159.9199,
@@ -675,7 +683,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 74,
+      "id": 75,
       "move_mode": "dash",
       "type": "path",
       "x": 10173.0586,
@@ -684,7 +692,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 75,
+      "id": 76,
       "move_mode": "dash",
       "type": "path",
       "x": 10175.2422,
@@ -693,7 +701,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 76,
+      "id": 77,
       "move_mode": "dash",
       "type": "path",
       "x": 10182.626,
@@ -702,7 +710,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 77,
+      "id": 78,
       "move_mode": "dash",
       "type": "path",
       "x": 10184.5547,
@@ -711,7 +719,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 78,
+      "id": 79,
       "move_mode": "dash",
       "type": "path",
       "x": 10188.5166,
@@ -720,7 +728,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 79,
+      "id": 80,
       "move_mode": "dash",
       "type": "path",
       "x": 10204.1621,
@@ -729,7 +737,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 80,
+      "id": 81,
       "move_mode": "dash",
       "type": "path",
       "x": 10218.4375,
@@ -738,7 +746,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 81,
+      "id": 82,
       "move_mode": "dash",
       "type": "path",
       "x": 10209.8184,
@@ -747,7 +755,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 82,
+      "id": 83,
       "move_mode": "dash",
       "type": "path",
       "x": 10209.5225,
@@ -756,7 +764,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 83,
+      "id": 84,
       "move_mode": "dash",
       "type": "path",
       "x": 10210.4141,
@@ -765,7 +773,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 84,
+      "id": 85,
       "move_mode": "dash",
       "type": "path",
       "x": 10208.6992,
@@ -774,7 +782,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 85,
+      "id": 86,
       "move_mode": "dash",
       "type": "path",
       "x": 10193.7676,
@@ -783,7 +791,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 86,
+      "id": 87,
       "move_mode": "dash",
       "type": "path",
       "x": 10191.3848,
@@ -792,7 +800,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 87,
+      "id": 88,
       "move_mode": "dash",
       "type": "path",
       "x": 10186.7266,
@@ -801,7 +809,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 88,
+      "id": 89,
       "move_mode": "dash",
       "type": "path",
       "x": 10188.375,
@@ -809,7 +817,7 @@
     },
     {
       "action": "",
-      "id": 89,
+      "id": 90,
       "move_mode": "dash",
       "type": "path",
       "x": 10186.3125,
@@ -818,7 +826,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 90,
+      "id": 91,
       "move_mode": "dash",
       "type": "path",
       "x": 10202.209,
@@ -827,7 +835,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 91,
+      "id": 92,
       "move_mode": "dash",
       "type": "path",
       "x": 10214.1475,
@@ -836,7 +844,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 92,
+      "id": 93,
       "move_mode": "dash",
       "type": "path",
       "x": 10212.0059,
@@ -845,7 +853,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 93,
+      "id": 94,
       "move_mode": "dash",
       "type": "path",
       "x": 10208.1553,
@@ -854,7 +862,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 94,
+      "id": 95,
       "move_mode": "dash",
       "type": "path",
       "x": 10205.0879,
@@ -863,7 +871,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 95,
+      "id": 96,
       "move_mode": "dash",
       "type": "path",
       "x": 10198.1113,
@@ -872,7 +880,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 96,
+      "id": 97,
       "move_mode": "dash",
       "type": "path",
       "x": 10188.8643,
@@ -881,7 +889,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 97,
+      "id": 98,
       "move_mode": "dash",
       "type": "path",
       "x": 10164.1777,
@@ -890,7 +898,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 98,
+      "id": 99,
       "move_mode": "dash",
       "type": "path",
       "x": 10141.2783,
@@ -899,7 +907,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 99,
+      "id": 100,
       "move_mode": "dash",
       "type": "path",
       "x": 10140.542,
@@ -908,7 +916,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 100,
+      "id": 101,
       "move_mode": "dash",
       "type": "path",
       "x": 10143.6387,
@@ -917,7 +925,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 101,
+      "id": 102,
       "move_mode": "dash",
       "type": "path",
       "x": 10139.4482,
@@ -926,7 +934,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 102,
+      "id": 103,
       "move_mode": "dash",
       "type": "path",
       "x": 10132.7188,
@@ -935,7 +943,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 103,
+      "id": 104,
       "move_mode": "dash",
       "type": "path",
       "x": 10129.3516,
@@ -944,7 +952,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 104,
+      "id": 105,
       "move_mode": "dash",
       "type": "path",
       "x": 10122.999,
@@ -953,7 +961,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 105,
+      "id": 106,
       "move_mode": "dash",
       "type": "path",
       "x": 10114.835,
@@ -961,7 +969,7 @@
     },
     {
       "action": "",
-      "id": 106,
+      "id": 107,
       "move_mode": "dash",
       "type": "path",
       "x": 10095.375,
@@ -970,7 +978,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 107,
+      "id": 108,
       "move_mode": "dash",
       "type": "path",
       "x": 10096.3818,
@@ -979,7 +987,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 108,
+      "id": 109,
       "move_mode": "dash",
       "type": "path",
       "x": 10089.9453,
@@ -988,7 +996,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 109,
+      "id": 110,
       "move_mode": "dash",
       "type": "path",
       "x": 10052.3721,
@@ -996,8 +1004,16 @@
     },
     {
       "action": "",
+      "id": 111,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10064.5,
+      "y": 3353.5
+    },
+    {
+      "action": "",
       "action_params": "",
-      "id": 110,
+      "id": 112,
       "move_mode": "dash",
       "type": "path",
       "x": 10081.4385,
@@ -1006,7 +1022,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 111,
+      "id": 113,
       "move_mode": "dash",
       "type": "path",
       "x": 10109.6387,
