@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758010888208,
+    "last_modified_time": 1758201258194,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "DD10-须弥食材-二净旬-童梦的切片",
@@ -22,7 +22,6 @@
       "action": "",
       "action_params": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 3491.4082,
@@ -356,6 +355,7 @@
       "action": "",
       "action_params": "",
       "id": 38,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 3348.5352,
@@ -365,6 +365,7 @@
       "action": "combat_script",
       "action_params": "wait(5)",
       "id": 39,
+      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 3326.4902,
@@ -374,6 +375,7 @@
       "action": "stop_flying",
       "action_params": "",
       "id": 40,
+      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 3327.0596,
@@ -383,6 +385,7 @@
       "action": "",
       "action_params": "",
       "id": 41,
+      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 3340.0381,
@@ -392,6 +395,7 @@
       "action": "stop_flying",
       "action_params": "",
       "id": 42,
+      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 3323.2461,
@@ -401,24 +405,37 @@
       "action": "",
       "action_params": "",
       "id": 43,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": 3323.9629,
-      "y": -842.0986
+      "x": 3322.841796875,
+      "y": -841.890625
     },
     {
       "action": "",
       "action_params": "",
       "id": 44,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": 3325.9854,
-      "y": -842.0713
+      "x": 3325.5751953125,
+      "y": -842.6279296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 45,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3326.529296875,
+      "y": -842.17919921875
     },
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 45,
+      "id": 46,
+      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 3332.6865,
@@ -427,7 +444,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 46,
+      "id": 47,
+      "locked": false,
       "move_mode": "run",
       "type": "path",
       "x": 3338.4346,
@@ -436,7 +454,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 47,
+      "id": 48,
+      "locked": false,
       "move_mode": "run",
       "type": "path",
       "x": 3324.96,
@@ -445,7 +464,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 48,
+      "id": 49,
+      "locked": false,
       "move_mode": "run",
       "type": "path",
       "x": 3308.2705,
@@ -454,7 +474,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 49,
+      "id": 50,
+      "locked": false,
       "move_mode": "run",
       "type": "path",
       "x": 3290.6523,
@@ -463,7 +484,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 50,
+      "id": 51,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 3278.9473,
@@ -472,7 +494,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 51,
+      "id": 52,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 3255.0439,
@@ -481,7 +504,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 52,
+      "id": 53,
+      "locked": false,
       "move_mode": "jump",
       "type": "path",
       "x": 3239.21,
@@ -490,7 +514,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 53,
+      "id": 54,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 3243.6729,
@@ -499,7 +524,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 54,
+      "id": 55,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3234.3975,
@@ -508,7 +534,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 55,
+      "id": 56,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3239.8545,
@@ -517,7 +544,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 56,
+      "id": 57,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3235.9668,
@@ -526,7 +554,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 57,
+      "id": 58,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 3216.3896,
@@ -535,7 +564,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 58,
+      "id": 59,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 3199.123,
@@ -544,7 +574,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 59,
+      "id": 60,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3194.1406,
@@ -553,7 +584,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 60,
+      "id": 61,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3192.3633,
@@ -562,7 +594,17 @@
     {
       "action": "",
       "action_params": "",
-      "id": 61,
+      "id": 62,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3188.916015625,
+      "y": -865.80517578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 63,
+      "locked": true,
       "move_mode": "walk",
       "type": "path",
       "x": 3186.4062,
@@ -571,7 +613,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 62,
+      "id": 64,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3174.6494,
@@ -580,7 +623,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 63,
+      "id": 65,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3163.583,
@@ -589,7 +633,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 64,
+      "id": 66,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3160.1064,
@@ -598,7 +643,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 65,
+      "id": 67,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3143.6953,
@@ -607,7 +653,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 66,
+      "id": 68,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 3139.1475,
@@ -616,7 +663,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 67,
+      "id": 69,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3135.3018,
@@ -625,7 +673,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 68,
+      "id": 70,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3137.6367,
@@ -634,7 +683,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 69,
+      "id": 71,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3145.1787,
@@ -643,7 +693,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 70,
+      "id": 72,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3157.2119,
@@ -652,7 +703,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 71,
+      "id": 73,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3161.5049,
@@ -661,7 +713,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 72,
+      "id": 74,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3179.4395,
@@ -670,7 +723,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 73,
+      "id": 75,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3209.5117,
@@ -679,7 +733,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 74,
+      "id": 76,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3218.4424,
@@ -688,7 +743,8 @@
     {
       "action": "up_down_grab_leaf",
       "action_params": "",
-      "id": 75,
+      "id": 77,
+      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
       "x": 3212.3086,
@@ -697,7 +753,8 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 76,
+      "id": 78,
+      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 3213.1191,
@@ -706,7 +763,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 77,
+      "id": 79,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3212.5479,
@@ -715,7 +773,8 @@
     {
       "action": "up_down_grab_leaf",
       "action_params": "",
-      "id": 78,
+      "id": 80,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3195.8857,
@@ -724,7 +783,8 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.4),attack(0.2)",
-      "id": 79,
+      "id": 81,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3195.8857,
@@ -733,7 +793,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 80,
+      "id": 82,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3190.4258,
@@ -742,7 +803,8 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.4)",
-      "id": 81,
+      "id": 83,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3184.7754,
@@ -751,7 +813,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 82,
+      "id": 84,
       "move_mode": "walk",
       "type": "teleport",
       "x": 3068.1328,
@@ -760,7 +822,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 83,
+      "id": 85,
       "move_mode": "walk",
       "type": "path",
       "x": 3078.6035,
@@ -769,7 +831,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 84,
+      "id": 86,
       "move_mode": "fly",
       "type": "path",
       "x": 3078.7227,
@@ -778,7 +840,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 85,
+      "id": 87,
       "move_mode": "fly",
       "type": "path",
       "x": 3088.9922,
@@ -787,7 +849,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(1.5)",
-      "id": 86,
+      "id": 88,
       "move_mode": "dash",
       "type": "path",
       "x": 3107.2676,
@@ -796,7 +858,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 87,
+      "id": 89,
       "move_mode": "walk",
       "type": "path",
       "x": 3109.4209,
@@ -805,7 +867,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 88,
+      "id": 90,
       "move_mode": "walk",
       "type": "path",
       "x": 3111.373,
@@ -814,7 +876,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 89,
+      "id": 91,
       "move_mode": "walk",
       "type": "path",
       "x": 3118.8975,
@@ -823,7 +885,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 90,
+      "id": 92,
       "move_mode": "walk",
       "type": "path",
       "x": 3125.1035,
@@ -832,7 +894,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 91,
+      "id": 93,
       "move_mode": "walk",
       "type": "path",
       "x": 3120.3066,
@@ -841,7 +903,7 @@
     {
       "action": "combat_script",
       "action_params": "迪希雅 e",
-      "id": 92,
+      "id": 94,
       "move_mode": "walk",
       "type": "path",
       "x": 3116.4902,
@@ -850,7 +912,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 93,
+      "id": 95,
       "move_mode": "walk",
       "type": "path",
       "x": 3115.8652,
@@ -859,7 +921,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 94,
+      "id": 96,
       "move_mode": "walk",
       "type": "path",
       "x": 3117.9385,
@@ -868,7 +930,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 95,
+      "id": 97,
       "move_mode": "walk",
       "type": "path",
       "x": 3121.9971,
@@ -877,7 +939,7 @@
     {
       "action": "combat_script",
       "action_params": "迪希雅 e",
-      "id": 96,
+      "id": 98,
       "move_mode": "walk",
       "type": "path",
       "x": 3130.8369,
@@ -886,7 +948,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 97,
+      "id": 99,
       "move_mode": "walk",
       "type": "path",
       "x": 3134.8438,
@@ -895,7 +957,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 98,
+      "id": 100,
       "move_mode": "walk",
       "type": "path",
       "x": 3133.9258,
