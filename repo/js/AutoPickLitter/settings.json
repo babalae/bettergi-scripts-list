@@ -20,6 +20,12 @@
     "label": "---------------稻妻踏鞴砂海螺---------------\n注意:勾选前，请去看readme"
   },
   {
+    "name": "doYouOpen",
+    "type": "checkbox",
+    "label": "是否开启宝箱(默认是)",
+    "default": "true"
+  },
+  {
     "name": "pickupTreasure",
     "type": "select",
     "label": "开启宝箱或随机(1:左面 2:中间 3:右边 0:随机)",
@@ -59,5 +65,4 @@
         "label": "账户名称\n用于多用户运行时区分不同账户\n单用户无需修改",
         "default": "默认账户"
   }
-
 ]

@@ -72,5 +72,10 @@
         "name": "infoFileName",
         "type": "input-text",
         "label": "输入用于存储信息的文件名，只在不同账号分别管理CD时填写"
+    },
+    {
+        "name": "disableJsons",
+        "type": "input-text",
+        "label": "填写需要禁用的路线的关键词，使用中文分号分隔\n文件路径含有相关关键词的路线会被禁用"
     }
 ]

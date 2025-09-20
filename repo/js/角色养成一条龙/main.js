@@ -26,7 +26,7 @@ log.info(`正在查询数量`);
             const stopImageRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/boss/无相之风.png"), 0, 0, 1920,1080);
             stopImageRo.Threshold = 0.95;
             await findAndClickWithScroll(targetImageRo, stopImageRo, {maxAttempts: 30,scrollNum: 9});
-            if(bossName == '科培琉司的劫罚') click(1320,680);
+            if(bossName == '冰风组曲-科培琉司的劫罚') click(1320,680);
             else click(1236,680);
             await sleep(800);
             const result = await findImageAndOCR("assets/itemQuantityDetection.png", 200, 50, 0, 0);
@@ -248,13 +248,13 @@ function positiveIntegerJudgment(testNumber) {
 async function queryStaminaValue() {
     try {
         await genshin.returnMainUi();
-        await sleep(1000);
+        await sleep(500);
         keyPress("F1"); 
-        await sleep(2000);
+        await sleep(1600);
         click(300, 540);
-        await sleep(1000);
+        await sleep(400);
         click(1570, 203);
-        await sleep(1500);
+        await sleep(700);
         let captureRegion = captureGameRegion();
         let stamina = captureRegion.find(RecognitionObject.ocr(1580, 20, 210, 55));
         log.info(`OCR原始文本：${stamina.text}`);
@@ -264,6 +264,7 @@ async function queryStaminaValue() {
                 const currentValue = standardMatch[1];
                 let validatedStamina = positiveIntegerJudgment(currentValue);
                 if (validatedStamina > 11200) validatedStamina = (validatedStamina-1200)/10000;
+           log.info(`返回体力值：${validatedStamina}`);
            return validatedStamina;
             }       
     } catch (error) {
@@ -497,7 +498,16 @@ await sleep(3000);//枫丹天赋材料本门口有水晶碟，可能影响
 await repeatOperationUntilTextFound();
 keyPress("F");
 await repeatOperationUntilTextFound({x: 1650,y: 1000,width: 160,height: 45,targetText: "单人挑战",stepDuration: 0,waitTime: 100});//等待点击单人挑战
-await dispatcher.runTask(new SoloTask("AutoDomain"));
+await dispatcher.runTask(new SoloTask("AutoDomain", {  SpecifyResinUse: true,  
+// 原粹树脂刷取次数  
+OriginalResinUseCount: 1,   
+// 浓缩树脂刷取次数    
+CondensedResinUseCount: 0,  
+// 须臾树脂刷取次数  
+TransientResinUseCount: 0,   
+// 脆弱树脂刷取次数  
+FragileResinUseCount: 0  
+}));
 }
 // 技能书与国家、行列位置的映射
 const bookToPosition = {
@@ -524,7 +534,12 @@ const bookToPosition = {
     // 纳塔
     "角逐": {country: "纳塔天赋", row: 0},
     "焚燔": {country: "纳塔天赋", row: 1},
-    "纷争": {country: "纳塔天赋", row: 2}
+    "纷争": {country: "纳塔天赋", row: 2},
+    //挪德卡莱
+    "浪迹": {country: "挪德卡莱天赋", row: 2},
+    "乐园": {country: "挪德卡莱天赋", row: 1},
+    "月光": {country: "挪德卡莱天赋", row: 0}
+
 };
 
 // 品质对应的列位置
@@ -559,7 +574,11 @@ const weaponMaterialToPosition = {
     // 纳塔
     "贡祭炽心": {country: "纳塔武器", row: 0},
     "谵妄圣主": {country: "纳塔武器", row: 1},
-    "神合秘烟": {country: "纳塔武器", row: 2}
+    "神合秘烟": {country: "纳塔武器", row: 2},
+    //挪德卡莱
+    "终北遗嗣": {country: "挪德卡莱武器", row: 2},
+    "长夜燧火": {country: "挪德卡莱武器", row: 1},
+    "奇巧秘器": {country: "挪德卡莱武器", row: 0}
 };
 
 // 武器材料品质对应的列位置和品质名称（4种品质）
@@ -610,7 +629,7 @@ async function getMaterialCount(bookName) {
         await waitAndClickImage(country, 700, 35, true, 3000);
         }
         // 等待加载
-        await sleep(1000);
+        await sleep(500);
         
         // 2. 遍历三种品质的材料
         for (let col = 0; col < 3; col++) {
@@ -623,7 +642,7 @@ async function getMaterialCount(bookName) {
             click(clickX, clickY);
             
             // 等待材料详情界面加载
-            await sleep(1500);
+            await sleep(400);
             
             // 3. OCR识别数量
             const result = await findImageAndOCR("assets/itemQuantityDetection.png", 200, 50, 0, 0);
@@ -649,8 +668,6 @@ async function getMaterialCount(bookName) {
     } catch (error) {
         log.error("获取材料数量时出错: " + error);
         // 出错时尝试返回
-        click(800, 10);
-        await sleep(1000);
         return results;
     }
 }
@@ -696,7 +713,7 @@ async function getWeaponMaterialCount(materialName) {
         await waitAndClickImage(country, 700, 35, true, 3000);
         }
         // 等待加载
-        await sleep(1000);
+        await sleep(500);
         
         // 2. 遍历四种品质的材料
         for (let col = 0; col < 4; col++) {
@@ -709,7 +726,7 @@ async function getWeaponMaterialCount(materialName) {
             click(clickX, clickY);
             
             // 等待材料详情界面加载
-            await sleep(1500);
+            await sleep(400);
             
             // 3. OCR识别数量
             const result = await findImageAndOCR("assets/itemQuantityDetection.png", 200, 50, 0, 0);
@@ -739,8 +756,6 @@ async function getWeaponMaterialCount(materialName) {
         };
     } catch (error) {
         log.error("获取武器材料数量时出错: " + error);
-        // 出错时尝试返回
-        click(800, 10);
         await sleep(1000);
         return {
             green: 0,
@@ -754,15 +769,14 @@ async function getWeaponMaterialCount(materialName) {
 //去刷天赋书
 async function getTalentBook(materialName) {
 while(1){
-log.info(`准备刷取天赋书，开始检查体力`);
 let afterStamina = await queryStaminaValue();
+log.info(`准备刷取天赋书，开始检查体力`);
     if ( afterStamina >= 20 ){       
              try {
              log.info(`体力充足，开始检测物品数量`);
 
              const bookCounts = await getMaterialCount(materialName);
-             res = 0.12*(bookRequireCounts[0]-bookCounts[0])+0.36*(bookRequireCounts[1]-bookCounts[1])+(bookRequireCounts[2]-bookCounts[2]);
-
+             let res = 0.12*(bookRequireCounts[0]-bookCounts[0])+0.36*(bookRequireCounts[1]-bookCounts[1])+(bookRequireCounts[2]-bookCounts[2]);
              if(res>0){
               log.info(`${materialName}天赋书大约还差${res.toFixed(2)}本紫色品质没有刷取`);
               await gotoAutoDomain();
@@ -770,16 +784,22 @@ let afterStamina = await queryStaminaValue();
              else {
              notification.send(`${materialName}天赋书数量已经满足要求！！！`);
              return;
-             }
+              }
              }
              catch (error) {  
              notification.send(`${materialName}天赋书刷取失败，错误信息: ${error}`);
              await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
-             return;       
-             }
+             const bookCounts = await getMaterialCount(materialName);
+             let res = 0.12*(bookRequireCounts[0]-bookCounts[0])+0.36*(bookRequireCounts[1]-bookCounts[1])+(bookRequireCounts[2]-bookCounts[2]);
+              notification.send(`${materialName}天赋书大约还差${res.toFixed(2)}本紫色品质没有刷取`);
+             return;
        }
+     }
        else{
-             notification.send(`体力值为${afterStamina},可能无法刷取${materialName}天赋书`);
+             log.info(`体力值为${afterStamina},可能无法刷取${materialName}天赋书`);
+             const bookCounts = await getMaterialCount(materialName);
+             let res = 0.12*(bookRequireCounts[0]-bookCounts[0])+0.36*(bookRequireCounts[1]-bookCounts[1])+(bookRequireCounts[2]-bookCounts[2]);
+              notification.send(`${materialName}天赋书大约还差${res.toFixed(2)}本紫色品质没有刷取`);
              return;
          }
 }
@@ -794,24 +814,30 @@ let afterStamina = await queryStaminaValue();
              try {
              log.info(`体力充足，开始检测物品数量`);
              const weaponCounts = await getWeaponMaterialCount(materialName);
-             res = 0.12*(weaponRequireCounts[0]-weaponCounts.green)+0.36*(weaponRequireCounts[1]-weaponCounts.blue)+(weaponRequireCounts[2]-weaponCounts.purple)+3*(weaponRequireCounts[3]-weaponCounts.gold);
+             let res = 0.12*(weaponRequireCounts[0]-weaponCounts.green)+0.36*(weaponRequireCounts[1]-weaponCounts.blue)+(weaponRequireCounts[2]-weaponCounts.purple)+3*(weaponRequireCounts[3]-weaponCounts.gold);
              if(res>0){
               log.info(`武器材料${materialName}大约还差${res.toFixed(2)}个紫色品质没有刷取`);
-              await gotoAutoDomain("weaponDomain");                     
+              await gotoAutoDomain("weaponDomain");
              } 
              else {
              notification.send(`武器材料${materialName}数量已经满足要求！！！`);
-             return;    
+             return;
              }
              }
              catch (error) {  
              notification.send(`武器材料${materialName}刷取失败，错误信息: ${error}`);
              await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
+             const weaponCounts = await getWeaponMaterialCount(materialName);
+             let res = 0.12*(weaponRequireCounts[0]-weaponCounts.green)+0.36*(weaponRequireCounts[1]-weaponCounts.blue)+(weaponRequireCounts[2]-weaponCounts.purple)+3*(weaponRequireCounts[3]-weaponCounts.gold);
+              notification.send(`武器材料${materialName}大约还差${res.toFixed(2)}个紫色品质没有刷取`);
              return;
              }
        }
        else{
-             notification.send(`体力值为${afterStamina},可能无法刷取武器材料${materialName}`);
+             log.info(`体力值为${afterStamina},可能无法刷取武器材料${materialName}`);
+             const weaponCounts = await getWeaponMaterialCount(materialName);
+             let res = 0.12*(weaponRequireCounts[0]-weaponCounts.green)+0.36*(weaponRequireCounts[1]-weaponCounts.blue)+(weaponRequireCounts[2]-weaponCounts.purple)+3*(weaponRequireCounts[3]-weaponCounts.gold);
+              notification.send(`武器材料${materialName}大约还差${res.toFixed(2)}个紫色品质没有刷取`);
              return;
          }
 }
@@ -825,11 +851,10 @@ let afterStamina = await queryStaminaValue();
              try {
              log.info(`体力充足，开始检测物品数量`);
              const bossCounts = await getBossMaterialCount(bossName);
-             
+    
              let res = settings.bossRequireCounts-bossCounts;
-             
              if(res>0){
-                     log.info(`${bossName}还差${res}个材料没有刷取`);
+                     notification.send(`${bossName}还差${res}个材料没有刷取`);
                      if(!settings.teamName) throw new Error('未输入队伍名称');
                      await genshin.returnMainUi();
                      await genshin.switchParty(settings.teamName);
@@ -873,7 +898,7 @@ let afterStamina = await queryStaminaValue();
              }
        }
        else{
-             notification.send(`体力值为${afterStamina},可能无法刷取武器材料${bossName}`);
+             notification.send(`体力值为${afterStamina},可能无法刷取首领材料${bossName}`);
              return;
          }
 }
@@ -913,7 +938,7 @@ function parseAndValidateCounts(input, expectedCount) {
 
 let weaponRequireCounts; 
 let bookRequireCounts; 
-
+let stop = 0;
 if(!settings.unfairContractTerms) throw new Error('未签署霸王条款，无法使用');
 if(settings.talentBookName != "无" && settings.talentBookName){
 try{
@@ -941,4 +966,3 @@ else log.info(`没有选择挑战首领，跳过执行`);
 
 
 })();
-

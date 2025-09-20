@@ -6,14 +6,16 @@
     async function imageRecognition(imagefilePath="空参数",timeout=10,afterBehavior=0,debugmodel=0,xa=0,ya=0,wa=1920,ha=1080,tt=0.8) {
         // if (xa+wa > 1920 || ya+ha > 1080){ log.info("图片区域超出屏幕范围");return}
         const startTime = new Date();
-        //  const recognitionObject = new RecognitionObject();
-        //  recognitionObject.UseMask = false; // 设置 UseMask 为 true
-        // 下个版本BGI才支持带UseMask的构造函数RecognitionObject.RegionOfInterest = new Rect(xa, ya, wa, ha);
+        // 支持带UseMask的构造函数
         const Imagidentify = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagefilePath),true);
         if (tt !== 0.8){
             Imagidentify.Threshold=tt;
             Imagidentify.InitTemplate();        
         }
+
+        // Imagidentify.Name = "测试";
+        // Imagidentify.DrawOnWindow=true;
+        // Imagidentify.InitTemplate(); 
                 
         for (let ii = 0; ii < 10; ii++) {    
             captureRegion = captureGameRegion();  // 获取一张截图
@@ -117,26 +119,44 @@
     const ocrRegion3 = { x: 906, y: 928, width: 161, height: 100 };   // 下方区域
     const ocrRo3 = RecognitionObject.ocr(ocrRegion3.x, ocrRegion3.y, ocrRegion3.width, ocrRegion3.height);
     var method= settings.method ? settings.method : "冒险之证"; 
-    var Rewardsuse = settings.Rewardsuse ? settings.Rewardsuse : "1/2";
+    var Rewardsuse = settings.Rewardsuse ? settings.Rewardsuse : "1/2/5";
     var resinTypes = Rewardsuse.split("/");
     var rewards = [];
-    var onerewards, secendrewards, threendrewards, fourdrewards;  
+    var reBigMap = false;//大地图缩放标志
+    var onerewards, secendrewards, threendrewards, fourdrewards,fiverewards;  
     for (var i = 0; i < resinTypes.length; i++) {
         var resinType = parseInt(resinTypes[i]);
-        if (isNaN(resinType) || resinType < 1 || resinType > 4) {
+        if (isNaN(resinType) || resinType < 1 || resinType > 5) {
             throw new Error("设定的树脂类型无效或缺失，请重新配置");
         }
         rewards.push(resinType);
     }
 
-    const resinTypeMap = ["","使用1个浓缩树脂，获取2倍产出", "使用20个原粹树脂", "使用1个脆弱树脂，获取3倍产出", "使用1个须臾树脂，获取3倍产出"];
+    const resinTypeMap = ["","使用1个浓缩树脂，获取3次产出", "使用40个原粹树脂，获取2次产出", "使用1个脆弱树脂，获取3次产出", "使用1个须臾树脂，获取3次产出","使用20个原粹树脂"];
+    const resinTypeMap2 = ["使用50原石，获取3次产出", "使用100原石，获取3次产出", "使用150原石，获取3次产出", "使用200原石，获取3次产出"];
+    //原石使用
+    var primogemUseCount = settings.primogemUseCount ? settings.primogemUseCount : 0;
+    if (primogemUseCount === undefined || primogemUseCount === null) {
+        throw new Error("原石使用 参数无效，请设置0到6之间的整数值");
+    }
+    primogemUseCount = parseInt(primogemUseCount);
+    if (isNaN(primogemUseCount) || !Number.isInteger(primogemUseCount) || primogemUseCount < 0 || primogemUseCount > 6) {
+        throw new Error("原石使用 数量设置无效，请设置0到6之间的整数值");
+    }
+    primogemUseCount = (isNaN(primogemUseCount)) ? 0 : primogemUseCount;
+    var primogemUseDone = 0;
+    var resinDone = false;
+
     const golbalRewards = ["","浓缩树脂","原粹树脂","脆弱树脂","须臾树脂"]; // 对应四种树脂
     // 根据 rewards 数组长度，依次赋值给对应的变量
     if (rewards.length > 0) onerewards = golbalRewards[rewards[0]];
     if (rewards.length > 1) secendrewards = golbalRewards[rewards[1]];
     if (rewards.length > 2) threendrewards = golbalRewards[rewards[2]];
     if (rewards.length > 3) fourdrewards = golbalRewards[rewards[3]];
-    const golbalRewardText = [onerewards, secendrewards, threendrewards, fourdrewards].filter(Boolean);//过滤树脂使用类型
+    if (rewards.length > 4) fiverewards = golbalRewards[rewards[4]];
+    const golbalRewardText = [onerewards, secendrewards, threendrewards, fourdrewards,fiverewards].filter(Boolean);//过滤树脂使用类型
+    if(primogemUseCount>0){golbalRewardText.push("原石")}
+    // 根据 rewards 数组长度，依次赋值给对应的变量
    
     var doneCount = 0;
 
@@ -166,9 +186,13 @@
     var Threshold = genshin.width > 2560 ? 0.65 
             : genshin.width > 1920 ? 0.7 
             : 0.8;
-    log.warn(`屏幕分辨率${genshin.width}，识别阈值调整为${Threshold}...`);
+    log.warn(`屏幕宽度：${genshin.width}，识别阈值调整为${Threshold}...`);
 
-    log.warn(`全自动枫丹地脉花: v3.8 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
+    var Thresholdr = genshin.width > 2560 ? 0.8
+    : genshin.width > 1920 ? 0.8
+    : 0.9;
+
+    log.warn(`全自动枫丹地脉花: v4.0 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
     log.warn(`使用树脂类型数量：${rewards.length}`);
     log.warn(`使用树脂顺序：${golbalRewardText.join(" ->")}`); 
 
@@ -181,8 +205,10 @@
     var originalResin = "assets/model/original_resin_count.png";
     var fragileResin = "assets/model/fragile_resin_count.png";
     var momentResin = "assets/model/moment_resin_count.png";
+    var cilun = "assets/model/cilun.bmp";
 
     var resinImages = [
+        "assets/model/zero.png",
         "assets/model/one.png",
         "assets/model/two.png",
         "assets/model/three.png",
@@ -193,6 +219,7 @@
     if (Rewards){log.warn("结束后领励练点和提交每日...");if(settings.nh === undefined || settings.nh === "") {log.warn("好感队未配置，领奖励时不切换队伍..")}}
     if (SHUV == 1) {log.warn(`线路模式 ： <<按次数刷取>> ${timesConfig.value/2} 次 `);}else{log.warn("线路模式 ： 设定使用的树脂类型<<耗尽模式>>（最多99次）");timesConfig.value = 198;}
     if (color == 1) {log.warn("地脉类型 ： <<蓝色-经验花>>...");}else{log.warn("地脉类型 ： <<黄色-摩拉花>>...")}
+    if (primogemUseCount>0)log.warn("{t}设置了 {d} 使用次数：{1} !!","请注意！！","原石",primogemUseCount);
     if (settings.n === undefined || settings.n === "") { log.warn("队伍名称未配置，不更换队伍...");SHUOVER=1;}
     if (settings.nh === undefined || settings.nh === "") { log.warn("好感队禁用...");haoganq=0}else{var haogandui = settings.nh;haoganq=1;if(settings.n === undefined ) {throw new Error("好感队已经设置，请填战斗队伍...")}}  
     let nowuidString = settings.nowuid ? settings.nowuid : "";      
@@ -349,9 +376,8 @@
 
     async function PathCheak0() {   
 
-        repeatRoute = false;
+        repeatRoute = false;        
         var bigMapPosition={x:0,y:0};  
-
         await genshin.returnMainUi();
         log.info("重置地图中,打开冒险之证寻找地脉花...");  
         await genshin.tp(2297.60, -824.45);
@@ -453,17 +479,31 @@
                 }
             }
 
-            try{
-                bigMapPosition = genshin.getPositionFromBigMap();
-                if (bigMapPosition.x >= 2900 && bigMapPosition.y <= 5100 ){
-                    log.info("区域正确...");
-                    break;
-                }else{
-                    log.info("区域错误...");                     
+            try{                
+                let cilun2 = await imageRecognition(cilun,3,0,0,13,971,85,78);
+                if (!cilun2.found){
+                    log.info("大地图打开错误...");
                 }
+                else{
+                    await sleep(500);
+                    if (reBigMap){                    
+                        await genshin.setBigMapZoomLevel(2.5);
+                        await sleep(1000);
+                    }            
+                    bigMapPosition = genshin.getPositionFromBigMap();
+                    if (bigMapPosition.x >= 2900 && bigMapPosition.y <= 5100 ){
+                        log.info("区域正确...");
+                        break;
+                    }else{
+                        log.info("区域错误...");                     
+                    }                
+                }                
             }
             catch(error){
                 log.info("冒险之证打开错误G...", error);
+                reBigMap = true;
+                await genshin.returnMainUi();   
+                await sleep(1100);
                 continue;                          
             }                   
         }
@@ -495,7 +535,7 @@
         else{
             return false
         }
-    }
+    } 
 
     // 输出选择的线路
     async function PathCheak1() {
@@ -797,20 +837,38 @@
         }
 
         await sleep(500);
+        //确保转换按键，根据数字2和5的顺序，判断是否要点
+        if(doneCount == 0){
+            let index2 = resinTypes.indexOf("2");
+            let index5 = resinTypes.indexOf("5");
+            
+            if (index2 !== -1 && (index5 === -1 || index2 < index5)) {                
+                let SHU = await Textocr(resinTypeMap[5], 0.1, 0, 0, 510, 380, 640, 600);
+                if (SHU.found) {
+                    await click(SHU.x + 480, SHU.y + 15);
+                }
+            }else{
+                let SHU = await Textocr(resinTypeMap[2], 0.1, 0, 0, 510, 380, 640, 600);
+                if (SHU.found) {
+                    await click(SHU.x + 480, SHU.y + 15);
+                }
+            }
+        }               
 
         for (let j = 0;j < 2;j++) {
  
-            for (let i = 0;i < rewards.length;i++) {
+            for (let i = 0;i < rewards.length && !resinDone;i++) {
                 let SHU =  await Textocr(resinTypeMap[rewards[i]],0.1,0,0,510,380,640,600);
                 if (SHU.found){
-                    if (resinTypeMap[rewards[i]] == "使用20个原粹树脂")
-                    {
-                      let BUC =  await Textocr("补充",0.1,0,0,1150,440,210,130);
+                    if (resinTypeMap[rewards[i]] == "使用20个原粹树脂" || resinTypeMap[rewards[i]] == "使用40个原粹树脂，获取2次产出")
+                    {                     
+                        let BUC =  await Textocr("补充",0.1,0,0,1150,440,210,130);
                         if (BUC.found) {continue;}                                           
                     }
 
                     await sleep(1000);
 
+                    let shouldExit = true;
                     let { condensedResinCount, originalResinCount, fragileResinCount, momentResinCount } = await getRemainResinStatus(); 
 
                     switch (rewards[i]) {
@@ -818,7 +876,7 @@
                             condensedResinCount--;
                             break;
                         case 2:
-                            originalResinCount -= 20;
+                            originalResinCount -= 40;
                             break;
                         case 3:
                             fragileResinCount--;
@@ -826,15 +884,16 @@
                         case 4:
                             momentResinCount--;
                             break;
-                    }
-
-                    let shouldExit = true;
+                        case 5:
+                            originalResinCount -= 20;
+                            break;
+                    }                    
 
                     if (resinTypes.includes("1"))
                     {
                         shouldExit &= (parseInt(condensedResinCount, 10) <= 0);
                     }
-                    if (resinTypes.includes("2"))
+                    if (resinTypes.includes("2") || resinTypes.includes("5"))
                     {
                         shouldExit &= (parseInt(originalResinCount, 10) < 20);
                     }
@@ -848,25 +907,70 @@
                     }   
 
                     log.info(`${resinTypeMap[rewards[i]]} ...`);
-                    let dimai2 = await Textocr("地脉之花", 1, 0, 0, 840,225, 230, 125);
-                    if (!dimai2.found) { await keyPress("F");await sleep(700);await keyPress("F");await sleep(700);await keyPress("F") ; }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                    let dimai2 = await Textocr("地脉之花",1, 0, 0, 840,225, 230, 125);        
+                    if (!dimai2.found) { await keyPress("F");await sleep(700);await keyPress("F");await sleep(700);await keyPress("F") ; } 
                     await click(SHU.x+550,SHU.y) 
                     await click(SHU.x+550,SHU.y)                   
                     
                     if (shouldExit) 
                     {
-                        log.warn("树脂耗尽，停止执行...");
-                        await sleep(1000);  
-                        SHUOVER=2;  
-                        return false;     
+                        if(primogemUseCount <= 0){
+                            log.warn("树脂耗尽，停止执行...");                        
+                            await sleep(1000);  
+                            SHUOVER=2;  
+                            return false;   
+                        }
+                        else{
+                            log.warn("树脂耗尽，后续尝试使用原石 {0} 次...", primogemUseCount);
+                            resinDone = true;                         
+                        }  
                     } 
 
                     return true;
                 }            
-            }
-            await sleep(500);  
+            }         
         }
-        log.warn("未找到树脂，结束地脉花...");
+
+        resinDone = true; 
+        if(primogemUseCount > 0 && resinDone){
+
+            log.warn("树脂耗尽，尝试使用原石 {0}/{1} ...", primogemUseDone+1, primogemUseCount);
+         
+            let SHU =  await Textocr("兑换",0,0,0,510,380,800,600);
+            if (SHU.found) {
+                resinTypeMap2.length = 0;
+                log.warn("{t}","原石不足，执行结束...");
+            }
+
+            for (let k = 0; k < resinTypeMap2.length; k++) {
+                let SHU =  await Textocr(resinTypeMap2[k],0.1,0,0,510,380,640,600);
+                if (SHU.found){
+                    log.warn("{t}","原石使用啦！！！！！！！！！...");
+                    await click(SHU.x+550,SHU.y)
+
+                    let dimai2 = await Textocr("确认",0.5, 0, 0, 960,720, 400, 80);
+                    if (dimai2.found) {
+                        await click(865,630)//不再提示
+                        await sleep(1000);
+                        // await moveMouseTo(dimai2.x,dimai2.y+10);
+                        await click(dimai2.x,dimai2.y+10)
+                    } 
+
+                    primogemUseDone ++;
+                    primogemUseCount--;
+                    if (primogemUseCount <= 0) {
+                        log.warn("原石使用次数耗尽，停止执行...");
+                        break; 
+                    }
+                    return true;                                        
+                }else{
+                    log.warn("未找到原石使用选项，停止执行...");
+                    break;                       
+                }
+            }    
+        }
+
+        log.warn("结束全自动枫丹地脉花...");
         await sleep(1000);        
         await keyPress("VK_ESCAPE");
         await sleep(1000);
@@ -880,27 +984,47 @@
         var fragileResinCount = 0; // 脆弱树脂
         var momentResinCount = 0; //须臾树脂
 
+        // var shuz = []
         // 浓缩树脂
         var condensedResinCountRa = await imageRecognition(condensedResin,0.2, 0, 0,800,15,700,70,Threshold);
-        if (condensedResinCountRa.found) {  
+        if (condensedResinCountRa.found) { 
+            //测试用 
+            // log.info("检测到浓缩树脂图标");  
+            // await moveMouseTo(condensedResinCountRa.x+condensedResinCountRa.w,condensedResinCountRa.y);
+            // log.warn("X{0} Y{1} W{2} H{3}",condensedResinCountRa.x,condensedResinCountRa.y,condensedResinCountRa.w,condensedResinCountRa.h,);
+            // if (Math.abs(condensedResinCountRa.x - 1256) > 5 || condensedResinCountRa.y != 33){
+            //     throw new Error("浓缩图标错误");
+            // }
+            // log.warn("T{0}",Thresholdr);
+            // log.warn("L{0}",resinImages.length);
             for (let i = 0; i < resinImages.length; i++) {
-                if(i==0){await sleep(1000);}
-                let countArea = await imageRecognition(resinImages[i],0.2, 0, 0,condensedResinCountRa.x+condensedResinCountRa.w*0.9,condensedResinCountRa.y,condensedResinCountRa.w*2,condensedResinCountRa.h,Threshold);
-                if (countArea.found){                                      
-                    condensedResinCount =i+1;  
+                if(i==0){await sleep(500);}
+                // log.warn("i{0}",i);
+                let countArea = await imageRecognition(resinImages[i],0, 0, 0,condensedResinCountRa.x+condensedResinCountRa.w+15,condensedResinCountRa.y,30,32,Thresholdr);
+                if (countArea.found){   
+                    // await moveMouseTo(countArea.x,countArea.y);            
+                    condensedResinCount =i;  
+                    // shuz.push(i);
                     break;               
                 }
-                if (i==4){log.info("未检测到浓缩数量，强制为1"); condensedResinCount=1;}                          
+                if (i==5){log.info("未检测到浓缩数量，强制为1"); condensedResinCount=1;}                          
             }
-            
+             //测试用
+            // log.warn("{0}",shuz);
+            // if (shuz.length != 1 || shuz[0] != 0){
+            //     // log.warn("错误");
+            //     // await sleep(2000);
+            //     throw new Error("错误");
+            // }
         }else{
             log.info("未检测到浓缩树脂图标");        
-        }       
+        }  
 
-        var originalResinCountRa = await imageRecognition(originalResin,0.1, 0, 0,1555,0,100,100,Threshold);
+        //脆弱树脂
+        var originalResinCountRa = await imageRecognition(originalResin,0.1, 0, 0,1325,0,100,500,Threshold);
         if (originalResinCountRa.found) {  
             // await moveMouseTo(originalResinCountRa.x,originalResinCountRa.y);   
-            let countArea = await Textocr("",0.5, 0, 2,originalResinCountRa.x+originalResinCountRa.w,originalResinCountRa.y,originalResinCountRa.w*3,originalResinCountRa.h,Threshold);//
+            let countArea = await Textocr("",0.5, 0, 2,originalResinCountRa.x+originalResinCountRa.w,originalResinCountRa.y,originalResinCountRa.w*3,originalResinCountRa.h);//
             if (countArea.found){
                 log.info("原粹树脂识别数量结果："+ countArea.text);
                 let match = countArea.text.match(/(\d+)\s*[/17]\s*(2|20|200)/);
@@ -922,16 +1046,17 @@
             log.info("未检测到原粹树脂图标");
         }
 
-        var momentResinCountRa = await imageRecognition(momentResin,0.2, 0, 1,1170,0,500,100,0.7,Threshold);
+        // 须臾树脂
+        var momentResinCountRa = await imageRecognition(momentResin,0.1, 0, 1,960,0,500,100,Threshold);
         if (momentResinCountRa.found) {          
                 
             for (let i = 0; i < resinImages.length; i++) {
-                let countArea = await imageRecognition(resinImages[i],0.2, 0, 0,momentResinCountRa.x+momentResinCountRa.w,momentResinCountRa.y,momentResinCountRa.w*2,momentResinCountRa.h,Threshold);
+                let countArea = await imageRecognition(resinImages[i],0, 0, 0,momentResinCountRa.x+momentResinCountRa.w+10,momentResinCountRa.y,30,35,Thresholdr);
                 if (countArea.found){
-                    momentResinCount =i+1;  
+                    momentResinCount =i;  
                     break;               
                 }
-                if (i==4){log.info("未检测到须臾图标，强制为1"); momentResinCount=1;}                          
+                if (i==5){log.info("未检测到须臾数量，强制为1"); momentResinCount=1;}                          
             } 
             
             fragileResinCount = "1";
@@ -941,20 +1066,23 @@
         { 
             log.info("未检测到须臾树脂图标"); 
 
-            var fragileResinCountRa = await imageRecognition(fragileResin,0.1, 0, 1,1170,0,300,100,Threshold);
+            // 脆弱树脂
+            var fragileResinCountRa = await imageRecognition(fragileResin,0.1, 0, 1,960,0,500,100,Threshold);
             if (fragileResinCountRa.found) {  
-                // await moveMouseTo(fragileResinCountRa.x+fragileResinCountRa.w+20,fragileResinCountRa.y-15);               
-                let countArea = await Textocr("",0.5, 0, 2,fragileResinCountRa.x+fragileResinCountRa.w,fragileResinCountRa.y,fragileResinCountRa.w*2,fragileResinCountRa.h,Threshold);//
+                // await moveMouseTo(fragileResinCountRa.x+fragileResinCountRa.w+20,fragileResinCountRa.y-15);             
+            
+                let countArea = await Textocr("",0.1, 0, 2,fragileResinCountRa.x+fragileResinCountRa.w,fragileResinCountRa.y,fragileResinCountRa.w*2,fragileResinCountRa.h);//
                 if (countArea.found){
                     // log.info("脆弱树脂识别数量结果："+ countArea.text);
                     fragileResinCount = countArea.text
                 }
                 else{
-                    var oneRa = await imageRecognition(resinImages[0],0.1, 0, 1,fragileResinCountRa.x+fragileResinCountRa.w,fragileResinCountRa.y,60,40,Threshold);
+                    var oneRa = await imageRecognition(resinImages[1],0.1, 0, 1,fragileResinCountRa.x+fragileResinCountRa.w,fragileResinCountRa.y,60,40,Threshold);
                     if (oneRa.found){
                         fragileResinCount = "1";
                     }else{
-                       
+                        fragileResinCount = "1";
+                        log.info("2未检测到脆弱树脂图标,脆弱树脂识别强制为 1 ");//有图标说明至少为1     
                     }
                 }
             } 
@@ -1323,13 +1451,14 @@
         return isUpdated; 
     }    
 
-    // // 树脂测试
-    // while (true) {
-    //     await getRemainResinStatus();
-    //     await sleep(500);
+    //测试
+    // var ii=1000;
+    // while (ii>0) {
+    //      await getRemainResinStatus();  
+    //     // await sleep(500);
+    //     ii--;
     // }
-
-    //     return;
+    // return;
 
     // UID获取存在概率不成功，慎用！请更换背景纯色的名片提高OCR成功率
     let uidNumbers = nowuidString.match(/\d+/g);

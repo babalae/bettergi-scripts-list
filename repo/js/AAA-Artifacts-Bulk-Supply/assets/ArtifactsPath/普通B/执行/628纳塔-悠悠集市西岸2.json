@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756578976909,
+    "last_modified_time": 1758207110047,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "628纳塔-悠悠集市西岸2",
@@ -85,25 +85,42 @@
       "action": "",
       "action_params": "",
       "id": 8,
-      "locked": false,
-      "move_mode": "climb",
+      "move_mode": "walk",
       "type": "orientation",
-      "x": 14177.48046875,
-      "y": 314.33740234375
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 9,
-      "move_mode": "climb",
-      "type": "path",
-      "x": 14177.48046875,
-      "y": 314.33740234375
+      "x": 14175.482421875,
+      "y": 313.48876953125
     },
     {
       "action": "combat_script",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),keydown(Q),keypress(f),wait(0.8),keypress(f),keyup(Q),wait(0.1),j,",
+      "id": 9,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 14175.482421875,
+      "y": 313.48876953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.1);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 10,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 14170.1015625,
+      "y": 312.95703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 14172.1201171875,
+      "y": 314.79638671875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 12,
       "move_mode": "climb",
       "type": "target",
       "x": 14177.48046875,
@@ -111,21 +128,21 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.1);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
-      "id": 11,
-      "move_mode": "climb",
-      "type": "target",
-      "x": 14170.1015625,
-      "y": 312.95703125
+      "action_params": "attack(0.3),wait(0.8);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14181.8359375,
+      "y": 313.7197265625
     },
     {
       "action": "set_time",
       "action_params": "06:00",
-      "id": 12,
-      "move_mode": "climb",
+      "id": 14,
+      "move_mode": "dash",
       "type": "orientation",
-      "x": 14170.1015625,
-      "y": 312.95703125
+      "x": 14181.8359375,
+      "y": 313.7197265625
     }
   ]
 }

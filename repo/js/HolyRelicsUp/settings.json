@@ -1,5 +1,18 @@
 [
    {
+       "name": "language",
+       "type": "select",
+       "label": "语言|語言|Language|言語|언어",
+       "options": [
+         "简体中文",
+         "繁體中文",
+         "English",
+         "日本語",
+         "한국어",
+       ],
+       "default": "简体中文"
+   },
+   {
      "name": "toBag",
      "type": "checkbox",
      "label": "启用自动进入背包",
@@ -59,7 +72,54 @@
        ],
        "default": "4"
    },
-
+   {
+     "name": "enableAttributeHolyRelic",
+     "type": "checkbox",
+     "label": "启用命中属性\n(默认关闭,不支持在升序情况下使用)-实验功能",
+     "default": false
+   },
+   {
+     "name": "coverAttributeHolyRelic",
+     "type": "checkbox",
+     "label": "启用自定义命中属性覆盖通用命中属性\n(默认开启,以部件为单位,不启用则使用自定义命中属性)-实验功能",
+     "default": true
+   },
+   {
+     "name": "commonAttributeHolyRelic",
+     "type": "input-text",
+     "label": "通用命中属性\n(编写语法请查看文档)-实验功能",
+     "default": "@花*爆率*爆伤|@羽*爆率*爆伤|@沙*爆率*爆伤|@冠#爆率#爆伤&*爆率*爆伤|@杯#物伤#风伤#水伤#火伤#雷伤#岩伤#冰伤#草伤&*爆率*爆伤"
+   },
+   {
+     "name": "inputAttributeHolyRelic",
+     "type": "input-text",
+     "label": "自定义命中属性\n(编写语法请查看文档)-实验功能",
+     "default": ""
+   },
+   {
+     "name": "coverSiftAttributeHolyRelic",
+     "type": "checkbox",
+     "label": "启用筛选圣遗物自定义命中属性覆盖筛选圣遗物通用命中属性\n(默认开启,以部件为单位,不启用则使用自定义属性)-实验功能",
+     "default": true
+   },
+   {
+     "name": "meetAllSiftAttributeHolyRelic",
+     "type": "checkbox",
+     "label": "启用筛选圣遗物满足所有指定的子属性命中条件\n(默认关闭)-实验功能",
+     "default": false
+   },
+   {
+     "name": "commonSiftAttributeHolyRelic",
+     "type": "input-text",
+     "label": "筛选圣遗物通用命中属性\n(编写语法请查看文档)-实验功能",
+     "default": "@花*爆率*爆伤|@羽*爆率*爆伤|@沙*爆率*爆伤|@冠#爆率#爆伤&*爆率*爆伤|@杯#物伤#风伤#水伤#火伤#雷伤#岩伤#冰伤#草伤&*爆率*爆伤"
+   },
+   {
+     "name": "inputSiftAttributeHolyRelic",
+     "type": "input-text",
+     "label": "筛选圣遗物自定义命中属性\n(编写语法请查看文档)-实验功能",
+     "default": ""
+   },
    {
      "name": "toSort",
      "type": "checkbox",
@@ -165,7 +225,7 @@
    {
      "name": "log_off",
      "type": "checkbox",
-     "label": "日志开关(用于开发者调试)",
+     "label": "日志开关(用于开发者调试-日志输出为中文)",
      "default": false
    }
 ]

@@ -27,6 +27,11 @@
     "default": "正常挖"
   },
   {
+    "name": "exclude_nod_krai",
+    "type": "checkbox",
+    "label": "不挖挪德卡莱👇"
+  },
+  {
     "name": "exclude_natlan",
     "type": "checkbox",
     "label": "不挖纳塔👇"
@@ -83,10 +88,14 @@
     "label": "不挖紫晶块👇"
   },
   {
-    "name": "enable_dpi_scaling",
+    "name": "exclude_rainbowdrop_crystals",
     "type": "checkbox",
-    "default": true,
-    "label": "自动适配DPI缩放👇"
+    "label": "不挖虹滴晶👇"
+  },
+  {
+     "name": "custom_mining_action",
+     "type": "input-text",
+     "label": "自定义挖矿动作，不建议填，详见README"
   },
   {
     "name": "profile_id",
