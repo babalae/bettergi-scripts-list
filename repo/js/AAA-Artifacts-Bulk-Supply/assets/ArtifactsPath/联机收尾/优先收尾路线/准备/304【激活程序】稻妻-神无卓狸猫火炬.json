@@ -38,7 +38,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.3),wait(3)",
+      "action_params": "attack(0.3),wait(3.5)",
       "id": 3,
       "move_mode": "fly",
       "type": "path",
@@ -74,7 +74,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(x);迪希雅 e;玛薇卡 e;",
+      "action_params": "keypress(x);迪希雅 e,wait(0.3),e;玛薇卡 e;",
       "id": 7,
       "move_mode": "dash",
       "type": "path",
