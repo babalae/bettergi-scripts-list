@@ -1,0 +1,175 @@
+﻿{
+  "info": {
+    "name": "001【激活程序】稻妻大炮",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755530513771,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -3393.0732421875,
+      "y": -3556.0546875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -3399.2500079001657,
+      "y": -3551.84362115731,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f);迪希雅 attack(0.25),e;",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": -3402.28125,
+      "y": -3551.4999557338415,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -3400.9541015625,
+      "y": -3547.1630859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -3400.755859375,
+      "y": -3544.443359375,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -3397.9658203125,
+      "y": -3544.044921875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": -3275.9990234375,
+      "y": -3552.625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 8,
+      "x": -3275.9990234375,
+      "y": -3552.625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "w(0.5),wait(1),keypress(f),wait(0.3),keypress(f),wait(0.3),keypress(f),wait(0.5),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(0.5),keypress(ESCAPE)",
+      "type": "orientation"
+    },
+    {
+      "id": 9,
+      "x": -3275.9990234375,
+      "y": -3552.625,
+      "action": "log_output",
+      "move_mode": "walk",
+      "action_params": "\n[激活路径]激活完\"超限点\"不拾取!!!\n[激活路径]\"超限点\"不拾取!!!\n[激活路径]不拾取!!!\n[激活路径]别再狗叫为什么漏了!!!",
+      "type": "orientation"
+    },
+    {
+      "id": 10,
+      "x": -3472.9677734375,
+      "y": -3754.984375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 11,
+      "x": -3471.005859375,
+      "y": -3743.349609375,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -3462.5361328125,
+      "y": -3726.7958984375,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(f),w(0.3),keypress(f)",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": -3464.732421875,
+      "y": -3733.4462890625,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 14,
+      "x": -3061,
+      "y": -3674.498937612192,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 15,
+      "x": -3061,
+      "y": -3674.498937612192,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "w(0.5),dash,w(0.5),w(0.5)",
+      "type": "orientation"
+    },
+    {
+      "id": 16,
+      "x": -3061,
+      "y": -3674.498937612192,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "w(1),wait(1),keypress(f),wait(0.5),keypress(f),wait(0.5),keypress(RETURN),wait(9.5),keypress(f),wait(0.4),keypress(w),wait(9.5),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(0.5),keypress(ESCAPE),wait(1),s(0.3),dash,s(0.3),dash,s(0.3),dash,s(0.3),dash",
+      "type": "orientation"
+    },
+    {
+      "id": 17,
+      "x": -3285.267578125,
+      "y": -3731.4169921875,
+      "action": "log_output",
+      "move_mode": "walk",
+      "action_params": "\n[激活路径]激活完\"超限点\"不拾取!!!\n[激活路径]\"超限点\"不拾取!!!\n[激活路径]不拾取!!!\n[激活路径]别再狗叫为什么漏了!!!",
+      "type": "orientation"
+    }
+  ]
+}

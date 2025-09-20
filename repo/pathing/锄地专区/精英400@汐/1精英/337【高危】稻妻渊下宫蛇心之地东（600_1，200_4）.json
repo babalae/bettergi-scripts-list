@@ -1,0 +1,101 @@
+{
+  "info": {
+    "name": "337【高危】稻妻渊下宫蛇心之地东（600_1，200_4）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时165.94秒，包含4只精英，预计收入1200摩拉，包含以下怪物：1只深渊咏者·紫电、1只遗迹守卫、2只遗迹巡弋者。",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 198.8,
+      "y": -182.98,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 169.21,
+      "y": -194.51,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 151.55,
+      "y": -225.14,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 169.21,
+      "y": -194.51,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "wait(4)"
+    },
+    {
+      "id": 5,
+      "x": 159.94,
+      "y": -210.59,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 140.47,
+      "y": -230.65,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 125.23,
+      "y": -251.92,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 113.86,
+      "y": -236.53,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(2.5)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 113.86,
+      "y": -236.53,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

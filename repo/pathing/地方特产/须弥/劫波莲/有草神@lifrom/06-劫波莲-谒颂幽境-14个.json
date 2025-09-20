@@ -1,0 +1,73 @@
+{
+  "info": {
+    "name": "06-劫波莲-谒颂幽境-14个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "lifrom",
+        "links": "https://github.com/pkjsjq"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3646.32,
+      "y": -1418.41,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": 3666.93,
+      "y": -1348.91,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": 3653.93,
+      "y": -1353.91,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3640.91,
+      "y": -1348.41,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 3647.31,
+      "y": -1243.95,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 3653.71,
+      "y": -1139.5,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 3653.71,
+      "y": -1139.5,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

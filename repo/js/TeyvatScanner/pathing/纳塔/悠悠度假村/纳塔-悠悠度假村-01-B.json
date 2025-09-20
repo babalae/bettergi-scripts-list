@@ -1,0 +1,148 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1755659770405,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "纳塔-悠悠度假村-01-B",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 13613.712890625,
+      "y": -157.21484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13632.59765625,
+      "y": -141.7685546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13654.97265625,
+      "y": -112.1767578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13666.3896484375,
+      "y": -92.916015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13673.4677734375,
+      "y": -82.08837890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13675.92578125,
+      "y": -65.2509765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(T),wait(1)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13723.447265625,
+      "y": -19.26171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13727.6435546875,
+      "y": -14.861328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13719.16015625,
+      "y": -15.31005859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13727.580078125,
+      "y": -2.6376953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 13716.8154296875,
+      "y": 18.2646484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13712.96484375,
+      "y": 14.9130859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13706.1640625,
+      "y": 16.9892578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(Q),wait(1),keyup(Q),wait(0.3),attack",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 13708.1337890625,
+      "y": 23.41357421875
+    }
+  ]
+}

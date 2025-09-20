@@ -1,0 +1,66 @@
+{
+    "info": {
+        "name": "枫丹-垂钓点-翡黎区芒索斯山东麓东",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.2",
+        "description": "地区: 枫丹\n类型: 垂钓点\n详细位置: 翡黎区芒索斯山东麓东\n鱼类: 海涛斧枪鱼、烘烘心羽鲈、维护机关·初始能力型、维护机关·态势控制者\n饵类: 甘露饵、酸桔饵、维护机关频闪诱饵\n附加信息: 普通",
+        "bgi_version": "0.42.4"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 4984.74,
+            "y": 4462.95,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 4929.13,
+            "y": 4445.92,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 4894.21,
+            "y": 4408.47,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 4874.83,
+            "y": 4394.5,
+            "type": "path",
+            "move_mode": "swim",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 4871.91,
+            "y": 4390.95,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": 4868.41,
+            "y": 4395.03,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+        }
+    ]
+}

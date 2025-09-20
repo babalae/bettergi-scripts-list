@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时127.88秒，包含以下怪物：1只荒野狂狩士、4只荒野幽徒、1只蔓结·霜夜灵嗣。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758034788120,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "715挪德卡莱月矩力设计局东北（400_1，200_5）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9593.44140625,
+      "y": 3398.06591796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9529.749897297843,
+      "y": 3436.875909477807
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9467.51953125,
+      "y": 3459.4912109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9455.1767578125,
+      "y": 3480.705078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9484.1875,
+      "y": 3516.099609375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9518.701171875,
+      "y": 3540.21337890625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9523.2216796875,
+      "y": 3543.254638671875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9523.2216796875,
+      "y": 3543.254638671875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9523.2216796875,
+      "y": 3543.254638671875
+    }
+  ]
+}

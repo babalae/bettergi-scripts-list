@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "枫丹地脉花-路线4 柔灯港上锚点-4：锚点左上++1",
+    "type": "collect",
+    "author": "平面镜&茶包LCB",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.44.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3032.677734375,
+      "y": 3732.448486328125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3038.5537109375,
+      "y": 3718.4228515625,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 3,
+      "x": 3067.19921875,
+      "y": 3698.43212890625,
+      "type": "target",
+      "move_mode": "dash"
+    },
+    {
+      "id": 4,
+      "x": 3079.7314453125,
+      "y": 3675.759765625,
+      "type": "path",
+      "move_mode": "dash"
+    },
+    {
+      "id": 5,
+      "x": 3091.7978515625,
+      "y": 3654.750732421875,
+      "type": "target",
+      "move_mode": "walk"
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "info": {
+    "name": "332稻妻渊下宫常夜灵庙东北（600_2，200_7）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时204.81秒，包含9只精英，预计收入3400摩拉，包含以下怪物：3只嗜岩·兽境幼兽、2只遗迹守卫、1只遗迹重机、3只深海龙蜥·原种。",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "tags": [],
+    "last_modified_time": 1754746480196,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -409.1,
+      "y": 575.41,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -405.79,
+      "y": 572.09,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -402.8,
+      "y": 538.23,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -426.21,
+      "y": 507.67,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -434.03,
+      "y": 517,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -399.49,
+      "y": 512.98,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -351.13,
+      "y": 472.73,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -343.44,
+      "y": 466.63,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -311.75,
+      "y": 511.52,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "attack(0.2),wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -311.54,
+      "y": 495.19,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -254.52,
+      "y": 498.9,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -275.19,
+      "y": 491.12,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -277.12,
+      "y": 497.76,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -307.68,
+      "y": 491.98,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -307.68,
+      "y": 491.98,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}

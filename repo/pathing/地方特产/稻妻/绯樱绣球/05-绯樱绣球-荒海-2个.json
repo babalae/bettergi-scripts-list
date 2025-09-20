@@ -1,0 +1,72 @@
+{
+  "info": {
+    "name": "05-绯樱绣球-荒海-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "久歧忍可采集全，引战可能导致雷元素法师漏采集",
+    "bgi_version": "0.42.3",
+    "tags": [
+      "久岐忍",
+      "八重神子",
+      "瓦雷莎"
+    ],
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4217.63,
+      "y": -2397.2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -4236.0,
+      "y": -2353.0,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -4237.95,
+      "y": -2346.99,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "瓦雷莎 charge,wait(2);八重神子 charge",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": -4237.95,
+      "y": -2346.99,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": -4218.33,
+      "y": -2343.69,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "瓦雷莎 charge,wait(2);八重神子 charge",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": -4218.33,
+      "y": -2343.69,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

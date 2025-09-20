@@ -1,0 +1,168 @@
+{
+  "info": {
+    "name": "01-冷鲜肉-龙脊雪山-4x2-8个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "迪希雅"
+    ],
+    "last_modified_time": 1755274325346,
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1334.5,
+      "y": 825.63,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1285.35,
+      "y": 809.26,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": -1275.6,
+      "y": 806.35,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1244.05,
+      "y": 836.73,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "迪希雅 wait(0.8),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": -1241.54,
+      "y": 837.92,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": -1242.36,
+      "y": 837.51,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": -1241.96,
+      "y": 879.49,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "迪希雅 wait(2),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": -1241.64,
+      "y": 881.27,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": -1250.58,
+      "y": 901.02,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": -1250.03,
+      "y": 901.5,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.3),keypress(f),wait(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -1247.625,
+      "y": 899.5059,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": -1241.28,
+      "y": 929.35,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1.5)",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -1248.67,
+      "y": 939.5,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "迪希雅 wait(0.8),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 14,
+      "x": -1246.29,
+      "y": 941.21,
+      "action": "pick_around",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 15,
+      "x": -1245.2715,
+      "y": 944.584,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -1252.67,
+      "y": 938.66,
+      "action": "pick_around",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "info": {
+    "name": "507枫丹幽林雾道（600_1，200_2）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时115.45秒，包含3只精英与7只小怪，预计收入41864.5摩拉，包含以下怪物：2只大型水史莱姆、1只丘丘人、1只打手丘丘人、1只射手丘丘人、1只火箭丘丘人、1只冰箭丘丘人、1只火斧丘丘暴徒、1只丘丘岩盔王、1只丘丘水行游侠。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1746629565668,
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3592.75,
+      "y": 3258,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3534.79,
+      "y": 3295.63,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3518.82,
+      "y": 3307.57,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3474.39,
+      "y": 3248.63,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3457.84,
+      "y": 3193.75,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 3457.84,
+      "y": 3193.75,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.5),keypress(VK_ESCAPE),keypress(VK_ESCAPE),attack(0.3)",
+      "type": "orientation"
+    },
+    {
+      "id": 7,
+      "x": 3453.51,
+      "y": 3182.53,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3455.35,
+      "y": 3177.93,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3460.85,
+      "y": 3165.05,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

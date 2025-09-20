@@ -1,0 +1,54 @@
+{
+  "info": {
+    "name": "12-卡萨扎莱宫南-2只",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "jay",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "驮兽",
+      "丘丘面具",
+      "兽肉",
+      "小驮兽"
+    ],
+    "last_modified_time": 1754659152853,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2532.2383,
+      "y": -144.3877,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 2470.9004,
+      "y": -210.5435,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 2470.8945,
+      "y": -210.543,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "info": {
+    "name": "244璃月层岩地下崎岖石厅南（600_4）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时169.31秒，包含4只精英与1只小怪，预计收入2445摩拉，包含以下怪物：1只打手丘丘人、1只黯色空壳·旗令、1只黯色空壳·近卫、1只黑蛇骑士·斩风之剑、1只遗迹重机。",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "tags": [],
+    "last_modified_time": 1754762932921,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 356.2229,
+      "y": 177.9271,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 349.4458,
+      "y": 157.139,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 344.251,
+      "y": 145.2415,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 344.4857,
+      "y": 136.8813,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 335.8414,
+      "y": 119.7213,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f);钟离 a(0.1),wait(0.2),e(hold);",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 330.75,
+      "y": 115.1566,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "a(0.2),wait(0.2);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.1);玛薇卡 attack(0.5);迪希雅 attack(0.5);北斗 attack(0.5);attack(4.5)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 316.7499,
+      "y": 140.7504,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 306.0542,
+      "y": 139.4866,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 328.6564,
+      "y": 117.8282,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 338.2188,
+      "y": 115.9687,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 346.2245,
+      "y": 95.7365,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 368.25,
+      "y": 80.6245,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 392.75,
+      "y": 81.25,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 385.7501,
+      "y": 81.344,
+      "action": "fight",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 385.7501,
+      "y": 81.344,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}

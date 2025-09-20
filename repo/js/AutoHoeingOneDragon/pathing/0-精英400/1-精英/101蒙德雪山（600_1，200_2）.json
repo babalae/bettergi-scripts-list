@@ -1,0 +1,149 @@
+﻿{
+  "info": {
+    "name": "101蒙德雪山（600_1，200_2）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时139.26秒，包含3只精英与5只小怪，预计收入1202.5摩拉，包含以下怪物：1只冰盾丘丘人、3只冰箭丘丘人、1只冰盾丘丘暴徒、1只丘丘霜铠王、1只冰丘丘萨满、1只幼岩龙蜥。",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1755009165206,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -410.84000000000015,
+      "y": 1161.3099999999995,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -405.6800000000003,
+      "y": 1145.1499999999996,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -390.130000000001,
+      "y": 1114.2099999999991,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -358.25390625,
+      "y": 1089.09521484375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -363.916015625,
+      "y": 1079.6005859375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -368.25007110149454,
+      "y": 1058.6270311671033,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -368.7400000000016,
+      "y": 1038.7999999999993,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -372.16999999999825,
+      "y": 1031.9300000000003,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -376.4500000000007,
+      "y": 1028.2799999999988,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -396.1100000000006,
+      "y": 994.2299999999996,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -368.59999999999854,
+      "y": 988.4899999999998,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -354.5,
+      "y": 974.5599999999995,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -345.09999999999854,
+      "y": 948.6300000000001,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -335.619999999999,
+      "y": 962.8800000000001,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

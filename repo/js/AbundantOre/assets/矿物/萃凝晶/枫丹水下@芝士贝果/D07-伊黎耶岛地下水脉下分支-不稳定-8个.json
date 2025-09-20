@@ -1,0 +1,201 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756804109387,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D07-伊黎耶岛地下水脉下分支-不稳定-8个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3258.335,
+      "y": 3673.1731
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3269.0352,
+      "y": 3663.0293
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3273.792,
+      "y": 3640.1865
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3276.4795,
+      "y": 3608.957
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3284.1006,
+      "y": 3579.3889
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3284.6914,
+      "y": 3571.8806
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(2);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,2500)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3289.3799,
+      "y": 3566.0586
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3299.8115,
+      "y": 3557.3462
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(5.5);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,571)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3301.9756,
+      "y": 3560.6526
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3311.2383,
+      "y": 3559.05
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3308.3311,
+      "y": 3562.0203
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3300.2021,
+      "y": 3563.3398
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3302.4297,
+      "y": 3573.3826
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3309.9297,
+      "y": 3572.6475
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3312.1934,
+      "y": 3574.0654
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3297.0889,
+      "y": 3580.1013
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e;click(middle);wait(0.5);moveby(0,-1000)",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3294.3105,
+      "y": 3580.9082
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle)",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3282.0781,
+      "y": 3573.3643
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3282.0508,
+      "y": 3566.2681
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3277.7236,
+      "y": 3568.1702
+    }
+  ]
+}
