@@ -23,9 +23,9 @@
           ya = 0,
           wa = 1920,
           ha = 1080,
-          clickCenter = false,  // 新增：是否点击中心
-          clickOffsetX = 0,    // 新增：X轴偏移量
-          clickOffsetY = 0,    // 新增：Y轴偏移量
+          clickCenter = false,
+          clickOffsetX = 0,
+          clickOffsetY = 0,
           tt = 0.8
      ) {
           // 参数验证
@@ -128,99 +128,7 @@
           return result;
      }
 
-     /**
-     * 文字OCR识别封装函数
-     * @param {string} text 要识别的文字，默认为"空参数"
-     * @param {number} timeout 超时时间，单位为秒，默认为10秒
-     * @param {number} afterBehavior 点击模式，0表示不点击，1表示点击识别到文字的位置，2表示输出模式，默认为0
-     * @param {number} debugmodel 调试模式，0表示输入判断模式，1表示输出位置信息，2表示输出判断模式，默认为0
-     * @param {number} x OCR识别区域的起始X坐标，默认为0
-     * @param {number} y OCR识别区域的起始Y坐标，默认为0
-     * @param {number} w OCR识别区域的宽度，默认为1920
-     * @param {number} h OCR识别区域的高度，默认为1080
-     * @returns {Promise<Object>} 包含识别结果的对象，包括识别的文字、坐标和是否找到的结果
-     */
-     async function textOCR(text = "空参数", timeout = 10, afterBehavior = 0, debugmodel = 0, x = 0, y = 0, w = 1920, h = 1080) {
-          const startTime = Date.now();
-          const timeoutMs = timeout * 1000;
-          let foundResult = null;
-
-          try {
-               while (Date.now() - startTime < timeoutMs) {
-                    // 获取截图
-                    const captureRegion = captureGameRegion();
-
-                    try {
-                         // 对整个区域进行 OCR
-                         const resList = captureRegion.findMulti(RecognitionObject.ocr(x, y, w, h));
-
-                         if (resList && resList.count > 0) {
-                              for (let i = 0; i < resList.count; i++) {
-                                   const res = resList[i];
-
-                                   if (debugmodel === 3 && res.text.includes(text)) {
-                                        return { text: res.text, x: res.x, y: res.y, found: true };
-                                   }
-
-                                   if (res.text.includes(text)) {
-                                        if (debugmodel !== 2) {
-                                             if (debugmodel === 1) { log.info(`"${res.text}"找到`); }
-
-                                             if (debugmodel === 1 && x === 0 && y === 0) {
-                                                  log.info(`全图代码位置：(${res.x - 10},${res.y - 10},${res.width + 10},${res.height + 10})`);
-                                             }
-
-                                             if (afterBehavior === 1) {
-                                                  if (debugmodel === 1) { log.info("点击模式:开"); }
-                                                  await sleep(1000);
-                                                  click(res.x, res.y);
-                                             }
-
-                                             if (afterBehavior === 2) {
-                                                  if (debugmodel === 1) { log.info("F模式:开"); }
-                                                  await sleep(100);
-                                                  keyPress("F");
-                                             }
-                                        }
-
-                                        foundResult = { text: res.text, x: res.x, y: res.y, found: true };
-                                        break;
-                                   }
-                              }
-
-                              if (foundResult) {
-                                   return foundResult;
-                              }
-                         }
-
-                         // 释放OCR结果资源
-                         if (resList && typeof resList.dispose === 'function') {
-                              resList.dispose();
-                         }
-                    } finally {
-                         // 确保释放截图资源
-                         if (captureRegion && typeof captureRegion.dispose === 'function') {
-                              captureRegion.dispose();
-                         }
-                    }
-
-                    if (debugmodel === 1 && x === 0 && y === 0) {
-                         log.info(`"${text}"识别中……`);
-                    }
-
-                    await sleep(100);
-               }
-
-               log.info(`${timeout}秒超时退出，"${text}"未找到`);
-
-               return { found: false };
-          } catch (error) {
-               log.error("OCR识别过程中发生错误:", error);
-               return { found: false };
-          }
-     }
-
-     // 新增：判断队内角色函数（新知识+1）
+     //判断队内角色
      async function includes(characterName) {
           var avatars = getAvatars();
           for (let i = 0; i < avatars.length; i++) {
@@ -232,14 +140,18 @@
      //切换队伍
      async function switchPartyIfNeeded(partyName) {
           try {
-               if (!await genshin.switchParty(partyName)) {
-                    log.info("切换队伍失败，前往七天神像重试");
-                    await genshin.tpToStatueOfTheSeven();
-                    return await genshin.switchParty(partyName);
+               if (!await genshin.switchParty(partyName)) {//切换失败前往副本门口重试
+                    log.warn("切换队伍失败，正在重试……");
+                    await genshin.tp(-887.193359375, 1679.44287109375);//沉眠之庭
+                    await genshin.switchParty(partyName);
+                    return await includes("伊涅芙");
+               } else {
+                    if (!await includes("伊涅芙")) { return false; }
+                    await genshin.tp(-887.193359375, 1679.44287109375);//切换成功就直接传送
+                    return true;
                }
-               return true;
-          } catch {
-               log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
+          } catch (e) {
+               log.error("队伍切换失败，可能处于联机模式或其他不可切换状态：" + e.message);
                notification.error(`队伍切换失败，可能处于联机模式或其他不可切换状态`);
                await genshin.returnMainUi();
                return false;
@@ -249,18 +161,13 @@
      // 传送并进入副本
      async function fuben() {
           // 先判断一次，队伍里有伊涅芙就直接开始运行，没有的话就切换指定队伍
-          let ifynf = await includes("伊涅芙");
-          let ifswitch;
-          if (!ifynf) {
-               ifswitch = await switchPartyIfNeeded(party);
-               if (!ifswitch) { log.error("未识别到指定队伍，请检查队伍名是否正确！"); return false; }//找不到指定队伍就直接报错停止
-
-               ifynf = await includes("伊涅芙");
-               if (!ifynf) { log.error("未识别到伊涅芙，请在设置中输入包含伊涅芙的队伍！"); return false; }//切换到指定队伍后再进行判定
+          if (!await includes("伊涅芙")) {
+               if (!await switchPartyIfNeeded(party)) { log.error("未识别到指定队伍，或队伍中不包含伊涅芙，请检查队伍名是否正确！"); return false; }//找不到指定队伍就直接报错停止
+          } else {
+               log.info("已识别到伊涅芙，即将开始后续动作……");
+               await genshin.tp(-887.193359375, 1679.44287109375);//识别成功直接传送
           }
-          log.info("已检测到伊涅芙，即将开始后续动作……");
 
-          await genshin.tp(-887.193359375, 1679.44287109375);//沉眠之庭
           keyDown("w");
           await sleep(2500);
           keyUp("w");
@@ -298,18 +205,19 @@
           log.info("猜猜为什么要连续点击这个位置呢~");
 
           await sleep(1000);
-          await click(860, 50);//点开背包,可做图像识别优化
+          await click(860, 50);
 
-          const ifshiwu = await textOCR("食物", 3, 0, 0, 126, 17, 99, 53);
+          const ifshiwu = await imageRecognitionEnhanced(foodbag, 3, 0, 0, 126, 17, 99, 53);
+
           if (!ifshiwu.found) {
                await genshin.returnMainUi();
                throw new Error("未打开'食物'页面,请确保背包已正确打开并切换到食物标签页");
           }//确认在食物界面
           await sleep(500);
-          const ifpingguo = await imageRecognitionEnhanced(pingguo, 1, 1, 0, 115, 120, 1150, 155);//识别"苹果"图片
+          const ifpingguo = await imageRecognitionEnhanced(pingguo, 1, 1, 0, 115, 120, 1150, 155, true);//识别"苹果"图片
           if (!ifpingguo.found) {
                await genshin.returnMainUi();
-               throw new Error("没有找到指定的食物：" + food + "请检查背包中该食材数量是否足够！");
+               throw new Error("没有找到指定的食物：" + food + "，请检查背包中该食材数量是否足够！");
           }
           await sleep(500);
 
@@ -332,6 +240,8 @@
 
           await click(1180, 770);//点击确认
           await sleep(500);
+
+          log.info("看我一口气吃掉" + settings.foodNumber + "个" + food + "！");
 
           await sleep(1000);
           await keyPress("ESCAPE");
@@ -362,6 +272,7 @@
 
      const pingguo = `assets/${food}.png`;//食物图片路径
      const zjz = `assets/zhengjianzhao.png`;//伊涅芙证件照
+     const foodbag = `assets/foodbag.png`;//背包的“食物”界面
 
      // 添加验证
      if (!party) { log.error("队伍名为空，请仔细阅读readme并进行设置后再使用此脚本！"); return; }// 利用队伍是否为空判断用户有没有进行设置
@@ -388,5 +299,5 @@
      }
      log.info("运行结束！今天的" + food + "味道不错哦~");
 
-     await genshin.tpToStatueOfTheSeven();
+     await genshin.tp(-887.193359375, 1679.44287109375);//回到副本门口
 })();
