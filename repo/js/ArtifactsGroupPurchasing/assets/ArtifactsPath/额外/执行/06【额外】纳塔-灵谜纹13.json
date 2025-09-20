@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756314585854,
+    "last_modified_time": 1758387417481,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "06【额外】纳塔-灵谜纹13",
@@ -420,7 +420,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.2),keypress(t),wait(1.35),keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE),wait(0.5),mousedown",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(2),keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE),wait(0.5),mousedown",
       "id": 47,
       "move_mode": "walk",
       "type": "orientation",
