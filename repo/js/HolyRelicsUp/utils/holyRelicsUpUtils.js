@@ -105,13 +105,12 @@ async function updateSettingsFile(settingsArray) {
         .replaceAll('"[','[')
         .replaceAll('\\"', '"')
         .replaceAll('\\\\n', '\\n')
-    warn("settings==>"+json, true)
+    // warn("settings==>"+json, true)
     // 写入更新后的设置
     const success = file.writeTextSync(settingsPath, json);
     if (!success) {
         throwError("写入设置文件失败");
     }
-    sendMessage("设置文件更新成功");
 }
 
 

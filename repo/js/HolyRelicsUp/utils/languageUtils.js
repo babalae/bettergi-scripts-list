@@ -112,7 +112,7 @@ function getLanguageALLConfigMap() {
                     {
                         "name": "refreshSettingsByLanguage",
                         "type": "checkbox",
-                        "label": "根据语言刷新设置列表|根據語言重新整理設置列表|Refresh the settings list based on language|言語に基づいて設定リストを更新する|언어에 따라 설정 목록을 새로 고침",
+                        "label": "根据语言刷新设置列表|\n根據語言重新整理設置列表|\nRefresh the settings list based on language|\n言語に基づいて設定リストを更新する|\n언어에 따라 설정 목록을 새로 고침",
                         "default": false
                     },
                     {
