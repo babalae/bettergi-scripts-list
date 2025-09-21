@@ -84,6 +84,7 @@ function getLanguageALLConfigMap() {
                     ['consecration_oil_paste', {name: '祝圣油膏', type: '.jpg'}],
                     ['consecration_essence', {name: '祝圣精华', type: '.jpg'}],
                     ['level_sort', {name: '等级顺序排序', type: '.jpg'}],
+                    ['equipment_status', {name: '装备状态', type: '.jpg'}],
                     ['not_level_not_max', {name: '未筛选未满级', type: '.jpg'}],
                     ['not_level_max', {name: '未筛选满级', type: '.jpg'}],
                     ['info', {name: '详情', type: '.jpg'}],

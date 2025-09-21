@@ -24,7 +24,7 @@ function error(msg, must = false, log_off = false) {
 
 function throwError(msg) {
     notification.error(`${msg}`);
-    throw new Error(msg);
+    throw new Error(`${msg}`);
 }
 
 function openCaptureGameRegion() {

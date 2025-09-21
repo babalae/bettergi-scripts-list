@@ -55,7 +55,7 @@ async function main(log_off = config.log_off) {
             }
             warn(`启用圣遗物强化命中功能(实验功能)`, must)
             if (config.meetAllSiftAttributeHolyRelic && config.upMax === 20) {
-                await info(`开始验证...`,must)
+                await info(`开始验证...`, must)
                 let valid = await validHitPreamble()
                 //验证不属于 未选中满级 未选中未满级条件下
                 if (!valid) {
@@ -734,11 +734,37 @@ async function openSift() {
     }
     return exist
 }
-async function validHitPreamble(){
+
+async function validHitPreamble() {
     let ms = 600
     let open_sift = await openSift()
     if (!open_sift) {
         throwError(`验证出错==>未打开筛选界面`)
+        return true
+    }
+    let equipmentStatusOk = false
+    let index = 1
+    let x = Math.floor(genshinJson.width * 200 / 1920)
+    let y = Math.floor(genshinJson.height * 4 / 5)
+    while (index <= 10) {
+        mTo(x, y)
+        await scrollPage(Math.floor(genshinJson.height * 1 / 3), false, 6, 30, 600)
+        let equipmentStatus = getJsonPath('equipment_status', false)
+        let jsonEquipmentStatus = {
+            path_base: equipmentStatus.path,
+            text: equipmentStatus.name,
+            type: equipmentStatus.type,
+        }
+        let tmEquipmentStatus = await templateMatchFindByJson(jsonEquipmentStatus)
+        if (isExist(tmEquipmentStatus)) {
+            equipmentStatusOk = true
+            info('装备状态-识别成功')
+            break
+        }
+        index++
+    }
+    if (!equipmentStatusOk) {
+        throwError(`验证出错==>未找到装备状态`)
         return true
     }
     let notLevelNotMax = getJsonPath('not_level_not_max', false)
@@ -759,10 +785,11 @@ async function validHitPreamble(){
     await wait(ms)
     //跳出筛选页面
     downClick(genshinJson.width / 2, genshinJson.height / 2)
-
+    await info('跳出筛选页面')
     //属于 未选中满级 未选中未满级条件下
     return isExist(tmNLNM) && isExist(tmNLM)
 }
+
 /**
  * 重置筛选功能
  * 该函数用于在游戏界面中重置当前的筛选条件
