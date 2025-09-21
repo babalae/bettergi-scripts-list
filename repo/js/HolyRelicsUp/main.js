@@ -54,6 +54,14 @@ async function main(log_off = config.log_off) {
                 throwError(`不支持在升序情况下使用`)
             }
             warn(`启用圣遗物强化命中功能(实验功能)`, must)
+            if (config.meetAllSiftAttributeHolyRelic && config.upMax === 20) {
+                let valid = await validHitPreamble()
+                //验证不属于 未选中满级 未选中未满级条件下
+                if (!valid) {
+                    throwError(`启用圣遗物强化命中功能(实验功能)时，不支持降序选中满级|未满级条件下强化+20操作`)
+                    return
+                }
+            }
             await bathClickUpLv2(config.insertionMethod)
         } else {
             await bathClickUpLv1(config.insertionMethod)
@@ -265,7 +273,10 @@ const commonHolyRelicPartMap = !config.enableAttributeHolyRelic ? [] : parseHoly
 const holyRelicPartMap = !config.enableAttributeHolyRelic ? [] : (!config.coverAttributeHolyRelic ? parseHolyRelicToMap() : takeDifferentHolyRelicToMap(parseHolyRelicToMap(), commonHolyRelicPartMap))
 
 const commonHolyRelicPartMapBySift = !config.enableAttributeHolyRelic ? [] : parseHolyRelicToMap(config.commonSiftAttributeHolyRelic)
-const holyRelicPartMapBySift = !config.enableAttributeHolyRelic ? [] : (!config.coverSiftAttributeHolyRelic ? parseHolyRelicToMap(config.inputSiftAttributeHolyRelic) : takeDifferentHolyRelicToMap(parseHolyRelicToMap(config.inputSiftAttributeHolyRelic), commonHolyRelicPartMapBySift))
+const holyRelicPartMapBySift = !config.enableAttributeHolyRelic ? [] :
+    (!config.coverSiftAttributeHolyRelic ? parseHolyRelicToMap(config.inputSiftAttributeHolyRelic) :
+        takeDifferentHolyRelicToMap(parseHolyRelicToMap(config.inputSiftAttributeHolyRelic), commonHolyRelicPartMapBySift))
+warn('holyRelicPartMapBySift==>' + JSON.stringify(Array.from(holyRelicPartMapBySift)), must)
 
 /**
  * 属性值替换函数
@@ -698,17 +709,7 @@ async function openHolyRelicsKnapsack() {
     return re
 }
 
-
-/**
- * 重置筛选功能
- * 该函数用于在游戏界面中重置当前的筛选条件
- * 首先检查是否存在筛选按钮，如果存在则点击打开筛选面板
- * 然后检查是否存在重置按钮，如果存在则点击进行重置操作
- * 每次操作后都有短暂的延迟以确保界面响应
- * @returns {Promise<boolean>} - 返回一个Promise，表示异步操作的完成
- * <前置条件:处于圣遗物背包 筛选界面|测试通过:v>
- */
-async function resetSift() {
+async function openSift() {
     let ms = 600
     let siftJson = getJsonPath('sift')
     let templateMatchJson = {
@@ -725,10 +726,72 @@ async function resetSift() {
     await wait(ms);
     // 判断筛选按钮是否存在
     let exist = isExist(sift);
-    let exist1 = false
     if (exist) {
         await info('打开筛选'); // 记录日志：打开筛选
         await sift.click(); // 点击筛选按钮
+        // await wait(ms);
+    }
+    return exist
+}
+async function validHitPreamble(){
+    let ms = 600
+    let open_sift = await openSift()
+    if (!open_sift) {
+        throwError(`验证出错==>未打开筛选界面`)
+        return true
+    }
+    let notLevelNotMax = getJsonPath('not_level_not_max', false)
+    let notLevelMax = getJsonPath('not_level_max', false)
+
+    let jsonNLNM = {
+        path_base: notLevelNotMax.path,
+        text: notLevelNotMax.name,
+        type: notLevelNotMax.type,
+    }
+    let jsonNLM = {
+        path_base: notLevelMax.path,
+        text: notLevelMax.name,
+        type: notLevelMax.type,
+    }
+    let tmNLNM = await templateMatchFindByJson(jsonNLNM)
+    let tmNLM = await templateMatchFindByJson(jsonNLM)
+    await wait(ms)
+    //跳出筛选页面
+    downClick(genshinJson.width / 2, genshinJson.height / 2)
+
+    //属于 未选中满级 未选中未满级条件下
+    return isExist(tmNLNM) && isExist(tmNLM)
+}
+/**
+ * 重置筛选功能
+ * 该函数用于在游戏界面中重置当前的筛选条件
+ * 首先检查是否存在筛选按钮，如果存在则点击打开筛选面板
+ * 然后检查是否存在重置按钮，如果存在则点击进行重置操作
+ * 每次操作后都有短暂的延迟以确保界面响应
+ * @returns {Promise<boolean>} - 返回一个Promise，表示异步操作的完成
+ * <前置条件:处于圣遗物背包 筛选界面|测试通过:v>
+ */
+async function resetSift() {
+    let ms = 600
+    /*    let siftJson = getJsonPath('sift')
+        let templateMatchJson = {
+            path_base: siftJson.path,
+            text: siftJson.name,
+            type: siftJson.type,
+            x: 0,
+            y: 0,
+            width: genshinJson.width / 3.0,
+            height: genshinJson.height
+        }
+        // 查找筛选按钮元素
+        let sift = templateMatchFindByJson(templateMatchJson)
+        await wait(ms);*/
+    // 判断筛选按钮是否存在
+    let exist = await openSift();
+    let exist1 = false
+    if (exist) {
+        /*  await info('打开筛选'); // 记录日志：打开筛选
+          await sift.click(); // 点击筛选按钮*/
         await wait(ms);
 
         // const resetRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("${path_base_main}重置.jpg"), 0, 0, genshinJson.width / 3.0, genshinJson.height);
@@ -1820,9 +1883,10 @@ async function clickProgressBarTopByHolyRelics() {
         width: genshinJson.width / 3.0,
         height: genshinJson.height
     }
+    await wait(ms)
     // 查找筛选按钮元素
     let sift = await templateMatchFindByJson(templateMatchJson)
-
+    await wait(ms)
     // let templateMatch = await templateMatch(`${path_base_main}确认.jpg`, 0, 0, Math.floor(genshinJson.width / 2), Math.floor(genshinJson.height / 2))
     // logInfoTemplate(templateMatch)
     if (isExist(sift)) {
@@ -2434,13 +2498,7 @@ async function UpClickLv1(operate, source = 'UpClickLv1', log_off = config.log_o
     let holyRelic = await ocrHolyRelicName()
     name = holyRelic.name
     await wait(ms)
-    if (!holyRelicPartMap.get(name)) {
-        reJson.start = false
-        reJson.missed = true
-        reJson.missedMsg = `未命中圣遗物部件${Array.from(holyRelicPartMap.keys()).join(',')}跳过`
-        warn(reJson.missedMsg)
-        return reJson
-    }
+
     warn(`执行`)
     if (operate === '阶段放入') {
         count = upMax / 4;
@@ -2450,24 +2508,36 @@ async function UpClickLv1(operate, source = 'UpClickLv1', log_off = config.log_o
         let one = await ocrAttributeHolyRelic()
 
         if (i < 1) {
-            if (holyRelicPartMap.get(name) && holyRelicPartMap.get(name).main.length > 0 && !holyRelicPartMap.get(name).main.includes(one.main)) {
-                //未命中主属性跳过
-                reJson.start = false
-                reJson.missed = true
-                reJson.missedMsg = `未命中主属性${JSON.stringify(holyRelicPartMap.get(name).main.join(','))}跳过`
-                await warn(reJson.missedMsg)
-                return reJson
-            }
-
             if (config.meetAllSiftAttributeHolyRelic) {
                 //&&操作
                 let meetCount = 0
+                if (!holyRelicPartMapBySift.get(name)) {
+                    warn("holyRelicPartMapBySift==>" + JSON.stringify(Array.from(holyRelicPartMapBySift)));
+                    reJson.start = false
+                    reJson.missed = true
+                    reJson.missedMsg = `未命中圣遗物部件${Array.from(holyRelicPartMapBySift.keys()).join(',')}跳过`
+                    warn(reJson.missedMsg)
+                    return reJson
+                }
+
+                if (holyRelicPartMapBySift.get(name) && holyRelicPartMapBySift.get(name).main.length > 0 && !holyRelicPartMapBySift.get(name).main.includes(one.main)) {
+                    //未命中主属性跳过
+                    warn("holyRelicPartMapBySift==>" + JSON.stringify(Array.from(holyRelicPartMapBySift)));
+                    reJson.start = false
+                    reJson.missed = true
+                    reJson.missedMsg = `未命中主属性${JSON.stringify(holyRelicPartMapBySift.get(name).main.join(','))}跳过`
+                    await warn(reJson.missedMsg)
+                    return reJson
+                }
+
                 one.sub.forEach((item) => {
-                    if (holyRelicPartMapBySift.get(name).sub.includes(item.name)) {
+                    if (holyRelicPartMapBySift.get(name) && holyRelicPartMapBySift.get(name).sub.includes(item.name)) {
                         meetCount++
                     }
                 })
+
                 if (meetCount !== one.sub.length) {
+                    warn("holyRelicPartMap==>" + JSON.stringify(Array.from(holyRelicPartMap)));
                     //未命中全部子属性跳过
                     reJson.start = false
                     reJson.missed = true
@@ -2476,7 +2546,27 @@ async function UpClickLv1(operate, source = 'UpClickLv1', log_off = config.log_o
                     return reJson
                 }
             } else {
+                if (!holyRelicPartMap.get(name)) {
+                    warn("holyRelicPartMap==>" + JSON.stringify(Array.from(holyRelicPartMap)));
+                    reJson.start = false
+                    reJson.missed = true
+                    reJson.missedMsg = `未命中圣遗物部件${Array.from(holyRelicPartMap.keys()).join(',')}跳过`
+                    warn(reJson.missedMsg)
+                    return reJson
+                }
+
+                if (holyRelicPartMap.get(name) && holyRelicPartMap.get(name).main.length > 0 && !holyRelicPartMap.get(name).main.includes(one.main)) {
+                    //未命中主属性跳过
+                    warn("holyRelicPartMap==>" + JSON.stringify(Array.from(holyRelicPartMap)));
+                    reJson.start = false
+                    reJson.missed = true
+                    reJson.missedMsg = `未命中主属性${JSON.stringify(holyRelicPartMap.get(name).main.join(','))}跳过`
+                    await warn(reJson.missedMsg)
+                    return reJson
+                }
+
                 if (holyRelicPartMapBySift.get(name) && holyRelicPartMapBySift.get(name).sub.length > 0 && !one.sub.find((item => holyRelicPartMapBySift.get(name).sub.includes(item.name)))) {
+                    warn("holyRelicPartMap==>" + JSON.stringify(Array.from(holyRelicPartMap)));
                     //未命中子属性跳过
                     reJson.start = false
                     reJson.missed = true
@@ -2487,6 +2577,7 @@ async function UpClickLv1(operate, source = 'UpClickLv1', log_off = config.log_o
             }
         } else {
             if (holyRelicPartMap.get(name) && holyRelicPartMap.get(name).sub.length > 0 && !one.sub.find((item => holyRelicPartMap.get(name).sub.includes(item.name)))) {
+                warn("holyRelicPartMap==>" + JSON.stringify(Array.from(holyRelicPartMap)));
                 //未命中子属性跳过
                 reJson.start = false
                 reJson.missed = true
@@ -2885,7 +2976,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             //返回圣遗物背包
             if (!re.start) {
                 if (!config.sortMain.includes(mana.get('desc_order'))) {
-                    await clickProgressBarTopByHolyRelics()
+                    // await clickProgressBarTopByHolyRelics()
                 }
                 continue
             }
@@ -3081,7 +3172,7 @@ async function bathClickUpLv2(operate, source = 'bathClickUpLv2', log_off = conf
             //返回圣遗物背包
             if (re.missed || !re.start) {
                 if (!config.sortMain.includes(mana.get('desc_order'))) {
-                    await clickProgressBarTopByHolyRelics()
+                    // await clickProgressBarTopByHolyRelics()
                 }
                 continue
             }

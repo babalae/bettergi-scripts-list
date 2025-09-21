@@ -85,7 +85,8 @@ function getLanguageALLConfigMap() {
                     ['consecration_oil_paste', {name: '祝圣油膏', type: '.jpg'}],
                     ['consecration_essence', {name: '祝圣精华', type: '.jpg'}],
                     ['level_sort', {name: '等级顺序排序', type: '.jpg'}],
-                    // ['level_not_max', {name: '筛选未满级', type: '.jpg'}],
+                    ['not_level_not_max', {name: '未筛选未满级', type: '.jpg'}],
+                    ['not_level_max', {name: '未筛选满级', type: '.jpg'}],
                     ['info', {name: '详情', type: '.jpg'}],
                     // ['up_materials_select', {name: '请选择升级材料', type: '.jpg'}],
                     // ['morra_need', {name: '需要摩拉', type: '.jpg'}],
@@ -112,7 +113,7 @@ function getLanguageALLConfigMap() {
                     {
                         "name": "refreshSettingsByLanguage",
                         "type": "checkbox",
-                        "label": "根据语言刷新设置列表|\n根據語言重新整理設置列表|\nRefresh the settings list based on language|\n言語に基づいて設定リストを更新する|\n언어에 따라 설정 목록을 새로 고침",
+                        "label": "<优先级最高>根据语言刷新设置列表\n<優先級最高>根據語言重新整理設置列表\n<Highest priority>Refresh the settings list based on language\n<最高優先順位>言語に基づいて設定リストを更新する\n<최우선 순위>언어에 따라 설정 목록을 새로 고침",
                         "default": false
                     },
                     {
@@ -191,7 +192,7 @@ function getLanguageALLConfigMap() {
                     {
                         "name": "enableAttributeHolyRelic",
                         "type": "checkbox",
-                        "label": "启用命中属性\n(默认关闭,不支持在升序情况下使用)-实验功能",
+                        "label": "启用命中属性\n(默认关闭,\n不支持在升序情况下使用,\n不支持降序选中满级|未满级条件下强化+20操作)-实验功能",
                         "default": false
                     },
                     {
