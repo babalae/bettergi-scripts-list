@@ -1,22 +1,22 @@
-function info(msg, must = false,log_off=false) {
+function info(msg, must = false, log_off = false) {
     if (log_off || must) {
         log.info(msg)
     }
 }
 
-function warn(msg, must = false,log_off=false) {
+function warn(msg, must = false, log_off = false) {
     if (log_off || must) {
         log.warn(msg)
     }
 }
 
-function debug(msg, must = false,log_off=false) {
+function debug(msg, must = false, log_off = false) {
     if (log_off || must) {
         log.debug(msg)
     }
 }
 
-function error(msg, must = false,log_off=false) {
+function error(msg, must = false, log_off = false) {
     if (log_off || must) {
         log.error(msg)
     }
@@ -81,6 +81,40 @@ function isExist(res) {
     return res.isExist() // 调用资源对象的isExist方法获取存在状态
 }
 
+function sendMessage(msg) {
+    notification.Send(msg);
+}
+
+// 更新settings.json文件
+async function updateSettingsFile(settingsArray) {
+    const settingsPath = "./settings.json";
+    // let settingsArray = JSON.parse(await file.readText(settingsPath));
+    if (!(settingsArray.length >= 2)) {
+        try {
+            // 读取现有设置
+            const content = file.readTextSync(settingsPath);
+            settingsArray = JSON.parse(content);
+        } catch (e) {
+            // 文件不存在或解析失败时创建默认设置
+            throw new Error("设置文件不存在");
+        }
+        warn("设置文件格式不正确，请检查settings.json文件", true)
+    }
+    let json = JSON.stringify(settingsArray, null, 2)
+        .replaceAll(']"', ']')
+        .replaceAll('"[','[')
+        .replaceAll('\\"', '"')
+        .replaceAll('\\\\n', '\\n')
+    warn("settings==>"+json, true)
+    // 写入更新后的设置
+    const success = file.writeTextSync(settingsPath, json);
+    if (!success) {
+        throwError("写入设置文件失败");
+    }
+    sendMessage("设置文件更新成功");
+}
+
+
 this.holyRelicsUpUtils = {
     isExist,
     info,
@@ -98,5 +132,7 @@ this.holyRelicsUpUtils = {
     upLeftButton,
     moveByMouse,
     wait,
-    downClick
+    downClick,
+    updateSettingsFile,
+    sendMessage,
 };

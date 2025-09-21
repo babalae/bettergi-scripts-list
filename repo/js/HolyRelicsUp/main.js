@@ -16,6 +16,12 @@ async function main(log_off = config.log_off) {
         return
     }
 
+    if (config.refreshSettingsByLanguage) {
+        await refreshSettings()
+        holyRelicsUpUtils.sendMessage(`update ${config.language} to settings ok`)
+        return
+    }
+
     if (config.enableBatchUp) { // 检查是否启用
         if (config.toBag) {
             await wait(ms);
@@ -43,7 +49,8 @@ async function main(log_off = config.log_off) {
 
         await wait(ms);
         if (config.enableAttributeHolyRelic) {
-            if (config.sortMain.includes('升序')) {
+
+            if (config.sortMain.includes(mana.get('asc_order'))) {
                 throwError(`不支持在升序情况下使用`)
             }
             warn(`启用圣遗物强化命中功能(实验功能)`, must)
@@ -141,13 +148,19 @@ const LanguageMsgMap = languageUtils.getLanguageMsgMap()
 const LanguageKey = LanguageMap.get(settings.language)
 if (LanguageKey === null || !LanguageKey) {
     let languageMsg = LanguageMsgMap.get(settings.language)
-        .replace('language-key',`${settings.language}`)
-        .replace('languageList-key',`${Array.from(LanguageMap.keys()).join(',')}`)
+        .replace('language-key', `${settings.language}`)
+        .replace('languageList-key', `${Array.from(LanguageMap.keys()).join(',')}`)
     throwError(languageMsg)
 }
 const LanguageConfigJson = LanguageALLConfigMap.get(LanguageKey)
 //魔法值
 const mana = LanguageConfigJson.mana
+
+//刷新设置列表
+async function refreshSettings() {
+    await warn(JSON.stringify("settings==>" + LanguageConfigJson.settings), must)
+    await holyRelicsUpUtils.updateSettingsFile(LanguageConfigJson.settings)
+}
 
 function siftAll() {
     //筛选条件
@@ -187,35 +200,42 @@ function sortAll() {
 }
 
 const must = true
-const config = {
-    suit: settings.suit,
-    log_off: settings.log_off,
-    countMaxByHoly: Math.floor(settings.countMaxByHoly),//筛选圣遗物界面最大翻页次数
-    enableBatchUp: settings.enableBatchUp,//启用批量强化
-    toBag: settings.toBag,//启用自动进入背包
-    enableInsertionMethod: settings.enableInsertionMethod,//是否开启插入方式
-    insertionMethod: settings.insertionMethod,//插入方式
-    material: settings.material,//材料
-    upMax: parseInt(settings.upMax + ''),//升级次数
-    upMaxCount: settings.upMaxCount + '',//设置升级圣遗物个数
-    knapsackKey: settings.knapsackKey,//背包快捷键
-    toSort: settings.toSort,
-    sortAuxiliary: settings.sortAuxiliary,//辅助排序
-    sortMain: settings.sortMain,//主排序
-    sortAttribute: settings.sortAttribute,//属性条件
-    sortArray: (sortAll()),
-    toSift: settings.toSift,
-    siftArray: (siftAll()),//筛选条件
-    enableAttributeHolyRelic: settings.enableAttributeHolyRelic,//启用圣遗物属性
-    inputAttributeHolyRelic: settings.inputAttributeHolyRelic,//自定义圣遗物属性
-    commonAttributeHolyRelic: settings.commonAttributeHolyRelic,//通用圣遗物属性
-    coverAttributeHolyRelic: settings.coverAttributeHolyRelic,//覆盖圣遗物通用属性以部件为单位
-    coverSiftAttributeHolyRelic: settings.coverSiftAttributeHolyRelic,//覆盖圣遗物通用属性以筛选条件为单位
-    meetAllSiftAttributeHolyRelic: settings.meetAllSiftAttributeHolyRelic,//满足所有筛选条件
-    commonSiftAttributeHolyRelic: settings.commonSiftAttributeHolyRelic,//通用筛选条件
-    inputSiftAttributeHolyRelic: settings.inputSiftAttributeHolyRelic,//自定义筛选条件
-    language: settings.language,
-}
+const config = settings.refreshSettingsByLanguage ?
+    {
+        language: settings.language,
+        refreshSettingsByLanguage: settings.refreshSettingsByLanguage,
+    }
+    :
+    {
+        suit: settings.suit,
+        log_off: settings.log_off,
+        countMaxByHoly: Math.floor(settings.countMaxByHoly),//筛选圣遗物界面最大翻页次数
+        enableBatchUp: settings.enableBatchUp,//启用批量强化
+        toBag: settings.toBag,//启用自动进入背包
+        enableInsertionMethod: settings.enableInsertionMethod,//是否开启插入方式
+        insertionMethod: settings.insertionMethod,//插入方式
+        material: settings.material,//材料
+        upMax: parseInt(settings.upMax + ''),//升级次数
+        upMaxCount: settings.upMaxCount + '',//设置升级圣遗物个数
+        knapsackKey: settings.knapsackKey,//背包快捷键
+        toSort: settings.toSort,
+        sortAuxiliary: settings.sortAuxiliary,//辅助排序
+        sortMain: settings.sortMain,//主排序
+        sortAttribute: settings.sortAttribute,//属性条件
+        sortArray: (sortAll()),
+        toSift: settings.toSift,
+        siftArray: (siftAll()),//筛选条件
+        enableAttributeHolyRelic: settings.enableAttributeHolyRelic,//启用圣遗物属性
+        inputAttributeHolyRelic: settings.inputAttributeHolyRelic,//自定义圣遗物属性
+        commonAttributeHolyRelic: settings.commonAttributeHolyRelic,//通用圣遗物属性
+        coverAttributeHolyRelic: settings.coverAttributeHolyRelic,//覆盖圣遗物通用属性以部件为单位
+        coverSiftAttributeHolyRelic: settings.coverSiftAttributeHolyRelic,//覆盖圣遗物通用属性以筛选条件为单位
+        meetAllSiftAttributeHolyRelic: settings.meetAllSiftAttributeHolyRelic,//满足所有筛选条件
+        commonSiftAttributeHolyRelic: settings.commonSiftAttributeHolyRelic,//通用筛选条件
+        inputSiftAttributeHolyRelic: settings.inputSiftAttributeHolyRelic,//自定义筛选条件
+        language: settings.language,
+        refreshSettingsByLanguage: settings.refreshSettingsByLanguage,
+    }
 
 
 const genshinJson = {
@@ -1043,7 +1063,7 @@ async function openUpSort() {
     // 检查OCR识别结果是否存在（即升序按钮是否可见）
     if (isExist(templateMatch)) {
         // 更新按钮名称为选中状态
-        up_name = '升序'
+        up_name = mana.get('asc_order')
         // 点击升序按钮
         templateMatch.click()
         // 记录切换成功的日志信息
