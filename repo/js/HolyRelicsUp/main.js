@@ -2819,7 +2819,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             break
         }
 
-        if (config.sortMain.includes('降序') && isDown) {
+        if (config.sortMain.includes(mana.get('desc_order')) && isDown) {
             base_y = Math.floor(genshinJson.height * 270 / 1080)
         }
 
@@ -2830,7 +2830,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         warn(`i:${i},base_count_x:${base_count_x},base_count_y:${base_count_y},x:${x},y:${y}`)
         lastJson.t_y = y
         lastJson.t_x = x
-        let isBool = config.sortMain.includes('降序') && config.upMax < 20;
+        let isBool = config.sortMain.includes(mana.get('desc_order')) && config.upMax < 20;
         if (isBool) {
             if (i < 1) {
                 //强制拉到顶
@@ -2918,7 +2918,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             await templateMatchClickByJson(upJson, `圣遗物已经强化到+${config.upMax}退出强化页面 到圣遗物背包界面`, source, log_off)
             //返回圣遗物背包
             if (!re.start) {
-                if (!config.sortMain.includes('降序')) {
+                if (!config.sortMain.includes(mana.get('desc_order'))) {
                     await clickProgressBarTopByHolyRelics()
                 }
                 continue
@@ -2998,7 +2998,7 @@ async function bathClickUpLv2(operate, source = 'bathClickUpLv2', log_off = conf
             break
         }
 
-        if (config.sortMain.includes('降序') && isDown) {
+        if (config.sortMain.includes(mana.get('desc_order')) && isDown) {
             base_y = Math.floor(genshinJson.height * 270 / 1080)
         }
 
@@ -3009,7 +3009,7 @@ async function bathClickUpLv2(operate, source = 'bathClickUpLv2', log_off = conf
         warn(`i:${i},base_count_x:${base_count_x},base_count_y:${base_count_y},x:${x},y:${y}`)
         lastJson.t_y = y
         lastJson.t_x = x
-        let isBool = config.sortMain.includes('降序') && config.upMax < 20;
+        let isBool = config.sortMain.includes(mana.get('desc_order')) && config.upMax < 20;
         if (isBool) {
             if (i < 1) {
                 //强制拉到顶
@@ -3114,7 +3114,7 @@ async function bathClickUpLv2(operate, source = 'bathClickUpLv2', log_off = conf
             await templateMatchClickByJson(upJson, `${msg_log},退出强化页面 到圣遗物背包界面`, source, log_off)
             //返回圣遗物背包
             if (re.missed || !re.start) {
-                if (!config.sortMain.includes('降序')) {
+                if (!config.sortMain.includes(mana.get('desc_order'))) {
                     await clickProgressBarTopByHolyRelics()
                 }
                 continue
