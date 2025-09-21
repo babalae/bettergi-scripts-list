@@ -95,20 +95,20 @@
         if (quantity) {
             log.info(`开始加工：${key}`);
             click(x, y);
-            await sleep(1000);
+            await sleep(500);
 
             click(1690, 1015); // 制作
-            await sleep(1000);
+            await sleep(500);
             // 输入数量
             //click(965, 455); 
             //await sleep(1000);
             //await inputText(quantity);
             //拉满
             click(1190, 590);
-            await sleep(1000);
+            await sleep(500);
 
             click(1190, 755); // 确认
-            await sleep(1000);
+            await sleep(500);
         }
     };
     // 通用：模拟输入文本
@@ -244,7 +244,7 @@
             // 如果未找到 Cooking 图标，执行滚轮操作
             log.info(`未找到 Cooking 图标，执行滚轮操作，当前尝试次数：${scrollAttempts + 1}`);
             await keyMouseScript.runFile(`assets/滚轮下翻.json`);
-            await sleep(1000);
+            await sleep(800);
 
             // 重新识别 F 图标，获取最新的中心点
             fRes = await recognizeFIcon();
@@ -281,15 +281,15 @@
         //食材加工
 
         click(1010, 50); //选择食材加工
-        await sleep(1000);
+        await sleep(500);
         click(255, 1020); //全部领取
-        await sleep(1000);
+        await sleep(500);
         click(960, 1045); //点击任意处
-        await sleep(1000);
+        await sleep(500);
         click(960, 1045); //点击任意处
-        await sleep(1000);
+        await sleep(500);
         click(960, 1045); //点击任意处
-        await sleep(2000);
+        await sleep(800);
 
         // 按行列处理所有食材
         for (const ingredient of ingredientCoordinates) {
@@ -299,11 +299,11 @@
         }
 
         await genshin.returnMainUi();
-        await sleep(1000);
+        await sleep(800);
         keyDown("S");
-        await sleep(1500);
-        keyUp("S");
         await sleep(1000);
+        keyUp("S");
+        await sleep(800);
     } catch (error) {
         log.error(`执行按键或鼠标操作时发生错误：${error.message}`);
     }
