@@ -1,5 +1,11 @@
 [
    {
+       "name": "refreshSettingsByLanguage",
+       "type": "checkbox",
+       "label": "<优先级最高>根据语言刷新设置列表\n<優先級最高>根據語言重新整理設置列表\n<Highest priority>Refresh the settings list based on language\n<最高優先順位>言語に基づいて設定リストを更新する\n<최우선 순위>언어에 따라 설정 목록을 새로 고침",
+       "default": false
+   },
+   {
        "name": "language",
        "type": "select",
        "label": "语言|語言|Language|言語|언어",
@@ -75,7 +81,7 @@
    {
      "name": "enableAttributeHolyRelic",
      "type": "checkbox",
-     "label": "启用命中属性\n(默认关闭,不支持在升序情况下使用)-实验功能",
+     "label": "启用命中属性\n(默认关闭,\n不支持在升序情况下使用,\n不支持降序选中满级|未满级条件下强化+20操作)-实验功能",
      "default": false
    },
    {
