@@ -159,7 +159,7 @@ const mana = LanguageConfigJson.mana
 //刷新设置列表
 async function refreshSettings() {
     await warn(JSON.stringify("settings==>" + LanguageConfigJson.settings), must)
-    await holyRelicsUpUtils.updateSettingsFile(LanguageConfigJson.settings)
+    await holyRelicsUpUtils.updateSettingsFile(JSON.parse(LanguageConfigJson.settings))
 }
 
 function siftAll() {
