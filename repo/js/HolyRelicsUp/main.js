@@ -55,6 +55,7 @@ async function main(log_off = config.log_off) {
             }
             warn(`启用圣遗物强化命中功能(实验功能)`, must)
             if (config.meetAllSiftAttributeHolyRelic && config.upMax === 20) {
+                await info(`开始验证...`,must)
                 let valid = await validHitPreamble()
                 //验证不属于 未选中满级 未选中未满级条件下
                 if (!valid) {
