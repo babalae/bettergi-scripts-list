@@ -2091,11 +2091,12 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
     // 如果默认元素不存在，则切换为"快捷放入"
     let exist = isExist(templateMatch1);
     if (!exist) {
-        templateMatch_name = '快捷放入'
+        templateMatch_name = mana.get('quicklyPutIn')
     }
     info(`operateDispose`)
     // 如果操作方式为"默认"或未指定，则进行自动识别
-    if (operate === '默认' || (!operate)) {
+
+    if (operate === mana.get('defaultValue') || (!operate)) {
         // 更新操作方式为识别到的名称
         operate = templateMatch_name
         info(`更新操作方式为识别到的名称:${operate}`)
@@ -2120,7 +2121,7 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
         await wait(ms)
         let clickJsonPath
         // let name4 = `点击关闭`
-        if (operate !== '快捷放入') {
+        if (operate !== mana.get('quicklyPutIn')) {
             // name4 = `点击开启`
             clickJsonPath = getJsonPath('click_open');
         } else {
@@ -3235,7 +3236,7 @@ async function openSelectTheClipCondition(condition = config.material) {
     let ms = 100
     // 检查是否传入了有效的素材条件
     await info(condition)
-    if (condition === null || condition === '默认') {
+    if (condition === null || condition === mana.get('defaultValue')) {
         await info(`使用默认素材`)
     } else {
         let captureRegion = openCaptureGameRegion();

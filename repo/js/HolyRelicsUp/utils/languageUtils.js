@@ -19,8 +19,7 @@ function getLanguageMap() {
 function getLanguageALLConfigMap() {
     //key 值为 ./assets/language 下的语言 文件夹 value为配置json
     let LanguageALLConfigMap = new Map([
-        ['zh-cn',
-            {
+        ['zh-cn', {
                 attributeMap: new Map([
                     ['%', '百分比'],
                     ['生命', '生命值'],
@@ -107,7 +106,9 @@ function getLanguageALLConfigMap() {
                     ['quality_order', '品质顺序'],
 
                     ['percentage', '百分比'],
-                    ['toBeActivated', '（待激活）']
+                    ['toBeActivated', '（待激活）'],
+                    ['defaultValue', '默认'],
+                    ['quicklyPutIn', '快捷放入'],
                 ]),
                 settings:JSON.stringify([
                     {
@@ -342,7 +343,7 @@ function getLanguageALLConfigMap() {
                     {
                         "name": "log_off",
                         "type": "checkbox",
-                        "label": "日志开关(用于开发者调试-日志输出为中文)",
+                        "label": "日志开关(用于开发者调试-日志输出为简体中文)",
                         "default": false
                     }
                 ])
