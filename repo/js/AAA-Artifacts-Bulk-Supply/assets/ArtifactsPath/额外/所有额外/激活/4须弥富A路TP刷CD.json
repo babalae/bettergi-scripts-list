@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758279484673,
+    "last_modified_time": 1758372169492,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "4须弥富A路TP刷CD",
@@ -100,8 +100,8 @@
       "y": -1820.4658203125
     },
     {
-      "action": "stop_flying",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "attack(0.5)",
       "id": 10,
       "move_mode": "walk",
       "type": "orientation",
