@@ -1309,40 +1309,6 @@ async function getSubFirstDifferentValues(sub1, sub2) {
     return diffJson;
 }
 
-async function ocrTestHolyRelic() {
-    //逻辑模拟
-    let key = parseHolyRelicToMap()
-    let holyRelic = await ocrHolyRelicName();
-    let one = await ocrAttributeHolyRelic()
-    //需要识别部件名称 todo:
-    let name = holyRelic.name
-    if (!key.get(name)) {
-        // 未命中圣遗物部件跳过 '@杯#攻击力%#火伤&*暴击伤害*元素精通|@冠#攻击力%#暴击率&*暴击伤害*元素精通'
-        warn("未命中圣遗物部件跳过")
-    } else if (key.get(name) && !key.get(name).main.includes(one.main)) {
-        //未命中主属性跳过
-        warn("未命中主属性跳过")
-    }
-    //强化开始
-    //...省略
-    //强化完成
-    let two = await ocrAttributeHolyRelic()
-    let diffJson = await getSubFirstDifferentValues(one.sub, two.sub)
-    warn('diffJson==>' + JSON.stringify(diffJson))
-    let upKey
-    if (diffJson.length > 0) {
-        upKey = diffJson.diff[diffJson.length - 1]
-    } else {
-        warn('新版本3词条显示4词条可能识别到 取最后一条')
-        //新版本3词条显示4词条可能识别到 取最后一条
-        upKey = two.sub[two.sub.length - 1]
-    }
-    if (key.get(name) && !key.get(name).sub.includes(upKey)) {
-        //未命中子属性跳过
-        warn("未命中子属性跳过")
-    }
-}
-
 async function ocrHolyRelicName() {
     let holyRelic = {
         name: null,//部件名称
@@ -1422,7 +1388,7 @@ async function ocrAttributeHolyRelic() {
     holyRelicAttribute.value = mainVRes.text
 
     if (holyRelicAttribute.value.includes('%') && AttributeHolyRelickeys.includes(holyRelicAttribute.main)) {
-        holyRelicAttribute.main = holyRelicAttribute.main + '百分比'
+        holyRelicAttribute.main = holyRelicAttribute.main + mana.get('percentage')
     }
     captureRegion = openCaptureGameRegion(); // 截取游戏画面
     let subList = new Array()
