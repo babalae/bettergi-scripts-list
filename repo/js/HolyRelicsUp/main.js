@@ -746,7 +746,7 @@ async function validHitPreamble() {
     let index = 1
     let x = Math.floor(genshinJson.width * 200 / 1920)
     let y = Math.floor(genshinJson.height * 4 / 5)
-    while (index <= 10) {
+    while (index <= 20) {
         mTo(x, y)
         await scrollPage(Math.floor(genshinJson.height * 1 / 3), false, 6, 30, 600)
         let equipmentStatus = getJsonPath('equipment_status', false)
@@ -758,7 +758,7 @@ async function validHitPreamble() {
         let tmEquipmentStatus = await templateMatchFindByJson(jsonEquipmentStatus)
         if (isExist(tmEquipmentStatus)) {
             equipmentStatusOk = true
-            info('装备状态-识别成功')
+            await info(`验证成功==>装备状态-识别成功`,must)
             break
         }
         index++
