@@ -1,0 +1,166 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/taotao568685",
+        "name": "白白喵"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "琉璃袋脚本没有配队限制，纯爬山飞行摘取，请不要带释放生存技能会位移的角色（如希诺宁等）",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757304935240,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "12-琉璃袋-明蕴镇右-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -415.83203125,
+      "y": 729.34423828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -423.53515625,
+      "y": 712.78515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -424.81640625,
+      "y": 697.69140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -440.345703125,
+      "y": 680.763671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -453.44140625,
+      "y": 659.6943359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -466.802734375,
+      "y": 665.0390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -494.00910958894383,
+      "y": 670.7519373375399
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -508.791015625,
+      "y": 668.849609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -543.4140625,
+      "y": 670.65771484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -557.275390625,
+      "y": 667.59765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(x),wait(0.1)",
+      "id": 11,
+      "move_mode": "jump",
+      "type": "target",
+      "x": -559.55078125,
+      "y": 672.4560546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -563.7509963612902,
+      "y": 670.40625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 13,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -565.01953125,
+      "y": 677.193359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -546.74609375,
+      "y": 689.2646484375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -505.451171875,
+      "y": 692.99609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(5)",
+      "id": 16,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -503.2109375,
+      "y": 685.826171875
+    }
+  ]
+}
