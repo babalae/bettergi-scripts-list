@@ -2,7 +2,7 @@
   "info": {
     "name": "01-金鱼草-碧水源-24个",
     "type": "collect",
-    "version": "1.0",
+    "version": "3.0",
     "description": "芙芙生存行走位，建议带个早柚或绮良良摘青蛙",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
@@ -11,6 +11,7 @@
     "enable_monster_loot_split": false,
     "authors": [
       {
+        "links": "https://github.com/taotao568685",
         "name": "白白喵"
       }
     ]
@@ -18,399 +19,408 @@
   "positions": [
     {
       "id": 1,
+      "x": 1121.451171875,
+      "y": 1190.6240234375,
       "action": "",
       "move_mode": "walk",
-      "type": "teleport",
-      "x": 1121.4512,
-      "y": 1190.624,
-      "action_params": ""
+      "action_params": "",
+      "type": "teleport"
     },
     {
       "id": 2,
-      "x": 1092.375,
-      "y": 1203.9707,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "x": 1121.451171875,
+      "y": 1190.6240234375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1);芙宁娜 charge",
+      "type": "path"
     },
     {
       "id": 3,
-      "x": 1090.5469,
-      "y": 1223.9292,
-      "type": "path",
-      "move_mode": "dash",
+      "x": 1092.375,
+      "y": 1203.970703125,
       "action": "",
-      "action_params": ""
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 4,
-      "x": 1090.7256,
-      "y": 1233.8838,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 1090.5,
+      "y": 1214.2544444802388,
       "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 5,
-      "x": 1065.6182,
-      "y": 1262.6157,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "x": 1090.7255859375,
+      "y": 1233.8837890625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 6,
-      "x": 1009.6562,
-      "y": 1282.731,
-      "type": "path",
-      "move_mode": "run",
+      "x": 1065.6181640625,
+      "y": 1262.61572265625,
       "action": "",
-      "action_params": ""
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 7,
-      "x": 973.0488,
-      "y": 1279.9731,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 1009.65625,
+      "y": 1282.73095703125,
       "action": "",
-      "action_params": ""
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 8,
-      "x": 988.3926,
-      "y": 1294.0762,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 973.048828125,
+      "y": 1279.97314453125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 9,
-      "x": 980.8105,
-      "y": 1306.417,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 988.392578125,
+      "y": 1294.076171875,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 10,
-      "x": 1001.3828,
-      "y": 1305.02,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 980.810546875,
+      "y": 1306.4169921875,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 11,
-      "x": 1014.4463,
-      "y": 1324.9229,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 1001.3828125,
+      "y": 1305.02001953125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 12,
-      "x": 1006.5742,
-      "y": 1337.2832,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 1014.4462890625,
+      "y": 1324.9228515625,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 13,
-      "x": 1004.9385,
-      "y": 1334.2808,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 1006.57421875,
+      "y": 1337.283203125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 14,
-      "x": 979.9639,
-      "y": 1343.5786,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 1004.9384765625,
+      "y": 1334.28076171875,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 15,
-      "x": 947.4424,
-      "y": 1370.4922,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 979.9638671875,
+      "y": 1343.57861328125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 16,
-      "x": 942.4766,
-      "y": 1369.7534,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 947.4423828125,
+      "y": 1370.4921875,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 17,
-      "x": 940.3643,
-      "y": 1375.7271,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 942.4765625,
+      "y": 1369.75341796875,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 18,
-      "x": 940.3496,
-      "y": 1377.7788,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 940.3642578125,
+      "y": 1375.72705078125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 19,
-      "x": 928.7627,
-      "y": 1378.4092,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 940.349609375,
+      "y": 1377.77880859375,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 20,
-      "x": 937.7227,
-      "y": 1398.0977,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 928.7626953125,
+      "y": 1378.4091796875,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 21,
-      "x": 930.0088,
-      "y": 1375.5713,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 937.72265625,
+      "y": 1398.09765625,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 22,
-      "x": 927.1982,
-      "y": 1360.7041,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 930.0087890625,
+      "y": 1375.5712890625,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 23,
-      "x": 915.0576,
-      "y": 1337.8257,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 927.1982421875,
+      "y": 1360.7041015625,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 24,
-      "x": 922.7705,
-      "y": 1327.4595,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 915.0576171875,
+      "y": 1337.82568359375,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 25,
-      "x": 946.3418,
-      "y": 1332.4561,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 922.7705078125,
+      "y": 1327.45947265625,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 26,
-      "x": 931.6689,
-      "y": 1320.1177,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 946.341796875,
+      "y": 1332.4560546875,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 27,
-      "x": 918.417,
-      "y": 1297.9189,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 931.6689453125,
+      "y": 1320.11767578125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 28,
-      "x": 750.0137,
-      "y": 1368.0874,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 918.4169921875,
+      "y": 1297.9189453125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 29,
-      "x": 746.3535,
-      "y": 1350.6938,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 750.013671875,
+      "y": 1368.08740234375,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 30,
-      "x": 740.6455,
-      "y": 1352.0723,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 746.353515625,
+      "y": 1350.69384765625,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 31,
-      "x": 675.6846,
-      "y": 1332.106,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 740.6455078125,
+      "y": 1352.072265625,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 32,
-      "x": 659.2529,
-      "y": 1338.8604,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 675.6845703125,
+      "y": 1332.10595703125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 33,
-      "x": 653.5918,
-      "y": 1336.583,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 659.2529296875,
+      "y": 1338.8603515625,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 34,
-      "x": 646.1064,
-      "y": 1335.9844,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 653.591796875,
+      "y": 1336.5830078125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 35,
-      "x": 638.5684,
-      "y": 1339.2207,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 646.1064453125,
+      "y": 1335.984375,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 36,
-      "x": 580.915,
-      "y": 1322.231,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 638.568359375,
+      "y": 1339.220703125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 37,
-      "x": 558.9326,
-      "y": 1331.0566,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 580.9150390625,
+      "y": 1322.23095703125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 38,
-      "x": 556.1182,
-      "y": 1332.3101,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 558.9326171875,
+      "y": 1331.056640625,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 39,
-      "x": 557.0566,
-      "y": 1328.2637,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 556.1181640625,
+      "y": 1332.31005859375,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 40,
-      "x": 555.5352,
-      "y": 1325.7505,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 557.056640625,
+      "y": 1328.263671875,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 41,
-      "x": 546.6367,
-      "y": 1315.2192,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 555.53515625,
+      "y": 1325.75048828125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 42,
-      "x": 542.4854,
-      "y": 1310.5068,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 546.63671875,
+      "y": 1315.21923828125,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 43,
-      "x": 537.6465,
-      "y": 1315.4526,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 542.4853515625,
+      "y": 1310.5068359375,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 44,
-      "x": 528.2803,
-      "y": 1309.7271,
-      "type": "path",
-      "move_mode": "walk",
+      "x": 537.646484375,
+      "y": 1315.45263671875,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 45,
+      "x": 528.2802734375,
+      "y": 1309.72705078125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     }
   ]
 }
