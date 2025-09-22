@@ -1,0 +1,57 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758521606849,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "01-巡陆艇-空寂走廊-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9191.6181640625,
+      "y": 2852.115478515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9193.859375,
+      "y": 2858.97705078125
+    },
+    {
+      "action": "combat_script",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9200.638671875,
+      "y": 2874.91650390625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9200.9482421875,
+      "y": 2875.283203125
+    }
+  ]
+}
