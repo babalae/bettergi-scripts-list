@@ -11,7 +11,11 @@ function getLanguageMsgMap() {
 
 function getLanguageMap() {
     let LanguageMap = new Map([
-        ['简体中文', 'zh-cn']
+        ['简体中文', 'zh-cn'],
+        ['繁體中文', 'zh-tw'],
+        // ['日本語', 'ja-jp'],
+        // ['한국어', 'ko-kr'],
+        // ['English', 'en-us'],
     ])
     return LanguageMap
 }
@@ -19,8 +23,7 @@ function getLanguageMap() {
 function getLanguageALLConfigMap() {
     //key 值为 ./assets/language 下的语言 文件夹 value为配置json
     let LanguageALLConfigMap = new Map([
-        ['zh-cn',
-            {
+        ['zh-cn', {
                 attributeMap: new Map([
                     ['%', '百分比'],
                     ['生命', '生命值'],
@@ -85,6 +88,7 @@ function getLanguageALLConfigMap() {
                     ['consecration_oil_paste', {name: '祝圣油膏', type: '.jpg'}],
                     ['consecration_essence', {name: '祝圣精华', type: '.jpg'}],
                     ['level_sort', {name: '等级顺序排序', type: '.jpg'}],
+                    ['equipment_status', {name: '装备状态', type: '.jpg'}],
                     ['not_level_not_max', {name: '未筛选未满级', type: '.jpg'}],
                     ['not_level_max', {name: '未筛选满级', type: '.jpg'}],
                     ['info', {name: '详情', type: '.jpg'}],
@@ -107,7 +111,9 @@ function getLanguageALLConfigMap() {
                     ['quality_order', '品质顺序'],
 
                     ['percentage', '百分比'],
-                    ['toBeActivated', '（待激活）']
+                    ['toBeActivated', '（待激活）'],
+                    ['defaultValue', '默认'],
+                    ['quicklyPutIn', '快捷放入'],
                 ]),
                 settings:JSON.stringify([
                     {
@@ -342,14 +348,306 @@ function getLanguageALLConfigMap() {
                     {
                         "name": "log_off",
                         "type": "checkbox",
-                        "label": "日志开关(用于开发者调试-日志输出为中文)",
+                        "label": "日志开关(用于开发者调试-日志输出为简体中文)",
                         "default": false
                     }
                 ])
                 ,
 
-            }
-        ],
+            }],
+        ['zh-tw', {
+            attributeMap: new Map([
+                    ['%', '百分比'],
+                    ['生命', '生命值'],
+                    ['防禦', '防禦力'],
+                    ['攻擊', '攻擊力'],
+                    ['暴率', '暴擊率'],
+                    ['爆率', '暴擊率'],
+                    ['暴傷', '暴擊傷害'],
+                    ['爆傷', '暴擊傷害'],
+                    ['物傷', '物理傷害加成'],
+                    ['風傷', '風元素傷害加成'],
+                    ['水傷', '水元素傷害加成'],
+                    ['雷傷', '雷元素傷害加成'],
+                    ['岩傷', '岩元素傷害加成'],
+                    ['草傷', '草元素傷害加成'],
+                    ['冰傷', '冰元素傷害加成'],
+                    ['火傷', '火元素傷害加成'],
+                    ['治療', '治療加成'],
+                    ['精通', '元素精通'],
+                    ['充能', '元素充能效率'],
+                ]),
+            attributeList: [
+                '物理傷害加成'
+                , '風元素傷害加成'
+                , '水元素傷害加成'
+                , '雷元素傷害加成'
+                , '岩元素傷害加成'
+                , '草元素傷害加成'
+                , '冰元素傷害加成'
+                , '火元素傷害加成'
+                , '治療加成'
+                // , '元素精通'
+                // , '元素充能效率'
+            ],
+            attributeFixedMap: new Map([
+                ['生之花', ['生命值']],
+                ['死之羽', ['攻擊力']],
+            ]),
+            attributeHolyRelickeys: ['生命值', '防禦力', '攻擊力'],
+            holyRelicPartsAsMap: new Map([
+                ['花', '生之花'],
+                ['羽', '死之羽'],
+                ['羽毛', '死之羽'],
+                ['冠', '理之冠'],
+                ['沙', '時之沙'],
+                ['杯', '空之杯'],
+                ['杯子', '空之杯'],
+            ]),
+            holyRelicParts: ['生之花', '死之羽', '理之冠', '時之沙', '空之杯'],
+            languageMap: new Map([
+                ['attribute_sort_rules', {name: '屬性排序規則', type: '.jpg'}],
+                ['filtered', {name: '已經篩選', type: '.jpg'}],
+                ['saint_relic_backpack_selected', {name: '已選中聖遺物背包', type: '.jpg'}],
+                ['strengthen', {name: '強化', type: '.jpg'}],
+                ['stage_put_in', {name: '階段放入', type: '.jpg'}],
+                ['morra_is_not_enough', {name: '摩拉不足', type: '.jpg'}],
+                ['ascending_order_not_selected', {name: '未選中升序1', type: '.jpg'}],
+                ['consecration_oil_paste', {name: '祝聖油膏', type: '.jpg'}],
+                ['consecration_essence', {name: '祝聖精華', type: '.jpg'}],
+                ['level_sort', {name: '等級順序排序', type: '.jpg'}],
+                ['equipment_status', {name: '裝備狀態', type: '.jpg'}],
+                ['not_level_not_max', {name: '未篩選未滿級', type: '.jpg'}],
+                ['not_level_max', {name: '未篩選滿級', type: '.jpg'}],
+                ['info', {name: '詳情', type: '.jpg'}],
+            ]),
+            mana: new Map([
+                ['holyRelicsNoMax', '未滿級'],
+                ['holyRelicsLockMark', '標記'],
+                ['holyRelicsLockY', '僅鎖定'],
+                ['holyRelicsLockN', '未鎖定'],
+                ['holyRelicsEquipY', '已裝備'],
+                ['holyRelicsEquipN', '未裝備'],
+                ['holyRelicsSourceFrostSaint', '祝聖之霜定義'],
+
+                ['desc_order', '降序'],
+                ['asc_order', '升序'],
+
+                ['quality_order', '品質順序'],
+
+                ['percentage', '百分比'],
+                ['toBeActivated', '（待激活）'],
+                ['defaultValue', '預設'],
+                ['quicklyPutIn', '快捷放入'],
+            ]),
+            settings: JSON.stringify([
+                {
+                    "name": "refreshSettingsByLanguage",
+                    "type": "checkbox",
+                    "label": "<优先级最高>根据语言刷新设置列表\n<優先級最高>根據語言重新整理設置列表\n<Highest priority>Refresh the settings list based on language\n<最高優先順位>言語に基づいて設定リストを更新する\n<최우선 순위>언어에 따라 설정 목록을 새로 고침",
+                    "default": false
+                },
+                {
+                    "name": "language",
+                    "type": "select",
+                    "label": "语言|語言|Language|言語|언어",
+                    "options": [
+                        "简体中文",
+                        "繁體中文",
+                        "English",
+                        "日本語",
+                        "한국어",
+                    ],
+                    "default": "简体中文"
+                },
+                {
+                    "name": "toBag",
+                    "type": "checkbox",
+                    "label": "啟用自動進入背包",
+                    "default": true
+                },
+                {
+                    "name": "enableBatchUp",
+                    "type": "checkbox",
+                    "label": "啟用批量強化(注:可單獨使用單獨使用時請處於聖遺物背包篩選未滿級狀態後)",
+                    "default": false
+                },
+                {
+                    "name": "enableInsertionMethod",
+                    "type": "checkbox",
+                    "label": "自動啟用放入方式 快捷放入/階段放入(優先級高)",
+                    "default": false
+                },
+                {
+                    "name": "insertionMethod",
+                    "type": "select",
+                    "label": "放入方式(預設:自動識別, 注意:最大強化等級設置為4,8,16時強制使用放入方式為階段放入)",
+                    "options": ["預設", "快捷放入", "階段放入"],
+                    "default": "預設"
+                },
+                {
+                    "name": "material",
+                    "type": "select",
+                    "label": "選擇素材(預設:自動識別)(消失太快無法識別禁用)",
+                    "options": ["預設", "1星素材", "2星及以下素材", "3星及以下素材", "4星及以下素材"],
+                    "default": "預設"
+                },
+                {
+                    "name": "upMaxCount",
+                    "type": "input-text",
+                    "label": "最大聖遺物強化個數",
+                    "default": ""
+                },
+                {
+                    "name": "upMax",
+                    "type": "select",
+                    "label": "最大強化等級(預設4)",
+                    "options": ["4", "8", "16", "20"],
+                    "default": "4"
+                },
+                {
+                    "name": "enableAttributeHolyRelic",
+                    "type": "checkbox",
+                    "label": "啟用命中屬性(預設關閉,不支持在升序情況下使用,不支持降序選中滿級|未滿級條件下強化+20操作)-實驗功能",
+                    "default": false
+                },
+                {
+                    "name": "coverAttributeHolyRelic",
+                    "type": "checkbox",
+                    "label": "啟用自定義命中屬性覆蓋通用命中屬性(預設開啟,以部件為單位,不啟用則使用自定義命中屬性)-實驗功能",
+                    "default": true
+                },
+                {
+                    "name": "commonAttributeHolyRelic",
+                    "type": "input-text",
+                    "label": "通用命中屬性(編寫語法請查看文檔)-實驗功能",
+                    "default": "@花*爆率*爆傷|@羽*爆率*爆傷|@沙*爆率*爆傷|@冠#爆率#爆傷&*爆率*爆傷|@杯#物傷#風傷#水傷#火傷#雷傷#岩傷#冰傷#草傷&*爆率*爆傷"
+                },
+                {
+                    "name": "inputAttributeHolyRelic",
+                    "type": "input-text",
+                    "label": "自定義命中屬性(編寫語法請查看文檔)-實驗功能",
+                    "default": ""
+                },
+                {
+                    "name": "coverSiftAttributeHolyRelic",
+                    "type": "checkbox",
+                    "label": "啟用篩選聖遺物自定義命中屬性覆蓋篩選聖遺物通用命中屬性(預設開啟,以部件為單位,不啟用則使用自定義屬性)-實驗功能",
+                    "default": true
+                },
+                {
+                    "name": "meetAllSiftAttributeHolyRelic",
+                    "type": "checkbox",
+                    "label": "啟用篩選聖遺物滿足所有指定的子屬性命中條件(預設關閉)-實驗功能",
+                    "default": false
+                },
+                {
+                    "name": "commonSiftAttributeHolyRelic",
+                    "type": "input-text",
+                    "label": "篩選聖遺物通用命中屬性(編寫語法請查看文檔)-實驗功能",
+                    "default": "@花*爆率*爆傷|@羽*爆率*爆傷|@沙*爆率*爆傷|@冠#爆率#爆傷&*爆率*爆傷|@杯#物傷#風傷#水傷#火傷#雷傷#岩傷#冰傷#草傷&*爆率*爆傷"
+                },
+                {
+                    "name": "inputSiftAttributeHolyRelic",
+                    "type": "input-text",
+                    "label": "篩選聖遺物自定義命中屬性(編寫語法請查看文檔)-實驗功能",
+                    "default": ""
+                },
+                {
+                    "name": "toSort",
+                    "type": "checkbox",
+                    "label": "啟用自動排序(未啟用時以下配置 排序 均無效)",
+                    "default": true
+                },
+                {
+                    "name": "sortAttribute",
+                    "type": "input-text",
+                    "label": "屬性排序(使用|分割)可使用簡稱如: 生命%|雷傷|充能",
+                    "default": ""
+                },
+                {
+                    "name": "sortMain",
+                    "type": "select",
+                    "label": "主排序",
+                    "options": ["升序", "降序"],
+                    "default": "升序"
+                },
+                {
+                    "name": "sortAuxiliary",
+                    "type": "select",
+                    "label": "輔助排序",
+                    "options": ["等級順序", "品質順序"],
+                    "default": "等級順序"
+                },
+                {
+                    "name": "toSift",
+                    "type": "checkbox",
+                    "label": "啟用篩選聖遺物開關(未啟用時以下配置 聖遺物篩選 均無效)",
+                    "default": true
+                },
+                {
+                    "name": "suit",
+                    "type": "input-text",
+                    "label": "聖遺物篩選(使用|分割 的模糊匹配 <無個數限制>如: 如雷|蒼白|...)",
+                    "default": ""
+                },
+                {
+                    "name": "countMaxByHoly",
+                    "type": "select",
+                    "label": "篩選聖遺物界面最大翻頁次數 (預設4)",
+                    "options": ["1", "2", "3", "4", "5", "6", "7", "8"],
+                    "default": "4"
+                },
+                {
+                    "name": "holyRelicsLockMark",
+                    "type": "checkbox",
+                    "label": "聖遺物篩選:(鎖定狀態)|標記",
+                    "default": false
+                },
+                {
+                    "name": "holyRelicsLockY",
+                    "type": "checkbox",
+                    "label": "聖遺物篩選:(鎖定狀態)|僅鎖定",
+                    "default": false
+                },
+                {
+                    "name": "holyRelicsLockN",
+                    "type": "checkbox",
+                    "label": "聖遺物篩選:(鎖定狀態)|未鎖定",
+                    "default": false
+                },
+                {
+                    "name": "holyRelicsEquipY",
+                    "type": "checkbox",
+                    "label": "聖遺物篩選:(裝備狀態)|已裝備",
+                    "default": false
+                },
+                {
+                    "name": "holyRelicsEquipN",
+                    "type": "checkbox",
+                    "label": "聖遺物篩選:(裝備狀態)|未裝備",
+                    "default": false
+                },
+                {
+                    "name": "holyRelicsSourceFrostSaint",
+                    "type": "checkbox",
+                    "label": "聖遺物篩選:(來源)|祝聖之霜定義",
+                    "default": false
+                },
+                {
+                    "name": "knapsackKey",
+                    "type": "input-text",
+                    "label": "打開背包按鍵(不填，預設：B)",
+                    "default": "B"
+                },
+                {
+                    "name": "log_off",
+                    "type": "checkbox",
+                    "label": "日誌開關(用於開發者調試-日誌輸出為簡體中文)",
+                    "default": false
+                }
+            ]),
+        }],
     ])
     return LanguageALLConfigMap
 }
