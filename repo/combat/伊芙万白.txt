@@ -6,7 +6,7 @@
 
 
 // 1号盾位
-伊涅芙 attack,keypress(e),wait(0.01),keypress(2)
+伊涅芙 attack,wait(0.02),keypress(e),wait(0.01),keypress(2)
 
 // 2号水神：e后摇大致为0.8；
 芙宁娜 attack,e,wait(0.01),click(middle),wait(0.65),keypress(Q),wait(0.05),attack,keypress(3)
@@ -19,9 +19,10 @@
 
 
 // 以上一轮基本打完
-伊涅芙 attack,keypress(Q),attack,wait(0.05),keypress(3)  //不补e
+伊涅芙 attack,wait(0.02),e,wait(0.5),keypress(Q),attack,wait(0.05),keypress(3)  //不补e
 
 //白术第一次登场未能开出Q时 此处补Q  连续三次尝试放e 避免被持续性打断
 白术 attack,keypress(q),wait(0.53),attack(2),wait(0.01),e,wait(0.15),e,wait(0.15),e,keypress(4)  
 
 枫原万叶 attack,wait(0.3),click(middle),e(hold),attack,click(middle),attack,wait(0.7),keypress(Q),attack,wait(0.05)　//二轮长e 开Q
+
