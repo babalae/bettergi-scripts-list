@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758010456556,
+    "last_modified_time": 1758541619485,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "CC13-稻妻食材-八酝岛-无想刃狭间",
@@ -22,7 +22,6 @@
       "action": "",
       "action_params": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": -2356.6406,
@@ -806,6 +805,15 @@
       "action": "",
       "action_params": "",
       "id": 88,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2554.609375,
+      "y": -3943.0703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 89,
       "move_mode": "dash",
       "type": "path",
       "x": -2565.2305,
@@ -814,16 +822,16 @@
     {
       "action": "",
       "action_params": "",
-      "id": 89,
+      "id": 90,
       "move_mode": "dash",
       "type": "path",
       "x": -2567.3633,
       "y": -3948.668
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.4)",
-      "id": 90,
+      "action": "",
+      "action_params": "",
+      "id": 91,
       "move_mode": "dash",
       "type": "path",
       "x": -2576.082,
