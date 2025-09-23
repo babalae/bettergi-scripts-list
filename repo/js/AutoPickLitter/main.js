@@ -4,9 +4,6 @@ let gameRegion;
 // 对话识别区域
 const dialogZone = { x: { min: 900, max: 1700 }, y: { min: 380, max: 880 } };
 
-
-
-
 //文字识别,并返回相关信息
 async function performOcr(keyWords, xRange, yRange, judge) {
     //截取游戏截图
@@ -64,7 +61,6 @@ async function performOcr(keyWords, xRange, yRange, judge) {
     }
 
 }
-
 
 //图像识别，并返回相关信息
 async function findImgIcon(imagePath, xRange, yRange, judge) {
@@ -214,14 +210,13 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
     await sleep(100);
 }
 
-// fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
+//fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
 //在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);
 //在js结尾处伪造该js开始运行的日志信息，如 await fakeLog("js脚本", true, false, 2333);
 //duration项目仅在伪造结束信息时有效，且无实际作用，可以任意填写，当你需要在日志中输出特定值时才需要，单位为毫秒
 //在调用地图追踪前伪造该地图追踪开始运行的日志信息，如 await fakeLog(`地图追踪.json`, false, true, 0);
 //在调用地图追踪后伪造该地图追踪结束运行的日志信息，如 await fakeLog(`地图追踪.json`, false, false, 0);
 //如此便可以在js运行过程中伪造地图追踪的日志信息，可以在日志分析等中查看
-
 async function fakeLog(name, isJs, isStart, duration) {
     await sleep(10);
     const currentTime = Date.now();
@@ -302,7 +297,7 @@ async function fakeLog(name, isJs, isStart, duration) {
 (async function() {
     await fakeLog("AutoPickLitter脚本", true, true, 0);
     //判断你是不是老手
-    if(!settings.water && !settings.sticks && !settings.lots && !settings.conchs && !settings.meal && !settings.eggs){
+    if(!settings.water && !settings.sticks && !settings.lots && !settings.conchs && !settings.meal && !settings.eggs && !settings.turntable && !settings.todayLuck){
         log.error(`亲，这面请您点击【打开脚本目录】找到AutoPickLitter文件并打开然后去阅读README！！！`);
         log.error(`亲，这面请您点击【打开脚本目录】找到AutoPickLitter文件并打开然后去阅读README！！！`);
         log.error(`亲，这面请您点击【打开脚本目录】找到AutoPickLitter文件并打开然后去阅读README！！！`);
@@ -352,7 +347,6 @@ async function fakeLog(name, isJs, isStart, duration) {
         await genshin.returnMainUi();
     };
 
-    
     //璃月璃沙娇上香
     if (settings.sticks) {
         await genshin.returnMainUi();
@@ -371,7 +365,6 @@ async function fakeLog(name, isJs, isStart, duration) {
                 await sleep(700);
                 leftButtonClick();
                 await sleep(2000);
-                
                 // let ocrResults1 = await performOcr("敬香", { min: 1060, max: 1550 }, { min: 400, max: 680 }, false);
                 let ocrResults1 = await performOcr("敬香", dialogZone.x, dialogZone.y, false);
                 if(ocrResults1.length != 0){
@@ -413,7 +406,6 @@ async function fakeLog(name, isJs, isStart, duration) {
                     leftButtonClick();
                     await sleep(3500);
                 };
-
                 let ocrResults2 = await performOcr("玄冬林", dialogZone.x, dialogZone.y, false);
                 if (ocrResults2.length != 0) {
                     await sleep(1000);
@@ -511,8 +503,7 @@ async function fakeLog(name, isJs, isStart, duration) {
                         } else {
                             log.warn("嘘，快踢作者屁股，修bug！！！");
                             
-                        };
-                        
+                        };  
                     } else {
                         await sleep(700);
                         await genshin.chooseTalkOption("再见");
@@ -520,11 +511,8 @@ async function fakeLog(name, isJs, isStart, duration) {
                         leftButtonClick();
                         await sleep(1500);
                         log.info("对话出现再见，默认解签完毕以及查看签操作！！！");
-                    };
-                    
+                    }; 
                 };
-
-
             } else {
                 log.error(`识别图像时发生异常: ${error.message}`);
                 // await genshin.returnMainUi();
@@ -536,7 +524,6 @@ async function fakeLog(name, isJs, isStart, duration) {
         await genshin.returnMainUi();
         
     };
-
 
     //稻妻踏鞴砂海螺
     if (settings.conchs) {
@@ -661,7 +648,6 @@ async function fakeLog(name, isJs, isStart, duration) {
                 await sleep(700);
                 leftButtonClick();
                 await sleep(2000);
-                
                 let ocrResults1 = await performOcr("让我挑一枚", dialogZone.x, dialogZone.y, false);
                 if (ocrResults1 != 0) {
                     await sleep(5000);
@@ -740,6 +726,74 @@ async function fakeLog(name, isJs, isStart, duration) {
         };
         await genshin.returnMainUi();
     };
+
+    //挪德卡莱那夏镇好运转盘
+    if (settings.turntable) {
+        await genshin.returnMainUi();
+        await pathingScript.runFile("assets/挪德卡莱那夏镇好运转盘路线.json");
+        await sleep(700);
+        try {
+            let ocrResults = await performOcr("好运速转", dialogZone.x, dialogZone.y, false);
+            if (ocrResults.length != 0) {
+                await sleep(3000);
+                leftButtonClick();
+                await sleep(1000);
+                let ocrResults1 = await performOcr("拨动转盘", dialogZone.x, dialogZone.y, false);
+                if (ocrResults1 != 0) {
+                    await sleep(6000);
+                    let recognizedText = await performOcr("", { min: 555, max: 1365 }, { min: 902, max: 1000 }, true);
+                    log.info(`转盘运势:${recognizedText}`);
+                    writeContentToFile(`转盘运势:${recognizedText}\n`, false);
+                    await sleep(2000);
+                    leftButtonClick();
+                    await sleep(700);
+                } else {
+                    log.error(`识别图像时发生异常: ${error.message}`);
+                };
+            } else {
+                log.error(`识别图像时发生异常: ${error.message}`);
+            };
+        } catch (error) {
+            log.error(`识别图像时发生异常: ${error.message}`);
+        };     
+        await genshin.returnMainUi();
+    };
+
+    //挪德卡莱那夏今日收获
+    if (settings.todayLuck) {
+        await genshin.returnMainUi();
+        await pathingScript.runFile("assets/挪德卡莱那夏镇美味的今日收获路线.json");
+        await sleep(700);
+        try {
+            let ocrResults = await performOcr("莉莉希", dialogZone.x, dialogZone.y, false);
+            if (ocrResults.length != 0) {
+                await sleep(700);
+                leftButtonClick();
+                await sleep(1500);
+                let ocrResults1 = await performOcr("可以领", dialogZone.x, dialogZone.y, false);
+                if (ocrResults1 != 0) {
+                    await sleep(700);
+                    leftButtonClick();
+                    await sleep(1500);
+                } else {
+                    log.warn("情况一，你根本没仔细看提示");
+                    log.warn("情况二，你把它残忍放进背包了");
+                    await sleep(1000);
+                    await genshin.chooseTalkOption("其实");
+                    await sleep(1000);
+                    await sleep(700);
+                    leftButtonClick();
+                    await sleep(1500);
+                };
+            } else {
+                log.error(`识别图像时发生异常: ${error.message}`);
+            };
+        } catch (error) {
+            log.error(`识别图像时发生异常: ${error.message}`);
+        };
+        await genshin.returnMainUi();
+    };
+
     //输出日期
     writeContentToFile("", true);
     await fakeLog("AutoPickLitter脚本", true, false, 2333);

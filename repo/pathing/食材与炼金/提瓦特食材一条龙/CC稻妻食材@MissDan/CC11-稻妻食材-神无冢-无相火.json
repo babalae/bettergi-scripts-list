@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758010400628,
+    "last_modified_time": 1758540602670,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "CC11-稻妻食材-神无冢-无相火",
@@ -22,7 +22,6 @@
       "action": "",
       "action_params": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": -3234.1543,
@@ -77,16 +76,7 @@
       "action": "",
       "action_params": "",
       "id": 7,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -3274.5352,
-      "y": -3104.1699
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
       "x": -3271.6035,
       "y": -3102.2773
@@ -94,8 +84,17 @@
     {
       "action": "",
       "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3274.5352,
+      "y": -3104.1699
+    },
+    {
+      "action": "",
+      "action_params": "",
       "id": 9,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
       "x": -3271.75,
       "y": -3116.8639
@@ -115,7 +114,7 @@
       "id": 11,
       "move_mode": "walk",
       "type": "path",
-      "x": -3266,
+      "x": -3266.0,
       "y": -3114.5293
     },
     {
@@ -142,8 +141,8 @@
       "id": 14,
       "move_mode": "walk",
       "type": "path",
-      "x": -3226.3223,
-      "y": -3160.4082
+      "x": -3225.9375,
+      "y": -3161.7188
     },
     {
       "action": "combat_script",
@@ -297,8 +296,8 @@
       "y": -2974.9092
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.4)",
+      "action": "",
+      "action_params": "",
       "id": 32,
       "move_mode": "walk",
       "type": "path",
