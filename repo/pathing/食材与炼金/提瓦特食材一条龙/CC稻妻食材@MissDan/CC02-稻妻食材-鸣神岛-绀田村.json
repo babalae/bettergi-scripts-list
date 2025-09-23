@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757427581450,
+    "last_modified_time": 1758527119084,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "CC02-稻妻食材-鸣神岛-绀田村",
@@ -101,7 +101,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(0.2)",
       "id": 10,
       "move_mode": "walk",
       "type": "target",
@@ -173,7 +173,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(0.2)",
       "id": 18,
       "move_mode": "walk",
       "type": "path",
@@ -191,7 +191,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(0.2)",
       "id": 20,
       "move_mode": "walk",
       "type": "target",
@@ -254,7 +254,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(0.2)",
       "id": 27,
       "move_mode": "walk",
       "type": "path",
@@ -263,7 +263,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(0.2)",
       "id": 28,
       "move_mode": "fly",
       "type": "path",
@@ -397,8 +397,8 @@
       "y": -2851.0527
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.4)",
+      "action": "",
+      "action_params": "",
       "id": 43,
       "move_mode": "dash",
       "type": "path",

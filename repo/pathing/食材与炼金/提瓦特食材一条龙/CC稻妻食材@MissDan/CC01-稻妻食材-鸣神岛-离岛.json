@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757427584556,
+    "last_modified_time": 1758526845925,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "CC01-稻妻食材-鸣神岛-离岛",
@@ -346,6 +346,7 @@
       "action": "",
       "action_params": "",
       "id": 37,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": -4050.1025,
@@ -355,6 +356,7 @@
       "action": "",
       "action_params": "",
       "id": 38,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": -4045.3281,
@@ -364,6 +366,7 @@
       "action": "",
       "action_params": "",
       "id": 39,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": -4033.2412,
@@ -373,6 +376,7 @@
       "action": "",
       "action_params": "",
       "id": 40,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": -4040.96,
@@ -382,6 +386,7 @@
       "action": "",
       "action_params": "",
       "id": 41,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": -4052.0518,
@@ -391,6 +396,7 @@
       "action": "",
       "action_params": "",
       "id": 42,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": -4061.2363,
@@ -400,6 +406,7 @@
       "action": "",
       "action_params": "",
       "id": 43,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": -4051.7504,
@@ -409,6 +416,7 @@
       "action": "",
       "action_params": "",
       "id": 44,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": -4057.9985,
@@ -418,6 +426,7 @@
       "action": "",
       "action_params": "",
       "id": 45,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": -4058.875,
@@ -427,64 +436,97 @@
       "action": "",
       "action_params": "",
       "id": 46,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": -4080.1602,
-      "y": -2548.2793
+      "x": -4082.3535,
+      "y": -2565.127
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "迪希雅 e",
       "id": 47,
-      "move_mode": "walk",
+      "locked": false,
+      "move_mode": "run",
       "type": "path",
-      "x": -4095.1738,
-      "y": -2540.4414
+      "x": -4083.6035,
+      "y": -2566.7676
     },
     {
       "action": "",
       "action_params": "",
       "id": 48,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": -4110.209,
-      "y": -2521.2988
+      "x": -4084.8711,
+      "y": -2565.2266
     },
     {
       "action": "",
       "action_params": "",
       "id": 49,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": -4100.8809,
-      "y": -2495.1943
+      "x": -4088.668,
+      "y": -2559.3848
     },
     {
       "action": "",
       "action_params": "",
       "id": 50,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": -4091.627,
-      "y": -2485.585
+      "x": -4084.8047,
+      "y": -2559.9863
     },
     {
       "action": "",
       "action_params": "",
       "id": 51,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4082.6973,
+      "y": -2524.251
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 52,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4092.9238,
+      "y": -2484.1982
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 53,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4089.3066,
+      "y": -2482.2207
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 54,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": -4084.381,
       "y": -2478.7477
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.4)",
-      "id": 52,
+      "action": "",
+      "action_params": "",
+      "id": 55,
       "move_mode": "walk",
       "type": "path",
-      "x": -4095.5859,
-      "y": -2461.8867
+      "x": -4085.9805,
+      "y": -2469.4229
     }
   ]
 }
