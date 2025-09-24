@@ -1,0 +1,117 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/taotao568685",
+        "name": "白白喵"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758686289031,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-枣椰-活力之家-7个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4036.23388671875,
+      "y": -2464.9931640625
+    },
+    {
+      "action": "stop_flying",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4195.82470703125,
+      "y": -2454.8876953125
+    },
+    {
+      "action": "nahida_collect",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4197.03466796875,
+      "y": -2457.1220703125
+    },
+    {
+      "action": "nahida_collect",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4211.4931640625,
+      "y": -2473.4228515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4171.008784246483,
+      "y": -2476.004102597144
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4151.23828125,
+      "y": -2495.466796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4138,
+      "y": -2503.8818359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4123.50146484375,
+      "y": -2520.111328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4126.466796875,
+      "y": -2535.5390625
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4150.931640625,
+      "y": -2569.2861328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4153.29296875,
+      "y": -2565.3779296875
+    }
+  ]
+}

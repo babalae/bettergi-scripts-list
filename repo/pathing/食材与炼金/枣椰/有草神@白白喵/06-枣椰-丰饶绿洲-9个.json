@@ -1,0 +1,124 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/taotao568685",
+        "name": "白白喵"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758682474077,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "06-枣椰-丰饶绿洲-9个",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4794.99267578125,
+      "y": -2577.224609375
+    },
+    {
+      "action": "stop_flying",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4865.3046875,
+      "y": -2531.90625
+    },
+    {
+      "action": "nahida_collect",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4868.34326171875,
+      "y": -2531.7041015625
+    },
+    {
+      "action": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "target",
+      "x": 4819.4052734375,
+      "y": -2500.783203125
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4811.939818065044,
+      "y": -2498.9330393075143
+    },
+    {
+      "action": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4811.749918664384,
+      "y": -2476.0320755177654
+    },
+    {
+      "action": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4809.55859375,
+      "y": -2472.8525390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4775.2431640625,
+      "y": -2482.8134765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4775.13427734375,
+      "y": -2483.5849609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4772.208984375,
+      "y": -2484.306640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4786.43017578125,
+      "y": -2500.9482421875
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4801.5380859375,
+      "y": -2497.63671875
+    }
+  ]
+}
