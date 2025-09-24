@@ -4,6 +4,7 @@ const OCRdelay = Math.min(50, Math.max(0, Math.floor(Number(settings.OcrDelay) |
 const imageDelay = Math.min(1000, Math.max(0, Math.floor(Number(settings.ImageDelay) || 0))); // 识图基准时长
 const timeCost = Math.min(300, Math.max(0, Math.floor(Number(settings.TimeCost) || 30))); // 耗时和材料数量的比值，即一个材料多少秒
 const notify = settings.notify || false;
+const noRecord = settings.noRecord || false; // 全局控制参数（无需传递）
 // 定义映射表"unselected": "反选材料分类",
 const material_mapping = {
     "General": "一般素材",
@@ -774,7 +775,6 @@ function readAllFilePaths(dirPath, currentDepth = 0, maxDepth = 3, includeExtens
                 const fileExtension = entry.substring(entry.lastIndexOf('.'));
                 if (includeExtensions.includes(fileExtension.toLowerCase())) {
                     filePaths.push(entry); // 添加文件路径
-                } else {
                 }
             }
         }
@@ -980,30 +980,86 @@ function recordRunTime(resourceName, pathName, startTime, endTime, runTime, reco
     }
 }
 
+// -------------------------- 新增：通知分段发送工具函数 --------------------------
+/**
+ * 通知分段发送（超过500字符自动拆分）
+ * @param {string} msg - 原始通知消息
+ * @param {Function} sendFn - 原始通知发送函数（如notification.Send）
+ * @param {number} chunkSize - 每段最大字符数（默认500）
+ */
+function sendNotificationInChunks(msg, sendFn, chunkSize = 500) {
+    if (!notify) return; // 未开启通知，直接返回
+    if (typeof msg !== 'string' || msg.length === 0) return;
+
+    // 短消息直接发送
+    if (msg.length <= chunkSize) {
+        sendFn(msg);
+        return;
+    }
+
+    // 长消息拆分发送
+    const totalChunks = Math.ceil(msg.length / chunkSize);
+    log.info(`通知消息过长（${msg.length}字符），将拆分为${totalChunks}段发送`);
+    
+    let start = 0;
+    for (let i = 0; i < totalChunks; i++) {
+        // 截取当前段（最后一段取剩余所有字符）
+        const end = Math.min(start + chunkSize, msg.length);
+        const chunkMsg = `【通知${i+1}/${totalChunks}】\n${msg.substring(start, end)}`;
+        
+        // 发送当前段
+        sendFn(chunkMsg);
+        log.info(`已发送第${i+1}段通知（${chunkMsg.length}字符）`);
+        
+        // 更新起始位置
+        start = end;
+    }
+}
+
+// noRecord=true时的最终汇总记录函数
+function recordFinalSummary(recordDir, firstScanTime, endTime, totalRunTime, totalDifferences) {
+    const summaryPath = `${recordDir}/final_summary_noRecord.txt`;
+    const content = `===== 材料收集最终汇总（noRecord模式）=====
+首次扫描时间：${firstScanTime}
+末次扫描时间：${endTime}
+总耗时：${totalRunTime.toFixed(1)}秒
+累计获取材料：
+${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个`).join('\n')}
+=========================================\n\n`;
+    writeContentToFile(summaryPath, content);
+    log.info(`noRecord模式：最终汇总已记录至 ${summaryPath}`);
+}
 
 // 读取材料对应的文件，获取上次运行的结束时间
-function getLastRunEndTime(resourceName, pathName, recordDir) {
-    const recordPath = `${recordDir}/${resourceName}.txt`; // 记录文件路径，以材料名命名
-    try {
-        const content = file.readTextSync(recordPath); // 同步读取记录文件
-        const lines = content.split('\n');
+function getLastRunEndTime(resourceName, pathName, recordDir, noRecordDir) {  // 接收recordDir和noRecordDir参数
+    const checkDirs = [recordDir, noRecordDir];
+    let latestEndTime = null;
 
-        // 从文件内容的开头开始查找
-        for (let i = 0; i < lines.length; i++) {
-            if (lines[i].startsWith('路径名: ')) {
-                const currentPathName = lines[i].split('路径名: ')[1];
-                if (currentPathName === pathName) {
-                    const endTimeLine = lines[i + 2]; // 假设结束时间在路径名后的第三行
-                    if (endTimeLine.startsWith('结束时间: ')) {
-                        return endTimeLine.split('结束时间: ')[1]; // 返回结束时间
+    checkDirs.forEach(dir => {
+        const recordPath = `${dir}/${resourceName}.txt`;
+        try {
+            const content = file.readTextSync(recordPath);
+            const lines = content.split('\n');
+
+            for (let i = 0; i < lines.length; i++) {
+                if (lines[i].startsWith('路径名: ') && lines[i].split('路径名: ')[1] === pathName) {
+                    const endTimeLine = lines[i + 2];
+                    if (endTimeLine?.startsWith('结束时间: ')) {
+                        const endTimeStr = endTimeLine.split('结束时间: ')[1];
+                        const endTime = new Date(endTimeStr);
+
+                        if (!latestEndTime || endTime > new Date(latestEndTime)) {
+                            latestEndTime = endTimeStr;
+                        }
                     }
                 }
             }
+        } catch (error) {
+            log.debug(`目录${dir}中无${resourceName}.txt记录，跳过检查`);
         }
-    } catch (error) {
-        log.warn(`未找到记录文件或记录文件中无结束时间: ${recordPath}`);
-    }
-    return null; // 如果未找到记录文件或结束时间，返回 null
+    });
+
+    return latestEndTime;
 }
 
 // 计算时间成本
@@ -1090,9 +1146,6 @@ function canRunPathingFile(currentTime, lastEndTime, refreshCD, pathName) {
         if (refreshCD.type === 'midnight') {
             // 处理“N次0点”这样的特殊规则
             const times = refreshCD.times;
-
-            // 计算从上次运行时间到当前时间的天数差
-            let daysPassed = Math.floor((currentDate - lastEndTimeDate) / (1000 * 60 * 60 * 24));
 
             // 计算下一个刷新时间
             const nextRunTime = new Date(lastEndTimeDate);
@@ -1184,12 +1237,13 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
     return result;
 }
 
-
 (async function () {
     // 定义文件夹路径
     const materialDir = "materialsCD"; // 存储材料信息的文件夹
     const pathingDir = "pathing"; // 存储路径信息的文件夹
     const recordDir = "pathing_record"; // 存储运行记录的文件夹
+    const noRecordDir = `${recordDir}/noRecord`;  // 基于recordDir定义
+
     const imagesDir = "assets\\images"; // 存储图片的文件夹
 
     // 从设置中获取目标材料名称
@@ -1262,8 +1316,8 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
 
         // 调用背包材料统计
         const pathingMaterialCounts = await MaterialPath(materialCategoryMap);
-            log.info(`materialCategoryMap文本：${JSON.stringify(materialCategoryMap)}`);
-            log.info(`目标文本：${JSON.stringify(pathingMaterialCounts)}`);
+            // log.info(`materialCategoryMap文本：${JSON.stringify(materialCategoryMap)}`);
+            // log.info(`目标文本：${JSON.stringify(pathingMaterialCounts)}`);
         if (pathingMode.onlyCategory) {
             return;
         }
@@ -1282,7 +1336,7 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
         if (lowCountMaterialNames.length === 0) {
             log.info(`所有路径材料的数量均高于目标数量${targetCount}`);
         }
-            log.info(`目标文本：${JSON.stringify(lowCountMaterialNames)}`);
+            // log.info(`目标文本：${JSON.stringify(lowCountMaterialNames)}`);
         // 将路径文件按是否为目标材料分类
         const prioritizedPaths = [];
         const normalPaths = [];
@@ -1316,6 +1370,12 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
         //  假设 flattenedLowCountMaterials 是一个全局变量或在外部定义的变量
         let currentMaterialName = null; // 用于记录当前材料名
 
+        // 记录首次扫描时间和初始数量（noRecord=true时用）
+        const firstScanTime = new Date().toLocaleString();
+        const initialMaterialCounts = flattenedLowCountMaterials.reduce((acc, mat) => {
+            acc[mat.name] = parseInt(mat.count, 10) || 0;
+            return acc;
+        }, {});
         // 全局累积差值统计（记录所有材料的总变化量）
         const globalAccumulatedDifferences = {};
         // 按材料分类的累积差值统计（记录每种材料的累计变化）
@@ -1331,152 +1391,179 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
                 for (const [refreshCDKey, materialList] of Object.entries(materials)) {
                     const refreshCD = JSON.parse(refreshCDKey);
                     if (materialList.includes(resourceName)) {
-                        // 获取当前时间
                         const currentTime = getCurrentTimeInHours();
+                        // 调用时传递recordDir和noRecordDir
+                        const lastEndTime = getLastRunEndTime(resourceName, pathName, recordDir, noRecordDir);
+                        // 调用时传递recordDir
+                        const isPathValid = checkPathNameFrequency(resourceName, pathName, recordDir);
+                        // 调用时传递recordDir
+                        const perTime = noRecord ? null : calculatePerTime(resourceName, pathName, recordDir);
 
-                        // 读取上次运行的结束时间
-                        const lastEndTime = getLastRunEndTime(resourceName, pathName, recordDir);
+                        log.info(`路径文件：${pathName} 单个材料耗时：${perTime || 'noRecord模式忽略'}`);
 
-                        // 计算效率
-                        const perTime = calculatePerTime(resourceName, pathName, recordDir);
-
-                        log.info(`路径文件：${pathName} 单个材料耗时：${perTime}秒`);
-                        // 判断是否可以运行脚本
                         if (
                             canRunPathingFile(currentTime, lastEndTime, refreshCD, pathName) &&
-                            checkPathNameFrequency(recordDir, resourceName, pathName) &&
-                            (perTime === null || perTime <= timeCost) 
+                            isPathValid &&
+                            (noRecord || perTime === null || perTime <= timeCost)
                         ) {
                             log.info(`可调用路径文件：${pathName}`);
 
-                        // 根据 materialCategoryMap 构建 resourceCategoryMap
-                        const resourceCategoryMap = {};
-                        for (const [materialCategory, materialList] of Object.entries(materialCategoryMap)) {
-                            if (materialList.includes(resourceName)) {
-                                resourceCategoryMap[materialCategory] = [resourceName];
-                                break;
-                            }
-                        }
-
-                        // 输出 resourceCategoryMap 以供调试
-                        log.info(`resourceCategoryMap: ${JSON.stringify(resourceCategoryMap, null, 2)}`);
-
-                            // 如果材料名发生变化，更新 flattenedLowCountMaterials
-                            if (currentMaterialName !== resourceName) {
-                                // 材料名变更前，输出上一材料的累积差值并通知
-                                if (currentMaterialName && materialAccumulatedDifferences[currentMaterialName]) {
-                                    const prevDiffs = materialAccumulatedDifferences[currentMaterialName];
-                                    log.info(`材料[${currentMaterialName}]收集完成，累积差值：${JSON.stringify(prevDiffs, null, 2)}`);
-                                    if (notify) {
-                                        notification.Send(`材料[${currentMaterialName}]收集完成，累计获取：${JSON.stringify(prevDiffs, null, 2)}`);
-                                    }
+                            const resourceCategoryMap = {};
+                            for (const [materialCategory, materialList] of Object.entries(materialCategoryMap)) {
+                                if (materialList.includes(resourceName)) {
+                                    resourceCategoryMap[materialCategory] = [resourceName];
+                                    break;
                                 }
-                                currentMaterialName = resourceName; // 更新当前材料名
-                                // 调用背包材料统计（获取当前材料数量）
+                            }
+                            log.info(`resourceCategoryMap: ${JSON.stringify(resourceCategoryMap, null, 2)}`);
+
+                            if (noRecord) {
+                                if (currentMaterialName !== resourceName) {
+                                    currentMaterialName = resourceName;
+                                    materialAccumulatedDifferences[resourceName] = {};
+                                    log.info(`noRecord模式：材料名变更为【${resourceName}】`);
+                                }
+
+                                const startTime = new Date().toLocaleString();
+                                const initialPosition = genshin.getPositionFromMap();
+                                await pathingScript.runFile(pathingFilePath);
+                                const finalPosition = genshin.getPositionFromMap();
+                                const finalCumulativeDistance = calculateDistance(initialPosition, finalPosition);
+                                const endTime = new Date().toLocaleString();
+                                const runTime = (new Date(endTime) - new Date(startTime)) / 1000;
+
+                                const noRecordContent = `路径名: ${pathName}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: ${runTime}秒\n数量变化: noRecord模式忽略\n\n`;
+                                writeContentToFile(`${noRecordDir}/${resourceName}.txt`, noRecordContent);
+                                log.info(`noRecord模式：已记录至 ${noRecordDir}/${resourceName}.txt`);
+                            } else {
+                                if (currentMaterialName !== resourceName) {
+                                    if (currentMaterialName && materialAccumulatedDifferences[currentMaterialName]) {
+                                        const prevDiffs = materialAccumulatedDifferences[currentMaterialName];
+                                        log.info(`材料[${currentMaterialName}]收集完成，累积差值：${JSON.stringify(prevDiffs, null, 2)}`);
+                                        const prevMsg = `材料[${currentMaterialName}]收集完成，累计获取：${JSON.stringify(prevDiffs, null, 2)}`;
+                                        sendNotificationInChunks(prevMsg, notification.Send);
+                                    }
+                                    currentMaterialName = resourceName;
+                                    const updatedLowCountMaterials = await MaterialPath(resourceCategoryMap);
+                                    flattenedLowCountMaterials = updatedLowCountMaterials
+                                        .flat()
+                                        .sort((a, b) => parseInt(a.count, 10) - parseInt(b.count, 10));
+                                    materialAccumulatedDifferences[resourceName] = {};
+                                }
+
+                                const startTime = new Date().toLocaleString();
+                                const initialPosition = genshin.getPositionFromMap();
+                                await pathingScript.runFile(pathingFilePath);
+                                const finalPosition = genshin.getPositionFromMap();
+                                const finalCumulativeDistance = calculateDistance(initialPosition, finalPosition);
+                                const endTime = new Date().toLocaleString();
+                                const runTime = (new Date(endTime) - new Date(startTime)) / 1000;
+
                                 const updatedLowCountMaterials = await MaterialPath(resourceCategoryMap);
-                                // 展平数组并按数量从小到大排序
-                                flattenedLowCountMaterials = updatedLowCountMaterials
+                                const flattenedUpdatedMaterialCounts = updatedLowCountMaterials
                                     .flat()
                                     .sort((a, b) => parseInt(a.count, 10) - parseInt(b.count, 10));
-                                log.info(`材料名变更，更新了 flattenedLowCountMaterials`);
 
-                                // 初始化当前材料的累积差值记录
-                                materialAccumulatedDifferences[resourceName] = {};
-                            }
-
-                        // 记录开始时间
-                        const startTime = new Date().toLocaleString();
-
-                        // 在路径执行前执行一次位移监测
-                        const initialPosition = genshin.getPositionFromMap();
-                        let initialCumulativeDistance = 0;
-
-                        // 调用路径文件
-                        await pathingScript.runFile(pathingFilePath);
-
-                        // 在路径执行后执行一次位移监测
-                        const finalPosition = genshin.getPositionFromMap();
-                        const finalCumulativeDistance = calculateDistance(initialPosition, finalPosition);
-
-                        // 记录结束时间
-                        const endTime = new Date().toLocaleString();
-
-                        // 计算运行时间
-                        const runTime = (new Date(endTime) - new Date(startTime)) / 1000; // 秒
-
-                        // 调用背包材料统计（获取调用路径文件后的材料数量）
-                        const updatedLowCountMaterials = await MaterialPath(resourceCategoryMap);
-
-                        // 展平数组并按数量从小到大排序
-                        const flattenedUpdatedMaterialCounts = updatedLowCountMaterials
-                            .flat()
-                            .sort((a, b) => parseInt(a.count, 10) - parseInt(b.count, 10));
-
-
-                        // 创建一个映射，用于存储更新前后的数量差值
-                        const materialCountDifferences = {};
-
-                            // 遍历更新后的材料数量，计算差值
-                            flattenedUpdatedMaterialCounts.forEach(updatedMaterial => {
-                                const originalMaterial = flattenedLowCountMaterials.find(material => material.name === updatedMaterial.name);
-                                if (originalMaterial) {
-                                    const originalCount = parseInt(originalMaterial.count, 10);
-                                    const updatedCount = parseInt(updatedMaterial.count, 10);
-                                    const difference = updatedCount - originalCount;
-
-                                    // 只记录非零差值，或者是当前处理的resourceName（即使差值为0）
-                                    if (difference !== 0 || updatedMaterial.name === resourceName) {
-                                        materialCountDifferences[updatedMaterial.name] = difference;
-
-                                        // 更新全局累积差值
-                                        if (globalAccumulatedDifferences[updatedMaterial.name]) {
-                                            globalAccumulatedDifferences[updatedMaterial.name] += difference;
-                                        } else {
-                                            globalAccumulatedDifferences[updatedMaterial.name] = difference;
-                                        }
-
-                                        // 更新当前材料的累积差值
-                                        if (materialAccumulatedDifferences[resourceName][updatedMaterial.name]) {
-                                            materialAccumulatedDifferences[resourceName][updatedMaterial.name] += difference;
-                                        } else {
-                                            materialAccumulatedDifferences[resourceName][updatedMaterial.name] = difference;
+                                const materialCountDifferences = {};
+                                flattenedUpdatedMaterialCounts.forEach(updatedMaterial => {
+                                    const originalMaterial = flattenedLowCountMaterials.find(material => material.name === updatedMaterial.name);
+                                    if (originalMaterial) {
+                                        const originalCount = parseInt(originalMaterial.count, 10);
+                                        const updatedCount = parseInt(updatedMaterial.count, 10);
+                                        const difference = updatedCount - originalCount;
+                                        if (difference !== 0 || updatedMaterial.name === resourceName) {
+                                            materialCountDifferences[updatedMaterial.name] = difference;
+                                            if (globalAccumulatedDifferences[updatedMaterial.name]) {
+                                                globalAccumulatedDifferences[updatedMaterial.name] += difference;
+                                            } else {
+                                                globalAccumulatedDifferences[updatedMaterial.name] = difference;
+                                            }
+                                            if (materialAccumulatedDifferences[resourceName][updatedMaterial.name]) {
+                                                materialAccumulatedDifferences[resourceName][updatedMaterial.name] += difference;
+                                            } else {
+                                                materialAccumulatedDifferences[resourceName][updatedMaterial.name] = difference;
+                                            }
                                         }
                                     }
-                                }
-                            });
+                                });
 
-                        // 更新 flattenedLowCountMaterials 为最新的材料数量
-                        flattenedLowCountMaterials = flattenedLowCountMaterials.map(material => {
-                            // 找到对应的更新后的材料数量
-                            const updatedMaterial = flattenedUpdatedMaterialCounts.find(updated => updated.name === material.name);
-                            if (updatedMaterial) {
-                                return { ...material, count: updatedMaterial.count }; // 更新数量
+                                flattenedLowCountMaterials = flattenedLowCountMaterials.map(material => {
+                                    const updatedMaterial = flattenedUpdatedMaterialCounts.find(updated => updated.name === material.name);
+                                    if (updatedMaterial) {
+                                        return { ...material, count: updatedMaterial.count };
+                                    }
+                                    return material;
+                                });
+
+                                log.info(`数量变化: ${JSON.stringify(materialCountDifferences, null, 2)}`);
+                                // 调用时传递recordDir
+                                recordRunTime(resourceName, pathName, startTime, endTime, runTime, recordDir, materialCountDifferences, finalCumulativeDistance);
                             }
-                            return material;
-                        });
 
-                        // 打印数量差值
-                        log.info(`数量变化: ${JSON.stringify(materialCountDifferences, null, 2)}`);
-
-                        // 记录运行时间到材料对应的文件中
-                        recordRunTime(resourceName, pathName, startTime, endTime, runTime, recordDir, materialCountDifferences, finalCumulativeDistance);
-                        log.info(`当前材料名: ${JSON.stringify(resourceName, null, 2)}`);
-
-                        categoryFound = true;
-
-                        break;
+                            categoryFound = true;
+                            break;
                         } else {
-                            if (perTime !== null && perTime > timeCost) {
-                                log.info(`路径文件 ${pathName} 的单个材料耗时大于 ${timeCost} ，不执行`);
-                            } else {
-                                log.info(`路径文件 ${pathName} 未能执行！`);
-                            }
+                            log.info(`路径文件 ${pathName} 未能执行`);
                         }
                     }
                 }
                 if (categoryFound) break;
             }
+        await sleep(1); // 夹断
         }
+
+        // noRecord=false时保留原有全局通知（true时跳过，末次统一通知）
+        if (!noRecord && Object.keys(globalAccumulatedDifferences).length > 0) {
+            log.info(`所有材料收集完成，全局累积差值：${JSON.stringify(globalAccumulatedDifferences, null, 2)}`);
+            // -------------------------- 替换2：所有材料完成通知（分段发送）--------------------------
+            let allDoneMsg = "所有材料收集完成，累计获取：\n";
+            for (const [name, diff] of Object.entries(globalAccumulatedDifferences)) {
+                allDoneMsg += `  ${name}: ${diff}个\n`;
+            }
+            sendNotificationInChunks(allDoneMsg, notification.Send);
+        }
+
+        // noRecord=true时执行末次扫描和总汇总
+        if (noRecord) {
+            log.info(`\nnoRecord模式：开始末次背包扫描，计算总差值`);
+            // 末次扫描获取最终数量
+            const finalMaterialCounts = await MaterialPath(materialCategoryMap);
+            const flattenedFinal = finalMaterialCounts.flat();
+            const finalCounts = flattenedFinal.reduce((acc, mat) => {
+                acc[mat.name] = parseInt(mat.count, 10) || 0;
+                return acc;
+            }, {});
+
+            // 计算总差值（仅保留增加的材料）
+            const totalDifferences = {};
+            Object.keys(initialMaterialCounts).forEach(name => {
+                const diff = finalCounts[name] - initialMaterialCounts[name];
+                if (diff > 0) {
+                    totalDifferences[name] = diff;
+                }
+            });
+
+            // 输出总结果
+            const endTime = new Date().toLocaleString();
+            const totalRunTime = (new Date(endTime) - new Date(firstScanTime)) / 1000;
+            log.info(`\nnoRecord模式：所有材料收集完成`);
+            log.info(`首次扫描时间：${firstScanTime}`);
+            log.info(`末次扫描时间：${endTime}`);
+            log.info(`总耗时：${totalRunTime.toFixed(1)}秒`);
+            log.info(`总累积获取：${JSON.stringify(totalDifferences, null, 2)}`);
+
+            // 记录最终汇总
+            recordFinalSummary(recordDir, firstScanTime, endTime, totalRunTime, totalDifferences);
+
+            // 发送最终通知（分段发送）
+            // -------------------------- 替换3：noRecord模式最终通知（分段发送）--------------------------
+            let finalMsg = `材料收集完成（noRecord模式）\n总耗时：${totalRunTime.toFixed(1)}秒\n累计获取：\n`;
+            for (const [n, d] of Object.entries(totalDifferences)) {
+                finalMsg += `  ${n}: ${d}个\n`;
+            }
+            sendNotificationInChunks(finalMsg, notification.Send);
+        }
+    await sleep(1); // 夹断
     } catch (error) {
         log.error(`操作失败: ${error}`);
     }

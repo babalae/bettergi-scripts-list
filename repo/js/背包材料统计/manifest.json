@@ -1,13 +1,12 @@
 {
   "manifest_version": 1,
   "name": "背包统计采集系统",
-  "version": "2.41",
+  "version": "2.42",
   "bgi_version": "0.44.8",
-  "description": "默认四行为一页；模板匹配材料，OCR识别数量。\n数字太小可能无法识别，用?代替。\n目前支持采集材料的数量统计+路径CD管理。",
+  "description": "模板匹配材料，OCR识别数量；\n支持背包材料的数量统计+路径CD管理，自动优选路径；\n具体支持看材料CD文件，可自行增减材料CD。",
   "authors": [
     {
-      "name": "吉吉喵",
-      "links": "https://github.com/JJMdzh"
+        "name": "吉吉喵"
     }
   ],
   "settings_ui": "settings.json",
