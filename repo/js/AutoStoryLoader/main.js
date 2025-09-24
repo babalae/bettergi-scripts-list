@@ -1,7 +1,7 @@
 (async function () {
   // 版本和编译信息
-  const VERSION = "1.3";
-  const BUILD_TIME = "2025.09.20";
+  const VERSION = "1.4";
+  const BUILD_TIME = "2025.09.24";
 
   // 定义识别对象
 const paimonMenuRo = RecognitionObject.TemplateMatch(
@@ -492,6 +492,23 @@ const isInMainUI = () => {
       自动任务: async (step, context) => {
         await StepProcessor.processAutoTask(step);
       },
+
+      战斗: async (step, context) => {
+        await dispatcher.runTask(new SoloTask("AutoFight"));
+      },
+
+      暂停: async (step, context) => {
+        log.warn("即将暂停脚本的运行，请在10秒内手动暂停并完成接下来任务，按下解除暂停键继续运行");
+        await sleep(1000);
+        log.warn("即将暂停脚本的运行，请在10秒内手动暂停并完成接下来任务，按下解除暂停键继续运行");
+        await sleep(1000);
+        log.warn("即将暂停脚本的运行，请在10秒内手动暂停并完成接下来任务，按下解除暂停键继续运行");
+        if(step.data)
+          {
+            log.warn('作者提示：{data}',step.data);
+          }
+        await sleep(10000);
+      },
     },
 
     // 注册新的步骤处理器
@@ -927,6 +944,8 @@ const isInMainUI = () => {
           return false;
         }
       } catch (jsonError) {
+        log.error("是不是用了馋馋你们，馋馋你们用不了！！！这个星野怎么这么坏");
+        log.error("或者JSON错误: {error}", jsonError.message);
         throw jsonError;
       }
       return processSteps;
