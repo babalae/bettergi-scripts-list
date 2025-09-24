@@ -87,7 +87,7 @@
     }
 
     // 等待质变仪完成提示出现。 若超时则强制结束流程。
-    async function waitTransformer() {
+    async function waitTransformer(deployed) {
         var startTime = new Date();
         await sleep(500);
         var NowTime = new Date();
@@ -96,15 +96,17 @@
         const intervalTime = 3000; // 3秒的时间间隔，单位为毫秒
 
         // 质变仪判断逻辑
-        while ((NowTime - startTime) < actiontime * 1000) {
-            await textOCR("质变产生了以下物质", 0.7, 1, 0, 539, 251, 800, 425);
-            if (result.found) {
-                click(970, 760);
-                if (!ifAkf) { return true; }
-                await sleep(150);
-                break;
+        if (deployed) {
+            while ((NowTime - startTime) < actiontime * 1000) {
+                await textOCR("质变产生了以下物质", 0.7, 1, 0, 539, 251, 800, 425);
+                if (result.found) {
+                    click(970, 760);
+                    if (!ifAkf) { return true; }
+                    await sleep(150);
+                    break;
+                }
+                NowTime = new Date();
             }
-            NowTime = new Date();
         }
 
         // 厨艺机关判断逻辑
@@ -140,12 +142,7 @@
         await keyPress("B");
         await sleep(1000);
 
-        //连续点击三次防止过期道具卡背包
-        await click(970, 760);
-        await sleep(100);
-        await click(970, 760);
-        await sleep(100);
-        await click(970, 760);
+        await handleExpiredItems(); //处理过期物品
 
         await sleep(1000);
         await click(1067, 57);//点开背包,可做图像识别优化
@@ -272,6 +269,114 @@
         }
     }
 
+    // 背包过期物品识别，需要在背包界面，并且是1920x1080分辨率下使用
+    async function handleExpiredItems() {
+        const ifGuoqi = await textOCR("物品过期", 5, 0, 0, 870, 280, 170, 40);
+        if (ifGuoqi.found) {
+            log.info("检测到过期物品，正在处理...");
+            await sleep(500);
+            await click(980, 750); // 点击确认按钮，关闭提示
+        } else {
+            log.info("未检测到过期物品");
+        }
+    }
+
+    // 获取当前时间七天后的时间戳
+    function getSevenDaysLater() {
+        const now = new Date();
+        const sevenDaysLater = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000); // 当前时间 + 7天
+        return sevenDaysLater.toISOString();
+    }
+
+    // 检查文件是否存在
+    async function checkFileExists(filePath) {
+        try {
+            // 尝试读取文件，如果成功则文件存在
+            await file.readText(filePath);
+            return true;
+        } catch (e) {
+            // 如果读取失败，则文件可能不存在
+            return false;
+        }
+    }
+
+    // 读取CD记录
+    async function readCDRecords() {
+        let records = {};
+
+        // 使用基础方法检查文件是否存在
+        const fileExists = await checkFileExists(cdRecordPath);
+        if (fileExists) {
+            try {
+                const content = await file.readText(cdRecordPath);
+                const lines = content.split('\n');
+
+                for (const line of lines) {
+                    if (line.trim()) {
+                        const [name, timestamp] = line.split('::');
+                        records[name] = timestamp;
+                    }
+                }
+            } catch (e) {
+                log.error(`读取CD记录失败: ${e}`);
+            }
+        }
+
+        return records;
+    }
+
+    // 写入CD记录
+    async function writeCDRecords(records) {
+        let content = '';
+
+        for (const name in records) {
+            content += `${name}::${records[name]}\n`;
+        }
+
+        try {
+            // 尝试创建目录（如果环境支持）
+            try {
+                if (typeof file.mkdir === 'function') {
+                    file.mkdir('record');
+                }
+            } catch (e) {
+                // 忽略目录创建错误
+            }
+
+            await file.writeText(cdRecordPath, content);
+        } catch (e) {
+            log.error(`写入CD记录失败: ${e}`);
+        }
+    }
+
+    // 检查路线是否可执行（CD是否已刷新）
+    function isRouteAvailable(routeName, cdRecords) {
+        const now = new Date();
+
+        // 如果记录中没有该路线，说明是第一次执行，可以执行
+        if (!cdRecords[routeName]) {
+            return true;
+        }
+
+        // 检查CD时间是否已过
+        const cdTime = new Date(cdRecords[routeName]);
+        return now >= cdTime;
+    }
+
+    // 获取当前账户id
+    async function getCurrentUsername() {
+        await genshin.returnMainUi();
+        const texts = await textOCR("", 0.3, 0, 2, 1755, 1050, 110, 20);
+        if (result.found) {
+            log.debug("当前用户:" + texts.text);
+            await genshin.returnMainUi();
+            return texts.text;
+        }
+        log.info("未找到用户名");
+        await genshin.returnMainUi();
+
+        return null;
+    }
 
     //main/======================================================================================
 
@@ -279,7 +384,7 @@
     if (!settings.ifCheck) { log.error("请阅读readme文件并做好相关设置后再运行此脚本！"); return; }
 
     //初始化配置
-    var actiontime = settings.actiontime != undefined && ~~settings.actiontime > 0 ? ~~settings.actiontime : 180;
+    var actiontime = 180;//最大等待时间，单位秒
     var TEAM;
     var Material = settings.Material;
     var BH = `assets/RecognitionObject/${Material}.png`;
@@ -300,6 +405,9 @@
     // 直接通过映射获取ITEM值（未匹配时默认0）
     ITEM = materialToItemMap[Material] || 0;
 
+    const routeName = "下次刷新时间";
+    const username = await getCurrentUsername();
+    const cdRecordPath = `record/${username}_cd.txt`;// 修改CD记录文件路径，包含用户名
 
     //检查用户是否配置队伍
     if (ifAkf && settings.TEAMname === undefined) {
@@ -313,6 +421,16 @@
     //设置分辨率和缩放
     setGameMetrics(1920, 1080, 1);
     await genshin.returnMainUi();
+
+    // 读取CD记录
+    const cdRecords = await readCDRecords();
+    let updatedRecords = { ...cdRecords };
+
+    // 检查CD
+    if (!isRouteAvailable(routeName, cdRecords)) {
+        log.info("CD未刷新，跳过本次执行");
+        return;
+    }
 
     // 打开地图
     keyPress("M");
@@ -331,13 +449,14 @@
             await switchPartyIfNeeded(TEAM); //切换到指定队伍
             await AutoPath("全自动质变仪");
 
-            if (!await deployTransformer()) {
-                throw new Error("质变仪未找到或在cd中");
-            };//部署质变仪
+            const deployed = await deployTransformer();//部署质变仪
+            if (!deployed) {
+                log.error("质变仪未找到或在cd中");
+            } else {
+                await insertMaterial();//放入材料并开始质变流程
+            }
 
-            await insertMaterial()//放入材料并开始质变流程
-
-            await waitTransformer()//等待质变完成
+            await waitTransformer(deployed)//等待质变完成
             log.info("任务执行完成！！！");
 
 
@@ -360,6 +479,10 @@
 
             log.info("已完成 领取晶蝶诱捕装置");
             await sleep(1000);
+
+            // 更新CD记录（设置为七天后）
+            updatedRecords[routeName] = getSevenDaysLater();
+            await writeCDRecords(updatedRecords);
         } catch (error) {
             log.error(`执行过程中发生错误：${error.message}`);
         } finally {

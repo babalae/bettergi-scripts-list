@@ -128,6 +128,59 @@
           return result;
      }
 
+     /**
+     * 文字OCR识别封装函数（测试中，未封装完成，后续会优化逻辑）
+     * @param text 要识别的文字，默认为"空参数"
+     * @param timeout 超时时间，单位为秒，默认为10秒
+     * @param afterBehavior 点击模式，0表示不点击，1表示点击识别到文字的位置，2表示输出模式，默认为0
+     * @param debugmodel 调试代码，0表示输入判断模式，1表示输出位置信息，2表示输出判断模式，默认为0
+     * @param x OCR识别区域的起始X坐标，默认为0
+     * @param y OCR识别区域的起始Y坐标，默认为0
+     * @param w OCR识别区域的宽度，默认为1920
+     * @param h OCR识别区域的高度，默认为1080
+     * @returns 包含识别结果的对象，包括识别的文字、坐标和是否找到的结果
+     */
+     async function textOCR(text = "空参数", timeout = 10, afterBehavior = 0, debugmodel = 0, x = 0, y = 0, w = 1920, h = 1080) {
+          const startTime = new Date();
+          var Outcheak = 0
+          for (var ii = 0; ii < 10; ii++) {
+               // 获取一张截图
+               var captureRegion = captureGameRegion();
+               var res1
+               var res2
+               var conuntcottimecot = 1;
+               var conuntcottimecomp = 1;
+               // 对整个区域进行 OCR
+               var resList = captureRegion.findMulti(RecognitionObject.ocr(x, y, w, h));
+               //log.info("OCR 全区域识别结果数量 {len}", resList.count);
+               if (resList.count !== 0) {
+                    for (let i = 0; i < resList.count; i++) { // 遍历的是 C# 的 List 对象，所以要用 count，而不是 length
+                         let res = resList[i];
+                         res1 = res.text
+                         conuntcottimecomp++;
+                         if (res.text.includes(text) && debugmodel == 3) { return result = { text: res.text, x: res.x, y: res.y, found: true }; }
+                         if (res.text.includes(text) && debugmodel !== 2) {
+                              conuntcottimecot++;
+                              log.info(`“${res1}”找到`);
+                              if (debugmodel === 1 & x === 0 & y === 0) { log.info("全图代码位置：({x},{y},{h},{w})", res.x - 10, res.y - 10, res.width + 10, res.Height + 10); } else { log.info("文本OCR完成'{text}'", res.text); }
+                              if (afterBehavior === 1) { log.info("点击模式:开"); await sleep(1000); click(res.x, res.y); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("点击模式:关") } }
+                              if (afterBehavior === 2) { log.info("F模式:开"); await sleep(100); keyPress("F"); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("F模式:关"); } }
+                              if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; }
+                         }
+                         if (debugmodel === 2) {
+                              if (res1 === res2) { conuntcottimecot++; res2 = res1; }
+                              //log.info("输出模式：全图代码位置：({x},{y},{h},{w},{string})", res.x-10, res.y-10, res.width+10, res.Height+10, res.text);
+                              if (Outcheak === 1) { if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; } }
+                         }
+                    }
+               }
+               const NowTime = new Date();
+               if ((NowTime - startTime) > timeout * 1000) { if (debugmodel === 2) { if (resList.count === 0) { return result = { found: false }; } else { Outcheak = 1; ii = 2; } } else { Outcheak = 0; if (debugmodel === 1 & x === 0 & y === 0) { log.info(`${timeout}秒超时退出，"${text}"未找到`) }; return result = { found: false }; } }
+               else { ii = 2; if (debugmodel === 1 & x === 0 & y === 0) { log.info(`"${text}"识别中……`); } }
+               await sleep(100);
+          }
+     }
+
      //判断队内角色
      async function includes(characterName) {
           var avatars = getAvatars();
@@ -193,6 +246,7 @@
           await sleep(5000);
 
           await keyPress("B");
+          await handleExpiredItems();//处理过期物品弹窗
           await sleep(1000);
           await click(860, 50);
           await sleep(1000);
@@ -237,6 +291,19 @@
           await sleep(1000);
 
      }
+
+     // 背包过期物品识别，需要在背包界面，并且是1920x1080分辨率下使用
+     async function handleExpiredItems() {
+          const ifGuoqi = await textOCR("物品过期", 1, 0, 0, 870, 280, 170, 40);
+          if (ifGuoqi.found) {
+               log.info("检测到过期物品，正在处理...");
+               await sleep(500);
+               await click(980, 750); // 点击确认按钮，关闭提示
+          } else {
+               log.info("未检测到过期物品");
+          }
+     }
+
 
 
      // ===== MAIN EXECUTION =====
@@ -285,7 +352,7 @@
           for (let i = 0; i < n; i++) {
                await doit();
                dieCount++;
-               if (dieCount % 8 === 0) { //每8次回一次神像
+               if (dieCount % 8 === 0 && dieCount != n) { //每8次回一次神像
                     log.info("队友们的血量好像有点不太健康欸……先回去补一补！");
                     await genshin.tpToStatueOfTheSeven();
                     await sleep(500);
