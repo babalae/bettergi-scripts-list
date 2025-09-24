@@ -1,16 +1,16 @@
-{
+﻿{
   "info": {
     "author": "jbcaaa",
     "authors": [
       {
-        "name": "jbcaaa",
-        "links": "https://github.com/jbcaaa"
+        "links": "https://github.com/jbcaaa",
+        "name": "jbcaaa"
       }
     ],
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757153352321,
+    "last_modified_time": 1758713561086,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "07-须弥-帕蒂沙兰-桓那兰那右下-11个",
@@ -30,7 +30,7 @@
     {
       "action": "",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "path",
       "x": 3294.31,
       "y": -182.76
@@ -38,7 +38,7 @@
     {
       "action": "",
       "id": 3,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
       "x": 3301.12,
       "y": -176.5
@@ -56,8 +56,8 @@
       "id": 5,
       "move_mode": "run",
       "type": "target",
-      "x": 3314.4766,
-      "y": -171.7666
+      "x": 3314.4765625,
+      "y": -171.7666015625
     },
     {
       "action": "combat_script",
@@ -95,7 +95,7 @@
     {
       "action": "",
       "id": 10,
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "path",
       "x": 3384.12,
       "y": -173.81
@@ -104,7 +104,7 @@
       "action": "",
       "action_params": "",
       "id": 11,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": 3388.5801,
       "y": -171.0312
@@ -113,7 +113,7 @@
       "action": "",
       "action_params": "",
       "id": 12,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "target",
       "x": 3394.7002,
       "y": -168.478
@@ -121,18 +121,18 @@
     {
       "action": "",
       "id": 13,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 3394.0,
+      "x": 3394,
       "y": -165.5
     },
     {
       "action": "",
       "id": 14,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": 3406.01,
-      "y": -168.0
+      "y": -168
     },
     {
       "action": "",
@@ -211,7 +211,7 @@
       "action": "combat_script",
       "action_params": "wait(0.2)",
       "id": 24,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "target",
       "x": 3386.5605,
       "y": -246.5542
@@ -227,7 +227,7 @@
     {
       "action": "",
       "id": 26,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "target",
       "x": 3352.8,
       "y": -244.61
@@ -235,7 +235,7 @@
     {
       "action": "",
       "id": 27,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": 3350.23,
       "y": -246.6
@@ -260,7 +260,7 @@
       "action": "combat_script",
       "action_params": "wait(0.2)",
       "id": 30,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "target",
       "x": 3388.3232,
       "y": -253.1333
@@ -317,7 +317,7 @@
     {
       "action": "",
       "id": 37,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "target",
       "x": 3472.88,
       "y": -245.21
