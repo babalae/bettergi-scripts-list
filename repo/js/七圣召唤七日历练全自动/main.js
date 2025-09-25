@@ -1,6 +1,8 @@
 // 存储挑战玩家信息
 let textArray = [];
 let skipNum = 0;
+let allStrategy = {};
+let fallbackStrategyList = [];
 
 // 切换到指定的队伍
 async function switchCardTeam(Name, shareCode) {
@@ -48,7 +50,7 @@ async function switchCardTeam(Name, shareCode) {
     }
 
     let userDefault = false;
-    if (shareCode) {
+    if (Name !== settings.defaultPartyName && shareCode) {
         captureRegion = captureGameRegion();
         let res = captureRegion.find(RecognitionObject.ocr(1140, 732, 83, 55));
         if (res.text === "确认") {
@@ -57,18 +59,18 @@ async function switchCardTeam(Name, shareCode) {
             click(731, 998); // 编辑牌组
         }
         await sleep(800);
-        click(1756, 48);    // ... 按钮
+        click(1756, 48); // ... 按钮
         await sleep(200);
-        click(1546, 178);   // 使用分享码
+        click(1546, 178); // 使用分享码
         await sleep(500);
-        click(960, 520);    // 输入区域
-        await sleep(500);
+        click(960, 520); // 输入区域
+        await sleep(1000);
         log.info("输入分享码 {0}", shareCode);
         await inputText(shareCode);
         await sleep(500);
-        click(1166, 750);   // 导入
+        click(1166, 750); // 导入
         await stopNow();
-        click(1720, 1020);  // 保存
+        click(1720, 1020); // 保存
         await stopNow();
         captureRegion = captureGameRegion();
         res = captureRegion.find(RecognitionObject.ocr(770, 516, 381, 43));
@@ -221,6 +223,7 @@ async function checkChallengeResults() {
     const region2 = RecognitionObject.ocr(1520, 170, 160, 40); // 退出位置
     let capture = captureGameRegion();
     let res1 = capture.find(region1);
+    let success = false;
     log.info(`结果识别：${res1.text}`);
     if (res1.text.includes("对局失败")) {
         log.info("对局失败");
@@ -228,16 +231,13 @@ async function checkChallengeResults() {
         click(754, 915); //退出挑战
         await sleep(4000);
         await autoConversation();
-        await sleep(1000);
-        return;
     } else if (res1.text.includes("对局胜利")) {
         log.info("对局胜利");
         await sleep(1000);
         click(754, 915); //退出挑战
         await sleep(4000);
         await autoConversation();
-        await sleep(1000);
-        return;
+        success = true;
     } else {
         log.info("挑战异常中断，对局失败");
         await sleep(1000);
@@ -256,9 +256,9 @@ async function checkChallengeResults() {
         click(754, 915); //退出挑战
         await sleep(4000);
         await autoConversation();
-        await sleep(1000);
-        return;
     }
+    await sleep(1000);
+    return success;
 }
 
 //通过f和空格自动对话，对话标志消失时停止await autoConversation();
@@ -441,46 +441,35 @@ function isTextMatch(target, source) {
     return true;
 }
 
-// 获取某个角色的专用牌组的分享码。如无专用策略，则返回 null
-function getShareCodeOfCharStrategy(charName) {
+// 扫描所有带有分享码的牌组策略
+function scanCardStrategy() {
     const allFilesRaw = file.ReadPathSync("牌组策略");
     let strategyMap = {};
     for (const filePath of allFilesRaw) {
         if (filePath.endsWith(".txt")) {
-            const parts = filePath.split("\\");
-            const fileName = parts.slice(-1)[0];
-            const baseName = fileName.split(".").slice(0, -1).join(".");
-            strategyMap[baseName] = filePath;
-        }
-    }
-
-    const content = file.readTextSync("牌组策略/雷神柯莱刻晴.txt");
-    let result = { team: settings.defaultPartyName, shareCode: null, defaultContent: content, content: content };
-    const matchFile = strategyMap[charName];
-    if (matchFile) {
-        const content = file.readTextSync(matchFile);
-        let shareCode = null;
-        for (const line of content.split("\n")) {
-            const trimmedLine = line.trim();
-            if (trimmedLine.startsWith("//") && trimmedLine.includes("shareCode=")) {
-                const parts = trimmedLine.split("=");
-                if (parts[1]) {
-                    shareCode = parts.slice(1, parts.length).join("=");
-                    break;
+            const content = file.readTextSync(filePath);
+            let shareCode = null;
+            for (const line of content.split("\n")) {
+                const trimmedLine = line.trim();
+                if (trimmedLine.startsWith("//") && trimmedLine.includes("shareCode=")) {
+                    const parts = trimmedLine.split("=");
+                    if (parts[1]) {
+                        shareCode = parts.slice(1, parts.length).join("=");
+                        break;
+                    }
                 }
             }
-        }
-        if (shareCode) {
-            result.team = settings.overwritePartyName;
-            result.shareCode = shareCode;
-            result.content = content;
-            log.debug("charName={0}, shareCode={1}", charName, shareCode);
-        } else {
-            log.error("策略文件中未找到有效的shareCode: {0}", matchFile);
+            if (shareCode) {
+                const fileName = filePath.split("\\").slice(-1)[0];
+                const baseName = fileName.split(".").slice(0, -1).join(".");
+                log.debug("baseName={0}, shareCode={1}", baseName, shareCode);
+                strategyMap[baseName] = { shareCode: shareCode, content: content };
+            } else {
+                log.warn("策略文件中未找到有效的shareCode: {0}", filePath);
+            }
         }
     }
-    log.info("使用牌组{0}与{1}对战", result.team, charName);
-    return result;
+    return strategyMap;
 }
 
 //检查是否有对应的挑战对手
@@ -514,16 +503,25 @@ async function searchAndClickTexts() {
 
         if (index !== -1) {
             // 找到匹配项，点击对应位置
-            log.info(`找到匹配文本: ${resText} (原存储文本: ${textArray[index].text})`);
+            const charName = textArray[index].text;
+            log.info(`找到匹配文本: ${resText} (原存储文本: ${charName})`);
             skipNum = 0;
-            // 点击存储的位置
-            await keyMouseScript.runFile(`assets/ALT点击.json`);
-            await sleep(500);
-            res.click();
-            await sleep(500);
-            await keyMouseScript.runFile(`assets/ALT释放.json`);
-            const strategy = getShareCodeOfCharStrategy(textArray[index].text);
-            await Playcards(strategy);
+            let success = false;
+            const strategy = allStrategy[charName];
+            if (strategy) {
+                log.info("使用角色专用策略与{0}对战", charName);
+                success = await Playcards(strategy, settings.overwritePartyName, res);
+            }
+            if (!success) {
+                log.info("使用默认策略与{0}对战", charName);
+                success = await Playcards(allStrategy["雷神柯莱刻晴"], settings.defaultPartyName, res);
+            }
+            for (const strategyName of fallbackStrategyList) {
+                if (!success) {
+                    log.info("使用备用策略{0}与{1}对战", strategyName, charName);
+                    success = await Playcards(allStrategy[strategyName], settings.overwritePartyName, res);
+                }
+            }
 
             // 从数组中移除已处理的文本
             textArray.splice(index, 1);
@@ -587,22 +585,32 @@ async function waitOrCheckMaxCoin(wait_time_ms) {
     }
 }
 
-//函数：对话和打牌
-async function Playcards(strategy) {
+// true和false对应打牌成功或失败
+async function Playcards(strategy, teamName, pos) {
+    // 点击存储的位置
+    await keyMouseScript.runFile(`assets/ALT点击.json`);
+    await sleep(500);
+    pos.click();
+    await sleep(500);
+    await keyMouseScript.runFile(`assets/ALT释放.json`);
     await sleep(800); //略微俯视，避免名字出现在选项框附近，导致错误点击
     moveMouseBy(0, 1030);
     await sleep(1000);
     await autoConversation();
     log.info("对话完成");
     await sleep(1500);
-    const success = await switchCardTeam(strategy.team, strategy.shareCode);
-    const content = success ? strategy.content : strategy.defaultContent;
+    const success = await switchCardTeam(teamName, strategy.shareCode);
+    if (!success) {
+        keyPress("ESCAPE");
+        await sleep(2000);
+        return success;
+    }
     click(1610, 900); //点击挑战
     await waitOrCheckMaxCoin(8000);
-    await dispatcher.runTask(new SoloTask("AutoGeniusInvokation", { strategy: content }));
+    await dispatcher.runTask(new SoloTask("AutoGeniusInvokation", { strategy: strategy.content }));
     await sleep(3000);
-    await checkChallengeResults();
-    await sleep(1000);
+    const win = await checkChallengeResults();
+    return win;
 }
 
 //前往一号桌
@@ -723,10 +731,22 @@ async function gotoTable6() {
 
 async function main() {
     //主流程
-    const nowTime = new Date();
     log.info(`前往猫尾酒馆`);
     await gotoTavern();
     await captureAndStoreTexts();
+    allStrategy = scanCardStrategy();
+    if (settings.useFallbackStrategy) {
+        fallbackStrategyList = Object.keys(allStrategy).filter((key) => {
+            return /^(\d+)\./.test(key);
+        });
+        fallbackStrategyList.sort((a, b) => {
+            return parseInt(a) - parseInt(b);
+        });
+        log.info("已启用{0}个备用策略: {1}", fallbackStrategyList.length, fallbackStrategyList.join(", "));
+    } else {
+        log.info("未启用备用策略");
+    }
+
     if (textArray.length != 0) {
         await detectCardPlayer();
         await searchAndClickTexts();
