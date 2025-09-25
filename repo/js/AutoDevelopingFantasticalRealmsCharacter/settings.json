@@ -1,0 +1,140 @@
+[
+  {
+    "name": "unfairContractTerms",
+    "type": "checkbox",
+    "label": "是否签署霸王条款",
+    "default": "false"
+  },
+  {
+    "name": "n",
+    "type": "input-text",
+    "label": "选填：战斗队伍，默认不更换队伍，如需好感队则必填"
+  },
+  {
+    "name": "nh",
+    "type": "input-text",
+    "label": "选填：好感队伍，如设定领奖前切换，同时战斗队伍必填"
+  },
+  {
+    "name": "nhh",
+    "type": "input-text",
+    "label": "选填：采集队伍，如设定采集材料时切出，同时战斗队伍必填"
+  },
+  {
+    "name": "isSkip",
+    "type": "checkbox",
+    "label": "是否跳过读取角色材料，而是从json中读取",
+    "default": "false"
+  },
+  {
+    "name": "claimReward",
+    "type": "checkbox",
+    "label": "结束时是否领取奖励\n（前往冒险家协会领取奖励，领取长效历练点奖励，领取纪行奖励）",
+    "default": "true"
+  },
+  {
+    "name": "talentCultivation",
+    "type": "checkbox",
+    "label": "是否开启角色天赋养成任务（养角色打剧诗的可以不开）",
+    "default": "false"
+  },
+  {
+    "name": "autoFoster",
+    "type": "checkbox",
+    "label": "是否开启角色自动培养任务，该模式下不会打天赋\n只升级角色等级（不知道养什么角色打剧诗就开）",
+    "default": "false"
+  },
+  {
+    "name": "autoFosterBlacklist",
+    "type": "input-text",
+    "label": "自动培养角色黑名单（格式如：凝光/安柏/凯亚）\n注意:不要留有空格,不支持别名"
+  },
+  {
+    "name": "roleName1",
+    "type": "input-text",
+    "label": "培养角色1：角色名字"
+  },
+  {
+    "name": "roleTargetLevel1",
+    "type": "select",
+    "label": "培养角色1：目标等级（1-90）",
+    "options": [ "10", "20", "30", "40", "50", "60", "70", "80", "90" ],
+    "default": "70"
+  },
+  {
+    "name": "roleTargetTalent1",
+    "type": "input-text",
+    "label": "培养角色1：目标天赋（格式如 1/6/6，表示普攻/技能/爆发）\n注意:不要留有空格",
+    "default": "1/6/6"
+  },
+  {
+    "name": "roleName2",
+    "type": "input-text",
+    "label": "培养角色2：角色名字"
+  },
+  {
+    "name": "roleTargetLevel2",
+    "type": "select",
+    "label": "培养角色2：目标等级（1-90）",
+    "options": [ "10", "20", "30", "40", "50", "60", "70", "80", "90" ],
+    "default": "70"
+  },
+  {
+    "name": "roleTargetTalent2",
+    "type": "input-text",
+    "label": "培养角色2：目标天赋（格式如 1/6/6，表示普攻/技能/爆发）\n注意:不要留有空格",
+    "default": "1/6/6"
+  },
+  {
+    "name": "leyLineOptions",
+    "type": "select",
+    "label": "若没有体力消耗则执行下列任务",
+    "options": [
+      "1-蓝花(经验花)",
+      "2-黄花(摩拉花)",
+      "3-秘境副本",
+       "不执行"
+    ],
+    "default": "1-蓝花(经验花)"
+  },
+  {
+    "name": "domainName",
+    "type": "select",
+    "label": "秘境名称(若上个选项选择副本则会执行的秘境)",
+    "options": [
+      "仲夏庭园",
+      "塞西莉亚苗圃",
+      "震雷连山密宫",
+      "铭记之谷",
+      "孤云凌霄之处",
+      "无妄引咎密宫",
+      "华池岩岫",
+      "忘却之峡",
+      "太山府",
+      "芬德尼尔之顶",
+      "山脊守望",
+      "砂流之庭",
+      "菫色之庭",
+      "椛染之庭",
+      "沉眠之庭",
+      "岩中幽谷",
+      "缘觉塔",
+      "有顶塔",
+      "赤金的城墟",
+      "熔铁的孤塞",
+      "苍白的遗荣",
+      "深潮的余响",
+      "罪祸的终末",
+      "临瀑之城",
+      "褪色的剧场",
+      "蕴火的幽墟",
+      "深古瞭望所",
+      "虹灵的净土",
+      "昏识塔",
+      "荒废砌造坞",
+      "霜凝的机枢",
+      "失落的月庭",
+      "无光的深都"
+    ]
+  }
+]
