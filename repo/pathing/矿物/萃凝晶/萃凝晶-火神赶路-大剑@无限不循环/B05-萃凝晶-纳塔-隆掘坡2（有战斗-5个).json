@@ -1,0 +1,194 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/non-repeating001",
+        "name": "无限不循环"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758482256150,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B05-萃凝晶-纳塔-隆掘坡2（有战斗-5个)",
+    "tags": [
+      "双手剑"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7633.81,
+      "y": -1646.69
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 7601.94921875,
+      "y": -1659.91162109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7603.8359375,
+      "y": -1664.68359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(1.5),keypress(E)",
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7606.103515625,
+      "y": -1673.251953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7588.8896484375,
+      "y": -1743.16064453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(1.3),",
+      "id": 6,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7589.91,
+      "y": -1741.26
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7552,
+      "y": -1837.16
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(e),wait(1.0),keydown(q),wait(1.5),keyup(q),attack(0.5)",
+      "id": 8,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7530.0966796875,
+      "y": -1884.8125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7531.5849609375,
+      "y": -1900.00927734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7531.5859375,
+      "y": -1900.0078125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(1.5),keypress(E)",
+      "id": 11,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7530.0087890625,
+      "y": -1888.56396484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7519,
+      "y": -1897.8193359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7515.5390625,
+      "y": -1907.5908203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(1.3)",
+      "id": 14,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7516.826171875,
+      "y": -1911.04150390625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(1.3)",
+      "id": 15,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7512.875,
+      "y": -1914.5732421875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(1.3),w(0.8),attack(1.3)",
+      "id": 16,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7508.109375,
+      "y": -1929.35791015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "locked": true,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7505.5,
+      "y": -1937.09912109375
+    }
+  ]
+}
