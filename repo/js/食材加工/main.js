@@ -150,9 +150,9 @@ const processingKeyChineseMap = {
 /**烹饪区**/
     // 检查 CookingTimes 是否为正整数
     const CookingTimes = Math.max(0, Number(settings.CookingTimes) || 0);
-    const pageScrollCount = Math.max(0, Number(settings.pageScrollCount) || 0); // 滑页次数
-    const rightOffset = Math.max(0, Number(settings.rightOffset) - 1 || 2); // 右偏移
-    const downOffset = Math.max(0, Number(settings.downOffset) - 1 || 0); // 下偏移
+    const Cooking = settings.Cooking
+    const rightOffset = 0; // 右偏移
+    const downOffset = 0; // 下偏移
 
     if (CookingTimes > 0 && Number.isInteger(CookingTimes)) {
         CookingClickX = 910; // 设置 CookingClickX
@@ -162,32 +162,23 @@ const processingKeyChineseMap = {
     }
 
 // 烹饪操作函数
-    async function performCookingOperations(CookingClickX, CookingClickY, pageScrollCount, rightOffset, downOffset, CookingTimes) {
+    async function performCookingOperations(CookingClickX, CookingClickY, rightOffset, downOffset, CookingTimes) {
     log.info("执行烹饪操作...");
     click(CookingClickX, CookingClickY);
     await sleep(500);
     click(CookingClickX, CookingClickY); // 点击菜单
     await sleep(500);
 
-    for (let i = 0; i < pageScrollCount; ++i) {
-        click(1200, 920);
-        await sleep(500);
-        leftButtonDown();
-        await sleep(100);
-
-        // 根据条件选择运行的 JSON 文件
-        let filePath;
-        if (pageScrollCount >= 10 && (i + 1) % 10 === 0) {
-            filePath = `assets/pageScroll2.json`; // 每 10 次运行一次 pageScroll2.json
-        } else {
-            filePath = `assets/pageScroll.json`; // 其他情况下运行 pageScroll.json
-        }
-
-        await keyMouseScript.runFile(filePath); // 平滑移动鼠标
-        await sleep(600);
-        leftButtonUp();
-        await sleep(100);
-    }
+    click(145, 1015); // 点击筛选
+    await sleep(500);
+    click(79, 1020); // 重置输入框
+    await sleep(500);
+    click(160, 115); // 点击输入框
+    await sleep(500);
+    inputText(`${Cooking}`); // 输入 Cooking 的值
+    await sleep(500);
+    click(375, 1020); // 确认筛选
+    await sleep(500);
 
     // 点击动态坐标
     const rightClickX = Math.round(178.5 + rightOffset * 147);
@@ -253,7 +244,7 @@ async function recognizeFIcon() {
                 await simulateKeyOperations("S", 200); // 后退 200 毫秒
                 log.info("执行后退操作");
                 await sleep(200);
-                await simulateKeyOperations("W", 800); // 前进 800 毫秒
+                await simulateKeyOperations("W", 600); // 前进 600 毫秒
                 log.info("执行前进操作");
             } else if (f_attempts === 3) {
                 // 第二次未找到 F 图标
@@ -398,7 +389,6 @@ async function AutoPath() {
             await sleep(1000);
             click(150, 1020); await sleep(500);
             click(150, 1020); await sleep(500);
-            click(960, 1020); await sleep(500);
 
             // 如果 PrepCountArray 和 enabledProcessingKeys 的长度不匹配，使用第一个 PrepCount 值
             const minLen = Math.min(PrepCountArray.length, enabledProcessingKeys.length);
@@ -431,34 +421,55 @@ async function AutoPath() {
                         // log.info(`通过图像识别找到食材: ${chineseDescription} 在坐标 X=${scanX}, Y=${scanY}`);
                         log.info(`通过图像识别找到食材: ${chineseDescription}`);
                         imageResult.click();
-                        await sleep(300); // 等待1秒以确保点击生效
-                        imageResult.click();
                         await sleep(1000); // 等待1秒以确保点击生效
                         foundIngredient = true;
-
-                        // 执行额外的点击操作（如果需要）
-                        await performExtraClicks(processingKey);
-
-                        // 点击确认按钮
-                        click(1600, 1020); await sleep(2000);
-
-                        // 执行 PrepCount 操作
-                        const PrepCount = PrepCountArray.length > 0 ? PrepCountArray.shift() : defaultPrepCount;
-                        if (PrepCount > 0) {
-                            await performPrepCountActions(PrepCount);
-                        }
 
                         break; // 找到食材后跳出循环
                     }
                 }
-
                 if (!foundIngredient) {
+                    // 图像识别未成功，可能是因为该食材正在被加工，通过OCR识别
+                    ra?.dispose();
+                    ra = captureGameRegion();
+                    const ocrResult = ra.findMulti(RecognitionObject.ocr(117, 196, 1148, 502));
+                    for (var i = 0; i < ocrResult.count; ++i) {
+                        if (ocrResult[i].text.endsWith("分钟") || ocrResult[i].text.endsWith("秒")) {
+                            // 选中该食材
+                            click(ocrResult[i].x, ocrResult[i].y);
+                            await sleep(500);
+                            // OCR食材名称
+                            ra?.dispose();
+                            ra = captureGameRegion();
+                            const ocrResult2 = ra.findMulti(RecognitionObject.ocr(1332, 130, 137, 34));
+                            const ingredientName = ocrResult2.count > 0 ? ocrResult2[0].text : null;
+                            if (ingredientName === chineseDescription) {
+                                log.info(`通过OCR识别找到食材: ${chineseDescription}`);
+                                foundIngredient = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (foundIngredient) {
+                    // 执行额外的点击操作（如果需要）
+                    await performExtraClicks(processingKey);
+
+                    // 点击确认按钮
+                    click(1600, 1020); await sleep(2000);
+
+                    // 执行 PrepCount 操作
+                    const PrepCount = PrepCountArray.length > 0 ? PrepCountArray.shift() : defaultPrepCount;
+                    if (PrepCount > 0) {
+                        await performPrepCountActions(PrepCount);
+                    }
+                } else {
                     log.error(`未能识别到食材: ${chineseDescription}`);
                 }
             }
             // 如果 CookingClickX 被设置，执行烹饪操作
             if (CookingClickX === 910) {
-                await performCookingOperations(CookingClickX, CookingClickY, pageScrollCount, rightOffset, downOffset, CookingTimes);
+                await performCookingOperations(CookingClickX, CookingClickY, rightOffset, downOffset, CookingTimes);
             }
             await genshin.returnMainUi();
             keyDown("S"); await sleep(1000);
