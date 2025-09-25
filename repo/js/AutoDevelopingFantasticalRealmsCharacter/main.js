@@ -847,7 +847,7 @@
                         result2 : part2
                     };
                 } else {
-                    log.info("字符串格式不正确，无法通过斜杠分割出两部分");
+                    log.error("字符串格式不正确，无法通过斜杠分割出两部分");
                 }
             }
             await sleep(20);
@@ -1544,7 +1544,7 @@
                     }
                 )
             } else {
-                await AutoDomain(settings.domainName);
+                await AutoDomain({domainName :settings.domainName});
             }
         } else {
 
@@ -1721,8 +1721,6 @@
     let roleNameArray = [];
     if (!settings.unfairContractTerms) throw new Error('未签署霸王条款，无法使用');
     if (!settings.autoFoster && (aliases[settings.roleName1] || settings.roleName1) === "" && (aliases[settings.roleName2] || settings.roleName2) === "") throw new Error('未填入养成角色，脚本退出');
-    CarryoutTask[1].character = (aliases[settings.roleName1] || settings.roleName1);
-    CarryoutTask[2].character = (aliases[settings.roleName2] || settings.roleName2);
     //切换配对
     if (settings.n) {
         await genshin.switchParty(settings.n);

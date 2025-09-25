@@ -2,8 +2,8 @@
 setlocal enabledelayedexpansion
 
 :: 定义目标路径 - 相对于当前批处理文件的位置
-:: 根据目录结构: 当前目录 > User > JsScript > AAA-自动巨诗角色养成一条龙
-:: 假设批处理文件在"AAA-自动巨诗角色养成一条龙"目录中，向上两级是User目录
+:: 根据目录结构: 当前目录 > User > JsScript > AutoDevelopingFantasticalRealmsCharacter
+:: 假设批处理文件在"AutoDevelopingFantasticalRealmsCharacter"目录中，向上两级是User目录
 set "target=..\..\..\User"
 
 :: 检查目标目录是否存在

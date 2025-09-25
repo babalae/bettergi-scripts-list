@@ -1,4 +1,4 @@
-async function AutoDomain (settings) {
+async function AutoDomain(settings) {
     var domainList = [
         {
             "description": "Domain",
@@ -283,13 +283,14 @@ async function AutoDomain (settings) {
 
     // 来自于界面配置
     let domainName = settings.domainName;
+    //log.info("settings.domainName --> {0}",settings.domainName)
 
     // 使用 find 方法找到匹配的域对象
     let domainInfo = domainList.find(function (domain) {
         return domain.name === domainName;
     });
-    while(true){
-        try{
+    while (true) {
+        try {
             await genshin.tp(domainInfo.position[2], domainInfo.position[0]);
             await sleep(1000);
 
@@ -328,20 +329,17 @@ async function AutoDomain (settings) {
                     await sleep(500);
                     break;
             }
-            
+
             // 执行自动秘境
             await dispatcher.runTask(new SoloTask("AutoDomain"));
             await sleep(500);
             break;
-        }catch (ex)
-        {
-            if (ex.message.includes("检测到复苏界面"))
-            {
+        } catch (ex) {
+            if (ex.message.includes("检测到复苏界面")) {
                 log.info("复活后，继续执行自动秘境。");
                 continue;
             }
-            else
-            {
+            else {
                 // 如果不包含 "检测到复苏界面"，则继续抛出异常
                 throw ex;
             }
