@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758388258403,
+    "last_modified_time": 1758787829441,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "628纳塔-悠悠集市西岸2",
@@ -31,7 +31,6 @@
       "action": "combat_script",
       "action_params": "wait(0.3)",
       "id": 2,
-      "locked": false,
       "move_mode": "climb",
       "type": "orientation",
       "x": 14150.4580078125,
@@ -57,7 +56,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keydown(w),wait(0.3),keypress(e),wait(1.7),moveby(0,-2300),keypress(e),wait(1),keyup(w),",
+      "action_params": "keydown(w),wait(0.3),keypress(e),wait(1.7),moveby(0,-2100),keypress(e),wait(1),keyup(w),",
       "id": 5,
       "move_mode": "run",
       "type": "orientation",
@@ -93,7 +92,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),keydown(Q),keypress(f),wait(0.8),keypress(f),keyup(Q),wait(0.1),j,",
+      "action_params": "keypress(f),keydown(Q),keypress(f),wait(0.8),keypress(f),keyup(Q),wait(0.1),j,",
       "id": 9,
       "move_mode": "climb",
       "type": "path",
@@ -102,7 +101,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.1);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f),s(0.1);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 10,
       "move_mode": "climb",
       "type": "target",
@@ -119,8 +118,8 @@
       "y": 314.79638671875
     },
     {
-      "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "action": "",
+      "action_params": "",
       "id": 12,
       "move_mode": "climb",
       "type": "target",
