@@ -663,7 +663,7 @@
                                 characterRo.threshold = 0.6;
                                 const characterResult = captureGameRegion().find(characterRo); // 在屏幕上搜索角色图像。
                                 if (characterResult && characterResult.x != 0 && characterResult.y != 0 && characterResult.width != 0 && characterResult.height != 0) {
-                                    log.info(`已找到角色${selectedCharacter}`); // 记录成功匹配。
+                                    //log.info(`已找到角色${selectedCharacter}`); // 记录成功匹配。
                                     // 计算匹配图像中心的点击位置（偏移35像素）。
                                     const targetX = characterResult.x + 35;
                                     const targetY = characterResult.y + 35;
@@ -693,7 +693,7 @@
                                         result = text.replace(nonChineseRegex, '');
                                         log.info(`点击角色${result}`);
                                     }
-                                    if (result && result.includes(selectedCharacter)) {
+                                    if (!!result && result.includes(selectedCharacter)) {
                                         characterArray.push(result);
                                         //log.info(`characterArray: ${characterArray} result: ${result}`);
                                         characterFound = true;
@@ -720,12 +720,12 @@
                         await sleep(100); // 点击后等待0.1秒。
                     }
                     await sleep(400); // 点击后等待0.4秒。
-                    if ((aliases[settings.roleName1] || settings.roleName1).includes(selectedCharacter)) {
+                    if (settings.roleName1 && (aliases[settings.roleName1] || settings.roleName1).includes(selectedCharacter)) {
                         for (let j = 0; j < (90 - settings.roleTargetLevel1) / 10; j++) {
                             await click(1575, 380); // 减少10级。
                             await sleep(200); // 点击后等待0.5秒。
                         }
-                    } else if ((aliases[settings.roleName2] || settings.roleName2).includes(selectedCharacter)) {
+                    } else if (settings.roleName2 && (aliases[settings.roleName2] || settings.roleName2).includes(selectedCharacter)) {
                         for (let j = 0; j < (90 - settings.roleTargetLevel2) / 10; j++) {
                             await click(1575, 380); // 减少10级。
                             await sleep(200); // 点击后等待0.5秒。
@@ -1716,11 +1716,14 @@
             log.info('第 {0} 次任务循环结束', i);
         }
     }
+
 //-----------------------------------------------------------------------------------------------------------------------------------
     if(!file.isFolder("User"))throw new Error('User文件夹不存在\n\t\t\t请你先运行脚本下的bat文件生成User文件夹');
     let roleNameArray = [];
     if (!settings.unfairContractTerms) throw new Error('未签署霸王条款，无法使用');
     if (!settings.autoFoster && (aliases[settings.roleName1] || settings.roleName1) === "" && (aliases[settings.roleName2] || settings.roleName2) === "") throw new Error('未填入养成角色，脚本退出');
+    if (!settings.autoFoster && settings.roleName1 !== "" && !(aliases && Object.hasOwn(aliases, settings.roleName1))) throw new Error('角色1名称填写不规范');
+    if (!settings.autoFoster && settings.roleName2 !== "" && !(aliases && Object.hasOwn(aliases, settings.roleName2))) throw new Error('角色2名称填写不规范');
     //切换配对
     if (settings.n) {
         await genshin.switchParty(settings.n);
@@ -1922,6 +1925,7 @@
     await PerformOperation(CarryoutTask);
     if(settings.autoFoster){
         log.info("自动培养的角色为：{0},{1}",CarryoutTask[1].character,CarryoutTask[2].character);
+        notification.send(`自动培养的角色为：${CarryoutTask[1].character},${CarryoutTask[2].character}`);
     }
     log.info("请你及时上线点击升级按钮，保证材料所需被正确判断");
     log.info("脚本执行完毕，感谢使用");
