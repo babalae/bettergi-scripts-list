@@ -30,7 +30,7 @@ this.findLeyLineOutcropByBook = async function (country, type) {
   captureRegion1.dispose();
   for (let i = 0; i < resList.count; i++) {
     let res = resList[i];
-    if (res.text.includes(country)) {
+    if (res.text.includes(country) || res.text.includes("挪德")) {
       res.click();
     }
   }
