@@ -9,10 +9,10 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758484058840,
+    "last_modified_time": 1758483628555,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B07-萃凝晶-纳塔-隆掘坡4（3个）",
+    "name": "B06-萃凝晶-纳塔-隆掘坡3(4个)",
     "tags": [
       "双手剑"
     ],
@@ -24,7 +24,6 @@
       "action": "",
       "action_params": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 7633.81,
@@ -34,7 +33,6 @@
       "action": "",
       "action_params": "",
       "id": 2,
-      "locked": false,
       "move_mode": "run",
       "type": "path",
       "x": 7601.9492,
@@ -44,7 +42,6 @@
       "action": "",
       "action_params": "",
       "id": 3,
-      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 7603.8359,
@@ -54,7 +51,6 @@
       "action": "combat_script",
       "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(1.5),keypress(E)",
       "id": 4,
-      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
       "x": 7606.1035,
@@ -64,50 +60,46 @@
       "action": "",
       "action_params": "",
       "id": 5,
-      "locked": false,
       "move_mode": "jump",
       "type": "path",
-      "x": 7638.043,
-      "y": -1770.606
+      "x": 7644.9648,
+      "y": -1782.582
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "attack(1.3)",
       "id": 6,
-      "locked": false,
-      "move_mode": "jump",
-      "type": "path",
-      "x": 7657.8848,
-      "y": -1905.4502
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7650.3506,
+      "y": -1780.5703
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(1.3)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7655.3721,
+      "y": -1778.7026
     },
     {
       "action": "",
       "action_params": "",
-      "id": 7,
-      "locked": false,
+      "id": 8,
       "move_mode": "jump",
       "type": "path",
-      "x": 7688.3008,
-      "y": -1942.5879
+      "x": 7734.9492,
+      "y": -1849.9746
     },
     {
       "action": "combat_script",
-      "action_params": "attack(1.3),",
-      "id": 8,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 7698.5703,
-      "y": -1943.4976
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(1.5)",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),",
       "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": 7681.3438,
-      "y": -1953.8408
+      "x": 7747.8633,
+      "y": -1831.8291
     },
     {
       "action": "",
@@ -115,18 +107,36 @@
       "id": 10,
       "move_mode": "walk",
       "type": "path",
-      "x": 7684.252,
-      "y": -1964.1191
+      "x": 7755.2148,
+      "y": -1827.3721
     },
     {
       "action": "combat_script",
-      "action_params": "attack(1.3),",
+      "action_params": "attack(1.5)",
       "id": 11,
-      "locked": true,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7753.6279,
+      "y": -1824.5967
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(1.5),attack(1.5)",
+      "id": 12,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": 7701.3574,
-      "y": -1951.5
+      "x": 7757.293,
+      "y": -1825.5361
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(1.5)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7757.293,
+      "y": -1825.5361
     }
   ]
 }
