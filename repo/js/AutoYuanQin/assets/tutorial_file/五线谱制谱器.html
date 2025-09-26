@@ -319,6 +319,19 @@
     </div>
 
     <script>
+		document.addEventListener("keydown", function(event) {
+		  if (event.key === "Enter") {
+			const activeElement = document.activeElement;
+			const codeArea = document.getElementById("code-area");
+
+			/*如果焦点不在 #code-area 上*/
+			if (activeElement !== codeArea) {
+			  event.preventDefault(); /*阻止默认行为*/
+			  btn_confirm();
+			}
+		  }
+    	});
+		
 		document.addEventListener('DOMContentLoaded', function() {
 			/*设置页面底部缓冲区高度与悬浮菜单栏的高度相同*/
         	var bottomSection = document.getElementById('bottom-section');
