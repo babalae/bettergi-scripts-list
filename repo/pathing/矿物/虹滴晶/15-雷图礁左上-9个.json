@@ -9,7 +9,7 @@
     "bgi_version": "0.50.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757736702811,
+    "last_modified_time": 1758548030950,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "15-雷图礁左上-9个",
@@ -112,24 +112,33 @@
       "action": "",
       "action_params": "",
       "id": 11,
-      "move_mode": "walk",
+      "move_mode": "jump",
       "type": "path",
-      "x": 11098.6318,
-      "y": 1661.3467
-    },
-    {
-      "action": "combat_script",
-      "action_params": "keypress(t)",
-      "id": 12,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 11099.5938,
-      "y": 1662.9897
+      "x": 11102.4609,
+      "y": 1666.709
     },
     {
       "action": "",
       "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 11101.2031,
+      "y": 1665.9521
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t)",
       "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 11094.3076,
+      "y": 1662.9067
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
       "move_mode": "walk",
       "type": "path",
       "x": 11099.5938,
@@ -138,7 +147,7 @@
     {
       "action": "combat_script",
       "action_params": "click(middle)",
-      "id": 14,
+      "id": 15,
       "move_mode": "walk",
       "type": "path",
       "x": 11101.2725,
@@ -147,7 +156,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(t)",
-      "id": 15,
+      "id": 16,
       "move_mode": "walk",
       "type": "orientation",
       "x": 11107.7539,
@@ -156,7 +165,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 16,
+      "id": 17,
       "move_mode": "walk",
       "type": "path",
       "x": 11105.5898,
@@ -165,7 +174,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 18,
       "move_mode": "dash",
       "type": "path",
       "x": 11109.1855,
@@ -174,7 +183,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 19,
       "move_mode": "dash",
       "type": "path",
       "x": 11119.252,
@@ -183,7 +192,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 19,
+      "id": 20,
       "move_mode": "jump",
       "type": "path",
       "x": 11131.1914,
@@ -192,7 +201,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 20,
+      "id": 21,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 11138.4883,
@@ -201,7 +211,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t)",
-      "id": 21,
+      "id": 22,
       "move_mode": "walk",
       "type": "orientation",
       "x": 11142.5898,
@@ -210,8 +220,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 22,
-      "move_mode": "walk",
+      "id": 23,
+      "move_mode": "jump",
       "type": "path",
       "x": 11142.0684,
       "y": 1659.8706
@@ -219,7 +229,16 @@
     {
       "action": "",
       "action_params": "",
-      "id": 23,
+      "id": 24,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 11138.4883,
+      "y": 1664.8726
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 25,
       "move_mode": "dash",
       "type": "path",
       "x": 11121.333,
@@ -228,7 +247,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 24,
+      "id": 26,
       "move_mode": "walk",
       "type": "path",
       "x": 11120.7109,
@@ -237,7 +256,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t)",
-      "id": 25,
+      "id": 27,
       "move_mode": "walk",
       "type": "orientation",
       "x": 11121.7061,
@@ -246,7 +265,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 26,
+      "id": 28,
       "move_mode": "walk",
       "type": "path",
       "x": 11120.3867,
