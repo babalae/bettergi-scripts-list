@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758479905627,
+    "last_modified_time": 1758051615642,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B04-萃凝晶-纳塔-隆掘坡1（3个）",
@@ -23,7 +23,6 @@
     {
       "action": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 7633.79,
@@ -33,7 +32,6 @@
       "action": "stop_flying",
       "action_params": "1500",
       "id": 2,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 7647.98,
@@ -43,7 +41,6 @@
       "action": "",
       "action_params": "",
       "id": 3,
-      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 7649.76,
@@ -53,7 +50,6 @@
       "action": "mining",
       "action_params": "",
       "id": 4,
-      "locked": false,
       "move_mode": "walk",
       "type": "target",
       "x": 7649.39,
@@ -63,7 +59,6 @@
       "action": "combat_script",
       "action_params": "wait(0.5)",
       "id": 5,
-      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 7649.39,
@@ -73,7 +68,6 @@
       "action": "",
       "action_params": "",
       "id": 6,
-      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 7645.83,
@@ -83,21 +77,19 @@
       "action": "mining",
       "action_params": "",
       "id": 7,
-      "locked": false,
       "move_mode": "walk",
       "type": "target",
-      "x": 7645.4033,
-      "y": -1536.0815
+      "x": 7645.22,
+      "y": -1536.6
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.5)",
       "id": 8,
-      "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": 7645.4033,
-      "y": -1536.0815
+      "x": 7645.22,
+      "y": -1536.6
     },
     {
       "action": "",
@@ -105,8 +97,8 @@
       "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": 7642.2334,
-      "y": -1543.3428
+      "x": 7642.43,
+      "y": -1540.45
     },
     {
       "action": "mining",
@@ -114,8 +106,8 @@
       "id": 10,
       "move_mode": "walk",
       "type": "target",
-      "x": 7641.4219,
-      "y": -1538.3604
+      "x": 7641.68,
+      "y": -1538.93
     },
     {
       "action": "combat_script",
@@ -123,8 +115,8 @@
       "id": 11,
       "move_mode": "walk",
       "type": "path",
-      "x": 7641.4238,
-      "y": -1538.3584
+      "x": 7641.68,
+      "y": -1538.93
     }
   ]
 }

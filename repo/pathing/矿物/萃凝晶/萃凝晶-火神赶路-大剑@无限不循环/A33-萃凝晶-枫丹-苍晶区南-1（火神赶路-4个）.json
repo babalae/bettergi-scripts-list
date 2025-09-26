@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758400691436,
+    "last_modified_time": 1757184606264,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A33-萃凝晶-枫丹-苍晶区南-1（火神赶路-4个）",
@@ -24,7 +24,6 @@
     {
       "action": "force_tp",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 5117.5,
@@ -32,49 +31,26 @@
     },
     {
       "action": "combat_script",
-      "action_params": "玛薇卡 w(0.1),e(hold),keydown(VK_W),dash(2.2),keyup(VK_W),keypress(x),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4),keypress(x)",
+      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.5),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
       "id": 2,
-      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 5068.4893,
-      "y": 2520.2915
+      "x": 5038.4912,
+      "y": 2517.8052
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "locked": false,
-      "move_mode": "run",
-      "type": "path",
-      "x": 5066.7324,
-      "y": 2523.9617
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 4,
-      "locked": false,
-      "move_mode": "jump",
-      "type": "path",
-      "x": 5054.6396,
-      "y": 2524.5176
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 5,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 5038.6377,
-      "y": 2519.6797
+      "x": 5038.4912,
+      "y": 2517.8052
     },
     {
       "action": "mining",
       "action_params": "",
-      "id": 6,
-      "locked": false,
+      "id": 4,
       "move_mode": "walk",
       "type": "target",
       "x": 5031.6616,
@@ -83,8 +59,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.5)",
-      "id": 7,
-      "locked": false,
+      "id": 5,
       "move_mode": "walk",
       "type": "path",
       "x": 5031.6616,
@@ -93,8 +68,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 8,
-      "locked": false,
+      "id": 6,
       "move_mode": "run",
       "type": "path",
       "x": 5037.5918,
@@ -103,8 +77,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 9,
-      "locked": false,
+      "id": 7,
       "move_mode": "walk",
       "type": "target",
       "x": 5035.5889,
@@ -113,8 +86,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.5)",
-      "id": 10,
-      "locked": false,
+      "id": 8,
       "move_mode": "walk",
       "type": "path",
       "x": 5035.5889,
@@ -123,17 +95,16 @@
     {
       "action": "",
       "action_params": "",
-      "id": 11,
+      "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": 5036.8652,
-      "y": 2506.9102
+      "x": 5034.624,
+      "y": 2506.6543
     },
     {
       "action": "mining",
       "action_params": "",
-      "id": 12,
-      "locked": true,
+      "id": 10,
       "move_mode": "walk",
       "type": "target",
       "x": 5033.5879,
@@ -142,8 +113,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.5)",
-      "id": 13,
-      "locked": false,
+      "id": 11,
       "move_mode": "walk",
       "type": "path",
       "x": 5033.5884,
@@ -152,8 +122,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 14,
-      "locked": false,
+      "id": 12,
       "move_mode": "walk",
       "type": "path",
       "x": 5028.9028,
@@ -162,8 +131,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 15,
-      "locked": false,
+      "id": 13,
       "move_mode": "walk",
       "type": "target",
       "x": 5028.6279,
@@ -172,8 +140,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.5)",
-      "id": 16,
-      "locked": false,
+      "id": 14,
       "move_mode": "walk",
       "type": "path",
       "x": 5028.6279,
