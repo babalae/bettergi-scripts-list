@@ -334,7 +334,7 @@
      // 先判断一次，队伍里有伊涅芙就直接开始运行，没有的话就切换指定队伍
      if (!await includes(eater)) {
           if (!await switchPartyIfNeeded(party)) { log.error("未识别到指定队伍，请检查队伍名是否正确！"); return false; }//找不到指定队伍就直接报错停止
-          if (!await includes(eater)) { log.error(`已识别到`+eater+`，请检查队伍名是否正确！`); return false; }// 切换成功后判断队伍中是否有伊涅芙
+          if (!await includes(eater)) { log.error(`未识别到`+eater+`，请检查队伍名是否正确！`); return false; }// 切换成功后判断队伍中是否有伊涅芙
      }
 
      log.info(`已识别到`+eater+`，即将开始后续动作……`);
