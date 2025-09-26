@@ -129,17 +129,17 @@
      }
 
      /**
-     * 文字OCR识别封装函数（测试中，未封装完成，后续会优化逻辑）
-     * @param text 要识别的文字，默认为"空参数"
-     * @param timeout 超时时间，单位为秒，默认为10秒
-     * @param afterBehavior 点击模式，0表示不点击，1表示点击识别到文字的位置，2表示输出模式，默认为0
-     * @param debugmodel 调试代码，0表示输入判断模式，1表示输出位置信息，2表示输出判断模式，默认为0
-     * @param x OCR识别区域的起始X坐标，默认为0
-     * @param y OCR识别区域的起始Y坐标，默认为0
-     * @param w OCR识别区域的宽度，默认为1920
-     * @param h OCR识别区域的高度，默认为1080
-     * @returns 包含识别结果的对象，包括识别的文字、坐标和是否找到的结果
-     */
+      * 文字OCR识别封装函数（测试中，未封装完成，后续会优化逻辑）
+      * @param text 要识别的文字，默认为"空参数"
+      * @param timeout 超时时间，单位为秒，默认为10秒
+      * @param afterBehavior 点击模式，0表示不点击，1表示点击识别到文字的位置，2表示输出模式，默认为0
+      * @param debugmodel 调试代码，0表示输入判断模式，1表示输出位置信息，2表示输出判断模式，默认为0
+      * @param x OCR识别区域的起始X坐标，默认为0
+      * @param y OCR识别区域的起始Y坐标，默认为0
+      * @param w OCR识别区域的宽度，默认为1920
+      * @param h OCR识别区域的高度，默认为1080
+      * @returns 包含识别结果的对象，包括识别的文字、坐标和是否找到的结果
+      */
      async function textOCR(text = "空参数", timeout = 10, afterBehavior = 0, debugmodel = 0, x = 0, y = 0, w = 1920, h = 1080) {
           const startTime = new Date();
           var Outcheak = 0
@@ -161,9 +161,8 @@
                          if (res.text.includes(text) && debugmodel == 3) { return result = { text: res.text, x: res.x, y: res.y, found: true }; }
                          if (res.text.includes(text) && debugmodel !== 2) {
                               conuntcottimecot++;
-                              log.info(`“${res1}”找到`);
-                              if (debugmodel === 1 & x === 0 & y === 0) { log.info("全图代码位置：({x},{y},{h},{w})", res.x - 10, res.y - 10, res.width + 10, res.Height + 10); } else { log.info("文本OCR完成'{text}'", res.text); }
-                              if (afterBehavior === 1) { log.info("点击模式:开"); await sleep(1000); click(res.x, res.y); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("点击模式:关") } }
+                              if (debugmodel === 1 & x === 0 & y === 0) { log.info("全图代码位置：({x},{y},{h},{w})", res.x - 10, res.y - 10, res.width + 10, res.Height + 10); }
+                              if (afterBehavior === 1) { await sleep(1000); click(res.x, res.y); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("点击模式:关") } }
                               if (afterBehavior === 2) { log.info("F模式:开"); await sleep(100); keyPress("F"); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("F模式:关"); } }
                               if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; }
                          }
@@ -187,7 +186,7 @@
           for (let i = 0; i < avatars.length; i++) {
                if (avatars[i] === characterName) {
                     await keyPress(String(i + 1));
-                    await sleep(1000);
+                    await sleep(1500);
                     return true;
                }
           }
@@ -219,22 +218,21 @@
           await genshin.tp(-887.193359375, 1679.44287109375);//识别成功直接传送
 
           keyDown("w");
-          await sleep(2500);
+          await sleep(2000);
           keyUp("w");
           keyPress("F");
-          await sleep(4000);
-          await click(1600, 1015);
-          await sleep(1500);
-          await click(1600, 1015);
-          await sleep(9000);
-          leftButtonClick();
-          await sleep(1500);
+
+          await textOCR("单人挑战", 8, 1, 1, 1615, 990, 220, 50);//等待“单人挑战”出现
+          await textOCR("开始挑战", 8, 1, 1, 1615, 990, 220, 50);//等待“开始挑战”出现
+          await textOCR("地脉异常", 10, 1, 1, 840, 405, 180, 55);//等待“地脉异常”出现
+          await sleep(1000);
 
           return true;
      }
 
      // 伊涅芙跳楼机
      async function doit() {
+          // 江紫烟老师绞尽脑汁想也不出来几句骚话
           const randomNumber = Math.floor(Math.random() * 3) + 1;
           if (randomNumber == 1) { log.info("即使分离，我们的心始终相连"); }
           if (randomNumber == 2) { log.info("再见了伊涅芙，希望你喜欢这几分钟的戏份"); }
@@ -247,18 +245,17 @@
 
           await keyPress("B");
           await handleExpiredItems();//处理过期物品弹窗
-          await sleep(1000);
+          await sleep(800);
           await click(860, 50);
-          await sleep(1000);
+          await sleep(800);
 
           const ifshiwu = await imageRecognitionEnhanced(foodbag, 3, 0, 0, 126, 17, 99, 53);
           if (!ifshiwu.found) {
                await genshin.returnMainUi();
                throw new Error("未打开'食物'页面,请确保背包已正确打开并切换到食物标签页");
           }//确认在食物界面
-          await sleep(500);
 
-          const ifpingguo = await imageRecognitionEnhanced(pingguo, 1, 1, 0, 115, 120, 1150, 155, true);//识别"苹果"图片
+          const ifpingguo = await imageRecognitionEnhanced(pingguo, 3, 1, 0, 115, 120, 1150, 155, true);//识别"苹果"图片
           if (!ifpingguo.found) {
                await genshin.returnMainUi();
                throw new Error("没有找到指定的食物：" + food + "，请检查背包中该食材数量是否足够！");
@@ -266,12 +263,9 @@
           await sleep(500);
 
           await click(1700, 1020);//点击使用
-          await sleep(1000);
 
-          const ifzjz = await imageRecognitionEnhanced(zjz, 5, 1, 0, 625, 290, 700, 360, true);//点击伊涅芙证件照
-          await sleep(300);
-          leftButtonClick();//连续点击确保吃食物的是伊涅芙
-          await sleep(300);
+          await imageRecognitionEnhanced(zjz, 3, 1, 0, 625, 290, 700, 360, true);//点击伊涅芙证件照,确保吃食物的是伊涅芙
+          await sleep(500);
 
           for (let i = 0; i < foodCount; i++) {
                click(1251, 630);
@@ -294,14 +288,13 @@
 
      // 背包过期物品识别，需要在背包界面，并且是1920x1080分辨率下使用
      async function handleExpiredItems() {
-          const ifGuoqi = await textOCR("物品过期", 1, 0, 0, 870, 280, 170, 40);
+          const ifGuoqi = await textOCR("物品过期", 1.5, 0, 0, 870, 280, 170, 40);
           if (ifGuoqi.found) {
                log.info("检测到过期物品，正在处理...");
                await sleep(500);
                await click(980, 750); // 点击确认按钮，关闭提示
-          } else {
-               log.info("未检测到过期物品");
           }
+          // else { log.info("未检测到过期物品"); }//频繁开关背包，不需要每次都提示
      }
 
 
@@ -318,6 +311,8 @@
      const pingguo = `assets/${food}.png`;//食物图片路径
      const zjz = `assets/zhengjianzhao.png`;//伊涅芙证件照
      const foodbag = `assets/foodbag.png`;//背包的“食物”界面
+
+     const eater = "伊涅芙";//客官一位~
 
      // 添加验证
      if (!party) { log.error("队伍名为空，请仔细阅读readme并进行设置后再使用此脚本！"); return; }// 利用队伍是否为空判断用户有没有进行设置
@@ -337,12 +332,12 @@
 
 
      // 先判断一次，队伍里有伊涅芙就直接开始运行，没有的话就切换指定队伍
-     if (!await includes("伊涅芙")) {
+     if (!await includes(eater)) {
           if (!await switchPartyIfNeeded(party)) { log.error("未识别到指定队伍，请检查队伍名是否正确！"); return false; }//找不到指定队伍就直接报错停止
-          if (!await includes("伊涅芙")) { log.error("未识别到伊涅芙，请检查队伍名是否正确！"); return false; }// 切换成功后判断队伍中是否有伊涅芙
+          if (!await includes(eater)) { log.error(`未识别到`+eater+`，请检查队伍名是否正确！`); return false; }// 切换成功后判断队伍中是否有伊涅芙
      }
 
-     log.info("已识别到伊涅芙，即将开始后续动作……");
+     log.info(`已识别到`+eater+`，即将开始后续动作……`);
 
      try {
           await fuben();//进入副本
