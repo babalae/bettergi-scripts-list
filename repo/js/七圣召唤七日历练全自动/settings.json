@@ -15,6 +15,11 @@
     "label": "打牌失败时自动逐个尝试备用策略"
   },
   {
+    "name": "minFallbackStrategyScore",
+    "type": "input-text",
+    "label": "仅使用胜率记录大于该值的备用策略 (0到1之间的小数)"
+  },
+  {
     "name": "passWord",
     "type": "input-text",
     "label": "请阅读脚本说明或README.md文件获取启动密码后填写到此处"

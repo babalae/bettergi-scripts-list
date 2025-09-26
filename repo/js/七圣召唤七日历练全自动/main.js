@@ -3,6 +3,9 @@ let textArray = [];
 let skipNum = 0;
 let allStrategy = {};
 let fallbackStrategyList = [];
+const strategyRunRecordFile = "牌组策略/各策略胜败记录.json";
+let strategyRunRecord = {};
+let minFallbackStrategyScore = 0.25;
 
 // 切换到指定的队伍
 async function switchCardTeam(Name, shareCode) {
@@ -200,7 +203,7 @@ async function isTaskRefreshed(filePath, options = {}) {
         }
 
         if (shouldRefresh) {
-            notification.send(`七圣召唤七日历练周期已经刷新，执行脚本`);
+            // notification.send(`七圣召唤七日历练周期已经刷新，执行脚本`);
 
             return true;
         } else {
@@ -472,6 +475,56 @@ function scanCardStrategy() {
     return strategyMap;
 }
 
+function updateRunRecord(charName, strategyName, win) {
+    if (!strategyRunRecord[charName]) {
+        strategyRunRecord[charName] = {};
+    }
+    if (!strategyRunRecord[charName][strategyName]) {
+        strategyRunRecord[charName][strategyName] = { win: 0, fail: 0 };
+    }
+    if (win === true) {
+        strategyRunRecord[charName][strategyName].win++;
+    } else if (win === false) {
+        strategyRunRecord[charName][strategyName].fail++;
+    } // else : do nothing when null
+    file.writeTextSync(strategyRunRecordFile, JSON.stringify(strategyRunRecord, null, 2), false);
+}
+
+function sortAndFilterStrategy(charName) {
+    const atLeastOne = ["雷神柯莱刻晴"];
+    if (! settings.useFallbackStrategy) {
+        return atLeastOne;
+    }
+    const toBeCheck = [...atLeastOne, ...fallbackStrategyList];
+    const charRecord = strategyRunRecord[charName];
+    if (!charRecord) {
+        return toBeCheck;
+    }
+    const scores = {};
+    for (const strategyName of toBeCheck) {
+        const data = charRecord[strategyName];
+        if (!data) {
+            scores[strategyName] = 0.5; // 未尝试过的策略
+            continue;
+        }
+        if (data.win === 0 && data.fail === 1) {
+            scores[strategyName] = 0.3; // 仅失败过一次，再给点机会
+        } else {
+            const total = data.win + data.fail;
+            if (total === 0) {
+                scores[strategyName] = 0.5;
+            } else {
+                scores[strategyName] = data.win / total;
+            }
+        }
+    }
+    const sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);   // 分数从大到小
+    log.debug(`各策略胜率分数: ${JSON.stringify(sortedScores)}`);
+    const sortedKeys = Object.entries(sortedScores)
+        .filter((entry) => entry[1] >= minFallbackStrategyScore);
+    return sortedKeys;
+}
+
 //检查是否有对应的挑战对手
 async function searchAndClickTexts() {
     middleButtonClick();
@@ -512,14 +565,17 @@ async function searchAndClickTexts() {
                 log.info("使用角色专用策略与{0}对战", charName);
                 success = await Playcards(strategy, settings.overwritePartyName, res);
             }
-            if (!success) {
-                log.info("使用默认策略与{0}对战", charName);
-                success = await Playcards(allStrategy["雷神柯莱刻晴"], settings.defaultPartyName, res);
-            }
-            for (const strategyName of fallbackStrategyList) {
+            const sortedStrategy = sortAndFilterStrategy(charName);
+            for (const strategyName of sortedStrategy) {
                 if (!success) {
-                    log.info("使用备用策略{0}与{1}对战", strategyName, charName);
-                    success = await Playcards(allStrategy[strategyName], settings.overwritePartyName, res);
+                    if (strategyName === "雷神柯莱刻晴") {
+                        log.info("使用默认策略{0}与{1}对战", strategyName, charName);
+                        success = await Playcards(allStrategy[strategyName], settings.defaultPartyName, res);
+                    } else {
+                        log.info("使用备用策略{0}与{1}对战", strategyName, charName);
+                        success = await Playcards(allStrategy[strategyName], settings.overwritePartyName, res);
+                    }
+                    updateRunRecord(charName, strategyName, success);
                 }
             }
 
@@ -603,7 +659,7 @@ async function Playcards(strategy, teamName, pos) {
     if (!success) {
         keyPress("ESCAPE");
         await sleep(2000);
-        return success;
+        return null;
     }
     click(1610, 900); //点击挑战
     await waitOrCheckMaxCoin(8000);
@@ -731,10 +787,16 @@ async function gotoTable6() {
 
 async function main() {
     //主流程
+    const nowTime = new Date();
     log.info(`前往猫尾酒馆`);
     await gotoTavern();
     await captureAndStoreTexts();
     allStrategy = scanCardStrategy();
+    try {
+        strategyRunRecord = JSON.parse(file.readTextSync(strategyRunRecordFile));
+    } catch (error) {
+        log.debug("读取策略运行记录失败");
+    }
     if (settings.useFallbackStrategy) {
         fallbackStrategyList = Object.keys(allStrategy).filter((key) => {
             return /^(\d+)\./.test(key);
@@ -743,6 +805,16 @@ async function main() {
             return parseInt(a) - parseInt(b);
         });
         log.info("已启用{0}个备用策略: {1}", fallbackStrategyList.length, fallbackStrategyList.join(", "));
+
+        try {
+            const scoreInSetting = parseFloat(settings.minFallbackStrategyScore || -1);
+            if (scoreInSetting < 0 || scoreInSetting > 1) {
+                throw new RangeError("无效的输入值范围");
+            }
+            minFallbackStrategyScore = scoreInSetting;
+        } catch (error) {
+            log.warn("未设置备用策略胜率阈值或阈值无效，使用默认值{0}", minFallbackStrategyScore);
+        }
     } else {
         log.info("未启用备用策略");
     }
