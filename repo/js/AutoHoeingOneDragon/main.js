@@ -321,147 +321,142 @@ async function markPathings(pathings, groupTags, priorityTags, excludeTags) {
 }
 
 async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum) {
-    // 初始化变量
-    let nextTargetEliteNum = targetEliteNum; // 当前目标精英怪数量
-    let iterationCount = 0; // 循环次数
+    /* ========== 0. 原初始化不动 ========== */
+    let nextTargetEliteNum = targetEliteNum;
+    let iterationCount = 0;
 
-    // 初始化统计变量
-    let totalSelectedElites = 0; // 总精英怪数量
-    let totalSelectedMonsters = 0; // 总普通怪数量
-    let totalGainCombined = 0; // 总收益
-    let totalTimeCombined = 0; // 总耗时
+    let totalSelectedElites = 0;
+    let totalSelectedMonsters = 0;
+    let totalGainCombined = 0;
+    let totalTimeCombined = 0;
     let monsterRouteElite = 0;
 
-    let maxE1 = 0;
-    let maxE2 = 0;
-
-    const ratio = targetEliteNum / targetMonsterNum;
+    let maxE1 = 0, maxE2 = 0;
+    const ratio = targetEliteNum / Math.max(targetMonsterNum, 1);   // 防 0
     const f = (Number((1 - Math.exp(-ratio * ratio)).toFixed(3)) + 1) / 2;
 
-    // 遍历 pathings，计算并添加 G1、G2、E1 和 E2 属性
-    pathings.forEach(pathing => {
-        pathing.selected = false; // 初始化 selected 属性为 false
-        const G1 = pathing.mora_e + pathing.mora_m; // 进入一组的收益
-        pathing.G1 = G1;
-        const G2 = pathing.mora_m; // 进入二组的收益
-        pathing.G2 = G2;
-        pathing.E1 = pathing.e === 0 ? 0 : ((G1 - G2 * f) / pathing.e) ** k * (G1 / pathing.t); // 进入一组的效率
-        pathing.E2 = pathing.m === 0 ? 0 : (G2 / pathing.m) ** k * (G2 / pathing.t); // 进入二组的效率
-
-        if (maxE1 < pathing.E1) {
-            maxE1 = pathing.E1;
-        }
-        if (maxE2 < pathing.E2) {
-            maxE2 = pathing.E2;
-        }
-
+    pathings.forEach(p => {
+        p.selected = false;
+        const G1 = p.mora_e + p.mora_m, G2 = p.mora_m;
+        p.G1 = G1; p.G2 = G2;
+        p.E1 = p.e === 0 ? 0 : ((G1 - G2 * f) / p.e) ** k * (G1 / p.t);
+        p.E2 = p.m === 0 ? 0 : (G2 / p.m) ** k * (G2 / p.t);
+        maxE1 = Math.max(maxE1, p.E1);
+        maxE2 = Math.max(maxE2, p.E2);
+    });
+    pathings.forEach(p => {
+        if (p.prioritized) { p.E1 += maxE1; p.E2 += maxE2; }
     });
 
-    pathings.forEach(pathing => {
-        if (pathing.prioritized) {
-            pathing.E1 += maxE1;
-            pathing.E2 += maxE2;
-        }
-
-    });
-
-    // 封装第一轮选择逻辑
+    /* ========== 1. 原两轮选择逻辑照搬，只是去掉“提前 break” ========== */
     function selectRoutesByEliteTarget(targetEliteNum) {
-        // 重置选中状态和统计变量
-        pathings.forEach(pathing => pathing.selected = false); // 每轮循环前重置选中状态
-        totalSelectedElites = 0; // 重置总精英怪数量
-        totalSelectedMonsters = 0; // 重置总普通怪数量
-        totalGainCombined = 0; // 重置总收益
-        totalTimeCombined = 0; // 重置总耗时
+        pathings.forEach(p => p.selected = false);
+        totalSelectedElites = 0; totalSelectedMonsters = 0;
+        totalGainCombined = 0; totalTimeCombined = 0;
 
-
-        // 按 E1 从高到低排序
         pathings.sort((a, b) => b.E1 - a.E1);
-
-        // 第一轮选择：根据当前目标精英怪数量选择路径
-        for (const pathing of pathings) {
-            if (pathing.E1 > 0 && pathing.available && ((totalSelectedElites + pathing.e) <= targetEliteNum - monsterRouteElite + 2)) {
-                pathing.selected = true;
-                totalSelectedElites += pathing.e;
-                totalSelectedMonsters += pathing.m;
-                totalGainCombined += pathing.G1;
-                totalTimeCombined += pathing.t;
+        for (const p of pathings) {
+            if (p.E1 > 0 && p.available &&
+                (totalSelectedElites + p.e <= targetEliteNum + 2)) { // 留一点余量
+                p.selected = true;
+                totalSelectedElites += p.e;
+                totalSelectedMonsters += p.m;
+                totalGainCombined += p.G1;
+                totalTimeCombined += p.t;
             }
         }
     }
 
-    // 封装第二轮选择逻辑
     function selectRoutesByMonsterTarget(targetMonsterNum) {
         monsterRouteElite = 0;
-        // 按 E2 从高到低排序
         pathings.sort((a, b) => b.E2 - a.E2);
-
-        // 第二轮选择：根据剩余的普通怪数量目标选择路径
-        for (const pathing of pathings) {
-            if (pathing.E2 > 0 && pathing.available && !pathing.selected && (totalSelectedMonsters + pathing.m) < targetMonsterNum + 5) {
-                pathing.selected = true;
-                totalSelectedElites += pathing.e; // 第二轮选择中也可能包含精英怪
-                monsterRouteElite += pathing.e;
-                totalSelectedMonsters += pathing.m;
-                totalGainCombined += pathing.G2;
-                totalTimeCombined += pathing.t;
+        for (const p of pathings) {
+            if (p.E2 > 0 && p.available && !p.selected &&
+                (totalSelectedMonsters + p.m < targetMonsterNum + 5)) {
+                p.selected = true;
+                totalSelectedElites += p.e; monsterRouteElite += p.e;
+                totalSelectedMonsters += p.m;
+                totalGainCombined += p.G2;
+                totalTimeCombined += p.t;
             }
         }
     }
 
-    // 循环调整目标精英怪数量
+    /* ========== 2. 迭代：直到“双达标”才停 ========== */
     while (iterationCount < 100) {
-        // 第一轮选择
         selectRoutesByEliteTarget(nextTargetEliteNum);
-
-        // 第二轮选择：直接传入剩余的小怪数量目标
         selectRoutesByMonsterTarget(targetMonsterNum);
 
-        // 检查精英怪总数是否满足条件
-        const diff = totalSelectedElites - targetEliteNum;
-        if ((totalSelectedElites >= targetEliteNum - 3) && (totalSelectedElites <= targetEliteNum)) {
+        // 新收敛条件：必须同时大于等于双目标
+        if (totalSelectedElites >= targetEliteNum &&
+            totalSelectedMonsters >= targetMonsterNum) {
             break;
         }
-        nextTargetEliteNum -= Math.round(0.1 * diff); // 调整目标精英怪数量，乘以系数并取整
-        //log.info(`该轮循环目标${nextTargetEliteNum},实际选出${totalSelectedElites}`);
-        iterationCount++; // 增加循环序号
+        // 只要没达标，就加压：把精英目标向上推
+        const eliteShort = targetEliteNum - totalSelectedElites;
+        nextTargetEliteNum += Math.max(1, Math.round(0.1 * eliteShort));
+        iterationCount++;
     }
 
-    // 为最终选中且精英怪数量为0的路线添加小怪标签
-    pathings.forEach(pathing => {
-        // 检查是否包含 "传奇" 或 "高危" 标签
-        const hasLegendOrHighRisk = pathing.tags.includes("传奇") || pathing.tags.includes("高危");
+    /* ========== 3. 最小不可再减集合（贪心逆筛） ========== */
+    // 3.1 【仅修改此处】排序依据改为约定的score：(怪均收益^k) × 秒均收益（精英权重=5）
+    // 怪均收益 = (总收益) / (精英数×5 + 普通怪数)；秒均收益 = 总收益 / 时间；score小的优先删除
+    const selectedList = pathings.filter(p => p.selected)
+        .sort((a, b) => {
+            // 计算a的score
+            const aTotalGain = a.G1 + a.G2;
+            const aDenominator = a.e * 5 + a.m; // 精英权重=5
+            const aPerMobGain = aDenominator === 0 ? 0 : aTotalGain / aDenominator;
+            const aPerSecGain = a.t === 0 ? 0 : aTotalGain / a.t;
+            const aScore = (aPerMobGain ** k) * aPerSecGain;
 
-        // 如果路径被选中、没有精英怪物且不包含 "传奇" 或 "高危" 标签，则添加 "小怪" 标签
-        if (pathing.selected && pathing.e === 0 && !hasLegendOrHighRisk) {
-            pathing.tags.push("小怪");
+            // 计算b的score
+            const bTotalGain = b.G1 + b.G2;
+            const bDenominator = b.e * 5 + b.m; // 精英权重=5
+            const bPerMobGain = bDenominator === 0 ? 0 : bTotalGain / bDenominator;
+            const bPerSecGain = b.t === 0 ? 0 : bTotalGain / b.t;
+            const bScore = (bPerMobGain ** k) * bPerSecGain;
+
+            // 升序排序：score小的在前，优先删除
+            return aScore - bScore;
+        });
+
+    for (const p of selectedList) {
+        // 试删
+        const newE = totalSelectedElites - p.e;
+        const newM = totalSelectedMonsters - p.m;
+        if (newE >= targetEliteNum && newM >= targetMonsterNum) {
+            // 删了仍达标，真删
+            p.selected = false;
+            totalSelectedElites = newE;
+            totalSelectedMonsters = newM;
+            totalGainCombined -= (p.selected ? p.G1 : p.G2);
+            totalTimeCombined -= p.t;
+        }
+    }
+
+    /* ========== 4. 小怪标签 & 排序 & 日志，保持原样 ========== */
+    pathings.forEach(p => {
+        if (p.selected && p.e === 0 &&
+            !p.tags.includes("传奇") && !p.tags.includes("高危")) {
+            p.tags.push("小怪");
         }
     });
     if (settings.runByEfficiency) {
         log.info("使用效率降序运行");
-        //按效率降序排序
-        pathings.sort((a, b) => {
-            if (a.E1 !== b.E1) {
-                return b.E1 - a.E1; // 先按 E1 降序
-            }
-            return b.E2 - a.E2;   // 再按 E2 降序
-        });
+        pathings.sort((a, b) => b.E1 - a.E1 || b.E2 - a.E2);
     } else {
         log.info("使用默认顺序运行");
-        // 按原始索引排序
         pathings.sort((a, b) => a.index - b.index);
     }
-    // 输出日志信息
+
     log.info(`总精英怪数量: ${totalSelectedElites.toFixed(0)}`);
     log.info(`总普通怪数量: ${totalSelectedMonsters.toFixed(0)}`);
     log.info(`总收益: ${totalGainCombined.toFixed(0)} 摩拉`);
-
-    // 将总用时转换为时、分、秒表示
-    const hours = Math.floor(totalTimeCombined / 3600);
-    const minutes = Math.floor((totalTimeCombined % 3600) / 60);
-    const seconds = totalTimeCombined % 60;
-
-    log.info(`预计总用时: ${hours} 时 ${minutes} 分 ${seconds.toFixed(0)} 秒`);
+    const h = Math.floor(totalTimeCombined / 3600);
+    const m = Math.floor((totalTimeCombined % 3600) / 60);
+    const s = totalTimeCombined % 60;
+    log.info(`预计总用时: ${h} 时 ${m} 分 ${s.toFixed(0)} 秒`);
 }
 
 async function assignGroups(pathings, groupTags) {
@@ -1415,7 +1410,8 @@ async function isTimeRestricted(timeRule, threshold = 5) {
             const timeUntilNextHour = (nextHour - currentHour - 1) * 60 + (60 - currentMinute);
             if (timeUntilNextHour > 0 && timeUntilNextHour <= threshold) {
                 // 如果距离下一个限制时间小于等于阈值，则等待到限制时间开始
-                log.warn("接近限制时间，开始等待");
+                log.warn("接近限制时间，开始等待至限制时间");
+                await genshin.tpToStatueOfTheSeven();
                 await sleep(timeUntilNextHour * 60 * 1000);
                 return true;
             }
