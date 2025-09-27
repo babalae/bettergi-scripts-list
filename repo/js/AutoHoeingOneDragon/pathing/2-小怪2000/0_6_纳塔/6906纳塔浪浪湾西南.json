@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时162.17秒，包含以下怪物：2只疾讯勇士·引索客、3只疾讯勇士·重刃讯使、2只匿叶龙武士·旋锯飞叶、1只幼鳍游龙、2只鳍游龙、1只匿叶龙、1只疾讯勇士·荡风斥候、1只灵觉勇士·冥思者、1只横蛮勇士·冲撞手。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757943623149,
+    "last_modified_time": 1758984626875,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "6906纳塔浪浪湾西南",
@@ -58,7 +58,6 @@
       "action": "fight",
       "action_params": "",
       "id": 5,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 14799.4619140625,
@@ -86,7 +85,6 @@
       "action": "fight",
       "action_params": "",
       "id": 8,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 14669.251953125,
@@ -120,11 +118,21 @@
       "y": 981.8427734375
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(1)",
+      "action": "fight",
+      "action_params": "",
       "id": 12,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
+      "x": 14758.94140625,
+      "y": 963.201171875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "orientation",
       "x": 14758.94140625,
       "y": 963.201171875
     }
