@@ -3,12 +3,6 @@
     eval(file.readTextSync("lib/AutoFontaineLeyLine/AutoFontaineLeyLine.js"));
     eval(file.readTextSync("lib/AutoCultivation/AutoCultivation.js"));
     eval(file.readTextSync("lib/AutoDomain/AutoDomain.js"));
-
-    // 定义替换映射表
-    const replacementMap1 = {
-        "监": "盐",
-        "卵": "卯"
-    };
     const replacementMap2 = [
         {
             "chineseOnly": "冰风组曲歌裴莉娅",
@@ -57,7 +51,6 @@
         }
     ];
 
-    // 非快速配对模式
     // 使用file.ReadTextSync（BGI文件API）从combat_avatar.json加载角色别名。
     // 别名将替代名称映射到标准角色名称，以支持灵活输入。
 
@@ -274,9 +267,6 @@
                             //log.info(`区域${idx} 尝试 ${attempts[idx]}: ${text}`);
 
                             if (text.trim()) {
-                                for (let [wrongChar, correctChar] of Object.entries(replacementMap1)) {
-                                    text = text.replace(new RegExp(wrongChar, "g"), correctChar);
-                                }
                                 const nonChineseRegex = /[^\u4e00-\u9fa5]/g;
                                 results[idx] = text.replace(nonChineseRegex, "");
                             }
@@ -334,9 +324,6 @@
                 //log.info(`识别尝试 ${attempt}: ${text}`);
 
                 if (text.trim()) {
-                    for (let [wrongChar, correctChar] of Object.entries(replacementMap1)) {
-                        text = text.replace(new RegExp(wrongChar, 'g'), correctChar);
-                    }
                     // 正则表达式：匹配所有非中文字符（\u4e00-\u9fa5 为中文字符范围）
                     const nonChineseRegex = /[^\u4e00-\u9fa5]/g;
                     // 将非中文字符替换为空字符串，保留中文字符
@@ -458,16 +445,16 @@
                                             const checkRegionObj = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/培养中.png`), 1652, 119, 87, 32);
                                             const checkFound = await recognizeImage(checkRegionObj);
                                             const arr = settings.autoFosterBlacklist.split('/')
-                                            if (!checkFound.success){
+                                            if (!checkFound.success) {
                                                 await sleep(300);
                                                 const result = await performOCR({ X: 775, Y: 120, WIDTH: 250, HEIGHT: 50 });
-                                                if(!!result && arr.includes(result)){
+                                                if (!!result && arr.includes(result)) {
                                                     log.info(`当前角色:${result}在黑名单中，跳过当前角色`);
                                                     break; // 成功识别，退出检查循环
                                                 }
                                                 //log.info(`培养中区域识别结果不是"培养中"，`);
                                                 return text;
-                                            }else{
+                                            } else {
                                                 //log.info(`培养中区域识别结果是"培养中"，跳过当前角色`);
                                                 log.info(`当前角色在培养中，跳过当前角色`);
                                                 break; // 成功识别，退出检查循环
@@ -539,11 +526,7 @@
      *   - 记录详细日志以便调试，清除队伍缓存以重置状态。
      */
     async function findClickOrScroll(CharacterName) {
-        // 定义替换映射表
-        const replacementMap = {
-            "监": "盐",
-            "卵": "卯"
-        };
+
         let characterArray = []; // 存储成功选择的角色名称
         // 非快速配对模式
         // 使用file.ReadTextSync（BGI文件API）从combat_avatar.json加载角色别名。
@@ -601,7 +584,7 @@
         if (positionSettings.every((item) => !item)) {
             log.info("未设置任何角色，跳过切换队伍步骤");
             await genshin.returnMainUi();
-            return null;
+            return characterArray;
         }
 
         for (let i = 0; i < positionSettings.length; i++) {
@@ -684,9 +667,6 @@
                                         text = (typeof found.text === "string") ? found.text : "";
                                     };
                                     if (text.trim()) {
-                                        for (let [wrongChar, correctChar] of Object.entries(replacementMap)) {
-                                            text = text.replace(new RegExp(wrongChar, 'g'), correctChar);
-                                        }
                                         // 正则表达式：匹配所有非中文字符（\u4e00-\u9fa5 为中文字符范围）
                                         const nonChineseRegex = /[^\u4e00-\u9fa5]/g;
                                         // 将非中文字符替换为空字符串，保留中文字符
@@ -695,14 +675,14 @@
                                     }
                                     if (!!result && result.includes(selectedCharacter)) {
                                         characterArray.push(result);
-                                        //log.info(`characterArray: ${characterArray} result: ${result}`);
+                                        log.info(`characterArray: ${characterArray} result: ${result}`);
                                         characterFound = true;
                                         break; // 如果找到角色，退出编号循环。
                                     }
                                 }
                                 await sleep(10); // 点击后等待0.1秒。
                             }
-                            if(characterFound) break;
+                            if (characterFound) break;
                         } catch (error) {
                             // 如果图像文件不存在（例如，没有更多编号文件），跳出循环。
                             break;
@@ -720,17 +700,17 @@
                         await sleep(100); // 点击后等待0.1秒。
                     }
                     await sleep(400); // 点击后等待0.4秒。
-                    if (settings.roleName1 && (aliases[settings.roleName1] || settings.roleName1).includes(selectedCharacter)) {
+                    if (!!settings.roleName1 && (aliases[settings.roleName1] || settings.roleName1).includes(selectedCharacter)) {
                         for (let j = 0; j < (90 - settings.roleTargetLevel1) / 10; j++) {
                             await click(1575, 380); // 减少10级。
                             await sleep(200); // 点击后等待0.5秒。
                         }
-                    } else if (settings.roleName2 && (aliases[settings.roleName2] || settings.roleName2).includes(selectedCharacter)) {
+                    } else if (!!settings.roleName2 && (aliases[settings.roleName2] || settings.roleName2).includes(selectedCharacter)) {
                         for (let j = 0; j < (90 - settings.roleTargetLevel2) / 10; j++) {
                             await click(1575, 380); // 减少10级。
                             await sleep(200); // 点击后等待0.5秒。
                         }
-                    }else {
+                    } else {
                         for (let j = 0; j < 2; j++) {
                             await click(1575, 380); // 减少10级。
                             await sleep(200); // 点击后等待0.5秒。
@@ -766,15 +746,6 @@
         return characterArray;
     }
 
-    /**
-     * 识别并返回所需材料数量
-     * @returns {Promise<{success: boolean, result?: number, error?: string}>} 包含成功标志和材料数量的对象，失败时包含错误信息
-     * @description 
-     *   - 识别“培养需求.png”图像并定位材料数量区域。
-     *   - 使用 OCR 识别材料数量（格式为“当前/所需”或单个数值）。
-     *   - 计算所需材料数量（所需 - 当前），支持斜杠分割和特殊单数字格式。
-     *   - 记录识别日志，处理异常情况并返回结果。
-     */
     async function MaterialsQuantity() {
         const MatchImage1 = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/培养需求.png`), 0, 0, 1920, 1080);
         const OCRresult = captureGameRegion().find(MatchImage1);
@@ -783,77 +754,80 @@
             return { success: false };
         }
         let region = { X: OCRresult.X + 138, Y: OCRresult.Y, WIDTH: 110, HEIGHT: 50 }
-        //await drawAndClearRedBox({ X: OCRresult.X+138, Y: OCRresult.Y, WIDTH: 100, HEIGHT: 50 },1000);
         let startTime = Date.now();
         while (Date.now() - startTime < 1000) {
-            const regionObj = RecognitionObject.ocr(region.X, region.Y, region.WIDTH, region.HEIGHT);
+            try {
+                const regionObj = RecognitionObject.ocr(region.X, region.Y, region.WIDTH, region.HEIGHT);
+                const text = captureGameRegion().find(regionObj);
+                const str = text.text ? text.text.trim() : '';
 
-            const text = captureGameRegion().find(regionObj);
-            //text.DrawSelf("debug");
-            //log.info(`材料区域识别为${text.text}`);
+                // 使用 / 分割字符串
+                const parts = str.split('/').map(part => part.trim());
 
-            // 原始字符串
-            const str = text.text;
+                // 检查是否分割出两部分且都是数字
+                if (parts.length === 2) {
+                    const leftNumber = parseInt(parts[0], 10);
+                    const rightNumber = parseInt(parts[1], 10);
 
-            // 使用 / 分割字符串
-            const parts = str.split('/');
-
-            // 检查是否分割出两部分
-            if (parts.length === 2) {
-                // 处理左边部分：去除空格，提取数字
-                const leftPart = parts[0].trim();
-                const leftNumber = parseInt(leftPart, 10);
-
-                // 处理右边部分：去除空格，提取数字
-                const rightPart = parts[1].trim();
-                const rightNumber = parseInt(rightPart, 10);
-
-                // 计算差值
-                const result = rightNumber - leftNumber;
-
-                log.info(`所需材料数${result}`);
-                return { success: true, result: result };
-            } else {
-
-                // 检查是否为数字字符串
-                if (/^\d+$/.test(str)) {
-                    // 查找所有'1'的位置
-                    const ones = [];
-                    for (let i = 0; i < str.length; i++) {
-                        if (str[i] === '1') {
-                            ones.push(i);
-                        }
+                    if (!isNaN(leftNumber) && !isNaN(rightNumber)) {
+                        const result = rightNumber - leftNumber;
+                        log.info(`所需材料数${result}`);
+                        return {
+                            success: true,
+                            result: result,
+                            result1: leftNumber,
+                            result2: rightNumber
+                        };
                     }
-
-                    // 检查是否仅有一个'1'且不在两端
-                    if (ones.length !== 1) {
-                        return { error: "字符串中不是仅有一个'1'" };
-                    }
-
-                    const oneIndex = ones[0];
-                    if (oneIndex === 0 || oneIndex === str.length - 1) {
-                        return { error: "'1'处于字符串两端" };
-                    }
-
-                    // 分割字符串并转换为数字
-                    const part1 = str.substring(0, oneIndex);
-                    const part2 = str.substring(oneIndex + 1);
-
-                    const result = part2 - part1;
-                    return {
-                        success: true,
-                        result: result,
-                        result1: part1,
-                        result2 : part2
-                    };
                 } else {
-                    log.error("字符串格式不正确，无法通过斜杠分割出两部分");
+                    // 检查是否为纯数字字符串
+                    if (/^\d+$/.test(str)) {
+                        // 查找所有'1'的位置
+                        const ones = [];
+                        for (let i = 0; i < str.length; i++) {
+                            if (str[i] === '1') {
+                                ones.push(i);
+                            }
+                        }
+
+                        // 检查是否仅有一个'1'且不在两端
+                        if (ones.length === 1) {
+                            const oneIndex = ones[0];
+                            if (oneIndex !== 0 && oneIndex !== str.length - 1) {
+                                // 分割字符串并转换为数字
+                                const part1 = str.substring(0, oneIndex);
+                                const part2 = str.substring(oneIndex + 1);
+
+                                const num1 = Number(part1);
+                                const num2 = Number(part2);
+
+                                if (!isNaN(num1) && !isNaN(num2)) {
+                                    const result = num2 - num1;
+                                    return {
+                                        success: true,
+                                        result: result,
+                                        result1: num1,
+                                        result2: num2
+                                    };
+                                }
+                            } else {
+                                return { error: "'1'处于字符串两端" };
+                            }
+                        } else {
+                            return { error: "字符串中不是仅有一个'1'" };
+                        }
+                    } else {
+                        log.info("字符串格式不正确，无法通过斜杠分割出两部分");
+                    }
                 }
+            } catch (err) {
+                log.error(`识别过程出错: ${err.message}`);
             }
             await sleep(20);
         }
         return { success: false };
     }
+
 
     /**
      * 识别指定图像并返回匹配结果
@@ -1026,9 +1000,9 @@
                                     //log.info(`result1.success -->${result1.success}  !!text2-->${!!text2}  !!text1-->${!!text1}`);
                                 }
                                 const rl = await MaterialsQuantity();
-                                if(rl.result){
+                                if (rl.result) {
                                     CarryoutTask[idx].requiredSpecialtyMaterialCount = rl.result;
-                                }else{
+                                } else {
                                     log.info(`材料数量识别失败`);
                                     //log.info(`rl.success -->${rl.success}`);
                                 }
@@ -1076,8 +1050,53 @@
                                     BossName += await performOCR({ X: 944, Y: 210, WIDTH: 187, HEIGHT: 46 });
                                 }
                                 BossName = getMatchedString(BossName, replacementMap2);
+                                // 现在只加入支持的boss。
+                                function checkName(input) {
+                                    // 定义目标数组
+                                    const targetArray = [
+                                        "爆炎树",
+                                        "半永恒统辖矩阵",
+                                        "掣电树",
+                                        "翠翎恐蕈",
+                                        "深罪浸礼者",
+                                        "风蚀沙虫",
+                                        "冰风组曲-歌裴莉娅的葬送",
+                                        "冰风组曲-科培琉司的劫罚",
+                                        "古岩龙蜥",
+                                        "恒常机关阵列",
+                                        "急冻树",
+                                        "金焰绒翼龙暴君",
+                                        "雷音权现",
+                                        "魔像督军",
+                                        "秘源机兵·统御械",
+                                        "秘源机兵·构型械",
+                                        "魔偶剑鬼",
+                                        "千年珍珠骏麟",
+                                        "熔岩辉龙像",
+                                        "贪食匿叶龙山王",
+                                        "铁甲熔火帝皇",
+                                        "水形幻人",
+                                        "实验性场力发生装置",
+                                        "遗迹巨蛇",
+                                        "隐山猊兽",
+                                        "兆载永劫龙兽",
+                                        "重拳出击鸭"
+                                    ];
+                                    // 移除输入字符串中的所有空格
+                                    const inputWithoutSpaces = input.replace(/\s+/g, '');
+
+                                    // 检查处理后的输入是否在目标数组中
+                                    if (targetArray.includes(inputWithoutSpaces)) {
+                                        return inputWithoutSpaces;
+                                    } else {
+                                        log.info(`Boss名称${input}不在支持列表中`);
+                                        return "无";
+                                    }
+                                }
+                                BossName = checkName(BossName);
+                                //log.info(`Boss名称为${BossName || '未识别'}`);
                                 CarryoutTask[idx].requiredBossMaterialBossName = BossName;
-                                CarryoutTask[idx].requiredBossMaterialCount = result.result2;
+                                CarryoutTask[idx].requiredBossMaterialCount = BossName==="无"? 0:result.result;
                             } else {
                                 log.info(`材料采集--存在空字符`);
                                 if (!!BossName) {
@@ -1119,61 +1138,79 @@
                             }
                             break;
                         case 1:
-                            log.info(`记录：天赋书`);
-                            // 识别天赋书名称
-                            const TalentMaterialName = await performOCR({ X: 761, Y: 193, WIDTH: 70, HEIGHT: 33 });
-                            log.info(`天赋书名称为${TalentMaterialName || '未识别'}`);
+                            try {
+                                log.info(`记录：天赋书`);
+                                // 识别天赋书名称
+                                const TalentMaterialName = await performOCR({ X: 761, Y: 193, WIDTH: 70, HEIGHT: 33 });
+                                log.info(`天赋书名称为${TalentMaterialName || '未识别'}`);
 
-                            // 保存识别到的天赋书名称
-                            if (!!TalentMaterialName) {
-                                CarryoutTask[idx].requiredTalentBookName = TalentMaterialName;
-                            }
-                            // 天赋突破材料累计数量数组（2-10级）
-                            // 规则：x=教导（1号位）、y=指引（2号位）、z=哲学（3号位），值为对应等级的累计消耗
-                            const talentMaterialTotal = [
-                                { x: 0, y: 0, z: 0 },
-                                // 2级突破：仅消耗教导*3，指引/哲学无消耗
-                                { x: 3, y: 0, z: 0 },
-                                // 3级突破：累计指引+2（总2），教导保持3，哲学0
-                                { x: 3, y: 2, z: 0 },
-                                // 4级突破：累计指引+4（总6）
-                                { x: 3, y: 6, z: 0 },
-                                // 5级突破：累计指引+6（总12）
-                                { x: 3, y: 12, z: 0 },
-                                // 6级突破：累计指引+9（总21）
-                                { x: 3, y: 21, z: 0 },
-                                // 7级突破：累计哲学+4（总4），教导/指引保持不变
-                                { x: 3, y: 21, z: 4 },
-                                // 8级突破：累计哲学+6（总10）
-                                { x: 3, y: 21, z: 10 },
-                                // 9级突破：累计哲学+12（总22）
-                                { x: 3, y: 21, z: 22 },
-                                // 10级突破：累计哲学+16（总38）
-                                { x: 3, y: 21, z: 38 }
-                            ];
-                            if (CarryoutTask[idx].character === (aliases[settings.roleName1] || CarryoutTask[idx].character.includes((aliases[settings.roleName1] || settings.roleName1)))) {
-                                const parts = settings.roleTargetTalent1.split('/');
-                                if (parts.length != 3) {
-                                    log.info("天赋书写格式不对")
-                                    log.info(`分割后数组: ${JSON.stringify(parts)}, 长度: ${parts.length}`);
-                                } else {
-                                    const x = `${talentMaterialTotal[parts[0] - 1].x + talentMaterialTotal[parts[1] - 1].x + talentMaterialTotal[parts[2] - 1].x}-`;
-                                    const y = `${talentMaterialTotal[parts[0] - 1].y + talentMaterialTotal[parts[1] - 1].y + talentMaterialTotal[parts[2] - 1].y}-`;
-                                    const z = `${talentMaterialTotal[parts[0] - 1].z + talentMaterialTotal[parts[1] - 1].z + talentMaterialTotal[parts[2] - 1].z}`;
-                                    CarryoutTask[idx].requiredTalentBookCount = "" + x + y + z;
+                                // 保存识别到的天赋书名称
+                                if (!!TalentMaterialName) {
+                                    CarryoutTask[idx].requiredTalentBookName = TalentMaterialName;
                                 }
-                            } else if (CarryoutTask[idx].character === (aliases[settings.roleName2] || CarryoutTask[idx].character.includes((aliases[settings.roleName2] || settings.roleName2)))) {
-                                const parts = settings.roleTargetTalent2.split('/');
-                                if (parts.length != 3) {
-                                    log.info("天赋书写格式不对")
-                                    //log.info(`分割后数组: ${JSON.stringify(parts)}, 长度: ${parts.length}`);
-                                } else {
-                                    const x = `${talentMaterialTotal[parts[0]].x + talentMaterialTotal[parts[1]].x + talentMaterialTotal[parts[2]].x}-`;
-                                    const y = `${talentMaterialTotal[parts[0]].y + talentMaterialTotal[parts[1]].y + talentMaterialTotal[parts[2]].y}-`;
-                                    const z = `${talentMaterialTotal[parts[0]].z + talentMaterialTotal[parts[1]].z + talentMaterialTotal[parts[2]].z}`;
-                                    CarryoutTask[idx].requiredTalentBookCount = "" + x + y + z;
-                                    log.info(`当前天赋书数量为：${CarryoutTask[idx].requiredTalentBookCount}`);
+                                // 天赋突破材料累计数量数组（2-10级）
+                                // 规则：x=教导（1号位）、y=指引（2号位）、z=哲学（3号位），值为对应等级的累计消耗
+                                const talentMaterialTotal = [
+                                    { x: 0, y: 0, z: 0 },
+                                    // 2级突破：仅消耗教导*3，指引/哲学无消耗
+                                    { x: 3, y: 0, z: 0 },
+                                    // 3级突破：累计指引+2（总2），教导保持3，哲学0
+                                    { x: 3, y: 2, z: 0 },
+                                    // 4级突破：累计指引+4（总6）
+                                    { x: 3, y: 6, z: 0 },
+                                    // 5级突破：累计指引+6（总12）
+                                    { x: 3, y: 12, z: 0 },
+                                    // 6级突破：累计指引+9（总21）
+                                    { x: 3, y: 21, z: 0 },
+                                    // 7级突破：累计哲学+4（总4），教导/指引保持不变
+                                    { x: 3, y: 21, z: 4 },
+                                    // 8级突破：累计哲学+6（总10）
+                                    { x: 3, y: 21, z: 10 },
+                                    // 9级突破：累计哲学+12（总22）
+                                    { x: 3, y: 21, z: 22 },
+                                    // 10级突破：累计哲学+16（总38）
+                                    { x: 3, y: 21, z: 38 }
+                                ];
+                                if (CarryoutTask[idx].character === (aliases[settings.roleName1] || CarryoutTask[idx].character.includes((aliases[settings.roleName1] || settings.roleName1)))) {
+                                    const parts = settings.roleTargetTalent1.split('/');
+                                    function checkAllInRange(parts) {
+                                        // 遍历数组中的每个元素
+                                        for (let i = 0; i < parts.length; i++) {
+                                            const value = parts[i];
+                                            // 检查当前元素是否小于1或大于10
+                                            if (value < 1 || value > 10) {
+                                                // 发现不符合条件的值，直接返回false
+                                                return false;
+                                            }
+                                        }
+                                        // 所有元素都符合条件，返回true
+                                        return true;
+                                    }
+                                    if (parts.length != 3 && !checkAllInRange(parts)) {
+                                        log.info("天赋书写格式不对")
+                                        log.info(`分割后数组: ${JSON.stringify(parts)}, 长度: ${parts.length}`);
+                                    } else {
+                                        const x = `${talentMaterialTotal[parts[0] - 1].x + talentMaterialTotal[parts[1] - 1].x + talentMaterialTotal[parts[2] - 1].x}-`;
+                                        const y = `${talentMaterialTotal[parts[0] - 1].y + talentMaterialTotal[parts[1] - 1].y + talentMaterialTotal[parts[2] - 1].y}-`;
+                                        const z = `${talentMaterialTotal[parts[0] - 1].z + talentMaterialTotal[parts[1] - 1].z + talentMaterialTotal[parts[2] - 1].z}`;
+                                        CarryoutTask[idx].requiredTalentBookCount = "" + x + y + z;
+                                    }
+                                } else if (CarryoutTask[idx].character === (aliases[settings.roleName2] || CarryoutTask[idx].character.includes((aliases[settings.roleName2] || settings.roleName2)))) {
+                                    const parts = settings.roleTargetTalent2.split('/');
+                                    if (parts.length != 3) {
+                                        log.info("天赋书写格式不对")
+                                        //log.info(`分割后数组: ${JSON.stringify(parts)}, 长度: ${parts.length}`);
+                                    } else {
+                                        const x = `${talentMaterialTotal[parts[0] - 1].x + talentMaterialTotal[parts[1] - 1].x + talentMaterialTotal[parts[2] - 1].x}-`;
+                                        const y = `${talentMaterialTotal[parts[0] - 1].y + talentMaterialTotal[parts[1] - 1].y + talentMaterialTotal[parts[2] - 1].y}-`;
+                                        const z = `${talentMaterialTotal[parts[0] - 1].z + talentMaterialTotal[parts[1] - 1].z + talentMaterialTotal[parts[2] - 1].z}`;
+                                        CarryoutTask[idx].requiredTalentBookCount = "" + x + y + z;
+                                        log.info(`当前天赋书数量为：${CarryoutTask[idx].requiredTalentBookCount}`);
+                                    }
                                 }
+                            } catch (error) {
+                                log.info(`settings.roleTargetTalent1.split('/')-->${settings.roleTargetTalent1.split('/')}`);
+                                log.error(`记录天赋书时发生异常: ${error.message}`);
                             }
                             //下列是旧版识别代码
                             /*
@@ -1457,53 +1494,54 @@
          *   - 记录详细日志以跟踪任务执行情况。
          */
     async function PerformOperation(carryoutTask) {
-        // 自定义 normalizePath 函数，将路径中的反斜杠替换为正斜杠
-    function normalizePath(filePath) {
-        return filePath.replace(/\\/g, '/');
-    }
-
-    // 获取目录下所有 JSON 文件，返回路径使用正斜杠
-    function readAllJsonFilePaths(dirPath, currentDepth = 0, maxDepth = 10, includeExtensions = ['.json']) {
-        const normalizedDirPath = normalizePath(dirPath); // 规范化输入路径
-        if (!pathExists(normalizedDirPath)) {
-            log.error(`目录 ${normalizedDirPath} 不存在`);
-            return [];
-        }
-
-        try {
-            let entries = file.readPathSync(normalizedDirPath); // 读取目录内容
-            entries = Array.from(entries).map(normalizePath); // 转换为标准数组并规范化路径
-            const filePaths = [];
-
-            for (const entry of entries) {
-                const isDirectory = file.isFolder(entry); // 检查是否为目录
-                if (isDirectory && currentDepth < maxDepth) {
-                    // 递归读取子目录
-                    filePaths.push(...readAllJsonFilePaths(entry, currentDepth + 1, maxDepth, includeExtensions));
-                } else if (!isDirectory) {
-                    const fileExtension = entry.substring(entry.lastIndexOf('.')).toLowerCase();
-                    if (includeExtensions.includes(fileExtension)) {
-                        filePaths.push(entry); // 添加 JSON 文件路径（已规范化）
-                    }
-                }
-            }
-
-            return filePaths;
-        } catch (error) {
-            log.error(`读取目录 ${normalizedDirPath} 时发生错误: ${error}`);
-            return [];
-        }
-    }
+        // 启用自动拾取的实时任务
         // 启用自动拾取的实时任务
         dispatcher.addTimer(new RealtimeTimer("AutoPick"));
+        // 自定义 normalizePath 函数，将路径中的反斜杠替换为正斜杠
+        function normalizePath(filePath) {
+            return filePath.replace(/\\/g, '/');
+        }
+
+        // 获取目录下所有 JSON 文件，返回路径使用正斜杠
+        function readAllJsonFilePaths(dirPath, currentDepth = 0, maxDepth = 10, includeExtensions = ['.json']) {
+            const normalizedDirPath = normalizePath(dirPath); // 规范化输入路径
+            if (!pathExists(normalizedDirPath)) {
+                log.error(`目录 ${normalizedDirPath} 不存在`);
+                return [];
+            }
+
+            try {
+                let entries = file.readPathSync(normalizedDirPath); // 读取目录内容
+                entries = Array.from(entries).map(normalizePath); // 转换为标准数组并规范化路径
+                const filePaths = [];
+
+                for (const entry of entries) {
+                    const isDirectory = file.isFolder(entry); // 检查是否为目录
+                    if (isDirectory && currentDepth < maxDepth) {
+                        // 递归读取子目录
+                        filePaths.push(...readAllJsonFilePaths(entry, currentDepth + 1, maxDepth, includeExtensions));
+                    } else if (!isDirectory) {
+                        const fileExtension = entry.substring(entry.lastIndexOf('.')).toLowerCase();
+                        if (includeExtensions.includes(fileExtension)) {
+                            filePaths.push(entry); // 添加 JSON 文件路径（已规范化）
+                        }
+                    }
+                }
+
+                return filePaths;
+            } catch (error) {
+                log.error(`读取目录 ${normalizedDirPath} 时发生错误: ${error}`);
+                return [];
+            }
+        }
         //保底优先执行体力任务
-        if (!carryoutTask[0].isMoraLeylineFlower && 
-            !carryoutTask[0].isExpBookLeylineFlower && 
-            carryoutTask[1].requiredBossMaterialBossName==="无" && 
-            carryoutTask[1].requiredTalentBookName == "无" && 
-            carryoutTask[2].requiredBossMaterialBossName==="无" && 
+        if (!carryoutTask[0].isMoraLeylineFlower &&
+            !carryoutTask[0].isExpBookLeylineFlower &&
+            carryoutTask[1].requiredBossMaterialBossName === "无" &&
+            carryoutTask[1].requiredTalentBookName == "无" &&
+            carryoutTask[2].requiredBossMaterialBossName === "无" &&
             carryoutTask[2].requiredTalentBookName == "无" &&
-            settings.leyLineOptions !=="不执行") {
+            settings.leyLineOptions !== "不执行") {
             log.info(`角色培养无需体力任务，执行选择方案:${settings.leyLineOptions}`);
             if (settings.leyLineOptions === "1-蓝花(经验花)") {
                 await AutoFontaineLeyLine(
@@ -1544,7 +1582,7 @@
                     }
                 )
             } else {
-                await AutoDomain({domainName :settings.domainName});
+                await AutoDomain({ domainName: settings.domainName });
             }
         } else {
 
@@ -1555,7 +1593,7 @@
                     weaponName: "无", // 请选择武器材料类型（select类型无默认值时为空字符串）
                     weaponMaterialRequireCounts: "", // 武器材料数量，绿-蓝-紫-金（input-text类型默认值为空字符串）
                     bossName: carryoutTask[1].requiredBossMaterialBossName, // 请选择首领（select类型无默认值时为空字符串）
-                    bossRequireCounts: ``+carryoutTask[1].requiredBossMaterialCount, // 首领材料数量（input-text类型默认值为空字符串）
+                    bossRequireCounts: `` + carryoutTask[1].requiredBossMaterialCount, // 首领材料数量（input-text类型默认值为空字符串）
                     teamName: settings.n, // 挑战队伍名称（input-text类型默认值为空字符串）
                     energyMax: false, // 挑战前是否恢复满能量
                     unfairContractTerms: settings.unfairContractTerms // 签署霸王条款开启使用，出了事跟作者无关
@@ -1568,7 +1606,7 @@
                     weaponName: "无", // 请选择武器材料类型（select类型无默认值时为空字符串）
                     weaponMaterialRequireCounts: "", // 武器材料数量，绿-蓝-紫-金（input-text类型默认值为空字符串）
                     bossName: carryoutTask[2].requiredBossMaterialBossName, // 请选择首领（select类型无默认值时为空字符串）
-                    bossRequireCounts: ``+carryoutTask[2].requiredBossMaterialCount, // 首领材料数量（input-text类型默认值为空字符串）
+                    bossRequireCounts: `` + carryoutTask[2].requiredBossMaterialCount, // 首领材料数量（input-text类型默认值为空字符串）
                     teamName: settings.n, // 挑战队伍名称（input-text类型默认值为空字符串）
                     energyMax: false, // 挑战前是否恢复满能量
                     unfairContractTerms: settings.unfairContractTerms // 签署霸王条款开启使用，出了事跟作者无关
@@ -1594,7 +1632,7 @@
                         nowuid: "" // 禁止特定UID刷地脉花，用 / 隔开，如（12345/99999）↓↓ 
                     }
                 )
-            } 
+            }
             if (carryoutTask[0].isMoraLeylineFlower) {
                 await AutoFontaineLeyLine(
                     {
@@ -1617,14 +1655,14 @@
             }
 
         }
-        if (settings.claimReward){
+        if (settings.claimReward) {
             await genshin.returnMainUi();
             await genshin.claimEncounterPointsRewards();
             await genshin.goToAdventurersGuild("枫丹");
             await genshin.claimBattlePassRewards();
             await genshin.returnMainUi();
         }
-
+        dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": true }));
         function extractCount(filename) {
             // 匹配格式：数字+个.json（位于字符串末尾）
             const match = filename.match(/(\d+)个\.json$/);
@@ -1701,9 +1739,9 @@
                     } catch (error) {
                         log.error('操作失败: {0}, 错误详情: {1}', result2[index], error.message);
                     }
-                    if(carryoutTask[i].requiredSpecialtyMaterialCount > 0){
+                    if (carryoutTask[i].requiredSpecialtyMaterialCount > 0) {
                         //材料的1.5倍，保证容错
-                        if(sum > Math.ceil(carryoutTask[i].requiredSpecialtyMaterialCount* 1.5)) {
+                        if (sum > Math.ceil(carryoutTask[i].requiredSpecialtyMaterialCount * 1.5)) {
                             log.info(`获取材料总数为:${sum}，已满足需求：${carryoutTask[i].requiredSpecialtyMaterialCount}`);
                             break;
                         }
@@ -1717,8 +1755,8 @@
         }
     }
 
-//-----------------------------------------------------------------------------------------------------------------------------------
-    if(!file.isFolder("User"))throw new Error('User文件夹不存在\n\t\t\t请你先运行脚本下的bat文件生成User文件夹');
+    //-----------------------------------------------------------------------------------------------------------------------------------
+    if (!file.isFolder("User")) throw new Error('User文件夹不存在\n\t\t\t请你先运行脚本下的bat文件生成User文件夹');
     let roleNameArray = [];
     if (!settings.unfairContractTerms) throw new Error('未签署霸王条款，无法使用');
     if (!settings.autoFoster && (aliases[settings.roleName1] || settings.roleName1) === "" && (aliases[settings.roleName2] || settings.roleName2) === "") throw new Error('未填入养成角色，脚本退出');
@@ -1727,13 +1765,16 @@
     //切换配对
     if (settings.n) {
         await genshin.switchParty(settings.n);
-    }else{
+    } else {
         log.error(`未设置战斗队伍，默认当前队伍,最好请你设置一下战斗队伍`);
     }
-    if(!settings.nhh){
+    if (!settings.nhh) {
         log.error(`未设置采集队伍，默认当前队伍,最好请你设置一下特产队伍，否则可能无法采集!!!`);
     }
     if (!settings.isSkip) {
+        log.info(`培养角色---${settings.roleName1}---${settings.roleName2}`)
+        if (!settings.autoFoster && settings.roleName1 === settings.roleName2) throw new Error('角色1和角色2不能相同');
+        if (!settings.autoFoster && settings.roleName1 === "" && !!settings.roleName2) throw new Error('请优先填写角色1');
         const UpCharactercCoordinates = [{ X: 1745, Y: 240 }, { X: 1745, Y: 400 }];
 
         setGameMetrics(1920, 1080, 1);
@@ -1768,8 +1809,8 @@
             (aliases[settings.roleName1] || settings.roleName1 || ""),
             (aliases[settings.roleName2] || settings.roleName2 || "")
         ];
-        if(settings.autoFoster){
-            role = ["-","-"];
+        if (settings.autoFoster) {
+            role = ["-", "-"];
         }
         let OCRtargettext = await performOCR({ X: 650, Y: 115, WIDTH: 195, HEIGHT: 42 });
         //log.info(`OCRtargettext --> ${OCRtargettext}`);
@@ -1824,7 +1865,7 @@
         }
         const newrole = role.filter(r => !roleNameArray.includes(r));
         // 当newrole数组不为空时，执行角色搜索与逐个操作逻辑
-        if (newrole.length > 0 || settings.autoFoster) {
+        if ((newrole.length > 0 && !!newrole[0]) || settings.autoFoster) {
             // 进入角色搜索界面的前置操作
             await sleep(2000);
             await click(1647, 51);
@@ -1837,20 +1878,11 @@
             //log.info(`后：roleNameArray数组为：${JSON.stringify(roleNameArray, null, 2)}`);
             await sleep(700); // 等待0.7秒（700毫秒）
             keyPress("ESCAPE");
-            log.info("选择的所有角色已遍历完成");
-            if (roleNameArray.length === 0) {
-                log.info("你填写的俩个角色都未拥有");
-            } else if (roleNameArray.length === 1) {
-                log.info("你填写的部分角色都未拥有");
-            } else {
-                log.info("你填写的全部角色都全部找到");
-            }
         }
         for (let i = 0; i < roleNameArray.length; i++) {
             CarryoutTask[i + 1].character = roleNameArray[i];
         }
         //log.info(`roleNameArray数组为：${JSON.stringify(roleNameArray, null, 2)}`);
-        //const RequiredMaterialArray = [];
         for (let index = 0; index < roleNameArray.length; index++) {
             await sleep(700); // 等待0.7秒（700毫秒）
             await click(UpCharactercCoordinates[0].X, UpCharactercCoordinates[0].Y);
@@ -1923,8 +1955,8 @@
         }
     }
     await PerformOperation(CarryoutTask);
-    if(settings.autoFoster){
-        log.info("自动培养的角色为：{0},{1}",CarryoutTask[1].character,CarryoutTask[2].character);
+    if (settings.autoFoster) {
+        log.info("自动培养的角色为：{0},{1}", CarryoutTask[1].character, CarryoutTask[2].character);
         notification.send(`自动培养的角色为：${CarryoutTask[1].character},${CarryoutTask[2].character}`);
     }
     log.info("请你及时上线点击升级按钮，保证材料所需被正确判断");

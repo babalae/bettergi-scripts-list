@@ -23,7 +23,7 @@ async function AutoCultivation (settings) {
             targetImageRo.Threshold = 0.95;
             const stopImageRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("User/JsScript/角色养成一条龙/assets/boss/无相之风.png"), 0, 0, 1920, 1080);
             stopImageRo.Threshold = 0.95;
-            await findAndClickWithScroll(targetImageRo, stopImageRo, { maxAttempts: 30, scrollNum: 9 });
+            await findAndClickWithScroll(targetImageRo, stopImageRo, { maxAttempts: 30});
             if (bossName == '冰风组曲-科培琉司的劫罚') click(1320, 680);
             else click(1236, 680);
             await sleep(800);
@@ -54,8 +54,8 @@ async function AutoCultivation (settings) {
      */
     async function findAndClickWithScroll(targetRo, stopRo, options = {}) {
         const {
-            maxAttempts = 10,
-            scrollNum = 9,
+            maxAttempts = 14,
+            scrollNum = 13,
             clickDelay = 500
         } = options;
 
