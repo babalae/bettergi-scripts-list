@@ -22,8 +22,8 @@ let holdingState = settings.holdingState ?? 0;
         keyPress("ESCAPE"); await sleep(2000);
     }
 
-await Purchase('蒙德购买狗粮');
-await Shopping();
+    await Purchase('蒙德购买狗粮');
+    await Shopping();
 
 //调整时间
     await sleep(1500);
@@ -100,5 +100,8 @@ await Shopping();
     keyDown("a");
     await sleep(500);
     keyUp("a");
+    await Shopping();
+
+    await Purchase('挪德卡莱购买狗粮');
     await Shopping();
 })();
