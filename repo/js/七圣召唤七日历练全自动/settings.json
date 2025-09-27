@@ -12,12 +12,14 @@
   {
     "name": "useFallbackStrategy",
     "type": "checkbox",
-    "label": "打牌失败时自动逐个尝试备用策略"
+    "label": "打牌失败时自动逐个尝试备用策略",
+    "default": "true"
   },
   {
     "name": "minFallbackStrategyScore",
     "type": "input-text",
-    "label": "仅使用胜率记录大于该值的备用策略 (0到1之间的小数)"
+    "label": "仅使用胜率记录大于该值的备用策略 (0到1之间的小数)",
+    "default": "0.25"
   },
   {
     "name": "passWord",

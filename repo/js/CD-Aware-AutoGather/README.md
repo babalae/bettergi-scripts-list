@@ -14,8 +14,6 @@
 
 扫描完成后，将自动更新脚本可用的配置菜单。此时再次打开右键的`修改JS脚本自定义配置`，将看到新增了多个配置项，其中包含刚刚扫描到的材料目录。
 
-
-<!-- ![preview.png](https://github.com/user-attachments/assets/62961d83-cde4-4de6-9b87-bdaaf63896db) -->
 ![preview.png](https://foruda.gitee.com/images/1749967868807757262/ada1abf2_9716310.png)
 
 如果你订阅了很多地图追踪任务，那么扫描结果也会比较多，选项列表也会比较长，但不影响脚本运行。
@@ -46,7 +44,6 @@
 
 支持使用配置组`更多功能`——`日志分析`分析运行记录（参考了[mno](https://github.com/Bedrockx)大佬的写法）。
 
-<!-- ![log_analysis.png](https://github.com/user-attachments/assets/9496d191-b46a-4705-b5b9-4e00fa7ef2a5) -->
 ![log_analysis.png](https://foruda.gitee.com/images/1749967993135535153/3bbeecd3_9716310.png)
 
 ## 3. 清除运行记录（重置材料刷新时间）
