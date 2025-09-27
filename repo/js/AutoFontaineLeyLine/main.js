@@ -3,11 +3,17 @@
     /**
      * 封装函数，执行图片识别及点击操作（测试中，未封装完成，后续会优化逻辑）
      */
-    async function imageRecognition(imagefilePath="空参数",timeout=10,afterBehavior=0,debugmodel=0,xa=0,ya=0,wa=1920,ha=1080,tt=0.8) {
+    var Imagidentify =  new RecognitionObject();
+    async function imageRecognition(imagefilePath="空参数",timeout=10,afterBehavior=0,debugmodel=0,xa=0,ya=0,wa=1920,ha=1080,tt=0.8,usemask=false) {
         // if (xa+wa > 1920 || ya+ha > 1080){ log.info("图片区域超出屏幕范围");return}
         const startTime = new Date();
-        // 支持带UseMask的构造函数
-        const Imagidentify = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagefilePath),true);
+        // 支持带UseMask的构造函数 
+
+        if (usemask){
+            Imagidentify = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagefilePath),true);}
+         else{
+            Imagidentify = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagefilePath));}
+
         if (tt !== 0.8){
             Imagidentify.Threshold=tt;
             Imagidentify.InitTemplate();        
@@ -118,7 +124,7 @@
     const ocrRo1 = RecognitionObject.ocr(ocrRegion1.x, ocrRegion1.y, ocrRegion1.width, ocrRegion1.height);
     const ocrRegion3 = { x: 906, y: 928, width: 161, height: 100 };   // 下方区域
     const ocrRo3 = RecognitionObject.ocr(ocrRegion3.x, ocrRegion3.y, ocrRegion3.width, ocrRegion3.height);
-    var method= settings.method ? settings.method : "冒险之证"; 
+    var method = "冒险之证"; 
     var Rewardsuse = settings.Rewardsuse ? settings.Rewardsuse : "1/2/5";
     var resinTypes = Rewardsuse.split("/");
     var rewards = [];
@@ -147,7 +153,7 @@
     var primogemUseDone = 0;
     var resinDone = false;
 
-    const golbalRewards = ["","浓缩树脂","原粹树脂","脆弱树脂","须臾树脂"]; // 对应四种树脂
+    const golbalRewards = ["","浓缩树脂","原粹树脂40","脆弱树脂","须臾树脂","原粹树脂20"]; // 对应四种树脂
     // 根据 rewards 数组长度，依次赋值给对应的变量
     if (rewards.length > 0) onerewards = golbalRewards[rewards[0]];
     if (rewards.length > 1) secendrewards = golbalRewards[rewards[1]];
@@ -192,7 +198,7 @@
     : genshin.width > 1920 ? 0.8
     : 0.9;
 
-    log.warn(`全自动枫丹地脉花: v4.0 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
+    log.warn(`全自动枫丹地脉花: v4.1 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
     log.warn(`使用树脂类型数量：${rewards.length}`);
     log.warn(`使用树脂顺序：${golbalRewardText.join(" ->")}`); 
 
@@ -362,16 +368,8 @@
         { line: 6, flower: 4, x: 371, y: 281 , xR: 5087.0234375 , yR: 4573.26708984375 },
       ];      
     
-    async function PathCheak(findFlower=0) {
-
-        if (method=="拖动地图"){findFlower = findFlower === 0 ? 1 : 0;}
-
-        if (findFlower == 0){
+    async function PathCheak(findFlower=0) {  
             return await PathCheak0();
-        }else
-        if (findFlower == 1){
-            return await PathCheak1();  
-        }
     }
 
     async function PathCheak0() {   
@@ -383,22 +381,22 @@
         await genshin.tp(2297.60, -824.45);
         await genshin.returnMainUi();   
 
-        if (EAT){
+        // if (EAT){
 
-            // if (EATNAME == null){
-                await sleep(1000);
-                dispatcher.RunTask(new SoloTask("AutoEat"));            
-            // }else{
-            //     dispatcher.RunTask(new SoloTask("AutoEat"));  
-            //     await sleep(1000);
-            //     await dispatcher.RunTask(new SoloTask("AutoEat", {foodEffectType:parseInt(EATNAME, 10)}));
-            //     await sleep(1000);          
-            // }         
+        //     // if (EATNAME == null){
+        //         await sleep(1000);
+        //         dispatcher.RunTask(new SoloTask("AutoEat"));            
+        //     // }else{
+        //     //     dispatcher.RunTask(new SoloTask("AutoEat"));  
+        //     //     await sleep(1000);
+        //     //     await dispatcher.RunTask(new SoloTask("AutoEat", {foodEffectType:parseInt(EATNAME, 10)}));
+        //     //     await sleep(1000);          
+        //     // }         
 
-            log.warn("·便携式营养袋· 中可放入血量恢复和复活药..."); 
-            log.warn("可到 ·实时触发->自动吃药· 中配置检测间隔..."); 
-            log.warn("目前BGI本体·自动吃药·有小BUG，酌情使用..."); 
-        }        
+        //     log.warn("·便携式营养袋· 中可放入血量恢复和复活药..."); 
+        //     log.warn("可到 ·实时触发->自动吃药· 中配置检测间隔..."); 
+        //     log.warn("目前BGI本体·自动吃药·有小BUG，酌情使用..."); 
+        // }        
 
         for(let i = 0;i<5;i++){
             await sleep(1100);
@@ -428,7 +426,7 @@
             await sleep(500);
             await click(860,683);
 
-            let dimai = await imageRecognition(DIMAIHUA3,2,0,0,400,248,550,370);
+            let dimai = await imageRecognition(DIMAIHUA3,2,0,0,400,248,550,370,0.8,false);
             if (!dimai.found){
                 await sleep(500);
                 await click(956,288);
@@ -442,15 +440,15 @@
                 await moveMouseTo(956,273);
                 await sleep(100);
                 await leftButtonUp();
-                let dimai2 = await imageRecognition(DIMAIHUA3,1,0,0,400,248,550,370);
+                let dimai2 = await imageRecognition(DIMAIHUA3,1,0,0,400,248,550,370,0.8,false);
                 if (!dimai2.found){continue}
             }
             
             await sleep(200);
             if (color==1){
-                await imageRecognition(DIMAIHUA4,2,1,0,400,248,550,370);
+                await imageRecognition(DIMAIHUA4,2,1,0,400,248,550,370,0.8,false);
             }else{
-                await imageRecognition(DIMAIHUA3,2,1,0,400,248,550,370);
+                await imageRecognition(DIMAIHUA3,2,1,0,400,248,550,370,0.8,false);
             }
 
             let fontaine = await Textocr("枫丹",1,0,0,1031,641,250,240);
@@ -480,7 +478,7 @@
             }
 
             try{                
-                let cilun2 = await imageRecognition(cilun,3,0,0,13,971,85,78);
+                let cilun2 = await imageRecognition(cilun,3,0,0,13,971,85,78,0.8,false);
                 if (!cilun2.found){
                     log.info("大地图打开错误...");
                 }
@@ -515,7 +513,7 @@
         position = await findFlowerPositionWithTolerance(RealPosition,10,allFlowerCoords);
         if (position){
             log.info(`找到地脉花的线路：|X:${Math.floor(bigMapPosition.X)}|Y:${Math.floor(bigMapPosition.Y)}|线路:${position.line}|序号:${position.flower}|`);
-            let XIAN_another = await imageRecognition(DIMAIHUA2,1,0,0,0);
+            let XIAN_another = await imageRecognition(DIMAIHUA2,1,0,0,0,0,1920,1080,0.8,false);
             if (XIAN_another.found){
                 if (XIAN_another.found){
                     let  recognizedCoord_another = { x: ( bigMapPosition.X+((960-(XIAN_another.x+XIAN_another.w/2))*(5-bigMapZoomLevel))), y: ( bigMapPosition.Y+((540-(XIAN_another.y+XIAN_another.h/2)))*(5-bigMapZoomLevel))};
@@ -535,127 +533,7 @@
         else{
             return false
         }
-    } 
-
-    // 输出选择的线路
-    async function PathCheak1() {
-        repeatRoute = false;
-        await genshin.returnMainUi();
-        log.info("重置地图中,关闭自定义标记，快速拖动模式寻找地脉花……");  
-        await genshin.tp(2297.60, -824.45);
-        await genshin.returnMainUi();
-
-        // //自定义标关闭
-        await sleep(1200);
-
-        await keyPress("M");
-        await sleep(1200);
-        await click(53,1019);
-        await sleep(200);
-        await imageRecognition(BIAOZZ,0.6,1,0,1782,284,122,73);
-        await sleep(100);
-        await keyPress("VK_ESCAPE");
-        await sleep(600);
-
-        //开始寻找
-        await genshin.setBigMapZoomLevel(3.5);
-        await click(1844,1021);
-        await sleep(500);
-        await click(1446,350);
-        await sleep(500);
-        let XIAN6 = await imageRecognition(DIMAIHUA,0.5,0,0,387,0,700,200);if (XIAN6.found){
-            log.info("地脉花位置: X:"+XIAN6.x+" Y:"+XIAN6.y);
-            position = {line:6,flower:1};
-            return true }//return true
-        await moveMouseTo(1275,601);
-        await sleep(200);
-        await leftButtonDown();
-        await sleep(300);
-        await moveMouseTo(1275,651);
-        await sleep(300);
-        await moveMouseTo(1275,300);
-        await sleep(300);
-        await moveMouseTo(1272,18);
-        await sleep(500);
-        let XIAN123 = await imageRecognition(DIMAIHUA,1,0,0,0,0,1720,1080);
-        if (XIAN123.found){
-
-            let XIAN123_another = await imageRecognition(DIMAIHUA2,0.5,0,0,0,0,1720,1080);
-            if (XIAN123_another.found){
-                log.info("地脉花位置_another: X:"+XIAN123_another.x+" Y:"+XIAN123_another.y);
-                const recognizedCoord_another = { x: XIAN123_another.x, y: XIAN123_another.y };
-                position_another = await findFlowerPositionWithTolerance(recognizedCoord_another, tolerance,allFlowerCoords);        
-            } 
-
-            log.info("地脉花位置: X:"+XIAN123.x+" Y:"+XIAN123.y);
-            const recognizedCoord = { x: XIAN123.x, y: XIAN123.y };
-            position = await findFlowerPositionWithTolerance(recognizedCoord, tolerance,allFlowerCoords);
-
-            if (position.line == 3){position = await findFlowerPositionWithTolerance(recognizedCoord, tolerance,allFlowerCoords);}
-
-            if (position) {
-
-                if (position_another.line == position.line){log.info("线路重合，谨慎模式打开...");repeatRoute = true;}
-
-                return true;
-              } else {
-                log.info(`无法找到花朵位置（在容错范围内）。`);return false;
-              }
-        }
-        await sleep(500);
-        await moveMouseTo(132,783);
-        await sleep(800);
-        let XIAN4 = await imageRecognition(DIMAIHUA,1,0,0);
-         if (XIAN4.found){
-
-            let XIAN4_another = await imageRecognition(DIMAIHUA2,0.5,0,0);
-            if (XIAN4_another.found){
-                log.info("地脉花位置_another: X:"+XIAN4_another.x+" Y:"+XIAN4_another.y);
-                const recognizedCoord_another = { x: XIAN4_another.x, y: XIAN4_another.y };
-                position_another = await findFlowerPositionWithTolerance(recognizedCoord_another, tolerance,allFlowerCoords);        
-            }            
-
-            log.info("地脉花位置: X:"+XIAN4.x+" Y:"+XIAN4.y);
-            const recognizedCoord = { x: XIAN4.x, y: XIAN4.y };
-            position = await findFlowerPositionWithTolerance(recognizedCoord, tolerance,allFlowerCoords);
-
-            if (position) {
-
-                if (position_another.line == position.line){log.info("线路重合，谨慎模式打开...");repeatRoute = true;}
-
-                return true;
-              } else {
-                log.info(`无法找到花朵位置（在容错范围内）。`);return false;
-              }
-        }
-        await sleep(500);
-        await moveMouseTo(1064,1079);
-        await sleep(200);
-        let XIAN56 = await imageRecognition(DIMAIHUA,1,0,0);
-        if (XIAN56.found){
-
-            let XIAN56_another = await imageRecognition(DIMAIHUA2,0.5,0,0);
-            if (XIAN56_another.found){
-                log.info("地脉花位置_another: X:"+XIAN56_another.x+" Y:"+XIAN56_another.y);
-                const recognizedCoord_another = { x: XIAN56_another.x, y: XIAN56_another.y };
-                position_another = await findFlowerPositionWithTolerance(recognizedCoord_another, tolerance,allFlowerCoords);        
-            } 
-
-            log.info("地脉花位置: X:"+XIAN56.x+" Y:"+XIAN56.y);
-            const recognizedCoord = { x: XIAN56.x, y: XIAN56.y };
-            position = await findFlowerPositionWithTolerance(recognizedCoord, tolerance,allFlowerCoords);
-
-            if (position) {
-
-                if (position_another.line == position.line){log.info("线路重合，谨慎模式打开...");repeatRoute = true;}
-
-                return true;
-              } else {
-                log.info(`无法找到花朵位置（在容错范围内）。`);return false;
-            }
-            
-        }else{throw new Error("线路出错，退出！")}        
-    }
+    }     
 
     function findFlowerPositionWithTolerance(coord, tolerance,allFlowerCoordsIn) {
 
@@ -771,6 +649,7 @@
             }
         }
     }
+    dispatcher.ClearAllTriggers();
 
     //定义领取动作,好感队伍是否添加？
     async function claimRewards( Rewardspath = null ,Repath = null) {
@@ -986,7 +865,7 @@
 
         // var shuz = []
         // 浓缩树脂
-        var condensedResinCountRa = await imageRecognition(condensedResin,0.2, 0, 0,800,15,700,70,Threshold);
+        var condensedResinCountRa = await imageRecognition(condensedResin,0.2, 0, 0,800,15,700,70,Threshold,true);
         if (condensedResinCountRa.found) { 
             //测试用 
             // log.info("检测到浓缩树脂图标");  
@@ -1021,7 +900,7 @@
         }  
 
         //脆弱树脂
-        var originalResinCountRa = await imageRecognition(originalResin,0.1, 0, 0,1325,0,100,500,Threshold);
+        var originalResinCountRa = await imageRecognition(originalResin,0.1, 0, 0,1325,0,100,500,Threshold,true);
         if (originalResinCountRa.found) {  
             // await moveMouseTo(originalResinCountRa.x,originalResinCountRa.y);   
             let countArea = await Textocr("",0.5, 0, 2,originalResinCountRa.x+originalResinCountRa.w,originalResinCountRa.y,originalResinCountRa.w*3,originalResinCountRa.h);//
@@ -1047,7 +926,7 @@
         }
 
         // 须臾树脂
-        var momentResinCountRa = await imageRecognition(momentResin,0.1, 0, 1,960,0,500,100,Threshold);
+        var momentResinCountRa = await imageRecognition(momentResin,0.1, 0, 1,960,0,500,100,Threshold,true);
         if (momentResinCountRa.found) {          
                 
             for (let i = 0; i < resinImages.length; i++) {
@@ -1067,7 +946,7 @@
             log.info("未检测到须臾树脂图标"); 
 
             // 脆弱树脂
-            var fragileResinCountRa = await imageRecognition(fragileResin,0.1, 0, 1,960,0,500,100,Threshold);
+            var fragileResinCountRa = await imageRecognition(fragileResin,0.1, 0, 1,960,0,500,100,Threshold,true);
             if (fragileResinCountRa.found) {  
                 // await moveMouseTo(fragileResinCountRa.x+fragileResinCountRa.w+20,fragileResinCountRa.y-15);             
             
@@ -1351,11 +1230,14 @@
 
                 await sleep(1000);
                 await dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false})); await keyPress("F");
+                dispatcher.ClearAllTriggers();
                 log.warn("开始战斗..."); 
 
                 shouldContinueChecking = true;
                 checkRewardPage();// 执行自动战斗并同步检测领奖页面
                 
+                // if (EAT){dispatcher.RunTask(new SoloTask("AutoEat"));}    
+
                 if (!Fightquick){           
                     await dispatcher.runTask(new SoloTask("AutoFight")); //固定执行两次战斗，执行自动战斗,配置器中的设置建议填你的队伍打一次大概得时间
                     await sleep(1000);
@@ -1378,7 +1260,7 @@
             }
 
             shouldContinueChecking = true;
-            await dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false}));
+            dispatcher.ClearAllTriggers();
 
             //执行到地脉花地点的寻路脚本
             let pathDic = JSON.parse(file.readTextSync(`${selectedFolder}${jsonFile2}`));
@@ -1409,6 +1291,7 @@
             if (!(await claimRewards( `${selectedFolder}${jsonFile2}`,`${selectedFolder}${jsonFile1}`))) {
                 log.warn("树脂消耗完毕，结束任务");
                 dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false }));
+                dispatcher.ClearAllTriggers();
                 await genshin.returnMainUi(); 
                 return true; // 条件2触发：树脂耗尽================
             }
@@ -1422,6 +1305,7 @@
                 }
             }
             dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false }));
+            dispatcher.ClearAllTriggers();
             // 冷却等待（可选）
             await sleep(1000);
             executedCount=executedCount+2;   
@@ -1451,11 +1335,11 @@
         return isUpdated; 
     }    
 
-    //测试
+    // // 测试
     // var ii=1000;
     // while (ii>0) {
     //      await getRemainResinStatus();  
-    //     // await sleep(500);
+    //     await sleep(500);
     //     ii--;
     // }
     // return;
@@ -1488,8 +1372,8 @@
         while (SHUOVER<=1){           
             if (!(await PathCheak(0))){
                 await leftButtonUp();
-                log.info("未找到地脉花，更换寻找方式，重试...")
-                if (!(await PathCheak(1)))
+                log.info("未找到地脉花，重试...")
+                if (!(await PathCheak(0)))
                 {
                     await leftButtonUp();await genshin.returnMainUi();
                     throw new Error("未找到地脉花，退出！")
