@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758051690301,
+    "last_modified_time": 1758486082055,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B24-萃凝晶-纳塔-悬木人上方1（2个）",
@@ -23,6 +23,7 @@
     {
       "action": "",
       "id": 1,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 8598.1,
@@ -32,6 +33,7 @@
       "action": "",
       "action_params": "",
       "id": 2,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 8603.05,
@@ -41,19 +43,21 @@
       "action": "mining",
       "action_params": "",
       "id": 3,
+      "locked": false,
       "move_mode": "walk",
       "type": "target",
-      "x": 8604.6,
-      "y": -1889.5
+      "x": 8604.2705,
+      "y": -1888.5234
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.5)",
       "id": 4,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": 8604.6,
-      "y": -1889.5
+      "x": 8604.2705,
+      "y": -1888.5234
     },
     {
       "action": "",
@@ -61,8 +65,8 @@
       "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": 8608.29,
-      "y": -1891.53
+      "x": 8613.5605,
+      "y": -1892.9785
     },
     {
       "action": "mining",
@@ -70,8 +74,8 @@
       "id": 6,
       "move_mode": "walk",
       "type": "target",
-      "x": 8608.71,
-      "y": -1890.66
+      "x": 8609.9629,
+      "y": -1888.8906
     },
     {
       "action": "combat_script",
@@ -79,17 +83,8 @@
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": 8608.71,
-      "y": -1890.66
-    },
-    {
-      "action": "pick_around",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 8605.8936,
-      "y": -1888.7397
+      "x": 8609.9629,
+      "y": -1888.8906
     }
   ]
 }
