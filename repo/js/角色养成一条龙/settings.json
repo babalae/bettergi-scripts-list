@@ -2,7 +2,7 @@
   {
     "name": "talentBookName",
     "type": "select",
-    "label": "请选择天赋书类型",
+    "label": "请选择天赋书1类型",
     "options": [
     "无",
     "自由",
@@ -28,17 +28,83 @@
     "浪迹"
 ]
   },
-
   {
     "name": "talentBookRequireCounts",
     "type": "input-text",
-    "label": "天赋书数量，绿-蓝-紫"
+    "label": "天赋书1数量，绿-蓝-紫"
   },
-
+  {
+    "name": "talentBookName1",
+    "type": "select",
+    "label": "请选择天赋书2类型",
+    "options": [
+    "无",
+    "自由",
+    "抗争",
+    "诗文",
+    "繁荣",
+    "勤劳",
+    "黄金",
+    "浮世",
+    "风雅",
+    "天光",
+    "净言",
+    "巧思",
+    "笃行",
+    "公平",
+    "正义",
+    "秩序",
+    "角逐",
+    "焚燔",
+    "纷争",
+    "月光",
+    "乐园",
+    "浪迹"
+]
+  },
+  {
+    "name": "talentBookRequireCounts1",
+    "type": "input-text",
+    "label": "天赋书2数量，绿-蓝-紫"
+  },
+  {
+    "name": "talentBookName2",
+    "type": "select",
+    "label": "请选择天赋书3类型",
+    "options": [
+    "无",
+    "自由",
+    "抗争",
+    "诗文",
+    "繁荣",
+    "勤劳",
+    "黄金",
+    "浮世",
+    "风雅",
+    "天光",
+    "净言",
+    "巧思",
+    "笃行",
+    "公平",
+    "正义",
+    "秩序",
+    "角逐",
+    "焚燔",
+    "纷争",
+    "月光",
+    "乐园",
+    "浪迹"
+]
+  },
+  {
+    "name": "talentBookRequireCounts2",
+    "type": "input-text",
+    "label": "天赋书3数量，绿-蓝-紫"
+  },
   {
     "name": "weaponName",
     "type": "select",
-    "label": "请选择武器材料类型",
+    "label": "请选择武器材料1类型",
     "options": [
     "无",
     "高塔孤王",
@@ -67,7 +133,75 @@
   {
     "name": "weaponMaterialRequireCounts",
     "type": "input-text",
-    "label": "武器材料数量，绿-蓝-紫-金"
+    "label": "武器材料1数量，绿-蓝-紫-金"
+  },
+  {
+    "name": "weaponName1",
+    "type": "select",
+    "label": "请选择武器材料2类型",
+    "options": [
+    "无",
+    "高塔孤王",
+    "凛风奔狼",
+    "狮牙斗士",
+    "孤云寒林",
+    "雾海云间",
+    "漆黑陨铁",
+    "远海夷地",
+    "鸣神御灵",
+    "今昔剧话",
+    "谧林涓露",
+    "绿洲花园",
+    "烈日威权",
+    "幽谷弦音",
+    "纯圣露滴",
+    "无垢之海",
+    "贡祭炽心",
+    "谵妄圣主",
+    "神合秘烟",
+    "奇巧秘器",
+    "长夜燧火",
+    "终北遗嗣"
+]
+  },
+  {
+    "name": "weaponMaterialRequireCounts1",
+    "type": "input-text",
+    "label": "武器材料2数量，绿-蓝-紫-金"
+  },
+  {
+    "name": "weaponName2",
+    "type": "select",
+    "label": "请选择武器材料3类型",
+    "options": [
+    "无",
+    "高塔孤王",
+    "凛风奔狼",
+    "狮牙斗士",
+    "孤云寒林",
+    "雾海云间",
+    "漆黑陨铁",
+    "远海夷地",
+    "鸣神御灵",
+    "今昔剧话",
+    "谧林涓露",
+    "绿洲花园",
+    "烈日威权",
+    "幽谷弦音",
+    "纯圣露滴",
+    "无垢之海",
+    "贡祭炽心",
+    "谵妄圣主",
+    "神合秘烟",
+    "奇巧秘器",
+    "长夜燧火",
+    "终北遗嗣"
+]
+  },
+  {
+    "name": "weaponMaterialRequireCounts2",
+    "type": "input-text",
+    "label": "武器材料3数量，绿-蓝-紫-金"
   },
   {
     "name": "bossName",
