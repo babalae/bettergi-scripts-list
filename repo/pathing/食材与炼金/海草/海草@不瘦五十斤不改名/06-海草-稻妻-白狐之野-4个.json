@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "06-海草-稻妻-白狐之野-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4232.23,
+      "y": -3001.94,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -4211.75,
+      "y": -3040.25,
+      "action": "nahida_collect",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -4202.5,
+      "y": -3020.75,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "id": 4,
+      "x": -4178.3,
+      "y": -3003.19,
+      "action": "nahida_collect",
+      "move_mode": "run",
+      "type": "path"
+    }
+  ]
+}

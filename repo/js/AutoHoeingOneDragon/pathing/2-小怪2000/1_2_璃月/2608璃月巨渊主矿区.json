@@ -1,0 +1,177 @@
+{
+  "info": {
+    "name": "2608璃月巨渊主矿区",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时130.31秒，包含6只小怪，预计收入243摩拉，包含以下怪物：1只火史莱姆、1只愚人众先遣队·火统游击兵、1只愚人众先遣队·雷锤前锋军、1只盗宝团·斥候、1只盗宝团·火之药剂师、1只电气骗骗花。",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 338.72,
+      "y": 975.1,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 337.27,
+      "y": 974.84,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 325.66,
+      "y": 950.97,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    },
+    {
+      "id": 4,
+      "x": 301.16,
+      "y": 912.65,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 301.16,
+      "y": 912.65,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 301.16,
+      "y": 912.65,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 284.44,
+      "y": 941.15,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 280.25,
+      "y": 952.08,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 309.95,
+      "y": 955.13,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 309.95,
+      "y": 955.13,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 309.95,
+      "y": 955.13,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 294.62,
+      "y": 955.22,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 244.63,
+      "y": 932.52,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 227.85,
+      "y": 932.36,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 228.99,
+      "y": 953.71,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": 223.5,
+      "y": 968.08,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 17,
+      "x": 223.5,
+      "y": 968.08,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

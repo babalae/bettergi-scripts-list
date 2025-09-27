@@ -1,0 +1,59 @@
+{
+  "info": {
+    "name": "08-鬼兜虫-踏鞴砂(公义)-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -3156.61,
+      "y": -3886.1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -3114.92,
+      "y": -3858.82,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -3097.75,
+      "y": -3845.65,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -3093.11,
+      "y": -3852.64,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -3082.33,
+      "y": -3846.64,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

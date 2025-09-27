@@ -1,0 +1,10 @@
+// 作者：鸿羽er
+// 描述：火神锄地解决方案；白术带队，1号位跑图；请确保您的玛薇卡q技能小程序伤害在11w或二命以上，否则在面对大灵显化身等怪物时无法得到好的游戏体验！
+
+玛薇卡 attack,e
+万叶 e(hold),wait(0.2),attack,wait(0.3)
+茜特菈莉 attack,e,q, wait(0.7),keydown(VK_SPACE), wait(0.4), keyup(VK_SPACE), wait(3),attack, wait(0.3)
+玛薇卡 attack,e,q
+万叶 e(hold),wait(0.3),attack,wait(0.3)
+白术 e,q
+茜特菈莉 attack,wait(0.3),e, wait(0.7),keydown(VK_SPACE), wait(0.4), keyup(VK_SPACE), wait(3),attack

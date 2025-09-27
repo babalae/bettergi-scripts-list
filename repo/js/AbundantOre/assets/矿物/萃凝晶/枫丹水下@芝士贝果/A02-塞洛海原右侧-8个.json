@@ -1,0 +1,111 @@
+{
+  "info": {
+    "name": "A02-塞洛海原右侧-8个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "芝士贝果"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.50.0",
+    "tags": [],
+    "last_modified_time": 1755600072524,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4399.8789,
+      "y": 3083.4036,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4347.8584,
+      "y": 3076.2119,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(9);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,571)"
+    },
+    {
+      "id": 3,
+      "x": 4353.9082,
+      "y": 3069.2632,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 4,
+      "x": 4350.4746,
+      "y": 3065.8247,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 5,
+      "x": 4324.1152,
+      "y": 3080.3911,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4316.8906,
+      "y": 3077.7754,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 7,
+      "x": 4317.2168,
+      "y": 3033.4368,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 4318.3193,
+      "y": 3027.9673,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 9,
+      "x": 4322.5957,
+      "y": 3024.1287,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 10,
+      "x": 4316.1367,
+      "y": 3021.6372,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    }
+  ]
+}

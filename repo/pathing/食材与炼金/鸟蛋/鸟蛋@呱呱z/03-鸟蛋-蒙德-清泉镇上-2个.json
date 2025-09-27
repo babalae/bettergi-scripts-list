@@ -1,0 +1,33 @@
+{
+  "info": {
+    "name": "03-鸟蛋-蒙德-清泉镇上-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -867.57,
+      "y": 1992.22
+    },
+    {
+      "id": 2,
+      "x": -921.12,
+      "y": 1981.33,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    }
+  ]
+}

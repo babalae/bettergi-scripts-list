@@ -1,0 +1,82 @@
+{
+  "info": {
+    "name": "黑蛇众08-崎岖石厅-3个（需挖矿角色）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.47.2",
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 357.89,
+      "y": 176.59,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 346.54,
+      "y": 144.29,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 344.8,
+      "y": 125.04,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 334.18,
+      "y": 115.32,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(6.0)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 334.18,
+      "y": 115.32,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 327.11,
+      "y": 118.94,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 319.55,
+      "y": 131.43,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
