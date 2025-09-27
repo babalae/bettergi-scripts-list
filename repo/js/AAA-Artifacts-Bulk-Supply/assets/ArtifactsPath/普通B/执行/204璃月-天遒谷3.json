@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758606130161,
+    "last_modified_time": 1758974316743,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "204璃月-天遒谷3",
@@ -56,7 +56,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),w(0.3),keypress(f),w(0.3),s(0.7);芙宁娜 attack(0.08),e;",
+      "action_params": "keypress(f),w(0.3),keypress(f),w(0.3),s(0.4);芙宁娜 attack(0.08),e;",
       "id": 5,
       "move_mode": "dash",
       "type": "target",
@@ -69,8 +69,8 @@
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": 1084.53125,
-      "y": 298.68705733841307
+      "x": 1083.21875,
+      "y": 297.5933626711112
     },
     {
       "action": "combat_script",
