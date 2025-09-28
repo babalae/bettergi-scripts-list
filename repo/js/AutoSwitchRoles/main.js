@@ -96,7 +96,7 @@ function readAliases() {
         async function openPairingInterface() {
             while (openPairingTries < 3) {
                 keyPress("l");
-                await sleep(3500);
+                await sleep(3200);
                 const teamConfigResult = captureGameRegion().find(roTeamConfig);
                 if (teamConfigResult.isExist()) {
                     openPairingTries = 0;
@@ -121,22 +121,129 @@ function readAliases() {
                 return false;
             }
 
-            for (let i = 0; i < positionSettings.length; i++) {
-                let rolenum = i + 1;
-                const selectedCharacter = positionSettings[i];
-                if (!selectedCharacter) {
-                    log.info(`未设置${rolenum}号位角色，跳过`);
-                    continue;
-                }
-                const [x, y] = positionCoordinates[i];
-                click(x, y);
-                log.info(`开始设置${rolenum}号位角色`);
-                await sleep(1000);
-                let characterFound = false;
-                let pageTries = 0;
+    // 读取筛选配置文件（中文逗号分隔）
+    const filterConfig = {};
+    try {
+        const filterContent = file.readTextSync('attribute.txt');
+        const lines = filterContent.split('\n');
+        lines.forEach(line => {
+            // 使用中文逗号分割，并去除可能的空格
+            const [name, element, weapon] = line.trim().split(/，\s*/).map(item => item || null);
+            if (name) { // 只要角色名存在就记录，元素和武器可为空
+                filterConfig[name] = { element, weapon };
+            }
+        });
+    } catch (error) {
+        log.error(`读取筛选配置失败: ${error}`);
+    }
 
-                // 最多尝试滚动页面20次
-                while (pageTries < 20) {
+    // 预加载"暂无筛选结果"模板
+    let noResultTemplate;
+    try {
+        noResultTemplate = file.readImageMatSync('Assets/RecognitionObject/暂无筛选结果.png');
+    } catch (error) {
+        log.error(`加载"暂无筛选结果"模板失败: ${error}`);
+    }
+
+    for (let i = 0; i < positionSettings.length; i++) {
+        let rolenum = i + 1;
+        const selectedCharacter = positionSettings[i];
+        if (!selectedCharacter) {
+            log.info(`未设置${rolenum}号位角色，跳过`);
+            continue;
+        }
+        const [x, y] = positionCoordinates[i];
+        click(x, y);
+        log.info(`开始设置${rolenum}号位角色`);
+        await sleep(1000);
+        let characterFound = false;
+        let pageTries = 0;
+
+        // 执行筛选操作
+        const filterInfo = filterConfig[selectedCharacter];
+        let hasNoFilterResult = false; // 标记是否存在无筛选结果状态
+        if (filterInfo && noResultTemplate) {
+            try {
+                log.info(`对角色【${selectedCharacter}】执行筛选: 元素=${filterInfo.element || '空'}, 武器=${filterInfo.weapon || '空'}`);
+                
+                // 点击筛选按钮
+                const filterBtn = captureGameRegion().find(RecognitionObject.TemplateMatch(
+                    file.readImageMatSync('Assets/RecognitionObject/筛选.png'), 0, 0, 1920, 1080
+                ));
+                if (filterBtn.isExist()) {
+                    filterBtn.click();
+                    await sleep(200);
+                    
+                    // 元素不为空才执行元素筛选
+                    if (filterInfo.element) {
+                        const elementBtn = captureGameRegion().find(RecognitionObject.TemplateMatch(
+                            file.readImageMatSync(`Assets/RecognitionObject/${filterInfo.element}.png`), 0, 0, 1920, 1080
+                        ));
+                        if (elementBtn.isExist()) {
+                            elementBtn.click();
+                            await sleep(200);
+                        } else {
+                            log.warn(`未找到元素筛选图标: Assets/RecognitionObject/${filterInfo.element}.png`);
+                        }
+                    } else {
+                        log.info(`元素为空，跳过元素筛选`);
+                    }
+                    
+                    // 武器不为空才执行武器筛选
+                    if (filterInfo.weapon) {
+                        const weaponBtn = captureGameRegion().find(RecognitionObject.TemplateMatch(
+                            file.readImageMatSync(`Assets/RecognitionObject/${filterInfo.weapon}.png`), 0, 0, 1920, 1080
+                        ));
+                        if (weaponBtn.isExist()) {
+                            weaponBtn.click();
+                            await sleep(200);
+                        } else {
+                            log.warn(`未找到武器筛选图标: Assets/RecognitionObject/${filterInfo.weapon}.png`);
+                        }
+                    } else {
+                        log.info(`武器为空，跳过武器筛选`);
+                    }
+                    
+                    // 点击确认筛选（无论元素/武器是否为空都需要确认）
+                    const confirmFilterBtn = captureGameRegion().find(RecognitionObject.TemplateMatch(
+                        file.readImageMatSync('Assets/RecognitionObject/确认筛选.png'), 0, 0, 1920, 1080
+                    ));
+                    if (confirmFilterBtn.isExist()) {
+                        confirmFilterBtn.click();
+                        await sleep(50); // 等待筛选结果显示
+                        
+                        // 识别是否有"暂无筛选结果"提示
+                        const noResultRo = RecognitionObject.TemplateMatch(noResultTemplate, 0, 0, 1920, 1080);
+                        const noResult = captureGameRegion().find(noResultRo);
+                        if (noResult.isExist()) {
+                            log.warn(`筛选后无结果，跳过${rolenum}号位角色`);
+                            hasNoFilterResult = true;
+                            // 关闭筛选面板（如果需要）
+                            keyPress("VK_ESCAPE");
+                            await sleep(200);
+                            keyPress("VK_ESCAPE");
+                            await sleep(200);
+                            keyPress("VK_ESCAPE");
+                            await sleep(200);
+                        }
+                    } else {
+                        log.warn('未找到确认筛选图标: Assets/RecognitionObject/确认筛选.png');
+                    }
+                } else {
+                    log.warn('未找到筛选图标: Assets/RecognitionObject/筛选.png');
+                }
+            } catch (error) {
+                log.error(`筛选操作失败: ${error}`);
+            }
+        }
+
+        // 如果筛选无结果，直接跳过当前号位
+        if (hasNoFilterResult) {
+            continue;
+        }
+
+                // 最多尝试滚动页面320次
+                while (pageTries < 3) {
                     // 尝试识别所有可能的角色文件名
                     for (let num = 1; ; num++) {
                         const paddedNum = num.toString().padStart(2, "0");
@@ -150,7 +257,7 @@ function readAliases() {
                             if (characterResult.isExist()) {
                                 log.info(`已找到角色【${selectedCharacter}】`);
                                 characterResult.click();
-                                await sleep(500);
+                                await sleep(200);
                                 characterFound = true;
                                 break;
                             }
@@ -165,9 +272,10 @@ function readAliases() {
                     }
 
                     // 滚动页面
-                    if (pageTries < 15) {
+                    if (pageTries < 3) {
                         log.info("当前页面没有目标角色，滚动页面");
-                        await scrollPage(200);
+                        await scrollPage(350);
+                        
                     }
                     pageTries++;
                 }
