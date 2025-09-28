@@ -2,7 +2,7 @@
 // BGI兼容的模块化架构实现
 
 // === 模块加载区域（顶层执行，BGI要求） ===
-eval(file.readTextSync("lib/constants.js"));
+eval(file.readTextSync("constants.js"));
 eval(file.readTextSync("lib/utils.js"));
 eval(file.readTextSync("lib/ui.js"));
 eval(file.readTextSync("lib/core.js"));
@@ -32,7 +32,7 @@ const test = async () => {
       location: "测试位置", 
       processSteps: processSteps,
       currentIndex: 0,
-      isInMainUI: UI.UIUtils.createMainUIChecker(),
+      isInMainUI: UI.UIUtils.isInMainUI,
       priorityOptions: [],
       npcWhiteList: []
     };

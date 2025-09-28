@@ -7,7 +7,9 @@
       // 处理step.data，支持字符串和对象格式
       var targetDescription = "";
       var executeFile = step.run || "";
-      
+      var runType = step.data?.runType || "process";
+      var useKeyword = step.data?.useKeyword || false;
+
       if (typeof step.data === "string") {
         targetDescription = step.data;
       } else if (typeof step.data === "object") {
@@ -42,10 +44,13 @@
             log.debug("检测到委托名称或空文本，继续等待...");
           }
           // 成功匹配，开始插入step
-          else if (ocrResult === targetDescription) {
+          else if (
+            (!useKeyword && ocrResult === targetDescription) ||
+            (useKeyword && ocrResult.includes(targetDescription))
+          ) {
             log.info("委托描述检测成功，执行后续步骤");
-            
-            if (executeFile) {
+
+            if (executeFile && runType === "process") {
               var nextSteps = await Execute.loadAndParseProcessFile(
                 context.commissionName,
                 context.location,
@@ -55,6 +60,20 @@
               if (nextSteps && Array.isArray(nextSteps)) {
                 context.processSteps.splice(context.currentIndex + 1, 0, ...nextSteps);
                 log.info("已插入 {count} 个后续步骤", nextSteps.length);
+              }
+            } else if (executeFile && runType === "path") {
+              executeFile = executeFile || "path.json"
+              filePath = Constants.TALK_PROCESS_BASE_PATH + "/" + context.commissionName + "/" + context.location + "/" + executeFile;
+              try {
+                await pathingScript.runFile(filePath);
+              } catch (error) {
+                log.warn(
+                  "未找到对话委托 {name} 在 {location} 的地图追踪文件: {path}",
+                  context.commissionName,
+                  context.location,
+                  executeFile
+                );
+                return false;
               }
             }
             break;
@@ -89,6 +108,8 @@ JSON使用示例:
   "data": {
     "description": "目标描述文本",  // 必需: 要检测的描述
     "executeFile": "后续文件.json"   // 可选: 检测成功后执行的文件
+    "runType": "process"  // 可选: process | path  默认process, process表示执行流程文件, path表示执行路径文件
+    "useKeyword": false  // 可选: 是否使用关键字匹配, 默认false, true表示完全匹配description, false表示委托描述部分包含description即可
   },
   "note": "检测委托描述并执行后续步骤"
 }

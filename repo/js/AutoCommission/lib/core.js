@@ -46,11 +46,11 @@ var Core = {
       // 确保所有委托的资源目录存在
       for (var i = 0; i < supportedCommissions.fight.length; i++) {
         var commission = supportedCommissions.fight[i];
-        await CommissionBasic.ensureDirectoryExists("assets/" + commission);
+        await Utils.ensureDirectoryExists("assets/" + commission);
       }
       for (var i = 0; i < supportedCommissions.talk.length; i++) {
         var commission = supportedCommissions.talk[i];
-        await CommissionBasic.ensureDirectoryExists(
+        await Utils.ensureDirectoryExists(
           Constants.TALK_PROCESS_BASE_PATH + "/" + commission
         );
       }
@@ -256,7 +256,7 @@ var Core = {
                 file.readTextSync(scriptPath);
                 var targetPos = await CommissionBasic.getCommissionTargetPosition(scriptPath);
                 if (targetPos) {
-                  var distance = CommissionBasic.calculateDistance(
+                  var distance = Utils.calculateDistance(
                     commission.CommissionPosition,
                     targetPos
                   );

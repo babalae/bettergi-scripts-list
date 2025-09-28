@@ -64,7 +64,10 @@ var DialogProcessor = {
         // 检查是否包含白名单中的NPC名称
         for (var j = 0; j < effectiveNpcWhiteList.length; j++) {
           if (text.includes(effectiveNpcWhiteList[j])) {
-            log.info("找到白名单NPC: {npc}，点击该NPC", effectiveNpcWhiteList[j]);
+            log.info(
+              "找到白名单NPC: {npc}，点击该NPC",
+              effectiveNpcWhiteList[j]
+            );
             keyDown("VK_MENU");
             await sleep(500);
             click(res.x, res.y);
@@ -126,11 +129,11 @@ var DialogProcessor = {
 
       var startTime = new Date().getTime();
 
-        // 1秒内按空格键跳过
-        while (new Date().getTime() - startTime < 1000) {
-          keyPress("VK_SPACE");
-          await sleep(200);
-        }
+      // 1秒内按空格键跳过
+      while (new Date().getTime() - startTime < 1000) {
+        keyPress("VK_SPACE");
+        await sleep(200);
+      }
 
       if (isInMainUI()) {
         log.info("检测到已返回主界面，结束循环");
@@ -161,7 +164,7 @@ var DialogProcessor = {
             repetition = 0;
           }
           oldcount = ocrResults.count;
-          if (repetition >= 5) {
+          if (repetition >= 5 && !isInMainUI()) {
             log.info("连续5次选项数量一样，执行F跳过");
             keyPress("F");
             repetition = 0;
@@ -188,9 +191,48 @@ var DialogProcessor = {
           }
 
           // 如果没有找到优先选项，则使用默认跳过
-          if (!foundPriorityOption) {
-            keyPress("F");
-            await sleep(100);
+          if (!foundPriorityOption && !isInMainUI()) {
+            let exitList = await Utils.easyTemplateMatch(
+              Constants.TALK_EXIT_IMAGE_PATH,
+              dialogRegion,
+              (useMask = true)
+            );
+            let iconList = await Utils.easyTemplateMatch(
+              Constants.TALK_ICON_IMAGE_PATH,
+              dialogRegion
+            );
+            let clickXY = null;
+            //正常应该只识别到一个退出选项，如果识别到多个，则去点击气泡对话选项
+            if (exitList.count === 1) {
+              log.info("发现一个退出对话选项");
+              clickXY = [exitList[0].x, exitList[0].y];
+
+              //点击最下边的气泡选项
+            } else if (iconList.count > 0) {
+              log.info(
+                `发现{count}个气泡对话选项，点击最后一个`,
+                iconList.count
+              );
+              iconList = [...iconList];
+              iconList.sort((a, b) => b.y - a.y);
+              clickXY = [iconList[0].x, iconList[0].y];
+            } else {
+              log.warn("指定类型的对话选项不符合数量条件，不进行操作");
+              log.warn(
+                `退出图标：{exit}个，气泡图标：{icon}个`,
+                exitList.count,
+                iconList.count
+              );
+            }
+
+            //点击对话选项
+            if (clickXY) {
+              keyDown("VK_MENU");
+              await sleep(300);
+              click(...clickXY);
+              leftButtonClick();
+              keyUp("VK_MENU");
+            }
           }
         }
       }
@@ -206,7 +248,10 @@ var DialogProcessor = {
       log.info("已返回主界面，自动剧情执行完成");
       keyPress("V");
     } else {
-      log.warn("已达到最大尝试次数 {attempts}，但未检测到返回主界面", maxAttempts);
+      log.warn(
+        "已达到最大尝试次数 {attempts}，但未检测到返回主界面",
+        maxAttempts
+      );
     }
   },
 };
