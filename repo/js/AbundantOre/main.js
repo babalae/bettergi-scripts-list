@@ -101,7 +101,7 @@ function load_persistent_data() {
     var file_content = "";
     try {
         file_content = file.readTextSync("local/persistent_data.json");
-    } catch (error) {}
+    } catch (error) { }
     if (file_content.length !== 0) {
         persistent_data = JSON.parse(file_content);
     }
@@ -114,7 +114,7 @@ function load_disabled_paths() {
         var file_content = "";
         try {
             file_content = file.readTextSync(path);
-        } catch (error) {}
+        } catch (error) { }
         for (var l of file_content.split("\n")) {
             l = l.trim();
             if (l.length === 0) {
@@ -330,11 +330,16 @@ async function run_pathing_script(name, path_state_change, current_states) {
         var modified = false;
         for (const i of json_obj.positions) {
             if (i.action === "mining") {
-                // set Noelle mining action
-                i.action = "combat_script";
-                i.action_params = settings.custom_mining_action || "诺艾尔 attack(2.0)";
-                modified = true;
+                if (!settings.force_bgi_mining) {
+                    // set Noelle mining action
+                    i.action = "combat_script";
+                    i.action_params = settings.custom_mining_action || "诺艾尔 attack(2.0)";
+                    modified = true;
+                }
             } else if (settings.custom_mining_action && i.action === "combat_script" && i.action_params.includes("诺艾尔 ")) {
+                if (settings.force_bgi_mining) {
+                    i.action = "mining"
+                }
                 i.action_params = settings.custom_mining_action;
                 modified = true;
             }
@@ -379,7 +384,7 @@ async function main() {
     // Run an empty pathing script to give BGI a chance to switch team if the user specifies one.
     await pathingScript.runFile("assets/empty_pathing.json");
     if (["natlan", "fontaine terrestrial", "sumeru", "inazuma", "liyue", "chasm underground", "mondstadt"].filter(i => !get_exclude_tags().includes(i)).length > 0) {
-        if (!Array.from(getAvatars()).includes("诺艾尔") && !settings.custom_mining_action) {
+        if (!Array.from(getAvatars()).includes("诺艾尔") && !settings.custom_mining_action && !settings.force_bgi_mining) {
             log.error("地面挖矿请带诺艾尔");
             return;
         }
@@ -524,6 +529,6 @@ async function main() {
     notification.send(summary);
 }
 
-(async function() {
+(async function () {
     await main();
 })();
