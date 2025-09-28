@@ -1,14 +1,26 @@
 name: Sync Upstream
 
 on:
-  pull_request:  # 拉取请求触发
-    branches:
-      - main  # 仅对 main 分支的 PR 触发
-  schedule:
-    # 每天0,16点执行 (UTC时间16,8点)
-    - cron: '0 8,16 * * *'
-
-  workflow_dispatch:  # 支持手动触发（在 Actions 页面点击 "Run workflow"）
+#  schedule:
+#    - cron: '0 8,16 * * *'  # 每天 UTC 8:00 和 16:00
+  workflow_dispatch:
+    inputs:
+      target_branch:
+        description: '同步的下游分支'
+        required: false
+        default: 'main'
+      preserve_ahead:
+        description: '是否保留ahead提交 (true/false)'
+        required: false
+        default: 'true'
+      enable_upstream_sync:
+        description: '是否启用同步上游 (true/false)'
+        required: false
+        default: 'true'
+      sync_mode:
+        description: '同步模式 (merge/rebase)'
+        required: false
+        default: 'rebase'
 
 jobs:
   sync:
@@ -17,66 +29,109 @@ jobs:
     name: Sync latest commits from upstream repo
 
     steps:
-      # Step 1: 检查出你的 Fork 仓库
       - name: Checkout target repo
         uses: actions/checkout@v4
         with:
-          # 可选：指定分支
-          ref: main
-          # 拉取完整历史记录，便于合并
+          ref: ${{ github.event.inputs.target_branch || secrets.TARGET_BRANCH || 'main' }}
           fetch-depth: 0
 
-      - name: 设置输入值
+      - name: Set input value
         run: |
           UPSTREAM_REPOSITORY='babalae/bettergi-scripts-list'
           echo "UPSTREAM_REPOSITORY=$UPSTREAM_REPOSITORY" >> $GITHUB_ENV
           
           UPSTREAM_REPO="https://github.com/$UPSTREAM_REPOSITORY.git"
-          echo "UPSTREAM_REPO=$UPSTREAM_REPO" >> $GITHUB_ENV
           
-          USER_NAME='${{github.repository_owner||github.actor}}'
-          USER_EMAIL='${{secrets.USER_EMAIL}}'
-          USER_REPOSITORY='${{github.repository}}'
+          USER_NAME='${{ github.repository_owner || github.actor }}'
+          USER_EMAIL='${{ secrets.USER_EMAIL }}'
+          USER_REPOSITORY='${{ github.repository }}'
           
           echo "USER_REPOSITORY=$USER_REPOSITORY" >> $GITHUB_ENV
           echo "USER_NAME=$USER_NAME" >> $GITHUB_ENV
           echo "USER_EMAIL=$USER_EMAIL" >> $GITHUB_ENV
           echo "UPSTREAM_REPO=$UPSTREAM_REPO" >> $GITHUB_ENV
-          echo "设置的输入值: UPSTREAM_REPOSITORY=$UPSTREAM_REPOSITORY,UPSTREAM_REPO=$UPSTREAM_REPO,USER_REPOSITORY=$USER_REPOSITORY,USER_NAME=$USER_NAME,USER_EMAIL=$USER_EMAILY"
+          
+          TARGET_SYNC_BRANCH="${{ github.event.inputs.target_branch || secrets.TARGET_BRANCH || 'main' }}"
+          echo "TARGET_SYNC_BRANCH=$TARGET_SYNC_BRANCH" >> $GITHUB_ENV
+          ENABLE_UPSTREAM_SYNC="${{ github.event.inputs.enable_upstream_sync || secrets.ENABLE_UPSTREAM_SYNC || 'false' }}"
+          echo "ENABLE_UPSTREAM_SYNC=$ENABLE_UPSTREAM_SYNC" >> $GITHUB_ENV
+          echo "SYNC_MODE=${{ github.event.inputs.sync_mode || 'rebase' }}" >> $GITHUB_ENV
+          
+          echo "{
+            \"UPSTREAM_REPOSITORY\": \"$UPSTREAM_REPOSITORY\",
+            \"UPSTREAM_REPO\": \"$UPSTREAM_REPO\",
+            \"USER_REPOSITORY\": \"$USER_REPOSITORY\",
+            \"USER_NAME\": \"$USER_NAME\",
+            \"USER_EMAIL\": \"$USER_EMAIL\",
+            \"TARGET_SYNC_BRANCH\": \"$TARGET_SYNC_BRANCH\",
+            \"ENABLE_UPSTREAM_SYNC\": \"$ENABLE_UPSTREAM_SYNC\",
+            \"SYNC_MODE\": \"$SYNC_MODE\"
+          }" > sync_inputs.json
+          cat sync_inputs.json
 
+      - name: Check the synchronization switch
+        id: check-switch
+        run: |
+          if [ "${{ env.ENABLE_UPSTREAM_SYNC }}" != "true" ]; then
+            echo "同步功能已关闭 (ENABLE_UPSTREAM_SYNC 未设为 true)，跳过。"
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
 
-      # Step 2: 使用 Action 同步上游变更
+      - name: Check upstream changes
+        if: steps.check-switch.outputs.skip != 'true'
+        run: |
+          git remote add upstream ${{ env.UPSTREAM_REPO }} || echo "上游远程已存在"
+          git fetch upstream --quiet || { echo "错误：无法获取上游仓库数据"; exit 1; }
+          UPSTREAM_SHA=$(git rev-parse upstream/main)
+          LOCAL_SHA=$(git rev-parse HEAD)
+          if [ "$UPSTREAM_SHA" = "$LOCAL_SHA" ]; then
+            echo "上游无新变更，跳过同步。"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "上游有新变更，继续同步。"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+        id: check-changes
+
+      - name: Rebase if selected
+        if: steps.check-switch.outputs.skip != 'true' && steps.check-changes.outputs.has_changes == 'true' && env.sync_mode == 'rebase' && env.USER_REPOSITORY != env.UPSTREAM_REPOSITORY
+        run: |
+          git rebase upstream/main
+          if [ $? -ne 0 ]; then
+            echo "Rebase 失败，可能有冲突，将创建 PR 解决。"
+            CONFLICT_FILES=$(git diff --name-only --diff-filter=U || echo "无法获取冲突文件")
+            echo "冲突文件: $CONFLICT_FILES"
+            echo "CONFLICT_FILES=$CONFLICT_FILES" >> $GITHUB_ENV
+            git rebase --abort
+            echo "rebase_failed=true" >> $GITHUB_OUTPUT
+          else
+            git push --force-with-lease
+            echo "rebase_failed=false" >> $GITHUB_OUTPUT
+          fi
+        id: rebase
+
       - name: Sync upstream changes
-        # 非上流仓库开启同步
-        if: env.USER_REPOSITORY != env.UPSTREAM_REPOSITORY
+        if: steps.check-switch.outputs.skip != 'true' && steps.check-changes.outputs.has_changes == 'true' && (env.sync_mode != 'rebase' || steps.rebase.outputs.rebase_failed == 'true') && env.USER_REPOSITORY != env.UPSTREAM_REPOSITORY
         id: sync
-        # 使用 Fork-Sync-With-Upstream-action 同步上游仓库的变更
         uses: aormsby/Fork-Sync-With-Upstream-action@v3.4.1
         with:
-          # 上游仓库 URL（必填）
-          target_sync_branch: main
-          # 你的 Fork 分支（必填）
+          target_sync_branch: ${{ env.TARGET_SYNC_BRANCH }}
           upstream_sync_branch: main
-          # 上游仓库（必填，例如 https://github.com/actions/starter-workflows.git）
-          upstream_sync_repo: ${{env.UPSTREAM_REPOSITORY}}
-          # 上游分支（必填）
+          upstream_sync_repo: ${{ env.UPSTREAM_REPOSITORY }}
           upstream_branch: main
-          # 可选：测试模式（手动运行时启用，模拟同步而不实际提交）
           sync_test_mode: false
-          # 可选：如果上游是私有仓库，需要 PAT Token（否则用默认 GITHUB_TOKEN）
-          # upstream_repo_access_token: ${{ secrets.UPSTREAM_PAT }}
-          # 必填：用于推送变更到你的 Fork（默认 GITHUB_TOKEN 即可）
           target_repo_token: ${{ secrets.GITHUB_TOKEN }}
-
-          # 可选：如果有冲突，是否强制覆盖（小心使用，可能丢失变更）
-          force: false
-
-          # 可选：用户名称和邮箱（用于 Git 提交）
-          user_name: ${{env.USER_NAME}}
-          user_email: ${{env.USER_EMAIL}}
-
-          # 可选：提交消息前缀
+          force: ${{ github.event.inputs.preserve_ahead == 'false' }}
+          user_name: ${{ env.USER_NAME }}
+          user_email: ${{ env.USER_EMAIL }}
           commit_message_prefix: "PR: "
-
-          # 可选：如果有冲突，是否创建 PR 而非直接合并（推荐 true）
           create_pr_if_conflict: true
+          pull_request_title: "Sync upstream changes from ${{ env.UPSTREAM_REPOSITORY }}"
+          pull_request_body: |
+              同步上游仓库变更失败，可能由于 squash merge 或其他冲突。
+              ${{
+                env.CONFLICT_FILES && format('冲突文件：{0}', env.CONFLICT_FILES) ||
+                '请检查并手动解决冲突。'
+              }}
