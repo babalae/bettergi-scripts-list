@@ -311,8 +311,9 @@
         while (attempt < times) {
             attempt++;
             try {
+                const gameImage = captureGameRegion(); // 每次循环都截图，确保最新画面
                 const regionObj = RecognitionObject.ocr(region.X, region.Y, region.WIDTH, region.HEIGHT);
-                const found = captureGameRegion().find(regionObj);
+                const found = gameImage.find(regionObj);
 
                 let text = '';
                 if (found) {
@@ -331,11 +332,11 @@
                     return result;
                 }
             } catch (e) {
+                gameImage.Dispose() // 释放图像资源（重要：防止内存泄漏）
                 log.error(`OCR识别尝试 ${attempt} 失败: ${e.message}`);
             }
             await sleep(interval);
         }
-        gameImage.Dispose() // 释放图像资源（重要：防止内存泄漏）
         return result;
     }
 
@@ -845,7 +846,8 @@
         while (Date.now() - startTime < timeout) {
             try {
                 // 尝试识别图像
-                let imageResult = captureGameRegion().find(recognitionObject);
+                const gameImage = captureGameRegion(); // 每次循环都截图，确保最新画面
+                let imageResult = gameImage.find(recognitionObject);
                 if (imageResult && imageResult.x !== 0 && imageResult.y !== 0 && imageResult.width !== 0 && imageResult.height !== 0) {
                     //await drawAndClearRedBox(imageResult, 500);// 调用异步函数绘制红框并延时清除
                     //log.info(`成功识别图像，坐标: x=${imageResult.x}, y=${imageResult.y}, width=${imageResult.width}, height=${imageResult.height}`);
@@ -853,12 +855,12 @@
                     return { success: true, x: imageResult.x, y: imageResult.y, width: imageResult.width, height: imageResult.height };
                 }
             } catch (error) {
+                gameImage.Dispose() // 释放图像资源（重要：防止内存泄漏）
                 log.error(`识别图像时发生异常: ${error.message}`);
             }
             await sleep(10); // 短暂延迟，避免过快循环
         }
         //log.warn(`经过多次尝试，仍然无法识别图像`);
-        gameImage.Dispose() // 释放图像资源（重要：防止内存泄漏）
         return { success: false };
     }
 
