@@ -311,6 +311,8 @@ async function run_pathing_script(name, path_state_change, current_states) {
     path_state_change.add ||= [];
     path_state_change.sustain ||= [];
 
+    const use_global_mining_action = settings.custom_mining_action === "默认" || settings.custom_mining_action === "default";
+
     for (const s of path_state_change.require) {
         if (!current_states.has(s)) {
             log.debug("Trying to get {s}", s);
@@ -329,14 +331,22 @@ async function run_pathing_script(name, path_state_change, current_states) {
         const json_obj = JSON.parse(json_content);
         var modified = false;
         for (const i of json_obj.positions) {
-            if (i.action === "mining") {
-                // set Noelle mining action
-                i.action = "combat_script";
-                i.action_params = settings.custom_mining_action || "诺艾尔 attack(2.0)";
-                modified = true;
-            } else if (settings.custom_mining_action && i.action === "combat_script" && i.action_params.includes("诺艾尔 ")) {
-                i.action_params = settings.custom_mining_action;
-                modified = true;
+            if (use_global_mining_action) {
+                if (settings.custom_mining_action && i.action === "combat_script" && i.action_params.includes("诺艾尔 ")) {
+                    i.action = "mining";
+                    i.action_params = "";
+                    modified = true;
+                }
+            } else {
+                if (i.action === "mining") {
+                    // set Noelle mining action
+                    i.action = "combat_script";
+                    i.action_params = settings.custom_mining_action || "诺艾尔 attack(2.0)";
+                    modified = true;
+                } else if (settings.custom_mining_action && i.action === "combat_script" && i.action_params.includes("诺艾尔 ")) {
+                    i.action_params = settings.custom_mining_action;
+                    modified = true;
+                }
             }
         }
         if (modified) {
