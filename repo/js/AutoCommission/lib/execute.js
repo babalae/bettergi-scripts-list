@@ -222,10 +222,10 @@ var Execute = {
   },
 
   // 自动导航到NPC对话位置（从main_branch.js移植）
-  autoNavigateToTalk: async function(npcName, iconType) {
+  autoNavigateToTalk: async function(npcName, iconType,autoTalk) {
     npcName = npcName || "";
     iconType = iconType || "";
-    
+    autoTalk = autoTalk || false;
     try {
       // 设置目标NPC名称
       var textArray = npcName;
@@ -271,6 +271,9 @@ var Execute = {
         // 检测到特点文字则结束！！！
         if (rewardResult.text == textArray) {
           log.info("已到达指定位置，检测到文字: " + rewardResult.text);
+          if (autoTalk) {
+            keyPress("VK_F");
+          }
           return;
         } else if (advanceNum > 80) {
           throw new Error("前进时间超时");
@@ -327,7 +330,7 @@ var Execute = {
       }
 
       // 初始化UI检测器和配置
-      var isInMainUI = UI.UIUtils.createMainUIChecker();
+      var isInMainUI = UI.UIUtils.isInMainUI;
       var priorityOptions = [];
       var npcWhiteList = [];
 
@@ -559,7 +562,7 @@ var Execute = {
           file.readTextSync(scriptPath);
           var targetPos = await CommissionBasic.getCommissionTargetPosition(scriptPath);
           if (targetPos) {
-            var distance = CommissionBasic.calculateDistance(
+            var distance = Utils.calculateDistance(
               commission.CommissionPosition,
               targetPos
             );
