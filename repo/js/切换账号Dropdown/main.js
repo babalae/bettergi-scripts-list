@@ -52,7 +52,7 @@
         }
         return true;
     };
-    u.waitAndFindImage = async function (asset, internal = 500, timeout = 99999999) {
+    u.waitAndFindImage = async function (asset, internal = 500, timeout = 60000) {
         const start = Date.now();
         let lastLog = start;
         let endTime = start + timeout;
