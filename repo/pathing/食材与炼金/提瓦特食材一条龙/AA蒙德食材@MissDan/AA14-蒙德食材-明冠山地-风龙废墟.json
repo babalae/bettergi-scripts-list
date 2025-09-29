@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758580428286,
+    "last_modified_time": 1759125369883,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "AA14-蒙德食材-明冠山地-风龙废墟",
@@ -382,6 +382,7 @@
       "action": "",
       "action_params": "",
       "id": 37,
+      "locked": false,
       "move_mode": "run",
       "type": "path",
       "x": 182.1064,
@@ -391,7 +392,7 @@
       "action": "",
       "action_params": "",
       "id": 38,
-      "locked": true,
+      "locked": false,
       "move_mode": "run",
       "type": "path",
       "x": 188.1348,
@@ -431,7 +432,16 @@
       "action": "",
       "action_params": "",
       "id": 42,
-      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 158.2216796875,
+      "y": 2693.47412109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 43,
+      "locked": true,
       "move_mode": "dash",
       "type": "path",
       "x": 141.499,
@@ -440,7 +450,16 @@
     {
       "action": "",
       "action_params": "",
-      "id": 43,
+      "id": 44,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 134.9501953125,
+      "y": 2705.6689453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 45,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
@@ -450,7 +469,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 44,
+      "id": 46,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
@@ -460,7 +479,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 45,
+      "id": 47,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
@@ -470,7 +489,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 46,
+      "id": 48,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
@@ -480,7 +499,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 47,
+      "id": 49,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
@@ -490,7 +509,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 48,
+      "id": 50,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
@@ -500,7 +519,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 49,
+      "id": 51,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
@@ -510,7 +529,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 50,
+      "id": 52,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
@@ -520,7 +539,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 51,
+      "id": 53,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
@@ -530,7 +549,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 52,
+      "id": 54,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
@@ -540,7 +559,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 53,
+      "id": 55,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
@@ -550,7 +569,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 54,
+      "id": 56,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
@@ -560,7 +579,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 55,
+      "id": 57,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
@@ -570,7 +589,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 56,
+      "id": 58,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
@@ -580,7 +599,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 57,
+      "id": 59,
       "locked": false,
       "move_mode": "dash",
       "type": "target",

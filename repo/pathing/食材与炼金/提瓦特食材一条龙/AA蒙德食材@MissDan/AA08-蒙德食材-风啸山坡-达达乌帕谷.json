@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758288523120,
+    "last_modified_time": 1758690969317,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "AA08-蒙德食材-风啸山坡-达达乌帕谷",
@@ -535,7 +535,7 @@
       "locked": false,
       "move_mode": "run",
       "type": "path",
-      "x": -1470.0,
+      "x": -1470,
       "y": 1361.9531
     },
     {
@@ -772,6 +772,7 @@
       "action": "",
       "action_params": "",
       "id": 76,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": -1557.9688,
@@ -1071,17 +1072,16 @@
       "action": "combat_script",
       "action_params": "万叶 e(wait,hold),wait(0.4)",
       "id": 106,
-      "locked": false,
       "move_mode": "walk",
-      "type": "target",
-      "x": -1608.7168,
-      "y": 1397.499
+      "type": "path",
+      "x": -1607.638671875,
+      "y": 1396.154296875
     },
     {
       "action": "combat_script",
       "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
       "id": 107,
-      "locked": false,
+      "locked": true,
       "move_mode": "walk",
       "type": "path",
       "x": -1608.2266,
@@ -1151,6 +1151,7 @@
       "action": "",
       "action_params": "",
       "id": 114,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": -1623.7734,
