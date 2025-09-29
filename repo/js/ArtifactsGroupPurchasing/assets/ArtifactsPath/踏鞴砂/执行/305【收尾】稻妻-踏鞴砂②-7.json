@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758967473023,
+    "last_modified_time": 1759066509278,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "305【收尾】稻妻-踏鞴砂②-7",
@@ -146,8 +146,8 @@
       "y": -3706.224609375
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
       "id": 16,
       "move_mode": "climb",
       "type": "target",
