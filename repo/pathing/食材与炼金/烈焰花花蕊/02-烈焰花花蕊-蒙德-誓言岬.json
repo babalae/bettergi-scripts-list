@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "烈焰花花蕊-璃月-天遒谷",
+    "name": "02-烈焰花花蕊-蒙德-誓言岬",
     "type": "collect",
     "version": "1.0",
     "description": "",
@@ -14,8 +14,8 @@
   "positions": [
     {
       "id": 1,
-      "x": 1153.26,
-      "y": 142.82,
+      "x": -1999.08,
+      "y": 1434.88,
       "type": "teleport",
       "move_mode": "run",
       "action": "",
@@ -23,36 +23,27 @@
     },
     {
       "id": 2,
-      "x": 1121.48,
-      "y": 186.54,
+      "x": -1989.57,
+      "y": 1469.49,
       "type": "path",
       "move_mode": "run",
-      "action": "hydro_collect",
-      "action_params": ""
-    },
-    {
-      "id": 3,
-      "x": 1126.0,
-      "y": 190.52,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
       "action_params": ""
     },
     {
-      "id": 4,
-      "x": 1129.0,
-      "y": 189.96,
-      "type": "path",
+      "id": 3,
+      "x": -1986.46,
+      "y": 1478.54,
+      "type": "target",
       "move_mode": "walk",
       "action": "hydro_collect",
       "action_params": ""
     },
     {
-      "id": 5,
-      "x": 1124.67,
-      "y": 194.64,
-      "type": "path",
+      "id": 4,
+      "x": -1991.22,
+      "y": 1489.49,
+      "type": "target",
       "move_mode": "walk",
       "action": "hydro_collect",
       "action_params": ""
