@@ -164,7 +164,7 @@ var DialogProcessor = {
             repetition = 0;
           }
           oldcount = ocrResults.count;
-          if (repetition >= 5 && !isInMainUI()) {
+          if (repetition >= 5) {
             log.info("连续5次选项数量一样，执行F跳过");
             keyPress("F");
             repetition = 0;
@@ -191,48 +191,9 @@ var DialogProcessor = {
           }
 
           // 如果没有找到优先选项，则使用默认跳过
-          if (!foundPriorityOption && !isInMainUI()) {
-            let exitList = await Utils.easyTemplateMatch(
-              Constants.TALK_EXIT_IMAGE_PATH,
-              dialogRegion,
-              (useMask = true)
-            );
-            let iconList = await Utils.easyTemplateMatch(
-              Constants.TALK_ICON_IMAGE_PATH,
-              dialogRegion
-            );
-            let clickXY = null;
-            //正常应该只识别到一个退出选项，如果识别到多个，则去点击气泡对话选项
-            if (exitList.count === 1) {
-              log.info("发现一个退出对话选项");
-              clickXY = [exitList[0].x, exitList[0].y];
-
-              //点击最下边的气泡选项
-            } else if (iconList.count > 0) {
-              log.info(
-                `发现{count}个气泡对话选项，点击最后一个`,
-                iconList.count
-              );
-              iconList = [...iconList];
-              iconList.sort((a, b) => b.y - a.y);
-              clickXY = [iconList[0].x, iconList[0].y];
-            } else {
-              log.warn("指定类型的对话选项不符合数量条件，不进行操作");
-              log.warn(
-                `退出图标：{exit}个，气泡图标：{icon}个`,
-                exitList.count,
-                iconList.count
-              );
-            }
-
-            //点击对话选项
-            if (clickXY) {
-              keyDown("VK_MENU");
-              await sleep(300);
-              click(...clickXY);
-              leftButtonClick();
-              keyUp("VK_MENU");
-            }
+          if (!foundPriorityOption) {
+            keyPress("F");
+            await sleep(100);
           }
         }
       }
