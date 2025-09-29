@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758573809995,
+    "last_modified_time": 1759047758020,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "AA13-蒙德食材-明冠山地-明冠峡",
@@ -222,22 +222,13 @@
       "id": 23,
       "move_mode": "dash",
       "type": "path",
-      "x": -477.4688,
-      "y": 2593.4028
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 24,
-      "move_mode": "dash",
-      "type": "path",
       "x": -475.0996,
       "y": 2620.3987
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.4)",
-      "id": 25,
+      "id": 24,
       "move_mode": "fly",
       "type": "path",
       "x": -492.4785,
@@ -246,7 +237,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 26,
+      "id": 25,
       "move_mode": "fly",
       "type": "path",
       "x": -672.3184,
@@ -255,7 +246,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 27,
+      "id": 26,
       "move_mode": "dash",
       "type": "path",
       "x": -678.8086,
@@ -263,8 +254,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "万叶 e,wait(0.2),keypress(VK_SPACE),wait(1.5)",
-      "id": 28,
+      "action_params": "万叶 e,wait(0.2),keypress(VK_SPACE),wait(1)",
+      "id": 27,
       "move_mode": "walk",
       "type": "path",
       "x": -680.0664,
@@ -273,7 +264,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 29,
+      "id": 28,
       "move_mode": "fly",
       "type": "path",
       "x": -761.6133,
@@ -282,7 +273,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 30,
+      "id": 29,
       "move_mode": "run",
       "type": "path",
       "x": -794.5215,
@@ -291,7 +282,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 31,
+      "id": 30,
       "move_mode": "walk",
       "type": "path",
       "x": -795.7773,
