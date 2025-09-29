@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758777739453,
+    "last_modified_time": 1758970478984,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "509【收尾】枫丹-科学院工坊高塔②-6",
@@ -20,7 +20,7 @@
   "positions": [
     {
       "action": "combat_script",
-      "action_params": "keypress(f),keydown(s),wait(0.01),dash,wait(0.5),keyup(s),wait(5.5)",
+      "action_params": "keypress(f),keydown(s),wait(0.01),dash,wait(0.5),keyup(s),wait(3)",
       "id": 1,
       "move_mode": "climb",
       "type": "target",
@@ -29,21 +29,21 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.5),wait(7)",
+      "action_params": "wait(0.35),j,wait(0.45),j,s(2.2),j,wait(1.4),j,s(1.3),j,wait(2),attack(0.3)",
       "id": 2,
       "move_mode": "fly",
       "type": "path",
-      "x": 4411.62890625,
-      "y": 4994.2861328125
+      "x": 4413.578125,
+      "y": 4996.4765625
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.35),j,wait(1.2),attack(0.5)",
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "move_mode": "fly",
+      "move_mode": "dash",
       "type": "path",
-      "x": 4418.8203125,
-      "y": 4996.89306640625
+      "x": 4419.564453125,
+      "y": 4993.4951171875
     },
     {
       "action": "combat_script",
@@ -67,11 +67,10 @@
       "action": "",
       "action_params": "",
       "id": 6,
-      "locked": false,
       "move_mode": "dash",
-      "type": "orientation",
-      "x": 4466.875,
-      "y": 4958.748849079875
+      "type": "path",
+      "x": 4456.732421875,
+      "y": 4989.52490234375
     },
     {
       "action": "",
@@ -120,7 +119,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),s(0.15);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(1.3);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.15);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(1.3);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 12,
       "move_mode": "climb",
       "type": "target",
@@ -210,7 +209,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(1);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(1);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 22,
       "move_mode": "climb",
       "type": "target",

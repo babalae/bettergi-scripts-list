@@ -56,24 +56,6 @@ var CommissionBasic = {
     }
   },
 
-  // 计算两点之间的距离
-  calculateDistance: function(point1, point2) {
-    if (
-      !point1 ||
-      !point2 ||
-      !point1.X ||
-      !point1.Y ||
-      !point2.x ||
-      !point2.y
-    ) {
-      log.warn("无效的位置数据");
-      return Infinity;
-    }
-    return Math.sqrt(
-      Math.pow(point1.X - point2.x, 2) + Math.pow(point1.Y - point2.y, 2)
-    );
-  },
-
   // 获取委托的目标坐标（从路径追踪文件中获取最后一个坐标）
   getCommissionTargetPosition: async function(scriptPath) {
     try {
@@ -107,21 +89,6 @@ var CommissionBasic = {
     } catch (error) {
       log.error("获取委托目标坐标时出错: {error}", error.message);
       return null;
-    }
-  },
-
-  // 确保目录存在
-  ensureDirectoryExists: async function(dirPath) {
-    try {
-      // 尝试创建目录，如果目录已存在，writeTextSync不会报错
-      // 创建一个临时文件来确保目录存在
-      var tempFilePath = dirPath + "/.temp";
-      file.writeTextSync(tempFilePath, "");
-      // log.info(`已确保目录存在: ${dirPath}`);
-      return true;
-    } catch (error) {
-      log.error("创建目录时出错: {error}", error);
-      return false;
     }
   },
 

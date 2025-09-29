@@ -1,15 +1,15 @@
-{
+﻿{
   "info": {
     "authors": [
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
     ],
     "bgi_version": "0.51.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758858955074,
+    "last_modified_time": 1759082132606,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "挪德卡莱-霜月之坊-银冷杉木-54个",
@@ -54,10 +54,12 @@
       "y": 1697.9927
     },
     {
-      "action": "use_gadget",
+      "action": "combat_script",
+      "action_params": "keydown(w),dash(3),keyup(w)",
       "id": 5,
+      "locked": false,
       "move_mode": "dash",
-      "type": "path",
+      "type": "orientation",
       "x": 10431.7363,
       "y": 1735.708
     },
@@ -66,12 +68,20 @@
       "id": 6,
       "move_mode": "dash",
       "type": "path",
+      "x": 10431.7363,
+      "y": 1735.708
+    },
+    {
+      "action": "use_gadget",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
       "x": 10416.3809,
       "y": 1736.4238
     },
     {
       "action": "use_gadget",
-      "id": 7,
+      "id": 8,
       "move_mode": "dash",
       "type": "path",
       "x": 10389.7129,
@@ -79,7 +89,7 @@
     },
     {
       "action": "use_gadget",
-      "id": 8,
+      "id": 9,
       "move_mode": "dash",
       "type": "path",
       "x": 10368.9961,
@@ -87,7 +97,7 @@
     },
     {
       "action": "use_gadget",
-      "id": 9,
+      "id": 10,
       "move_mode": "dash",
       "type": "path",
       "x": 10371.748,
@@ -96,7 +106,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 10,
+      "id": 11,
       "move_mode": "walk",
       "type": "path",
       "x": 10390.6035,
@@ -104,7 +114,7 @@
     },
     {
       "action": "use_gadget",
-      "id": 11,
+      "id": 12,
       "move_mode": "dash",
       "type": "path",
       "x": 10384.123,

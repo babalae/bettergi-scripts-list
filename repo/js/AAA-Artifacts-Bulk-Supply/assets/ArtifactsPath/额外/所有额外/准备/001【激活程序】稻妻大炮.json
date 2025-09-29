@@ -1,175 +1,193 @@
 ﻿{
   "info": {
-    "name": "001【激活程序】稻妻大炮",
-    "type": "collect",
     "authors": [
       {
-        "name": "汐",
-        "links": ""
+        "links": "",
+        "name": "汐"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1755530513771,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1758972241760,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "001【激活程序】稻妻大炮",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -3393.0732421875,
-      "y": -3556.0546875,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -3556.0546875
     },
     {
-      "id": 2,
-      "x": -3399.2500079001657,
-      "y": -3551.84362115731,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "keypress(f),wait(0.2),keypress(f);迪希雅 attack(0.25),e;",
-      "type": "target"
+      "id": 2,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -3399.2500079001657,
+      "y": -3551.84362115731
     },
     {
-      "id": 3,
-      "x": -3402.28125,
-      "y": -3551.4999557338415,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "keypress(f)",
-      "type": "path"
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3402.28125,
+      "y": -3551.4999557338415
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
       "x": -3400.9541015625,
-      "y": -3547.1630859375,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "y": -3547.1630859375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
+      "move_mode": "climb",
+      "type": "path",
       "x": -3400.755859375,
-      "y": -3544.443359375,
-      "action": "",
-      "move_mode": "climb",
-      "action_params": "",
-      "type": "path"
+      "y": -3544.443359375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "target",
       "x": -3397.9658203125,
-      "y": -3544.044921875,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "y": -3544.044921875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
-      "x": -3275.9990234375,
-      "y": -3552.625,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "orientation"
+      "type": "orientation",
+      "x": -3275.9990234375,
+      "y": -3552.625
     },
     {
-      "id": 8,
-      "x": -3275.9990234375,
-      "y": -3552.625,
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "w(0.5),wait(1),keypress(f),wait(0.3),keypress(f),wait(0.3),keypress(f),wait(0.5),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(0.5),keypress(ESCAPE)",
-      "type": "orientation"
-    },
-    {
-      "id": 9,
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
       "x": -3275.9990234375,
-      "y": -3552.625,
-      "action": "log_output",
-      "move_mode": "walk",
-      "action_params": "\n[激活路径]激活完\"超限点\"不拾取!!!\n[激活路径]\"超限点\"不拾取!!!\n[激活路径]不拾取!!!\n[激活路径]别再狗叫为什么漏了!!!",
-      "type": "orientation"
+      "y": -3552.625
     },
     {
+      "action": "log_output",
+      "action_params": "\n[激活路径]激活完\"超限点\"不拾取!!!\n[激活路径]\"超限点\"不拾取!!!\n[激活路径]不拾取!!!\n[激活路径]别再狗叫为什么漏了!!!",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -3275.9990234375,
+      "y": -3552.625
+    },
+    {
+      "action": "",
+      "action_params": "",
       "id": 10,
-      "x": -3472.9677734375,
-      "y": -3754.984375,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -3238.048828125,
+      "y": -3534.44921875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 11,
-      "x": -3471.005859375,
-      "y": -3743.349609375,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3472.9677734375,
+      "y": -3754.984375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 12,
-      "x": -3462.5361328125,
-      "y": -3726.7958984375,
-      "action": "combat_script",
       "move_mode": "run",
+      "type": "path",
+      "x": -3471.005859375,
+      "y": -3743.349609375
+    },
+    {
+      "action": "combat_script",
       "action_params": "keypress(f),w(0.3),keypress(f)",
-      "type": "target"
-    },
-    {
       "id": 13,
-      "x": -3464.732421875,
-      "y": -3733.4462890625,
-      "action": "",
-      "move_mode": "climb",
-      "action_params": "",
-      "type": "target"
+      "move_mode": "run",
+      "type": "target",
+      "x": -3462.5361328125,
+      "y": -3726.7958984375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 14,
-      "x": -3061,
-      "y": -3674.498937612192,
+      "move_mode": "climb",
+      "type": "target",
+      "x": -3464.732421875,
+      "y": -3733.4462890625
+    },
+    {
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "orientation"
-    },
-    {
       "id": 15,
-      "x": -3061,
-      "y": -3674.498937612192,
-      "action": "combat_script",
       "move_mode": "walk",
+      "type": "orientation",
+      "x": -3061,
+      "y": -3674.498937612192
+    },
+    {
+      "action": "combat_script",
       "action_params": "w(0.5),dash,w(0.5),w(0.5)",
-      "type": "orientation"
-    },
-    {
       "id": 16,
-      "x": -3061,
-      "y": -3674.498937612192,
-      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "w(1),wait(1),keypress(f),wait(0.5),keypress(f),wait(0.5),keypress(RETURN),wait(9.5),keypress(f),wait(0.4),keypress(w),wait(9.5),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(0.5),keypress(ESCAPE),wait(1),s(0.3),dash,s(0.3),dash,s(0.3),dash,s(0.3),dash",
-      "type": "orientation"
+      "type": "orientation",
+      "x": -3061,
+      "y": -3674.498937612192
     },
     {
+      "action": "combat_script",
+      "action_params": "w(1),wait(1),keypress(f),wait(0.5),keypress(f),wait(0.5),keypress(RETURN),wait(9.5),keypress(f),wait(0.4),keypress(w),wait(9.5),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(0.5),keypress(ESCAPE),wait(1),s(0.3),dash,s(0.3),dash,s(0.3),dash,s(0.3),dash",
       "id": 17,
-      "x": -3285.267578125,
-      "y": -3731.4169921875,
-      "action": "log_output",
       "move_mode": "walk",
+      "type": "orientation",
+      "x": -3061,
+      "y": -3674.498937612192
+    },
+    {
+      "action": "log_output",
       "action_params": "\n[激活路径]激活完\"超限点\"不拾取!!!\n[激活路径]\"超限点\"不拾取!!!\n[激活路径]不拾取!!!\n[激活路径]别再狗叫为什么漏了!!!",
-      "type": "orientation"
+      "id": 18,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -3285.267578125,
+      "y": -3731.4169921875
+    },
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3229.908203125,
+      "y": -3872.2470703125
     }
   ]
 }
