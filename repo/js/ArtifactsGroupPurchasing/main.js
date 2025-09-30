@@ -276,56 +276,61 @@ async function runGroupPurchasing(runExtra) {
     }
 
     async function checkReady(i) {
-        /* 1. 先把地图移到目标点位（point 来自 info.json） */
-        const point = await getPointByPlayer(i);
-        if (!point) return false;
-        // 把路径封装在函数内部
-        const map = {
-            2: "assets/RecognitionObject/2pInBigMap.png",
-            3: "assets/RecognitionObject/3pInBigMap.png",
-            4: "assets/RecognitionObject/4pInBigMap.png"
-        };
-        const tplPath = map[i];
-        if (!tplPath) {
-            log.error(`无效玩家编号: ${i}`);
-            return null;
+        try {
+            /* 1. 先把地图移到目标点位（point 来自 info.json） */
+            const point = await getPointByPlayer(i);
+            if (!point) return false;
+            // 把路径封装在函数内部
+            const map = {
+                2: "assets/RecognitionObject/2pInBigMap.png",
+                3: "assets/RecognitionObject/3pInBigMap.png",
+                4: "assets/RecognitionObject/4pInBigMap.png"
+            };
+            const tplPath = map[i];
+            if (!tplPath) {
+                log.error(`无效玩家编号: ${i}`);
+                return null;
+            }
+
+            const template = file.ReadImageMatSync(tplPath);
+            const recognitionObj = RecognitionObject.TemplateMatch(template, 0, 0, 1920, 1080); // 全屏查找，可自行改区域
+            if (await findAndClick(recognitionObj, 5)) await sleep(1000);
+
+            await genshin.moveMapTo(Math.round(point.x), Math.round(point.y));
+
+            /* 2. 取图标屏幕坐标 */
+            const pos = await getPlayerIconPos(i);
+            if (!pos || !pos.found) return false;
+
+            /* 3. 屏幕坐标 → 地图坐标（图标）*/
+            const mapZoomLevel = 2.0;
+            await genshin.setBigMapZoomLevel(mapZoomLevel);
+            const mapScaleFactor = 2.361;
+
+            const center = genshin.getPositionFromBigMap();   // 仅用于坐标系转换
+            const iconScreenX = pos.x;
+            const iconScreenY = pos.y;
+
+            const iconMapX = (960 - iconScreenX) * mapZoomLevel / mapScaleFactor + center.x;
+            const iconMapY = (540 - iconScreenY) * mapZoomLevel / mapScaleFactor + center.y;
+
+            /* 4. 计算“图标地图坐标”与“目标点位”的距离 */
+            const dx = iconMapX - point.x;
+            const dy = iconMapY - point.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            /* 5. 打印两种坐标及距离 */
+            log.info(`玩家 ${i}P`);
+            log.info(`├─ 屏幕坐标: (${iconScreenX}, ${iconScreenY})`);
+            log.info(`├─ 图标地图坐标: (${iconMapX.toFixed(2)}, ${iconMapY.toFixed(2)})`);
+            log.info(`├─ 目标点位坐标: (${point.x}, ${point.y})`);
+            log.info(`└─ 图标与目标点位距离: ${dist.toFixed(2)} m`);
+
+            return dist <= 10;   // 10 m 阈值，可按需调整
+        } catch (error) {
+            log.error(error.message);
+            return false;
         }
-
-        const template = file.ReadImageMatSync(tplPath);
-        const recognitionObj = RecognitionObject.TemplateMatch(template, 0, 0, 1920, 1080); // 全屏查找，可自行改区域
-        if (await findAndClick(recognitionObj, 5)) await sleep(1000);
-
-        await genshin.moveMapTo(Math.round(point.x), Math.round(point.y));
-
-        /* 2. 取图标屏幕坐标 */
-        const pos = await getPlayerIconPos(i);
-        if (!pos || !pos.found) return false;
-
-        /* 3. 屏幕坐标 → 地图坐标（图标）*/
-        const mapZoomLevel = 2.0;
-        await genshin.setBigMapZoomLevel(mapZoomLevel);
-        const mapScaleFactor = 2.361;
-
-        const center = genshin.getPositionFromBigMap();   // 仅用于坐标系转换
-        const iconScreenX = pos.x;
-        const iconScreenY = pos.y;
-
-        const iconMapX = (960 - iconScreenX) * mapZoomLevel / mapScaleFactor + center.x;
-        const iconMapY = (540 - iconScreenY) * mapZoomLevel / mapScaleFactor + center.y;
-
-        /* 4. 计算“图标地图坐标”与“目标点位”的距离 */
-        const dx = iconMapX - point.x;
-        const dy = iconMapY - point.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        /* 5. 打印两种坐标及距离 */
-        log.info(`玩家 ${i}P`);
-        log.info(`├─ 屏幕坐标: (${iconScreenX}, ${iconScreenY})`);
-        log.info(`├─ 图标地图坐标: (${iconMapX.toFixed(2)}, ${iconMapY.toFixed(2)})`);
-        log.info(`├─ 目标点位坐标: (${point.x}, ${point.y})`);
-        log.info(`└─ 图标与目标点位距离: ${dist.toFixed(2)} m`);
-
-        return dist <= 10;   // 10 m 阈值，可按需调整
     }
 
 
