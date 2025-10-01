@@ -590,6 +590,91 @@ async function searchAndClickTexts() {
     return false;
 }
 
+/**
+ * 在指定区域内查找并点击指定文字
+ * @param {string} targetText - 要点击的目标文字
+ * @param {number} x - 识别区域的左上角X坐标
+ * @param {number} y - 识别区域的左上角Y坐标
+ * @param {number} width - 识别区域的宽度
+ * @param {number} height - 识别区域的高度
+ * @param {object} options - 可选参数
+ * @param {boolean} options.trimText - 是否对OCR结果进行trim处理，默认true
+ * @param {boolean} options.clickCenter - 是否点击文字区域中心，默认true
+ * @param {number} options.retryCount - 重试次数，默认1（不重试）
+ * @param {number} options.retryInterval - 重试间隔(毫秒)，默认500
+ * @returns {Promise<boolean>} 是否找到并点击了文字
+ */
+async function clickTextInRegion(targetText, x, y, width, height, options = {}) {
+    const {
+        trimText = true,
+        clickCenter = true,
+        retryCount = 1,
+        retryInterval = 500
+    } = options;
+
+    for (let attempt = 0; attempt <= retryCount; attempt++) {
+        try {
+            // 获取游戏区域截图
+            const captureRegion = captureGameRegion();
+
+            // 创建OCR识别对象，限定识别区域
+            const ocrRo = RecognitionObject.ocr(x, y, width, height);
+            
+            // 在限定区域内进行OCR识别
+            const results = captureRegion.findMulti(ocrRo);
+
+            // 遍历OCR结果
+            for (let i = 0; i < results.count; i++) {
+                const res = results[i];
+                let detectedText = res.text;
+                
+                // 可选：去除前后空白字符
+                if (trimText) {
+                    detectedText = detectedText.trim();
+                }
+
+                // 检查是否匹配目标文字
+                if (detectedText === targetText) {
+                    log.info(`找到目标文字: "${targetText}"，位置: (${res.x}, ${res.y}, ${res.width}, ${res.height})`);
+                    
+                    if (clickCenter) {
+                        // 点击文字区域中心
+
+                        keyDown("VK_LMENU");
+                        await sleep(500);
+                        res.click();
+                        await sleep(100);
+                        keyUp("VK_LMENU");
+                        log.info(`已点击文字中心: "${targetText}"`);
+
+                    } else {
+                        // 点击文字区域的左上角
+                        res.clickTo(0, 0);
+                        log.info(`已点击文字偏移位置: "${targetText}"`);
+                    }
+                    
+                   
+                    return true;
+                }
+            }
+
+            // 如果当前尝试未找到，且还有重试机会，则等待后重试
+            if (attempt < retryCount) {
+                log.info(`第${attempt + 1}次尝试未找到文字"${targetText}"，${retryInterval}ms后重试...`);
+                await sleep(retryInterval);
+            }
+        } catch (error) {
+            log.error(`点击文字"${targetText}"时发生错误: ${error.message}`);
+            if (attempt < retryCount) {
+                await sleep(retryInterval);
+            }
+        }
+    }
+
+    log.info(`未找到文字: "${targetText}"，已尝试${retryCount + 1}次`);
+    return false;
+}
+
 //函数：打开地图前往猫尾酒馆
 async function gotoTavern() {
     const tavernRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/tavern.png"));
@@ -599,7 +684,7 @@ async function gotoTavern() {
     await sleep(1500);
     click(1841, 1015); //地图选择
     await sleep(1000);
-    click(1460, 140); //蒙德
+    await clickTextInRegion("蒙德", 1310, 70, 90, 180);
     await sleep(1200);
     //放大地图
     await genshin.setBigMapZoomLevel(1.0);
@@ -643,12 +728,13 @@ async function waitOrCheckMaxCoin(wait_time_ms) {
 
 // true和false对应打牌成功或失败
 async function Playcards(strategy, teamName, pos) {
+                
     // 点击存储的位置
-    await keyMouseScript.runFile(`assets/ALT点击.json`);
+    keyDown("VK_LMENU");
     await sleep(500);
     pos.click();
     await sleep(500);
-    await keyMouseScript.runFile(`assets/ALT释放.json`);
+    keyUp("VK_LMENU");
     await sleep(800); //略微俯视，避免名字出现在选项框附近，导致错误点击
     moveMouseBy(0, 1030);
     await sleep(1000);
@@ -672,6 +758,11 @@ async function Playcards(strategy, teamName, pos) {
 //前往一号桌
 async function gotoTable1() {
     log.info(`前往1号桌`);
+    if(settings.teamName){
+    keyPress("4");
+    await keyMouseScript.runFile(`assets/gotoTable1.json`);
+    }
+    else{
     keyDown("d");
     await sleep(1500);
     keyUp("d");
@@ -684,10 +775,16 @@ async function gotoTable1() {
     keyUp("d");
     keyUp("w");
     await sleep(700);
+    }
 }
 //前往二号桌
 async function gotoTable2() {
     log.info(`前往2号桌`);
+    if(settings.teamName){
+    keyPress("4");
+    await keyMouseScript.runFile(`assets/gotoTable2.json`);
+    }
+    else{
     keyDown("d");
     await sleep(1500);
     keyUp("d");
@@ -704,9 +801,15 @@ async function gotoTable2() {
     keyUp("s");
     await sleep(700);
 }
+}
 //前往三号桌
 async function gotoTable3() {
     log.info(`前往3号桌`);
+    if(settings.teamName){
+    keyPress("4");
+    await keyMouseScript.runFile(`assets/gotoTable3.json`);
+    }
+    else{
     keyDown("w");
     await sleep(2000);
     keyUp("w");
@@ -718,9 +821,15 @@ async function gotoTable3() {
     keyUp("a");
     await sleep(700);
 }
+}
 //前往四号桌
 async function gotoTable4() {
     log.info(`前往4号桌`);
+    if(settings.teamName){
+    keyPress("4");
+    await keyMouseScript.runFile(`assets/gotoTable4.json`);
+    }
+    else{
     keyDown("w");
     await sleep(2000);
     keyUp("w");
@@ -738,9 +847,15 @@ async function gotoTable4() {
     keyUp("w");
     await sleep(700);
 }
+}
 //前往一号包间
 async function gotoTable5() {
     log.info(`前往1号包间`);
+    if(settings.teamName){
+    keyPress("4");
+    await keyMouseScript.runFile(`assets/gotoTable5.json`);
+    }
+    else{
     keyDown("w");
     await sleep(2500);
     keyUp("w");
@@ -757,9 +872,15 @@ async function gotoTable5() {
     keyUp("w");
     await sleep(700);
 }
+}
 //前往二号包间
 async function gotoTable6() {
     log.info(`前往2号包间`);
+    if(settings.teamName){
+    keyPress("4");
+    await keyMouseScript.runFile(`assets/gotoTable6.json`);
+    }
+    else{
     await sleep(1500);
     keyDown("d");
     await sleep(1500);
@@ -784,6 +905,8 @@ async function gotoTable6() {
     keyUp("s");
     await sleep(500);
 }
+}
+
 
 async function main() {
     //主流程
@@ -850,6 +973,9 @@ async function main() {
         return;
     }
     if ((await isTaskRefreshed("assets/weekly.txt"), refresh)) {
+        await genshin.returnMainUi();
+        if(settings.teamName)await genshin.switchParty(settings.teamName);
         await main();
     }
 })();
+

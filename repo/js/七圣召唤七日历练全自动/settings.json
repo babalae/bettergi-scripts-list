@@ -21,9 +21,15 @@
     "label": "仅使用胜率记录大于该值的备用策略 (0到1之间的小数)",
     "default": "0.25"
   },
+    {
+    "name": "teamName",
+    "type": "input-text",
+    "label": "如无法到达牌桌，请输入指定队伍(强制芭芭拉4号位且队伍无加速)"
+  },
   {
     "name": "passWord",
     "type": "input-text",
     "label": "请阅读脚本说明或README.md文件获取启动密码后填写到此处"
   }
 ]
+
