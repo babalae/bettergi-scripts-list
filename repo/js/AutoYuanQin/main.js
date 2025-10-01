@@ -637,7 +637,7 @@
             // test 需要额外计算装饰音时值的影响
             for (let i = 0; i < sheet_list.length; i++) {
                 // 显示正在演奏的音符
-                if (DEBUG) {
+                if (true) {
                     log.info(`${sheet_list[i]["note"]}[${sheet_list[i]["type"]}-${sheet_list[i]["spl"]}]`);
                 }
                 if (sheet_list[i]["spl"] === 'none') { // 单音、休止符或和弦
@@ -682,12 +682,13 @@
                         for (let j = 0; j < temp_legato.length; j++) {
                             time_all += 1 / parseInt(temp_legato[j]["spl"].split(/\./)[0], 0);
                         }
-                        // 当前音符时长
-                        let time_current = Math.round(time_legato * (1 / current_type) / time_all);
                         // 计数
                         let count = 0;
 
                         for (let j = 0; j < temp_legato.length; j++) {
+                            // 当前音符时长
+                            let time_current = Math.round(time_legato * (1 / parseInt(temp_legato[j]["spl"].split(/\./)[0], 0)) / time_all);
+
                             if (temp_legato[j]["chord"]) {
                                 await play_chord(temp_legato[j]["note"]); // 和弦
                             } else {
@@ -697,20 +698,20 @@
                                     await play_note(temp_legato[j]["note"]); // 单音
                                 }
                             }
-                            if (count < temp_legato.length - 1) {
+                            if (count < temp_legato.length) {
                                 await sleep(time_current);
                             } else if (count === temp_legato.length - 1) {
                                 if (i !== sheet_list.length - 1) {
                                     // 计算连音的最后一个音的时值（计算装饰音）
                                     await sleep(cal_time_ornament(sheet_list, symbol_time, symbol, sheet_list[i]["type"], i, time_current));
                                 }
-                                // 重置连音缓存区
-                                temp_legato = [];
                             } else if (i !== sheet_list.length - 1) {
                                 await sleep(time_current);
                             }
                             count += 1;
                         }
+                        // 重置连音缓存区
+                        temp_legato = [];
                     }
                 } else if (sheet_list[i]["spl"] === '*') { // 附点音符
                     if (sheet_list[i]["chord"]) {
@@ -815,7 +816,7 @@
 
         const alwaysRepeat = ((settings_msg.playType === PlayType.SingleMusicRepeat || settings_msg.playType === PlayType.QueueMusicRepeat) && (settings_msg.repeatTimes === 0));
         await waitTargetTime(settings_msg.startTime);
-        try {
+        // try {
             do {
                 for (const music_info of music_infos) {
                     log.info(`开始演奏: ${music_info.name} - ${music_info.author}`);
@@ -844,15 +845,15 @@
                 }
                 if (settings_msg.repeatInterval > 0) await sleep(settings_msg.repeatInterval * 1000);
             } while (alwaysRepeat || --settings_msg.repeatTimes > 0);
-        } catch (error) {
-            if (DEBUG) {
-                log.error(`脚本执行错误 ${error} erron.txt 已打印`)
-                file.writeTextSync("erron.txt", `${error.stack}`);
-            }
-            else {
-                log.error(`脚本执行错误 ${error}`)
-            }
-        }
+        // } catch (error) {
+        //     if (DEBUG) {
+        //         log.error(`脚本执行错误 ${error} erron.txt 已打印`)
+        //         file.writeTextSync("erron.txt", `${error.stack}`);
+        //     }
+        //     else {
+        //         log.error(`脚本执行错误 ${error}`)
+        //     }
+        // }
     }
     await main();
 })();
