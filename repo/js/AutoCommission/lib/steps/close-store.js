@@ -6,7 +6,7 @@
 
       await sleep(500);
       if (isStoreUI) {
-        keyPress("ESC");
+        keyPress("VK_ESCAPE");
       }
       await sleep(500);
     } catch (error) {
