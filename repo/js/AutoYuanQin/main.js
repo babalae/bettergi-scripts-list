@@ -663,40 +663,47 @@
                     if (i !== sheet_list.length - 1) {
                         await sleep(ornament_time);
                     }
-                } else if (/\.3|\.6|\.\$/.test(sheet_list[i]["spl"])) { // 三连音/六连音（可能包含休止符）
+                } else if (/\.([36$])/.test(sheet_list[i]["spl"])) { // 三连音/六连音（可能包含休止符）
                     temp_legato.push({
                         "note": sheet_list[i]["note"],
                         "chord": sheet_list[i]["chord"],
-                        "type": sheet_list[i]["type"]
+                        "type": sheet_list[i]["type"],
+                        "spl": sheet_list[i]["spl"]
                     });
 
                     // 演奏连音
-                    if ("$".includes(sheet_list[i]["spl"])) {
+                    if (sheet_list[i]["spl"].includes("$")) {
                         // 连音的总时长
                         let time_legato = Math.round(symbol_time * (symbol / sheet_list[i]["type"]));
                         // 当前音符类型
-                        let current_type = parseInt(sheet_list[i]["spl"].split(".")[0])
+                        let current_type = parseInt(sheet_list[i]["spl"].split(/\./)[0])
                         // 连音的音符数值总和（用于计算当前音符时长）
-                        let time_all = temp_legato.reduce((sum, each) => sum + 1 / parseInt(each["spl"].split(".")[0]), 0);
+                        let time_all = 0;
+                        for (let j = 0; j < temp_legato.length; j++) {
+                            time_all += 1 / parseInt(temp_legato[j]["spl"].split(/\./)[0], 0);
+                        }
                         // 当前音符时长
                         let time_current = Math.round(time_legato * (1 / current_type) / time_all);
                         // 计数
-                        let count = undefined;
+                        let count = 0;
 
-                        for (const note_legato of temp_legato) {
-                            if (sheet_list[i]["chord"]) {
-                                await play_chord(sheet_list[i]["note"]); // 和弦
+                        for (let j = 0; j < temp_legato.length; j++) {
+                            if (temp_legato[j]["chord"]) {
+                                await play_chord(temp_legato[j]["note"]); // 和弦
                             } else {
-                                if (sheet_list[i]["note"] === '@') { // 休止符
+                                if (temp_legato[j]["note"] === '@') { // 休止符
                                     // pass
                                 } else {
-                                    await play_note(sheet_list[i]["note"]); // 单音
+                                    await play_note(temp_legato[j]["note"]); // 单音
                                 }
                             }
-
-                            if (count === temp_legato.length - 1 && i !== sheet_list.length - 1) {
-                                // 计算连音的最后一个音的时值（计算装饰音）
-                                await sleep(cal_time_ornament(sheet_list, symbol_time, symbol, sheet_list[i]["type"], i, time_current));
+                            if (count < temp_legato.length - 1) {
+                                await sleep(time_current);
+                            } else if (count === temp_legato.length - 1) {
+                                if (i !== sheet_list.length - 1) {
+                                    // 计算连音的最后一个音的时值（计算装饰音）
+                                    await sleep(cal_time_ornament(sheet_list, symbol_time, symbol, sheet_list[i]["type"], i, time_current));
+                                }
                                 // 重置连音缓存区
                                 temp_legato = [];
                             } else if (i !== sheet_list.length - 1) {
