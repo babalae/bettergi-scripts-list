@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758051635395,
+    "last_modified_time": 1758485229519,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B10-萃凝晶-纳塔-深渊古瞭望所01（火神赶路-3个）",
@@ -23,6 +23,7 @@
     {
       "action": "",
       "id": 1,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 8179.4,
@@ -32,6 +33,7 @@
       "action": "combat_script",
       "action_params": "玛薇卡 w(0.1),e(hold),keydown(VK_W),dash(3.0),keyup(VK_W),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
       "id": 2,
+      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
       "x": 8241.749,
@@ -41,6 +43,7 @@
       "action": "",
       "action_params": "",
       "id": 3,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 8241.749,
@@ -50,6 +53,7 @@
       "action": "",
       "action_params": "",
       "id": 4,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 8240.88,
@@ -59,6 +63,7 @@
       "action": "stop_flying",
       "action_params": "2000",
       "id": 5,
+      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 8272.42,
@@ -68,6 +73,7 @@
       "action": "",
       "action_params": "",
       "id": 6,
+      "locked": false,
       "move_mode": "run",
       "type": "path",
       "x": 8277.18,
@@ -77,6 +83,7 @@
       "action": "",
       "action_params": "",
       "id": 7,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 8273.47,
@@ -86,19 +93,21 @@
       "action": "mining",
       "action_params": "",
       "id": 8,
+      "locked": false,
       "move_mode": "walk",
       "type": "target",
-      "x": 8273.16,
-      "y": -1849.68
+      "x": 8273.7627,
+      "y": -1849.1001
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.5)",
       "id": 9,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": 8273.16,
-      "y": -1849.68
+      "x": 8273.7627,
+      "y": -1849.1001
     },
     {
       "action": "",
@@ -106,8 +115,8 @@
       "id": 10,
       "move_mode": "walk",
       "type": "path",
-      "x": 8272.63,
-      "y": -1853.2
+      "x": 8275.6748,
+      "y": -1848.0801
     },
     {
       "action": "mining",
@@ -115,8 +124,8 @@
       "id": 11,
       "move_mode": "walk",
       "type": "target",
-      "x": 8270.72,
-      "y": -1852.11
+      "x": 8270.7842,
+      "y": -1851.1162
     },
     {
       "action": "combat_script",
@@ -124,13 +133,14 @@
       "id": 12,
       "move_mode": "walk",
       "type": "path",
-      "x": 8270.72,
-      "y": -1852.11
+      "x": 8270.7842,
+      "y": -1851.1162
     },
     {
       "action": "",
       "action_params": "",
       "id": 13,
+      "locked": false,
       "move_mode": "run",
       "type": "path",
       "x": 8290.37,
@@ -142,8 +152,8 @@
       "id": 14,
       "move_mode": "walk",
       "type": "target",
-      "x": 8289.27,
-      "y": -1857.79
+      "x": 8289.8467,
+      "y": -1856.9707
     },
     {
       "action": "combat_script",
@@ -151,8 +161,8 @@
       "id": 15,
       "move_mode": "walk",
       "type": "path",
-      "x": 8289.27,
-      "y": -1857.79
+      "x": 8289.8467,
+      "y": -1856.9707
     }
   ]
 }

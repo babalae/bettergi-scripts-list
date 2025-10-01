@@ -16,6 +16,12 @@ async function main(log_off = config.log_off) {
         return
     }
 
+    if (config.refreshSettingsByLanguage) {
+        await refreshSettings()
+        holyRelicsUpUtils.sendMessage(`update ${config.language} to settings ok`)
+        return
+    }
+
     if (config.enableBatchUp) { // 检查是否启用
         if (config.toBag) {
             await wait(ms);
@@ -43,10 +49,20 @@ async function main(log_off = config.log_off) {
 
         await wait(ms);
         if (config.enableAttributeHolyRelic) {
-            if (config.sortMain.includes('升序')) {
+
+            if (config.sortMain.includes(mana.get('asc_order'))) {
                 throwError(`不支持在升序情况下使用`)
             }
             warn(`启用圣遗物强化命中功能(实验功能)`, must)
+            if (config.meetAllSiftAttributeHolyRelic && config.upMax === 20) {
+                await info(`开始验证...`, must)
+                let valid = await validHitPreamble()
+                //验证不属于 未选中满级 未选中未满级条件下
+                if (!valid) {
+                    throwError(`启用圣遗物强化命中功能(实验功能)时，不支持降序选中满级|未满级条件下强化+20操作`)
+                    return
+                }
+            }
             await bathClickUpLv2(config.insertionMethod)
         } else {
             await bathClickUpLv1(config.insertionMethod)
@@ -141,13 +157,19 @@ const LanguageMsgMap = languageUtils.getLanguageMsgMap()
 const LanguageKey = LanguageMap.get(settings.language)
 if (LanguageKey === null || !LanguageKey) {
     let languageMsg = LanguageMsgMap.get(settings.language)
-        .replace('language-key',`${settings.language}`)
-        .replace('languageList-key',`${Array.from(LanguageMap.keys()).join(',')}`)
+        .replace('language-key', `${settings.language}`)
+        .replace('languageList-key', `${Array.from(LanguageMap.keys()).join(',')}`)
     throwError(languageMsg)
 }
 const LanguageConfigJson = LanguageALLConfigMap.get(LanguageKey)
 //魔法值
 const mana = LanguageConfigJson.mana
+
+//刷新设置列表
+async function refreshSettings() {
+    await warn(JSON.stringify("settings==>" + LanguageConfigJson.settings), must)
+    await holyRelicsUpUtils.updateSettingsFile(JSON.parse(LanguageConfigJson.settings))
+}
 
 function siftAll() {
     //筛选条件
@@ -187,35 +209,42 @@ function sortAll() {
 }
 
 const must = true
-const config = {
-    suit: settings.suit,
-    log_off: settings.log_off,
-    countMaxByHoly: Math.floor(settings.countMaxByHoly),//筛选圣遗物界面最大翻页次数
-    enableBatchUp: settings.enableBatchUp,//启用批量强化
-    toBag: settings.toBag,//启用自动进入背包
-    enableInsertionMethod: settings.enableInsertionMethod,//是否开启插入方式
-    insertionMethod: settings.insertionMethod,//插入方式
-    material: settings.material,//材料
-    upMax: parseInt(settings.upMax + ''),//升级次数
-    upMaxCount: settings.upMaxCount + '',//设置升级圣遗物个数
-    knapsackKey: settings.knapsackKey,//背包快捷键
-    toSort: settings.toSort,
-    sortAuxiliary: settings.sortAuxiliary,//辅助排序
-    sortMain: settings.sortMain,//主排序
-    sortAttribute: settings.sortAttribute,//属性条件
-    sortArray: (sortAll()),
-    toSift: settings.toSift,
-    siftArray: (siftAll()),//筛选条件
-    enableAttributeHolyRelic: settings.enableAttributeHolyRelic,//启用圣遗物属性
-    inputAttributeHolyRelic: settings.inputAttributeHolyRelic,//自定义圣遗物属性
-    commonAttributeHolyRelic: settings.commonAttributeHolyRelic,//通用圣遗物属性
-    coverAttributeHolyRelic: settings.coverAttributeHolyRelic,//覆盖圣遗物通用属性以部件为单位
-    coverSiftAttributeHolyRelic: settings.coverSiftAttributeHolyRelic,//覆盖圣遗物通用属性以筛选条件为单位
-    meetAllSiftAttributeHolyRelic: settings.meetAllSiftAttributeHolyRelic,//满足所有筛选条件
-    commonSiftAttributeHolyRelic: settings.commonSiftAttributeHolyRelic,//通用筛选条件
-    inputSiftAttributeHolyRelic: settings.inputSiftAttributeHolyRelic,//自定义筛选条件
-    language: settings.language,
-}
+const config = settings.refreshSettingsByLanguage ?
+    {
+        language: settings.language,
+        refreshSettingsByLanguage: settings.refreshSettingsByLanguage,
+    }
+    :
+    {
+        suit: settings.suit,
+        log_off: settings.log_off,
+        countMaxByHoly: Math.floor(settings.countMaxByHoly),//筛选圣遗物界面最大翻页次数
+        enableBatchUp: settings.enableBatchUp,//启用批量强化
+        toBag: settings.toBag,//启用自动进入背包
+        enableInsertionMethod: settings.enableInsertionMethod,//是否开启插入方式
+        insertionMethod: settings.insertionMethod,//插入方式
+        material: settings.material,//材料
+        upMax: parseInt(settings.upMax + ''),//升级次数
+        upMaxCount: settings.upMaxCount + '',//设置升级圣遗物个数
+        knapsackKey: settings.knapsackKey,//背包快捷键
+        toSort: settings.toSort,
+        sortAuxiliary: settings.sortAuxiliary,//辅助排序
+        sortMain: settings.sortMain,//主排序
+        sortAttribute: settings.sortAttribute,//属性条件
+        sortArray: (sortAll()),
+        toSift: settings.toSift,
+        siftArray: (siftAll()),//筛选条件
+        enableAttributeHolyRelic: settings.enableAttributeHolyRelic,//启用圣遗物属性
+        inputAttributeHolyRelic: settings.inputAttributeHolyRelic,//自定义圣遗物属性
+        commonAttributeHolyRelic: settings.commonAttributeHolyRelic,//通用圣遗物属性
+        coverAttributeHolyRelic: settings.coverAttributeHolyRelic,//覆盖圣遗物通用属性以部件为单位
+        coverSiftAttributeHolyRelic: settings.coverSiftAttributeHolyRelic,//覆盖圣遗物通用属性以筛选条件为单位
+        meetAllSiftAttributeHolyRelic: settings.meetAllSiftAttributeHolyRelic,//满足所有筛选条件
+        commonSiftAttributeHolyRelic: settings.commonSiftAttributeHolyRelic,//通用筛选条件
+        inputSiftAttributeHolyRelic: settings.inputSiftAttributeHolyRelic,//自定义筛选条件
+        language: settings.language,
+        refreshSettingsByLanguage: settings.refreshSettingsByLanguage,
+    }
 
 
 const genshinJson = {
@@ -245,7 +274,10 @@ const commonHolyRelicPartMap = !config.enableAttributeHolyRelic ? [] : parseHoly
 const holyRelicPartMap = !config.enableAttributeHolyRelic ? [] : (!config.coverAttributeHolyRelic ? parseHolyRelicToMap() : takeDifferentHolyRelicToMap(parseHolyRelicToMap(), commonHolyRelicPartMap))
 
 const commonHolyRelicPartMapBySift = !config.enableAttributeHolyRelic ? [] : parseHolyRelicToMap(config.commonSiftAttributeHolyRelic)
-const holyRelicPartMapBySift = !config.enableAttributeHolyRelic ? [] : (!config.coverSiftAttributeHolyRelic ? parseHolyRelicToMap(config.inputSiftAttributeHolyRelic) : takeDifferentHolyRelicToMap(parseHolyRelicToMap(config.inputSiftAttributeHolyRelic), commonHolyRelicPartMapBySift))
+const holyRelicPartMapBySift = !config.enableAttributeHolyRelic ? [] :
+    (!config.coverSiftAttributeHolyRelic ? parseHolyRelicToMap(config.inputSiftAttributeHolyRelic) :
+        takeDifferentHolyRelicToMap(parseHolyRelicToMap(config.inputSiftAttributeHolyRelic), commonHolyRelicPartMapBySift))
+warn('holyRelicPartMapBySift==>' + JSON.stringify(Array.from(holyRelicPartMapBySift)), must)
 
 /**
  * 属性值替换函数
@@ -678,17 +710,7 @@ async function openHolyRelicsKnapsack() {
     return re
 }
 
-
-/**
- * 重置筛选功能
- * 该函数用于在游戏界面中重置当前的筛选条件
- * 首先检查是否存在筛选按钮，如果存在则点击打开筛选面板
- * 然后检查是否存在重置按钮，如果存在则点击进行重置操作
- * 每次操作后都有短暂的延迟以确保界面响应
- * @returns {Promise<boolean>} - 返回一个Promise，表示异步操作的完成
- * <前置条件:处于圣遗物背包 筛选界面|测试通过:v>
- */
-async function resetSift() {
+async function openSift() {
     let ms = 600
     let siftJson = getJsonPath('sift')
     let templateMatchJson = {
@@ -705,10 +727,99 @@ async function resetSift() {
     await wait(ms);
     // 判断筛选按钮是否存在
     let exist = isExist(sift);
-    let exist1 = false
     if (exist) {
         await info('打开筛选'); // 记录日志：打开筛选
         await sift.click(); // 点击筛选按钮
+        // await wait(ms);
+    }
+    return exist
+}
+
+async function validHitPreamble() {
+    let ms = 600
+    let open_sift = await openSift()
+    if (!open_sift) {
+        throwError(`验证出错==>未打开筛选界面`)
+        return true
+    }
+    let equipmentStatusOk = false
+    let index = 1
+    let x = Math.floor(genshinJson.width * 200 / 1920)
+    let y = Math.floor(genshinJson.height * 4 / 5)
+    while (index <= 20) {
+        mTo(x, y)
+        await scrollPage(Math.floor(genshinJson.height * 1 / 3), false, 6, 30, 600)
+        let equipmentStatus = getJsonPath('equipment_status', false)
+        let jsonEquipmentStatus = {
+            path_base: equipmentStatus.path,
+            text: equipmentStatus.name,
+            type: equipmentStatus.type,
+        }
+        let tmEquipmentStatus = await templateMatchFindByJson(jsonEquipmentStatus)
+        if (isExist(tmEquipmentStatus)) {
+            equipmentStatusOk = true
+            await info(`验证成功==>装备状态-识别成功`,must)
+            break
+        }
+        index++
+    }
+    if (!equipmentStatusOk) {
+        throwError(`验证出错==>未找到装备状态`)
+        return true
+    }
+    let notLevelNotMax = getJsonPath('not_level_not_max', false)
+    let notLevelMax = getJsonPath('not_level_max', false)
+
+    let jsonNLNM = {
+        path_base: notLevelNotMax.path,
+        text: notLevelNotMax.name,
+        type: notLevelNotMax.type,
+    }
+    let jsonNLM = {
+        path_base: notLevelMax.path,
+        text: notLevelMax.name,
+        type: notLevelMax.type,
+    }
+    let tmNLNM = await templateMatchFindByJson(jsonNLNM)
+    let tmNLM = await templateMatchFindByJson(jsonNLM)
+    await wait(ms)
+    //跳出筛选页面
+    downClick(genshinJson.width / 2, genshinJson.height / 2)
+    await info('跳出筛选页面')
+    //属于 未选中满级 未选中未满级条件下
+    return isExist(tmNLNM) && isExist(tmNLM)
+}
+
+/**
+ * 重置筛选功能
+ * 该函数用于在游戏界面中重置当前的筛选条件
+ * 首先检查是否存在筛选按钮，如果存在则点击打开筛选面板
+ * 然后检查是否存在重置按钮，如果存在则点击进行重置操作
+ * 每次操作后都有短暂的延迟以确保界面响应
+ * @returns {Promise<boolean>} - 返回一个Promise，表示异步操作的完成
+ * <前置条件:处于圣遗物背包 筛选界面|测试通过:v>
+ */
+async function resetSift() {
+    let ms = 600
+    /*    let siftJson = getJsonPath('sift')
+        let templateMatchJson = {
+            path_base: siftJson.path,
+            text: siftJson.name,
+            type: siftJson.type,
+            x: 0,
+            y: 0,
+            width: genshinJson.width / 3.0,
+            height: genshinJson.height
+        }
+        // 查找筛选按钮元素
+        let sift = templateMatchFindByJson(templateMatchJson)
+        await wait(ms);*/
+    // 判断筛选按钮是否存在
+    let exist = await openSift();
+    let exist1 = false
+    if (exist) {
+        /*  await info('打开筛选'); // 记录日志：打开筛选
+          await sift.click(); // 点击筛选按钮*/
         await wait(ms);
 
         // const resetRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("${path_base_main}重置.jpg"), 0, 0, genshinJson.width / 3.0, genshinJson.height);
@@ -1043,7 +1154,7 @@ async function openUpSort() {
     // 检查OCR识别结果是否存在（即升序按钮是否可见）
     if (isExist(templateMatch)) {
         // 更新按钮名称为选中状态
-        up_name = '升序'
+        up_name = mana.get('asc_order')
         // 点击升序按钮
         templateMatch.click()
         // 记录切换成功的日志信息
@@ -1289,40 +1400,6 @@ async function getSubFirstDifferentValues(sub1, sub2) {
     return diffJson;
 }
 
-async function ocrTestHolyRelic() {
-    //逻辑模拟
-    let key = parseHolyRelicToMap()
-    let holyRelic = await ocrHolyRelicName();
-    let one = await ocrAttributeHolyRelic()
-    //需要识别部件名称 todo:
-    let name = holyRelic.name
-    if (!key.get(name)) {
-        // 未命中圣遗物部件跳过 '@杯#攻击力%#火伤&*暴击伤害*元素精通|@冠#攻击力%#暴击率&*暴击伤害*元素精通'
-        warn("未命中圣遗物部件跳过")
-    } else if (key.get(name) && !key.get(name).main.includes(one.main)) {
-        //未命中主属性跳过
-        warn("未命中主属性跳过")
-    }
-    //强化开始
-    //...省略
-    //强化完成
-    let two = await ocrAttributeHolyRelic()
-    let diffJson = await getSubFirstDifferentValues(one.sub, two.sub)
-    warn('diffJson==>' + JSON.stringify(diffJson))
-    let upKey
-    if (diffJson.length > 0) {
-        upKey = diffJson.diff[diffJson.length - 1]
-    } else {
-        warn('新版本3词条显示4词条可能识别到 取最后一条')
-        //新版本3词条显示4词条可能识别到 取最后一条
-        upKey = two.sub[two.sub.length - 1]
-    }
-    if (key.get(name) && !key.get(name).sub.includes(upKey)) {
-        //未命中子属性跳过
-        warn("未命中子属性跳过")
-    }
-}
-
 async function ocrHolyRelicName() {
     let holyRelic = {
         name: null,//部件名称
@@ -1402,7 +1479,7 @@ async function ocrAttributeHolyRelic() {
     holyRelicAttribute.value = mainVRes.text
 
     if (holyRelicAttribute.value.includes('%') && AttributeHolyRelickeys.includes(holyRelicAttribute.main)) {
-        holyRelicAttribute.main = holyRelicAttribute.main + '百分比'
+        holyRelicAttribute.main = holyRelicAttribute.main + mana.get('percentage')
     }
     captureRegion = openCaptureGameRegion(); // 截取游戏画面
     let subList = new Array()
@@ -1834,9 +1911,10 @@ async function clickProgressBarTopByHolyRelics() {
         width: genshinJson.width / 3.0,
         height: genshinJson.height
     }
+    await wait(ms)
     // 查找筛选按钮元素
     let sift = await templateMatchFindByJson(templateMatchJson)
-
+    await wait(ms)
     // let templateMatch = await templateMatch(`${path_base_main}确认.jpg`, 0, 0, Math.floor(genshinJson.width / 2), Math.floor(genshinJson.height / 2))
     // logInfoTemplate(templateMatch)
     if (isExist(sift)) {
@@ -2040,11 +2118,12 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
     // 如果默认元素不存在，则切换为"快捷放入"
     let exist = isExist(templateMatch1);
     if (!exist) {
-        templateMatch_name = '快捷放入'
+        templateMatch_name = mana.get('quicklyPutIn')
     }
     info(`operateDispose`)
     // 如果操作方式为"默认"或未指定，则进行自动识别
-    if (operate === '默认' || (!operate)) {
+
+    if (operate === mana.get('defaultValue') || (!operate)) {
         // 更新操作方式为识别到的名称
         operate = templateMatch_name
         info(`更新操作方式为识别到的名称:${operate}`)
@@ -2069,7 +2148,7 @@ async function operateDispose(operate, enableInsertionMethod, source = 'operateD
         await wait(ms)
         let clickJsonPath
         // let name4 = `点击关闭`
-        if (operate !== '快捷放入') {
+        if (operate !== mana.get('quicklyPutIn')) {
             // name4 = `点击开启`
             clickJsonPath = getJsonPath('click_open');
         } else {
@@ -2448,13 +2527,7 @@ async function UpClickLv1(operate, source = 'UpClickLv1', log_off = config.log_o
     let holyRelic = await ocrHolyRelicName()
     name = holyRelic.name
     await wait(ms)
-    if (!holyRelicPartMap.get(name)) {
-        reJson.start = false
-        reJson.missed = true
-        reJson.missedMsg = `未命中圣遗物部件${Array.from(holyRelicPartMap.keys()).join(',')}跳过`
-        warn(reJson.missedMsg)
-        return reJson
-    }
+
     warn(`执行`)
     if (operate === '阶段放入') {
         count = upMax / 4;
@@ -2464,24 +2537,36 @@ async function UpClickLv1(operate, source = 'UpClickLv1', log_off = config.log_o
         let one = await ocrAttributeHolyRelic()
 
         if (i < 1) {
-            if (holyRelicPartMap.get(name) && holyRelicPartMap.get(name).main.length > 0 && !holyRelicPartMap.get(name).main.includes(one.main)) {
-                //未命中主属性跳过
-                reJson.start = false
-                reJson.missed = true
-                reJson.missedMsg = `未命中主属性${JSON.stringify(holyRelicPartMap.get(name).main.join(','))}跳过`
-                await warn(reJson.missedMsg)
-                return reJson
-            }
-
             if (config.meetAllSiftAttributeHolyRelic) {
                 //&&操作
                 let meetCount = 0
+                if (!holyRelicPartMapBySift.get(name)) {
+                    warn("holyRelicPartMapBySift==>" + JSON.stringify(Array.from(holyRelicPartMapBySift)));
+                    reJson.start = false
+                    reJson.missed = true
+                    reJson.missedMsg = `未命中圣遗物部件${Array.from(holyRelicPartMapBySift.keys()).join(',')}跳过`
+                    warn(reJson.missedMsg)
+                    return reJson
+                }
+
+                if (holyRelicPartMapBySift.get(name) && holyRelicPartMapBySift.get(name).main.length > 0 && !holyRelicPartMapBySift.get(name).main.includes(one.main)) {
+                    //未命中主属性跳过
+                    warn("holyRelicPartMapBySift==>" + JSON.stringify(Array.from(holyRelicPartMapBySift)));
+                    reJson.start = false
+                    reJson.missed = true
+                    reJson.missedMsg = `未命中主属性${JSON.stringify(holyRelicPartMapBySift.get(name).main.join(','))}跳过`
+                    await warn(reJson.missedMsg)
+                    return reJson
+                }
+
                 one.sub.forEach((item) => {
-                    if (holyRelicPartMapBySift.get(name).sub.includes(item.name)) {
+                    if (holyRelicPartMapBySift.get(name) && holyRelicPartMapBySift.get(name).sub.includes(item.name)) {
                         meetCount++
                     }
                 })
+
                 if (meetCount !== one.sub.length) {
+                    warn("holyRelicPartMap==>" + JSON.stringify(Array.from(holyRelicPartMap)));
                     //未命中全部子属性跳过
                     reJson.start = false
                     reJson.missed = true
@@ -2490,7 +2575,27 @@ async function UpClickLv1(operate, source = 'UpClickLv1', log_off = config.log_o
                     return reJson
                 }
             } else {
+                if (!holyRelicPartMap.get(name)) {
+                    warn("holyRelicPartMap==>" + JSON.stringify(Array.from(holyRelicPartMap)));
+                    reJson.start = false
+                    reJson.missed = true
+                    reJson.missedMsg = `未命中圣遗物部件${Array.from(holyRelicPartMap.keys()).join(',')}跳过`
+                    warn(reJson.missedMsg)
+                    return reJson
+                }
+
+                if (holyRelicPartMap.get(name) && holyRelicPartMap.get(name).main.length > 0 && !holyRelicPartMap.get(name).main.includes(one.main)) {
+                    //未命中主属性跳过
+                    warn("holyRelicPartMap==>" + JSON.stringify(Array.from(holyRelicPartMap)));
+                    reJson.start = false
+                    reJson.missed = true
+                    reJson.missedMsg = `未命中主属性${JSON.stringify(holyRelicPartMap.get(name).main.join(','))}跳过`
+                    await warn(reJson.missedMsg)
+                    return reJson
+                }
+
                 if (holyRelicPartMapBySift.get(name) && holyRelicPartMapBySift.get(name).sub.length > 0 && !one.sub.find((item => holyRelicPartMapBySift.get(name).sub.includes(item.name)))) {
+                    warn("holyRelicPartMap==>" + JSON.stringify(Array.from(holyRelicPartMap)));
                     //未命中子属性跳过
                     reJson.start = false
                     reJson.missed = true
@@ -2501,6 +2606,7 @@ async function UpClickLv1(operate, source = 'UpClickLv1', log_off = config.log_o
             }
         } else {
             if (holyRelicPartMap.get(name) && holyRelicPartMap.get(name).sub.length > 0 && !one.sub.find((item => holyRelicPartMap.get(name).sub.includes(item.name)))) {
+                warn("holyRelicPartMap==>" + JSON.stringify(Array.from(holyRelicPartMap)));
                 //未命中子属性跳过
                 reJson.start = false
                 reJson.missed = true
@@ -2799,7 +2905,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             break
         }
 
-        if (config.sortMain.includes('降序') && isDown) {
+        if (config.sortMain.includes(mana.get('desc_order')) && isDown) {
             base_y = Math.floor(genshinJson.height * 270 / 1080)
         }
 
@@ -2810,7 +2916,7 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
         warn(`i:${i},base_count_x:${base_count_x},base_count_y:${base_count_y},x:${x},y:${y}`)
         lastJson.t_y = y
         lastJson.t_x = x
-        let isBool = config.sortMain.includes('降序') && config.upMax < 20;
+        let isBool = config.sortMain.includes(mana.get('desc_order')) && config.upMax < 20;
         if (isBool) {
             if (i < 1) {
                 //强制拉到顶
@@ -2898,8 +3004,8 @@ async function bathClickUpLv1(operate, source = 'bathClickUpLv1', log_off = conf
             await templateMatchClickByJson(upJson, `圣遗物已经强化到+${config.upMax}退出强化页面 到圣遗物背包界面`, source, log_off)
             //返回圣遗物背包
             if (!re.start) {
-                if (!config.sortMain.includes('降序')) {
-                    await clickProgressBarTopByHolyRelics()
+                if (!config.sortMain.includes(mana.get('desc_order'))) {
+                    // await clickProgressBarTopByHolyRelics()
                 }
                 continue
             }
@@ -2978,7 +3084,7 @@ async function bathClickUpLv2(operate, source = 'bathClickUpLv2', log_off = conf
             break
         }
 
-        if (config.sortMain.includes('降序') && isDown) {
+        if (config.sortMain.includes(mana.get('desc_order')) && isDown) {
             base_y = Math.floor(genshinJson.height * 270 / 1080)
         }
 
@@ -2989,7 +3095,7 @@ async function bathClickUpLv2(operate, source = 'bathClickUpLv2', log_off = conf
         warn(`i:${i},base_count_x:${base_count_x},base_count_y:${base_count_y},x:${x},y:${y}`)
         lastJson.t_y = y
         lastJson.t_x = x
-        let isBool = config.sortMain.includes('降序') && config.upMax < 20;
+        let isBool = config.sortMain.includes(mana.get('desc_order')) && config.upMax < 20;
         if (isBool) {
             if (i < 1) {
                 //强制拉到顶
@@ -3094,8 +3200,8 @@ async function bathClickUpLv2(operate, source = 'bathClickUpLv2', log_off = conf
             await templateMatchClickByJson(upJson, `${msg_log},退出强化页面 到圣遗物背包界面`, source, log_off)
             //返回圣遗物背包
             if (re.missed || !re.start) {
-                if (!config.sortMain.includes('降序')) {
-                    await clickProgressBarTopByHolyRelics()
+                if (!config.sortMain.includes(mana.get('desc_order'))) {
+                    // await clickProgressBarTopByHolyRelics()
                 }
                 continue
             }
@@ -3157,7 +3263,7 @@ async function openSelectTheClipCondition(condition = config.material) {
     let ms = 100
     // 检查是否传入了有效的素材条件
     await info(condition)
-    if (condition === null || condition === '默认') {
+    if (condition === null || condition === mana.get('defaultValue')) {
         await info(`使用默认素材`)
     } else {
         let captureRegion = openCaptureGameRegion();

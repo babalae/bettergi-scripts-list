@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758010509303,
+    "last_modified_time": 1758543119089,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "CC17-稻妻食材-海祇岛-水月池",
@@ -517,7 +517,7 @@
       "action": "",
       "action_params": "",
       "id": 56,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
       "x": -458.4258,
       "y": -3589.6582
@@ -526,7 +526,7 @@
       "action": "combat_script",
       "action_params": "wait(0.4)",
       "id": 57,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
       "x": -474.4844,
       "y": -3597.6689
@@ -716,7 +716,7 @@
       "action_params": "",
       "id": 78,
       "move_mode": "walk",
-      "type": "target",
+      "type": "path",
       "x": -979.6055,
       "y": -3569.7363
     },
@@ -725,7 +725,7 @@
       "action_params": "",
       "id": 79,
       "move_mode": "dash",
-      "type": "target",
+      "type": "path",
       "x": -987.4629,
       "y": -3572.0986
     },
@@ -734,7 +734,7 @@
       "action_params": "",
       "id": 80,
       "move_mode": "dash",
-      "type": "target",
+      "type": "path",
       "x": -989.1133,
       "y": -3577.9795
     },
@@ -743,7 +743,7 @@
       "action_params": "",
       "id": 81,
       "move_mode": "dash",
-      "type": "target",
+      "type": "path",
       "x": -990.4219,
       "y": -3582.6309
     },
@@ -752,7 +752,7 @@
       "action_params": "",
       "id": 82,
       "move_mode": "dash",
-      "type": "target",
+      "type": "path",
       "x": -997.5332,
       "y": -3590.5156
     },
@@ -1027,8 +1027,8 @@
       "y": -3753.9902
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.4)",
+      "action": "",
+      "action_params": "",
       "id": 113,
       "move_mode": "walk",
       "type": "path",

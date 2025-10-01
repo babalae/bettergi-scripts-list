@@ -128,11 +128,67 @@
           return result;
      }
 
+     /**
+      * 文字OCR识别封装函数（测试中，未封装完成，后续会优化逻辑）
+      * @param text 要识别的文字，默认为"空参数"
+      * @param timeout 超时时间，单位为秒，默认为10秒
+      * @param afterBehavior 点击模式，0表示不点击，1表示点击识别到文字的位置，2表示输出模式，默认为0
+      * @param debugmodel 调试代码，0表示输入判断模式，1表示输出位置信息，2表示输出判断模式，默认为0
+      * @param x OCR识别区域的起始X坐标，默认为0
+      * @param y OCR识别区域的起始Y坐标，默认为0
+      * @param w OCR识别区域的宽度，默认为1920
+      * @param h OCR识别区域的高度，默认为1080
+      * @returns 包含识别结果的对象，包括识别的文字、坐标和是否找到的结果
+      */
+     async function textOCR(text = "空参数", timeout = 10, afterBehavior = 0, debugmodel = 0, x = 0, y = 0, w = 1920, h = 1080) {
+          const startTime = new Date();
+          var Outcheak = 0
+          for (var ii = 0; ii < 10; ii++) {
+               // 获取一张截图
+               var captureRegion = captureGameRegion();
+               var res1
+               var res2
+               var conuntcottimecot = 1;
+               var conuntcottimecomp = 1;
+               // 对整个区域进行 OCR
+               var resList = captureRegion.findMulti(RecognitionObject.ocr(x, y, w, h));
+               //log.info("OCR 全区域识别结果数量 {len}", resList.count);
+               if (resList.count !== 0) {
+                    for (let i = 0; i < resList.count; i++) { // 遍历的是 C# 的 List 对象，所以要用 count，而不是 length
+                         let res = resList[i];
+                         res1 = res.text
+                         conuntcottimecomp++;
+                         if (res.text.includes(text) && debugmodel == 3) { return result = { text: res.text, x: res.x, y: res.y, found: true }; }
+                         if (res.text.includes(text) && debugmodel !== 2) {
+                              conuntcottimecot++;
+                              if (debugmodel === 1 & x === 0 & y === 0) { log.info("全图代码位置：({x},{y},{h},{w})", res.x - 10, res.y - 10, res.width + 10, res.Height + 10); }
+                              if (afterBehavior === 1) { await sleep(1000); click(res.x, res.y); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("点击模式:关") } }
+                              if (afterBehavior === 2) { log.info("F模式:开"); await sleep(100); keyPress("F"); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("F模式:关"); } }
+                              if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; }
+                         }
+                         if (debugmodel === 2) {
+                              if (res1 === res2) { conuntcottimecot++; res2 = res1; }
+                              //log.info("输出模式：全图代码位置：({x},{y},{h},{w},{string})", res.x-10, res.y-10, res.width+10, res.Height+10, res.text);
+                              if (Outcheak === 1) { if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; } }
+                         }
+                    }
+               }
+               const NowTime = new Date();
+               if ((NowTime - startTime) > timeout * 1000) { if (debugmodel === 2) { if (resList.count === 0) { return result = { found: false }; } else { Outcheak = 1; ii = 2; } } else { Outcheak = 0; if (debugmodel === 1 & x === 0 & y === 0) { log.info(`${timeout}秒超时退出，"${text}"未找到`) }; return result = { found: false }; } }
+               else { ii = 2; if (debugmodel === 1 & x === 0 & y === 0) { log.info(`"${text}"识别中……`); } }
+               await sleep(100);
+          }
+     }
+
      //判断队内角色
      async function includes(characterName) {
           var avatars = getAvatars();
           for (let i = 0; i < avatars.length; i++) {
-               if (avatars[i] === characterName) { return true; }
+               if (avatars[i] === characterName) {
+                    await keyPress(String(i + 1));
+                    await sleep(1500);
+                    return true;
+               }
           }
           return false;
      }
@@ -140,16 +196,15 @@
      //切换队伍
      async function switchPartyIfNeeded(partyName) {
           try {
-               if (!await genshin.switchParty(partyName)) {//切换失败前往副本门口重试
+               let switched = await genshin.switchParty(partyName);
+               if (!switched) {
                     log.warn("切换队伍失败，正在重试……");
-                    await genshin.tp(-887.193359375, 1679.44287109375);//沉眠之庭
-                    await genshin.switchParty(partyName);
-                    return await includes("伊涅芙");
-               } else {
-                    if (!await includes("伊涅芙")) { return false; }
-                    await genshin.tp(-887.193359375, 1679.44287109375);//切换成功就直接传送
-                    return true;
+                    switched = await genshin.switchParty(partyName);
+                    if (!switched) {
+                         throw new Error("未找到指定队伍");
+                    } // 在神像切换两次都失败，大概率是没有找到哦队伍
                }
+               return true;
           } catch (e) {
                log.error("队伍切换失败，可能处于联机模式或其他不可切换状态：" + e.message);
                notification.error(`队伍切换失败，可能处于联机模式或其他不可切换状态`);
@@ -160,61 +215,47 @@
 
      // 传送并进入副本
      async function fuben() {
-          // 先判断一次，队伍里有伊涅芙就直接开始运行，没有的话就切换指定队伍
-          if (!await includes("伊涅芙")) {
-               if (!await switchPartyIfNeeded(party)) { log.error("未识别到指定队伍，或队伍中不包含伊涅芙，请检查队伍名是否正确！"); return false; }//找不到指定队伍就直接报错停止
-          } else {
-               log.info("已识别到伊涅芙，即将开始后续动作……");
-               await genshin.tp(-887.193359375, 1679.44287109375);//识别成功直接传送
-          }
+          await genshin.tp(-887.193359375, 1679.44287109375);//识别成功直接传送
 
           keyDown("w");
-          await sleep(2500);
+          await sleep(2000);
           keyUp("w");
           keyPress("F");
-          await sleep(4000);
-          await click(1600, 1015);
-          await sleep(1500);
-          await click(1600, 1015);
-          await sleep(9000);
-          leftButtonClick();
-          await sleep(1500);
 
-          log.info("古又老师说让你先die一下");//先降低点生命值避免满血弹窗
-          keyDown("A");
-          await sleep(3000);
-          keyUp("A");
-          await sleep(3000);
+          await textOCR("单人挑战", 8, 1, 1, 1615, 990, 220, 50);//等待“单人挑战”出现
+          await textOCR("开始挑战", 8, 1, 1, 1615, 990, 220, 50);//等待“开始挑战”出现
+          await textOCR("地脉异常", 10, 1, 1, 840, 405, 180, 55);//等待“地脉异常”出现
+          await sleep(1000);
 
           return true;
      }
 
      // 伊涅芙跳楼机
      async function doit() {
-          await sleep(3000);
+          // 江紫烟老师绞尽脑汁想也不出来几句骚话
+          const randomNumber = Math.floor(Math.random() * 3) + 1;
+          if (randomNumber == 1) { log.info("即使分离，我们的心始终相连"); }
+          if (randomNumber == 2) { log.info("再见了伊涅芙，希望你喜欢这几分钟的戏份"); }
+          if (randomNumber == 3) { log.info("离别不是结束，而是为了更好的重逢"); }
+
+          keyDown("A");
+          await sleep(3500);
+          keyUp("A");
+          await sleep(5000);
+
           await keyPress("B");
-          await sleep(1000);
-
-          //连续点击三次防止过期道具卡背包
-          await click(970, 760);
-          await sleep(100);
-          await click(970, 760);
-          await sleep(100);
-          await click(970, 760);
-
-          log.info("猜猜为什么要连续点击这个位置呢~");
-
-          await sleep(1000);
+          await handleExpiredItems();//处理过期物品弹窗
+          await sleep(800);
           await click(860, 50);
+          await sleep(800);
 
           const ifshiwu = await imageRecognitionEnhanced(foodbag, 3, 0, 0, 126, 17, 99, 53);
-
           if (!ifshiwu.found) {
                await genshin.returnMainUi();
                throw new Error("未打开'食物'页面,请确保背包已正确打开并切换到食物标签页");
           }//确认在食物界面
-          await sleep(500);
-          const ifpingguo = await imageRecognitionEnhanced(pingguo, 1, 1, 0, 115, 120, 1150, 155, true);//识别"苹果"图片
+
+          const ifpingguo = await imageRecognitionEnhanced(pingguo, 3, 1, 0, 115, 120, 1150, 155, true);//识别"苹果"图片
           if (!ifpingguo.found) {
                await genshin.returnMainUi();
                throw new Error("没有找到指定的食物：" + food + "，请检查背包中该食材数量是否足够！");
@@ -222,16 +263,9 @@
           await sleep(500);
 
           await click(1700, 1020);//点击使用
-          await sleep(1000);
 
-          const ifzjz = await imageRecognitionEnhanced(zjz, 5, 1, 0, 625, 290, 700, 360, true);//点击伊涅芙证件照
-          await sleep(100);
-          leftButtonClick();//连续点击确保吃食物的是伊涅芙
-          await sleep(100);
-          leftButtonClick();
-          await sleep(100);
-
-          if (!ifzjz.found) { throw new Error("未识别到伊涅芙"); }
+          await imageRecognitionEnhanced(zjz, 3, 1, 0, 625, 290, 700, 360, true);//点击伊涅芙证件照,确保吃食物的是伊涅芙
+          await sleep(500);
 
           for (let i = 0; i < foodCount; i++) {
                click(1251, 630);
@@ -250,15 +284,19 @@
 
           await sleep(1000);
 
-          if (n == 1) { return; }
-
-          log.info("再见了伊涅芙，希望你喜欢这几分钟的戏份");
-
-          keyDown("A");
-          await sleep(3000);
-          keyUp("A");
-          await sleep(3000);
      }
+
+     // 背包过期物品识别，需要在背包界面，并且是1920x1080分辨率下使用
+     async function handleExpiredItems() {
+          const ifGuoqi = await textOCR("物品过期", 1.5, 0, 0, 870, 280, 170, 40);
+          if (ifGuoqi.found) {
+               log.info("检测到过期物品，正在处理...");
+               await sleep(500);
+               await click(980, 750); // 点击确认按钮，关闭提示
+          }
+          // else { log.info("未检测到过期物品"); }//频繁开关背包，不需要每次都提示
+     }
+
 
 
      // ===== MAIN EXECUTION =====
@@ -274,6 +312,8 @@
      const zjz = `assets/zhengjianzhao.png`;//伊涅芙证件照
      const foodbag = `assets/foodbag.png`;//背包的“食物”界面
 
+     const eater = "伊涅芙";//客官一位~
+
      // 添加验证
      if (!party) { log.error("队伍名为空，请仔细阅读readme并进行设置后再使用此脚本！"); return; }// 利用队伍是否为空判断用户有没有进行设置
      if (foodCount > 98 || foodCount < 0) { log.error("食材数量请填写1-99之间的数字！"); return; }//确保食材数量1~99
@@ -282,22 +322,42 @@
 
      //设置分辨率和缩放
      setGameMetrics(1920, 1080, 1);
+
      await genshin.returnMainUi();//回到主界面，在秘境中可能会卡几秒
 
      log.warn("使用前请仔细阅读readme并进行相关设置！");
      log.warn("请确保食材充足！");
 
-     const iffuben = await fuben(); if (!iffuben) { return; }//前期准备，进入副本并降低一部分血量
+     await genshin.tpToStatueOfTheSeven();
 
-     // 循环控制运行次数
+
+     // 先判断一次，队伍里有伊涅芙就直接开始运行，没有的话就切换指定队伍
+     if (!await includes(eater)) {
+          if (!await switchPartyIfNeeded(party)) { log.error("未识别到指定队伍，请检查队伍名是否正确！"); return false; }//找不到指定队伍就直接报错停止
+          if (!await includes(eater)) { log.error(`未识别到`+eater+`，请检查队伍名是否正确！`); return false; }// 切换成功后判断队伍中是否有伊涅芙
+     }
+
+     log.info(`已识别到`+eater+`，即将开始后续动作……`);
+
      try {
+          await fuben();//进入副本
+
+          let dieCount = 0;
+          // 循环控制运行次数
           for (let i = 0; i < n; i++) {
                await doit();
+               dieCount++;
+               if (dieCount % 8 === 0 && dieCount != n) { //每8次回一次神像
+                    log.info("队友们的血量好像有点不太健康欸……先回去补一补！");
+                    await genshin.tpToStatueOfTheSeven();
+                    await sleep(500);
+                    await fuben();
+               }
           }
      } catch (error) {
-          log.error(`识别图像时发生异常: ${error.message}`);
+          log.error(`脚本运行中断: ${error.message}`);
      }
      log.info("运行结束！今天的" + food + "味道不错哦~");
 
-     await genshin.tp(-887.193359375, 1679.44287109375);//回到副本门口
+     await genshin.tpToStatueOfTheSeven();
 })();

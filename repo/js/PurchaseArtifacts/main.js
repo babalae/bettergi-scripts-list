@@ -22,22 +22,8 @@ let holdingState = settings.holdingState ?? 0;
         keyPress("ESCAPE"); await sleep(2000);
     }
 
-await Purchase('蒙德购买狗粮');
-await Shopping();
-
-//调整时间
-    await sleep(1500);
-    keyPress("ESCAPE"); await sleep(1500);
-    click(45, 715); await sleep(1500);
-    moveMouseTo(1440,510 );
-    leftButtonDown(); await sleep(1500);
-    moveMouseTo(1290,590 );await sleep(1000);
-    moveMouseTo(1440,330 );await sleep(1000);
-    moveMouseTo(1580,590 );await sleep(1000);
-    leftButtonUp();await sleep(500);
-    click(1440, 1025); await sleep(16000);
-    keyPress("ESCAPE"); await sleep(1000);
-    keyPress("ESCAPE"); await sleep(1000);
+    await Purchase('蒙德购买狗粮');
+    await Shopping();
 
     await Purchase('璃月购买狗粮1');
     await Shopping();
@@ -78,21 +64,6 @@ await Shopping();
     await Shopping();
 
     await Purchase('枫丹购买狗粮');
-    await sleep(1000);
-    keyDown("d");
-    await sleep(2000);
-    keyUp("d");
-    keyDown("a");
-    await sleep(300);
-    keyUp("a");
-    keyDown("w");
-    await sleep(6000);
-    keyUp("w");
-    keyDown("s");
-    await sleep(2000);
-    keyPress("SPACE");
-    await sleep(600);
-    keyUp("s");
     await Shopping();
 
     await Purchase('纳塔购买狗粮');
@@ -100,5 +71,8 @@ await Shopping();
     keyDown("a");
     await sleep(500);
     keyUp("a");
+    await Shopping();
+
+    await Purchase('挪德卡莱购买狗粮');
     await Shopping();
 })();

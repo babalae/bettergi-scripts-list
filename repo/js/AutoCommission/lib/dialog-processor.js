@@ -64,7 +64,10 @@ var DialogProcessor = {
         // 检查是否包含白名单中的NPC名称
         for (var j = 0; j < effectiveNpcWhiteList.length; j++) {
           if (text.includes(effectiveNpcWhiteList[j])) {
-            log.info("找到白名单NPC: {npc}，点击该NPC", effectiveNpcWhiteList[j]);
+            log.info(
+              "找到白名单NPC: {npc}，点击该NPC",
+              effectiveNpcWhiteList[j]
+            );
             keyDown("VK_MENU");
             await sleep(500);
             click(res.x, res.y);
@@ -126,11 +129,11 @@ var DialogProcessor = {
 
       var startTime = new Date().getTime();
 
-        // 1秒内按空格键跳过
-        while (new Date().getTime() - startTime < 1000) {
-          keyPress("VK_SPACE");
-          await sleep(200);
-        }
+      // 1秒内按空格键跳过
+      while (new Date().getTime() - startTime < 1000) {
+        keyPress("VK_SPACE");
+        await sleep(200);
+      }
 
       if (isInMainUI()) {
         log.info("检测到已返回主界面，结束循环");
@@ -206,7 +209,10 @@ var DialogProcessor = {
       log.info("已返回主界面，自动剧情执行完成");
       keyPress("V");
     } else {
-      log.warn("已达到最大尝试次数 {attempts}，但未检测到返回主界面", maxAttempts);
+      log.warn(
+        "已达到最大尝试次数 {attempts}，但未检测到返回主界面",
+        maxAttempts
+      );
     }
   },
 };

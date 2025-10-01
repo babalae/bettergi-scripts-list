@@ -1,15 +1,5 @@
 [
 {
-    "name": "method",
-    "type": "select",
-    "label": "默认：通过 <冒险之证> 寻找地脉花，一般不用改\n可选：通过 <拖动地图> 为原始方法，按需要选择",
-    "options": [
-      "冒险之证",
-      "拖动地图"
-  ],
-  "default": "冒险之证"
-},
-    {
       "name": "n",
       "type": "input-text",
       "label": "选填：战斗队伍，默认不更换队伍，如需好感队则必填"
@@ -85,12 +75,12 @@
         "label": "直跑模式：如下个花近，直跑去，不传送，要求44.8版本以上 ↓↓",
         "default": "true"
     },
-    {
-        "name": "EAT",
-        "type": "checkbox",
-        "label": "支持BGI本体血量恢复药和复活药，有小BUG，酌情使用\n自动吃药：请戴“营养袋”，要求48.2版本以上，否则会报错。 ↓↓",
-        "default": "false"
-    },
+    // {
+    //     "name": "EAT",
+    //     "type": "checkbox",
+    //     "label": "支持BGI本体血量恢复药和复活药，有小BUG，酌情使用\n自动吃药：请戴“营养袋”，要求48.2版本以上，否则会报错。 ↓↓",
+    //     "default": "false"
+    // },
     // {
     //     "name": "EATNAME",
     //     "type": "input-text",

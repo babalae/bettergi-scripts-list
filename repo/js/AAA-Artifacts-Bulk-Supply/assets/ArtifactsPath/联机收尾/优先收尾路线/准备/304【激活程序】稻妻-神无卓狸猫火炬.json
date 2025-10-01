@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758045845748,
+    "last_modified_time": 1758799657832,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "304【激活程序】稻妻-神无卓狸猫火炬",
@@ -38,7 +38,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.3),wait(3.5)",
+      "action_params": "attack(0.3),wait(4)",
       "id": 3,
       "move_mode": "fly",
       "type": "path",
@@ -46,8 +46,8 @@
       "y": -3548.7333984375
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.8)",
       "id": 4,
       "move_mode": "dash",
       "type": "path",
@@ -74,7 +74,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(x);迪希雅 e,wait(0.3),e;玛薇卡 e;",
+      "action_params": "keypress(x),;迪希雅 e,wait(0.3),e;玛薇卡 e;",
       "id": 7,
       "move_mode": "dash",
       "type": "path",

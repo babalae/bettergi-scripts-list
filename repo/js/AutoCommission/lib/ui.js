@@ -91,8 +91,8 @@ var UI = {
 
   // UI工具模块 - 处理UI检测和文本提取等工具函数
   UIUtils: {
-    // 创建主界面检测函数
-    createMainUIChecker: function() {
+    // 检测是否在主界面
+    isInMainUI: function() {
       var paimonMenuRo = RecognitionObject.TemplateMatch(
         file.ReadImageMatSync("Data/RecognitionObject/paimon_menu.png"),
         0,
@@ -101,11 +101,24 @@ var UI = {
         genshin.width / 5.0
       );
 
-      return function() {
-        var captureRegion = captureGameRegion();
-        var res = captureRegion.Find(paimonMenuRo);
-        return !res.isEmpty();
-      };
+      var captureRegion = captureGameRegion();
+      var res = captureRegion.Find(paimonMenuRo);
+      return !res.isEmpty();
     },
+
+    isStoreUI: function() {
+      var paimonMenuRo = RecognitionObject.TemplateMatch(
+        file.ReadImageMatSync("Data/RecognitionObject/商店.png"),
+        0,
+        0,
+        genshin.width / 3.0,
+        genshin.width / 5.0
+      );
+
+      var captureRegion = captureGameRegion();
+      var res = captureRegion.Find(paimonMenuRo);
+      return !res.isEmpty();
+    },
+
   }
 };
