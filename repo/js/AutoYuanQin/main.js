@@ -637,7 +637,7 @@
             // test 需要额外计算装饰音时值的影响
             for (let i = 0; i < sheet_list.length; i++) {
                 // 显示正在演奏的音符
-                if (true) {
+                if (DEBUG) {
                     log.info(`${sheet_list[i]["note"]}[${sheet_list[i]["type"]}-${sheet_list[i]["spl"]}]`);
                 }
                 if (sheet_list[i]["spl"] === 'none') { // 单音、休止符或和弦
@@ -856,4 +856,5 @@
         // }
     }
     await main();
+
 })();
