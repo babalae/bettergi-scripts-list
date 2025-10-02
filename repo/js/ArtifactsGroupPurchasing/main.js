@@ -1143,6 +1143,8 @@ async function recognizeAndInteract() {
             let itemName = null;
             for (const targetItem of targetItems) {
                 let recognitionObject = RecognitionObject.TemplateMatch(targetItem.template, 1219, centerYF - 15, 32 + 30 * (targetItem.itemName.length) + 2, 30);
+                recognitionObject.Threshold = 0.9;
+                recognitionObject.InitTemplate();
                 result = gameRegion.find(recognitionObject);
                 if (result.isExist()) {
                     itemName = targetItem.itemName;
@@ -1158,6 +1160,8 @@ async function recognizeAndInteract() {
 
     async function findFIcon() {
         let recognitionObject = RecognitionObject.TemplateMatch(fIcontemplate, 1102, 335, 34, 400);
+        recognitionObject.Threshold = 0.95;
+        recognitionObject.InitTemplate();
         try {
             let result = gameRegion.find(recognitionObject);
             if (result.isExist()) {
