@@ -34,16 +34,16 @@
     "label": "本路径组使用配队名称"
   },
   {
-    "name": "pickupMode",
+    "name": "pickup_Mode",
     "type": "select",
     "label": "拾取模式",
     "options": [
-      "模板匹配拾取，默认只拾取狗粮",
-      "ocr拾取，默认只拾取狗粮和晶蝶",
+      "模板匹配拾取，拾取狗粮和怪物材料",
+      "模板匹配拾取，只拾取狗粮",
       "bgi原版拾取",
       "不拾取任何物品"
     ],
-    "default": "模板匹配拾取，默认只拾取狗粮"
+    "default": "模板匹配拾取，拾取狗粮和全部怪物材料"
   },
   {
     "name": "disableSelfOptimization",
@@ -51,21 +51,21 @@
     "label": "勾选后禁用根据运行记录优化路线选择的功能\n完全使用路线原有信息"
   },
   {
-    "name": "enableNewTargets",
-    "type": "checkbox",
-    "label": "勾选后使用模板匹配拾取模式时将会拾取新材料\n默认为挪德卡莱地区所有怪物材料\n可在assets/newTargets文件中查看并调整",
-    "default": "true"
-  },
-  {
     "name": "pickupDelay",
     "type": "input-text",
-    "label": "拾取后延时(毫秒)，观察到误捡时建议调大",
-    "default": "100"
+    "label": "拾取后延时(毫秒)\n观察到日志显示连续拾取相同物品时建议调大",
+    "default": "50"
+  },
+  {
+    "name": "rollingDelay",
+    "type": "input-text",
+    "label": "滚动后延时(毫秒)\n观察到拾取错误时建议调大",
+    "default": "32"
   },
   {
     "name": "timeMove",
     "type": "input-text",
-    "label": "单次滚动周期(毫秒)，滚动不全时",
+    "label": "单次滚动周期(毫秒)\n观察到滚动不全时建议调大",
     "default": "1000"
   },
   {
@@ -76,7 +76,7 @@
   {
     "name": "runByEfficiency",
     "type": "checkbox",
-    "label": "组内按照效率降序运行\n会略微增加传送花费时间，用于在时间有限时优先跑高效路线\n建议配合下一项配置使用"
+    "label": "组内按照效率降序运行\n会略微增加传送花费时间，用于在时间有限时优先跑高效路线\n建议配合下一项配置使用\n含优先关键词的路线效率会被视为最高"
   },
   {
     "name": "timeRule",

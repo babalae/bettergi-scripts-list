@@ -1158,22 +1158,21 @@ function canRunPathingFile(currentTime, lastEndTime, refreshCD, pathName) {
             log.info(`路径文件${pathName}上次运行时间：${lastEndTimeDate.toLocaleString()}，下次运行时间：${nextRunTime.toLocaleString()}`);
             return canRun;
         } else if (refreshCD.type === 'specific') {
-            // 处理“具体时间点”这样的特殊规则
-            const specificHour = refreshCD.hour;
-            const currentHour = currentDate.getHours();
-            // const lastEndHour = lastEndTimeDate.getHours();
-
-            // 如果当前时间等于指定时间点，且日期已经改变
-            if (currentHour === specificHour && currentDate.getDate() !== lastEndTimeDate.getDate()) {
-                return true;
-            }
-
-            const nextRunTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), specificHour);
-            if (currentHour >= specificHour) {
-                nextRunTime.setDate(nextRunTime.getDate() + 1);
-            }
-            log.info(`路径文件${pathName}上次运行时间：${lastEndTimeDate.toLocaleString()}，下次运行时间：${nextRunTime.toLocaleString()}`);
-            return false;
+                const specificHour = refreshCD.hour;
+                const currentDate = new Date();
+                const lastDate = new Date(lastEndTimeDate);
+                // 当天固定刷新点（如今天4:00）
+                const todayRefresh = new Date(currentDate);
+                todayRefresh.setHours(specificHour, 0, 0, 0);
+                // 条件：过了今天刷新点 + 跨日期
+                if (currentDate > todayRefresh && currentDate.getDate() !== lastDate.getDate()) {
+                    return true;
+                }
+                // 计算下次时间（今天没到就今天，过了就明天）
+                const nextRefreshTime = new Date(todayRefresh);
+                if (currentDate >= todayRefresh) nextRefreshTime.setDate(nextRefreshTime.getDate() + 1);
+                log.info(`路径文件${pathName}上次运行时间：${lastEndTimeDate.toLocaleString()}，下次运行时间：${nextRefreshTime.toLocaleString()}`);
+                return false;
         } else if (refreshCD.type === 'instant') {
             // 处理“即时刷新”这样的特殊规则
             return true;
