@@ -51,7 +51,7 @@
       "x": 1986,
       "y": 1593.25,
       "action": "fight",
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path"
     },
     {
@@ -69,7 +69,7 @@
       "y": 1593.25,
       "action": "combat_script",
       "move_mode": "run",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.2)",
       "type": "orientation"
     }
   ]

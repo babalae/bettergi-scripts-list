@@ -7,52 +7,53 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时65秒，包含2只精英，预计收入800摩拉，包含以下怪物：2只大型狂蔓隙境原体。",
+    "description": "  路线信息：该路线预计用时47秒，包含以下怪物：1只大型狂蔓隙境原体。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756237946173,
+    "last_modified_time": 1759490907425,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "522枫丹特别温暖的地方（400_2）",
+    "name": "524枫丹很明亮的地方（400_1）",
     "tags": [],
     "type": "collect",
     "version": "1.0"
   },
   "positions": [
     {
-      "action": "force_tp",
+      "action": "",
       "action_params": "",
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 4795.1552734375,
-      "y": 2510.637939453125
+      "x": 4901.181640625,
+      "y": 2426.140380859375
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
       "move_mode": "dash",
-      "type": "orientation",
-      "x": 4824.380859375,
-      "y": 2582.419189453125
+      "type": "path",
+      "x": 4924.525390625,
+      "y": 2396.88525390625
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(2)",
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 4824.380859375,
-      "y": 2582.419189453125
+      "x": 4921.4892578125,
+      "y": 2391.189208984375
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 4800.5732421875,
-      "y": 2618.52001953125
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4693.9755859375,
+      "y": 2252.129638671875
     },
     {
       "action": "fight",
@@ -60,17 +61,18 @@
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": 4803.623046875,
-      "y": 2646.79052734375
+      "x": 4693.9755859375,
+      "y": 2252.129638671875
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.2)",
       "id": 6,
-      "move_mode": "dash",
+      "locked": false,
+      "move_mode": "walk",
       "type": "orientation",
-      "x": 4803.623046875,
-      "y": 2646.79052734375
+      "x": 4693.9755859375,
+      "y": 2252.129638671875
     }
   ]
 }

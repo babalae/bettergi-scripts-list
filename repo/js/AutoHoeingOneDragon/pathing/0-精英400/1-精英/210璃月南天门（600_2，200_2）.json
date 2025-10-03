@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "  路线信息：该路线预计用时190.61秒，包含4只精英与7只小怪，预计收入1964.5摩拉，包含以下怪物：1只草史莱姆、2只大型冰史莱姆、2只岩盾丘丘人、2只射手丘丘人、1只岩盾丘丘暴徒、1只幼岩龙蜥、2只岩龙蜥。",
+    "description": "  路线信息：该路线预计用时143秒，包含4只精英与7只小怪，预计收入1964.5摩拉，包含以下怪物：1只草史莱姆、2只大型冰史莱姆、2只岩盾丘丘人、2只射手丘丘人、1只岩盾丘丘暴徒、1只幼岩龙蜥、2只岩龙蜥。",
     "bgi_version": "0.45.0",
     "authors": [
       {
@@ -88,7 +88,7 @@
       "y": 266.6,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(1)",
+      ")",
       "type": "orientation"
     },
     {
@@ -151,7 +151,7 @@
       "y": 398.13,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.2)",
       "type": "orientation"
     }
   ]

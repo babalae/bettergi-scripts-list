@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "  路线信息：该路线预计用时69.32秒，包含3只精英，预计收入1000摩拉，包含以下怪物：2只幼岩龙蜥、1只岩龙蜥。",
+    "description": "  路线信息：该路线预计用时53秒，包含3只精英，预计收入1000摩拉，包含以下怪物：2只幼岩龙蜥、1只岩龙蜥。",
     "bgi_version": "0.45.0",
     "authors": [
       {
@@ -61,7 +61,7 @@
       "y": -553.13,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;attack(10),keypress(x)",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;keypress(q)",
       "type": "path"
     },
     {
@@ -115,7 +115,7 @@
       "y": -548.22,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.2)",
       "type": "orientation"
     }
   ]
