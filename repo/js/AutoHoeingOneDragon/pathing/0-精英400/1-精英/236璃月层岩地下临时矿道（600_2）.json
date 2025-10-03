@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "  路线信息：该路线预计用时108.47秒，包含2只精英，预计收入1200摩拉，包含以下怪物：1只黯色空壳·近卫、1只岩龙蜥。",
+    "description": "  路线信息：该路线预计用时85秒，包含2只精英，预计收入1200摩拉，包含以下怪物：1只黯色空壳·近卫、1只岩龙蜥。",
     "map_name": "TheChasm",
     "bgi_version": "0.45.0",
     "authors": [
@@ -120,7 +120,7 @@
       "y": 1064.23,
       "action": "combat_script",
       "move_mode": "run",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.2)",
       "type": "orientation"
     }
   ]

@@ -8,7 +8,7 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时91.96秒，包含1只精英与42只小怪，预计收入2301摩拉，包含以下怪物：1只黑蛇骑士·斩风之剑。",
+    "description": "  路线信息：该路线预计用时91秒，包含1只精英与42只小怪，预计收入2301摩拉，包含以下怪物：1只黑蛇骑士·斩风之剑。",
     "enable_monster_loot_split": false,
     "last_modified_time": 1755962255175,
     "map_match_method": "",
@@ -102,7 +102,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.2)",
       "id": 10,
       "move_mode": "walk",
       "type": "orientation",

@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "汐",
     "version": "1.0",
-    "description": "  路线信息：该路线预计用时66.97秒，包含2只精英，预计收入400摩拉，包含以下怪物：2只遗迹守卫。",
+    "description": "  路线信息：该路线预计用时40秒，包含2只精英，预计收入400摩拉，包含以下怪物：2只遗迹守卫。",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "authors": [
@@ -58,7 +58,7 @@
       "y": -572.94,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.2)",
       "type": "orientation"
     }
   ]

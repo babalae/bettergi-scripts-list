@@ -1,0 +1,185 @@
+﻿{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时140秒，包含2只精英与5只小怪，预计收入1002.5摩拉，包含以下怪物：2只岩盾丘丘人、2只射手丘丘人、1只火箭丘丘人、1只岩盾丘丘暴徒、1只丘丘岩盔王。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759434678070,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "405须弥觉王之殿南（600_1，200_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3591.75,
+      "y": -787.6499999999996
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 3587.5,
+      "y": -788.3699999999999
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);玛薇卡 w(0.2),attack(0.3),e(hold),wait(0.05),keydown(w),wait(0.01),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.1),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.3),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.9),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.5);",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 3478.1900000000005,
+      "y": -808.3099999999995
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3478.1900000000005,
+      "y": -808.3099999999995
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3471.9951171875,
+      "y": -807.60302734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 3468.6513671875,
+      "y": -815.7734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3460.138671875,
+      "y": -816.95166015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 3455.1728515625,
+      "y": -818.38623046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;钟离 d(0.1),e(hold);茜特菈莉 e;莱依拉 e;",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3456.0390625,
+      "y": -826.90673828125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3),j,click(middle)",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3462.568359375,
+      "y": -841.93994140625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 3467.8099999999995,
+      "y": -841.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3469.380000000001,
+      "y": -837.6199999999999
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;",
+      "id": 13,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3442.41,
+      "y": -835.8199999999997
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3428.880000000001,
+      "y": -830.0599999999995
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 3425,
+      "y": -834.3099999999995
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3429.75,
+      "y": -823.75
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3430.75,
+      "y": -826.75
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 18,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 3430.75,
+      "y": -826.75
+    }
+  ]
+}
