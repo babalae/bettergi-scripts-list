@@ -1,6 +1,7 @@
 //当前js版本1.8.2
 
 //拾取时上下滑动的时间
+
 let timeMoveUp;
 let timeMoveDown;
 let pickup_Mode = settings.pickup_Mode || "模板匹配拾取，拾取狗粮和怪物材料";
@@ -737,18 +738,23 @@ async function isMainUI() {
 async function loadTargetItems() {
     let targetItemPath;
     if (pickup_Mode === "模板匹配拾取，拾取狗粮和怪物材料") {
-        targetItemPath = 'assets/targetItems';
+        targetItemPath = "assets/targetItems/";
     } else if (pickup_Mode === "模板匹配拾取，只拾取狗粮") {
-        targetItemPath = 'assets/targetItems/其他';
+        targetItemPath = "assets/targetItems/其他/";
     } else {
         return null;
     }
+
     const items = await readFolder(targetItemPath, false);
+
     // 统一预加载模板
     for (const it of items) {
-        it.template = file.ReadImageMatSync(it.fullPath);
-        it.itemName = it.fileName.replace(/\.png$/i, '');
+        try {
+            it.template = file.ReadImageMatSync(it.fullPath);
+            it.itemName = it.fileName.replace(/\.png$/i, '');
+        } catch (error) { }
     }
+
     return items;
 }
 
