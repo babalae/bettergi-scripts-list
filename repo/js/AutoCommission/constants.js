@@ -15,7 +15,9 @@ var Constants = {
   // 图像识别相关常量
   COMPLETED_IMAGE_PATH: "Data/RecognitionObject/Completed.png",
   UNCOMPLETED_IMAGE_PATH: "Data/RecognitionObject/UnCompleted.png",
-
+  TALK_EXIT_IMAGE_PATH:"/Data/RecognitionObject/TalkExit.png",
+  TALK_ICON_IMAGE_PATH:"/Data/RecognitionObject/TalkIcon.png",
+  
   // 基础配置常量
   MIN_TEXT_LENGTH: 3, // 最小文本长度
   MAX_COMMISSION_RETRY_COUNT: 1, // 默认重试机制，超过则跳过该委托
