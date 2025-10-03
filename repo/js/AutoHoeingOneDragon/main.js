@@ -999,6 +999,10 @@ async function readFolder(folderPath, onlyJson) {
                 // 如果是文件夹，先存储到临时数组中
                 subFolders.push(filePath);
             } else {
+                if (filePath.endsWith(".js")) {
+                    //跳过js结尾的文件
+                    continue;
+                }
                 // 如果是文件，根据 onlyJson 判断是否存储
                 if (onlyJson) {
                     if (filePath.endsWith(".json")) {
