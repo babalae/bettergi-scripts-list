@@ -1,0 +1,95 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时85秒，包含以下怪物：1只嗜雷·兽境猎犬、1只魔像禁卫。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759490820830,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "523枫丹卡布狄斯堡遗迹（400_1，200_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3352.138671875,
+      "y": 2753.06982421875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3334.5361328125,
+      "y": 2783.574951171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3339.4423828125,
+      "y": 2802.42431640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3353.6943359375,
+      "y": 2844.8359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(2)",
+      "id": 5,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 3357.8447265625,
+      "y": 2846.41552734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4715.498046875,
+      "y": 2559.4736328125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4707.29296875,
+      "y": 2559.153076171875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4707.29296875,
+      "y": 2559.153076171875
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "info": {
+    "name": "604纳塔奥奇（600_4）次数盾",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时230.35秒，包含4只精英，预计收入2400摩拉，包含以下怪物：4只深邃拟覆叶。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 10165.76,
+      "y": -395.59,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 10201.94,
+      "y": -404.75,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 10221.5,
+      "y": -409.5,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 10242.1,
+      "y": -448.97,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(3)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 10254.87,
+      "y": -443.68,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 10242.1,
+      "y": -448.97,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 10258.94,
+      "y": -504.82,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 10301.75,
+      "y": -506.75,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 10313.94,
+      "y": -526.44,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 10299.31,
+      "y": -558.69,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 10276.1,
+      "y": -565.58,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 10275.63,
+      "y": -571.11,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 10276.1,
+      "y": -559.58,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(4)",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 10276.1,
+      "y": -559.58,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 10276.1,
+      "y": -559.58,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}

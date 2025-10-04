@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>MIDI 解析器（纯JS版）</title>
+<style>
+body { font-family: sans-serif; padding: 20px; }
+pre { background: #f4f4f4; padding: 10px; border-radius: 5px; white-space: pre-wrap; word-break: break-word; }
+button { margin-left: 10px; }
+</style>
+</head>
+<body>
+<h1>MIDI 解析器（纯JS版）</h1>
+<input type="file" id="midiFile" accept=".mid">
+<button id="exportBtn" disabled>导出 JSON</button>
+<pre id="output"></pre>
+
+<script>
+// ===== JS 版 best_three_octave_natural_dict =====
+function bestThreeOctaveNaturalDict(midiList) {
+    const noteNames = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+    const naturalMap = {
+        "C":"C","C#":"C",
+        "D":"D","D#":"D",
+        "E":"E",
+        "F":"F","F#":"F",
+        "G":"G","G#":"G",
+        "A":"A","A#":"A",
+        "B":"B"
+    };
+    const naturalOrder = ["C","D","E","F","G","A","B"];
+    const labels = "ZXCVBNMASDFGHJQWERTYU".split("");
+
+    const midiInts = Array.from(new Set(midiList.map(n=>parseInt(n)))).sort((a,b)=>a-b);
+    if (!midiInts.length) return {};
+
+    const midiToNatOct = m => {
+        const nName = noteNames[m % 12];
+        const naturalName = naturalMap[nName];
+        const octave = Math.floor(m / 12) - 1;
+        return [naturalName, octave];
+    };
+
+    const inputNotes = midiInts.map(midiToNatOct);
+    const minOct = Math.min(...inputNotes.map(n=>n[1]));
+    const maxOct = Math.max(...inputNotes.map(n=>n[1]));
+
+    let bestStart = null, bestCover = -1, bestCenterDiff = Infinity;
+
+    for (let startOct = minOct - 3; startOct <= maxOct; startOct++) {
+        for (let startNat of naturalOrder) {
+            let seq = [];
+            let noteIdx = naturalOrder.indexOf(startNat);
+            let octv = startOct;
+            for (let i=0; i<21; i++) {
+                seq.push([naturalOrder[noteIdx], octv]);
+                noteIdx++;
+                if (noteIdx >= naturalOrder.length) { noteIdx = 0; octv++; }
+            }
+            const coverCount = inputNotes.filter(n => seq.some(s => s[0]===n[0] && s[1]===n[1])).length;
+            const seqMidOct = seq[Math.floor(seq.length/2)][1];
+            const inputMidOct = inputNotes.sort((a,b)=>a[1]-b[1])[Math.floor(inputNotes.length/2)][1];
+            const centerDiff = Math.abs(seqMidOct - inputMidOct);
+
+            if (coverCount > bestCover || (coverCount === bestCover && centerDiff < bestCenterDiff)) {
+                bestCover = coverCount;
+                bestStart = seq[0];
+                bestCenterDiff = centerDiff;
+            }
+        }
+    }
+
+    const mappingDict = {};
+    let [startNat, startOct] = bestStart;
+    let noteIdx = naturalOrder.indexOf(startNat);
+    let octv = startOct;
+    let labelIdx = 0;
+
+    for (let i=0; i<21; i++) {
+        const natName = naturalOrder[noteIdx];
+        const midiBase = noteNames.indexOf(natName) + (octv + 1) * 12;
+        for (let m = midiBase; m < midiBase + 2; m++) {
+            if (noteNames[m % 12] === natName || naturalMap[noteNames[m % 12]] === natName) {
+                mappingDict[m.toString()] = labels[labelIdx];
+            }
+        }
+        noteIdx++;
+        labelIdx++;
+        if (noteIdx >= naturalOrder.length) { noteIdx = 0; octv++; }
+    }
+    return mappingDict;
+}
+
+// ===== MIDI 解析函数 =====
+function parseMidi(arrayBuffer) {
+    const data = new DataView(arrayBuffer);
+    let pos = 0;
+
+    function readStr(len) {
+        let s = "";
+        for (let i=0; i<len; i++) s += String.fromCharCode(data.getUint8(pos++));
+        return s;
+    }
+    function readUint32() {
+        const v = data.getUint32(pos);
+        pos += 4;
+        return v;
+    }
+    function readUint16() {
+        const v = data.getUint16(pos);
+        pos += 2;
+        return v;
+    }
+    function readVarLen() {
+        let value = 0;
+        while (true) {
+            let b = data.getUint8(pos++);
+            if (b & 0x80) {
+                value += (b & 0x7F);
+                value <<= 7;
+            } else {
+                value += b;
+                break;
+            }
+        }
+        return value;
+    }
+
+    // Header
+    const headerChunkType = readStr(4);
+    const headerLength = readUint32();
+    const formatType = readUint16();
+    const numTracks = readUint16();
+    const division = readUint16();
+
+    pos = 8 + headerLength; // 跳到第一个轨道块
+
+    let allNotes = [];
+    let notesList = [];
+    let tempo = 500000; // 默认 120bpm
+    const ticksPerBeat = division;
+
+    for (let t=0; t<numTracks; t++) {
+        const trackType = readStr(4);
+        const trackLength = readUint32();
+        const trackEnd = pos + trackLength;
+        let lastStatus = null;
+
+        while (pos < trackEnd) {
+            const deltaTime = readVarLen();
+            let statusByte = data.getUint8(pos++);
+            if (statusByte < 0x80) {
+                pos--;
+                statusByte = lastStatus;
+            } else {
+                lastStatus = statusByte;
+            }
+
+            if (statusByte === 0xFF) {
+                const metaType = data.getUint8(pos++);
+                const len = readVarLen();
+                if (metaType === 0x51) {
+                    tempo = (data.getUint8(pos)<<16) | (data.getUint8(pos+1)<<8) | data.getUint8(pos+2);
+                }
+                pos += len;
+            } else if ((statusByte & 0xF0) === 0x90 || (statusByte & 0xF0) === 0x80) {
+                const note = data.getUint8(pos++);
+                const velocity = data.getUint8(pos++);
+                allNotes.push(note.toString());
+                notesList.push({
+                    type: ((statusByte & 0xF0) === 0x90 && velocity > 0) ? "on" : "off",
+                    note: note,
+                    time: deltaTime
+                });
+            } else {
+                let paramLen = 2;
+                if ((statusByte & 0xF0) === 0xC0 || (statusByte & 0xF0) === 0xD0) paramLen = 1;
+                pos += paramLen;
+            }
+        }
+    }
+
+    const mappingDict = bestThreeOctaveNaturalDict(allNotes);
+    const msPerTick = tempo / ticksPerBeat / 1000.0;
+    const mappedNotes = notesList.map(n => ({
+        type: n.type,
+        note: mappingDict[n.note.toString()] || "K",
+        time: +(n.time * msPerTick).toFixed(3)
+    }));
+
+    return {
+        name: "示例曲谱",
+        author: "MidiTrans",
+        bpm: Math.round(60000000 / tempo).toString(),
+        description: "曲谱信息",
+        time_signature: "4/4",
+        type:"midi",
+        composer: "曲师",
+        arranger: "谱师",
+        notes: mappedNotes
+    };
+}
+
+// ===== 全局变量保存解析结果和文件名 =====
+let lastScoreJson = null;
+let lastMidiFileName = "";
+
+// ===== 文件选择事件 =====
+document.getElementById('midiFile').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    lastMidiFileName = file.name; // 保存原始文件名
+
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+        try {
+            const arrayBuffer = evt.target.result;
+            lastScoreJson = parseMidi(arrayBuffer);
+            document.getElementById('output').textContent = JSON.stringify(lastScoreJson, null, 2);
+            // 解析成功后启用导出按钮
+            document.getElementById('exportBtn').disabled = false;
+        } catch (err) {
+            document.getElementById('output').textContent = "解析出错: " + err.message;
+            lastScoreJson = null;
+            document.getElementById('exportBtn').disabled = true;
+        }
+    };
+    reader.readAsArrayBuffer(file);
+});
+
+// ===== 导出 JSON 按钮事件 =====
+document.getElementById('exportBtn').addEventListener('click', function() {
+    if (!lastScoreJson) return;
+    const blob = new Blob([JSON.stringify(lastScoreJson, null, 2)], {type: "application/json"});
+    const url = URL.createObjectURL(blob);
+
+    // 用原 MIDI 文件名生成 JSON 文件名
+    let jsonFileName = lastMidiFileName.replace(/\.[^/.]+$/, "") + ".json";
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = jsonFileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+});
+</script>
+</body>
+</html>

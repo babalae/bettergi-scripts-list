@@ -1,0 +1,109 @@
+[
+  {
+    "type": "地图追踪",
+    "data": "去往蒙德大教堂.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 5,
+      "npcWhiteList": [
+        "进入教堂"
+      ]
+    },
+    "note": "进入教堂并等待加载完成"
+  },
+  {
+    "type": "追踪委托",
+    "data": {
+      "npc": "吉丽安娜",
+      "iconType": "task"
+    },
+    "note": "追踪委托"
+  },
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 7,
+      "priorityOptions": [
+        "怎么了",
+        "灰尘"
+      ],
+      "npcWhiteList": [
+        "吉丽安娜"
+      ]
+    },
+    "note": "与吉丽安娜对话得知其希望我们帮助她清理七天神像上的灰尘"
+  },
+  {
+    "type": "地图追踪",
+    "data": "风起地七天神像onlyTP.json",
+    "note": "在教堂时，任务目标是教堂的门，先传送出来"
+  },
+  {
+    "type": "切换队伍",
+    "data": "元素采集",
+    "note": "切换到元素队伍，此次委托任务需要风元素角色"
+  },
+  {
+    "type": "地址检测",
+    "data": [ -1327,2565],
+    "note": "检测星落湖是否需要清理七天神像",
+    "run": "星落湖process.json"
+  },
+  {
+    "type": "地址检测",
+    "data": [-576, 1858],
+    "note": "检测晨曦酒庄是否需要清理七天神像",
+    "run": "晨曦酒庄process.json"
+  },
+  {
+    "type": "地址检测",
+    "data": [-1265, 1929], 
+    "note": "检测风起地是否需要清理七天神像",
+    "run": "风起地七天神像process.json"
+  },
+
+  {
+    "type": "地图追踪",
+    "data": "去往蒙德大教堂.json",
+    "note": "战斗结束，返回教堂"
+  },
+
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 5,
+      "priorityOptions": [
+        ""
+      ],
+      "npcWhiteList": [
+        "进入教堂"
+      ]
+    },
+    "note": "进入教堂并等待加载完成"
+  },
+  {
+    "type": "追踪委托",
+    "data": {
+      "npc": "吉丽安娜",
+      "iconType": "Question"
+    },
+    "note": "走到吉丽安娜身边"
+  },
+  
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 3,
+      "priorityOptions": [
+        "完了"
+      ],
+      "npcWhiteList": [
+        "吉丽安娜"
+      ]
+    },
+    "note": "对话之后任务完成"
+  }
+]

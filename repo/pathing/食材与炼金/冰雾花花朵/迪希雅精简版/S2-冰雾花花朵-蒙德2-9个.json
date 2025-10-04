@@ -1,0 +1,312 @@
+{
+  "info": {
+    "name": "S2-冰雾花花朵-蒙德2-9个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "迪希雅"
+    ],
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -201.13,
+      "y": 1861.83,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -174.45,
+      "y": 1860.83,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(3.0);迪希亚 e",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -170.66,
+      "y": 1864.12,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "迪希亚 e",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": -170.66,
+      "y": 1864.12,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -172.29,
+      "y": 1859.0,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -174.76,
+      "y": 1858.74,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 265.18,
+      "y": 2914.92,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 8,
+      "x": 181.77,
+      "y": 2885.76,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 144.32,
+      "y": 2864.14,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 140.34,
+      "y": 2863.14,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "迪希亚 e"
+    },
+    {
+      "id": 11,
+      "x": 140.37,
+      "y": 2863.19,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 144.92,
+      "y": 2865.36,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "迪希亚 e"
+    },
+    {
+      "id": 13,
+      "x": 144.92,
+      "y": 2867.35,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 36.81,
+      "y": 2380.89,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 15,
+      "x": 50.38,
+      "y": 2420.06,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(2)"
+    },
+    {
+      "id": 16,
+      "x": 65.35,
+      "y": 2463.76,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 51.67,
+      "y": 2488.88,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 51.67,
+      "y": 2488.88,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 53.46,
+      "y": 2487.7,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "迪希亚 e",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 20,
+      "x": 54.78,
+      "y": 2487.81,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 21,
+      "x": 50.65,
+      "y": 2490.61,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "迪希亚 e",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 22,
+      "x": 49.94,
+      "y": 2491.34,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 23,
+      "x": 61.02,
+      "y": 2497.77,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 24,
+      "x": 80.28,
+      "y": 2523.49,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 25,
+      "x": 88.16,
+      "y": 2533.77,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 26,
+      "x": 129.9,
+      "y": 2531.97,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 27,
+      "x": 161.8,
+      "y": 2538.58,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 28,
+      "x": 160.82,
+      "y": 2545.33,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 29,
+      "x": 177.67,
+      "y": 2550.07,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 30,
+      "x": 183.16,
+      "y": 2565.64,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "迪希亚 e",
+      "type": "path"
+    },
+    {
+      "id": 31,
+      "x": 181.38,
+      "y": 2565.77,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 32,
+      "x": 184.59,
+      "y": 2568.72,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+//作者:WQEK
+//描述:本队以茜特菈莉的护盾保护与火神的自动攻击为建队基石，增加了生存位(复活位)芭芭拉，与规避近战伤害、Q超远索敌的恰斯卡，以应对复杂的大世界锄地环境，增加战斗容错，减少暴毙、被打断、战斗超时的情况发生。
+// 火神开Q第一轮
+茜特菈莉 e,click(middle),wait(0.2),q,attack,e,click(middle) 
+//芭芭拉 e,click(middle),wait(0.2),q,attack,click(middle) 
+玛薇卡 q,click(middle),wait(0.3),e,click(middle)
+// 2命恰
+恰斯卡 s(0.4),e,wait(0.2),moveby(0,2400),charge(1.15),wait(0.2),charge(1.15),wait(0.2),charge(1.15),wait(0.2),charge(1.15),wait(0.2),charge(1.15),wait(0.2),charge(1.15),wait(0.2),charge(1.15),wait(0.2),e
+// 0命恰
+// 恰斯卡 e,wait(0.2),s(1.2),w(0.4),moveby(0,2400),charge(2.3),wait(0.2),charge(2.3),wait(0.2),charge(2.3),wait(0.2),q,e
+
+// 火神开Q第二轮
+茜特菈莉 e,click(middle),wait(0.2),q,attack(1),e,click(middle)
+芭芭拉 attack,e,click(middle),wait(0.2),q,attack,click(middle) 
+玛薇卡 q,click(middle),wait(0.3),e,click(middle)
+// 2命恰
+恰斯卡 s(0.4),e,wait(0.2), w(0.8),moveby(0,2400),charge(1.15),wait(0.2),charge(1.15),wait(0.2), w(0.8),charge(1.15),wait(0.2),charge(1.15),wait(0.2), w(0.8),charge(1.15),wait(0.2),q,e
+// 0命恰
+// 恰斯卡e,wait(0.2),s(1.2),w(0.4),moveby(0,2400),charge(2.3),wait(0.2),charge(2.3),wait(0.2),charge(2.3),wait(0.2),q,e
+
+// 火神不开Q
+// 茜特菈莉 e,click(middle),wait(0.2),q,attack,e,click(middle) 
+// 芭芭拉 e(hold),wait(0.2)
+// 玛薇卡 e,click(middle)
+// 2命恰
+// 恰斯卡s(0.4),e,wait(0.2),moveby(0,2400),charge(1.15),wait(0.2),charge(1.15),wait(0.2),charge(1.15),wait(0.2),charge(1.15),wait(0.2),charge(1.15),wait(0.2),charge(1.15),wait(0.2),q,e
+// 0命恰 恰斯卡s(0.4),e,wait(0.2),moveby(0,2400),charge(2.3),wait(0.2),charge(2.3),wait(0.2),charge(2.3),wait(0.2),q,e
+
+
+// 向上升
+// keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE)
+// 向下降
+// keydown(VK_LCONTROL),wait(0.5),keyup(VK_LCONTROL)
+// 画面向下移
+// 恰斯卡 moveby(0,2400)
+// 1.15 = 三弹, 2.3 = 六弹
+// 恰斯卡 e,charge(1.15),charge(2.3)

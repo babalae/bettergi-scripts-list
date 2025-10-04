@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "02-苦种-纳塔-硫晶支脉-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8258.41,
+      "y": -1744.65,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8261.42,
+      "y": -1746.67,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 8285.82,
+      "y": -1757.35,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 8292.56,
+      "y": -1763.97,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    }
+  ]
+}
