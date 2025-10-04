@@ -195,7 +195,7 @@ var DialogProcessor = {
             let exitList = await Utils.easyTemplateMatch(
               Constants.TALK_EXIT_IMAGE_PATH,
               dialogRegion,
-              (useMask = true)
+              true
             );
             let iconList = await Utils.easyTemplateMatch(
               Constants.TALK_ICON_IMAGE_PATH,
@@ -246,7 +246,9 @@ var DialogProcessor = {
 
     if (isInMainUI()) {
       log.info("已返回主界面，自动剧情执行完成");
+      await sleep(500) //等主界面加载完毕，防止吞操作
       keyPress("V");
+      await sleep(2000) //等待委托任务描述加载完毕
     } else {
       log.warn(
         "已达到最大尝试次数 {attempts}，但未检测到返回主界面",
