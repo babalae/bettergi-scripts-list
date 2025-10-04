@@ -12,7 +12,7 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
     }
     await sleep(700);
     leftButtonUp();
-    await sleep(100);
+    await sleep(500);
 }
 
 // 读取别名文件
