@@ -1,0 +1,220 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759478783888,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "18-盐蚀洞窟-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9315.3848,
+      "y": 3543.842
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9399.8652,
+      "y": 3484.1743
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w);wait(3);keyup(w)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9415.7051,
+      "y": 3473.3271
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9422.0283,
+      "y": 3465.0535
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9421.8828,
+      "y": 3460.6733
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9420.0234,
+      "y": 3462.2915
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9423.8418,
+      "y": 3464.6868
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9419.8447,
+      "y": 3462.259
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9423.7412,
+      "y": 3464.7915
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9439.9697,
+      "y": 3450.6917
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9461.6523,
+      "y": 3452.5403
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9484.249,
+      "y": 3438.1843
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9495.9033,
+      "y": 3436.5244
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9501.7334,
+      "y": 3428.3447
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9533.6025,
+      "y": 3430.6333
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9550.0088,
+      "y": 3432.0933
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t)",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9555.2207,
+      "y": 3425.844
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9555.2207,
+      "y": 3425.844
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9555.3682,
+      "y": 3430.0283
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9571.1641,
+      "y": 3435.7441
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t)",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9577.5684,
+      "y": 3438.4612
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9577.5684,
+      "y": 3438.4612
+    }
+  ]
+}
