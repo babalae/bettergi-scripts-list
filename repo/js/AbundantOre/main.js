@@ -305,6 +305,8 @@ async function get_inventory() {
     return inventory_result;
 }
 
+var last_script_end_pos = [null, null];
+
 async function run_pathing_script(name, path_state_change, current_states) {
     path_state_change ||= {};
     path_state_change.require ||= [];
@@ -361,11 +363,31 @@ async function run_pathing_script(name, path_state_change, current_states) {
     const elapsed_time = Date.now() - t0;
     forge_pathing_end_log(name, elapsed_time);
     if (!cancellation_token.isCancellationRequested) {
-        if (elapsed_time > 5000) {
-            await mark_task_finished(name);
+        const curr_pos = (() => {
+            try {
+                const p = genshin.getPositionFromMap();
+                return [p.X, p.Y];
+            } catch (e) {}
+            return [null, null];
+        })();
+        var character_moved = false;
+        if (curr_pos[0] === null || last_script_end_pos[0] === null) {
+            character_moved = curr_pos !== last_script_end_pos;
+            log.debug("Character {action}", character_moved ? "moved" : "not moved");
         } else {
+            const dist = Math.sqrt(Math.pow(curr_pos[0] - last_script_end_pos[0], 2) + Math.pow(curr_pos[1] - last_script_end_pos[1], 2));
+            character_moved = dist > 5;
+            log.debug("Character moved distance of {dist}", dist);
+        }
+        last_script_end_pos = curr_pos;
+        if (elapsed_time <= 5000) {
             in_memory_skip_tasks.add(name);
             log.warn("脚本运行时间小于5秒，可能发生了错误，不写记录");
+        } else if (!character_moved) {
+            in_memory_skip_tasks.add(name);
+            log.warn("角色未移动，可能发生了错误，不写记录");
+        } else {
+            await mark_task_finished(name);
         }
     } else {
         throw new Error("Cancelled");
