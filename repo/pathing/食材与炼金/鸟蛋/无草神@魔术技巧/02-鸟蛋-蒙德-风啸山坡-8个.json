@@ -1,0 +1,201 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "魔术技巧"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "1.利用烟谜主的腾跃能力爬树,无需纳西妲 2.配置组设置开启地图追踪行走配置,开启自动拾取,行走位设置为欧洛伦或茜特菈莉 3.有无双风共鸣都可以使用",
+    "enable_monster_loot_split": true,
+    "last_modified_time": 1759289871320,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-鸟蛋-蒙德-风啸山坡-8个",
+    "tags": [
+      "鸟蛋",
+      "欧洛伦",
+      "茜特菈莉"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1266.328125,
+      "y": 1934.03369140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1270.330078125,
+      "y": 1919.1845703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1272.9687262714615,
+      "y": 1904.59375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1271.623046875,
+      "y": 1900.76953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(SPACE),wait(0.1),keydown(W),wait(1),keyup(SPACE),wait(3.1),keyup(w),wait(0.1),keydown(W),wait(0.05),keydown(A),wait(2),keypress(SPACE),wait(1.5),keyup(A),wait(0.1),keyup(W),wait(0.1),keypress(SPACE)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1268.843797457077,
+      "y": 1894.3125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1273.890625,
+      "y": 1890.19921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1432.375,
+      "y": 1464.90771484375
+    },
+    {
+      "action": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1517.749928814388,
+      "y": 1444.03125
+    },
+    {
+      "action": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1520.668909719694,
+      "y": 1440.34912109375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(SPACE),wait(0.7),keyup(SPACE).wait(0.08),keydown(w),wait(0.32),keyup(W),wait(3),keydown(W),wait(1.5),keyup(W)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1523.587890625,
+      "y": 1436.6669921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1542.250083049883,
+      "y": 1437.96875
+    },
+    {
+      "action": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1543.9063567784178,
+      "y": 1440.09375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(SPACE),wait(0.9),keyup(SPACE).wait(0.06),keydown(w),wait(5),keyup(W),keydown(D),wait(1),keyup(D)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1545.5626305069563,
+      "y": 1442.21875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1432.37890625,
+      "y": 1464.8994140625
+    },
+    {
+      "action": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1440.276776406412,
+      "y": 1446.6106872558594
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1441.093797457077,
+      "y": 1444.71875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1444.1248220359666,
+      "y": 1436.90625
+    },
+    {
+      "action": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1466.02880859375,
+      "y": 1393.840087890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1465.751953125,
+      "y": 1386.408203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(SPACE),wait(0.7),keyup(SPACE).wait(0.08),keydown(w),wait(0.37),keyup(W),wait(1)",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1465.380859375,
+      "y": 1373.66796875
+    }
+  ]
+}
