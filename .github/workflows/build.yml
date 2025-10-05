@@ -21,7 +21,7 @@ on:
 jobs:
   build:
     # Skip this job if the repository is a fork
-    if: github.repository_owner == 'babalae'
+    if: github.repository_owner == 'zaodonganqi'
     runs-on: ubuntu-latest
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
