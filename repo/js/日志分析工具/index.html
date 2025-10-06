@@ -92,6 +92,9 @@
     20251003
         增加錯誤&其他訊息
             调度器任务出现未预期的异常，自动重启bgi
+    20251006
+        增加錯誤&其他訊息
+        当前获取焦点的窗口不是原神，暂停
 -->
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -3271,6 +3274,18 @@
                         // 10. 当前获取焦点的窗口不是原神，尝试恢复窗口
                         if (line.includes("当前获取焦点的窗口不是原神，尝试恢复窗口")) {
                             const message = '窗口焦点异常，尝试恢复';
+                            const type = 'pause-alert';
+                            if (currentTask.specialAlerts.has(message)) {
+                                const existing = currentTask.specialAlerts.get(message);
+                                existing.count++;
+                            } else {
+                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                            }
+                        }
+
+                        //10.5
+                        if (line.includes("当前获取焦点的窗口不是原神，暂停")) {
+                            const message = '窗口焦点异常，暂停';
                             const type = 'pause-alert';
                             if (currentTask.specialAlerts.has(message)) {
                                 const existing = currentTask.specialAlerts.get(message);
