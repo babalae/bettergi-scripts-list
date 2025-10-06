@@ -28,6 +28,7 @@ const chatTemplate = file.ReadImageMatSync("assets/RecognitionObject/chat.png");
         );
         await sleep(1000);
         await findAndClick(recognitionObj);
+        await sleep(1000);
         keyPress("VK_RETURN");
         await sleep(1000);
         inputText(ciallo);
