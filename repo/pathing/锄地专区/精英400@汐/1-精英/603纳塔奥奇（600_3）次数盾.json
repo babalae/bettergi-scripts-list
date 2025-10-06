@@ -1,0 +1,136 @@
+{
+  "info": {
+    "name": "603纳塔奥奇（600_3）次数盾",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时149秒，包含3只精英，预计收入1800摩拉，包含以下怪物：3只深邃拟覆叶。",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9670.15,
+      "y": 171.36,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9674.12,
+      "y": 199.98,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9672.99,
+      "y": 225.23,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9692.74,
+      "y": 258.26,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(5)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9675.94,
+      "y": 230.13,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 9675.94,
+      "y": 230.13,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.2)",
+      "type": "orientation"
+    },
+    {
+      "id": 7,
+      "x": 9670.15,
+      "y": 171.36,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 8,
+      "x": 9665.13,
+      "y": 174.32,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 9628.75,
+      "y": 158.5,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 9616.5,
+      "y": 160.06,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 9597.12,
+      "y": 167.37,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 9580.17,
+      "y": 186.51,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(3)",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 9565.62,
+      "y": 183.46,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
