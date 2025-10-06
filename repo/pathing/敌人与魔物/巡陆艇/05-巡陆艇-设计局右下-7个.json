@@ -9,7 +9,7 @@
     "bgi_version": "0.50.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758522599232,
+    "last_modified_time": 1759731442558,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "05-巡陆艇-设计局右下-7个",
@@ -69,13 +69,31 @@
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": 9741.0439,
-      "y": 3110.7173
+      "x": 9735.7109,
+      "y": 3115.1997
     },
     {
       "action": "",
       "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9734.998,
+      "y": 3102.1382
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9754.8672,
+      "y": 3096.5547
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
       "move_mode": "walk",
       "type": "path",
       "x": 9763.9688,
@@ -84,7 +102,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 8,
+      "id": 10,
       "move_mode": "walk",
       "type": "path",
       "x": 9755.3574,
@@ -93,7 +111,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 9,
+      "id": 11,
       "move_mode": "walk",
       "type": "path",
       "x": 9773.999,
@@ -102,7 +120,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 10,
+      "id": 12,
       "move_mode": "walk",
       "type": "path",
       "x": 9781.6953,
@@ -111,7 +129,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 11,
+      "id": 13,
       "move_mode": "walk",
       "type": "path",
       "x": 9781.8477,
@@ -120,7 +138,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 12,
+      "id": 14,
       "move_mode": "walk",
       "type": "path",
       "x": 9768.0371,
@@ -129,16 +147,43 @@
     {
       "action": "",
       "action_params": "",
-      "id": 13,
+      "id": 15,
       "move_mode": "walk",
       "type": "path",
       "x": 9755.1689,
       "y": 3099.2166
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9751.832,
+      "y": 3102.0217
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9753.623,
+      "y": 3114.6943
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9740.8164,
+      "y": 3117.1941
+    },
+    {
       "action": "combat_script",
       "action_params": "wait(0.3),keypress(f)",
-      "id": 14,
+      "id": 19,
       "move_mode": "walk",
       "type": "path",
       "x": 9741.7383,
@@ -147,7 +192,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 15,
+      "id": 20,
       "move_mode": "walk",
       "type": "path",
       "x": 9738.5117,
@@ -156,7 +201,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 16,
+      "id": 21,
       "move_mode": "fly",
       "type": "path",
       "x": 9745.6436,
@@ -165,7 +210,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 17,
+      "id": 22,
       "move_mode": "walk",
       "type": "path",
       "x": 9752.5566,
@@ -174,7 +219,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 18,
+      "id": 23,
       "move_mode": "walk",
       "type": "path",
       "x": 9750.6855,
@@ -183,7 +228,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 19,
+      "id": 24,
       "move_mode": "walk",
       "type": "path",
       "x": 9739.1299,
