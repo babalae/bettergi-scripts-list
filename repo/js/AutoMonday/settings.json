@@ -2,14 +2,17 @@
   {
     "name": "ifCheck",
     "type": "checkbox",
-    "label": "我已认真阅读readme文件及注意事项，并做好了相关设置",
-    "default": "false"
+    "label": "我已认真阅读readme文件及注意事项，并做好了相关设置"
+  },
+  {
+    "name": "ifZBY",
+    "type": "checkbox",
+    "label": "是否执行质变仪&爱可菲任务"
   },
   {
     "name": "ifAkf",
     "type": "checkbox",
-    "label": "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n是否拥有爱可菲",
-    "default": "false"
+    "label": "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n是否拥有爱可菲"
   },
   {
     "name": "TEAMname",
@@ -36,5 +39,74 @@
       "甜甜花"
     ],
     "default": "薄荷"
+  },
+  {
+    "name": "ifYB",
+    "type": "checkbox",
+    "label": "是否执行晶蝶诱捕装置任务"
+  },
+  {
+    "name": "ifCooking",
+    "type": "checkbox",
+    "label": "是否执行每周做菜任务"
+  },
+  {
+    "name": "food",
+    "type": "input-text",
+    "label": "要制作的食物\n需要制作20个，请确保材料足够！",
+    "default": "提瓦特煎蛋"
+  },
+  {
+    "name": "Category",
+    "type": "select",
+    "label": "食物的类别",
+    "options": [
+      "恢复类料理",
+      "攻击类料理",
+      "冒险类料理",
+      "防御类料理"
+    ],
+    "default": "恢复类料理"
+  },
+  {
+    "name": "ifduanZao",
+    "type": "checkbox",
+    "label": "是否执行每周锻造任务"
+  },
+  {
+    "name": "mineral",
+    "type": "select",
+    "label": "要锻造的矿石\n需要锻造20次，请确保材料足够！",
+    "options": [
+      "锻造水晶块",
+      "锻造紫晶块",
+      "锻造萃凝晶"
+    ],
+    "default": "锻造水晶块"
+  },
+  {
+    "name": "BossPartyName",
+    "type": "input-text",
+    "label": "进行战斗的队伍"
+  },
+  {
+    "name": "ifShouling",
+    "type": "checkbox",
+    "label": "是否执行每周首领击败任务"
+  },
+  {
+    "name": "ifMijing",
+    "type": "checkbox",
+    "label": "是否执行每周秘境挑战任务"
+  },
+  {
+    "name": "ifbuyNet",
+    "type": "checkbox",
+    "label": "是否购买四方八方之网"
+  },
+  {
+    "name": "ifbuyTzq",
+    "type": "checkbox",
+    "label": "是否购买（提交）投资券"
   }
 ]
