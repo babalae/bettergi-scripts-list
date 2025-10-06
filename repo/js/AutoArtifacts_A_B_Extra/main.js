@@ -114,7 +114,7 @@ function determinePath() {
 async function init(shouldRestore = true, shouldResizeMap = false) {
     dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
     if (shouldRestore) {
-        await genshin.tp("-257.8800964", "627.0402832");
+        await genshin.tp("4747.68505859375", "2632.9970703125");, 
         await sleep(3000);
     }
     if (shouldResizeMap) {
@@ -366,7 +366,7 @@ async function runFile(filePath, times = 2) {
 
         // 步骤1：先执行路径（确保路径已完成）
         let forceInteraction = filePath.search("-f") != -1;
-        if (!isToRestore) dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
+        if (!isToRestore) dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": forceInteraction }));
         
         await pathingScript.runFile(filePath); // 执行路径
         await sleep(1000);
