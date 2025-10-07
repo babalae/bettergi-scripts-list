@@ -114,7 +114,7 @@ function determinePath() {
 async function init(shouldRestore = true, shouldResizeMap = false) {
     dispatcher.addTimer(new RealtimeTimer("AutoPick", { "forceInteraction": false }));
     if (shouldRestore) {
-        await genshin.tp("4747.68505859375", "2632.9970703125");, 
+        await genshin.tp("4747.68505859375", "2632.9970703125");
         await sleep(3000);
     }
     if (shouldResizeMap) {
