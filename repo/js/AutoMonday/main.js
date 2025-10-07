@@ -300,7 +300,7 @@
         const maxRetries = 20; // 最大重试次数
         let retries = 0; // 当前重试次数
         while (retries < maxRetries) {
-            await imageRecognitionEnhanced(BH, 1, 0, 0);
+            const result = await imageRecognitionEnhanced(BH, 1, 0, 0);
             if (result.found) {
                 await leftButtonUp();
                 await sleep(500);
@@ -309,7 +309,7 @@
                 await click(440, 1008);  //选择最大数量
                 await sleep(1000);
                 await click(1792, 1019); //质变按钮
-                await textOCR("参量质变仪", 3, 0, 0, 828, 253, 265, 73); if (!result.found) { throw new Error("单种材料不足，退出！"); }
+                await textOCR("参量质变仪", 3, 0, 0, 828, 253, 265, 73); if (!result.found) { log.error("单种材料不足，退出！"); }
                 await sleep(1000);
                 await click(1183, 764); //确认 ;
                 await sleep(1000);
@@ -325,7 +325,7 @@
                 await sleep(100);
                 await moveMouseTo(1287, 131);
                 await genshin.returnMainUi();
-                throw new Error("未找到材料！");
+                log.error("未找到材料！");
             }
             await moveMouseTo(1287, 161 + YOffset);
             await sleep(300);
@@ -481,7 +481,7 @@
     // 获取当前账户id
     async function getCurrentUsername() {
         await genshin.returnMainUi();
-        const texts = await textOCR("", 0.3, 0, 2, 1755, 1050, 110, 20);
+        const texts = await textOCR("", 0.3, 0, 2, 1751, 1050, 115, 25);
         if (result.found) {
             log.debug("当前用户:" + texts.text);
             await genshin.returnMainUi();
@@ -579,6 +579,8 @@
             return;
         }
 
+        log.info("正在执行本周晶蝶诱捕装置收取任务……");
+
         keyPress("M");
         await sleep(1000);
 
@@ -613,6 +615,8 @@
             // 更新CD记录（设置为七天后）
             updatedRecords[routeName] = getSevenDaysLater();
             await writeCDRecords(updatedRecords);
+
+            log.info("本周晶蝶诱捕装置收取完成！");
         }
 
 
@@ -631,6 +635,8 @@
             log.info(routeName + "CD未刷新，跳过本次执行");
             return;
         }
+
+        log.info("正在执行本周质变仪&爱可菲任务……");
 
         // 检查质变仪cd是否已刷新
         await sleep(500);
@@ -670,6 +676,7 @@
         // 更新CD记录（设置为七天后）
         updatedRecords[routeName] = getSevenDaysLater();
         await writeCDRecords(updatedRecords);
+        log.info("本周质变仪&爱可菲任务已完成！");
     }
 
     // 每周做菜
@@ -707,7 +714,7 @@
 
         const res = await textOCR(food, 10, 1, 0, 116, 116, 1165, 880);
         if (!res) {
-            throw new Error("未识别到料理！")
+            log.error("未识别到料理！")
         }
 
         await sleep(1000);
@@ -717,7 +724,8 @@
         await textOCR("自动烹饪", 5, 1, 0, 725, 1000, 130, 45);
         await sleep(800);
         click(960, 460);
-        inputText("20");
+        await sleep(800);
+        inputText(cookCount);
         await sleep(800);
         click(1190, 755);
         await sleep(2500); // 等待烹饪完成
@@ -760,17 +768,17 @@
         click(960, 540);// 对话
         await sleep(1500);
 
-        click(560, 150);// 点击锻造任务界面，先领取一次
-        await sleep(1500);
+        const res1 = await textOCR("可收取", 1, 0, 2, 625, 265, 130, 50);
+        if (res1.found) {
+            click(180, 1015);// 全部领取
+            await sleep(1500);
 
-        click(180, 1015);// 全部领取
-        await sleep(1500);
+            click(980, 900);// 确认按钮
+            await sleep(1500);
 
-        click(980, 900);// 确认按钮
-        await sleep(1500);
-
-        click(220, 145);// 点击配方
-        await sleep(1500);
+            click(220, 145);// 点击配方
+            await sleep(1000);
+        }
 
         click(360, 1015);// 筛选按钮
         await sleep(1500);
@@ -782,7 +790,7 @@
 
         for (i = 0; i < 4; i++) {
             click(1760, 1015);// 开始锻造
-            await sleep(800);
+            await sleep(300);
         }
 
         await genshin.returnMainUi();
@@ -858,7 +866,7 @@
                 log.info(`战斗成功！当前完成 ${mijingCount} 次`);
             } else {
                 log.error("战斗失败，终止脚本");
-                throw new Error("自动秘境战斗失败");
+                break;
             }
             await sleep(1500);
             mijingCount++;
@@ -901,23 +909,28 @@
         await textOCR("购买", 3, 1, 0, 1320, 630, 130, 60);// 对话：购买四方八方之网
         await sleep(1000);
 
-        click(1670, 1015);
-        await sleep(800);
+        const res1 = await textOCR("已售罄", 0.5, 0, 0, 1515, 920, 90, 35);
+        if (!res1.found) {
+            click(1670, 1015);
+            await sleep(800);
 
-        for (i = 0; i < 7; i++) {// 拉满拉满，TMD全部拉满
-            click(1290, 600);
-            await sleep(150);
+            for (i = 0; i < 7; i++) {// 拉满拉满，TMD全部拉满
+                click(1290, 600);
+                await sleep(150);
+            }
+
+            click(1175, 780);// 点击购买
+            await sleep(100);
+            await genshin.returnMainUi();
+
+            log.info("本周四方网购买任务已完成！");
+
+            // 更新CD记录
+            updatedRecords[routeName] = getNextMonday4AMISO();
+            await writeCDRecords(updatedRecords);
+        } else {
+            log.warn("四方网CD未刷新！！！");
         }
-
-        click(1175, 780);// 点击购买
-        await sleep(100);
-        await genshin.returnMainUi();
-
-        log.info("本周四方网购买任务已完成！");
-
-        // 更新CD记录
-        updatedRecords[routeName] = getNextMonday4AMISO();
-        await writeCDRecords(updatedRecords);
     }
 
     // 购买投资券
@@ -974,9 +987,9 @@
 
             await genshin.returnMainUi();
 
-            await sleep(800);
+            await sleep(1000);
             keyPress("F");
-            await sleep(800);
+            await sleep(1000);
             click(960, 540);
             await sleep(1500);
 
@@ -986,14 +999,14 @@
             click(960, 540);
         }
         keyPress("F");
-        await sleep(500);
+        await sleep(1000);
 
         click(110, 185);
-        await sleep(500);
+        await sleep(1000);
         click(1235, 815);
-        await sleep(500);
+        await sleep(1000);
         click(1620, 1020);
-        await sleep(500);
+        await sleep(1000);
 
         click(1620, 1020);
 
@@ -1026,7 +1039,8 @@
     const ifbuyTzq = settings.ifbuyTzq;
     const ifZBY = settings.ifZBY;
     const ifYB = settings.ifYB;
-    const food = settings.food; // 烹饪次数
+    const food = settings.food; // 要烹饪的食物
+    const cookCount = settings.cookCount;//烹饪数量
     const Category = settings.Category;// 食物种类
     const mineral = settings.mineral;// 矿石种类
     const mineralFile = `assets/RecognitionObject/${mineral}.png`// 矿石模板路径
