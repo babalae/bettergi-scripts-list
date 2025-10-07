@@ -63,7 +63,7 @@ var Utils = {
     try {
       // 参数验证
       if (!ocrRegion || typeof ocrRegion !== "object") {
-        log.error("OCR区域参数不能为空且必须是对象, 收到: " + typeof ocrRegion);
+        log.error("TemplateMatch区域参数不能为空且必须是对象, 收到: " + typeof ocrRegion);
         return { count: 0 };
       }
 
@@ -80,7 +80,7 @@ var Utils = {
         typeof HEIGHT !== "number"
       ) {
         log.error(
-          "OCR区域的X、Y、WIDTH、HEIGHT必须都是数字, 收到: X=" +
+          "TemplateMatch区域的X、Y、WIDTH、HEIGHT必须都是数字, 收到: X=" +
             X +
             ", Y=" +
             Y +
@@ -95,7 +95,7 @@ var Utils = {
       // 数值合理性验证
       if (X < 0 || Y < 0 || WIDTH <= 0 || HEIGHT <= 0) {
         log.error(
-          "OCR区域参数必须为正数, 收到: X=" +
+          "TemplateMatch区域参数必须为正数, 收到: X=" +
             X +
             ", Y=" +
             Y +
@@ -125,7 +125,7 @@ var Utils = {
 
       return results;
     } catch (error) {
-      log.error("easyOCR识别出错: {error}", error.message);
+      log.error("TemplateMatch识别出错: {error}", error.message);
       return { count: 0 };
     }
   },
