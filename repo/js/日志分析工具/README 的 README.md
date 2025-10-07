@@ -29,6 +29,11 @@
 ### 基本使用
 1. **打开工具** - 访问上述在线地址
 2. **上传日志** - 拖放BetterGI日志文件（文件名以`better-genshin-impact`开头）
+ - BetterGI日志文件所在位置如下
+   - C:\你BGI所安裝的目錄\BetterGI\log
+   - 或使用BGI打開目錄
+   - <img width="905" height="599" alt="QQ_1759765939508" src="https://github.com/user-attachments/assets/615087a5-eead-4eb8-8028-4bfe74d9b8ff" />
+
 3. **查看分析** - 工具自动解析并显示统计信息
 
 ### 移动设备使用
@@ -221,6 +226,9 @@ A: 确保文件命名格式是`better-genshin-impact日期.log`。
 A: 横屏模式可获得更好体验。
 
 ## 📋 更新日志
+### 20251006
+  - 增加錯誤&其他訊息
+    - 当前获取焦点的窗口不是原神，暂停
 
 ### 20251003
 - ❌ 新增错误检测
