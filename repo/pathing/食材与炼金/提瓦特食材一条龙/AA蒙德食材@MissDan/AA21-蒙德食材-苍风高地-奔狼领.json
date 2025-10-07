@@ -1,0 +1,292 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759325014336,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "AA21-蒙德食材-苍风高地-奔狼领",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -521.3163999999997,
+      "y": 2181.6257000000005
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -525.5,
+      "y": 2198.9424
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -524.9491999999991,
+      "y": 2236.2314000000006
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -525.8358999999982,
+      "y": 2229.0786000000007
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -521.3163999999997,
+      "y": 2181.626
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -520.7324000000008,
+      "y": 2167.6013000000003
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -523.0273000000016,
+      "y": 2165.5601000000006
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -530.5819999999985,
+      "y": 2165.1865
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -535.3594000000012,
+      "y": 2158.7466000000004
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -537.2011999999995,
+      "y": 2159.2891
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -547.0332000000017,
+      "y": 2143.5915999999997
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 e",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -549.9354999999996,
+      "y": 2128.930199999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -551.5604999999996,
+      "y": 2125.9292000000005
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -544.7402000000002,
+      "y": 2121.483400000001
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -543.0625,
+      "y": 2121.0625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -545.7773000000016,
+      "y": 2112.8943
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -543.4315999999999,
+      "y": 2104.5308000000005
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -533.7422000000006,
+      "y": 2100.188
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -519.0780999999988,
+      "y": 2096.9644000000008
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -519.4121000000014,
+      "y": 2100
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -529.4141000000018,
+      "y": 2103.487799999999
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -542.0741999999991,
+      "y": 2114.867699999999
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -523.4844000000012,
+      "y": 2125.1370000000006
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -515.4336000000003,
+      "y": 2137.5571
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -503.8866999999991,
+      "y": 2142.2749000000003
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -492.90620000000126,
+      "y": 2155.0244000000002
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 27,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -494.1172000000006,
+      "y": 2147.7832
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 28,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -496.2030999999988,
+      "y": 2145.4092
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 29,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -491.97269999999844,
+      "y": 2145.886699999999
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 30,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -493.59769999999844,
+      "y": 2143.5835000000006
+    }
+  ]
+}

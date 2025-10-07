@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -9,13 +9,13 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758711917811,
+    "last_modified_time": 1759843311553,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "BB01-璃月食材-云来海-璃月港",
     "tags": [],
     "type": "collect",
-    "version": "1.0"
+    "version": "2.0"
   },
   "positions": [
     {
@@ -265,7 +265,7 @@
       "action": "",
       "action_params": "",
       "id": 28,
-      "move_mode": "run",
+      "move_mode": "jump",
       "type": "path",
       "x": 613.1885,
       "y": -573.9619
@@ -343,8 +343,8 @@
       "y": -656.0171
     },
     {
-      "action": "combat_script",
-      "action_params": "万叶 e(wait,hold),wait(0.4)",
+      "action": "",
+      "action_params": "",
       "id": 37,
       "move_mode": "walk",
       "type": "path",
@@ -352,22 +352,58 @@
       "y": -657.981
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),wait(0.4)",
       "id": 38,
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "path",
-      "x": 674.0752,
-      "y": -632.9473
+      "x": 665.7177734375,
+      "y": -658.859375
     },
     {
       "action": "",
       "action_params": "",
       "id": 39,
+      "move_mode": "run",
+      "type": "path",
+      "x": 661.302734375,
+      "y": -657.59521484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 40,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 673.3388671875,
+      "y": -632.94140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 41,
       "move_mode": "jump",
       "type": "path",
-      "x": 669.1875,
-      "y": -628.5288
+      "x": 671.9521484375,
+      "y": -630.8720703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 42,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 670.390625,
+      "y": -629.88720703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 43,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 668.8291015625,
+      "y": -628.537109375
     }
   ]
 }
