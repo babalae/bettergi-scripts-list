@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时120秒，包含2只精英，预计收入800摩拉，包含以下怪物：1只遗迹守卫、1只遗迹重机。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756152265437,
+    "last_modified_time": 1759690839352,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "420【沙暴】须弥沙漠折胫谷（600_1，200_1）",
@@ -130,7 +130,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(t)",
+      "action_params": "keypress(t),wait(0.2),keypress(t)",
       "id": 13,
       "move_mode": "walk",
       "type": "orientation",
@@ -138,9 +138,27 @@
       "y": -788.5927734375
     },
     {
-      "action": "stop_flying",
+      "action": "fight",
       "action_params": "",
       "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5719.2197265625,
+      "y": -786.86181640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5738.7919921875,
+      "y": -803.83984375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 16,
       "move_mode": "fly",
       "type": "path",
       "x": 5770.123046875,
@@ -149,7 +167,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 15,
+      "id": 17,
       "move_mode": "dash",
       "type": "path",
       "x": 5810.6689453125,
@@ -158,7 +176,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 16,
+      "id": 18,
       "move_mode": "dash",
       "type": "path",
       "x": 5849.812456549088,
@@ -167,7 +185,7 @@
     {
       "action": "stop_flying",
       "action_params": "1200",
-      "id": 17,
+      "id": 19,
       "move_mode": "fly",
       "type": "path",
       "x": 5885.3818359375,
@@ -176,7 +194,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 18,
+      "id": 20,
       "move_mode": "dash",
       "type": "path",
       "x": 5889.8935546875,
@@ -185,7 +203,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.2)",
-      "id": 19,
+      "id": 21,
       "move_mode": "dash",
       "type": "orientation",
       "x": 5889.8935546875,

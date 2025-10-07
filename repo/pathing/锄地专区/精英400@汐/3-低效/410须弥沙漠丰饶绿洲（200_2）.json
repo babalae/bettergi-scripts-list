@@ -1,0 +1,54 @@
+{
+  "info": {
+    "name": "410须弥沙漠丰饶绿洲（200_2）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "2元能构装体  路线信息：该路线预计用时46秒，包含102只精英，预计收入20400摩拉，包含以下怪物：2只元能构装体·勘探机。",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4691.5,
+      "y": -2352.25,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4760.45,
+      "y": -2334.15,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4780.88,
+      "y": -2324.38,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(t),wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4819.5,
+      "y": -2303,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

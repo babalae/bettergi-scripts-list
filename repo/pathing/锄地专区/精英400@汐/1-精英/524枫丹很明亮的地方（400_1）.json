@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时47秒，包含以下怪物：1只大型狂蔓隙境原体。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759692389938,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "524枫丹很明亮的地方（400_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4901.1816,
+      "y": 2426.1404
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4924.5254,
+      "y": 2396.8853
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(2)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4921.4893,
+      "y": 2391.1892
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4693.9756,
+      "y": 2252.1296
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4693.9756,
+      "y": 2252.1296
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4693.9756,
+      "y": 2252.1296
+    }
+  ]
+}
