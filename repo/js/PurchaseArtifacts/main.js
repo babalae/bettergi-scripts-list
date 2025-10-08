@@ -1,9 +1,21 @@
+let userName = settings.userName || "默认账户";
 (async function () {
     
  async function Purchase(locationName) {       
         let filePath = `assets/${locationName}.json`;
         await pathingScript.runFile(filePath);
     }
+
+//检验账户名
+function getUserName() {
+    userName = userName.trim();
+//数字，中英文，长度在20个字符以内
+    if (!userName || !/^[\u4e00-\u9fa5A-Za-z0-9]{1,20}$/.test(userName)) {
+        log.error(`账户名${userName}违规，暂时使用默认账户名，请查看readme后修改`)
+        userName = "默认账户";
+    }
+    return userName;
+}
 
 /**
  * 在指定区域内查找并点击指定文字
@@ -305,11 +317,13 @@ async function isTaskRefreshed(filePath, options = {}) {
     await Shopping();
     }
 
-    await file.writeText("assets/weekly.txt", new Date().toISOString());
+    await file.writeText(recordPath, new Date().toISOString());
 }
 
+userName = getUserName();
+const recordPath = `assets/${userName}.txt`;
 //每周四4点刷新 
-if( await isTaskRefreshed("assets/weekly.txt", {
+if( await isTaskRefreshed(recordPath, {
     refreshType: 'weekly',
     weeklyDay: 4, // 周一
     weeklyHour: 4 // 凌晨4点
