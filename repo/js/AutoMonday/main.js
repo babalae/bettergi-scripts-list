@@ -180,6 +180,19 @@
         }
     }
 
+    //判断队内角色
+    async function includes(characterName) {
+        var avatars = getAvatars();
+        for (let i = 0; i < avatars.length; i++) {
+            if (avatars[i] === characterName) {
+                await keyPress(String(i + 1));
+                await sleep(1500);
+                return true;
+            }
+        }
+        return false;
+    }
+
     // 等待质变仪完成提示出现。 若超时则强制结束流程。
     async function waitTransformer(deployed) {
         var startTime = new Date();
@@ -191,6 +204,9 @@
 
         // 质变仪判断逻辑
         if (deployed) {
+            if (chargingMethod == "法器角色充能") {
+                await includes("芭芭拉");
+            }
             while ((NowTime - startTime) < actiontime * 1000) {
                 await textOCR("质变产生了以下物质", 0.7, 1, 0, 539, 251, 800, 425);
                 if (result.found) {
@@ -199,13 +215,27 @@
                     await sleep(150);
                     break;
                 }
+                if (chargingMethod == "法器角色充能") {
+                    leftButtonClick();
+                    await sleep(150);
+                }
                 NowTime = new Date();
             }
         }
 
         // 厨艺机关判断逻辑
         if (ifAkf) {
-            await AutoPath("全自动爱可菲");//厨艺机关的部署动作用路径追踪执行
+            if ((chargingMethod == "电气水晶充能")) {
+                await AutoPath("全自动爱可菲");//厨艺机关的部署动作用路径追踪执行
+            } else if (chargingMethod == "法器角色充能") {
+                await includes("爱可菲");
+                keyDown("E");
+                await sleep(1000);
+                keyUp("E");
+
+                await sleep(800);
+                await includes("芭芭拉");
+            }
             while ((NowTime - startTime) < actiontime * 1000) {
                 let result = await textOCR("获得", 0.2, 0, 3, 159, 494, 75, 44);
                 if (result.found) {
@@ -220,6 +250,10 @@
                             return true;
                         }
                     }
+                }
+                if (chargingMethod == "法器角色充能") {
+                    leftButtonClick();
+                    await sleep(150);
                 }
                 await sleep(50);
                 NowTime = new Date();
@@ -300,7 +334,7 @@
         const maxRetries = 20; // 最大重试次数
         let retries = 0; // 当前重试次数
         while (retries < maxRetries) {
-            const result = await imageRecognitionEnhanced(BH, 1, 0, 0);
+            const result = await imageRecognitionEnhanced(BH, 1, 0, 0, 115, 115, 1155, 845);
             if (result.found) {
                 await leftButtonUp();
                 await sleep(500);
@@ -365,7 +399,7 @@
 
     // 背包过期物品识别
     async function handleExpiredItems() {
-        const ifGuoqi = await textOCR("物品过期", 5, 0, 0, 870, 280, 170, 40);
+        const ifGuoqi = await textOCR("物品过期", 1, 0, 0, 870, 280, 170, 40);
         if (ifGuoqi.found) {
             log.info("检测到过期物品，正在处理...");
             await sleep(500);
@@ -585,9 +619,9 @@
         await sleep(1000);
 
         // 判断是否诱捕完成
-        await textOCR("诱捕装置", 3, 0, 0, 0, 0, 360, 500);
+        const res2 = await textOCR("晶蝶诱捕装置", 1, 0, 3, 0, 0, 360, 500);
 
-        if (!result.found) {
+        if (!res2.found) {
             log.warn("诱捕未完成，不执行后续操作");
             await genshin.returnMainUi();
             return;
@@ -661,7 +695,12 @@
         }
 
         await switchPartyIfNeeded(TEAM); //切换到指定队伍
-        await AutoPath("全自动质变仪");
+
+        if (chargingMethod == "电气水晶充能") {
+            await AutoPath("全自动质变仪");
+        } else if (chargingMethod == "法器角色充能") {
+            await genshin.tp(-874.724609375, 2276.950439453125);
+        }
 
         const deployed = await deployTransformer();//部署质变仪
         if (!deployed) {
@@ -1031,6 +1070,7 @@
     const ZHIBIANYI = typeof settings.ZHIBIANY === 'string' && settings.ZHIBIANYI.trim() !== '' ? settings.ZHIBIANYI : "assets/RecognitionObject/zhibian.png";
     const CHA = "assets/RecognitionObject/cha.png"
     const ifAkf = settings.ifAkf;
+    const chargingMethod = settings.chargingMethod;
     const ifCooking = settings.ifCooking;
     const ifduanZao = settings.ifduanZao;
     const ifShouling = settings.ifShouling;
