@@ -1,15 +1,15 @@
 {
   "manifest_version": 1,
-  "name": "背包统计采集系统",
-  "version": "2.42",
+  "name": "背包统计采集",
+  "version": "2.5",
   "bgi_version": "0.44.8",
   "description": "模板匹配材料，OCR识别数量；\n支持背包材料的数量统计+路径CD管理，自动优选路径；\n具体支持看材料CD文件，可自行增减材料CD。",
   "saved_files": [
-    "history_record/*.txt",
-    "overwrite_record/*.txt",
+    "pathing/",
+    "history_record/",
+    "overwrite_record/",
     "latest_record.txt",
-    "pathing_record/*.txt",
-    "pathing_record/noRecord/*.txt"
+    "pathing_record/"
   ],
   "authors": [
     {
