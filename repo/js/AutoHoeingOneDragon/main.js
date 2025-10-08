@@ -465,15 +465,15 @@ async function assignGroups(pathings, groupTags) {
     });
 }
 
-async function runPath(fullPath, map_name) {
+async function runPath(fullPath, map_name, file_name) {
     state = { running: true };
 
     /* ---------- 主任务 ---------- */
     const pathingTask = (async () => {
-        log.info(`开始执行路线: ${fullPath}`);
-        await fakeLog(`${fullPath}`, false, true, 0);
+        log.info(`开始执行路线: ${file_name}`);
+        await fakeLog(`${file_name}`, false, true, 0);
         await pathingScript.runFile(fullPath);
-        await fakeLog(`${fullPath}`, false, false, 0);
+        await fakeLog(`${file_name}`, false, false, 0);
         state.running = false;
     })();
 
@@ -1163,7 +1163,7 @@ async function processPathingsByGroup(pathings, accountName) {
                 runningFailCount++;
             }
             // 调用 runPath 函数处理路径
-            await runPath(pathing.fullPath, pathing.map_name);
+            await runPath(pathing.fullPath, pathing.map_name, pathing.fileName);
             try {
                 await sleep(1);
             } catch (error) {
