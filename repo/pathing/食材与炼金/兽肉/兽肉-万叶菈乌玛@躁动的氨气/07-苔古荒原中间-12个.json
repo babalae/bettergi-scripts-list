@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760011594289,
+    "last_modified_time": 1760024592743,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "07-苔古荒原中间-12个",
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "fly",
       "type": "teleport",
-      "x": 9370.3994,
-      "y": 1865.4717
+      "x": 9370.3994140625,
+      "y": 1865.4716796875
     },
     {
       "action": "combat_script",
@@ -33,17 +33,17 @@
       "id": 2,
       "move_mode": "fly",
       "type": "target",
-      "x": 9370.3994,
-      "y": 1865.4717
+      "x": 9370.3994140625,
+      "y": 1865.4716796875
     },
     {
-      "action": "stop_flying",
-      "action_params": "100",
+      "action": "combat_script",
+      "action_params": "keypress(VK_E),wait(0.2),attack",
       "id": 3,
       "move_mode": "fly",
       "type": "target",
-      "x": 9469.9023,
-      "y": 1809.1797
+      "x": 9469.90234375,
+      "y": 1809.1796875
     },
     {
       "action": "",
@@ -51,8 +51,8 @@
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": 9470.2539,
-      "y": 1805.1245
+      "x": 9470.25390625,
+      "y": 1805.12451171875
     },
     {
       "action": "",
@@ -60,8 +60,8 @@
       "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": 9466.5264,
-      "y": 1805.5381
+      "x": 9466.5263671875,
+      "y": 1805.5380859375
     },
     {
       "action": "",
@@ -69,8 +69,8 @@
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": 9466.5371,
-      "y": 1812.5723
+      "x": 9466.537109375,
+      "y": 1812.572265625
     },
     {
       "action": "",
@@ -78,8 +78,8 @@
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": 9473.0703,
-      "y": 1810.7129
+      "x": 9473.0703125,
+      "y": 1810.712890625
     },
     {
       "action": "",
@@ -87,8 +87,8 @@
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": 9474.6426,
-      "y": 1805.8882
+      "x": 9474.642578125,
+      "y": 1805.88818359375
     },
     {
       "action": "",
@@ -96,8 +96,8 @@
       "id": 9,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 9370.3994,
-      "y": 1865.4717
+      "x": 9370.3994140625,
+      "y": 1865.4716796875
     }
   ]
 }
