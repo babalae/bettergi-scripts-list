@@ -1,0 +1,67 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760011375993,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "06-苔古荒原上方-6个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": 9370.400390625,
+      "y": 1865.47265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9425.94140625,
+      "y": 1878.28125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9450.140625,
+      "y": 1880.9833984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "枫原万叶 wait(3),e(hold),wait(0.2),attack",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9450.140625,
+      "y": 1880.9833984375
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9450.140625,
+      "y": 1880.9833984375
+    }
+  ]
+}

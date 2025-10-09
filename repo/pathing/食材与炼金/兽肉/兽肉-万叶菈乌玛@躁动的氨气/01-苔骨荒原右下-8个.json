@@ -1,0 +1,49 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760010586464,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "01-苔骨荒原右下-8个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9222.53125,
+      "y": 1899.25
+    },
+    {
+      "action": "combat_script",
+      "action_params": "枫原万叶 wait(6),e(hold),wait(0.2),attack",
+      "id": 2,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9222.125,
+      "y": 1899.21875
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9222.125,
+      "y": 1899.21875
+    }
+  ]
+}
