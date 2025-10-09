@@ -15,14 +15,9 @@
     "label": "是否拥有爱可菲"
   },
   {
-    "name": "TEAMname",
-    "type": "input-text",
-    "label": "包含爱可菲的队伍（没有爱可菲可以不填）"
-  },
-  {
     "name": "Material",
     "type": "select",
-    "label": "要放入质变仪的材料(选填，默认薄荷)",
+    "label": "要放入质变仪的材料",
     "options": [
       "牛角",
       "苹果",
@@ -51,6 +46,11 @@
     "default": "电气水晶充能"
   },
   {
+    "name": "TEAMname",
+    "type": "input-text",
+    "label": "质变队伍\n选择“拥有爱可菲”或“法器角色充能”时必填"
+  },
+  {
     "name": "ifYB",
     "type": "checkbox",
     "label": "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n是否执行晶蝶诱捕装置任务"
@@ -65,18 +65,6 @@
     "type": "input-text",
     "label": "要制作的食物",
     "default": "提瓦特煎蛋"
-  },
-  {
-    "name": "Category",
-    "type": "select",
-    "label": "食物的类别",
-    "options": [
-      "恢复类料理",
-      "攻击类料理",
-      "冒险类料理",
-      "防御类料理"
-    ],
-    "default": "恢复类料理"
   },
   {
     "name": "cookCount",
