@@ -205,7 +205,8 @@
         // 质变仪判断逻辑
         if (deployed) {
             if (chargingMethod == "法器角色充能") {
-                await includes("芭芭拉");
+                const ifbblIn = await includes("芭芭拉");
+                if (!ifbblIn) { throw new Error("队伍中未包含角色：芭芭拉"); }
             }
             while ((NowTime - startTime) < actiontime * 1000) {
                 await textOCR("质变产生了以下物质", 0.7, 1, 0, 539, 251, 800, 425);
@@ -228,7 +229,10 @@
             if ((chargingMethod == "电气水晶充能")) {
                 await AutoPath("全自动爱可菲");//厨艺机关的部署动作用路径追踪执行
             } else if (chargingMethod == "法器角色充能") {
-                await includes("爱可菲");
+
+                const ifakfIn = await includes("爱可菲");
+                if (!ifakfIn) { throw new Error("队伍中未包含角色:爱可菲"); }
+
                 keyDown("E");
                 await sleep(1000);
                 keyUp("E");
@@ -260,7 +264,7 @@
             }
         }
         await genshin.returnMainUi();
-        throw new Error(`${actiontime}秒超时，结束流程！`);
+        log.error(`${actiontime}秒超时，结束流程！`);
     }
 
     //放置质变仪
@@ -399,7 +403,7 @@
 
     // 背包过期物品识别
     async function handleExpiredItems() {
-        const ifGuoqi = await textOCR("物品过期", 1, 0, 0, 870, 280, 170, 40);
+        const ifGuoqi = await textOCR("物品过期", 1.5, 0, 0, 870, 280, 170, 40);
         if (ifGuoqi.found) {
             log.info("检测到过期物品，正在处理...");
             await sleep(500);
@@ -736,7 +740,13 @@
         await AutoPath("每周做菜");
         await sleep(10);
         keyDown("VK_MENU");
-        await textOCR("烹饪", 5, 1, 0, 1150, 460, 155, 155);
+        await sleep(500);
+
+        const res1 = await textOCR("烹饪", 5, 0, 0, 1150, 460, 155, 155);
+        if (res1.found) {
+            click(res1.x + 15, res1.y + 15);
+        }
+
         await sleep(800);
         keyUp("VK_MENU");
         await sleep(1000);
@@ -746,35 +756,64 @@
 
         click(195, 1015);// 重置
         await sleep(800);
-        await textOCR(Category, 5, 1, 0, 95, 235, 135, 55);
-        await sleep(800);
+
         click(500, 1020);// 确认筛选
         await sleep(800);
 
-        const res = await textOCR(food, 10, 1, 0, 116, 116, 1165, 880);
-        if (!res) {
-            log.error("未识别到料理！")
+        //滚轮预操作
+        await moveMouseTo(1287, 131);
+        await sleep(100);
+        await leftButtonDown();
+        await sleep(100);
+        await moveMouseTo(1287, 161);
+
+        let YOffset = 0; // Y轴偏移量，根据需要调整
+        const maxRetries = 20; // 最大重试次数
+        let retries = 0; // 当前重试次数
+        while (retries < maxRetries) {
+            const res2 = await textOCR(food, 1, 0, 3, 116, 116, 1165, 880);
+            if (res2.found) {
+                await leftButtonUp();
+                await sleep(500);
+                await click(res2.x + 50, res2.y - 60);
+                await sleep(1000);
+
+                await sleep(1000);
+                click(1700, 1020);// 制作
+                await sleep(1000);
+
+                await textOCR("自动烹饪", 5, 1, 0, 725, 1000, 130, 45);
+                await sleep(800);
+                click(960, 460);
+                await sleep(800);
+                inputText(cookCount);
+                await sleep(800);
+                click(1190, 755);
+                await sleep(2500); // 等待烹饪完成
+
+                await genshin.returnMainUi();
+                log.info("本周烹饪任务已完成！");
+
+                // 更新CD记录
+                updatedRecords[routeName] = getNextMonday4AMISO();
+                await writeCDRecords(updatedRecords);
+
+                return;
+            }
+            retries++; // 重试次数加1
+            //滚轮操作
+            YOffset += 50;
+            await sleep(500);
+            if (retries === maxRetries || 161 + YOffset > 1080) {
+                await leftButtonUp();
+                await sleep(100);
+                await moveMouseTo(1287, 131);
+                await genshin.returnMainUi();
+                log.error("料理未找到！");
+            }
+            await moveMouseTo(1287, 161 + YOffset);
+            await sleep(300);
         }
-
-        await sleep(1000);
-        click(1700, 1020);// 制作
-        await sleep(1000);
-
-        await textOCR("自动烹饪", 5, 1, 0, 725, 1000, 130, 45);
-        await sleep(800);
-        click(960, 460);
-        await sleep(800);
-        inputText(cookCount);
-        await sleep(800);
-        click(1190, 755);
-        await sleep(2500); // 等待烹饪完成
-
-        await genshin.returnMainUi();
-        log.info("本周烹饪任务已完成！");
-
-        // 更新CD记录
-        updatedRecords[routeName] = getNextMonday4AMISO();
-        await writeCDRecords(updatedRecords);
     }
 
     // 每周锻造
@@ -1081,7 +1120,6 @@
     const ifYB = settings.ifYB;
     const food = settings.food; // 要烹饪的食物
     const cookCount = settings.cookCount;//烹饪数量
-    const Category = settings.Category;// 食物种类
     const mineral = settings.mineral;// 矿石种类
     const mineralFile = `assets/RecognitionObject/${mineral}.png`// 矿石模板路径
     const BossPartyName = settings.BossPartyName;// 战斗队伍
@@ -1101,13 +1139,17 @@
     // 直接通过映射获取ITEM值（未匹配时默认0）
     ITEM = materialToItemMap[Material] || 0;
 
+    if (chargingMethod == "法器角色充能" && settings.TEAMname === undefined) {
+        log.error("您选择了法器角色充能，请在配置页面填写包含法器角色的队伍名称！！！");
+        return;// 没选就报错后停止
+    }
     //检查用户是否配置队伍
     if (ifAkf && settings.TEAMname === undefined) {
         log.error("您选择了拥有爱可菲，请在配置页面填写包含爱可菲的队伍名称！！！");
         return;// 没选就报错后停止
-    } else {
-        TEAM = settings.TEAMname;
     }
+
+    TEAM = settings.TEAMname;
 
     const username = await getCurrentUsername();
     const cdRecordPath = `record/${username}_cd.txt`;// 修改CD记录文件路径，包含用户名
