@@ -255,35 +255,64 @@
                throw new Error("未打开'食物'页面,请确保背包已正确打开并切换到食物标签页");
           }//确认在食物界面
 
-          const ifpingguo = await imageRecognitionEnhanced(pingguo, 3, 1, 0, 115, 120, 1150, 155, true);//识别"苹果"图片
-          if (!ifpingguo.found) {
-               await genshin.returnMainUi();
-               throw new Error("没有找到指定的食物：" + food + "，请检查背包中该食材数量是否足够！");
+          //滚轮预操作
+          await moveMouseTo(1287, 131);
+          await sleep(100);
+          await leftButtonDown();
+          await sleep(100);
+          await moveMouseTo(1287, 161);
+
+          let YOffset = 0; // Y轴偏移量，根据需要调整
+          const maxRetries = 20; // 最大重试次数
+          let retries = 0; // 当前重试次数
+          while (retries < maxRetries) {
+               const ifpingguo = await imageRecognitionEnhanced(pingguo, 1, 0, 0, 115, 120, 1150, 880);//识别"苹果"图片
+               if (ifpingguo.found) {
+                    await leftButtonUp();
+                    await sleep(500);
+                    await click(ifpingguo.x + 45, ifpingguo.y + 50);
+                    await sleep(1000);
+
+                    await click(1700, 1020);//点击使用
+
+                    await imageRecognitionEnhanced(zjz, 3, 1, 0, 625, 290, 700, 360, true);//点击伊涅芙证件照,确保吃食物的是伊涅芙
+                    await sleep(500);
+
+                    for (let i = 0; i < foodCount; i++) {
+                         click(1251, 630);
+                         await sleep(150);
+                    }
+
+                    await click(1180, 770);//点击确认
+                    await sleep(500);
+
+                    log.info("看我一口气吃掉" + settings.foodNumber + "个" + food + "！");
+
+                    await sleep(1000);
+                    await keyPress("ESCAPE");
+                    await sleep(1000);
+                    await keyPress("ESCAPE");
+
+                    await sleep(1000);
+
+                    return;
+               }
+               retries++; // 重试次数加1
+               //滚轮操作
+               YOffset += 50;
+               await sleep(500);
+               if (retries === maxRetries || 161 + YOffset > 1080) {
+                    await leftButtonUp();
+                    await sleep(100);
+                    await moveMouseTo(1287, 131);
+                    await genshin.returnMainUi();
+                    throw new Error("没有找到指定的食物：" + food + "，请检查背包中该食材数量是否足够！");
+
+               }
+               await moveMouseTo(1287, 161 + YOffset);
+               await sleep(300);
+
           }
-          await sleep(500);
-
-          await click(1700, 1020);//点击使用
-
-          await imageRecognitionEnhanced(zjz, 3, 1, 0, 625, 290, 700, 360, true);//点击伊涅芙证件照,确保吃食物的是伊涅芙
-          await sleep(500);
-
-          for (let i = 0; i < foodCount; i++) {
-               click(1251, 630);
-               await sleep(150);
-          }
-
-          await click(1180, 770);//点击确认
-          await sleep(500);
-
-          log.info("看我一口气吃掉" + settings.foodNumber + "个" + food + "！");
-
-          await sleep(1000);
-          await keyPress("ESCAPE");
-          await sleep(1000);
-          await keyPress("ESCAPE");
-
-          await sleep(1000);
-
      }
 
      // 背包过期物品识别，需要在背包界面，并且是1920x1080分辨率下使用
