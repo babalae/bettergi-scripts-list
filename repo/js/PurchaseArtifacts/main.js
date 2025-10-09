@@ -325,7 +325,7 @@ const recordPath = `assets/${userName}.txt`;
 //每周四4点刷新 
 if( await isTaskRefreshed(recordPath, {
     refreshType: 'weekly',
-    weeklyDay: 4, // 周一
+    weeklyDay: 4, // 周四
     weeklyHour: 4 // 凌晨4点
 })){
 await main();
