@@ -1,4 +1,4 @@
-let username = settings.useename || "default";
+let username = settings.username || "default";
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
@@ -155,4 +155,5 @@ let username = settings.useename || "default";
 
     // 6. 返回主界面
     await genshin.returnMainUi();
+
 })();
