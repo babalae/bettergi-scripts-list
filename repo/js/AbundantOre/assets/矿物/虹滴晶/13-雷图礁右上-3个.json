@@ -9,7 +9,7 @@
     "bgi_version": "0.50.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757739956500,
+    "last_modified_time": 1760099644426,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "13-雷图礁右上-3个",
@@ -46,67 +46,31 @@
       "y": 1630.9194
     },
     {
-      "action": "",
+      "action": "mining",
       "action_params": "",
       "id": 4,
       "move_mode": "walk",
-      "type": "path",
-      "x": 10992.2969,
-      "y": 1634.9517
-    },
-    {
-      "action": "combat_script",
-      "action_params": "moveby(0,700);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t)",
-      "id": 5,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 10994.792,
-      "y": 1643.9102
+      "type": "target",
+      "x": 10993.3838,
+      "y": 1639.52
     },
     {
       "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10993.0479,
+      "y": 1635.6104
+    },
+    {
+      "action": "mining",
       "action_params": "",
       "id": 6,
       "move_mode": "walk",
-      "type": "path",
-      "x": 10990.5938,
-      "y": 1643.2822
-    },
-    {
-      "action": "combat_script",
-      "action_params": "keypress(t);wait(1.4);keypress(t)",
-      "id": 7,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 10996.5156,
-      "y": 1637.833
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 10993.4805,
-      "y": 1639.5469
-    },
-    {
-      "action": "combat_script",
-      "action_params": "keypress(t);wait(1.4);keypress(t)",
-      "id": 9,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 11001.625,
-      "y": 1632.9302
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 10,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 10997.9092,
-      "y": 1636.0273
+      "type": "target",
+      "x": 10998.0195,
+      "y": 1635.3643
     }
   ]
 }

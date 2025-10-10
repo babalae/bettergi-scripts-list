@@ -9,7 +9,7 @@
     "bgi_version": "0.50.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758630393102,
+    "last_modified_time": 1760099571600,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "12-雷图礁右侧-5个",
@@ -42,26 +42,26 @@
       "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 11024.9326,
-      "y": 1588.1729
+      "x": 11031.3184,
+      "y": 1587.7798
     },
     {
-      "action": "combat_script",
-      "action_params": "click(middle);wait(0.5);moveby(0,1200)",
+      "action": "",
+      "action_params": "",
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": 11024.9326,
-      "y": 1588.1729
+      "x": 11032.1182,
+      "y": 1588.498
     },
     {
-      "action": "combat_script",
-      "action_params": "keypress(t);wait(0.5);attack",
+      "action": "mining",
+      "action_params": "",
       "id": 5,
       "move_mode": "walk",
       "type": "target",
-      "x": 11031.7666,
-      "y": 1585.605
+      "x": 11033.9824,
+      "y": 1585.0654
     },
     {
       "action": "",
@@ -69,134 +69,62 @@
       "id": 6,
       "move_mode": "jump",
       "type": "path",
-      "x": 11033.791,
-      "y": 1584.6631
+      "x": 11029.3447,
+      "y": 1584.8633
     },
     {
-      "action": "",
+      "action": "mining",
       "action_params": "",
       "id": 7,
-      "move_mode": "jump",
-      "type": "path",
-      "x": 11030.4873,
-      "y": 1582.2607
+      "move_mode": "walk",
+      "type": "target",
+      "x": 11032.6035,
+      "y": 1582.4873
     },
     {
       "action": "",
       "action_params": "",
       "id": 8,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 11031.2832,
-      "y": 1581.7646
-    },
-    {
-      "action": "combat_script",
-      "action_params": "keypress(t);wait(0.5);attack",
-      "id": 9,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 11036.4922,
-      "y": 1581.3667
+      "move_mode": "jump",
+      "type": "path",
+      "x": 11029.8145,
+      "y": 1582.8311
     },
     {
       "action": "",
       "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 11025.6426,
+      "y": 1620.6826
+    },
+    {
+      "action": "mining",
+      "action_params": "",
       "id": 10,
       "move_mode": "walk",
-      "type": "path",
-      "x": 11030.6982,
-      "y": 1580.6797
+      "type": "target",
+      "x": 11025.0576,
+      "y": 1622.3926
     },
     {
       "action": "",
       "action_params": "",
       "id": 11,
       "move_mode": "walk",
-      "type": "target",
-      "x": 11032.6699,
-      "y": 1579.8721
+      "type": "path",
+      "x": 11027.6367,
+      "y": 1624.833
     },
     {
-      "action": "",
+      "action": "mining",
       "action_params": "",
       "id": 12,
       "move_mode": "walk",
       "type": "target",
-      "x": 11033.8701,
-      "y": 1581.4053
-    },
-    {
-      "action": "combat_script",
-      "action_params": "keypress(t)",
-      "id": 13,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 11036.4922,
-      "y": 1581.3667
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 14,
-      "move_mode": "jump",
-      "type": "path",
-      "x": 11029.5898,
-      "y": 1583.689
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 15,
-      "move_mode": "run",
-      "type": "path",
-      "x": 11027.0684,
-      "y": 1622.5869
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 16,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 11025.8496,
-      "y": 1623.7529
-    },
-    {
-      "action": "combat_script",
-      "action_params": "keypress(t)",
-      "id": 17,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 11023.0508,
-      "y": 1624.6313
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 18,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 11027.0996,
-      "y": 1625.7803
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 19,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 11025.7012,
-      "y": 1626.9307
-    },
-    {
-      "action": "combat_script",
-      "action_params": "keypress(t)",
-      "id": 20,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 11021.7451,
-      "y": 1629.4946
+      "x": 11025.5508,
+      "y": 1626.7671
     }
   ]
 }
