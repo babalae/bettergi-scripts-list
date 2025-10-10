@@ -298,7 +298,7 @@ function prioritizeVersionTag(tags) {
 
 function extractInfoFromCombatFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf8');
-    const authorMatch = content.match(/\/\/\s*作者\s*:(.*)/);
+    const authorMatch = content.match(/\/\/\s*作者\s*[:：](.*)/);
     const descriptionMatch = content.match(/\/\/\s*描述\s*:(.*)/);
     const versionMatch = content.match(/\/\/\s*版本\s*:(.*)/);
     const characterMatches = content.match(/^(?!\/\/).*?(\S+)(?=\s|$)/gm);    
