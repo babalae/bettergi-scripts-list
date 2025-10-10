@@ -299,8 +299,8 @@ function prioritizeVersionTag(tags) {
 function extractInfoFromCombatFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf8');
     const authorMatch = content.match(/\/\/\s*作者\s*[:：](.*)/);
-    const descriptionMatch = content.match(/\/\/\s*描述\s*:(.*)/);
-    const versionMatch = content.match(/\/\/\s*版本\s*:(.*)/);
+    const descriptionMatch = content.match(/\/\/\s*描述\s*[:：](.*)/);
+    const versionMatch = content.match(/\/\/\s*版本\s*[:：](.*)/);
     const characterMatches = content.match(/^(?!\/\/).*?(\S+)(?=\s|$)/gm);    
     let tags = [...new Set(characterMatches || [])]
         .map(char => char.trim())
@@ -452,9 +452,9 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
 
 function extractInfoFromTCGFile(filePath, parentFolder) {
     const content = fs.readFileSync(filePath, 'utf8');
-    const authorMatch = content.match(/\/\/\s*作者:(.*)/);
-    const descriptionMatch = content.match(/\/\/\s*描述:(.*)/);
-    const versionMatch = content.match(/\/\/\s*版本:(.*)/);
+    const authorMatch = content.match(/\/\/\s*作者\s*[:：](.*)/);
+    const descriptionMatch = content.match(/\/\/\s*描述\s*[:：](.*)/);
+    const versionMatch = content.match(/\/\/\s*版本\s*[:：](.*)/);
     // 移除最低版本提取，TCG脚本无需最低版本要求
     const characterMatches = content.match(/角色\d+\s?=([^|\r\n{]+)/g);
 
