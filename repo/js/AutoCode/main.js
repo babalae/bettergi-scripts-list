@@ -56,6 +56,8 @@ let username = settings.username || "default";
         const content = file.readTextSync("codes.txt");
         const codes = content.split("\n");
 
+        let count = 0;
+
         for (let i = 0; i < codes.length; i++) {
             const line = codes[i].trim();
             if (!line) continue;
@@ -76,7 +78,7 @@ let username = settings.username || "default";
 
             // 跳过已兑换的
             if (redeemedCodes.has(code)) {
-                log.info(`检测到${redeemedCodes.size}个兑换码已兑换过，跳过`);
+                count++;
                 continue;
             }
 
@@ -148,6 +150,9 @@ let username = settings.username || "default";
             if (clearRes.isExist()) clearRes.click();
 
             await sleep(4000);
+        }
+        if (count > 0) {
+            log.info(`检测到${count}个兑换码已兑换过，跳过`);
         }
     } catch (error) {
         log.error(`读取兑换码文件失败: ${error}`);
