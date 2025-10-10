@@ -9,7 +9,7 @@
     "bgi_version": "0.50.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758548030950,
+    "last_modified_time": 1760100327147,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "15-雷图礁左上-9个",
@@ -46,22 +46,22 @@
       "y": 1650.7471
     },
     {
-      "action": "combat_script",
-      "action_params": "click(middle);wait(0.5);moveby(0,1000)",
+      "action": "mining",
+      "action_params": "",
       "id": 4,
       "move_mode": "walk",
       "type": "target",
-      "x": 11100.3379,
-      "y": 1656.3047
+      "x": 11099.8779,
+      "y": 1657.7461
     },
     {
-      "action": "combat_script",
-      "action_params": "keypress(t)",
+      "action": "",
+      "action_params": "",
       "id": 5,
       "move_mode": "walk",
-      "type": "orientation",
-      "x": 11100.5273,
-      "y": 1661.9536
+      "type": "path",
+      "x": 11103.0273,
+      "y": 1657.5488
     },
     {
       "action": "",
@@ -69,207 +69,98 @@
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": 11099.2129,
-      "y": 1657.4746
+      "x": 11102.5527,
+      "y": 1663.2407
     },
     {
-      "action": "",
+      "action": "mining",
       "action_params": "",
       "id": 7,
       "move_mode": "walk",
-      "type": "path",
-      "x": 11104.1055,
-      "y": 1658.2002
+      "type": "target",
+      "x": 11100.3906,
+      "y": 1661.3477
     },
     {
-      "action": "",
+      "action": "mining",
       "action_params": "",
       "id": 8,
       "move_mode": "walk",
-      "type": "path",
-      "x": 11102.0303,
-      "y": 1663.0723
+      "type": "target",
+      "x": 11099.5801,
+      "y": 1664.0215
     },
     {
-      "action": "combat_script",
-      "action_params": "keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t)",
+      "action": "mining",
+      "action_params": "",
       "id": 9,
       "move_mode": "walk",
-      "type": "orientation",
-      "x": 11097.3145,
-      "y": 1658.3403
+      "type": "target",
+      "x": 11103.875,
+      "y": 1666.2188
     },
     {
       "action": "",
       "action_params": "",
       "id": 10,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": 11099.793,
-      "y": 1660.5352
+      "x": 11116.126,
+      "y": 1680.2832
     },
     {
       "action": "",
       "action_params": "",
       "id": 11,
-      "move_mode": "jump",
+      "move_mode": "dash",
       "type": "path",
-      "x": 11102.4609,
-      "y": 1666.709
+      "x": 11120.709,
+      "y": 1678.0923
     },
     {
       "action": "",
       "action_params": "",
       "id": 12,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 11101.2031,
-      "y": 1665.9521
-    },
-    {
-      "action": "combat_script",
-      "action_params": "keypress(t)",
-      "id": 13,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 11094.3076,
-      "y": 1662.9067
+      "move_mode": "jump",
+      "type": "path",
+      "x": 11132.5684,
+      "y": 1674.7559
     },
     {
       "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 11140.3408,
+      "y": 1666.3867
+    },
+    {
+      "action": "mining",
       "action_params": "",
       "id": 14,
       "move_mode": "walk",
-      "type": "path",
-      "x": 11099.5938,
-      "y": 1662.9897
+      "type": "target",
+      "x": 11142.5371,
+      "y": 1662.877
     },
     {
-      "action": "combat_script",
-      "action_params": "click(middle)",
+      "action": "",
+      "action_params": "",
       "id": 15,
       "move_mode": "walk",
       "type": "path",
-      "x": 11101.2725,
-      "y": 1668.8203
+      "x": 11140.8945,
+      "y": 1664.1016
     },
     {
-      "action": "combat_script",
-      "action_params": "keypress(t)",
+      "action": "mining",
+      "action_params": "",
       "id": 16,
       "move_mode": "walk",
-      "type": "orientation",
-      "x": 11107.7539,
-      "y": 1663.8169
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 17,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 11105.5898,
-      "y": 1666.6514
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 18,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 11109.1855,
-      "y": 1675.6431
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 19,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 11119.252,
-      "y": 1675.502
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 20,
-      "move_mode": "jump",
-      "type": "path",
-      "x": 11131.1914,
-      "y": 1674.3408
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 21,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 11138.4883,
-      "y": 1664.8726
-    },
-    {
-      "action": "combat_script",
-      "action_params": "keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t)",
-      "id": 22,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 11142.5898,
-      "y": 1659.0776
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 23,
-      "move_mode": "jump",
-      "type": "path",
-      "x": 11142.0684,
-      "y": 1659.8706
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 24,
-      "move_mode": "jump",
-      "type": "path",
-      "x": 11138.4883,
-      "y": 1664.8726
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 25,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 11121.333,
-      "y": 1699.9932
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 26,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 11120.7109,
-      "y": 1701.9033
-    },
-    {
-      "action": "combat_script",
-      "action_params": "keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t)",
-      "id": 27,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 11121.7061,
-      "y": 1714.3267
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 28,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 11120.3867,
-      "y": 1708.2598
+      "type": "target",
+      "x": 11141.4268,
+      "y": 1661.0566
     }
   ]
 }

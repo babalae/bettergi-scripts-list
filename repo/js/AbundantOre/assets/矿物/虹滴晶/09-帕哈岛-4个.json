@@ -9,7 +9,7 @@
     "bgi_version": "0.50.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758426988101,
+    "last_modified_time": 1760099210865,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "09-帕哈岛-4个",
@@ -61,36 +61,36 @@
       "action_params": "",
       "id": 5,
       "move_mode": "walk",
-      "type": "target",
-      "x": 9470.7725,
-      "y": 3469.8457
+      "type": "path",
+      "x": 9469.3711,
+      "y": 3466.3218
     },
     {
-      "action": "combat_script",
-      "action_params": "keypress(t);wait(1.4);keypress(t)",
+      "action": "mining",
+      "action_params": "",
       "id": 6,
       "move_mode": "walk",
-      "type": "orientation",
-      "x": 9468.7305,
-      "y": 3474.0413
+      "type": "target",
+      "x": 9469.0928,
+      "y": 3470.3186
     },
     {
-      "action": "combat_script",
-      "action_params": "keypress(t);wait(1.4);keypress(t)",
+      "action": "",
+      "action_params": "",
       "id": 7,
       "move_mode": "walk",
-      "type": "orientation",
-      "x": 9476.0234,
-      "y": 3475.9924
+      "type": "path",
+      "x": 9471.3389,
+      "y": 3468.2583
     },
     {
-      "action": "combat_script",
-      "action_params": "keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t);wait(1.4);keypress(t)",
+      "action": "mining",
+      "action_params": "",
       "id": 8,
       "move_mode": "walk",
-      "type": "orientation",
-      "x": 9480.9648,
-      "y": 3468.7993
+      "type": "target",
+      "x": 9473.8467,
+      "y": 3472.4099
     },
     {
       "action": "",
@@ -98,17 +98,17 @@
       "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": 9468.5449,
-      "y": 3470.7883
+      "x": 9474.0664,
+      "y": 3469.5542
     },
     {
-      "action": "",
+      "action": "mining",
       "action_params": "",
       "id": 10,
       "move_mode": "walk",
-      "type": "path",
-      "x": 9471.9609,
-      "y": 3468.5659
+      "type": "target",
+      "x": 9477.9131,
+      "y": 3469.7148
     },
     {
       "action": "",
@@ -116,26 +116,17 @@
       "id": 11,
       "move_mode": "walk",
       "type": "path",
-      "x": 9473.5801,
-      "y": 3472.4023
+      "x": 9473.1279,
+      "y": 3468.1614
     },
     {
-      "action": "",
+      "action": "mining",
       "action_params": "",
       "id": 12,
       "move_mode": "walk",
-      "type": "path",
-      "x": 9474.3965,
-      "y": 3468.6599
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 13,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 9478.4121,
-      "y": 3468.6992
+      "type": "target",
+      "x": 9477.0977,
+      "y": 3467.5974
     }
   ]
 }

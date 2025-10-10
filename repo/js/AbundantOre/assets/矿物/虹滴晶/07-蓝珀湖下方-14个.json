@@ -9,7 +9,7 @@
     "bgi_version": "0.50.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758425987411,
+    "last_modified_time": 1760098491963,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "07-蓝珀湖下方-14个",
@@ -253,36 +253,27 @@
       "y": 2089.3535
     },
     {
-      "action": "combat_script",
-      "action_params": "click(middle);wait(0.5);keypress(t)",
+      "action": "",
+      "action_params": "",
       "id": 27,
-      "move_mode": "dash",
-      "type": "target",
-      "x": 9152.2109,
-      "y": 2068.7747
-    },
-    {
-      "action": "combat_script",
-      "action_params": "attack",
-      "id": 28,
       "move_mode": "walk",
       "type": "path",
-      "x": 9152.3613,
-      "y": 2065.2786
+      "x": 9156.7051,
+      "y": 2067.1052
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 28,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9153.1738,
+      "y": 2064.2571
     },
     {
       "action": "",
       "action_params": "",
       "id": 29,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 9152.1641,
-      "y": 2063.3655
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 30,
       "move_mode": "dash",
       "type": "path",
       "x": 9140.376,
@@ -291,7 +282,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 31,
+      "id": 30,
       "move_mode": "run",
       "type": "path",
       "x": 9083.2178,
@@ -300,7 +291,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 32,
+      "id": 31,
       "move_mode": "dash",
       "type": "path",
       "x": 9071.5645,
@@ -309,7 +300,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 33,
+      "id": 32,
       "move_mode": "walk",
       "type": "target",
       "x": 9078.9971,
@@ -318,7 +309,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 34,
+      "id": 33,
       "move_mode": "walk",
       "type": "path",
       "x": 9072.5781,
@@ -327,7 +318,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 35,
+      "id": 34,
       "move_mode": "walk",
       "type": "target",
       "x": 9071.709,
@@ -336,7 +327,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 36,
+      "id": 35,
       "move_mode": "walk",
       "type": "path",
       "x": 9070.8145,
@@ -345,7 +336,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 37,
+      "id": 36,
       "move_mode": "walk",
       "type": "target",
       "x": 9069.7188,
