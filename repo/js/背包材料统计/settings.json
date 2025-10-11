@@ -2,7 +2,7 @@
     {
         "name": "TargetCount",
         "type": "input-text",
-        "label": "js目录下默认扫描的文件结构：\n./📁BetterGI/📁User/📁JsScript/\n📁背包材料统计/\n    📁pathing/\n        📁 薄荷/\n            📄 薄荷1.json\n            📁 薄荷效率/\n                📄 薄荷-吉吉喵.json\n        📁 苹果/\n            📄 旅行者的果园.json\n----------------------------------\n目标数量，默认5000\n给📁pathing下材料设定的目标数"
+        "label": "js目录下默认扫描的3层文件结构：\n./📁BetterGI/📁User/📁JsScript/\n📁背包材料统计/\n    📁pathing/\n        📁 食材与炼金/\n            📁 薄荷/\n                📄 薄荷1.json\n                📁 薄荷效率/\n                    📄 薄荷-吉吉喵.json\n            📁 苹果/\n                📄 旅行者的果园.json\n----------------------------------\n目标数量，默认5000\n给📁pathing下材料设定的目标数"
     },
     {
         "name": "TargetresourceName",
@@ -22,7 +22,7 @@
     {
         "name": "noRecord",
         "type": "checkbox",
-        "label": "----------------------------------\n取消扫描数量。默认：否\n勾选将不进行单路径的扫描，但保留时间记录\n(推荐路径记录炼成后启用)"
+        "label": "----------------------------------\n取消扫描。默认：否\n勾选将不进行单路径的扫描，但保留时间记录\n(推荐路径记录炼成后启用)"
     },
     {
         "name": "Pathing",
