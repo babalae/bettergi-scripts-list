@@ -1,0 +1,255 @@
+{
+  "info": {
+    "name": "E01-紫晶块-稻妻-清籁岛-天云峠(有战斗,高危,精英200x3)-6个",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.47.0",
+    "tags": [
+      "双手剑",
+      "精英怪"
+    ],
+    "last_modified_time": 1751032792201,
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4170.56,
+      "y": -4571.34,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -4205.23,
+      "y": -4587.06,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "j,wait(7),j,attack(0.2)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": -4207.0,
+      "y": -4587.5,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -4214.92,
+      "y": -4603.05,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -4248.25,
+      "y": -4644.63,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -4238.13,
+      "y": -4633.35,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": "",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "遗迹机兵*3",
+        "monster_tag": "elite"
+      }
+    },
+    {
+      "id": 7,
+      "x": -4235.11,
+      "y": -4657.32,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -4253.5,
+      "y": -4660.46,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "j,wait(1),j",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -4249.12,
+      "y": -4660.18,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "j,wait(1),j",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -4260.42,
+      "y": -4663.65,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "j,wait(1.2),j,attack(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -4260.42,
+      "y": -4663.65,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -4251.57,
+      "y": -4664.13,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": -4251.57,
+      "y": -4664.13,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -4253.0,
+      "y": -4656.65,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 15,
+      "x": -4253.0,
+      "y": -4656.65,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 16,
+      "x": -4256.4,
+      "y": -4658.76,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": -4255.92,
+      "y": -4654.71,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 18,
+      "x": -4255.92,
+      "y": -4654.71,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 19,
+      "x": -4261.52,
+      "y": -4656.69,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 20,
+      "x": -4261.51,
+      "y": -4656.69,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 21,
+      "x": -4266.83,
+      "y": -4668.9,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 22,
+      "x": -4266.83,
+      "y": -4668.9,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 23,
+      "x": -4265.38,
+      "y": -4671.53,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 24,
+      "x": -4265.37,
+      "y": -4671.53,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

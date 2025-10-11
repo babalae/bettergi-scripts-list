@@ -1,0 +1,62 @@
+[
+    {
+        "name": "partyName",
+        "type": "input-text",
+        "label": "需要切换的队伍名称（选填）"
+    },
+    {
+        "name": "getMeatMode",
+        "type": "select",
+        "label": "开启刷兽肉模式【勾选才拾取兽肉】",
+        "options": [
+        "算了我不捡了",
+        "通用拾取",
+        "万叶拾取"
+                ]
+    },
+    {
+        "name": "inputValue",
+        "type": "input-text",
+        "label": "刷取个数（选填，默认为300）"
+    },
+	{
+        "name": "waitTimeMode",
+        "type": "checkbox",
+        "label": "卡时间模式（基于运行次数、基准日期、周期确定需要运行次数）"
+    },
+	{
+        "name": "waitTimeModeDay",
+        "type": "input-text",
+        "label": "卡时间模式基准日期（选填，默认为2025-03-31）"
+    },
+	{
+        "name": "waitTimeModePeriod",
+        "type": "input-text",
+        "label": "卡时间模式周期（选填，默认为7天/循环）"
+    },
+    {
+        "name": "maxTimes",
+        "type": "input-text",
+        "label": "最大运行次数（选填，卡时间模式下生效，默认为刷肉模式计算值）"
+    },
+    {
+        "name": "goStatue",
+        "type": "checkbox",
+        "label": "开启定期前往七天神像"
+    },
+    {
+        "name": "statueTimes",
+        "type": "input-text",
+        "label": "返回神像周期（选填，默认为5次/循环）"
+    },
+    {
+        "name": "delayTime",
+        "type": "input-text",
+        "label": "到达触发地点后的延迟时间（选填，默认为10秒）"
+    },
+    {
+        "name": "ocrTimeout",
+        "type": "input-text",
+        "label": "OCR超时时间（选填，默认为30秒）"
+    }
+]

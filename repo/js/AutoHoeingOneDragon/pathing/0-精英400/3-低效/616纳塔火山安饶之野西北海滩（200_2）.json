@@ -1,0 +1,45 @@
+{
+  "info": {
+    "name": "616纳塔火山安饶之野西北海滩（200_2）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时93.87秒，包含2只精英与135只小怪，预计收入11213.5摩拉，包含以下怪物：3只丘丘人、1只丘丘风行游侠、1只雳震·大灵显化身。",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 10925.67,
+      "y": -2363.63,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 10852.9,
+      "y": -2326.13,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 10806.64,
+      "y": -2305.1,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

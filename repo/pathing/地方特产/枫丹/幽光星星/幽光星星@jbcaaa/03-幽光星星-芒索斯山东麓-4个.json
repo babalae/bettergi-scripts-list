@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "03-幽光星星-芒索斯山东麓-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "jbcaaa",
+        "links": "https://github.com/jbcaaa"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4984.81,
+      "y": 4462.92,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4973.93,
+      "y": 4475.01,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 4963.04,
+      "y": 4487.1,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4990.08,
+      "y": 4519.45,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 5000.32,
+      "y": 4540.25,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4998.47,
+      "y": 4561.95,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    }
+  ]
+}

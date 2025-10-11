@@ -1,0 +1,137 @@
+{
+  "info": {
+    "name": "06-纳塔-花羽会左上方-2只",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753516067938,
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9587.4189,
+      "y": -1279.2681,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9617.3486,
+      "y": -1253.5464,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9644.2354,
+      "y": -1230.0537,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 9663.6318,
+      "y": -1224.9619,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 9666.2471,
+      "y": -1221.7861,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(t)"
+    },
+    {
+      "id": 6,
+      "x": 9708.5537,
+      "y": -1155.2158,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 9739.5645,
+      "y": -1124.2505,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(Q),wait(2),keyup(Q)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 9750.6602,
+      "y": -1117.2339,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 9736.373,
+      "y": -1119.9907,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 9747.9639,
+      "y": -1114.6602,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 9755.6699,
+      "y": -1092.394,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 9744.2783,
+      "y": -1100.0542,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 9752.6426,
+      "y": -1086.8813,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

@@ -1,0 +1,176 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757186308610,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "003枫丹药剂师-任意弓+爱可菲",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3032.4014,
+      "y": 3728.3259
+    },
+    {
+      "action": "log_output",
+      "action_params": "[注意]此版本依靠长枪/大剑角色下落削韧击飞+药剂师会后退几步保持距离攻击来淹他;尽量使用\"爱可菲\"做行走位",
+      "id": 2,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 3011.5957,
+      "y": 3735.3333
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3011.5957,
+      "y": 3735.3333
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3004.2021,
+      "y": 3744.5266
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2978.4414,
+      "y": 3751.4048
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;爱可菲 e;伊涅芙 e;钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;绮良良 e;",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2953.0293,
+      "y": 3761.783
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle);恰斯卡 j;欧洛伦 j;希格雯 j;林尼 j;珐露珊 j;提纳里 j;柯莱 j;夜兰 j;五郎 j;九条裟罗 j;肖宫 j;甘雨 j;达达利亚 j;迪奥娜 j;温迪 j;菲谢尔 j;",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 2943.2002,
+      "y": 3768.0991
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),keypress(R),wait(0.3),moveby(0,350),wait(0.3),click,wait(0.3),moveby(0,55),wait(0.3),click,wait(0.3),moveby(0,55),wait(0.3),click,wait(0.3),moveby(0,0),wait(0.3),click,wait(0.3),moveby(0,0),wait(0.3),click,keypress(R),wait(1.8)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 2839.25,
+      "y": 3801.7538
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1),attack(0.5);爱可菲 keydown(d),attack(0.05),e,wait(0.15),attack(0.15),charge(1),attack(0.15),charge(1),keyup(d);",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2919.6279,
+      "y": 3788.4829
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3032.4014,
+      "y": 3728.3259
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3011.5957,
+      "y": 3735.3333
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3004.2021,
+      "y": 3744.5266
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2978.4414,
+      "y": 3751.4048
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;爱可菲 e;伊涅芙 e;钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;绮良良 e;",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2953.0293,
+      "y": 3761.783
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle);恰斯卡 j;欧洛伦 j;希格雯 j;林尼 j;珐露珊 j;提纳里 j;柯莱 j;夜兰 j;五郎 j;九条裟罗 j;肖宫 j;甘雨 j;达达利亚 j;迪奥娜 j;温迪 j;菲谢尔 j;",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 2943.2002,
+      "y": 3768.0991
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),keypress(R),wait(0.3),moveby(0,350),wait(0.3),click,wait(0.3),moveby(0,55),wait(0.3),click,wait(0.3),moveby(0,55),wait(0.3),click,wait(0.3),moveby(0,0),wait(0.3),click,wait(0.3),moveby(0,0),wait(0.3),click,keypress(R),wait(1.8)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 2839.25,
+      "y": 3801.7538
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1),attack(0.5);爱可菲 keydown(d),attack(0.05),e,wait(0.15),attack(0.15),charge(1),attack(0.15),charge(1),keyup(d);",
+      "id": 17,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2919.6279,
+      "y": 3788.4829
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760011372066,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "05-苔古荒原下方-12个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9370.3994,
+      "y": 1865.4717
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3),keypress(VK_F),wait(3),click,wait(10),keypress(VK_SPACE)",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 9370.3994,
+      "y": 1865.4717
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 9385.25,
+      "y": 1759.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9397.5,
+      "y": 1748.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9421.75,
+      "y": 1746.0
+    },
+    {
+      "action": "combat_script",
+      "action_params": "枫原万叶 wait(4),e(hold),wait(0.2),attack",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9444.3809,
+      "y": 1757.8408
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9444.6445,
+      "y": 1757.8359
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9440.8369,
+      "y": 1756.0884
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9437.6289,
+      "y": 1761.5488
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9443.4971,
+      "y": 1765.9624
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9447.666,
+      "y": 1759.5054
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9445.3281,
+      "y": 1754.7812
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9440.1797,
+      "y": 1763.9966
+    }
+  ]
+}
