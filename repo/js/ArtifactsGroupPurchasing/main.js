@@ -8,6 +8,7 @@ let timeMoveDown = Math.round(timeMove * 0.55);
 let rollingDelay = 25;
 let state;
 let gameRegion;
+let TMthreshold = +settings.TMthreshold || 0.9;
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
@@ -754,17 +755,20 @@ async function findAndClick(target, maxAttempts = 20) {
 async function waitForMainUI(requirement, timeOut = 60 * 1000) {
     log.info(`等待至多${timeOut}毫秒`)
     const startTime = Date.now();
+    let logcount = 0;
     while (Date.now() - startTime < timeOut) {
         const mainUIState = await isMainUI();
+        logcount++;
         if (mainUIState === requirement) return true;
-
         const elapsed = Date.now() - startTime;
         const min = Math.floor(elapsed / 60000);
         const sec = Math.floor((elapsed % 60000) / 1000);
         const ms = elapsed % 1000;
-        log.info(`已等待 ${min}分 ${sec}秒 ${ms}毫秒`);
-
-        await sleep(1000);
+        if (logcount >= 50) {
+            logcount = 0;
+            log.info(`已等待 ${min}分 ${sec}秒 ${ms}毫秒`);
+        }
+        await sleep(200);
     }
     log.error("超时仍未到达指定状态");
     return false;
@@ -1143,7 +1147,7 @@ async function recognizeAndInteract() {
             let itemName = null;
             for (const targetItem of targetItems) {
                 let recognitionObject = RecognitionObject.TemplateMatch(targetItem.template, 1219, centerYF - 15, 32 + 30 * (targetItem.itemName.length) + 2, 30);
-                recognitionObject.Threshold = 0.9;
+                recognitionObject.Threshold = TMthreshold;
                 recognitionObject.InitTemplate();
                 result = gameRegion.find(recognitionObject);
                 if (result.isExist()) {

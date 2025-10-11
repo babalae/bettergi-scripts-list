@@ -30,7 +30,7 @@
   {
     "name": "onlyActivate",
     "type": "checkbox",
-    "label": "只激活收尾和额外路线，不执行\n用于联机收尾获取更高收益\n【暂时没用，别勾】"
+    "label": "只激活收尾和额外路线，不执行\n用于联机收尾获取更高收益\n【不跑联机狗粮别勾】"
   },
   {
     "name": "decomposeMode",
@@ -68,5 +68,11 @@
     "name": "furina",
     "type": "checkbox",
     "label": "如果你的【狗粮队伍】中有芙宁娜，请勾选"
+  },
+  {
+    "name": "TMthreshold",
+    "type": "input-text",
+    "label": "拾取使用的匹配阈值\n观察到误捡可适当调高\n观察到漏捡可适当调低",
+    "default": "0.9"
   }
 ]
