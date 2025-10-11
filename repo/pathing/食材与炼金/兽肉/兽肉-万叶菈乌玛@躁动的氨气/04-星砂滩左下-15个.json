@@ -9,13 +9,13 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760103295511,
+    "last_modified_time": 1760186478521,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "04-星砂滩左下-15个",
     "tags": [],
     "type": "collect",
-    "version": "1.0"
+    "version": "1.1"
   },
   "positions": [
     {
@@ -82,22 +82,18 @@
       "y": 1923.0205
     },
     {
-      "action": "",
-      "action_params": "",
       "id": 8,
       "move_mode": "swim",
       "type": "path",
-      "x": 9850.8125,
-      "y": 1921.75
+      "x": 9849.3438,
+      "y": 1921.625
     },
     {
-      "action": "",
-      "action_params": "",
       "id": 9,
       "move_mode": "swim",
       "type": "path",
-      "x": 9852.625,
-      "y": 1923.125
+      "x": 9849.125,
+      "y": 1923.4375
     },
     {
       "action": "",
@@ -105,20 +101,67 @@
       "id": 10,
       "move_mode": "swim",
       "type": "path",
-      "x": 9850.4248,
-      "y": 1925.4551
+      "x": 9850.8125,
+      "y": 1921.75
+    },
+    {
+      "id": 11,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9850.1875,
+      "y": 1924.4375
     },
     {
       "action": "",
       "action_params": "",
-      "id": 11,
+      "id": 12,
       "move_mode": "swim",
       "type": "path",
-      "x": 9848.4375,
-      "y": 1924.0625
+      "x": 9852.3438,
+      "y": 1922.0625
     },
     {
-      "id": 12,
+      "id": 13,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9853.3125,
+      "y": 1922.6562
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9849.1562,
+      "y": 1925.7812
+    },
+    {
+      "id": 15,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9849.0625,
+      "y": 1923.7812
+    },
+    {
+      "id": 16,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9848.0,
+      "y": 1925.75
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9848.0312,
+      "y": 1922.75
+    },
+    {
+      "action": "",
+      "id": 18,
       "move_mode": "swim",
       "type": "path",
       "x": 9846.8125,
@@ -127,7 +170,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 13,
+      "id": 19,
       "move_mode": "swim",
       "type": "path",
       "x": 9844.2227,
@@ -136,7 +179,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 14,
+      "id": 20,
       "move_mode": "swim",
       "type": "path",
       "x": 9846.9951,
@@ -145,7 +188,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 15,
+      "id": 21,
       "move_mode": "dash",
       "type": "teleport",
       "x": 9746.335,
@@ -153,7 +196,7 @@
     },
     {
       "action": "",
-      "id": 16,
+      "id": 22,
       "move_mode": "walk",
       "type": "path",
       "x": 9745.5,
@@ -162,7 +205,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 23,
       "move_mode": "dash",
       "type": "path",
       "x": 9746.291,
@@ -171,7 +214,7 @@
     {
       "action": "combat_script",
       "action_params": "枫原万叶 wait(5),e(hold),wait(0.2),attack",
-      "id": 18,
+      "id": 24,
       "move_mode": "walk",
       "type": "path",
       "x": 9755.4844,
@@ -180,7 +223,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 19,
+      "id": 25,
       "move_mode": "swim",
       "type": "path",
       "x": 9757.2812,
@@ -189,7 +232,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 20,
+      "id": 26,
       "move_mode": "swim",
       "type": "path",
       "x": 9759.041,
@@ -198,7 +241,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 21,
+      "id": 27,
       "move_mode": "swim",
       "type": "path",
       "x": 9759.126,
@@ -207,7 +250,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 22,
+      "id": 28,
       "move_mode": "swim",
       "type": "path",
       "x": 9756.9473,
@@ -216,25 +259,39 @@
     {
       "action": "",
       "action_params": "",
-      "id": 23,
+      "id": 29,
       "move_mode": "swim",
       "type": "path",
-      "x": 9754.8779,
-      "y": 2009.2158
+      "x": 9753.4062,
+      "y": 2010.5
+    },
+    {
+      "id": 30,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9757.9375,
+      "y": 2007.125
     },
     {
       "action": "",
       "action_params": "",
-      "id": 24,
+      "id": 31,
       "move_mode": "swim",
       "type": "path",
       "x": 9753.3896,
       "y": 2007.8955
     },
     {
+      "id": 32,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9758.0938,
+      "y": 2005.625
+    },
+    {
       "action": "",
       "action_params": "",
-      "id": 25,
+      "id": 33,
       "move_mode": "swim",
       "type": "path",
       "x": 9753.0898,
@@ -243,7 +300,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 26,
+      "id": 34,
       "move_mode": "swim",
       "type": "path",
       "x": 9752.418,
@@ -252,7 +309,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 27,
+      "id": 35,
       "move_mode": "swim",
       "type": "path",
       "x": 9752.0645,
@@ -261,7 +318,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 28,
+      "id": 36,
       "move_mode": "swim",
       "type": "path",
       "x": 9754.8721,
@@ -270,7 +327,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 29,
+      "id": 37,
       "move_mode": "swim",
       "type": "path",
       "x": 9756.6045,
@@ -279,7 +336,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 30,
+      "id": 38,
       "move_mode": "swim",
       "type": "target",
       "x": 9756.1328,
