@@ -1,4 +1,4 @@
-//当前js版本1.8.2
+//当前js版本1.8.6
 
 //拾取时上下滑动的时间
 
@@ -442,6 +442,10 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
     const m = Math.floor((totalTimeCombined % 3600) / 60);
     const s = totalTimeCombined % 60;
     log.info(`预计总用时: ${h} 时 ${m} 分 ${s.toFixed(0)} 秒`);
+    if (totalSelectedElites < targetEliteNum || totalSelectedMonsters < targetMonsterNum || totalSelectedElites > targetEliteNum * 1.1) {
+        log.warn("警告，可能条件填写不合理，分配结果与目标存在较大差异");
+        await sleep(5000);
+    }
 }
 
 async function assignGroups(pathings, groupTags) {

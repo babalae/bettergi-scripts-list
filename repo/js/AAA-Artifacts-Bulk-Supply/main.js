@@ -10,6 +10,7 @@ let keep4Star = settings.keep4Star;//保留四星
 let autoSalvage = settings.autoSalvage;//启用自动分解
 let notify = settings.notify;//启用通知
 let accountName = settings.accountName || "默认账户";//账户名
+let TMthreshold = +settings.TMthreshold || 0.9;//拾取阈值
 
 //文件路径
 const ArtifactsButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/ArtifactsButton.png"));
@@ -1338,7 +1339,7 @@ async function recognizeAndInteract() {
             let itemName = null;
             for (const targetItem of targetItems) {
                 let recognitionObject = RecognitionObject.TemplateMatch(targetItem.template, 1219, centerYF - 15, 32 + 30 * (targetItem.itemName.length) + 2, 30);
-                recognitionObject.Threshold = 0.9;
+                recognitionObject.Threshold = TMthreshold;
                 recognitionObject.InitTemplate();
                 result = gameRegion.find(recognitionObject);
                 if (result.isExist()) {
