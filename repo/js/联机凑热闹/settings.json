@@ -19,5 +19,12 @@
       "3/4"
     ],
     "default": "3/4"
+  },
+  {
+    "name": "repeat_num", // 变量名，在js内使用 settings.变量名 获取对应的配置值
+    "type": "input-text",
+    "label": "总尝试次数(0为无限次，需要提前设置好快捷键关闭)",
+    "default": "5"
   }
+
 ]
