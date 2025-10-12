@@ -10,7 +10,7 @@
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时300秒，包含10只精英与10只小怪，预计收入3450摩拉，包含以下怪物：4只丘丘人、1只打手丘丘人、3只冲锋丘丘人、1只木盾丘丘人、1只射手丘丘人、2只火斧丘丘暴徒、7只深邃拟覆叶。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1759420374587,
+    "last_modified_time": 1760073456588,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "605纳塔奥奇（400_3，200_7）次数盾",
@@ -79,8 +79,8 @@
       "id": 7,
       "move_mode": "dash",
       "type": "path",
-      "x": 9831.0166,
-      "y": -462.3101
+      "x": 9830.25,
+      "y": -464.0631
     },
     {
       "action": "",
@@ -146,7 +146,7 @@
       "y": -416.7407
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 15,
       "move_mode": "run",
@@ -155,7 +155,7 @@
       "y": -381.66
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 16,
       "move_mode": "dash",
@@ -167,6 +167,16 @@
       "action": "",
       "action_params": "",
       "id": 17,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9892.0,
+      "y": -365.94
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
       "move_mode": "dash",
       "type": "path",
       "x": 9906.5,
@@ -175,8 +185,8 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 18,
-      "move_mode": "run",
+      "id": 19,
+      "move_mode": "dash",
       "type": "path",
       "x": 9892.0,
       "y": -365.94
@@ -184,7 +194,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 19,
+      "id": 20,
       "move_mode": "walk",
       "type": "teleport",
       "x": 9813.46,
@@ -193,8 +203,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 20,
-      "locked": false,
+      "id": 21,
       "move_mode": "walk",
       "type": "orientation",
       "x": 9801.8828,
@@ -203,7 +212,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 21,
+      "id": 22,
       "move_mode": "dash",
       "type": "path",
       "x": 9801.8828,
@@ -212,7 +221,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 22,
+      "id": 23,
       "move_mode": "run",
       "type": "path",
       "x": 9779.502,
@@ -221,7 +230,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 23,
+      "id": 24,
       "move_mode": "fly",
       "type": "path",
       "x": 9697.86,
@@ -230,7 +239,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 24,
+      "id": 25,
       "move_mode": "walk",
       "type": "path",
       "x": 9698.94,
@@ -239,7 +248,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 25,
+      "id": 26,
       "move_mode": "fly",
       "type": "path",
       "x": 9716.83,
@@ -248,7 +257,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 26,
+      "id": 27,
       "move_mode": "dash",
       "type": "path",
       "x": 9737.9375,
@@ -257,7 +266,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 27,
+      "id": 28,
       "move_mode": "dash",
       "type": "path",
       "x": 9747.5684,

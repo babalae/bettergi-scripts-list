@@ -10,7 +10,7 @@
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时140秒，包含2只精英与5只小怪，预计收入1002.5摩拉，包含以下怪物：2只岩盾丘丘人、2只射手丘丘人、1只火箭丘丘人、1只岩盾丘丘暴徒、1只丘丘岩盔王。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1759434678070,
+    "last_modified_time": 1760032079725,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "405须弥觉王之殿南（600_1，200_1）",
@@ -93,7 +93,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.5);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;钟离 d(0.1),e(hold);茜特菈莉 e;莱依拉 e;",
+      "action_params": "wait(0.5);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;钟离 e(hold);茜特菈莉 e;莱依拉 e;",
       "id": 9,
       "move_mode": "fly",
       "type": "path",
@@ -102,7 +102,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.3),j,click(middle)",
+      "action_params": "attack(0.3),j",
       "id": 10,
       "move_mode": "fly",
       "type": "path",
@@ -110,27 +110,9 @@
       "y": -841.9399
     },
     {
-      "action": "fight",
-      "action_params": "",
-      "id": 11,
-      "move_mode": "dash",
-      "type": "orientation",
-      "x": 3467.81,
-      "y": -841.5
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 12,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 3469.38,
-      "y": -837.62
-    },
-    {
       "action": "combat_script",
       "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;",
-      "id": 13,
+      "id": 11,
       "move_mode": "run",
       "type": "path",
       "x": 3442.41,
@@ -139,16 +121,16 @@
     {
       "action": "",
       "action_params": "",
-      "id": 14,
-      "move_mode": "walk",
-      "type": "path",
+      "id": 12,
+      "move_mode": "climb",
+      "type": "target",
       "x": 3428.88,
       "y": -830.06
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 15,
+      "id": 13,
       "move_mode": "climb",
       "type": "path",
       "x": 3425.0,
@@ -157,16 +139,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 16,
-      "move_mode": "run",
-      "type": "path",
-      "x": 3429.75,
-      "y": -823.75
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 17,
+      "id": 14,
       "move_mode": "run",
       "type": "path",
       "x": 3430.75,
@@ -175,7 +148,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.2)",
-      "id": 18,
+      "id": 15,
       "move_mode": "run",
       "type": "orientation",
       "x": 3430.75,

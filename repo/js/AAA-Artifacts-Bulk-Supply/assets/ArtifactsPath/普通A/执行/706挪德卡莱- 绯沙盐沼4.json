@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1759560319017,
+    "last_modified_time": 1760075994289,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "706挪德卡莱- 绯沙盐沼4",
@@ -60,8 +60,8 @@
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": 9272.97265625,
-      "y": 3251.380126953125
+      "x": 9275.869140625,
+      "y": 3250.76611328125
     },
     {
       "action": "",
@@ -78,8 +78,8 @@
       "id": 7,
       "move_mode": "dash",
       "type": "path",
-      "x": 9294.265625,
-      "y": 3251.35791015625
+      "x": 9295.5830078125,
+      "y": 3250.5283203125
     },
     {
       "action": "",
@@ -87,13 +87,22 @@
       "id": 8,
       "move_mode": "climb",
       "type": "target",
-      "x": 9294.265625,
-      "y": 3251.35791015625
+      "x": 9295.5830078125,
+      "y": 3250.5283203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 9294.103515625,
+      "y": 3248.1630859375
     },
     {
       "action": "combat_script",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
-      "id": 9,
+      "id": 10,
       "move_mode": "climb",
       "type": "target",
       "x": 9295.876953125,
@@ -101,12 +110,12 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f)",
-      "id": 10,
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "id": 11,
       "move_mode": "dash",
       "type": "target",
-      "x": 9306.58984375,
-      "y": 3241.2861328125
+      "x": 9307.1533203125,
+      "y": 3240.56298828125
     }
   ]
 }
