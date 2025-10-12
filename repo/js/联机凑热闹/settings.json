@@ -1,0 +1,23 @@
+[
+  {
+    "name": "join_type", // 变量名，在js内使用 settings.变量名 获取对应的配置值
+    "type": "select", // 类型
+    "label": "方向设置", // 显示标签
+    "options": [ //选项
+      "往上翻",
+      "往下翻"
+    ],
+    "default": "往下翻"
+  },
+  {
+    "name": "player_num", // 变量名，在js内使用 settings.变量名 获取对应的配置值
+    "type": "select", // 类型
+    "label": "联机人数设置", // 显示标签
+    "options": [ //选项
+      "1/4",
+      "2/4",
+      "3/4"
+    ],
+    "default": "3/4"
+  }
+]
