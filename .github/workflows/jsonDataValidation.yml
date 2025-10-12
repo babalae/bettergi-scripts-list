@@ -290,9 +290,42 @@ jobs:
           # 使用base64解码文件列表
           CHANGED_FILES=$(echo "$CHANGED_FILES_B64" | base64 --decode)
           
+          echo "进行地图追踪目录结构校验"
+          
+          # 地图追踪目录结构校验
+          echo "🔍 开始地图追踪目录结构校验..."
+          : > validation_output.log
+          set +e
+          python build/validate.py "repo/pathing" --fix 2>&1 | tee -a validation_output.log
+          PY_EXIT=$?
+          set -e
+          
+          # 检查目录结构校验结果
+          if [ $PY_EXIT -ne 0 ]; then
+            echo "❌ pathing目录结构校验失败"
+            VALIDATION_FAILED=true
+          elif grep -E "❌.*目录结构错误" -q validation_output.log; then
+            echo "❌ 检测到地图追踪目录结构错误"
+            VALIDATION_FAILED=true
+          else
+            echo "✅ 地图追踪目录结构校验通过"
+            VALIDATION_FAILED=false
+          fi
+          
+          # 如果目录结构校验失败，直接退出
+          if [ "$VALIDATION_FAILED" = true ]; then
+            echo "检测到地图追踪目录结构错误，生成校验说明并标记失败"
+            {
+              echo "### ❌ 地图追踪目录结构校验失败"
+              echo "请前往 Actions 查看报错详情（运行日志）。"
+            } > validation_notes.md
+            exit 1
+          fi
+          
+          # 目录结构校验通过后，继续验证修改的JSON文件
           echo "PR 触发模式，验证修改的 JSON 文件"
           if [ -z "$CHANGED_FILES" ]; then
-            echo "没有找到修改的 JSON 文件，跳过验证"
+            echo "没有找到修改的 JSON 文件，跳过JSON内容验证"
             exit 0
           fi
           
@@ -300,7 +333,7 @@ jobs:
           echo "Python编码设置:"
           python -c "import sys; print(sys.getdefaultencoding())"
           
-          # 初始化日志文件
+          # 重新初始化日志文件用于JSON内容校验
           : > validation_output.log
           VALIDATION_FAILED=false
 
