@@ -15,7 +15,7 @@
     "tags": [
       "水下地图"
     ],
-    "last_modified_time": 1755411414925,
+    "last_modified_time": 1755633558677,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -35,7 +35,7 @@
       "y": 3394.3584,
       "action": "combat_script",
       "move_mode": "run",
-      "action_params": "keydown(VK_LCONTROL),wait(3.5),keyup(VK_LCONTROL)",
+      "action_params": "keydown(VK_LCONTROL),wait(3.5),keyup(VK_LCONTROL),click(middle);",
       "type": "path"
     },
     {
@@ -44,7 +44,7 @@
       "y": 3394.3584,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4),click(middle);",
+      "action_params": "keydown(VK_LCONTROL),wait(0.5),keyup(VK_LCONTROL),wait(0.4),click(middle);",
       "type": "target"
     },
     {
@@ -53,7 +53,7 @@
       "y": 3385.7178,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keydown(VK_LCONTROL),wait(1.5),keyup(VK_LCONTROL)",
+      "action_params": "keydown(VK_LCONTROL),wait(1.8),keyup(VK_LCONTROL),click(middle);",
       "type": "path"
     },
     {
@@ -71,7 +71,7 @@
       "y": 3387.7026,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.4),click(middle);",
+      "action_params": "keydown(VK_LCONTROL),wait(0.5),keyup(VK_LCONTROL),wait(0.4),click(middle);",
       "type": "target"
     },
     {
@@ -89,7 +89,7 @@
       "y": 3347.6943,
       "action": "combat_script",
       "move_mode": "run",
-      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL)",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),click(middle);",
       "type": "target"
     },
     {
@@ -125,13 +125,13 @@
       "y": 3353.8672,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "keydown(VK_LCONTROL),wait(1.5),keyup(VK_LCONTROL)",
+      "action_params": "keydown(VK_LCONTROL),wait(1.5),keyup(VK_LCONTROL),click(middle);",
       "type": "path"
     },
     {
       "id": 13,
-      "x": 4983.375,
-      "y": 3353.8672,
+      "x": 4984.08,
+      "y": 3353.9228,
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "wait(0.4),click(middle);",
@@ -143,7 +143,7 @@
       "y": 3382.9648,
       "action": "combat_script",
       "move_mode": "run",
-      "action_params": "keydown(VK_LCONTROL),wait(6),keyup(VK_LCONTROL),click(middle);",
+      "action_params": "keydown(VK_LCONTROL),wait(6.5),keyup(VK_LCONTROL),click(middle);",
       "type": "path"
     },
     {
@@ -161,7 +161,7 @@
       "y": 3448.2046,
       "action": "combat_script",
       "move_mode": "run",
-      "action_params": "keydown(VK_LCONTROL),wait(5),keyup(VK_LCONTROL)",
+      "action_params": "keydown(VK_LCONTROL),wait(5.5),keyup(VK_LCONTROL),click(middle);",
       "type": "path"
     },
     {
@@ -188,17 +188,17 @@
       "y": 3499.7449,
       "action": "combat_script",
       "move_mode": "run",
-      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL)",
+      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL),click(middle);",
       "type": "path"
     },
     {
       "id": 20,
-      "x": 4919.7451,
-      "y": 3499.7449,
-      "action": "combat_script",
+      "x": 4919.2109,
+      "y": 3501.1255,
+      "type": "target",
       "move_mode": "walk",
-      "action_params": "wait(1)",
-      "type": "target"
+      "action": "combat_script",
+      "action_params": "wait(1)"
     }
   ]
 }

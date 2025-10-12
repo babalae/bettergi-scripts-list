@@ -13,7 +13,9 @@ this.clickWithVerification = async function(x, y, targetText, maxRetries = 20) {
         await sleep(400); 
         
         // 验证目标文字是否消失
-        let resList = captureGameRegion().findMulti(ocrRoThis);
+        let captureRegion = captureGameRegion();
+        let resList = captureRegion.findMulti(ocrRoThis);
+        captureRegion.dispose();
         let textFound = false;
         
         if (resList && resList.count > 0) {
@@ -29,7 +31,6 @@ this.clickWithVerification = async function(x, y, targetText, maxRetries = 20) {
         if (!textFound) {
             return true;
         }
-
     }
     
     log.warn(`经过${maxRetries}次点击，文字"${targetText}"仍未消失`);
@@ -40,13 +41,9 @@ this.clickWithVerification = async function(x, y, targetText, maxRetries = 20) {
  * 尝试领取地脉花奖励
  * @returns {Promise<void>}
  */
-this.attemptReward = 
-async function () {
-    const MAX_RETRY = 5;
-
-    // 超时处理
+this.attemptReward = async function (retryCount = 0) {
+    const MAX_RETRY = 3;
     if (retryCount >= MAX_RETRY) {
-        retryCount = 0;
         throw new Error("超过最大重试次数，领取奖励失败");
     }
 
@@ -55,13 +52,16 @@ async function () {
     await sleep(500);
 
     // 识别是否为地脉之花界面
-    let resList = captureGameRegion().findMulti(ocrRoThis); // 使用预定义的ocrRoThis对象
+    let captureRegion = captureGameRegion();
+    let resList = captureRegion.findMulti(ocrRoThis); // 使用预定义的ocrRoThis对象
+    captureRegion.dispose();
     let isValid = false;
     let condensedResin = null;
     let originalResin = null;
     let fragileResin = null;
     let isResinEmpty = false;
     let dobuleReward = false;
+    let isOriginalResinEmpty = false;
 
     if (resList && resList.count > 0) {
         // 分析识别到的文本
@@ -79,12 +79,15 @@ async function () {
             } else if (res.text.includes("双倍掉落")) {
                 isValid = true;
                 dobuleReward = true;
+            } else if (res.text.includes("补充")){
+                isValid = true;
+                isOriginalResinEmpty = true;
             } else {
                 isValid = true;
                 isResinEmpty = true;
             }
         }        // 处理不同的树脂情况
-        if (originalResin && dobuleReward) {
+        if (originalResin && dobuleReward && !isOriginalResinEmpty) {
             log.info("选择使用原粹树脂，获得双倍产出");
             await clickWithVerification(
                 Math.round(originalResin.x + originalResin.width / 2) + 400, 
@@ -98,7 +101,7 @@ async function () {
                 Math.round(condensedResin.y + condensedResin.height / 2),
                 "使用"
             );
-        } else if (originalResin) {
+        } else if (originalResin && !isOriginalResinEmpty) {
             log.info("选择使用原粹树脂");
             await clickWithVerification(
                 Math.round(originalResin.x + originalResin.width / 2) + 400, 
@@ -112,10 +115,10 @@ async function () {
                 Math.round(fragileResin.y + fragileResin.height / 2),
                 "使用"
             );
-        } else if (isResinEmpty) {
+        } else if (isResinEmpty && isOriginalResinEmpty) {
             log.error("树脂用完了呢");
             keyPress("VK_ESCAPE");
-            throw new Error("树脂已用完");
+            throw new Error("原粹树脂不足20，无法领取奖励");
         }
         if (settings.friendshipTeam) {
             log.info("切换回战斗队伍");
@@ -129,8 +132,7 @@ async function () {
         log.info("当前界面不是地脉之花界面，重试");
         await genshin.returnMainUi();
         await sleep(1000);
-        retryCount++;
         await autoNavigateToReward();
-        await attemptReward();
+        await attemptReward(++retryCount);
     }
 }

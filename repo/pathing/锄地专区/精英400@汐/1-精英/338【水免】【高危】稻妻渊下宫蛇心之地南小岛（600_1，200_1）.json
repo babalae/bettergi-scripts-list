@@ -1,0 +1,106 @@
+{
+  "info": {
+    "name": "338【水免】【高危】稻妻渊下宫蛇心之地南小岛（600_1，200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时108秒，包含2只精英，预计收入800摩拉，包含以下怪物：1只深渊使徒·激流、1只遗迹守卫。",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "tags": [],
+    "last_modified_time": 1754760686670,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 480.39,
+      "y": -537.75,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 467.24,
+      "y": -534.72,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 440.72,
+      "y": -511.0,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 424.25,
+      "y": -509.1251,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(4.5)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 424.125,
+      "y": -509.0626,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 377.5486,
+      "y": -476.4592,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 374.0712,
+      "y": -475.2119,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 374.0712,
+      "y": -475.2119,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 374.0712,
+      "y": -475.2119,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    }
+  ]
+}

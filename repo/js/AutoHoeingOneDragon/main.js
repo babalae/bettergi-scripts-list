@@ -1,9 +1,10 @@
-//当前js版本 1.4.7
+//当前js版本1.8.6
 
 //拾取时上下滑动的时间
+
 let timeMoveUp;
 let timeMoveDown;
-let pickupMode = settings.pickupMode || "模板匹配拾取，默认只拾取狗粮";
+let pickup_Mode = settings.pickup_Mode || "模板匹配拾取，拾取狗粮和怪物材料";
 if (settings.activeDumperMode) { //处理泥头车信息
     dumpers = settings.activeDumperMode.split('，').map(Number).filter(num => num === 1 || num === 2 || num === 3 || num === 4);
 } else {
@@ -11,16 +12,24 @@ if (settings.activeDumperMode) { //处理泥头车信息
 }
 let gameRegion;
 let targetItemPath = "assets/targetItems";
+let mainUITemplate = file.ReadImageMatSync("assets/MainUI.png");
+let itemFullTemplate = file.ReadImageMatSync("assets/itemFull.png");
 let targetItems;
 
 const rollingDelay = (+settings.rollingDelay || 25);
 const pickupDelay = (+settings.pickupDelay || 100);
 const timeMove = (+settings.timeMove || 1000);
 
+let warnMessage = [];
+let blacklist = [];
+let blacklistSet = new Set();
+let state;
+const accountName = settings.accountName || "默认账户";
+
 (async function () {
+    targetItems = await loadTargetItems();
     //自定义配置处理
     const operationMode = settings.operationMode || "运行锄地路线";
-    if (pickupMode === "js拾取，默认只拾取狗粮和晶蝶") pickupMode = "模板匹配拾取，默认只拾取狗粮";
 
     let k = settings.efficiencyIndex;
     // 空字符串、null、undefined 或非数字 → 0.5
@@ -45,28 +54,20 @@ const timeMove = (+settings.timeMove || 1000);
     const groupTags = groupSettings.map(str => str.split('，').filter(Boolean));
     groupTags[0] = [...new Set(groupTags.flat())];
 
-
     const priorityTags = (settings.priorityTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
     const excludeTags = (settings.excludeTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
-    const accountName = settings.accountName || "默认账户";
-    // 拾取黑白名单处理
-    const ocrPickupContent = await file.readText("assets/拾取名单.json");
-    const ocrPickupJson = JSON.parse(ocrPickupContent);
-    const whitelistKeywords = ocrPickupJson["白名单"];
-    const blacklistKeywords = ocrPickupJson["黑名单"];
-
-    targetItems = await readFolder(targetItemPath, false);
-    //模板匹配对象处理
-    if (pickupMode === "模板匹配拾取，默认只拾取狗粮") {
-        for (const targetItem of targetItems) {
-            targetItem.template = file.ReadImageMatSync(targetItem.fullPath);
-            targetItem.itemName = targetItem.fileName.replace(/\.png$/, '');
-        }
+    if (pickup_Mode != "模板匹配拾取，拾取狗粮和怪物材料" && pickup_Mode != "模板匹配拾取，只拾取狗粮") {
+        excludeTags.push("沙暴");
+        log.warn("拾取模式不是模板匹配或，无法处理沙暴路线，自动排除所有沙暴路线");
     }
+
+    await loadBlacklist(true);
+
     timeMoveUp = Math.round(timeMove * 0.45);
     timeMoveDown = Math.round(timeMove * 0.55);
     if (!settings.accountName) {
-        for (let i = 0; i < 120; i++) {
+        warnMessage.push("请先阅读js文件夹中的【README.md】后使用");
+        for (let i = 0; i < 5; i++) {
             // 原始文本
             let originalMessage = "   请先阅读js文件夹中的【README.md】后使用";
             // 计算轮替的偏移量，每次循环偏移一位
@@ -121,10 +122,40 @@ const timeMove = (+settings.timeMove || 1000);
         await copyPathingsByGroup(pathings);
         await updateRecords(pathings, accountName);
     } else if (operationMode === "运行锄地路线") {
-        await switchPartyIfNeeded(partyName)
+        await switchPartyIfNeeded(partyName);
+        // 检测四神队伍并输出当前角色
+        const avatars = getAvatars() || [];
+        const need = ['钟离', '芙宁娜', '纳西妲', '雷电将军'];
+
+        let improperTeam = true;
+        for (let i = 0; i < need.length; i++) {
+            let found = false;
+            for (let j = 0; j < avatars.length; j++) {
+                if (avatars[j] === need[i]) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                improperTeam = false;
+                break;
+            }
+        }
+
+        // 手动拼接角色名，避免 join 报错
+        let teamStr = '';
+        for (let k = 0; k < avatars.length; k++) {
+            teamStr += avatars[k];
+            if (k < avatars.length - 1) {
+                teamStr += '、';
+            }
+        }
+
+        log.info('当前队伍：' + teamStr);
+
         log.info("开始运行锄地路线");
         await updateRecords(pathings, accountName);
-        await processPathingsByGroup(pathings, whitelistKeywords, blacklistKeywords, accountName);
+        await processPathingsByGroup(pathings, accountName);
     } else {
         log.info("强制刷新所有运行记录");
         await initializeCdTime(pathings, "");
@@ -275,147 +306,146 @@ async function markPathings(pathings, groupTags, priorityTags, excludeTags) {
 }
 
 async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum) {
-    // 初始化变量
-    let nextTargetEliteNum = targetEliteNum; // 当前目标精英怪数量
-    let iterationCount = 0; // 循环次数
+    /* ========== 0. 原初始化不动 ========== */
+    let nextTargetEliteNum = targetEliteNum;
+    let iterationCount = 0;
 
-    // 初始化统计变量
-    let totalSelectedElites = 0; // 总精英怪数量
-    let totalSelectedMonsters = 0; // 总普通怪数量
-    let totalGainCombined = 0; // 总收益
-    let totalTimeCombined = 0; // 总耗时
+    let totalSelectedElites = 0;
+    let totalSelectedMonsters = 0;
+    let totalGainCombined = 0;
+    let totalTimeCombined = 0;
     let monsterRouteElite = 0;
 
-    let maxE1 = 0;
-    let maxE2 = 0;
-
-    const ratio = targetEliteNum / targetMonsterNum;
+    let maxE1 = 0, maxE2 = 0;
+    const ratio = targetEliteNum / Math.max(targetMonsterNum, 1);   // 防 0
     const f = (Number((1 - Math.exp(-ratio * ratio)).toFixed(3)) + 1) / 2;
 
-    // 遍历 pathings，计算并添加 G1、G2、E1 和 E2 属性
-    pathings.forEach(pathing => {
-        pathing.selected = false; // 初始化 selected 属性为 false
-        const G1 = pathing.mora_e + pathing.mora_m; // 进入一组的收益
-        pathing.G1 = G1;
-        const G2 = pathing.mora_m; // 进入二组的收益
-        pathing.G2 = G2;
-        pathing.E1 = pathing.e === 0 ? 0 : ((G1 - G2 * f) / pathing.e) ** k * (G1 / pathing.t); // 进入一组的效率
-        pathing.E2 = pathing.m === 0 ? 0 : (G2 / pathing.m) ** k * (G2 / pathing.t); // 进入二组的效率
-
-        if (maxE1 < pathing.E1) {
-            maxE1 = pathing.E1;
-        }
-        if (maxE2 < pathing.E2) {
-            maxE2 = pathing.E2;
-        }
-
+    pathings.forEach(p => {
+        p.selected = false;
+        const G1 = p.mora_e + p.mora_m, G2 = p.mora_m;
+        p.G1 = G1; p.G2 = G2;
+        p.E1 = p.e === 0 ? 0 : ((G1 - G2 * f) / p.e) ** k * (G1 / p.t);
+        p.E2 = p.m === 0 ? 0 : (G2 / p.m) ** k * (G2 / p.t);
+        maxE1 = Math.max(maxE1, p.E1);
+        maxE2 = Math.max(maxE2, p.E2);
+    });
+    pathings.forEach(p => {
+        if (p.prioritized) { p.E1 += maxE1; p.E2 += maxE2; }
     });
 
-    pathings.forEach(pathing => {
-        if (pathing.prioritized) {
-            pathing.E1 += maxE1;
-            pathing.E2 += maxE2;
-        }
-
-    });
-
-    // 封装第一轮选择逻辑
+    /* ========== 1. 原两轮选择逻辑照搬，只是去掉“提前 break” ========== */
     function selectRoutesByEliteTarget(targetEliteNum) {
-        // 重置选中状态和统计变量
-        pathings.forEach(pathing => pathing.selected = false); // 每轮循环前重置选中状态
-        totalSelectedElites = 0; // 重置总精英怪数量
-        totalSelectedMonsters = 0; // 重置总普通怪数量
-        totalGainCombined = 0; // 重置总收益
-        totalTimeCombined = 0; // 重置总耗时
+        pathings.forEach(p => p.selected = false);
+        totalSelectedElites = 0; totalSelectedMonsters = 0;
+        totalGainCombined = 0; totalTimeCombined = 0;
 
-
-        // 按 E1 从高到低排序
         pathings.sort((a, b) => b.E1 - a.E1);
-
-        // 第一轮选择：根据当前目标精英怪数量选择路径
-        for (const pathing of pathings) {
-            if (pathing.E1 > 0 && pathing.available && ((totalSelectedElites + pathing.e) <= targetEliteNum - monsterRouteElite + 2)) {
-                pathing.selected = true;
-                totalSelectedElites += pathing.e;
-                totalSelectedMonsters += pathing.m;
-                totalGainCombined += pathing.G1;
-                totalTimeCombined += pathing.t;
+        for (const p of pathings) {
+            if (p.E1 > 0 && p.available &&
+                (totalSelectedElites + p.e <= targetEliteNum + 2)) { // 留一点余量
+                p.selected = true;
+                totalSelectedElites += p.e;
+                totalSelectedMonsters += p.m;
+                totalGainCombined += p.G1;
+                totalTimeCombined += p.t;
             }
         }
     }
 
-    // 封装第二轮选择逻辑
     function selectRoutesByMonsterTarget(targetMonsterNum) {
         monsterRouteElite = 0;
-        // 按 E2 从高到低排序
         pathings.sort((a, b) => b.E2 - a.E2);
-
-        // 第二轮选择：根据剩余的普通怪数量目标选择路径
-        for (const pathing of pathings) {
-            if (pathing.E2 > 0 && pathing.available && !pathing.selected && (totalSelectedMonsters + pathing.m) < targetMonsterNum + 5) {
-                pathing.selected = true;
-                totalSelectedElites += pathing.e; // 第二轮选择中也可能包含精英怪
-                monsterRouteElite += pathing.e;
-                totalSelectedMonsters += pathing.m;
-                totalGainCombined += pathing.G2;
-                totalTimeCombined += pathing.t;
+        for (const p of pathings) {
+            if (p.E2 > 0 && p.available && !p.selected &&
+                (totalSelectedMonsters + p.m < targetMonsterNum + 5)) {
+                p.selected = true;
+                totalSelectedElites += p.e; monsterRouteElite += p.e;
+                totalSelectedMonsters += p.m;
+                totalGainCombined += p.G2;
+                totalTimeCombined += p.t;
             }
         }
     }
 
-    // 循环调整目标精英怪数量
+    /* ========== 2. 迭代：直到“双达标”才停 ========== */
     while (iterationCount < 100) {
-        // 第一轮选择
         selectRoutesByEliteTarget(nextTargetEliteNum);
-
-        // 第二轮选择：直接传入剩余的小怪数量目标
         selectRoutesByMonsterTarget(targetMonsterNum);
 
-        // 检查精英怪总数是否满足条件
-        const diff = totalSelectedElites - targetEliteNum;
-        if ((totalSelectedElites >= targetEliteNum - 3) && (totalSelectedElites <= targetEliteNum)) {
+        // 新收敛条件：必须同时大于等于双目标
+        if (totalSelectedElites >= targetEliteNum &&
+            totalSelectedMonsters >= targetMonsterNum) {
             break;
         }
-        nextTargetEliteNum -= Math.round(0.1 * diff); // 调整目标精英怪数量，乘以系数并取整
-        //log.info(`该轮循环目标${nextTargetEliteNum},实际选出${totalSelectedElites}`);
-        iterationCount++; // 增加循环序号
+        // 只要没达标，就加压：把精英目标向上推
+        const eliteShort = targetEliteNum - totalSelectedElites;
+        nextTargetEliteNum += Math.max(1, Math.round(0.1 * eliteShort));
+        iterationCount++;
     }
 
-    // 为最终选中且精英怪数量为0的路线添加小怪标签
-    pathings.forEach(pathing => {
-        // 检查是否包含 "传奇" 或 "高危" 标签
-        const hasLegendOrHighRisk = pathing.tags.includes("传奇") || pathing.tags.includes("高危");
+    /* ========== 3. 最小不可再减集合（贪心逆筛） ========== */
+    // 3.1 【仅修改此处】排序依据改为约定的score：(怪均收益^k) × 秒均收益（精英权重=5）
+    // 怪均收益 = (总收益) / (精英数×5 + 普通怪数)；秒均收益 = 总收益 / 时间；score小的优先删除
+    const selectedList = pathings.filter(p => p.selected)
+        .sort((a, b) => {
+            // 计算a的score
+            const aTotalGain = a.G1 + a.G2;
+            const aDenominator = a.e * 5 + a.m; // 精英权重=5
+            const aPerMobGain = aDenominator === 0 ? 0 : aTotalGain / aDenominator;
+            const aPerSecGain = a.t === 0 ? 0 : aTotalGain / a.t;
+            const aScore = (aPerMobGain ** k) * aPerSecGain;
 
-        // 如果路径被选中、没有精英怪物且不包含 "传奇" 或 "高危" 标签，则添加 "小怪" 标签
-        if (pathing.selected && pathing.e === 0 && !hasLegendOrHighRisk) {
-            pathing.tags.push("小怪");
+            // 计算b的score
+            const bTotalGain = b.G1 + b.G2;
+            const bDenominator = b.e * 5 + b.m; // 精英权重=5
+            const bPerMobGain = bDenominator === 0 ? 0 : bTotalGain / bDenominator;
+            const bPerSecGain = b.t === 0 ? 0 : bTotalGain / b.t;
+            const bScore = (bPerMobGain ** k) * bPerSecGain;
+
+            // 升序排序：score小的在前，优先删除
+            return aScore - bScore;
+        });
+
+    for (const p of selectedList) {
+        // 试删
+        const newE = totalSelectedElites - p.e;
+        const newM = totalSelectedMonsters - p.m;
+        if (newE >= targetEliteNum && newM >= targetMonsterNum) {
+            // 删了仍达标，真删
+            p.selected = false;
+            totalSelectedElites = newE;
+            totalSelectedMonsters = newM;
+            totalGainCombined -= (p.selected ? p.G1 : p.G2);
+            totalTimeCombined -= p.t;
+        }
+    }
+
+    /* ========== 4. 小怪标签 & 排序 & 日志，保持原样 ========== */
+    pathings.forEach(p => {
+        if (p.selected && p.e === 0 &&
+            !p.tags.includes("传奇") && !p.tags.includes("高危")) {
+            p.tags.push("小怪");
         }
     });
     if (settings.runByEfficiency) {
         log.info("使用效率降序运行");
-        //按效率降序排序
-        pathings.sort((a, b) => {
-            if (a.E1 !== b.E1) {
-                return b.E1 - a.E1; // 先按 E1 降序
-            }
-            return b.E2 - a.E2;   // 再按 E2 降序
-        });
+        pathings.sort((a, b) => b.E1 - a.E1 || b.E2 - a.E2);
     } else {
         log.info("使用默认顺序运行");
-        // 按原始索引排序
         pathings.sort((a, b) => a.index - b.index);
     }
-    // 输出日志信息
+
     log.info(`总精英怪数量: ${totalSelectedElites.toFixed(0)}`);
     log.info(`总普通怪数量: ${totalSelectedMonsters.toFixed(0)}`);
     log.info(`总收益: ${totalGainCombined.toFixed(0)} 摩拉`);
-
-    // 将总用时转换为时、分、秒表示
-    const hours = Math.floor(totalTimeCombined / 3600);
-    const minutes = Math.floor((totalTimeCombined % 3600) / 60);
-    const seconds = totalTimeCombined % 60;
-
-    log.info(`预计总用时: ${hours} 时 ${minutes} 分 ${seconds.toFixed(0)} 秒`);
+    const h = Math.floor(totalTimeCombined / 3600);
+    const m = Math.floor((totalTimeCombined % 3600) / 60);
+    const s = totalTimeCombined % 60;
+    log.info(`预计总用时: ${h} 时 ${m} 分 ${s.toFixed(0)} 秒`);
+    if (totalSelectedElites < targetEliteNum || totalSelectedMonsters < targetMonsterNum || totalSelectedElites > targetEliteNum * 1.1) {
+        log.warn("警告，可能条件填写不合理，分配结果与目标存在较大差异");
+        await sleep(5000);
+    }
 }
 
 async function assignGroups(pathings, groupTags) {
@@ -439,59 +469,476 @@ async function assignGroups(pathings, groupTags) {
     });
 }
 
-async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywords) {
-    let thisMoveUpTime = 0;
-    let lastMoveDown = 0;
-    let lastPickupTime = new Date();
-    let lastPickupItem = "";
-    // 定义状态变量
-    let state = { completed: false, cancelRequested: false, atMainUi: false, lastCheckMainUi: new Date() };
-    // 定义图像路径和目标文本列表
-    const imagePath = `assets/F_Dialogue.png`;
-    const textxRange = { min: 1210, max: 1412 };
-    const texttolerance = 30; // Y 坐标容错范围
+async function runPath(fullPath, map_name) {
+    state = { running: true };
 
-    //检查是否在主界面
-    async function isMainUI() {
-        // 修改后的图像路径
-        const imagePath = "assets/MainUI.png";
-        // 修改后的识别区域（左上角区域）
-        const xMin = 0;
-        const yMin = 0;
-        const width = 150; // 识别区域宽度
-        const height = 150; // 识别区域高度
-        let template = file.ReadImageMatSync(imagePath);
-        let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
+    /* ---------- 主任务 ---------- */
+    const pathingTask = (async () => {
+        log.info(`开始执行路线: ${fullPath}`);
+        await fakeLog(`${fullPath}`, false, true, 0);
+        await pathingScript.runFile(fullPath);
+        await fakeLog(`${fullPath}`, false, false, 0);
+        state.running = false;
+    })();
 
-        // 尝试次数设置为 2 次
-        const maxAttempts = 2;
+    /* ---------- 伴随任务 ---------- */
+    const pickupTask = (async () => {
+        if (pickup_Mode === "模板匹配拾取，拾取狗粮和怪物材料" || pickup_Mode === "模板匹配拾取，只拾取狗粮") {
+            await recognizeAndInteract();
+        }
+    })();
 
-        let attempts = 0;
-        while (attempts < maxAttempts && !state.cancelRequested) {
-            try {
+    const errorProcessTask = (async () => {
+        while (state.running) {
+            await sleep(1000);
+        }
+    })();
 
-                gameRegion = captureGameRegion();
-                let result = gameRegion.find(recognitionObject);
-                gameRegion.dispose();
-                if (result.isExist()) {
-                    return true; // 如果找到图标，返回 true
+    const blacklistTask = (async () => {
+        async function checkItemFull() {
+            const maxAttempts = 1;
+            let attempts = 0;
+            while (attempts < maxAttempts && state.running) {
+                try {
+                    const recognitionObject = RecognitionObject.TemplateMatch(itemFullTemplate, 0, 0, 1920, 1080);
+                    gameRegion.dispose();
+                    gameRegion = captureGameRegion();
+                    const result = gameRegion.find(recognitionObject);
+                    if (result.isExist()) {
+                        return true;
+                    }
+                } catch (error) {
+                    log.error(`识别图像时发生异常: ${error.message}`);
+                    if (!state.running) break;
+                    return false;
                 }
-            } catch (error) {
-                log.error(`识别图像时发生异常: ${error.message}`);
-                if (state.cancelRequested) {
-                    break; // 如果请求了取消，则退出循环
-                }
-                return false; // 发生异常时返回 false
+                attempts++;
             }
-            attempts++; // 增加尝试次数
-            await sleep(50); // 每次检测间隔 50 毫秒
+            return false;
         }
-        if (state.cancelRequested) {
-            log.info("图像识别任务已取消");
+        if (pickup_Mode === "模板匹配拾取，拾取狗粮和怪物材料" || pickup_Mode === "模板匹配拾取，只拾取狗粮") {
+            while (state.running) {
+                await sleep(1500);
+                if (await checkItemFull()) {
+                    /* 1. OCR 560×450 → 1360×620 区域 */
+                    const TEXT_X = 560, TEXT_Y = 450, TEXT_W = 1360 - 560, TEXT_H = 620 - 450;
+                    let ocrText = null;
+                    try {
+                        const resList = gameRegion.findMulti(
+                            RecognitionObject.ocr(TEXT_X, TEXT_Y, TEXT_W, TEXT_H)
+                        );
+                        if (resList.count) {
+                            let longest = resList[0];
+                            for (let i = 1; i < resList.count; i++) {
+                                if (resList[i].text.length > longest.text.length) longest = resList[i];
+                            }
+                            ocrText = longest.text.replace(/[^\u4e00-\u9fa5]/g, '');
+                        }
+                    } catch (e) {
+                        log.error(`OCR异常: ${e.message}`);
+                    }
+
+                    /* 2. 遍历 targetItems 找匹配 */
+                    if (ocrText) {
+                        log.info(`识别到背包已满，识别到文本：${ocrText}`);
+                        for (const targetItem of targetItems) {
+                            const cnPart = targetItem.itemName.replace(/[^\u4e00-\u9fa5]/g, '');
+                            if (cnPart && ocrText.includes(cnPart)) {   // 子串即可
+                                const itemName = targetItem.itemName;   // 用原始完整名字
+                                log.warn(`物品"${itemName}"已满，加入黑名单`);
+                                blacklistSet.add(itemName);
+                                blacklist.push(itemName);
+                                await loadBlacklist(false);
+                            }
+                        }
+                    }
+                }
+            }
         }
-        return false; // 如果尝试次数达到上限或取消，返回 false
+    })();
+
+
+    /* ---------- 泥头车任务 ---------- */
+    let dumperTask = null;
+    if (dumpers.length > 0) {                       // 检查 dumpers 是否不为空
+        dumperTask = dumper(fullPath, map_name);    // 调用 dumper 函数
     }
 
+    /* ---------- 并发等待 ---------- */
+    await Promise.allSettled([
+        pathingTask,
+        pickupTask,
+        errorProcessTask,
+        blacklistTask,
+        dumperTask      // 即使为 null，allSettled 也会忽略
+    ].filter(Boolean)); // 过滤掉 null，防止某些运行时报警
+}
+
+// 定义一个函数用于拾取
+async function recognizeAndInteract() {
+    //log.info("调试-开始执行图像识别与拾取任务");
+    let lastcenterYF = 0;
+    let lastItemName = "";
+    let fIcontemplate = file.ReadImageMatSync('assets/F_Dialogue.png');
+    let thisMoveUpTime = 0;
+    let lastMoveDown = 0;
+    gameRegion = captureGameRegion();
+    //主循环
+    while (state.running) {
+        gameRegion.dispose();
+        gameRegion = captureGameRegion();
+        let centerYF = await findFIcon();
+
+        if (!centerYF) {
+            if (await isMainUI()) await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+            continue;
+        }
+        /*
+                await sleep(160);
+                centerYF = await findFIcon();
+        */
+        //log.info(`调试-成功找到f图标,centerYF为${centerYF}`);
+
+        let foundTarget = false;
+        let itemName = await performTemplateMatch(centerYF);
+        if (itemName) {
+            //log.info(`调试-识别到物品${itemName}`);
+            if (Math.abs(lastcenterYF - centerYF) <= 20 && lastItemName === itemName) {
+                //log.info("调试-相同物品名和相近y坐标，本次不拾取");
+                await sleep(160);
+                lastcenterYF = -20;
+                lastItemName = null;
+            } else {
+                if (blacklistSet.has(itemName)) {
+                    //log.warn(`识别到黑名单物品${itemName}，不拾取`);
+                } else {
+                    keyPress("F");
+                    log.info(`交互或拾取："${itemName}"`);
+                    lastcenterYF = centerYF;
+                    lastItemName = itemName;
+                    await sleep(pickupDelay);
+                    //foundTarget = true;
+                }
+            }
+        } else {
+            //log.warn("未识别到结果");
+            //await refreshTargetItems(centerYF);
+            lastItemName = "";
+        }
+        if (!foundTarget) {
+            //log.info(`调试-执行滚轮动作`);
+            const currentTime = new Date().getTime();
+            if (currentTime - lastMoveDown > timeMoveUp) {
+                await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+                if (thisMoveUpTime === 0) thisMoveUpTime = currentTime;
+                if (currentTime - thisMoveUpTime >= timeMoveDown) {
+                    lastMoveDown = currentTime;
+                    thisMoveUpTime = 0;
+                }
+            } else {
+                await keyMouseScript.runFile(`assets/滚轮上翻.json`);
+            }
+            await sleep(rollingDelay);
+        }
+    }
+
+    async function performTemplateMatch(centerYF) {
+        try {
+            let result;
+            let itemName = null;
+            for (const targetItem of targetItems) {
+                const cnLen = Math.min([...targetItem.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length, 5);
+                const recognitionObject = RecognitionObject.TemplateMatch(
+                    targetItem.template,
+                    1219,
+                    centerYF - 15,
+                    12 + 28 * cnLen + 2,
+                    30
+                );
+                recognitionObject.Threshold = 0.9;
+                recognitionObject.InitTemplate();
+                result = gameRegion.find(recognitionObject);
+                if (result.isExist()) {
+                    itemName = targetItem.itemName;
+                    break;
+                }
+            }
+            return itemName;
+        } catch (error) {
+            log.error(`模板匹配时发生异常: ${error.message}`);
+            return null;
+        }
+    }
+
+    async function findFIcon() {
+        let recognitionObject = RecognitionObject.TemplateMatch(fIcontemplate, 1102, 335, 34, 400);
+        recognitionObject.Threshold = 0.95;
+        recognitionObject.InitTemplate();
+        try {
+            let result = gameRegion.find(recognitionObject);
+            if (result.isExist()) {
+                return Math.round(result.y + result.height / 2);
+            }
+        } catch (error) {
+            log.error(`识别图像时发生异常: ${error.message}`);
+            if (!state.running)
+                return null;
+        }
+        await sleep(50);
+        return null;
+    }
+
+}
+
+/**
+ * 加载黑名单
+ * @param {boolean} merge 是否先读取文件与现有 blacklist 合并再去重
+ */
+async function loadBlacklist(merge = false) {
+    try {
+        if (merge) {
+            const raw = await file.readText(`blacklists/${accountName}.json`);
+            const arr = JSON.parse(raw);
+            blacklist = [...new Set([...blacklist, ...arr])];
+        }
+        blacklistSet.clear();
+        blacklist.forEach(item => blacklistSet.add(item));
+    } catch (err) {
+        log.error(`读取黑名单失败: ${err.message}`);
+        blacklist = [];
+        blacklistSet.clear();
+    }
+    await file.writeText(`blacklists/${accountName}.json`, JSON.stringify(blacklist, null, 2), false);
+}
+
+async function isMainUI() {
+    const recognitionObject = RecognitionObject.TemplateMatch(mainUITemplate, 0, 0, 150, 150);
+    const maxAttempts = 1;
+    let attempts = 0;
+    let dodispose = false;
+    while (attempts < maxAttempts && state.running) {
+        if (!gameRegion) {
+            gameRegion = captureGameRegion();
+            dodispose = true;
+        }
+        try {
+            const result = gameRegion.find(recognitionObject);
+            if (result.isExist()) return true;
+        } catch (error) {
+            log.error(`识别图像时发生异常: ${error.message}`);
+            if (!state.running) break;
+            return false;
+        }
+        attempts++;
+        await sleep(50);
+        if (dodispose) {
+            gameRegion.dispose;
+        }
+    }
+    return false;
+}
+
+//加载拾取物图片
+async function loadTargetItems() {
+    let targetItemPath;
+    if (pickup_Mode === "模板匹配拾取，拾取狗粮和怪物材料") {
+        targetItemPath = "assets/targetItems/";
+    } else if (pickup_Mode === "模板匹配拾取，只拾取狗粮") {
+        targetItemPath = "assets/targetItems/其他/";
+    } else {
+        return null;
+    }
+
+    const items = await readFolder(targetItemPath, false);
+
+    // 统一预加载模板
+    for (const it of items) {
+        try {
+            it.template = file.ReadImageMatSync(it.fullPath);
+            it.itemName = it.fileName.replace(/\.png$/i, '');
+        } catch (error) { }
+    }
+
+    return items;
+}
+
+async function performOcr(centerYF) {
+    const TEXT_X = 1210, TEXT_W = 250;   // 1210 ~ 1460
+    const TEXT_Y = centerYF - 30, TEXT_H = 60;
+
+    try {
+        const resList = gameRegion.findMulti(
+            RecognitionObject.ocr(TEXT_X, TEXT_Y, TEXT_W, TEXT_H)
+        );
+        if (!resList.count) return null;
+
+        // 取最长串
+        let longest = resList[0];
+        for (let i = 1; i < resList.count; i++) {
+            if (resList[i].text.length > longest.text.length) longest = resList[i];
+        }
+        // 只要中文
+        return longest.text.replace(/[^\u4e00-\u9fa5]/g, '');
+    } catch (e) {
+        log.error(`OCR异常: ${e.message}`);
+        return null;
+    }
+}
+
+/* ========== 主流程（只用 let 和基础循环） ========== */
+async function refreshTargetItems(centerYF) {
+    const TARGET_DIR = 'assets/targetItems';
+
+    /* 1. 一次截屏 */
+    const rawText = await performOcr(centerYF);
+    if (!rawText) { log.warn('未识别到文字'); return; }
+
+    const itemName = rawText.replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, '');
+    if (!itemName) { log.warn('未提取到有效物品名'); return; }
+
+    const CAP_X = 1220;                       // 左侧固定
+    let CAP_W = 12 + 28 * (itemName.length);  // 动态宽度
+    if (itemName.length > 4) {
+        CAP_W = 32 + 30 * 4;//过长时只取前五个字的区域
+    }
+    const CAP_Y = centerYF - 14;
+    const CAP_H = 28;
+
+    const mat = gameRegion.DeriveCrop(CAP_X, CAP_Y, CAP_W, CAP_H).SrcMat;
+
+    /* 2. 纯 for 循环重名检测 */
+    let finalName = itemName;
+    let seq = 1;
+    while (true) {
+        let hit = false;
+        for (let i = 0; i < targetItems.length; i++) {
+            if (targetItems[i].itemName === finalName) {
+                hit = true;
+                break;
+            }
+        }
+        if (!hit) break;          // 没找到重名，可用
+        finalName = itemName + '(' + seq + ')';
+        seq++;
+    }
+
+    /* 3. 保存 & 入库 */
+    const fullPath = TARGET_DIR + '/' + finalName + '.png';
+    file.WriteImageSync(fullPath, mat);
+    targetItems.push({
+        fullPath: fullPath,
+        fileName: finalName + '.png',
+        itemName: finalName,
+        template: file.ReadImageMatSync(fullPath)
+    });
+
+    log.info('已新增拾取物：' + finalName);
+}
+
+//处理泥头车模式
+async function dumper(pathFilePath, map_name) {
+    //log.info("开始泥头车");
+    let lastDumperTimer = 0;
+    const dumperCD = 10000;
+    try {
+        const pathingContent = await file.readText(pathFilePath);
+        const parsedContent = JSON.parse(pathingContent);
+        const positions = parsedContent.positions;
+        // 初始化 hasT 为 false
+        let hasT = false;
+
+        // 初始化 fightPositions 数组
+        let fightPositions = [];
+
+        // 遍历 positions 数组
+        for (const pos of positions) {
+            // 检查 action_params 是否包含 keypress(T)
+            if (pos.action_params && pos.action_params.includes('keypress(T)')) {
+                hasT = true;
+            }
+
+            // 如果 action 是 "fight"，则添加到 fightPositions
+            if (pos.action === "fight") {
+                fightPositions.push({
+                    x: pos.x,
+                    y: pos.y,
+                    used: false
+                });
+            }
+        }
+        if (!hasT) {
+            while (state.running) {
+                //log.info("调试-泥头车循环");
+                await sleep(501);
+                if (await isMainUI()) {
+                    //log.info("调试-获取坐标");
+                    //在主界面才尝试获取坐标
+                    let dumperDistance = 0;
+                    try {
+                        let shouldPressKeys = false;
+                        const currentPosition = await genshin.getPositionFromMap(map_name);
+                        for (let i = 0; i < fightPositions.length; i++) {
+                            const fightPos = fightPositions[i];
+
+                            if (fightPos.used) {
+                                continue;
+                            }
+
+                            const distance = Math.sqrt(
+                                Math.pow(currentPosition.x - fightPos.x, 2) +
+                                Math.pow(currentPosition.y - fightPos.y, 2)
+                            );
+
+                            if (distance <= 30) {
+                                fightPositions[i].used = true;
+                            }
+
+                            if (distance > 5 && distance <= 30) {
+                                if ((new Date() - lastDumperTimer) > dumperCD) {
+                                    shouldPressKeys = true;
+                                    lastDumperTimer = new Date();
+                                    dumperDistance = distance;
+                                }
+                            }
+                        }
+
+                        if (shouldPressKeys) {
+                            log.info(`距离下个战斗地点距离${dumperDistance.toFixed(2)}，启用泥头车`);
+                            for (const key of dumpers) {
+                                log.info(`[泥头车]:尝试切换${key}号角色施放e技能`)
+                                keyPress(String(key));
+                                await sleep(400);
+                                keyPress('e');
+                                await sleep(400);
+                                keyPress('e');
+                                await sleep(400);
+                                keyPress('e');
+                                await sleep(400);
+                            }
+
+                            for (let i = 0; i < 10; i++) {
+                                if (await isRevivalUI()) {
+                                    //检测到复苏界面时，退出复苏界面
+                                    keyPress("VK_ESCAPE");
+                                    await sleep(500);
+                                    await genshin.returnMainUi();
+                                } else {
+                                    break;
+                                }
+
+                            }
+
+                        }
+                    } catch (error) {
+                    }
+                }
+            }
+        } else {
+            log.info("当前路线含有按键T，不启用泥头车");
+        }
+    } catch (error) {
+        log.error(`执行泥头车时出现异常: ${error.message}`);
+    }
     //检查是否在复活界面
     async function isRevivalUI() {
         // 修改后的图像路径
@@ -508,361 +955,30 @@ async function runPath(pathFilePath, map_name, whitelistKeywords, blacklistKeywo
         const maxAttempts = 10;
 
         let attempts = 0;
-        while (attempts < maxAttempts && !state.cancelRequested) {
+        let dodispose = false;
+        while (attempts < maxAttempts && state.running) {
             try {
-                gameRegion = captureGameRegion();
+                if (!gameRegion) {
+                    gameRegion = captureGameRegion();
+                    dodispose = true;
+                }
                 let result = gameRegion.find(recognitionObject);
-                gameRegion.dispose();
                 if (result.isExist()) {
                     return true; // 如果找到图标，返回 true
                 }
             } catch (error) {
                 log.error(`识别图像时发生异常: ${error.message}`);
-                if (state.cancelRequested) {
-                    break; // 如果请求了取消，则退出循环
-                }
                 return false; // 发生异常时返回 false
             }
             attempts++; // 增加尝试次数
-            await sleep(100); // 每次检测间隔 100 毫秒
-        }
-        if (state.cancelRequested) {
-            log.info("图像识别任务已取消");
+            await sleep(200); // 每次检测间隔 200 毫秒
+            if (dodispose) {
+                gameRegion.dispose;
+            }
         }
         return false; // 如果尝试次数达到上限或取消，返回 false
     }
-
-    // 定义一个函数用于执行路径文件
-    async function executePathFile(filePath) {
-        try {
-            await pathingScript.runFile(filePath);
-            await sleep(1);
-        } catch (error) {
-            log.error(`执行路径文件时发生错误：${error.message}`);
-            state.cancelRequested = true; // 修改状态变量
-        }
-        state.completed = true; // 修改状态变量
-    }
-
-    // 定义一个函数用于执行OCR识别和交互
-    async function recognizeAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance) {
-        async function performOcr(whitelistKeywords, xRange, yRange) {
-            try {
-                // 在捕获的区域内进行OCR识别
-                let resList = gameRegion.findMulti(RecognitionObject.ocr(
-                    xRange.min, yRange.min,
-                    xRange.max - xRange.min, yRange.max - yRange.min
-                ));
-                gameRegion.dispose();
-                // 遍历识别结果，检查是否找到目标文本
-                let results = [];
-                for (let i = 0; i < resList.count; i++) {
-                    let res = resList[i];
-                    let correctedText = res.text;
-
-                    // 如果 whitelistKeywords 为空，则直接将所有文本视为匹配
-                    if (whitelistKeywords.length === 0) {
-                        results.push({ text: correctedText, x: res.x, y: res.y, width: res.width, height: res.height });
-                    } else {
-                        // 否则，检查是否包含目标文本
-                        for (let targetText of whitelistKeywords) {
-                            if (correctedText.includes(targetText)) {
-                                results.push({ text: correctedText, x: res.x, y: res.y, width: res.width, height: res.height });
-                                break; // 匹配到一个目标文本后即可跳出循环
-                            }
-                        }
-                    }
-                }
-                return results;
-            } catch (error) {
-                log.error(`识别文字时发生异常: ${error.message}`);
-                return [];
-            }
-        }
-
-        async function performTemplateMatch(centerYF) {
-            try {
-                let result;
-                let itemName = null;
-                // 在捕获的区域内进行模板匹配识别
-                for (const targetItem of targetItems) {
-                    let recognitionObject = RecognitionObject.TemplateMatch(targetItem.template, 1220, centerYF - 35, 70, 70);
-                    result = gameRegion.find(recognitionObject);
-                    if (result.isExist()) {
-                        itemName = targetItem.itemName;
-                        //log.info(`调试-距离为${result.y + result.height / 2 - centerYF}`);
-                        break;
-                    }
-                }
-                gameRegion.dispose();
-                return itemName;
-            } catch (error) {
-                log.error(`模板匹配时发生异常: ${error.message}`);
-                return [];
-            }
-        }
-
-        while (!state.completed && !state.cancelRequested) {
-            let lastcenterYF = 0;
-            let lastItemName = "";
-            // 尝试找到 F 图标并返回其坐标
-            async function findFIcon(imagePath, xMin, yMin, width, height, timeout = 500) {
-                let template = file.ReadImageMatSync(imagePath);
-                let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
-                let startTime = Date.now();
-                while (Date.now() - startTime < timeout && !state.cancelRequested) {
-                    try {
-                        gameRegion = captureGameRegion();
-                        let result = gameRegion.find(recognitionObject);
-                        if (result.isExist()) {
-                            return { success: true, x: result.x, y: result.y, width: result.width, height: result.height };
-                        } else {
-                            gameRegion.dispose();
-                        }
-                    } catch (error) {
-                        log.error(`识别图像时发生异常: ${error.message}`);
-                        if (state.cancelRequested) {
-                            break; // 如果请求了取消，则退出循环
-                        }
-                        return null;
-                    }
-                    await sleep(100); // 找不到f时等待 100 毫秒
-                }
-                if (state.cancelRequested) {
-                    log.info("图像识别任务已取消");
-                }
-                return null;
-            }
-
-            // 尝试找到 F 图标
-            let fRes = await findFIcon(imagePath, 1102, 335, 34, 400, 200);
-            if (!fRes) {
-                state.atMainUi = await isMainUI();
-                state.lastCheckMainUi = new Date();
-                if (state.atMainUi) {
-                    //log.info("在主界面，尝试下滑");
-                    await keyMouseScript.runFile(`assets/滚轮下翻.json`);
-                }
-                continue;
-            }
-            let foundTarget = false;
-            // 获取 F 图标的中心点 Y 坐标
-            let centerYF = Math.round(fRes.y + fRes.height / 2);
-            if (pickupMode === "ocr拾取，默认只拾取狗粮和晶蝶") {
-                // 在当前屏幕范围内进行 OCR 识别
-                let ocrResults = await performOcr(whitelistKeywords, textxRange, { min: fRes.y - texttolerance, max: fRes.y + fRes.height + texttolerance * 2 });
-
-                // 检查所有目标文本是否在当前页面中
-                for (let ocrResult of ocrResults) {
-                    // 检查是否包含黑名单关键词
-                    let containsBlacklistKeyword = blacklistKeywords.some(blacklistKeyword => ocrResult.text.includes(blacklistKeyword));
-                    if (containsBlacklistKeyword) {
-                        continue;
-                    }
-                    // 计算目标文本的中心Y坐标
-                    let centerYTargetText = ocrResult.y + ocrResult.height / 2;
-                    if (Math.abs(centerYTargetText - centerYF) <= texttolerance) {
-                        keyPress("F"); // 执行交互操作
-                        await sleep(pickupDelay); // 操作后暂停 pickupDelay 毫秒
-                        foundTarget = true;
-                        if ((new Date() - lastPickupTime) > 1000 || ocrResult.text != lastPickupItem) {
-                            log.info(`交互或拾取："${ocrResult.text}"`);
-                            lastPickupTime = new Date();
-                            lastPickupItem = ocrResult.text;
-                        }
-                        break;
-                    }
-                }
-            } else if (pickupMode === "模板匹配拾取，默认只拾取狗粮") {
-                //let start = new Date();
-                let itemName = await performTemplateMatch(centerYF);
-                //let end = new Date();
-                //log.info(`调试-匹配用时${end - start}毫秒`)
-                if (itemName) {
-                    if (Math.abs(lastcenterYF - centerYF) <= 20 && lastItemName === itemName) {
-                        log.debug("调试-物品名和坐标相同，等待2*pickupDelay");
-                        await sleep(2 * pickupDelay);
-                        foundTarget = true;
-                        lastcenterYF = 0;
-                    } else {
-                        keyPress("F"); // 执行交互操作
-                        log.info(`交互或拾取："${itemName}"`);
-                        await sleep(pickupDelay); // 操作后暂停 pickupDelay 毫秒
-                        //foundTarget = true;
-                    }
-                    lastcenterYF = centerYF;
-                    lastItemName = itemName;
-                } else {
-                    lastItemName = "";
-                }
-            }
-            // 如果在当前页面中没有找到任何目标文本，则根据时间决定滚动方向
-            if (!foundTarget) {
-                const currentTime = new Date().getTime(); // 获取当前时间（毫秒）
-
-                // 如果距离上次下翻超过timeMoveUp秒，则执行下翻
-                if (currentTime - lastMoveDown > timeMoveUp) {
-                    await keyMouseScript.runFile(`assets/滚轮下翻.json`);
-
-                    // 如果这是第一次下翻，记录这次下翻的时间
-                    if (thisMoveUpTime === 0) {
-                        thisMoveUpTime = currentTime; // 记录第一次上翻的时间
-                    }
-
-                    // 检查是否需要更新 lastMoveDown
-                    if (currentTime - thisMoveUpTime >= timeMoveDown) {
-                        lastMoveDown = currentTime; // 更新 lastMoveDown 为第一次下翻的时间
-                        thisMoveUpTime = 0; // 重置 thisMoveUpTime，以便下一次下翻时重新记录
-                    }
-                } else {
-                    // 否则执行下翻
-                    await keyMouseScript.runFile(`assets/滚轮上翻.json`);
-                }
-                //滚轮后延时
-                await sleep(rollingDelay);
-            }
-            if (state.cancelRequested) {
-                break;
-            }
-        }
-    }
-
-    //处理泥头车模式
-    async function dumper(pathFilePath, map_name) {
-        let lastDumperTimer = 0;
-        const dumperCD = 10000;
-        try {
-            const pathingContent = await file.readText(pathFilePath);
-            const parsedContent = JSON.parse(pathingContent);
-            const positions = parsedContent.positions;
-            // 初始化 hasT 为 false
-            let hasT = false;
-
-            // 初始化 fightPositions 数组
-            let fightPositions = [];
-
-            // 遍历 positions 数组
-            for (const pos of positions) {
-                // 检查 action_params 是否包含 keypress(T)
-                if (pos.action_params && pos.action_params.includes('keypress(T)')) {
-                    hasT = true;
-                }
-
-                // 如果 action 是 "fight"，则添加到 fightPositions
-                if (pos.action === "fight") {
-                    fightPositions.push({
-                        x: pos.x,
-                        y: pos.y,
-                        used: false
-                    });
-                }
-            }
-            if (!hasT) {
-                while (!state.completed && !state.cancelRequested) {
-                    await sleep(2011);
-                    if ((new Date() - state.lastCheckMainUi) >= 2011) {
-                        state.atMainUi = await isMainUI();
-                        //log.info(`检查主界面,结果为${state.atMainUi}`);
-                        state.lastCheckMainUi = new Date();
-                    }
-                    if (state.atMainUi) {
-                        //在主界面才尝试获取坐标
-                        let dumperDistance = 0;
-                        try {
-                            let shouldPressKeys = false;
-                            const currentPosition = await genshin.getPositionFromMap(map_name);
-                            for (let i = 0; i < fightPositions.length; i++) {
-                                const fightPos = fightPositions[i];
-
-                                if (fightPos.used) {
-                                    continue;
-                                }
-
-                                const distance = Math.sqrt(
-                                    Math.pow(currentPosition.x - fightPos.x, 2) +
-                                    Math.pow(currentPosition.y - fightPos.y, 2)
-                                );
-
-                                if (distance <= 30) {
-                                    fightPositions[i].used = true;
-                                }
-
-                                if (distance > 5 && distance <= 30) {
-                                    if ((new Date() - lastDumperTimer) > dumperCD) {
-                                        shouldPressKeys = true;
-                                        lastDumperTimer = new Date();
-                                        dumperDistance = distance;
-                                    }
-                                }
-                            }
-
-                            if (shouldPressKeys) {
-                                log.info(`距离下个战斗地点距离${dumperDistance.toFixed(2)}，启用泥头车`);
-                                for (const key of dumpers) {
-                                    log.info(`[泥头车]:尝试切换${key}号角色施放e技能`)
-                                    keyPress(String(key));
-                                    await sleep(400);
-                                    keyPress('e');
-                                    await sleep(400);
-                                    keyPress('e');
-                                    await sleep(400);
-                                    keyPress('e');
-                                    await sleep(400);
-                                }
-
-                                for (let i = 0; i < 10; i++) {
-                                    if (await isRevivalUI()) {
-                                        //检测到复苏界面时，退出复苏界面
-                                        keyPress("VK_ESCAPE");
-                                        await sleep(500);
-                                        await genshin.returnMainUi();
-                                    } else {
-                                        break;
-                                    }
-                                }
-                            }
-                        } catch (error) {
-                        }
-                    }
-                    if (state.cancelRequested) {
-                        break;
-                    }
-                }
-            } else {
-                log.info("当前路线含有按键T，不启用泥头车");
-            }
-        } catch (error) {
-            log.error(`执行泥头车时出现异常: ${error.message}`);
-        }
-    }
-
-    // 启动路径文件执行任务
-    const pathTask = executePathFile(pathFilePath);
-
-    // 根据条件决定是否启动 OCR 检测和交互任务
-    let ocrTask = null;
-    if (pickupMode === "ocr拾取，默认只拾取狗粮和晶蝶" || pickupMode === "模板匹配拾取，默认只拾取狗粮") {
-        ocrTask = recognizeAndInteract(imagePath, whitelistKeywords, textxRange, texttolerance);
-    }
-
-    // 启动泥头车
-    let dumperTask = null;
-    if (dumpers.length > 0) { // 检查 dumpers 是否不为空
-        dumperTask = dumper(pathFilePath, map_name); // 调用 dumper 函数
-    }
-
-    // 等待所有任务完成
-    try {
-        await Promise.allSettled([pathTask, ocrTask, dumperTask]);
-    } catch (error) {
-        console.error(`执行任务时发生错误：${error.message}`);
-        state.cancelRequested = true; // 设置取消标志
-    } finally {
-        state.completed = true; // 确保任务标记为完成
-        state.cancelRequested = true; // 设置取消标志
-    }
 }
-
 
 // 定义 readFolder 函数
 async function readFolder(folderPath, onlyJson) {
@@ -887,6 +1003,10 @@ async function readFolder(folderPath, onlyJson) {
                 // 如果是文件夹，先存储到临时数组中
                 subFolders.push(filePath);
             } else {
+                if (filePath.endsWith(".js")) {
+                    //跳过js结尾的文件
+                    continue;
+                }
                 // 如果是文件，根据 onlyJson 判断是否存储
                 if (onlyJson) {
                     if (filePath.endsWith(".json")) {
@@ -934,7 +1054,7 @@ async function copyPathingsByGroup(pathings) {
     }
 }
 
-async function processPathingsByGroup(pathings, whitelistKeywords, blacklistKeywords, accountName) {
+async function processPathingsByGroup(pathings, accountName) {
     let lastX = 0;
     let lastY = 0;
     let runningFailCount = 0;
@@ -965,7 +1085,7 @@ async function processPathingsByGroup(pathings, whitelistKeywords, blacklistKeyw
     // 获取该组的总路径数
     const totalPathsInGroup = pathings.filter(pathing => pathing.group === targetGroup).length;
 
-    if (pickupMode === "bgi原版拾取") {
+    if (pickup_Mode === "bgi原版拾取") {
         dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     }
 
@@ -1035,9 +1155,19 @@ async function processPathingsByGroup(pathings, whitelistKeywords, blacklistKeyw
 
             // 输出路径已刷新并开始处理的信息
             log.info(`该路线已刷新，开始处理。`);
-            await fakeLog(`${pathing.fileName}`, false, true, 0);
+            try {
+                await genshin.returnMainUi();
+                const miniMapPosition = await genshin.getPositionFromMap(pathing.map_name);
+                // 更新坐标
+                lastX = miniMapPosition.X;
+                lastY = miniMapPosition.Y;
+                //log.info(`当前位于${pathing.map_name}地图的（${miniMapPosition.X}，${miniMapPosition.Y}，距离上次距离${(diffX + diffY)}`);
+            } catch (error) {
+                log.error(`获取坐标时发生错误：${error.message}`);
+                runningFailCount++;
+            }
             // 调用 runPath 函数处理路径
-            await runPath(pathing.fullPath, pathing.map_name, whitelistKeywords, blacklistKeywords);
+            await runPath(pathing.fullPath, pathing.map_name);
             try {
                 await sleep(1);
             } catch (error) {
@@ -1060,12 +1190,12 @@ async function processPathingsByGroup(pathings, whitelistKeywords, blacklistKeyw
                 }
                 //log.info(`当前位于${pathing.map_name}地图的（${miniMapPosition.X}，${miniMapPosition.Y}，距离上次距离${(diffX + diffY)}`);
             } catch (error) {
-                log.error(`执行任务时发生错误：${error.message}`);
+                log.error(`获取坐标时发生错误：${error.message}`);
                 runningFailCount++;
             }
 
             if (runningFailCount >= 1) {
-                log.error("连续两条路线终止时坐标不变，不记录运行数据");
+                log.error("出发点与终点过于接近，或坐标获取异常，不记录运行数据");
                 continue;
             }
 
@@ -1078,7 +1208,7 @@ async function processPathingsByGroup(pathings, whitelistKeywords, blacklistKeyw
             }
 
             const pathTime = new Date() - now;
-            pathing.records = [...pathing.records, pathTime / 1000].slice(-6);
+            pathing.records = [...pathing.records, pathTime / 1000].slice(-7);
 
             // 更新路径的 cdTime
             pathing.cdTime = nextEightClock.toLocaleString();
@@ -1112,20 +1242,20 @@ async function initializeCdTime(pathings, accountName) {
                 : new Date(0).toLocaleString();
 
             // 确保当前 records 是数组
-            const current = Array.isArray(pathing.records) ? pathing.records : new Array(6).fill(-1);
+            const current = Array.isArray(pathing.records) ? pathing.records : new Array(7).fill(-1);
 
             // 读取文件中的 records（若缺失则为空数组）
             const loaded = (entry && Array.isArray(entry.records)) ? entry.records : [];
 
             // 合并：文件中的 records（倒序最新在前）→ 追加到当前数组末尾
-            // 再整体倒序恢复正确顺序，截取最新 5 项
-            pathing.records = [...current, ...loaded.reverse()].slice(-5);
+            // 再整体倒序恢复正确顺序，截取最新 7 项
+            pathing.records = [...current, ...loaded.reverse()].slice(-7);
         });
     } catch (error) {
         // 文件不存在或解析错误，初始化为 6 个 -1
         pathings.forEach(pathing => {
             pathing.cdTime = new Date(0).toLocaleString();
-            pathing.records = new Array(6).fill(-1);
+            pathing.records = new Array(7).fill(-1);
         });
     }
 }
@@ -1356,7 +1486,8 @@ async function isTimeRestricted(timeRule, threshold = 5) {
             const timeUntilNextHour = (nextHour - currentHour - 1) * 60 + (60 - currentMinute);
             if (timeUntilNextHour > 0 && timeUntilNextHour <= threshold) {
                 // 如果距离下一个限制时间小于等于阈值，则等待到限制时间开始
-                log.warn("接近限制时间，开始等待");
+                log.warn("接近限制时间，开始等待至限制时间");
+                await genshin.tpToStatueOfTheSeven();
                 await sleep(timeUntilNextHour * 60 * 1000);
                 return true;
             }
@@ -1365,6 +1496,3 @@ async function isTimeRestricted(timeRule, threshold = 5) {
     log.info("不处于限制时间");
     return false; // 当前时间不在限制时间内
 }
-
-
-

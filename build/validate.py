@@ -734,7 +734,7 @@ def validate_file(file_path, auto_fix=False):
     data, error = load_json_file(file_path)
     if error:
         print(error)
-        return []
+        return [error]
 
     # 获取原始文件
     original_data, source = get_original_file(file_path) if auto_fix else (None, None)

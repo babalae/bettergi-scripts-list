@@ -9,7 +9,6 @@ let leyLineX = 0;         // 地脉花X坐标
 let leyLineY = 0;         // 地脉花Y坐标
 let currentFlower = null; // 当前花的引用
 let strategyName = "";    // 任务策略名称
-let retryCount = 0;       // 重试次数
 let marksStatus = true;   // 自定义标记状态
 let currentRunTimes = 0;  // 当前运行次数
 let isNotification = false; // 是否发送通知
@@ -29,19 +28,25 @@ const ocrRo3 = RecognitionObject.ocr(ocrRegion3.x, ocrRegion3.y, ocrRegion3.widt
 const ocrRoThis = RecognitionObject.ocrThis;
 /**
  * 主函数 - 脚本入口点
+ * 1. 全局异常处理，记录日志并发送通知
  */
 (async function () {
-    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     try {
         await runLeyLineOutcropScript();
-    } catch (error) {
-        log.error("出错了！ {error}", error.message);
+    }
+    catch (error) {
+        // 全局错误捕获，记录并发送错误日志
+        log.error("出错了: {error}", error.message);
         if (isNotification) {
-            notification.error("出错了！ {error}", error.message);
+            notification.error(`出错了: ${error.message}`);
         }
+    }
+    finally {
         if (!marksStatus) {
+            // 任何时候都确保自定义标记处于打开状态
             await openCustomMarks();
         }
+        log.info("全自动地脉花运行结束");
     }
 })();
 
@@ -51,63 +56,74 @@ const ocrRoThis = RecognitionObject.ocrThis;
  */
 async function runLeyLineOutcropScript() {
     // 初始化加载配置和设置并校验
-    await initialize();
-    await loadConfig();
-    loadSettings();
-    retryCount = 0;
-
+    initialize();
     await prepareForLeyLineRun();
 
     // 执行地脉花挑战
     await runLeyLineChallenges();
-
-    // 完成后恢复自定义标记
-    if (!marksStatus) {
-        await openCustomMarks();
-    }
 }
 
 /**
  * 初始化
  * @returns {Promise<void>}
  */
-async function initialize() {
-    await genshin.returnMainUi();
-    setGameMetrics(1920, 1080, 1);
+function initialize() {
+    // 预定义工具函数
     try {
         const utils = [
             "attemptReward.js",
             "breadthFirstPathSearch.js",
             "executePathsUsingNodeData.js",
             "findLeyLineOutcrop.js",
+            "findLeyLineOutcropByBook.js",
             "loadSettings.js",
-            "locateLeyLineOutcrop.js",
             "processLeyLineOutcrop.js",
             "recognizeTextInRegion.js"
-        ];
+        ]; 
         for (const fileName of utils) {
             eval(file.readTextSync(`utils/${fileName}`));
-            log.debug(`utils/${fileName} 加载成功`);
         }
     } catch (error) {
-        throw new Error(`JS文件缺失，请重新安装脚本！ ${error.message}`); 
+        throw new Error(`JS文件缺失: ${error.message}`); 
+    }
+    // 2. 加载配置文件
+    try {
+        config = JSON.parse(file.readTextSync("config.json"));
+        loadSettings();
+    } catch (error) {
+        throw new Error("配置文件加载失败，请检查config.json文件是否存在");
     }
 }
 
 
 /**
  * 执行地脉花挑战前的准备工作
+ * 1. 传送七天神像和切换战斗队伍
+ * 2. 关闭自定义标记
+ * 3. 添加自动拾取实时任务
+ * 注意：该函数运行结束之后位于大地图界面
  * @returns {Promise<void>}
  */
 async function prepareForLeyLineRun() {
-    // 开局传送到七天神像
-    await genshin.tpToStatueOfTheSeven();
+    // 0. 回到主界面
+    await genshin.returnMainUi();  // 回到主界面
+    setGameMetrics(1920, 1080, 1); // 看起来没什么用
+    // 1. 开局传送到七天神像
+    // TODO：考虑添加选项禁用这个特性，看起来有点浪费时间，需要提示风险
+    await genshin.tpToStatueOfTheSeven(); 
 
-    // 切换战斗队伍
+    // 2. 切换战斗队伍
     if (settings.team) {
         log.info(`切换至队伍 ${settings.team}`);
         await genshin.switchParty(settings.team);
     }
+    // 3. 关闭自定义标记
+    if (!settings.useAdventurerHandbook) {
+        await closeCustomMarks();
+    }
+    // 4. 添加自动拾取实时任务
+    // TODO: 个性化拾取策略
+    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
 }
 
 /**
@@ -117,7 +133,12 @@ async function prepareForLeyLineRun() {
 async function runLeyLineChallenges() {
     while (currentRunTimes < settings.timesValue) {
         // 寻找地脉花位置
-        await findLeyLineOutcrop(settings.country, settings.leyLineOutcropType);
+        // 数据保存在全局变量中 leyLineX，leyLineY
+        if (settings.useAdventurerHandbook) {
+            await findLeyLineOutcropByBook(settings.country, settings.leyLineOutcropType);
+        } else {
+            await findLeyLineOutcrop(settings.country, settings.leyLineOutcropType);
+        }
 
         // 查找并执行对应的策略
         const foundStrategy = await executeMatchingStrategy();
@@ -430,19 +451,6 @@ async function handleNoStrategyFound() {
     }
 }
 
-/**
- * 加载配置文件
- * @returns {Promise<void>}
- */
-async function loadConfig() {
-    try {
-        const configData = JSON.parse(await file.readText("config.json"));
-        config = configData; // 直接赋值给全局变量
-    } catch (error) {
-        log.error(`加载配置文件失败: ${error.message}`);
-        throw new Error("配置文件加载失败，请检查config.json文件是否存在");
-    }
-}
 
 /**
  * 地脉花寻找和定位相关函数
@@ -494,8 +502,10 @@ async function openOutcrop(targetPath) {
         captureRegion = captureGameRegion();
         if (recognizeFightText(captureRegion)) {
             recognized = true;
+            captureRegion.dispose();
             break;
         }
+        captureRegion.dispose();
         keyPress("F");
         await sleep(500);
     }
@@ -532,11 +542,23 @@ function recognizeFightText(captureRegion) {
 async function autoFight(timeout) {
     const cts = new CancellationTokenSource();
     log.info("开始战斗");
-    dispatcher.RunTask(new SoloTask("AutoFight"), cts);
+    let fightTask = dispatcher.RunTask(new SoloTask("AutoFight"), cts);
     let fightResult = await recognizeTextInRegion(timeout);
     logFightResult = fightResult ? "成功" : "失败";
     log.info(`战斗结束，战斗结果：${logFightResult}`);
     cts.cancel();
+    
+    try {
+        await fightTask;
+    } catch (error) {
+        // 忽略取消任务产生的异常
+        if (error.message && error.message.includes("取消")) {
+            log.debug("战斗任务已正常取消");
+        } else {
+            log.warn(`战斗任务结束时出现异常: ${error.message}`);
+        }
+    }
+    
     return fightResult;
 }
 
@@ -622,38 +644,42 @@ async function startRewardTextDetection(cts) {
                     // 首先检查异常界面
                     let captureRegion = captureGameRegion();
 
-                    // 检查是否误触发其他页面
-                    if (captureRegion.Find(paimonMenuRo).IsEmpty()) {
-                        log.debug("误触发其他页面，尝试关闭页面");
-                        await genshin.returnMainUi();
-                        await sleep(300);
-                        continue;
-                    }
+                    try {
+                        // 检查是否误触发其他页面
+                        if (captureRegion.Find(paimonMenuRo).IsEmpty()) {
+                            log.debug("误触发其他页面，尝试关闭页面");
+                            await genshin.returnMainUi();
+                            await sleep(300);
+                            continue;
+                        }
 
-                    // 检查是否已经到达领奖界面
-                    let resList = captureRegion.findMulti(ocrRoThis); // 使用预定义的ocrRoThis对象
-                    if (resList && resList.count > 0) {
-                        for (let i = 0; i < resList.count; i++) {
-                            if (resList[i].text.includes("原粹树脂")) {
-                                log.debug("已到达领取页面，可以领奖");
-                                resolve(true);
-                                return;
+                        // 检查是否已经到达领奖界面
+                        let resList = captureRegion.findMulti(ocrRoThis); // 使用预定义的ocrRoThis对象
+                        if (resList && resList.count > 0) {
+                            for (let i = 0; i < resList.count; i++) {
+                                if (resList[i].text.includes("原粹树脂")) {
+                                    log.debug("已到达领取页面，可以领奖");
+                                    resolve(true);
+                                    return;
+                                }
                             }
                         }
-                    }
 
-                    let ocrResults = captureRegion.findMulti(ocrRo3);
+                        let ocrResults = captureRegion.findMulti(ocrRo3);
 
-                    if (ocrResults && ocrResults.count > 0) {
-                        for (let i = 0; i < ocrResults.count; i++) {
-                            if (ocrResults[i].text.includes("接触") ||
-                                ocrResults[i].text.includes("地脉") ||
-                                ocrResults[i].text.includes("之花")) {
-                                log.debug("检测到文字: " + ocrResults[i].text);
-                                resolve(true);
-                                return;
+                        if (ocrResults && ocrResults.count > 0) {
+                            for (let i = 0; i < ocrResults.count; i++) {
+                                if (ocrResults[i].text.includes("接触") ||
+                                    ocrResults[i].text.includes("地脉") ||
+                                    ocrResults[i].text.includes("之花")) {
+                                    log.debug("检测到文字: " + ocrResults[i].text);
+                                    resolve(true);
+                                    return;
+                                }
                             }
                         }
+                    } finally {
+                        captureRegion.dispose();
                     }
 
                     await sleep(200);
@@ -722,7 +748,7 @@ async function adjustViewForReward(boxIconRo, token) {
 
         let captureRegion = captureGameRegion();
         let iconRes = captureRegion.Find(boxIconRo);
-
+        captureRegion.dispose();
         if (!iconRes.isExist()) {
             log.warn("未找到图标，等待一下");
             await sleep(1000); 
@@ -783,7 +809,9 @@ async function closeCustomMarks() {
     click(60, 1020);
     await sleep(600);
 
-    let button = captureGameRegion().find(openRo);
+    let captureRegion1 = captureGameRegion();
+    let button = captureRegion1.find(openRo);
+    captureRegion1.dispose();
     if (button.isExist()) {
         marksStatus = false;
         log.info("关闭自定义标记");
@@ -807,18 +835,19 @@ async function openCustomMarks() {
     click(60, 1020);
     await sleep(600);
 
-    let button = captureGameRegion().find(closeRo);
+    let captureRegion2 = captureGameRegion();
+    let button = captureRegion2.find(closeRo);
+    captureRegion2.dispose();
     if (button.isExist()) {
         for (let i = 0; i < button.count; i++) {
             let b = button[i];
             if (b.y > 280 && b.y < 350) {
                 log.info("打开自定义标记");
-                marksStatus = true;
                 click(Math.round(b.x + b.width / 2), Math.round(b.y + b.height / 2));
             }
         }
     } else {
         log.error("未找到开关按钮");
-        keyPress("ESCAPE");
+        genshin.returnMainUi();
     }
 }

@@ -1,0 +1,169 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时95秒，包含3只精英，预计收入1000摩拉，包含以下怪物：2只遗迹守卫、1只遗迹重机。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758811707042,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "418【沙暴】须弥沙漠三运河之地（600_1，200_2）",
+    "tags": [
+      "沙暴"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4589.0122,
+      "y": -652.938
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 4570.2773,
+      "y": -670.4438
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4570.2773,
+      "y": -670.4438
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4550.2236,
+      "y": -719.0088
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4540.377,
+      "y": -740.5068
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),moveby(0,1000),keydown(w),wait(0.5),keypress(t),wait(0.2),keypress(t),wait(0.5),keyup(w)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4525.1328,
+      "y": -769.8774
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(0.5)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4503.7456,
+      "y": -794.5059
+    },
+    {
+      "action": "log_output",
+      "action_params": "切换[沙暴]状态",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4513.002,
+      "y": -786.5063
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),wait(5.5)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4513.002,
+      "y": -786.5063
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5173.603,
+      "y": -498.4917
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5162.541,
+      "y": -514.2607
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5152.8124,
+      "y": -527.9367
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5146.2484,
+      "y": -541.2508
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 5139.5624,
+      "y": -550.8127
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5099.0703,
+      "y": -598.752
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 5099.0703,
+      "y": -598.752
+    }
+  ]
+}

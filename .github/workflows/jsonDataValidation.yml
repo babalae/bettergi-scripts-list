@@ -286,6 +286,7 @@ jobs:
           PR_REPO: ${{ steps.set_env.outputs.head_repo || github.repository }}
           CHANGED_FILES_B64: ${{ steps.changed_files.outputs.changed_files }}
         run: |
+          set -e
           # 使用base64解码文件列表
           CHANGED_FILES=$(echo "$CHANGED_FILES_B64" | base64 --decode)
           
@@ -299,10 +300,20 @@ jobs:
           echo "Python编码设置:"
           python -c "import sys; print(sys.getdefaultencoding())"
           
+          # 初始化日志文件
+          : > validation_output.log
+          VALIDATION_FAILED=false
+
           # 检查CHANGED_FILES是否包含整个目录
           if [ "$CHANGED_FILES" = "repo/pathing" ]; then
             echo "验证整个目录: repo/pathing"
-            python build/validate.py "repo/pathing" --fix
+            set +e
+            python build/validate.py "repo/pathing" --fix 2>&1 | tee -a validation_output.log
+            PY_EXIT=$?
+            set -e
+            if [ $PY_EXIT -ne 0 ]; then
+              VALIDATION_FAILED=true
+            fi
           else
             # 创建一个临时文件来存储文件列表
             echo "$CHANGED_FILES" > temp_file_list.txt
@@ -310,7 +321,13 @@ jobs:
             while IFS= read -r file; do
               echo "验证文件: $file"
               if [ -f "$file" ]; then
-                python build/validate.py "$file" --fix
+                set +e
+                python build/validate.py "$file" --fix 2>&1 | tee -a validation_output.log
+                PY_EXIT=$?
+                set -e
+                if [ $PY_EXIT -ne 0 ]; then
+                  VALIDATION_FAILED=true
+                fi
               else
                 echo "警告: 文件不存在 - $file"
               fi
@@ -345,6 +362,20 @@ jobs:
             echo "没有文件被修改，无需提交"
           fi
 
+          # 基于日志内容二次判定失败（validate.py 若未正确返回非零时）
+          if grep -E "❌|JSON 格式错误|JSON格式错误|Expecting property name enclosed in double quotes|Traceback|Error:" -q validation_output.log; then
+            VALIDATION_FAILED=true
+          fi
+
+          if [ "$VALIDATION_FAILED" = true ]; then
+            echo "检测到校验错误，生成校验说明并标记失败"
+            {
+              echo "### ❌ 校验失败"
+              echo "请前往 Actions 查看报错详情（运行日志）。"
+            } > validation_notes.md
+            exit 1
+          fi
+
       - name: Run validation for manual trigger
         if: ${{ steps.set_env.outputs.trigger_type == 'manual' }}
         env:
@@ -356,9 +387,27 @@ jobs:
           VALIDATE_PATH: ${{ steps.set_env.outputs.validate_path }}
           AUTO_FIX: ${{ steps.set_env.outputs.auto_fix }}
         run: |
+          set -e
           echo "手动触发模式，验证路径: ${VALIDATE_PATH}"
           # 使用引号包裹路径，处理特殊字符
-          python build/validate.py "${VALIDATE_PATH}" $([[ "${AUTO_FIX}" == "true" ]] && echo "--fix")
+          : > validation_output.log
+          set +e
+          python build/validate.py "${VALIDATE_PATH}" $([[ "${AUTO_FIX}" == "true" ]] && echo "--fix") 2>&1 | tee -a validation_output.log
+          PY_EXIT=$?
+          set -e
+          VALIDATION_FAILED=false
+          if [ $PY_EXIT -ne 0 ]; then
+            VALIDATION_FAILED=true
+          fi
+          if grep -E "❌|JSON 格式错误|JSON格式错误|Expecting property name enclosed in double quotes|Traceback|Error:" -q validation_output.log; then
+            VALIDATION_FAILED=true
+          fi
+          if [ "$VALIDATION_FAILED" = true ]; then
+            {
+              echo "### ❌ 校验失败"
+              echo "请前往 Actions 查看报错详情（运行日志）。"
+            } > validation_notes.md
+          fi
           
           # 检查是否有文件被修改
           if [ -n "$(git status --porcelain)" ]; then
@@ -425,8 +474,12 @@ jobs:
             echo "没有文件被修改，无需提交"
           fi
           
+          if [ "$VALIDATION_FAILED" = true ]; then
+            exit 1
+          fi
+          
       - name: Add PR comment
-        if: ${{ (steps.set_env.outputs.trigger_type == 'pr') || (steps.set_env.outputs.trigger_type == 'manual' && steps.set_env.outputs.pr_number != '' && steps.pr_info.outputs.found == 'true') }}
+        if: ${{ always() && ((steps.set_env.outputs.trigger_type == 'pr') || (steps.set_env.outputs.trigger_type == 'manual' && steps.set_env.outputs.pr_number != '' && steps.pr_info.outputs.found == 'true')) }}
         continue-on-error: true
         uses: actions/github-script@v6
         with:

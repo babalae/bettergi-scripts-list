@@ -9,6 +9,16 @@ let currentParty = null;
 let runMode = settings.runMode;
 let subscribeMode = settings.subscribeMode;
 
+// 用用戶自定義的唯一ID來區分不同帳號
+async function get_profile_name() {
+    if (!settings.iHaveMultipleAccounts || settings.iHaveMultipleAccounts.trim() === "") {
+        // 使用OCR讀取UID作為目錄名
+        const uid = await getGameAccount(true, true);
+        return String(uid);
+    }
+    return settings.iHaveMultipleAccounts.toString().trim();
+}
+
 class ReachStopTime extends Error {
     constructor(message) {
         super(message);
@@ -73,7 +83,7 @@ async function runScanMode() {
     let config = JSON.parse(templateText);
 
     // 将地方特产按照国家顺序排序
-    const countryList = ["蒙德", "璃月", "稻妻", "须弥", "枫丹", "纳塔", "至冬"];
+    const countryList = ["蒙德", "璃月", "稻妻", "须弥", "枫丹", "纳塔", "挪德卡莱", "至冬"];
     const sortedList = pathList.slice().sort((a, b) => {
         const getRegion = (p) => p.split("\\")[2];
         const aIndex = countryList.indexOf(getRegion(a));
@@ -92,6 +102,7 @@ async function runScanMode() {
             log.info("{0}内无json文件，跳过", path);
         } else if (info.coolType === null) {
             log.warn("路径{0}未匹配到对应的刷新机制，跳过", path);
+            await sleep(100);
         } else {
             config.push({
                 name: info.name,
@@ -134,7 +145,7 @@ async function runGatherMode() {
         log.info(` - {0} (${info.coolType}刷新)`, item.label || item.name);
     }
 
-    let account = await getGameAccount(settings.iHaveMultipleAccounts);
+    let account = await get_profile_name();
     log.info("为{0}采集材料并管理CD", account);
 
     await switchPartySafely(settings.partyName);
@@ -165,7 +176,7 @@ async function runClearMode() {
         log.error("未选择任何材料，请在脚本配置中勾选所需项目");
     }
     const resetTimeStr = formatDateTime(getDefaultTime());
-    let account = await getGameAccount(settings.iHaveMultipleAccounts);
+    let account = await get_profile_name();
     for (const pathTask of selectedMaterials) {
         const recordFile = getRecordFilePath(account, pathTask);
         const lines = pathTask.jsonFiles.map((filePath) => {
@@ -180,8 +191,13 @@ async function runClearMode() {
 
 function scanSpecialCollectMethod(jsonFiles) {
     const actions = jsonFiles.flatMap((filePath) => {
-        const data = JSON.parse(file.readTextSync(filePath));
-        return data.positions.map((p) => p.action).filter((a) => a);
+        try {
+            const data = JSON.parse(file.readTextSync(filePath));
+            return data.positions.map((p) => p.action).filter((a) => a);
+        } catch (e) {
+            log.warn(`json文件无效: {0}: ${e.message}`, filePath);
+            return [];
+        }
     });
     return [...new Set(actions)];
 }
@@ -297,6 +313,33 @@ async function runPathTaskIfCooldownExpired(account, pathTask) {
         log.debug(`记录文件{0}不存在或格式错误`, recordFile);
     }
 
+    // 坐标检查函数
+    async function checkPositionChange(mapName, startX, startY) {
+        try {
+            await genshin.returnMainUi();
+            const endPos = await genshin.getPositionFromMap(mapName);
+            const endX = endPos.x;
+            const endY = endPos.y;
+
+            const diffX = Math.abs(endX - startX);
+            const diffY = Math.abs(endY - startY);
+            const totalDiff = diffX + diffY;
+
+            return {
+                success: true,
+                totalDiff: totalDiff,
+                shouldUpdate: totalDiff >= 5
+            };
+        } catch (error) {
+            log.error(`获取结束坐标失败: ${error.message}`);
+            return {
+                success: false,
+                totalDiff: 0,
+                shouldUpdate: false
+            };
+        }
+    }
+
     // 3. 检查哪些 json 文件已过刷新时间
     for (let i = 0; i < jsonFiles.length; i++) {
         const jsonPath = jsonFiles[i];
@@ -314,35 +357,123 @@ async function runPathTaskIfCooldownExpired(account, pathTask) {
             log.info(`${progress}{0}: 开始执行`, pathName);
 
             let pathStartTime = new Date();
+
+            // 声明变量用于坐标检查
+            let startX, startY, mapName, gotStartPos = false;
+
+            // 获取地图名称和起始坐标
+            try {
+                await genshin.returnMainUi();
+                const jsonContent = file.readTextSync(jsonPath);
+                const jsonData = JSON.parse(jsonContent);
+                mapName = jsonData.info?.map_name || "Teyvat";
+                const startPos = await genshin.getPositionFromMap(mapName);
+                startX = startPos.x;
+                startY = startPos.y;
+                gotStartPos = true;
+            } catch (error) {
+                log.error(`获取起始坐标失败: ${error.message}`);
+            }
+
             // 延迟抛出`UserCancelled`，以便正确更新运行记录
             const cancel = await runPathScriptFile(jsonPath);
 
             let diffTime = new Date() - pathStartTime;
+
+            // 如果用户取消，抛出异常
+            if (cancel) {
+                log.info(`${progress}{0}: 用户取消任務，不更新记录`, pathName);
+                throw new UserCancelled(cancel);
+            }
+
+            // 如果运行时间太短，尝试切换队伍
             if (diffTime < 1000) {
                 // "队伍中没有对应元素角色"的错误不会抛出为异常，只能通过路径文件迅速结束来推测
                 if (settings.partyName && settings.partyName2nd) {
                     let newParty = (currentParty === settings.partyName) ? settings.partyName2nd : settings.partyName;
-                    log.info("当前队伍{0}缺少该路线所需角色，尝试切换到{1}", currentParty, newParty);
-                    await switchPartySafely(newParty);
-                    await runPathScriptFile(jsonPath);
-                }
-            } else if (diffTime > 5000) {
-                recordMap[fileName] = calculateNextRunTime(new Date(), jsonPath);
-                const lines = [];
-                for (const [p, t] of Object.entries(recordMap)) {
-                    lines.push(`${p}\t${formatDateTime(t)}`);
-                }
-                const content = lines.join("\n");
-                file.writeTextSync(recordFile, content);
-                log.info(`${progress}{0}: 已完成，下次刷新: ${formatDateTimeShort(recordMap[fileName])}`, pathName);
-            } else {
-                log.info(`${progress}{0}: 执行时间过短，不更新记录`, pathName);
-            }
-            logFakePathEnd(fileName, pathStart);
 
-            if (cancel) {
-                throw new UserCancelled(cancel);
+                    log.info("当前队伍{0}缺少该路线所需角色，尝试切换到{1}", currentParty, newParty);
+
+                    await switchPartySafely(newParty);
+
+                    // 切换队伍后重新获取起始坐标
+                    let secondStartX, secondStartY, secondGotStartPos = false;
+                    try {
+                        await genshin.returnMainUi();
+                        const secondStartPos = await genshin.getPositionFromMap(mapName);
+                        secondStartX = secondStartPos.x;
+                        secondStartY = secondStartPos.y;
+                        secondGotStartPos = true;
+                    } catch (error) {
+                        log.error(`第二次获取起始坐标失败: ${error.message}`);
+                    }
+
+                    // 记录第二次执行的开始时间
+                    let secondPathStartTime = new Date();
+                    const secondCancel = await runPathScriptFile(jsonPath);
+                    let secondDiffTime = new Date() - secondPathStartTime;
+
+                    if (secondCancel) {
+                        log.info(`${progress}{0}: 用户取消任務，不更新记录`, pathName);
+                        throw new UserCancelled(secondCancel);
+                    }
+
+                    // 检查坐标变化
+                    let positionCheckResult = { success: false, shouldUpdate: false };
+                    if (secondGotStartPos) {
+                        positionCheckResult = await checkPositionChange(mapName, secondStartX, secondStartY);
+                    }
+
+                    // 根据运行时间和坐标变化决定是否更新记录
+                    if (secondDiffTime < 1000) {
+                        log.info(`${progress}{0}: 切换队伍后仍无法完成，不更新记录`, pathName);
+                    } else if (secondDiffTime >= 5000 && positionCheckResult.success && positionCheckResult.shouldUpdate) {
+                        // 二次执行成功&坐标变化足够 才更新记录
+                        recordMap[fileName] = calculateNextRunTime(new Date(), jsonPath);
+                        const lines = [];
+                        for (const [p, t] of Object.entries(recordMap)) {
+                            lines.push(`${p}\t${formatDateTime(t)}`);
+                        }
+                        const content = lines.join("\n");
+                        file.writeTextSync(recordFile, content);
+                        log.info(`${progress}{0}: 已完成，下次刷新: ${formatDateTimeShort(recordMap[fileName])}`, pathName);
+                    } else if (!positionCheckResult.success) {
+                        log.info(`${progress}{0}: 坐标获取失败，不更新记录`, pathName);
+                    } else if (!positionCheckResult.shouldUpdate) {
+                        log.info(`${progress}{0}: 切换队伍后出发点与终点过于接近，不记录运行数据`, pathName);
+                    } else {
+                        log.info(`${progress}{0}: 执行时间过短，不更新记录`, pathName);
+                    }
+                } else {
+                    log.info(`${progress}{0}: 执行时间过短，且无第二队伍，不更新记录`, pathName);
+                }
+            } else {
+                // 检查坐标变化
+                let positionCheckResult = { success: false, shouldUpdate: false };
+                if (gotStartPos) {
+                    positionCheckResult = await checkPositionChange(mapName, startX, startY);
+                }
+
+                // 根据运行时间和坐标变化决定是否更新记录
+                if (diffTime >= 5000 && positionCheckResult.success && positionCheckResult.shouldUpdate) {
+                    recordMap[fileName] = calculateNextRunTime(new Date(), jsonPath);
+                    const lines = [];
+                    for (const [p, t] of Object.entries(recordMap)) {
+                        lines.push(`${p}\t${formatDateTime(t)}`);
+                    }
+                    const content = lines.join("\n");
+                    file.writeTextSync(recordFile, content);
+                    log.info(`${progress}{0}: 已完成，下次刷新: ${formatDateTimeShort(recordMap[fileName])}`, pathName);
+                } else if (!positionCheckResult.success) {
+                    log.info(`${progress}{0}: 坐标获取失败，不更新记录`, pathName);
+                } else if (!positionCheckResult.shouldUpdate) {
+                    log.info(`${progress}{0}: 出发点与终点过于接近，不记录运行数据`, pathName);
+                } else {
+                    log.info(`${progress}{0}: 执行时间过短，不更新记录`, pathName);
+                }
             }
+
+            logFakePathEnd(fileName, pathStart);
         } else {
             log.info(`${progress}{0}: 已跳过 (${formatDateTimeShort(recordMap[fileName])}刷新)`, pathName);
         }

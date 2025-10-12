@@ -4,15 +4,16 @@
     "type": "collect",
     "authors": [
       {
-        "name": "芝士贝果"
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
       }
     ],
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.48.0",
+    "bgi_version": "0.50.0",
     "tags": [],
-    "last_modified_time": 1755432640808,
+    "last_modified_time": 1755602499740,
     "enable_monster_loot_split": false,
     "map_match_method": ""
   },
@@ -50,7 +51,7 @@
       "y": 2508.0115,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "attack;moveby(0,1000)",
+      "action_params": "attack;moveby(0,571)",
       "type": "orientation"
     },
     {
@@ -69,7 +70,7 @@
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "e",
-      "type": "target"
+      "type": "path"
     },
     {
       "id": 7,
@@ -78,7 +79,7 @@
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "e",
-      "type": "target"
+      "type": "path"
     },
     {
       "id": 8,
@@ -87,7 +88,7 @@
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "e",
-      "type": "target"
+      "type": "path"
     },
     {
       "id": 9,
@@ -96,7 +97,7 @@
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "e",
-      "type": "target"
+      "type": "path"
     },
     {
       "id": 10,
@@ -105,7 +106,7 @@
       "action": "combat_script",
       "move_mode": "walk",
       "action_params": "e",
-      "type": "target"
+      "type": "path"
     }
   ]
 }

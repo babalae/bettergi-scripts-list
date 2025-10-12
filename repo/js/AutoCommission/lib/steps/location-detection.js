@@ -29,7 +29,7 @@
         );
 
         if (commissionTarget) {
-          var distance = CommissionBasic.calculateDistance(commissionTarget, {
+          var distance = Utils.calculateDistance(commissionTarget, {
             x: targetX,
             y: targetY,
           });
