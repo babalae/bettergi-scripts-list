@@ -108,5 +108,20 @@
         "name": "CDCategories",
         "type": "input-text",
         "label": "----------------------------------\n\n采用的CD分类（默认:全部)"
+    },
+    {
+        "name": "HoldX",
+        "type": "input-text",
+        "label": "------------------------\n(0,0)———> X 增加\n   |\n   |\n  V  Y 增加\n\n翻页拖动点X坐标：0~1920(默认1050)"
+    },
+    {
+        "name": "HoldY",
+        "type": "input-text",
+        "label": "------------------------\n翻页拖动点Y坐标：0~1080(默认750)"
+    },
+    {
+        "name": "PageScrollDistance",
+        "type": "input-text",
+        "label": "------------------------\n拖动距离：(默认711像素点)"
     }
 ]
