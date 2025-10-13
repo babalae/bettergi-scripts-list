@@ -383,7 +383,7 @@ async function scanMaterials(materialsCategory, materialCategoryMap) {
                             width: 66 + 2 * tolerance,
                             height: 22 + 2 * tolerance
                         };
-                        const ocrResult = await recognizeText(ocrRegion, 1000, 10, 10, 3, ra);
+                        const ocrResult = await recognizeText(ocrRegion, 1000, 10, 5, 2, ra);
                         materialInfo.push({ name, count: ocrResult || "?" });
 
                         if (!hasFoundFirstMaterial) {
@@ -509,31 +509,43 @@ const CultivationItemsRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync
 const FoodRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Food.png"), 845, 31, 38, 38);
 
 const specialMaterials = [
-    "水晶块", "魔晶块", "星银矿石", "紫晶块", "萃凝晶", "铁块", "白铁块",
+    "水晶块", "魔晶块", "星银矿石", "紫晶块", "萃凝晶", "虹滴晶", "铁块", "白铁块",
     "精锻用魔矿", "精锻用良矿", "精锻用杂矿"
 ];
 function filterLowCountMaterials(pathingMaterialCounts, materialCategoryMap) {
-    // 将 materialCategoryMap 中的所有材料名提取出来
+    // 新增：超量阈值（普通材料9999，矿石处理后也是9999）
+    const EXCESS_THRESHOLD = 9999;
+    // 新增：临时存储本次超量材料
+    const tempExcess = [];
+
+    // 原逻辑：提取所有需要扫描的材料
     const allMaterials = Object.values(materialCategoryMap).flat();
 
-    // 筛选 pathingMaterialCounts 中的材料，只保留 materialCategoryMap 中定义的材料，并且数量低于 targetCount 或 count 为 "?" 或 name 在 specialMaterials 中
-    return pathingMaterialCounts
+    const filteredMaterials = pathingMaterialCounts
         .filter(item =>
             allMaterials.includes(item.name) &&
             (item.count < targetCount || item.count === "?")
         )
         .map(item => {
-            // 如果 name 在 specialMaterials 数组中
-            if (specialMaterials.includes(item.name)) {
-                // 如果 count 是 "?"，直接保留
-                if (item.count === "?") {
-                    return item;
-                }
-                // 否则，将 count 除以 10 并向下取整
-                item.count = Math.floor(item.count / 10);
+            // 原逻辑：矿石数量÷10
+            let processedCount = item.count;
+            if (specialMaterials.includes(item.name) && item.count !== "?") {
+                processedCount = Math.floor(Number(item.count) / 10);
             }
-            return item;
+
+            // 新增：判断是否超量（用处理后数量对比阈值）
+            if (item.count !== "?" && processedCount >= EXCESS_THRESHOLD) {
+                tempExcess.push(item.name); // 记录超量材料名
+            }
+
+            return { ...item, count: processedCount };
         });
+
+    // 新增：更新全局超量名单（去重）
+    excessMaterialNames = [...new Set(tempExcess)];
+    log.info(`【超量材料更新】共${excessMaterialNames.length}种：${excessMaterialNames.join("、")}`);
+
+    return filteredMaterials; // 原返回值不变
 }
 
 function dynamicMaterialGrouping(materialCategoryMap) {

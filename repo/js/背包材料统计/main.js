@@ -65,7 +65,7 @@ if (allowedCDCategories.length > 0) {
 }
 
 // ==============================================
-// 材料与怪物映射管理"XP": "祝圣精华"
+// 材料与怪物映射管理
 // ==============================================
 // 材料分类映射
 const material_mapping = {
@@ -384,7 +384,7 @@ function checkPathNameFrequency(resourceName, pathName, recordDir) {
 
 /**
  * 记录路径运行时间与材料变化
- * @param {string} resourceName - 资源名
+ * @param {string} resourceName - 资源名（普通材料名/怪物名）
  * @param {string} pathName - 路径名
  * @param {string} startTime - 开始时间
  * @param {string} endTime - 结束时间
@@ -398,8 +398,31 @@ function recordRunTime(resourceName, pathName, startTime, endTime, runTime, reco
   const normalContent = `路径名: ${pathName}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: ${runTime}秒\n数量变化: ${JSON.stringify(materialCountDifferences)}\n\n`;
 
   try {
-    if (runTime >= 3) {
-      // 处理0数量记录
+    if (runTime >= 3) { // 运行时间≥3秒才处理记录
+      // ==============================================
+      // 新增：怪物路径专用逻辑（判断对应材料总数量是否为0）
+      // ==============================================
+      const isMonsterPath = monsterToMaterials.hasOwnProperty(resourceName); // 是否为怪物路径
+      if (isMonsterPath) {
+        // 1. 获取当前怪物对应的所有目标材料（从已有映射中取）
+        const monsterTargetMaterials = monsterToMaterials[resourceName] || [];
+        // 2. 计算这些材料的总数量变化（只累加目标材料，忽略其他无关材料）
+        let monsterMaterialsTotal = 0;
+        monsterTargetMaterials.forEach(targetMat => {
+          monsterMaterialsTotal += (materialCountDifferences[targetMat] || 0);
+        });
+        // 3. 若总数量为0，生成怪物专用0记录文件（文件名含“总0”标识，避免混淆）
+        if (monsterMaterialsTotal === 0) {
+          const zeroMonsterPath = `${recordDir}/${resourceName}${CONSTANTS.ZERO_COUNT_SUFFIX}`;
+          const zeroMonsterContent = `路径名: ${pathName}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: ${runTime}秒\n数量变化: ${JSON.stringify(materialCountDifferences)}\n\n`;
+          writeContentToFile(zeroMonsterPath, zeroMonsterContent);
+          log.warn(`${CONSTANTS.LOG_MODULES.RECORD}怪物【${resourceName}】对应材料总数量为0，已写入单独文件: ${zeroMonsterPath}`);
+        }
+      }
+
+      // ==============================================
+      // 原有：普通材料0记录逻辑（完全保留，不做修改）
+      // ==============================================
       for (const [material, count] of Object.entries(materialCountDifferences)) {
         if (material === resourceName && count === 0) {
           const zeroMaterialPath = `${recordDir}/${material}${CONSTANTS.ZERO_COUNT_SUFFIX}`;
@@ -409,6 +432,9 @@ function recordRunTime(resourceName, pathName, startTime, endTime, runTime, reco
         }
       }
 
+      // ==============================================
+      // 原有：正常记录生成逻辑（完全保留，不做修改）
+      // ==============================================
       const hasZeroMaterial = Object.values(materialCountDifferences).includes(0);
       const isFinalCumulativeDistanceZero = finalCumulativeDistance === 0;
 
@@ -469,10 +495,10 @@ function getLastRunEndTime(resourceName, pathName, recordDir, noRecordDir) {
 
 /**
  * 计算单次时间成本（平均耗时/材料数量）
- * @param {string} resourceName - 资源名
+ * @param {string} resourceName - 资源名（普通材料名/怪物名）
  * @param {string} pathName - 路径名
  * @param {string} recordDir - 记录目录
- * @returns {number|null} 时间成本（秒/个），null=无法计算
+ * @returns {number|null} 时间成本（秒/中级单位），null=无法计算
  */
 function calculatePerTime(resourceName, pathName, recordDir) {
   const recordPath = `${recordDir}/${resourceName}.txt`;
@@ -481,22 +507,73 @@ function calculatePerTime(resourceName, pathName, recordDir) {
     const lines = content.split('\n');
     const completeRecords = [];
 
-    for (let i = 0; i < lines.length; i++) {
-      if (lines[i].startsWith('路径名: ') && lines[i].split('路径名: ')[1] === pathName) {
-        const runTimeLine = lines[i + 3];
-        const quantityChangeLine = lines[i + 4];
+    // ==============================================
+    // 怪物路径：改为以中级材料为基准（最低级÷3）
+    // ==============================================
+    if (monsterToMaterials.hasOwnProperty(resourceName)) {
+      const monsterMaterials = monsterToMaterials[resourceName]; // 映射顺序：[最高级, 中级, 最低级]
+      // 新比例：最高级×3（1最高级=3中级），中级×1（本身），最低级×1/3（3最低级=1中级 → 最低级÷3）
+      const gradeRatios = [3, 1, 1/3]; 
 
-        if (runTimeLine?.startsWith('运行时间: ') && quantityChangeLine?.startsWith('数量变化: ')) {
-          const runTime = parseInt(runTimeLine.split('运行时间: ')[1].split('秒')[0], 10);
-          const quantityChange = JSON.parse(quantityChangeLine.split('数量变化: ')[1]);
+      for (let i = 0; i < lines.length; i++) {
+        if (lines[i].startsWith('路径名: ') && lines[i].split('路径名: ')[1] === pathName) {
+          const runTimeLine = lines[i + 3];
+          const quantityChangeLine = lines[i + 4];
 
-          if (quantityChange[resourceName] !== undefined && quantityChange[resourceName] !== 0) {
-            completeRecords.push(parseFloat((runTime / quantityChange[resourceName]).toFixed(2)));
+          if (runTimeLine?.startsWith('运行时间: ') && quantityChangeLine?.startsWith('数量变化: ')) {
+            // 1. 提取运行时间
+            const runTime = parseInt(runTimeLine.split('运行时间: ')[1].split('秒')[0], 10);
+            if (isNaN(runTime) || runTime <= 0) continue;
+
+            // 2. 提取数量变化
+            const quantityChange = JSON.parse(quantityChangeLine.split('数量变化: ')[1]);
+
+            // 3. 按新比例计算“总中级单位数量”（最低级÷3）
+            let totalMiddleCount = 0; // 变量名改为中级单位
+            monsterMaterials.forEach((mat, index) => {
+              const count = quantityChange[mat] || 0;
+              const ratio = gradeRatios[index] || 1;
+              totalMiddleCount += count * ratio; // 最低级此处等价于 count ÷ 3
+            });
+            // 保留两位小数（处理1/3导致的无限小数）
+            totalMiddleCount = parseFloat(totalMiddleCount.toFixed(2));
+
+            // 4. 过滤无效数据
+            if (totalMiddleCount <= 0) continue;
+
+            // 5. 计算时间成本（秒/中级单位）
+            const perTime = parseFloat((runTime / totalMiddleCount).toFixed(2));
+            completeRecords.push(perTime);
+            // 日志更新为中级单位
+            log.debug(`${CONSTANTS.LOG_MODULES.RECORD}怪物【${resourceName}】路径${pathName}：${runTime}秒/${totalMiddleCount}中级单位 → ${perTime}秒/单位`);
+          }
+        }
+      }
+    } 
+    // ==============================================
+    // 普通材料：完全保留原有逻辑
+    // ==============================================
+    else {
+      for (let i = 0; i < lines.length; i++) {
+        if (lines[i].startsWith('路径名: ') && lines[i].split('路径名: ')[1] === pathName) {
+          const runTimeLine = lines[i + 3];
+          const quantityChangeLine = lines[i + 4];
+
+          if (runTimeLine?.startsWith('运行时间: ') && quantityChangeLine?.startsWith('数量变化: ')) {
+            const runTime = parseInt(runTimeLine.split('运行时间: ')[1].split('秒')[0], 10);
+            const quantityChange = JSON.parse(quantityChangeLine.split('数量变化: ')[1]);
+
+            if (quantityChange[resourceName] !== undefined && quantityChange[resourceName] !== 0) {
+              completeRecords.push(parseFloat((runTime / quantityChange[resourceName]).toFixed(2)));
+            }
           }
         }
       }
     }
 
+    // ==============================================
+    // 统一的异常值过滤和平均值计算（不变）
+    // ==============================================
     if (completeRecords.length < 3) {
       log.warn(`${CONSTANTS.LOG_MODULES.RECORD}路径${pathName}有效记录不足3条，无法计算时间成本`);
       return null;
@@ -1308,6 +1385,16 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
       const targetTexts = targetTextCategories[categoryName];
       allTargetTexts = allTargetTexts.concat(Object.values(targetTexts).flat());
     }
+  // 关键补充：等待超量名单生成（由filterLowCountMaterials更新）
+  let waitTimes = 0;
+  while (excessMaterialNames.length === 0 && waitTimes < 300) { 
+    await sleep(1000); // 每1秒查一次
+    waitTimes++;
+  }
+
+  // 现在过滤才有效（确保excessMaterialNames已生成）
+  allTargetTexts = allTargetTexts.filter(name => !excessMaterialNames.includes(name));
+  log.info(`OCR最终目标文本（已过滤超量）：${allTargetTexts.join('、')}`);
     await alignAndInteractTarget(allTargetTexts, fDialogueRo, textxRange, texttolerance);
   })();
 
