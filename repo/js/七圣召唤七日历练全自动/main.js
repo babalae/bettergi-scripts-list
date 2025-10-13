@@ -7,6 +7,68 @@ const strategyRunRecordFile = "牌组策略/各策略胜败记录.json";
 let strategyRunRecord = {};
 let minFallbackStrategyScore = 0.25;
 
+/**
+ * 查找模板图片并拖动到指定位置
+ * @param {string} templatePath - 模板图片路径
+ * @param {number} targetX - 拖动目标位置X坐标
+ * @param {number} targetY - 拖动目标位置Y坐标
+ * @param {number} [maxAttempts=3] - 最大尝试次数
+ * @returns {Promise<boolean>} 是否成功完成拖动
+ */
+async function dragTemplateToPosition(templatePath, targetX, targetY, maxAttempts = 3) {
+    // 创建模板识别对象
+    const templateRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(templatePath));
+    await sleep(200);
+    moveMouseTo(100, 50);//避免鼠标遮挡
+    await sleep(200);
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        try {
+            // 捕获游戏区域并查找模板
+            const captureRegion = captureGameRegion();
+            let foundRegion = captureRegion.find(templateRo);
+            
+            if (foundRegion.isEmpty()) {
+                log.warn(`第 ${attempt + 1} 次尝试: 未找到模板图片 ${templatePath}`);
+                if (attempt < maxAttempts - 1) {
+                    await sleep(1000); // 等待1秒后重试
+                    continue;
+                } else {
+                    log.error(`所有尝试失败: 未找到模板图片 ${templatePath}`);
+                    return false;
+                }
+            }
+            
+            log.info(`找到模板图片，位置: (${foundRegion.x}, ${foundRegion.y})，开始拖动到 (${targetX}, ${targetY})`);
+            await sleep(300);
+            moveMouseTo(200, 100);//重置鼠标位置
+            leftButtonDown();
+            await sleep(500);
+            moveMouseTo(foundRegion.x, foundRegion.y);
+            await sleep(500);
+            moveMouseTo(targetX, targetY);
+            await sleep(500);
+            leftButtonUp();
+            await sleep(500);
+            moveMouseTo(50, 50);//移动鼠标位置，避免检测失败
+            await sleep(400);
+            foundRegion = captureGameRegion().Find(templateRo);
+            log.info(`模板图片拖动后位置: (${foundRegion.x}, ${foundRegion.y})`);
+            if(Math.abs(foundRegion.x - targetX) < 3 && Math.abs(foundRegion.y - targetY) < 3){
+            log.info("拖动操作完成");
+            return true;
+            } 
+            
+        } catch (error) {
+            log.error(`第 ${attempt + 1} 次尝试时发生错误: ${error}`);
+            if (attempt < maxAttempts - 1) {
+                await sleep(1000);
+            }
+        }
+    }
+    
+    return false;
+}
+
 // 切换到指定的队伍
 async function switchCardTeam(Name, shareCode) {
     let captureRegion = captureGameRegion();
@@ -331,16 +393,11 @@ const detectCardPlayer = async () => {
     await genshin.setBigMapZoomLevel(1.0); //放大地图
     await sleep(300);
 
-    //地图拖动到指定位置
-    moveMouseTo(200, 200);
-    leftButtonDown();
-    await sleep(500);
-    moveMouseTo(170, 320);
-    await sleep(500);
-    moveMouseTo(970, 1000);
-    await sleep(500);
-    leftButtonUp();
-    await sleep(500);
+    await dragTemplateToPosition("assets/dragToVerify.png", // 模板图片路径
+        1449,                    // 目标X坐标
+        988,                    // 目标Y坐标
+        3                       // 最大尝试次数
+    );
 
     // 获取游戏区域截图
     const captureRegion = captureGameRegion();
@@ -978,4 +1035,5 @@ async function main() {
         await main();
     }
 })();
+
 
