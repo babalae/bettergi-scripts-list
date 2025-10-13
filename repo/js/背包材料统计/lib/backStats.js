@@ -512,6 +512,8 @@ const specialMaterials = [
     "水晶块", "魔晶块", "星银矿石", "紫晶块", "萃凝晶", "虹滴晶", "铁块", "白铁块",
     "精锻用魔矿", "精锻用良矿", "精锻用杂矿"
 ];
+var excessMaterialNames = []; // 超量材料名单
+
 function filterLowCountMaterials(pathingMaterialCounts, materialCategoryMap) {
     // 新增：超量阈值（普通材料9999，矿石处理后也是9999）
     const EXCESS_THRESHOLD = 9999;
@@ -541,6 +543,7 @@ function filterLowCountMaterials(pathingMaterialCounts, materialCategoryMap) {
             return { ...item, count: processedCount };
         });
 
+    tempExcess.push("OCR启动"); // 新增：添加特殊标记，用于终止OCR等待
     // 新增：更新全局超量名单（去重）
     excessMaterialNames = [...new Set(tempExcess)];
     log.info(`【超量材料更新】共${excessMaterialNames.length}种：${excessMaterialNames.join("、")}`);
