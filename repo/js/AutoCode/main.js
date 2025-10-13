@@ -1,4 +1,95 @@
 let username = settings.username || "default";
+let use_bgi_code_source = settings.use_bgi_code_source || false;
+
+async function* getCodeFromFile() {
+    const content = file.readTextSync("codes.txt");
+    const codes = content.split("\n");
+
+
+    for (let i = 0; i < codes.length; i++) {
+        const line = codes[i].trim();
+        if (!line) continue;
+
+        // 找到最后一个英文逗号
+        const lastCommaIndex = line.lastIndexOf(',');
+        let code, deadline;
+        if (lastCommaIndex === -1) {
+            // 没有逗号，则整个当作code
+            code = line;
+            deadline = '';
+        } else {
+            code = line.slice(0, lastCommaIndex).trim();
+            deadline = line.slice(lastCommaIndex + 1).trim();
+        }
+
+        if (!code) continue;
+        yield [code, deadline];
+    }
+}
+
+const BGI_CODE_UPDATETIME_URL = "https://cnb.cool/bettergi/genshin-redeem-code/-/git/raw/main/update_time.txt"
+const BGI_CODE_LIST_URL = "https://cnb.cool/bettergi/genshin-redeem-code/-/git/raw/main/codes.json"
+async function* getCodeFromBGI() {
+    // const updateTimeResp = await fetch(BGI_CODE_UPDATETIME_URL);
+    // if (!updateTimeResp.ok) {
+    //     log.error(`获取BGI兑换码更新时间失败: ${updateTimeResp.status} ${updateTimeResp.statusText}`);
+    //     return;
+    // }
+    // const updateTime = (await updateTimeResp.text()).trim(); // YYYYMMDD
+    // const updateTimeDate = new Date(`${updateTime.slice(0, 4)}-${updateTime.slice(4, 6)}-${updateTime.slice(6, 8)}`);
+
+    const listResp = await http.request('GET', BGI_CODE_LIST_URL, null, null);
+    log.debug(`BGI兑换码列表请求返回: ${JSON.stringify(listResp)}`);
+    if (listResp.status_code != 200) {
+        log.error(`获取BGI兑换码列表失败: 服务器返回状态${listResp.status} ${listResp.statusText}`);
+        return;
+    }
+    const listJson = JSON.parse(listResp.body);
+    if (!Array.isArray(listJson)) {
+        log.error(`BGI兑换码列表格式错误`);
+        return;
+    }
+    const codeTitles = listJson.map(item => item.title);
+    log.info(`BGI兑换码列表获取成功，共 ${codeTitles.length} 组兑换码: ${codeTitles.join(", ")}`);  
+
+    for (const item of listJson) {
+        const valid = item.valid.trim(); // YYYY-MM-DD
+        const validDate = new Date(valid);
+        for (const code of item.codes) {
+            if (!code) continue;
+            // 有效期格式不明，暂时先不返回
+            yield [code, null];
+        }
+    }
+}
+
+async function* getCodeList() {
+    if (!use_bgi_code_source) {
+        yield *getCodeFromFile();
+    } else {
+        yield *getCodeFromBGI();
+    }
+}
+
+async function openCodeUI() {
+    keyPress("ESCAPE");
+    await sleep(2000);
+
+    const settingsRo = RecognitionObject.TemplateMatch(file.readImageMatSync("assets/settings.png"));
+    const settingsRes = captureGameRegion().find(settingsRo);
+    if (settingsRes.isExist()) settingsRes.click();
+    await sleep(2000);
+
+    const accountRo = RecognitionObject.TemplateMatch(file.readImageMatSync("assets/account.png"));
+    const accountRes = captureGameRegion().find(accountRo);
+    if (accountRes.isExist()) accountRes.click();
+    await sleep(500);
+
+    const goToRedeemRo = RecognitionObject.TemplateMatch(file.readImageMatSync("assets/go_to_redeem.png"));
+    const goToRedeemRes = captureGameRegion().find(goToRedeemRo);
+    if (goToRedeemRes.isExist()) goToRedeemRes.click();
+    await sleep(500);
+}
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
@@ -31,51 +122,13 @@ let username = settings.username || "default";
     } catch (e) {
         log.warn(`未找到 ${recordPath}，稍后会自动创建`);
     }
-
-    // 4. 打开兑换界面
-    keyPress("ESCAPE");
-    await sleep(2000);
-
-    const settingsRo = RecognitionObject.TemplateMatch(file.readImageMatSync("assets/settings.png"));
-    const settingsRes = captureGameRegion().find(settingsRo);
-    if (settingsRes.isExist()) settingsRes.click();
-    await sleep(2000);
-
-    const accountRo = RecognitionObject.TemplateMatch(file.readImageMatSync("assets/account.png"));
-    const accountRes = captureGameRegion().find(accountRo);
-    if (accountRes.isExist()) accountRes.click();
-    await sleep(500);
-
-    const goToRedeemRo = RecognitionObject.TemplateMatch(file.readImageMatSync("assets/go_to_redeem.png"));
-    const goToRedeemRes = captureGameRegion().find(goToRedeemRo);
-    if (goToRedeemRes.isExist()) goToRedeemRes.click();
-    await sleep(500);
-
-    // 5. 读取 codes.txt 进行兑换
+    
+    // 4-5. 读取 code 并打开兑换界面进行兑换
     try {
-        const content = file.readTextSync("codes.txt");
-        const codes = content.split("\n");
-
         let count = 0;
-
-        for (let i = 0; i < codes.length; i++) {
-            const line = codes[i].trim();
-            if (!line) continue;
-
-            // 找到最后一个英文逗号
-            const lastCommaIndex = line.lastIndexOf(',');
-            let code, deadline;
-            if (lastCommaIndex === -1) {
-                // 没有逗号，则整个当作code
-                code = line;
-                deadline = '';
-            } else {
-                code = line.slice(0, lastCommaIndex).trim();
-                deadline = line.slice(lastCommaIndex + 1).trim();
-            }
-
-            if (!code) continue;
-
+        let uiOpened = false;
+        
+        for await (const [code, deadline] of getCodeList()) {
             // 跳过已兑换的
             if (redeemedCodes.has(code)) {
                 count++;
@@ -88,6 +141,12 @@ let username = settings.username || "default";
             if (currentTime > deadline) {
                 log.info(`兑换码【${code}】已超过截止时间，跳过`);
                 continue;
+            }
+
+            // 打开兑换界面
+            if (!uiOpened) {
+                await openCodeUI();
+                uiOpened = true;
             }
 
             // 输入兑换码
