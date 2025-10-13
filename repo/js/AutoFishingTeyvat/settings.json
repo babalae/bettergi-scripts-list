@@ -1,29 +1,14 @@
 [
     {
-        "name": "show_info",
+        "name": "show_info_title_1",
         "type": "input-text",
-        "label": "下方输入的内容用空格隔开、括号内是优先级\n（只会执行当前非默认最高优先级的选项）",
-        "default": "该输入框无需输入内容"
-    },
-    {
-        "name": "path_sort_area",
-        "type": "input-text",
-        "label": "地区（低），例：蒙德"
-    },
-    {
-        "name": "path_sort_fish",
-        "type": "input-text",
-        "label": "鱼类（低），例：花鳉"
-    },
-    {
-        "name": "path_sort_bait",
-        "type": "input-text",
-        "label": "鱼饵（低），例：果酿饵"
+        "label": "[基础配置]----------------------筛选垂钓点----------------------",
+        "default": "⏬⏬⏬⏬⏬⏬挪德卡莱垂钓点暂不可用⏬⏬⏬⏬⏬⏬"
     },
     {
         "name": "path_sort_material",
         "type": "select",
-        "label": "兑换材料（中）",
+        "label": "钓取特定物品的兑换材料（选择后其他筛选功能失效）",
         "options": [
             "无(默认)",
             "⚓风缠⚓（蒙德钓竿）",
@@ -42,9 +27,48 @@
         ]
     },
     {
+        "name": "path_sort_area",
+        "type": "input-text",
+        "label": "地区筛选 例：蒙德"
+    },
+    {
+        "name": "path_sort_fish",
+        "type": "input-text",
+        "label": "鱼类筛选 例：花鳉"
+    },
+    {
+        "name": "path_sort_bait",
+        "type": "input-text",
+        "label": "鱼饵筛选 例：果酿饵"
+    },
+    {
+        "name": "block_gcm",
+        "type": "checkbox",
+        "label": "禁用键鼠路线(启用前请浏览README了解队伍配置要求)",
+        "default": false
+    },
+    {
+        "name": "block_fight",
+        "type": "checkbox",
+        "label": "启用战斗路线(需要首先配置战斗策略)",
+        "default": false
+    },
+    {
+        "name": "block_tsurumi",
+        "type": "checkbox",
+        "label": "启用鹤观路线(请确保任务已经完成，小道具交互的点位尚不可用)",
+        "default": false
+    },
+    {
+        "name": "show_info_title_2",
+        "type": "input-text",
+        "label": "[进阶配置]-------垂钓点进阶功能 & BGI内置钓鱼参数设置------- ",
+        "default": "⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬"
+    },
+    {
         "name": "path_continue",
         "type": "select",
-        "label": "从选择的钓鱼点继续（仅垂钓点全选时可用）",
+        "label": "从选择的垂钓点继续（仅垂钓点全部启用时可用）",
         "options": [
             "无(默认)",
             "枫丹-垂钓点-伊黎耶林区幽林雾道西南-普通",
@@ -131,11 +155,6 @@
         ]
     },
     {
-        "name": "check_multiplayer",
-        "type": "checkbox",
-        "label": "多人模式(默认为单人模式)[该功能不可用]"
-    },
-    {
         "name": "time_out_throw",
         "type": "input-text",
         "label": "自动抛竿未上钩超时时间(秒)",
@@ -146,6 +165,12 @@
         "type": "input-text",
         "label": "整个任务超时时间(秒)",
         "default": 300
+    },
+    {
+        "name": "show_info_title_3",
+        "type": "input-text",
+        "label": "[高级配置]---------------------满足特殊需求---------------------",
+        "default": "⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬"
     },
     {
         "name": "auto_pick",
@@ -266,27 +291,15 @@
         ]
     },
     {
-        "name": "block_gcm",
-        "type": "checkbox",
-        "label": "禁用键鼠路线(启用前请自行了解队伍配置要求)",
-        "default": false
-    },
-    {
-        "name": "block_fight",
-        "type": "checkbox",
-        "label": "启用战斗路线(需要自行配置战斗策略)",
-        "default": false
-    },
-    {
-        "name": "block_tsurumi",
-        "type": "checkbox",
-        "label": "启用鹤观路线(请确保任务已经完成，小道具交互的点位尚不可用)",
-        "default": false
+        "name": "show_info_title_4",
+        "type": "input-text",
+        "label": "[开发者配置]----------------------调式模式----------------------",
+        "default": "⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬"
     },
     {
         "name": "path_select",
         "type": "select",
-        "label": "[调试]-垂钓点(高)",
+        "label": "[调试]-垂钓点",
         "options": [
             "无(默认)",
             "枫丹-垂钓点-伊黎耶林区幽林雾道西南-普通",
@@ -380,11 +393,16 @@
     {
         "name": "path_time",
         "type": "select",
-        "label": "[调试]-时间(高)",
+        "label": "[调试]-时间",
         "options": [
             "全天(默认)",
             "白天",
             "夜晚"
         ]
+    },
+    {
+        "name": "check_multiplayer",
+        "type": "checkbox",
+        "label": "多人模式(默认为单人模式)[该功能不可用]"
     }
 ]
