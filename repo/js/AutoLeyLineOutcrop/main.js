@@ -464,12 +464,12 @@ async function handleNoStrategyFound() {
     log.error("如果仍然不行，请截图{1}游戏界面，并反馈给作者！", "*完整的*");
     log.error("完整的游戏界面！完整的游戏界面！完整的游戏界面！");
     
-    // 确保退出奖励界面
-    try {
-        await ensureExitRewardPage();
-    } catch (exitError) {
-        log.warn(`退出奖励界面时出错: ${exitError.message}`);
-    }
+    // 确保退出奖励界面 TODO: 可能会影响debug，先不执行ensureExitRewardPage
+    // try {
+    //     await ensureExitRewardPage();
+    // } catch (exitError) {
+    //     log.warn(`退出奖励界面时出错: ${exitError.message}`);
+    // }
     
     if (isNotification) {
         notification.error("未找到对应的地脉花策略");
