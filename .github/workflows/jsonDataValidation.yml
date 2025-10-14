@@ -337,36 +337,24 @@ jobs:
           : > validation_output.log
           VALIDATION_FAILED=false
 
-          # 检查CHANGED_FILES是否包含整个目录
-          if [ "$CHANGED_FILES" = "repo/pathing" ]; then
-            echo "验证整个目录: repo/pathing"
-            set +e
-            python build/validate.py "repo/pathing" --fix 2>&1 | tee -a validation_output.log
-            PY_EXIT=$?
-            set -e
-            if [ $PY_EXIT -ne 0 ]; then
-              VALIDATION_FAILED=true
-            fi
-          else
-            # 创建一个临时文件来存储文件列表
-            echo "$CHANGED_FILES" > temp_file_list.txt
-            # 单独验证每个修改的文件，使用while读取避免文件名中的空格和特殊字符问题
-            while IFS= read -r file; do
-              echo "验证文件: $file"
-              if [ -f "$file" ]; then
-                set +e
-                python build/validate.py "$file" --fix 2>&1 | tee -a validation_output.log
-                PY_EXIT=$?
-                set -e
-                if [ $PY_EXIT -ne 0 ]; then
-                  VALIDATION_FAILED=true
-                fi
-              else
-                echo "警告: 文件不存在 - $file"
+          # 验证修改的文件格式
+          echo "$CHANGED_FILES" > temp_file_list.txt
+          # 单独验证每个修改的文件，使用while读取避免文件名中的空格和特殊字符问题
+          while IFS= read -r file; do
+            echo "验证文件: $file"
+            if [ -f "$file" ]; then
+              set +e
+              python build/validate.py "$file" --fix 2>&1 | tee -a validation_output.log
+              PY_EXIT=$?
+              set -e
+              if [ $PY_EXIT -ne 0 ]; then
+                VALIDATION_FAILED=true
               fi
-            done < temp_file_list.txt
-            rm temp_file_list.txt
-          fi
+            else
+              echo "警告: 文件不存在 - $file"
+            fi
+          done < temp_file_list.txt
+          rm temp_file_list.txt
           
           # 检查是否有文件被修改
           if [ -n "$(git status --porcelain)" ]; then
