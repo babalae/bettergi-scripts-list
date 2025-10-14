@@ -9,13 +9,15 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760011375993,
+    "last_modified_time": 1760449142682,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "06-苔古荒原上方-6个",
-    "tags": [],
+    "tags": [
+      "菈乌玛"
+    ],
     "type": "collect",
-    "version": "1.0"
+    "version": "1.1"
   },
   "positions": [
     {
@@ -38,7 +40,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(3)",
+      "action_params": "枫原万叶 wait(6),e(hold),wait(0.2),attack",
       "id": 3,
       "move_mode": "walk",
       "type": "target",
@@ -46,22 +48,86 @@
       "y": 1880.9834
     },
     {
-      "action": "combat_script",
-      "action_params": "枫原万叶 wait(3),e(hold),wait(0.2),attack",
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 9450.1406,
-      "y": 1880.9834
+      "locked": false,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9451.0938,
+      "y": 1875.7812
     },
     {
-      "action": "pick_around",
-      "action_params": "",
       "id": 5,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 9450.1406,
-      "y": 1880.9834
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9450.875,
+      "y": 1885.8438
+    },
+    {
+      "id": 6,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9452.5938,
+      "y": 1875.7188
+    },
+    {
+      "id": 7,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9452.9062,
+      "y": 1885.9375
+    },
+    {
+      "id": 8,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9454.5312,
+      "y": 1875.6875
+    },
+    {
+      "id": 9,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9456.3125,
+      "y": 1882.125
+    },
+    {
+      "id": 10,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9448.0938,
+      "y": 1885.875
+    },
+    {
+      "id": 11,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9449.25,
+      "y": 1875.4688
+    },
+    {
+      "id": 12,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9446.0312,
+      "y": 1885.75
+    },
+    {
+      "id": 13,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9447.2812,
+      "y": 1875.4375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9444.1875,
+      "y": 1885.2812
     }
   ]
 }
