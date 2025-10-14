@@ -192,7 +192,7 @@ async function alignAndInteractTarget(targetTexts, fDialogueRo, textxRange, text
         for (let targetText of targetTexts) {
             let targetResult = ocrResults.find(res => res.text.includes(targetText));
             if (targetResult) {
-                log.info(`找到目标文本: ${targetText}`);
+                // log.info(`找到目标文本: ${targetText}`);
                 
                 // 生成唯一标识并更新识别计数（文本+Y坐标）
                 const materialId = `${targetText}-${targetResult.y}`;
@@ -204,6 +204,7 @@ async function alignAndInteractTarget(targetTexts, fDialogueRo, textxRange, text
                     if (recognitionCount.get(materialId) >= 1) {
                         keyPress("F"); // 执行交互操作
                         // log.info(`F键执行成功，识别计数: ${recognitionCount.get(materialId)}`);
+                        log.info(`交互或拾取: ${targetText}`);
                         
                         // F键后清除计数，确保单次交互
                         recognitionCount.delete(materialId);
