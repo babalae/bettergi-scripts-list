@@ -337,8 +337,7 @@ jobs:
           : > validation_output.log
           VALIDATION_FAILED=false
 
-          # 始终只验证修改的文件，不再验证整个目录
-          # 创建一个临时文件来存储文件列表
+          # 验证修改的文件格式
           echo "$CHANGED_FILES" > temp_file_list.txt
           # 单独验证每个修改的文件，使用while读取避免文件名中的空格和特殊字符问题
           while IFS= read -r file; do
