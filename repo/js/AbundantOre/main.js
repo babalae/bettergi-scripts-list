@@ -466,6 +466,7 @@ async function main() {
     }
 
     const start_time = Date.now();
+    var last_log_progress_time = 0;
     var accurate_yield = 0;
     var estimated_yield = 0;
     var cached_inventory_data = original_inventory;
@@ -525,6 +526,15 @@ async function main() {
             if (run_until_unix_time !== null && Date.now() >= run_until_unix_time) {
                 finished = true;
                 break;
+            }
+            if (Date.now() - last_log_progress_time > 30000) {
+                last_log_progress_time = Date.now();
+                if (target_yield !== null) {
+                    log.info("当前产出{estimate}：{a}/{b}个", (estimated_yield === accurate_yield ? "" : "（预计）"), Math.round(estimated_yield), target_yield);
+                }
+                if (run_until_unix_time !== null) {
+                    log.info("当前运行时间：{a}/{b}分钟", ((Date.now() - start_time) / 1000 / 60).toFixed(2), Math.round((run_until_unix_time - start_time) / 60 / 1000));
+                }
             }
         }
     }
