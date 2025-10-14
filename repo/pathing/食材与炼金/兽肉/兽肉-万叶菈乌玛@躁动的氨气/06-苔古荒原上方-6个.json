@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -9,13 +9,15 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760011375993,
+    "last_modified_time": 1760449142682,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "06-苔古荒原上方-6个",
-    "tags": [],
+    "tags": [
+      "菈乌玛"
+    ],
     "type": "collect",
-    "version": "1.0"
+    "version": "1.1"
   },
   "positions": [
     {
@@ -25,7 +27,7 @@
       "move_mode": "dash",
       "type": "teleport",
       "x": 9370.4004,
-      "y": 1865.4727
+      "y": 1865.4727000000003
     },
     {
       "action": "",
@@ -34,34 +36,98 @@
       "move_mode": "walk",
       "type": "path",
       "x": 9425.9414,
-      "y": 1878.2812
+      "y": 1878.2811999999994
     },
     {
       "action": "combat_script",
-      "action_params": "wait(3)",
+      "action_params": "枫原万叶 wait(6),e(hold),wait(0.2),attack",
       "id": 3,
       "move_mode": "walk",
       "type": "target",
       "x": 9450.1406,
-      "y": 1880.9834
+      "y": 1880.983400000001
     },
     {
-      "action": "combat_script",
-      "action_params": "枫原万叶 wait(3),e(hold),wait(0.2),attack",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 9450.1406,
-      "y": 1880.9834
-    },
-    {
-      "action": "pick_around",
+      "action": "",
       "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9451.09375,
+      "y": 1875.78125
+    },
+    {
       "id": 5,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 9450.1406,
-      "y": 1880.9834
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9450.875,
+      "y": 1885.84375
+    },
+    {
+      "id": 6,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9452.59375,
+      "y": 1875.71875
+    },
+    {
+      "id": 7,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9452.90625,
+      "y": 1885.9375
+    },
+    {
+      "id": 8,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9454.53125,
+      "y": 1875.6875
+    },
+    {
+      "id": 9,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9456.3125,
+      "y": 1882.125
+    },
+    {
+      "id": 10,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9448.09375,
+      "y": 1885.875
+    },
+    {
+      "id": 11,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9449.25,
+      "y": 1875.46875
+    },
+    {
+      "id": 12,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9446.03125,
+      "y": 1885.75
+    },
+    {
+      "id": 13,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9447.28125,
+      "y": 1875.4375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9444.1875,
+      "y": 1885.28125
     }
   ]
 }
