@@ -42,6 +42,13 @@ const ocrRoThis = RecognitionObject.ocrThis;
         }
     }
     finally {
+        // 确保退出奖励界面（如果在奖励界面）
+        try {
+            await ensureExitRewardPage();
+        } catch (exitError) {
+            log.warn(`退出奖励界面时出错: ${exitError.message}`);
+        }
+        
         if (!marksStatus) {
             // 任何时候都确保自定义标记处于打开状态
             await openCustomMarks();
@@ -106,6 +113,12 @@ function initialize() {
  */
 async function prepareForLeyLineRun() {
     // 0. 回到主界面
+    // 确保退出奖励界面
+    try {
+        await ensureExitRewardPage();
+    } catch (exitError) {
+        log.warn(`退出奖励界面时出错: ${exitError.message}`);
+    }
     await genshin.returnMainUi();  // 回到主界面
     setGameMetrics(1920, 1080, 1); // 看起来没什么用
     // 1. 开局传送到七天神像
@@ -404,7 +417,12 @@ async function executePath(path) {
     const routePath = path.routes[path.routes.length - 1];
     const targetPath = routePath.replace('assets/pathing/', 'assets/pathing/target/').replace('-rerun', '');
     await processLeyLineOutcrop(settings.timeout, targetPath);
-    await attemptReward();
+    
+    // 尝试领取奖励，如果失败则抛出异常停止执行
+    const rewardSuccess = await attemptReward();
+    if (!rewardSuccess) {
+        throw new Error("无法领取奖励，树脂不足或其他原因");
+    }
 }
 
 /**
@@ -445,6 +463,14 @@ async function handleNoStrategyFound() {
     log.error("未找到对应的地脉花策略，请再次运行脚本");
     log.error("如果仍然不行，请截图{1}游戏界面，并反馈给作者！", "*完整的*");
     log.error("完整的游戏界面！完整的游戏界面！完整的游戏界面！");
+    
+    // 确保退出奖励界面
+    try {
+        await ensureExitRewardPage();
+    } catch (exitError) {
+        log.warn(`退出奖励界面时出错: ${exitError.message}`);
+    }
+    
     if (isNotification) {
         notification.error("未找到对应的地脉花策略");
         await genshin.returnMainUi();
