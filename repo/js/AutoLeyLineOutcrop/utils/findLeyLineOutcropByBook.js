@@ -5,6 +5,11 @@
  * @returns {Promise<void>}
  */
 this.findLeyLineOutcropByBook = async function (country, type) {
+  // 挪德卡莱会被识别成挪德卡菜，需要特殊处理
+  if (country === "挪德卡莱") {
+    country = "挪德卡";
+  }
+
   await genshin.returnMainUi();
   await sleep(1000);
   log.info("使用冒险之证寻找地脉花");
@@ -30,7 +35,7 @@ this.findLeyLineOutcropByBook = async function (country, type) {
   captureRegion1.dispose();
   for (let i = 0; i < resList.count; i++) {
     let res = resList[i];
-    if (res.text.includes(country) || res.text.includes("挪德")) {
+    if (res.text.includes(country)) {
       res.click();
     }
   }

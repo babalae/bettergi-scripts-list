@@ -11,6 +11,7 @@ this.executePathsUsingNodeData = async function (position) {
 
         if (!targetNode) {
             log.error(`未找到与坐标(${currentNodePosition.x}, ${currentNodePosition.y})匹配的目标节点`);
+            await ensureExitRewardPage();
             return;
         }
         log.debug(`找到目标节点: ID ${targetNode.id}, 位置(${targetNode.position.x}, ${targetNode.position.y})`);
@@ -18,6 +19,7 @@ this.executePathsUsingNodeData = async function (position) {
 
         if (paths.length === 0) {
             log.error(`未找到通向目标节点(ID: ${targetNode.id})的路径`);
+            await ensureExitRewardPage();
             return;
         }
 
@@ -45,6 +47,7 @@ this.executePathsUsingNodeData = async function (position) {
                 const nextNode = nodeData.node.find(node => node.id === nextNodeId);
 
                 if (!nextNode) {
+                    await ensureExitRewardPage();
                     return;
                 }
                 const pathObject = {
@@ -81,6 +84,7 @@ this.executePathsUsingNodeData = async function (position) {
 
                 if (!found) {
                     log.warn("无法在分支点找到下一个地脉花，退出本次循环");
+                    await ensureExitRewardPage();
                     return;
                 }                
                 log.info(`找到下一个地脉花，位置: (${leyLineX}, ${leyLineY})`);
@@ -114,6 +118,7 @@ this.executePathsUsingNodeData = async function (position) {
                     // 恢复原始坐标
                     leyLineX = currentLeyLineX;
                     leyLineY = currentLeyLineY;
+                    await ensureExitRewardPage();
                     return;
                 }                
                 const nextNode = nodeData.node.find(node => node.id === selectedNodeId);
@@ -122,6 +127,7 @@ this.executePathsUsingNodeData = async function (position) {
                     // 恢复原始坐标
                     leyLineX = currentLeyLineX;
                     leyLineY = currentLeyLineY;
+                    await ensureExitRewardPage();
                     return;
                 }
 
@@ -149,10 +155,12 @@ this.executePathsUsingNodeData = async function (position) {
     catch (error) {
         if(error.message.includes("战斗失败")) {
             log.error("战斗失败，重新寻找地脉花后重试");
+            await ensureExitRewardPage();
             return;
         }
         // 其他错误需要向上传播
         log.error(`执行路径时出错: ${error.message}`);
+        await ensureExitRewardPage();
         throw error;
     }
 }
