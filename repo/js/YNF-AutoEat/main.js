@@ -163,7 +163,7 @@
                               conuntcottimecot++;
                               if (debugmodel === 1 & x === 0 & y === 0) { log.info("全图代码位置：({x},{y},{h},{w})", res.x - 10, res.y - 10, res.width + 10, res.Height + 10); }
                               if (afterBehavior === 1) { await sleep(1000); click(res.x, res.y); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("点击模式:关") } }
-                              if (afterBehavior === 2) { log.info("F模式:开"); await sleep(100); keyPress("F"); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("F模式:关"); } }
+                              if (afterBehavior === 2) { await sleep(100); keyPress("F"); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("F模式:关"); } }
                               if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; }
                          }
                          if (debugmodel === 2) {
@@ -220,19 +220,40 @@
           keyDown("w");
           await sleep(2000);
           keyUp("w");
+
           keyPress("F");
 
           await textOCR("单人挑战", 8, 1, 1, 1615, 990, 220, 50);//等待“单人挑战”出现
           await textOCR("开始挑战", 8, 1, 1, 1615, 990, 220, 50);//等待“开始挑战”出现
-          await textOCR("地脉异常", 10, 1, 1, 840, 405, 180, 55);//等待“地脉异常”出现
+          await textOCR("地脉异常", 15, 1, 1, 840, 405, 180, 55);//等待“地脉异常”出现
           await sleep(1000);
 
           return true;
      }
 
+     /**
+      * 返回秘境界面
+      * @returns {Promise<boolean>} 返回是否成功回到秘境界面
+      */
+     async function returnMijingUi() {
+          let ifDm = await imageRecognitionEnhanced(Dm, 0.8, 0, 0, 15, 96, 47, 53);
+          if (ifDm.found) {
+               return true;
+          } else {
+               for (let i = 0; i < 3; i++) {
+                    keyPress("VK_ESCAPE");
+                    ifDm = await imageRecognitionEnhanced(Dm, 1.5, 0, 0, 15, 96, 47, 53);
+                    if (ifDm.found) {
+                         return true;
+                    }
+                    await sleep(100);
+               }
+          }
+          return false;
+     }
+
      // 伊涅芙跳楼机
      async function doit() {
-          // 江紫烟老师绞尽脑汁想也不出来几句骚话
           const randomNumber = Math.floor(Math.random() * 3) + 1;
           if (randomNumber == 1) { log.info("即使分离，我们的心始终相连"); }
           if (randomNumber == 2) { log.info("再见了伊涅芙，希望你喜欢这几分钟的戏份"); }
@@ -241,19 +262,53 @@
           keyDown("A");
           await sleep(3500);
           keyUp("A");
-          await sleep(5000);
+
+          await sleep(2500);
+          let FH = await returnMijingUi();
+          if (!FH) {
+               for (let i = 0; i < 8; i++) {
+                    FH = await returnMijingUi();
+                    if (FH) {
+                         break;
+                    }
+                    await sleep(1000);
+               }
+          }
 
           await keyPress("B");
-          await handleExpiredItems();//处理过期物品弹窗
-          await sleep(800);
+          await handleExpiredItems(); //处理过期物品弹窗
+          await sleep(1000);
           await click(860, 50);
           await sleep(800);
 
-          const ifshiwu = await imageRecognitionEnhanced(foodbag, 3, 0, 0, 126, 17, 99, 53);
+          let ifshiwu = await imageRecognitionEnhanced(foodbag, 3, 0, 0, 126, 17, 99, 53);//确认在食物界面
           if (!ifshiwu.found) {
-               await genshin.returnMainUi();
-               throw new Error("未打开'食物'页面,请确保背包已正确打开并切换到食物标签页");
-          }//确认在食物界面
+               log.warn("未打开'食物'页面，正在尝试重新打开……");
+               let attempts = 0;
+               const maxAttempts = 3;
+               let foundInRetry = false;
+               while (attempts < maxAttempts) {
+                    log.info(`第${attempts + 1}次尝试打开'食物'页面`);
+                    await returnMijingUi();
+                    await sleep(1000);
+                    await keyPress("B");
+                    await handleExpiredItems();
+                    await sleep(1000);
+                    await click(860, 50);
+                    await sleep(1000);
+                    ifshiwu = await imageRecognitionEnhanced(foodbag, 3, 0, 0, 126, 17, 99, 53);
+                    if (ifshiwu.found) {
+                         foundInRetry = true;
+                         break;
+                    } else {
+                         attempts++;
+                         await sleep(500);
+                    }
+               }
+               if (!foundInRetry) {
+                    throw new Error("未打开'食物'页面,请确保背包已正确打开并切换到食物标签页");
+               }
+          }
 
           //滚轮预操作
           await moveMouseTo(1287, 131);
@@ -288,12 +343,8 @@
 
                     log.info("看我一口气吃掉" + settings.foodNumber + "个" + food + "！");
 
-                    await sleep(1000);
-                    await keyPress("ESCAPE");
-                    await sleep(1000);
-                    await keyPress("ESCAPE");
-
-                    await sleep(1000);
+                    await returnMijingUi();
+                    await sleep(10);
 
                     return;
                }
@@ -307,11 +358,9 @@
                     await moveMouseTo(1287, 131);
                     await genshin.returnMainUi();
                     throw new Error("没有找到指定的食物：" + food + "，请检查背包中该食材数量是否足够！");
-
                }
                await moveMouseTo(1287, 161 + YOffset);
                await sleep(300);
-
           }
      }
 
@@ -327,7 +376,6 @@
      }
 
 
-
      // ===== MAIN EXECUTION =====
 
 
@@ -337,6 +385,7 @@
      const foodCount = settings.foodNumber - 1;//点击“+”的次数，比食物数量少1
      const n = settings.runNumber;//运行次数
 
+     const Dm = `assets/地脉.png`
      const pingguo = `assets/${food}.png`;//食物图片路径
      const zjz = `assets/zhengjianzhao.png`;//伊涅芙证件照
      const foodbag = `assets/foodbag.png`;//背包的“食物”界面
@@ -385,7 +434,9 @@
                }
           }
      } catch (error) {
+          await returnMijingUi();
           log.error(`脚本运行中断: ${error.message}`);
+          return;
      }
      log.info("运行结束！今天的" + food + "味道不错哦~");
 
