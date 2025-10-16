@@ -1,0 +1,126 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759951093506,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B06-璃月食材-琼玑野-七天神像",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -254.775390625,
+      "y": 630.3955078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -251.75,
+      "y": 623.7880859375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -242.640625,
+      "y": 612.6044921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -249.658203125,
+      "y": 614.314453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),wait(0.4)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -249.96875,
+      "y": 613
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -248.8203125,
+      "y": 611.015625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -283.103515625,
+      "y": 573.9833984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -289.951171875,
+      "y": 569.7353515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -291.435546875,
+      "y": 568.23046875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -303.81640625,
+      "y": 554.3251953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "locked": true,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -254.775390625,
+      "y": 630.3955078125
+    }
+  ]
+}

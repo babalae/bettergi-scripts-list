@@ -1,0 +1,184 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759513450663,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E02-枫丹食材-苍晶区-海露港北【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4876.792,
+      "y": 2255.5137
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4883.8867,
+      "y": 2268.7131
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4898.2168,
+      "y": 2262.9421
+    },
+    {
+      "action": "combat_script",
+      "action_params": "j,wait(0.8)",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4922.1602,
+      "y": 2194.9351
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4921.2383,
+      "y": 2195.301
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4927.6289,
+      "y": 2188.2439
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4924.958,
+      "y": 2181.6882
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4897.1641,
+      "y": 2162.4907
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4900.1582,
+      "y": 2143.4905
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4877.6738,
+      "y": 2110.2834
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4894.3203,
+      "y": 2110.5432
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4919.1748,
+      "y": 2116.4832
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4927.6982,
+      "y": 2121.0173
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4946.6738,
+      "y": 2122.5227
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4947.2832,
+      "y": 2122.5674
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4953.8457,
+      "y": 2129.0632
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4962.4746,
+      "y": 2134.2607
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4959.5273,
+      "y": 2144.564
+    }
+  ]
+}
