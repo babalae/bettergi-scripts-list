@@ -1,334 +1,323 @@
 let userName = settings.userName || "默认账户";
 (async function () {
-    
- async function Purchase(locationName) {       
-        let filePath = `assets/${locationName}.json`;
-        await pathingScript.runFile(filePath);
+    // 定义一个函数用于模拟按键操作
+    async function simulateKeyOperations(key, duration) {
+        keyDown(key);
+        await sleep(duration);
+        keyUp(key);
+        await sleep(500); // 释放按键后等待 500 毫秒
     }
 
-//检验账户名
-function getUserName() {
-    userName = userName.trim();
-//数字，中英文，长度在20个字符以内
-    if (!userName || !/^[\u4e00-\u9fa5A-Za-z0-9]{1,20}$/.test(userName)) {
-        log.error(`账户名${userName}违规，暂时使用默认账户名，请查看readme后修改`)
-        userName = "默认账户";
+    // 检验账户名
+    async function getUserName() {
+        userName = userName.trim();
+    //数字，中英文，长度在20个字符以内
+        if (!userName || !/^[\u4e00-\u9fa5A-Za-z0-9]{1,20}$/.test(userName)) {
+            log.error(`账户名${userName}违规，暂时使用默认账户名，请查看readme后修改`)
+            userName = "默认账户";
+        }
+        return userName;
     }
-    return userName;
-}
 
-/**
- * 在指定区域内查找并点击指定文字
- * @param {string} targetText - 要点击的目标文字
- * @param {number} x - 识别区域的左上角X坐标
- * @param {number} y - 识别区域的左上角Y坐标
- * @param {number} width - 识别区域的宽度
- * @param {number} height - 识别区域的高度
- * @param {object} options - 可选参数
- * @param {boolean} options.trimText - 是否对OCR结果进行trim处理，默认true
- * @param {boolean} options.clickCenter - 是否点击文字区域中心，默认true
- * @param {number} options.retryCount - 重试次数，默认1（不重试）
- * @param {number} options.retryInterval - 重试间隔(毫秒)，默认500
- * @returns {Promise<boolean>} 是否找到并点击了文字
- */
-async function clickTextInRegion(targetText, x, y, width, height, options = {}) {
-    const {
-        trimText = true,
-        clickCenter = true,
-        retryCount = 1,
-        retryInterval = 500
-    } = options;
+    /**
+     * 判断任务是否已刷新
+     * @param {string} filePath - 存储最后完成时间的文件路径
+     * @param {object} options - 配置选项
+     * @param {string} [options.refreshType] - 刷新类型: 'hourly'|'daily'|'weekly'|'monthly'|'custom'
+     * @param {number} [options.customHours] - 自定义小时数(用于'custom'类型)
+     * @param {number} [options.dailyHour=4] - 每日刷新的小时(0-23)
+     * @param {number} [options.weeklyDay=1] - 每周刷新的星期(0-6, 0是周日)
+     * @param {number} [options.weeklyHour=4] - 每周刷新的小时(0-23)
+     * @param {number} [options.monthlyDay=1] - 每月刷新的日期(1-31)
+     * @param {number} [options.monthlyHour=4] - 每月刷新的小时(0-23)
+     * @returns {Promise<boolean>} - 是否已刷新
+     */
+    async function isTaskRefreshed(filePath, options = {}) {
+        const {
+            refreshType = 'hourly', // 默认每小时刷新
+            customHours = 24,       // 自定义刷新小时数默认24
+            dailyHour = 4,          // 每日刷新默认凌晨4点
+            weeklyDay = 1,          // 每周刷新默认周一(0是周日)
+            weeklyHour = 4,         // 每周刷新默认凌晨4点
+            monthlyDay = 1,         // 每月刷新默认第1天
+            monthlyHour = 4          // 每月刷新默认凌晨4点
+        } = options;
 
-    for (let attempt = 0; attempt <= retryCount; attempt++) {
         try {
-            // 获取游戏区域截图
-            const captureRegion = captureGameRegion();
+            // 读取文件内容
+            let content = await file.readText(filePath);
+            const lastTime = new Date(content);
+            const nowTime = new Date();
 
-            // 创建OCR识别对象，限定识别区域
-            const ocrRo = RecognitionObject.ocr(x, y, width, height);
-            
-            // 在限定区域内进行OCR识别
-            const results = captureRegion.findMulti(ocrRo);
 
-            // 遍历OCR结果
-            for (let i = 0; i < results.count; i++) {
-                const res = results[i];
-                let detectedText = res.text;
-                
-                // 可选：去除前后空白字符
-                if (trimText) {
-                    detectedText = detectedText.trim();
-                }
+            let shouldRefresh = false;
 
-                // 检查是否匹配目标文字
-                if (detectedText === targetText) {
-                    log.info(`找到目标文字: "${targetText}"，位置: (${res.x}, ${res.y}, ${res.width}, ${res.height})`);
-                    
-                    if (clickCenter) {
-                        // 点击文字区域中心
-                        await sleep(200);
-                        keyDown("VK_LMENU");
-                        await sleep(500);
-                        res.click();
-                        await sleep(100);
-                        keyUp("VK_LMENU");
-                        log.info(`已点击文字中心: "${targetText}"`);
 
+            switch (refreshType) {
+                case 'hourly': // 每小时刷新
+                    shouldRefresh = (nowTime - lastTime) >= 3600 * 1000;
+                    break;
+
+                case 'daily': // 每天固定时间刷新
+                    // 检查是否已经过了当天的刷新时间
+                    const todayRefresh = new Date(nowTime);
+                    todayRefresh.setHours(dailyHour, 0, 0, 0);
+
+                    // 如果当前时间已经过了今天的刷新时间，检查上次完成时间是否在今天刷新之前
+                    if (nowTime >= todayRefresh) {
+                        shouldRefresh = lastTime < todayRefresh;
                     } else {
-                        // 点击文字区域的左上角
-                        res.clickTo(0, 0);
-                        log.info(`已点击文字偏移位置: "${targetText}"`);
+                        // 否则检查上次完成时间是否在昨天刷新之前
+                        const yesterdayRefresh = new Date(todayRefresh);
+                        yesterdayRefresh.setDate(yesterdayRefresh.getDate() - 1);
+                        shouldRefresh = lastTime < yesterdayRefresh;
                     }
-                    
-                   
-                    return true;
-                }
+                    break;
+
+                case 'weekly': // 每周固定时间刷新
+                    // 获取本周的刷新时间
+                    const thisWeekRefresh = new Date(nowTime);
+                    // 计算与本周指定星期几的差值
+                    const dayDiff = (thisWeekRefresh.getDay() - weeklyDay + 7) % 7;
+                    thisWeekRefresh.setDate(thisWeekRefresh.getDate() - dayDiff);
+                    thisWeekRefresh.setHours(weeklyHour, 0, 0, 0);
+
+                    // 如果当前时间已经过了本周的刷新时间
+                    if (nowTime >= thisWeekRefresh) {
+                        shouldRefresh = lastTime < thisWeekRefresh;
+                    } else {
+                        // 否则检查上次完成时间是否在上周刷新之前
+                        const lastWeekRefresh = new Date(thisWeekRefresh);
+                        lastWeekRefresh.setDate(lastWeekRefresh.getDate() - 7);
+                        shouldRefresh = lastTime < lastWeekRefresh;
+                    }
+                    break;
+
+                case 'monthly': // 每月固定时间刷新
+                    // 获取本月的刷新时间
+                    const thisMonthRefresh = new Date(nowTime);
+                    // 设置为本月指定日期的凌晨
+                    thisMonthRefresh.setDate(monthlyDay);
+                    thisMonthRefresh.setHours(monthlyHour, 0, 0, 0);
+
+                    // 如果当前时间已经过了本月的刷新时间
+                    if (nowTime >= thisMonthRefresh) {
+                        shouldRefresh = lastTime < thisMonthRefresh;
+                    } else {
+                        // 否则检查上次完成时间是否在上月刷新之前
+                        const lastMonthRefresh = new Date(thisMonthRefresh);
+                        lastMonthRefresh.setMonth(lastMonthRefresh.getMonth() - 1);
+                        shouldRefresh = lastTime < lastMonthRefresh;
+                    }
+                    break;
+
+                case 'custom': // 自定义小时数刷新
+                    shouldRefresh = (nowTime - lastTime) >= customHours * 3600 * 1000;
+                    break;
+
+                default:
+                    throw new Error(`未知的刷新类型: ${refreshType}`);
             }
 
-            // 如果当前尝试未找到，且还有重试机会，则等待后重试
-            if (attempt < retryCount) {
-                log.info(`第${attempt + 1}次尝试未找到文字"${targetText}"，${retryInterval}ms后重试...`);
-                await sleep(retryInterval);
+            // 如果文件内容无效或不存在，视为需要刷新
+            if (!content || isNaN(lastTime.getTime())) {
+                await file.writeText(filePath, '');
+                shouldRefresh = true;
             }
+
+            if (shouldRefresh) {
+                notification.send(`购买狗粮已经刷新，执行脚本`);
+
+
+                return true;
+            } else {
+                log.info(`购买狗粮未刷新`);
+                return false;
+            }
+
         } catch (error) {
-            log.error(`点击文字"${targetText}"时发生错误: ${error.message}`);
-            if (attempt < retryCount) {
-                await sleep(retryInterval);
+            // 如果文件不存在，创建新文件并返回true(视为需要刷新)
+            const createResult = await file.writeText(filePath, '');
+            if (createResult) {
+                log.info("创建新时间记录文件成功，执行脚本");
+                return true;
             }
+            else throw new Error(`创建新文件失败`);
         }
     }
 
-    log.info(`未找到文字: "${targetText}"，已尝试${retryCount + 1}次`);
-    return false;
-}
+    // 购买圣遗物
+    async function purChase(locationName) {
+        // 寻路
+        log.info(`加载路径文件: ${locationName}`);
+        let filePath = `assets/Pathing/${locationName}.json`;
+        await pathingScript.runFile(filePath);
+        await sleep(1000);
+        if (locationName=='璃月购买狗粮2'){
+            await sleep(1000);
+            keyDown("w");
+            await sleep(600);
+            keyUp("w");
+            await sleep(1000);
+        }
+        if (locationName=='纳塔购买狗粮'){
+            await sleep(1000);
+            keyDown("a");
+            await sleep(500);
+            keyUp("a");
+        }
 
+        // 定义模板
+        let fDialogueRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Picture/F_Dialogue.png"), 1050, 400, 100, 400);
+        let shopDialogueRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Picture/Shopping.png"), 1259, 540, 100, 400);
+        let shopDialogueRo2 = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Picture/Shopping2.png"), 0, 0, 150, 100);
+        let conFirmRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Picture/Confirm.png"), 1585, 1005, 31, 31);
 
+        // 定义一个函数识别并交互 NPC
+        async function checkFAlignment(fDialogueRo) {
+            let ra = captureGameRegion();
+            let fRes = ra.find(fDialogueRo);
+            if (!fRes.isExist()) {
+                let f_attempts = null; // 初始化尝试次数
+                while (f_attempts < 5) { // 最多尝试 4 次
+                    f_attempts++;
+                    log.info(`当前尝试次数：${f_attempts}`);
+                    if (f_attempts <= 3) {
+                        // 第 1-3 次尝试
+                        await simulateKeyOperations("S", 200); // 后退 200 毫秒
+                        await sleep(200);
+                        await simulateKeyOperations("W", 400); // 前进 400 毫秒
+                        await sleep(500);
+                    } else if (f_attempts === 4) {
+                        // 第 4 次尝试
+                        log.info("重新加载路径文件");
+                        await pathingScript.runFile(filePath);
+                        await sleep(500);
+                    } else {
+                        // 第 5 次尝试，尝试次数已达上限
+                        log.warn("尝试次数已达上限");
+                        break; // 找到后退出循环
+                    }
 
-
-/**
- * 判断任务是否已刷新
- * @param {string} filePath - 存储最后完成时间的文件路径
- * @param {object} options - 配置选项
- * @param {string} [options.refreshType] - 刷新类型: 'hourly'|'daily'|'weekly'|'monthly'|'custom'
- * @param {number} [options.customHours] - 自定义小时数(用于'custom'类型)
- * @param {number} [options.dailyHour=4] - 每日刷新的小时(0-23)
- * @param {number} [options.weeklyDay=1] - 每周刷新的星期(0-6, 0是周日)
- * @param {number} [options.weeklyHour=4] - 每周刷新的小时(0-23)
- * @param {number} [options.monthlyDay=1] - 每月刷新的日期(1-31)
- * @param {number} [options.monthlyHour=4] - 每月刷新的小时(0-23)
- * @returns {Promise<boolean>} - 是否已刷新
- */
-async function isTaskRefreshed(filePath, options = {}) {
-    const {
-        refreshType = 'hourly', // 默认每小时刷新
-        customHours = 24,       // 自定义刷新小时数默认24
-        dailyHour = 4,          // 每日刷新默认凌晨4点
-        weeklyDay = 1,          // 每周刷新默认周一(0是周日)
-        weeklyHour = 4,         // 每周刷新默认凌晨4点
-        monthlyDay = 1,         // 每月刷新默认第1天
-        monthlyHour = 4          // 每月刷新默认凌晨4点
-    } = options;
-
-    try {
-        // 读取文件内容
-        let content = await file.readText(filePath);
-        const lastTime = new Date(content);
-        const nowTime = new Date();
-        
-
-        let shouldRefresh = false;
-        
-
-        switch (refreshType) {
-            case 'hourly': // 每小时刷新
-                shouldRefresh = (nowTime - lastTime) >= 3600 * 1000;
-                break;
-                
-            case 'daily': // 每天固定时间刷新
-                // 检查是否已经过了当天的刷新时间
-                const todayRefresh = new Date(nowTime);
-                todayRefresh.setHours(dailyHour, 0, 0, 0);
-                
-                // 如果当前时间已经过了今天的刷新时间，检查上次完成时间是否在今天刷新之前
-                if (nowTime >= todayRefresh) {
-                    shouldRefresh = lastTime < todayRefresh;
-                } else {
-                    // 否则检查上次完成时间是否在昨天刷新之前
-                    const yesterdayRefresh = new Date(todayRefresh);
-                    yesterdayRefresh.setDate(yesterdayRefresh.getDate() - 1);
-                    shouldRefresh = lastTime < yesterdayRefresh;
+                    // 检查是否找到 F 图标
+                    ra = captureGameRegion();
+                    fRes = ra.find(fDialogueRo); // 重新查找 F 图标
+                    if (fRes.isExist()) {
+                        log.info("找到 F 图标");
+                        break; // 找到后退出循环
+                    }
+                    log.warn(`尝试 ${f_attempts}：寻找 F 图标`);
                 }
-                break;
-                
-            case 'weekly': // 每周固定时间刷新
-                // 获取本周的刷新时间
-                const thisWeekRefresh = new Date(nowTime);
-                // 计算与本周指定星期几的差值
-                const dayDiff = (thisWeekRefresh.getDay() - weeklyDay + 7) % 7;
-                thisWeekRefresh.setDate(thisWeekRefresh.getDate() - dayDiff);
-                thisWeekRefresh.setHours(weeklyHour, 0, 0, 0);
-                
-                // 如果当前时间已经过了本周的刷新时间
-                if (nowTime >= thisWeekRefresh) {
-                    shouldRefresh = lastTime < thisWeekRefresh;
-                } else {
-                    // 否则检查上次完成时间是否在上周刷新之前
-                    const lastWeekRefresh = new Date(thisWeekRefresh);
-                    lastWeekRefresh.setDate(lastWeekRefresh.getDate() - 7);
-                    shouldRefresh = lastTime < lastWeekRefresh;
+
+                // 如果尝试次数用完仍未找到 F 图标，返回 false
+                if (!fRes.isExist()) {
+                    log.warn("经过多次尝试后仍未找到 F 图标");
+                    return false;
                 }
-                break;
-                
-            case 'monthly': // 每月固定时间刷新
-                // 获取本月的刷新时间
-                const thisMonthRefresh = new Date(nowTime);
-                // 设置为本月指定日期的凌晨
-                thisMonthRefresh.setDate(monthlyDay);
-                thisMonthRefresh.setHours(monthlyHour, 0, 0, 0);
-                
-                // 如果当前时间已经过了本月的刷新时间
-                if (nowTime >= thisMonthRefresh) {
-                    shouldRefresh = lastTime < thisMonthRefresh;
+            }
+            return true
+        }
+        let isAligned = await checkFAlignment(fDialogueRo);
+        if(isAligned){
+            // 进入对话选项
+            for (let i = 0; i < 5; i++) {
+                // 最多 F 5次
+                let captureRegion = captureGameRegion();  // 获取一张截图
+                let res = captureRegion.Find(shopDialogueRo);
+                if (res.isEmpty()) {
+                  keyPress("F");
+                  await sleep(1000);
                 } else {
-                    // 否则检查上次完成时间是否在上月刷新之前
-                    const lastMonthRefresh = new Date(thisMonthRefresh);
-                    lastMonthRefresh.setMonth(lastMonthRefresh.getMonth() - 1);
-                    shouldRefresh = lastTime < lastMonthRefresh;
+                  res.click();
+                  log.info("已到达对话选项界面，点击商店图标({x},{y},{h},{w})", res.x, res.y, res.width, res.Height);
+                  break;
                 }
-                break;
-
-            case 'custom': // 自定义小时数刷新
-                shouldRefresh = (nowTime - lastTime) >= customHours * 3600 * 1000;
-                break;
-                
-            default:
-                throw new Error(`未知的刷新类型: ${refreshType}`);
+                await sleep(500);
+            }
+            // 进入商店界面
+            for (let i = 0; i < 5; i++) {
+                // 最多 F 5次
+                captureRegion = captureGameRegion();  // 获取一张截图
+                res = captureRegion.Find(shopDialogueRo2);
+                if (res.isEmpty()) {
+                  keyPress("F");
+                  await sleep(1000);
+                } else {
+                  log.info("已到达商店界面");
+                  break;
+                }
+                await sleep(500);
+            }
+            if (locationName=='稻妻购买狗粮'){
+                click(200, 400); await sleep(500); // 选择狗粮
+            }
+            // 购买狗粮
+            for (let i = 0; i < 5; i++) {
+                // 最多购买5次
+                captureRegion = captureGameRegion();  // 获取一张截图
+                res = captureRegion.Find(conFirmRo);
+                if (res.isEmpty()) {
+                    log.info('圣遗物已售罄');
+                    break;
+                }else{
+                    // 识别到购买标识，模拟购买操作的后续点击
+                    await click(1600, 1020);
+                    await sleep(1000); // 购买
+                    await click(1320, 780);
+                    await sleep(1000); // 最终确认
+                    await click(1320, 780);
+                    await sleep(1000); // 点击空白
+                }
+                await sleep(500);
+            }
+            await genshin.returnMainUi();
         }
-        
-        // 如果文件内容无效或不存在，视为需要刷新
-        if (!content || isNaN(lastTime.getTime())) {
-            await file.writeText(filePath, '');
-            shouldRefresh = true;
-        }
-        
-        if (shouldRefresh) {
-            notification.send(`购买狗粮已经刷新，执行脚本`);
-
-            
-            return true;
-        } else {
-            log.info(`购买狗粮未刷新`);
-            return false;
-        }
-        
-    } catch (error) {
-        // 如果文件不存在，创建新文件并返回true(视为需要刷新)
-        const createResult = await file.writeText(filePath, '');
-        if (createResult) {
-            log.info("创建新时间记录文件成功，执行脚本");
-            return true;
-        }
-        else throw new Error(`创建新文件失败`);
-    }
-}
-
-
-//基本购买流程
-   async function Shopping() {
-        await sleep(1500);
-        for (let j = 0; j < 4; j++) {
-    keyPress("F"); await sleep(1800);//对话
-         }
-        for (let i = 0; i < 5; i++) {
-  click(1690, 1020); await sleep(500); // 购买
-  click(1170, 780); await sleep(400); // 确定
-  click(1690, 1020); await sleep(200); // 点击空白处
-        }
-        keyPress("ESCAPE"); await sleep(2000);
     }
 
-   async function main() {
+    async function main() {
+    await genshin.returnMainUi();
     if(settings.select1){
-    await Purchase('蒙德购买狗粮');
-    await Shopping();
+    await purChase('蒙德购买狗粮');
     }
 
     if(settings.select2){
-    await Purchase('璃月购买狗粮1');
-    await Shopping();
+    await purChase('璃月购买狗粮1');
     }
 
     if(settings.select3){
-    await Purchase('璃月购买狗粮2');
-    await sleep(1000);
-    keyDown("w");
-    await sleep(600);
-    keyUp("w");
-    await sleep(1000);
-    keyPress("F"); await sleep(1200);
-    keyPress("F"); await sleep(1800);
-    await clickTextInRegion("我想买些古董。", 1264, 532, 370, 160);
-    await sleep(500);
-    keyPress("F"); await sleep(1200);
-    keyPress("F"); await sleep(1800);
-    for (let i = 0; i < 5; i++) {
-  click(1690, 1020); await sleep(500); // 购买
-  click(1170, 780); await sleep(400); // 确定
-  click(1690, 1020); await sleep(200); // 点击空白处
-        }
-    keyPress("ESCAPE"); await sleep(2000);
+    await purChase('璃月购买狗粮2');
     }
 
     if(settings.select4){
-    await Purchase('稻妻购买狗粮');
-    await sleep(1500);
-        for (let j = 0; j < 5; j++) {
-    keyPress("F"); await sleep(1800);//对话
-         }
-        click(200, 400); await sleep(500); // 选择狗粮
-        for (let i = 0; i < 5; i++) {
-  click(1690, 1020); await sleep(500); // 购买
-  click(1170, 780); await sleep(400); // 确定
-  click(1690, 1020); await sleep(200); // 点击空白处
-        }
-        keyPress("ESCAPE"); await sleep(2000);
+    await purChase('稻妻购买狗粮');
        }
     if(settings.select5){
-    await Purchase('须弥购买狗粮');
-    await Shopping();
+    await purChase('须弥购买狗粮');
     }
 
     if(settings.select6){
-    await Purchase('枫丹购买狗粮');
-    await Shopping();
+    await purChase('枫丹购买狗粮');
     }
 
     if(settings.select7){
-    await Purchase('纳塔购买狗粮');
-    await sleep(1000);
-    keyDown("a");
-    await sleep(500);
-    keyUp("a");
-    await Shopping();
+    await purChase('纳塔购买狗粮');
     }
 
     if(settings.select8){
-    await Purchase('挪德卡莱购买狗粮');
-    await Shopping();
+    await purChase('挪德卡莱购买狗粮');
     }
 
     await file.writeText(recordPath, new Date().toISOString());
 }
 
-userName = getUserName();
-const recordPath = `assets/${userName}.txt`;
-//每周四4点刷新 
-if( await isTaskRefreshed(recordPath, {
-    refreshType: 'weekly',
-    weeklyDay: 4, // 周四
-    weeklyHour: 4 // 凌晨4点
-})){
-await main();
-}
-
+    userName = await getUserName();
+    const recordPath = `assets/${userName}.txt`;
+    //每周四4点刷新
+    if( await isTaskRefreshed(recordPath, {
+        refreshType: 'weekly',
+        weeklyDay: 4, // 周四
+        weeklyHour: 4 // 凌晨4点
+    })){
+    await main();
+    }
 })();
