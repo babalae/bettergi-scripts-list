@@ -43,13 +43,14 @@ this.clickWithVerification = async function(x, y, targetText, maxRetries = 20) {
  * @returns {Promise<boolean>}
  */
 this.verifyRewardPage = async function() {
+    let captureRegion = null;
+    
     try {
-        let captureRegion = captureGameRegion();
+        captureRegion = captureGameRegion();
         
         // 使用OCR识别上半区域
         let ocrRo = RecognitionObject.Ocr(0, 0, captureRegion.width, captureRegion.height / 2);
         let textList = captureRegion.findMulti(ocrRo);
-        captureRegion.dispose();
         
         let isValid = false;
         if (textList && textList.count > 0) {
@@ -74,17 +75,24 @@ this.verifyRewardPage = async function() {
     } catch (error) {
         log.error(`验证奖励界面失败: ${error.message}`);
         return false;
+    } finally {
+        if (captureRegion) {
+            captureRegion.dispose();
+        }
     }
 }
 
 /**
  * 检查原粹树脂是否耗尽（通过OCR识别"补充"文字）
  * 如果原粹树脂耗尽，第一个按钮会变成"补充"按钮
- * @param {ImageRegion} captureRegion - 截图区域
  * @returns {Promise<boolean>}
  */
-async function checkOriginalResinEmpty(captureRegion) {
+async function checkOriginalResinEmpty() {
+    let captureRegion = null;
+    
     try {
+        captureRegion = captureGameRegion();
+        
         // 使用OCR识别"补充"文字
         let ocrRo = RecognitionObject.Ocr(0, 0, captureRegion.width, captureRegion.height);
         let textList = captureRegion.findMulti(ocrRo);
@@ -103,17 +111,24 @@ async function checkOriginalResinEmpty(captureRegion) {
     } catch (error) {
         log.error(`检查原粹树脂状态失败: ${error.message}`);
         return false;
+    } finally {
+        if (captureRegion) {
+            captureRegion.dispose();
+        }
     }
 }
 
 /**
  * 查找并排序所有使用按钮（通过OCR识别"使用"文字）
  * 注意：如果原粹树脂耗尽，第一个位置是"补充"按钮，不会被识别为"使用"按钮
- * @param {ImageRegion} captureRegion - 截图区域
  * @returns {Promise<Array>}
  */
-async function findAndSortUseButtons(captureRegion) {
+async function findAndSortUseButtons() {
+    let captureRegion = null;
+    
     try {
+        captureRegion = captureGameRegion();
+        
         // 使用OCR识别所有"使用"文字
         let ocrRo = RecognitionObject.Ocr(0, 0, captureRegion.width, captureRegion.height);
         let textList = captureRegion.findMulti(ocrRo);
@@ -170,18 +185,25 @@ async function findAndSortUseButtons(captureRegion) {
     } catch (error) {
         log.error(`查找使用按钮失败: ${error.message}`);
         return [];
+    } finally {
+        if (captureRegion) {
+            captureRegion.dispose();
+        }
     }
 }
 
 /**
  * 分析树脂选项并决定使用哪个
- * @param {ImageRegion} captureRegion - 截图区域
  * @param {Array} sortedButtons - 排序后的使用按钮数组
  * @param {boolean} isOriginalResinEmpty - 原粹树脂是否耗尽
  * @returns {Promise<Object|null>}
  */
-async function analyzeResinOptions(captureRegion, sortedButtons, isOriginalResinEmpty) {
+async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
+    let captureRegion = null;
+    
     try {
+        captureRegion = captureGameRegion();
+        
         // OCR识别整个界面的文本
         let ocrRo = RecognitionObject.Ocr(0, 0, captureRegion.width, captureRegion.height);
         let textList = captureRegion.findMulti(ocrRo);
@@ -287,7 +309,7 @@ async function analyzeResinOptions(captureRegion, sortedButtons, isOriginalResin
             if (hasDoubleReward && (hasOriginalResin20 || hasOriginalResin40)) {
                 // 如果当前是20个原粹树脂，先尝试切换到40个
                 if (hasOriginalResin20 && !hasOriginalResin40) {
-                    let switchSuccess = await trySwitch20To40Resin(captureRegion);
+                    let switchSuccess = await trySwitch20To40Resin();
                     if (switchSuccess) {
                         choice = {
                             type: "使用40个原粹树脂（从20切换，双倍产出）",
@@ -329,7 +351,7 @@ async function analyzeResinOptions(captureRegion, sortedButtons, isOriginalResin
             else if (hasOriginalResin20 || hasOriginalResin40) {
                 // 如果当前是20个原粹树脂，先尝试切换到40个
                 if (hasOriginalResin20 && !hasOriginalResin40) {
-                    let switchSuccess = await trySwitch20To40Resin(captureRegion);
+                    let switchSuccess = await trySwitch20To40Resin();
                     if (switchSuccess) {
                         choice = {
                             type: "使用40个原粹树脂（从20切换）",
@@ -363,7 +385,7 @@ async function analyzeResinOptions(captureRegion, sortedButtons, isOriginalResin
             else if (sortedButtons.length >= 1) {
                 // 尝试切换到40个原粹树脂（如果当前是20个）
                 if (hasOriginalResin20 && !hasOriginalResin40) {
-                    let switchSuccess = await trySwitch20To40Resin(captureRegion);
+                    let switchSuccess = await trySwitch20To40Resin();
                     choice = {
                         type: switchSuccess ? "默认使用40个原粹树脂（从20切换）" : "默认使用20个原粹树脂",
                         button: sortedButtons[0],
@@ -384,25 +406,35 @@ async function analyzeResinOptions(captureRegion, sortedButtons, isOriginalResin
     } catch (error) {
         log.error(`分析树脂选项失败: ${error.message}`);
         return null;
+    } finally {
+        if (captureRegion) {
+            captureRegion.dispose();
+        }
     }
 }
 
 /**
  * 尝试将20个原粹树脂切换到40个原粹树脂
- * @param {ImageRegion} captureRegion - 截图区域
  * @returns {Promise<boolean>} 是否成功切换
  */
-async function trySwitch20To40Resin(captureRegion) {
+async function trySwitch20To40Resin() {
+    let switchButtonIcon = null;
+    let switchButtonRo = null;
+    let currentCaptureRegion = null;
+    let newCaptureRegion = null;
+    
     try {
         log.info("检测到20个原粹树脂，尝试切换到40个");
         
+        currentCaptureRegion = captureGameRegion();
+        
         // 检测切换按钮
-        const switchButtonIcon = file.ReadImageMatSync("RecognitionObject/switch_button.png");
-        const switchButtonRo = RecognitionObject.TemplateMatch(switchButtonIcon);
+        switchButtonIcon = file.ReadImageMatSync("RecognitionObject/switch_button.png");
+        switchButtonRo = RecognitionObject.TemplateMatch(switchButtonIcon);
         switchButtonRo.threshold = 0.7;  // 设置合适的阈值
         
         // 查找切换按钮
-        let switchButtonPos = captureRegion.find(switchButtonRo);
+        let switchButtonPos = currentCaptureRegion.find(switchButtonRo);
         
         if (!switchButtonPos || switchButtonPos.isEmpty()) {
             log.info("未找到切换按钮（树脂不足40或按钮不可用），保持使用20个原粹树脂");
@@ -415,10 +447,9 @@ async function trySwitch20To40Resin(captureRegion) {
         await sleep(800);
         
         // 验证是否切换成功
-        let newCaptureRegion = captureGameRegion();
+        newCaptureRegion = captureGameRegion();
         let ocrRo = RecognitionObject.Ocr(0, 0, newCaptureRegion.width, newCaptureRegion.height);
         let textList = newCaptureRegion.findMulti(ocrRo);
-        newCaptureRegion.dispose();
         
         if (textList && textList.count > 0) {
             for (let i = 0; i < textList.count; i++) {
@@ -437,6 +468,17 @@ async function trySwitch20To40Resin(captureRegion) {
     } catch (error) {
         log.error(`切换树脂数量失败: ${error.message}`);
         return false;
+    } finally {
+        if (currentCaptureRegion) {
+            currentCaptureRegion.dispose();
+        }
+        if (newCaptureRegion) {
+            newCaptureRegion.dispose();
+        }
+        if (switchButtonIcon) {
+            switchButtonIcon.dispose();
+        }
+        switchButtonRo = null;
     }
 }
 
@@ -473,7 +515,7 @@ this.ensureExitRewardPage = async function() {
             attempts++;
             
             // 检测是否在奖励界面
-            let isInRewardPage = await verifyRewardPage();
+            let isInRewardPage = await this.verifyRewardPage();
             
             if (!isInRewardPage) {
                 log.info("已确认不在奖励界面");
@@ -510,7 +552,7 @@ this.attemptReward = async function (retryCount = 0) {
     await sleep(800);
 
     // 步骤1: 验证是否在奖励界面
-    if (!await verifyRewardPage()) {
+    if (!await this.verifyRewardPage()) {
         log.warn("当前不在奖励界面，尝试重试");
         await genshin.returnMainUi();
         await sleep(1000);
@@ -518,32 +560,41 @@ this.attemptReward = async function (retryCount = 0) {
         return await this.attemptReward(++retryCount);
     }
 
-    let captureRegion = captureGameRegion();
+    let isOriginalResinEmpty = false;
+    let sortedButtons = [];
+    let resinChoice = null;
 
-    // 步骤2: 检查原粹树脂是否耗尽（通过"补充"按钮）
-    let isOriginalResinEmpty = await checkOriginalResinEmpty(captureRegion);
-    
-    // 步骤3: 识别所有使用按钮并排序
-    let sortedButtons = await findAndSortUseButtons(captureRegion);
-    
-    if (sortedButtons.length === 0) {
-        log.error("未找到任何使用按钮");
-        captureRegion.dispose();
+    try {
+        // 步骤2: 检查原粹树脂是否耗尽（通过"补充"按钮）
+        isOriginalResinEmpty = await checkOriginalResinEmpty();
+        
+        // 步骤3: 识别所有使用按钮并排序
+        sortedButtons = await findAndSortUseButtons();
+        
+        if (sortedButtons.length === 0) {
+            log.error("未找到任何使用按钮");
+            keyPress("VK_ESCAPE");
+            await sleep(500);
+            await this.ensureExitRewardPage();
+            return false;
+        }
+
+        // 步骤4: 根据原粹树脂状态调整决策逻辑
+        resinChoice = await analyzeResinOptions(sortedButtons, isOriginalResinEmpty);
+        
+        if (!resinChoice) {
+            // 已在 analyzeResinOptions 中输出详细错误信息，这里不再重复
+            keyPress("VK_ESCAPE");
+            await sleep(500);
+            await this.ensureExitRewardPage();
+            return false;
+        }
+
+    } catch (error) {
+        log.error(`处理奖励界面时出错: ${error.message}`);
         keyPress("VK_ESCAPE");
         await sleep(500);
-        await ensureExitRewardPage();
-        return false;
-    }
-
-    // 步骤4: 根据原粹树脂状态调整决策逻辑
-    let resinChoice = await analyzeResinOptions(captureRegion, sortedButtons, isOriginalResinEmpty);
-    
-    if (!resinChoice) {
-        // 已在 analyzeResinOptions 中输出详细错误信息，这里不再重复
-        captureRegion.dispose();
-        keyPress("VK_ESCAPE");
-        await sleep(500);
-        await ensureExitRewardPage();
+        await this.ensureExitRewardPage();
         return false;
     }
 
@@ -557,13 +608,11 @@ this.attemptReward = async function (retryCount = 0) {
         await switchBackToCombatTeam();
     }
 
-    captureRegion.dispose();
-
     // 等待领奖动画/道具到账
     await sleep(1200);
 
     // 确保完全退出奖励界面
-    await ensureExitRewardPage();
+    await this.ensureExitRewardPage();
     
     return true;
 }

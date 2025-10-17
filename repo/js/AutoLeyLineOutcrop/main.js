@@ -525,13 +525,15 @@ async function openOutcrop(targetPath) {
     keyPress("F");
 
     while (Date.now() - startTime < 5000) {
-        captureRegion = captureGameRegion();
-        if (recognizeFightText(captureRegion)) {
-            recognized = true;
+        let captureRegion = captureGameRegion();
+        try {
+            if (recognizeFightText(captureRegion)) {
+                recognized = true;
+                break;
+            }
+        } finally {
             captureRegion.dispose();
-            break;
         }
-        captureRegion.dispose();
         keyPress("F");
         await sleep(500);
     }
