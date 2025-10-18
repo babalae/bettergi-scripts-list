@@ -2,10 +2,6 @@
   "info": {
     "authors": [
       {
-        "links": "",
-        "name": "芝麻糊"
-      },
-      {
         "links": "https://github.com/MisDandan23",
         "name": "MissDan"
       }
@@ -13,10 +9,10 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760743222182,
+    "last_modified_time": 1760741958759,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "G01-挪德卡莱食材-伦波岛-那夏镇港口",
+    "name": "B03-璃月食材-云来海-孤云阁【高效】",
     "tags": [],
     "type": "collect",
     "version": "2.0"
@@ -28,44 +24,44 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 9367.1475,
-      "y": 1435.6475
+      "x": -656.767578125,
+      "y": -90.234375
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "path",
-      "x": 9342.54,
-      "y": 1436.3965
+      "x": -652.353515625,
+      "y": -83.6845703125
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "path",
-      "x": 9324.2773,
-      "y": 1430.1704
+      "x": -651.28125,
+      "y": -79.2255859375
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "path",
-      "x": 9288.6055,
-      "y": 1435.2427
+      "x": -657.181640625,
+      "y": -62.8134765625
     },
     {
       "action": "",
       "action_params": "",
       "id": 5,
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "path",
-      "x": 9267.7588,
-      "y": 1448.1279
+      "x": -659.009765625,
+      "y": -59.85595703125
     },
     {
       "action": "",
@@ -73,8 +69,8 @@
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": 9281.8115,
-      "y": 1440.3086
+      "x": -662.265625,
+      "y": -65.14208984375
     },
     {
       "action": "",
@@ -82,107 +78,98 @@
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": 9300.8613,
-      "y": 1431.0088
+      "x": -663.49609375,
+      "y": -69.369140625
     },
     {
-      "action": "",
+      "action": "nahida_collect",
       "action_params": "",
       "id": 8,
       "move_mode": "jump",
-      "type": "path",
-      "x": 9302.5312,
-      "y": 1450.6704
+      "type": "target",
+      "x": -663.69140625,
+      "y": -69.7119140625
     },
     {
       "action": "",
       "action_params": "",
       "id": 9,
       "move_mode": "walk",
-      "type": "path",
-      "x": 9300.2598,
-      "y": 1459.4058
+      "type": "teleport",
+      "x": -963.09765625,
+      "y": -288.63037109375
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.4)",
+      "action": "",
+      "action_params": "",
       "id": 10,
       "move_mode": "dash",
       "type": "path",
-      "x": 9314.9248,
-      "y": 1487.8799
+      "x": -906.330078125,
+      "y": -271.54150390625
     },
     {
       "action": "",
       "action_params": "",
       "id": 11,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 9318.7529,
-      "y": 1495.2861
+      "x": -897.19140625,
+      "y": -291.39111328125
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.4)",
+      "action": "",
+      "action_params": "",
       "id": 12,
       "move_mode": "dash",
       "type": "path",
-      "x": 9313.4785,
-      "y": 1511.0029
+      "x": -926.220703125,
+      "y": -325.29736328125
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.4)",
+      "action": "",
+      "action_params": "",
       "id": 13,
       "move_mode": "walk",
       "type": "path",
-      "x": 9319.2236,
-      "y": 1514.9717
+      "x": -963.728515625,
+      "y": -335.748046875
     },
     {
       "action": "",
       "action_params": "",
       "id": 14,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 9338.2031,
-      "y": 1523.7378
+      "x": -951.953125,
+      "y": -298.83544921875
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.4)",
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 15,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 9341.8057,
-      "y": 1545.1411
+      "x": -955.3515625,
+      "y": -296.26513671875
     },
     {
       "action": "",
       "action_params": "",
       "id": 16,
       "move_mode": "run",
-      "type": "path",
-      "x": 9314.0469,
-      "y": 1552.0073
+      "type": "teleport",
+      "x": -963.09765625,
+      "y": -288.63134765625
     },
     {
-      "action": "",
+      "action": "nahida_collect",
       "action_params": "",
       "id": 17,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 9297.3652,
-      "y": 1542.5283
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.2)",
-      "id": 18,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "target",
-      "x": 9285.9287,
-      "y": 1524.3115
+      "x": -984.408203125,
+      "y": -256.53759765625
     }
   ]
 }
