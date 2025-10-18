@@ -1,5 +1,8 @@
+// 齿轮图标识别对象
+const mapSettingButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/map_setting_button.bmp"));
+
 /**
- * 通过冒险之证查找地脉花位置 - 【测试中】
+ * 通过冒险之证查找地脉花位置
  * @param {string} country - 国家名称
  * @param {string} type - 地脉花类型
  * @returns {Promise<void>}
@@ -11,7 +14,8 @@ this.findLeyLineOutcropByBook = async function (country, type) {
   
   // 确保运行时位于主界面
   keyPress("F1");
-  await sleep(1000);
+  // 开书等待时间延长至2.5s
+  await sleep(2500);
   click(300, 550); // 点击讨伐
   await sleep(1000);
   click(500, 200); // 点击筛选
@@ -35,10 +39,28 @@ this.findLeyLineOutcropByBook = async function (country, type) {
   // 查找并点击停止追踪按钮
   await this.findAndCancelTrackingInBook();
   
-  await sleep(1000);
-  click(1500, 850);
-  await sleep(1000);
-  
+  // 最多重试3次确保大地图正确打开
+  for (let retry = 0; retry < 3; retry++) {
+    await sleep(1000);
+    click(1500, 850);
+    // 等待大地图打开延长至 2.5s
+    await sleep(2500);
+    
+    if (await this.checkBigMapOpened()) {
+      log.info("识别到大地图");
+      break; // 成功打开大地图
+    }
+    
+    if (retry < 2) { // 不是最后一次重试
+      log.info(`大地图未正确打开，第${retry + 1}次重试...`);
+      await genshin.returnMainUi();
+      await this.findAndClickCountry(country);
+      await this.findAndCancelTrackingInBook();
+    } else {
+      throw new Error("大地图打开失败，已重试3次");
+    }
+  }
+
   // 获取地脉花位置
   const center = genshin.getPositionFromBigMap();
   leyLineX = center.x;
@@ -47,6 +69,28 @@ this.findLeyLineOutcropByBook = async function (country, type) {
 
   // 取消追踪
   await this.cancelTrackingInMap();
+};
+
+/**
+ * 检测大地图是否正确打开（通过检测齿轮图标）
+ * @returns {Promise<boolean>} 返回是否检测到齿轮图标
+ * @private
+ */
+this.checkBigMapOpened = async function() {
+  let captureRegion = captureGameRegion();
+  try {
+    // 只在左下角十六分之一区域查找齿轮图标（提高识别效率和准确性）
+    const searchWidth = genshin.width / 4;
+    const searchHeight = genshin.height / 4;
+    const searchX = 0;
+    const searchY = genshin.height - searchHeight;
+    
+    let croppedRegion = captureRegion.DeriveCrop(searchX, searchY, searchWidth, searchHeight);
+    let result = croppedRegion.Find(mapSettingButtonRo);
+    return !result.isEmpty();
+  } finally {
+    captureRegion.dispose();
+  }
 };
 
 /**
