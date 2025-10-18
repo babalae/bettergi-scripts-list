@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1759562245360,
+    "last_modified_time": 1760774454660,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "01【额外】稻妻-踏鞴砂大炮点5",
@@ -199,8 +199,8 @@
       "y": -3848.0908203125
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f)",
       "id": 21,
       "move_mode": "walk",
       "type": "target",
@@ -208,22 +208,22 @@
       "y": -3839.6248938942554
     },
     {
-      "action": "",
+      "action": "force_tp",
       "action_params": "",
       "id": 22,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -3260.33984375,
-      "y": -3859.4716796875
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3229.908203125,
+      "y": -3872.2470703125
     },
     {
-      "action": "stop_flying",
+      "action": "",
       "action_params": "",
       "id": 23,
-      "move_mode": "fly",
+      "move_mode": "dash",
       "type": "path",
-      "x": -3273.0625,
-      "y": -3879.003762623488
+      "x": -3264.978515625,
+      "y": -3869.1298828125
     },
     {
       "action": "",

@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758714540912,
+    "last_modified_time": 1760768798092,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "6纳塔额外激活CD",
@@ -37,8 +37,8 @@
       "y": -1670.8291015625
     },
     {
-      "action": "stop_flying",
-      "action_params": "5300",
+      "action": "combat_script",
+      "action_params": "attack(0.3),wait(3.5)",
       "id": 3,
       "move_mode": "fly",
       "type": "path",
@@ -116,15 +116,6 @@
       "type": "teleport",
       "x": 9968.375,
       "y": 252.1005859375
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 12,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": 9755.689453125,
-      "y": -614.931640625
     }
   ]
 }
