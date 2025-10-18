@@ -1,0 +1,104 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时90秒，包含3只精英与5只小怪，预计收入1202.5摩拉，包含以下怪物：1只丘丘人、1只冲锋丘丘人、1只射手丘丘人、1只火箭丘丘人、1只爆弹丘丘人、1只火斧丘丘暴徒、1只丘丘岩盔王、1只火深渊法师。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760206083399,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "201璃月离沙郊（600_1，200_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 828.28,
+      "y": -583.36
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2500",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 866.71,
+      "y": -521.17
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 853.26,
+      "y": -522
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 858.26,
+      "y": -522
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 866.71,
+      "y": -521.17
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 880.73,
+      "y": -499.13
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;wait(0.5)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 903.94,
+      "y": -512.54
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 933.08,
+      "y": -500.89
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 933.08,
+      "y": -500.89
+    }
+  ]
+}

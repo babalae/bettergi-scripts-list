@@ -1,0 +1,95 @@
+{
+  "info": {
+    "name": "6206--纳塔_浮羽之湾北",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "mno",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时82.66秒，包含以下怪物：1只铸砂勇士·叩问人、1只铸砂勇士·碎盾者、2只鳍游龙。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752326855645,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10728.4189453125,
+      "y": -1379.1650390625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 10728.4189453125,
+      "y": -1379.1650390625,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "爱可菲 e;玛薇卡 e;芙宁娜 e"
+    },
+    {
+      "id": 3,
+      "x": 10699.7333984375,
+      "y": -1394.3798828125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 10728.4189453125,
+      "y": -1379.1650390625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 10741.2080078125,
+      "y": -1433.07666015625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 10781.5302734375,
+      "y": -1468.6240234375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 10803.720703125,
+      "y": -1466.7841796875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 10803.720703125,
+      "y": -1466.7841796875,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

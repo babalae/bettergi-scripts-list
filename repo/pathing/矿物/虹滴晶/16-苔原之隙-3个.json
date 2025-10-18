@@ -1,0 +1,130 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759478414353,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "16-苔原之隙-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9885.5293,
+      "y": 1718.606
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9903.002,
+      "y": 1696.2637
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9905.9287,
+      "y": 1680.6504
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9891.7646,
+      "y": 1675.0586
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w);wait(4.5);keyup(w)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9873.3311,
+      "y": 1668.6338
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9867.3125,
+      "y": 1664.4648
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9834.8232,
+      "y": 1690.7461
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9828.541,
+      "y": 1692.9341
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9829.54,
+      "y": 1697.084
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "jump",
+      "type": "target",
+      "x": 9826.71,
+      "y": 1693.1182
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 9832.3447,
+      "y": 1696.7344
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9826.96,
+      "y": 1699.6221
+    }
+  ]
+}

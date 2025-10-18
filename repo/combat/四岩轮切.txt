@@ -1,0 +1,17 @@
+// 作者: G_yX
+// 描述:四岩轮切，如果主角是空则需要把下方的荧改成空。岩主和一斗是主c，钟离提供护盾（护盾量至少需要1万以上），阿贝多是副c。
+
+钟离 attack,keydown(a),wait(0.4),keydown(e),wait(1.2),keyup(e),wait(0.4),keyup(a),wait(0.1),keypress(q),wait(0.1),keypress(q)
+荒泷一斗 attack,e
+阿贝多 attack,keypress(e),wait(1),mousedown(left),wait(1),mouseup(left),keypress(a),wait(0.1),keypress(q),wait(0.1),keypress(q),keypress(a)
+荧 attack(0.4),e,attack(3.8),keypress(q),keypress(a)
+
+钟离 attack,keydown(d),wait(0.4),keydown(e),wait(1.2),keyup(e),wait(0.4),keyup(d),wait(0.1),keypress(q),wait(0.1),keypress(q)
+荒泷一斗 attack,e
+阿贝多 attack,keypress(e),wait(1),mousedown(left),wait(1),mouseup(left),keypress(a),wait(0.1),keypress(q),wait(0.1),keypress(q),keypress(d)
+荧 attack(0.4),e,attack(3.8),keypress(q),keypress(a)
+
+钟离 attack,keydown(d),wait(0.4),keydown(e),wait(1.2),keyup(e),wait(0.4),keyup(d),wait(0.1),keypress(q),wait(0.1),keypress(q)
+荒泷一斗 attack,keypress(e),q,mousedown(left),wait(0.2),keydown(s),wait(3),keyup(s),keydown(w),wait(2),mouseup(left),wait(0.1),keyup(w)
+阿贝多 attack,keypress(e),wait(1),keypress(a),keypress(q),keypress(s)
+荧 attack(0.4),e,attack(0.5),keypress(q),keypress(a)

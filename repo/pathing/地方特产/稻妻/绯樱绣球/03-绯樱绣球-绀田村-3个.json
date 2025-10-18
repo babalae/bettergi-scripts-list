@@ -1,0 +1,112 @@
+{
+  "info": {
+    "name": "03-绯樱绣球-绀田村-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "久歧忍可采集全，引战可能导致雷元素法师漏采集最后1个",
+    "bgi_version": "0.42.0",
+    "tags": [
+      "久岐忍",
+      "八重神子",
+      "瓦雷莎"
+    ],
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4124.87,
+      "y": -2755.13,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -4133.5,
+      "y": -2793.5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -4110.95,
+      "y": -2804.5,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": -4151.9,
+      "y": -2784.76,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -4231.19,
+      "y": -2796.5,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": -4231.19,
+      "y": -2796.5,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "type": "path",
+      "action_params": "wait(1)"
+    },
+    {
+      "id": 7,
+      "x": -4050.07,
+      "y": -2657.42,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 8,
+      "x": -4069.2,
+      "y": -2690.61,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -4128.63,
+      "y": -2675.3,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -4188.49,
+      "y": -2651.3,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "瓦雷莎 charge,wait(2);八重神子 charge",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": -4188.49,
+      "y": -2651.3,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

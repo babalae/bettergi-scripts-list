@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "丘丘萨满-镇守之森-2只",
+    "type": "collect",
+    "version": "1.0",
+    "description": "丘丘萨满-镇守之森-2只",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "ddaodan",
+        "links": "https://github.com/ddaodan"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4429.82,
+      "y": -2798.57,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4412.97,
+      "y": -2809.82,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4402.46,
+      "y": -2821.42,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

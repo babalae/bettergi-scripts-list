@@ -1,0 +1,49 @@
+{
+    "info": {
+        "name": "璃月-禽肉-珉林琥牢山东-1个-下落2肉1",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "地区: 璃月\n类型: 禽肉\n详细位置: 珉林琥牢山东\n数目: 1\n附加信息: 2禽肉鸟共1只\n注意: 使用前请将游戏时间调到白天，跑图位建议使用绮良良或埃洛伊",
+        "bgi_version": "0.43.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": 1794.2,
+            "y": 717.49,
+            "type": "teleport",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 1781.85,
+            "y": 707.57,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "action": "combat_script",
+            "move_mode": "fly",
+            "type": "target",
+            "x": 1712.19,
+            "y": 682.33,
+            "action_params": "keypress(space),wait(5.5),attack(0.1),wait(3)",
+            "locked": false
+        },
+        {
+            "id": 4,
+            "action": "pick_around",
+            "move_mode": "walk",
+            "type": "target",
+            "x": 1712.19,
+            "y": 682.33,
+            "action_params": ""
+        }
+    ]
+}

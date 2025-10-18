@@ -1,0 +1,8 @@
+// 描述:适合角色少的玩家，盾奶全程覆盖确保安全，输出不够可以增加战斗超时，没有夜兰可用行秋代替。万叶（聚怪），莱依拉（盾），夜兰（追踪）或行秋（抗打断），诺艾尔（盾奶）。
+
+莱依拉 e, wait(0.2)
+万叶 e(hold), wait(0.1), attack, wait(1.1), attack, wait(0.2), attack, wait(0.2), attack, wait(0.4), attack, wait(0.4), attack, wait(1)
+行秋 e, wait(1.4), attack, wait(0.2), attack, wait(0.2), attack, wait(0.5), attack, wait(0.2)
+夜兰 e, wait(0.6), attack, wait(0.2), attack, wait(0.2), attack, wait(0.2), attack, wait(1)
+万叶 e(hold), wait(0.1), attack, wait(1.1), attack, wait(0.2), attack, wait(0.2), attack, wait(0.4), attack, wait(0.4), attack, wait(1)
+诺艾尔 e, wait(0.2), charge(6.5), wait(0.6), s(2), w(0.5)

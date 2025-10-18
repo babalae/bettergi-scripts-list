@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "稻妻-飘浮灵-清籁岛平海砦西北岸边-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "飘浮灵-4个\n稻妻-清籁岛平海砦西北岸边",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4184.89,
+      "y": -4244.61,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4221.02,
+      "y": -4205.94,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4215.21,
+      "y": -4192.04,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -4289.32,
+      "y": -4170.13,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)"
+    },
+    {
+      "id": 5,
+      "x": -4306.43,
+      "y": -4156.12,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
