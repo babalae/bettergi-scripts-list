@@ -1071,7 +1071,7 @@ async function processNormalPathEntry(entry, context) {
 async function processAllPaths(allPaths, CDCategories, materialCategoryMap, timeCost, flattenedLowCountMaterials, currentMaterialName, recordDir, noRecordDir, imagesDir) {
   try {
     // 初始化累加器
-    const foodExpAccumulator = {};
+    let foodExpAccumulator = {};
     const globalAccumulatedDifferences = {};
     const materialAccumulatedDifferences = {};
     let context = {
