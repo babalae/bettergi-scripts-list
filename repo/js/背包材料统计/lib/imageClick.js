@@ -215,7 +215,7 @@ async function imageClickBackgroundTask() {
     log.info("imageClick后台任务已启动");
 
     // 配置参数
-    const taskDelay = Math.min(99, Math.max(1, Math.floor(Number(settings.PopupClickDelay) || 5)))*1000;
+    const taskDelay = Math.min(999, Math.max(1, Math.floor(Number(settings.PopupClickDelay) || 15)))*1000;
     const specificNamesStr = settings.PopupNames || "";
     const specificNames = specificNamesStr
         .split(/[,，、 \s]+/)
@@ -237,7 +237,7 @@ async function imageClickBackgroundTask() {
     }
 
     // 打印资源检测结果
-    log.info("\n==================== 现有弹窗检测结果 ====================");
+    log.info("\n==================== 现有弹窗加载结果 ====================");
     log.info("1. 一级弹窗（共" + firstLevelDirs.length + "个）：");
     firstLevelDirs.forEach((res, idx) => log.info(`   ${idx+1}. 【${res.dirName}】`));
     const secondLevelResources = preloadedResources.filter(res => !res.isFirstLevel);
