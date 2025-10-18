@@ -111,7 +111,6 @@ function parseMonsterMaterials() {
           }
           materialToMonsters[mat].add(monsterName);
         });
-        log.debug(`${CONSTANTS.LOG_MODULES.MONSTER}解析怪物材料：${monsterName} -> [${materials.join(', ')}]`);
       }
     });
   } catch (error) {
@@ -155,7 +154,11 @@ function getSelectedMaterialCategories() {
     return acc;
   }, {});
 
-  const finalSettings = { ...initialSettings, ...settings };
+  const finalSettings = Object.keys(initialSettings).reduce((acc, key) => {
+    // 若settings中有该键则使用其值，否则用默认的false（确保只处理material_mapping中的键）
+    acc[key] = settings.hasOwnProperty(key) ? settings[key] : initialSettings[key];
+    return acc;
+  }, {});
 
   return Object.keys(finalSettings)
     .filter(key => key !== "unselected") 
@@ -294,6 +297,7 @@ function readMaterialCD() {
   const materialCDCategories = {};
 
   for (const filePath of materialFilePaths) {
+    if (state.cancelRequested) break;
     const content = file.readTextSync(filePath);
     if (!content) {
       log.error(`${CONSTANTS.LOG_MODULES.CD}加载文件失败：${filePath}`);
@@ -1156,7 +1160,6 @@ function classifyNormalPathFiles(pathingDir, targetResourceNames, lowCountMateri
   if (pathEntries.length > 0) {
     log.info(`${CONSTANTS.LOG_MODULES.PATH}\n===== 匹配到的材料路径列表 =====`);
     pathEntries.forEach((entry, index) => {
-      log.info(`${index + 1}. 材料：${entry.resourceName}，路径：${entry.path}`);
     });
     log.info(`=================================\n`);
   } else {
@@ -1355,6 +1358,11 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
 =========================================\n\n`;
   writeContentToFile(summaryPath, content);
   log.info(`${CONSTANTS.LOG_MODULES.RECORD}最终汇总已记录至 ${summaryPath}`);
+  // ==============================================
+  // 新增：汇总后强制触发结束指令，确保程序终止
+  // ==============================================
+  state.completed = true; // 标记任务完全完成
+  state.cancelRequested = true; // 终止所有后台任务（如图像点击、OCR）
 }
 
 // ==============================================
@@ -1387,11 +1395,15 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
     }
   // 关键补充：等待超量名单生成（由filterLowCountMaterials更新）
   let waitTimes = 0;
-  while (excessMaterialNames.length === 0 && waitTimes < 300) { 
+  while (excessMaterialNames.length === 0 && !state.cancelRequested && waitTimes < 100) { 
     await sleep(1000); // 每1秒查一次
     waitTimes++;
   }
-
+  // 若收到终止信号，直接退出OCR任务（不再执行后续逻辑）
+  if (state.cancelRequested) {
+    log.info(`${CONSTANTS.LOG_MODULES.MAIN}OCR任务收到终止信号，已退出`);
+    return;
+  }
   // 现在过滤才有效（确保excessMaterialNames已生成）
   allTargetTexts = allTargetTexts.filter(name => !excessMaterialNames.includes(name));
   log.info(`OCR最终目标文本（已过滤超量）：${allTargetTexts.join('、')}`);

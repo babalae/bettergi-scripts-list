@@ -31,18 +31,31 @@ function readtargetTextCategories(targetTextDir) {
     const targetTextFilePaths = readAllFilePaths(targetTextDir, 0, 1);
     const materialCategories = {};
 
+    // 解析筛选名单
+    const pickTextNames = (settings.PickCategories || "")
+        .split(/[,，、 \s]+/).map(n => n.trim()).filter(n => n);
+
+    // 【新增：兜底日志】确认pickTextNames是否为空，方便排查
+    log.info(`筛选名单状态：${pickTextNames.length === 0 ? '未指定（空），将加载所有文件' : '指定了：' + pickTextNames.join(',')}`);
+
     for (const filePath of targetTextFilePaths) {
         if (state.cancelRequested) break;
         const content = file.readTextSync(filePath);
         if (!content) {
             log.error(`加载文件失败：${filePath}`);
-            continue; // 跳过当前文件
+            continue;
         }
 
         const sourceCategory = basename(filePath).replace('.txt', ''); // 去掉文件扩展名
+        // 【核心筛选：空名单直接跳过判断，加载所有】
+        if (pickTextNames.length === 0) {
+            // 空名单时，直接保留当前文件，不跳过
+        } else if (!pickTextNames.includes(sourceCategory)) {
+            // 非空名单且不在列表里，才跳过
+            continue;
+        }
         materialCategories[sourceCategory] = parseCategoryContent(content);
     }
-    // log.info(`完成材料分类信息读取，分类信息：${JSON.stringify(materialCategories, null, 2)}`);
     return materialCategories;
 }
 // 定义替换映射表
@@ -171,7 +184,7 @@ async function alignAndInteractTarget(targetTexts, fDialogueRo, textxRange, text
             log.info("检测中...");
             lastLogTime = currentTime;
         }
-        await sleep(50); // 关键50时可避免F多目标滚动中拾取错，背包js这边有弹窗模块，就没必要增加延迟降低效率了
+        await sleep(50);
         cachedFrame?.dispose();
         cachedFrame = captureGameRegion();
 
@@ -192,7 +205,6 @@ async function alignAndInteractTarget(targetTexts, fDialogueRo, textxRange, text
         for (let targetText of targetTexts) {
             let targetResult = ocrResults.find(res => res.text.includes(targetText));
             if (targetResult) {
-                // log.info(`找到目标文本: ${targetText}`);
                 
                 // 生成唯一标识并更新识别计数（文本+Y坐标）
                 const materialId = `${targetText}-${targetResult.y}`;
@@ -203,7 +215,6 @@ async function alignAndInteractTarget(targetTexts, fDialogueRo, textxRange, text
                     // log.info(`目标文本 '${targetText}' 和 F 图标水平对齐`);
                     if (recognitionCount.get(materialId) >= 1) {
                         keyPress("F"); // 执行交互操作
-                        // log.info(`F键执行成功，识别计数: ${recognitionCount.get(materialId)}`);
                         log.info(`交互或拾取: ${targetText}`);
                         
                         // F键后清除计数，确保单次交互

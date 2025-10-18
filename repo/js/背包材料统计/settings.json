@@ -102,12 +102,27 @@
     {
         "name": "PopupClickDelay",
         "type": "input-text",
-        "label": "如 过期物品,信件,自定义文件夹名。注意分隔符和文件夹格式\n----------------------------------\n弹窗循环间隔（默认:5 秒)"
+        "label": "如 过期物品,信件，自定义文件夹名。注意文件夹结构\n----------------------------------\n弹窗循环间隔（默认:15 秒)"
     },
     {
         "name": "CDCategories",
         "type": "input-text",
-        "label": "----------------------------------\n\n采用的CD分类（默认:全部)"
+        "label": "====================\n\n采用的CD分类（默认：全部) 举例：采集,怪物，木材"
+    },
+    {
+        "name": "PickCategories",
+        "type": "input-text",
+        "label": "根据CD分类来加载路径文件，具体看materialsCD目录\n====================\n\n采用的识别名单（默认：全部) 举例：交互，采集,宝箱"
+    },
+    {
+        "name": "ExceedCount",
+        "type": "input-text",
+        "label": "根据拾取分类来加载OCR名单，具体看targetText目录\n----------------------------------\n\n超量阈值（默认：5000)超量的路径材料将不拾取"
+    },
+    {
+        "name": "PageScrollDistance",
+        "type": "input-text",
+        "label": "====================\n拖动距离：(默认711像素点)"
     },
     {
         "name": "HoldX",
@@ -118,10 +133,5 @@
         "name": "HoldY",
         "type": "input-text",
         "label": "------------------------\n翻页拖动点Y坐标：0~1080(默认750)"
-    },
-    {
-        "name": "PageScrollDistance",
-        "type": "input-text",
-        "label": "------------------------\n拖动距离：(默认711像素点)"
     }
 ]
