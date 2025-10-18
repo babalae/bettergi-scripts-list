@@ -413,7 +413,7 @@ function displayResults(results) {
  */
 async function countAllResin() {
     try {
-        setGameMetrics(1920, 1080, 1.25);
+        setGameMetrics(1920, 1080, 1);
         log.info("开始统计树脂数量");
         
         // 返回主界面
