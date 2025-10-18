@@ -79,15 +79,8 @@ this.findLeyLineOutcropByBook = async function (country, type) {
 this.checkBigMapOpened = async function() {
   let captureRegion = captureGameRegion();
   try {
-    // 只在左下角十六分之一区域查找齿轮图标（提高识别效率和准确性）
-    const searchWidth = genshin.width / 4;
-    const searchHeight = genshin.height / 4;
-    const searchX = 0;
-    const searchY = genshin.height - searchHeight;
-    
-    let croppedRegion = captureRegion.DeriveCrop(searchX, searchY, searchWidth, searchHeight);
-    let result = croppedRegion.Find(mapSettingButtonRo);
-    return !result.isEmpty();
+    const imageResult = captureGameRegion().find(mapSettingButtonRo);
+    return imageResult.isExist();
   } finally {
     captureRegion.dispose();
   }
