@@ -9,7 +9,7 @@
     "bgi_version": "0.50.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760099982570,
+    "last_modified_time": 1760358830491,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "14-雷图礁左侧-8个",
@@ -82,18 +82,27 @@
       "y": 1595.6484
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 8,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 11109.6807,
+      "y": 1593.1372
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 9,
       "move_mode": "walk",
       "type": "target",
-      "x": 11105.9697,
-      "y": 1593.6748
+      "x": 11107.6426,
+      "y": 1592.9092
     },
     {
       "action": "",
       "action_params": "",
-      "id": 9,
+      "id": 10,
       "move_mode": "jump",
       "type": "path",
       "x": 11110.1025,
@@ -102,7 +111,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 10,
+      "id": 11,
       "move_mode": "dash",
       "type": "path",
       "x": 11122.8848,
@@ -111,7 +120,7 @@
     {
       "action": "stop_flying",
       "action_params": "1000",
-      "id": 11,
+      "id": 12,
       "move_mode": "fly",
       "type": "path",
       "x": 11139.8555,
@@ -120,7 +129,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 12,
+      "id": 13,
       "move_mode": "walk",
       "type": "target",
       "x": 11137.3262,
@@ -129,7 +138,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 13,
+      "id": 14,
       "move_mode": "walk",
       "type": "target",
       "x": 11142.8574,
@@ -138,7 +147,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 14,
+      "id": 15,
       "move_mode": "walk",
       "type": "path",
       "x": 11140.8457,
@@ -147,7 +156,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 15,
+      "id": 16,
       "move_mode": "walk",
       "type": "target",
       "x": 11143.918,

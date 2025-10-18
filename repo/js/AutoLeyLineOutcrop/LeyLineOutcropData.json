@@ -823,6 +823,14 @@
         "x": 9426.45,
         "y": 3051.57
       }
+    },
+    {
+      "id": 104,
+      "region": "挪德卡莱",
+      "position": {
+        "x": 9375.39,
+        "y": 3150.54
+      }
     }
   ],
   "blossoms": [
@@ -2748,7 +2756,7 @@
     },
     {
       "id": 1240,
-      "region": "挪德卡莱2-1",
+      "region": "挪德卡莱1-3",
       "position": {
         "x": 9132.02,
         "y": 2155.61
@@ -2756,7 +2764,7 @@
     },
     {
       "id": 1241,
-      "region": "挪德卡莱2-2",
+      "region": "挪德卡莱1-4",
       "position": {
         "x": 9018.5,
         "y": 2146.22
@@ -2764,7 +2772,7 @@
     },
     {
       "id": 1242,
-      "region": "挪德卡莱3-1",
+      "region": "挪德卡莱2-1",
       "position": {
         "x": 10799.37,
         "y": 2240.19
@@ -2772,7 +2780,7 @@
     },
     {
       "id": 1243,
-      "region": "挪德卡莱3-2",
+      "region": "挪德卡莱2-2",
       "position": {
         "x": 10819.83,
         "y": 2170.72
@@ -2780,7 +2788,7 @@
     },
     {
       "id": 1244,
-      "region": "挪德卡莱3-3",
+      "region": "挪德卡莱2-3",
       "position": {
         "x": 10874.92,
         "y": 2110.37
@@ -2788,7 +2796,7 @@
     },
     {
       "id": 1245,
-      "region": "挪德卡莱3-4",
+      "region": "挪德卡莱2-4",
       "position": {
         "x": 10986.27,
         "y": 1943.02
@@ -2796,7 +2804,7 @@
     },
     {
       "id": 1246,
-      "region": "挪德卡莱4-1",
+      "region": "挪德卡莱3-1",
       "position": {
         "x": 9454.46,
         "y": 3008.55
@@ -2804,7 +2812,15 @@
     },
     {
       "id": 1247,
-      "region": "挪德卡莱4-3",
+      "region": "挪德卡莱3-2",
+      "position": {
+        "x": 9424.5,
+        "y": 3135.77
+      }
+    },
+    {
+      "id": 1248,
+      "region": "挪德卡莱3-3",
       "position": {
         "x": 9461.06,
         "y": 3200.05
@@ -4520,47 +4536,62 @@
     {
       "source": 100,
       "target": 1240,
-      "route": "assets/pathing/挪德卡莱2-蓝泊湖-1.json"
+      "route": "assets/pathing/挪德卡莱1-苔骨荒原-3.json"
+    },
+    {
+      "source": 1239,
+      "target": 1240,
+      "route": "assets/pathing/挪德卡莱1-苔骨荒原-3.json"
     },
     {
       "source": 1240,
       "target": 1241,
-      "route": "assets/pathing/挪德卡莱2-蓝泊湖-2.json"
+      "route": "assets/pathing/挪德卡莱1-苔骨荒原-4.json"
     },
     {
       "source": 101,
       "target": 1242,
-      "route": "assets/pathing/挪德卡莱3-希汐岛-1.json"
+      "route": "assets/pathing/挪德卡莱2-希汐岛-1.json"
     },
     {
       "source": 1242,
       "target": 1243,
-      "route": "assets/pathing/挪德卡莱3-希汐岛-2.json"
+      "route": "assets/pathing/挪德卡莱2-希汐岛-2.json"
     },
     {
       "source": 1243,
       "target": 1244,
-      "route": "assets/pathing/挪德卡莱3-希汐岛-3.json"
+      "route": "assets/pathing/挪德卡莱2-希汐岛-3.json"
     },
     {
       "source": 102,
       "target": 1245,
-      "route": "assets/pathing/挪德卡莱3-希汐岛-4.json"
+      "route": "assets/pathing/挪德卡莱2-希汐岛-4.json"
     },
     {
       "source": 1244,
       "target": 1245,
-      "route": "assets/pathing/挪德卡莱3-希汐岛-4.json"
+      "route": "assets/pathing/挪德卡莱2-希汐岛-4.json"
     },
     {
       "source": 103,
       "target": 1246,
-      "route": "assets/pathing/挪德卡莱4-月矩力试验设计局-1.json"
+      "route": "assets/pathing/挪德卡莱3-月矩力试验设计局-1.json"
+    },
+    {
+      "source": 104,
+      "target": 1247,
+      "route": "assets/pathing/挪德卡莱3-月矩力试验设计局-2.json"
     },
     {
       "source": 1246,
       "target": 1247,
-      "route": "assets/pathing/挪德卡莱4-月矩力试验设计局-3.json"
+      "route": "assets/pathing/挪德卡莱3-月矩力试验设计局-2.json"
+    },
+    {
+      "source": 1247,
+      "target": 1248,
+      "route": "assets/pathing/挪德卡莱3-月矩力试验设计局-3.json"
     }
   ],
   "indexes": {
@@ -5473,6 +5504,9 @@
       "100": [
         1240
       ],
+      "1239": [
+        1240
+      ],
       "1240": [
         1241
       ],
@@ -5494,8 +5528,14 @@
       "103": [
         1246
       ],
+      "104": [
+        1247
+      ],
       "1246": [
         1247
+      ],
+      "1247": [
+        1248
       ]
     },
     "edgesByTarget": {
@@ -6321,7 +6361,8 @@
         1238
       ],
       "1240": [
-        100
+        100,
+        1239
       ],
       "1241": [
         1240
@@ -6343,7 +6384,11 @@
         103
       ],
       "1247": [
+        104,
         1246
+      ],
+      "1248": [
+        1247
       ]
     }
   }
