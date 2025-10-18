@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760449419194,
+    "last_modified_time": 1760764363466,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "05-苔古荒原下方-12个",
@@ -17,7 +17,7 @@
       "菈乌玛"
     ],
     "type": "collect",
-    "version": "1.1"
+    "version": "1.2"
   },
   "positions": [
     {
@@ -34,6 +34,7 @@
       "action": "",
       "action_params": "",
       "id": 2,
+      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
       "x": 9342.5,
@@ -43,15 +44,17 @@
       "action": "combat_script",
       "action_params": "wait(3),keypress(VK_F),wait(3),click,wait(10),keypress(VK_SPACE)",
       "id": 3,
+      "locked": false,
       "move_mode": "fly",
-      "type": "target",
-      "x": 9370.3994,
-      "y": 1865.4717
+      "type": "orientation",
+      "x": 9342.5,
+      "y": 1890.5
     },
     {
       "action": "stop_flying",
       "action_params": "1000",
       "id": 4,
+      "locked": false,
       "move_mode": "fly",
       "type": "target",
       "x": 9385.25,
@@ -61,6 +64,7 @@
       "action": "",
       "action_params": "",
       "id": 5,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 9397.5,
@@ -70,15 +74,17 @@
       "action": "",
       "action_params": "",
       "id": 6,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 9421.75,
-      "y": 1746.0
+      "y": 1746
     },
     {
       "action": "combat_script",
       "action_params": "枫原万叶 wait(4),e(hold),wait(0.2),attack",
       "id": 7,
+      "locked": false,
       "move_mode": "walk",
       "type": "target",
       "x": 9444.3809,
@@ -88,6 +94,7 @@
       "action": "",
       "action_params": "",
       "id": 8,
+      "locked": false,
       "move_mode": "swim",
       "type": "path",
       "x": 9444.6445,
@@ -97,6 +104,7 @@
       "action": "",
       "action_params": "",
       "id": 9,
+      "locked": false,
       "move_mode": "swim",
       "type": "path",
       "x": 9440.8369,
@@ -106,6 +114,7 @@
       "action": "",
       "action_params": "",
       "id": 10,
+      "locked": false,
       "move_mode": "swim",
       "type": "path",
       "x": 9437.6289,
@@ -115,6 +124,7 @@
       "action": "",
       "action_params": "",
       "id": 11,
+      "locked": false,
       "move_mode": "swim",
       "type": "path",
       "x": 9443.4971,
@@ -124,6 +134,7 @@
       "action": "",
       "action_params": "",
       "id": 12,
+      "locked": false,
       "move_mode": "swim",
       "type": "path",
       "x": 9447.666,
@@ -133,6 +144,7 @@
       "action": "",
       "action_params": "",
       "id": 13,
+      "locked": false,
       "move_mode": "swim",
       "type": "path",
       "x": 9445.3281,
@@ -142,6 +154,7 @@
       "action": "",
       "action_params": "",
       "id": 14,
+      "locked": false,
       "move_mode": "swim",
       "type": "path",
       "x": 9440.1797,
@@ -151,10 +164,56 @@
       "action": "",
       "action_params": "",
       "id": 15,
+      "locked": false,
       "move_mode": "swim",
       "type": "path",
       "x": 9442.875,
       "y": 1754.2812
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9442.326171875,
+      "y": 1756.1201171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9439.2783203125,
+      "y": 1751
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9433.005859375,
+      "y": 1752.494140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9431.8466796875,
+      "y": 1749.9716796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9443.28515625,
+      "y": 1762.79296875
     }
   ]
 }
