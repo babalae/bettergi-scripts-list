@@ -6,13 +6,13 @@
         "links": "https://github.com/cheese-bagel"
       }
     ],
-    "bgi_version": "0.50.0",
+    "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760358972197,
+    "last_modified_time": 1760189825038,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "15-雷图礁左上-9个",
+    "name": "18-盐蚀洞窟-4个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 11060.623,
-      "y": 1592.0024
+      "x": 9315.3848,
+      "y": 3543.842
     },
     {
       "action": "",
@@ -33,89 +33,89 @@
       "id": 2,
       "move_mode": "run",
       "type": "path",
-      "x": 11097.2383,
-      "y": 1630.8242
+      "x": 9399.8652,
+      "y": 3484.1743
     },
     {
-      "action": "stop_flying",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "keydown(w);wait(3);keyup(w)",
       "id": 3,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 11100.9629,
-      "y": 1650.7471
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9415.7051,
+      "y": 3473.3271
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 4,
       "move_mode": "walk",
-      "type": "target",
-      "x": 11099.8779,
-      "y": 1657.7461
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "walk",
       "type": "path",
-      "x": 11103.0273,
-      "y": 1657.5488
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 11102.5527,
-      "y": 1663.2407
+      "x": 9422.0283,
+      "y": 3465.0535
     },
     {
       "action": "mining",
       "action_params": "",
-      "id": 7,
+      "id": 5,
       "move_mode": "walk",
       "type": "target",
-      "x": 11100.3906,
-      "y": 1661.3477
+      "x": 9419.5166,
+      "y": 3463.6968
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9422.8809,
+      "y": 3465.2244
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 9425.4336,
+      "y": 3461.1504
     },
     {
       "action": "",
       "action_params": "",
       "id": 8,
-      "move_mode": "jump",
+      "move_mode": "dash",
       "type": "path",
-      "x": 11102.501,
-      "y": 1664.4771
+      "x": 9439.6816,
+      "y": 3450.2542
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 9,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 11099.5801,
-      "y": 1664.0215
+      "move_mode": "run",
+      "type": "path",
+      "x": 9466.7334,
+      "y": 3452.1714
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 10,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 11103.875,
-      "y": 1666.2188
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9480.7119,
+      "y": 3439.1833
     },
     {
       "action": "",
       "action_params": "",
       "id": 11,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": 11116.126,
-      "y": 1680.2832
+      "x": 9492.123,
+      "y": 3438.0291
     },
     {
       "action": "",
@@ -123,17 +123,17 @@
       "id": 12,
       "move_mode": "dash",
       "type": "path",
-      "x": 11120.709,
-      "y": 1678.0923
+      "x": 9505.6807,
+      "y": 3426.0132
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 13,
-      "move_mode": "jump",
+      "move_mode": "run",
       "type": "path",
-      "x": 11132.5684,
-      "y": 1674.7559
+      "x": 9532.1055,
+      "y": 3432.6106
     },
     {
       "action": "",
@@ -141,8 +141,8 @@
       "id": 14,
       "move_mode": "dash",
       "type": "path",
-      "x": 11140.3408,
-      "y": 1666.3867
+      "x": 9553.5078,
+      "y": 3429.1248
     },
     {
       "action": "mining",
@@ -150,26 +150,35 @@
       "id": 15,
       "move_mode": "walk",
       "type": "target",
-      "x": 11142.5371,
-      "y": 1662.877
+      "x": 9555.793,
+      "y": 3425.8887
     },
     {
       "action": "",
       "action_params": "",
       "id": 16,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 11140.8945,
-      "y": 1664.1016
+      "x": 9559.2197,
+      "y": 3432.5056
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9576.2422,
+      "y": 3435.9597
     },
     {
       "action": "mining",
       "action_params": "",
-      "id": 17,
+      "id": 18,
       "move_mode": "walk",
       "type": "target",
-      "x": 11141.4268,
-      "y": 1661.0566
+      "x": 9578.4004,
+      "y": 3437.7754
     }
   ]
 }
