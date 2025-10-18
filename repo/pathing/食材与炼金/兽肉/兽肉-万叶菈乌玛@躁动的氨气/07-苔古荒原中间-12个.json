@@ -6,10 +6,10 @@
         "name": "躁动的氨气"
       }
     ],
-    "bgi_version": "0.45.0",
+    "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760449382542,
+    "last_modified_time": 1760764234436,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "07-苔古荒原中间-12个",
@@ -17,14 +17,13 @@
       "菈乌玛"
     ],
     "type": "collect",
-    "version": "1.1"
+    "version": "1.2"
   },
   "positions": [
     {
       "action": "",
       "action_params": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 9370.3994,
@@ -44,9 +43,9 @@
       "action_params": "枫原万叶 attack,wait(3),keypress(VK_F),wait(3),click,wait(10),keypress(VK_SPACE)",
       "id": 3,
       "move_mode": "fly",
-      "type": "target",
-      "x": 9370.3994,
-      "y": 1865.4717
+      "type": "orientation",
+      "x": 9342.5,
+      "y": 1890.5
     },
     {
       "action": "combat_script",
