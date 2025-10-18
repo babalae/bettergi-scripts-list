@@ -35,6 +35,12 @@
         "default": "6"
     },
     {
+        "name": "useTransientResin",
+        "type": "checkbox",
+        "label": "是否使用须臾树脂\n开启后会在原粹/浓缩树脂用完后使用",
+        "default": false
+    },
+    {
         "name": "useFragileResin",
         "type": "checkbox",
         "label": "是否使用脆弱树脂\n开启后会在其他树脂用完后使用",
@@ -59,7 +65,7 @@
     {
         "name": "useAdventurerHandbook",
         "type": "checkbox",
-        "label": "是否使用冒险之证寻找地脉花\n【测试中】"
+        "label": "是否使用冒险之证寻找地脉花"
     },
     {
         "name": "isNotification",
@@ -70,12 +76,12 @@
         "name": "isRecognizeResin",
         "type": "checkbox",
         "label": "树脂耗尽模式\n开启后脚本会在树脂耗尽时停止运行【开发中】"
-  },
-  {
-        "name": "isGoToSynthesizer",
-        "type": "select",
-        "label": "是否前往合成台合成浓缩树脂\n 体力大于40时自动合成浓缩树脂【开发中】"
-  }
+    },
+    {
+            "name": "isGoToSynthesizer",
+            "type": "select",
+            "label": "是否前往合成台合成浓缩树脂\n 体力大于40时自动合成浓缩树脂【开发中】"
+    }
 ]
   
 

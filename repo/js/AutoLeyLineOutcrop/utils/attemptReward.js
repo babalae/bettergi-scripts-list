@@ -279,7 +279,7 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
                     button: sortedButtons[0],
                     buttonIndex: 0
                 };
-            } else if (hasTransientResin && sortedButtons.length >= 1) {
+            } else if (hasTransientResin && sortedButtons.length >= 1 && settings.useTransientResin) {
                 choice = {
                     type: "使用1个须臾树脂（原粹耗尽）",
                     button: sortedButtons[0],
@@ -293,7 +293,9 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
                 };
             } else {
                 // 输出详细的调试信息
-                if (hasFragileResin && !settings.useFragileResin) {
+                if (hasTransientResin && !settings.useTransientResin) {
+                    log.warn(`原粹树脂耗尽，检测到须臾树脂但配置禁止使用（settings.useTransientResin=${settings.useTransientResin}）`);
+                } else if (hasFragileResin && !settings.useFragileResin) {
                     log.warn(`原粹树脂耗尽，检测到脆弱树脂但配置禁止使用（settings.useFragileResin=${settings.useFragileResin}）`);
                 } else {
                     log.warn(`原粹树脂耗尽且无其他可用树脂（浓缩:${hasCondensedResin}, 须臾:${hasTransientResin}, 脆弱:${hasFragileResin}, 原石:${hasPrimogems}）`);
@@ -340,7 +342,7 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
                 };
             }
             // 优先级3: 使用须臾树脂
-            else if (hasTransientResin && sortedButtons.length >= 2) {
+            else if (hasTransientResin && settings.useTransientResin && sortedButtons.length >= 2) {
                 choice = {
                     type: "使用1个须臾树脂",
                     button: sortedButtons[1],
