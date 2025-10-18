@@ -1,15 +1,19 @@
+// ======================== 全局工具函数（只定义1次，所有函数共用）========================
+// 1. 路径标准化函数（统一处理，消除重复）
+function normalizePath(path) {
+    if (!path || typeof path !== 'string') return '';
+    let standardPath = path.replace(/\\/g, '/').replace(/\/+/g, '/');
+    return standardPath.endsWith('/') ? standardPath.slice(0, -1) : standardPath;
+}
 
-
-// ==============================================
-// 5. 角色识别与策略执行相关函数（保留原始功能）
-// ==============================================
-// 工具函数
+// 2. 提取路径最后一级名称
 function basename(filePath) {
     if (!filePath || typeof filePath !== 'string') return '';
-    const normalizedPath = filePath.replace(/\\/g, '/');
+    const normalizedPath = normalizePath(filePath);
     const lastSlashIndex = normalizedPath.lastIndexOf('/');
     return lastSlashIndex !== -1 ? normalizedPath.substring(lastSlashIndex + 1) : normalizedPath;
 }
+
 
 /*
 // 如果路径存在且返回的是数组，则认为是目录Folder

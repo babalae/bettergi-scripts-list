@@ -4,6 +4,7 @@ const holdX = Math.min(1920, Math.max(0, Math.floor(Number(settings.HoldX) || 10
 const holdY = Math.min(1080, Math.max(0, Math.floor(Number(settings.HoldY) || 750)));
 const totalPageDistance = Math.max(10, Math.floor(Number(settings.PageScrollDistance) || 711));
 const targetCount = Math.min(9999, Math.max(0, Math.floor(Number(settings.TargetCount) || 5000))); // 设定的目标数量
+const exceedCount = Math.min(9999, Math.max(0, Math.floor(Number(settings.ExceedCount) || 5000))); // 设定的超量目标数量
 const imageDelay = Math.min(1000, Math.max(0, Math.floor(Number(settings.ImageDelay) || 0))); // 识图基准时长    await sleep(imageDelay);
 
 // 配置参数
@@ -383,7 +384,7 @@ async function scanMaterials(materialsCategory, materialCategoryMap) {
                             width: 66 + 2 * tolerance,
                             height: 22 + 2 * tolerance
                         };
-                        const ocrResult = await recognizeText(ocrRegion, 1000, 10, 5, 2, ra);
+                        const ocrResult = await recognizeText(ocrRegion, 200, 10, 5, 2, ra);
                         materialInfo.push({ name, count: ocrResult || "?" });
 
                         if (!hasFoundFirstMaterial) {
@@ -516,7 +517,7 @@ var excessMaterialNames = []; // 超量材料名单
 
 function filterLowCountMaterials(pathingMaterialCounts, materialCategoryMap) {
     // 新增：超量阈值（普通材料9999，矿石处理后也是9999）
-    const EXCESS_THRESHOLD = 9999;
+    const EXCESS_THRESHOLD = exceedCount;
     // 新增：临时存储本次超量材料
     const tempExcess = [];
 
