@@ -73,9 +73,9 @@
         "label": "通过BGI通知系统发送详细通知"
     },
     {
-        "name": "isRecognizeResin",
+        "name": "isResinExhaustionMode",
         "type": "checkbox",
-        "label": "树脂耗尽模式\n开启后脚本会在树脂耗尽时停止运行【开发中】"
+        "label": "树脂耗尽模式\n开启后会自动统计所有可用树脂并计算可刷取次数，替换上方设置的刷取次数\n注意：请同时设置树脂刷取次数，将在统计失败时使用"
     },
     {
             "name": "isGoToSynthesizer",

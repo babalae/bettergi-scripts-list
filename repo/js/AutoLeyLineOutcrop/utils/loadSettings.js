@@ -58,8 +58,11 @@ function () {
         if (settings.friendshipTeam) {
             log.info(`好感队：${settings.friendshipTeam}`);
         }
-
-        log.info(`刷取次数：${settings.timesValue}`);
+        if (settings.isResinExhaustionMode) {
+            log.warn("树脂耗尽模式已开启，若统计成功将覆盖设置的刷取次数");
+        } else {
+            log.info(`刷取次数：${settings.timesValue}`);
+        }
 
         // 设置通知状态
         isNotification = settings.isNotification;
