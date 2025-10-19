@@ -467,8 +467,8 @@
                 holdMouseX,
                 holdMouseY,
                 totalDistance,
-                stepDistance = 15, // 适中的步长
-                stepInterval = 10,  // 适中的步间隔
+                stepDistance = 180, // 适中的步长
+                stepInterval = 15,  // 适中的步间隔
                 waitBefore = 30,   // 适中的等待时间
                 waitAfter = 200,   // 适中的等待时间
                 repeat = 1,
@@ -798,6 +798,9 @@
                         click(menuClickX, 75);
 
                         await sleep(config.pageSwitchDelay);
+                        await moveMouseTo(1288, 124);
+
+                        await sleep(config.pageSwitchDelay);
 
                         cachedFrame?.dispose();
                         cachedFrame = captureGameRegion();
@@ -831,8 +834,16 @@
                         }
 
                         await sleep(1500);
-                        const CategoryResult = await recognizeImage(CategoryObject, cachedFrame, 5000);
-                        if (CategoryResult.isDetected) {
+
+                        let CategoryResult = await recognizeImage(CategoryObject, cachedFrame, 5000);
+
+                        if (!CategoryResult.isDetected) {
+                            log.warn(`首次未识别到材料分类图标: ${materialsCategory}，重试中...`);
+                            CategoryResult = await recognizeImage(CategoryObject, cachedFrame, 5000);
+                            if (!CategoryResult.isDetected) {
+                                log.error(`重试后仍未识别到材料分类图标: ${materialsCategory}`);
+                            }
+                        } else {
                             // log.info(`识别到${materialsCategory} 所在分类。`);
 
                             // 重置材料滑条
@@ -846,8 +857,6 @@
                             // 扫描材料
                             const materialInfo = await scanMaterials(materialsCategory, materialCategoryMap);
                             allMaterialInfo.push(...materialInfo);
-                        } else {
-                            log.warn(`未识别到材料分类图标: ${materialsCategory}`);
                         }
 
                         currentCategoryIndex++;
