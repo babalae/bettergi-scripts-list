@@ -431,7 +431,7 @@ async function trySwitch20To40Resin() {
         currentCaptureRegion = captureGameRegion();
         
         // 检测切换按钮
-        switchButtonIcon = file.ReadImageMatSync("RecognitionObject/switch_button.png");
+        switchButtonIcon = file.ReadImageMatSync("assets/icon/switch_button.png");
         switchButtonRo = RecognitionObject.TemplateMatch(switchButtonIcon);
         switchButtonRo.threshold = 0.7;  // 设置合适的阈值
         

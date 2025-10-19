@@ -13,6 +13,8 @@ let marksStatus = true;   // 自定义标记状态
 let currentRunTimes = 0;  // 当前运行次数
 let isNotification = false; // 是否发送通知
 let config = {};          // 全局配置对象
+let recheckCount = 0;     // 树脂重新检查次数（防止无限递归）
+const MAX_RECHECK_COUNT = 3; // 最大重新检查次数
 const ocrRegion1 = { x: 800, y: 200, width: 300, height: 100 };   // 中心区域
 const ocrRegion2 = { x: 0, y: 200, width: 300, height: 300 };     // 追踪任务区域
 const ocrRegion3 = { x: 1200, y: 520, width: 300, height: 300 };  // 拾取区域
@@ -64,10 +66,22 @@ const ocrRoThis = RecognitionObject.ocrThis;
 async function runLeyLineOutcropScript() {
     // 初始化加载配置和设置并校验
     initialize();
+    
+    // 处理树脂耗尽模式（如果开启）
+    let runTimesValue = await handleResinExhaustionMode();
+    if(runTimesValue <= 0) {
+        throw new Error("树脂耗尽，脚本将结束运行");
+    }
+
     await prepareForLeyLineRun();
 
     // 执行地脉花挑战
     await runLeyLineChallenges();
+    
+    // 如果是树脂耗尽模式，执行完毕后再次检查是否还有树脂
+    if (settings.isResinExhaustionMode) {
+        await recheckResinAndContinue();
+    }
 }
 
 /**
@@ -85,7 +99,8 @@ function initialize() {
             "findLeyLineOutcropByBook.js",
             "loadSettings.js",
             "processLeyLineOutcrop.js",
-            "recognizeTextInRegion.js"
+            "recognizeTextInRegion.js",
+            "calCountByResin.js"
         ]; 
         for (const fileName of utils) {
             eval(file.readTextSync(`utils/${fileName}`));
@@ -102,6 +117,160 @@ function initialize() {
     }
 }
 
+/**
+ * 处理树脂耗尽模式
+ * 如果开启了树脂耗尽模式，则统计可刷取次数并替换设置中的刷取次数
+ * 如果统计失败，则使用设置中的刷取次数
+ * @returns {Promise<number>} 返回可刷取次数
+ */
+async function handleResinExhaustionMode() {
+    // 检查是否开启了树脂耗尽模式
+    if (!settings.isResinExhaustionMode) {
+        return settings.timesValue;
+    }
+    
+    log.info("树脂耗尽模式已开启，开始统计可刷取次数");
+    
+    try {
+        // 调用树脂统计函数
+        const resinResult = await calCountByResin();
+        
+        if (!resinResult || typeof resinResult.count !== 'number') {
+            throw new Error("树脂统计返回结果无效");
+        }
+        
+        // 检查统计到的次数是否有效
+        if (resinResult.count <= 0) {
+            log.warn("统计到的可刷取次数为0，脚本将不会执行任何刷取操作");
+            if (isNotification) {
+                notification.send("树脂耗尽模式：统计到的可刷取次数为0，脚本将结束运行");
+            }
+        }
+        
+        // 使用统计到的次数替换设置中的刷取次数
+        settings.timesValue = resinResult.count;
+        
+        log.info(`树脂统计成功：`);
+        log.info(`  原粹树脂可刷取: ${resinResult.originalResinTimes} 次`);
+        log.info(`  浓缩树脂可刷取: ${resinResult.condensedResinTimes} 次`);
+        log.info(`  须臾树脂可刷取: ${resinResult.transientResinTimes} 次${settings.useTransientResin ? '' : '（未开启使用）'}`);
+        log.info(`  脆弱树脂可刷取: ${resinResult.fragileResinTimes} 次${settings.useFragileResin ? '' : '（未开启使用）'}`);
+        log.info(`  总计可刷取次数: ${resinResult.count} 次`);
+        
+        // 发送通知
+        if (isNotification) {
+            const notificationText = 
+                `全自动地脉花脚本已启用树脂耗尽模式\n\n` +
+                `树脂统计结果(当前可刷取次数)：\n` +
+                `原粹树脂: ${resinResult.originalResinTimes} 次\n` +
+                `浓缩树脂: ${resinResult.condensedResinTimes} 次\n` +
+                `须臾树脂: ${resinResult.transientResinTimes} 次${settings.useTransientResin ? '' : '（未开启）'}\n` +
+                `脆弱树脂: ${resinResult.fragileResinTimes} 次${settings.useFragileResin ? '' : '（未开启）'}\n\n` +
+                `总计可刷取: ${resinResult.count} 次\n`;
+            notification.send(notificationText);
+        }
+
+        return settings.timesValue;
+    } catch (error) {
+        // 统计失败，使用设置中的刷取次数
+        log.error(`树脂统计失败: ${error.message}`);
+        log.warn(`将使用设置中的刷取次数: ${settings.timesValue}`);
+        
+        if (isNotification) {
+            notification.send(`树脂耗尽模式：统计失败，将使用设置中的刷取次数 ${settings.timesValue} 次\n错误信息: ${error.message}`);
+        }
+        return settings.timesValue;
+    }
+}
+
+/**
+ * 树脂耗尽模式结束后再次检查树脂并继续执行
+ * @returns {Promise<void>}
+ */
+async function recheckResinAndContinue() {
+    // 递归深度检查，防止无限循环
+    recheckCount++;
+    
+    if (recheckCount > MAX_RECHECK_COUNT) {
+        log.warn(`已达到最大重新检查次数限制 (${MAX_RECHECK_COUNT} 次)，停止继续检查`);
+        if (isNotification) {
+            notification.send(`树脂耗尽模式：已达到最大检查次数 ${MAX_RECHECK_COUNT}，脚本结束`);
+        }
+        return;
+    }
+    
+    log.info("=".repeat(50));
+    log.info(`树脂耗尽模式：任务已完成，开始检查树脂状态...`);
+    log.info("=".repeat(50));
+    
+    try {
+        // 重新统计树脂
+        const resinResult = await calCountByResin();
+        
+        if (!resinResult || typeof resinResult.count !== 'number') {
+            log.warn("树脂统计返回结果无效，结束运行");
+            return;
+        }
+        
+        log.info(`树脂检查结果：`);
+        log.info(`  原粹树脂可刷取: ${resinResult.originalResinTimes} 次`);
+        log.info(`  浓缩树脂可刷取: ${resinResult.condensedResinTimes} 次`);
+        log.info(`  须臾树脂可刷取: ${resinResult.transientResinTimes} 次${settings.useTransientResin ? '' : '（未开启使用）'}`);
+        log.info(`  脆弱树脂可刷取: ${resinResult.fragileResinTimes} 次${settings.useFragileResin ? '' : '（未开启使用）'}`);
+        log.info(`  总计可刷取次数: ${resinResult.count} 次`);
+        
+        // 安全检查：如果检测到的次数异常多，可能是识别错误
+        if (resinResult.count > 50) {
+            log.warn(`检测到异常的可刷取次数 (${resinResult.count})，为安全起见停止运行`);
+            if (isNotification) {
+                notification.send(`树脂耗尽模式：检测到异常次数 ${resinResult.count}，已停止运行`);
+            }
+            return;
+        }
+        
+        // 如果还有树脂可用，继续执行
+        if (resinResult.count > 0) {
+            log.info(`检测到还有 ${resinResult.count} 次可刷取，继续执行地脉花挑战...`);
+            log.info(`（这是第 ${recheckCount} 次额外检查并继续执行）`);
+            
+            if (isNotification) {
+                notification.send(`树脂耗尽模式：检测到还有 ${resinResult.count} 次可刷取，继续执行（第 ${recheckCount} 次额外执行）`);
+            }
+            
+            // 重置运行次数并更新目标次数
+            currentRunTimes = 0;
+            settings.timesValue = resinResult.count;
+            
+            // 递归调用继续执行地脉花挑战和重新检查
+            await runLeyLineChallenges();
+            
+            // 执行完后再次检查（递归）
+            await recheckResinAndContinue();
+        } else {
+            // 正常结束情况
+            if (recheckCount === 1) {
+                log.info("树脂已完全耗尽，脚本正常执行完毕");
+                if (isNotification) {
+                    notification.send(`树脂耗尽模式：树脂已完全耗尽，脚本正常执行完毕`);
+                }
+            } else {
+                // 异常重试情况
+                log.info("树脂已完全耗尽，脚本执行完毕");
+                log.info(`（本次运行触发了 ${recheckCount - 1} 次额外的树脂检查和执行）`);
+                if (isNotification) {
+                    notification.send(`树脂耗尽模式：树脂已完全耗尽，脚本执行完毕（触发了 ${recheckCount - 1} 次额外执行）`);
+                }
+            }
+        }
+    } catch (error) {
+        log.error(`重新检查树脂时出错: ${error.message}`);
+        if (isNotification) {
+            notification.error(`重新检查树脂时出错: ${error.message}`);
+        }
+        // 出错时也要停止递归
+        return;
+    }
+}
 
 /**
  * 执行地脉花挑战前的准备工作
