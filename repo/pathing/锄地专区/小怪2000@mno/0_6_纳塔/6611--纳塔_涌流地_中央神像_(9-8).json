@@ -1,12 +1,7 @@
-{
+﻿{
   "info": {
     "name": "6611--纳塔_涌流地_中央神像_(9-8)",
-    "enable_monster_loot_split": true,
     "type": "collect",
-    "version": "1.1",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "Demo"
@@ -19,7 +14,14 @@
         "name": "mno",
         "links": "https://github.com/Bedrockx"
       }
-    ]
+    ],
+    "version": "1.1",
+    "description": "  路线信息：该路线预计用时181.76秒，包含13只小怪，预计收入769.5摩拉，包含以下怪物：1只流刃勇士·游击人、2只流刃勇士·锯脂者、2只流刃勇士·掷叉猎手、1只鳍游龙武士·裂礁之涛、2只幼鳍游龙、5只鳍游龙。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753404413684,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
@@ -74,8 +76,7 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 7,
@@ -83,7 +84,7 @@
       "y": -2697.67,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     },
     {
@@ -153,28 +154,18 @@
       "id": 15,
       "x": 8431.56,
       "y": -2791,
-      "action": "combat_script",
+      "action": "fight",
       "move_mode": "dash",
-      "action_params": "attack(0.5)",
+      "action_params": "",
       "type": "path"
     },
     {
       "id": 16,
       "x": 8439.32,
       "y": -2772.84,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 17,
-      "x": 8439.32,
-      "y": -2772.84,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     }
   ]

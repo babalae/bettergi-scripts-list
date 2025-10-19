@@ -2,18 +2,13 @@
   "info": {
     "name": "B08-璃月-碧水原-荻花洲-2只",
     "type": "collect",
+    "author": "蜜柑魚",
     "version": "1.0",
-    "description": "",
+    "description": "  路线信息：该路线预计用时43.96秒，包含以下怪物：2只雷萤。",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1752249622672,
-    "authors": [
-      {
-        "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
-      }
-    ]
+    "last_modified_time": 1752249622672
   },
   "positions": [
     {
@@ -49,7 +44,7 @@
       "y": 1278.69,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     }
   ]

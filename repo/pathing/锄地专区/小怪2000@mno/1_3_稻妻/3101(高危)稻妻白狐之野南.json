@@ -2,16 +2,16 @@
   "info": {
     "name": "3101(高危)稻妻白狐之野南",
     "type": "collect",
+    "author": "mno",
     "version": "1.0",
-    "description": "",
+    "description": "  路线信息：该路线预计用时127.33秒，包含1只精英与11只小怪，预计收入645.5摩拉，包含以下怪物：1只丘丘人、2只打手丘丘人、2只雷弹丘丘人、1只雷斧丘丘暴徒、1只盗宝团·斥候、1只盗宝团·神射手、1只盗宝团·海上男儿、1只野伏·阵刀番、2只电气骗骗花。",
     "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "mno",
         "links": "https://github.com/Bedrockx"
       }
-    ],
-    "enable_monster_loot_split": true
+    ]
   },
   "positions": [
     {
@@ -111,10 +111,7 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "point_ext_params": {
-        "monster_tag": "elite"
-      }
+      "type": "path"
     },
     {
       "id": 12,
@@ -149,7 +146,7 @@
       "y": -2978.13,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     }
   ]

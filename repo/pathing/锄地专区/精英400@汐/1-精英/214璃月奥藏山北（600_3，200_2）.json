@@ -1,16 +1,16 @@
-{
+﻿{
   "info": {
     "author": "汐",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时110秒，包含5只精英，预计收入2200摩拉，包含以下怪物：2只狂风之核、78只秘源机兵·构型械、2只幼岩龙蜥、1只岩龙蜥。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1759485778981,
+    "last_modified_time": 1760871588127,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "214璃月奥藏山北（600_3，200_2）",
@@ -110,8 +110,8 @@
       "y": 1270.91
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 11,
       "move_mode": "dash",
       "type": "path",
