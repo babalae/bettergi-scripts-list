@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时120秒，包含2只精英，预计收入800摩拉，包含以下怪物：1只遗迹守卫、1只遗迹重机。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1759690839352,
+    "last_modified_time": 1760427594398,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "420【沙暴】须弥沙漠折胫谷（600_1，200_1）",
@@ -141,6 +141,7 @@
       "action": "fight",
       "action_params": "",
       "id": 14,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 5719.2197,
@@ -152,13 +153,22 @@
       "id": 15,
       "move_mode": "dash",
       "type": "path",
+      "x": 5717.4668,
+      "y": -788.9644
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
       "x": 5738.792,
       "y": -803.8398
     },
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 16,
+      "id": 17,
       "move_mode": "fly",
       "type": "path",
       "x": 5770.123,
@@ -167,7 +177,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 18,
       "move_mode": "dash",
       "type": "path",
       "x": 5810.6689,
@@ -176,7 +186,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 19,
       "move_mode": "dash",
       "type": "path",
       "x": 5849.8125,
@@ -185,7 +195,7 @@
     {
       "action": "stop_flying",
       "action_params": "1200",
-      "id": 19,
+      "id": 20,
       "move_mode": "fly",
       "type": "path",
       "x": 5885.3818,
@@ -194,7 +204,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 20,
+      "id": 21,
       "move_mode": "dash",
       "type": "path",
       "x": 5889.8936,
@@ -203,7 +213,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.2)",
-      "id": 21,
+      "id": 22,
       "move_mode": "dash",
       "type": "orientation",
       "x": 5889.8936,

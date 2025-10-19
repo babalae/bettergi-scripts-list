@@ -1,10 +1,10 @@
 {
   "info": {
     "name": "3305稻妻剑鬼东1",
-    "enable_monster_loot_split": true,
     "type": "collect",
+    "author": "mno",
     "version": "1.0",
-    "description": "",
+    "description": "  路线信息：该路线预计用时233.43秒，包含23只小怪，预计收入1093.5摩拉，包含以下怪物：3只火史莱姆、2只雷史莱姆、1只变异雷史莱姆、2只冰史莱姆、4只冰箭丘丘人、1只盗宝团·水之药剂师、1只盗宝团·掘墓者、1只野伏·阵刀番、3只野伏·火伏番、1只野伏·机巧番、1只海乱鬼·炎威、2只海乱鬼·雷腾、1只冰霜骗骗花。",
     "bgi_version": "0.42.0",
     "authors": [
       {
@@ -290,7 +290,7 @@
       "y": -3791.17,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     }
   ]

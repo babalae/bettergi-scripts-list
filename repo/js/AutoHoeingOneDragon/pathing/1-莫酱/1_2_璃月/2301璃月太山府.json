@@ -1,81 +1,60 @@
-{
+﻿{
   "info": {
-    "name": "2301璃月太山府",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时58.73秒，包含7只小怪，预计收入324摩拉，包含以下怪物：6只雷史莱姆、1只变异雷史莱姆。",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时58.73秒，包含7只小怪，预计收入324摩拉，包含以下怪物：6只雷史莱姆、1只变异雷史莱姆。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760726816881,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "2301璃月太山府",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 1167.72,
-      "y": 662.4,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 1184.0947265625,
+      "y": 622.6318359375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 1147.22,
-      "y": 664.78,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 1172.857421875,
+      "y": 637.8037109375
     },
     {
-      "id": 3,
-      "x": 1120.9,
-      "y": 689.03,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 1129.16,
-      "y": 662.99,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 1145.1,
-      "y": 645.43,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": 1144.53,
-      "y": 640.71,
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 3,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1150.73828125,
+      "y": 635.181640625
     },
     {
-      "id": 7,
-      "x": 1144.53,
-      "y": 640.71,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(1)",
-      "type": "orientation"
+      "action_params": "wait(0.2)",
+      "id": 4,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 1150.73828125,
+      "y": 635.181640625
     }
   ]
 }

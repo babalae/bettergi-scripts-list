@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时127.88秒，包含以下怪物：1只荒野狂狩士、4只荒野幽徒、1只蔓结·霜夜灵嗣、1只愚人众特辖队·先锋士、2只巡陆艇·强侦地效型。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1759419366715,
+    "last_modified_time": 1760427237630,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "715挪德卡莱月矩力设计局东北（400_1，200_5）",
@@ -22,7 +22,6 @@
       "action": "",
       "action_params": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 9593.4414,
@@ -61,8 +60,8 @@
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": 9455.1768,
-      "y": 3480.7051
+      "x": 9461.1826,
+      "y": 3468.5791
     },
     {
       "action": "",
@@ -70,26 +69,26 @@
       "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": 9484.1875,
-      "y": 3516.0996
+      "x": 9465.7822,
+      "y": 3496.8381
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9489.375,
+      "y": 3515.7095
     },
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 7,
+      "id": 8,
       "move_mode": "fly",
       "type": "path",
       "x": 9518.7012,
       "y": 3540.2134
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 9523.2217,
-      "y": 3543.2546
     },
     {
       "action": "fight",
@@ -101,13 +100,23 @@
       "y": 3543.2546
     },
     {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9522.4336,
+      "y": 3540.8833
+    },
+    {
       "action": "combat_script",
       "action_params": "wait(0.2)",
-      "id": 10,
+      "id": 11,
       "move_mode": "dash",
       "type": "orientation",
-      "x": 9523.2217,
-      "y": 3543.2546
+      "x": 9522.4336,
+      "y": 3540.8833
     }
   ]
 }
