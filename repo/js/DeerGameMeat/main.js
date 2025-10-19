@@ -304,7 +304,8 @@
             }
             
             const firstPoint = routeData.positions[0];
-            if (!firstPoint.x || !firstPoint.y) {
+            if (typeof firstPoint.x !== "number" || typeof firstPoint.y !== "number"
+                || Number.isNaN(firstPoint.x) || Number.isNaN(firstPoint.y)) {
                 log.error(`坐标无效: ${routePath}`);
                 return false;
             }
