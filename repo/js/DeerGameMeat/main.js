@@ -10,14 +10,22 @@
     // 检测当前队伍角色
     function checkRequiredCharacters() {
         const avatars = getAvatars();
-        const hasLayla = avatars.includes("菈乌玛");
-        const hasKazuha = avatars.includes("枫原万叶");
-        
-        if (!hasLayla || !hasKazuha) {
-            log.error(`队伍角色检查失败 - 菈乌玛:${hasLayla ? '✓' : '✗'} 枫原万叶:${hasKazuha ? '✓' : '✗'}`);
-            return false;
+        let hasLayla = false;
+        let hasKazuha = false;
+
+        if (avatars && avatars.length > 1) {
+            for (let i = 0; i < avatars.length; i++) {
+                if (avatars[i] === "菈乌玛") hasLayla = true;
+                if (avatars[i] === "枫原万叶") hasKazuha = true;
+            }
+
+            if (!hasLayla || !hasKazuha) {
+                log.error(`队伍角色检查失败 - 菈乌玛:${hasLayla ? '✓' : '✗'} 枫原万叶:${hasKazuha ? '✓' : '✗'}`);
+                return false;
+            }
+            return true;
         }
-        return true;
+        return false;
     }
     
     // 高危路线数组（目前只有07路线）
