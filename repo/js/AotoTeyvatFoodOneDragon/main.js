@@ -1615,21 +1615,26 @@
     // 获取当前账户id
     async function getCurrentUsername() {
         let userName;
-        if (!settings.userName) {
-            await genshin.returnMainUi();
-            const texts = await textOCR("", 0.3, 0, 2, 1750, 1050, 135, 30);
-            if (result.found) {
-                userName = texts.text;
+        try {
+            if (!settings.userName) {
+                await genshin.returnMainUi();
+                const texts = await textOCR("", 0.3, 0, 2, 1750, 1050, 135, 30);
+                if (texts && texts.found) {
+                    userName = texts.text;
+                } else {
+                    userName = "默认账户";
+                }
             } else {
-                userName = "默认账户";
+                userName = settings.userName;
             }
-        } else {
-            userName = settings.userName;
-        }
 
-        log.info("当前用户:" + userName);
-        await genshin.returnMainUi();
-        return userName;
+            log.info("当前用户:" + userName);
+            await genshin.returnMainUi();
+            return userName;
+        } catch (e) {
+            log.error(`获取用户名失败: ${e.message}`);
+            return "默认账户";
+        }
     }
 
     // 寻路函数
@@ -1671,7 +1676,7 @@
                 if (current >= next4am) {
                     await sleep(10000);//四点之后等十秒再点击
 
-                    for (i = 0; i < 5; i++) {
+                    for (let i = 0; i < 5; i++) {
                         click(960, 740);
                         await sleep(100);
                     }
@@ -1683,7 +1688,7 @@
             if (res.found) {
                 log.info("已领取月卡");
             } else {
-                for (i = 0; i < 3; i++) {
+                for (let i = 0; i < 3; i++) {
                     click(960, 740);
                     await sleep(100);
                 }
@@ -1930,7 +1935,7 @@
             let allPaths = [];
             try {
                 const res = file.readPathSync(filePath);
-                result = Array.from(res);
+                const result = Array.from(res);
                 // log.debug(`readPathSync 返回类型: ${typeof result}`);
                 // log.debug(`readPathSync 返回内容: ${JSON.stringify(result)}`);
 
