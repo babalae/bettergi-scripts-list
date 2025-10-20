@@ -879,7 +879,7 @@ def main():
     parser = argparse.ArgumentParser(description='校验 BetterGI 脚本文件')
     parser.add_argument('path', help='要校验的文件或目录路径')
     parser.add_argument('--fix', action='store_true', help='自动修复问题')
-    parser.add_argument('--structure', action='store_true', help='浅草的氨气搞得什么结构校验')
+    parser.add_argument('--structure', action='store_true', help='被氨气草的喵老厮改的什么结构校验')
     args = parser.parse_args()
 
     path = args.path
