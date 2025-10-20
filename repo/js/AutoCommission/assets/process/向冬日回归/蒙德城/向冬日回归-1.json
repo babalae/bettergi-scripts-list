@@ -3,16 +3,16 @@
     "authors": [
       {
         "links": "",
-        "name": "云闲vsv"
+        "name": "11"
       }
     ],
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1759932334748,
+    "last_modified_time": 1758951694473,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "圆滚滚的大团骚乱-2",
+    "name": "向冬日回归-1",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,62 +24,53 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -1130.8056640625,
-      "y": 1597.88525390625
+      "x": -749.412109375,
+      "y": 2263.095458984375
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "dash",
+      "move_mode": "fly",
       "type": "path",
-      "x": -1130.185546875,
-      "y": 1617.4951171875
+      "x": -748.7392578125,
+      "y": 2263.28125
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 3,
-      "move_mode": "dash",
+      "move_mode": "fly",
       "type": "path",
-      "x": -1111.919921875,
-      "y": 1660.89208984375
+      "x": -717.400390625,
+      "y": 2294.3359375
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": -1101.234375,
-      "y": 1675.0322265625
+      "x": -705.4072265625,
+      "y": 2355.9326171875
     },
     {
-      "action": "anemo_collect",
+      "action": "",
       "action_params": "",
       "id": 5,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": -1101.890625,
-      "y": 1682.8193359375
+      "x": -696.0087890625,
+      "y": 2357.346923828125
     },
     {
       "action": "",
       "action_params": "",
       "id": 6,
       "move_mode": "walk",
-      "type": "path",
-      "x": -1098.099609375,
-      "y": 1681.0537109375
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -1076.298828125,
-      "y": 1728.7763671875
+      "type": "target",
+      "x": -685.0595703125,
+      "y": 2355.038330078125
     }
   ]
 }

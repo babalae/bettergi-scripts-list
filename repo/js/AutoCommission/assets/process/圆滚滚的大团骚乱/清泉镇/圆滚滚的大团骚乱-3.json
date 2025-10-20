@@ -4,10 +4,10 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758524693795,
+    "last_modified_time": 1759932372308,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "应急补给-8",
+    "name": "圆滚滚的大团骚乱-3",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -19,26 +19,26 @@
       "id": 1,
       "move_mode": "walk",
       "type": "path",
-      "x": -1120.03515625,
-      "y": 1326.7373046875
+      "x": -1077.716796875,
+      "y": 1729.4580078125
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(4)",
+      "action": "",
+      "action_params": "",
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": -1121.521484375,
-      "y": 1318.2041015625
+      "x": -1089.2421875,
+      "y": 1698.830078125
     },
     {
-      "action": "pyro_collect",
+      "action": "fight",
       "action_params": "",
       "id": 3,
       "move_mode": "walk",
-      "type": "target",
-      "x": -1122.09765625,
-      "y": 1316.5498046875
+      "type": "path",
+      "x": -1100.19140625,
+      "y": 1681.26318359375
     }
   ]
 }

@@ -23,7 +23,7 @@ var DialogProcessor = {
     // 初始触发剧情 - 识别人名并点击
     extractedName = [];
     // 人名区域OCR识别
-    var nameRegion = { X: 75, Y: 240, WIDTH: 225, HEIGHT: 60 };
+    var nameRegion = {X: 75, Y: 240, WIDTH: 225, HEIGHT: 60};
     var nameResults = await Utils.easyOCR(nameRegion);
     // 尝试提取任务人名
     for (var i = 0; i < nameResults.count; i++) {
@@ -40,7 +40,7 @@ var DialogProcessor = {
     }
 
     // 对话选项区域OCR识别
-    var dialogRegion = { X: 1150, Y: 300, WIDTH: 350, HEIGHT: 400 };
+    var dialogRegion = {X: 1150, Y: 300, WIDTH: 350, HEIGHT: 400};
     nameResults = await Utils.easyOCR(dialogRegion);
     var clickedWhitelistNPC = false;
     var clickedExtractedName = false;
@@ -116,8 +116,6 @@ var DialogProcessor = {
     // 重复执行自动剧情，直到返回主界面
     var maxAttempts = 100; // 设置最大尝试次数，防止无限循环
     var attempts = 0;
-    var repetition = 0;
-    var oldcount = 1;
     await sleep(1000);
     log.info("开始执行自动剧情");
 
@@ -142,97 +140,94 @@ var DialogProcessor = {
 
       //keyPress("VK_ESCAPE");//关弹窗
 
-      // 每skipCount次跳过后，进行OCR识别
-      if (true) {
-        // 检查是否有匹配的优先选项
-        var foundPriorityOption = false;
+      // 检查是否有匹配的优先选项
+      var foundPriorityOption = false;
 
-        // 获取对话区域截图并进行OCR识别
-        var dialogOptionsRegion = {
-          X: 1250,
-          Y: 450,
-          WIDTH: 550,
-          HEIGHT: 400,
-        };
-        var ocrResults = await Utils.easyOCR(dialogOptionsRegion);
-        if (ocrResults.count > 0) {
-          log.info("识别到 {count} 个选项", ocrResults.count);
+      // 获取对话区域截图并进行OCR识别
+      var dialogOptionsRegion = {
+        X: 1250,
+        Y: 450,
+        WIDTH: 550,
+        HEIGHT: 400,
+      };
+      var ocrResults = await Utils.easyOCR(dialogOptionsRegion);
+      if (ocrResults.count > 0) {
+        log.info("识别到 {count} 个选项", ocrResults.count);
 
-          if (ocrResults.count === oldcount) {
-            repetition++;
-          } else {
-            repetition = 0;
-          }
-          oldcount = ocrResults.count;
-          if (repetition >= 5) {
-            log.info("连续5次选项数量一样，执行F跳过");
-            keyPress("F");
-            repetition = 0;
-          }
-          for (var i = 0; i < ocrResults.count; i++) {
-            var ocrText = ocrResults[i].text;
+        for (var i = 0; i < ocrResults.count; i++) {
+          var ocrText = ocrResults[i].text;
 
-            // 检查是否在优先选项列表中
-            for (var j = 0; j < effectivePriorityOptions.length; j++) {
-              if (ocrText.includes(effectivePriorityOptions[j])) {
-                log.info(
-                  "找到优先选项: {option}，点击该选项",
-                  effectivePriorityOptions[j]
-                );
-                // 点击该选项
-                ocrResults[i].click();
-                await sleep(500);
-                foundPriorityOption = true;
-                break;
-              }
-            }
-
-            if (foundPriorityOption) break;
-          }
-
-          // 如果没有找到优先选项，则使用默认跳过
-          if (!foundPriorityOption && !isInMainUI()) {
-            let exitList = await Utils.easyTemplateMatch(
-              Constants.TALK_EXIT_IMAGE_PATH,
-              dialogRegion,
-              true
-            );
-            let iconList = await Utils.easyTemplateMatch(
-              Constants.TALK_ICON_IMAGE_PATH,
-              dialogRegion
-            );
-            let clickXY = null;
-            //正常应该只识别到一个退出选项，如果识别到多个，则去点击气泡对话选项
-            if (exitList.count === 1) {
-              log.info("发现一个退出对话选项");
-              clickXY = [exitList[0].x, exitList[0].y];
-
-              //点击最下边的气泡选项
-            } else if (iconList.count > 0) {
+          // 检查是否在优先选项列表中
+          for (var j = 0; j < effectivePriorityOptions.length; j++) {
+            if (ocrText.includes(effectivePriorityOptions[j])) {
               log.info(
-                `发现{count}个气泡对话选项，点击最后一个`,
-                iconList.count
+                "找到优先选项: {option}，点击该选项",
+                effectivePriorityOptions[j]
               );
-              iconList = [...iconList];
-              iconList.sort((a, b) => b.y - a.y);
-              clickXY = [iconList[0].x, iconList[0].y];
-            } else {
-              log.warn("指定类型的对话选项不符合数量条件，不进行操作");
-              log.warn(
-                `退出图标：{exit}个，气泡图标：{icon}个`,
-                exitList.count,
-                iconList.count
-              );
+              // 点击该选项
+              ocrResults[i].click();
+              await sleep(500);
+              foundPriorityOption = true;
+              break;
             }
+          }
 
-            //点击对话选项
-            if (clickXY) {
-              keyDown("VK_MENU");
-              await sleep(300);
-              click(...clickXY);
-              leftButtonClick();
-              keyUp("VK_MENU");
-            }
+          if (foundPriorityOption) break;
+        }
+
+        // 如果没有找到优先选项，则使用默认跳过
+        if (!foundPriorityOption && !isInMainUI()) {
+          let exitList = await Utils.easyTemplateMatch(
+            Constants.TALK_EXIT_IMAGE_PATH,
+            dialogRegion,
+            true
+          );
+          let iconList = await Utils.easyTemplateMatch(
+            Constants.TALK_ICON_IMAGE_PATH,
+            dialogRegion
+          );
+          let clickXY = null;
+          //正常应该只识别到一个退出选项
+          if (exitList.count === 1) {
+            log.info("发现一个退出对话选项");
+            clickXY = [exitList[0].x, exitList[0].y];
+
+            //点击最下边的气泡选项
+          } else if (iconList.count > 0) {
+            log.info(
+              `发现{count}个气泡对话选项，点击最后一个气泡选项`,
+              iconList.count
+            );
+            iconList = [...iconList];
+            iconList.sort((a, b) => b.y - a.y);
+            clickXY = [iconList[0].x, iconList[0].y];
+
+            // 有对话选项时，点击最后一个选项
+          } else if (ocrResults.count > 0) {
+            log.info("指定类型的对话选项不符合数量条件,默认点击最后一个选项");
+            //C#的List不能用-1索引，^1不确定在js中能否使用，所以用count-1
+            clickXY = [
+              ocrResults[ocrResults.count - 1].x,
+              ocrResults[ocrResults.count - 1].y
+            ];
+
+          } else {
+            log.warn("指定类型的对话选项不符合数量条件，不进行操作");
+            log.warn(
+              `退出图标：{exit}个，气泡图标：{icon}个，对话选项：{ocrResults}个`,
+              exitList.count,
+              iconList.count,
+              ocrResults.count
+            );
+          }
+
+          //点击对话选项
+          if (clickXY) {
+            keyDown("VK_MENU");
+            await sleep(300);
+            click(...clickXY);
+            leftButtonClick();
+            keyUp("VK_MENU");
           }
         }
       }

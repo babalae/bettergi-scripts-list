@@ -1,18 +1,13 @@
 ﻿{
   "info": {
-    "authors": [
-      {
-        "links": "",
-        "name": "云闲vsv"
-      }
-    ],
+    "authors": [],
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758599200822,
+    "last_modified_time": 1758952476896,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "鸽子习惯一去不回-1",
+    "name": "向冬日回归-3",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,35 +19,35 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -867.9482421875,
-      "y": 1992.02685546875
+      "x": -578.447265625,
+      "y": 1853.7138671875
     },
     {
-      "action": "set_time",
-      "action_params": "20:00",
+      "action": "",
+      "action_params": "",
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": -911.3984375,
-      "y": 1975.8359375
+      "x": -582.0625,
+      "y": 1867.8583984375
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": -916.0224609375,
-      "y": 1963.8603515625
+      "x": -573.005859375,
+      "y": 1882.98828125
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": -927.671875,
-      "y": 1951.90185546875
+      "x": -566.0234375,
+      "y": 1929.345703125
     },
     {
       "action": "",
@@ -60,35 +55,35 @@
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": -917.8017578125,
-      "y": 1929.73193359375
-    },
-    {
-      "action": "set_time",
-      "action_params": "20:00",
-      "id": 6,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -927.4892578125,
-      "y": 1917.6005859375
+      "x": -557.095703125,
+      "y": 1983.5849609375
     },
     {
       "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -556.494140625,
+      "y": 1988.68798828125
+    },
+    {
+      "action": "stop_flying",
       "action_params": "",
       "id": 7,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": -935.8974609375,
-      "y": 1924.3876953125
+      "x": -555.2421875,
+      "y": 2008.05224609375
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 8,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -940.9462890625,
-      "y": 1928.05322265625
+      "move_mode": "dash",
+      "type": "path",
+      "x": -550.158203125,
+      "y": 2041.29931640625
     }
   ]
 }
