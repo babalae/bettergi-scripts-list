@@ -3,8 +3,6 @@ eval(file.readTextSync("lib/region.js"));
 const holdX = Math.min(1920, Math.max(0, Math.floor(Number(settings.HoldX) || 1050)));
 const holdY = Math.min(1080, Math.max(0, Math.floor(Number(settings.HoldY) || 750)));
 const totalPageDistance = Math.max(10, Math.floor(Number(settings.PageScrollDistance) || 711));
-const targetCount = Math.min(9999, Math.max(0, Math.floor(Number(settings.TargetCount) || 5000))); // 设定的目标数量
-const exceedCount = Math.min(9999, Math.max(0, Math.floor(Number(settings.ExceedCount) || 5000))); // 设定的超量目标数量
 const imageDelay = Math.min(1000, Math.max(0, Math.floor(Number(settings.ImageDelay) || 0))); // 识图基准时长    await sleep(imageDelay);
 
 // 配置参数
@@ -58,7 +56,7 @@ const materialPriority = {
 // log.info(`材料分类: ${materialsCategory}, 菜单偏移值: ${menuOffset}, 计算出的点击 X 坐标: ${menuClickX}`);
 
 // OCR识别文本
-async function recognizeText(ocrRegion, timeout = 1000, retryInterval = 20, maxAttempts = 10, maxFailures = 3, ra = null) {
+async function recognizeText(ocrRegion, timeout = 100, retryInterval = 20, maxAttempts = 10, maxFailures = 3, ra = null) {
     let startTime = Date.now();
     let retryCount = 0;
     let failureCount = 0; // 用于记录连续失败的次数
@@ -509,48 +507,6 @@ const MaterialsRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("asset
 const CultivationItemsRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/CultivationItems.png"), 749, 30, 38, 38);
 const FoodRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Food.png"), 845, 31, 38, 38);
 
-const specialMaterials = [
-    "水晶块", "魔晶块", "星银矿石", "紫晶块", "萃凝晶", "虹滴晶", "铁块", "白铁块",
-    "精锻用魔矿", "精锻用良矿", "精锻用杂矿"
-];
-var excessMaterialNames = []; // 超量材料名单
-
-function filterLowCountMaterials(pathingMaterialCounts, materialCategoryMap) {
-    // 新增：超量阈值（普通材料9999，矿石处理后也是9999）
-    const EXCESS_THRESHOLD = exceedCount;
-    // 新增：临时存储本次超量材料
-    const tempExcess = [];
-
-    // 原逻辑：提取所有需要扫描的材料
-    const allMaterials = Object.values(materialCategoryMap).flat();
-
-    const filteredMaterials = pathingMaterialCounts
-        .filter(item =>
-            allMaterials.includes(item.name) &&
-            (item.count < targetCount || item.count === "?")
-        )
-        .map(item => {
-            // 原逻辑：矿石数量÷10
-            let processedCount = item.count;
-            if (specialMaterials.includes(item.name) && item.count !== "?") {
-                processedCount = Math.floor(Number(item.count) / 10);
-            }
-
-            // 新增：判断是否超量（用处理后数量对比阈值）
-            if (item.count !== "?" && processedCount >= EXCESS_THRESHOLD) {
-                tempExcess.push(item.name); // 记录超量材料名
-            }
-
-            return { ...item, count: processedCount };
-        });
-
-    tempExcess.push("OCR启动"); // 新增：添加特殊标记，用于终止OCR等待
-    // 新增：更新全局超量名单（去重）
-    excessMaterialNames = [...new Set(tempExcess)];
-    log.info(`【超量材料更新】共${excessMaterialNames.length}种：${excessMaterialNames.join("、")}`);
-
-    return filteredMaterials; // 原返回值不变
-}
 
 function dynamicMaterialGrouping(materialCategoryMap) {
     // 初始化动态分组对象
