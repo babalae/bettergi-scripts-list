@@ -110,9 +110,14 @@
         "label": "====================\n\n采用的CD分类（默认：全部) 举例：采集,怪物，木材"
     },
     {
+        "name": "CurrentTime",
+        "type": "input-text",
+        "label": "根据CD分类来加载路径文件，具体看materialsCD目录\n====================\n\n终止时刻（默认：不执行) 例：4:00"
+    },
+    {
         "name": "PickCategories",
         "type": "input-text",
-        "label": "根据CD分类来加载路径文件，具体看materialsCD目录\n====================\n\n采用的识别名单（默认：全部) 举例：交互，采集,宝箱"
+        "label": "====================\n\n采用的识别名单（默认：全部) 举例：交互，采集,宝箱"
     },
     {
         "name": "ExceedCount",

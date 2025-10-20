@@ -158,29 +158,42 @@ async function findFIcon(recognitionObject, timeout = 10, ra = null) {
                 return { success: true, x: result.x, y: result.y, width: result.width, height: result.height };
             }
         } catch (error) {
-            log.error(`识别图像时发生异常: ${error.message}`);
+            log.error(`识别图标异常: ${error.message}`);
             if (state.cancelRequested) {
-                break; // 如果请求了取消，则退出循环
+                break;
             }
             return null;
         }
         await sleep(5); // 每次检测间隔 5 毫秒
     }
     if (state.cancelRequested) {
-        log.info("图像识别任务已取消");
+        log.info("图标识别任务已取消");
     }
     return null;
 }
 
-// 对齐并交互目标
-async function alignAndInteractTarget(targetTexts, fDialogueRo, textxRange, texttolerance, cachedFrame=null) {
+// 定义Scroll.png识别对象（按需求使用TemplateMatch，包含指定范围）
+const ScrollRo = RecognitionObject.TemplateMatch(
+    file.ReadImageMatSync("assets/Scroll.png"), 
+    1055, 521, 15, 35  // 识别范围：x=1055, y=521, width=15, height=35
+);
+
+/**
+ * 对齐并交互目标（直接用findFIcon识别Scroll.png）
+ * @param {string[]} targetTexts - 待匹配的目标文本列表
+ * @param {Object} fDialogueRo - F图标的识别对象
+ * @param {Object} textxRange - 文本识别的X轴范围 { min: number, max: number }
+ * @param {number} texttolerance - 文本与F图标Y轴对齐的容差
+ * @param {Object} cachedFrame - 缓存的图像帧（可选）
+ */
+async function alignAndInteractTarget(targetTexts, fDialogueRo, textxRange, texttolerance, cachedFrame = null) {
     let lastLogTime = Date.now();
     // 记录每个材料的识别次数（文本+坐标 → 计数）
     const recognitionCount = new Map();
 
     while (!state.completed && !state.cancelRequested) {
         const currentTime = Date.now();
-        if (currentTime - lastLogTime >= 10000) { // 每5秒记录一次日志
+        if (currentTime - lastLogTime >= 10000) {
             log.info("检测中...");
             lastLogTime = currentTime;
         }
@@ -191,13 +204,15 @@ async function alignAndInteractTarget(targetTexts, fDialogueRo, textxRange, text
         // 尝试找到 F 图标
         let fRes = await findFIcon(fDialogueRo, 10, cachedFrame);
         if (!fRes) {
-            continue;
+            const scrollRes = await findFIcon(ScrollRo, 10, cachedFrame); // 复用findFIcon函数
+            if (scrollRes) {
+                await keyMouseScript.runFile(`assets/滚轮下翻.json`); // 调用翻滚脚本
+            }
+            continue; // 继续下一轮检测
         }
 
         // 获取 F 图标的中心点 Y 坐标
         let centerYF = fRes.y + fRes.height / 2;
-
-        // 在当前屏幕范围内进行 OCR 识别
         let ocrResults = await performOcr(targetTexts, textxRange, { min: fRes.y - 3, max: fRes.y + 37 }, 10, cachedFrame);
 
         // 检查所有目标文本是否在当前页面中
@@ -206,31 +221,25 @@ async function alignAndInteractTarget(targetTexts, fDialogueRo, textxRange, text
             let targetResult = ocrResults.find(res => res.text.includes(targetText));
             if (targetResult) {
                 
-                // 生成唯一标识并更新识别计数（文本+Y坐标）
                 const materialId = `${targetText}-${targetResult.y}`;
                 recognitionCount.set(materialId, (recognitionCount.get(materialId) || 0) + 1);
                 
                 let centerYTargetText = targetResult.y + targetResult.height / 2;
                 if (Math.abs(centerYTargetText - centerYF) <= texttolerance) {
-                    // log.info(`目标文本 '${targetText}' 和 F 图标水平对齐`);
                     if (recognitionCount.get(materialId) >= 1) {
-                        keyPress("F"); // 执行交互操作
+                        keyPress("F");
                         log.info(`交互或拾取: ${targetText}`);
-                        
-                        // F键后清除计数，确保单次交互
                         recognitionCount.delete(materialId);
                     }
                     
                     foundTarget = true;
-                    break; // 成功交互后退出当前循环，但继续检测
+                    break;
                 }
             }
         }
 
-        // 如果在当前页面中没有找到任何目标文本，则滚动到下一页
         if (!foundTarget) {
             await keyMouseScript.runFile(`assets/滚轮下翻.json`);
-            // verticalScroll(-20);
         }
         if (state.cancelRequested) {
             break;
