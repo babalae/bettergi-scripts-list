@@ -54,7 +54,7 @@ ACTION_PARAMS_VERSION_MAP = {
 }
 
 # 默认版本号
-DEFAULT_BGI_VERSION = "0.42.0"
+DEFAULT_BGI_VERSION = "0.52.0"
 DEFAULT_VERSION = "1.0"
 
 # ==================== 文件操作 ====================
@@ -879,26 +879,29 @@ def main():
     parser = argparse.ArgumentParser(description='校验 BetterGI 脚本文件')
     parser.add_argument('path', help='要校验的文件或目录路径')
     parser.add_argument('--fix', action='store_true', help='自动修复问题')
+    parser.add_argument('--structure', action='store_true', help='浅草的氨气搞得什么结构校验')
     args = parser.parse_args()
 
     path = args.path
     auto_fix = args.fix
+    structure = args.structure
     all_notices = []  # 初始化 all_notices 变量
 
     # 首先执行目录结构校验
-    if os.path.isdir(path):
-        print("🔍 开始目录结构校验...")
-        structure_errors = validate_directory_structure(path)
-        if structure_errors:
-            print("\n❌ 目录结构校验失败，发现以下错误:")
-            for error in structure_errors:
-                print(f"- {error}")
-            print("\n请修复上述目录结构问题后重新提交。")
-            print("\n目录结构规范说明:")
-            print("- 不允许JSON文件和子目录在同一个目录下共存")
-            print("- 建议将JSON文件移动到专门的子目录中")
-            exit(1)
-        print("✅ 目录结构校验通过")
+    if structure:
+        if os.path.isdir(path):
+            print("🔍 开始目录结构校验...")
+            structure_errors = validate_directory_structure(path)
+            if structure_errors:
+                print("\n❌ 目录结构校验失败，发现以下错误:")
+                for error in structure_errors:
+                    print(f"- {error}")
+                print("\n请修复上述目录结构问题后重新提交。")
+                print("\n目录结构规范说明:")
+                print("- 不允许JSON文件和子目录在同一个目录下共存")
+                print("- 建议将JSON文件移动到专门的子目录中")
+                exit(1)
+            print("✅ 目录结构校验通过")
 
     if os.path.isfile(path) and path.endswith('.json'):
         scan_and_convert(path)
