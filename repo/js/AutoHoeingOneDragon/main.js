@@ -1,10 +1,9 @@
-//当前js版本1.8.6
-
-//拾取时上下滑动的时间
+//当前js版本1.9.3
 
 let timeMoveUp;
 let timeMoveDown;
 let pickup_Mode = settings.pickup_Mode || "模板匹配拾取，拾取狗粮和怪物材料";
+let dumpers;
 if (settings.activeDumperMode) { //处理泥头车信息
     dumpers = settings.activeDumperMode.split('，').map(Number).filter(num => num === 1 || num === 2 || num === 3 || num === 4);
 } else {
@@ -16,7 +15,7 @@ let mainUITemplate = file.ReadImageMatSync("assets/MainUI.png");
 let itemFullTemplate = file.ReadImageMatSync("assets/itemFull.png");
 let targetItems;
 
-const rollingDelay = (+settings.rollingDelay || 25);
+let rollingDelay = (+settings.rollingDelay || 25);
 const pickupDelay = (+settings.pickupDelay || 100);
 const timeMove = (+settings.timeMove || 1000);
 
@@ -25,6 +24,7 @@ let blacklist = [];
 let blacklistSet = new Set();
 let state;
 const accountName = settings.accountName || "默认账户";
+let pathings;
 
 (async function () {
     targetItems = await loadTargetItems();
@@ -58,7 +58,7 @@ const accountName = settings.accountName || "默认账户";
     const excludeTags = (settings.excludeTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
     if (pickup_Mode != "模板匹配拾取，拾取狗粮和怪物材料" && pickup_Mode != "模板匹配拾取，只拾取狗粮") {
         excludeTags.push("沙暴");
-        log.warn("拾取模式不是模板匹配或，无法处理沙暴路线，自动排除所有沙暴路线");
+        log.warn("拾取模式不是模板匹配，无法处理沙暴路线，自动排除所有沙暴路线");
     }
 
     await loadBlacklist(true);
@@ -82,12 +82,6 @@ const accountName = settings.accountName || "默认账户";
 
     //预处理路线并建立对象
     pathings = await processPathings();
-    //优先使用index中的数据
-    await updatePathings("assets/index1.json");
-    await updatePathings("assets/index2.json");
-
-    //加载路线cd信息
-    await initializeCdTime(pathings, accountName);
 
     //按照用户配置标记路线
     await markPathings(pathings, groupTags, priorityTags, excludeTags);
@@ -172,6 +166,9 @@ async function processPathings() {
     // 读取路径文件夹中的所有文件
     let pathings = await readFolder("pathing", true);
 
+    //加载路线cd信息
+    await initializeCdTime(pathings, accountName);
+
     // 定义解析 description 的函数
     function parseDescription(desc) {
         const routeInfo = {
@@ -191,7 +188,7 @@ async function processPathings() {
             const monsterList = monsterMatch[1].split('、');
             monsterList.forEach(monsterStr => {
                 const [countStr, monsterName] = monsterStr.split('只');
-                const count = parseInt(countStr.trim(), 10);
+                const count = Math.ceil(parseFloat(countStr.trim()) || 0);
                 routeInfo.monsterInfo[monsterName.trim()] = count;
             });
         }
@@ -199,6 +196,7 @@ async function processPathings() {
         return routeInfo;
     }
     let index = 0
+
     // 遍历每个路径文件并处理
     for (const pathing of pathings) {
         index++;
@@ -214,32 +212,7 @@ async function processPathings() {
         //pathing 对象的属性
         pathing.t = routeInfo.time; // description 中有值则覆盖
         pathing.monsterInfo = routeInfo.monsterInfo;
-        if (!settings.disableSelfOptimization && pathing.records) {
-            //如果用户没有禁用自动优化，则参考运行记录更改预期用时
-            const history = pathing.records.filter(v => v > 0);
-            if (history.length) {
-                const max = Math.max(...history);
-                const min = Math.min(...history);
 
-                let maxRemoved = false;
-                let minRemoved = false;
-
-                // 就地修改 history：先去掉一个最大值，再去掉一个最小值
-                for (let i = history.length - 1; i >= 0; i--) {
-                    const v = history[i];
-                    if (!maxRemoved && v === max) {
-                        history.splice(i, 1);
-                        maxRemoved = true;
-                    } else if (!minRemoved && v === min) {
-                        history.splice(i, 1);
-                        minRemoved = true;
-                    }
-                    if (maxRemoved && minRemoved) break;
-                }
-            }
-            //每一个有效的record占用0.2权重，剩余权重为原时间
-            pathing.t = pathing.t * (1 - history.length * 0.2) + history.reduce((a, b) => a + b, 0);
-        }
         pathing.m = 0; // 普通怪物数量
         pathing.e = 0; // 精英怪物数量
         pathing.mora_m = 0; // 普通怪物摩拉值
@@ -269,6 +242,78 @@ async function processPathings() {
         pathing.tags = [...new Set(pathing.tags)];
         // 处理 map_name 属性
         pathing.map_name = parsedContent.info?.map_name || "Teyvat"; // 如果有 map_name，则使用其值，否则默认为 "Teyvat"
+    }
+
+    //优先使用index中的数据
+    // 更新 pathings 的函数，接受索引文件路径作为参数
+    async function updatePathings(indexFilePath) {
+        try {
+            // 读取文件内容
+            const fileContent = await file.readText(indexFilePath);
+            // 将文件内容解析为 JSON 格式
+            const data = JSON.parse(fileContent);
+
+            // 遍历解析后的 JSON 数据
+            for (const item of data) {
+                // 检查 pathings 中是否存在某个对象的 fileName 属性与 item.fileName 相同
+                const existingPathing = pathings.find(pathing => pathing.fileName === item.fileName);
+
+                if (existingPathing) {
+                    // 直接覆盖其他字段，但先检查是否存在有效值
+                    if (item.时间 !== undefined) existingPathing.t = item.时间;
+                    if (item.精英摩拉 !== undefined) existingPathing.mora_e = item.精英摩拉;
+                    if (item.小怪摩拉 !== undefined) existingPathing.mora_m = item.小怪摩拉;
+                    if (item.小怪数量 !== undefined) existingPathing.m = item.小怪数量;
+                    if (item.精英数量 !== undefined) existingPathing.e = item.精英数量;
+
+                    // 使用 Set 来存储 tags，避免重复项
+                    const tagsSet = new Set(existingPathing.tags);
+                    for (const key in item) {
+                        if (key !== "fileName" && key !== "时间" && key !== "精英摩拉" && key !== "小怪摩拉" && key !== "小怪数量" && key !== "精英数量") {
+                            if (item[key] === 1) {
+                                tagsSet.add(key);
+                            }
+                        }
+                    }
+                    existingPathing.tags = Array.from(tagsSet);
+                }
+            }
+        } catch (error) {
+            log.error("Error:", error);
+        }
+    }
+    //await updatePathings("assets/index1.json");
+    //await updatePathings("assets/index2.json");
+
+    for (const pathing of pathings) {
+        if (!settings.disableSelfOptimization && pathing.records) {
+            //如果用户没有禁用自动优化，则参考运行记录更改预期用时
+            const history = pathing.records.filter(v => v > 0);
+            if (history.length) {
+                const max = Math.max(...history);
+                const min = Math.min(...history);
+
+                let maxRemoved = false;
+                let minRemoved = false;
+
+                // 就地修改 history：先去掉一个最大值，再去掉一个最小值
+                for (let i = history.length - 1; i >= 0; i--) {
+                    const v = history[i];
+                    if (!maxRemoved && v === max) {
+                        history.splice(i, 1);
+                        maxRemoved = true;
+                    } else if (!minRemoved && v === min) {
+                        history.splice(i, 1);
+                        minRemoved = true;
+                    }
+                    if (maxRemoved && minRemoved) break;
+                }
+            }
+            prevt = pathing.t;
+            //每一个有效的record占用0.2权重，剩余权重为原时间
+            pathing.t = pathing.t * (1 - history.length * 0.2) + history.reduce((a, b) => a + b, 0) * 0.2;
+            //log.info(`将路线${pathing.fileName}用时从${prevt}更新为${pathing.t}`)
+        }
     }
     return pathings; // 返回处理后的 pathings 数组
 }
@@ -470,7 +515,32 @@ async function assignGroups(pathings, groupTags) {
 }
 
 async function runPath(fullPath, map_name) {
-    state = { running: true };
+    /* ===== 1. 取得当前路线对象 ===== */
+    let currentPathing = null;
+    for (let i = 0; i < pathings.length; i++) {
+        if (pathings[i].fullPath === fullPath) {
+            currentPathing = pathings[i];
+            break;
+        }
+    }
+
+    /* ===== 2. 重排 targetItems：当前路线拾取过的提前 ===== */
+    if (currentPathing && currentPathing.items && currentPathing.items.length) {
+        // 用对象当 Set 做 O(1) 查询
+        const history = {};
+        for (let i = 0; i < currentPathing.items.length; i++) {
+            history[currentPathing.items[i]] = true;
+        }
+        // 排序：命中历史 -> 提前，其余保持原序
+        targetItems.sort(function (a, b) {
+            const aHit = history[a.itemName] ? 1 : 0;
+            const bHit = history[b.itemName] ? 1 : 0;
+            return bHit - aHit;   // 1 在前，0 在后
+        });
+    }
+
+    /* ===== 3. 原逻辑不变 ===== */
+    state = { running: true, currentPathing: currentPathing };
 
     /* ---------- 主任务 ---------- */
     const pathingTask = (async () => {
@@ -483,7 +553,7 @@ async function runPath(fullPath, map_name) {
 
     /* ---------- 伴随任务 ---------- */
     const pickupTask = (async () => {
-        if (pickup_Mode === "模板匹配拾取，拾取狗粮和怪物材料" || pickup_Mode === "模板匹配拾取，只拾取狗粮") {
+        if (pickup_Mode != "不拾取任何物品") {
             await recognizeAndInteract();
         }
     })();
@@ -520,7 +590,6 @@ async function runPath(fullPath, map_name) {
             while (state.running) {
                 await sleep(1500);
                 if (await checkItemFull()) {
-                    /* 1. OCR 560×450 → 1360×620 区域 */
                     const TEXT_X = 560, TEXT_Y = 450, TEXT_W = 1360 - 560, TEXT_H = 620 - 450;
                     let ocrText = null;
                     try {
@@ -538,13 +607,12 @@ async function runPath(fullPath, map_name) {
                         log.error(`OCR异常: ${e.message}`);
                     }
 
-                    /* 2. 遍历 targetItems 找匹配 */
                     if (ocrText) {
                         log.info(`识别到背包已满，识别到文本：${ocrText}`);
                         for (const targetItem of targetItems) {
                             const cnPart = targetItem.itemName.replace(/[^\u4e00-\u9fa5]/g, '');
-                            if (cnPart && ocrText.includes(cnPart)) {   // 子串即可
-                                const itemName = targetItem.itemName;   // 用原始完整名字
+                            if (cnPart && ocrText.includes(cnPart)) {
+                                const itemName = targetItem.itemName;
                                 log.warn(`物品"${itemName}"已满，加入黑名单`);
                                 blacklistSet.add(itemName);
                                 blacklist.push(itemName);
@@ -557,11 +625,10 @@ async function runPath(fullPath, map_name) {
         }
     })();
 
-
     /* ---------- 泥头车任务 ---------- */
     let dumperTask = null;
-    if (dumpers.length > 0) {                       // 检查 dumpers 是否不为空
-        dumperTask = dumper(fullPath, map_name);    // 调用 dumper 函数
+    if (dumpers.length > 0) {
+        dumperTask = dumper(fullPath, map_name);
     }
 
     /* ---------- 并发等待 ---------- */
@@ -570,8 +637,8 @@ async function runPath(fullPath, map_name) {
         pickupTask,
         errorProcessTask,
         blacklistTask,
-        dumperTask      // 即使为 null，allSettled 也会忽略
-    ].filter(Boolean)); // 过滤掉 null，防止某些运行时报警
+        dumperTask
+    ].filter(Boolean));
 }
 
 // 定义一个函数用于拾取
@@ -583,6 +650,7 @@ async function recognizeAndInteract() {
     let thisMoveUpTime = 0;
     let lastMoveDown = 0;
     gameRegion = captureGameRegion();
+    let itemName;
     //主循环
     while (state.running) {
         gameRegion.dispose();
@@ -600,7 +668,9 @@ async function recognizeAndInteract() {
         //log.info(`调试-成功找到f图标,centerYF为${centerYF}`);
 
         let foundTarget = false;
-        let itemName = await performTemplateMatch(centerYF);
+        if (pickup_Mode === "模板匹配拾取，拾取狗粮和怪物材料" || pickup_Mode === "模板匹配拾取，只拾取狗粮") {
+            itemName = await performTemplateMatch(centerYF);
+        }
         if (itemName) {
             //log.info(`调试-识别到物品${itemName}`);
             if (Math.abs(lastcenterYF - centerYF) <= 20 && lastItemName === itemName) {
@@ -614,6 +684,12 @@ async function recognizeAndInteract() {
                 } else {
                     keyPress("F");
                     log.info(`交互或拾取："${itemName}"`);
+                    // 把本次拾取加入当前路线名单，保持最多 20 个
+                    if (state.currentPathing) {
+                        state.currentPathing.items.push(itemName);
+                        // 去重 + 保留最后 20 个
+                        state.currentPathing.items = [...new Set(state.currentPathing.items)].slice(-20);
+                    }
                     lastcenterYF = centerYF;
                     lastItemName = itemName;
                     await sleep(pickupDelay);
@@ -647,6 +723,7 @@ async function recognizeAndInteract() {
             let result;
             let itemName = null;
             for (const targetItem of targetItems) {
+                //log.info(`正在尝试匹配${targetItem.itemName}`);
                 const cnLen = Math.min([...targetItem.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length, 5);
                 const recognitionObject = RecognitionObject.TemplateMatch(
                     targetItem.template,
@@ -655,7 +732,7 @@ async function recognizeAndInteract() {
                     12 + 28 * cnLen + 2,
                     30
                 );
-                recognitionObject.Threshold = 0.9;
+                recognitionObject.Threshold = targetItem.Threshold;
                 recognitionObject.InitTemplate();
                 result = gameRegion.find(recognitionObject);
                 if (result.isExist()) {
@@ -738,7 +815,7 @@ async function isMainUI() {
     return false;
 }
 
-//加载拾取物图片
+// 加载拾取物图片
 async function loadTargetItems() {
     let targetItemPath;
     if (pickup_Mode === "模板匹配拾取，拾取狗粮和怪物材料") {
@@ -756,6 +833,15 @@ async function loadTargetItems() {
         try {
             it.template = file.ReadImageMatSync(it.fullPath);
             it.itemName = it.fileName.replace(/\.png$/i, '');
+
+            // 新增：解析括号中的阈值
+            const match = it.fullPath.match(/[（(](.*?)[)）]/); // 匹配英文或中文括号
+            if (match) {
+                const val = parseFloat(match[1]);
+                it.Threshold = (!isNaN(val) && val >= 0 && val <= 1) ? val : 0.85;
+            } else {
+                it.Threshold = 0.85;
+            }
         } catch (error) { }
     }
 
@@ -1087,6 +1173,7 @@ async function processPathingsByGroup(pathings, accountName) {
 
     if (pickup_Mode === "bgi原版拾取") {
         dispatcher.addTimer(new RealtimeTimer("AutoPick"));
+        rollingDelay = 160;
     }
 
     // 初始化统计变量
@@ -1234,8 +1321,13 @@ async function initializeCdTime(pathings, accountName) {
         const cdTimeData = JSON.parse(fileContent);
 
         pathings.forEach(pathing => {
-            const entry = cdTimeData.find(e => e.fileName === pathing.fileName);
-
+            let entry = null;
+            for (let i = 0; i < cdTimeData.length; i++) {
+                if (cdTimeData[i].fileName === pathing.fileName) {
+                    entry = cdTimeData[i];
+                    break;
+                }
+            }
             // 读取 cdTime
             pathing.cdTime = entry
                 ? new Date(entry.cdTime).toLocaleString()
@@ -1250,6 +1342,9 @@ async function initializeCdTime(pathings, accountName) {
             // 合并：文件中的 records（倒序最新在前）→ 追加到当前数组末尾
             // 再整体倒序恢复正确顺序，截取最新 7 项
             pathing.records = [...current, ...loaded.reverse()].slice(-7);
+            // 读取历史拾取名单，只保留最后 20 个不重复
+            const rawItems = (entry && Array.isArray(entry.items)) ? entry.items : [];
+            pathing.items = [...new Set(rawItems)].slice(-20);   // 去重 + 截断
         });
     } catch (error) {
         // 文件不存在或解析错误，初始化为 6 个 -1
@@ -1267,15 +1362,14 @@ async function updateRecords(pathings, accountName) {
         const cdTimeData = pathings.map(pathing => ({
             fileName: pathing.fileName,
             标签: pathing.tags,
-            预计用时: pathing.t,
+            预计用时: pathing.t.toFixed(2),
             cdTime: pathing.cdTime,
-            // 倒序：最新 → 最旧，再过滤 > 0 并保留两位小数
-            records: [...pathing.records]   // 复制一份避免副作用
-                .reverse()                 // 倒序
-                .filter(v => v > 0)        // 过滤大于 0
-                .map(v => Number(v.toFixed(2))) // 保留两位小数
+            records: [...pathing.records]
+                .reverse()
+                .filter(v => v > 0)
+                .map(v => Number(v.toFixed(2))),
+            items: pathing.items
         }));
-
         await file.writeText(filePath, JSON.stringify(cdTimeData, null, 2), false);
     } catch (error) {
         log.error(`更新 cdTime 时出错: ${error.message}`);
@@ -1364,44 +1458,6 @@ async function fakeLog(name, isJs, isStart, duration) {
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `------------------------------`;
         log.debug(logMessage);
-    }
-}
-
-// 更新 pathings 的函数，接受索引文件路径作为参数
-async function updatePathings(indexFilePath) {
-    try {
-        // 读取文件内容
-        const fileContent = await file.readText(indexFilePath);
-        // 将文件内容解析为 JSON 格式
-        const data = JSON.parse(fileContent);
-
-        // 遍历解析后的 JSON 数据
-        for (const item of data) {
-            // 检查 pathings 中是否存在某个对象的 fileName 属性与 item.fileName 相同
-            const existingPathing = pathings.find(pathing => pathing.fileName === item.fileName);
-
-            if (existingPathing) {
-                // 直接覆盖其他字段，但先检查是否存在有效值
-                if (item.时间 !== undefined) existingPathing.t = item.时间;
-                if (item.精英摩拉 !== undefined) existingPathing.mora_e = item.精英摩拉;
-                if (item.小怪摩拉 !== undefined) existingPathing.mora_m = item.小怪摩拉;
-                if (item.小怪数量 !== undefined) existingPathing.m = item.小怪数量;
-                if (item.精英数量 !== undefined) existingPathing.e = item.精英数量;
-
-                // 使用 Set 来存储 tags，避免重复项
-                const tagsSet = new Set(existingPathing.tags);
-                for (const key in item) {
-                    if (key !== "fileName" && key !== "时间" && key !== "精英摩拉" && key !== "小怪摩拉" && key !== "小怪数量" && key !== "精英数量") {
-                        if (item[key] === 1) {
-                            tagsSet.add(key);
-                        }
-                    }
-                }
-                existingPathing.tags = Array.from(tagsSet);
-            }
-        }
-    } catch (error) {
-        log.error("Error:", error);
     }
 }
 
