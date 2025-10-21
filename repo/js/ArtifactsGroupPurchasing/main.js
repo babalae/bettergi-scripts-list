@@ -12,6 +12,9 @@ let TMthreshold = +settings.TMthreshold || 0.9;
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
+    if (settings.logName) {
+        await processArtifacts();
+    }
     await genshin.tpToStatueOfTheSeven();
     await switchPartyIfNeeded(settings.partyName);
     targetItems = await loadTargetItems();
@@ -67,7 +70,8 @@ let TMthreshold = +settings.TMthreshold || 0.9;
                 };
 
                 Object.assign(autoEnterSettings, permits);
-                log.info(`等待他人进入自己世界，白名单人数：${autoEnterSettings.maxEnterCount}`);
+                log.info(`等待他人进入自己世界，目标人数：${autoEnterSettings.maxEnterCount}`);
+                notification.send(`等待他人进入自己世界，目标人数：${autoEnterSettings.maxEnterCount}`);
             } else {
                 // 构造队员配置
                 autoEnterSettings = {
@@ -76,6 +80,7 @@ let TMthreshold = +settings.TMthreshold || 0.9;
                     timeout: 5
                 };
                 log.info(`将要进入序号${idx}，uid为${settings[`p${idx}UID`]}的世界`);
+                notification.send(`将要进入序号${idx}，uid为${settings[`p${idx}UID`]}，名称为${settings[`p${idx}Name`]}的世界`);
             }
             let attempts = 0;
             while (attempts < 5) {
@@ -84,6 +89,7 @@ let TMthreshold = +settings.TMthreshold || 0.9;
                 //队员加入后要检查房主名称
                 if (autoEnterSettings.enterMode === "进入他人世界" && attempts != 5) {
                     if (await checkP1Name(settings[`p${idx}Name`])) {
+                        notification.send(`成功进入序号${idx}，uid为${settings[`p${idx}UID`]}，名称为${settings[`p${idx}Name`]}的世界`);
                         break;
                     } else {
                         //进入了错误的世界，退出世界并重新加入,最后一次不检查
@@ -114,6 +120,12 @@ let TMthreshold = +settings.TMthreshold || 0.9;
         }
     }
     await genshin.tpToStatueOfTheSeven();
+
+    if (settings.logName) {
+        let expGain = await processArtifacts();
+        log.info(`${settings.logName}：联机狗粮分解获得经验${expGain}`);
+        notification.send(`${settings.logName}：联机狗粮分解获得经验${expGain}`);
+    }
 }
 )();
 
@@ -514,13 +526,23 @@ async function runGroupPurchasing(runExtra) {
 
         if (files.length === 0) {
             log.warn(`文件夹 ${folderPath} 下未找到任何 JSON 路线文件`);
-            return;
         }
 
         for (const { fullPath } of files) {
             await runPath(fullPath, 1);
         }
+        try {
+            const pos = await genshin.getPositionFromMap();
+            const dist = Math.hypot(pos.x - 2297.3, pos.y + 823.8);
+            if (dist && dist < 100) {
+                log.warn("仍然在七天神像附近，尝试重跑至多一次");
+                for (const { fullPath } of files) {
+                    await runPath(fullPath, 1);
+                }
+            }
+        } catch (error) {
 
+        }
         log.info(`${folderName} 的全部路线已完成`);
     }
 }
@@ -644,6 +666,7 @@ async function autoEnter(autoEnterSettings) {
                             enterCount++;
                             enteredPlayers = [...new Set([...enteredPlayers, result])];
                             log.info(`允许 ${result} 加入`);
+                            notification.send(`允许 ${result} 加入`);
                             if (await isYUI()) { keyPress("VK_ESCAPE"); await sleep(500); await genshin.returnMainUi(); }
                             break;
                         } else {
@@ -659,10 +682,18 @@ async function autoEnter(autoEnterSettings) {
             if (enterCount >= maxEnterCount || checkToEnd) {
                 checkToEnd = true;
                 await sleep(20000);
-                if (await findTotalNumber() === maxEnterCount + 1) break;
+                if (await findTotalNumber() === maxEnterCount + 1) {
+                    notification.send(`已达到预定人数：${maxEnterCount + 1}`);
+                    break;
+                }
                 else enterCount--;
             }
         }
+    }
+
+    if (new Date() - start >= timeout * 60 * 1000) {
+        log.warn("超时未达到预定人数");
+        notification.error(`超时未达到预定人数`);
     }
 
     async function confirmSearchResult() {
@@ -1146,8 +1177,16 @@ async function recognizeAndInteract() {
             let result;
             let itemName = null;
             for (const targetItem of targetItems) {
-                let recognitionObject = RecognitionObject.TemplateMatch(targetItem.template, 1219, centerYF - 15, 32 + 30 * (targetItem.itemName.length) + 2, 30);
-                recognitionObject.Threshold = TMthreshold;
+                //log.info(`正在尝试匹配${targetItem.itemName}`);
+                const cnLen = Math.min([...targetItem.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length, 5);
+                const recognitionObject = RecognitionObject.TemplateMatch(
+                    targetItem.template,
+                    1219,
+                    centerYF - 15,
+                    12 + 28 * cnLen + 2,
+                    30
+                );
+                recognitionObject.Threshold = targetItem.Threshold;
                 recognitionObject.InitTemplate();
                 result = gameRegion.find(recognitionObject);
                 if (result.isExist()) {
@@ -1196,6 +1235,182 @@ async function recognizeAndInteract() {
             }
             attempts++;
             await sleep(50);
+        }
+        return false;
+    }
+}
+
+async function processArtifacts() {
+    // 定义一个独立的函数用于在指定区域进行 OCR 识别并输出识别内容
+    async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
+        let startTime = Date.now();
+        let retryCount = 0; // 重试计数
+        while (Date.now() - startTime < timeout) {
+            try {
+                // 在指定区域进行 OCR 识别
+                const gameRegion = captureGameRegion();
+                let ocrResult = gameRegion.find(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height));
+                gameRegion.dispose();
+                if (ocrResult) {
+                    let correctedText = ocrResult.text;
+                    return correctedText; // 返回识别到的内容
+                } else {
+                    log.warn(`OCR 识别区域未找到内容`);
+                    return null; // 如果 OCR 未识别到内容，返回 null
+                }
+            } catch (error) {
+                retryCount++; // 增加重试计数
+                log.warn(`OCR 识别失败，正在进行第 ${retryCount} 次重试...`);
+            }
+            await sleep(500); // 短暂延迟，避免过快循环
+        }
+        log.warn(`经过多次尝试，仍然无法在指定区域识别到文字`);
+        return null; // 如果未识别到文字，返回 null
+    }
+
+    const decomposeRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/decompose.png"));
+    const quickChooseRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/quickChoose.png"));
+    const confirmRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/confirm.png"));
+    const doDecomposeRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/doDecompose.png"));
+    const doDecompose2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/doDecompose2.png"));
+
+    const outDatedRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/ConfirmButton.png"), 760, 700, 100, 100);
+    await genshin.returnMainUi();
+    await sleep(500);
+    let result = 0;
+    try {
+        result = await decomposeArtifacts();
+    } catch (error) {
+        log.error(`处理狗粮分解时发生异常: ${error.message}`);
+    }
+    await genshin.returnMainUi();
+    return result;
+
+    async function decomposeArtifacts() {
+        keyPress("B");
+        if (await findAndClick(outDatedRo)) {
+            log.info("检测到过期物品弹窗，处理");
+            await sleep(1000);
+        }
+        await sleep(1000);
+        await click(670, 45);
+        await sleep(500);
+        if (!await findAndClick(decomposeRo)) {
+            await genshin.returnMainUi();
+            return 0;
+        }
+        await sleep(1000);
+
+        // 识别已储存经验（1570-880-1650-930）
+        const regionToCheck1 = { x: 1570, y: 880, width: 80, height: 50 };
+        const raw = await recognizeTextInRegion(regionToCheck1);
+
+        // 把识别到的文字里所有非数字字符去掉，只保留数字
+        const digits = (raw || '').replace(/\D/g, '');
+
+        let initialValue = 0;
+        if (digits) {
+            initialValue = parseInt(digits, 10);
+            log.info(`已储存经验识别成功: ${initialValue}`);
+        } else {
+            log.warn(`在指定区域未识别到有效数字: ${initialValue}`);
+        }
+
+        let regionToCheck3 = { x: 100, y: 885, width: 170, height: 50 };
+
+        if (!await findAndClick(quickChooseRo)) {
+            await genshin.returnMainUi();
+            return 0;
+        }
+        moveMouseTo(960, 540);
+        await sleep(1000);
+
+        // 点击“确认选择”按钮
+        if (!await findAndClick(confirmRo)) {
+            await genshin.returnMainUi();
+            return 0;
+        }
+        await sleep(1500);
+
+        let decomposedNum2 = await recognizeTextInRegion(regionToCheck3);
+
+        // 使用正则表达式提取第一个数字
+        const match2 = decomposedNum2.match(/已选(\d+)/);
+
+        // 检查是否匹配成功
+        if (match2) {
+            // 将匹配到的第一个数字转换为数字类型并存储在变量中
+            let firstNumber2 = Number(match2[1]);
+            log.info(`分解总数是: ${firstNumber2}`);
+        } else {
+            log.info("识别失败");
+        }
+        //识别当前总经验
+        notification.Send(`当前经验如图`);
+        // 当前总经验（1470-880-205-70）
+        const regionToCheck2 = { x: 1470, y: 880, width: 205, height: 70 };
+        const raw2 = await recognizeTextInRegion(regionToCheck2);
+
+        // 只保留数字
+        const digits2 = (raw2 || '').replace(/\D/g, '');
+
+        let newValue = 0;
+        if (digits2) {
+            newValue = parseInt(digits2, 10);
+            log.info(`当前总经验识别成功: ${newValue}`);
+        } else {
+            log.warn(`在指定区域未识别到有效数字: ${newValue}`);
+        }
+
+        log.info(`用户选择了分解，执行分解`);
+        // 根据用户配置，分解狗粮
+        await sleep(1000);
+        // 点击分解按钮
+        if (!await findAndClick(doDecomposeRo)) {
+            await genshin.returnMainUi();
+            return 0;
+        }
+        await sleep(500);
+
+        // 4. "进行分解"按钮// 点击进行分解按钮
+        if (!await findAndClick(doDecompose2Ro)) {
+            await genshin.returnMainUi();
+            return 0;
+        }
+        await sleep(1000);
+
+        // 5. 关闭确认界面
+        await click(1340, 755);
+        await sleep(1000);
+
+        const resinExperience = Math.max(newValue - initialValue, 0);
+        log.info(`分解可获得经验: ${resinExperience}`);
+        let resultExperience = resinExperience;
+        if (resultExperience === 0) {
+            resultExperience = initialValue;
+        }
+        const result = resultExperience;
+        await genshin.returnMainUi();
+        return result;
+    }
+
+    async function findAndClick(target, maxAttempts = 20) {
+        for (let attempts = 0; attempts < maxAttempts; attempts++) {
+            const gameRegion = captureGameRegion();
+            try {
+                const result = gameRegion.find(target);
+                if (result.isExist) {
+                    result.click();
+                    return true;                 // 成功立刻返回
+                }
+                log.warn(`识别失败，第 ${attempts + 1} 次重试`);
+            } catch (err) {
+            } finally {
+                gameRegion.dispose();
+            }
+            if (attempts < maxAttempts - 1) {   // 最后一次不再 sleep
+                await sleep(250);
+            }
         }
         return false;
     }

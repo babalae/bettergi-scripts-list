@@ -1338,8 +1338,16 @@ async function recognizeAndInteract() {
             let result;
             let itemName = null;
             for (const targetItem of targetItems) {
-                let recognitionObject = RecognitionObject.TemplateMatch(targetItem.template, 1219, centerYF - 15, 32 + 30 * (targetItem.itemName.length) + 2, 30);
-                recognitionObject.Threshold = TMthreshold;
+                //log.info(`正在尝试匹配${targetItem.itemName}`);
+                const cnLen = Math.min([...targetItem.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length, 5);
+                const recognitionObject = RecognitionObject.TemplateMatch(
+                    targetItem.template,
+                    1219,
+                    centerYF - 15,
+                    12 + 28 * cnLen + 2,
+                    30
+                );
+                recognitionObject.Threshold = targetItem.Threshold;
                 recognitionObject.InitTemplate();
                 result = gameRegion.find(recognitionObject);
                 if (result.isExist()) {
