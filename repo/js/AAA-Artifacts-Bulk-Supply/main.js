@@ -1347,7 +1347,8 @@ async function recognizeAndInteract() {
                     12 + 28 * cnLen + 2,
                     30
                 );
-                recognitionObject.Threshold = targetItem.Threshold;
+
+                recognitionObject.Threshold = TMthreshold;
                 recognitionObject.InitTemplate();
                 result = gameRegion.find(recognitionObject);
                 if (result.isExist()) {
