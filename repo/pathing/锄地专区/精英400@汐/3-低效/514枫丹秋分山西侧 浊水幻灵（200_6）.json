@@ -5,7 +5,7 @@
     "author": "汐",
     "version": "1.0",
     "description": "  路线信息：该路线预计用时238.8秒，包含6只精英与3只小怪，预计收入1362摩拉，包含以下怪物：1只大型水史莱姆、2只浊水粉碎幻灵、1只浊水喷吐幻灵、1只火斧丘丘暴徒、1只愚人众先遣队·火统游击兵、1只愚人众先遣队·风拳前锋军、1只愚人众·风役人、1只愚人众·霜役人。",
-    "bgi_version": "0.45.0",
+    "bgi_version": "0.52.0",
     "authors": [
       {
         "name": "汐",
@@ -59,7 +59,7 @@
     {
       "id": 5,
       "x": 4050.87,
-      "y": 2561,
+      "y": 2561.0,
       "action": "fight",
       "move_mode": "run",
       "action_params": "",
@@ -131,7 +131,7 @@
     {
       "id": 13,
       "x": 4395.71,
-      "y": 2530,
+      "y": 2530.0,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "keypress(f);玛薇卡 w(0.2),attack(0.3),e(hold),wait(0.05),keydown(w),wait(0.01),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.5),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.7),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.9),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(2),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.3)",
@@ -141,7 +141,7 @@
     {
       "id": 14,
       "x": 4395.71,
-      "y": 2530,
+      "y": 2530.0,
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
