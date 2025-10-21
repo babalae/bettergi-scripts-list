@@ -614,8 +614,10 @@ async function runPath(fullPath, map_name) {
                             if (cnPart && ocrText.includes(cnPart)) {
                                 const itemName = targetItem.itemName;
                                 log.warn(`物品"${itemName}"已满，加入黑名单`);
-                                blacklistSet.add(itemName);
-                                blacklist.push(itemName);
+                                if (!blacklistSet.has(itemName)) {  // 仅当第一次出现才添加
+                                    blacklistSet.add(itemName);
+                                    blacklist.push(itemName);
+                                }
                                 await loadBlacklist(false);
                             }
                         }
@@ -669,7 +671,10 @@ async function recognizeAndInteract() {
 
         let foundTarget = false;
         if (pickup_Mode === "模板匹配拾取，拾取狗粮和怪物材料" || pickup_Mode === "模板匹配拾取，只拾取狗粮") {
+            let time1 = new Date();
             itemName = await performTemplateMatch(centerYF);
+            let time2 = new Date();
+            log.info(`调试-本次识别用时${time2 - time1}毫秒`);
         }
         if (itemName) {
             //log.info(`调试-识别到物品${itemName}`);
