@@ -154,8 +154,19 @@ this.executePathsUsingNodeData = async function (position) {
     }
     catch (error) {
         if(error.message.includes("战斗失败")) {
-            log.error("战斗失败，重新寻找地脉花后重试");
+            consecutiveFailureCount++;
+            log.error(`战斗失败，连续失败次数: ${consecutiveFailureCount}/${MAX_CONSECUTIVE_FAILURES}`);
+            
+            // 检查是否超过最大连续失败次数
+            if (consecutiveFailureCount >= MAX_CONSECUTIVE_FAILURES) {
+                await ensureExitRewardPage();
+                throw new Error(`连续战斗失败${MAX_CONSECUTIVE_FAILURES}次，可能是队伍配置不足以完成挑战，脚本终止`);
+            }
+            
             await ensureExitRewardPage();
+            // processResurrect()已在processLeyLineOutcrop中调用，这里直接return
+            // return后会回到runLeyLineChallenges的while循环，重新寻找地脉花
+            log.info("将重新寻找地脉花并重试");
             return;
         }
         // 其他错误需要向上传播
