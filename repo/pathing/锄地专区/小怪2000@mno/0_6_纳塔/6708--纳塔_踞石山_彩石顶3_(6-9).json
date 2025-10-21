@@ -6,7 +6,7 @@
     "version": "1.2",
     "description": "  路线信息：该路线预计用时139.66秒，包含14只小怪，预计收入769.5摩拉，包含以下怪物：2只丘丘人、1只打手丘丘人、1只冲锋丘丘人、2只射手丘丘人、3只幼匿叶龙、5只匿叶龙。",
     "map_name": "Teyvat",
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "Demo"
@@ -78,8 +78,8 @@
     },
     {
       "id": 7,
-      "x": 8151.0,
-      "y": -2208.0,
+      "x": 8151,
+      "y": -2208,
       "action": "combat_script",
       "move_mode": "dash",
       "action_params": "attack(0.3),keydown(a),wait(1.5),keyup(a)",
