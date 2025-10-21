@@ -53,6 +53,16 @@ async function (timeout, targetPath, retries = 0) {
         const fightResult = await autoFight(timeout);
         if (!fightResult) {
             await ensureExitRewardPage();
+            
+            // 检查是否为全队阵亡（有复苏界面）
+            let isResurrect = await processResurrect();
+            if(isResurrect) {
+                log.info("检测到全队阵亡，已点击复苏按钮，准备重试战斗");
+                return await this.processLeyLineOutcrop(timeout, targetPath, retries + 1);
+            }
+            
+            // 没有复苏界面，说明是战斗超时，直接抛出错误
+            log.warn("战斗失败（超时或其他原因），未检测到复苏界面");
             throw new Error("战斗失败");
         }
         
@@ -73,6 +83,50 @@ async function (timeout, targetPath, retries = 0) {
                 captureRegion.dispose();
             } catch (disposeError) {
                 log.warn(`截图资源释放失败: ${disposeError.message}`);
+            }
+        }
+    }
+}
+
+async function processResurrect() {
+    let captureRegion = null;
+    try {
+        // OCR识别整个界面的文本
+        captureRegion = captureGameRegion();
+        let resList = captureRegion.findMulti(ocrRoThis);
+        
+        if (!resList || resList.count === 0) {
+            log.debug("未识别到任何文本，无法检查复苏按钮");
+            return false;
+        }
+        
+        let resurrectButton = null;
+        for (let i = 0; i < resList.count; i++) {
+            let res = resList[i];
+            if (res.text.includes("复苏")) {
+                resurrectButton = res;
+                break;
+            }
+        }
+
+        if(resurrectButton) {
+            log.info("战斗失败，检测到复苏按钮，准备点击复苏");
+            resurrectButton.click();
+            await sleep(2000); // 等待复苏动画
+            return true;
+        }
+        
+        log.debug("未检测到复苏按钮");
+        return false;
+    } catch (error) {
+        log.error(`检查复苏按钮时出错: ${error.message}`);
+        return false;
+    } finally {
+        if (captureRegion) {
+            try {
+                captureRegion.dispose();
+            } catch (disposeError) {
+                log.warn(`释放截图资源时出错: ${disposeError.message}`);
             }
         }
     }

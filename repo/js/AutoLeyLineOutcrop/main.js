@@ -15,6 +15,8 @@ let isNotification = false; // 是否发送通知
 let config = {};          // 全局配置对象
 let recheckCount = 0;     // 树脂重新检查次数（防止无限递归）
 const MAX_RECHECK_COUNT = 3; // 最大重新检查次数
+let consecutiveFailureCount = 0; // 连续战斗失败次数
+const MAX_CONSECUTIVE_FAILURES = 5; // 最大连续失败次数，超过后终止脚本
 const ocrRegion1 = { x: 800, y: 200, width: 300, height: 100 };   // 中心区域
 const ocrRegion2 = { x: 0, y: 200, width: 300, height: 300 };     // 追踪任务区域
 const ocrRegion3 = { x: 1200, y: 520, width: 300, height: 300 };  // 拾取区域
@@ -592,6 +594,9 @@ async function executePath(path) {
     if (!rewardSuccess) {
         throw new Error("无法领取奖励，树脂不足或其他原因");
     }
+    
+    // 成功完成地脉花挑战，重置连续失败计数器
+    consecutiveFailureCount = 0;
 }
 
 /**
