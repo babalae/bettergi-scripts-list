@@ -198,7 +198,7 @@
     : genshin.width > 1920 ? 0.8
     : 0.9;
 
-    log.warn(`全自动枫丹地脉花: v4.1 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
+    log.warn(`全自动枫丹地脉花: v4.2 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
     log.warn(`使用树脂类型数量：${rewards.length}`);
     log.warn(`使用树脂顺序：${golbalRewardText.join(" ->")}`); 
 
@@ -456,8 +456,11 @@
                 await sleep(1000);
                 await click(1562,787);
                 await sleep(1000);
-                let fontaine1 = await Textocr("枫丹",1,1,0,1031,641,250,240);
-                if(!fontaine1.found){await click(1524,670);}
+                let fontaine1 = await Textocr("枫丹",2,1,0,1031,611,250,270);
+                if(!fontaine1.found){
+                    log.info("强制选枫丹...");
+                    await click(1524,625);
+                }
                 await sleep(1000);
                 let fontaine2 = await Textocr("枫丹",1,0,0,1031,641,250,240);
                 if (!fontaine2.found){continue}
@@ -1047,7 +1050,7 @@
                     let startTime = Date.now();
                     let noTextCount = 0;
                     const successKeywords = ["挑战达成", "战斗胜利", "挑战成功"];
-                    const failureKeywords = ["挑战失败","游泳"];
+                    const failureKeywords = ["挑战失败"];
                     const recovery  = ["复苏"];
     
                     // 循环检测直到超时
