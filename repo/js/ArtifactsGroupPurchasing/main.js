@@ -575,7 +575,7 @@ async function autoEnter(autoEnterSettings) {
     const requestEnterRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/requestEnter.png"));
     const requestEnter2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/requestEnter.png"), 1480, 300, 280, 600);
     const yUIRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/yUI.png"));
-    const allowEnterRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/allowEnter.png"), 1250, 300, 150, 130);
+    const allowEnterRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/allowEnter.png"));
     const targetsPath = "targets";
 
     // ===== 状态 =====
@@ -594,7 +594,7 @@ async function autoEnter(autoEnterSettings) {
     for (const f of targetPngs) {
         if (!f.fullPath.endsWith('.png')) continue;
         const mat = file.ReadImageMatSync(f.fullPath);
-        const ro = RecognitionObject.TemplateMatch(mat, 650, 320, 350, 60);
+        const ro = RecognitionObject.TemplateMatch(mat, 664, 481, 1355 - 668, 588 - 484);
         const baseName = f.fileName.replace(/\.png$/i, '');
         targetsRo.push({ ro, baseName });
     }
@@ -728,7 +728,7 @@ async function autoEnter(autoEnterSettings) {
         } catch { }
         try {
             const gameRegion = captureGameRegion();
-            const resList = gameRegion.findMulti(RecognitionObject.ocr(650, 320, 350, 60));
+            const resList = gameRegion.findMulti(RecognitionObject.ocr(664, 481, 1355 - 668, 588 - 484));
             gameRegion.dispose();
             let hit = null;
             for (const res of resList) {
@@ -859,10 +859,20 @@ async function getPlayerSign() {
         await genshin.returnMainUi();
         await sleep(500);
         const p0Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["0P"]), 344, 22, 45, 45);
+        p0Ro.Threshold = 0.95;
+        p0Ro.InitTemplate();
         const p1Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["1P"]), 344, 22, 45, 45);
+        p1Ro.Threshold = 0.95;
+        p1Ro.InitTemplate();
         const p2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["2P"]), 344, 22, 45, 45);
+        p2Ro.Threshold = 0.95;
+        p2Ro.InitTemplate();
         const p3Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["3P"]), 344, 22, 45, 45);
+        p3Ro.Threshold = 0.95;
+        p3Ro.InitTemplate();
         const p4Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["4P"]), 344, 22, 45, 45);
+        p4Ro.Threshold = 0.95;
+        p4Ro.InitTemplate();
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰识别
         const gameRegion = captureGameRegion();
         // 当前页面模板匹配
