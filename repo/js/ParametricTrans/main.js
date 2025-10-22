@@ -5,6 +5,7 @@
     var ZHIBIANYI = typeof settings.ZHIBIANY === 'string' && settings.ZHIBIANYI.trim() !== '' ? settings.ZHIBIANYI : "assets/zhibian.png";
     var actiontime = settings.actiontime != undefined && ~~settings.actiontime > 0 ? ~~settings.actiontime : 50;
     var CHA = "assets/cha.png"
+    var outTimeStuff = "assets/ConfirmButton.png"
     var TEAM
     const ITEM = settings.ITEM !== undefined ? (
         settings.ITEM === "1养成道具" ? 1 :
@@ -106,6 +107,13 @@ async function deployTransformer(){
     await sleep(500);
     await keyPress("B");
     await sleep(1000);
+
+    let outTime = await imageRecognition(outTimeStuff,0.5,1,0,760, 700, 100, 100);
+    if (outTime.found){
+        log.info("过期物品处理完成，继续执行");
+        await sleep(1000);
+    }
+
     await click(1067,57);//点开背包,可做图像识别优化
 
     await textOCR("小道具",3,0,0,126,17,99,53);if (!result.found){throw new Error("未打开'小道具'页面");}//确认在小道具界面
@@ -115,6 +123,7 @@ async function deployTransformer(){
     else{await sleep(1000);await click(1699,1004);await sleep(1000);await genshin.returnMainUi();return true} //点击部署操作  
 
 }
+
 
 /**======================================================================================
  * 游戏内“参量质变仪”的放入薄荷交互流程
@@ -225,6 +234,7 @@ async function executeAttack(){
 
 //main/======================================================================================
     await genshin.returnMainUi();
+    log.info("版本：v1.5");
     //检查用户是否配置队伍============================================
     if (settings.TEAMname === undefined || settings.TEAMname === "" || settings.TEAMname === null) { 
         throw new Error("必填！请在配置页面填写队伍名称，芭芭拉放4号位！"); // 没选就报错后停止
