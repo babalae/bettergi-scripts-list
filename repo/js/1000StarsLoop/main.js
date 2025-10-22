@@ -31,7 +31,7 @@ let entered = false;
         await sleep(500);
         if (!await ClickPNG("搜索")) continue;
         await sleep(250);
-        result = await ClickPNG("进入");
+        const result = await ClickPNG("进入");
         await sleep(250);
         //log.info(`结果是${result}`);
         if (!result) {
