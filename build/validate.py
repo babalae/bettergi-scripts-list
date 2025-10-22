@@ -54,7 +54,7 @@ ACTION_PARAMS_VERSION_MAP = {
 }
 
 # 默认版本号
-DEFAULT_BGI_VERSION = "0.52.0"
+DEFAULT_BGI_VERSION = "0.42.0"
 DEFAULT_VERSION = "1.0"
 
 # ==================== 文件操作 ====================
