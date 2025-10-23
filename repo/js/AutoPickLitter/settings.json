@@ -20,6 +20,12 @@
     "label": "---------------稻妻踏鞴砂海螺---------------\n注意:勾选前，请去看readme"
   },
   {
+    "name": "doYouOpen",
+    "type": "checkbox",
+    "label": "是否开启宝箱(默认是)",
+    "default": "true"
+  },
+  {
     "name": "pickupTreasure",
     "type": "select",
     "label": "开启宝箱或随机(1:左面 2:中间 3:右边 0:随机)",
@@ -52,6 +58,16 @@
       "随机龙蛋"
     ],
     "default": "随机龙蛋"
+  },
+  {
+    "name": "turntable",
+    "type": "checkbox",
+    "label": "-------------挪德卡莱那夏镇好运转盘-------------\n注意:开图啊，喂！！！"
+  },
+  {
+    "name": "todayLuck",
+    "type": "checkbox",
+    "label": "-------------挪德卡莱那夏镇今日收获-------------\n注意:开图，并且完成【餐食大事】的任务！！！"
   },
   {
         "name": "accountName",

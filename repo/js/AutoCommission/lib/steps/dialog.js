@@ -30,8 +30,6 @@
       
       // 执行优化的自动对话
       await DialogProcessor.executeOptimizedAutoTalk(
-        null,
-        skipCount, 
         priorityOptions,
         npcWhiteList,
         context.isInMainUI

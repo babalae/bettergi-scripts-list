@@ -2,6 +2,7 @@
   "info": {
     "name": "5201枫丹优兰湖西",
     "type": "collect",
+    "author": "mno",
     "version": "1.0",
     "description": "",
     "bgi_version": "0.42.0",
@@ -10,8 +11,7 @@
         "name": "mno",
         "links": "https://github.com/Bedrockx"
       }
-    ],
-    "enable_monster_loot_split": true
+    ]
   },
   "positions": [
     {
@@ -66,10 +66,7 @@
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path",
-      "point_ext_params": {
-        "monster_tag": "elite"
-      }
+      "type": "path"
     },
     {
       "id": 7,
@@ -123,10 +120,7 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "point_ext_params": {
-        "monster_tag": "elite"
-      }
+      "type": "path"
     },
     {
       "id": 13,
@@ -134,7 +128,7 @@
       "y": 3835.35,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     }
   ]

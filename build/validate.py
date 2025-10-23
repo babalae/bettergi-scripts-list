@@ -54,7 +54,7 @@ ACTION_PARAMS_VERSION_MAP = {
 }
 
 # 默认版本号
-DEFAULT_BGI_VERSION = "0.42.0"
+DEFAULT_BGI_VERSION = "0.52.0"
 DEFAULT_VERSION = "1.0"
 
 # ==================== 文件操作 ====================
@@ -641,6 +641,51 @@ def process_json_authors(input_path, verbose=False):
     if verbose:
         print(f"\n🎉 处理完成：共 {result['total_files']} 个 JSON 文件，修改了 {result['modified_files']} 个")
 
+# ==================== 目录结构校验 ====================
+
+def validate_directory_structure(dir_path, parent_folders=None):
+    """校验目录结构，检测JSON文件和目录同级的情况"""
+    if parent_folders is None:
+        parent_folders = []
+    
+    errors = []
+    
+    try:
+        items = os.listdir(dir_path)
+        files = []
+        directories = []
+        
+        # 分类文件和目录
+        for item in items:
+            item_path = os.path.join(dir_path, item)
+            if os.path.isfile(item_path):
+                files.append(item)
+            elif os.path.isdir(item_path):
+                directories.append(item)
+        
+        # 检查是否有JSON文件和目录同级
+        json_files = [f for f in files if f.lower().endswith('.json')]
+        
+        if json_files and directories:
+            relative_path = '/'.join(parent_folders + [os.path.basename(dir_path)]) if parent_folders else os.path.basename(dir_path)
+            error_msg = f"❌ 目录结构错误: 在目录 \"{relative_path}\" 中发现JSON文件和子目录同级存在。JSON文件: {json_files}, 子目录: {directories}"
+            errors.append(error_msg)
+            print(error_msg)
+        
+        # 递归检查子目录
+        for dir_name in directories:
+            sub_dir_path = os.path.join(dir_path, dir_name)
+            sub_errors = validate_directory_structure(sub_dir_path, parent_folders + [os.path.basename(dir_path)])
+            errors.extend(sub_errors)
+        
+    except Exception as error:
+        relative_path = '/'.join(parent_folders + [os.path.basename(dir_path)]) if parent_folders else os.path.basename(dir_path)
+        error_msg = f"❌ 无法访问目录 \"{relative_path}\": {str(error)}"
+        errors.append(error_msg)
+        print(error_msg)
+    
+    return errors
+
 # ==================== 主验证逻辑 ====================
 
 def initialize_data(data, file_path):
@@ -734,7 +779,7 @@ def validate_file(file_path, auto_fix=False):
     data, error = load_json_file(file_path)
     if error:
         print(error)
-        return []
+        return [error]
 
     # 获取原始文件
     original_data, source = get_original_file(file_path) if auto_fix else (None, None)
@@ -834,11 +879,29 @@ def main():
     parser = argparse.ArgumentParser(description='校验 BetterGI 脚本文件')
     parser.add_argument('path', help='要校验的文件或目录路径')
     parser.add_argument('--fix', action='store_true', help='自动修复问题')
+    parser.add_argument('--structure', action='store_true', help='浅草的氨气搞得什么结构校验')
     args = parser.parse_args()
 
     path = args.path
     auto_fix = args.fix
+    structure = args.structure
     all_notices = []  # 初始化 all_notices 变量
+
+    # 首先执行目录结构校验
+    if structure:
+        if os.path.isdir(path):
+            print("🔍 开始目录结构校验...")
+            structure_errors = validate_directory_structure(path)
+            if structure_errors:
+                print("\n❌ 目录结构校验失败，发现以下错误:")
+                for error in structure_errors:
+                    print(f"- {error}")
+                print("\n请修复上述目录结构问题后重新提交。")
+                print("\n目录结构规范说明:")
+                print("- 不允许JSON文件和子目录在同一个目录下共存")
+                print("- 建议将JSON文件移动到专门的子目录中")
+                exit(1)
+            print("✅ 目录结构校验通过")
 
     if os.path.isfile(path) and path.endswith('.json'):
         scan_and_convert(path)

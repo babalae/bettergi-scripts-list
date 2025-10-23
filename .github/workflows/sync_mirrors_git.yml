@@ -29,17 +29,17 @@ jobs:
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Sync to CNB
+      run: |
+        git remote add cnb https://cnb.cool/bettergi/bettergi-scripts-list.git || true
+        git push https://cnb:${{ secrets.CNB_TOKEN }}@cnb.cool/bettergi/bettergi-scripts-list.git --all --force
+      continue-on-error: true
     
     - name: Sync to GitCode
       run: |
         git remote add gitcode https://gitcode.com/huiyadanli/bettergi-scripts-list.git || true
         git push https://huiyadanli:${{ secrets.GITCODE_TOKEN }}@gitcode.com/huiyadanli/bettergi-scripts-list.git --all --force
-      continue-on-error: true
-    
-    - name: Sync to CNB
-      run: |
-        git remote add cnb https://cnb.cool/bettergi/bettergi-scripts-list.git || true
-        git push https://cnb:${{ secrets.CNB_TOKEN }}@cnb.cool/bettergi/bettergi-scripts-list.git --all --force
       continue-on-error: true
     
     - name: Sync to Gitee

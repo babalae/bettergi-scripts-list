@@ -1,0 +1,567 @@
+{
+  "info": {
+    "name": "07-甜甜花-蒙德-望风山地-16个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "4分钟-16朵甜甜花",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1274.8037,
+      "y": 2721.7263,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1294.4277,
+      "y": 2731.6787,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1321.792,
+      "y": 2727.4543,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": -1337.7461,
+      "y": 2725.4998,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1337.1406,
+      "y": 2714.1418,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": -1363.7764,
+      "y": 2698.1731,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -1369.3496,
+      "y": 2684.5852,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -1380.4131,
+      "y": 2694.0645,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": -1392.9795,
+      "y": 2693.1921,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": -1273.791,
+      "y": 2721.6917,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 11,
+      "x": -1273.2949,
+      "y": 2729.2537,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -1263.6543,
+      "y": 2761.3362,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -1268.3643,
+      "y": 2787.6765,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -1260.0771,
+      "y": 2798.7458,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack(0.1)",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -1257.4141,
+      "y": 2799.5359,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -1255.5586,
+      "y": 2800.6692,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -1258.2705,
+      "y": 2802.0605,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": -1260.9922,
+      "y": 2799.4133,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": -1251.1826,
+      "y": 2809.1309,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 20,
+      "x": -1289.3564,
+      "y": 2800.9077,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 21,
+      "x": -1284.8076,
+      "y": 2825.1978,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 22,
+      "x": -1274.6426,
+      "y": 2843.0251,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": -1285.748,
+      "y": 2848.9951,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 24,
+      "x": -1275.9756,
+      "y": 2856.1165,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 25,
+      "x": -1272.2217,
+      "y": 2859.4868,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 26,
+      "x": -1262.5215,
+      "y": 2859.1987,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 27,
+      "x": -1262.6875,
+      "y": 2885.5464,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 28,
+      "x": -1241.2471,
+      "y": 2901.4763,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 29,
+      "x": -1244.498,
+      "y": 2884.886,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 30,
+      "x": -1224.8379,
+      "y": 2858.7542,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 31,
+      "x": -1216.9707,
+      "y": 2841.0696,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 32,
+      "x": -1211.8633,
+      "y": 2816.0396,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 33,
+      "x": -1193.4375,
+      "y": 2808.0304,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 34,
+      "x": -1192.0312,
+      "y": 2806.1252,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 35,
+      "x": -1192.4062,
+      "y": 2809.0928,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 36,
+      "x": -1200.457,
+      "y": 2794.9998,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 37,
+      "x": -1200.1748,
+      "y": 2747.9983,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 38,
+      "x": -1213.4014,
+      "y": 2745.5081,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 39,
+      "x": -1230.4932,
+      "y": 2736.4363,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 40,
+      "x": -1232.4121,
+      "y": 2734.189,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 41,
+      "x": -1238.1562,
+      "y": 2731.6292,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 42,
+      "x": -1227.5004,
+      "y": 2724.8131,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 43,
+      "x": -1225.8443,
+      "y": 2726.3439,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 44,
+      "x": -1223.8721,
+      "y": 2727.0229,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 45,
+      "x": -1222.5625,
+      "y": 2724.8752,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 46,
+      "x": -1226.4736,
+      "y": 2723.46,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 47,
+      "x": -1227.4062,
+      "y": 2708.8751,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 48,
+      "x": -1225.7812,
+      "y": 2708.4995,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 49,
+      "x": -1227.4375,
+      "y": 2707.156,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 50,
+      "x": -1221.9121,
+      "y": 2702.7329,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 51,
+      "x": -1176.6406,
+      "y": 2684.7695,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 52,
+      "x": -1174.6797,
+      "y": 2680.6201,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 53,
+      "x": -1174.0674,
+      "y": 2678.9624,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 54,
+      "x": -1158.1152,
+      "y": 2690.1816,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 55,
+      "x": -1132.7871,
+      "y": 2690.4976,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 56,
+      "x": -1124.2207,
+      "y": 2686.1101,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 57,
+      "x": -1095.8662,
+      "y": 2685.3621,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 58,
+      "x": -1091.4268,
+      "y": 2721.0417,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 59,
+      "x": -1074.9092,
+      "y": 2745.4824,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 60,
+      "x": -1066.1602,
+      "y": 2764.1487,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 61,
+      "x": -1062.8262,
+      "y": 2779.5674,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

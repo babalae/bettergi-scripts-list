@@ -261,6 +261,23 @@
             "description": "Domain",
             "name": "荒废砌造坞",
             "position": [-3378.5, 0, 10535.5]
+        },
+
+
+        {
+            "description": "Domain",
+            "name": "霜凝的机枢",
+            "position": [3150.53, 0, 9375.39]
+        },
+        {
+            "description": "Domain",
+            "name": "失落的月庭",
+            "position": [1936.05, 0, 10828.34]
+        },
+        {
+            "description": "Domain",
+            "name": "无光的深都",
+            "position": [1832.2, 0, 9967.05]
         }
     ]
 

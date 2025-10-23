@@ -4,10 +4,10 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756137464330,
+    "last_modified_time": 1758261019966,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "班尼特火烧教堂",
+    "name": "艾伯特先生别再冲了-蒙德城-3",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -17,10 +17,10 @@
       "action": "",
       "action_params": "",
       "id": 1,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -661.642578125,
-      "y": 2384.307373046875
+      "move_mode": "dash",
+      "type": "path",
+      "x": -665.1265189580845,
+      "y": 2382.37428868638
     },
     {
       "action": "",
@@ -32,7 +32,7 @@
       "y": 2366.885986328125
     },
     {
-      "action": "pyro_collect",
+      "action": "anemo_collect",
       "action_params": "",
       "id": 3,
       "move_mode": "walk",
@@ -77,7 +77,7 @@
       "y": 2373.84716796875
     },
     {
-      "action": "pyro_collect",
+      "action": "anemo_collect",
       "action_params": "",
       "id": 8,
       "move_mode": "walk",
@@ -86,7 +86,7 @@
       "y": 2370.54638671875
     },
     {
-      "action": "pyro_collect",
+      "action": "anemo_collect",
       "action_params": "",
       "id": 9,
       "move_mode": "walk",
@@ -113,7 +113,7 @@
       "y": 2332.7080078125
     },
     {
-      "action": "pyro_collect",
+      "action": "anemo_collect",
       "action_params": "",
       "id": 12,
       "move_mode": "walk",
@@ -140,7 +140,7 @@
       "y": 2332.47705078125
     },
     {
-      "action": "pyro_collect",
+      "action": "anemo_collect",
       "action_params": "",
       "id": 15,
       "move_mode": "walk",
@@ -152,7 +152,7 @@
       "action": "pyro_collect",
       "action_params": "",
       "id": 16,
-      "move_mode": "fly",
+      "move_mode": "walk",
       "type": "target",
       "x": -689.826171875,
       "y": 2330.083251953125

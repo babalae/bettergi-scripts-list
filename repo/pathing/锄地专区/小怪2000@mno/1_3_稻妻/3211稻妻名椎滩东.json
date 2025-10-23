@@ -2,16 +2,16 @@
   "info": {
     "name": "3211稻妻名椎滩东",
     "type": "collect",
+    "author": "mno",
     "version": "1.0",
-    "description": "",
+    "description": "  路线信息：该路线预计用时166.86秒，包含11只小怪，预计收入567摩拉，包含以下怪物：7只野伏·阵刀番、1只野伏·火伏番、1只海乱鬼·炎威、2只海乱鬼·雷腾。",
     "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "mno",
         "links": "https://github.com/Bedrockx"
       }
-    ],
-    "enable_monster_loot_split": true
+    ]
   },
   "positions": [
     {
@@ -39,10 +39,7 @@
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path",
-      "point_ext_params": {
-        "monster_tag": "elite"
-      }
+      "type": "path"
     },
     {
       "id": 4,
@@ -78,10 +75,7 @@
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path",
-      "point_ext_params": {
-        "monster_tag": "elite"
-      }
+      "type": "path"
     },
     {
       "id": 8,
@@ -197,7 +191,7 @@
       "y": -3523.74,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     }
   ]

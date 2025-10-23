@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1755959647450,
+    "last_modified_time": 1758718368694,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "301稻妻-菫色之庭副本4",
@@ -55,7 +55,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 5,
       "move_mode": "climb",
       "type": "target",
@@ -73,7 +73,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "迪希雅 attack(0.08),e,attack(0.08),e;玛薇卡 attack(0.08),e;砂糖 e;早柚 charge(2);珐露珊 q;琳妮特 q;蓝砚 charge,attack(0.08),charge;流浪者 e,attack(0.2);爱可菲 e;芙宁娜 attack(0.2);",
+      "action_params": "keypress(f);迪希雅 attack(0.08),e,attack(0.08),e;玛薇卡 attack(0.08),e;砂糖 e;早柚 charge(2);珐露珊 q;琳妮特 q;蓝砚 charge,attack(0.08),charge;流浪者 e,attack(0.2);爱可菲 e;芙宁娜 attack(0.2);",
       "id": 7,
       "move_mode": "run",
       "type": "path",
@@ -82,7 +82,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),attack(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 8,
       "move_mode": "climb",
       "type": "target",
@@ -154,7 +154,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);芙宁娜 e;",
       "id": 16,
       "move_mode": "climb",
       "type": "target",
@@ -162,8 +162,8 @@
       "y": -3269.718477156657
     },
     {
-      "action": "combat_script",
-      "action_params": "keypress(f);芙宁娜 e;",
+      "action": "",
+      "action_params": "",
       "id": 17,
       "move_mode": "dash",
       "type": "path",
@@ -181,21 +181,12 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),attack(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 19,
       "move_mode": "dash",
       "type": "target",
       "x": -3988.375,
       "y": -3228.1250221330793
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 20,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -3988.908203125,
-      "y": -3226.37109375
     }
   ]
 }

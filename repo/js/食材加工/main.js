@@ -13,17 +13,19 @@
         "Processing12": "assets/Picture/Raw-Meat.png",
         "Processing13": "assets/Picture/Fish.png",
         "Processing14": "assets/Picture/Mysterious-Meat.png",
-        "Processing15": "assets/Picture/Butter.png",
-        "Processing16": "assets/Picture/Smoked-Poultry.png",
-        "Processing17": "assets/Picture/Lard.png",
-        "Processing18": "assets/Picture/Ham.png",
-        "Processing21": "assets/Picture/Sugar.png",
-        "Processing22": "assets/Picture/Spices.png",
-        "Processing23": "assets/Picture/Crab-Roe.png",
-        "Processing24": "assets/Picture/Jam.png",
-        "Processing25": "assets/Picture/Cheese.png",
-        "Processing26": "assets/Picture/Bacon.png",
-        "Processing27": "assets/Picture/Sausage.png",
+        "Processing15": "assets/Picture/Rye-Flour.png",
+        "Processing16": "assets/Picture/Butter.png",
+        "Processing17": "assets/Picture/Smoked-Poultry.png",
+        "Processing18": "assets/Picture/Lard.png",
+        "Processing21": "assets/Picture/Ham.png",
+        "Processing22": "assets/Picture/Sugar.png",
+        "Processing23": "assets/Picture/Spices.png",
+        "Processing24": "assets/Picture/Sour-Cream.png",
+        "Processing25": "assets/Picture/Crab-Roe.png",
+        "Processing26": "assets/Picture/Jam.png",
+        "Processing27": "assets/Picture/Cheese.png",
+        "Processing28": "assets/Picture/Bacon.png",
+        "Processing31": "assets/Picture/Sausage.png",
         // 添加其他食材的图像映射
     };
 
@@ -33,17 +35,19 @@ const processingKeyChineseMap = {
     "Processing12": "兽肉",
     "Processing13": "鱼",
     "Processing14": "神秘的肉",
-    "Processing15": "黄油",
-    "Processing16": "熏禽肉",
-    "Processing17": "黄油",
-    "Processing18": "火腿",
-    "Processing21": "糖",
-    "Processing22": "辛香料",
-    "Processing23": "蟹黄",
-    "Processing24": "果酱",
-    "Processing25": "奶酪",
-    "Processing26": "培根",
-    "Processing27": "香肠",
+    "Processing15": "黑麦粉",
+    "Processing16": "奶油",
+    "Processing17": "熏禽肉",
+    "Processing18": "黄油",
+    "Processing21": "火腿",
+    "Processing22": "糖",
+    "Processing23": "香辛料",
+    "Processing24": "酸奶油",
+    "Processing25": "蟹黄",
+    "Processing26": "果酱",
+    "Processing27": "奶酪",
+    "Processing28": "培根",
+    "Processing31": "香肠"
     // 添加其他加工设置的中文映射
 };
 
@@ -78,7 +82,7 @@ const processingKeyChineseMap = {
     }
 
     // 行列数的排列组合
-    const rows = [1, 2];// [1, 2, 3, 4];三、四行 暂时用不上
+    const rows = [1, 2, 3];// [1, 2, 3, 4];三、四行 暂时用不上
     const cols = [1, 2, 3, 4, 5, 6, 7, 8];
     const gridCoordinates = [];
 
@@ -99,10 +103,12 @@ const processingKeyChineseMap = {
             let template = file.ReadImageMatSync(imagePath);
             let recognitionObject = RecognitionObject.TemplateMatch(template, x, y, searchWidth, searchHeight);
             // 设置识别阈值和通道
-            recognitionObject.threshold = 0.90; // 设置识别阈值为 0.85
+            recognitionObject.threshold = 0.9; // 设置识别阈值为 0.9
             recognitionObject.Use3Channels = true; // 使用三通道匹配
 
-            let result = captureGameRegion().find(recognitionObject);
+            ra?.dispose();
+            ra = captureGameRegion();
+            let result = ra.find(recognitionObject);
             return result.isExist() ? result : null;
         } catch (error) {
             log.error(`图像识别失败，路径: ${imagePath}, 错误: ${error.message}`);
@@ -223,7 +229,8 @@ async function recognizeFIcon() {
         400
     );
 
-    let ra = captureGameRegion();
+    ra?.dispose();
+    ra = captureGameRegion();
     let fRes = ra.find(fDialogueRo);
 
     if (!fRes.isExist()) {
@@ -249,6 +256,7 @@ async function recognizeFIcon() {
             }
 
             // 重新获取游戏区域截图
+            ra?.dispose();
             ra = captureGameRegion();
             fRes = ra.find(fDialogueRo);
 
@@ -284,7 +292,8 @@ async function recognizeCookingIcon(centerYF) {
         36            // 高度范围
     );
 
-    let ra = captureGameRegion();
+    ra?.dispose();
+    ra = captureGameRegion();
     let cookingRes = ra.find(cookingRo);
 
     if (cookingRes.isExist()) {
@@ -388,7 +397,7 @@ async function AutoPath() {
             // 遍历启用的 Processing 设置，进行图像识别
             for (const processingKey of enabledProcessingKeys) {
             // 获取 processingKey 的中文描述
-    const chineseDescription = processingKeyChineseMap[processingKey] || "未知食材";
+            const chineseDescription = processingKeyChineseMap[processingKey] || "未知食材";
 
                 const imagePath = ingredientImageMap[processingKey];
                 if (!imagePath) {
@@ -420,14 +429,18 @@ async function AutoPath() {
                 }
                 if (!foundIngredient) {
                     // 图像识别未成功，可能是因为该食材正在被加工，通过OCR识别
-                    const ocrResult = captureGameRegion().findMulti(RecognitionObject.ocr(112, 118, 1161, 345));
+                    ra?.dispose();
+                    ra = captureGameRegion();
+                    const ocrResult = ra.findMulti(RecognitionObject.ocr(117, 196, 1148, 502));
                     for (var i = 0; i < ocrResult.count; ++i) {
                         if (ocrResult[i].text.endsWith("分钟") || ocrResult[i].text.endsWith("秒")) {
                             // 选中该食材
                             click(ocrResult[i].x, ocrResult[i].y);
                             await sleep(500);
                             // OCR食材名称
-                            const ocrResult2 = captureGameRegion().findMulti(RecognitionObject.ocr(1308, 122, 492, 52));
+                            ra?.dispose();
+                            ra = captureGameRegion();
+                            const ocrResult2 = ra.findMulti(RecognitionObject.ocr(1332, 130, 137, 34));
                             const ingredientName = ocrResult2.count > 0 ? ocrResult2[0].text : null;
                             if (ingredientName === chineseDescription) {
                                 log.info(`通过OCR识别找到食材: ${chineseDescription}`);
@@ -461,11 +474,13 @@ async function AutoPath() {
             await genshin.returnMainUi();
             keyDown("S"); await sleep(1000);
             keyUp("S"); await sleep(1000);
+            ra?.dispose();
         } catch (error) {
             log.error(`执行按键或鼠标操作时发生错误：${error.message}`);
         }
     }
 
+    let ra = null
     // 调用 AutoPath 函数
     await AutoPath();
 })();
