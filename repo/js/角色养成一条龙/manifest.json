@@ -1,7 +1,7 @@
 {
   "manifest_version": 1,
   "name": "角色养成一条龙",
-  "version": "1.4",
+  "version": "1.5",
   "description": "详见readme.md",
   "authors": [
     {
@@ -10,5 +10,8 @@
     }
   ],
   "settings_ui": "settings.json",
+  "saved_files": [
+    "completed_tasks.json",
+  ],
   "main": "main.js"
 }
