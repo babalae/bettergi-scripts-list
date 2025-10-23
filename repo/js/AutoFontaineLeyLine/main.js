@@ -94,7 +94,7 @@
             }
             else{
                 ii=8; 
-                if(x !== 840 && x !== 1188 && x !== 113 ){
+                if(x !== 840 && x !== 1188 && x !== 113 && x !== 127){
                     keyPress("w")
                 }; 
             }
@@ -129,6 +129,7 @@
     var resinTypes = Rewardsuse.split("/");
     var rewards = [];
     var reBigMap = false;//大地图缩放标志
+    var closestFlowerLogo = false;
     var onerewards, secendrewards, threendrewards, fourdrewards,fiverewards;  
     for (var i = 0; i < resinTypes.length; i++) {
         var resinType = parseInt(resinTypes[i]);
@@ -198,7 +199,7 @@
     : genshin.width > 1920 ? 0.8
     : 0.9;
 
-    log.warn(`全自动枫丹地脉花: v4.2 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
+    log.warn(`全自动枫丹地脉花: v4.3 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
     log.warn(`使用树脂类型数量：${rewards.length}`);
     log.warn(`使用树脂顺序：${golbalRewardText.join(" ->")}`); 
 
@@ -352,7 +353,7 @@
         { line: 3, flower: 3, x: 1282, y: 642 , xR: 3999.6552734375 , yR: 2613.181640625 },
         { line: 3, flower: 4, x: 1335, y: 639 , xR: 3921.345703125 , yR: 2617.813232421875 },
         // 线路4
-        { line: 4, flower: 1, x: 965, y: 672 , xR: 2932.47265625 , yR: 3583.896728515625 },
+        { line: 4, flower: 1, x: 965, y: 672 , xR: 2932.47265625 , yR: 3583.896728515625 },//"Point2f { X = 3078.0771, Y = 3596.2305 }"
         { line: 4, flower: 2, x: 921, y: 660 , xR: 3008.40234375 , yR: 3602.593017578125 },
         { line: 4, flower: 3, x: 886, y: 660 , xR: 3077.185546875 , yR: 3602.835693359375 },
         { line: 4, flower: 4, x: 876, y: 625 , xR: 3091.7978515625 , yR: 3654.750732421875 },
@@ -488,10 +489,12 @@
                 else{
                     await sleep(500);
                     if (reBigMap){                    
-                        await genshin.setBigMapZoomLevel(2.5);
+                        await genshin.setBigMapZoomLevel(1.5);
                         await sleep(1000);
-                    }            
+                    }               
+
                     bigMapPosition = genshin.getPositionFromBigMap();
+
                     if (bigMapPosition.x >= 2900 && bigMapPosition.y <= 5100 ){
                         log.info("区域正确...");
                         break;
@@ -507,13 +510,22 @@
                 await sleep(1100);
                 continue;                          
             }                   
-        }
-                          
+        }         
+        
         const bigMapZoomLevel = genshin.getBigMapZoomLevel();
-        // log.info(`当前大地图坐标: X：${Math.floor(bigMapPosition.X)} / Y：${Math.floor(bigMapPosition.Y)}`); 
-        // log.info(`当前大地图缩放：${bigMapZoomLevel}`); 
+        log.debug(`当前大地图坐标: X：${Math.floor(bigMapPosition.X)} / Y：${Math.floor(bigMapPosition.Y)}`); 
         const RealPosition ={x: bigMapPosition.X,y: bigMapPosition.Y}
         position = await findFlowerPositionWithTolerance(RealPosition,10,allFlowerCoords);
+
+        if (position == null){
+            await genshin.setBigMapZoomLevel(2.5);
+            await sleep(1000);
+            bigMapPosition = genshin.getPositionFromBigMap();
+            position = await findFlowerPositionWithTolerance(RealPosition,10,allFlowerCoords);
+        }else{
+            closestFlowerLogo = false;
+        }
+
         if (position){
             log.info(`找到地脉花的线路：|X:${Math.floor(bigMapPosition.X)}|Y:${Math.floor(bigMapPosition.Y)}|线路:${position.line}|序号:${position.flower}|`);
             let XIAN_another = await imageRecognition(DIMAIHUA2,1,0,0,0,0,1920,1080,0.8,false);
@@ -603,8 +615,18 @@
         } else {
             // 没有找到符合项，返回全局最近的花朵
             if (closestFlower) {
-                log.warn("没有找到地脉花，返回最近地脉花！", closestFlower.line,closestFlower.flower);
-                return { line: closestFlower.line, flower: closestFlower.flower,x: closestFlower.x, y: closestFlower.y };
+
+                if (!closestFlowerLogo){
+
+                    closestFlowerLogo = true;                 
+                    log.warn("寻找地脉花出错，重试一次...");        
+                    return null;         
+                }
+                else{
+                    log.warn("寻找异常，没有找到地脉花，返回最近地脉花！", closestFlower.line,closestFlower.flower);
+                    return { line: closestFlower.line, flower: closestFlower.flower,x: closestFlower.x, y: closestFlower.y };   
+                }
+
             } else {
                 // 如果没有找到任何花朵，返回一个默认值或抛出错误（根据实际需求决定）
                 throw new Error("未找到任何花朵");
@@ -1314,6 +1336,7 @@
             executedCount=executedCount+2;   
             doneCount++;          
         }
+        closestFlowerLogo = false;
         return true;// 线路完成
     }   
 
@@ -1338,12 +1361,10 @@
         return isUpdated; 
     }    
 
-    // // 测试
+    // 测试
     // var ii=1000;
     // while (ii>0) {
-    //      await getRemainResinStatus();  
-    //     await sleep(500);
-    //     ii--;
+    //     await PathCheak();
     // }
     // return;
 
