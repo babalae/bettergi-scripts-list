@@ -2,27 +2,21 @@
 var DialogProcessor = {
   // 执行优化的自动对话
   executeOptimizedAutoTalk: async function (
-    extractedName,
-    skipCount,
     customPriorityOptions,
     customNpcWhiteList,
     isInMainUI
   ) {
-    extractedName = extractedName || null;
-    skipCount = skipCount || 5;
     customPriorityOptions = customPriorityOptions || null;
     customNpcWhiteList = customNpcWhiteList || null;
-
-    // 使用传入的参数，不再加载默认配置
     var effectivePriorityOptions = customPriorityOptions || [];
     var effectiveNpcWhiteList = customNpcWhiteList || [];
 
     // 初始化
     keyPress("V");
 
-    // 初始触发剧情 - 识别人名并点击
+    // 从委托描述中提取任务相关的人名存为列表
     extractedName = [];
-    // 人名区域OCR识别
+    // 委托描述的OCR识别区域
     var nameRegion = {X: 75, Y: 240, WIDTH: 225, HEIGHT: 60};
     var nameResults = await Utils.easyOCR(nameRegion);
     // 尝试提取任务人名
@@ -39,8 +33,10 @@ var DialogProcessor = {
       }
     }
 
-    // 对话选项区域OCR识别
-    var dialogRegion = {X: 1150, Y: 300, WIDTH: 350, HEIGHT: 400};
+    // 交互选项区域OCR识别
+    var dialogRegion = { X: 1150, Y: 300, WIDTH: 350, HEIGHT: 400 };
+    // 对话选项的ICON识别区域
+    var talkIconRegion = { X: 1260, Y: 300, WIDTH: 90, HEIGHT: 550 };
     nameResults = await Utils.easyOCR(dialogRegion);
     var clickedWhitelistNPC = false;
     var clickedExtractedName = false;
@@ -122,9 +118,6 @@ var DialogProcessor = {
     while (!isInMainUI() && attempts < maxAttempts) {
       attempts++;
 
-      // 正常跳过对话
-      //await genshin.chooseTalkOption("纳西妲美貌举世无双", skipCount, false); 不好用
-
       var startTime = new Date().getTime();
 
       // 1秒内按空格键跳过
@@ -137,8 +130,6 @@ var DialogProcessor = {
         log.info("检测到已返回主界面，结束循环");
         break;
       }
-
-      //keyPress("VK_ESCAPE");//关弹窗
 
       // 检查是否有匹配的优先选项
       var foundPriorityOption = false;
@@ -179,12 +170,12 @@ var DialogProcessor = {
         if (!foundPriorityOption && !isInMainUI()) {
           let exitList = await Utils.easyTemplateMatch(
             Constants.TALK_EXIT_IMAGE_PATH,
-            dialogRegion,
+            talkIconRegion,
             true
           );
           let iconList = await Utils.easyTemplateMatch(
             Constants.TALK_ICON_IMAGE_PATH,
-            dialogRegion
+            talkIconRegion
           );
           let clickXY = null;
           //正常应该只识别到一个退出选项
