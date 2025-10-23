@@ -1,6 +1,74 @@
+const COMPLETED_TASKS_FILE = "./completed_tasks.json";
+let skipCheckStamina = 1;//为0时跳过检查体力
+let messageBuffer = '';
+// 累积消息函数
+function addNotification(message) {
+    messageBuffer += message + '\n';
+}
 
+// 发送累积的消息
+function sendBufferedNotifications() {
+    if (messageBuffer.trim()) {
+        notification.send(messageBuffer.trim());
+        messageBuffer = ''; // 清空缓冲区
+    }
+}
 
-(async function () {
+// 添加函数来读写已完成任务记录
+async function loadCompletedTasks() {
+    try {
+        if (file.isFolder(COMPLETED_TASKS_FILE)) {
+            return {};
+        }
+        const content = await file.readText(COMPLETED_TASKS_FILE);
+        return JSON.parse(content);
+    } catch (error) {
+        // 如果文件不存在或其他错误，返回空对象
+        return {};
+    }
+}
+
+async function saveCompletedTasks(tasks) {
+    try {
+        await file.writeText(COMPLETED_TASKS_FILE, JSON.stringify(tasks, null, 2));
+        log.info("已保存完成任务记录");
+    } catch (error) {
+        log.error(`保存任务记录失败: ${error}`);
+    }
+}
+
+async function addCompletedTask(materialType, materialName, requireCounts) {
+    const tasks = await loadCompletedTasks();
+    const taskKey = `${materialType}_${materialName}`;
+    
+    tasks[taskKey] = {
+        materialType,
+        materialName,
+        requireCounts,
+        completedAt: new Date().toISOString()
+    };
+    
+    await saveCompletedTasks(tasks);
+    log.info(`已标记 ${materialName} 为完成`);
+}
+
+async function isTaskCompleted(materialType, materialName, currentRequireCounts) {
+    const tasks = await loadCompletedTasks();
+    const taskKey = `${materialType}_${materialName}`;
+    
+    if (!tasks[taskKey]) {
+        return false;
+    }
+    
+    // 检查需求数量是否相同
+    const previousRequireCounts = tasks[taskKey].requireCounts;
+    if (Array.isArray(previousRequireCounts) && Array.isArray(currentRequireCounts)) {
+        return previousRequireCounts.join(',') === currentRequireCounts.join(',');
+    } else {
+        return previousRequireCounts === currentRequireCounts;
+    }
+}
+
 //获取BOSS材料数量
 async function getBossMaterialCount(bossName) {
 await genshin.returnMainUi();
@@ -26,8 +94,8 @@ log.info(`正在查询数量`);
             const stopImageRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/boss/无相之风.png"), 0, 0, 1920,1080);
             stopImageRo.Threshold = 0.95;
             await findAndClickWithScroll(targetImageRo, stopImageRo, {maxAttempts: 30,scrollNum: 9});
-            if(bossName == '冰风组曲-科培琉司的劫罚') click(1320,680);
-            else click(1236,680);
+            if(bossName == '冰风组曲-科培琉司的劫罚') await waitAndClickImage("好感图标", 160, 30);
+            else await waitAndClickImage("好感图标", 80, 30);
             await sleep(800);
             const result = await findImageAndOCR("assets/itemQuantityDetection.png", 200, 50, 0, 0);
             if (result !== false) {
@@ -767,7 +835,7 @@ async function getWeaponMaterialCount(materialName) {
 }
 
 //去刷天赋书
-async function getTalentBook(materialName) {
+async function getTalentBook(materialName,bookRequireCounts) {
 while(1){
 log.info(`准备刷取天赋书，开始检查体力`);
 let afterStamina = 0;
@@ -777,14 +845,15 @@ if(afterStamina< 20) skipCheckStamina = 0;
     if ( afterStamina >= 20 ){       
              try {
              log.info(`体力充足，开始检测物品数量`);
-             const bookCounts = await getMaterialCount(materialName);
+             let bookCounts = await getMaterialCount(materialName);
              res = 0.12*(bookRequireCounts[0]-bookCounts[0])+0.36*(bookRequireCounts[1]-bookCounts[1])+(bookRequireCounts[2]-bookCounts[2]);
              if(res>0){
               log.info(`${materialName}天赋书大约还差${res.toFixed(2)}本紫色品质没有刷取`);
               await gotoAutoDomain();
              } 
              else {
-             notification.send(`${materialName}天赋书数量已经满足要求！！！`);
+             addNotification(`${materialName}天赋书数量已经满足要求！！！`);
+             await addCompletedTask("talent", materialName, bookRequireCounts);
              return;
               }
              }
@@ -795,7 +864,7 @@ if(afterStamina< 20) skipCheckStamina = 0;
              let bookCounts = await getMaterialCount(materialName);
              res = 0.12*(bookRequireCounts[0]-bookCounts[0])+0.36*(bookRequireCounts[1]-bookCounts[1])+(bookRequireCounts[2]-bookCounts[2]);
              }
-              notification.send(`${materialName}天赋书大约还差${res.toFixed(2)}本紫色品质没有刷取`);
+              addNotification(`${materialName}天赋书大约还差${res.toFixed(2)}本紫色品质没有刷取`);
              return;
        }
      }
@@ -803,14 +872,18 @@ if(afterStamina< 20) skipCheckStamina = 0;
              log.info(`体力值为${afterStamina},可能无法刷取${materialName}天赋书`);
              const bookCounts = await getMaterialCount(materialName);
              let res = 0.12*(bookRequireCounts[0]-bookCounts[0])+0.36*(bookRequireCounts[1]-bookCounts[1])+(bookRequireCounts[2]-bookCounts[2]);
-              notification.send(`${materialName}天赋书大约还差${res.toFixed(2)}本紫色品质没有刷取`);
+             if(res <= 0){
+             await addCompletedTask("talent", materialName, bookRequireCounts);
+             addNotification(`${materialName}天赋书数量已经满足要求！！！`);
+             } 
+             else addNotification(`${materialName}天赋书大约还差${res.toFixed(2)}本紫色品质没有刷取`);
              return;
          }
 }
 }
 
 //去刷武器材料
-async function getWeaponMaterial(materialName) {
+async function getWeaponMaterial(materialName,weaponRequireCounts) {
 while(1){
 log.info(`准备刷取武器材料，开始检查体力`);
 let afterStamina = 0;
@@ -820,25 +893,26 @@ if(afterStamina< 20) skipCheckStamina = 0;
     if ( afterStamina >= 20 ){       
              try {
              log.info(`体力充足，开始检测物品数量`);
-             const weaponCounts = await getWeaponMaterialCount(materialName);
+             let weaponCounts = await getWeaponMaterialCount(materialName);
              res = 0.12*(weaponRequireCounts[0]-weaponCounts.green)+0.36*(weaponRequireCounts[1]-weaponCounts.blue)+(weaponRequireCounts[2]-weaponCounts.purple)+3*(weaponRequireCounts[3]-weaponCounts.gold);
              if(res>0){
               log.info(`武器材料${materialName}大约还差${res.toFixed(2)}个紫色品质没有刷取`);
               await gotoAutoDomain("weaponDomain");
              } 
              else {
-             notification.send(`武器材料${materialName}数量已经满足要求！！！`);
+             addNotification(`武器材料${materialName}数量已经满足要求！！！`);
+             await addCompletedTask("wepon", materialName, weaponRequireCounts);
              return;
              }
              }
              catch (error) {  
-             notification.send(`武器材料${materialName}刷取失败，错误信息: ${error}`);
+             addNotification(`武器材料${materialName}刷取失败，错误信息: ${error}`);
              await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
              if (error.message != '秘境未在开启时间，跳过执行'){
              const weaponCounts = await getWeaponMaterialCount(materialName);
              res = 0.12*(weaponRequireCounts[0]-weaponCounts.green)+0.36*(weaponRequireCounts[1]-weaponCounts.blue)+(weaponRequireCounts[2]-weaponCounts.purple)+3*(weaponRequireCounts[3]-weaponCounts.gold);
              }
-             notification.send(`武器材料${materialName}大约还差${res.toFixed(2)}个紫色品质没有刷取`);
+             addNotification(`武器材料${materialName}大约还差${res.toFixed(2)}个紫色品质没有刷取`);
              return;
              }
        }
@@ -846,13 +920,18 @@ if(afterStamina< 20) skipCheckStamina = 0;
              log.info(`体力值为${afterStamina},可能无法刷取武器材料${materialName}`);
              const weaponCounts = await getWeaponMaterialCount(materialName);
              let res = 0.12*(weaponRequireCounts[0]-weaponCounts.green)+0.36*(weaponRequireCounts[1]-weaponCounts.blue)+(weaponRequireCounts[2]-weaponCounts.purple)+3*(weaponRequireCounts[3]-weaponCounts.gold);
-              notification.send(`武器材料${materialName}大约还差${res.toFixed(2)}个紫色品质没有刷取`);
+             if(res <= 0){
+             await addCompletedTask("wepon", materialName, weaponRequireCounts);
+             addNotification(`武器材料${materialName}数量已经满足要求！！！`);
+             } 
+             else addNotification(`武器材料${materialName}大约还差${res.toFixed(2)}个紫色品质没有刷取`);
              return;
          }
 }
 }
+
 //去刷boss材料
-async function getBossMaterial(bossName) {
+async function getBossMaterial(bossName,bossRequireCounts) {
 while(1){
 log.info(`准备刷取 boss 材料，开始检查体力`);
 let afterStamina = 0;
@@ -862,10 +941,10 @@ if(afterStamina< 20) skipCheckStamina = 0;
     if ( afterStamina >= 40 ){       
              try {
              log.info(`体力充足，开始检测物品数量`);
-             const bossCounts = await getBossMaterialCount(bossName);
-             res = settings.bossRequireCounts-bossCounts;
+             let bossCounts = await getBossMaterialCount(bossName);
+             res = bossRequireCounts-bossCounts;
              if(res>0){
-                     notification.send(`${bossName}还差${res}个材料没有刷取`);
+                     log.info(`${bossName}还差${res}个材料没有刷取`);
                      if(!settings.teamName) throw new Error('未输入队伍名称');
                      await genshin.returnMainUi();
                      await genshin.switchParty(settings.teamName);
@@ -898,12 +977,13 @@ if(afterStamina< 20) skipCheckStamina = 0;
                      log.info(`首领讨伐结束`);
              }
              else {
-                     notification.send(`${bossName}材料数量已经满足要求！！！`);
+                     addNotification(`${bossName}材料数量已经满足要求！！！`);
+                     await addCompletedTask("boss", bossName, bossRequireCounts);
                      return;
                      }
              }
              catch (error) {  
-             notification.send(`${bossName}刷取失败，错误信息: ${error}`);
+             addNotification(`${bossName}刷取失败，错误信息: ${error}`);
              await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
              return;
              }
@@ -911,8 +991,12 @@ if(afterStamina< 20) skipCheckStamina = 0;
        else{
              log.info(`体力值为${afterStamina},可能无法刷取首领材料${bossName}`);
              const bossCounts = await getBossMaterialCount(bossName);
-             let res = settings.bossRequireCounts-bossCounts;
-             notification.send(`${bossName}还差${res}个材料没有刷取`);
+             let res = bossRequireCounts-bossCounts;
+             if(res>0) addNotification(`${bossName}还差${res}个材料没有刷取`);
+             else {
+                     addNotification(`${bossName}材料数量已经满足要求！！！`);
+                     await addCompletedTask("boss", bossName, bossRequireCounts);
+             }
              return;
          }
 }
@@ -950,73 +1034,62 @@ function parseAndValidateCounts(input, expectedCount) {
     return result;
 }
 
-let weaponRequireCounts; 
-let weaponRequireCounts1; 
-let weaponRequireCounts2; 
-let bookRequireCounts; 
-let bookRequireCounts1; 
-let bookRequireCounts2; 
-let skipCheckStamina = 1;
+
+(async function () {
+
 if(!settings.unfairContractTerms) throw new Error('未签署霸王条款，无法使用');
+const completedTasks = await loadCompletedTasks();
+log.info(`已加载 ${Object.keys(completedTasks).length} 个已完成任务记录`);
 
-if(settings.talentBookName != "无" && settings.talentBookName){
+for (let i = 0; i < 3; i++) {
+
+const talentBookName = eval(`settings.talentBookName${i}`);
+if(talentBookName != "无" && talentBookName){
 try{
-bookRequireCounts = parseAndValidateCounts(settings.talentBookRequireCounts, 3);
-log.info(`天赋书1方案解析成功: ${bookRequireCounts.join(', ')}`);
-await getTalentBook(settings.talentBookName)}
-catch (error) {  notification.send(`${settings.talentBookName}刷取失败，错误信息: ${error}`);}
+let bookRequireCounts = parseAndValidateCounts(eval(`settings.talentBookRequireCounts${i}`), 3);
+log.info(`天赋书${i+1}方案解析成功: ${bookRequireCounts.join(', ')}`);
+const isCompleted = await isTaskCompleted("talent", talentBookName, bookRequireCounts);
+if (isCompleted){addNotification(`天赋书${talentBookName} 已刷取至目标数量，跳过执行`);} 
+else await getTalentBook(talentBookName,bookRequireCounts);
+// 刷取完成后标记为完成
+//await addCompletedTask("talent", talentBookName, bookRequireCounts);
 }
-else log.info(`没有选择刷取天赋书1，跳过执行`);
+catch (error) {  notification.send(`天赋书${talentBookName}刷取失败，错误信息: ${error}`);}
+}
+else log.info(`没有选择刷取天赋书${i+1}，跳过执行`);
+}
 
-if(settings.talentBookName1 != "无" && settings.talentBookName1){
+
+for (let i = 0; i < 3; i++) {
+const weaponName = eval(`settings.weaponName${i}`);
+if(weaponName != "无" && weaponName){
 try{
-bookRequireCounts1 = parseAndValidateCounts(settings.talentBookRequireCounts1, 3);
-log.info(`天赋书2方案解析成功: ${bookRequireCounts1.join(', ')}`);
-await getTalentBook(settings.talentBookName1)}
-catch (error) {  notification.send(`${settings.talentBookName1}刷取失败，错误信息: ${error}`);}
+weaponRequireCounts = parseAndValidateCounts(eval(`settings.weaponMaterialRequireCounts${i}`), 4);
+log.info(`武器材料${i+1}方案解析成功: ${weaponRequireCounts.join(', ')}`);
+const isCompleted = await isTaskCompleted("wepon", weaponName, weaponRequireCounts);
+if (isCompleted){addNotification(`武器材料${weaponName} 已刷取至目标数量，跳过执行`);} 
+else await getWeaponMaterial(weaponName,weaponRequireCounts);
 }
-else log.info(`没有选择刷取天赋书2，跳过执行`);
+catch (error) {  notification.send(`武器材料${weaponName}刷取失败，错误信息: ${error}`);}
+}
+else log.info(`没有选择刷取武器材料${i+1}，跳过执行`);
+}
 
-if(settings.talentBookName2 != "无" && settings.talentBookName2){
+for (let i = 0; i < 3; i++) {
+const bossName = eval(`settings.bossName${i}`);
+if(bossName != "无" && bossName){
 try{
-bookRequireCounts2 = parseAndValidateCounts(settings.talentBookRequireCounts2, 3);
-log.info(`天赋书3方案解析成功: ${bookRequireCounts2.join(', ')}`);
-await getTalentBook(settings.talentBookName2)}
-catch (error) {  notification.send(`${settings.talentBookName2}刷取失败，错误信息: ${error}`);}
+bossRequireCounts = eval(`settings.bossRequireCounts${i}`);
+const isCompleted = await isTaskCompleted("boss", bossName, bossRequireCounts);
+if (isCompleted){addNotification(`首领材料${bossName} 已刷取至目标数量，跳过执行`);} 
+else await getBossMaterial(bossName,bossRequireCounts);
 }
-else log.info(`没有选择刷取天赋书3，跳过执行`);
+catch (error) {  notification.send(`首领材料${bossName}刷取失败，错误信息: ${error}`);}
+}
+else log.info(`没有选择挑战首领${i+1}，跳过执行`);
+}
 
-if(settings.weaponName != "无" && settings.weaponName){
-try{
-weaponRequireCounts = parseAndValidateCounts(settings.weaponMaterialRequireCounts, 4);
-log.info(`武器材料1方案解析成功: ${weaponRequireCounts.join(', ')}`);
-await getWeaponMaterial(settings.weaponName)}
-catch (error) {  notification.send(`${settings.weaponName}刷取失败，错误信息: ${error}`);}
-}
-else log.info(`没有选择刷取武器材料1，跳过执行`);
-
-if(settings.weaponName1 != "无" && settings.weaponName1){
-try{
-weaponRequireCounts1 = parseAndValidateCounts(settings.weaponMaterialRequireCounts1, 4);
-log.info(`武器材料2方案解析成功: ${weaponRequireCounts1.join(', ')}`);
-await getWeaponMaterial(settings.weaponName1)}
-catch (error) {  notification.send(`${settings.weaponName1}刷取失败，错误信息: ${error}`);}
-}
-else log.info(`没有选择刷取武器材料2，跳过执行`);
-
-if(settings.weaponName2 != "无" && settings.weaponName2){
-try{
-weaponRequireCounts2 = parseAndValidateCounts(settings.weaponMaterialRequireCounts2, 4);
-log.info(`武器材料3方案解析成功: ${weaponRequireCounts2.join(', ')}`);
-await getWeaponMaterial(settings.weaponName2)}
-catch (error) {  notification.send(`${settings.weaponName2}刷取失败，错误信息: ${error}`);}
-}
-else log.info(`没有选择刷取武器材料3，跳过执行`);
-
-if(settings.bossName != "无" && settings.bossName){
-try{await getBossMaterial(settings.bossName)}
-catch (error) {  notification.send(`${settings.bossName}刷取失败，错误信息: ${error}`);}
-}
-else log.info(`没有选择挑战首领，跳过执行`);
+sendBufferedNotifications();//发送累积的完成信息
 
 })();
+
