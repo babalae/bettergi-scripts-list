@@ -2,11 +2,13 @@
   "info": {
     "name": "极速前进-1",
     "type": "collect",
-    "author": "11",
+    "author": "星野",
     "version": "1.0",
-    "description": "极速前进-1",
+    "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752243918114
   },
   "positions": [
     {
@@ -20,11 +22,11 @@
     },
     {
       "id": 2,
-      "x": -605.744140625,
-      "y": 1885.2265625,
-      "action": "",
+      "x": -605.33,
+      "y": 1885.12,
+      "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "",
+      "action_params": "wait(2)",
       "type": "target"
     },
     {
@@ -105,7 +107,7 @@
       "y": 1990.375,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "attack,",
+      "action_params": "attack",
       "type": "path"
     },
     {
@@ -148,10 +150,10 @@
       "id": 16,
       "x": -377.810546875,
       "y": 1911.63330078125,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 17,
@@ -184,19 +186,19 @@
       "id": 20,
       "x": -304.83203125,
       "y": 1870.14453125,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 21,
       "x": -302.966796875,
       "y": 1865.37890625,
-      "type": "path",
-      "move_mode": "fly",
       "action": "",
-      "action_params": ""
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 22,

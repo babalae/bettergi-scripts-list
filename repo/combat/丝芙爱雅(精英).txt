@@ -1,0 +1,14 @@
+// 作者:火山
+// 描述: skk锄地、秘境综合策略。塔利雅需要4命才能无缝护盾(最好带祭礼剑)，skk无命座刚需
+// 版本: v1.0
+
+丝柯克 attack(0.2),keypress(q),wait(0,2),keypress(q),wait(0,2),keypress(q)
+塔利雅 e,wait(0.3),keypress(Q),wait(0.3),keypress(Q),wait(0.35),e,wait(0.3),keypress(F1),wait(0.5),keypress(ESCAPE),wait(1.5),keypress(Q),wait(0.3),keypress(Q),wait(0.4)
+丝柯克 attack(0.08),keydown(E),wait(0.25),attack(0.1),keyup(E)
+芙宁娜 e
+爱可菲 e,wait(0.3),keypress(Q),wait(0.2),keypress(Q),wait(0.2),keypress(Q),wait(0.5)
+芙宁娜 attack(0.01),e,attack(0.1),dash(0.1),jump,wait(0.2),keypress(q),keydown(W),attack(0.3),keypress(q),keyup(W),attack(0.3),keypress(q),attack(0.1),keydown(S),attack(0.33),keyup(S),keydown(W),attack(0.3),keyup(W),keydown(S),attack(0.3),keyup(S),keydown(W),attack(0.3),keyup(W),keydown(S),attack(0.3),keyup(S),keydown(W),attack(0.3),keyup(W)
+丝柯克 attack(0.2), q,wait(0.5)
+芙宁娜 attack(0.01),e,attack(0.1),dash(0.1),jump,wait(0.2),keypress(q),keydown(W),attack(0.3),keypress(q),keyup(W),attack(0.3),keypress(q),attack(0.1),keydown(S),attack(0.33),keyup(S),keydown(W),attack(0.3),keyup(W),keydown(S),attack(0.3),keyup(S),keydown(W),attack(0.3),keyup(W),keydown(S),attack(0.3),keyup(S),keydown(W),attack(0.3),keyup(W)
+塔利雅 e,wait(0.3),keypress(Q),wait(0.3),keypress(Q),wait(0.35),e,keypress(Q),wait(0.3),keypress(Q),wait(0.2),keypress(Q),wait(0.4)
+丝柯克 e,wait(0.2),charge(0.3),keypress(q),wait(0.15),attack(6)

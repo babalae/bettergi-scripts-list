@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "蒙德植物商人-芙罗拉",
+    "type": "collect",
+    "author": "小鹰划船不用桨",
+    "version": "1.1",
+    "description": "蒙德植物商人-芙罗拉",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -867.7080078125,
+      "y": 2281.365234375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -873.609375,
+      "y": 2274.7041015625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -880.400390625,
+      "y": 2266.86767578125,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -897.6943359375,
+      "y": 2251.416748046875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -923.6123046875,
+      "y": 2239.172119140625,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -927.443359375,
+      "y": 2245.3642578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

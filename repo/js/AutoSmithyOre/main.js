@@ -2,7 +2,7 @@
     ///
     // 读取用户配置
     ///
-    let smithyName = settings.smithyName != undefined ? settings.smithyName : "枫丹铁匠铺";
+    let smithyName = settings.smithyName != undefined ? settings.smithyName : "蒙德铁匠铺";
 
     ///
     // 定义函数
@@ -32,7 +32,8 @@
         await click(960, 900); await sleep(1000); // 确认
         await click(220, 140); await sleep(1000); // 选择配方
         await click(540, 270); await sleep(1000); // 选择魔矿
-        await click(1750, 1020); await sleep(1000); // 3次锻造魔矿
+        await click(1750, 1020); await sleep(1000); // 4次锻造魔矿
+        await click(1750, 1020); await sleep(1000);
         await click(1750, 1020); await sleep(1000);
         await click(1750, 1020); await sleep(2000);
         await click(960, 600); await sleep(2000);

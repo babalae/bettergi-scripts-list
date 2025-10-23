@@ -15,8 +15,9 @@ async function (timeout) {
 
                 // 循环检测直到超时
                 while (Date.now() - startTime < timeout) {
+                    let captureRegion = null;
                     try {
-                        let captureRegion = captureGameRegion();
+                        captureRegion = captureGameRegion();
                         let result = captureRegion.find(ocrRo1);
                         let text = result.text;
 
@@ -56,7 +57,11 @@ async function (timeout) {
                     catch (error) {
                         log.error("OCR过程中出错: {0}", error);
                     }
-
+                    finally {
+                        if (captureRegion) {
+                            captureRegion.dispose();
+                        }
+                    }
                     await sleep(1000); // 检查间隔
                 }
 

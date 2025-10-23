@@ -1,0 +1,51 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时58秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只深渊咏者·紫电。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759246541873,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "335【高危】稻妻渊下宫蛇心之地西北（600_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 452.27,
+      "y": -119.1
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 499.0044,
+      "y": -141.7712
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 499.0044,
+      "y": -141.7712
+    }
+  ]
+}

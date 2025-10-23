@@ -31,7 +31,6 @@
             while (attempt <= 3 && !battleSuccess) {
                 log.info(`执行前往『${challengeName}』的路线`);
                 await pathingScript.runFile(`assets/${challengeName}前往.json`);
-                await keyMouseScript.runFile(`assets/${challengeName}前往键鼠.json`);
                 log.info(`开始第${attempt}次战斗尝试`);
                 try {
                     await dispatcher.runTask(new SoloTask("AutoFight"));

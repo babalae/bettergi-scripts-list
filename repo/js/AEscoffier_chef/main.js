@@ -47,6 +47,54 @@
     const food_dic = JSON.parse(file.readTextSync("assets/food_dic.json"));
 
     /**
+     * 供 findClosestMatch 调用
+     */
+    function levenshteinDistance(a, b) {
+        const matrix = [];
+        for (let i = 0; i <= b.length; i++) {
+            matrix[i] = [i];
+        }
+        for (let j = 0; j <= a.length; j++) {
+            matrix[0][j] = j;
+        }
+        for (let i = 1; i <= b.length; i++) {
+            for (let j = 1; j <= a.length; j++) {
+                if (b.charAt(i - 1) === a.charAt(j - 1)) {
+                    matrix[i][j] = matrix[i - 1][j - 1];
+                } else {
+                    matrix[i][j] = Math.min(
+                        matrix[i - 1][j - 1] + 1, // 替换
+                        matrix[i][j - 1] + 1,     // 插入
+                        matrix[i - 1][j] + 1      // 删除
+                    );
+                }
+            }
+        }
+        return matrix[b.length][a.length];
+    }
+
+    /**
+     *
+     * 查找最相似的字符串（用于查找料理，最大限度避免OCR偏差导致的异常）
+     *
+     * @param target 目标字符串
+     * @param candidates 字符串数组
+     * @returns {null}
+     */
+    function findClosestMatch(target, candidates) {
+        let closest = null;
+        let minDistance = Infinity;
+        for (const candidate of candidates) {
+            const distance = levenshteinDistance(target, candidate);
+            if (distance < minDistance) {
+                minDistance = distance;
+                closest = candidate;
+            }
+        }
+        return closest;
+    }
+
+    /**
      *
      * 解析food_dic的食物数据
      *
@@ -316,7 +364,10 @@
         let ocr = captureGameRegion().FindMulti(ocrRo); // 当前页面OCR
         if (ocr.count !== 0) {
             for (let i = 0; i < ocr.count; i++) {
-                if (ocr[i].text === food_name) {
+                let food_name_deal = await Promise.all(
+                    Object.keys(food_dic).map(async (x) => await deal_string(x))
+                );
+                if (findClosestMatch(ocr[i].text, food_name_deal) === food_name) { // 【DEBUG】
                     log.info(`找到了 ${food_name} ！`);
                     ocr[i].Click();
                     return true;
@@ -633,7 +684,7 @@
             return false;
         }
         try {
-            food_num_Stamina_Cost_Reduction = typeof(settings.food_num_Stamina_Cost_Reduction) === "undefined" || settings.food_num_Stamina_Cost_Reduction === "" ? 1: parseInt(food_num_Stamina_Cost_Reduction.undefined, 10);
+            food_num_Stamina_Cost_Reduction = typeof(settings.food_num_Stamina_Cost_Reduction) === "undefined" || settings.food_num_Stamina_Cost_Reduction === "" ? 1: parseInt(settings.food_num_Stamina_Cost_Reduction, 10);
         } catch(error) {
             log.error(`food_num_Stamina_Cost_Reduction 读取错误: ${error}`);
             return false;
@@ -821,7 +872,7 @@
             "food_character_num": food_character_num,
             "select_cooking_mode": select_cooking_mode,
             "extra_time": extraTime,
-            "check_quality": check_quality,
+            "check_quality": false, // 【DEBUG】禁用料理结果识别
             "prime_cooking": prime_cooking
         }
     }
@@ -846,6 +897,8 @@
             for (let i = 0; i < name_can_make.length; i++) {
                 task_dic["cooking"][name_can_make[i]] = setting_dic["food_num"];
             }
+        } else if (setting_dic["food_choice_single_select"] === "无(默认)") {
+            task_dic["cooking"] = {};
         } else {
             task_dic["cooking"][setting_dic["food_choice_single_select"]] = setting_dic["food_num"];
         }
@@ -983,12 +1036,12 @@
                 task_dic["character"] = {};
             } else if (setting_dic["food_character_select"] === "全部角色") {
                 for (let i = 0; i < name_character_food.length; i++) {
-                    task_dic["character"][name_character_food[i]] = setting_dic["food_character_num"];
+                    task_dic["cooking"][name_character_food[i]] = setting_dic["food_character_num"];
                 }
             } else {
                 for (const [name, detail] of Object.entries(food_dic)) {
                     if (detail["character"] === setting_dic["food_character_select"]) {
-                        task_dic["character"][name] = setting_dic["food_character_num"];
+                        task_dic["cooking"][name] = setting_dic["food_character_num"];
                     }
                 }
             }
@@ -1009,7 +1062,7 @@
                 let all_character = Object.keys(character_detail_dic);
                 for (const [name, detail] of Object.entries(food_dic)) {
                     if (all_character.includes(detail["character"])) {
-                        task_dic["character"][name] = character_detail_dic[detail["character"]];
+                        task_dic["cooking"][name] = character_detail_dic[detail["character"]];
                     }
                 }
             }
@@ -1152,10 +1205,16 @@
      * @returns {Promise<boolean>} 成功返回true否则false
      */
     async function auto_cooking(food_name, setting_dic) {
-        let current_item_name = await recognize_item_name();
+        food_name = findClosestMatch(food_name, Object.keys(food_dic)); // 【DEBUG】
+        let current_item_name = findClosestMatch(await recognize_item_name(), Object.keys(food_dic));
+        if (typeof(setting_dic["cooking"][food_name]) === "undefined") {
+            log.error(`请确保JS脚本配置中输入了正确的料理名称: ${food_name} 匹配错误`);
+            log.info(`${Object.keys(setting_dic["cooking"]).join("|")}`);
+            return false;
+        }
         // 检测界面
         if (!is_food_page()) return false;
-        // 二次验证食材名
+        // 二次验证料理名【DEBUG】经过先前的字符串距离筛选，此处理应不可能找不到
         if (!Object.keys(food_dic).includes(food_name)) {
             log.warn(`food_dic内未找到名为-${food_name}-的料理，料理名称传入错误或料理数据需要更新`);
             return false;
@@ -1308,8 +1367,8 @@
                         unlock = await is_unlock(); // 检测当前食材是否已经解锁
                     }
                     if (unlock_flag) {
-                        const loop_time = Math.floor(cook_num / 99) + 1; // 总计循环数，一次最大99
                         let cook_num = setting_dic["cooking"][food_name] + 0; // 设定的数量
+                        const loop_time = Math.floor(cook_num / 99) + 1; // 总计循环数，一次最大99
                         for (let i = 0; i < loop_time; i++) {
                             let cook_time = i !== loop_time - 1 ? 99: cook_num - i * 99; // 本次烹饪数
                             await click(890, 1016); // 点击自动烹饪

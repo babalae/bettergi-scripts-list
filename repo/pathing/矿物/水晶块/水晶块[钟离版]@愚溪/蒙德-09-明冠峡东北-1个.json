@@ -1,0 +1,106 @@
+{
+  "info": {
+    "name": "蒙德-09-明冠峡东北-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "愚溪",
+        "links": "https://github.com/Kupder"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -440.12,
+      "y": 2580.9
+    },
+    {
+      "id": 2,
+      "x": -464.32,
+      "y": 2631.71,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -481.53,
+      "y": 2665.28,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": -477.64,
+      "y": 2674.52,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": -483.55,
+      "y": 2673.29,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)"
+    },
+    {
+      "id": 6,
+      "x": -483.81,
+      "y": 2676.0,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": -480.86,
+      "y": 2670.22,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": -480.29,
+      "y": 2667.71,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x": -483.11,
+      "y": 2664.85,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 10,
+      "x": -485.99,
+      "y": 2671.4,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 11,
+      "x": -498.78,
+      "y": 2663.13,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

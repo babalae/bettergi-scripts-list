@@ -1,0 +1,141 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时133.19秒，包含以下怪物：1只岩史莱姆、1只丘丘雷兜王、3只深海龙蜥·原种。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759247674853,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "336稻妻渊下宫蛇心之地（600_2，200_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 386.8699999999999,
+      "y": -336.8299999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 387.4429931640625,
+      "y": -327.636474609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 385.8043212890625,
+      "y": -334.9970703125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 385.84375,
+      "y": -338.3129315950473
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 386.8699999999999,
+      "y": -336.8299999999999
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 375.03,
+      "y": -321.65999999999985
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);钟离 a(0.1),e(hold);伊涅芙 e;茜特菈莉 e;莱依拉 e;芙宁娜 e;玛薇卡 e;attack(0.3)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 384.3800000000001,
+      "y": -324.75
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 378.81999999999994,
+      "y": -312.1199999999999
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;wait(4.5),",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 326.3399999999999,
+      "y": -291.6199999999999
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 348.4100000000001,
+      "y": -300.40999999999985
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 348.4100000000001,
+      "y": -300.40999999999985
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 378.81999999999994,
+      "y": -312.1199999999999
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 378.81999999999994,
+      "y": -312.1199999999999
+    }
+  ]
+}

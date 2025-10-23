@@ -1,0 +1,156 @@
+{
+  "info": {
+    "name": "B07-紫晶块-稻妻-神无冢-名椎滩-(有战斗,小怪)-3个",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.47.0",
+    "tags": [
+      "双手剑",
+      "小怪"
+    ],
+    "last_modified_time": 1751118257542,
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2533.4,
+      "y": -3539.61,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -2573.7,
+      "y": -3521.63,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -2576.72,
+      "y": -3523.21,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -2714.42,
+      "y": -3572.89,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "玛薇卡 w(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),e;",
+      "type": "orientation"
+    },
+    {
+      "id": 5,
+      "x": -2714.42,
+      "y": -3572.89,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false,
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "骗骗花*2",
+        "monster_tag": "normal"
+      }
+    },
+    {
+      "id": 6,
+      "x": -2714.42,
+      "y": -3572.89,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -2746.19,
+      "y": -3555.42,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": -2746.19,
+      "y": -3555.42,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 9,
+      "x": -2749.3,
+      "y": -3551.26,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -2750.23,
+      "y": -3555.95,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": -2750.23,
+      "y": -3555.95,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 12,
+      "x": -2753.57,
+      "y": -3551.78,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": -2753.57,
+      "y": -3551.78,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "info": {
+    "name": "13-绯樱绣球-影向山山底-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "丽莎可采集全，久岐忍漏第2个",
+    "bgi_version": "0.42.3",
+    "tags": [
+      "丽莎"
+    ],
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4375.68,
+      "y": -2498.13,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4372.54,
+      "y": -2507.95,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4383.38,
+      "y": -2603.49,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "5000"
+    },
+    {
+      "id": 4,
+      "x": -4383.89,
+      "y": -2620.81,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "electro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -4387.09,
+      "y": -2633.23,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "丽莎 attack,wait(0.5),attack,wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE)"
+    },
+    {
+      "id": 6,
+      "x": -4362.02,
+      "y": -2673.33,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "electro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -4333.0,
+      "y": -2633.65,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -4312.34,
+      "y": -2624.69,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "electro_collect",
+      "action_params": ""
+    }
+  ]
+}

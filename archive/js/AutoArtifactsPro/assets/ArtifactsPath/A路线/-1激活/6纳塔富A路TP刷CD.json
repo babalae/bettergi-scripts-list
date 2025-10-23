@@ -1,0 +1,175 @@
+﻿{
+  "info": {
+    "name": "6纳塔富A路TP刷CD",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755409830371,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9088.9462890625,
+      "y": -1970.11376953125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 8914.7685546875,
+      "y": -2680.2509765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 3,
+      "x": 9033.82421875,
+      "y": -2911.9306640625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 4,
+      "x": 9052.376953125,
+      "y": -1381.9111328125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 9589.333984375,
+      "y": -1285.98095703125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 6,
+      "x": 9711.3037109375,
+      "y": -1552.1005859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 7,
+      "x": 9470.3037109375,
+      "y": -1670.8291015625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 8,
+      "x": 9487.90234375,
+      "y": -1667.02490234375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "5100",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 9490.603515625,
+      "y": -1664.439453125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 9310.8408203125,
+      "y": -1423.21240234375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 11,
+      "x": 9342.341796875,
+      "y": -1494.5732421875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 10117.359375,
+      "y": -134.76904296875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 13,
+      "x": 10118.16015625,
+      "y": -119.41357421875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 10072.021484375,
+      "y": 22.08056640625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 15,
+      "x": 10063.0107421875,
+      "y": 75.552734375,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 9968.375,
+      "y": 252.1005859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 17,
+      "x": 9755.689453125,
+      "y": -614.931640625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    }
+  ]
+}

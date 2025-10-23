@@ -22,11 +22,16 @@ const MiddleSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSy
 const RightSliderTopRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Slider Top.png"), 1750, 100, 100, 100);
 const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Slider Bottom.png"), 1750, 100, 100, 900);
 
+// 取得需要离队角色資訊
+const removedCharacters1 = typeof (settings.removedCharacters1) === 'undefined' ? false : settings.removedCharacters1;
+const removedCharacters2 = typeof (settings.removedCharacters2) === 'undefined' ? false : settings.removedCharacters2;
+const removedCharacters3 = typeof (settings.removedCharacters3) === 'undefined' ? false : settings.removedCharacters3;
+const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' ? false : settings.removedCharacters4;
 
 /**
  * @returns {Promise<void>}
  */
-(async function() {
+(async function () {
 	// 切换队伍
 	if (!settings.disableNotice) {
 		for (let n = 0; n < 10; n++) {
@@ -105,7 +110,9 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 		let resList = captureRegion.findMulti(RecognitionObject.ocr(100, 900, 300, 180));
 		for (let i = 0; i < resList.count; i++) {
 			let res = resList[i];
-			log.info("当前队伍名称位置:({x},{y},{w},{h}), 识别结果：{text}", res.x, res.y, res.Width, res.Height, res.text);
+			if (settings.enableDebug) {
+				log.info("当前队伍名称位置:({x},{y},{w},{h}), 识别结果：{text}", res.x, res.y, res.Width, res.Height, res.text);
+			}
 			if (res.text.includes(partyName)) {
 				log.info("当前队伍即为目标队伍，无需切换");
 				keyPress("VK_ESCAPE");
@@ -129,20 +136,26 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 								log.info("文本位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
 							}
 							if (res.text.includes(partyName)) {
-								log.info("目标队伍位置:({x},{y},{w},{h}), 识别结果：{text}", res.x, res.y, res.Width, res.Height, res.text);
+								if (settings.enableDebug) {
+									log.info("目标队伍位置:({x},{y},{w},{h}), 识别结果：{text}", res.x, res.y, res.Width, res.Height, res.text);
+								}
 								click(res.x, Math.ceil(res.y + res.Height * 1.35));
 
 								// 找到目标队伍，点击确定、部署
 								await sleep(1500);
 								let ConfirmButton = captureGameRegion().find(ConfirmDeployButtonRo);
 								if (ConfirmButton.isExist()) {
-									log.info("识别到确定按钮:({x},{y},{w},{h})", ConfirmButton.x, ConfirmButton.y, ConfirmButton.Width, ConfirmButton.Height);
+									if (settings.enableDebug) {
+										log.info("识别到确定按钮:({x},{y},{w},{h})", ConfirmButton.x, ConfirmButton.y, ConfirmButton.Width, ConfirmButton.Height);
+									}
 									ConfirmButton.click();
 								}
 								await sleep(1500);
 								let DeployButton = captureGameRegion().find(ConfirmDeployButtonRo);
 								if (DeployButton.isExist()) {
-									log.info("识别到部署按钮:({x},{y},{w},{h})", DeployButton.x, DeployButton.y, DeployButton.Width, DeployButton.Height);
+									if (settings.enableDebug) {
+										log.info("识别到部署按钮:({x},{y},{w},{h})", DeployButton.x, DeployButton.y, DeployButton.Width, DeployButton.Height);
+									}
 									DeployButton.click();
 									ConfigureStatue = true;
 									break;
@@ -191,9 +204,11 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 			for (let i = 0; i < resList.count; i++) {
 				let res = resList[i];
 				if (res.text.includes(settings.appointFriendName)) {
-					log.info("指定好友名字位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
+					if (settings.enableDebug) {
+						log.info("指定好友名字位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
+					}
 					click(res.x - 100, res.y + 50);
-					await sleep(500);
+					await sleep(1000);
 
 					// 申请造访尘歌壶
 					let captureRegion = captureGameRegion();
@@ -201,12 +216,15 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 					for (let i = 0; i < resList.count; i++) {
 						let res = resList[i];
 						if (res.text.includes("申请造访") || res.text.includes("visit Serenitea Pot") || res.text.includes("申請造訪")) {
-							log.info("申请造访尘歌壶位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
+							if (settings.enableDebug) {
+								log.info("申请造访尘歌壶位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
+							}
 							res.click();
 						}
 					}
 				}
 			}
+			await sleep(1000);
 			// 翻页继续尝试&模板匹配的方式等待加载
 			let SliderBottom = captureGameRegion().find(RightSliderBottomRo);
 			if (SliderBottom.isExist()) {
@@ -284,7 +302,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 			if (i % 2 === 0) {
 				// 偶数索引，递增 y_avatar
 				y_avatar += avatar_increment;
-				log.info(`正在申请造访第 ${i/2+1} 位好友尘歌壶`);
+				log.info(`正在申请造访第 ${i / 2 + 1} 位好友尘歌壶`);
 				click(x_avatar, y_avatar);
 				await sleep(250);
 				click(x_avatar, y_avatar);
@@ -325,6 +343,10 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 
 	// 模板匹配领取历练点奖励
 	async function claimEncounterPointsRewards() {
+		await sleep(2000);
+		log.info("正在让指定位置角色离队");
+		await removeSpecifiedRole();
+		await sleep(2000);
 		log.info("正在打开冒险之证领取历练点奖励");
 		await sleep(2000);
 		keyPress("VK_ESCAPE");
@@ -341,7 +363,9 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 			for (let i = 0; i < resList.count; i++) {
 				let res = resList[i];
 				if (res.text.includes("委托") || res.text.includes("委託") || res.text.includes("Commissions") || res.text.includes("委")) {
-					log.info("识别到委托选项卡位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
+					if (settings.enableDebug) {
+						log.info("识别到委托选项卡位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
+					}
 					res.click();
 				} else {
 					log.info("未识别到识别到委托选项卡");
@@ -397,12 +421,77 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 		}
 	}
 
+	// 让指定位置角色离队
+	async function removeSpecifiedRole() {
+		try {
+			if (removedCharacters1 || removedCharacters2 || removedCharacters3 || removedCharacters4) {
+				// 打開配隊介面
+				keyPress("l");
+				await sleep(3500);
+
+				// 让4号位角色离队
+				if (removedCharacters4) {
+					// 第4名角色位置
+					click(1460, 600);
+					await sleep(750);
+					click(430, 1020);
+					await sleep(750);
+					log.info("4号位角色已离队");
+
+				}
+
+				// 让3号位角色离队
+				if (removedCharacters3) {
+					// 第3名角色位置
+					click(1130, 600);
+					await sleep(750);
+					click(430, 1020);
+					await sleep(750);
+					log.info("3号位角色已离队");
+				}
+
+				// 让2号位角色离队
+				if (removedCharacters2) {
+					// 第2名角色位置
+					click(790, 600);
+					await sleep(750);
+					click(430, 1020);
+					await sleep(750);
+					log.info("2号位角色已离队");
+				}
+
+				// 让1号位角色离队
+				if (removedCharacters1) {
+					if (removedCharacters4 && removedCharacters3 && removedCharacters2) {
+						log.warn("2,3,4号位已离队，1号位角色不能离队");
+					} else {
+						// 第1名角色位置
+						click(480, 600);
+						await sleep(750);
+						click(430, 1020);
+						await sleep(750);
+						log.info("1号位角色已离队");
+					}
+				}
+
+				// 返回主界面
+				await genshin.returnMainUi();
+			} else {
+				log.info("无需让角色离队");
+			}
+		} catch (error) {
+			log.error("出错: {0}", error);
+		}
+	}
+
 	// 向下一页
 	async function pageDown(SliderBottomRo) {
 		let SliderBottom = captureGameRegion().find(SliderBottomRo);
 		if (SliderBottom.isExist()) {
 			log.info("当前页面已点击完毕，向下滑动");
-			log.info("滑块当前位置:({x},{y},{h},{w})", SliderBottom.x, SliderBottom.y, SliderBottom.Width, SliderBottom.Height);
+			if (settings.enableDebug) {
+				log.info("滑块当前位置:({x},{y},{h},{w})", SliderBottom.x, SliderBottom.y, SliderBottom.Width, SliderBottom.Height);
+			}
 			click(Math.ceil(SliderBottom.x + SliderBottom.Width / 2), Math.ceil(SliderBottom.y + SliderBottom.Height * 3.5));
 			await moveMouseTo(0, 0);
 			await sleep(100);
@@ -413,7 +502,9 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 	async function pageTop(SliderTopRo) {
 		let SliderTop = captureGameRegion().find(SliderTopRo);
 		if (SliderTop.isExist()) {
-			log.info("滑条顶端位置:({x},{y},{h},{w})", SliderTop.x, SliderTop.y, SliderTop.Width, SliderTop.Height);
+			if (settings.enableDebug) {
+				log.info("滑条顶端位置:({x},{y},{h},{w})", SliderTop.x, SliderTop.y, SliderTop.Width, SliderTop.Height);
+			}
 			await moveMouseTo(Math.ceil(SliderTop.x + SliderTop.Width / 2), Math.ceil(SliderTop.y + SliderTop.Height * 1.5));
 			leftButtonDown();
 			await sleep(500);

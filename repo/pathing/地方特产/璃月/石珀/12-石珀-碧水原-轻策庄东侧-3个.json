@@ -1,0 +1,97 @@
+{
+  "info": {
+    "name": "12-石珀-碧水原-轻策庄东侧-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1750429656562,
+    "authors": [
+      {
+        "name": "爱凑热闹"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 543.09,
+      "y": 1767.35,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 526.12,
+      "y": 1766.24,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 499.14,
+      "y": 1774.32,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 508.81,
+      "y": 1825.83,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 508.81,
+      "y": 1825.83,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 508.81,
+      "y": 1825.83,
+      "action": "pick_around",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 512.05,
+      "y": 1824.95,
+      "action": "",
+      "move_mode": "jump",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 516.72,
+      "y": 1822.61,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 516.72,
+      "y": 1822.61,
+      "action": "pick_around",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

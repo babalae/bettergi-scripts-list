@@ -6,9 +6,14 @@ const DEFAULT_OCR_TIMEOUT_SECONDS = 10;
 const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 
 (async function () {
-    // 启用自动拾取的实时任务
     const startTime = Date.now();
-    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
+    // 启用自动拾取的实时任务
+    if (convertToTrueIfNotBoolean(settings.pickupMode)) {
+        dispatcher.addTimer(new RealtimeTimer("AutoPick"));
+        log.info("已 启用 自动拾取任务");
+    } else {
+        log.info("已 禁用 自动拾取任务");
+    }
     runTimes = await calulateRunTimes();
     await switchPartyIfNeeded(settings.partyName);
 
@@ -47,7 +52,9 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     log.info(`${enemyType}好感运行总时长：${LogTimeTaken(startTime)}`);
 })();
 
-
+function convertToTrueIfNotBoolean(value) {
+  return typeof value === 'boolean' ? value : true;
+}
 // 执行 path 任务
 async function AutoPath(locationName) {
     try {
@@ -105,7 +112,7 @@ async function detectTaskTrigger(ocrTimeout, enemyType) {
     while (Date.now() - ocrStartTime < ocrTimeout * 1000 && !ocrStatus) {
         let captureRegion = captureGameRegion();
         let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 200, 300, 300));
-
+        captureRegion.dispose();
         for (let o = 0; o < resList.count; o++) {
             let res = resList[o];
             for (let keyword of ocrKeywords) {
@@ -474,7 +481,7 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000, enemyType = "盗宝�
             let result2 = capture.find(RecognitionObject.ocr(0, 200, 300, 300));
             let text = result.text;
             let text2 = result2.text;
-
+            capture.dispose();
             // 检查成功关键词
             for (let keyword of successKeywords) {
                 if (text.includes(keyword)) {

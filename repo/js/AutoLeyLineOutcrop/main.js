@@ -9,11 +9,14 @@ let leyLineX = 0;         // 地脉花X坐标
 let leyLineY = 0;         // 地脉花Y坐标
 let currentFlower = null; // 当前花的引用
 let strategyName = "";    // 任务策略名称
-let retryCount = 0;       // 重试次数
 let marksStatus = true;   // 自定义标记状态
 let currentRunTimes = 0;  // 当前运行次数
 let isNotification = false; // 是否发送通知
 let config = {};          // 全局配置对象
+let recheckCount = 0;     // 树脂重新检查次数（防止无限递归）
+const MAX_RECHECK_COUNT = 3; // 最大重新检查次数
+let consecutiveFailureCount = 0; // 连续战斗失败次数
+const MAX_CONSECUTIVE_FAILURES = 5; // 最大连续失败次数，超过后终止脚本
 const ocrRegion1 = { x: 800, y: 200, width: 300, height: 100 };   // 中心区域
 const ocrRegion2 = { x: 0, y: 200, width: 300, height: 300 };     // 追踪任务区域
 const ocrRegion3 = { x: 1200, y: 520, width: 300, height: 300 };  // 拾取区域
@@ -29,19 +32,32 @@ const ocrRo3 = RecognitionObject.ocr(ocrRegion3.x, ocrRegion3.y, ocrRegion3.widt
 const ocrRoThis = RecognitionObject.ocrThis;
 /**
  * 主函数 - 脚本入口点
+ * 1. 全局异常处理，记录日志并发送通知
  */
 (async function () {
-    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     try {
         await runLeyLineOutcropScript();
-    } catch (error) {
-        log.error("出错了！ {error}", error.message);
+    }
+    catch (error) {
+        // 全局错误捕获，记录并发送错误日志
+        log.error("出错了: {error}", error.message);
         if (isNotification) {
-            notification.error("出错了！ {error}", error.message);
+            notification.error(`出错了: ${error.message}`);
         }
+    }
+    finally {
+        // 确保退出奖励界面（如果在奖励界面）
+        try {
+            await ensureExitRewardPage();
+        } catch (exitError) {
+            log.warn(`退出奖励界面时出错: ${exitError.message}`);
+        }
+        
         if (!marksStatus) {
+            // 任何时候都确保自定义标记处于打开状态
             await openCustomMarks();
         }
+        log.info("全自动地脉花运行结束");
     }
 })();
 
@@ -51,19 +67,22 @@ const ocrRoThis = RecognitionObject.ocrThis;
  */
 async function runLeyLineOutcropScript() {
     // 初始化加载配置和设置并校验
-    await initialize();
-    await loadConfig();
-    loadSettings();
-    retryCount = 0;
+    initialize();
+    
+    // 处理树脂耗尽模式（如果开启）
+    let runTimesValue = await handleResinExhaustionMode();
+    if(runTimesValue <= 0) {
+        throw new Error("树脂耗尽，脚本将结束运行");
+    }
 
     await prepareForLeyLineRun();
 
     // 执行地脉花挑战
     await runLeyLineChallenges();
-
-    // 完成后恢复自定义标记
-    if (!marksStatus) {
-        await openCustomMarks();
+    
+    // 如果是树脂耗尽模式，执行完毕后再次检查是否还有树脂
+    if (settings.isResinExhaustionMode) {
+        await recheckResinAndContinue();
     }
 }
 
@@ -71,43 +90,224 @@ async function runLeyLineOutcropScript() {
  * 初始化
  * @returns {Promise<void>}
  */
-async function initialize() {
-    await genshin.returnMainUi();
-    setGameMetrics(1920, 1080, 1);
+function initialize() {
+    // 预定义工具函数
     try {
         const utils = [
             "attemptReward.js",
             "breadthFirstPathSearch.js",
             "executePathsUsingNodeData.js",
             "findLeyLineOutcrop.js",
+            "findLeyLineOutcropByBook.js",
             "loadSettings.js",
-            "locateLeyLineOutcrop.js",
             "processLeyLineOutcrop.js",
-            "recognizeTextInRegion.js"
-        ];
+            "recognizeTextInRegion.js",
+            "calCountByResin.js"
+        ]; 
         for (const fileName of utils) {
             eval(file.readTextSync(`utils/${fileName}`));
-            log.debug(`utils/${fileName} 加载成功`);
         }
     } catch (error) {
-        throw new Error(`JS文件缺失，请重新安装脚本！ ${error.message}`); 
+        throw new Error(`JS文件缺失: ${error.message}`); 
+    }
+    // 2. 加载配置文件
+    try {
+        config = JSON.parse(file.readTextSync("config.json"));
+        loadSettings();
+    } catch (error) {
+        throw new Error("配置文件加载失败，请检查config.json文件是否存在");
     }
 }
 
+/**
+ * 处理树脂耗尽模式
+ * 如果开启了树脂耗尽模式，则统计可刷取次数并替换设置中的刷取次数
+ * 如果统计失败，则使用设置中的刷取次数
+ * @returns {Promise<number>} 返回可刷取次数
+ */
+async function handleResinExhaustionMode() {
+    // 检查是否开启了树脂耗尽模式
+    if (!settings.isResinExhaustionMode) {
+        return settings.timesValue;
+    }
+    
+    log.info("树脂耗尽模式已开启，开始统计可刷取次数");
+    
+    try {
+        // 调用树脂统计函数
+        const resinResult = await calCountByResin();
+        
+        if (!resinResult || typeof resinResult.count !== 'number') {
+            throw new Error("树脂统计返回结果无效");
+        }
+        
+        // 检查统计到的次数是否有效
+        if (resinResult.count <= 0) {
+            log.warn("统计到的可刷取次数为0，脚本将不会执行任何刷取操作");
+            if (isNotification) {
+                notification.send("树脂耗尽模式：统计到的可刷取次数为0，脚本将结束运行");
+            }
+        }
+        
+        // 使用统计到的次数替换设置中的刷取次数
+        settings.timesValue = resinResult.count;
+        
+        log.info(`树脂统计成功：`);
+        log.info(`  原粹树脂可刷取: ${resinResult.originalResinTimes} 次`);
+        log.info(`  浓缩树脂可刷取: ${resinResult.condensedResinTimes} 次`);
+        log.info(`  须臾树脂可刷取: ${resinResult.transientResinTimes} 次${settings.useTransientResin ? '' : '（未开启使用）'}`);
+        log.info(`  脆弱树脂可刷取: ${resinResult.fragileResinTimes} 次${settings.useFragileResin ? '' : '（未开启使用）'}`);
+        log.info(`  总计可刷取次数: ${resinResult.count} 次`);
+        
+        // 发送通知
+        if (isNotification) {
+            const notificationText = 
+                `全自动地脉花脚本已启用树脂耗尽模式\n\n` +
+                `树脂统计结果(当前可刷取次数)：\n` +
+                `原粹树脂: ${resinResult.originalResinTimes} 次\n` +
+                `浓缩树脂: ${resinResult.condensedResinTimes} 次\n` +
+                `须臾树脂: ${resinResult.transientResinTimes} 次${settings.useTransientResin ? '' : '（未开启）'}\n` +
+                `脆弱树脂: ${resinResult.fragileResinTimes} 次${settings.useFragileResin ? '' : '（未开启）'}\n\n` +
+                `总计可刷取: ${resinResult.count} 次\n`;
+            notification.send(notificationText);
+        }
+
+        return settings.timesValue;
+    } catch (error) {
+        // 统计失败，使用设置中的刷取次数
+        log.error(`树脂统计失败: ${error.message}`);
+        log.warn(`将使用设置中的刷取次数: ${settings.timesValue}`);
+        
+        if (isNotification) {
+            notification.send(`树脂耗尽模式：统计失败，将使用设置中的刷取次数 ${settings.timesValue} 次\n错误信息: ${error.message}`);
+        }
+        return settings.timesValue;
+    }
+}
+
+/**
+ * 树脂耗尽模式结束后再次检查树脂并继续执行
+ * @returns {Promise<void>}
+ */
+async function recheckResinAndContinue() {
+    // 递归深度检查，防止无限循环
+    recheckCount++;
+    
+    if (recheckCount > MAX_RECHECK_COUNT) {
+        log.warn(`已达到最大重新检查次数限制 (${MAX_RECHECK_COUNT} 次)，停止继续检查`);
+        if (isNotification) {
+            notification.send(`树脂耗尽模式：已达到最大检查次数 ${MAX_RECHECK_COUNT}，脚本结束`);
+        }
+        return;
+    }
+    
+    log.info("=".repeat(50));
+    log.info(`树脂耗尽模式：任务已完成，开始检查树脂状态...`);
+    log.info("=".repeat(50));
+    
+    try {
+        // 重新统计树脂
+        const resinResult = await calCountByResin();
+        
+        if (!resinResult || typeof resinResult.count !== 'number') {
+            log.warn("树脂统计返回结果无效，结束运行");
+            return;
+        }
+        
+        log.info(`树脂检查结果：`);
+        log.info(`  原粹树脂可刷取: ${resinResult.originalResinTimes} 次`);
+        log.info(`  浓缩树脂可刷取: ${resinResult.condensedResinTimes} 次`);
+        log.info(`  须臾树脂可刷取: ${resinResult.transientResinTimes} 次${settings.useTransientResin ? '' : '（未开启使用）'}`);
+        log.info(`  脆弱树脂可刷取: ${resinResult.fragileResinTimes} 次${settings.useFragileResin ? '' : '（未开启使用）'}`);
+        log.info(`  总计可刷取次数: ${resinResult.count} 次`);
+        
+        // 安全检查：如果检测到的次数异常多，可能是识别错误
+        if (resinResult.count > 50) {
+            log.warn(`检测到异常的可刷取次数 (${resinResult.count})，为安全起见停止运行`);
+            if (isNotification) {
+                notification.send(`树脂耗尽模式：检测到异常次数 ${resinResult.count}，已停止运行`);
+            }
+            return;
+        }
+        
+        // 如果还有树脂可用，继续执行
+        if (resinResult.count > 0) {
+            log.info(`检测到还有 ${resinResult.count} 次可刷取，继续执行地脉花挑战...`);
+            log.info(`（这是第 ${recheckCount} 次额外检查并继续执行）`);
+            
+            if (isNotification) {
+                notification.send(`树脂耗尽模式：检测到还有 ${resinResult.count} 次可刷取，继续执行（第 ${recheckCount} 次额外执行）`);
+            }
+            
+            // 重置运行次数并更新目标次数
+            currentRunTimes = 0;
+            settings.timesValue = resinResult.count;
+            
+            // 递归调用继续执行地脉花挑战和重新检查
+            await runLeyLineChallenges();
+            
+            // 执行完后再次检查（递归）
+            await recheckResinAndContinue();
+        } else {
+            // 正常结束情况
+            if (recheckCount === 1) {
+                log.info("树脂已完全耗尽，脚本正常执行完毕");
+                if (isNotification) {
+                    notification.send(`树脂耗尽模式：树脂已完全耗尽，脚本正常执行完毕`);
+                }
+            } else {
+                // 异常重试情况
+                log.info("树脂已完全耗尽，脚本执行完毕");
+                log.info(`（本次运行触发了 ${recheckCount - 1} 次额外的树脂检查和执行）`);
+                if (isNotification) {
+                    notification.send(`树脂耗尽模式：树脂已完全耗尽，脚本执行完毕（触发了 ${recheckCount - 1} 次额外执行）`);
+                }
+            }
+        }
+    } catch (error) {
+        log.error(`重新检查树脂时出错: ${error.message}`);
+        if (isNotification) {
+            notification.error(`重新检查树脂时出错: ${error.message}`);
+        }
+        // 出错时也要停止递归
+        return;
+    }
+}
 
 /**
  * 执行地脉花挑战前的准备工作
+ * 1. 传送七天神像和切换战斗队伍
+ * 2. 关闭自定义标记
+ * 3. 添加自动拾取实时任务
+ * 注意：该函数运行结束之后位于大地图界面
  * @returns {Promise<void>}
  */
 async function prepareForLeyLineRun() {
-    // 开局传送到七天神像
-    await genshin.tpToStatueOfTheSeven();
+    // 0. 回到主界面
+    // 确保退出奖励界面
+    try {
+        await ensureExitRewardPage();
+    } catch (exitError) {
+        log.warn(`退出奖励界面时出错: ${exitError.message}`);
+    }
+    await genshin.returnMainUi();  // 回到主界面
+    setGameMetrics(1920, 1080, 1); // 看起来没什么用
+    // 1. 开局传送到七天神像
+    // TODO：考虑添加选项禁用这个特性，看起来有点浪费时间，需要提示风险
+    await genshin.tpToStatueOfTheSeven(); 
 
-    // 切换战斗队伍
+    // 2. 切换战斗队伍
     if (settings.team) {
         log.info(`切换至队伍 ${settings.team}`);
         await genshin.switchParty(settings.team);
     }
+    // 3. 关闭自定义标记
+    if (!settings.useAdventurerHandbook) {
+        await closeCustomMarks();
+    }
+    // 4. 添加自动拾取实时任务
+    // TODO: 个性化拾取策略
+    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
 }
 
 /**
@@ -117,7 +317,12 @@ async function prepareForLeyLineRun() {
 async function runLeyLineChallenges() {
     while (currentRunTimes < settings.timesValue) {
         // 寻找地脉花位置
-        await findLeyLineOutcrop(settings.country, settings.leyLineOutcropType);
+        // 数据保存在全局变量中 leyLineX，leyLineY
+        if (settings.useAdventurerHandbook) {
+            await findLeyLineOutcropByBook(settings.country, settings.leyLineOutcropType);
+        } else {
+            await findLeyLineOutcrop(settings.country, settings.leyLineOutcropType);
+        }
 
         // 查找并执行对应的策略
         const foundStrategy = await executeMatchingStrategy();
@@ -383,7 +588,15 @@ async function executePath(path) {
     const routePath = path.routes[path.routes.length - 1];
     const targetPath = routePath.replace('assets/pathing/', 'assets/pathing/target/').replace('-rerun', '');
     await processLeyLineOutcrop(settings.timeout, targetPath);
-    await attemptReward();
+    
+    // 尝试领取奖励，如果失败则抛出异常停止执行
+    const rewardSuccess = await attemptReward();
+    if (!rewardSuccess) {
+        throw new Error("无法领取奖励，树脂不足或其他原因");
+    }
+    
+    // 成功完成地脉花挑战，重置连续失败计数器
+    consecutiveFailureCount = 0;
 }
 
 /**
@@ -424,25 +637,20 @@ async function handleNoStrategyFound() {
     log.error("未找到对应的地脉花策略，请再次运行脚本");
     log.error("如果仍然不行，请截图{1}游戏界面，并反馈给作者！", "*完整的*");
     log.error("完整的游戏界面！完整的游戏界面！完整的游戏界面！");
+    
+    // 确保退出奖励界面 TODO: 可能会影响debug，先不执行ensureExitRewardPage
+    // try {
+    //     await ensureExitRewardPage();
+    // } catch (exitError) {
+    //     log.warn(`退出奖励界面时出错: ${exitError.message}`);
+    // }
+    
     if (isNotification) {
         notification.error("未找到对应的地脉花策略");
         await genshin.returnMainUi();
     }
 }
 
-/**
- * 加载配置文件
- * @returns {Promise<void>}
- */
-async function loadConfig() {
-    try {
-        const configData = JSON.parse(await file.readText("config.json"));
-        config = configData; // 直接赋值给全局变量
-    } catch (error) {
-        log.error(`加载配置文件失败: ${error.message}`);
-        throw new Error("配置文件加载失败，请检查config.json文件是否存在");
-    }
-}
 
 /**
  * 地脉花寻找和定位相关函数
@@ -491,10 +699,14 @@ async function openOutcrop(targetPath) {
     keyPress("F");
 
     while (Date.now() - startTime < 5000) {
-        captureRegion = captureGameRegion();
-        if (recognizeFightText(captureRegion)) {
-            recognized = true;
-            break;
+        let captureRegion = captureGameRegion();
+        try {
+            if (recognizeFightText(captureRegion)) {
+                recognized = true;
+                break;
+            }
+        } finally {
+            captureRegion.dispose();
         }
         keyPress("F");
         await sleep(500);
@@ -532,11 +744,23 @@ function recognizeFightText(captureRegion) {
 async function autoFight(timeout) {
     const cts = new CancellationTokenSource();
     log.info("开始战斗");
-    dispatcher.RunTask(new SoloTask("AutoFight"), cts);
+    let fightTask = dispatcher.RunTask(new SoloTask("AutoFight"), cts);
     let fightResult = await recognizeTextInRegion(timeout);
     logFightResult = fightResult ? "成功" : "失败";
     log.info(`战斗结束，战斗结果：${logFightResult}`);
     cts.cancel();
+    
+    try {
+        await fightTask;
+    } catch (error) {
+        // 忽略取消任务产生的异常
+        if (error.message && error.message.includes("取消")) {
+            log.debug("战斗任务已正常取消");
+        } else {
+            log.warn(`战斗任务结束时出现异常: ${error.message}`);
+        }
+    }
+    
     return fightResult;
 }
 
@@ -622,38 +846,42 @@ async function startRewardTextDetection(cts) {
                     // 首先检查异常界面
                     let captureRegion = captureGameRegion();
 
-                    // 检查是否误触发其他页面
-                    if (captureRegion.Find(paimonMenuRo).IsEmpty()) {
-                        log.debug("误触发其他页面，尝试关闭页面");
-                        await genshin.returnMainUi();
-                        await sleep(300);
-                        continue;
-                    }
+                    try {
+                        // 检查是否误触发其他页面
+                        if (captureRegion.Find(paimonMenuRo).IsEmpty()) {
+                            log.debug("误触发其他页面，尝试关闭页面");
+                            await genshin.returnMainUi();
+                            await sleep(300);
+                            continue;
+                        }
 
-                    // 检查是否已经到达领奖界面
-                    let resList = captureRegion.findMulti(ocrRoThis); // 使用预定义的ocrRoThis对象
-                    if (resList && resList.count > 0) {
-                        for (let i = 0; i < resList.count; i++) {
-                            if (resList[i].text.includes("原粹树脂")) {
-                                log.debug("已到达领取页面，可以领奖");
-                                resolve(true);
-                                return;
+                        // 检查是否已经到达领奖界面
+                        let resList = captureRegion.findMulti(ocrRoThis); // 使用预定义的ocrRoThis对象
+                        if (resList && resList.count > 0) {
+                            for (let i = 0; i < resList.count; i++) {
+                                if (resList[i].text.includes("原粹树脂")) {
+                                    log.debug("已到达领取页面，可以领奖");
+                                    resolve(true);
+                                    return;
+                                }
                             }
                         }
-                    }
 
-                    let ocrResults = captureRegion.findMulti(ocrRo3);
+                        let ocrResults = captureRegion.findMulti(ocrRo3);
 
-                    if (ocrResults && ocrResults.count > 0) {
-                        for (let i = 0; i < ocrResults.count; i++) {
-                            if (ocrResults[i].text.includes("接触") ||
-                                ocrResults[i].text.includes("地脉") ||
-                                ocrResults[i].text.includes("之花")) {
-                                log.debug("检测到文字: " + ocrResults[i].text);
-                                resolve(true);
-                                return;
+                        if (ocrResults && ocrResults.count > 0) {
+                            for (let i = 0; i < ocrResults.count; i++) {
+                                if (ocrResults[i].text.includes("接触") ||
+                                    ocrResults[i].text.includes("地脉") ||
+                                    ocrResults[i].text.includes("之花")) {
+                                    log.debug("检测到文字: " + ocrResults[i].text);
+                                    resolve(true);
+                                    return;
+                                }
                             }
                         }
+                    } finally {
+                        captureRegion.dispose();
                     }
 
                     await sleep(200);
@@ -722,7 +950,7 @@ async function adjustViewForReward(boxIconRo, token) {
 
         let captureRegion = captureGameRegion();
         let iconRes = captureRegion.Find(boxIconRo);
-
+        captureRegion.dispose();
         if (!iconRes.isExist()) {
             log.warn("未找到图标，等待一下");
             await sleep(1000); 
@@ -783,7 +1011,9 @@ async function closeCustomMarks() {
     click(60, 1020);
     await sleep(600);
 
-    let button = captureGameRegion().find(openRo);
+    let captureRegion1 = captureGameRegion();
+    let button = captureRegion1.find(openRo);
+    captureRegion1.dispose();
     if (button.isExist()) {
         marksStatus = false;
         log.info("关闭自定义标记");
@@ -807,18 +1037,19 @@ async function openCustomMarks() {
     click(60, 1020);
     await sleep(600);
 
-    let button = captureGameRegion().find(closeRo);
+    let captureRegion2 = captureGameRegion();
+    let button = captureRegion2.find(closeRo);
+    captureRegion2.dispose();
     if (button.isExist()) {
         for (let i = 0; i < button.count; i++) {
             let b = button[i];
             if (b.y > 280 && b.y < 350) {
                 log.info("打开自定义标记");
-                marksStatus = true;
                 click(Math.round(b.x + b.width / 2), Math.round(b.y + b.height / 2));
             }
         }
     } else {
         log.error("未找到开关按钮");
-        keyPress("ESCAPE");
+        genshin.returnMainUi();
     }
 }

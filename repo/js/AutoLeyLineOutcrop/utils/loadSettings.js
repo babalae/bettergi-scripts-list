@@ -26,7 +26,7 @@ function () {
         }
 
         // 为了向后兼容，确保某些设置有默认值
-        settings.timeout = settings.timeout * 1000 || 120000;
+        //settings.timeout = settings.timeout * 1000 || 120000;
 
         // 处理刷取次数
         if (!settings.count || !/^-?\d+\.?\d*$/.test(settings.count)) {
@@ -58,8 +58,11 @@ function () {
         if (settings.friendshipTeam) {
             log.info(`好感队：${settings.friendshipTeam}`);
         }
-
-        log.info(`刷取次数：${settings.timesValue}`);
+        if (settings.isResinExhaustionMode) {
+            log.warn("树脂耗尽模式已开启，若统计成功将覆盖设置的刷取次数");
+        } else {
+            log.info(`刷取次数：${settings.timesValue}`);
+        }
 
         // 设置通知状态
         isNotification = settings.isNotification;

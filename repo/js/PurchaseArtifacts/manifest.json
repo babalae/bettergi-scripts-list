@@ -1,15 +1,22 @@
 {
   "manifest_version": 1,
-  "name": "自动购买狗粮(7点位)",
-  "version": "1.1.1",
-  "bgi_version": "0.43.1",
-  "description": "狗粮周3刷新，价值23体力的摩拉换38体力的狗粮，血赚。龙骨花凝珠没出售，需额外设置。强烈建议使用固定队伍(双风成女行走)",
+  "name": "自动购买狗粮(8点位)",
+  "version": "2.3",
+  "bgi_version": "0.51",
+  "description": "自动购买狗粮",
   "authors": [
     {
-        "name": "柒叶子",
-        "link": "https://github.com/511760049"
+      "name": "柒叶子",
+      "links": "https://github.com/5117600049"
+    },
+    {
+      "name": "勺子",
+      "links": "https://github.com/skyflag2022"
     }
   ],
   "settings_ui": "settings.json",
-  "main": "main.js"
+  "main": "main.js",
+  "saved_files": [
+    "assets/*.txt"
+  ]
 }

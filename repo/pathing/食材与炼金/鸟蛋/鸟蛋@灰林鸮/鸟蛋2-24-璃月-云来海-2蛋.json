@@ -1,0 +1,103 @@
+{
+  "info": {
+    "name": "鸟蛋2-24-璃月-云来海-2蛋",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752169488441,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 55.28,
+      "y": 138.0,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 40.2,
+      "y": 123.4,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 61.2,
+      "y": 97.81,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "attack(0.3)"
+    },
+    {
+      "id": 4,
+      "x": 66.1,
+      "y": 86.58,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 74.41,
+      "y": 85.16,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 93.86,
+      "y": 74.48,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 119.43,
+      "y": 65.77,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 126.74,
+      "y": 62.66,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 126.74,
+      "y": 62.66,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

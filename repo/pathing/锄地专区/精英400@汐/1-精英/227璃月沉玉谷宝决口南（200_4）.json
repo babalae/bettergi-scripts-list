@@ -1,0 +1,55 @@
+{
+  "info": {
+    "name": "227璃月沉玉谷宝决口南（200_4）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "1丘丘暴徒 3法师冰火雷  路线信息：该路线预计用时80秒，包含4只精英与6只小怪，预计收入1043摩拉，包含以下怪物：1只冲锋丘丘人、3只木盾丘丘人、1只射手丘丘人、1只岩盾丘丘暴徒、1只岩丘丘萨满、1只火深渊法师、1只雷深渊法师、1只冰深渊法师。",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2462.72,
+      "y": 1801.6,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2475.65,
+      "y": 1766.57,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2505.33,
+      "y": 1714.3,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 2505.33,
+      "y": 1714.3,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

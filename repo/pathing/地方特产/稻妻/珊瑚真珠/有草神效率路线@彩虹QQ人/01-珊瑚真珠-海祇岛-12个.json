@@ -1,0 +1,134 @@
+{
+  "info": {
+    "name": "01-珊瑚真珠-海祇岛-12个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "性价比路线，要求队伍：必须带小草神",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "彩虹QQ人",
+        "links": "https://github.com/KRdingsan"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -765.49,
+      "y": -3557.89,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -765.15,
+      "y": -3565.84,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -766.73,
+      "y": -3574.96,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -794.24,
+      "y": -3608.09,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -789.92,
+      "y": -3616.37,
+      "action": "",
+      "move_mode": "swim",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -779.97,
+      "y": -3623.38,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -766.07,
+      "y": -3654.42,
+      "action": "nahida_collect",
+      "move_mode": "swim",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -771.3,
+      "y": -3668.49,
+      "action": "",
+      "move_mode": "swim",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -788.55,
+      "y": -3688.32,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -780.37,
+      "y": -3693.97,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -776.07,
+      "y": -3698.35,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -770.57,
+      "y": -3695.03,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -780.37,
+      "y": -3717.34,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

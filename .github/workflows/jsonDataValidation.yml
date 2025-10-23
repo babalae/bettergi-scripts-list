@@ -74,6 +74,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install packaging semver
+          pip install chardet
 
       - name: Debug file structure
         run: |
@@ -285,12 +286,46 @@ jobs:
           PR_REPO: ${{ steps.set_env.outputs.head_repo || github.repository }}
           CHANGED_FILES_B64: ${{ steps.changed_files.outputs.changed_files }}
         run: |
+          set -e
           # 使用base64解码文件列表
           CHANGED_FILES=$(echo "$CHANGED_FILES_B64" | base64 --decode)
           
+          echo "进行地图追踪目录结构校验"
+          
+          # 地图追踪目录结构校验
+          echo "🔍 开始地图追踪目录结构校验..."
+          : > validation_output.log
+          set +e
+          python build/validate.py "repo/pathing" --structure 2>&1 | tee -a validation_output.log
+          PY_EXIT=$?
+          set -e
+          
+          # 检查目录结构校验结果
+          if [ $PY_EXIT -ne 0 ]; then
+            echo "❌ pathing目录结构校验失败"
+            VALIDATION_FAILED=true
+          elif grep -E "❌.*目录结构错误" -q validation_output.log; then
+            echo "❌ 检测到地图追踪目录结构错误"
+            VALIDATION_FAILED=true
+          else
+            echo "✅ 地图追踪目录结构校验通过"
+            VALIDATION_FAILED=false
+          fi
+          
+          # 如果目录结构校验失败，直接退出
+          if [ "$VALIDATION_FAILED" = true ]; then
+            echo "检测到地图追踪目录结构错误，生成校验说明并标记失败"
+            {
+              echo "### ❌ 地图追踪目录结构校验失败"
+              echo "请前往 Actions 查看报错详情（运行日志）。"
+            } > validation_notes.md
+            exit 1
+          fi
+          
+          # 目录结构校验通过后，继续验证修改的JSON文件
           echo "PR 触发模式，验证修改的 JSON 文件"
           if [ -z "$CHANGED_FILES" ]; then
-            echo "没有找到修改的 JSON 文件，跳过验证"
+            echo "没有找到修改的 JSON 文件，跳过JSON内容验证"
             exit 0
           fi
           
@@ -298,24 +333,28 @@ jobs:
           echo "Python编码设置:"
           python -c "import sys; print(sys.getdefaultencoding())"
           
-          # 检查CHANGED_FILES是否包含整个目录
-          if [ "$CHANGED_FILES" = "repo/pathing" ]; then
-            echo "验证整个目录: repo/pathing"
-            python build/validate.py "repo/pathing" --fix
-          else
-            # 创建一个临时文件来存储文件列表
-            echo "$CHANGED_FILES" > temp_file_list.txt
-            # 单独验证每个修改的文件，使用while读取避免文件名中的空格和特殊字符问题
-            while IFS= read -r file; do
-              echo "验证文件: $file"
-              if [ -f "$file" ]; then
-                python build/validate.py "$file" --fix
-              else
-                echo "警告: 文件不存在 - $file"
+          # 重新初始化日志文件用于JSON内容校验
+          : > validation_output.log
+          VALIDATION_FAILED=false
+
+          # 验证修改的文件格式
+          echo "$CHANGED_FILES" > temp_file_list.txt
+          # 单独验证每个修改的文件，使用while读取避免文件名中的空格和特殊字符问题
+          while IFS= read -r file; do
+            echo "验证文件: $file"
+            if [ -f "$file" ]; then
+              set +e
+              python build/validate.py "$file" --fix 2>&1 | tee -a validation_output.log
+              PY_EXIT=$?
+              set -e
+              if [ $PY_EXIT -ne 0 ]; then
+                VALIDATION_FAILED=true
               fi
-            done < temp_file_list.txt
-            rm temp_file_list.txt
-          fi
+            else
+              echo "警告: 文件不存在 - $file"
+            fi
+          done < temp_file_list.txt
+          rm temp_file_list.txt
           
           # 检查是否有文件被修改
           if [ -n "$(git status --porcelain)" ]; then
@@ -344,6 +383,20 @@ jobs:
             echo "没有文件被修改，无需提交"
           fi
 
+          # 基于日志内容二次判定失败（validate.py 若未正确返回非零时）
+          if grep -E "❌|JSON 格式错误|JSON格式错误|Expecting property name enclosed in double quotes|Traceback|Error:" -q validation_output.log; then
+            VALIDATION_FAILED=true
+          fi
+
+          if [ "$VALIDATION_FAILED" = true ]; then
+            echo "检测到校验错误，生成校验说明并标记失败"
+            {
+              echo "### ❌ 校验失败"
+              echo "请前往 Actions 查看报错详情（运行日志）。"
+            } > validation_notes.md
+            exit 1
+          fi
+
       - name: Run validation for manual trigger
         if: ${{ steps.set_env.outputs.trigger_type == 'manual' }}
         env:
@@ -355,9 +408,27 @@ jobs:
           VALIDATE_PATH: ${{ steps.set_env.outputs.validate_path }}
           AUTO_FIX: ${{ steps.set_env.outputs.auto_fix }}
         run: |
+          set -e
           echo "手动触发模式，验证路径: ${VALIDATE_PATH}"
           # 使用引号包裹路径，处理特殊字符
-          python build/validate.py "${VALIDATE_PATH}" $([[ "${AUTO_FIX}" == "true" ]] && echo "--fix")
+          : > validation_output.log
+          set +e
+          python build/validate.py "${VALIDATE_PATH}" $([[ "${AUTO_FIX}" == "true" ]] && echo "--fix") 2>&1 | tee -a validation_output.log
+          PY_EXIT=$?
+          set -e
+          VALIDATION_FAILED=false
+          if [ $PY_EXIT -ne 0 ]; then
+            VALIDATION_FAILED=true
+          fi
+          if grep -E "❌|JSON 格式错误|JSON格式错误|Expecting property name enclosed in double quotes|Traceback|Error:" -q validation_output.log; then
+            VALIDATION_FAILED=true
+          fi
+          if [ "$VALIDATION_FAILED" = true ]; then
+            {
+              echo "### ❌ 校验失败"
+              echo "请前往 Actions 查看报错详情（运行日志）。"
+            } > validation_notes.md
+          fi
           
           # 检查是否有文件被修改
           if [ -n "$(git status --porcelain)" ]; then
@@ -424,8 +495,12 @@ jobs:
             echo "没有文件被修改，无需提交"
           fi
           
+          if [ "$VALIDATION_FAILED" = true ]; then
+            exit 1
+          fi
+          
       - name: Add PR comment
-        if: ${{ (steps.set_env.outputs.trigger_type == 'pr') || (steps.set_env.outputs.trigger_type == 'manual' && steps.set_env.outputs.pr_number != '' && steps.pr_info.outputs.found == 'true') }}
+        if: ${{ always() && ((steps.set_env.outputs.trigger_type == 'pr') || (steps.set_env.outputs.trigger_type == 'manual' && steps.set_env.outputs.pr_number != '' && steps.pr_info.outputs.found == 'true')) }}
         continue-on-error: true
         uses: actions/github-script@v6
         with:
