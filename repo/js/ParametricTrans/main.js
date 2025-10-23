@@ -245,12 +245,12 @@ async function executeAttack(){
 //开始执行质变仪流程============================================
     try {
         if ((await deployTransformer())) {//部署质变仪流程
-            log.info("部署成功，准备放入薄荷！！");
+            log.info("部署成功，准备放入材料(默认薄荷)！！");
         }
-        if ((!await insertMaterial())) {//放入薄荷并开始质变流程
+        if ((!await insertMaterial())) {//放入材料并开始质变流程
             log.info("未找到布置的质变仪，可能已经放入材料，尝试进行攻击流程！！"); 
         }else{
-            log.info("放入薄荷完成，开始质变！！"); 
+            log.info("放入材料完成，开始质变！！"); 
         }
         if ((await executeAttack())) {//芭芭拉攻击指令流程
             log.info("质变执行完成，结束！！");
