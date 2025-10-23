@@ -1,0 +1,281 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/non-repeating001",
+        "name": "无限不循环"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758486378835,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B28-萃凝晶-纳塔-安绕之野入口2（火神赶路-6个）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9522.2979,
+      "y": -2216.0146
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9517.6504,
+      "y": -2226.917
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9516.9971,
+      "y": -2222.1279
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9516.9971,
+      "y": -2222.1279
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9501.8896,
+      "y": -2232.7236
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9503.374,
+      "y": -2229.1172
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9503.374,
+      "y": -2229.1172
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.1),e(hold),keydown(VK_W),dash(5.0),keyup(VK_W),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 8,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9424.1094,
+      "y": -2262.7354
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9424.1094,
+      "y": -2262.7354
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9429.1826,
+      "y": -2272.0771
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9427.375,
+      "y": -2279.207
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack,charge(1)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9428.3223,
+      "y": -2282.2627
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 13,
+      "locked": true,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9429.5781,
+      "y": -2283.2373
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 14,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9429.5781,
+      "y": -2283.2373
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9431.0352,
+      "y": -2241.5908
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "locked": false,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 9431.4385,
+      "y": -2236.7451
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "locked": false,
+      "move_mode": "run",
+      "type": "target",
+      "x": 9429.9209,
+      "y": -2215.0059
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t)",
+      "id": 18,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9429.8506,
+      "y": -2206.7676
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(E),wait(1)",
+      "id": 19,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9429.5713,
+      "y": -2204.3906
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9430.8799,
+      "y": -2202.6143
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 21,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9430.8799,
+      "y": -2202.6143
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9440.5957,
+      "y": -2206.2188
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 23,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9440.5957,
+      "y": -2206.2188
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9446.9043,
+      "y": -2210.6934
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 25,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9448.5586,
+      "y": -2206.165
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 26,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9448.5586,
+      "y": -2206.165
+    }
+  ]
+}

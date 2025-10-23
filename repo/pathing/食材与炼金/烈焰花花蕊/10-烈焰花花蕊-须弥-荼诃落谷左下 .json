@@ -1,0 +1,70 @@
+{
+  "info": {
+    "name": "10-烈焰花花蕊-须弥-荼诃落谷左下 ",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "ran"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4791.09,
+      "y": -3182.41,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4801.05,
+      "y": -3168.87,
+      "type": "path",
+      "move_mode": "run",
+      "action": "hydro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4746.0,
+      "y": -3089.74,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4747.38,
+      "y": -3089.8,
+      "type": "target",
+      "move_mode": "run",
+      "action": "hydro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4746.44,
+      "y": -3087.13,
+      "type": "target",
+      "move_mode": "run",
+      "action": "hydro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4743.71,
+      "y": -3089.98,
+      "type": "target",
+      "move_mode": "run",
+      "action": "hydro_collect",
+      "action_params": ""
+    }
+  ]
+}

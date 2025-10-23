@@ -1,0 +1,131 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/evildoer12138",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758005989625,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蕴光异兽06-苔骨荒原（3）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9350.5001,
+      "y": 1852.9409
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9290.5001,
+      "y": 1881.4461
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9316.5,
+      "y": 1837.0012
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9335.0,
+      "y": 1829.9998
+    },
+    {
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9393.0,
+      "y": 1822.5007
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9457.0,
+      "y": 1804.4993
+    },
+    {
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9481.5,
+      "y": 1834.9918
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9530.5,
+      "y": 1910.5032
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 9534.0,
+      "y": 1951.9946
+    },
+    {
+      "id": 10,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9224.0,
+      "y": 1893.4802
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 9195.0,
+      "y": 1924.4995
+    },
+    {
+      "id": 12,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9355.0,
+      "y": 2101.5082
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 9343.25,
+      "y": 2152.2486
+    }
+  ]
+}

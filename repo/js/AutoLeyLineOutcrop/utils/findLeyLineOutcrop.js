@@ -10,6 +10,7 @@ async function (country, type) {
     await sleep(1000);
     log.info("开始寻找地脉花");
     if (!config.mapPositions[country] || config.mapPositions[country].length === 0) {
+        await ensureExitRewardPage();
         throw new Error(`未找到国家 ${country} 的位置信息`);
     }
 
@@ -29,6 +30,7 @@ async function (country, type) {
     }
 
     // 如果到这里还没找到
+    await ensureExitRewardPage();
     throw new Error("寻找地脉花失败，已达最大重试次数");
 }
 

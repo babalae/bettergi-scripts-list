@@ -1,10 +1,10 @@
 {
   "info": {
     "name": "3204稻妻踏鞴神像2",
-    "enable_monster_loot_split": true,
     "type": "collect",
+    "author": "mno",
     "version": "1.0",
-    "description": "",
+    "description": "  路线信息：该路线预计用时96.66秒，包含6只小怪，预计收入364.5摩拉，包含以下怪物：2只野伏·阵刀番、1只野伏·机巧番、2只海乱鬼·炎威、1只海乱鬼·雷腾。",
     "bgi_version": "0.42.0",
     "authors": [
       {
@@ -119,7 +119,7 @@
       "y": -3562.65,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     }
   ]

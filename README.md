@@ -2,7 +2,7 @@
 
 [BetterGI](https://github.com/babalae/better-genshin-impact) 的 📜 脚本仓库
 
-在线版脚本仓库：[bgi.sh](https://bgi.sh)
+在线版脚本仓库：[bgi.sh](https://bgi.sh)  备用地址：[https://s.bettergi.com](https://s.bettergi.com/)
 
 作者Q群：764972801 （非作者请勿加入）
 
@@ -204,6 +204,10 @@
 
 ## 相关源码
 
-脚本仓库页面的源码：[bettergi-scripts-web](https://github.com/huiyadanli/bettergi-scripts-web)
+脚本仓库页面的源码
+
+- 旧版：[bettergi-scripts-web](https://github.com/huiyadanli/bettergi-scripts-web)
+- 新版：[bettergi-script-web](https://github.com/zaodonganqi/bettergi-script-web)
+
 
 地图路径追踪的源码：[bettergi-map](https://github.com/huiyadanli/bettergi-map)

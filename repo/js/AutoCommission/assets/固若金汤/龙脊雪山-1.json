@@ -1,99 +1,128 @@
-{
+﻿{
   "info": {
-    "name": "龙脊雪山-1",
-    "type": "collect",
-    "author": "星野",
-    "version": "1.0",
-    "description": "龙脊雪山-1",
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758351566927,
+    "map_match_method": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "name": "龙脊雪山-1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": -705.4453125,
-      "y": 925.67822265625,
       "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
-    },
-    {
-      "id": 2,
-      "x": -697.6552734375,
-      "y": 943.56298828125,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": -683.9091796875,
-      "y": 941.57080078125,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": -674.86328125,
-      "y": 940.53515625,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": -666.1064453125,
-      "y": 940.07421875,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "attack,wait(1),keypress(F),wait(0.3),keypress(F),",
-      "type": "target"
-    },
-    {
-      "id": 6,
-      "x": -666.1064453125,
-      "y": 940.07421875,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "attack,wait(0.3),keypress(E),wait(0.5),attack,wait(0.3),keypress(Q),wait(2),keypress(2),wait(0.3),keypress(E),wait(0.4),attack,wait(0.3),keypress(Q),wait(2.1),keypress(3),wait(0.3),keypress(E),wait(0.3),attack(1),wait(0.3),keypress(Q),wait(2.1),keypress(4),wait(0.3),keypress(E),wait(0.3),attack(1),wait(0.3),keypress(Q),wait(2.1),keypress(1),wait(0.3),keypress(E),wait(0.3),keypress(Q),wait(2.1),",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": -666.1064453125,
-      "y": 940.07421875,
-      "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": -667.728515625,
-      "y": 933.53369140625,
-      "action": "combat_script",
+      "id": 1,
       "move_mode": "walk",
-      "action_params": "attack,wait(0.3),keypress(E),wait(0.5),attack,wait(0.3),keypress(Q),wait(2),keypress(2),wait(0.3),keypress(E),wait(0.4),attack,wait(0.3),keypress(Q),wait(2.1),keypress(3),wait(0.3),keypress(E),wait(0.3),attack(1),wait(0.3),keypress(Q),wait(2.1),keypress(4),wait(0.3),keypress(E),wait(0.3),attack(1),wait(0.3),keypress(Q),wait(2.1),keypress(1),wait(0.3),keypress(E),wait(0.3),keypress(Q),wait(2.1),",
-      "type": "path"
+      "type": "teleport",
+      "x": -704.875,
+      "y": 926.36328125
     },
     {
-      "id": 9,
-      "x": -676.0673828125,
-      "y": 935.01806640625,
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
       "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "attack,wait(0.3),keypress(E),wait(0.5),attack,wait(0.3),keypress(Q),wait(2),keypress(2),wait(0.3),keypress(E),wait(0.4),attack,wait(0.3),keypress(Q),wait(2.1),keypress(3),wait(0.3),keypress(E),wait(0.3),attack(1),wait(0.3),keypress(Q),wait(2.1),keypress(4),wait(0.3),keypress(E),wait(0.3),attack(1),wait(0.3),keypress(Q),wait(2.1),keypress(1),wait(0.3),keypress(E),wait(0.3),keypress(Q),wait(2.1),"
+      "x": -698.94140625,
+      "y": 945.91015625
     },
     {
-      "id": 10,
-      "x": -672.5791015625,
-      "y": 948.53173828125,
-      "action": "combat_script",
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -663.060546875,
+      "y": 944.998046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
       "move_mode": "walk",
-      "action_params": "attack,wait(0.3),keypress(E),wait(0.5),attack,wait(0.3),keypress(Q),wait(2),keypress(2),wait(0.3),keypress(E),wait(0.4),attack,wait(0.3),keypress(Q),wait(2.1),keypress(3),wait(0.3),keypress(E),wait(0.3),attack(1),wait(0.3),keypress(Q),wait(2.1),keypress(4),wait(0.3),keypress(E),wait(0.3),attack(1),wait(0.3),keypress(Q),wait(2.1),keypress(1),wait(0.3),keypress(E),wait(0.3),keypress(Q),wait(2.1),",
-      "type": "path"
+      "type": "target",
+      "x": -659.103515625,
+      "y": 940.982421875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.1),wait(1.3),keypress(F)",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -663.544921875,
+      "y": 940.94677734375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": -661.75,
+      "y": 936.978515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -663.625,
+      "y": 943.7578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(3),wait(0.3),keypress(1),wait(0.3),keypress(E),wait(0.4),keypress(Q),wait(0.6),attack,wait(0.3),keypress(2),wait(0.3),keypress(E),wait(0.3),keypress(Q)",
+      "id": 8,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -674.693359375,
+      "y": 945.861328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(3),wait(0.3),keypress(3),wait(0.3),keypress(E),wait(0.4),keypress(Q),wait(0.6),attack,wait(0.3),keypress(4),wait(0.3),keypress(E),wait(0.3),keypress(Q)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -674.693359375,
+      "y": 945.861328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(2),wait(0.3),keypress(1),wait(0.3),keypress(E),wait(0.4),keypress(Q),wait(0.6),attack,wait(0.3),keypress(2),wait(0.3),keypress(E),wait(0.3),keypress(Q)",
+      "id": 10,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -676.5,
+      "y": 932.35986328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(2),wait(0.3),keypress(3),wait(0.3),keypress(E),wait(0.4),keypress(Q),wait(0.6),attack,wait(0.3),keypress(4),wait(0.3),keypress(E),wait(0.3),keypress(Q)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -676.5,
+      "y": 932.35986328125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -668.412109375,
+      "y": 935.82177734375
     }
   ]
 }

@@ -7,7 +7,7 @@
 
 let scriptContext = {
     scriptStartTime: new Date(),
-    version: "1.1",
+    version: "1.2",
 };
 
 /**
@@ -504,7 +504,11 @@ function _fakeLogCore(name, isJs = true, dateIn = null) {
     let logMessage = "";
     let logTime = new Date();
     if (isJs && isStart) {
-        logTime = dateIn;
+        // 传入开始时间是为了在跟踪路径耗时的同时仍然保留对脚本运行时间的统计
+        // 但是如果脚本开始时间和结束时间跨天，就不能使用传入时间，否则会影响日志分析(Seconds cannot be negative)
+        if (logTime.getDay() === dateIn.getDay()) {
+            logTime = dateIn;
+        }
     }
 
     const ms = logTime.getMilliseconds().toString().padStart(3, "0");

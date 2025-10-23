@@ -1,15 +1,32 @@
 {
   "manifest_version": 1,
   "name": "自动使用兑换码",
-  "version": "6.0.1",
+  "version": "6.0.5",
   "bgi_version": "0.45.0",
   "description": "仅支持国服",
   "authors": [
     {
       "name": "Tool_tingsu",
       "links": "https://github.com/Tooltingsu"
+    },
+    {
+      "name": "躁动的氨气",
+      "links": "https://github.com/zaodonganqi"
+    },
+    {
+      "name": "NyaMisty",
+      "links": "https://github.com/NyaMisty"
     }
   ],
-  "main": "main.js"
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "saved_files": [
+    "record/*.txt"
+  ],
+  "http_allowed_urls": [
+    "https://cnb.cool/bettergi/genshin-redeem-code/*"
+  ]
 }
+
+
 

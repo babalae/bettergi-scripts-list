@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759830841711,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F09-纳塔食材-花羽会-苦种",
+    "tags": [],
+    "type": "collect",
+    "version": "2.11"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9543.8359375,
+      "y": -1113.728515625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1.5),keypress(t)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9557.1552734375,
+      "y": -1104.36572265625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(0.4),j,wait(0.2)",
+      "id": 3,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 9737.0771484375,
+      "y": -1117.20947265625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_RBUTTON),wait(10.5),keyup(VK_RBUTTON),keyup(w)",
+      "id": 4,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 9737.0771484375,
+      "y": -1117.20947265625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LBUTTON),wait(5),keyup(VK_LBUTTON)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9721.482421875,
+      "y": -1125.7216796875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9733.310546875,
+      "y": -1109.83740234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.8)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9753.435546875,
+      "y": -1131.333984375
+    }
+  ]
+}

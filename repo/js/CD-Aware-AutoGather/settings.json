@@ -36,8 +36,9 @@
   },
   {
     "name": "iHaveMultipleAccounts",
-    "type": "checkbox",
-    "label": "我肝的账号不止一个（选中后将分账号维护对应的材料刷新时间）"
+    "type": "input-text",
+    "label": "我肝的账号不止一个\n根据唯一ID区分账号维护对应的材料刷新时间\n留空时将使用右下角UID",
+    "default": "默认账号"
   },
   {
     "name": "acceptMultiplePathOfSameMaterial",

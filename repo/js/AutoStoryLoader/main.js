@@ -1,12 +1,28 @@
 (async function () {
   // 版本和编译信息
-  const VERSION = "1.1";
-  const BUILD_TIME = "2025.08.26";
+  const VERSION = "1.4";
+  const BUILD_TIME = "2025.09.24";
+
+  // 定义识别对象
+const paimonMenuRo = RecognitionObject.TemplateMatch(
+  file.ReadImageMatSync("Data/RecognitionObject/paimon_menu.png"),
+  0,
+  0,
+  genshin.width / 3.0,
+  genshin.width / 5.0
+);
 
   // 读取设置
   const team = settings.team || "";
   const elementTeam = settings.elementTeam || "";
   const selectedProcess = settings.process_selector || "刷新剧情列表";
+
+  // 判断是否在主界面的函数
+const isInMainUI = () => {
+  let captureRegion = captureGameRegion();
+  let res = captureRegion.Find(paimonMenuRo);
+  return !res.isEmpty();
+};
 
   async function errorlog() {
     // 输出版本和编译时间信息
@@ -253,7 +269,7 @@
     },
 
     // 处理等待主界面步骤
-    processWaitMainUI: async (isInMainUI) => {
+    processWaitMainUI: async () => {
       for (let i = 0; i < 120; i++) {
         if (isInMainUI()) {
           log.info("检测到已返回主界面，结束等待");
@@ -387,171 +403,6 @@
       }
     },
 
-    // 处理角色切换步骤
-    processSwitchRole: async (step) => {
-      try {
-        const { position, character } = step.data;
-
-        if (!position || !character) {
-          log.error("角色切换参数不完整，需要 position 和 character");
-          return false;
-        }
-
-        log.info(`开始切换角色：第${position}号位 -> ${character}`);
-
-        const positionCoordinates = [
-          [460, 538],
-          [792, 538],
-          [1130, 538],
-          [1462, 538],
-        ];
-
-        // 读取别名
-        const aliases = Utils.readAliases();
-        const actualName = aliases[character] || character;
-        log.info(`设置对应号位为【${character}】，切换角色为【${actualName}】`);
-
-        // 识别对象定义
-        const roTeamConfig = RecognitionObject.TemplateMatch(
-          file.ReadImageMatSync(`Data/RecognitionObject/队伍配置.png`),
-          0,
-          0,
-          1920,
-          1080
-        );
-        const roReplace = RecognitionObject.TemplateMatch(
-          file.ReadImageMatSync(`Data/RecognitionObject/更换.png`),
-          0,
-          0,
-          1920,
-          1080
-        );
-        const roJoin = RecognitionObject.TemplateMatch(
-          file.ReadImageMatSync(`Data/RecognitionObject/加入.png`),
-          0,
-          0,
-          1920,
-          1080
-        );
-
-        let openPairingTries = 0;
-        let totalOpenPairingTries = 0;
-
-        // 打开配对界面的内部函数
-        const openPairingInterface = async () => {
-          while (openPairingTries < 3) {
-            keyPress("l");
-            await sleep(3500);
-            const teamConfigResult = captureGameRegion().find(roTeamConfig);
-            if (teamConfigResult.isExist()) {
-              openPairingTries = 0;
-              return true;
-            }
-            openPairingTries++;
-            totalOpenPairingTries++;
-          }
-          if (totalOpenPairingTries < 6) {
-            await genshin.tp("2297.630859375", "-824.5517578125");
-            openPairingTries = 0;
-            return openPairingInterface();
-          } else {
-            log.error("无法打开配对界面，任务结束");
-            return false;
-          }
-        };
-
-        if (!(await openPairingInterface())) {
-          return false;
-        }
-
-        const rolenum = position;
-        const selectedCharacter = actualName;
-        const [x, y] = positionCoordinates[position - 1];
-        click(x, y);
-        log.info(`开始设置${rolenum}号位角色`);
-        await sleep(1000);
-        let characterFound = false;
-        let pageTries = 0;
-
-        // 最多尝试滚动页面20次
-        while (pageTries < 20) {
-          // 尝试识别所有可能的角色文件名
-          for (let num = 1; ; num++) {
-            const paddedNum = num.toString().padStart(2, "0");
-            const characterFileName = `${selectedCharacter}${paddedNum}`;
-            try {
-              const characterRo = RecognitionObject.TemplateMatch(
-                file.ReadImageMatSync(
-                  `Data/characterimage/${characterFileName}.png`
-                ),
-                0,
-                0,
-                1920,
-                1080
-              );
-              const characterResult = captureGameRegion().find(characterRo);
-              if (characterResult.isExist()) {
-                log.info(`已找到角色${selectedCharacter}`);
-                // 计算向右偏移35像素、向下偏移35像素的位置
-                const targetX = characterResult.x + 35;
-                const targetY = characterResult.y + 35;
-
-                // 边界检查，确保坐标在屏幕范围内
-                const safeX = Math.min(Math.max(targetX, 0), 1920);
-                const safeY = Math.min(Math.max(targetY, 0), 1080);
-
-                click(safeX, safeY);
-                await sleep(500); // 点击角色后等待0.5秒
-                characterFound = true;
-                break;
-              }
-            } catch (error) {
-              // 如果文件不存在，跳出循环
-              break;
-            }
-          }
-
-          if (characterFound) {
-            break;
-          }
-
-          // 如果不是最后一次尝试，尝试滚动页面
-          if (pageTries < 15) {
-            log.info("当前页面没有目标角色，滚动页面");
-            await UI.scrollPage(200); // 使用UI模块的scrollPage函数
-          }
-          pageTries++;
-        }
-
-        if (!characterFound) {
-          log.error(`未找到【${selectedCharacter}】`);
-          return false;
-        }
-
-        // 识别"更换"或"加入"按钮
-        const replaceResult = captureGameRegion().find(roReplace);
-        const joinResult = captureGameRegion().find(roJoin);
-
-        if (replaceResult.isExist() || joinResult.isExist()) {
-          await sleep(300);
-          click(68, 1020);
-          keyPress("VK_LBUTTON");
-          await sleep(500);
-          log.info(`角色切换完成：${character} -> ${actualName}`);
-          return true;
-        } else {
-          log.error(`该角色已在队伍中，无需切换`);
-          await sleep(300);
-          keyPress("VK_ESCAPE");
-          await sleep(500);
-          return false;
-        }
-      } catch (error) {
-        log.error("角色切换过程中出错: {error}", error.message);
-        return false;
-      }
-    },
-
     // 处理自动任务步骤
     processAutoTask: async (step) => {
       try {
@@ -613,16 +464,6 @@
         );
       },
 
-      等待: async (step, context) => {
-        const waitTime = step.data || 5000;
-        log.info("等待 {time} 毫秒", waitTime);
-        await sleep(waitTime);
-      },
-
-      追踪委托: async (step, context) => {
-        await StepProcessor.processCommissionTracking(step);
-      },
-
       键鼠脚本: async (step, context) => {
         await StepProcessor.processKeyMouseScript(
           step,
@@ -644,35 +485,29 @@
         await StepProcessor.processKeyPress(step);
       },
 
-      tp: async (step, context) => {
-        await StepProcessor.processTeleport(step);
-      },
-
       等待返回主界面: async (step, context) => {
         await StepProcessor.processWaitMainUI(context.isInMainUI);
       },
 
-      地址检测: async (step, context) => {
-        //await StepProcessor.processLocationDetection(step,context.commissionName,context.location,context.processSteps,context.currentIndex);
-        log.info("地址检测当前版本用不了，请联请联系作者获取最新版");
-      },
-
-      委托描述检测: async (step, context) => {
-        await StepProcessor.processCommissionDescriptionDetection(
-          step,
-          context.commissionName,
-          context.location,
-          context.processSteps,
-          context.currentIndex
-        );
-      },
-
-      切换角色: async (step, context) => {
-        await StepProcessor.processSwitchRole(step);
-      },
-
       自动任务: async (step, context) => {
         await StepProcessor.processAutoTask(step);
+      },
+
+      战斗: async (step, context) => {
+        await dispatcher.runTask(new SoloTask("AutoFight"));
+      },
+
+      暂停: async (step, context) => {
+        log.warn("即将暂停脚本的运行，请在10秒内手动暂停并完成接下来任务，按下解除暂停键继续运行");
+        await sleep(1000);
+        log.warn("即将暂停脚本的运行，请在10秒内手动暂停并完成接下来任务，按下解除暂停键继续运行");
+        await sleep(1000);
+        log.warn("即将暂停脚本的运行，请在10秒内手动暂停并完成接下来任务，按下解除暂停键继续运行");
+        if(step.data)
+          {
+            log.warn('作者提示：{data}',step.data);
+          }
+        await sleep(10000);
       },
     },
 
@@ -748,62 +583,129 @@
 
   // 对话处理模块 - 处理自动对话相关功能
   const DialogProcessor = {
-    // 执行优化的自动对话
-    executeOptimizedAutoTalk: async (
-      extractedName = null,
-      skipCount = 5,
-      customPriorityOptions = null,
-      customNpcWhiteList = null,
-      isInMainUI
-    ) => {
-      // 使用传入的参数，不再加载默认配置
-      const effectivePriorityOptions = customPriorityOptions || [];
-      const effectiveNpcWhiteList = customNpcWhiteList || [];
 
+
+    /**
+    * 执行自动对话处理
+    * @param {string|string[]} data - NPC名称
+    * @returns {Promise<void>}
+    */
+    executeAutoTalk: async (data) => {
+      // 使用传入的参数，不再加载默认配置
+      // 确保 effectiveNpcWhiteList 始终是一个数组，并过滤掉空字符串
+      let effectiveNpcWhiteList = [];
+      if (Array.isArray(data)) {
+        effectiveNpcWhiteList = data.filter(name => name && name.trim() !== "");
+      } else if (data && data.trim() !== "") {
+        effectiveNpcWhiteList = [data];
+      }
+
+      log.info(`白名单NPC: ${JSON.stringify(effectiveNpcWhiteList)}`);
+      await genshin.returnMainUi();
       // 初始化
       keyPress("V");
+      await sleep(1000);
 
-      // 初始触发剧情 - 识别人名并点击
-      extractedName = [];
-      // 人名区域OCR识别
-      const nameRegion = { X: 75, Y: 240, WIDTH: 225, HEIGHT: 60 };
-      let nameResults = await Utils.easyOCR(nameRegion);
-      // 尝试提取任务人名
-      for (let i = 0; i < nameResults.count; i++) {
-        let text = nameResults[i].text;
-        log.info(`任务区域识别文本: ${text}`);
+      let extractedName = null;
+      let retryCount = 0;
+      const maxRetries = 3;
 
-        // 尝试提取任务人名
-        let name = UIUtils.extractName(text);
-        if (name) {
-          extractedName = name;
-          log.info(`提取到人名: ${extractedName}`);
-          break;
+      // 处理任务提示重试逻辑
+      while (retryCount < maxRetries) {
+        // 人名区域OCR识别
+        const nameRegion = { X: 75, Y: 240, WIDTH: 225, HEIGHT: 60 };
+        let nameResults = await Utils.easyOCR(nameRegion);
+
+        // 检查是否有"任务提示"
+        let hasTaskHint = false;
+        for (let i = 0; i < nameResults.count; i++) {
+          let text = nameResults[i].text;
+          log.info(`任务区域识别文本: ${text}`);
+
+          if (text.includes("任务提示")) {
+            log.info("检测到任务提示，等待4秒后重试");
+            hasTaskHint = true;
+            break;
+          }
+
+          // 尝试提取任务人名（排除空字符串）
+          let name = UIUtils.extractName(text);
+          if (name && name.trim() !== "") {
+            extractedName = name;
+            log.info(`提取到人名: ${extractedName}`);
+            break;
+          }
         }
+
+        // 如果有任务提示，等待后重试
+        if (hasTaskHint) {
+          retryCount++;
+          if (retryCount >= maxRetries) {
+            log.warn("已达到最大重试次数，跳过任务提示");
+            break;
+          }
+          await sleep(4000);
+          continue;
+        }
+
+        // 如果没有任务提示，跳出循环
+        break;
       }
 
       // 对话选项区域OCR识别
       const dialogRegion = { X: 1150, Y: 300, WIDTH: 350, HEIGHT: 400 };
-      nameResults = await Utils.easyOCR(dialogRegion);
+      let dialogResults = await Utils.easyOCR(dialogRegion);
       let clickedWhitelistNPC = false;
       let clickedExtractedName = false;
 
+      // 如果对话区域没有人名，尝试按键操作
+      if (dialogResults.count === 0) {
+        log.info("对话区域未识别到文本，尝试按键操作");
+
+        // 尝试按下W键并重新OCR
+        keyPress("W");
+        await sleep(500);
+        dialogResults = await Utils.easyOCR(dialogRegion);
+
+        // 如果仍然没有人名，尝试按下A键
+        if (dialogResults.count === 0) {
+          keyPress("A");
+          await sleep(500);
+          dialogResults = await Utils.easyOCR(dialogRegion);
+        }
+
+        // 如果仍然没有人名，尝试按下S键
+        if (dialogResults.count === 0) {
+          keyPress("S");
+          await sleep(500);
+          dialogResults = await Utils.easyOCR(dialogRegion);
+        }
+
+        // 如果仍然没有人名，尝试按下D键
+        if (dialogResults.count === 0) {
+          keyPress("D");
+          await sleep(500);
+          dialogResults = await Utils.easyOCR(dialogRegion);
+        }
+      }
+
       // 处理人名区域的OCR结果
-      if (nameResults.count > 0) {
-        log.info(`人名区域识别到 ${nameResults.count} 个文本`);
+      if (dialogResults.count > 0) {
+        log.info(`对话区域识别到 ${dialogResults.count} 个文本`);
 
         // 首先尝试点击白名单中的NPC
-        for (let i = 0; i < nameResults.count; i++) {
-          let text = nameResults[i].text;
-          let res = nameResults[i];
+        for (let i = 0; i < dialogResults.count; i++) {
+          let text = dialogResults[i].text;
+          let res = dialogResults[i];
           log.info(
-            "人名区域识别到{text}:位置({x},{y},{h},{w})",
+            "对话区域识别到{text}:位置({x},{y},{h},{w})",
             res.text,
             res.x,
             res.y,
             res.width,
-            res.Height
+            res.height
           );
+
           // 检查是否包含白名单中的NPC名称
           for (let j = 0; j < effectiveNpcWhiteList.length; j++) {
             if (text.includes(effectiveNpcWhiteList[j])) {
@@ -822,9 +724,9 @@
 
         // 如果没有点击白名单NPC，尝试点击包含提取到的人名的选项
         if (!clickedWhitelistNPC && extractedName) {
-          for (let i = 0; i < nameResults.count; i++) {
-            let text = nameResults[i].text;
-            let res = nameResults[i];
+          for (let i = 0; i < dialogResults.count; i++) {
+            let text = dialogResults[i].text;
+            let res = dialogResults[i];
             if (text.includes(extractedName)) {
               log.info(`点击包含提取到任务人名的选项: ${text}`);
               keyDown("VK_MENU");
@@ -846,96 +748,10 @@
         await sleep(500);
       }
 
-      // 重复执行自动剧情，直到返回主界面
-      let maxAttempts = 100; // 设置最大尝试次数，防止无限循环
-      let attempts = 0;
-      let repetition = 0;
-      let oldcount = 1;
       await sleep(1000);
-      log.info("开始执行自动剧情");
+      log.info("开始自动剧情");
 
-      while (!isInMainUI() && attempts < maxAttempts) {
-        attempts++;
-
-        // 正常跳过对话
-        await genshin.chooseTalkOption("纳西妲美貌举世无双", skipCount, false);
-
-        if (isInMainUI()) {
-          log.info("检测到已返回主界面，结束循环");
-          break;
-        }
-
-        //keyPress("VK_ESCAPE");//关弹窗
-
-        // 每skipCount次跳过后，进行OCR识别
-        if (true) {
-          // 检查是否有匹配的优先选项
-          let foundPriorityOption = false;
-
-          // 获取对话区域截图并进行OCR识别
-          const dialogOptionsRegion = {
-            X: 1250,
-            Y: 450,
-            WIDTH: 550,
-            HEIGHT: 400,
-          };
-          let ocrResults = await Utils.easyOCR(dialogOptionsRegion);
-          if (ocrResults.count > 0) {
-            log.info(`识别到 ${ocrResults.count} 个选项`);
-
-            if (ocrResults.count === oldcount) {
-              repetition++;
-            }
-            else {
-              repetition = 0;
-            }
-            oldcount = ocrResults.count;
-            if (repetition >= 5) {
-              log.info("连续5次选项数量一样，执行F跳过");
-              keyPress("F");
-              keyPress("VK_ESCAPE");
-              repetition = 0;
-            }
-            for (let i = 0; i < ocrResults.count; i++) {
-              let ocrText = ocrResults[i].text;
-
-              // 检查是否在优先选项列表中
-              for (let j = 0; j < effectivePriorityOptions.length; j++) {
-                if (ocrText.includes(effectivePriorityOptions[j])) {
-                  log.info(
-                    `找到优先选项: ${effectivePriorityOptions[j]}，点击该选项`
-                  );
-                  // 点击该选项
-                  ocrResults[i].click();
-                  await sleep(500);
-                  foundPriorityOption = true;
-                  break;
-                }
-              }
-
-              if (foundPriorityOption) break;
-            }
-
-            // 如果没有找到优先选项，则使用默认跳过
-            if (!foundPriorityOption) {
-              await genshin.chooseTalkOption("", 1, false);
-            }
-          }
-        }
-
-        // 检查是否已返回主界面
-        if (isInMainUI()) {
-          log.info("检测到已返回主界面，结束循环");
-          break;
-        }
-      }
-
-      if (isInMainUI()) {
-        log.info("已返回主界面，自动剧情执行完成");
-        keyPress("V");
-      } else {
-        log.warn(`已达到最大尝试次数 ${maxAttempts}，但未检测到返回主界面`);
-      }
+      await StepProcessor.processWaitMainUI();
     },
   };
 
@@ -1128,12 +944,9 @@
           return false;
         }
       } catch (jsonError) {
-        // 如果不是JSON格式，按简单格式处理
-        const lines = processContent
-          .split("\n")
-          .map((line) => line.trim())
-          .filter((line) => line.length > 0);
-        processSteps = lines;
+        log.error("是不是用了馋馋你们，馋馋你们用不了！！！这个星野怎么这么坏");
+        log.error("或者JSON错误: {error}", jsonError.message);
+        throw jsonError;
       }
       return processSteps;
     },
@@ -1156,96 +969,6 @@
       } catch (error) {
         log.error("执行对话委托时出错: {error}", error.message);
         return false;
-      }
-    },
-
-    // 自动导航到NPC对话位置（从main_branch.js移植）
-    autoNavigateToTalk: async (npcName = "", iconType = "") => {
-      try {
-        // 设置目标NPC名称
-        const textArray = npcName;
-
-        // 根据图标类型选择不同的识别对象
-        let boxIconRo;
-        if (iconType === "Bigmap") {
-          boxIconRo = RecognitionObject.TemplateMatch(
-            file.ReadImageMatSync(
-              "Data/RecognitionObject/IconBigmapCommission.jpg"
-            )
-          );
-          log.info("使用大地图图标");
-        }
-        else if (iconType === "Question") {
-          boxIconRo = RecognitionObject.TemplateMatch(
-            file.ReadImageMatSync(
-              "Data/RecognitionObject/IconQuestionCommission.png"
-            )
-          );
-          log.info("使用问号任务图标");
-        } 
-        else {
-          // 默认使用任务图标
-          boxIconRo = RecognitionObject.TemplateMatch(
-            file.ReadImageMatSync(
-              "Data/RecognitionObject/IconTaskCommission.png"
-            )
-          );
-          log.info("使用任务图标");
-        }
-
-        let advanceNum = 0; //前进次数
-
-        middleButtonClick();
-        await sleep(800);
-
-        while (true) {
-          // 1. 优先检查是否已到达
-          await sleep(500);// 等待0.5秒
-          let captureRegion = captureGameRegion();
-          let rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 50);
-          let rewardResult = rewardTextArea.find(RecognitionObject.ocrThis);
-          log.debug("检测到文字: " + rewardResult.text);
-          // 检测到特点文字则结束！！！
-          if (rewardResult.text == textArray) {
-            log.info("已到达指定位置，检测到文字: " + rewardResult.text);
-            return;
-          } else if (advanceNum > 80) {
-            throw new Error("前进时间超时");
-          }
-          // 2. 未到达领奖点，则调整视野
-          for (let i = 0; i < 100; i++) {
-            captureRegion = captureGameRegion();
-            let iconRes = captureRegion.Find(boxIconRo);
-            log.info("检测到委托图标位置 ({x}, {y})", iconRes.x, iconRes.y);
-            if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {
-              advanceNum++;
-              log.info(`视野已调正，前进第${advanceNum}次`);
-              break;
-            } else {
-              // 小幅度调整
-              if (iconRes.y >= 520) moveMouseBy(0, 920);
-              let adjustAmount = iconRes.x < 920 ? -20 : 20;
-              let distanceToCenter = Math.abs(iconRes.x - 920); // 计算与920的距离
-              let scaleFactor = Math.max(1, Math.floor(distanceToCenter / 50)); // 根据距离缩放，最小为1
-              let adjustAmount2 = iconRes.y < 540 ? scaleFactor : 10;
-              moveMouseBy(adjustAmount * adjustAmount2, 0);
-              await sleep(100);
-            }
-            if (i > 50) throw new Error("视野调整超时");
-          }
-          // 3. 前进一小步
-          keyDown("w");
-          await sleep(200);
-          keyPress("VK_SPACE");
-          await sleep(200);
-          keyPress("VK_SPACE");
-          await sleep(200);
-          keyUp("w");
-          await sleep(200); // 等待角色移动稳定
-        }
-      } catch (error) {
-        log.error("自动导航到NPC对话位置时出错: {error}", error.message);
-        throw error;
       }
     },
 
@@ -1346,34 +1069,9 @@
 
     // 处理单个步骤
     processStep: async (step, context) => {
-      if (typeof step === "string") {
-        // 简单格式处理
-        await Execute.processStringStep(step, context);
-      } else if (typeof step === "object") {
+      if (typeof step === "object") {
         // JSON格式处理
         await Execute.processObjectStep(step, context);
-      }
-    },
-
-    // 处理字符串格式的步骤
-    processStringStep: async (step, context) => {
-      if (step.endsWith(".json")) {
-        // 地图追踪文件
-        await StepProcessor.processMapTracking(
-          step,
-          context.commissionName,
-          context.location
-        );
-      } else if (step === "F") {
-        // 按F键并执行优化的自动剧情
-        log.info("执行自动剧情");
-        await DialogProcessor.executeOptimizedAutoTalk(
-          null,
-          5,
-          context.priorityOptions,
-          context.npcWhiteList,
-          context.isInMainUI
-        );
       }
     },
 
@@ -1387,69 +1085,14 @@
       await StepProcessorFactory.process(step, context);
     },
 
-    // 示例：注册自定义步骤处理器
-    registerCustomStepProcessors: () => {
-      // 注册等待步骤处理器
-      StepProcessorFactory.register("等待", async (step, context) => {
-        const waitTime = step.data || 1000;
-        log.info("等待 {time} 毫秒", waitTime);
-        await sleep(waitTime);
-      });
-
-      // 注册截图步骤处理器
-      StepProcessorFactory.register("截图", async (step, context) => {
-        const filename = step.data || `screenshot_${Date.now()}.png`;
-        log.info("截图保存为: {filename}", filename);
-        // 这里可以添加实际的截图逻辑
-      });
-
-      // 注册条件检查步骤处理器
-      StepProcessorFactory.register("条件检查", async (step, context) => {
-        const condition = step.data.condition;
-        const trueSteps = step.data.trueSteps || [];
-        const falseSteps = step.data.falseSteps || [];
-
-        log.info("执行条件检查: {condition}", condition);
-
-        // 这里可以添加条件判断逻辑
-        const conditionResult = true; // 示例结果
-
-        const stepsToExecute = conditionResult ? trueSteps : falseSteps;
-        for (const subStep of stepsToExecute) {
-          await Execute.processStep(subStep, context);
-        }
-      });
-
-      log.info("自定义步骤处理器注册完成");
-    },
-
     // 处理对话步骤
     processDialogStep: async (
-      step,
-      priorityOptions,
-      npcWhiteList,
-      isInMainUI
+      step
     ) => {
       log.info("执行对话");
-      let skipCount = 2; // 默认跳过2次
-      
-      // 处理对话选项
-      if (typeof step.data === "number") {
-        // 兼容旧版本，如果data是数字，则视为skipCount
-        skipCount = step.data;
-      } else if (typeof step.data === "object" && step.data.skipCount) {
-        // 新版本，data是对象，包含skipCount
-        skipCount = step.data.skipCount;
-      }
 
       // 执行对话，使用当前步骤的优先选项和NPC白名单
-      await DialogProcessor.executeOptimizedAutoTalk(
-        null,
-        skipCount,
-        priorityOptions,
-        npcWhiteList,
-        isInMainUI
-      );
+      await DialogProcessor.executeAutoTalk(step.data);
     },
   };
 
@@ -1703,53 +1346,87 @@
     // await StepProcessor.processSwitchRole(switchRoleStep);
   };
 
-  //Main
-  const Main = async () => {
-    log.debug("版本: {version}", VERSION);
-    try {
-      if (selectedProcess === "刷新剧情列表") {
-        // 刷新操作：扫描所有process.json并更新设置
-        await refreshProcessList();
-        log.info("委托列表已刷新，请重新选择并运行");
-      } else {
-        // 解析选中的委托路径
-        const pathParts = selectedProcess.split('-');
+// 免责声明内容（分批显示）
+const DISCLAIMER_PARTS = [
+  "1. 没有自动过任务的功能，一切后果由使用者自行承担",
+  "2. 禁止任何人用于商业用途，禁止在任何场合展示或宣传自动任务效果",
+  "3. 不提倡上传任何任务流程脚本到公开平台",
+  "4. 用户应自行承担使用风险，并严格遵守《原神》用户协议。因使用本脚本导致的损失，开发者概不负责",
+  "5. 严禁在任何官方平台（米游社、B站、微博等）讨论本工具",
+  "6. 严禁在官方直播、动态或社区提及本工具相关内容"
+];
 
-        // 确保至少有两个文件夹层级
-        if (pathParts.length < 2) {
-          throw new Error("无效的委托路径格式");
-        }
-
-        // 提取最后两个文件夹名
-        const folder1 = pathParts[pathParts.length - 2];
-        const folder2 = pathParts[pathParts.length - 1];
-
-        // 设置动态基础路径（倒数第二个文件夹之前的所有部分）
-        Datas.TALK_PROCESS_BASE_PATH = "process/" + pathParts.slice(0, pathParts.length - 2).join('/');
-
-        log.info("执行任务: {path}", selectedProcess);
-        log.debug("基础路径: {basePath}", Datas.TALK_PROCESS_BASE_PATH);
-        log.debug("文件夹1: {folder1}, 文件夹2: {folder2}", folder1, folder2);
-        log.info("启用自动剧情");
-        dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
-        if (!settings.noSkip) {
-          log.info("启用自动拾取");
-          dispatcher.AddTrigger(new RealtimeTimer("AutoPick"));
-        }
-        if (!settings.noEat) {
-          log.info("启用自动吃药");
-          dispatcher.AddTrigger(new RealtimeTimer("AutoEat"));
-        }
-        await switchPartyIfNeeded(team);
-        await Execute.executeTalkCommission(folder1, folder2);
-        dispatcher.ClearAllTriggers();
+// 检查免责声明
+async function checkDisclaimer() {
+  if (!settings.disclaimer_accepted || settings.disclaimer_confirm_text !== "同意") {
+    log.warn("请先阅读并同意免责声明");
+    
+    // 分批显示免责声明
+    for (let j = 0; j < 5; j++) {
+      for (let i = 0; i < DISCLAIMER_PARTS.length; i++) {
+        log.info(DISCLAIMER_PARTS[i]);
+        await sleep(200); // 每条信息间隔0.5秒
       }
-    } catch (error) {
-      log.error("执行出错: {error}", error.message);
-      errorlog();
     }
-  };
+    
+    log.error("请勾选'我同意不传播、不跳脸'并在输入框中输入'同意'");
+    return false;
+  }
+  
+  return true;
+}
 
+const Main = async () => {
+  log.debug("版本: {version}", VERSION);
+  
+  try {
+    // 检查免责声明（除了刷新列表操作）
+    if (selectedProcess !== "刷新剧情列表" && !await checkDisclaimer()) {
+      return;
+    }
+    
+    if (selectedProcess === "刷新剧情列表") {
+      // 刷新操作：扫描所有process.json并更新设置
+      await refreshProcessList();
+      log.info("委托列表已刷新，请重新选择并运行");
+    } else {
+      // 解析选中的委托路径
+      const pathParts = selectedProcess.split('-');
+
+      // 确保至少有两个文件夹层级
+      if (pathParts.length < 2) {
+        throw new Error("无效的委托路径格式");
+      }
+
+      // 提取最后两个文件夹名
+      const folder1 = pathParts[pathParts.length - 2];
+      const folder2 = pathParts[pathParts.length - 1];
+
+      // 设置动态基础路径（倒数第二个文件夹之前的所有部分）
+      Datas.TALK_PROCESS_BASE_PATH = "process/" + pathParts.slice(0, pathParts.length - 2).join('/');
+
+      log.info("执行任务: {path}", selectedProcess);
+      log.debug("基础路径: {basePath}", Datas.TALK_PROCESS_BASE_PATH);
+      log.debug("文件夹1: {folder1}, 文件夹2: {folder2}", folder1, folder2);
+      log.info("启用自动剧情");
+      dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
+      if (!settings.noSkip) {
+        log.info("启用自动拾取");
+        dispatcher.AddTrigger(new RealtimeTimer("AutoPick"));
+      }
+      if (!settings.noEat) {
+        log.info("启用自动吃药");
+        dispatcher.AddTrigger(new RealtimeTimer("AutoEat"));
+      }
+      await switchPartyIfNeeded(team);
+      await Execute.executeTalkCommission(folder1, folder2);
+      dispatcher.ClearAllTriggers();
+    }
+  } catch (error) {
+    log.error("执行出错: {error}", error.message);
+    errorlog();
+  }
+};
 
 // 刷新委托列表（保留完整路径结构）
 async function refreshProcessList() {

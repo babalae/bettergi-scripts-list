@@ -1,0 +1,128 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759234366284,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "纳塔食材-丰饶之野-鱼肉-7",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9522.6357421875,
+      "y": -2215.7314453125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9533.0322265625,
+      "y": -2238.490234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9537.22265625,
+      "y": -2250.15234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9526.986328125,
+      "y": -2276.52734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9511.970703125,
+      "y": -2300.310546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9516.701171875,
+      "y": -2309.296875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9529.0361328125,
+      "y": -2329.369140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2)",
+      "id": 8,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9528.5,
+      "y": -2317
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9532.14453125,
+      "y": -2310.494140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9517.25,
+      "y": -2322.75
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9521.576171875,
+      "y": -2313.369140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9529.43359375,
+      "y": -2346.59375
+    }
+  ]
+}

@@ -11,6 +11,18 @@ const enableGzip = args.includes('--gzip') || args.includes('-g');
 // 在文件开头添加全局变量
 const pathingDirsWithoutIcon = new Set();
 
+// 加载作者配置
+let authorConfig = null;
+try {
+    const authorConfigPath = path.resolve(__dirname, 'author_config.json');
+    if (fs.existsSync(authorConfigPath)) {
+        authorConfig = JSON.parse(fs.readFileSync(authorConfigPath, 'utf8'));
+        console.log('已加载作者配置文件');
+    }
+} catch (e) {
+    console.warn('加载作者配置文件失败:', e);
+}
+
 // 检查是否存在现有的repo.json文件
 const repoJsonPath = path.resolve(__dirname, '..', 'repo.json');
 let existingRepoJson = null;
@@ -171,23 +183,52 @@ function processAuthorInfo(authorInfo) {
 function processDetailedAuthorInfo(authorInfo) {
     if (!authorInfo) return null;
     
+    // 获取作者重命名和链接配置
+    const authorRename = authorConfig?.rename || {};
+    const authorLinks = authorConfig?.links || {};
+    
     // 如果是字符串，转换为对象格式
     if (typeof authorInfo === 'string') {
-        return [{ name: authorInfo.trim() }];
+        const authorName = authorInfo.trim();
+        const finalName = authorRename[authorName] || authorName;
+        const authorObj = { name: finalName };
+        
+        // 添加链接
+        if (authorLinks[finalName]) {
+            authorObj.link = authorLinks[finalName];
+        }
+        
+        return [authorObj];
     }
     
     // 如果是数组，处理多个作者
     if (Array.isArray(authorInfo)) {
         const authors = authorInfo.map(author => {
             if (typeof author === 'string') {
-                return { name: author.trim() };
+                const authorName = author.trim();
+                const finalName = authorRename[authorName] || authorName;
+                const authorObj = { name: finalName };
+                
+                // 添加链接
+                if (authorLinks[finalName]) {
+                    authorObj.link = authorLinks[finalName];
+                }
+                
+                return authorObj;
             } else if (typeof author === 'object' && author.name) {
-                const authorObj = { name: author.name.trim() };
+                const authorName = author.name.trim();
+                const finalName = authorRename[authorName] || authorName;
+                const authorObj = { name: finalName };
+                
+                // 优先使用已有的链接，其次使用配置中的链接
                 if (author.link) {
                     authorObj.link = author.link;
                 } else if (author.links) {
                     authorObj.link = author.links;
+                } else if (authorLinks[finalName]) {
+                    authorObj.link = authorLinks[finalName];
                 }
+                
                 return authorObj;
             }
             return null;
@@ -198,12 +239,19 @@ function processDetailedAuthorInfo(authorInfo) {
     
     // 如果是对象
     if (typeof authorInfo === 'object' && authorInfo.name) {
-        const authorObj = { name: authorInfo.name.trim() };
+        const authorName = authorInfo.name.trim();
+        const finalName = authorRename[authorName] || authorName;
+        const authorObj = { name: finalName };
+        
+        // 优先使用已有的链接，其次使用配置中的链接
         if (authorInfo.link) {
             authorObj.link = authorInfo.link;
         } else if (authorInfo.links) {
             authorObj.link = authorInfo.links;
+        } else if (authorLinks[finalName]) {
+            authorObj.link = authorLinks[finalName];
         }
+        
         return [authorObj];
     }
     
@@ -250,9 +298,9 @@ function prioritizeVersionTag(tags) {
 
 function extractInfoFromCombatFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf8');
-    const authorMatch = content.match(/\/\/\s*作者\s*:(.*)/);
-    const descriptionMatch = content.match(/\/\/\s*描述\s*:(.*)/);
-    const versionMatch = content.match(/\/\/\s*版本\s*:(.*)/);
+    const authorMatch = content.match(/\/\/\s*作者\s*[:：](.*)/);
+    const descriptionMatch = content.match(/\/\/\s*描述\s*[:：](.*)/);
+    const versionMatch = content.match(/\/\/\s*版本\s*[:：](.*)/);
     const characterMatches = content.match(/^(?!\/\/).*?(\S+)(?=\s|$)/gm);    
     let tags = [...new Set(characterMatches || [])]
         .map(char => char.trim())
@@ -372,6 +420,7 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
         if (actions.includes('hydro_collect')) tags.push('水元素力收集');
         if (actions.includes('anemo_collect')) tags.push('风元素力收集');
         if (actions.includes('electro_collect')) tags.push('雷元素力收集');
+        if (actions.includes('pyro_collect')) tags.push('火元素力收集');
         if (actions.includes('up_down_grab_leaf')) tags.push('四叶印');
         if (actions.includes('mining')) tags.push('挖矿');
         if (actions.includes('fight')) tags.push('战斗');
@@ -379,6 +428,7 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
         if (actions.includes('pick_around')) tags.push('转圈拾取');
         if (actions.includes('fishing')) tags.push('钓鱼');
         if (actions.includes('set_time')) tags.push('时间调整');
+        if (actions.includes('use_gadget')) tags.push('小道具');
         const move_modes = contentObj.positions.map(pos => pos.move_mode);
         if (move_modes.includes('climb')) tags.push("有攀爬");
         
@@ -402,9 +452,9 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
 
 function extractInfoFromTCGFile(filePath, parentFolder) {
     const content = fs.readFileSync(filePath, 'utf8');
-    const authorMatch = content.match(/\/\/\s*作者:(.*)/);
-    const descriptionMatch = content.match(/\/\/\s*描述:(.*)/);
-    const versionMatch = content.match(/\/\/\s*版本:(.*)/);
+    const authorMatch = content.match(/\/\/\s*作者\s*[:：](.*)/);
+    const descriptionMatch = content.match(/\/\/\s*描述\s*[:：](.*)/);
+    const versionMatch = content.match(/\/\/\s*版本\s*[:：](.*)/);
     // 移除最低版本提取，TCG脚本无需最低版本要求
     const characterMatches = content.match(/角色\d+\s?=([^|\r\n{]+)/g);
 

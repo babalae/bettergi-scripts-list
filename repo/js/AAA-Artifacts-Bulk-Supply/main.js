@@ -10,6 +10,7 @@ let keep4Star = settings.keep4Star;//保留四星
 let autoSalvage = settings.autoSalvage;//启用自动分解
 let notify = settings.notify;//启用通知
 let accountName = settings.accountName || "默认账户";//账户名
+let TMthreshold = +settings.TMthreshold || 0.9;//拾取阈值
 
 //文件路径
 const ArtifactsButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/ArtifactsButton.png"));
@@ -43,8 +44,18 @@ let failcount = 0;
 let autoSalvageCount = 0;
 let furinaState = "unknown";
 
+let targetItems;
+let pickupDelay = 100;
+let timeMove = 1000;
+let timeMoveUp = Math.round(timeMove * 0.45);
+let timeMoveDown = Math.round(timeMove * 0.55);
+let rollingDelay = 25;
+let gameRegion;
+
 (async function () {
     setGameMetrics(1920, 1080, 1);
+    targetItems = await loadTargetItems();
+    state.activatePickUp = false;
     {
         //校验自定义配置,从未打开过自定义配置时进行警告
         if (!settings.accountName) {
@@ -849,8 +860,6 @@ async function writeCDInfo(accountName) {
 //运行普通路线
 async function runNormalPath(doStop) {
     furinaState = "unknown";
-    //关闭拾取
-    dispatcher.ClearAllTriggers();
     if (state.cancel) return;
     const routeMap = { A: normalPathA, B: normalPathB, C: normalPathC };
     const normalPath = routeMap[state.runningRoute];
@@ -860,16 +869,14 @@ async function runNormalPath(doStop) {
         log.info("填写了清怪队伍，执行清怪路线");
         await runPaths(normalCombatPath, combatPartyName, doStop, "black");
     }
-    // 启用自动拾取的实时任务
-    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
+    state.activatePickUp = true;
     await runPaths(normalExecutePath, artifactPartyName, doStop, "white");
+    state.activatePickUp = false;
 
 }
 
 async function runActivatePath() {
     //furinaState = "unknown";
-    //关闭拾取
-    dispatcher.ClearAllTriggers();
     if (state.cancel) return;
     if (!state.activatedToday) {
         log.info("今日未执行过激活路线");
@@ -932,8 +939,6 @@ async function runActivatePath() {
 
 async function runEndingAndExtraPath() {
     furinaState = "unknown";
-    // 启用自动拾取的实时任务
-    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     if (state.cancel) return;
     let endingPath = state.runningEndingAndExtraRoute === "收尾额外A"
         ? "assets/ArtifactsPath/优先收尾路线"
@@ -958,9 +963,11 @@ async function runEndingAndExtraPath() {
         ? "assets/ArtifactsPath/额外/所有额外"
         : "assets/ArtifactsPath/额外/仅12h额外";
     endingPath = endingPath + "/执行";
+    state.activatePickUp = true;
     await runPaths(endingPath, artifactPartyName, false, "white");
     extraPath = extraPath + "/执行";
     await runPaths(extraPath, artifactPartyName, false, "white");
+    state.activatePickUp = false;
 }
 
 async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "") {
@@ -973,7 +980,7 @@ async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "
         if (new Date() >= state.aimActivateTime && doStop) {
             log.info("已经到达预定时间");
             break;
-        } else if ((new Date() >= (state.aimActivateTime - minIntervalTime * 60)) && doStop) {
+        } else if ((new Date() >= (state.aimActivateTime - minIntervalTime * 60 * 1000)) && doStop) {
             log.info(`即将到达预定时间，等待${state.aimActivateTime - new Date()}毫秒`);
             await sleep(state.aimActivateTime - new Date())
             break;
@@ -1016,11 +1023,10 @@ async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "
         } else {
             autoSalvageCount++;
         }
-        await fakeLog(Path.fileName, false, true, 0);
         const pathInfo = await parsePathing(Path.fullPath);
         try {
             log.info(`当前进度：${Path.fileName}为${folderFilePath}第${i + 1}/${Paths.length}个`);
-            await pathingScript.runFile(Path.fullPath);
+            await runPath(Path.fullPath, null);
             await sleep(1);
         } catch (error) {
             skiprecord = true;
@@ -1032,7 +1038,6 @@ async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "
             success = false;
             break;
         }
-        await fakeLog(Path.fileName, false, false, 0);
         if (pathInfo.ok) {
             await genshin.returnMainUi();
             await sleep(500);
@@ -1210,5 +1215,189 @@ async function fakeLog(name, isJs, isStart, duration) {
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `------------------------------`;
         log.debug(logMessage);
+    }
+}
+
+async function runPath(fullPath, targetItemPath = null) {
+    state = state || {};   // 若已存在则保持原引用，否则新建空对象
+    state.running = true;
+
+    /* ---------- 主任务 ---------- */
+    const pathingTask = (async () => {
+        log.info(`开始执行路线: ${fullPath}`);
+        await fakeLog(fullPath, false, true, 0);
+        await pathingScript.runFile(fullPath);
+        await fakeLog(fullPath, false, false, 0);
+        state.running = false;
+    })();
+
+    /* ---------- 伴随任务 ---------- */
+
+    const pickupTask = (async () => {
+        if (state.activatePickUp) {
+            await recognizeAndInteract();
+        }
+    })();
+
+    const errorProcessTask = (async () => {
+        const revivalRo1 = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/revival.png"));
+        let errorCheckCount = 9;
+        while (state.running) {
+            await sleep(100);
+            errorCheckCount++;
+            if (errorCheckCount > 50) {
+                errorCheckCount = 0;
+                //log.info("尝试识别并点击复苏按钮");
+                if (await findAndClick(revivalRo1, 2)) {
+                    //log.info("识别到复苏按钮，点击复苏");
+                }
+            }
+        }
+    })();
+
+    /* ---------- 并发等待 ---------- */
+    await Promise.allSettled([pathingTask, pickupTask, errorProcessTask]);
+}
+
+//加载拾取物图片
+async function loadTargetItems() {
+    const targetItemPath = 'assets/targetItems';   // 固定目录
+    const items = await readFolder(targetItemPath, false);
+    // 统一预加载模板
+    for (const it of items) {
+        it.template = file.ReadImageMatSync(it.fullPath);
+        it.itemName = it.fileName.replace(/\.png$/i, '');
+    }
+    return items;
+}
+
+// 定义一个函数用于拾取
+async function recognizeAndInteract() {
+    //log.info("调试-开始执行图像识别与拾取任务");
+    let lastcenterYF = 0;
+    let lastItemName = "";
+    let fIcontemplate = file.ReadImageMatSync('assets/F_Dialogue.png');
+    let mainUITemplate = file.ReadImageMatSync("assets/MainUI.png");
+    let thisMoveUpTime = 0;
+    let lastMoveDown = 0;
+
+    gameRegion = captureGameRegion();
+    //主循环
+    while (state.running) {
+        gameRegion.dispose();
+        gameRegion = captureGameRegion();
+        let centerYF = await findFIcon();
+        if (!centerYF) {
+            if (await isMainUI()) await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+            continue;
+        }
+        //log.info(`调试-成功找到f图标,centerYF为${centerYF}`);
+        let foundTarget = false;
+        let itemName = await performTemplateMatch(centerYF);
+        if (itemName) {
+            //log.info(`调试-识别到物品${itemName}`);
+            if (Math.abs(lastcenterYF - centerYF) <= 20 && lastItemName === itemName) {
+                //log.info("调试-相同物品名和相近y坐标，本次不拾取");
+                await sleep(2 * pickupDelay);
+                lastcenterYF = -20;
+                lastItemName = null;
+            } else {
+                keyPress("F");
+                log.info(`交互或拾取："${itemName}"`);
+                lastcenterYF = centerYF;
+                lastItemName = itemName;
+                await sleep(pickupDelay);
+            }
+        } else {
+            /*
+            log.info("识别失败，尝试截图");
+            await refreshTargetItems(centerYF);
+            lastItemName = "";
+            */
+        }
+
+        if (!foundTarget) {
+            //log.info(`调试-执行滚轮动作`);
+            const currentTime = new Date().getTime();
+            if (currentTime - lastMoveDown > timeMoveUp) {
+                await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+                if (thisMoveUpTime === 0) thisMoveUpTime = currentTime;
+                if (currentTime - thisMoveUpTime >= timeMoveDown) {
+                    lastMoveDown = currentTime;
+                    thisMoveUpTime = 0;
+                }
+            } else {
+                await keyMouseScript.runFile(`assets/滚轮上翻.json`);
+            }
+            await sleep(rollingDelay);
+        }
+    }
+
+    async function performTemplateMatch(centerYF) {
+        try {
+            let result;
+            let itemName = null;
+            for (const targetItem of targetItems) {
+                //log.info(`正在尝试匹配${targetItem.itemName}`);
+                const cnLen = Math.min([...targetItem.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length, 5);
+                const recognitionObject = RecognitionObject.TemplateMatch(
+                    targetItem.template,
+                    1219,
+                    centerYF - 15,
+                    12 + 28 * cnLen + 2,
+                    30
+                );
+
+                recognitionObject.Threshold = TMthreshold;
+                recognitionObject.InitTemplate();
+                result = gameRegion.find(recognitionObject);
+                if (result.isExist()) {
+                    itemName = targetItem.itemName;
+                    break;
+                }
+            }
+            return itemName;
+        } catch (error) {
+            log.error(`模板匹配时发生异常: ${error.message}`);
+            return null;
+        }
+    }
+
+    async function findFIcon() {
+        let recognitionObject = RecognitionObject.TemplateMatch(fIcontemplate, 1102, 335, 34, 400);
+        recognitionObject.Threshold = 0.95;
+        recognitionObject.InitTemplate();
+        try {
+            let result = gameRegion.find(recognitionObject);
+            if (result.isExist()) {
+                return Math.round(result.y + result.height / 2);
+            }
+        } catch (error) {
+            log.error(`识别图像时发生异常: ${error.message}`);
+            if (!state.running)
+                return null;
+        }
+        await sleep(100);
+        return null;
+    }
+
+    async function isMainUI() {
+        const recognitionObject = RecognitionObject.TemplateMatch(mainUITemplate, 0, 0, 150, 150);
+        const maxAttempts = 1;
+        let attempts = 0;
+
+        while (attempts < maxAttempts && state.running) {
+            try {
+                const result = gameRegion.find(recognitionObject);
+                if (result.isExist()) return true;
+            } catch (error) {
+                log.error(`识别图像时发生异常: ${error.message}`);
+                if (!state.running) break;
+                return false;
+            }
+            attempts++;
+            await sleep(50);
+        }
+        return false;
     }
 }
