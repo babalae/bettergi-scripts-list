@@ -19,6 +19,74 @@ let userName = settings.userName || "默认账户";
         return userName;
     }
 
+    // 设置游戏时间
+    async function setTime(hour, minute) {
+	// 关于setTime
+	// 原作者: Tim
+	// 脚本名称: SetTimeMinute - 精确调整游戏时间到分钟
+	// 脚本版本: 1.0
+	// Hash: f5c2547dfc286fc643c733d630f775e8fbf12971
+
+	// 设置游戏分辨率和DPI缩放
+	setGameMetrics(1920, 1080, 1);
+	// 圆心坐标
+	const centerX = 1441;
+	const centerY = 501.6;
+	// 半径
+	const r1 = 30;
+	const r2 = 150;
+	const r3 = 300;
+	const stepDuration = 50;
+
+	function getPosition(r, index) {
+		let angle = index * Math.PI / 720;
+		return [Math.round(centerX + r * Math.cos(angle)), Math.round(centerY + r * Math.sin(angle))];
+	}
+	async function mouseClick(x, y) {
+		moveMouseTo(x, y);
+		await sleep(50);
+		leftButtonDown();
+		await sleep(50);
+		leftButtonUp();
+		await sleep(stepDuration);
+	}
+	async function mouseClickAndMove(x1, y1, x2, y2) {
+		moveMouseTo(x1, y1);
+		await sleep(50);
+		leftButtonDown();
+		await sleep(50);
+		moveMouseTo(x2, y2);
+		await sleep(50);
+		leftButtonUp();
+		await sleep(stepDuration);
+	}
+	async function setTime(hour, minute) {
+		const end = (hour + 6) * 60 + minute - 20;
+		const n = 3;
+		for (let i = - n + 1; i < 1; i++) {
+			let [x, y] = getPosition(r1, end + i * 1440 / n);
+			await mouseClick(x, y);
+		}
+		let [x1, y1] = getPosition(r2, end + 5);
+		let [x2, y2] = getPosition(r3, end + 20 + 0.5);
+		await mouseClickAndMove(x1, y1, x2, y2);
+	}
+
+	let h = Math.floor(hour + minute / 60);
+	const m = Math.floor(hour * 60 + minute) - h * 60;
+	h = ((h % 24) + 24) % 24;
+	log.info(`设置时间到 ${h} 点 ${m} 分`);
+	await keyPress("Escape");
+	await sleep(1000);
+	await click(50, 700);
+	await sleep(2000);
+	await setTime(h, m);
+	await sleep(1000);
+	await click(1500, 1000);//确认
+	await sleep(2000);
+	await genshin.returnMainUi();
+    }
+
     /**
      * 判断任务是否已刷新
      * @param {string} filePath - 存储最后完成时间的文件路径
@@ -153,19 +221,6 @@ let userName = settings.userName || "默认账户";
         let filePath = `assets/Pathing/${locationName}.json`;
         await pathingScript.runFile(filePath);
         await sleep(1000);
-        if (locationName=='璃月购买狗粮2'){
-            await sleep(1000);
-            keyDown("w");
-            await sleep(600);
-            keyUp("w");
-            await sleep(1000);
-        }
-        if (locationName=='纳塔购买狗粮'){
-            await sleep(1000);
-            keyDown("a");
-            await sleep(500);
-            keyUp("a");
-        }
 
         // 定义模板
         let fDialogueRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Picture/F_Dialogue.png"), 1050, 400, 100, 400);
@@ -179,7 +234,7 @@ let userName = settings.userName || "默认账户";
             let fRes = ra.find(fDialogueRo);
             if (!fRes.isExist()) {
                 let f_attempts = null; // 初始化尝试次数
-                while (f_attempts < 5) { // 最多尝试 4 次
+                while (f_attempts < 6) { // 最多尝试 5 次
                     f_attempts++;
                     log.info(`当前尝试次数：${f_attempts}`);
                     if (f_attempts <= 3) {
@@ -188,13 +243,13 @@ let userName = settings.userName || "默认账户";
                         await sleep(200);
                         await simulateKeyOperations("W", 400); // 前进 400 毫秒
                         await sleep(500);
-                    } else if (f_attempts === 4) {
-                        // 第 4 次尝试
+                    } else if (f_attempts <= 5) {
+                        // 第 4-5 次尝试
                         log.info("重新加载路径文件");
                         await pathingScript.runFile(filePath);
                         await sleep(500);
                     } else {
-                        // 第 5 次尝试，尝试次数已达上限
+                        // 第 6 次尝试，尝试次数已达上限
                         log.warn("尝试次数已达上限");
                         break; // 找到后退出循环
                     }
@@ -285,6 +340,7 @@ let userName = settings.userName || "默认账户";
     }
 
     if(settings.select3){
+    await setTime(19,00)
     await purChase('璃月购买狗粮2');
     }
 
@@ -317,7 +373,7 @@ let userName = settings.userName || "默认账户";
         refreshType: 'weekly',
         weeklyDay: 4, // 周四
         weeklyHour: 4 // 凌晨4点
-    })){
+    })|| settings.select9){
     await main();
     }
 })();
