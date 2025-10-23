@@ -767,6 +767,7 @@ async function findAndClick(target, maxAttempts = 20) {
         try {
             const result = gameRegion.find(target);
             if (result.isExist()) {
+                await sleep(250);
                 result.click();
                 return true;                 // 成功立刻返回
             }
@@ -1411,6 +1412,7 @@ async function processArtifacts() {
             try {
                 const result = gameRegion.find(target);
                 if (result.isExist) {
+                    await sleep(250);
                     result.click();
                     return true;                 // 成功立刻返回
                 }
