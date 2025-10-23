@@ -674,7 +674,7 @@ async function recognizeAndInteract() {
             let time1 = new Date();
             itemName = await performTemplateMatch(centerYF);
             let time2 = new Date();
-            log.info(`调试-本次识别用时${time2 - time1}毫秒`);
+            //log.info(`调试-本次识别用时${time2 - time1}毫秒`);
         }
         if (itemName) {
             //log.info(`调试-识别到物品${itemName}`);
@@ -826,7 +826,7 @@ async function loadTargetItems() {
     if (pickup_Mode === "模板匹配拾取，拾取狗粮和怪物材料") {
         targetItemPath = "assets/targetItems/";
     } else if (pickup_Mode === "模板匹配拾取，只拾取狗粮") {
-        targetItemPath = "assets/targetItems/其他/";
+        targetItemPath = "assets/targetItems/00狗粮（0.8）/";
     } else {
         return null;
     }
