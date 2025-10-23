@@ -360,6 +360,7 @@
 
          // 检测潮湿状态
          if (enableDampDetection) {
+             await sleep(2000);
              if (await checkDampStatus()) {
                  await handleDampStatus();
              }
