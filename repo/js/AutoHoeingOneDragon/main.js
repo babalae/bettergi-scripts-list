@@ -13,6 +13,7 @@ let gameRegion;
 let targetItemPath = "assets/targetItems";
 let mainUITemplate = file.ReadImageMatSync("assets/MainUI.png");
 let itemFullTemplate = file.ReadImageMatSync("assets/itemFull.png");
+let frozenTemplate = file.ReadImageMatSync("assets/解除冰冻.png");
 let targetItems;
 
 let rollingDelay = (+settings.rollingDelay || 25);
@@ -559,8 +560,38 @@ async function runPath(fullPath, map_name) {
     })();
 
     const errorProcessTask = (async () => {
+        async function checkFrozen() {
+            const maxAttempts = 1;
+            let attempts = 0;
+            let frozenGameRegion;
+            while (attempts < maxAttempts && state.running) {
+                try {
+                    const recognitionObject = RecognitionObject.TemplateMatch(frozenTemplate, 1379, 574, 1463 - 1379, 613 - 574);
+                    frozenGameRegion = captureGameRegion();
+                    const result = frozenGameRegion.find(recognitionObject);
+                    frozenGameRegion.dispose();
+                    if (result.isExist()) {
+                        return true;
+                    }
+                } catch (error) {
+                    log.error(`识别图像时发生异常: ${error.message}`);
+                    if (!state.running) break;
+                    return false;
+                }
+                attempts++;
+            }
+            return false;
+        }
         while (state.running) {
-            await sleep(1000);
+            if (await checkFrozen()) {
+                log.info("检测到冻结，尝试挣脱");
+                for (let m = 0; m < 3; m++) {
+                    keyPress("VK_SPACE");
+                    await sleep(30);
+                }
+            } else {
+                await sleep(500);
+            }
         }
     })();
 
