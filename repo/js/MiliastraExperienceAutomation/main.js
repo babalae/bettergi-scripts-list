@@ -145,13 +145,13 @@ var getNextMonday4AM = () => {
 // src/lobby.ts
 var findMessageEnter = () => findImageWithinBounds("assets/Enter.png", 0, 1020, 960, 60);
 var findMessageEnter2 = () => findImageWithinBounds("assets/Enter2.png", 0, 1020, 960, 60);
-var findGotTeyvatButton = () => findTextWithinBounds("提瓦特", 1500, 0, 300, 95, { contains: true });
+var findGotTeyvatButton = () => findTextWithinBounds("返回", 1500, 0, 300, 95, { contains: true });
 var isInLobby = () => findMessageEnter() !== void 0 || findMessageEnter2() !== void 0;
 var goToLobby = async () => {
   const ok = await waitForAction(
     isInLobby,
     () => {
-      findBottomButton("返回大厅")?.click();
+      findBottomButton("大厅", true)?.click();
     },
     { maxAttempts: 60 }
   );
@@ -160,7 +160,7 @@ var goToLobby = async () => {
 var goBackToTeyvat = async () => {
   log.info("打开当前大厅...");
   await assertRegionAppearing(
-    () => findHeaderTitle("当前大厅"),
+    () => findHeaderTitle("大厅", true),
     "打开当前大厅超时",
     () => {
       keyPress("F2");
@@ -171,11 +171,11 @@ var goBackToTeyvat = async () => {
     findMessageEnter,
     "返回提瓦特大陆超时",
     () => {
-      log.info("提瓦特大陆...");
+      log.info("返回提瓦特大陆...");
       findGotTeyvatButton()?.click();
       findText("确认")?.click();
     },
-    { maxAttempts: 60 }
+    { maxAttempts: 120 }
   );
 };
 
@@ -183,7 +183,7 @@ var goBackToTeyvat = async () => {
 var createRoom = async (room) => {
   log.info("打开人气奇域界面...");
   await assertRegionAppearing(
-    () => findHeaderTitle("人气奇域"),
+    () => findHeaderTitle("人气", true),
     "打开人气奇域界面超时",
     () => {
       keyPress("F6");
@@ -191,10 +191,12 @@ var createRoom = async (room) => {
   );
   log.info("打开全部奇域界面...");
   await assertRegionAppearing(
-    () => findHeaderTitle("全部奇域"),
+    () => findHeaderTitle("全部", true),
     "打开全部奇域界面超时",
     () => {
-      findTextWithinBounds("全部奇域", 960, 0, 960, 95)?.click();
+      findTextWithinBounds("全部", 1320, 0, 600, 95, {
+        contains: true
+      })?.click();
     }
   );
   log.info("粘贴奇域关卡文本: {room}", room);
@@ -202,16 +204,16 @@ var createRoom = async (room) => {
     () => findTextWithinBounds("清除", 0, 120, 1920, 60),
     "粘贴关卡文本超时",
     () => {
-      const ph = findTextWithinBounds("搜索奇域关卡", 0, 120, 1920, 60, {
+      const ph = findTextWithinBounds("搜索", 0, 120, 1920, 60, {
         contains: true
       });
       if (ph) {
         ph.click();
-        inputText("11329336294");
+        inputText(room);
       }
     }
   );
-  log.info("搜索奇域关卡: {guid}", "11329336294");
+  log.info("搜索奇域关卡: {guid}", room);
   const findSearchButton = () => findTextWithinBounds("搜索", 0, 120, 1920, 60);
   const findTooFrequentText = () => findTextWithinBounds("过于频繁", 0, 0, 1920, 300, { contains: true });
   await assertRegionAppearing(
@@ -228,7 +230,9 @@ var createRoom = async (room) => {
     findCreateRoomButton,
     "打开奇域介绍超时",
     () => {
-      const lobbyButton = findTextWithinBounds("前往大厅", 880, 840, 1040, 110);
+      const lobbyButton = findTextWithinBounds("大厅", 880, 840, 1040, 110, {
+        contains: true
+      });
       if (lobbyButton) {
         log.info("当前不在大厅，前往大厅...");
         lobbyButton.click();
@@ -272,12 +276,12 @@ var enterRoom = async (room) => {
 };
 var startGame = async () => {
   await assertRegionAppearing(
-    () => findBottomButton("返回大厅"),
+    () => findBottomButton("大厅", true),
     "等待游戏结束超时",
     async () => {
       findBottomButton("开始游戏")?.click();
-      findBottomButton("准备")?.click();
-      const prepare = () => findText("加入准备区", { contains: true });
+      findBottomButton("准备", true)?.click();
+      const prepare = () => findText("加入准备", { contains: true });
       if (prepare()) {
         log.info("加入准备区...");
         await assertRegionDisappearing(prepare, "等待加入准备区提示消失超时");
@@ -296,12 +300,12 @@ var startGame = async () => {
 (async function() {
   setGameMetrics(1920, 1080, 1.5);
   await genshin.returnMainUi();
-  const goToTeyvat = settings.goToTeyvat || true;
+  const goToTeyvat = settings.goToTeyvat ?? true;
   const room = settings.room || "7015200164";
-  const force = settings.force || false;
-  const thisAttempts = Number(settings.thisAttempts || "0");
-  const expWeeklyLimit = Number(settings.expWeeklyLimit || "5000");
-  const expPerAttempt = Number(settings.expPerAttempt || "20");
+  const force = settings.force ?? false;
+  const thisAttempts = Math.max(0, Number(settings.thisAttempts || "0"));
+  const expWeeklyLimit = Math.max(1, Number(settings.expWeeklyLimit || "5000"));
+  const expPerAttempt = Math.max(1, Number(settings.expPerAttempt || "20"));
   const store = useStore("data");
   store.weekly = store.weekly || { expGained: 0, attempts: 0 };
   store.nextWeek = store.nextWeek || getNextMonday4AM().getTime();
