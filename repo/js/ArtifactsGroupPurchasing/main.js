@@ -12,6 +12,7 @@ let TMthreshold = +settings.TMthreshold || 0.9;
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
+
     if (settings.logName) {
         await processArtifacts();
     }
@@ -48,6 +49,7 @@ let TMthreshold = +settings.TMthreshold || 0.9;
             //构造加入idx号世界的autoEnter的settings
             let autoEnterSettings;
             if (idx === yourIndex) {
+                settings.forceGroupNumber = 1;//将房主强制指定为房主
                 // 1. 先收集真实存在的白名单
                 const permits = {};
                 let permitIndex = 1;
@@ -73,6 +75,7 @@ let TMthreshold = +settings.TMthreshold || 0.9;
                 log.info(`等待他人进入自己世界，目标人数：${autoEnterSettings.maxEnterCount}`);
                 notification.send(`等待他人进入自己世界，目标人数：${autoEnterSettings.maxEnterCount}`);
             } else {
+                settings.forceGroupNumber = 0;//取消强制指定
                 // 构造队员配置
                 autoEnterSettings = {
                     enterMode: "进入他人世界",
@@ -113,6 +116,7 @@ let TMthreshold = +settings.TMthreshold || 0.9;
             }
             //执行对应的联机狗粮
             await runGroupPurchasing(false);
+            settings.forceGroupNumber = 0;//解除强制指定
         }
         //如果勾选了额外，在结束后再执行一次额外路线
         if (settings.runExtra) {
@@ -130,26 +134,51 @@ let TMthreshold = +settings.TMthreshold || 0.9;
 )();
 
 async function checkP1Name(p1Name) {
-    await genshin.returnMainUi();
-    await keyPress("F2");
-    await sleep(2000);
-    const gameRegion = captureGameRegion();
-    const resList = gameRegion.findMulti(RecognitionObject.ocr(400, 170, 300, 55));
-    gameRegion.dispose();
-    let hit = null;
-    let txt;
-    for (const res of resList) {
-        txt = res.text.trim();
-        if (txt === p1Name) { hit = txt; break; }
-    }
-    if (hit) {
-        log.info(`识别到房主为${hit}，与预期相符`);
+    if (true) {
+        //log.info("禁用了房主名称校验，直接视为通过");
+        //强制禁用房主检测
         return true;
-    } else {
-        log.warn(`识别结果为${txt},与预期的${p1Name}不符，重试`);
-        return false;
     }
+    try {
+        // 加载目标 PNG
+        const targetPngs = await readFolder(targetsPath, false);
+        for (const f of targetPngs) {
+            if (!f.fullPath.endsWith('.png')) continue;
+            const mat = file.ReadImageMatSync(f.fullPath);
+            const ro = RecognitionObject.TemplateMatch(mat, 395, 158, 588, 65);
+            const baseName = f.fileName.replace(/\.png$/i, '');
+            targetsRo.push({ ro, baseName });
+        }
+        log.info(`加载完成共 ${targetsRo.length} 个目标`);
+        await genshin.returnMainUi();
+        await keyPress("F2");
+        await sleep(2000);
+        const gameRegion = captureGameRegion();
+        for (const { ro, baseName } of targetsRo) {
+            if (gameRegion.find(ro).isExist()) { gameRegion.dispose(); log.info(`找到房主为${baseName}`); return true; }
+        }
+        gameRegion.dispose();
+    } catch { }
+    try {
+        const gameRegion = captureGameRegion();
+        const resList = gameRegion.findMulti(RecognitionObject.ocr(400, 170, 300, 55));
+        gameRegion.dispose();
+        let hit = null;
+        let txt;
+        for (const res of resList) {
+            txt = res.text.trim();
+            if (txt === p1Name) { hit = txt; break; }
+        }
+        if (hit) {
+            log.info(`识别到房主为${hit}，与预期相符`);
+            return true;
+        } else {
+            log.warn(`识别结果为${txt},与预期的${p1Name}不符，重试`);
+            return false;
+        }
+    } catch { return false; }
 }
+
 
 /**
  * 群收尾 / 额外路线统一入口
