@@ -116,6 +116,39 @@
     // ======================================================
     // Check current state
 
+    /**
+     * 领取空月祝福
+     */
+    async function useBlessingOfTheWelkinMoon() {
+        u.logi("开始尝试领取空月祝福");
+        
+        let captureRegion = captureGameRegion();
+        let resList = captureRegion.findMulti(RecognitionObject.ocrThis);
+        
+        for (let i = 0; i < resList.count; i++) {
+            let res = resList[i];
+            if (res.text.includes("点击领取") || res.text.includes("空月祝福")) {
+                res.click();
+                await sleep(500);
+                res.click();
+                res.click();
+                await sleep(500);
+            }
+        }
+
+        let captureRegionGetReward = captureGameRegion();
+        let resGetReward = captureRegionGetReward.findMulti(RecognitionObject.ocrThis);
+        for (let i = 0; i < resGetReward.count; i++) {
+            let res = resGetReward[i];
+            if (res.text.includes("点击") || res.text.includes("空白") || res.text.includes("获得")) {
+                res.click();
+                await sleep(500);
+            }
+        }
+        
+        u.logi("空月祝福领取成功");
+    }
+
     async function waitAndDetermineCurrentView() {
         u.logi("开始判断当前画面状态");
         while (true) {
@@ -130,6 +163,9 @@
                     return false;
                 }
             }
+
+            // 尝试领取空月祝福
+            await useBlessingOfTheWelkinMoon();
 
             // Not in the login screen, check if is in the game main menu.
             let paimonIcon = captureRegion.Find(assetPaimonMenuIcon);
