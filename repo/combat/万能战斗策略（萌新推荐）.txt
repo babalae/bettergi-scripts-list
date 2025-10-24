@@ -1,6 +1,6 @@
 // 作者：火山
 // 描述：万能战斗策略（新手推荐）。内含详细使用说明，请务必打开本文档！！！
-// 版本：v0.3
+// 版本：v1.3
 
 // 战斗配置设置流程
 // 该设置从调度器入口开始，按以下层级路径操作，核心为开启相关功能并配置关键参数。
@@ -95,3 +95,4 @@
 奈芙尔 attack(0.08), keydown(VK_LBUTTON), keydown(E), wait(0.015), keyup(E), wait(0.015), wait(0.95), wait(0.015), keydown(VK_RBUTTON), wait(0.015), keyup(VK_RBUTTON), wait(0.015), keydown(S), wait(0.015), keyup(S), wait(0.25), keydown(W), wait(0.015), keyup(W), wait(0.85), keydown(VK_RBUTTON), wait(0.015), keyup(VK_RBUTTON), wait(0.015), keydown(S), wait(0.015), keyup(S), wait(0.25), keydown(W), wait(0.015), wait(0.015), keyup(W), wait(0.85), keydown(VK_RBUTTON), wait(0.015), keyup(VK_RBUTTON), wait(0.015), keydown(S), wait(0.015), keyup(S), wait(0.25), keydown(W), wait(0.015), keyup(W), wait(0.015), wait(0.015), wait(0.5), keyup(VK_LBUTTON)
 瓦雷莎 e, attack(1.25),click(middle),wait(0.45), keydown(s), e, attack(1.25),keyup(s), wait(0.3),keypress(q), click(middle),wait(0.45)
 仆人 e,keydown(W),attack(0.3),keyup(W),attack(0.3),attack(0.1),keydown(S),attack(0.33),keyup(S), wait(0.15), keydown(S), attack(0.33), keyup(S),jump,wait(0.3),keydown(W),attack(0.3),keyup(W),attack(0.3),attack(0.1),keydown(S),attack(0.33),keyup(S), wait(0.15), keydown(S), attack(0.33), keyup(S),attack(0.3),keyup(W),attack(0.3),attack(0.1),keydown(S),attack(0.33),keypress(q),wait(0.5)
+
