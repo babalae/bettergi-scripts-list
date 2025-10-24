@@ -1,5 +1,11 @@
 [
     {
+        "name": "woodInventory",
+        "type": "checkbox",
+        "label": "开启背包木材检测，开启后砍伐识别到的木材",
+        "default": false
+    },
+    {
         "name": "woods",
         "type": "input-text",
         "label": "木材种类：空格分隔，不填默认全部支持木材"
@@ -7,7 +13,8 @@
     {
         "name": "numbers",
         "type": "input-text",
-        "label": "砍伐数目：空格分隔，不填默认2000，只填一个值表示每种都是"
+        "label": "砍伐数目：空格分隔，不填默认2000，\n只填一个值表示每种都是，开启背包木材检测后失效",
+        "default": "2000"
     },
     {
         "name": "hasItto",
@@ -140,5 +147,4 @@
     //     "type": "checkbox",
     //     "label": "燃爆木"
     // }
-
 ]
