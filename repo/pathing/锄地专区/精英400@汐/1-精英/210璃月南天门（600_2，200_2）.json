@@ -1,0 +1,158 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时143秒，包含4只精英与7只小怪，预计收入1964.5摩拉，包含以下怪物：1只草史莱姆、2只大型冰史莱姆、2只岩盾丘丘人、2只射手丘丘人、1只岩盾丘丘暴徒、1只幼岩龙蜥、2只岩龙蜥。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759501305635,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "210璃月南天门（600_2，200_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1665.93,
+      "y": 386.61
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1705.27,
+      "y": 348.78
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1709.77,
+      "y": 327.61
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1695.33,
+      "y": 327.92
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1706.53,
+      "y": 278.18
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1689.91,
+      "y": 260
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1674.04,
+      "y": 266.6
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 1674.04,
+      "y": 266.6
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1665.93,
+      "y": 386.61
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1642.82,
+      "y": 378.78
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 1641.55,
+      "y": 365.13
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 12,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 1622.37,
+      "y": 371.87
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1596.48,
+      "y": 390.68
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1616.2,
+      "y": 398.6
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 1615.13,
+      "y": 398.13
+    }
+  ]
+}

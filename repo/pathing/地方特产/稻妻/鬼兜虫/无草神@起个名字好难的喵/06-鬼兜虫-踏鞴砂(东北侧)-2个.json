@@ -1,0 +1,82 @@
+{
+  "info": {
+    "name": "06-鬼兜虫-踏鞴砂(东北侧)-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -3288.19,
+      "y": -3652.57,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -3271.44,
+      "y": -3656.47,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -3255.6,
+      "y": -3661.72,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -3252.26,
+      "y": -3659.1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": -3288.16,
+      "y": -3652.47,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 6,
+      "x": -3288.9,
+      "y": -3626.98,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -3303.55,
+      "y": -3627.66,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1500",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -3293.98,
+      "y": -3626.57,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

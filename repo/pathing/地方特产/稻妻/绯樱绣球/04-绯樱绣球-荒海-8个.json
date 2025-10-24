@@ -2,12 +2,17 @@
   "info": {
     "name": "04-绯樱绣球-荒海-8个",
     "type": "collect",
-    "author": "起个名字好难",
     "version": "1.0",
     "description": "久歧忍可采集全，引战导致雷元素法师漏采集最后1~2个",
     "bgi_version": "0.42.3",
     "tags": [
       "久岐忍"
+    ],
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
     ]
   },
   "positions": [
@@ -193,7 +198,7 @@
       "y": -2346.99,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "丽莎 attack,wait(0.5),attack,wait(1); 瓦雷莎 charge,wait(2); 八重神子 charge",
+      "action_params": "丽莎 attack,wait(0.5),attack,wait(1);瓦雷莎 charge,wait(2);八重神子 charge",
       "type": "target"
     },
     {
@@ -210,7 +215,7 @@
       "y": -2343.69,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "丽莎 attack,wait(0.5),attack,wait(1); 瓦雷莎 charge,wait(2); 八重神子 charge",
+      "action_params": "丽莎 attack,wait(0.5),attack,wait(1);瓦雷莎 charge,wait(2);八重神子 charge",
       "type": "target"
     },
     {

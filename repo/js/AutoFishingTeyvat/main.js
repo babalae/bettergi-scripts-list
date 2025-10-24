@@ -1,8 +1,8 @@
-(async function () {
+(async function () { // 多人模式不计CD，CD读写仍有优化空间
 
-    const area_list = ['蒙德', '璃月', '稻妻', '须弥', '枫丹', '纳塔', '至冬', '层岩巨渊·地下矿区', '渊下宫']
-    const fish_list = ['花鳉', '波波心羽鲈', '烘烘心羽鲈', '维护机关·水域清理者', '维护机关·态势控制者', '维护机关·澄金领队型', '海涛斧枪鱼', '维护机关·初始能力型', '维护机关·白金典藏型', '吹沙角鲀', '甜甜花鳉', '擒霞客', '水晶宴', '斗棘鱼', '炮鲀', '流纹褐蝶鱼', '锖假龙', '金赤假龙', '玉玉心羽鲈', '赤魔王', '长生仙', '苦炮鲀', '肺棘鱼', '流纹京紫蝶鱼', '琉璃花鳉', '伪装鲨鲨独角鱼', '繁花斗士急流鱼', '深潜斗士急流鱼', '晚霞翻车鲀', '青浪翻车鲀', '拟似燃素独角鱼', '炽岩斗士急流鱼', '蓝染花鳉', '鸩棘鱼', '流纹茶蝶鱼', '雪中君', '真果角鲀', '青金斧枪鱼', '暮云角鲀', '翡玉斧枪鱼', '沉波蜜桃', '雷鸣仙', '佛玛洛鳐', '迪芙妲鳐', '秘源机关·巡戒使']
-    const bait_list = ['果酿饵', '酸桔饵', '维护机关频闪诱饵', '甘露饵', '赤糜饵', '飞蝇假饵', '蠕虫假饵', '澄晶果粒饵', '温火饵']
+    const area_list = ['蒙德', '璃月', '稻妻', '须弥', '枫丹', '纳塔', '至冬', '挪德卡莱', '层岩巨渊·地下矿区', '渊下宫']
+    const fish_list = ['花鳉', '波波心羽鲈', '烘烘心羽鲈', '维护机关·水域清理者', '维护机关·态势控制者', '维护机关·澄金领队型', '海涛斧枪鱼', '维护机关·初始能力型', '维护机关·白金典藏型', '吹沙角鲀', '甜甜花鳉', '擒霞客', '水晶宴', '斗棘鱼', '炮鲀', '流纹褐蝶鱼', '锖假龙', '金赤假龙', '玉玉心羽鲈', '赤魔王', '长生仙', '苦炮鲀', '肺棘鱼', '流纹京紫蝶鱼', '琉璃花鳉', '伪装鲨鲨独角鱼', '繁花斗士急流鱼', '深潜斗士急流鱼', '晚霞翻车鲀', '青浪翻车鲀', '拟似燃素独角鱼', '炽岩斗士急流鱼', '蓝染花鳉', '鸩棘鱼', '流纹茶蝶鱼', '雪中君', '真果角鲀', '青金斧枪鱼', '暮云角鲀', '翡玉斧枪鱼', '沉波蜜桃', '雷鸣仙', '佛玛洛鳐', '迪芙妲鳐', '秘源机关·巡戒使', '蓝昼明眼鱼', '冷冽巨斧鱼', '夜色明眼鱼', '炽铁巨斧鱼', '虹光凶凶鲨', '无奇巨斧鱼', '素素凶凶鲨']
+    const bait_list = ['果酿饵', '酸桔饵', '维护机关频闪诱饵', '甘露饵', '赤糜饵', '飞蝇假饵', '蠕虫假饵', '澄晶果粒饵', '温火饵', '槲梭饵', '清白饵']
     const material_msg = {
         "风缠": ["花鳉", "蓝染花鳉", "鸩棘鱼", "流纹茶蝶鱼"],
         "愿者": ["花鳉", "甜甜花鳉", "斗棘鱼", "流纹褐蝶鱼"],
@@ -15,12 +15,13 @@
         "竭泽": ["沉波蜜桃", "青金斧枪鱼", "翡玉斧枪鱼"],
         "原海鱼油": ["沉波蜜桃", "青金斧枪鱼", "翡玉斧枪鱼"],
         "灰河渡手": ["维护机关·白金典藏型", "波波心羽鲈", "烘烘心羽鲈", "海涛斧枪鱼"],
-        "马腾斯万能护养剂": ["维护机关·白金典藏型", "波波心羽鲈", "烘烘心羽鲈", "海涛斧枪鱼"]
+        "马腾斯万能护养剂": ["维护机关·白金典藏型", "波波心羽鲈", "烘烘心羽鲈", "海涛斧枪鱼"],
+        "谧晖白枝": ["无奇巨斧鱼", "素素凶凶鲨", "蓝昼明眼鱼", "夜色明眼鱼"]
     }
     const time_msg = {
-        '白天': ['烘烘心羽鲈', '维护机关·水域清理者', '吹沙角鲀', '水晶宴', '流纹褐蝶鱼', '赤魔王', '长生仙', '流纹京紫蝶鱼', '深潜斗士急流鱼', '青浪翻车鲀', '流纹茶蝶鱼', '真果角鲀', '沉波蜜桃'],
-        '夜晚': ['波波心羽鲈', '维护机关·态势控制者', '维护机关·白金典藏型', '擒霞客', '斗棘鱼', '肺棘鱼', '繁花斗士急流鱼', '晚霞翻车鲀', '鸩棘鱼', '雪中君', '暮云角鲀', '雷鸣仙'],
-        '全天': ['花鳉', '维护机关·澄金领队型', '海涛斧枪鱼', '维护机关·初始能力型', '甜甜花鳉', '炮鲀', '锖假龙', '金赤假龙', '玉玉心羽鲈', '苦炮鲀', '琉璃花鳉', '伪装鲨鲨独角鱼', '拟似燃素独角鱼', '炽岩斗士急流鱼', '蓝染花鳉', '青金斧枪鱼', '翡玉斧枪鱼', '佛玛洛鳐', '迪芙妲鳐', '秘源机关·巡戒使']
+        '白天': ['烘烘心羽鲈', '维护机关·水域清理者', '吹沙角鲀', '水晶宴', '流纹褐蝶鱼', '赤魔王', '长生仙', '流纹京紫蝶鱼', '深潜斗士急流鱼', '青浪翻车鲀', '流纹茶蝶鱼', '真果角鲀', '沉波蜜桃', '蓝昼明眼鱼', '冷冽巨斧鱼'],
+        '夜晚': ['波波心羽鲈', '维护机关·态势控制者', '维护机关·白金典藏型', '擒霞客', '斗棘鱼', '肺棘鱼', '繁花斗士急流鱼', '晚霞翻车鲀', '鸩棘鱼', '雪中君', '暮云角鲀', '雷鸣仙', '夜色明眼鱼', '炽铁巨斧鱼', '虹光凶凶鲨'],
+        '全天': ['花鳉', '维护机关·澄金领队型', '海涛斧枪鱼', '维护机关·初始能力型', '甜甜花鳉', '炮鲀', '锖假龙', '金赤假龙', '玉玉心羽鲈', '苦炮鲀', '琉璃花鳉', '伪装鲨鲨独角鱼', '拟似燃素独角鱼', '炽岩斗士急流鱼', '蓝染花鳉', '青金斧枪鱼', '翡玉斧枪鱼', '佛玛洛鳐', '迪芙妲鳐', '秘源机关·巡戒使', '无奇巨斧鱼', '素素凶凶鲨']
     }
     const fish_msg = { // 可能有误，需要检查
         '花鳉': {'bait': '果酿饵', 'time': '全天'},
@@ -67,7 +68,14 @@
         '雷鸣仙': {'bait': '蠕虫假饵', 'time': '夜晚'},
         '佛玛洛鳐': {'bait': '飞蝇假饵', 'time': '全天'},
         '迪芙妲鳐': {'bait': '飞蝇假饵', 'time': '全天'},
-        '秘源机关·巡戒使': {'bait': '温火饵', 'time': '全天'}
+        '秘源机关·巡戒使': {'bait': '温火饵', 'time': '全天'},
+        '蓝昼明眼鱼': {'bait': '清白饵', 'time': '白天'},
+        '夜色明眼鱼': {'bait': '清白饵', 'time': '夜晚'},
+        '无奇巨斧鱼': {'bait': '槲梭饵', 'time': '全天'},
+        '素素凶凶鲨': {'bait': '清白饵', 'time': '全天'},
+        '炽铁巨斧鱼': {'bait': '槲梭饵', 'time': '夜晚'},
+        '虹光凶凶鲨': {'bait': '清白饵', 'time': '夜晚'},
+        '冷冽巨斧鱼': {'bait': '槲梭饵', 'time': '白天'}
     }
     const path_pathing = [
         '枫丹-垂钓点-伊黎耶林区幽林雾道西南-花鳉_波波心羽鲈_烘烘心羽鲈_维护机关·水域清理者_维护机关·态势控制者_维护机关·澄金领队型-果酿饵_酸橘饵_维护机关频闪诱饵-普通',
@@ -140,13 +148,22 @@
         '须弥-垂钓点-下风蚀地阿如村-花鳉_水晶宴_吹沙角鲀_暮云角鲀_翡玉斧枪鱼-果酿饵_甘露饵-普通',
         '须弥-垂钓点-千壑沙地「五绿洲」的孑遗-真果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-甘露饵-战斗',
         '须弥-垂钓点-护世森无郁稠林-沉波蜜桃_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-甘露饵-普通',
-        '须弥-垂钓点-桓那兰那觉王之殿北-花鳉_青果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-果酿饵_甘露饵-普通',
+        '须弥-垂钓点-桓那兰那觉王之殿北-花鳉_真果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-果酿饵_甘露饵-普通',
         '须弥-垂钓点-荒石苍漠铁穆山南-擒霞客_真果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-果酿饵_甘露饵-普通',
-        '须弥-垂钓点-道成林天臂池-赤魔王_青果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-赤糜饵_甘露饵-普通',
-        '须弥-垂钓点-道成林维摩庄北-花鳉_青果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-果酿饵_甘露饵-普通',
+        '须弥-垂钓点-道成林天臂池-赤魔王_真果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-赤糜饵_甘露饵-普通',
+        '须弥-垂钓点-道成林维摩庄北-花鳉_真果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-果酿饵_甘露饵-普通',
         '须弥-垂钓点-道成林须弥城南-擒霞客_吹沙角鲀_暮云角鲀_青金斧枪鱼-果酿饵_甘露饵-普通',
-        '须弥-垂钓点-阿陀河谷奥摩斯港北-水晶宴_青果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-果酿饵_甘露饵-普通',
-        '须弥-垂钓点-阿陀河谷降诸魔山-擒霞客_青果角鲀_暮云角鲀_翡玉斧枪鱼-果酿饵_甘露饵-普通',
+        '须弥-垂钓点-阿陀河谷奥摩斯港北-水晶宴_真果角鲀_吹沙角鲀_暮云角鲀_青金斧枪鱼_翡玉斧枪鱼-果酿饵_甘露饵-普通',
+        '须弥-垂钓点-阿陀河谷降诸魔山-擒霞客_真果角鲀_暮云角鲀_翡玉斧枪鱼-果酿饵_甘露饵-普通',
+        '挪德卡莱-垂钓点-伦波岛叮铃哐啷蛋卷工坊北-花鳉_蓝昼明眼鱼_夜色明眼鱼_无奇巨斧鱼_素素凶凶鲨-果酿饵_槲梭饵_清白饵-普通',
+        '挪德卡莱-垂钓点-伦波岛空寂走廊西北-花鳉_蓝昼明眼鱼_夜色明眼鱼-果酿饵_清白饵-普通',
+        '挪德卡莱-垂钓点-伦波岛蓝珀湖-无奇巨斧鱼_冷冽巨斧鱼_炽铁巨斧鱼_素素凶凶鲨_虹光凶凶鲨-槲梭饵_清白饵-普通',
+        '挪德卡莱-垂钓点-伦波岛那夏镇西南-花鳉_无奇巨斧鱼_冷冽巨斧鱼_夜色明眼鱼-果酿饵_槲梭饵_清白饵-普通',
+        '挪德卡莱-垂钓点-帕哈岛月矩力实验设计局北-花鳉_蓝昼明眼鱼_素素凶凶鲨_虹光凶凶鲨-果酿饵_清白饵-普通',
+        '挪德卡莱-垂钓点-帕哈岛月矩力实验设计局东南-花鳉_无奇巨斧鱼_冷冽巨斧鱼_夜色明眼鱼-花鳉_蓝昼明眼鱼_夜色明眼鱼-普通',
+        '挪德卡莱-垂钓点-希汐岛沐光之台西南-素素凶凶鲨_虹光凶凶鲨_蓝昼明眼鱼_夜色明眼鱼-槲梭饵_清白饵-普通',
+        '挪德卡莱-垂钓点-希汐岛霜月工坊东北-冷冽巨斧鱼_蓝昼明眼鱼_夜色明眼鱼_虹光凶凶鲨-槲梭饵_清白饵-普通',
+        '挪德卡莱-垂钓点-希汐岛霜月工坊西-花鳉_蓝昼明眼鱼_夜色明眼鱼-果酿饵_清白饵-战斗'
     ]
     const fishing_time_dic = {
         "全天": {"name": "All", "param": 0},
@@ -157,6 +174,101 @@
     const statue_name = "蒙德-七天神像-苍风高地";
     // 存储本次任务中的所有鱼类，作为调节时间的关键参考
     let list_fish = [];
+
+    /**
+     *
+     * 将毫秒形式的字符串转换为更清晰的时间格式
+     *
+     * @param ms
+     * @returns {string}
+     */
+    function formatTimeDifference(ms) {
+        ms = Number(ms);
+        // 计算天、小时、分钟、秒
+        const seconds = Math.floor(ms / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        // 计算剩余的小时、分钟、秒
+        const remainingHours = hours % 24;
+        const remainingMinutes = minutes % 60;
+        const remainingSeconds = seconds % 60;
+
+        // 返回格式化字符串
+        return `${days}天 ${remainingHours}小时 ${remainingMinutes}分钟 ${remainingSeconds}秒`;
+    }
+
+    /**
+     *
+     * 垂钓点CD存档写入
+     *
+     * @param {string} pathing_name 路径名称
+     * @param {string} time_status 垂钓点时间状态（白天，夜晚）
+     * @param {string} timestamp 时间戳
+     * @param {string} user_id 原神UID
+     */
+    function write_archive(pathing_name, time_status, timestamp, user_id) {
+        let assets_dir = Array.from(file.readPathSync("assets"));
+        let content = {};
+        if (assets_dir.includes("assets\\archive.json")) {
+            content = JSON.parse(file.readTextSync("assets/archive.json"));
+            if (!Object.keys(content).includes(user_id)) {
+                content[user_id] = {};
+            }
+            if (!Object.keys(content[user_id]).includes(pathing_name)) {
+                content[user_id][pathing_name] = {};
+            }
+            if (time_status === "全天") {
+                content[user_id][pathing_name]["Daytime"] = timestamp;
+                content[user_id][pathing_name]["Nighttime"] = timestamp;
+            } else if (time_status === "白天") {
+                content[user_id][pathing_name]["Daytime"] = timestamp;
+                content[user_id][pathing_name]["Nighttime"] = Object.keys(content[user_id][pathing_name]).includes("Nighttime") ? content[user_id][pathing_name]["Nighttime"]: null;
+            } else if (time_status === "夜晚") {
+                content[user_id][pathing_name]["Daytime"] = Object.keys(content[user_id][pathing_name]).includes("Daytime") ? content[user_id][pathing_name]["Daytime"]: null;
+                content[user_id][pathing_name]["Nighttime"] = timestamp;
+            }
+
+        } else {
+            content[user_id] = {};
+            content[user_id][pathing_name] = {
+                "Daytime": time_status === "白天" || time_status === "全天" ? timestamp : null,
+                "Nighttime": time_status === "夜晚" || time_status === "全天" ? timestamp : null
+            };
+
+        }
+
+        file.WriteTextSync("assets/archive.json", JSON.stringify(content, null, 2), false);
+    }
+
+    /**
+     *
+     * 垂钓点CD存档读取
+     *
+     * @param {string} pathing_name 路径名称
+     * @param {string} user_id 原神UID
+     *
+     * @return Daytime/Nighttime 字典
+     */
+    function read_archive(pathing_name, user_id) {
+        let assets_dir = Array.from(file.readPathSync("assets"));
+
+        if (assets_dir.includes("assets\\archive.json")) {
+            let content = JSON.parse(file.readTextSync("assets/archive.json"));
+            if (Object.keys(content).includes(user_id)) {
+                if (Object.keys(content[user_id]).includes(pathing_name)) {
+                    return content[user_id][pathing_name];
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
 
     /**
      * 获取路径包含的信息
@@ -195,11 +307,11 @@
             let regex_area, regex_fish, regex_bait;
 
             // 读取地区
-            let path_sort_area = typeof(settings.path_sort_area) === 'undefined' ? [] : settings.path_sort_area.split(' ');
+            let path_sort_area = typeof(settings.path_sort_area) === 'undefined' || settings.path_sort_area === "" ? [] : settings.path_sort_area.split(' ');
             // 读取鱼类
-            let path_sort_fish = typeof(settings.path_sort_fish) === 'undefined' ? [] : settings.path_sort_fish.split(' ');
+            let path_sort_fish = typeof(settings.path_sort_fish) === 'undefined' || settings.path_sort_fish === "" ? [] : settings.path_sort_fish.split(' ');
             // 读取鱼饵
-            let path_sort_bait = typeof(settings.path_sort_bait) === 'undefined' ? [] : settings.path_sort_bait.split(' ');
+            let path_sort_bait = typeof(settings.path_sort_bait) === 'undefined' || settings.path_sort_bait === "" ? [] : settings.path_sort_bait.split(' ');
             // 读取兑换材料
             let path_sort_material = typeof(settings.path_sort_material) === 'undefined' ? "无(默认)" : settings.path_sort_material;
             // 读取调试信息
@@ -298,7 +410,7 @@
         }
     }
 
-    async function run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight, block_tsurumi, auto_skip) {
+    async function run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight, block_tsurumi, auto_skip, fishing_cd, uid = "default_user") {
         const base_path_pathing = "assets/pathing/";
         const base_path_gcm = "assets/KeyMouseScript/";
         const base_path_statues = "assets/pathing_statues/";
@@ -366,47 +478,118 @@
             fishing_time = path_time;
         }
 
-        // 4点自动领取月卡
-        let time_now = new Date();
-        let time_4 = new Date(time_now.getFullYear(), time_now.getMonth(), time_now.getDate(), 4, 0, 0); // 4点
-        let time_predict_end; // 根据超时时间预测本次钓鱼结束时间（加1分钟容错）
-        if (fishing_time === "全天") {
-            time_predict_end = time_now.setSeconds(time_now.getSeconds() + time_out_whole * 2 + 60);
-        } else {
-            time_predict_end = time_now.setSeconds(time_now.getSeconds() + time_out_whole + 60);
-        }
-        // 30s点击一次，等待领取月卡
-        let step_flag = 0; // 领取月卡步骤标志
-        while (auto_skip && time_now < time_4 && time_predict_end >= time_4) {
-            log.info(`等待领取月卡(剩余${Math.floor((time_4 - new Date()) / 1000)}s)...`);
-            if (step_flag == 0) {
-                // 传送到七天神像
-                await pathingScript.runFile(base_path_pathing + statue_name + ".json");
-                step_flag += 1;
+        if (auto_skip) {
+            // log.info(`[DEBUG] 开始自动领取月卡`);
+            // 4点自动领取月卡
+            let time_now = new Date();
+            let time_4 = new Date(time_now.getFullYear(), time_now.getMonth(), time_now.getDate(), 4, 0, 0); // 4点
+            // log.info(`[DEBUG] time_now: ${time_now}`);
+            // log.info(`[DEBUG] time_4: ${time_4}`);
+            let time_predict_end; // 根据超时时间预测本次钓鱼结束时间（加1分钟容错）
+            if (fishing_time === "全天") {
+                time_predict_end = new Date(time_now.getTime() + (time_out_whole * 2 + 60) * 1000);
+            } else {
+                time_predict_end = new Date(time_now.getTime() + (time_out_whole + 60) * 1000);
             }
-            await sleep(30000);
-            keyDown("VK_LBUTTON");
-            await sleep(100);
-            keyUp("VK_LBUTTON");
+            // log.info(`[DEBUG] time_predict_end: ${time_predict_end}`);
+            // log.info(`[DEBUG] ${time_now < time_4} | ${time_predict_end >= time_4}`);
+            // 30s点击一次，等待领取月卡
+            let step_flag = 0; // 领取月卡步骤标志
+            while (time_now < time_4 && time_predict_end >= time_4) {
+                log.info(`等待领取月卡(剩余${Math.floor((time_4 - new Date()) / 1000)}s)...`);
+                if (step_flag === 0) {
+                    // 传送到七天神像
+                    await pathingScript.runFile(base_path_statues + statue_name + ".json");
+                    step_flag += 1;
+                }
+                await sleep(30000);
+                keyPress("ESCAPE");
+                await sleep(2000);
+                keyPress("ESCAPE");
 
+                time_now = new Date();
+
+            }
             // 本次已经到达4点(5s容错)
-            if (new Date() > time_4.setSeconds(time_4.getSeconds() - 5)) {
+            if (new Date() > time_4.setSeconds(time_4.getSeconds())) {
+                await sleep(5000);
                 step_flag += 1;
                 auto_skip = false;
             }
-
-        }
-        // 领取月卡(点击两次)
-        if (step_flag == 2) {
-            step_flag = 0;
-            await sleep(5); // 补回容错时间
-            await click(1450, 1020); // 点击时间调节的确认按钮的位置
-            await sleep(5); // 等待月卡动画时间
-            await click(1450, 1020);
-            await sleep(1);
+            // 领取月卡(点击两次)
+            if (step_flag === 2) {
+                // step_flag = 0;
+                await sleep(5000); // 补回容错时间
+                await click(1450, 1020); // 点击时间调节的确认按钮的位置
+                await sleep(5000); // 等待月卡动画时间
+                await click(1450, 1020);
+                await sleep(1000);
+                await click(1450, 1020);
+                await sleep(1000);
+                await click(1450, 1020);
+                await sleep(1000);
+            }
         }
 
         log.info(`该钓鱼点的时间: ${fishing_time}`);
+
+        // 检查垂钓点CD(调式模式不记录)
+        if (fishing_cd && !is_con) {
+            let current_cd = read_archive(file_name, uid);
+            if (current_cd !== null) {
+                const now = Date.now();
+                if (fishing_time === "全天") {
+                    let daytime = true;
+                    if (current_cd["Daytime"] !== null) {
+                        let difference = now - current_cd["Daytime"];
+                        if (difference < 259200000) {
+                            log.info(`该垂钓点(白天)处于冷却状态，剩余时间: ${formatTimeDifference(259200000 - difference)}`);
+                            log.info(`${file_name}(白天) 已跳过...`);
+                            daytime = false;
+                            fishing_time = "夜晚";
+                        } else {
+                            log.info(`该垂钓点(白天)未处于冷却状态，闲置时间: ${formatTimeDifference(difference - 259200000)}`);
+                        }
+                    }
+                    if (current_cd["Nighttime"] !== null) {
+                        let difference = now - current_cd["Nighttime"];
+                        if (difference < 259200000) {
+                            log.info(`该垂钓点(夜晚)处于冷却状态，剩余时间: ${formatTimeDifference(259200000 - difference)}`);
+                            log.info(`${file_name}(夜晚) 已跳过...`);
+                            if (daytime) {
+                                fishing_time = "白天";
+                            } else {
+                                return null;
+                            }
+                        } else {
+                            log.info(`该垂钓点(夜晚)未处于冷却状态，闲置时间: ${formatTimeDifference(difference - 259200000)}`);
+                        }
+                    }
+                } else if (fishing_time === "白天") {
+                    if (current_cd["Daytime"] !== null) {
+                        let difference = now - current_cd["Daytime"];
+                        if (difference < 259200000) {
+                            log.info(`该垂钓点(白天)处于冷却状态，剩余时间: ${formatTimeDifference(259200000 - difference)}`);
+                            log.info(`${file_name}(白天) 已跳过...`);
+                            return null;
+                        } else {
+                            log.info(`该垂钓点(白天)未处于冷却状态，闲置时间: ${formatTimeDifference(difference - 259200000)}`);
+                        }
+                    }
+                } else if (fishing_time === "夜晚") {
+                    if (current_cd["Nighttime"] !== null) {
+                        let difference = now - current_cd["Nighttime"];
+                        if (difference < 259200000) {
+                            log.info(`该垂钓点(夜晚)处于冷却状态，剩余时间: ${formatTimeDifference(259200000 - difference)}`);
+                            log.info(`${file_name}(夜晚) 已跳过...`);
+                            return null;
+                        } else {
+                            log.info(`该垂钓点(夜晚)未处于冷却状态，闲置时间: ${formatTimeDifference(difference - 259200000)}`);
+                        }
+                    }
+                }
+            }
+        }
 
         await pathingScript.runFile(base_path_pathing + file_name + ".json");
 
@@ -415,13 +598,27 @@
             await keyMouseScript.runFile(base_path_gcm + file_name + ".json");
         }
 
+        // 记录钓鱼开始时间
+        const time_start = Date.now();
+
         // 调用自动钓鱼
-        // await genshin.autofishing(fishing_time_dic[fishing_time]["param"]);
         await dispatcher.runTask(new SoloTask("AutoFishing", {
             "fishingTimePolicy": fishing_time_dic[fishing_time]["param"],
             "throwRodTimeOutTimeoutSeconds": time_out_throw,
             "wholeProcessTimeoutSeconds": time_out_whole
         }));
+
+        // 记录钓鱼结束时间
+        const time_end = Date.now();
+
+        // 钓鱼是否正常结束，间隔时间大于5s
+        const flag = (time_end - time_start) >= 5000;
+
+        if (fishing_cd && flag) {
+            write_archive(file_name, fishing_time, Date.now(), uid);
+        } else if (fishing_cd && !flag) {
+            log.warn(`本次钓鱼异常，不计算垂钓点CD`);
+        }
     }
 
     async function main() {
@@ -451,16 +648,48 @@
         const auto_pick = typeof(settings.auto_pick) === 'undefined' ? false : settings.auto_pick;
         // 读取4点自动领取月卡的设置
         const auto_skip = typeof(settings.auto_skip) === 'undefined' ? false : settings.auto_skip;
+        // 读取垂钓点CD统计
+        let fishing_cd = typeof(settings.fishing_cd) === 'undefined' ? false: settings.fishing_cd;
         // 读取终止时间
         const kill_hour = typeof(settings.time_kill_hour) === 'undefined' ? "无" : settings.time_kill_hour;
         const kill_minute = typeof(settings.time_kill_minute) === 'undefined' ? "无" : settings.time_kill_minute;
         const is_time_kill = kill_hour !== "无" && kill_minute !== "无"; // 判断是否启用
         let time_target = new Date();
 
+        // 获取当前用户UID
+        let uid = "default_user";
+        if (fishing_cd) {
+            const ocrRoUid = RecognitionObject.Ocr(166, 198, 120, 22);
+            const ocrRoText = RecognitionObject.Ocr(1565, 997, 177, 39);
+
+            genshin.returnMainUi();
+            await sleep(1000);
+            keyPress("Escape");
+            await sleep(1000);
+
+            let ocrUid = captureGameRegion().Find(ocrRoUid); // 当前页面OCR
+            if (ocrUid.isExist()) {
+                uid = ocrUid.text;
+            }
+
+            await genshin.returnMainUi();
+
+            keyPress("F2"); // 按下F2打开多人模式界面
+            await sleep(1000);
+            let ocrText = captureGameRegion().Find(ocrRoText); // 当前页面OCR
+            if (ocrText.isExist() && ocrText.text === "回到单人模式") {
+                log.info("当前为多人模式，垂钓点CD统计已失效...");
+                fishing_cd = false; // 多人模式下关闭CD记录功能
+            }
+
+            await sleep(500);
+            keyPress("Escape");
+        }
+
         if (is_time_kill) {
             let now = new Date();
-            time_target.setHours(parseInt(kill_hour), 10);
-            time_target.setMinutes(parseInt(kill_minute), 10);
+            time_target.setHours(parseInt(kill_hour, 10));
+            time_target.setMinutes(parseInt(kill_minute, 10));
             time_target.setSeconds(0);
             time_target.setMilliseconds(0);
             if (time_target < now) { // 不是当天终止，天数+1
@@ -495,8 +724,7 @@
             }
             // 路径详细信息
             const path_msg = get_pathing_msg(path_filter[i]);
-            try {
-                await sleep(100);
+            // try {
                 let current_msg = `${path_msg["area"]}-${path_msg["detail"]}`
                 log.info(`当前钓鱼点: ${current_msg}(进度: ${i + 1}/${path_filter.length})`);
                 if (path_continue === current_msg) {
@@ -509,11 +737,11 @@
                     continue;
                 }
 
-                await run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight, block_tsurumi, auto_skip);
-            } catch (error) {
-                const file_name = `${path_msg["area"]}-${path_msg["type"]}-${path_msg["detail"]}`;
-                log.info(`路径: ${file_name} 执行时出错，已跳过...\n错误信息: ${error}`)
-            }
+                await run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight, block_tsurumi, auto_skip, fishing_cd, uid);
+            // } catch (error) {
+            //     const file_name = `${path_msg["area"]}-${path_msg["type"]}-${path_msg["detail"]}`;
+            //     log.info(`路径: ${file_name} 执行时出错，已跳过...\n错误信息: ${error}`)
+            // }
         }
     }
 

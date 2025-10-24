@@ -1,0 +1,78 @@
+{
+  "info": {
+    "name": "夏沃蕾-1",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751036415928
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4318.32080078125,
+      "y": 3591.339599609375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4318.32080078125,
+      "y": 3591.339599609375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.2),keydown(SPACE),wait(5),keyup(SPACE)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4344.07470703125,
+      "y": 3671.5439453125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4346.1875,
+      "y": 3697.3125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4343.519,
+      "y": 3701.963,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4354.89306640625,
+      "y": 3707.44287109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 4379.984375,
+      "y": 3716.22900390625,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(w)"
+    }
+  ]
+}

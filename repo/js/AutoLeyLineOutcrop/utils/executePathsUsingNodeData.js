@@ -3,8 +3,7 @@
  * @param {Object} position - 位置对象
  * @returns {Promise<void>}
  */
-this.executePathsUsingNodeData =
-async function (position) {
+this.executePathsUsingNodeData = async function (position) {
     try {
         const nodeData = await loadNodeData();
         let currentNodePosition = position;
@@ -12,6 +11,7 @@ async function (position) {
 
         if (!targetNode) {
             log.error(`未找到与坐标(${currentNodePosition.x}, ${currentNodePosition.y})匹配的目标节点`);
+            await ensureExitRewardPage();
             return;
         }
         log.debug(`找到目标节点: ID ${targetNode.id}, 位置(${targetNode.position.x}, ${targetNode.position.y})`);
@@ -19,6 +19,7 @@ async function (position) {
 
         if (paths.length === 0) {
             log.error(`未找到通向目标节点(ID: ${targetNode.id})的路径`);
+            await ensureExitRewardPage();
             return;
         }
 
@@ -46,6 +47,7 @@ async function (position) {
                 const nextNode = nodeData.node.find(node => node.id === nextNodeId);
 
                 if (!nextNode) {
+                    await ensureExitRewardPage();
                     return;
                 }
                 const pathObject = {
@@ -82,6 +84,7 @@ async function (position) {
 
                 if (!found) {
                     log.warn("无法在分支点找到下一个地脉花，退出本次循环");
+                    await ensureExitRewardPage();
                     return;
                 }                
                 log.info(`找到下一个地脉花，位置: (${leyLineX}, ${leyLineY})`);
@@ -115,6 +118,7 @@ async function (position) {
                     // 恢复原始坐标
                     leyLineX = currentLeyLineX;
                     leyLineY = currentLeyLineY;
+                    await ensureExitRewardPage();
                     return;
                 }                
                 const nextNode = nodeData.node.find(node => node.id === selectedNodeId);
@@ -123,6 +127,7 @@ async function (position) {
                     // 恢复原始坐标
                     leyLineX = currentLeyLineX;
                     leyLineY = currentLeyLineY;
+                    await ensureExitRewardPage();
                     return;
                 }
 
@@ -149,11 +154,24 @@ async function (position) {
     }
     catch (error) {
         if(error.message.includes("战斗失败")) {
-            log.error("战斗失败，重新寻找地脉花后重试");
+            consecutiveFailureCount++;
+            log.error(`战斗失败，连续失败次数: ${consecutiveFailureCount}/${MAX_CONSECUTIVE_FAILURES}`);
+            
+            // 检查是否超过最大连续失败次数
+            if (consecutiveFailureCount >= MAX_CONSECUTIVE_FAILURES) {
+                await ensureExitRewardPage();
+                throw new Error(`连续战斗失败${MAX_CONSECUTIVE_FAILURES}次，可能是队伍配置不足以完成挑战，脚本终止`);
+            }
+            
+            await ensureExitRewardPage();
+            // processResurrect()已在processLeyLineOutcrop中调用，这里直接return
+            // return后会回到runLeyLineChallenges的while循环，重新寻找地脉花
+            log.info("将重新寻找地脉花并重试");
             return;
         }
         // 其他错误需要向上传播
         log.error(`执行路径时出错: ${error.message}`);
+        await ensureExitRewardPage();
         throw error;
     }
 }

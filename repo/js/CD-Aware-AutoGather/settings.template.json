@@ -10,6 +10,16 @@
     ]
   },
   {
+    "name": "subscribeMode",
+    "type": "select",
+    "label": "'地图追踪'中已订阅的任务目录的处理方式：",
+    "options": [
+      "每次自动扫描，并采集扫描到的所有材料",
+      "手动扫描，并采集扫描到的所有材料",
+      "手动扫描，只采集已勾选的材料"
+    ]
+  },
+  {
     "name": "partyName",
     "type": "input-text",
     "label": "设置首选队伍名称（留空则不进行切换）"
@@ -26,13 +36,9 @@
   },
   {
     "name": "iHaveMultipleAccounts",
-    "type": "checkbox",
-    "label": "我肝的账号不止一个（选中后将分账号维护对应的材料刷新时间）"
-  },
-  {
-    "name": "selectAllMaterials",
-    "type": "checkbox",
-    "label": "采集扫描到的所有材料（选中后将无视后面的每个材料⬇️是否选中）"
+    "type": "input-text",
+    "label": "我肝的账号不止一个\n根据唯一ID区分账号维护对应的材料刷新时间\n填空将使用右下角帐号UID区分账号维护对应的材料刷新时间",
+    "default": "默认账号"
   },
   {
     "name": "acceptMultiplePathOfSameMaterial",

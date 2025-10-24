@@ -1,14 +1,27 @@
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
+const zlib = require('zlib');
 const { execSync } = require('child_process');
 
 // 处理命令行参数
 const args = process.argv.slice(2);
 const forceFullUpdate = args.includes('--force') || args.includes('-f');
+const enableGzip = args.includes('--gzip') || args.includes('-g');
 
 // 在文件开头添加全局变量
 const pathingDirsWithoutIcon = new Set();
+
+// 加载作者配置
+let authorConfig = null;
+try {
+    const authorConfigPath = path.resolve(__dirname, 'author_config.json');
+    if (fs.existsSync(authorConfigPath)) {
+        authorConfig = JSON.parse(fs.readFileSync(authorConfigPath, 'utf8'));
+        console.log('已加载作者配置文件');
+    }
+} catch (e) {
+    console.warn('加载作者配置文件失败:', e);
+}
 
 // 检查是否存在现有的repo.json文件
 const repoJsonPath = path.resolve(__dirname, '..', 'repo.json');
@@ -48,12 +61,7 @@ try {
     console.warn('读取现有repo.json文件出错，将执行全量更新', e);
 }
 
-function calculateSHA1(filePath) {
-    const fileBuffer = fs.readFileSync(filePath);
-    const hashSum = crypto.createHash('sha1');
-    hashSum.update(fileBuffer);
-    return hashSum.digest('hex');
-}
+
 
 function getGitTimestamp(filePath) {
     try {
@@ -144,6 +152,112 @@ function convertNewlines(text) {
     return text.replace(/\\n/g, '\n');
 }
 
+// 处理作者信息的通用函数 - 返回简单字符串格式（向后兼容）
+function processAuthorInfo(authorInfo) {
+    if (!authorInfo) return '';
+    
+    // 如果是字符串，直接返回
+    if (typeof authorInfo === 'string') {
+        return authorInfo.trim();
+    }
+    
+    // 如果是数组，返回第一个作者的名字
+    if (Array.isArray(authorInfo)) {
+        const firstAuthor = authorInfo[0];
+        if (typeof firstAuthor === 'string') {
+            return firstAuthor.trim();
+        } else if (typeof firstAuthor === 'object' && firstAuthor.name) {
+            return firstAuthor.name.trim();
+        }
+    }
+    
+    // 如果是对象
+    if (typeof authorInfo === 'object' && authorInfo.name) {
+        return authorInfo.name.trim();
+    }
+    
+    return '';
+}
+
+// 处理详细作者信息的函数 - 返回完整的作者信息对象
+function processDetailedAuthorInfo(authorInfo) {
+    if (!authorInfo) return null;
+    
+    // 获取作者重命名和链接配置
+    const authorRename = authorConfig?.rename || {};
+    const authorLinks = authorConfig?.links || {};
+    
+    // 如果是字符串，转换为对象格式
+    if (typeof authorInfo === 'string') {
+        const authorName = authorInfo.trim();
+        const finalName = authorRename[authorName] || authorName;
+        const authorObj = { name: finalName };
+        
+        // 添加链接
+        if (authorLinks[finalName]) {
+            authorObj.link = authorLinks[finalName];
+        }
+        
+        return [authorObj];
+    }
+    
+    // 如果是数组，处理多个作者
+    if (Array.isArray(authorInfo)) {
+        const authors = authorInfo.map(author => {
+            if (typeof author === 'string') {
+                const authorName = author.trim();
+                const finalName = authorRename[authorName] || authorName;
+                const authorObj = { name: finalName };
+                
+                // 添加链接
+                if (authorLinks[finalName]) {
+                    authorObj.link = authorLinks[finalName];
+                }
+                
+                return authorObj;
+            } else if (typeof author === 'object' && author.name) {
+                const authorName = author.name.trim();
+                const finalName = authorRename[authorName] || authorName;
+                const authorObj = { name: finalName };
+                
+                // 优先使用已有的链接，其次使用配置中的链接
+                if (author.link) {
+                    authorObj.link = author.link;
+                } else if (author.links) {
+                    authorObj.link = author.links;
+                } else if (authorLinks[finalName]) {
+                    authorObj.link = authorLinks[finalName];
+                }
+                
+                return authorObj;
+            }
+            return null;
+        }).filter(author => author !== null);
+        
+        return authors.length > 0 ? authors : null;
+    }
+    
+    // 如果是对象
+    if (typeof authorInfo === 'object' && authorInfo.name) {
+        const authorName = authorInfo.name.trim();
+        const finalName = authorRename[authorName] || authorName;
+        const authorObj = { name: finalName };
+        
+        // 优先使用已有的链接，其次使用配置中的链接
+        if (authorInfo.link) {
+            authorObj.link = authorInfo.link;
+        } else if (authorInfo.links) {
+            authorObj.link = authorInfo.links;
+        } else if (authorLinks[finalName]) {
+            authorObj.link = authorLinks[finalName];
+        }
+        
+        return [authorObj];
+    }
+    
+    return null;
+}
+
 // 过滤长标签的通用函数，一个汉字算两个字符
 function filterLongTags(tags) {
     return tags.filter(tag => {
@@ -184,9 +298,9 @@ function prioritizeVersionTag(tags) {
 
 function extractInfoFromCombatFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf8');
-    const authorMatch = content.match(/\/\/\s*作者\s*:(.*)/);
-    const descriptionMatch = content.match(/\/\/\s*描述\s*:(.*)/);
-    const versionMatch = content.match(/\/\/\s*版本\s*:(.*)/);
+    const authorMatch = content.match(/\/\/\s*作者\s*[:：](.*)/);
+    const descriptionMatch = content.match(/\/\/\s*描述\s*[:：](.*)/);
+    const versionMatch = content.match(/\/\/\s*版本\s*[:：](.*)/);
     const characterMatches = content.match(/^(?!\/\/).*?(\S+)(?=\s|$)/gm);    
     let tags = [...new Set(characterMatches || [])]
         .map(char => char.trim())
@@ -196,13 +310,14 @@ function extractInfoFromCombatFile(filePath) {
     const gitTimestamp = getGitTimestamp(filePath);
     const lastUpdated = formatLastUpdated(gitTimestamp);
     
-    // 优先使用文件中的版本号，其次使用提交时间，最后使用 SHA
+    // 优先使用文件中的版本号，其次使用提交时间
     const version = versionMatch ? versionMatch[1].trim() : 
-                   (gitTimestamp ? formatTime(gitTimestamp) : 
-                    calculateSHA1(filePath).substring(0, 7));
+                   (gitTimestamp ? formatTime(gitTimestamp) : '');
     
+    const authorString = authorMatch ? authorMatch[1].trim() : '';
     return {
-        author: authorMatch ? authorMatch[1].trim() : '',
+        author: processAuthorInfo(authorString) || '',
+        authors: processDetailedAuthorInfo(authorString),
         description: descriptionMatch ? convertNewlines(descriptionMatch[1].trim()) : '',
         tags: prioritizeVersionTag(filterLongTags(tags)),
         version: version,
@@ -233,12 +348,15 @@ function extractInfoFromJSFolder(folderPath) {
                 if (minVersionTag) {
                     tags.unshift(minVersionTag);
                 }
-            }
-            
+            }            // 处理作者信息
+            const authorString = manifest.authors;
+            const authors = processDetailedAuthorInfo(manifest.authors);
+
             return {
                 version: manifest.version || '',
                 description: convertNewlines(combinedDescription),
-                author: manifest.authors && manifest.authors.length > 0 ? manifest.authors[0].name : '',
+                author: processAuthorInfo(authorString),
+                authors: authors,
                 tags: prioritizeVersionTag(filterLongTags(tags)),
                 lastUpdated: lastUpdated
             };
@@ -271,10 +389,9 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
     const gitTimestamp = getGitTimestamp(filePath);
     const lastUpdated = formatLastUpdated(gitTimestamp);
     
-    // 优先使用文件中的版本号，其次使用提交时间，最后使用 SHA
+    // 优先使用文件中的版本号，其次使用提交时间
     const version = contentObj.info?.version || 
-                   (gitTimestamp ? formatTime(gitTimestamp) : 
-                    calculateSHA1(filePath).substring(0, 7));
+                   (gitTimestamp ? formatTime(gitTimestamp) : '');
     
     // 从父文件夹获取默认标签
     let tags = parentFolders.slice(2)
@@ -293,20 +410,25 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
             tags.unshift(minVersionTag);
         }
     }
-
+    // 区分怪物拾取标识
+    if (contentObj.info && contentObj.info.enable_monster_loot_split) {
+        tags.unshift("区分怪物拾取");
+    }
     if (contentObj.positions && Array.isArray(contentObj.positions)) {
         const actions = contentObj.positions.map(pos => pos.action);
         if (actions.includes('nahida_collect')) tags.push('纳西妲');
         if (actions.includes('hydro_collect')) tags.push('水元素力收集');
         if (actions.includes('anemo_collect')) tags.push('风元素力收集');
         if (actions.includes('electro_collect')) tags.push('雷元素力收集');
+        if (actions.includes('pyro_collect')) tags.push('火元素力收集');
         if (actions.includes('up_down_grab_leaf')) tags.push('四叶印');
         if (actions.includes('mining')) tags.push('挖矿');
         if (actions.includes('fight')) tags.push('战斗');
         if (actions.includes('log_output')) tags.push('有日志');
         if (actions.includes('pick_around')) tags.push('转圈拾取');
         if (actions.includes('fishing')) tags.push('钓鱼');
-        if (actions.includes('set_time')) tag.push('时间调整');
+        if (actions.includes('set_time')) tags.push('时间调整');
+        if (actions.includes('use_gadget')) tags.push('小道具');
         const move_modes = contentObj.positions.map(pos => pos.move_mode);
         if (move_modes.includes('climb')) tags.push("有攀爬");
         
@@ -315,10 +437,12 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
     tags = [...new Set(tags)];
     
     // 过滤掉超过10个字符的标签，并确保版本标签优先
-    tags = prioritizeVersionTag(filterLongTags(tags));
-
+    tags = prioritizeVersionTag(filterLongTags(tags));    // 处理作者信息，优先使用 authors 字段，如果不存在则使用 author 字段
+    const authorData = contentObj.info?.authors || contentObj.info?.author;
+    
     return {
-        author: contentObj.info?.author || '',
+        author: processAuthorInfo(authorData) || '',
+        authors: processDetailedAuthorInfo(authorData),
         description: convertNewlines(contentObj.info?.description || ''),
         version: version,
         tags: tags,
@@ -328,9 +452,9 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
 
 function extractInfoFromTCGFile(filePath, parentFolder) {
     const content = fs.readFileSync(filePath, 'utf8');
-    const authorMatch = content.match(/\/\/\s*作者:(.*)/);
-    const descriptionMatch = content.match(/\/\/\s*描述:(.*)/);
-    const versionMatch = content.match(/\/\/\s*版本:(.*)/);
+    const authorMatch = content.match(/\/\/\s*作者\s*[:：](.*)/);
+    const descriptionMatch = content.match(/\/\/\s*描述\s*[:：](.*)/);
+    const versionMatch = content.match(/\/\/\s*版本\s*[:：](.*)/);
     // 移除最低版本提取，TCG脚本无需最低版本要求
     const characterMatches = content.match(/角色\d+\s?=([^|\r\n{]+)/g);
 
@@ -350,13 +474,11 @@ function extractInfoFromTCGFile(filePath, parentFolder) {
         tags = ['酒馆挑战', ...tags];
     }
     
-    // 优先使用文件中的版本号，其次使用提交时间，最后使用 SHA
+    // 优先使用文件中的版本号，其次使用提交时间
     const version = versionMatch ? versionMatch[1].trim() : 
-                   (gitTimestamp ? formatTime(gitTimestamp) : 
-                    calculateSHA1(filePath).substring(0, 7));
-    
-    return {
-        author: authorMatch ? authorMatch[1].trim() : '',
+                   (gitTimestamp ? formatTime(gitTimestamp) : '');    return {
+        author: processAuthorInfo(authorMatch ? authorMatch[1].trim() : '') || '',
+        authors: processDetailedAuthorInfo(authorMatch ? authorMatch[1].trim() : ''),
         description: descriptionMatch ? convertNewlines(descriptionMatch[1].trim()) : '',
         tags: prioritizeVersionTag(filterLongTags([...new Set(tags)])),  // 去重并过滤长标签
         version: version,
@@ -445,15 +567,14 @@ function generateDirectoryTree(dir, currentDepth = 0, parentFolders = []) {
                 // console.log(`未找到icon.ico的pathing目录: ${relativePath}`);
             }
         }
-
         if (parentFolders[0] === 'js' && currentDepth === 1) {
             // 对于 js 文件夹下的直接子文件夹，不再递归
             const manifestPath = path.join(dir, 'manifest.json');
             if (fs.existsSync(manifestPath)) {
                 const jsInfo = extractInfoFromJSFolder(dir);
-                info.hash = calculateSHA1(manifestPath);
-                info.version = jsInfo.version || info.hash.substring(0, 7);
+                info.version = jsInfo.version || '';
                 info.author = jsInfo.author;
+                info.authors = jsInfo.authors;
                 info.description = jsInfo.description;
                 info.tags = jsInfo.tags;
                 info.lastUpdated = jsInfo.lastUpdated;
@@ -494,9 +615,7 @@ function generateDirectoryTree(dir, currentDepth = 0, parentFolders = []) {
             return null;
         }
 
-        const hash = calculateSHA1(dir);
-        info.hash = hash;
-        info.version = hash.substring(0, 7);
+        info.version = '';
 
         const category = parentFolders[0];
         try {
@@ -580,3 +699,14 @@ const repoJson = {
 
 fs.writeFileSync(repoJsonPath, JSON.stringify(repoJson, null, 2));
 console.log('repo.json 文件已创建并保存在 repo 同级目录中。');
+
+// 创建gzip压缩文件（仅当启用gzip参数时）
+if (enableGzip) {
+    const gzipPath = repoJsonPath + '.gz';
+    const jsonContent = fs.readFileSync(repoJsonPath);
+    const compressedContent = zlib.gzipSync(jsonContent);
+    fs.writeFileSync(gzipPath, compressedContent);
+    console.log('repo.json.gz 压缩文件已创建并保存。');
+} else {
+    console.log('未启用gzip压缩，跳过创建repo.json.gz文件。如需启用，请使用--gzip或-g参数。');
+}

@@ -7,17 +7,16 @@
 
 let scriptContext = {
     scriptStartTime: new Date(),
-    version: "1.0"
+    version: "1.2",
 };
 
 /**
- * 将 Date 对象格式化为 ISO 8601 字符串，包含本地时区（如：2020-09-28T20:20:20.999+08:00）
+ * 将 Date 对象格式化为 ISO 8601 字符串，包含本地时区（如：2020-09-28T20:20:20+08:00）
  * @param {Date} date - 要格式化的日期对象
  * @returns {string} 格式化后的字符串
  */
 function formatDateTime(date) {
     const pad = (n) => n.toString().padStart(2, "0");
-    const padMs = (n) => n.toString().padStart(3, "0");
 
     const year = date.getFullYear();
     const month = pad(date.getMonth() + 1);
@@ -25,7 +24,6 @@ function formatDateTime(date) {
     const hour = pad(date.getHours());
     const minute = pad(date.getMinutes());
     const second = pad(date.getSeconds());
-    const ms = padMs(date.getMilliseconds());
 
     // 获取时区偏移（分钟），转换成±HH:MM
     const offset = -date.getTimezoneOffset();
@@ -33,7 +31,7 @@ function formatDateTime(date) {
     const offsetHour = pad(Math.floor(Math.abs(offset) / 60));
     const offsetMin = pad(Math.abs(offset) % 60);
 
-    return `${year}-${month}-${day}T${hour}:${minute}:${second}.${ms}${sign}${offsetHour}:${offsetMin}`;
+    return `${year}-${month}-${day}T${hour}:${minute}:${second}${sign}${offsetHour}:${offsetMin}`;
 }
 
 /**
@@ -329,9 +327,10 @@ async function switchPartySafely(partyName) {
  *
  * @async
  * @param {*} multiAccount 是否使用OCR区分多个账号（可以传入一个设置项）
+ * @param {boolean} mask 对UID进行掩码，只保留开头和结尾
  * @returns {Promise<string>} 当前账号的UID，如果不区分多账号或OCR失败则返回"默认账号"。
  */
-async function getGameAccount(multiAccount = false) {
+async function getGameAccount(multiAccount = false, mask = true) {
     let account = "默认账号";
     if (!multiAccount) {
         return account;
@@ -352,6 +351,10 @@ async function getGameAccount(multiAccount = false) {
             const match = text.match(/\d+/);
             if (match) {
                 account = match[0];
+                if (mask) {
+                    // 避免完整UID出现在log中造成意外暴露
+                    account = account.replace(/\d*(\d{4})\d{4}/, (match, group1) => match.replace(group1, "xxxx"));
+                }
             }
             break;
         }
@@ -397,7 +400,7 @@ function getScriptName() {
  * @returns {string} - 文件名。
  */
 function basename(filePath) {
-    const lastSlashIndex = filePath.lastIndexOf('\\'); // 或者使用 '/'
+    const lastSlashIndex = filePath.lastIndexOf("\\"); // 或者使用 '/'
     return filePath.substring(lastSlashIndex + 1);
 }
 
@@ -501,11 +504,16 @@ function _fakeLogCore(name, isJs = true, dateIn = null) {
     let logMessage = "";
     let logTime = new Date();
     if (isJs && isStart) {
-        logTime = dateIn;
+        // 传入开始时间是为了在跟踪路径耗时的同时仍然保留对脚本运行时间的统计
+        // 但是如果脚本开始时间和结束时间跨天，就不能使用传入时间，否则会影响日志分析(Seconds cannot be negative)
+        if (logTime.getDay() === dateIn.getDay()) {
+            logTime = dateIn;
+        }
     }
 
-    // 时间部分从第11位开始，长度是12（"20:20:20.999"）
-    const formattedTime = formatDateTime(logTime).slice(11, 23);
+    const ms = logTime.getMilliseconds().toString().padStart(3, "0");
+    // 时间部分从第11位开始，长度是12（"20:20:20"）
+    const formattedTime = formatDateTime(logTime).slice(11, 19) + "." + ms;
 
     if (isStart) {
         logMessage =
@@ -593,4 +601,25 @@ function logFakeScriptEnd({ scriptName = null, startTime = new Date() } = {}) {
         scriptName = scriptContext.scriptName;
     }
     return _fakeLogCore(scriptName, true, startTime);
+}
+
+/**
+ * 等待传送结束
+ * @param {Int} timeout 单位为ms
+ * @note 参考了七圣召唤七日历练脚本
+ */
+async function waitTpFinish(timeout = 30000) {
+    const region = RecognitionObject.ocr(1690, 230, 75, 350); // 队伍名称区域
+    const startTime = Date.now();
+
+    await sleep(500); //点击传送后等待一段时间避免误判
+    while (Date.now() - startTime < timeout) {
+        let res = captureGameRegion().find(region);
+        if (!res.isEmpty()) {
+            await sleep(600); //传送结束后有僵直
+            return;
+        }
+        await sleep(100);
+    }
+    throw new Error("传送时间超时");
 }

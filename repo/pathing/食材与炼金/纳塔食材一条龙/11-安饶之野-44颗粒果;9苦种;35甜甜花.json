@@ -2,7 +2,6 @@
   "info": {
     "name": "11-安饶之野-44颗粒果;9苦种;35甜甜花",
     "type": "collect",
-    "author": "灰林鸮",
     "version": "1.0",
     "description": "请携带盾辅作为生存位",
     "map_name": "Teyvat",
@@ -11,6 +10,12 @@
       "颗粒果",
       "苦种",
       "甜甜花"
+    ],
+    "authors": [
+      {
+        "name": "灰林鸮",
+        "links": "https://github.com/Strix-nivicolum"
+      }
     ]
   },
   "positions": [
@@ -432,7 +437,7 @@
       "id": 47,
       "x": 9282.58,
       "y": -2163.59,
-      "action": "",
+      "action": "force_tp",
       "move_mode": "walk",
       "action_params": "",
       "type": "teleport"

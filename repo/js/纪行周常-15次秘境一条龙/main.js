@@ -1,16 +1,15 @@
 (async function () {
     // 1. 设置游戏分辨率
     setGameMetrics(1920, 1080, 1);
-    log.info("已设置游戏分辨率：1920x1080");
 
     // 2. 返回主界面
     await genshin.returnMainUi();
     log.info("已返回主界面");
 
     // 3. 切换队伍
-    const partyName = settings.partyName || "默认队伍";
-    await genshin.switchParty(partyName);
-    log.info(`已切换至队伍：${partyName}`);
+    if (settings.PartyName) {
+        await genshin.switchParty(settings.partyName);
+    }
 
     // 4. 刷取循环
     const maxAttempts = settings.loopTimes || 15;
@@ -206,4 +205,5 @@
             return false;
         }
     }
+
 })();

@@ -2,10 +2,15 @@
   "info": {
     "name": "枫丹-枫丹廷-香柏木-9个(大循环)",
     "type": "collect",
-    "author": "Tim",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.35.1"
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "Tim",
+        "links": "https://github.com/Limint"
+      }
+    ]
   },
   "positions": [
     {
@@ -13,13 +18,13 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 4701.4755859375,
-      "y": 3959.022216796875
+      "x": 4701.4756,
+      "y": 3959.0222
     },
     {
       "id": 2,
-      "x": 4684.9453125,
-      "y": 3949.1728515625,
+      "x": 4684.9453,
+      "y": 3949.1729,
       "type": "path",
       "move_mode": "walk",
       "action": ""
@@ -27,10 +32,10 @@
     {
       "id": 3,
       "x": 4642.9375,
-      "y": 3907.40185546875,
+      "y": 3907.4019,
       "type": "path",
       "move_mode": "walk",
-      "action": "combat_script",
+      "action": "use_gadget",
       "action_params": "keypress(VK_Z)"
     }
   ]

@@ -2,7 +2,6 @@
   "info": {
     "name": "03-绯樱绣球-绀田村-3个",
     "type": "collect",
-    "author": "起个名字好难",
     "version": "1.0",
     "description": "久歧忍可采集全，引战可能导致雷元素法师漏采集最后1个",
     "bgi_version": "0.42.0",
@@ -10,6 +9,12 @@
       "久岐忍",
       "八重神子",
       "瓦雷莎"
+    ],
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
     ]
   },
   "positions": [
@@ -92,7 +97,7 @@
       "y": -2651.3,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "瓦雷莎 charge,wait(2); 八重神子 charge",
+      "action_params": "瓦雷莎 charge,wait(2);八重神子 charge",
       "type": "target"
     },
     {

@@ -1,0 +1,91 @@
+{
+  "info": {
+    "name": "301稻妻镇守之森（600_1，200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时80秒，包含2只精英与7只小怪，预计收入1083.5摩拉，包含以下怪物：1只打手丘丘人、2只射手丘丘人、2只火箭丘丘人、1只雷斧丘丘暴徒、1只丘丘雷兜王、2只雷丘丘萨满。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4429.9,
+      "y": -2798.51,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -4404.69,
+      "y": -2794.31,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -4371.18,
+      "y": -2820.31,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -4391.32,
+      "y": -2820.65,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -4362.91,
+      "y": -2835.52,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -4348.19,
+      "y": -2840.75,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -4275.03,
+      "y": -2857.22,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -4275.03,
+      "y": -2857.19,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.2)",
+      "type": "orientation"
+    }
+  ]
+}

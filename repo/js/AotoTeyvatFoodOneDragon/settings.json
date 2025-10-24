@@ -1,0 +1,165 @@
+[
+  {
+    "name": "CaiJiPartyName",
+    "type": "input-text",
+    "label": "采集队伍名称"
+  },
+  {
+    "name": "ifMengde",
+    "type": "select",
+    "label": "蒙德-采集模式",
+    "options": [
+      "不采集",
+      "高效＆螃蟹模式",
+      "高效模式",
+      "螃蟹模式",
+      "全跑模式"
+    ]
+  },
+  {
+    "name": "ifLiyue",
+    "type": "select",
+    "label": "璃月-采集模式",
+    "options": [
+      "不采集",
+      "高效＆螃蟹模式",
+      "高效模式",
+      "螃蟹模式",
+      "全跑模式"
+    ]
+  },
+  {
+    "name": "ifDaoqi",
+    "type": "select",
+    "label": "稻妻-采集模式",
+    "options": [
+      "不采集",
+      "高效＆螃蟹模式",
+      "高效模式",
+      "螃蟹模式",
+      "全跑模式"
+    ]
+  },
+  {
+    "name": "ifXumi",
+    "type": "select",
+    "label": "须弥-采集模式",
+    "options": [
+      "不采集",
+      "高效＆螃蟹模式",
+      "高效模式",
+      "螃蟹模式",
+      "全跑模式"
+    ]
+  },
+  {
+    "name": "ifFengdan",
+    "type": "select",
+    "label": "枫丹-采集模式",
+    "options": [
+      "不采集",
+      "高效＆螃蟹模式",
+      "高效模式",
+      "螃蟹模式",
+      "全跑模式"
+    ]
+  },
+  {
+    "name": "ifNata",
+    "type": "select",
+    "label": "纳塔-采集模式",
+    "options": [
+      "不采集",
+      "高效＆螃蟹模式",
+      "高效模式",
+      "螃蟹模式",
+      "全跑模式"
+    ]
+  },
+  {
+    "name": "ifNDKL",
+    "type": "select",
+    "label": "挪德卡莱-采集模式",
+    "options": [
+      "不采集",
+      "高效＆螃蟹模式",
+      "高效模式",
+      "螃蟹模式",
+      "全跑模式"
+    ]
+  },
+  {
+    "name": "ZDYparty",
+    "type": "input-text",
+    "label": "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n自定义文件夹-采集队伍名称"
+  },
+  {
+    "name": "ifMine",
+    "type": "select",
+    "label": "自定义文件夹-采集模式",
+    "options": [
+      "不采集",
+      "全跑模式"
+    ]
+  },
+  {
+    "name": "ifingredientProcessing",
+    "type": "checkbox",
+    "label": "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n运行过程中进行烹饪/加工"
+  },
+  {
+    "name": "ingredientProcessingFood",
+    "type": "input-text",
+    "label": "料理/食材名称\n建议料理和食材分开填写"
+  },
+  {
+    "name": "foodCount",
+    "type": "input-text",
+    "label": "料理/食材数量\n数量对应上方的食材"
+  },
+  {
+    "name": "ifMonthcard",
+    "type": "checkbox",
+    "label": "是否需要点击月卡？\n如果购买了月卡并且预计在四点左右运行此脚本，请务必点击！！！"
+  },
+  {
+    "name": "stove",
+    "type": "select",
+    "label": "选择烹饪炉子",
+    "options": [
+      "蒙德炉子",
+      "璃月炉子"
+    ]
+  },
+  {
+    "name": "ifendTosafe",
+    "type": "checkbox",
+    "label": "运行结束前往指定的神像"
+  },
+  {
+    "name": "ifCheck",
+    "type": "select",
+    "label": "是否查询收益（测试功能）",
+    "options": [
+      "不查询收益",
+      "查询所有收益",
+      "查询食材加工收益"
+    ],
+    "default": "不查询收益"
+  },
+  {
+    "name": "exitTime",
+    "type": "input-text",
+    "label": "不运行的时间\n仅支持单一时间点，支持指定到分钟,请使用24小时制，如：04:00"
+  },
+  {
+    "name": "notify",
+    "type": "checkbox",
+    "label": "是否发送js通知"
+  },
+  {
+    "name": "userName",
+    "type": "input-text",
+    "label": "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n账户名称(选填)"
+  }
+]

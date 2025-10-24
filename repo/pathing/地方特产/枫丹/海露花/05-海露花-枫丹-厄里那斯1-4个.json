@@ -1,0 +1,86 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "寥寥轻舟"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756463679461,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "05-海露花-枫丹-厄里那斯1-4个",
+    "tags": [
+      "芭芭拉"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "hydro_collect",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4705.56,
+      "y": 2951.61
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4678.69,
+      "y": 2902.32
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1);芭芭拉 e;",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4661.21,
+      "y": 2867.72
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2);",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4663.8643,
+      "y": 2863.4543
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2);",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4657.6055,
+      "y": 2855.4426
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2);",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4651.747,
+      "y": 2861.2534
+    },
+    {
+      "action": "combat_script",
+      "action_params": "芭芭拉 charge(0.5),wait(1);",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4650.354,
+      "y": 2867.8601
+    }
+  ]
+}

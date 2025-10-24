@@ -1,0 +1,347 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/non-repeating001",
+        "name": "无限不循环"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758052535120,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B02-萃凝晶-纳塔-回声之子2（战斗-10个)",
+    "tags": [
+      "双手剑"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "fly",
+      "type": "teleport",
+      "x": 7759.3,
+      "y": -1401.42
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7842.35,
+      "y": -1452.32
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7847.79,
+      "y": -1458.91
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7847.79,
+      "y": -1458.91
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7851.61,
+      "y": -1454.42
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7853.49,
+      "y": -1456.84
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7853.49,
+      "y": -1456.84
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7853.04,
+      "y": -1455.46
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7853.63,
+      "y": -1458.53
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7853.63,
+      "y": -1458.53
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7856.96,
+      "y": -1463.31
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7853.1,
+      "y": -1464.61
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7853.1,
+      "y": -1464.61
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "run",
+      "type": "path",
+      "x": 7862.3,
+      "y": -1448.85
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7859.36,
+      "y": -1443.4
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7858.53,
+      "y": -1438.66
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7858.53,
+      "y": -1438.66
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7861.45,
+      "y": -1441.92
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7860.7,
+      "y": -1438.09
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7860.7,
+      "y": -1438.09
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7861.91,
+      "y": -1442.59
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7865.57,
+      "y": -1441.01
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7865.57,
+      "y": -1441.01
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7855.31,
+      "y": -1446.27
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "run",
+      "type": "path",
+      "x": 7877.1,
+      "y": -1457.52
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "run",
+      "type": "path",
+      "x": 7885.93,
+      "y": -1449.32
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 27,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7891.12,
+      "y": -1450.69
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 28,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7891.12,
+      "y": -1450.69
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 29,
+      "move_mode": "run",
+      "type": "path",
+      "x": 7882.28,
+      "y": -1450.48
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 30,
+      "move_mode": "run",
+      "type": "path",
+      "x": 7882.71,
+      "y": -1460.74
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 31,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7887.91,
+      "y": -1461.9
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 32,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7887.91,
+      "y": -1461.9
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 33,
+      "move_mode": "run",
+      "type": "path",
+      "x": 7882.94,
+      "y": -1460.85
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 34,
+      "move_mode": "run",
+      "type": "path",
+      "x": 7881.94,
+      "y": -1462.57
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 35,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7886.99,
+      "y": -1465.49
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 36,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7886.99,
+      "y": -1465.49
+    }
+  ]
+}

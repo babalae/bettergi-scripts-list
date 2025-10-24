@@ -1,0 +1,114 @@
+﻿{
+  "info": {
+    "name": "挂签路线",
+    "bgi_version": "0.45.0",
+    "type": "collect",
+    "order": 0,
+    "tags": [],
+    "enable_monster_loot_split": false,
+    "map_name": "Teyvat",
+    "map_match_method": "",
+    "items": [],
+    "authors": [
+      {
+        "name": "古又",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "挂签",
+    "last_modified_time": 1755446724362
+  },
+  "config": {
+    "realtime_triggers": {
+      "AutoPick": true
+    }
+  },
+  "farming_info": {
+    "allow_farming_count": false,
+    "normal_mob_count": 0,
+    "elite_mob_count": 0,
+    "primary_target": "",
+    "duration_seconds": 0,
+    "elite_details": "",
+    "total_mora": 0
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4417.564453125,
+      "y": -2480.578125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "",
+        "enable_monster_loot_split": false
+      }
+    },
+    {
+      "id": 2,
+      "x": -4414.2421875,
+      "y": -2475.63671875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "",
+        "enable_monster_loot_split": false
+      }
+    },
+    {
+      "id": 3,
+      "x": -4409.728515625,
+      "y": -2478.0390625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "",
+        "enable_monster_loot_split": false
+      }
+    },
+    {
+      "id": 4,
+      "x": -4411.03515625,
+      "y": -2479.69140625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "",
+        "enable_monster_loot_split": false
+      }
+    }
+  ]
+}

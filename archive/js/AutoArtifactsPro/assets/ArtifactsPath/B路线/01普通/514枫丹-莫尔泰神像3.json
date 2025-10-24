@@ -1,0 +1,111 @@
+﻿{
+  "info": {
+    "name": "514枫丹-莫尔泰神像3",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753123547577,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3555.486328125,
+      "y": 3021.65869140625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3579.474609375,
+      "y": 3072.33837890625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3585.40234375,
+      "y": 3071.051025390625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 3592.0390625,
+      "y": 3066.916259765625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3584.7109375,
+      "y": 3015.339111328125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3600.2890625,
+      "y": 3007.707275390625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(w),wait(0.3),dash,wait(1),dash,keyup(w),wait(1)",
+      "type": "orientation"
+    },
+    {
+      "id": 7,
+      "x": 3600.857421875,
+      "y": 3007.4482421875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3606.48046875,
+      "y": 3019.11279296875,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 3604.7421875,
+      "y": 3021.3291015625,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "attack(0.08),keydown(w),wait(0.1),j,keypress(f),wait(0.2),keyup(w),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),j",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 3605.359375,
+      "y": 3024.743408203125,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.8);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "target"
+    }
+  ]
+}

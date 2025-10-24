@@ -1,0 +1,146 @@
+{
+  "info": {
+    "name": "13-冰雾花花朵-璃月-青墟浦-7个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "tags": [
+      "胡桃"
+    ],
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1128.47,
+      "y": -984.34,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1200.59,
+      "y": -951.94,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1362.34,
+      "y": -899.85,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 1364.55,
+      "y": -904.2,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 1367.64,
+      "y": -915.19,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 1363.04,
+      "y": -913.7,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 1359.76,
+      "y": -912.72,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 710.75,
+      "y": -772.41,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 778.32,
+      "y": -777.87,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 815.0,
+      "y": -780.64,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 889.87,
+      "y": -759.36,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 897.1,
+      "y": -754.1,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 897.66,
+      "y": -753.22,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 902.25,
+      "y": -755.56,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    }
+  ]
+}

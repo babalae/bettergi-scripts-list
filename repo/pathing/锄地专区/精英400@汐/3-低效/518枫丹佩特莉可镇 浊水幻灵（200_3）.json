@@ -1,0 +1,45 @@
+{
+  "info": {
+    "name": "518枫丹佩特莉可镇 浊水幻灵（200_3）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "3浊水幻灵  路线信息：该路线预计用时54秒，包含103只精英，预计收入20600摩拉，包含以下怪物：2只浊水粉碎幻灵、1只浊水喷吐幻灵、70只秘源机兵·构型械。",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4200.3,
+      "y": 1283.64,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4211.5,
+      "y": 1277.04,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4243.44,
+      "y": 1323.05,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

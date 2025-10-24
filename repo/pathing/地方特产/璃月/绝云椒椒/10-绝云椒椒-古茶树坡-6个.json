@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "10-绝云椒椒-古茶树坡-6个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755569253570,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1691.585,
+      "y": 1829.5757,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1692.8252,
+      "y": 1798.8105,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1682.3184,
+      "y": 1765.4834,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(T)",
+      "type": "orientation"
+    },
+    {
+      "id": 4,
+      "x": 1694.5635,
+      "y": 1719.3418,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack,wait(2),attack",
+      "type": "orientation"
+    },
+    {
+      "id": 5,
+      "x": 1695.8799,
+      "y": 1715.9429,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 1696.0156,
+      "y": 1714.936,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 1694.5605,
+      "y": 1712.2109,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

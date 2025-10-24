@@ -2,120 +2,113 @@
   "info": {
     "name": "无人注意的盖伊-2",
     "type": "collect",
-    "author": "星野工具箱",
+    "author": "云闲vsv",
     "version": "1.0",
-    "description": "自动地图追踪录制",
+    "description": "无人注意的盖伊-2",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1750999128729
   },
   "positions": [
     {
       "id": 1,
-      "x": -201.19921875,
-      "y": 1861.84228515625,
-      "action": "",
+      "x": -578.8310546875,
+      "y": 1853.5126953125,
+      "type": "teleport",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 2,
-      "x": -213.0185546875,
-      "y": 1857.92431640625,
+      "x": -562.353515625,
+      "y": 1844.78369140625,
+      "type": "path",
+      "move_mode": "walk",
       "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 3,
-      "x": -239.51171875,
-      "y": 1855.09033203125,
+      "x": -503.349609375,
+      "y": 1819.1318359375,
+      "type": "path",
+      "move_mode": "run",
       "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 4,
-      "x": -257.6923828125,
-      "y": 1849.74853515625,
+      "x": -497.7810494170153,
+      "y": 1816.5,
+      "type": "path",
+      "move_mode": "fly",
       "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 5,
-      "x": -280.009765625,
-      "y": 1834.9599609375,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "x": -453.03125,
+      "y": 1803.64892578125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
     },
     {
       "id": 6,
-      "x": -302.1923828125,
-      "y": 1822.767578125,
+      "x": -394.595703125,
+      "y": 1817.10009765625,
+      "type": "path",
+      "move_mode": "walk",
       "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 7,
-      "x": -323.177734375,
-      "y": 1812.3212890625,
-      "action": "",
+      "x": -390.4599609375,
+      "y": 1817.53857421875,
+      "type": "path",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action": "",
+      "action_params": ""
     },
     {
       "id": 8,
-      "x": -343.8857421875,
-      "y": 1799.869140625,
+      "x": -376.1767578125,
+      "y": 1797.5185546875,
+      "type": "path",
+      "move_mode": "walk",
       "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 9,
-      "x": -357.9912109375,
-      "y": 1781.021484375,
+      "x": -373.7099609375,
+      "y": 1793.98388671875,
+      "type": "path",
+      "move_mode": "walk",
       "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 10,
-      "x": -375.2802734375,
-      "y": 1788.62939453125,
+      "x": -374.74609375,
+      "y": 1792.2900390625,
+      "type": "path",
+      "move_mode": "walk",
       "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "action_params": ""
     },
     {
       "id": 11,
-      "x": -375.9599609375,
-      "y": 1788.95947265625,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 12,
-      "x": -375.203125,
-      "y": 1789.3525390625,
-      "action": "",
+      "x": -376.0537109375,
+      "y": 1790.169921875,
+      "type": "target",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "action": "",
+      "action_params": ""
     }
   ]
 }

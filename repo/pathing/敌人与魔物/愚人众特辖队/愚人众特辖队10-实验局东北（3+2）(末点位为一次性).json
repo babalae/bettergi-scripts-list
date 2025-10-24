@@ -1,0 +1,92 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/evildoer12138",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757857476793,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "愚人众特辖队10-实验局东北（3+2）(末点位为一次性)",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9597.5262,
+      "y": 3389.4826
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9512.0745,
+      "y": 3408.9781
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9490.9996,
+      "y": 3427.4999
+    },
+    {
+      "id": 4,
+      "x": 9536.752,
+      "y": 3400.4979,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9606.0009,
+      "y": 3403.2501
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9671.4977,
+      "y": 3389.9996
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9698.5009,
+      "y": 3385.0001
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9730.5003,
+      "y": 3434.2505
+    }
+  ]
+}
