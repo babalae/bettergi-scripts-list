@@ -1,7 +1,7 @@
 (async function () {
 
     //初始化配置======================================================================================
-    var BH = typeof settings.BH === 'string' && settings.BH.trim() !== '' ? settings.BH : "assets/bh.png";
+    var MATERIAL = typeof settings.MATERIAL === 'string' && settings.MATERIAL.trim() !== '' ? settings.MATERIAL : "assets/bh.png";
     var ZHIBIANYI = typeof settings.ZHIBIANY === 'string' && settings.ZHIBIANYI.trim() !== '' ? settings.ZHIBIANYI : "assets/zhibian.png";
     var actiontime = settings.actiontime != undefined && ~~settings.actiontime > 0 ? ~~settings.actiontime : 50;
     var CHA = "assets/cha.png"
@@ -126,7 +126,7 @@ async function deployTransformer(){
 
 
 /**======================================================================================
- * 游戏内“参量质变仪”的放入薄荷交互流程
+ * 游戏内“参量质变仪”的放入材料交互流程
  */
 async function insertMaterial(){
 
@@ -165,12 +165,12 @@ async function insertMaterial(){
     await leftButtonDown();
     await sleep(100);
     await moveMouseTo(1287,161);
-    // 薄荷图片检测
+    // 质变材料图片检测
     let YOffset = 0; // Y轴偏移量，根据需要调整
     const maxRetries = 20; // 最大重试次数
     let retries = 0; // 当前重试次数
     while (retries < maxRetries) {
-        await imageRecognition(BH, 1, 0, 0);
+        await imageRecognition(MATERIAL, 1, 0, 0);
         if (result.found) {
             await leftButtonUp();
             await sleep(500);
@@ -245,12 +245,12 @@ async function executeAttack(){
 //开始执行质变仪流程============================================
     try {
         if ((await deployTransformer())) {//部署质变仪流程
-            log.info("部署成功，准备放入薄荷！！");
+            log.info("部署成功，准备放入材料(默认薄荷)！！");
         }
-        if ((!await insertMaterial())) {//放入薄荷并开始质变流程
+        if ((!await insertMaterial())) {//放入材料并开始质变流程
             log.info("未找到布置的质变仪，可能已经放入材料，尝试进行攻击流程！！"); 
         }else{
-            log.info("放入薄荷完成，开始质变！！"); 
+            log.info("放入材料完成，开始质变！！"); 
         }
         if ((await executeAttack())) {//芭芭拉攻击指令流程
             log.info("质变执行完成，结束！！");
