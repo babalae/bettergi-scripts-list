@@ -6,13 +6,13 @@
         "name": "鸿羽er"
       }
     ],
-    "bgi_version": "0.50.0",
+    "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1757916329956,
+    "last_modified_time": 1757910174158,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "霜夜灵嗣08-克拉蒂之眼（1）",
+    "name": "霜夜灵嗣02-希汐岛南（1）",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,26 +24,31 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 8841.9951,
-      "y": 2193.1661
+      "x": 10551.991,
+      "y": 1761.2268
     },
     {
-      "action": "",
-      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10577.0002,
+      "y": 1795.9823
+    },
+    {
+      "id": 3,
       "move_mode": "run",
       "type": "path",
-      "x": 8729.75,
-      "y": 2154.7495
+      "x": 10599.2504,
+      "y": 1753.2528
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 3,
-      "move_mode": "walk",
+      "id": 4,
+      "move_mode": "run",
       "type": "path",
-      "x": 8730.0001,
-      "y": 2145.9977
+      "x": 10587.25,
+      "y": 1734.2476
     }
   ]
 }
