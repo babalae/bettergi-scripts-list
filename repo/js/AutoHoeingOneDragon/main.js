@@ -1,5 +1,7 @@
 //当前js版本1.9.3
 
+eval(file.readTextSync("repo/js/AutoHoeingOneDragon/lib/goodtool.js"));
+
 let timeMoveUp;
 let timeMoveDown;
 let pickup_Mode = settings.pickup_Mode || "模板匹配拾取，拾取狗粮和怪物材料";
@@ -24,7 +26,7 @@ let warnMessage = [];
 let blacklist = [];
 let blacklistSet = new Set();
 let state;
-const accountName = settings.accountName || "默认账户";
+const accountName = myuid || settings.accountName || "默认账户";
 let pathings;
 
 (async function () {
