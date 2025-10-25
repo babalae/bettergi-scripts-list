@@ -186,10 +186,10 @@ function get_some_tasks(hints) {
         if (value.tags.some(i => exclude_tags.has(i))) {
             continue;
         }
-        if (value.statistics.avg_num_defeats > 0.1) {
+        if (value.statistics.avg_num_defeats > 0.5) {
             continue;
         }
-        if (value.statistics.avg_abnormal_exits > 0.1) {
+        if (value.statistics.avg_abnormal_exits > 0.5) {
             continue;
         }
         if (!filename_to_path_map.hasOwnProperty(key)) {
@@ -529,14 +529,14 @@ async function main() {
             }
             if (Date.now() - last_log_progress_time > 30000) {
                 last_log_progress_time = Date.now();
-                if (target_yield !== null) {
+                {
                     const estimated_prompt = estimated_yield === accurate_yield ? "" : "（预计）";
-                    log.info(`当前产出${estimated_prompt}：${Math.round(estimated_yield)}/${target_yield}个`);
-                }
-                if (run_until_unix_time !== null) {
-                    const running_minutes = ((Date.now() - start_time) / 1000 / 60).toFixed(2);
-                    const total_minutes = Math.round((run_until_unix_time - start_time) / 60 / 1000);
-                    log.info(`当前运行时间：${running_minutes}/${total_minutes}分钟`);
+                    const target_yield_prompt = target_yield === null ? "" : `/${target_yield}`;
+                    log.info(`当前产出${estimated_prompt}：${Math.round(estimated_yield)}${target_yield_prompt}个`);
+                } {
+                    const running_minutes = ((Date.now() - start_time) / 1000 / 60).toFixed(1);
+                    const total_minutes_prompt = run_until_unix_time === null ? "" : `/${Math.round((run_until_unix_time - start_time) / 60 / 1000)}`;
+                    log.info(`当前运行时间：${running_minutes}${total_minutes_prompt}分钟`);
                 }
             }
         }
