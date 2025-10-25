@@ -45,6 +45,6 @@ function getUidFromCover() {
         log.error(`获取 UID 时发生错误: ${error}`);
     }
 }
-const myuid = getUidFromCover()
+var myuid = getUidFromCover()
 log.info(`识别结果myuid: ${myuid}`);
 
