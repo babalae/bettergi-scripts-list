@@ -1,0 +1,64 @@
+[
+  {
+    "name": "monsterName",
+    "type": "select",
+    "label": "周本Boss名称",
+    "options": [
+      "北风狼",
+      "风魔龙",
+      "公子",
+      "若陀龙王",
+      "女士",
+      "雷神",
+      "散兵",
+      "阿佩普",
+      "吞星之鲸",
+      "仆人",
+      "源焰之主",   
+      "门扉前的弈局"
+    ]
+  },
+  {
+    "name": "challengeTime",
+    "type": "input-text",
+    "label": "请输入战斗脚本一轮所运行的时间"
+  },
+  {
+    "name": "teamName",
+    "type": "input-text",
+    "label": "请输入挑战队伍名称"
+  },
+  {
+    "name": "foodName",
+    "type": "input-text",
+    "label": "请输入料理名称，多食物用法(攻击-药剂-防御)"
+  },
+  {
+    "name": "resurgenceFoodName",
+    "type": "input-text",
+    "label": "请输入复活料理名称 "
+  },
+  {
+    "name": "recoveryFoodName",
+    "type": "input-text",
+    "label": "请输入回血料理名称 "
+  },
+  {
+    "name": "energyMax",
+    "type": "checkbox",
+    "label": "挑战前是否恢复满能量",
+    "default": false
+  },
+  {
+    "name": "fightMode",
+    "type": "checkbox",
+    "label": "战斗模式(忽略刷新周期和体力值)",
+    "default": false
+  },
+  {
+    "name": "unfairContractTerms",
+    "type": "checkbox",
+    "label": "签署霸王条款开启使用，出了事跟作者无关",
+    "default": false
+  }
+]

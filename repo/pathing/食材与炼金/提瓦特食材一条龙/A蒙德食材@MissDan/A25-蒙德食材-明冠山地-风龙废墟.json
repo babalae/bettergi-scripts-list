@@ -1,0 +1,319 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759130882046,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A25-蒙德食材-明冠山地-风龙废墟",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 177.4814,
+      "y": 2647.4077
+    },
+    {
+      "id": 2,
+      "action": "",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 179.4121,
+      "y": 2646.8828
+    },
+    {
+      "id": 3,
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 178.3926,
+      "y": 2639.6182
+    },
+    {
+      "id": 4,
+      "action": "stop_flying",
+      "action_params": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 175.126,
+      "y": 2630.2759
+    },
+    {
+      "id": 5,
+      "action": "",
+      "action_params": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 175.1738,
+      "y": 2617.9663
+    },
+    {
+      "id": 6,
+      "action": "",
+      "action_params": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 172.0137,
+      "y": 2623.9556
+    },
+    {
+      "id": 7,
+      "action": "",
+      "action_params": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 182.3633,
+      "y": 2630.9219
+    },
+    {
+      "id": 8,
+      "action": "",
+      "action_params": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 182.123,
+      "y": 2638.1221
+    },
+    {
+      "id": 9,
+      "action": "",
+      "action_params": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 193.2139,
+      "y": 2656.0464
+    },
+    {
+      "id": 10,
+      "action": "",
+      "action_params": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 183.9014,
+      "y": 2666.2273
+    },
+    {
+      "id": 11,
+      "action": "",
+      "action_params": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 182.1064,
+      "y": 2667.0166
+    },
+    {
+      "id": 12,
+      "action": "",
+      "action_params": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 188.1348,
+      "y": 2679.2427
+    },
+    {
+      "id": 13,
+      "action": "",
+      "action_params": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 162.6621,
+      "y": 2690.2949
+    },
+    {
+      "id": 14,
+      "action": "",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 161.9121,
+      "y": 2696.2886
+    },
+    {
+      "id": 15,
+      "action": "",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 160.4971,
+      "y": 2693.6118
+    },
+    {
+      "id": 16,
+      "action": "",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 158.2217,
+      "y": 2693.4741
+    },
+    {
+      "id": 17,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 141.499,
+      "y": 2700.3208
+    },
+    {
+      "id": 18,
+      "action": "",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 134.9502,
+      "y": 2705.6689
+    },
+    {
+      "id": 19,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 124.8447,
+      "y": 2708.032
+    },
+    {
+      "id": 20,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 106.7988,
+      "y": 2707.6768
+    },
+    {
+      "id": 21,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 89.7969,
+      "y": 2693.0054
+    },
+    {
+      "id": 22,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 85.7109,
+      "y": 2680.5967
+    },
+    {
+      "id": 23,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 78.6289,
+      "y": 2669.9458
+    },
+    {
+      "id": 24,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 78.0322,
+      "y": 2652.2139
+    },
+    {
+      "id": 25,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 71.8076,
+      "y": 2645.4114
+    },
+    {
+      "id": 26,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 83.0947,
+      "y": 2643.1821
+    },
+    {
+      "id": 27,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 86.9258,
+      "y": 2623.7446
+    },
+    {
+      "id": 28,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 93.7793,
+      "y": 2609.5703
+    },
+    {
+      "id": 29,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 98.9434,
+      "y": 2613.1001
+    },
+    {
+      "id": 30,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 110.3574,
+      "y": 2605.8892
+    },
+    {
+      "id": 31,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 110.8281,
+      "y": 2598.5996
+    },
+    {
+      "id": 32,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 125.4473,
+      "y": 2599.8413
+    },
+    {
+      "id": 33,
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "move_mode": "dash",
+      "type": "target",
+      "x": 154.209,
+      "y": 2595.3555
+    }
+  ]
+}

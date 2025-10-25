@@ -1,0 +1,86 @@
+{
+  "info": {
+    "name": "来自冬天的故事-蒙德城-2",
+    "type": "collect",
+    "author": "11",
+    "version": "1.0",
+    "description": "来自冬天的故事-蒙德城-2",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -440.087890625,
+      "y": 2580.825927734375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -425.099609375,
+      "y": 2606.6396484375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -412.650390625,
+      "y": 2626.730224609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -403.421875,
+      "y": 2645.058349609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -390.1240234375,
+      "y": 2660.5556640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -383.4921875,
+      "y": 2663.75244140625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -354.1005859375,
+      "y": 2687.262451171875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": -354.1005859375,
+      "y": 2687.262451171875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

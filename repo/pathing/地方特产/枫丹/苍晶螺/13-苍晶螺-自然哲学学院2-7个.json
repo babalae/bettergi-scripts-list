@@ -1,0 +1,157 @@
+{
+  "info": {
+    "name": "13-苍晶螺-自然哲学学院2-7个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.47.2",
+    "tags": [],
+    "last_modified_time": 1754405460429,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4181.4409,
+      "y": 3279.0427,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4185.4038,
+      "y": 3330.8325,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4167.6978,
+      "y": 3332.4746,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4161.0625,
+      "y": 3332.9253,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(2.5),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+    },
+    {
+      "id": 5,
+      "x": 4151.1318,
+      "y": 3337.8049,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 4153.9653,
+      "y": 3318.5625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_SPACE),wait(1),keyup(VK_SPACE),wait(1),keypress(VK_MBUTTON)",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 4147.3447,
+      "y": 3301.9277,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 4242.4014,
+      "y": 3118.7151,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 9,
+      "x": 4278.9385,
+      "y": 3146.9138,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_SPACE),wait(8),keyup(VK_SPACE),wait(1),keypress(VK_MBUTTON)",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 4279.8457,
+      "y": 3146.4299,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL),wait(1.5),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 4322.3315,
+      "y": 3150.6851,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL),wait(4),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 4301.4614,
+      "y": 3151.0088,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 4308.0093,
+      "y": 3135.5376,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 4306.7036,
+      "y": 3135.7996,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 4315.5859,
+      "y": 3142.3794,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "type": "target"
+    }
+  ]
+}

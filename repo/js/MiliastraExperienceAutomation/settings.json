@@ -1,0 +1,38 @@
+[
+  {
+    "type": "checkbox",
+    "name": "goToTeyvat",
+    "label": "完成后返回提瓦特大陆",
+    "default": true
+  },
+  {
+    "type": "input-text",
+    "name": "room",
+    "label": "奇域关卡关键词或关卡GUID",
+    "default": "7015200164"
+  },
+  {
+    "type": "checkbox",
+    "name": "force",
+    "label": "忽略本周经验值已达上限",
+    "default": false
+  },
+  {
+    "type": "input-text",
+    "name": "thisAttempts",
+    "label": "指定通关次数",
+    "default": ""
+  },
+  {
+    "type": "input-text",
+    "name": "expWeeklyLimit",
+    "label": "每周可获取的经验值上限",
+    "default": "5000"
+  },
+  {
+    "type": "input-text",
+    "name": "expPerAttempt",
+    "label": "每次通关获取的经验值数量",
+    "default": "20"
+  }
+]

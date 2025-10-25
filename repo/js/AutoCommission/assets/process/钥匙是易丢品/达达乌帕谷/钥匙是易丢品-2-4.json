@@ -1,0 +1,76 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "云闲vsv"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758425996514,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "钥匙是易丢品-2-4",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1452.447265625,
+      "y": 1260.287109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1456.880859375,
+      "y": 1268.787109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -1446.9373236923639,
+      "y": 1274.405607523182
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1442.19140625,
+      "y": 1275.2490234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1.5),w(0.1),wait(0.3),keypress(F)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1438.751953125,
+      "y": 1275.0751953125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1438.234375,
+      "y": 1275.48193359375
+    }
+  ]
+}

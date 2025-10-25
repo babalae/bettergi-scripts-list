@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "04-鬼兜虫-荒海-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4217.95,
+      "y": -2397.82,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4214.59,
+      "y": -2462.4,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1500"
+    },
+    {
+      "id": 3,
+      "x": -4219.39,
+      "y": -2461.72,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

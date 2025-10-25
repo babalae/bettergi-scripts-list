@@ -1,0 +1,112 @@
+{
+    "info": {
+        "name": "渊下宫-垂钓点-蛇心之地北",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "地区: 渊下宫\n类型: 垂钓点\n详细位置: 蛇心之地北\n鱼类: 擒霞客、赤魔王、佛玛洛鳐、迪芙妲鳐\n饵类: 果酿饵、赤糜饵、飞蝇假饵\n附加信息: 战斗",
+        "map_name": "Enkanomiya",
+        "bgi_version": "0.45.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": 449.603,
+            "y": -122.144,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": 457.674,
+            "y": -122.943,
+            "action": "",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": 526.159,
+            "y": -122.198,
+            "action": "",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": 509.609,
+            "y": -122.332,
+            "action": "combat_script",
+            "move_mode": "fly",
+            "action_params": "keypress(space),wait(2),attack(0.1),wait(1)",
+            "type": "path"
+        },
+        {
+            "id": 5,
+            "x": 433.06,
+            "y": -124.77,
+            "action": "",
+            "move_mode": "run",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 6,
+            "x": 424.593,
+            "y": -125.994,
+            "action": "",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 7,
+            "x": 415.059,
+            "y": -132.12,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 8,
+            "x": 399.839,
+            "y": -130.368,
+            "action": "",
+            "move_mode": "run",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 9,
+            "x": 361.897,
+            "y": -145.638,
+            "action": "fight",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 10,
+            "x": 359.386,
+            "y": -147.161,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 11,
+            "x": 365.236,
+            "y": -151.347,
+            "action": "combat_script",
+            "move_mode": "walk",
+            "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+            "type": "target"
+        }
+    ]
+}

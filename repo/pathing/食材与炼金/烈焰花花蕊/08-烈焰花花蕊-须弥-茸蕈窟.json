@@ -1,0 +1,34 @@
+{
+  "info": {
+    "name": "08-烈焰花花蕊-须弥-茸蕈窟",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "ran"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3021.04,
+      "y": -94.99,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3021.4,
+      "y": -88.76,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "hydro_collect",
+      "action_params": ""
+    }
+  ]
+}

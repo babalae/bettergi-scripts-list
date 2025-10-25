@@ -1,0 +1,80 @@
+{
+  "info": {
+    "name": "稻妻-骗骗花-海祇岛珊瑚宫西-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-1个\n稻妻-海祇岛珊瑚宫西\n经由Economy优化交互触发",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -761.03,
+      "y": -3799.8,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -757.36,
+      "y": -3794.37,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -733.3,
+      "y": -3750.52,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -716.4,
+      "y": -3737.07,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -680.67,
+      "y": -3768.89,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -680.67,
+      "y": -3768.89,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash"
+    },
+    {
+      "id": 7,
+      "x": -680.67,
+      "y": -3768.89,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

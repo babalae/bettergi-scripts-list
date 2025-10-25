@@ -1,0 +1,83 @@
+{
+  "info": {
+    "name": "3608稻妻大日御舆西（出发点转动超时）",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 285.16,
+      "y": 277.25,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 281.77,
+      "y": 267.94,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 293.42,
+      "y": 228.66,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 304.71,
+      "y": 195.31,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 307.19,
+      "y": 180.68,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 303.62,
+      "y": 150.8,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 303.62,
+      "y": 150.8,
+      "type": "orientation",
+      "move_mode": "jump",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}
