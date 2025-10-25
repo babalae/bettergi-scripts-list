@@ -245,9 +245,10 @@
     // 调用BGI任务读取背包中的木材数量并返回
     async function woodInventory(woodsArray, numbersArray) {
         log.info("先别急，先别动键盘鼠标，要去一个神秘的地方")
-        await pathingScript.runFile('assets/AutoPath/背包木材检测专用.json');
-        moveMouseBy(0, -114514);
-        moveMouseBy(0, -1919810);
+        await genshin.Tp(1581.11, -112.45, "Enkanomiya", true);
+        await moveMouseBy(0, -114514);
+        await moveMouseBy(0, -1919810);
+        await sleep(1000);
         if (woodsArray.length === 0) {
             var resultDict = await dispatcher.runTask(new SoloTask("CountInventoryItem", { "gridScreenName": "Materials", "itemNames": woodType }));
         } else {
@@ -446,13 +447,13 @@
     let numbersArray = settings.numbers ? settings.numbers.split(/\s+/).map(Number).map(num => isNaN(num) ? 0 : num) : [];
     let hasItto = settings.hasItto ? settings.hasItto : false;
     let theBoonOfTheElderTreeStatus = settings.theBoonOfTheElderTree ? await theElderTree() : true;
-
-    // 判断是否开启背包检测，如果未开启或识别失败，则使用设置填入的数据或默认数据
-    const [woodsInventory, woodCountInventory] = settings.woodInventory ? await woodInventory(woodsArray, numbersArray) : [woodsArray, numbersArray];
-
-    mapWoodsToNumbers(woodsInventory, woodCountInventory, hasItto);
-    // mapWoodsToNumbers(woodsArray, numbersArray, hasItto);
+    // 判断是否装备王树瑞佑，如果未装备则跳过伐木
     if (theBoonOfTheElderTreeStatus) {
+        // 判断是否开启背包检测，如果未开启或识别失败，则使用设置填入的数据或默认数据
+        let [woodsInventory, woodCountInventory] = settings.woodInventory ? await woodInventory(woodsArray, numbersArray) : [woodsArray, numbersArray];
+
+        // 将识别到的木材种类和所需数量转换为映射表，并计算需要砍伐的次数
+        mapWoodsToNumbers(woodsInventory, woodCountInventory, hasItto);
         log.info('自动伐木开始...');
         await woodCutting();
     } else {
