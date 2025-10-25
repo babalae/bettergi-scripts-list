@@ -516,21 +516,6 @@
         return now >= cdTime;
     }
 
-    // 获取当前账户id
-    async function getCurrentUsername() {
-        await genshin.returnMainUi();
-        const texts = await textOCR("", 0.3, 0, 2, 1751, 1050, 115, 25);
-        if (result.found) {
-            log.debug("当前用户:" + texts.text);
-            await genshin.returnMainUi();
-            return texts.text;
-        }
-        log.info("未找到用户名");
-        await genshin.returnMainUi();
-
-        return null;
-    }
-
     // 自动战斗函数
     async function autoFight(timeout) {
         const cts = new CancellationTokenSource();
@@ -1151,7 +1136,7 @@
 
     TEAM = settings.TEAMname;
 
-    const username = await getCurrentUsername();
+    const username = settings.username || "默认账户";
     const cdRecordPath = `record/${username}_cd.txt`;// 修改CD记录文件路径，包含用户名
 
     //设置分辨率和缩放
