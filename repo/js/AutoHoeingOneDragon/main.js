@@ -526,7 +526,7 @@ async function runPath(fullPath, map_name) {
     }
 
     /* ===== 2. 重排 targetItems：当前路线拾取过的提前 ===== */
-    if (currentPathing && currentPathing.items && currentPathing.items.length) {
+    if (targetItems && currentPathing && currentPathing.items && currentPathing.items.length) {
         // 用对象当 Set 做 O(1) 查询
         const history = {};
         for (let i = 0; i < currentPathing.items.length; i++) {
