@@ -186,10 +186,10 @@ function get_some_tasks(hints) {
         if (value.tags.some(i => exclude_tags.has(i))) {
             continue;
         }
-        if (value.statistics.avg_num_defeats > 0.1) {
+        if (value.statistics.avg_num_defeats > 0.5) {
             continue;
         }
-        if (value.statistics.avg_abnormal_exits > 0.1) {
+        if (value.statistics.avg_abnormal_exits > 0.5) {
             continue;
         }
         if (!filename_to_path_map.hasOwnProperty(key)) {
