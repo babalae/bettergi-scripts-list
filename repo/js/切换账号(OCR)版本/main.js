@@ -18,7 +18,7 @@ const out_account = {
     name: "out_account.png"
 };
 const login_other_account = {
-    template:RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/login_other_account.png")),
+    template:RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/login_other_account_1.png")),
     name: "login_other_account.png"
 };
 const input_phone_or_email = {
@@ -53,6 +53,7 @@ async function matchImgAndClick(obj, desc, timeout = 8000) {
     let status = false; // 用于记录是否匹配成功
     try {
         while (Date.now() - start < timeout && !status) {
+            await sleep(300);
             let result = captureGameRegion().Find(obj.template);
             await sleep(500); // 短暂延迟，避免过快循环
             if (result.isExist()) {
@@ -61,7 +62,7 @@ async function matchImgAndClick(obj, desc, timeout = 8000) {
                 status = true; // 设置匹配成功状态
                 return {success: true, x: clickResult.x, y: clickResult.y};
             }
-            await sleep(200); // 短暂延迟，避免过快循环
+            // await sleep(200); // 短暂延迟，避免过快循环
             log.info(`【IMG】第${retryCount++}次识别并点击 ${desc} 失败 | 耗时: ${Date.now() - start}ms`);
         }
     } catch (error) {
@@ -107,10 +108,21 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
 
     setGameMetrics(1920, 1080, 1);
     // 如果切换账号是第一个脚本，则有可能出现月卡选项
-    await genshin.blessingOfTheWelkinMoon();
-    await sleep(1000);
-    await genshin.blessingOfTheWelkinMoon();
-    await sleep(1000);
+    //防止genshin.blessingOfTheWelkinMoon();方法失效，先使用物理点击。
+    try {
+        keyDown("VK_MENU");
+        await sleep(500);
+        for(let i = 0; i<=4; i++){
+            await click(genshin.width / 2.0, genshin.height * 0.8);
+            await sleep(1000);
+        }
+    }finally {
+        keyUp("VK_MENU");
+    }
+    //await genshin.blessingOfTheWelkinMoon();
+    //await sleep(1000);
+    //await genshin.blessingOfTheWelkinMoon();
+    //await sleep(1000);
     await genshin.returnMainUi();
 
     await keyPress("VK_ESCAPE");
@@ -151,20 +163,33 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
          */
         await sleep(8000);
         await recognizeTextAndClick("点击进入", RecognitionObject.Ocr(862, 966, 206, 104), 960, 540, 5000);
-        await sleep(12000);
+        await sleep(15000);
 
         //可能登录账号的时候出现月卡提醒，则先点击一次月卡。
-        await genshin.blessingOfTheWelkinMoon();
-        await sleep(1000);
-        await genshin.blessingOfTheWelkinMoon();
+        //await genshin.blessingOfTheWelkinMoon();
+        //await sleep(1000);
+        //await genshin.blessingOfTheWelkinMoon();
+        //await sleep(1000);
+        //防止genshin.blessingOfTheWelkinMoon();方法失效，先使用物理点击。
+        await sleep(2000);
+        keyDown("VK_MENU");
+        await sleep(500);
+        for(let i = 0; i<=4; i++){
+            await click(genshin.width / 2.0, genshin.height * 0.8);
+            await sleep(1000);
+        }
+        //keyUp("VK_MENU");
+        await genshin.returnMainUi();
         await sleep(1000);
         // 如果配置了通知
-        notification.send("【UID：" + settings.UID + "】切换成功");
+        notification.send("账号【" + settings.UID + "】切换成功");
     }catch (error) {
         log.error(`${script_name}脚本执行过程中发生错误：${error.message}`);
         //如果发生错误，则发送通知
         notification.error(`${script_name}脚本执行过程中发生错误：${error.message}`);
         throw new Error(`${script_name}脚本执行过程中发生错误：${error.message}`);
+    }finally {
+                keyUp("VK_MENU");
     }
 
 })();
