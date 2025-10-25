@@ -1,6 +1,6 @@
 //当前js版本1.9.3
 
-eval(file.readTextSync("repo/js/AutoHoeingOneDragon/lib/goodtool.js"));
+eval(file.readTextSync("./lib/goodtool.js"));
 
 let timeMoveUp;
 let timeMoveDown;
