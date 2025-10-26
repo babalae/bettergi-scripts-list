@@ -8,7 +8,7 @@
   {
     "type": "input-text",
     "name": "room",
-    "label": "奇域关卡关键词或关卡GUID",
+    "label": "奇域关卡关键词或关卡GUID\n（支持多个id，用中文或英文逗号隔开）",
     "default": "7070702264"
   },
   {
@@ -21,7 +21,7 @@
     "type": "input-text",
     "name": "thisAttempts",
     "label": "指定通关次数",
-    "default": ""
+    "default": "0"
   },
   {
     "type": "input-text",
