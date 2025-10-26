@@ -577,8 +577,7 @@ function sortAndFilterStrategy(charName) {
     }
     const sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);   // 分数从大到小
     log.debug(`各策略胜率分数: ${JSON.stringify(sortedScores)}`);
-    const sortedKeys = Object.entries(sortedScores)
-        .filter((entry) => entry[1] >= minFallbackStrategyScore);
+    const sortedKeys = sortedScores.filter((entry) => entry[1] >= minFallbackStrategyScore).map((entry) => entry[0]);;
     return sortedKeys;
 }
 
