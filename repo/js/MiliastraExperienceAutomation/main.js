@@ -275,6 +275,7 @@ var enterRoom = async (room) => {
   await createRoom(room);
 };
 var startGame = async () => {
+  let outputCount = 0;
   await assertRegionAppearing(
     () => findBottomButton("大厅", true),
     "等待游戏结束超时",
@@ -287,7 +288,10 @@ var startGame = async () => {
         await assertRegionDisappearing(prepare, "等待加入准备区提示消失超时");
         click(770, 275);
       } else {
-        log.info("等待本次关卡结束...");
+        if (outputCount % 7 === 0 ) {
+          log.info("等待本次关卡结束...");
+        }
+        outputCount++;
       }
     },
     { maxAttempts: 120 }
@@ -301,7 +305,7 @@ var startGame = async () => {
   setGameMetrics(1920, 1080, 1.5);
   await genshin.returnMainUi();
   const goToTeyvat = settings.goToTeyvat ?? true;
-  const room = settings.room || "7015200164";
+  const room = settings.room || "7070702264";
   const force = settings.force ?? false;
   const thisAttempts = Math.max(0, Number(settings.thisAttempts || "0"));
   const expWeeklyLimit = Math.max(1, Number(settings.expWeeklyLimit || "5000"));
