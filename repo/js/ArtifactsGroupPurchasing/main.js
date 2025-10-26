@@ -5,7 +5,7 @@ let pickupDelay = 100;
 let timeMove = 1000;
 let timeMoveUp = Math.round(timeMove * 0.45);
 let timeMoveDown = Math.round(timeMove * 0.55);
-let rollingDelay = 25;
+let rollingDelay = 50;
 let state;
 let gameRegion;
 let TMthreshold = +settings.TMthreshold || 0.9;
@@ -1120,15 +1120,51 @@ async function runPath(fullPath, targetItemPath) {
 
     const errorProcessTask = (async () => {
         const revivalRo1 = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/revival1.png"));
+        const readingRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/readingUI.png"), 72, 22, 133 - 72, 79 - 22);
+        const dialogueRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/dialogueUI.png"), 187, 26, 233 - 130, 69);
         let errorCheckCount = 9;
         while (state.running) {
             await sleep(100);
             errorCheckCount++;
             if (errorCheckCount > 50) {
                 errorCheckCount = 0;
-                //log.info("尝试识别并点击复苏按钮");
-                if (await findAndClick(revivalRo1, 2)) {
-                    //log.info("识别到复苏按钮，点击复苏");
+
+                if (await findAndClick(revivalRo1, 1)) {
+                    log.info("识别到复苏按钮，点击复苏");
+                    errorCheckCount = 50;
+                }
+
+                if (await findRo(readingRo, 1)) {
+                    log.info("识别到阅读界面，esc脱离");
+                    await genshin.returnMainUi();
+                    errorCheckCount = 50;
+                }
+
+                if (await findRo(dialogueRo, 1)) {
+                    log.info("识别到对话界面，点击进行对话");
+                    click(960, 540);
+                    errorCheckCount = 50;
+                }
+
+                async function findRo(target, maxAttempts = 20) {
+                    for (let attempts = 0; attempts < maxAttempts; attempts++) {
+                        const gameRegion = captureGameRegion();
+                        try {
+                            const result = gameRegion.find(target);
+                            if (result.isExist()) {
+                                await sleep(250);
+                                log.info("找到图标");
+                                return true;
+                            }
+                        } catch (err) {
+                        } finally {
+                            gameRegion.dispose();
+                        }
+                        if (attempts < maxAttempts - 1) {   // 最后一次不再 sleep
+                            await sleep(250);
+                        }
+                    }
+                    return false;
                 }
             }
         }
@@ -1440,7 +1476,7 @@ async function processArtifacts() {
             const gameRegion = captureGameRegion();
             try {
                 const result = gameRegion.find(target);
-                if (result.isExist) {
+                if (result.isExist()) {
                     await sleep(250);
                     result.click();
                     return true;                 // 成功立刻返回
