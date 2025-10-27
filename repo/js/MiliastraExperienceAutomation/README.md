@@ -22,7 +22,7 @@
 | room           | 奇域关卡关键词或关卡 GUID（支持多个id，用中文或英文逗号隔开） | 7070702264 |
 | force          | 忽略本周经验值已达上限    | false      |
 | thisAttempts   | 指定通关次数              | 0          |
-| expWeeklyLimit | 每周可获取的经验值上限    | 5000       |
+| expWeeklyLimit | 每周可获取的经验值上限    | 4000       |
 | expPerAttempt  | 每次通关获取的经验值数量  | 20         |
 
 ### ❗ 注意事项
