@@ -1,4 +1,68 @@
 (async function () {
+    // ===== 1. 预处理部分 =====
+
+    // 人机验证
+    if (!settings.ifCheck) { log.error("请阅读readme文件并做好相关设置后再运行此脚本！"); return; }
+
+    //初始化配置
+    var TEAM;
+    var Material = settings.Material;
+    const actiontime = 180;//最大等待时间，单位秒
+    const BH = `assets/RecognitionObject/${Material}.png`;
+    const ZHIBIANYI = typeof settings.ZHIBIANY === 'string' && settings.ZHIBIANYI.trim() !== '' ? settings.ZHIBIANYI : "assets/RecognitionObject/zhibian.png";
+    const CHA = "assets/RecognitionObject/cha.png"
+    const ifAkf = settings.ifAkf;
+    const chargingMethod = settings.chargingMethod;
+    const ifCooking = settings.ifCooking;
+    const ifduanZao = settings.ifduanZao;
+    const ifShouling = settings.ifShouling;
+    const ifMijing = settings.ifMijing;
+    const ifbuyNet = settings.ifbuyNet;
+    const ifbuyTzq = settings.ifbuyTzq;
+    const ifZBY = settings.ifZBY;
+    const ifYB = settings.ifYB;
+    const food = settings.food; // 要烹饪的食物
+    const cookCount = settings.cookCount;//烹饪数量
+    const mineral = settings.mineral;// 矿石种类
+    const mineralFile = `assets/RecognitionObject/${mineral}.png`// 矿石模板路径
+    const BossPartyName = settings.BossPartyName;// 战斗队伍
+    let mijingCount = 1;// 自动秘境计数
+    // OCR对象用于检测战斗文本
+    const ocrRo2 = RecognitionObject.Ocr(0, 0, genshin.width, genshin.height);
+
+    // 创建材质到ITEM的映射表
+    // 养成道具=1，食物=2，材料=3
+    const materialToItemMap = {
+        "牛角": 1,
+        "苹果": 2, "日落果": 2, "泡泡桔": 2,
+        "白铁块": 3, "水晶块": 3, "薄荷": 3, "菜": 3,
+        "鸡腿": 3, "蘑菇": 3, "鸟蛋": 3, "兽肉": 3, "甜甜花": 3
+    };
+
+    // 直接通过映射获取ITEM值（未匹配时默认0）
+    ITEM = materialToItemMap[Material] || 0;
+
+    if (chargingMethod == "法器角色充能" && settings.TEAMname === undefined) {
+        log.error("您选择了法器角色充能，请在配置页面填写包含法器角色的队伍名称！！！");
+        return;// 没选就报错后停止
+    }
+    //检查用户是否配置队伍
+    if (ifAkf && settings.TEAMname === undefined) {
+        log.error("您选择了拥有爱可菲，请在配置页面填写包含爱可菲的队伍名称！！！");
+        return;// 没选就报错后停止
+    }
+
+    TEAM = settings.TEAMname;
+
+    const username = settings.username || "默认账户";
+    const cdRecordPath = `record/${username}_cd.txt`;// 修改CD记录文件路径，包含用户名
+
+    //设置分辨率和缩放
+    setGameMetrics(1920, 1080, 1);
+    await genshin.returnMainUi();
+
+    // ===== 2. 子函数定义部分 =====
+
     /**
      * 封装函数，执行图片识别及点击操作（测试中，未封装完成，后续会优化逻辑）
      * @param {string} imagefilePath - 模板图片路径
@@ -204,6 +268,12 @@
 
         // 质变仪判断逻辑
         if (deployed) {
+            await sleep(800);
+
+            await keyDown("S");
+            await sleep(500);
+            await keyUp("S");
+
             if (chargingMethod == "法器角色充能") {
                 const ifbblIn = await includes("芭芭拉");
                 if (!ifbblIn) { throw new Error("队伍中未包含角色：芭芭拉"); }
@@ -1014,16 +1084,17 @@
 
         await AutoPath("投资券");
 
-        await sleep(800);
+        await sleep(1000);
         keyPress("F");
-        await sleep(800);
+        await sleep(1000);
         click(960, 540);
         await sleep(2000);
 
-        await textOCR("我要结算投资回报", 3, 1, 0, 1325, 550, 250, 55);
+        await textOCR("我要结算", 3, 1, 0, 1325, 550, 250, 55);
 
-        await sleep(800);
+        await sleep(1000);
         click(960, 540);
+        await sleep(1000);
 
         const notHave = await textOCR("没有投资券", 3, 0, 0, 830, 925, 160, 50);
         if (notHave.found) {
@@ -1032,11 +1103,6 @@
 
             click(960, 540);
             await sleep(1500);
-
-            click(960, 540);
-            await sleep(1500);
-
-            await sleep(2000);
 
             click(1700, 1000);
             await sleep(1000);
@@ -1058,8 +1124,9 @@
 
             await textOCR("我要结算", 3, 1, 0, 1325, 500, 250, 80);
 
-            await sleep(800);
+            await sleep(1000);
             click(960, 540);
+            await sleep(1000);
         }
         keyPress("F");
         await sleep(1000);
@@ -1069,7 +1136,7 @@
         click(1235, 815);
         await sleep(1000);
         click(1620, 1020);
-        await sleep(1000);
+        await sleep(2500);
 
         click(1620, 1020);
 
@@ -1080,69 +1147,7 @@
         await writeCDRecords(updatedRecords);
     }
 
-
-    //main/======================================================================================
-
-    // 人机验证
-    if (!settings.ifCheck) { log.error("请阅读readme文件并做好相关设置后再运行此脚本！"); return; }
-
-    //初始化配置
-    var TEAM;
-    var Material = settings.Material;
-    const actiontime = 180;//最大等待时间，单位秒
-    const BH = `assets/RecognitionObject/${Material}.png`;
-    const ZHIBIANYI = typeof settings.ZHIBIANY === 'string' && settings.ZHIBIANYI.trim() !== '' ? settings.ZHIBIANYI : "assets/RecognitionObject/zhibian.png";
-    const CHA = "assets/RecognitionObject/cha.png"
-    const ifAkf = settings.ifAkf;
-    const chargingMethod = settings.chargingMethod;
-    const ifCooking = settings.ifCooking;
-    const ifduanZao = settings.ifduanZao;
-    const ifShouling = settings.ifShouling;
-    const ifMijing = settings.ifMijing;
-    const ifbuyNet = settings.ifbuyNet;
-    const ifbuyTzq = settings.ifbuyTzq;
-    const ifZBY = settings.ifZBY;
-    const ifYB = settings.ifYB;
-    const food = settings.food; // 要烹饪的食物
-    const cookCount = settings.cookCount;//烹饪数量
-    const mineral = settings.mineral;// 矿石种类
-    const mineralFile = `assets/RecognitionObject/${mineral}.png`// 矿石模板路径
-    const BossPartyName = settings.BossPartyName;// 战斗队伍
-    let mijingCount = 1;// 自动秘境计数
-    // OCR对象用于检测战斗文本
-    const ocrRo2 = RecognitionObject.Ocr(0, 0, genshin.width, genshin.height);
-
-    // 创建材质到ITEM的映射表
-    // 养成道具=1，食物=2，材料=3
-    const materialToItemMap = {
-        "牛角": 1,
-        "苹果": 2, "日落果": 2, "泡泡桔": 2,
-        "白铁块": 3, "水晶块": 3, "薄荷": 3, "菜": 3,
-        "鸡腿": 3, "蘑菇": 3, "鸟蛋": 3, "兽肉": 3, "甜甜花": 3
-    };
-
-    // 直接通过映射获取ITEM值（未匹配时默认0）
-    ITEM = materialToItemMap[Material] || 0;
-
-    if (chargingMethod == "法器角色充能" && settings.TEAMname === undefined) {
-        log.error("您选择了法器角色充能，请在配置页面填写包含法器角色的队伍名称！！！");
-        return;// 没选就报错后停止
-    }
-    //检查用户是否配置队伍
-    if (ifAkf && settings.TEAMname === undefined) {
-        log.error("您选择了拥有爱可菲，请在配置页面填写包含爱可菲的队伍名称！！！");
-        return;// 没选就报错后停止
-    }
-
-    TEAM = settings.TEAMname;
-
-    const username = settings.username || "默认账户";
-    const cdRecordPath = `record/${username}_cd.txt`;// 修改CD记录文件路径，包含用户名
-
-    //设置分辨率和缩放
-    setGameMetrics(1920, 1080, 1);
-    await genshin.returnMainUi();
-
+    // ===== 3. 主函数执行部分 =====
 
     try {
         if (ifZBY) { await autoZhibian(); }// 质变仪
@@ -1174,5 +1179,4 @@
         await genshin.returnMainUi();
     }
 
-    //main/======================================================================================
 })();
