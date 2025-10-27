@@ -136,7 +136,7 @@ const getNextMonday4AM = () => {
   if (currentDay === 1 && now.getHours() < 4) {
     daysUntilMonday = 0;
   } else {
-    daysUntilMonday = (8 - currentDay) % 7;
+    daysUntilMonday = 8 - currentDay;
   }
   result.setDate(now.getDate() + daysUntilMonday);
   return result;
