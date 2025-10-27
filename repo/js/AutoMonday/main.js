@@ -9,7 +9,7 @@
     var Material = settings.Material;
     const actiontime = 180;//最大等待时间，单位秒
     const BH = `assets/RecognitionObject/${Material}.png`;
-    const ZHIBIANYI = typeof settings.ZHIBIANY === 'string' && settings.ZHIBIANYI.trim() !== '' ? settings.ZHIBIANYI : "assets/RecognitionObject/zhibian.png";
+    const ZHIBIANYI = typeof settings.ZHIBIANYI === 'string' && settings.ZHIBIANYI.trim() !== '' ? settings.ZHIBIANYI : "assets/RecognitionObject/zhibian.png";
     const CHA = "assets/RecognitionObject/cha.png"
     const ifAkf = settings.ifAkf;
     const chargingMethod = settings.chargingMethod;
@@ -40,7 +40,7 @@
     };
 
     // 直接通过映射获取ITEM值（未匹配时默认0）
-    ITEM = materialToItemMap[Material] || 0;
+    const ITEM = materialToItemMap[Material] || 0;
 
     if (chargingMethod == "法器角色充能" && settings.TEAMname === undefined) {
         log.error("您选择了法器角色充能，请在配置页面填写包含法器角色的队伍名称！！！");
@@ -279,8 +279,8 @@
                 if (!ifbblIn) { throw new Error("队伍中未包含角色：芭芭拉"); }
             }
             while ((NowTime - startTime) < actiontime * 1000) {
-                await textOCR("质变产生了以下物质", 0.7, 1, 0, 539, 251, 800, 425);
-                if (result.found) {
+                const ocrRes = await textOCR("质变产生了以下物质", 0.7, 1, 0, 539, 251, 800, 425);
+                if (ocrRes.found) {
                     click(970, 760);
                     if (!ifAkf) { return true; }
                     await sleep(150);
@@ -349,7 +349,7 @@
         await sleep(1000);
         await click(1067, 57);//点开背包,可做图像识别优化
 
-        await textOCR("小道具", 3, 0, 0, 126, 17, 99, 53); if (!result.found) { throw new Error("未打开'小道具'页面,请确保背包已正确打开并切换到小道具标签页"); }//确认在小道具界面
+        const bagOk = await textOCR("小道具", 3, 0, 0, 126, 17, 99, 53); if (!bagOk.found) { throw new Error("未打开'小道具'页面,请确保背包已正确打开并切换到小道具标签页"); }//确认在小道具界面
         await sleep(500);
         await imageRecognitionEnhanced(ZHIBIANYI, 1, 1, 0);//识别质变仪图片
         if (!result.found) {
@@ -417,7 +417,7 @@
                 await click(440, 1008);  //选择最大数量
                 await sleep(1000);
                 await click(1792, 1019); //质变按钮
-                await textOCR("参量质变仪", 3, 0, 0, 828, 253, 265, 73); if (!result.found) { log.error("单种材料不足，退出！"); }
+                const zbPanel = await textOCR("参量质变仪", 3, 0, 0, 828, 253, 265, 73); if (!zbPanel.found) { log.error("单种材料不足，退出！"); }
                 await sleep(1000);
                 await click(1183, 764); //确认 ;
                 await sleep(1000);
@@ -595,9 +595,19 @@
         let fightResult = false;
 
         while (Date.now() - startTime < timeout) {
-            if (recognizeFightText(captureGameRegion())) {
-                fightResult = true;
-                break;
+            let captureRegion = null;
+            try {
+                captureRegion = captureGameRegion();
+                if (recognizeFightText(captureRegion)) {
+                    fightResult = true;
+                    break;
+                }
+            } finally {
+                // 确保捕获的区域被正确释放
+                if (captureRegion) {
+                    captureRegion.dispose();
+                    captureRegion = null;
+                }
             }
             await sleep(1000);
         }
@@ -640,9 +650,10 @@
 
         await sleep(1000);
 
+        let success;
         for (let attempt = 0; attempt < 10; attempt++) {
             success = await textOCR("启动", 0.5, 0, 3, 1210, 500, 85, 85);
-            if (success.found) {
+            if (!success || !success.found) {
                 keyPress("F");
                 break;
             } else {
@@ -921,7 +932,7 @@
         await imageRecognitionEnhanced(mineralFile, 10, 1, 0, 40, 210, 720, 770)
         await sleep(1500);
 
-        for (i = 0; i < 4; i++) {
+        for (let i = 0; i < 4; i++) {
             click(1760, 1015);// 开始锻造
             await sleep(300);
         }
@@ -1047,7 +1058,7 @@
             click(1670, 1015);
             await sleep(800);
 
-            for (i = 0; i < 7; i++) {// 拉满拉满，TMD全部拉满
+            for (let i = 0; i < 7; i++) {// 拉满拉满，TMD全部拉满
                 click(1290, 600);
                 await sleep(150);
             }
@@ -1107,7 +1118,7 @@
             click(1700, 1000);
             await sleep(1000);
 
-            for (i = 0; i < 8; i++) {
+            for (let i = 0; i < 8; i++) {
                 click(1295, 600);
                 await sleep(100);
             }
