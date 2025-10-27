@@ -322,7 +322,7 @@ const startGame = async () => {
   }
   
   const goToTeyvat = settings.goToTeyvat ?? true;
-  const roomStr = settings.room || "7070702264";
+  const roomStr = settings.room || "15698418162";
   // 支持中英文逗号分割多个房间号
   const rooms = roomStr.split(/[,，]/).map(r => r.trim()).filter(r => r);
   const force = settings.force ?? false;
