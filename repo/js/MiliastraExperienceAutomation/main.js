@@ -324,7 +324,7 @@ const startGame = async () => {
   const rooms = roomStr.split(/[,，]/).map(r => r.trim()).filter(r => r);
   const force = settings.force ?? false;
   const thisAttempts = Math.max(0, Number(settings.thisAttempts || "0"));
-  const expWeeklyLimit = Math.max(1, Number(settings.expWeeklyLimit || "5000"));
+  const expWeeklyLimit = Math.max(1, Number(settings.expWeeklyLimit || "4000"));
   const expPerAttempt = Math.max(1, Number(settings.expPerAttempt || "20"));
   const store = useStore("data");
   store.weekly = store.weekly || { expGained: 0, attempts: 0 };
