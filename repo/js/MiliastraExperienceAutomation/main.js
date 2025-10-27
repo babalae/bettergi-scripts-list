@@ -147,6 +147,7 @@ const findMessageEnter = () => findImageWithinBounds("assets/Enter.png", 0, 1020
 const findMessageEnter2 = () => findImageWithinBounds("assets/Enter2.png", 0, 1020, 960, 60);
 const findExitButton = () => findImageWithinBounds("assets/Exit.png", 960, 0, 960, 540);
 const findGotTeyvatButton = () => findTextWithinBounds("返回", 1500, 0, 300, 95, { contains: true });
+const findClickAnywhere = () => findTextWithinBounds("空白处", 610, 950, 700, 60, { contains: true });
 const isInLobby = () => findMessageEnter() !== void 0 || findMessageEnter2() !== void 0;
 const goToLobby = async () => {
   const ok = await waitForAction(
@@ -290,6 +291,8 @@ const startGame = async () => {
         await assertRegionDisappearing(prepare, "等待加入准备区提示消失超时");
         click(770, 275);
       } else {
+         // 出现升级提醒时，点击空白处继续
+        findClickAnywhere()?.click();
         if (outputCount % 7 === 0 ) {
           log.info("等待本次关卡结束...");
         }
