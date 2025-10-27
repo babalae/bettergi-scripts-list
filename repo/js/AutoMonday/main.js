@@ -9,7 +9,7 @@
     var Material = settings.Material;
     const actiontime = 180;//最大等待时间，单位秒
     const BH = `assets/RecognitionObject/${Material}.png`;
-    const ZHIBIANYI = typeof settings.ZHIBIANYI === 'string' && settings.ZHIBIANYI.trim() !== '' ? settings.ZHIBIANYI : "assets/RecognitionObject/zhibian.png";
+    const ZHIBIANYI = "assets/RecognitionObject/zhibian.png";
     const CHA = "assets/RecognitionObject/cha.png"
     const ifAkf = settings.ifAkf;
     const chargingMethod = settings.chargingMethod;
