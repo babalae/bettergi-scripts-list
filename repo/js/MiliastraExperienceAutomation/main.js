@@ -291,9 +291,9 @@ const startGame = async () => {
         await assertRegionDisappearing(prepare, "等待加入准备区提示消失超时");
         click(770, 275);
       } else {
-         // 出现升级提醒时，点击空白处继续
+        // 出现升级提醒时，点击空白处继续
         findClickAnywhere()?.click();
-        if (outputCount % 7 === 0 ) {
+        if (outputCount % 7 === 0) {
           log.info("等待本次关卡结束...");
         }
         outputCount++;
@@ -306,10 +306,10 @@ const startGame = async () => {
 };
 
 // main.ts
-(async function() {
+(async function () {
   setGameMetrics(1920, 1080, 1.5);
   await genshin.returnMainUi();
-  
+
   // 检查当前是否在房间内，如果是则先退回到大厅
   const inLobby = isInLobby();
   if (!inLobby) {
@@ -320,9 +320,16 @@ const startGame = async () => {
       log.warn("返回大厅失败，继续执行: " + (e.message || e));
     }
   }
-  
+
   const goToTeyvat = settings.goToTeyvat ?? true;
-  const roomStr = settings.room || "15698418162";
+  // const roomStr = settings.room || "7102316998";
+  // 从房间号池中随机取一个
+  const roomPool = ["7102316998", "7107919931", "7155768958"];
+  const getRandomRoom = () => roomPool[Math.floor(Math.random() * roomPool.length)];
+  let roomStr = settings.room || getRandomRoom();
+  if (roomStr && (roomStr.includes("7070702264") || roomStr.includes("15698418162"))) {
+    roomStr = getRandomRoom();
+  }
   // 支持中英文逗号分割多个房间号
   const rooms = roomStr.split(/[,，]/).map(r => r.trim()).filter(r => r);
   const force = settings.force ?? false;
@@ -337,7 +344,7 @@ const startGame = async () => {
     store.weekly = { expGained: 0, attempts: 0 };
     store.nextWeek = getNextMonday4AM().getTime();
   }
-  
+
   // 如果只有一个房间号，检查经验上限
   if (rooms.length === 1) {
     if (store.weekly.expGained >= expWeeklyLimit) {
@@ -351,22 +358,22 @@ const startGame = async () => {
   } else {
     log.info("检测到多个房间号，将忽略经验上限直接执行");
   }
-  
+
   // 如果指定了通关次数，不显示经验相关日志
   const isSpecifiedAttempts = thisAttempts > 0;
-  
+
   try {
     // 对每个房间号循环执行
     for (let roomIndex = 0; roomIndex < rooms.length; roomIndex++) {
       const room = rooms[roomIndex];
       log.info("开始处理房间 " + room + " (" + (roomIndex + 1) + "/" + rooms.length + ")");
-      
+
       const expRemain = expWeeklyLimit - store.weekly.expGained;
       let attempts = Math.ceil(
         (expRemain > 0 ? expRemain : expWeeklyLimit) / expPerAttempt
       );
       if (thisAttempts > 0) attempts = thisAttempts;
-      
+
       // 对该房间执行指定次数
       for (let i = 0; i < attempts; i++) {
         // 多房间模式时忽略经验上限检查
@@ -377,7 +384,7 @@ const startGame = async () => {
             break;
           }
         }
-        
+
         // 首次执行时，先退出房间
         if (i === 0) {
           const inLobby = isInLobby();
@@ -393,8 +400,8 @@ const startGame = async () => {
               await sleep(3000);
               // 等待房间界面出现
               await assertRegionAppearing(
-                  () => findHeaderTitle("房间", true),
-                  "等待进入房间超时"
+                () => findHeaderTitle("房间", true),
+                "等待进入房间超时"
               );
               // 点击退出按钮
               const exitBtn = findExitButton();
@@ -416,9 +423,9 @@ const startGame = async () => {
               }
               // 确认已返回大厅
               const backToLobby = await waitForAction(
-                  isInLobby,
-                  null,
-                  {maxAttempts: 30, retryInterval: 500}
+                isInLobby,
+                null,
+                { maxAttempts: 30, retryInterval: 500 }
               );
               if (backToLobby) {
                 log.info("已成功退出已有房间");
@@ -428,7 +435,7 @@ const startGame = async () => {
             }
           }
         }
-        
+
         if (isSpecifiedAttempts) {
           log.info(
             "房间 {room}: [{c}/{t}] 开始第 {num} 次奇域挑战...",
@@ -446,12 +453,12 @@ const startGame = async () => {
             store.weekly.attempts + 1
           );
         }
-        
+
         await enterRoom(room);
         await startGame();
         store.weekly.attempts += 1;
         store.weekly.expGained += expPerAttempt;
-        
+
         // 单房间模式且未指定次数时检查经验上限
         if (rooms.length === 1 && !isSpecifiedAttempts && store.weekly.expGained >= expWeeklyLimit && !force) {
           log.warn("本周获取经验值已达上限，停止执行");
