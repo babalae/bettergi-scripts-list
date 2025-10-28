@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -6,13 +6,13 @@
         "name": "躁动的氨气"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760764363466,
+    "last_modified_time": 1761471696453,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "05-苔古荒原下方-12个",
+    "name": "08-苔古荒原下方-12个",
     "tags": [
       "菈乌玛"
     ],
@@ -34,36 +34,25 @@
       "action": "",
       "action_params": "",
       "id": 2,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 9342.5,
-      "y": 1890.5
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(3),keypress(VK_F),wait(3),click,wait(10),keypress(VK_SPACE)",
-      "id": 3,
-      "locked": false,
-      "move_mode": "fly",
-      "type": "orientation",
-      "x": 9342.5,
-      "y": 1890.5
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "1000",
-      "id": 4,
-      "locked": false,
-      "move_mode": "fly",
-      "type": "target",
-      "x": 9385.25,
-      "y": 1759.5
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9367.724609375,
+      "y": 1827.513671875
     },
     {
       "action": "",
       "action_params": "",
-      "id": 5,
+      "id": 3,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9371.9033203125,
+      "y": 1772.52880859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
@@ -73,17 +62,17 @@
     {
       "action": "",
       "action_params": "",
-      "id": 6,
+      "id": 5,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 9421.75,
-      "y": 1746.0
+      "y": 1746
     },
     {
       "action": "combat_script",
       "action_params": "枫原万叶 wait(4),e(hold),wait(0.2),attack",
-      "id": 7,
+      "id": 6,
       "locked": false,
       "move_mode": "walk",
       "type": "target",
@@ -93,7 +82,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 8,
+      "id": 7,
       "locked": false,
       "move_mode": "swim",
       "type": "path",
@@ -103,12 +92,22 @@
     {
       "action": "",
       "action_params": "",
-      "id": 9,
+      "id": 8,
       "locked": false,
       "move_mode": "swim",
       "type": "path",
       "x": 9440.8369,
-      "y": 1756.0884
+      "y": 1756.0884000000005
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "locked": false,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9437.6289,
+      "y": 1761.5488000000005
     },
     {
       "action": "",
@@ -117,23 +116,13 @@
       "locked": false,
       "move_mode": "swim",
       "type": "path",
-      "x": 9437.6289,
-      "y": 1761.5488
+      "x": 9443.4971,
+      "y": 1765.9624000000003
     },
     {
       "action": "",
       "action_params": "",
       "id": 11,
-      "locked": false,
-      "move_mode": "swim",
-      "type": "path",
-      "x": 9443.4971,
-      "y": 1765.9624
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 12,
       "locked": false,
       "move_mode": "swim",
       "type": "path",
@@ -143,12 +132,22 @@
     {
       "action": "",
       "action_params": "",
-      "id": 13,
+      "id": 12,
       "locked": false,
       "move_mode": "swim",
       "type": "path",
       "x": 9445.3281,
-      "y": 1754.7812
+      "y": 1754.7811999999994
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "locked": false,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9440.1797,
+      "y": 1763.9966000000004
     },
     {
       "action": "",
@@ -157,8 +156,8 @@
       "locked": false,
       "move_mode": "swim",
       "type": "path",
-      "x": 9440.1797,
-      "y": 1763.9966
+      "x": 9442.875,
+      "y": 1754.2811999999994
     },
     {
       "action": "",
@@ -167,31 +166,24 @@
       "locked": false,
       "move_mode": "swim",
       "type": "path",
-      "x": 9442.875,
-      "y": 1754.2812
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 16,
-      "move_mode": "swim",
-      "type": "path",
       "x": 9442.3262,
       "y": 1756.1201
     },
     {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 16,
+      "locked": false,
       "move_mode": "swim",
       "type": "path",
       "x": 9439.2783,
-      "y": 1751.0
+      "y": 1751
     },
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 17,
+      "locked": false,
       "move_mode": "swim",
       "type": "path",
       "x": 9433.0059,
@@ -200,7 +192,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 19,
+      "id": 18,
+      "locked": false,
       "move_mode": "swim",
       "type": "path",
       "x": 9431.8467,
@@ -209,11 +202,32 @@
     {
       "action": "",
       "action_params": "",
+      "id": 19,
+      "locked": false,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9434.4375,
+      "y": 1753.6875
+    },
+    {
+      "action": "",
+      "action_params": "",
       "id": 20,
+      "locked": false,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9437.56595,
+      "y": 1756.3823499999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "locked": false,
       "move_mode": "swim",
       "type": "path",
       "x": 9443.2852,
-      "y": 1762.793
+      "y": 1762.7929999999997
     }
   ]
 }
