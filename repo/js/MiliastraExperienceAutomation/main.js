@@ -323,8 +323,13 @@ const startGame = async () => {
 
   const goToTeyvat = settings.goToTeyvat ?? true;
   // const roomStr = settings.room || "7102316998";
-  const roomStr = (settings.room && (settings.room.includes("7070702264") || settings.room.includes("15698418162"))) ? "7102316998" : (settings.room || "7102316998");
-
+  // 从房间号池中随机取一个
+  const roomPool = ["7102316998", "7107919931", "7155768958"];
+  const getRandomRoom = () => roomPool[Math.floor(Math.random() * roomPool.length)];
+  let roomStr = settings.room || getRandomRoom();
+  if (roomStr && (roomStr.includes("7070702264") || roomStr.includes("15698418162"))) {
+    roomStr = getRandomRoom();
+  }
   // 支持中英文逗号分割多个房间号
   const rooms = roomStr.split(/[,，]/).map(r => r.trim()).filter(r => r);
   const force = settings.force ?? false;
