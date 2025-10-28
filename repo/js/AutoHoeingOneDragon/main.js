@@ -23,6 +23,14 @@ const timeMove = (+settings.timeMove || 1000);
 let warnMessage = [];
 let blacklist = [];
 let blacklistSet = new Set();
+let blacklistedPathings = [];
+if (settings.blacklistedPathings) {
+    blacklistedPathings = settings.blacklistedPathings.split('；').map(s => s.trim()).filter(s => s.length > 0);
+    log.info(`已加载路径黑名单，共${blacklistedPathings.length}条`);
+} else {
+    blacklistedPathings = [];
+}
+
 let state;
 const accountName = settings.accountName || "默认账户";
 let pathings;
@@ -166,6 +174,10 @@ async function processPathings() {
 
     // 读取路径文件夹中的所有文件
     let pathings = await readFolder("pathing", true);
+    // 过滤掉包含路径黑名单中任一路径名片段的路径
+    pathings = pathings.filter(pathing => {
+        return !blacklistedPathings.some(blacklistedPathing => pathing.fileName.includes(blacklistedPathing));
+    });
 
     //加载路线cd信息
     await initializeCdTime(pathings, accountName);

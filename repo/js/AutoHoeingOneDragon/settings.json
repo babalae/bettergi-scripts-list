@@ -172,5 +172,10 @@
     "name": "tagsForGroup10",
     "type": "input-text",
     "label": "路径组十要【选择】的标签"
+  },
+  {
+    "name": "blacklistedPathings",
+    "type": "input-text",
+    "label": "路径黑名单，请填写路径文件名，可只填写文件名的一部分\n多个路径命用【中文分号】分隔\n这些路径将不会被选择运行"
   }
 ]
