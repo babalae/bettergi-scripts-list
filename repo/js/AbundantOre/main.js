@@ -400,6 +400,26 @@ async function run_pathing_script(name, path_state_change, current_states) {
     }
 }
 
+let artifactPartyName = settings.artifactPartyName || "挖矿";//挖矿队伍名称
+//切换队伍
+async function switchPartyIfNeeded(partyName) {
+    if (!partyName) {
+        await genshin.returnMainUi();
+        return;
+    }
+    try {
+        log.info("正在尝试切换至" + partyName);
+        if (!await genshin.switchParty(partyName)) {
+            log.info("切换队伍失败，前往七天神像重试");
+            await genshin.tpToStatueOfTheSeven();
+            await genshin.switchParty(partyName);
+        }
+    } catch {
+        log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
+        notification.error(`队伍切换失败，可能处于联机模式或其他不可切换状态`);
+        await genshin.returnMainUi();
+    }
+}
 
 async function main() {
     await genshin.returnMainUi();
@@ -407,6 +427,11 @@ async function main() {
     load_persistent_data();
     load_disabled_paths();
     load_statistics_data();
+    
+    //尝试切换队伍，并更新队伍
+    await switchPartyIfNeeded(artifactPartyName);
+    settings.currentParty = artifactPartyName;
+    
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     // Run an empty pathing script to give BGI a chance to switch team if the user specifies one.
     await pathingScript.runFile("assets/empty_pathing.json");
