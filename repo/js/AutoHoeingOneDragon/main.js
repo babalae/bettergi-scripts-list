@@ -32,6 +32,13 @@ let pathings;
     //自定义配置处理
     const operationMode = settings.operationMode || "运行锄地路线";
 
+    const localeWorks = !isNaN(Date.parse(new Date().toLocaleString()));
+    if (!localeWorks) {
+        log.warn('[WARN] 当前设备 toLocaleString 无法被 Date 解析');
+        log.warn('[WARN] 建议不要使用12小时时间制');
+        await sleep(5000);
+    }
+
     let k = settings.efficiencyIndex;
     // 空字符串、null、undefined 或非数字 → 0.5
     if (k === '' || k == null || Number.isNaN(Number(k))) {
@@ -147,6 +154,10 @@ let pathings;
         }
 
         log.info('当前队伍：' + teamStr);
+        if (improperTeam) {
+            log.warn("当前队伍不适合锄地，建议重新阅读readme相关部分");
+            await sleep(5000);
+        }
 
         log.info("开始运行锄地路线");
         await updateRecords(pathings, accountName);
@@ -1335,6 +1346,7 @@ async function processPathingsByGroup(pathings, accountName) {
 
             // 更新路径的 cdTime
             pathing.cdTime = nextEightClock.toLocaleString();
+            if (!localeWorks) pathing.cdTime = nextEightClock.toISOString();
 
             remainingEstimatedTime -= pathing.t;
             const actualUsedTime = (new Date() - groupStartTime) / 1000;
@@ -1369,6 +1381,9 @@ async function initializeCdTime(pathings, accountName) {
                 ? new Date(entry.cdTime).toLocaleString()
                 : new Date(0).toLocaleString();
 
+            if (!localeWorks) pathing.cdTime = entry
+                ? new Date(entry.cdTime).toISOString()
+                : new Date(0).toISOString();
             // 确保当前 records 是数组
             const current = Array.isArray(pathing.records) ? pathing.records : new Array(7).fill(-1);
 
@@ -1386,6 +1401,10 @@ async function initializeCdTime(pathings, accountName) {
         // 文件不存在或解析错误，初始化为 6 个 -1
         pathings.forEach(pathing => {
             pathing.cdTime = new Date(0).toLocaleString();
+            pathing.records = new Array(7).fill(-1);
+        });
+        if (!localeWorks) pathings.forEach(pathing => {
+            pathing.cdTime = new Date(0).toISOString();
             pathing.records = new Array(7).fill(-1);
         });
     }
