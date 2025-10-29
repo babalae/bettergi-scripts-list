@@ -877,7 +877,7 @@ async function isMainUI() {
 async function getPlayerSign() {
     let attempts = 0;
     let result = 0;
-    while (attempts < 5) {
+    while (attempts < 10) {
         attempts++;
         const picDic = {
             "0P": "assets/RecognitionObject/0P.png",
@@ -912,12 +912,13 @@ async function getPlayerSign() {
         let p3 = gameRegion.Find(p3Ro);
         let p4 = gameRegion.Find(p4Ro);
         gameRegion.dispose();
-        if (p0.isExist()) { result = 0; break; }
-        if (p1.isExist()) { result = 1; break; }
-        if (p2.isExist()) { result = 2; break; }
-        if (p3.isExist()) { result = 3; break; }
-        if (p4.isExist()) { result = 4; break; }
+        if (p0.isExist()) { result = 0; log.info("识别结果为0P"); break; }
+        if (p1.isExist()) { result = 1; log.info("识别结果为0P"); break; }
+        if (p2.isExist()) { result = 2; log.info("识别结果为0P"); break; }
+        if (p3.isExist()) { result = 3; log.info("识别结果为0P"); break; }
+        if (p4.isExist()) { result = 4; log.info("识别结果为0P"); break; }
     }
+    log.warn("超时仍未识别到队伍编号");
     return result;
 }
 
@@ -1481,7 +1482,6 @@ async function processArtifacts() {
                     result.click();
                     return true;                 // 成功立刻返回
                 }
-                log.warn(`识别失败，第 ${attempts + 1} 次重试`);
             } catch (err) {
             } finally {
                 gameRegion.dispose();
