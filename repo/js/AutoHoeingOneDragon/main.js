@@ -26,13 +26,13 @@ let blacklistSet = new Set();
 let state;
 const accountName = settings.accountName || "默认账户";
 let pathings;
-
+let localeWorks;
 (async function () {
     targetItems = await loadTargetItems();
     //自定义配置处理
     const operationMode = settings.operationMode || "运行锄地路线";
 
-    const localeWorks = !isNaN(Date.parse(new Date().toLocaleString()));
+    localeWorks = !isNaN(Date.parse(new Date().toLocaleString()));
     if (!localeWorks) {
         log.warn('[WARN] 当前设备 toLocaleString 无法被 Date 解析');
         log.warn('[WARN] 建议不要使用12小时时间制');
