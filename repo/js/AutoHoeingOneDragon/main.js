@@ -1,4 +1,4 @@
-//当前js版本1.9.3
+//当前js版本1.10.0
 
 let timeMoveUp;
 let timeMoveDown;
@@ -14,7 +14,16 @@ let targetItemPath = "assets/targetItems";
 let mainUITemplate = file.ReadImageMatSync("assets/MainUI.png");
 let itemFullTemplate = file.ReadImageMatSync("assets/itemFull.png");
 let frozenTemplate = file.ReadImageMatSync("assets/解除冰冻.png");
+const frozenRo = RecognitionObject.TemplateMatch(frozenTemplate, 1379, 574, 1463 - 1379, 613 - 574);
+let cookingTemplate = file.ReadImageMatSync("assets/烹饪界面.png");
+const cookingRo = RecognitionObject.TemplateMatch(cookingTemplate, 1547, 965, 1815 - 1547, 1059 - 965);
+let whiteFurinaTemplate = file.ReadImageMatSync("assets/白芙图标.png");
+let whiteFurinaRo = RecognitionObject.TemplateMatch(whiteFurinaTemplate, 1634, 967, 1750 - 1634, 1070 - 967);
+whiteFurinaRo.Threshold = 0.99;
+whiteFurinaRo.InitTemplate();
+
 let targetItems;
+let doFurinaSwitch = false;
 
 let rollingDelay = (+settings.rollingDelay || 25);
 const pickupDelay = (+settings.pickupDelay || 100);
@@ -527,6 +536,12 @@ async function assignGroups(pathings, groupTags) {
 }
 
 async function runPath(fullPath, map_name) {
+    //当需要切换芙宁娜形态时，执行一次强制黑芙
+    if (doFurinaSwitch) {
+        log.info("上条路线识别到白芙，开始强制切换黑芙")
+        doFurinaSwitch = false;
+        await pathingScript.runFile("assets/强制黑芙.json");
+    }
     /* ===== 1. 取得当前路线对象 ===== */
     let currentPathing = null;
     for (let i = 0; i < pathings.length; i++) {
@@ -571,16 +586,16 @@ async function runPath(fullPath, map_name) {
     })();
 
     const errorProcessTask = (async () => {
-        async function checkFrozen() {
+        let errorProcessCount = 0;
+        async function checkRo(recognitionObject) {
             const maxAttempts = 1;
             let attempts = 0;
-            let frozenGameRegion;
+            let errorProcessGameRegion;
             while (attempts < maxAttempts && state.running) {
                 try {
-                    const recognitionObject = RecognitionObject.TemplateMatch(frozenTemplate, 1379, 574, 1463 - 1379, 613 - 574);
-                    frozenGameRegion = captureGameRegion();
-                    const result = frozenGameRegion.find(recognitionObject);
-                    frozenGameRegion.dispose();
+                    errorProcessGameRegion = captureGameRegion();
+                    const result = errorProcessGameRegion.find(recognitionObject);
+                    errorProcessGameRegion.dispose();
                     if (result.isExist()) {
                         return true;
                     }
@@ -594,15 +609,35 @@ async function runPath(fullPath, map_name) {
             return false;
         }
         while (state.running) {
-            if (await checkFrozen()) {
-                log.info("检测到冻结，尝试挣脱");
-                for (let m = 0; m < 3; m++) {
-                    keyPress("VK_SPACE");
-                    await sleep(30);
+            if (errorProcessCount % 5 === 0) {
+                //每约250毫秒进行一次冻结检测和白芙检测
+                if (await checkRo(frozenRo)) {
+                    log.info("检测到冻结，尝试挣脱");
+                    for (let m = 0; m < 3; m++) {
+                        keyPress("VK_SPACE");
+                        await sleep(30);
+                    }
+                    continue;
                 }
-            } else {
-                await sleep(500);
+                if (!doFurinaSwitch) {
+                    if (await checkRo(whiteFurinaRo)) {
+                        log.info("检测到白芙，本路线运行结束后切换芙宁娜形态");
+                        doFurinaSwitch = true;
+                        continue;
+                    }
+                }
             }
+            if (errorProcessCount % 100 === 0) {
+                //每约5000毫秒进行一次烹饪检测
+                if (await checkRo(cookingRo)) {
+                    log.info("检测到烹饪界面，尝试脱离");
+                    keyPress("VK_ESCAPE");
+                    await sleep(500);
+                    continue;
+                }
+            }
+            errorProcessCount++;
+            await sleep(45);
         }
     })();
 
