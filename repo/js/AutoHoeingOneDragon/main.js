@@ -26,18 +26,10 @@ let blacklistSet = new Set();
 let state;
 const accountName = settings.accountName || "默认账户";
 let pathings;
-let localeWorks;
 (async function () {
     targetItems = await loadTargetItems();
     //自定义配置处理
     const operationMode = settings.operationMode || "运行锄地路线";
-
-    localeWorks = !isNaN(Date.parse(new Date().toLocaleString()));
-    if (!localeWorks) {
-        log.warn('[WARN] 当前设备 toLocaleString 无法被 Date 解析');
-        log.warn('[WARN] 建议不要使用12小时时间制');
-        await sleep(5000);
-    }
 
     let k = settings.efficiencyIndex;
     // 空字符串、null、undefined 或非数字 → 0.5
@@ -1279,8 +1271,7 @@ async function processPathingsByGroup(pathings, accountName) {
             const now = new Date();
 
             // 检查 cdTime 是否晚于当前时间
-            const cdTime = new Date(pathing.cdTime);
-            if (cdTime > now) {
+            if (pathing.cdTime > now.getTime()) {
                 log.info(`该路线未刷新，跳过。`);
                 skippedTime += pathing.t;
                 remainingEstimatedTime -= pathing.t;
@@ -1344,9 +1335,10 @@ async function processPathingsByGroup(pathings, accountName) {
             const pathTime = new Date() - now;
             pathing.records = [...pathing.records, pathTime / 1000].slice(-7);
 
-            // 更新路径的 cdTime
-            pathing.cdTime = nextEightClock.toLocaleString();
-            if (!localeWorks) pathing.cdTime = nextEightClock.toISOString();
+            // 更新路径的 cdTime 存储时间戳和本地化时间
+            const timestamp = nextEightClock.getTime();
+            const localTime = nextEightClock.toLocaleString();
+            pathing.cdTime = `${timestamp}(${localTime})`;
 
             remainingEstimatedTime -= pathing.t;
             const actualUsedTime = (new Date() - groupStartTime) / 1000;
@@ -1376,14 +1368,21 @@ async function initializeCdTime(pathings, accountName) {
                     break;
                 }
             }
-            // 读取 cdTime
-            pathing.cdTime = entry
-                ? new Date(entry.cdTime).toLocaleString()
-                : new Date(0).toLocaleString();
-
-            if (!localeWorks) pathing.cdTime = entry
-                ? new Date(entry.cdTime).toISOString()
-                : new Date(0).toISOString();
+            // 读取 cdTime - 提取时间戳
+            if (entry && entry.cdTime) {
+                // 新格式（时间戳和括号）
+                const match = entry.cdTime.match(/^(\d+)\(/);
+                if (match) {
+                    // 新格式只提取时间戳
+                    pathing.cdTime = parseInt(match[1]);
+                } else {
+                    // 旧格式转换为时间戳
+                    pathing.cdTime = new Date(entry.cdTime).getTime();
+                }
+            } else {
+                // 默认值
+                pathing.cdTime = new Date(0).getTime();
+            }
             // 确保当前 records 是数组
             const current = Array.isArray(pathing.records) ? pathing.records : new Array(7).fill(-1);
 
@@ -1400,11 +1399,10 @@ async function initializeCdTime(pathings, accountName) {
     } catch (error) {
         // 文件不存在或解析错误，初始化为 6 个 -1
         pathings.forEach(pathing => {
-            pathing.cdTime = new Date(0).toLocaleString();
-            pathing.records = new Array(7).fill(-1);
-        });
-        if (!localeWorks) pathings.forEach(pathing => {
-            pathing.cdTime = new Date(0).toISOString();
+            const defaultDate = new Date(0);
+            const timestamp = defaultDate.getTime();
+            const localTime = defaultDate.toLocaleString();
+            pathing.cdTime = `${timestamp}(${localTime})`;
             pathing.records = new Array(7).fill(-1);
         });
     }
