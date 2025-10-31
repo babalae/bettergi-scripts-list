@@ -1,0 +1,62 @@
+[
+  {
+    "type": "select",
+    "name": "preset",
+    "label": "清单资源文件预设",
+    "options": [
+      "官服-藏龙卧虎.list",
+      "官服-沙里淘金.list",
+      "B服-藏龙卧虎.list",
+      "B服-沙里淘金.list"
+    ],
+    "default": "官服-藏龙卧虎.list"
+  },
+  {
+    "type": "input-text",
+    "name": "file",
+    "label": "自定义清单资源文件",
+    "default": ""
+  },
+  {
+    "type": "checkbox",
+    "name": "shuffle",
+    "label": "随机洗牌抽取",
+    "default": true
+  },
+  {
+    "type": "select",
+    "name": "imaginariumTheater",
+    "label": "「幻想真境剧诗」最低通关限制",
+    "options": [
+      "不限制",
+      "困难模式",
+      "卓越模式",
+      "月谕模式"
+    ],
+    "default": "不限制"
+  },
+  {
+    "type": "select",
+    "name": "stygianOnslaught",
+    "label": "「幽境危战」最低通关限制",
+    "options": [
+      "不限制",
+      "险恶难度",
+      "无畏难度",
+      "绝境难度"
+    ],
+    "default": "不限制"
+  },
+  {
+    "type": "input-text",
+    "name": "quota",
+    "label": "每日好友申请数量",
+    "default": "20"
+  },
+  {
+    "type": "checkbox",
+    "name": "force",
+    "label": "强制执行",
+    "default": false
+  }
+]
