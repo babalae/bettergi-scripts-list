@@ -403,6 +403,8 @@ async function run_pathing_script(name, path_state_change, current_states) {
 
 async function main() {
     await genshin.returnMainUi();
+    file.writeTextSync("local/disabled_paths.txt", "", true);
+    file.writeTextSync("local/persistent_data.json", "", true);
     load_filename_to_path_map();
     load_persistent_data();
     load_disabled_paths();
