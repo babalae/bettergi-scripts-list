@@ -35,7 +35,8 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
   while (Date.now() - startTime < timeout) {
     try {
       // 在指定区域进行 OCR 识别
-      let ocrResult = captureGameRegion().find(
+      const ro = captureGameRegion();
+      let ocrResult = ro.find(
         RecognitionObject.ocr(
           ocrRegion.x,
           ocrRegion.y,
@@ -43,6 +44,7 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
           ocrRegion.height
         )
       )
+      ro.dispose();
       if (ocrResult) {
         return ocrResult.text // 返回识别到的内容
       } else {

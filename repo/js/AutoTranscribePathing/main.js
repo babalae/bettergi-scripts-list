@@ -11,6 +11,7 @@ const paimonMenuRo = RecognitionObject.TemplateMatch(
 const isInMainUI = () => {
   let captureRegion = captureGameRegion();
   let res = captureRegion.Find(paimonMenuRo);
+  captureRegion.dispose();
   return !res.isEmpty();
 };
 

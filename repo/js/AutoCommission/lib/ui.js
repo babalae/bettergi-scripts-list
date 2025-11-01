@@ -103,6 +103,7 @@ var UI = {
 
       var captureRegion = captureGameRegion();
       var res = captureRegion.Find(paimonMenuRo);
+      captureRegion.dispose();
       return !res.isEmpty();
     },
 
@@ -117,6 +118,7 @@ var UI = {
 
       var captureRegion = captureGameRegion();
       var res = captureRegion.Find(paimonMenuRo);
+      captureRegion.dispose();
       return !res.isEmpty();
     },
 

@@ -51,7 +51,9 @@ async function recognizeImage(recognitionObject, timeout = 5000) {
     while (Date.now() - startTime < timeout) {
         try {
             // 尝试识别图像
-            let imageResult = captureGameRegion().find(recognitionObject);
+            const ro = captureGameRegion();
+            let imageResult = ro.find(recognitionObject);
+            ro.dispose();
             if (imageResult && imageResult.x !== 0 && imageResult.y !== 0 && imageResult.width !== 0 && imageResult.height !== 0) {
                 await drawAndClearRedBox(imageResult, 500);// 调用异步函数绘制红框并延时清除
                 log.info(`成功识别图像，坐标: x=${imageResult.x}, y=${imageResult.y}, width=${imageResult.width}, height=${imageResult.height}`);
@@ -69,14 +71,18 @@ async function recognizeImage(recognitionObject, timeout = 5000) {
 // 定义一个异步函数来绘制红框并延时清除
 async function drawAndClearRedBox(result, delay) {
     // 绘制红框
-    let drawRegion = captureGameRegion().DeriveCrop(result.x, result.y, result.width, result.height).DrawSelf("icon");
+    const ro1 = captureGameRegion();
+    let drawRegion = ro1.DeriveCrop(result.x, result.y, result.width, result.height).DrawSelf("icon");
+    ro1.dispose();
 
     // 延时
     await sleep(delay);
 
     // 清除红框
     if (drawRegion) {
-        drawRegion = captureGameRegion().DeriveCrop(0, 0, 0, 0).DrawSelf("icon");
+        const ro2 = captureGameRegion();
+        drawRegion = ro2.DeriveCrop(0, 0, 0, 0).DrawSelf("icon");
+        ro2.dispose();
         drawRegion = null; // 释放对象
     }
 }

@@ -445,6 +445,7 @@ async function qucikBuy() {
 	// 查找购买按钮
 	let captureRegion = captureGameRegion();
 	let buyBtn = captureRegion.Find(othrtRo.buy.ro);
+	captureRegion.dispose();
 	if (buyBtn.isEmpty()) {
 		return false;
 	}
@@ -499,6 +500,7 @@ async function buyFoods(npcName) {
 		// 匹配商品
 		for (let item of tempFoods) {
 			let resList = captureRegion.FindMulti(foodsData[item].ro);
+			captureRegion.dispose();
 			for (let res of resList) {
 				log.info("找到物品: {i} 位置({x},{y},{h},{w})", foodsData[item].name, res.x, res.y, res.width, res.height);
 				// 移除已购买的物品

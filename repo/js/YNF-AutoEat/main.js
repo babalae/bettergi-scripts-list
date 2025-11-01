@@ -152,6 +152,7 @@
                var conuntcottimecomp = 1;
                // 对整个区域进行 OCR
                var resList = captureRegion.findMulti(RecognitionObject.ocr(x, y, w, h));
+               captureRegion.dispose();
                //log.info("OCR 全区域识别结果数量 {len}", resList.count);
                if (resList.count !== 0) {
                     for (let i = 0; i < resList.count; i++) { // 遍历的是 C# 的 List 对象，所以要用 count，而不是 length

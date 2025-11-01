@@ -385,8 +385,12 @@ async function getMintCount() {
     keyPress("B");
     await sleep(1500);
     let mintCount = 0;
-    let materials = captureGameRegion().find(MaterialsRo);
-    let materialsSelected = captureGameRegion().find(MaterialsSelectedRo);
+    let ro1 = captureGameRegion();
+    let materials = ro1.find(MaterialsRo);
+    ro1.dispose();
+    let ro2 = captureGameRegion();
+    let materialsSelected = ro2.find(MaterialsSelectedRo);
+    ro2.dispose();
     if (materials.isExist()) {
         materials.click();
         await sleep(1500);
@@ -395,9 +399,13 @@ async function getMintCount() {
         await sleep(1500);
     }
     for (let i = 0; i < 10; i++) {
-        let mint = captureGameRegion().find(MintRo);
+        let ro3 = captureGameRegion();
+        let mint = ro3.find(MintRo);
+        ro3.dispose();
         if (mint.isExist()) {
-            let resList = captureGameRegion().findMulti(RecognitionObject.ocr(mint.x, mint.y + mint.width, mint.Width, mint.Height));
+            let ro4 = captureGameRegion();
+            let resList = ro4.findMulti(RecognitionObject.ocr(mint.x, mint.y + mint.width, mint.Width, mint.Height));
+            ro4.dispose();
             for (let j = 0; j < resList.count; j++) {
                 let mintResult = resList[j];
                 mintCount = parseInt(mintResult.text);
@@ -409,7 +417,9 @@ async function getMintCount() {
                 break;
             }
         }
-        let sliderBottom = captureGameRegion().find(SliderBottomRo);
+        let ro5 = captureGameRegion();
+        let sliderBottom = ro5.find(SliderBottomRo);
+        ro5.dispose();
         if (sliderBottom.isExist()) {
             click(Math.ceil(sliderBottom.x + sliderBottom.Width / 2), Math.ceil(sliderBottom.y + sliderBottom.Height + sliderBottom.Height / 2));
             await moveMouseTo(0, 0);

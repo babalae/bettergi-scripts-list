@@ -38,6 +38,7 @@
             let OCRcaptureRegion = captureGameRegion();
             
             let resList = OCRcaptureRegion.findMulti(RecognitionObject.ocrThis);
+            OCRcaptureRegion.dispose();
 
             for (let i = 0; i < resList.count; i++) {
                 let res = resList[i];
@@ -54,9 +55,10 @@
         }
         tag = 0;
         for (let i = 0; i < 5 && tag === 0; i++) {
-            OCRcaptureRegion = captureGameRegion();
+            let OCRcaptureRegion = captureGameRegion();
 
-            resList = OCRcaptureRegion.findMulti(RecognitionObject.ocrThis);
+            let resList = OCRcaptureRegion.findMulti(RecognitionObject.ocrThis);
+            OCRcaptureRegion.dispose();
 
             for (let i = 0; i < resList.count; i++) { 
                 let res = resList[i];

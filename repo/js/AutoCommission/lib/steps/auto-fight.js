@@ -30,11 +30,13 @@
           // 查找模板
           if (cap.find(teamRO)) {
             log.info("识别到战斗结束");
+            cap.dispose();
             // 取消 打开队伍
             keyPress("l");
             return true;
           }
 
+          cap.dispose();
           log.info("未识别到战斗结束");
           await sleep(intervals);
         }

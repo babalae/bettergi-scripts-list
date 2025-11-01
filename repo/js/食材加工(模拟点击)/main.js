@@ -143,6 +143,7 @@
 
         let ra = captureGameRegion();
         let fRes = ra.find(fDialogueRo);
+        ra.dispose();
 
         if (!fRes.isExist()) {
             let f_attempts = 0; // 初始化尝试次数
@@ -169,6 +170,7 @@
                 // 重新获取游戏区域截图
                 ra = captureGameRegion();
                 fRes = ra.find(fDialogueRo);
+                ra.dispose();
 
                 // 打印识别结果
                 log.info(`识别结果：${fRes.isExist()}`);
@@ -204,6 +206,7 @@
 
         let ra = captureGameRegion();
         let cookingRes = ra.find(cookingRo);
+        ra.dispose();
 
         if (cookingRes.isExist()) {
             log.info("找到 灶台 图标");

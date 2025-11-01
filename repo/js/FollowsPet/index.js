@@ -61,6 +61,7 @@ async function equipPet(pet) {
         const gameRegion = captureGameRegion();
         const petRegion = gameRegion.find(petRo);
         if (!petRegion.isExist()) {
+            gameRegion.dispose();
             // 未找到宠物，尝试拖动屏幕
             await mouseSmoothDrag(1200, 890, 1200, 186, 2000);
             continue;
@@ -70,6 +71,7 @@ async function equipPet(pet) {
         // 提升精度
         petRo.threshold = 0.97;
         const equipRegion = gameRegion.find(petRo);
+        gameRegion.dispose();
         if (!equipRegion.isExist()) {
             // 装备宠物
             click(1690, 1015);
@@ -105,6 +107,7 @@ async function removePet() {
             await sleep(1000);
             return log.info(`已卸下宠物：${pet.name}`);
         }
+        gameRegion.dispose();
         await mouseSmoothDrag(1200, 890, 1200, 186, 2000);
     }
     log.warn('未找到装备中的宠物');

@@ -229,7 +229,9 @@
         keyDown("VK_Z");
         await sleep(1500)
         keyUp("VK_Z");
-        let theBoonOfTheElderTree = captureGameRegion().find(RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/The Boon of the Elder Tree.png"), 550, 450, 900, 300));
+        const ro = captureGameRegion();
+        let theBoonOfTheElderTree = ro.find(RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/The Boon of the Elder Tree.png"), 550, 450, 900, 300));
+        ro.dispose();
         if (theBoonOfTheElderTree.isExist()) {
             log.info("识别到王树瑞佑");
             theBoonOfTheElderTree.click();

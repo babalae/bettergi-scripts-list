@@ -40,6 +40,7 @@
     async function OcrF() {
         let capture = await captureGameRegion();
         let ocr = await capture.find(RecognitionObject.ocrThis);
+        capture.dispose();
         if(ocr.text.includes('投喂')){
             return true;
         }

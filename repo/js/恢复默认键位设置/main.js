@@ -9,7 +9,9 @@ const RestoreButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("R
         keyPress("ESCAPE");
         await sleep(2000);
 
-        let SettingsButton = captureGameRegion().find(SettingsButtonRo);
+        const ro1 = captureGameRegion();
+        let SettingsButton = ro1.find(SettingsButtonRo);
+        ro1.dispose();
         if (SettingsButton.isExist()) {
             log.info("识别到设置按钮");
             SettingsButton.click();
@@ -17,23 +19,27 @@ const RestoreButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("R
 
             let captureRegion = captureGameRegion();
             let resList = captureRegion.findMulti(RecognitionObject.ocr(100, 100, 300, 300));
+            captureRegion.dispose();
             for (let i = 0; i < resList.count; i++) {
                 let res = resList[i];
                 if (res.text.includes("Key") || res.text.includes("Bindings") || res.text.includes("按键") || res.text.includes("按鍵")) {
                     res.click();
                     await sleep(2000);
 
-                    let RestoreButton = captureGameRegion().find(RestoreButtonRo);
+                    const ro2 = captureGameRegion();
+                    let RestoreButton = ro2.find(RestoreButtonRo);
+                    ro2.dispose();
                     if (RestoreButton.isExist()) {
                         log.info("识别到恢复默认按钮");
                         RestoreButton.click();
                         await sleep(1500);
 
 
-                        let captureRegion = captureGameRegion();
-                        let resList = captureRegion.findMulti(RecognitionObject.ocr(1000, 720, 340, 60));
-                        for (let i = 0; i < resList.count; i++) {
-                            let res = resList[i];
+                        let captureRegion2 = captureGameRegion();
+                        let resList2 = captureRegion2.findMulti(RecognitionObject.ocr(1000, 720, 340, 60));
+                        captureRegion2.dispose();
+                        for (let i = 0; i < resList2.count; i++) {
+                            let res = resList2[i];
                             if (res.text.includes("确认")) {
                                 log.info("识别到确认按钮");
                                 res.click();

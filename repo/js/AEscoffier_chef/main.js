@@ -148,7 +148,9 @@
 
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         await sleep(200);
-        let ocrleftupper = captureGameRegion().Find(ocrleftupperRo); // 当前页面OCR
+        const ro1 = captureGameRegion();
+        let ocrleftupper = ro1.Find(ocrleftupperRo); // 当前页面OCR
+        ro1.dispose();
         return ocrleftupper.isExist() && ocrleftupper.text === "烹饪" ? true: false;
     }
 
@@ -163,7 +165,9 @@
 
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         await sleep(200);
-        let ocrleftupper = captureGameRegion().Find(ocrleftupperRo); // 当前页面OCR
+        const ro2 = captureGameRegion();
+        let ocrleftupper = ro2.Find(ocrleftupperRo); // 当前页面OCR
+        ro2.dispose();
         return ocrleftupper.isExist() && ocrleftupper.text === "料理制作" ? true: false;
     }
 
@@ -178,7 +182,9 @@
 
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         await sleep(200);
-        let ocrleftupper = captureGameRegion().Find(ocrleftupperRo); // 当前页面OCR
+        const ro3 = captureGameRegion();
+        let ocrleftupper = ro3.Find(ocrleftupperRo); // 当前页面OCR
+        ro3.dispose();
         return ocrleftupper.isExist() && ocrleftupper.text === "食材加工" ? true: false;
     }
 
@@ -211,7 +217,9 @@
 
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         await sleep(200);
-        let ocr = captureGameRegion().Find(ocrRo); // 当前页面OCR
+        const ro4 = captureGameRegion();
+        let ocr = ro4.Find(ocrRo); // 当前页面OCR
+        ro4.dispose();
         return ocr.isExist() && ocr.text === "自动烹饪" ? true: false;
     }
 
@@ -281,7 +289,9 @@
 
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         await sleep(200);
-        let ocr = captureGameRegion().Find(ocrRo); // 当前页面OCR
+        const ro6 = captureGameRegion();
+        let ocr = ro6.Find(ocrRo); // 当前页面OCR
+        ro6.dispose();
         if (ocr.isExist()) {
             log.info(`烹饪品质: ${ocr.text}`);
             if (ocr.text === "") {
@@ -312,7 +322,9 @@
 
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         await sleep(200);
-        let ocr = captureGameRegion().Find(ocrRo); // 当前页面OCR
+        const ro7 = captureGameRegion();
+        let ocr = ro7.Find(ocrRo); // 当前页面OCR
+        ro7.dispose();
         if (ocr.isExist()) {
             log.info(`当前熟练度: ${ocr.text}`);
             let ocr_nums = ocr.text.split("/").map(Number);
@@ -339,7 +351,9 @@
 
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         await sleep(200);
-        let ocr = captureGameRegion().Find(ocrRo); // 当前页面OCR
+        const ro8 = captureGameRegion();
+        let ocr = ro8.Find(ocrRo); // 当前页面OCR
+        ro8.dispose();
         if (ocr.isExist()) {
             return ocr.text;
         } else {
@@ -361,7 +375,9 @@
 
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         await sleep(200);
-        let ocr = captureGameRegion().FindMulti(ocrRo); // 当前页面OCR
+        const ro9 = captureGameRegion();
+        let ocr = ro9.FindMulti(ocrRo); // 当前页面OCR
+        ro9.dispose();
         if (ocr.count !== 0) {
             for (let i = 0; i < ocr.count; i++) {
                 let food_name_deal = await Promise.all(
@@ -394,7 +410,9 @@
 
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         await sleep(200);
-        let ocr = captureGameRegion().FindMulti(ocrRo); // 当前页面OCR
+        const ro10 = captureGameRegion();
+        let ocr = ro10.FindMulti(ocrRo); // 当前页面OCR
+        ro10.dispose();
         if (ocr.count !== 0) {
             for (let i = 0; i < ocr.count; i++) {
                 if (ocr[i].text === name) {
@@ -427,8 +445,10 @@
         for (let i = 0; i < pages; i++) {
             moveMouseTo(1555, 860); // 移走鼠标，防止干扰识别
             await sleep(200);
-            let slide_bar_up = captureGameRegion().Find(slide_bar_upRo); // 当前页面模板匹配
-            let slide_bar_down = captureGameRegion().Find(slide_bar_downRo); // 当前页面模板匹配
+            const ro11 = captureGameRegion();
+            let slide_bar_up = ro11.Find(slide_bar_upRo); // 当前页面模板匹配
+            let slide_bar_down = ro11.Find(slide_bar_downRo); // 当前页面模板匹配
+            ro11.dispose();
             if (slide_bar_up.isExist() && slide_bar_down.isExist()) {
                 log.info(`定位到滑块...(${slide_bar_up.x}, ${slide_bar_up.y})-滑动方向: ${direction}`);
                 if (slide_bar_down.y > 920 && direction === "down") {
@@ -470,7 +490,9 @@
         for (let i = 0; i < pages; i++) {
             moveMouseTo(1555, 860); // 移走鼠标，防止干扰识别
             await sleep(200);
-            let slide_bar = captureGameRegion().Find(slide_barRo); // 当前页面模板匹配
+            const ro12 = captureGameRegion();
+            let slide_bar = ro12.Find(slide_barRo); // 当前页面模板匹配
+            ro12.dispose();
             if (slide_bar.isExist()) {
                 log.info(`定位到滑块...(${slide_bar.x}, ${slide_bar.y})-滑动方向: ${direction}`);
                 if (slide_bar.y > 880 && direction === "down") {
@@ -1186,9 +1208,11 @@
                 log.info(`找到点位${i}号区域`);
                 await sleep(waitTime);
                 keyPress("VK_SPACE");
+                gameRegion.dispose();
                 return 0;
             }
         }
+        gameRegion.dispose();
         // log.info(`未找到点位区域，烹饪结束`);
         // keyPress("ESCAPE");
         // await sleep(1000);
@@ -1572,7 +1596,9 @@
 
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         await sleep(200);
-        let ocr = captureGameRegion().FindMulti(ocrRo); // 当前页面OCR
+        const ro13 = captureGameRegion();
+        let ocr = ro13.FindMulti(ocrRo); // 当前页面OCR
+        ro13.dispose();
         await sleep(200);
         try {
             msg_dic["quality"] = await check_quality();
@@ -1631,7 +1657,9 @@
 
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         await sleep(200);
-        let ocr = captureGameRegion().Find(ocrRo); // 当前页面OCR
+        const ro14 = captureGameRegion();
+        let ocr = ro14.Find(ocrRo); // 当前页面OCR
+        ro14.dispose();
         if (ocr.isExist()) {
             return ocr.text;
         } else {
@@ -1650,7 +1678,9 @@
 
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         await sleep(200);
-        let ocr = captureGameRegion().FindMulti(ocrRo); // 当前页面OCR
+        const ro15 = captureGameRegion();
+        let ocr = ro15.FindMulti(ocrRo); // 当前页面OCR
+        ro15.dispose();
         if (ocr.isExist()) {
             if (ocr.text.includes("2倍产出")) {
                 return "2倍产出";
@@ -1677,7 +1707,9 @@
 
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         await sleep(200);
-        let ocr = captureGameRegion().Find(ocrRo); // 当前页面OCR
+        const ro16 = captureGameRegion();
+        let ocr = ro16.Find(ocrRo); // 当前页面OCR
+        ro16.dispose();
         // 等待以防止时长提醒影响操作
         const regex = new RegExp(/(?<=旅行者)[\s\S]*?(?=休息)/);
         if (regex.test(ocr)) {

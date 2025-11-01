@@ -64,7 +64,9 @@
           while (openPairingTries < 3) {
             keyPress("l");
             await sleep(3500);
-            var teamConfigResult = captureGameRegion().find(roTeamConfig);
+            const ro1 = captureGameRegion();
+            var teamConfigResult = ro1.find(roTeamConfig);
+            ro1.dispose();
             if (teamConfigResult.isExist()) {
               openPairingTries = 0;
               return true;
@@ -106,7 +108,9 @@
                 file.ReadImageMatSync("Data/characterimage/" + characterFileName + ".png"),
                 0, 0, 1920, 1080
               );
-              var characterResult = captureGameRegion().find(characterRo);
+              const ro2 = captureGameRegion();
+              var characterResult = ro2.find(characterRo);
+              ro2.dispose();
               if (characterResult.isExist()) {
                 log.info("已找到角色{character}", actualName);
                 // 计算向右偏移35像素、向下偏移35像素的位置
@@ -146,8 +150,10 @@
         }
         
         // 识别"更换"或"加入"按钮
-        var replaceResult = captureGameRegion().find(roReplace);
-        var joinResult = captureGameRegion().find(roJoin);
+        const ro3 = captureGameRegion();
+        var replaceResult = ro3.find(roReplace);
+        var joinResult = ro3.find(roJoin);
+        ro3.dispose();
         
         if (replaceResult.isExist() || joinResult.isExist()) {
           await sleep(300);

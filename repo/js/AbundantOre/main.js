@@ -298,6 +298,7 @@ async function get_inventory() {
             }
         }
     }
+    game_region.dispose();
     if (inventory_result.crystal_chunks + inventory_result.condessence_crystals + inventory_result.amethyst_lumps + inventory_result.rainbowdrop_crystals === 0) {
         log.error("获取背包矿石数量失败");
     }

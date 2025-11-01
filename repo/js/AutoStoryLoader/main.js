@@ -21,6 +21,7 @@ const paimonMenuRo = RecognitionObject.TemplateMatch(
 const isInMainUI = () => {
   let captureRegion = captureGameRegion();
   let res = captureRegion.Find(paimonMenuRo);
+  captureRegion.dispose();
   return !res.isEmpty();
 };
 
@@ -85,6 +86,7 @@ const isInMainUI = () => {
         // 捕获并识别
         const region = captureGameRegion();
         region.Find(ro);
+        region.dispose();
 
         // 2000毫秒后移除绘制的边框
         setTimeout(() => {
@@ -109,6 +111,7 @@ const isInMainUI = () => {
         // 截图识别
         let captureRegion = captureGameRegion();
         let OCRresults = await captureRegion.findMulti(locationOcrRo);
+        captureRegion.dispose();
 
         return OCRresults;
       } catch (error) {
@@ -543,6 +546,7 @@ const isInMainUI = () => {
       return () => {
         let captureRegion = captureGameRegion();
         let res = captureRegion.Find(paimonMenuRo);
+        captureRegion.dispose();
         return !res.isEmpty();
       };
     },

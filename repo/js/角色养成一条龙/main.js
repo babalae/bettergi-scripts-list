@@ -139,18 +139,20 @@ async function findAndClickWithScroll(targetRo, stopRo, options = {}) {
             // 找到目标，点击并返回
             log.info(`找到目标图片，位置: (${targetResult.x}, ${targetResult.y})`);
             targetResult.click();
+            captureRegion.dispose();
             await sleep(clickDelay);
             return;
         }
-        
+
         // 4. 未找到目标，滚动画面
         log.info(`第 ${attempt + 1} 次尝试未找到目标图片，将滚动画面...`);
         for (let i = 0; i < scrollNum; i++) {
-        await keyMouseScript.runFile("assets/滚轮下滑.json");
+            await keyMouseScript.runFile("assets/滚轮下滑.json");
         }
 
         // 2. 检查是否遇到终止图片
         const stopResult = captureRegion.find(stopRo);
+        captureRegion.dispose();
         if (!stopResult.isEmpty()) {
             throw new Error(`遇到终止图片，停止寻找目标图片。终止位置: (${stopResult.x}, ${stopResult.y})`);
         }
@@ -200,9 +202,11 @@ let challengeTime = 0;
             await sleep(500);
             leftButtonClick();
             await sleep(100);
-            let res = captureGameRegion().find(RecognitionObject.ocr(840, 935, 230, 40));
+            let ro = captureGameRegion();
+            let res = ro.find(RecognitionObject.ocr(840, 935, 230, 40));
+            ro.dispose();
             if (res.text.includes("自动退出")) {
-                     log.info("检测到挑战成功");           
+                     log.info("检测到挑战成功");
                      return;
                 }
             }
@@ -244,44 +248,49 @@ const autoNavigateToReward = async () => {
         if (rewardResult.text == "接触征讨之花") {
             log.info(`总计前进第${advanceNum}次`);
             log.info("已到达领奖点，检测到文字: " + rewardResult.text);
+            captureRegion.dispose();
             return;
         }
         else if(advanceNum > 150){
-        log.info(`总计前进第${advanceNum}次`);
-        throw new Error('前进时间超时');
+            log.info(`总计前进第${advanceNum}次`);
+            captureRegion.dispose();
+            throw new Error('前进时间超时');
         }
         // 2. 未到达领奖点，则调整视野
         for(let i = 0; i < 100; i++){
-        captureRegion = captureGameRegion();
-        let iconRes = captureRegion.Find(boxIconRo);
-        let climbTextArea = captureRegion.DeriveCrop(1685, 1030, 65, 25);
-        let climbResult = climbTextArea.find(RecognitionObject.ocrThis);
-        // 检查是否处于攀爬状态
-        if (climbResult.text == "Space"){
-        log.info("检侧进入攀爬状态，尝试脱离");
-        keyPress("x");
-        await sleep(1000);
-        keyDown("a");
-        await sleep(800);
-        keyUp("a");
-        keyDown("w");
-        await sleep(800);
-        keyUp("w");
-        }
-        if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {    
-            advanceNum++;
-            break;
-        } else {
-            // 小幅度调整
-            if(iconRes.y >= 520)  moveMouseBy(0, 920);
-            let adjustAmount = iconRes.x < 920 ? -20 : 20;
-            let distanceToCenter = Math.abs(iconRes.x - 920); // 计算与920的距离
-            let scaleFactor = Math.max(1, Math.floor(distanceToCenter / 50)); // 根据距离缩放，最小为1
-            let adjustAmount2 = iconRes.y < 540 ? scaleFactor : 10;
-            moveMouseBy(adjustAmount * adjustAmount2, 0);
-            await sleep(100);
-        }     
-  if(i > 20) throw new Error('视野调整超时');
+            captureRegion = captureGameRegion();
+            let iconRes = captureRegion.Find(boxIconRo);
+            let climbTextArea = captureRegion.DeriveCrop(1685, 1030, 65, 25);
+            captureRegion.dispose();
+            let climbResult = climbTextArea.find(RecognitionObject.ocrThis);
+            // 检查是否处于攀爬状态
+            if (climbResult.text == "Space"){
+            log.info("检侧进入攀爬状态，尝试脱离");
+            keyPress("x");
+            await sleep(1000);
+            keyDown("a");
+            await sleep(800);
+            keyUp("a");
+            keyDown("w");
+            await sleep(800);
+            keyUp("w");
+            }
+            if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {
+                advanceNum++;
+                break;
+            } else {
+                // 小幅度调整
+                if(iconRes.y >= 520)  moveMouseBy(0, 920);
+                let adjustAmount = iconRes.x < 920 ? -20 : 20;
+                let distanceToCenter = Math.abs(iconRes.x - 920); // 计算与920的距离
+                let scaleFactor = Math.max(1, Math.floor(distanceToCenter / 50)); // 根据距离缩放，最小为1
+                let adjustAmount2 = iconRes.y < 540 ? scaleFactor : 10;
+                moveMouseBy(adjustAmount * adjustAmount2, 0);
+                await sleep(100);
+            }
+            if(i > 20) {
+                throw new Error('视野调整超时');
+            }
     }
         // 3. 前进一小步
         keyDown("w");
@@ -325,6 +334,7 @@ async function queryStaminaValue() {
         await sleep(800);
         let captureRegion = captureGameRegion();
         let stamina = captureRegion.find(RecognitionObject.ocr(1580, 20, 210, 55));
+        captureRegion.dispose();
         log.info(`OCR原始文本：${stamina.text}`);
         const staminaText = stamina.text.replace(/\s/g, ''); // 移除所有空格
          const standardMatch = staminaText.match(/(\d+)/);
@@ -334,7 +344,7 @@ async function queryStaminaValue() {
                 if (validatedStamina > 11200) validatedStamina = (validatedStamina-1200)/10000;
            log.info(`返回体力值：${validatedStamina}`);
            return validatedStamina;
-            }       
+            }
     } catch (error) {
         log.error(`体力识别失败：${error.message}，默认为零`);
         await genshin.returnMainUi();
@@ -354,13 +364,14 @@ async function tpEndDetection() {
         let capture = captureGameRegion();
         let res1 = capture.find(region1);
         let res2 = capture.find(region2);
+        capture.dispose();
         if (!res1.isEmpty()|| !res2.isEmpty()){
             log.info("传送完成");
             await sleep(1000);//传送结束后有僵直
             click(960, 810);//点击任意处
             await sleep(500);
             return;
-        } 
+        }
         tpTime++;
         await sleep(100);
     }
@@ -418,6 +429,7 @@ const repeatOperationUntilTextFound = async ({
         // 1. 捕获游戏区域并裁剪出检测区域
         const captureRegion = captureGameRegion();
         const textArea = captureRegion.DeriveCrop(x, y, width, height);
+        captureRegion.dispose();
         
         // 2. 执行OCR识别
         const ocrResult = textArea.find(RecognitionObject.ocrThis);
@@ -433,7 +445,7 @@ const repeatOperationUntilTextFound = async ({
             if (ifClick) click(Math.round(x + width / 2), Math.round(y + height / 2));
             return true;
         }
-        
+
         // 4. 检查步数限制
         if (stepsTaken >= maxSteps) {
             throw new Error(`检查次数超过最大限制: ${maxSteps}，未查询到文字"${targetText}"`);
@@ -485,6 +497,7 @@ threshold = 0.8 // 新增阈值参数，默认值0.8
         const captureRegion = captureGameRegion();
         // 查找图片
         const result = captureRegion.Find(recognitionObj);
+        captureRegion.dispose();
         
         if (!result.isEmpty()) {
             log.info(`找到图片 ${imageName}，位置(${result.x}, ${result.y})，正在点击...`);
@@ -492,7 +505,7 @@ threshold = 0.8 // 新增阈值参数，默认值0.8
             await sleep(300); // 点击后稍作等待
             return true;
         }
-        
+
         await sleep(checkInterval);
     }
     
@@ -520,6 +533,7 @@ async function findImageAndOCR(imagePath, ocrWidth, ocrHeight, offsetX, offsetY)
         
         if (foundRegion.isEmpty()) {
             log.info(`未找到模板图片: ${imagePath}`);
+            captureRegion.dispose();
             return false;
         }
         
@@ -532,6 +546,7 @@ async function findImageAndOCR(imagePath, ocrWidth, ocrHeight, offsetX, offsetY)
         // 4. 创建OCR识别对象并识别
         const ocrRo = RecognitionObject.Ocr(ocrX, ocrY, ocrWidth, ocrHeight);
         const ocrResult = captureRegion.Find(ocrRo);
+        captureRegion.dispose();
         
         if (ocrResult.isEmpty() || !ocrResult.text || ocrResult.text.trim() === "") {
             log.info("OCR未识别到内容");

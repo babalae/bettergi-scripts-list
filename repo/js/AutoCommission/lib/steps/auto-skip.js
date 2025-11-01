@@ -22,7 +22,9 @@ var executeAutoSkipLogic = async function (stepData, stepName) {
     var recognizeImage = async function (recognitionObject) {
       try {
         // 尝试识别图像
-        var imageResult = captureGameRegion().find(recognitionObject);
+        let captureRegion = captureGameRegion();
+        var imageResult = captureRegion.find(recognitionObject);
+        captureRegion.dispose();
         if (
           imageResult &&
           imageResult.x !== 0 &&
@@ -174,6 +176,7 @@ var executeAutoSkipLogic = async function (stepData, stepName) {
               550,
               ocrHeight
             );
+            captureRegion.dispose();
 
             // 创建OCR识别对象并识别文本
             var ocrRo = RecognitionObject.Ocr(

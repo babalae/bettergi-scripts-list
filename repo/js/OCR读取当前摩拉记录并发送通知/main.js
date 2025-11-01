@@ -13,7 +13,9 @@ async function recognizeImage(recognitionObject, timeout = 5000) {
     while (Date.now() - startTime < timeout) {
         try {
             // 尝试识别图像
-            let imageResult = captureGameRegion().find(recognitionObject);
+            const ro = captureGameRegion();
+            let imageResult = ro.find(recognitionObject);
+            ro.dispose();
             if (imageResult) {
                 // log.info(`成功识别图像，坐标: x=${imageResult.x}, y=${imageResult.y}`);
                 // log.info(`图像尺寸: width=${imageResult.width}, height=${imageResult.height}`);
@@ -35,7 +37,9 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 5000) {
     while (Date.now() - startTime < timeout) {
         try {
             // 尝试 OCR 识别
-            let resList = captureGameRegion().findMulti(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height)); // 指定识别区域
+            const ro = captureGameRegion();
+            let resList = ro.findMulti(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height)); // 指定识别区域
+            ro.dispose();
             // 遍历识别结果，检查是否找到目标文本
             for (let res of resList) {
                 // 后处理：根据替换映射表检查和替换错误识别的字符
@@ -70,7 +74,9 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
     while (Date.now() - startTime < timeout) {
         try {
             // 在指定区域进行 OCR 识别
-            let ocrResult = captureGameRegion().find(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height));
+            const ro = captureGameRegion();
+            let ocrResult = ro.find(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height));
+            ro.dispose();
             if (ocrResult) {
                 // 后处理：根据替换映射表检查和替换错误识别的字符
                 let correctedText = ocrResult.text;

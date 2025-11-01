@@ -76,17 +76,23 @@ async function openCodeUI() {
     await sleep(2000);
 
     const settingsRo = RecognitionObject.TemplateMatch(file.readImageMatSync("assets/settings.png"));
-    const settingsRes = captureGameRegion().find(settingsRo);
+    const ro1 = captureGameRegion();
+    const settingsRes = ro1.find(settingsRo);
+    ro1.dispose();
     if (settingsRes.isExist()) settingsRes.click();
     await sleep(2000);
 
     const accountRo = RecognitionObject.TemplateMatch(file.readImageMatSync("assets/account.png"));
-    const accountRes = captureGameRegion().find(accountRo);
+    const ro2 = captureGameRegion();
+    const accountRes = ro2.find(accountRo);
+    ro2.dispose();
     if (accountRes.isExist()) accountRes.click();
     await sleep(500);
 
     const goToRedeemRo = RecognitionObject.TemplateMatch(file.readImageMatSync("assets/go_to_redeem.png"));
-    const goToRedeemRes = captureGameRegion().find(goToRedeemRo);
+    const ro3 = captureGameRegion();
+    const goToRedeemRes = ro3.find(goToRedeemRo);
+    ro3.dispose();
     if (goToRedeemRes.isExist()) goToRedeemRes.click();
     await sleep(500);
 }
@@ -151,7 +157,9 @@ async function openCodeUI() {
 
             // 输入兑换码
             const inputCodeRo = RecognitionObject.TemplateMatch(file.readImageMatSync("assets/input_code.png"));
-            const inputCodeRes = captureGameRegion().find(inputCodeRo);
+            const ro4 = captureGameRegion();
+            const inputCodeRes = ro4.find(inputCodeRo);
+            ro4.dispose();
             if (inputCodeRes.isExist()) inputCodeRes.click();
             await sleep(300);
 
@@ -160,15 +168,21 @@ async function openCodeUI() {
 
             // 点击兑换按钮
             const redeemRo = RecognitionObject.TemplateMatch(file.readImageMatSync("assets/redeem.png"));
-            const redeemRes = captureGameRegion().find(redeemRo);
+            const ro5 = captureGameRegion();
+            const redeemRes = ro5.find(redeemRo);
+            ro5.dispose();
             if (redeemRes.isExist()) redeemRes.click();
             await sleep(1500);
 
             // 检测各种状态
-            const invalidRes = captureGameRegion().find(RecognitionObject.TemplateMatch(file.readImageMatSync("assets/invalid.png")));
+            const ro6 = captureGameRegion();
+            const invalidRes = ro6.find(RecognitionObject.TemplateMatch(file.readImageMatSync("assets/invalid.png")));
+            ro6.dispose();
             if (invalidRes.isExist()) log.info(`兑换码【${code}】无效`);
 
-            const usedRes = captureGameRegion().find(RecognitionObject.TemplateMatch(file.readImageMatSync("assets/used.png")));
+            const ro7 = captureGameRegion();
+            const usedRes = ro7.find(RecognitionObject.TemplateMatch(file.readImageMatSync("assets/used.png")));
+            ro7.dispose();
             if (usedRes.isExist()) {
                 // 写入记录
                 const writeOk = file.writeTextSync(recordPath, code + "\n", true);
@@ -178,7 +192,9 @@ async function openCodeUI() {
                 }
             }
 
-            const expiredRes = captureGameRegion().find(RecognitionObject.TemplateMatch(file.readImageMatSync("assets/expired.png")));
+            const ro8 = captureGameRegion();
+            const expiredRes = ro8.find(RecognitionObject.TemplateMatch(file.readImageMatSync("assets/expired.png")));
+            ro8.dispose();
             if (expiredRes.isExist()) {
                 // 写入记录
                 const writeOk = file.writeTextSync(recordPath, code + "\n", true);
@@ -188,10 +204,14 @@ async function openCodeUI() {
                 }
             }
 
-            const notopenRes = captureGameRegion().find(RecognitionObject.TemplateMatch(file.readImageMatSync("assets/not_open.png")));
+            const ro9 = captureGameRegion();
+            const notopenRes = ro9.find(RecognitionObject.TemplateMatch(file.readImageMatSync("assets/not_open.png")));
+            ro9.dispose();
             if (notopenRes.isExist()) log.info(`兑换码【${code}】未开启`);
 
-            const confirmRes = captureGameRegion().find(RecognitionObject.TemplateMatch(file.readImageMatSync("assets/confirm.png")));
+            const ro10 = captureGameRegion();
+            const confirmRes = ro10.find(RecognitionObject.TemplateMatch(file.readImageMatSync("assets/confirm.png")));
+            ro10.dispose();
             if (confirmRes.isExist()) {
                 log.info(`兑换码【${code}】成功兑换`);
                 confirmRes.click();
@@ -205,7 +225,9 @@ async function openCodeUI() {
             }
 
             // 清除输入
-            const clearRes = captureGameRegion().find(RecognitionObject.TemplateMatch(file.readImageMatSync("assets/clear.png")));
+            const ro11 = captureGameRegion();
+            const clearRes = ro11.find(RecognitionObject.TemplateMatch(file.readImageMatSync("assets/clear.png")));
+            ro11.dispose();
             if (clearRes.isExist()) clearRes.click();
 
             await sleep(4000);
