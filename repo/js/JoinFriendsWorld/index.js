@@ -18,6 +18,7 @@ async function isCoOpMode() {
   await genshin.returnMainUi();
   const gameRegion = captureGameRegion();
   const ocrRegion = gameRegion.find(autoZoomOcr(343, 22, 45, 45));
+  gameRegion.dispose();
   const ocrText = ocrRegion.text.trim().toLocaleLowerCase();
   return ocrText.includes("p") || ocrText !== "";
 }
@@ -53,12 +54,15 @@ const WAIT_FRIEND_CONFIRM_TIMEOUT = 25 * 1000;
             // 判断是否搜索的用户是否是自己
             const yourselfRegin = gameRegion.find(autoZoomOcr(660, 495, 601, 88));
             if (yourselfRegin.text.includes('其他玩家')) {
+                gameRegion.dispose();
                 throw new Error('不能使用自己的UID');
             }
+            gameRegion.dispose();
             throw new Error('UID不存在');
         }
         const joinOrAddRegin = gameRegion.find(autoZoomOcr(1160, 800, 200, 54));
         const joinOrAddText = joinOrAddRegin.text.trim();
+        gameRegion.dispose();
         if (joinOrAddText === '') {
             throw new Error('你的好友不在线');
         }
@@ -75,6 +79,7 @@ const WAIT_FRIEND_CONFIRM_TIMEOUT = 25 * 1000;
             const gameRegion = captureGameRegion();
             const requestRegin = gameRegion.find(autoZoomOcr(725, 195, 465, 45));
             const requestText = requestRegin.text.trim();
+            gameRegion.dispose();
             if (requestText.endsWith('拒绝了多人游戏申请')) {
                 throw new Error('好友拒绝了多人游戏');
             }

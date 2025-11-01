@@ -31,6 +31,7 @@ async function condensedResin() {
     while (!Alchemy && retryCount <= maxRetries) {
         // 对整个区域进行 OCR
         let resList = captureRegion.findMulti(RecognitionObject.ocrThis);
+        captureRegion.dispose();
         for (let i = 0; i < resList.count; i++) {
             if (resList[i].text.includes("合成")) {
                 // 找到合成台，点击合成台
@@ -45,12 +46,16 @@ async function condensedResin() {
                 await sleep(1000);
 
                 // 图像识别浓缩树脂
-                let Resin = captureGameRegion().find(CondensedResin);
+                const ro1 = captureGameRegion();
+                let Resin = ro1.find(CondensedResin);
+                ro1.dispose();
                 if (Resin.isExist()) {
                     Resin.click();
                     log.info("找到浓缩树脂,开始合成体力");
                     await sleep(750);
-                    let confirm = captureGameRegion().find(confirmRo);
+                    const ro2 = captureGameRegion();
+                    let confirm = ro2.find(confirmRo);
+                    ro2.dispose();
                     if (confirm.isExist()) {
                         confirm.click(); // 点击合成
                         await sleep(5000);

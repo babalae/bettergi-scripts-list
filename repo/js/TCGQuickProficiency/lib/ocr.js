@@ -36,11 +36,13 @@ async function waitForTextAppear(targetText, ocrRegion, timeout = 5000, retryInt
             }
         } catch (error) {
             log.warn(`页面标志识别失败，正在进行第 ${retryCount} 次重试...`);
-        }
-        retryCount++; // 增加重试计数
-        if (retryCount > debugThreshold) {
-            let region = captureRegion.DeriveCrop(x, y, width, height);
-            region.DrawSelf("debug");
+        } finally {
+            retryCount++; // 增加重试计数
+            if (retryCount > debugThreshold) {
+                let region = captureRegion.DeriveCrop(x, y, width, height);
+                region.DrawSelf("debug");
+            }
+            captureRegion.dispose();
         }
         await sleep(retryInterval);
     }
@@ -85,11 +87,13 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 5000, retr
             }
         } catch (error) {
             log.warn(`页面标志识别失败，正在进行第 ${retryCount} 次重试...`);
-        }
-        retryCount++; // 增加重试计数
-        if (retryCount > debugThreshold) {
-            let region = captureRegion.DeriveCrop(x, y, width, height);
-            region.DrawSelf("debug");
+        } finally {
+            retryCount++; // 增加重试计数
+            if (retryCount > debugThreshold) {
+                let region = captureRegion.DeriveCrop(x, y, width, height);
+                region.DrawSelf("debug");
+            }
+            captureRegion.dispose();
         }
         await sleep(retryInterval);
     }

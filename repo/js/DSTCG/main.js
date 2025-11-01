@@ -734,6 +734,7 @@
                 await this.getEnemyCard(1070, 2, waitTime);
                 await this.getEnemyCard(1275, 3, waitTime);
             }
+            gameRegion.dispose();
         }
 
         // 获取我方角色牌名称和充能
@@ -747,6 +748,7 @@
                 this.userState[i] = await getState("user", i + 1, 3, gameRegion);
                 this.userHp[i] = await getCardHp("user", i + 1, 3, gameRegion);
             }
+            gameRegion.dispose();
             await this.getUserCard(750, 0, waitTime);
             await this.getUserCard(960, 1, waitTime);
             await this.getUserCard(1175, 2, waitTime);
@@ -1802,7 +1804,9 @@
             moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         }
         await sleep(200);
-        let ocr = captureGameRegion().Find(ocrRo); // 当前页面OCR
+        const ro1 = captureGameRegion();
+        let ocr = ro1.Find(ocrRo); // 当前页面OCR
+        ro1.dispose();
         if (ocr.isExist() && ocr.text === "初始手牌") {
             return true;
         } else {
@@ -1823,7 +1827,9 @@
             moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         }
         await sleep(200);
-        let ocr = captureGameRegion().Find(ocrRo); // 当前页面OCR
+        const ro2 = captureGameRegion();
+        let ocr = ro2.Find(ocrRo); // 当前页面OCR
+        ro2.dispose();
         if (ocr.isExist() && ocr.text === "重投骰子") {
             return true;
         } else {
@@ -1844,7 +1850,9 @@
             moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         }
         await sleep(200);
-        let ocr = captureGameRegion().Find(ocrRo); // 当前页面OCR
+        const ro3 = captureGameRegion();
+        let ocr = ro3.Find(ocrRo); // 当前页面OCR
+        ro3.dispose();
         if (ocr.isExist() && ocr.text === "出战角色") {
             return true;
         } else {
@@ -1865,7 +1873,9 @@
             moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         }
         await sleep(200);
-        let ocr = captureGameRegion().Find(ocrRo); // 当前页面OCR
+        const ro4 = captureGameRegion();
+        let ocr = ro4.Find(ocrRo); // 当前页面OCR
+        ro4.dispose();
         if (ocr.isExist() && ocr.text.includes("对局胜利")) {
             return "win";
         } else if (ocr.isExist() && ocr.text.includes("对局失败")){
@@ -1888,7 +1898,9 @@
             moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         }
         await sleep(100);
-        let slide_bar = captureGameRegion().Find(slide_barRo); // 当前页面模板匹配
+        const ro5 = captureGameRegion();
+        let slide_bar = ro5.Find(slide_barRo); // 当前页面模板匹配
+        ro5.dispose();
         if (slide_bar.isExist()) {
             return true;
         } else {
@@ -1909,12 +1921,14 @@
 
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         await sleep(10);
+        const ro6 = captureGameRegion();
         let ocr;
         if (mode === "StartingHand") {
-            ocr = captureGameRegion().Find(ocrRo_StartingHand); // 当前页面OCR
+            ocr = ro6.Find(ocrRo_StartingHand); // 当前页面OCR
         } else if (mode === "main") {
-            ocr = captureGameRegion().Find(ocrRo_Main); // 当前页面OCR
+            ocr = ro6.Find(ocrRo_Main); // 当前页面OCR
         }
+        ro6.dispose();
         if (ocr.isExist()) {
             return ocr.text;
         } else {
@@ -1966,6 +1980,7 @@
                 }
             }
         }
+        gameRegion.dispose();
         log.info(`[DEBUG] 剩余元素骰: ${Object.keys(dice_dic)} | ${Object.values(dice_dic)}`);
         return dice_dic;
     }
@@ -1987,6 +2002,7 @@
         for (let i = 0; i < HandNumNames.length; i++) {
             let numRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(pic_path_dic[HandNumNames[i]]), 1463, 700, 439, 124);
             let num = gameRegion.Find(numRo);
+            gameRegion.dispose();
             if (num.isExist()) return parseInt(HandNumNames[i].slice(4), 10);
         }
 
@@ -2095,6 +2111,7 @@
         let gameRegion = captureGameRegion(); // 捕获一次游戏区域
         let userTurn = gameRegion.Find(userRo);
         let enemyTurn = gameRegion.Find(enemyRo);
+        gameRegion.dispose();
         if (userTurn.isExist()) {
             return "user";
         } else if (enemyTurn.isExist()) {

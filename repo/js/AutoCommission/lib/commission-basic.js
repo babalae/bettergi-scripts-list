@@ -122,6 +122,7 @@ var CommissionBasic = {
           Constants.UNCOMPLETED_IMAGE_PATH
         );
       } catch (imageError) {
+        captureRegion.dispose();
         log.error("加载模板图像失败: {error}", imageError);
         return "unknown";
       }
@@ -149,15 +150,18 @@ var CommissionBasic = {
       // 检测完成状态
       var completedResult = checkRegion.find(completedRo);
       if (!completedResult.isEmpty()) {
+        captureRegion.dispose();
         return "completed";
       }
 
       // 检测未完成状态
       var uncompletedResult = checkRegion.find(uncompletedRo);
       if (!uncompletedResult.isEmpty()) {
+        captureRegion.dispose();
         return "uncompleted";
       }
 
+      captureRegion.dispose();
       log.warn("委托{id}状态识别失败", button.id);
       return "unknown";
     } catch (error) {

@@ -48,6 +48,7 @@
         while (retryCount < maxRetries && (timeout === null || Date.now() - startTime < timeout)) {
             const capture = captureGameRegion();
             const result = capture.find(ro);
+            capture.dispose();
 
             if (!result.isEmpty()) {
                 result.click();
@@ -83,6 +84,7 @@
         while (Date.now() - enterDungeonStartTime < enterDungeonTimeout) {
             const capture = captureGameRegion();
             const result = capture.find(enterDungeonRo);
+            capture.dispose();
 
             if (!result.isEmpty()) {
                 foundEnterDungeon = true;
@@ -176,10 +178,13 @@
         let fightResult = false;
 
         while (Date.now() - startTime < timeout) {
-            if (recognizeFightText(captureGameRegion())) {
+            const ro = captureGameRegion();
+            if (recognizeFightText(ro)) {
+                ro.dispose();
                 fightResult = true;
                 break;
             }
+            ro.dispose();
             await sleep(1000);
         }
 
