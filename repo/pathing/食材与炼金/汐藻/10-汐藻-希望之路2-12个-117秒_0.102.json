@@ -1,0 +1,109 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1761980453527,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "10-汐藻-希望之路2-12个-117秒/0.102",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4770.2373,
+      "y": 3159.4771
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(0.8),keyup(VK_LCONTROL)",
+      "id": 2,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4783.7998,
+      "y": 3184.8408
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),keydown(VK_SPACE),wait(1.7),keyup(VK_SPACE)wait(0.5),keypress(VK_MBUTTON)",
+      "id": 3,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4804.6171875,
+      "y": 3209.82958984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1.0),keyup(VK_LCONTROL),wait(0.5),keypress(VK_MBUTTON)",
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4808.1807,
+      "y": 3224.3057
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL)",
+      "id": 5,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4826.875,
+      "y": 3244.316162109375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_MBUTTON)",
+      "id": 6,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4856.142578125,
+      "y": 3219.9560546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL)",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4875.3076171875,
+      "y": 3201.93701171875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL)",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4831.1123046875,
+      "y": 3173.09619140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL)",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4833.84375,
+      "y": 3197.440673828125
+    }
+  ]
+}
