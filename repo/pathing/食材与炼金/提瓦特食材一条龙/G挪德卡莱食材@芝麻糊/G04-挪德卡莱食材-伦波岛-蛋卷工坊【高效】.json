@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "芝麻糊"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760413167732,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "G04-挪德卡莱食材-伦波岛-蛋卷工坊【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": 9885.5312,
+      "y": 1718.6006
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "500",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9908.793,
+      "y": 1690.6357
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9911.3613,
+      "y": 1680.6035
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9926.4648,
+      "y": 1650.9951
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9917.3848,
+      "y": 1635.6904
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9921.3711,
+      "y": 1621.8779
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9932.5908,
+      "y": 1619.7827
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9917.1621,
+      "y": 1598.2227
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9934.7705,
+      "y": 1583.2314
+    }
+  ]
+}

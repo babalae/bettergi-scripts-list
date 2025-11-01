@@ -1,0 +1,79 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "TTTTFT"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758265605628,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "自动钓鱼路线-须弥-无郁稠林",
+    "tags": [
+      "钓鱼",
+      "须弥"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2411.0693,
+      "y": 348.9429
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2407.5742,
+      "y": 362.6367
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2387.4492,
+      "y": 390.835
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2385.7744,
+      "y": 393.1455
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2382.2754,
+      "y": 398.2515
+    },
+    {
+      "action": "fishing",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 2382.2754,
+      "y": 398.2515
+    }
+  ]
+}

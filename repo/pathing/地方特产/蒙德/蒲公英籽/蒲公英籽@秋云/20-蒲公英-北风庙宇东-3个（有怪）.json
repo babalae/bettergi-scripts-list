@@ -1,0 +1,81 @@
+{
+  "info": {
+    "name": "20-蒲公英-北风庙宇东-3个（有怪）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "秋云",
+        "links": "https://github.com/physligl"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1638.56,
+      "y": 2153.91
+    },
+    {
+      "id": 2,
+      "x": -1645.55,
+      "y": 2116.38,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -1643.01,
+      "y": 2086.95,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": -1658.43,
+      "y": 2071.63,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": -1682.43,
+      "y": 2083.63,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": -1723.43,
+      "y": 2092.97,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "anemo_collect"
+    },
+    {
+      "id": 7,
+      "x": -1729.3,
+      "y": 2094.01,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "anemo_collect"
+    },
+    {
+      "id": 8,
+      "x": -1728.76,
+      "y": 2083.14,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "anemo_collect"
+    }
+  ]
+}

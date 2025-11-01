@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "璃月小吃摊摊主-连芳",
+    "type": "collect",
+    "author": "小鹰划船不用桨",
+    "version": "1.0",
+    "description": "璃月小吃摊摊主-连芳",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2358.4736328125,
+      "y": 2414.63720703125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 2352.466796875,
+      "y": 2400.968017578125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 2350.28125,
+      "y": 2396.127685546875,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 2334.8076171875,
+      "y": 2341.242919921875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 2339.111328125,
+      "y": 2330.905517578125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    }
+  ]
+}

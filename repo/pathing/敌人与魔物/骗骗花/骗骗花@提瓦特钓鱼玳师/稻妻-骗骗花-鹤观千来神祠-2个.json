@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "稻妻-骗骗花-鹤观千来神祠-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-2个\n稻妻-鹤观千来神祠",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2808.67,
+      "y": -6045.72,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -2841.23,
+      "y": -6092.62,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -2907.41,
+      "y": -6103.99,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -2942.3,
+      "y": -6066.85,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

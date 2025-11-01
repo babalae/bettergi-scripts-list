@@ -1,0 +1,43 @@
+[
+  {
+    "name": "operationMode",
+    "type": "select",
+    "label": "测试项目",
+    "options": [
+      "综合测试",
+      "截图",
+      "模板匹配",
+      "ocr"
+    ],
+    "default": "综合测试"
+  },
+  {
+    "name": "dispose",
+    "type": "checkbox",
+    "label": "是否dispose"
+  },
+  {
+    "name": "timeout",
+    "type": "input-text",
+    "label": "运行时间（秒）",
+    "default": "60"
+  },
+  {
+    "name": "interval",
+    "type": "input-text",
+    "label": "间隔多久输出一次（毫秒）",
+    "default": "1000"
+  },
+  {
+    "name": "xRange",
+    "type": "input-text",
+    "label": "区域大小x",
+    "default": "1920"
+  },
+  {
+    "name": "yRange",
+    "type": "input-text",
+    "label": "区域大小y",
+    "default": "1080"
+  }
+]

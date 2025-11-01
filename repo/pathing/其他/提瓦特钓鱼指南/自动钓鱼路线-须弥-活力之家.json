@@ -1,0 +1,79 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "TTTTFT"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758268508284,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "自动钓鱼路线-须弥-活力之家",
+    "tags": [
+      "钓鱼",
+      "须弥"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4036.584,
+      "y": -2464.6299
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4047.0547,
+      "y": -2468.4229
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4183.8105,
+      "y": -2482.9941
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4187.125,
+      "y": -2482.9482
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4187.6943,
+      "y": -2485.9668
+    },
+    {
+      "action": "fishing",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4188.2324,
+      "y": -2493.0479
+    }
+  ]
+}

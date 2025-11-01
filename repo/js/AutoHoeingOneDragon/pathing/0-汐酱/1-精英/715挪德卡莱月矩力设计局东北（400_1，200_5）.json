@@ -1,0 +1,123 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时147.62秒，包含以下怪物：1只蔓结·霜夜灵嗣、4只荒野幽徒、1只荒野狂狩士、1只愚人众特辖队·先锋士、2只巡陆艇·强侦地效型。",
+    "hash_res": "38760792",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760427237630,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "715挪德卡莱月矩力设计局东北（400_1，200_5）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9593.44140625,
+      "y": 3398.06591796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9533.810546875,
+      "y": 3413.39208984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9499.58984375,
+      "y": 3422.39599609375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9470.54296875,
+      "y": 3458.5283203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9461.1826171875,
+      "y": 3468.5791015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9465.7822265625,
+      "y": 3496.838134765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9489.375,
+      "y": 3515.70947265625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9518.701171875,
+      "y": 3540.21337890625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9523.2216796875,
+      "y": 3543.254638671875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9522.43359375,
+      "y": 3540.88330078125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9522.43359375,
+      "y": 3540.88330078125
+    }
+  ]
+}

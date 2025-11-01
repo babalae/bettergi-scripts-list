@@ -1,0 +1,35 @@
+[
+  {
+    "name": "defaultPartyName",
+    "type": "input-text",
+    "label": "默认使用的游戏牌组名称（'雷神柯莱刻晴'队所在的牌组）"
+  },
+  {
+    "name": "overwritePartyName",
+    "type": "input-text",
+    "label": "临时使用的游戏牌组名称（此牌组会被打牌策略的分享码覆盖）"
+  },
+  {
+    "name": "useFallbackStrategy",
+    "type": "checkbox",
+    "label": "打牌失败时自动逐个尝试备用策略",
+    "default": "true"
+  },
+  {
+    "name": "minFallbackStrategyScore",
+    "type": "input-text",
+    "label": "仅使用胜率记录大于该值的备用策略 (0到1之间的小数)",
+    "default": "0.25"
+  },
+    {
+    "name": "teamName",
+    "type": "input-text",
+    "label": "如无法到达牌桌，请输入指定队伍(强制芭芭拉4号位且队伍无加速)"
+  },
+  {
+    "name": "passWord",
+    "type": "input-text",
+    "label": "请阅读脚本说明或README.md文件获取启动密码后填写到此处"
+  }
+]
+

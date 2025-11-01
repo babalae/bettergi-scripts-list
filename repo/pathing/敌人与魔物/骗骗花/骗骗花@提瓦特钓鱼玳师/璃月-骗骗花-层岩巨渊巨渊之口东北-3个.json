@@ -1,0 +1,63 @@
+{
+  "info": {
+    "name": "璃月-骗骗花-层岩巨渊巨渊之口东北-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-3个\n璃月-层岩巨渊巨渊之口东北\n经由Economy优化交互触发",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1701.75,
+      "y": -581.74,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1663.43,
+      "y": -627.92,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1639.61,
+      "y": -668.2,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 1639.46,
+      "y": -675.63,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 1639.46,
+      "y": -675.63,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

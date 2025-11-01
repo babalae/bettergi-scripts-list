@@ -1,0 +1,53 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "jay"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757929302409,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "01-银月之庭东-3只",
+    "tags": [
+      "荒野狂猎",
+      "bgi≥0.50.0",
+      "战斗"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10829.1973,
+      "y": 1935.2041
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10892.2266,
+      "y": 1979.6299
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10892.8594,
+      "y": 2008.1094
+    }
+  ]
+}

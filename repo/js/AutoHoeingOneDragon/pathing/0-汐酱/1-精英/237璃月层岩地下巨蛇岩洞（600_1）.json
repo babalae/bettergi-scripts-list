@@ -1,0 +1,56 @@
+{
+  "info": {
+    "name": "237璃月层岩地下巨蛇岩洞（600_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时46.54秒，包含以下怪物：1只黯色空壳·旗令。",
+    "hash_res": "43474355",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 891.64,
+      "y": 764.61,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 919.41,
+      "y": 734.81,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1800",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 924.19,
+      "y": 729.87,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 924.19,
+      "y": 729.87,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.2)",
+      "type": "orientation"
+    }
+  ]
+}

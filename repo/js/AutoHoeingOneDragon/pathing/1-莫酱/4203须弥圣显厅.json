@@ -1,0 +1,105 @@
+{
+  "info": {
+    "name": "4203须弥圣显厅",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "mno",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时75.56秒，包含以下怪物：1只镀金旅团·阵前斧手、1只镀金旅团·刀舞者、1只镀金旅团·沙中净水、1只镀金旅团·白日鸣雷。",
+    "hash_res": "57351018",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752332200284,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4777.607421875,
+      "y": -1434.32421875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4744.2529296875,
+      "y": -1435.029296875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4711.8564453125,
+      "y": -1446.6708984375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "up_down_grab_leaf",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4687.775390625,
+      "y": -1449.75439453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 4687.775390625,
+      "y": -1449.75439453125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1000"
+    },
+    {
+      "id": 6,
+      "x": 4681.564453125,
+      "y": -1450.16015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 4692.2412109375,
+      "y": -1479.869140625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 4708.748046875,
+      "y": -1483.51318359375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 4708.748046875,
+      "y": -1483.51318359375,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

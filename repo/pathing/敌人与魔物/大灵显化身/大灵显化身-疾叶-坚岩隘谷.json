@@ -1,0 +1,35 @@
+{
+  "info": {
+    "name": "大灵显化身-疾叶-坚岩隘谷",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8179.34,
+      "y": -1867.98,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 8167.73,
+      "y": -1819.46,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}
