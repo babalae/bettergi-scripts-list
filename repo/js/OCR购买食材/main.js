@@ -183,10 +183,14 @@ function recognizeImage(templatePath, xMin, yMin, width, height, timeout = 2000)
         try {
             let template = file.ReadImageMatSync(templatePath);
             let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
-            let result = captureGameRegion().find(recognitionObject);
+            let ra = captureGameRegion();
+            let result = ra.find(recognitionObject);
+            template.dispose();
+            ra.dispose();
             if (result.isExist()) {
                 return { success: true, x: result.x, y: result.y, width: result.width, height: result.height };
             }
+
         } catch (error) {
             log.error(`识别图像时发生异常: ${error.message}`);
             return null;
@@ -213,6 +217,7 @@ function performOcr(targetText, xRange, yRange, tolerance, timeout = 2000) {
                 adjustedXMin, adjustedYMin, 
                 adjustedXMax - adjustedXMin, adjustedYMax - adjustedYMin
             ));
+            ra.dispose();
 
             // 遍历识别结果，检查是否找到目标文本
             for (let i = 0; i < resList.count; i++) {
@@ -326,6 +331,7 @@ async function clickSelectedIngredients(selectedIngredients, filePath, npcNames)
 async function checkNpcAndFAlignment(npcName, fDialogueRo) {
     let ra = captureGameRegion();
     let fRes = ra.find(fDialogueRo);
+    ra.dispose();
     if (!fRes.isExist()) {
         let f_attempts = null; // 初始化尝试次数
         while (f_attempts < 5) { // 最多尝试 4 次
@@ -352,6 +358,7 @@ async function checkNpcAndFAlignment(npcName, fDialogueRo) {
             // 检查是否找到 F 图标
             ra = captureGameRegion();
             fRes = ra.find(fDialogueRo); // 重新查找 F 图标
+            ra.dispose();
             if (fRes.isExist()) {
                 log.info("找到 F 图标");
                 break; // 找到后退出循环
@@ -410,6 +417,7 @@ async function checkNpcAndFAlignment(npcName, fDialogueRo) {
             // 重新检查 F 图标和 NPC 名称是否对齐
             let ra = captureGameRegion();
             let fRes = ra.find(fDialogueRo);
+            ra.dispose();
             if (!fRes.isExist()) {
                 log.warn("未找到 F 图标");
                 continue; // 如果未找到 F 图标，继续下一次循环
