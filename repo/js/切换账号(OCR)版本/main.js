@@ -54,7 +54,9 @@ async function matchImgAndClick(obj, desc, timeout = 8000) {
     try {
         while (Date.now() - start < timeout && !status) {
             await sleep(300);
-            let result = captureGameRegion().Find(obj.template);
+            const ro = captureGameRegion();
+            let result = ro.Find(obj.template);
+            ro.dispose();
             await sleep(500); // 短暂延迟，避免过快循环
             if (result.isExist()) {
                 let clickResult = await clickCenter(result.x, result.y, result.width, result.height);
@@ -79,7 +81,9 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
     let status = false; // 用于记录是否匹配成功
     try {
         while (Date.now() - start < timeout && !status) {
-            let resultList = captureGameRegion().findMulti(ocrRegion);
+            const ro = captureGameRegion();
+            let resultList = ro.findMulti(ocrRegion);
+            ro.dispose();
             await sleep(500); // 短暂延迟，避免过快循环
             for (let result of resultList) {
                 if (result.text.includes(targetText)) {
@@ -148,7 +152,9 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         await matchImgAndClick(agree,"同意用户协议");
         //如果当天上下线次数过于频繁
         for(let i = 1;i<=2;i++){
-            let verify = captureGameRegion().Find(login_verification.template);
+            const ro = captureGameRegion();
+            let verify = ro.Find(login_verification.template);
+            ro.dispose();
             //等待1s避免循环速度过快
             await sleep(1000);
             if (verify.isExist()) {
