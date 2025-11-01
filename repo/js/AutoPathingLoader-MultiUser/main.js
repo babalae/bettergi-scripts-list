@@ -108,7 +108,9 @@
         const ocrRo = RecognitionObject.Ocr(0, 0, 257, 173);
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         await sleep(300);
-        let ocr = captureGameRegion().Find(ocrRo); // 当前页面OCR
+        let ro = captureGameRegion();
+        let ocr = ro.Find(ocrRo); // 当前页面OCR
+        ro.dispose();
         for (let i = 0; i < 3; i++) {
             if (ocr.isExist() && ocr.text === "当前队伍") {
                 ocr.Click(); // 点击 当前队伍
@@ -393,7 +395,9 @@
         while (true) { // 注意死循环
             moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
             await sleep(200);
-            let ocrList = captureGameRegion().FindMulti(ocrMsgRo); // 当前页面OCR
+            const ro = captureGameRegion();
+            let ocrList = ro.FindMulti(ocrMsgRo); // 当前页面OCR
+            ro.dispose();
             if (mode === "领队") {
                 if (Object.keys(verifyDic).length != playerNum) {
                     for (let j = 1; j < playerNum + 1; j++) {
@@ -500,6 +504,7 @@
         let p2 = gameRegion.Find(p2Ro);
         let p3 = gameRegion.Find(p3Ro);
         let p4 = gameRegion.Find(p4Ro);
+        gameRegion.dispose();
         if (p1.isExist()) return "1P";
         if (p2.isExist()) return "2P";
         if (p3.isExist()) return "3P";
@@ -545,10 +550,17 @@
     async function dealPlayerRequest(playerList, timeOut=30000, mode="exact") {
         const ocrTitleRo = RecognitionObject.Ocr(874, 236, 171, 33);
         const ocrTextRo = RecognitionObject.Ocr(507, 285, 907, 484);
-        let ocrTitle = captureGameRegion().Find(ocrTitleRo);
-        let ocrText = captureGameRegion().FindMulti(ocrTextRo);
+        let ro1 = captureGameRegion();
+        let ocrTitle = ro1.Find(ocrTitleRo);
+        let ro2 = captureGameRegion();
+        let ocrText = ro2.FindMulti(ocrTextRo);
+        ro1.dispose();
+        ro2.dispose();
         let count = 0;
         await sleep(1000);
+        let ro3 = captureGameRegion();
+        ocrTitle = ro3.Find(ocrTitleRo);
+        ro3.dispose();
         if (!(ocrTitle.isExist() && ocrTitle.text === "多人游戏申请")) {
             log.error(`未处于 多人游戏申请 界面...`);
             return false;
@@ -589,7 +601,9 @@
                 };
             }
             await sleep(100);
-            ocrText = captureGameRegion().FindMulti(ocrTextRo);
+            const ro4 = captureGameRegion();
+            ocrText = ro4.FindMulti(ocrTextRo);
+            ro4.dispose();
         }
         return false;
     }
@@ -611,8 +625,12 @@
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰识别
         for (let i = 0; i < 3; i++) {
             await sleep(200);
-            let ocrMulti = captureGameRegion().Find(ocrMultiRo);
-            if (ocrMulti.isExist() && ocrMulti.text === "多人游戏") break;
+            const ro5 = captureGameRegion();
+            let ocrMulti = ro5.Find(ocrMultiRo);
+            ro5.dispose();
+            if (ocrMulti.isExist() && ocrMulti.text === "多人游戏") {
+                break;
+            }
         }
         click(260, 115); // 点击搜索框
         await sleep(100);
@@ -622,11 +640,15 @@
             log.info(`尝试加入房主(${playerUid})世界[${i + 1}/10]`);
             click(1681, 115); // 搜索
             await sleep(200);
-            let ocrJoin = captureGameRegion().Find(ocrJoinRo);
+            const ro6 = captureGameRegion();
+            let ocrJoin = ro6.Find(ocrJoinRo);
+            ro6.dispose();
             if (ocrJoin.isExist() && ocrJoin.text === "申请加入") {
                 ocrJoin.Click();
                 await sleep(10000);
-                ocrJoin = captureGameRegion().Find(ocrJoinRo);
+                const ro7 = captureGameRegion();
+                ocrJoin = ro7.Find(ocrJoinRo);
+                ro7.dispose();
                 if (!(ocrJoin.isExist() && ocrJoin.text === "申请加入")) return true;
             }
             await sleep(8000);
@@ -676,7 +698,9 @@
                         const ocrRo = RecognitionObject.Ocr(0, 0, 257, 173);
                         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
                         await sleep(200);
-                        let ocr = captureGameRegion().Find(ocrRo); // 当前页面OCR
+                        const ro8 = captureGameRegion();
+                        let ocr = ro8.Find(ocrRo); // 当前页面OCR
+                        ro8.dispose();
                         if (ocr.isExist() && ocr.text === "当前队伍") { // 多此一举
                             ocr.Click(); // 点击 当前队伍
                         }
@@ -689,7 +713,9 @@
                         const player_num = parseInt(settingDic["player_all"], 10);
                         let judge_dic = {};
                         while (wait_flag) { // 循环等待
-                            let ocr = captureGameRegion().FindMulti(ocrMsgRo); // 当前页面OCR
+                            const ro9 = captureGameRegion();
+                            let ocr = ro9.FindMulti(ocrMsgRo); // 当前页面OCR
+                            ro9.dispose();
                             for (let k = 1; k < player_num + 1; k++) { // 遍历总玩家数
                                 const player_key = `${player_num.toString()}P`;
                                 if (Object.keys(judge_dic).length < k) { // 将玩家加入判断字典
@@ -706,7 +732,6 @@
                                 } else {
                                     log.info(`${player_key} 已就位...`);
                                 }
-
                             }
                             if (Object.values(judge_dic).every(value => value === true)) wait_flag = false; // 全部就位
                         }
@@ -917,7 +942,9 @@
                         const ocrRo = RecognitionObject.Ocr(0, 0, 257, 173);
                         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
                         await sleep(200);
-                        let ocr = captureGameRegion().Find(ocrRo); // 当前页面OCR
+                        const ro12 = captureGameRegion();
+                        let ocr = ro12.Find(ocrRo); // 当前页面OCR
+                        ro12.dispose();
                         if (ocr.isExist() && ocr.text === "当前队伍") { // 多此一举
                             ocr.Click(); // 点击 当前队伍
                         }
@@ -927,7 +954,9 @@
                         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
                         await sleep(200);
                         while (true) { // 循环等待
-                            let ocr = captureGameRegion().FindMulti(ocrMsgRo); // 当前页面OCR
+                            const ro13 = captureGameRegion();
+                            let ocr = ro13.FindMulti(ocrMsgRo); // 当前页面OCR
+                            ro13.dispose();
                             for (let l = 0; l < ocr.count; l++) { // 遍历OCR数组
                                 if (ocr[l].text.includes("全部路线结束")) { // 检测队长的消息
                                     log.info(`检测到队长发送的脚本结束信息`);

@@ -18,7 +18,9 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 (async function () {
 	// 翻页
 	async function pageDown(SliderBottomRo) {
-		let SliderBottom = captureGameRegion().find(SliderBottomRo);
+		const ro = captureGameRegion();
+		let SliderBottom = ro.find(SliderBottomRo);
+		ro.dispose();
 		if (SliderBottom.isExist()) {
 			log.info("当前页面已识别&点击完毕，向下滑动");
 			// log.info("滑块当前位置:({x},{y},{h},{w})", SliderBottom.x, SliderBottom.y, SliderBottom.Width, SliderBottom.Height);
@@ -30,7 +32,9 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 
 	//	滑条顶端
 	async function pageTop(SliderTopRo) {
-		let SliderTop = captureGameRegion().find(SliderTopRo);
+		const ro = captureGameRegion();
+		let SliderTop = ro.find(SliderTopRo);
+		ro.dispose();
 		if (SliderTop.isExist()) {
 			log.info("识别到滑条顶端位置:({x},{y},{h},{w})", SliderTop.x, SliderTop.y, SliderTop.Width, SliderTop.Height);
 			await moveMouseTo(Math.ceil(SliderTop.x + SliderTop.Width / 2), Math.ceil(SliderTop.y + SliderTop.Height * 1));
@@ -50,7 +54,9 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 			keyPress("VK_L");
 			await sleep(2000);
 			for (let i = 0; i < 2; i++) {
-				let QuickSetupButton = captureGameRegion().find(QuickSetupButtonRo);
+				const ro = captureGameRegion();
+				let QuickSetupButton = ro.find(QuickSetupButtonRo);
+				ro.dispose();
 				if (QuickSetupButton.isExist()) {
 					log.info("已进入队伍配置页面");
 					foundQuickSetup = true;
@@ -70,6 +76,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 		}		// 识别当前队伍
 		let captureRegion = captureGameRegion();
 		let resList = captureRegion.findMulti(RecognitionObject.ocr(100, 900, 300, 180));
+		captureRegion.dispose();
 		let currentPartyFound = false;
 
 		for (let i = 0; i < resList.count; i++) {
@@ -86,7 +93,9 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 		}
 		if (!currentPartyFound) {
 			await sleep(1000);
-			let ConfigureTeamButton = captureGameRegion().find(ConfigureTeamButtonRo);
+			const ro = captureGameRegion();
+			let ConfigureTeamButton = ro.find(ConfigureTeamButtonRo);
+			ro.dispose();
 			if (ConfigureTeamButton.isExist()) {
 				log.info("识别到配置队伍按钮");
 				ConfigureTeamButton.click();
@@ -97,6 +106,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 					// 识别当前页
 					let captureRegion = captureGameRegion();
 					let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 100, 400, 900));
+					captureRegion.dispose();
 					for (let i = 0; i < resList.count; i++) {
 						let res = resList[i];
 						if (settings.enableDebug) {
@@ -108,13 +118,17 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 
 							// 找到目标队伍，点击确定、部署
 							await sleep(1500);
-							let ConfirmButton = captureGameRegion().find(ConfirmDeployButtonRo);
+							const ro1 = captureGameRegion();
+							let ConfirmButton = ro1.find(ConfirmDeployButtonRo);
+							ro1.dispose();
 							if (ConfirmButton.isExist()) {
 								log.info("识别到确定按钮:({x},{y},{w},{h})", ConfirmButton.x, ConfirmButton.y, ConfirmButton.Width, ConfirmButton.Height);
 								ConfirmButton.click();
 							}
 							await sleep(1500);
-							let DeployButton = captureGameRegion().find(ConfirmDeployButtonRo);
+							const ro2 = captureGameRegion();
+							let DeployButton = ro2.find(ConfirmDeployButtonRo);
+							ro2.dispose();
 							if (DeployButton.isExist()) {
 								log.info("识别到部署按钮:({x},{y},{w},{h})", DeployButton.x, DeployButton.y, DeployButton.Width, DeployButton.Height);
 								DeployButton.click();
