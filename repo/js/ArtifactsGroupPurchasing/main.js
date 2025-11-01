@@ -106,6 +106,8 @@ let TMthreshold = +settings.TMthreshold || 0.9;
                             await keyPress("F2");
                             await sleep(1000);
                             await findAndClick(leaveTeamRo);
+                            await sleep(1000);
+                            keyPress("VK_ESCAPE");
                             await waitForMainUI(true);
                             await genshin.returnMainUi();
                         }
@@ -193,9 +195,6 @@ async function runGroupPurchasing(runExtra) {
     const forceGroupNumber = settings.forceGroupNumber || 0;
 
     // ===== 2. 图标模板 =====
-    const p2InBigMapRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/2pInBigMap.png"));
-    const p3InBigMapRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/3pInBigMap.png"));
-    const p4InBigMapRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/4pInBigMap.png"));
     const kickAllRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/kickAll.png"));
     const confirmKickRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/confirmKick.png"));
 
@@ -264,9 +263,13 @@ async function runGroupPurchasing(runExtra) {
             await waitForMainUI(true);
             await genshin.returnMainUi();
         }
-    } else if (runExtra) {
-        log.info("请确保联机收尾已结束，将开始运行额外路线");
-        await runExtraPath();
+    } else if (groupNumBer === 0) {
+        if (runExtra) {
+            log.info("请确保联机收尾已结束，将开始运行额外路线");
+            await runExtraPath();
+        }
+    } else {
+        log.warn("角色编号识别异常")
     }
     running = false;
 
@@ -634,9 +637,11 @@ async function autoEnter(autoEnterSettings) {
         if (enterMode === "进入他人世界") {
             const playerSign = await getPlayerSign();
             await sleep(500);
-            if (playerSign !== 0) {
+            if (playerSign > 1) {
                 log.info(`加入成功，队伍编号 ${playerSign}`);
                 break;
+            } else if (playerSign === -1) {
+                log.warn("队伍编号识别异常，尝试按0p处理");
             }
             log.info('不处于多人世界，开始尝试加入');
             await genshin.returnMainUi(); await sleep(500);
@@ -667,6 +672,8 @@ async function autoEnter(autoEnterSettings) {
                     await keyPress("F2");
                     await sleep(1000);
                     await findAndClick(leaveTeamRo);
+                    await sleep(1000);
+                    keyPress("VK_ESCAPE");
                     await waitForMainUI(true);
                     await genshin.returnMainUi();
                 }
@@ -876,7 +883,6 @@ async function isMainUI() {
 //获取联机世界的当前玩家标识
 async function getPlayerSign() {
     let attempts = 0;
-    let result = 0;
     while (attempts < 10) {
         attempts++;
         const picDic = {
@@ -888,19 +894,19 @@ async function getPlayerSign() {
         }
         await genshin.returnMainUi();
         await sleep(500);
-        const p0Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["0P"]), 344, 22, 45, 45);
+        const p0Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["0P"]), 200, 10, 400, 70);
         p0Ro.Threshold = 0.95;
         p0Ro.InitTemplate();
-        const p1Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["1P"]), 344, 22, 45, 45);
+        const p1Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["1P"]), 200, 10, 400, 70);
         p1Ro.Threshold = 0.95;
         p1Ro.InitTemplate();
-        const p2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["2P"]), 344, 22, 45, 45);
+        const p2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["2P"]), 200, 10, 400, 70);
         p2Ro.Threshold = 0.95;
         p2Ro.InitTemplate();
-        const p3Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["3P"]), 344, 22, 45, 45);
+        const p3Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["3P"]), 200, 10, 400, 70);
         p3Ro.Threshold = 0.95;
         p3Ro.InitTemplate();
-        const p4Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["4P"]), 344, 22, 45, 45);
+        const p4Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["4P"]), 200, 10, 400, 70);
         p4Ro.Threshold = 0.95;
         p4Ro.InitTemplate();
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰识别
@@ -912,14 +918,14 @@ async function getPlayerSign() {
         let p3 = gameRegion.Find(p3Ro);
         let p4 = gameRegion.Find(p4Ro);
         gameRegion.dispose();
-        if (p0.isExist()) { result = 0; log.info("识别结果为0P"); break; }
-        if (p1.isExist()) { result = 1; log.info("识别结果为0P"); break; }
-        if (p2.isExist()) { result = 2; log.info("识别结果为0P"); break; }
-        if (p3.isExist()) { result = 3; log.info("识别结果为0P"); break; }
-        if (p4.isExist()) { result = 4; log.info("识别结果为0P"); break; }
+        if (p0.isExist()) { log.info("识别结果为0P"); return 0; }
+        if (p1.isExist()) { log.info("识别结果为1P"); return 1; }
+        if (p2.isExist()) { log.info("识别结果为2P"); return 2; }
+        if (p3.isExist()) { log.info("识别结果为3P"); return 3; }
+        if (p4.isExist()) { log.info("识别结果为4P"); return 4; }
     }
     log.warn("超时仍未识别到队伍编号");
-    return result;
+    return -1;
 }
 
 async function findTotalNumber() {
@@ -1106,6 +1112,7 @@ async function runPath(fullPath, targetItemPath) {
 
     /* ---------- 主任务 ---------- */
     const pathingTask = (async () => {
+        await genshin.returnMainUi();
         log.info(`开始执行路线: ${fullPath}`);
         await fakeLog(fullPath, false, true, 0);
         await pathingScript.runFile(fullPath);
