@@ -372,7 +372,7 @@ async function run_pathing_script(name, path_state_change, current_states) {
         })();
         var character_moved = false;
         if (curr_pos[0] === null || last_script_end_pos[0] === null) {
-            character_moved = curr_pos !== last_script_end_pos;
+            character_moved = curr_pos[0] !== last_script_end_pos[0] || curr_pos[1] !== last_script_end_pos[1];
             log.debug("Character {action}", character_moved ? "moved" : "not moved");
         } else {
             const dist = Math.sqrt(Math.pow(curr_pos[0] - last_script_end_pos[0], 2) + Math.pow(curr_pos[1] - last_script_end_pos[1], 2));
@@ -403,6 +403,8 @@ async function run_pathing_script(name, path_state_change, current_states) {
 
 async function main() {
     await genshin.returnMainUi();
+    file.writeTextSync("local/disabled_paths.txt", "", true);
+    file.writeTextSync("local/persistent_data.json", "", true);
     load_filename_to_path_map();
     load_persistent_data();
     load_disabled_paths();
