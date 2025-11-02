@@ -13,6 +13,7 @@ async function tpEndDetection() {
     while (tpTime < 300) {
         let capture = captureGameRegion();
         let res = capture.find(region);
+        capture.dispose();
         if (!res.isEmpty()) {
             log.info("传送完成");
             await sleep(1200); //传送结束后有僵直
@@ -92,7 +93,9 @@ async function autoConversation() {
     log.info("开始对话");
     //最多10次对话
     while (talkTime < 30) {
-    let talk = captureGameRegion().find(talkRo);
+    let ro = captureGameRegion();
+    let talk = ro.find(talkRo);
+    ro.dispose();
     if (talk.isExist()) {
             await sleep(300);
             keyPress("VK_SPACE");
@@ -128,7 +131,9 @@ async function gotoTavern() {
 
     click(1000, 645); //猫尾酒馆
     await sleep(600);
-    let tavern = captureGameRegion().find(tavernRo);
+    let ro = captureGameRegion();
+    let tavern = ro.find(tavernRo);
+    ro.dispose();
     if (tavern.isExist()) {
         tavern.click();
         await sleep(500);

@@ -97,7 +97,9 @@ function readAliases() {
             while (openPairingTries < 3) {
                 keyPress("l");
                 await sleep(3200);
-                const teamConfigResult = captureGameRegion().find(roTeamConfig);
+                const ro = captureGameRegion();
+                const teamConfigResult = ro.find(roTeamConfig);
+                    ro.dispose();
                 if (teamConfigResult.isExist()) {
                     openPairingTries = 0;
                     return true;
@@ -167,18 +169,22 @@ function readAliases() {
                 log.info(`对角色【${selectedCharacter}】执行筛选: 元素=${filterInfo.element || '空'}, 武器=${filterInfo.weapon || '空'}`);
                 
                 // 点击筛选按钮
-                const filterBtn = captureGameRegion().find(RecognitionObject.TemplateMatch(
+                const ro1 = captureGameRegion();
+                const filterBtn = ro1.find(RecognitionObject.TemplateMatch(
                     file.readImageMatSync('Assets/RecognitionObject/筛选.png'), 0, 0, 1920, 1080
                 ));
+                ro1.dispose();
                 if (filterBtn.isExist()) {
                     filterBtn.click();
                     await sleep(200);
                     
                     // 元素不为空才执行元素筛选
                     if (filterInfo.element) {
-                        const elementBtn = captureGameRegion().find(RecognitionObject.TemplateMatch(
+                        const ro2 = captureGameRegion();
+                        const elementBtn = ro2.find(RecognitionObject.TemplateMatch(
                             file.readImageMatSync(`Assets/RecognitionObject/${filterInfo.element}.png`), 0, 0, 1920, 1080
                         ));
+                        ro2.dispose();
                         if (elementBtn.isExist()) {
                             elementBtn.click();
                             await sleep(200);
@@ -191,9 +197,11 @@ function readAliases() {
                     
                     // 武器不为空才执行武器筛选
                     if (filterInfo.weapon) {
-                        const weaponBtn = captureGameRegion().find(RecognitionObject.TemplateMatch(
+                        const ro3 = captureGameRegion();
+                        const weaponBtn = ro3.find(RecognitionObject.TemplateMatch(
                             file.readImageMatSync(`Assets/RecognitionObject/${filterInfo.weapon}.png`), 0, 0, 1920, 1080
                         ));
+                        ro3.dispose();
                         if (weaponBtn.isExist()) {
                             weaponBtn.click();
                             await sleep(200);
@@ -205,16 +213,20 @@ function readAliases() {
                     }
                     
                     // 点击确认筛选（无论元素/武器是否为空都需要确认）
-                    const confirmFilterBtn = captureGameRegion().find(RecognitionObject.TemplateMatch(
+                    const ro4 = captureGameRegion();
+                    const confirmFilterBtn = ro4.find(RecognitionObject.TemplateMatch(
                         file.readImageMatSync('Assets/RecognitionObject/确认筛选.png'), 0, 0, 1920, 1080
                     ));
+                    ro4.dispose();
                     if (confirmFilterBtn.isExist()) {
                         confirmFilterBtn.click();
                         await sleep(50); // 等待筛选结果显示
                         
                         // 识别是否有"暂无筛选结果"提示
                         const noResultRo = RecognitionObject.TemplateMatch(noResultTemplate, 0, 0, 1920, 1080);
-                        const noResult = captureGameRegion().find(noResultRo);
+                        const ro5 = captureGameRegion();
+                        const noResult = ro5.find(noResultRo);
+                        ro5.dispose();
                         if (noResult.isExist()) {
                             log.warn(`筛选后无结果，跳过${rolenum}号位角色`);
                             hasNoFilterResult = true;
@@ -253,7 +265,9 @@ function readAliases() {
                                 file.ReadImageMatSync(`Assets/characterimage/${characterFileName}.png`),
                                 0, 0, 1920, 1080
                             );
-                            const characterResult = captureGameRegion().find(characterRo);
+                            const ro = captureGameRegion();
+                            const characterResult = ro.find(characterRo);
+                            ro.dispose();
                             if (characterResult.isExist()) {
                                 log.info(`已找到角色【${selectedCharacter}】`);
                                 characterResult.click();
@@ -414,7 +428,9 @@ function readAliases() {
             while (openPairingTries < 3) {
                 keyPress("l");
                 await sleep(3500);
-                const teamConfigResult = captureGameRegion().find(roTeamConfig);
+                const ro6 = captureGameRegion();
+                const teamConfigResult = ro6.find(roTeamConfig);
+                ro6.dispose();
                 if (teamConfigResult.isExist()) {
                     openPairingTries = 0;
                     return true;
@@ -454,6 +470,7 @@ function readAliases() {
                 }
             }
             log.info(`有文字的区域数量为: ${regionsWithTextCount}`);
+            captureRegion.dispose();
 
             // 角色切换逻辑
             click(1212, 1020); // 点击快速编队
@@ -498,7 +515,9 @@ function readAliases() {
                                 file.ReadImageMatSync(`Assets/characterimage/${characterFileName}.png`),
                                 0, 0, 1920, 1080
                             );
-                            const characterResult = captureGameRegion().find(characterRo);
+                            const ro2 = captureGameRegion();
+                            const characterResult = ro2.find(characterRo);
+                            ro2.dispose();
                             if (characterResult.isExist()) {
                                 log.info(`已找到角色【${selectedCharacter}】`);
                                 characterResult.click();

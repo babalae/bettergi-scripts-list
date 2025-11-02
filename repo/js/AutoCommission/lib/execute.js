@@ -267,6 +267,8 @@ var Execute = {
         var captureRegion = captureGameRegion();
         var rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 50);
         var rewardResult = rewardTextArea.find(RecognitionObject.ocrThis);
+        captureRegion.dispose();
+        rewardTextArea.dispose();
         log.debug("检测到文字: " + rewardResult.text);
         // 检测到特点文字则结束！！！
         if (rewardResult.text == textArray) {
@@ -282,6 +284,7 @@ var Execute = {
         for (var i = 0; i < 100; i++) {
           captureRegion = captureGameRegion();
           var iconRes = captureRegion.Find(boxIconRo);
+          captureRegion.dispose();
           log.info("检测到委托图标位置 ({x}, {y})", iconRes.x, iconRes.y);
           if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {
             advanceNum++;
