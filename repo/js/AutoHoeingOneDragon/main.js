@@ -1,4 +1,4 @@
-//当前js版本1.10.0
+//当前js版本1.10.1
 
 let timeMoveUp;
 let timeMoveDown;
@@ -17,6 +17,8 @@ let frozenTemplate = file.ReadImageMatSync("assets/解除冰冻.png");
 const frozenRo = RecognitionObject.TemplateMatch(frozenTemplate, 1379, 574, 1463 - 1379, 613 - 574);
 let cookingTemplate = file.ReadImageMatSync("assets/烹饪界面.png");
 const cookingRo = RecognitionObject.TemplateMatch(cookingTemplate, 1547, 965, 1815 - 1547, 1059 - 965);
+cookingRo.Threshold = 0.95;
+cookingRo.InitTemplate();
 let whiteFurinaTemplate = file.ReadImageMatSync("assets/白芙图标.png");
 let whiteFurinaRo = RecognitionObject.TemplateMatch(whiteFurinaTemplate, 1634, 967, 1750 - 1634, 1070 - 967);
 whiteFurinaRo.Threshold = 0.99;
@@ -390,8 +392,8 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
         p.selected = false;
         const G1 = p.mora_e + p.mora_m, G2 = p.mora_m;
         p.G1 = G1; p.G2 = G2;
-        p.E1 = p.e === 0 ? 0 : ((G1 - G2 * f) / p.e) ** k * (G1 / p.t);
-        p.E2 = p.m === 0 ? 0 : (G2 / p.m) ** k * (G2 / p.t);
+        p.E1 = p.e === 0 ? 0 : ((G1 - G2 * f) / p.e) ** (2 * k) * (G1 / p.t);
+        p.E2 = p.m === 0 ? 0 : (G2 / p.m) ** (0.75 * k) * (G2 / p.t);
         maxE1 = Math.max(maxE1, p.E1);
         maxE2 = Math.max(maxE2, p.E2);
     });
