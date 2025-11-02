@@ -219,7 +219,9 @@ async function waitTpFinish(timeout = 30000) {
 
     await sleep(1000); //点击传送后等待一段时间避免误判
     while (new Date() - startTime < timeout) {
-        let res = captureGameRegion().find(region);
+        let ro = captureGameRegion();
+        let res = ro.find(region);
+        ro.dispose();
         if (!res.isEmpty()) {
             await sleep(600); //传送结束后有僵直
             return;
@@ -237,6 +239,7 @@ async function teleportToTheCatsTail() {
     for (let i = 0; i < 5; i++) {
         const region = captureGameRegion();
         const tarvern = region.find(tavernRo);
+        region.dispose();
         clickIcon = tarvern.isExist() ? tarvern : region.find(adventurersRo);
         if (clickIcon.isExist()) {
             clickIcon.click();
@@ -257,12 +260,15 @@ async function getCurrentState() {
     let window = captureGameRegion();
     const invite = window.find(RecognitionObject.ocr(1248, 688, 156, 36));
     if (invite.text && invite.text.includes("我方出战牌组")) {
+        window.dispose();
         return "邀请界面";
     }
     const deck = window.find(RecognitionObject.ocr(1592, 186, 139, 35));
     if (deck.text && deck.text.includes("更改牌组外观")) {
+        window.dispose();
         return "牌组编辑器界面";
     }
+    window.dispose();
     return "任意界面";
 }
 
@@ -312,6 +318,7 @@ async function scanCardsProficiency(scanAll = false, getReward = false) {
             retry++;
             if (retry >= 3) {
                 const skill = captureRegion.find(RecognitionObject.ocr(897, 441, 300, 58));
+                captureRegion.dispose();
                 if (skill.text) {
                     log.warn("OCR无法识别当前角色名称，使用技能名作为替代");
                     character = `?${skill.text.trim()}`;

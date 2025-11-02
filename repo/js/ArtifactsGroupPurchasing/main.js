@@ -802,14 +802,13 @@ async function findAndClick(target, maxAttempts = 20) {
         const gameRegion = captureGameRegion();
         try {
             const result = gameRegion.find(target);
+            gameRegion.dispose();
             if (result.isExist()) {
                 await sleep(250);
                 result.click();
                 return true;                 // 成功立刻返回
             }
         } catch (err) {
-        } finally {
-            gameRegion.dispose();
         }
         if (attempts < maxAttempts - 1) {   // 最后一次不再 sleep
             await sleep(250);

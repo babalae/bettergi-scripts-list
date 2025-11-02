@@ -76,7 +76,7 @@ extraTime = extraTime+300;
             regionSize
         );
         
-let result;
+        let result;
         if (i < 9) {
             result = region.find(templateRo0);
         } else if (i >= 18) {
@@ -84,26 +84,25 @@ let result;
         } else {
             result = region.find(templateRo1);
         }
+        gameRegion.dispose();
+        region.dispose();
 
-             if (!result.isEmpty()) {
-   
+        if (!result.isEmpty()) {
             const segmentTime = 66;
-            
-          
             const waitTime = Math.round(i * segmentTime+extraTime);
-   log.info(`找到点位${i}号区域`);
-        await sleep(waitTime);
- keyPress("VK_SPACE");
-         return 0;
+            log.info(`找到点位${i}号区域`);
+            await sleep(waitTime);
+            keyPress("VK_SPACE");
+            return 0;
         }
 
     }
-    
-   log.info(`未找到点位区域，烹饪结束`);
-keyPress("ESCAPE");
-await sleep(1000);
-keyPress("ESCAPE");
-throw new Error("人家才不是错误呢>_<");
+
+    log.info(`未找到点位区域，烹饪结束`);
+    keyPress("ESCAPE");
+    await sleep(1000);
+    keyPress("ESCAPE");
+    throw new Error("人家才不是错误呢>_<");
 }
 
 

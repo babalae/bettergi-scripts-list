@@ -330,7 +330,9 @@ function recognizeImage(templatePath, xMin, yMin, width, height, timeout = 2000)
         try {
             let template = file.ReadImageMatSync(templatePath);
             let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
-            let result = captureGameRegion().find(recognitionObject);
+            let ro = captureGameRegion();
+            let result = ro.find(recognitionObject);
+            ro.dispose();
             if (result.isExist()) {
                 return { success: true, x: result.x, y: result.y, width: result.width, height: result.height };
             }
@@ -360,6 +362,7 @@ function performOcr(targetText, xRange, yRange, tolerance, timeout = 2000) {
                 adjustedXMin, adjustedYMin, 
                 adjustedXMax - adjustedXMin, adjustedYMax - adjustedYMin
             ));
+            ra.dispose();
 
             // 遍历识别结果，检查是否找到目标文本
             for (let i = 0; i < resList.count; i++) {

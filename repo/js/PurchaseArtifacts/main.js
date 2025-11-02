@@ -232,6 +232,7 @@ let userName = settings.userName || "默认账户";
         async function checkFAlignment(fDialogueRo) {
             let ra = captureGameRegion();
             let fRes = ra.find(fDialogueRo);
+            ra.dispose();
             if (!fRes.isExist()) {
                 let f_attempts = null; // 初始化尝试次数
                 while (f_attempts < 6) { // 最多尝试 5 次
@@ -257,6 +258,7 @@ let userName = settings.userName || "默认账户";
                     // 检查是否找到 F 图标
                     ra = captureGameRegion();
                     fRes = ra.find(fDialogueRo); // 重新查找 F 图标
+                    ra.dispose();
                     if (fRes.isExist()) {
                         log.info("找到 F 图标");
                         break; // 找到后退出循环
@@ -279,6 +281,7 @@ let userName = settings.userName || "默认账户";
                 // 最多 F 5次
                 let captureRegion = captureGameRegion();  // 获取一张截图
                 let res = captureRegion.Find(shopDialogueRo);
+                captureRegion.dispose();
                 if (res.isEmpty()) {
                   keyPress("F");
                   await sleep(1000);
@@ -292,8 +295,9 @@ let userName = settings.userName || "默认账户";
             // 进入商店界面
             for (let i = 0; i < 5; i++) {
                 // 最多 F 5次
-                captureRegion = captureGameRegion();  // 获取一张截图
-                res = captureRegion.Find(shopDialogueRo2);
+                let captureRegion = captureGameRegion();  // 获取一张截图
+                let res = captureRegion.Find(shopDialogueRo2);
+                captureRegion.dispose();
                 if (res.isEmpty()) {
                   keyPress("F");
                   await sleep(1000);
@@ -309,8 +313,9 @@ let userName = settings.userName || "默认账户";
             // 购买狗粮
             for (let i = 0; i < 5; i++) {
                 // 最多购买5次
-                captureRegion = captureGameRegion();  // 获取一张截图
-                res = captureRegion.Find(conFirmRo);
+                let captureRegion = captureGameRegion();  // 获取一张截图
+                let res = captureRegion.Find(conFirmRo);
+                captureRegion.dispose();
                 if (res.isEmpty()) {
                     log.info('圣遗物已售罄');
                     break;

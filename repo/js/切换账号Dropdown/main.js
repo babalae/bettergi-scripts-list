@@ -59,6 +59,7 @@
         while (Date.now() < endTime) {
             let captureRegion = captureGameRegion();
             let res = captureRegion.Find(asset);
+            captureRegion.dispose();
             if (!res.isEmpty()) {
                 return res;
             }
@@ -77,6 +78,7 @@
         while (true) {
             let captureRegion = captureGameRegion();
             let resList = captureRegion.findMulti(RecognitionObject.ocr(x, y, w, h));
+            captureRegion.dispose();
             if (typeof text === "string") {
                 let textFound = u.findText(resList, text);
                 if (textFound) {
@@ -124,6 +126,7 @@
         
         let captureRegion = captureGameRegion();
         let resList = captureRegion.findMulti(RecognitionObject.ocrThis);
+        captureRegion.dispose();
         
         for (let i = 0; i < resList.count; i++) {
             let res = resList[i];
@@ -138,6 +141,7 @@
 
         let captureRegionGetReward = captureGameRegion();
         let resGetReward = captureRegionGetReward.findMulti(RecognitionObject.ocrThis);
+        captureRegionGetReward.dispose();
         for (let i = 0; i < resGetReward.count; i++) {
             let res = resGetReward[i];
             if (res.text.includes("点击") || res.text.includes("空白") || res.text.includes("获得")) {
@@ -158,6 +162,7 @@
 
             if (logoutIconFound) {
                 let resList = captureRegion.findMulti(RecognitionObject.ocr(u.x(850), u.y(970), u.x(220), u.y(100)));
+                captureRegion.dispose();
                 if (u.findText(resList, "点击进入")) {
                     u.logi("检测到目前处于登录界面");
                     return false;
@@ -169,6 +174,7 @@
 
             // Not in the login screen, check if is in the game main menu.
             let paimonIcon = captureRegion.Find(assetPaimonMenuIcon);
+            captureRegion.dispose();
             if (!paimonIcon.isEmpty()) {
                 u.logi("检测到目前处于游戏主界面");
                 return true;
@@ -236,6 +242,7 @@
         const assetSelectUserDropDownIcon = u.loadTemplate("assets/caret.png", 680, 380, 1220, 720);
         let captureRegion = captureGameRegion();
         let res = captureRegion.Find(assetSelectUserDropDownIcon);
+        captureRegion.dispose();
         if (res.isEmpty()) {
             u.logi("未找到下拉菜单图标，点击硬编码的坐标(960, 500)展开菜单");
             click(u.x(960), u.y(500));
@@ -255,6 +262,7 @@
 
                 let captureRegion = captureGameRegion();
                 let resList = captureRegion.findMulti(RecognitionObject.ocr(u.x(680), u.y(540), u.x(540), u.y(500)));
+                captureRegion.dispose();
                 for (let i = 0; i < resList.count; i++) {
                     let res = resList[i];
                     let user = lastLog > start ? u.matchUserRelaxed(res.text, targetUser) : u.matchUser(res.text, targetUser);
@@ -285,6 +293,8 @@
             let captureRegion = captureGameRegion();
             let btnEnterGame = captureRegion.DeriveCrop(u.x(684), u.y(598), u.x(552), u.y(66));
             btnEnterGame.Click();
+            captureRegion.dispose();
+            btnEnterGame.dispose();
             // btnEnterGame.DrawSelf("EnterGameBtn");
             // u.logi("已点击\"进入游戏\"按钮，完成账号选择。");
         }

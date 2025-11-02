@@ -44,6 +44,7 @@ var Utils = {
       // 捕获并识别
       var region = captureGameRegion();
       region.Find(ro);
+      region.dispose();
 
       // 2000毫秒后移除绘制的边框
       setTimeout(function () {
@@ -122,6 +123,7 @@ var Utils = {
       // 截图识别
       var captureRegion = captureGameRegion();
       var results = await captureRegion.findMulti(TemplateMatchRo);
+      captureRegion.dispose();
 
       return results;
     } catch (error) {
@@ -185,6 +187,7 @@ var Utils = {
       // 截图识别
       var captureRegion = captureGameRegion();
       var OCRresults = await captureRegion.findMulti(locationOcrRo);
+      captureRegion.dispose();
 
       return OCRresults;
     } catch (error) {

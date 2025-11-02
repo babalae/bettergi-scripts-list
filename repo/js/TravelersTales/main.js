@@ -167,7 +167,9 @@ let failed = false;
                         continue;
                     }
                     const avatarName = name.split("-")[0];
-                    const isChar = captureGameRegion().findMulti(RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/avatars/${avatarName}.png`)));
+                    const ro = captureGameRegion();
+                    const isChar = ro.findMulti(RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/avatars/${avatarName}.png`)));
+                    ro.dispose();
                     if (isChar && isChar.count > 0) {
                         pathingName = name;
                         const pos = characterPositions.find(p => p.name === pathingName);
@@ -302,7 +304,9 @@ async function find() {
  * @returns {Promise<string[]>} 检测到的角色名字数组
  */
 async function locate() {
-    let character = await captureGameRegion().findMulti(RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/三个点.png")));
+    let ro1 = captureGameRegion();
+    let character = await ro1.findMulti(RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/三个点.png")));
+    ro1.dispose();
     await sleep(500);
     if (character && character.count > 0) {
         avatar = character[0];
@@ -318,7 +322,9 @@ async function locate() {
         await sleep(200);
         click(avatar.x + 20, avatar.y + 20);
         await sleep(2000);
-        let resList = captureGameRegion().findMulti(RecognitionObject.ocrThis);
+        let ro2 = captureGameRegion();
+        let resList = ro2.findMulti(RecognitionObject.ocrThis);
+        ro2.dispose();
 
         // 识别text中的角色名字
         const characterNames = [
@@ -358,7 +364,13 @@ async function waitToMain(pathingName, hasKeyMouse = false) {
     const maxRetries = 60; // 设置最大重试次数以防止无限循环
     let retries = 0;
     let enteredLoop = false;
-    while (captureGameRegion().Find(paimonMenuRo).isEmpty()) {
+    while (true) {
+        const ro = captureGameRegion();
+        const isEmpty = ro.Find(paimonMenuRo).isEmpty();
+        ro.dispose();
+        if (!isEmpty) {
+            break;
+        }
         enteredLoop = true;
         if (retries >= maxRetries) {
             log.error("返回主界面超时");
