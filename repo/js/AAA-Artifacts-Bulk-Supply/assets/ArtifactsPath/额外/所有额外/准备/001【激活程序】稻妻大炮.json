@@ -29,7 +29,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f);迪希雅 attack(0.25),e;",
+      "action_params": "keypress(f),wait(0.2),keypress(f)",
       "id": 2,
       "move_mode": "dash",
       "type": "target",
@@ -83,7 +83,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "w(0.5),wait(1),keypress(f),wait(0.3),keypress(f),wait(0.3),keypress(f),wait(0.5),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(0.5),keypress(ESCAPE)",
+      "action_params": "w(0.5),wait(1),keypress(f),wait(0.2),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(RETURN),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(a),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(a),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(RETURN),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(d),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(s),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(s),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(RETURN),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(w),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(w),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(d),wait(0.1),keypress(ESCAPE)",
       "id": 8,
       "move_mode": "walk",
       "type": "orientation",
@@ -155,7 +155,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "w(1),wait(1),keypress(f),wait(0.5),keypress(f),wait(0.5),keypress(RETURN),wait(9.5),keypress(f),wait(0.4),keypress(w),wait(9.5),keypress(f),wait(0.4),keypress(w),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(d),wait(3.2),keypress(f),wait(0.4),keypress(RETURN),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(a),wait(3.2),keypress(f),wait(0.4),keypress(s),wait(0.5),keypress(ESCAPE),wait(1),s(0.3),dash,s(0.3),dash,s(0.3),dash,s(0.3),dash",
+      "action_params": "w(1),wait(1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(RETURN),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(w),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(d),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(d),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(d),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(RETURN),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(w),keypress(a),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(w),keypress(a),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(w),keypress(a),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(s),keypress(a),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(a),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(a),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(a),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(a),wait(0.1),keypress(ESCAPE)",
       "id": 16,
       "move_mode": "walk",
       "type": "orientation",
