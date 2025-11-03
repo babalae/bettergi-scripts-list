@@ -520,7 +520,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             keyDown("VK_MENU");
             await sleep(500);
             for (let i = 0; i <= 4; i++) {
-                await click(genshin.width / 2.0, genshin.height * 0.8);
+                await click(math.round(genshin.width / 2.0), math.round(genshin.height * 0.8));
                 await sleep(1000);
             }
         } finally {
@@ -584,7 +584,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             keyDown("VK_MENU");
             await sleep(500);
             for (let i = 0; i <= 4; i++) {
-                await click(genshin.width / 2.0, genshin.height * 0.8);
+                await click(math.round(genshin.width / 2.0), math.round(genshin.height * 0.8));
                 await sleep(1000);
             }
             //keyUp("VK_MENU");
