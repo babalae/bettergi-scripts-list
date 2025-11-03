@@ -245,10 +245,6 @@ async function findAndInteract(target, options = {}) {
     }
 }
 
-
-
-
-
 // 图像识别函数
 function recognizeImage(imagePath, x, y, searchWidth, searchHeight) {
     try {
@@ -256,7 +252,9 @@ function recognizeImage(imagePath, x, y, searchWidth, searchHeight) {
         let recognitionObject = RecognitionObject.TemplateMatch(template, x, y, searchWidth, searchHeight);
         recognitionObject.threshold = 0.85;
         recognitionObject.Use3Channels = true;
-        let result = captureGameRegion().find(recognitionObject);
+        let ro = captureGameRegion();
+        let result = ro.find(recognitionObject);
+        ro.dispose();
         return result.isExist() ? result : null;
     } catch (error) {
         if (notice) {
@@ -279,7 +277,6 @@ function determineOre(oreType) {
     log.info(message);
     return message;
 }
-
 
 /*********************** 主逻辑函数 ***********************/
 
@@ -345,7 +342,9 @@ async function getMaxOreType() {
             if (!result || !result.success || !result.clickPosition) continue;
             let ocrX = result.clickPosition.x - 63;
             let ocrY = result.clickPosition.y + 60;
-            let resList = captureGameRegion().findMulti(RecognitionObject.ocr(ocrX, ocrY, 130, 55));
+            let ro = captureGameRegion();
+            let resList = ro.findMulti(RecognitionObject.ocr(ocrX, ocrY, 130, 55));
+            ro.dispose();
             let oreNum = 0;
             if (resList.count > 0) {
                 let text = resList[0].text.replace(/[^\d]/g, "");
@@ -453,15 +452,19 @@ async function tryForgeOre(oreType, skipCheckOres = []) {
                 let clickAttempts = 0;
                 let forgingTriggered = false;
                 while (clickAttempts < 4 && !forgingTriggered) {
-                    let ConfirmButton = captureGameRegion().find(ConfirmDeployButtonRo);
+                    let ro1 = captureGameRegion();
+                    let ConfirmButton = ro1.find(ConfirmDeployButtonRo);
+                    ro1.dispose();
                     if (ConfirmButton.isExist()) {
                         ConfirmButton.click();
                         clickAttempts++;
                     }
                     await sleep(200);
-                    let ocrResults = captureGameRegion().find(
+                    let ro2 = captureGameRegion();
+                    let ocrResults = ro2.find(
                         RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height)
                     );
+                    ro2.dispose();
                     if (ocrResults) {
                         // log.info(`${ocrResults.text}`);
                         if (ocrResults.text.includes("今日已无法锻造")) {
@@ -532,7 +535,9 @@ async function forgeOre(smithyName, maxOre = null) {
     let dialogFound = false;
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
         for (let i = 0; i < 3; i++) {
-            let Forge = captureGameRegion().find(ForgeRo);
+            let ro = captureGameRegion();
+            let Forge = ro.find(ForgeRo);
+            ro.dispose();
             if (Forge.isExist()) {
                 log.info("已找到对话界面锻造图标");
                 await sleep(1000);
@@ -552,13 +557,11 @@ async function forgeOre(smithyName, maxOre = null) {
     if (dialogFound) {
         let interFaceFound = false;
         for (let attempt = 0; attempt < maxAttempts; attempt++) {
-            const ocrRegion = { x: 185, y: 125, width: 670 - 185, height: 175 - 125 };
-            let ocrResults = captureGameRegion().find(
-                RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height)
-            );
             let innerFound = false;
             for (let i = 0; i < 3; i++) {
-                let ForgingInterFace = captureGameRegion().find(ForgingInterFaceRo);
+                let ro = captureGameRegion();
+                let ForgingInterFace = ro.find(ForgingInterFaceRo);
+                ro.dispose();
                 if (ForgingInterFace.isExist()) {
                     log.info("已进入锻造界面");
                     innerFound = true;
@@ -572,11 +575,15 @@ async function forgeOre(smithyName, maxOre = null) {
                 interFaceFound = true;
 
                 // 领取操作：点击全部领取及确认领取
-                let ClaimAll = captureGameRegion().find(ClaimAllRo);
+                let ro1 = captureGameRegion();
+                let ClaimAll = ro1.find(ClaimAllRo);
+                ro1.dispose();
                 if (ClaimAll.isExist()) {
                     ClaimAll.click();
                     await sleep(500);
-                    let ConfirmButton = captureGameRegion().find(ConfirmDeployButtonRo);
+                    let ro = captureGameRegion();
+                    let ConfirmButton = ro.find(ConfirmDeployButtonRo);
+                    ro.dispose();
                     if (ConfirmButton.isExist()) {
                         ConfirmButton.click();
                         await sleep(500);
@@ -620,9 +627,11 @@ async function forgeOre(smithyName, maxOre = null) {
 
                 // 退出锻造前判断配方，点击“锻造队列”，再次确认使用的矿物已经锻造结果
                 const ocrRegionAfter = { x: 185, y: 125, width: 670 - 185, height: 175 - 125 };
-                let ocrResultsAfter = captureGameRegion().find(
+                let ro2 =captureGameRegion();
+                let ocrResultsAfter = ro2.find(
                     RecognitionObject.ocr(ocrRegionAfter.x, ocrRegionAfter.y, ocrRegionAfter.width, ocrRegionAfter.height)
                 );
+                ro2.dispose();
                 if (ocrResultsAfter.text.includes("锻造队列")) {
                     await sleep(1000);//等待僵直
                     ocrResultsAfter.click();
