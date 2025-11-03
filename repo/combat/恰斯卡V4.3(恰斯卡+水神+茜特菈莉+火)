@@ -8,11 +8,10 @@
 可莉 keypress(VK_SPACE)
 
 // 确定方向
-恰斯卡 attack,wait(0.4)
-恰斯卡 keypress(VK_MBUTTON)
+恰斯卡 attack,wait(2),keypress(VK_MBUTTON),keypress(VK_MBUTTON)
 
-恰斯卡 e,mousedown(left),a(0.2),moveby(0,500),moveby(85,0),wait(0.3),a(0.2),moveby(85,0),wait(0.3),a(0.2),moveby(85,0),wait(0.3),a(0.2),moveby(85,0),wait(0.3),a(0.2),moveby(85,0),wait(0.3),a(0.2),moveby(85,0),wait(0.3),a(0.2),moveby(85,0),wait(0.3),a(0.2),moveby(85,0),wait(0.3),a(0.2),moveby(85,0),wait(0.3),a(0.2),moveby(85,0),wait(0.3),a(0.2),moveby(85,0),wait(0.3),a(0.2),moveby(85,0),wait(0.3),a(0.2),moveby(85,0),wait(0.3),a(0.2),moveby(85,0),wait(0.3),a(0.2),moveby(85,0),wait(0.3),a(0.2),moveby(85,0),wait(0.3),a(0.2),moveby(85,0),wait(0.3),a(0.2),moveby(85,0),wait(0.3),a(0.2),moveby(85,0),wait(0.3),mouseup(left),e  
+恰斯卡 e,mousedown(left),a(0.2),moveby(0,600),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),mouseup(left),e
 
-茜特菈莉 e
+茜特菈莉 e  
 
 
