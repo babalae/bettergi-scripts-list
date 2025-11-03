@@ -19,22 +19,22 @@
 ------
 
 ####图文教程步骤一：
-<img style="zoom:200%;" alt="image" src="https://github.com/user-attachments/assets/7e42b666-8ece-4b77-a2d6-b97135452ff0" />
+<img style="zoom:200%;" alt="image" src="assets/img/步骤一.png" />
 
 ####图文教程步骤二：
-<img style="zoom:200%;" alt="image" src="https://github.com/user-attachments/assets/676f5219-db3f-4db1-8932-e7a6628616b8" />
+<img style="zoom:200%;" alt="image" src="assets/img/步骤二.png" />
 
 ####图文教程步骤三：
-<img style="zoom:200%;" alt="image" src="https://github.com/user-attachments/assets/35090925-d5d5-49cb-a49d-91a435de40c0" />
+<img style="zoom:200%;" alt="image" src="assets/img/步骤三.png" />
 
 ####图文教程步骤四：
-<img style="zoom:200%;" alt="image" src="https://github.com/user-attachments/assets/75629811-de15-42aa-83b7-8a0d0c452257" />
+<img style="zoom:200%;" alt="image" src="assets/img/步骤四.png" />
 
 ####图文教程步骤五
-<img style="zoom:200%;" alt="image" src="https://github.com/user-attachments/assets/f0a1b6c3-a90a-4eaa-a77c-fbccf01d7272" />
+<img style="zoom:200%;" alt="image" src="assets/img/步骤五.png" />
 
 ####图文教程步骤六
-<img style="zoom:200%;" alt="image" src="https://github.com/user-attachments/assets/61525b45-22e7-4686-83cf-ca19bb3c1212" />
+<img style="zoom:200%;" alt="image" src="assets/img/步骤六.png" />
 
 ------
 
