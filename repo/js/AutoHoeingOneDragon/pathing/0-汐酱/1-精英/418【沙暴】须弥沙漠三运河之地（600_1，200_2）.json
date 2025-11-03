@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -7,10 +7,9 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时131.36秒，包含以下怪物：1只遗迹重机、2只遗迹巡弋者、0.5只伸缩风蕈兽。",
-    "hash_res": "12239776",
+    "description": "  路线信息：该路线预计用时131.36秒，包含以下怪物：1只遗迹重机、2只遗迹巡弋者、1只伸缩风蕈兽。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758811707042,
+    "last_modified_time": 1762170381245,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "418【沙暴】须弥沙漠三运河之地（600_1，200_2）",
@@ -34,7 +33,6 @@
       "action": "",
       "action_params": "",
       "id": 2,
-      "locked": false,
       "move_mode": "run",
       "type": "orientation",
       "x": 4570.27734375,
@@ -152,10 +150,11 @@
       "action": "fight",
       "action_params": "",
       "id": 15,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 5099.0703125,
-      "y": -598.751953125
+      "x": 5085.9853515625,
+      "y": -598.10107421875
     },
     {
       "action": "combat_script",
@@ -163,8 +162,8 @@
       "id": 16,
       "move_mode": "dash",
       "type": "orientation",
-      "x": 5099.0703125,
-      "y": -598.751953125
+      "x": 5085.9853515625,
+      "y": -598.10107421875
     }
   ]
 }

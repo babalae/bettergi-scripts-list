@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "author": "汐",
     "authors": [
@@ -9,9 +9,8 @@
     ],
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时398.88秒，包含以下怪物：2只打手丘丘人、2只射手丘丘人、2只火箭丘丘人、2只雷箭丘丘人、1只冰箭丘丘人、1只爆弹丘丘人、1只冰弹丘丘人、1只木盾丘丘暴徒、3只岩盾丘丘暴徒、3只火斧丘丘暴徒、2只雷斧丘丘暴徒、1只丘丘雷兜王、1只水丘丘萨满、1只风丘丘萨满、2只草丘丘萨满、1只火深渊法师、1只水深渊法师、3只雷深渊法师、1只冰深渊法师、2只愚人众·火之债务处理人、1只愚人众·雷莹术士、1只愚人众·冰萤术士。",
-    "hash_res": "81201559",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1759394085350,
+    "last_modified_time": 1760698213495,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "306稻妻踏鞴砂（600_1，200_19）",
@@ -69,15 +68,25 @@
       "action": "fight",
       "action_params": "",
       "id": 6,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": -3121.1899999999987,
       "y": -3876.8099999999995
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3120.201171875,
+      "y": -3872.0234375
+    },
+    {
       "action": "fight",
       "action_params": "",
-      "id": 7,
+      "id": 8,
       "move_mode": "dash",
       "type": "path",
       "x": -3109.529999999999,
@@ -86,7 +95,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 8,
+      "id": 9,
       "move_mode": "dash",
       "type": "path",
       "x": -3122.91,
@@ -95,7 +104,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 9,
+      "id": 10,
       "move_mode": "dash",
       "type": "path",
       "x": -3102.040000000001,
@@ -104,7 +113,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 10,
+      "id": 11,
       "move_mode": "dash",
       "type": "path",
       "x": -3086.6899999999987,
@@ -113,7 +122,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 11,
+      "id": 12,
       "move_mode": "run",
       "type": "path",
       "x": -3096.8100000000013,
@@ -121,8 +130,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f);芙宁娜 e;",
-      "id": 12,
+      "action_params": "keypress(x);芙宁娜 e;",
+      "id": 13,
       "move_mode": "dash",
       "type": "path",
       "x": -3086.029999999999,
@@ -131,7 +140,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 13,
+      "id": 14,
       "move_mode": "dash",
       "type": "path",
       "x": -3036.73828125,
@@ -140,7 +149,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 14,
+      "id": 15,
       "move_mode": "dash",
       "type": "path",
       "x": -3010.4000000000015,
@@ -149,7 +158,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 15,
+      "id": 16,
       "move_mode": "dash",
       "type": "path",
       "x": -2958.66,
@@ -158,7 +167,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 16,
+      "id": 17,
       "move_mode": "dash",
       "type": "path",
       "x": -2919.040000000001,
@@ -167,7 +176,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 17,
+      "id": 18,
       "move_mode": "dash",
       "type": "path",
       "x": -2903.209999999999,
@@ -176,16 +185,16 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 19,
       "move_mode": "dash",
       "type": "path",
       "x": -2953.66,
       "y": -3831.3199999999997
     },
     {
-      "action": "",
-      "action_params": "",
-      "id": 19,
+      "action": "combat_script",
+      "action_params": "keypress(x);茜特菈莉 e;伊涅芙 e;",
+      "id": 20,
       "move_mode": "dash",
       "type": "path",
       "x": -2961.529999999999,
@@ -194,8 +203,8 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 20,
-      "move_mode": "dash",
+      "id": 21,
+      "move_mode": "run",
       "type": "path",
       "x": -2970.869999999999,
       "y": -3855.9400000000005
@@ -203,7 +212,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 21,
+      "id": 22,
       "move_mode": "dash",
       "type": "path",
       "x": -2972.75,
@@ -211,8 +220,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.2)",
-      "id": 22,
+      "action_params": "wait(0.876)",
+      "id": 23,
       "move_mode": "dash",
       "type": "orientation",
       "x": -2972.75,
@@ -221,7 +230,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 23,
+      "id": 24,
       "move_mode": "walk",
       "type": "teleport",
       "x": -3016.8600000000006,
@@ -230,16 +239,26 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 24,
+      "id": 25,
       "move_mode": "fly",
       "type": "path",
       "x": -2986.09,
       "y": -3624.91
     },
     {
+      "action": "combat_script",
+      "action_params": "keypress(x);茜特菈莉 e;伊涅芙 e;wait(0.5);",
+      "id": 26,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2984.470000000001,
+      "y": -3624.9400000000005
+    },
+    {
       "action": "fight",
       "action_params": "",
-      "id": 25,
+      "id": 27,
       "move_mode": "walk",
       "type": "path",
       "x": -2984.470000000001,
@@ -248,7 +267,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 26,
+      "id": 28,
       "move_mode": "climb",
       "type": "path",
       "x": -2985.779999999999,
@@ -257,25 +276,44 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f);玛薇卡 w(0.2),attack(0.3),e(hold),wait(0.05),keydown(w),wait(0.01),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.2),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.3),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.9);",
-      "id": 27,
+      "id": 29,
       "move_mode": "dash",
       "type": "orientation",
       "x": -3030.0200000000004,
       "y": -3527.0699999999997
     },
     {
-      "action": "fight",
-      "action_params": "",
-      "id": 28,
+      "action": "combat_script",
+      "action_params": "keypress(x);茜特菈莉 e;伊涅芙 e;wait(0.5);",
+      "id": 30,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": -3030.0200000000004,
       "y": -3527.0699999999997
     },
     {
+      "action": "fight",
+      "action_params": "",
+      "id": 31,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3030.0200000000004,
+      "y": -3527.0699999999997
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.899)",
+      "id": 32,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3030.0200000000004,
+      "y": -3527.0699999999997
+    },
+    {
       "action": "",
       "action_params": "",
-      "id": 29,
+      "id": 33,
       "move_mode": "walk",
       "type": "teleport",
       "x": -3233.25,
@@ -284,18 +322,37 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 30,
+      "id": 34,
       "move_mode": "fly",
       "type": "path",
       "x": -3214.540000000001,
       "y": -3525.42
     },
     {
-      "action": "fight",
-      "action_params": "",
-      "id": 31,
+      "action": "combat_script",
+      "action_params": "keypress(x);茜特菈莉 e;伊涅芙 e;wait(0.5);",
+      "id": 35,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
+      "x": -3198.5499999999993,
+      "y": -3517.1000000000004
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 36,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3198.5499999999993,
+      "y": -3517.1000000000004
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.899)",
+      "id": 37,
+      "move_mode": "dash",
+      "type": "orientation",
       "x": -3198.5499999999993,
       "y": -3517.1000000000004
     }
