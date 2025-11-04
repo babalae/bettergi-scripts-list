@@ -9,6 +9,7 @@ let rollingDelay = 50;
 let state;
 let gameRegion;
 let TMthreshold = +settings.TMthreshold || 0.9;
+let doRunExtra = false;
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
@@ -120,8 +121,8 @@ let TMthreshold = +settings.TMthreshold || 0.9;
             await runGroupPurchasing(false);
             settings.forceGroupNumber = 0;//解除强制指定
         }
-        //如果勾选了额外，在结束后再执行一次额外路线
-        if (settings.runExtra) {
+        //如果勾选了额外，且本次自动运行当过房主成功进人，在结束后再执行一次额外路线
+        if (settings.runExtra && doRunExtra) {
             await runGroupPurchasing(runExtra);
         }
     }
@@ -690,6 +691,7 @@ async function autoEnter(autoEnterSettings) {
             while (attempts++ < 5) {
                 if (permissionMode === "无条件通过") {
                     if (await findAndClick(allowEnterRo)) {
+                        doRunExtra = true;
                         await waitForMainUI(true, 20 * 1000);
                         enterCount++;
                         break;
@@ -703,6 +705,7 @@ async function autoEnter(autoEnterSettings) {
                             enteredPlayers = [...new Set([...enteredPlayers, result])];
                             log.info(`允许 ${result} 加入`);
                             notification.send(`允许 ${result} 加入`);
+                            doRunExtra = true;
                             if (await isYUI()) { keyPress("VK_ESCAPE"); await sleep(500); await genshin.returnMainUi(); }
                             break;
                         } else {
@@ -923,6 +926,8 @@ async function getPlayerSign() {
         if (p2.isExist()) { log.info("识别结果为2P"); return 2; }
         if (p3.isExist()) { log.info("识别结果为3P"); return 3; }
         if (p4.isExist()) { log.info("识别结果为4P"); return 4; }
+        await genshin.returnMainUi();
+        await sleep(250);
     }
     log.warn("超时仍未识别到队伍编号");
     return -1;
@@ -1127,7 +1132,7 @@ async function runPath(fullPath, targetItemPath) {
     })();
 
     const errorProcessTask = (async () => {
-        const revivalRo1 = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/revival1.png"));
+        const revivalRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/复苏.png"));
         const readingRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/readingUI.png"), 72, 22, 133 - 72, 79 - 22);
         const dialogueRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/dialogueUI.png"), 187, 26, 233 - 130, 69);
         let errorCheckCount = 9;
@@ -1137,7 +1142,7 @@ async function runPath(fullPath, targetItemPath) {
             if (errorCheckCount > 50) {
                 errorCheckCount = 0;
 
-                if (await findAndClick(revivalRo1, 1)) {
+                if (await findAndClick(revivalRo, 1)) {
                     log.info("识别到复苏按钮，点击复苏");
                     errorCheckCount = 50;
                 }
