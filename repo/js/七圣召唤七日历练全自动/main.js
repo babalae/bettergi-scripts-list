@@ -421,8 +421,6 @@ const detectCardPlayer = async () => {
 
         // 在裁剪区域中查找卡片
         const result = cropRegion.Find(cardPlayerRo);
-        captureRegion.dispose();
-        cropRegion.dispose();
 
         // 如果找到卡片
         if (!result.IsEmpty()) {
@@ -433,11 +431,14 @@ const detectCardPlayer = async () => {
                 keyPress("ESCAPE");
                 await sleep(1500);
                 await point.action(); // 调用该点位对应的函数
+                captureRegion.dispose();
+                cropRegion.dispose();
                 return true; // 返回true表示已找到并处理
             }
         }
+        cropRegion.dispose();
     }
-
+    captureRegion.dispose();
     // 所有点位都未找到
     log.info("未在任何检测点找到玩家");
     textArray.length = 0;
@@ -475,7 +476,7 @@ async function captureAndStoreTexts() {
         // 在指定区域进行OCR识别
         const result = captureRegion.find(ocrRo);
         let res2 = captureRegion.find(ocrRo2);
-        captureRegion.dispose();
+
         if (!result.isEmpty() && result.text) {
             // 存储识别结果和对应位置
             if (res2.isExist()) {
@@ -491,6 +492,7 @@ async function captureAndStoreTexts() {
         }
     }
 
+    captureRegion.dispose();
     log.info(`剩余挑战人数:${textArray.length}`);
     keyPress("ESCAPE");
     await sleep(1000);
