@@ -32,7 +32,7 @@
 // 功能：自动选择万叶或琴（优先万叶），通过长 E 动作收集掉落物。
 
 // 以下是战斗策略正文，注意合理搭配队伍
-// ！！！请严格遵守BGI战斗配队逻辑！！！（以 盾【刚需】+主c【可以是后台输出角色】+副c【可以是后台输出角色】+万叶/琴【可需要捡掉落物的可以带，比如精英怪，小怪、副本可酌情不带换成，奶妈 or 后台输出角色】）
+// ！！！请严格遵守BGI战斗配队逻辑！！！（以 盾【刚需】+主c【可以是后台输出角色】+副c【可以是后台输出角色】+万叶/琴【如需要捡掉落物的可以带，比如精英怪，小怪、副本可酌情不带换成，奶妈 or 后台输出角色】）
 
 // 盾（刚需）
 茜特菈莉 e,attack(0.2),keypress(q),wait(0.2),keypress(q),attack(0.2),keypress(q),attack(0.2),keypress(e)
@@ -99,4 +99,5 @@
 // （回身 QE ZZS）玛薇卡 attack(0.03),keypress(q),keypress(q),keydown(E),wait(0.45),keyup(E),wait(0.2),keydown(VK_LBUTTON),wait(0.155),wait(0.359),keyup(VK_LBUTTON),wait(0.05),wait(0.05), keydown(VK_LBUTTON),wait(0.1),keyup(VK_LBUTTON),wait(0.05),keydown(VK_LBUTTON),wait(0.1),keyup(VK_LBUTTON),click(middle),wait(0.45),  moveby(5500,0),wait(0.05),keydown(VK_LBUTTON),wait(0.125),keydown(VK_RBUTTON),wait(0.15),s(0.1),wait(0.1),keyup(VK_LBUTTON),wait(0.01),keyup(VK_RBUTTON),wait(0.08),keydown(VK_LBUTTON),wait(0.125),keydown(VK_RBUTTON),wait(0.1),s(0.1),wait(0.1),keyup(VK_LBUTTON),wait(0.01),keyup(VK_RBUTTON),wait(0.1),keydown(VK_LBUTTON),wait(0.05),keyup(VK_LBUTTON),wait(0.05),keydown(VK_LBUTTON),wait(0.05),keyup(VK_LBUTTON),wait(0.3)
 瓦雷莎 e, attack(1.25),click(middle),wait(0.45), keydown(s), e, attack(1.25),keyup(s), wait(0.3),keypress(q), click(middle),wait(0.45)
 仆人 charge(0.35), click(middle), j, attack(3.2), j, attack(1.5),keypress(q)
+
 
