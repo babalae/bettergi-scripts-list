@@ -57,9 +57,17 @@
     const username = settings.username || "默认账户";
     const cdRecordPath = `record/${username}_cd.txt`;// 修改CD记录文件路径，包含用户名
 
-    //设置分辨率和缩放
-    setGameMetrics(1920, 1080, 1);
-    await genshin.returnMainUi();
+    // 定义任务列表
+    const tasks = [
+        { condition: ifZBY, func: autoZhibian, name: "质变仪" },
+        { condition: ifYB, func: Jingdie, name: "晶蝶诱捕装置" },
+        { condition: ifCooking, func: Cooking, name: "做菜" },
+        { condition: ifduanZao, func: duanZao, name: "锻造" },
+        { condition: ifShouling, func: hitBoss, name: "首领" },
+        { condition: ifMijing, func: AutoDomain, name: "秘境" },
+        { condition: ifbuyNet, func: buyNet, name: "购买四方八方之网" },
+        { condition: ifbuyTzq, func: buyTzq, name: "购买投资券" }
+    ];
 
     // ===== 2. 子函数定义部分 =====
 
@@ -734,7 +742,7 @@
         let success;
         for (let attempt = 0; attempt < 10; attempt++) {
             success = await textOCREnhanced("启动", 0.5, 0, 3, 1210, 500, 85, 85);
-            if (!success || !success.found) {
+            if (success.found) {
                 keyPress("F");
                 break;
             } else {
@@ -1239,36 +1247,37 @@
         await writeCDRecords(updatedRecords);
     }
 
+    // 版本信息
+    async function outputVersion() {
+        let scriptVersion, scriptname;
+        const manifestContent = file.readTextSync("manifest.json");
+        const manifest = JSON.parse(manifestContent);
+        scriptVersion = manifest.version;
+        scriptname = manifest.name;
+
+        log.warn(`${scriptname}：V${scriptVersion}`);
+    }
+
     // ===== 3. 主函数执行部分 =====
 
     try {
-        if (ifZBY) { await autoZhibian(); }// 质变仪
-        await sleep(10);
+        //设置分辨率和缩放
+        setGameMetrics(1920, 1080, 1);
+        await genshin.returnMainUi();
 
-        if (ifYB) { await Jingdie(); }// 晶蝶诱捕装置
-        await sleep(10);
+        await outputVersion(); // 输出版本信息
 
-        if (ifCooking) { await Cooking(); }// 做菜
-        await sleep(10);
-
-        if (ifduanZao) { await duanZao(); }// 锻造
-        await sleep(10);
-
-        if (ifShouling) { await hitBoss(); }// 首领
-        await sleep(10);
-
-        if (ifMijing) { await AutoDomain(); }// 秘境
-        await sleep(10);
-
-        if (ifbuyNet) { await buyNet(); }// 购买四方八方之网
-        await sleep(10);
-
-        if (ifbuyTzq) { await buyTzq(); }// 购买投资券
-        await sleep(10);
+        // 执行所有启用的任务
+        for (const task of tasks) {
+            if (task.condition) {
+                await task.func();
+                await sleep(10);
+            }
+        }
     } catch (error) {
         log.error(`执行过程中发生错误：${error.message}`);
     } finally {
         await genshin.returnMainUi();
     }
-
+    
 })();
