@@ -1575,72 +1575,70 @@ async function switchPartyIfNeeded(partyName) {
 
 /**
  * 检查当前时间是否处于限制时间内或即将进入限制时间
- * @param {string} timeRule - 时间规则字符串，格式如 "4, 4-6, 10-12"
+ * @param {string} timeRule - 时间规则字符串，格式如 "8, 8-11, 23:11-23:55"
  * @param {number} [threshold=5] - 接近限制时间的阈值（分钟）
  * @returns {Promise<boolean>} - 如果处于限制时间内或即将进入限制时间，则返回 true，否则返回 false
  */
 async function isTimeRestricted(timeRule, threshold = 5) {
-    // 如果输入的时间规则为 undefined 或空字符串，视为不进行时间处理，返回 false
-    if (timeRule === undefined || timeRule === "") {
-        return false;
-    }
+    if (!timeRule) return false;
 
-    // 初始化 0-23 小时为可用状态
-    const hours = Array(24).fill(false);
+    // 兼容中英文逗号、冒号
+    const ruleClean = timeRule
+        .replace(/，/g, ',')
+        .replace(/：/g, ':');
 
-    // 解析时间规则
-    const rules = timeRule.split('，').map(rule => rule.trim());
-
-    // 校验输入的字符串是否符合规则
-    for (const rule of rules) {
-        if (rule.includes('-')) {
-            // 处理时间段，如 "4-6"
-            const [startHour, endHour] = rule.split('-').map(Number);
-            if (isNaN(startHour) || isNaN(endHour) || startHour < 0 || startHour >= 24 || endHour <= startHour || endHour > 24) {
-                // 如果时间段格式不正确或超出范围，则报错并返回 true
-                log.error("时间填写不符合规则，请检查");
-                return true;
-            }
-            for (let i = startHour; i < endHour; i++) {
-                hours[i] = true; // 标记为不可用
-            }
-        } else {
-            // 处理单个时间点，如 "4"
-            const hour = Number(rule);
-            if (isNaN(hour) || hour < 0 || hour >= 24) {
-                // 如果时间点格式不正确或超出范围，则报错并返回 true
-                log.error("时间填写不符合规则，请检查");
-                return true;
-            }
-            hours[hour] = true; // 标记为不可用
-        }
-    }
-
-    // 获取当前时间
     const now = new Date();
     const currentHour = now.getHours();
     const currentMinute = now.getMinutes();
+    const currentTotal = currentHour * 60 + currentMinute;
 
-    // 检查当前时间是否处于限制时间内
-    if (hours[currentHour]) {
-        log.warn("处于限制时间内");
-        return true; // 当前时间处于限制时间内
-    }
+    for (const seg of ruleClean.split(',').map(s => s.trim())) {
+        if (!seg) continue;
 
-    // 检查当前时间是否即将进入限制时间
-    for (let i = 0; i < 24; i++) {
-        if (hours[i]) {
-            const nextHour = i;
-            const timeUntilNextHour = (nextHour - currentHour - 1) * 60 + (60 - currentMinute);
-            if (timeUntilNextHour > 0 && timeUntilNextHour <= threshold) {
-                // 如果距离下一个限制时间小于等于阈值，则等待到限制时间开始
-                log.warn("接近限制时间，开始等待至限制时间");
-                await genshin.tpToStatueOfTheSeven();
-                await sleep(timeUntilNextHour * 60 * 1000);
-                return true;
+        let startStr, endStr;
+        if (seg.includes('-')) {
+            [startStr, endStr] = seg.split('-').map(s => s.trim());
+        } else {
+            startStr = endStr = seg.trim();
+        }
+
+        const parseTime = (str, isEnd) => {
+            if (str.includes(':')) {
+                const [h, m] = str.split(':').map(Number);
+                return { h, m };
             }
+            // 单独小时：start 8→8:00，end 8→8:59
+            const h = Number(str);
+            return { h, m: isEnd ? 59 : 0 };
+        };
+
+        const start = parseTime(startStr, false);
+        const end   = parseTime(endStr, true);
+
+        const startTotal = start.h * 60 + start.m;
+        const endTotal   = end.h * 60 + end.m;
+
+        const effectiveEnd = endTotal >= startTotal ? endTotal : endTotal + 24 * 60;
+
+        if (
+            (currentTotal >= startTotal && currentTotal < effectiveEnd) ||
+            (currentTotal + 24 * 60 >= startTotal && currentTotal + 24 * 60 < effectiveEnd)
+        ) {
+            log.warn("处于限制时间内");
+            return true;
+        }
+
+        let nextStartTotal = startTotal;
+        if (nextStartTotal <= currentTotal) nextStartTotal += 24 * 60;
+        const waitMin = nextStartTotal - currentTotal;
+        if (waitMin > 0 && waitMin <= threshold) {
+            log.warn(`接近限制时间，等待 ${waitMin} 分钟`);
+            await genshin.tpToStatueOfTheSeven();
+            await sleep(waitMin * 60 * 1000);
+            return true;
         }
     }
+
     log.info("不处于限制时间");
-    return false; // 当前时间不在限制时间内
+    return false;
 }
