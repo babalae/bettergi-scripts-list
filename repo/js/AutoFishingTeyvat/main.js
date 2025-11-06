@@ -669,20 +669,24 @@
             keyPress("Escape");
             await sleep(1000);
 
-            let ocrUid = captureGameRegion().Find(ocrRoUid); // 当前页面OCR
+            let ro1 = captureGameRegion();
+            let ocrUid = ro1.Find(ocrRoUid); // 当前页面OCR
             if (ocrUid.isExist()) {
                 uid = ocrUid.text;
             }
+            ro1.dispose();
 
             await genshin.returnMainUi();
 
             keyPress("F2"); // 按下F2打开多人模式界面
             await sleep(1000);
-            let ocrText = captureGameRegion().Find(ocrRoText); // 当前页面OCR
+            let ro2 = captureGameRegion();
+            let ocrText = ro2.Find(ocrRoText); // 当前页面OCR
             if (ocrText.isExist() && ocrText.text === "回到单人模式") {
                 log.info("当前为多人模式，垂钓点CD统计已失效...");
                 fishing_cd = false; // 多人模式下关闭CD记录功能
             }
+            ro2.dispose();
 
             await sleep(500);
             keyPress("Escape");
