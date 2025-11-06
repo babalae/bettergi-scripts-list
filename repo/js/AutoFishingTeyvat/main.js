@@ -511,10 +511,12 @@
 
             }
             // 本次已经到达4点(5s容错)
-            if (new Date() > time_4.setSeconds(time_4.getSeconds())) {
+            if (new Date() > time_4.setSeconds(time_4.getSeconds()) && new Date() < time_4.setSeconds(time_4.getSeconds() + 5)) {
                 await sleep(5000);
                 step_flag += 1;
                 auto_skip = false;
+            } else {
+                await sleep(10);
             }
             // 领取月卡(点击两次)
             if (step_flag === 2) {
@@ -658,7 +660,7 @@
 
         // 获取当前用户UID
         let uid = "default_user";
-        if (fishing_cd) {
+        if (fishing_cd && !is_con) {
             const ocrRoUid = RecognitionObject.Ocr(166, 198, 120, 22);
             const ocrRoText = RecognitionObject.Ocr(1565, 997, 177, 39);
 
@@ -667,24 +669,20 @@
             keyPress("Escape");
             await sleep(1000);
 
-            let ro1 = captureGameRegion();
-            let ocrUid = ro1.Find(ocrRoUid); // 当前页面OCR
+            let ocrUid = captureGameRegion().Find(ocrRoUid); // 当前页面OCR
             if (ocrUid.isExist()) {
                 uid = ocrUid.text;
             }
-            ro1.dispose();
 
             await genshin.returnMainUi();
 
             keyPress("F2"); // 按下F2打开多人模式界面
             await sleep(1000);
-            let ro2 = captureGameRegion();
-            let ocrText = ro2.Find(ocrRoText); // 当前页面OCR
+            let ocrText = captureGameRegion().Find(ocrRoText); // 当前页面OCR
             if (ocrText.isExist() && ocrText.text === "回到单人模式") {
                 log.info("当前为多人模式，垂钓点CD统计已失效...");
                 fishing_cd = false; // 多人模式下关闭CD记录功能
             }
-            ro2.dispose();
 
             await sleep(500);
             keyPress("Escape");
