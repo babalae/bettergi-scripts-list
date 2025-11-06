@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758051639583,
+    "last_modified_time": 1762414043515,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B11-萃凝晶-纳塔-深渊古瞭望所02（火神赶路-4个)",
@@ -66,7 +66,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(2.0),keypress(e)",
+      "action_params": "click(middle),wait(0.5),moveby(0,-2000),wait(0.5),keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(2.0),keypress(e)",
       "id": 6,
       "move_mode": "walk",
       "type": "orientation",
