@@ -511,10 +511,12 @@
 
             }
             // 本次已经到达4点(5s容错)
-            if (new Date() > time_4.setSeconds(time_4.getSeconds())) {
+            if (new Date() > time_4.setSeconds(time_4.getSeconds()) && new Date() < time_4.setSeconds(time_4.getSeconds() + 5)) {
                 await sleep(5000);
                 step_flag += 1;
                 auto_skip = false;
+            } else {
+                await sleep(10);
             }
             // 领取月卡(点击两次)
             if (step_flag === 2) {
@@ -658,7 +660,7 @@
 
         // 获取当前用户UID
         let uid = "default_user";
-        if (fishing_cd) {
+        if (fishing_cd && !is_con) {
             const ocrRoUid = RecognitionObject.Ocr(166, 198, 120, 22);
             const ocrRoText = RecognitionObject.Ocr(1565, 997, 177, 39);
 
