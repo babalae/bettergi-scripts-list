@@ -130,17 +130,6 @@ async function findImgIcon(imagePath, xRange, yRange, judge, threshold = 0.8, ti
     return { success: false};
 };
 
-// 长对话点击
-async function clickLongTalk() {
-    // 识别是不是主界面
-    let isMainUi = { success: false, coordinates:[0, 0]};
-    do {
-        leftButtonClick();
-        isMainUi = await findImgIcon("assets/RecognitionObject/PaiMonMenu.png", { min: 15, max: 112 }, { min: 0, max: 84 }, false, 0.8, 500);
-        // log.info(`你看嘛: ${isMainUi.success}`);
-    } while (!isMainUi.success);    
-};
-
 // 滚动页面
 // totalDistance: 需要滚动的总距离
 // stepDistance: 每次滚动的距离
@@ -412,7 +401,6 @@ async function chcekDragonEggs() {
     await genshin.returnMainUi();
     //打开背包    
     await keyPress("B");
-    await checkExpire();
     await sleep(1500);
     await click(1250,50); 
     let DragonEggs = [0, 0, 0, 0, 0, 0];
@@ -445,12 +433,12 @@ async function chcekDragonEggs() {
                 if (DragonEgg.success) {
                     let ocrEggNum = await performOcr("", 
                         { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 }, true);
-                    // log.info(`第一次识别到的数字：${ocrEggNum.text}`);
+                    log.info(`第一次识别到的数字：${ocrEggNum.text}`);
                     if (ocrEggNum.text == "") {
                         await sleep(500);
                         ocrEggNum = await performOcr("", 
                             { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 }, true);
-                        // log.info(`第二次识别到的数字：${ocrEggNum.text}`);
+                        log.info(`第二次识别到的数字：${ocrEggNum.text}`);
                     };
                     if (ocrEggNum.text == "") {
                         ocrEggNum.text = 1;
@@ -474,7 +462,7 @@ async function chcekDragonEggs() {
                 // await scrollPage(50, 5, 5);
                 // 不为空就滑动背包 滑动小点
                 await sleep(1000);
-                await scrollPage(300, 10, 5);
+                await scrollPage(200, 10, 5);
                 await sleep(1000);
                 judgeEgg = 1;
             };
@@ -495,17 +483,75 @@ async function chcekDragonEggs() {
     // 更新记录
     record.lastDragonEggsNum = `【山之血：${DragonEggs[0]}，太阳的轰鸣：${DragonEggs[1]}，圣龙君临：${DragonEggs[2]}，菲耶蒂娜：${DragonEggs[3]}，献给小酒杯：${DragonEggs[4]}，飞澜鲨鲨：${DragonEggs[5]}】`;
     await recordForFile(false);
-    return `【山之血：${DragonEggs[0]}，太阳的轰鸣：${DragonEggs[1]}，圣龙君临：${DragonEggs[2]}，菲耶蒂娜：${DragonEggs[3]}，献给小酒杯：${DragonEggs[4]}，飞澜鲨鲨：${DragonEggs[5]}】`;;
+    return DragonEggs;
 };
 
-// 检查过期物品
-async function checkExpire() {
-    await sleep(1000);
-    let ocrExpire = await performOcr("",{ min: 870, max: 1040 }, { min: 280, max: 320 }, true);
-    if (ocrExpire.text == "物品过期") {
-        log.info(`处理中=========`);
-       await click(980, 750); 
-    };
+//添加信息
+function writeContentToFile(content, judge) {
+    //文件名合法校验
+    let finalAccountName = settings.accountName || "默认账户";
+    try {
+        const illegalCharacters = /[\\/:*?"<>|]/;
+        const reservedNames = [
+            "CON", "PRN", "AUX", "NUL",
+            "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
+            "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
+        ];
+
+        if (finalAccountName === "" ||
+            finalAccountName.startsWith(" ") ||
+            finalAccountName.endsWith(" ") ||
+            illegalCharacters.test(finalAccountName) ||
+            reservedNames.includes(finalAccountName.toUpperCase()) ||
+            finalAccountName.length > 255
+        ) {
+            log.error(`账户名 "${finalAccountName}" 不合法，将使用默认值`);
+            finalAccountName = "默认账户";
+        } 
+    } catch (error) {
+        // 只在文件完全不存在时创建，避免覆盖
+        file.writeTextSync(finalAccountName, content, false);
+        log.info(`创建新文件: ${finalAccountName}`);
+    }
+    
+
+    let filePath = `records/${finalAccountName}.txt`;
+    //读取现有内容
+    let existingContent = "";
+    try {
+        existingContent = file.readTextSync(filePath);
+    } catch (e) {
+    }
+
+    if (judge) {
+        runDate = `>>>>>>>${new Date().getFullYear()}年${String(new Date().getMonth() + 1).padStart(2, '0')}月${String(new Date().getDate()).padStart(2, '0')}日`;
+        const finalContent1 = runDate + "\n" + existingContent;
+        //按行分割，保留最近365条完整记录（按原始换行分割，不过滤）
+        const lines = finalContent1.split("\n");
+        const keepLines = lines.length > 365 * 5 ? lines.slice(0, 365 * 5) : lines; // 假设每条记录最多5行
+        const result1 = file.writeTextSync(filePath, keepLines.join("\n"), false);
+
+        if (result1) {
+            log.info(`写入成功: ${filePath}`);
+        } else {
+            log.error(`写入失败: ${filePath}`);
+        }
+
+    } else {
+
+        //拼接
+        const finalContent = content + existingContent;
+        //按行分割，保留最近365条完整记录（按原始换行分割，不过滤）
+        const lines = finalContent.split("\n");
+        const keepLines = lines.length > 365 * 5 ? lines.slice(0, 365 * 5) : lines; // 假设每条记录最多5行
+        const result = file.writeTextSync(filePath, keepLines.join("\n"), false);
+
+        if (result) {
+            log.info(`写入成功: ${filePath}`);
+        } else {
+            log.error(`写入失败: ${filePath}`);
+        }
+    }
 };
 
 // 执行区
@@ -513,7 +559,7 @@ async function checkExpire() {
     await fakeLog("AutoPickLitter脚本", true, true, 0);
 
     // 判定你是不是新人
-    if(!settings.water && !settings.sticks && !settings.lots && !settings.conchs && !settings.meal && !settings.eggs && !settings.turntable && !settings.todayLuck && !settings.sweetStatue){
+    if(!settings.water && !settings.sticks && !settings.lots && !settings.conchs && !settings.meal && !settings.eggs && !settings.turntable && !settings.todayLuck){
         log.error(`亲，这面请您点击【打开脚本目录】找到AutoPickLitter文件并打开然后去阅读README！！！`);
         log.error(`亲，这面请您点击【打开脚本目录】找到AutoPickLitter文件并打开然后去阅读README！！！`);
         log.error(`亲，这面请您点击【打开脚本目录】找到AutoPickLitter文件并打开然后去阅读README！！！`);
@@ -539,10 +585,8 @@ async function checkExpire() {
         await pathingScript.runFile("assets/蒙德清泉镇路线.json");
         //识别对话位置，并点击
         let ocrResults = await performOcr("神奇的", dialogZone.x, dialogZone.y, false);
-        if (ocrResults.success) {
-            await sleep(500);
+        if (ocrResults.length != 0) {
             await performOcr("如何才", dialogZone.x, dialogZone.y, false);
-            await sleep(500);
             let ocrOver = await performOcr("已",{ min: 1482, max: 1630 }, { min: 912, max: 957 }, false);
             if (ocrOver.success) {
                 log.info("已售罄！！！");
@@ -642,7 +686,6 @@ async function checkExpire() {
                     await genshin.returnMainUi();
                     // 打开背包找签
                     await keyPress("B");
-                    await checkExpire();
                     await sleep(1000);
                     await click(1150,50);
                     await sleep(700);
@@ -804,7 +847,6 @@ async function checkExpire() {
         await sleep(1000);
         let ocrResults = await performOcr("布兰", dialogZone.x, dialogZone.y, false);
         if (ocrResults.success) {
-            // await sleep(500);
             let ocrResults1 = await performOcr("没什么", dialogZone.x, dialogZone.y, false);
             if(ocrResults1.success){
                 log.info("对话出现没什么，默认领取和使用过！！！");
@@ -819,12 +861,10 @@ async function checkExpire() {
                 //打开背包找签
                 log.info("打开背包");
                 await keyPress("B");
-                await checkExpire();
                 await sleep(1500);
                 await click(1250,50); 
-                await sleep(700);
                 for(let scroll = 0; scroll <= 10; scroll++){
-                    let welffareMeal = await findImgIcon("assets/RecognitionObject/WelffareMealHalf.png", { min: 99, max: 1295 }, { min: 104, max: 967 }, true);
+                    let welffareMeal = await findImgIcon("assets/RecognitionObject/WelffareMealHalf.png", { min: 99, max: 1295 }, { min: 104, max: 967 }, false);
                     if (welffareMeal.success) {
                         break;
                     }
@@ -898,7 +938,6 @@ async function checkExpire() {
         let nowDragonEggsNum = record.lastDragonEggsNum;
         if (record.lastDragonEggsNum == "【山之血：0，太阳的轰鸣：0，圣龙君临：0，菲耶蒂娜：0，献给小酒杯：0，飞澜鲨鲨：0】" || settings.updateEggs) {
             nowDragonEggsNum = await chcekDragonEggs();
-            settings.updateEggs = "false";
         };
         let nowDragonEggs = nowDragonEggsNum.match(/\d+/g).map(Number);
         await fakeLog("纳塔悠悠集市龙蛋", false, true, 0)
@@ -914,7 +953,9 @@ async function checkExpire() {
                 await sleep(5000);
                 let figure = 0;
                 if (settings.selectDragonEggModel == "随机模式") {
-                    figure = Math.floor((Math.random() + Date.now() % 1) * 6);
+                    const crypto = require('crypto');
+                    figure = crypto.randomInt(0, 6);
+                    // figure = Math.floor(Math.random() * 6);
                 } else if (settings.selectDragonEggModel == "指定模式") {
                     switch (settings.pickupDragonEgg) {
                         case "闪闪礼蛋·山之血":
@@ -940,34 +981,7 @@ async function checkExpire() {
                             break;
                     };
                 }else {
-                    const now = new Date();
-                    const weekNumber = now.getDay()
-                    if (nowDragonEggs.every(num => num === nowDragonEggs[0])) {
-                        // 所有元素相同时，按星期规则处理
-                        if (weekNumber === 0) { // 周日：随机一个元素+1
-                            figure = Math.floor(Math.random() * 6);
-                            nowDragonEggs[figure]++;
-                        } else { // 周一到周六：第n个元素 +n（1-6）
-                            const index = weekNumber - 1; // 周一对应索引0，...，周六对应索引5
-                            nowDragonEggs[index] += weekNumber;
-                        };
-                    } else {
-                        // 元素不同时：给低于平均数且最小的元素+1，直到趋于平均
-                        const sum = nowDragonEggs.reduce((a, b) => a + b, 0);
-                        const avg = sum / 6;
-                        // 筛选低于平均数的元素
-                        const belowAvg = nowDragonEggs.map((num, i) => ({ num, i })).filter(item => item.num < avg);
-                        
-                        if (belowAvg.length > 0) {
-                            // 找到低于平均数中的最小值
-                            const minVal = Math.min(...belowAvg.map(item => item.num));
-                            // 筛选出等于最小值的元素索引
-                            const minIndices = belowAvg.filter(item => item.num === minVal).map(item => item.i);
-                            figure = minIndices[0];
-                            // 给第一个最小值元素+1（若多个最小值，可改为随机选一个）
-                            nowDragonEggs[minIndices[0]]++;
-                        };
-                    };
+                    
                 };
 
                 // 日志输出会去点击那个龙蛋
@@ -1096,107 +1110,6 @@ async function checkExpire() {
             };
         await genshin.returnMainUi();
         await fakeLog("挪德卡莱那夏镇美味的今日收获", false, false, 0)
-    };
-
-    // 挪德卡莱那夏镇糖雕
-    if (settings.sweetStatue) {
-        await fakeLog("挪德卡莱那夏镇糖雕", false, true, 0)
-        await pathingScript.runFile("assets/挪德卡莱那夏镇糖雕路线.json");
-        await sleep(1000);
-        if (settings.partyName == "") {
-            let ocrResults = await performOcr("乌娜亚塔", dialogZone.x, dialogZone.y, false);
-            // log.info(`识别的东西${ocrResults.text}`);
-            if (ocrResults.success) {
-                await sleep(700);
-                await performOcr("来一份", dialogZone.x, dialogZone.y, false);
-                await clickLongTalk();
-                // 打开背包找糖
-                await keyPress("B");
-                await checkExpire();
-                await sleep(1000);
-                await click(864,52);
-                await sleep(800);
-                for(let scroll = 0; scroll <= 10; scroll++){
-                    let welffareMeal = await findImgIcon("assets/RecognitionObject/sugar.png", { min: 99, max: 1295 }, { min: 104, max: 967 }, true);
-                    if (welffareMeal.success) {
-                        break;
-                    }
-                    //滑动背包
-                    await sleep(1000);
-                    await scrollPage(680, 10, 5);
-                    await sleep(1000);
-                    if ( scroll != 0) {
-                        // 判断是否到底
-                        let sliderBottom = await findImgIcon("assets/RecognitionObject/SliderBottom.png", { min: 1284, max: 1293 }, { min: 916, max: 942 }, false);
-                        if (sliderBottom.success) {
-                            log.info("已到达最后一页！");
-                            break;
-                        };
-                    };
-                };
-                //这里是点击使用
-                await sleep(1000);
-                await click(1670,1025);
-                await sleep(700);
-                await click(1145, 765);
-                await sleep(700);
-                let ocrResults1 = await performOcr("是否", dialogZone.x, dialogZone.y, false);
-                if (ocrResults1.success) {
-                    await sleep(800);
-                    await click(1012, 765);
-                    await click(1012, 765);
-                };
-            };
-        } else {
-            await switchPartyIfNeeded(); // 切换队伍
-            let ocrResults = await performOcr("乌娜亚塔", dialogZone.x, dialogZone.y, false);
-            log.info(`识别的东西${ocrResults.text}`);
-            if (ocrResults.success) {
-                await sleep(700);
-                await performOcr(settings.selectGiveWho, dialogZone.x, dialogZone.y, false);
-                await clickLongTalk();
-                // 打开背包找糖
-                await keyPress("B");
-                await checkExpire();
-                await sleep(1000);
-                await click(864,52);
-                await sleep(800);
-                for(let scroll = 0; scroll <= 10; scroll++){
-                    let welffareMeal = await findImgIcon("assets/RecognitionObject/sugar.png", { min: 99, max: 1295 }, { min: 104, max: 967 }, true);
-                    if (welffareMeal.success) {
-                        break;
-                    }
-                    //滑动背包
-                    await sleep(1000);
-                    await scrollPage(680, 10, 5);
-                    await sleep(1000);
-                    if ( scroll != 0) {
-                        // 判断是否到底
-                        let sliderBottom = await findImgIcon("assets/RecognitionObject/SliderBottom.png", { min: 1284, max: 1293 }, { min: 916, max: 942 }, false);
-                        if (sliderBottom.success) {
-                            log.info("已到达最后一页！");
-                            break;
-                        };
-                    };
-                };
-                //这里是点击使用
-                await sleep(1000);
-                await click(1670,1025);
-                await sleep(700);
-                await findImgIcon(`assets/RecognitionObject/${settings.selectGiveWho}.png`, { min: 99, max: 1295 }, { min: 104, max: 967 }, true);
-                await sleep(700);
-                await click(1145, 765);
-                await sleep(700);
-                let ocrResults1 = await performOcr("是否", dialogZone.x, dialogZone.y, false);
-                if (ocrResults1.success) {
-                    await sleep(800);
-                    await click(1012, 765);
-                    await click(1012, 765);
-                };
-            };
-        };
-        await genshin.returnMainUi();
-        await fakeLog("挪德卡莱那夏镇糖雕", false, false, 0)
     };
 
     for (let i = record.records.length - 1; i > 0; i--) {
