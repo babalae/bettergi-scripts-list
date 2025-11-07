@@ -1,0 +1,58 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "古又"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "领取福利餐",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756560026141,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "梅洛彼得堡路线优化",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4572.978515625,
+      "y": 4457.111328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4596.072265625,
+      "y": 4485.796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 4598.986328125,
+      "y": 4489.4150390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4601.529296875,
+      "y": 4492.79052734375
+    }
+  ]
+}
