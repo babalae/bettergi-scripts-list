@@ -1,0 +1,256 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "2个甜甜花；1个薄荷；6个鸟蛋；1个松茸；1个松果；3个蘑菇；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762331535363,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A10-1-蒙德食材-坠星山谷-北风庙宇【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1505.5761999999995,
+      "y": 2296.5391
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1522.7988000000005,
+      "y": 2280.4629000000004
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1525.9667999999983,
+      "y": 2272.5136999999995
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1561.7812000000013,
+      "y": 2265.1630999999998
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1575.7969000000012,
+      "y": 2271.1294
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1594.7344000000012,
+      "y": 2261.6934
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1614.2324000000008,
+      "y": 2264.7790999999997
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1619.8378999999986,
+      "y": 2258.416000000001
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1619.7988000000005,
+      "y": 2246.1049999999996
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1637.7128999999986,
+      "y": 2248.1574999999993
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -1648.8145000000004,
+      "y": 2251.944800000001
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1663.1405999999988,
+      "y": 2226.4500000000007
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 e;万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1670.4979999999996,
+      "y": 2223.4727000000003
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1671.15625,
+      "y": 2220.875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -1677.220703125,
+      "y": 2197.5791015625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1677.220703125,
+      "y": 2197.5791015625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1682.208999999999,
+      "y": 2192.2153
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1628.9979999999996,
+      "y": 2155.125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1646.2988000000005,
+      "y": 2125.3662000000004
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1650.3202999999994,
+      "y": 2120.458999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1652.0233999999982,
+      "y": 2118.3559999999998
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1661.7069999999985,
+      "y": 2117.1669999999995
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1677.5469000000012,
+      "y": 2108.4560999999994
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1718.175800000001,
+      "y": 2113.0959000000003
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1741.7636999999995,
+      "y": 2128.916000000001
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 26,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1750.0819999999985,
+      "y": 2129.5957
+    }
+  ]
+}

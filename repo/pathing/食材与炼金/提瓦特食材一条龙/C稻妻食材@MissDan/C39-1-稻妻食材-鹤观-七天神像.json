@@ -1,0 +1,148 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "1个甜甜花；4个薄荷；3树莓；2个海草；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762349270051,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C39-1-稻妻食材-鹤观-七天神像",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3269.085899999998,
+      "y": -6135.9355
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3278.4473,
+      "y": -6136.843799999999
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3314.0996000000014,
+      "y": -6120.386699999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3305.642599999999,
+      "y": -6106.949199999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3292.664100000002,
+      "y": -6085.3711
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3286.2559,
+      "y": -6081.006799999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "target",
+      "x": -3290.8027,
+      "y": -6073.415000000001
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3295.5547000000006,
+      "y": -6056.333999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3270.210899999998,
+      "y": -6023.2119
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3254.4805000000015,
+      "y": -6018.445299999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3243.6836000000003,
+      "y": -6027.2793
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3220.2069999999985,
+      "y": -6040.7441
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3221.28125,
+      "y": -6053.1875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3235.017599999999,
+      "y": -6056.7246
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "4个鸟蛋；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762494194297,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E07-2-枫丹食材-苍晶区-厄里那斯【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4770.2373046875,
+      "y": 3159.47705078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4755.447265625,
+      "y": 3164.97314453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4741.1904296875,
+      "y": 3175.51904296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 4730.75,
+      "y": 3184.03662109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4716.1728515625,
+      "y": 3195.5791015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4692.5078125,
+      "y": 3213.55126953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4688.28515625,
+      "y": 3216.8564453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4685.8427734375,
+      "y": 3218.561767578125
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "2个甜甜花；1个胡萝卜；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762344908635,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C25-2-稻妻食材-八酝岛-绯木村【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2215.7538999999997,
+      "y": -3709.165000000001
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2207.0430000000015,
+      "y": -3679.6610999999994
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -2196.1797000000006,
+      "y": -3650.9413999999997
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2195.1836000000003,
+      "y": -3651.2304999999997
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -2192.0312000000013,
+      "y": -3645.3174
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2177.2753999999986,
+      "y": -3656.6973
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2175.7305000000015,
+      "y": -3651.2587999999996
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2181.4569999999985,
+      "y": -3646.1299
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -2182.7422000000006,
+      "y": -3645.228500000001
+    }
+  ]
+}

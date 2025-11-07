@@ -1,0 +1,184 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "1个薄荷；5个鳗肉；2个海灵芝；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762347834840,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C36-3-稻妻食材-海祇岛-水月池【螃蟹】",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1134.2246000000014,
+      "y": -3604.727500000001
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4),keypress(f),wait(0.4),keypress(t),wait(0.4),keypress(t),wait(0.4),keypress(t),wait(0.4),keypress(t),wait(0.8),keypress(t),wait(0.8),keypress(t)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1137.8905999999988,
+      "y": -3597.0126999999993
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1131.4375,
+      "y": -3582.9853999999996
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1133.029296875,
+      "y": -3571.173828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1095.1699000000008,
+      "y": -3506.0761999999995
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1101.7792999999983,
+      "y": -3484.9092
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1094.5547000000006,
+      "y": -3486.5674
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1101.1288999999997,
+      "y": -3471.1836000000003
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1133.7402000000002,
+      "y": -3469.016599999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1134.9003999999986,
+      "y": -3476.4794999999995
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1138.2226999999984,
+      "y": -3477.5488000000005
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1140.1309,
+      "y": -3478.3457
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1179.25,
+      "y": -3479.5995999999996
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1183.9082000000017,
+      "y": -3510.794900000001
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1223.25,
+      "y": -3527.75
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1232.6405999999988,
+      "y": -3580.625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1234.1523000000016,
+      "y": -3579.2070000000003
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1239.4180000000015,
+      "y": -3572.5077999999994
+    }
+  ]
+}
