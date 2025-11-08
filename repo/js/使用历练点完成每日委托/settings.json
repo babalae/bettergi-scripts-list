@@ -52,6 +52,18 @@
         "label": "让4号位角色离队"
     },
     {
+        "name": "adventurePath",
+        "type": "select",
+        "label": "前往指定地区的冒险家协会领取奖励",
+        "options": [
+            "蒙德",
+            "璃月",
+            "稻妻",
+            "枫丹"
+        ],
+        "default": "蒙德"
+    },
+    {
         "name": "enableDebug",
         "type": "checkbox",
         "label": "开启Debug模式(队伍识别输出所有内容)"

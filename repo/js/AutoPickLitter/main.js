@@ -1,182 +1,145 @@
-// 初始化游戏截图区域
-let gameRegion;
+// 初始化相关变量
+let gameRegion;  // 游戏截图区域
+const dialogZone = { x: { min: 900, max: 1700 }, y: { min: 420, max: 880 } };   // 对话识别区域
+let record = {}; // record 记录内容
+let recordsNum = 0; // 写入内容次数
+let sticksTime = false; // 判定是否可以上香
+//六龙蛋位置
+const coordinates = [
+    [551, 153],
+    [881, 341],
+    [1087, 161],
+    [1342, 357],
+    [472, 572],
+    [572, 721]
+];
 
-// 对话识别区域
-const dialogZone = { x: { min: 900, max: 1700 }, y: { min: 380, max: 880 } };
-
-//文字识别,并返回相关信息
-async function performOcr(keyWords, xRange, yRange, judge) {
-    //截取游戏截图
-    gameRegion = captureGameRegion();
+// 通用方法区域
+//切换队伍
+async function switchPartyIfNeeded() {
+    if (!settings.partyName) {
+        await genshin.returnMainUi();
+        return;
+    };
     try {
-        if (judge) {
-            //单个识别
-            let ocrResult = gameRegion.find(RecognitionObject.ocr(
-                xRange.min, yRange.min,
-                xRange.max - xRange.min, yRange.max - yRange.min
-            ));
-            //释放内存
-            gameRegion.dispose();
-            if (ocrResult) {
-                //识别结果
-                let correctedText = ocrResult.text;
-                return correctedText; 
+        log.info("正在尝试切换至" + settings.partyName);
+        if (!await genshin.switchParty(settings.partyName)) {
+            log.info("切换队伍失败，前往七天神像重试");
+            await genshin.tpToStatueOfTheSeven();
+            await genshin.switchParty(settings.partyName);
+        }
+    } catch {
+        log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
+        notification.error(`队伍切换失败，可能处于联机模式或其他不可切换状态`);
+        await genshin.returnMainUi();
+    };
+};
+
+// 文字识别/点击,并返回结果
+async function performOcr(keyWords, xRange, yRange, judge, timeout = 500) {
+    let startTime = new Date();
+    let retryCount = 0;
+    while (Date.now() - startTime < timeout) {
+        gameRegion = captureGameRegion();
+        try {
+            if (judge) {
+                // 识别相关区域内容，返回结果
+                let ocrResult = gameRegion.find(RecognitionObject.ocr(
+                    xRange.min, yRange.min,
+                    xRange.max - xRange.min, yRange.max - yRange.min
+                ));
+                gameRegion.dispose();
+                if (ocrResult) {
+                    return { success: true, text: ocrResult.text};
+                };
             } else {
-                // log.warn(`OCR 识别区域未找到内容`);
-                return ""; 
-            }
-        } else {
-            //多个识别
-            let resList = gameRegion.findMulti(RecognitionObject.ocr(
-                xRange.min, yRange.min,
-                xRange.max - xRange.min, yRange.max - yRange.min
-            ));
-            //释放内存
-            gameRegion.dispose();
-            // 遍历识别结果，检查是否找到目标文本
-            let results = [];
-            for (let i = 0; i < resList.count; i++) {
-                let res = resList[i];
-                let correctedText = res.text;
-                if (correctedText.includes(keyWords)) {
-                    results.push({ text: correctedText, x: res.x, y: res.y, width: res.width, height: res.height });
-                    //点击中心
-                    // await click(Math.round(res.x +res.width/2),Math.round(res.y + res.height/2));          
+                // 比对相关内容并点击
+                let resList = gameRegion.findMulti(RecognitionObject.ocr(
+                    xRange.min, yRange.min,
+                    xRange.max - xRange.min, yRange.max - yRange.min    
+                ));
+                gameRegion.dispose();
+                for (let res of resList) {
+                    let correctedText = res.text;
+                    if (correctedText.includes(keyWords)) {
+                        let centerX = Math.round(res.x + res.width / 2);
+                        let centerY = Math.round(res.y + res.height / 2);      
+                        keyDown("VK_MENU");
+                        await sleep(700);
+                        moveMouseTo(centerX, centerY);
+                        leftButtonClick();
+                        await sleep(800);
+                        keyUp("VK_MENU");
+                        await sleep(1000);
+                        leftButtonClick();
+                        return { success: true, text: correctedText};
+                    };
+                };
+            };
+        } catch (error) {
+            retryCount++; // 增加重试计数
+            log.warn(`OCR 识别失败，正在进行第 ${retryCount} 次重试...`);
+        }
+        await sleep(50);
+    };
+    // log.warn(`经过多次尝试，仍然无法识别`);
+    return { success: false};
+};
+
+// 图像识别/点击,并返回结果
+async function findImgIcon(imagePath, xRange, yRange, judge, threshold = 0.8, timeout = 500) {
+    let startTime = new Date();
+    let retryCount = 0;
+    let template = file.ReadImageMatSync(imagePath);
+    let recognitionObject = RecognitionObject.TemplateMatch(template, xRange.min, yRange.min,
+        xRange.max - xRange.min, yRange.max - yRange.min);
+    recognitionObject.Threshold = threshold;
+    // recognitionObject.Use3Channels = true;
+    recognitionObject.InitTemplate();
+    while (Date.now() - startTime < timeout) {
+        gameRegion = captureGameRegion();
+        let result = gameRegion.find(recognitionObject);
+        gameRegion.dispose();
+        try {
+            if (judge) {
+                if (result.isExist()) {
+                    let centerX = Math.round(result.x + result.width / 2);
+                    let centerY = Math.round(result.y + result.height / 2);      
                     keyDown("VK_MENU");
                     await sleep(500);
-                    moveMouseTo(res.x, res.y);
+                    moveMouseTo(centerX, centerY);
                     leftButtonClick();
                     await sleep(800);
                     keyUp("VK_MENU");
                     await sleep(1000);
                     leftButtonClick();
-                    break;
-                }
-            }
-            return results;
-        }
-    } catch (error) {
-        log.error(`识别图像时发生异常: ${error.message}`);
-        return null;
-    }
-
-}
-
-//图像识别，并返回相关信息
-async function findImgIcon(imagePath, xRange, yRange, judge) {
-    // 读取图像模板
-    let template = file.ReadImageMatSync(imagePath);
-    // 创建识别对象
-    let recognitionObject = RecognitionObject.TemplateMatch(template, xRange.min, yRange.min,
-        xRange.max - xRange.min, yRange.max - yRange.min);
-    let results = [];
-    let results1 = [];
-    // 捕捉游戏截图
-    gameRegion = captureGameRegion();
-    // 查找图像
-    let result = gameRegion.find(recognitionObject);
-    // 释放内存
-    gameRegion.dispose();
-    try {
-        // 如果需要判断
-        if (judge) {
-            // 如果找到
-            if (result.isExist()) {
-                // 保存结果
-                results.push({ success: true, x: result.x, y: result.y, width: result.width, height: result.height });
-                // 点击该位置
-                keyDown("VK_MENU");
-                await sleep(500);
-                moveMouseTo(result.x, result.y);
-                leftButtonClick();
-                await sleep(800);
-                keyUp("VK_MENU");
+                    return { success: true, coordinates:[centerX, centerY]};
+                };
             } else {
-                // log.info("图像识别失败");
-            }
-            return results;
-        } else {
-            // 如果找到
-            if (result.isExist()) {
-                // 保存结果
-                results1.push({ success: true, x: result.x, y: result.y, width: result.width, height: result.height });
-            } else {
-                // log.info("图像识别失败");
-            }
-            return results1;
-        }
-        
-    } catch (error) {
-        log.error(`识别图像时发生异常: ${error.message}`);
-    }
-}
+                if (result.isExist()) {
+                    return { success: true, coordinates:[0, 0]};
+                };
+            };
+        } catch (error) {
+            retryCount++; // 增加重试计数
+            log.warn(`模板匹配失败，正在进行第 ${retryCount} 次重试...`);
+        };
+        await sleep(50);
+    };
+    // log.warn(`经过多次尝试，仍然无法识别`);
+    return { success: false};
+};
 
-//添加信息
-function writeContentToFile(content, judge) {
-    let finalAccountName = settings.accountName || "默认账户";
-    try {
-        const illegalCharacters = /[\\/:*?"<>|]/;
-        const reservedNames = [
-            "CON", "PRN", "AUX", "NUL",
-            "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
-            "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
-        ];
-
-        if (finalAccountName === "" ||
-            finalAccountName.startsWith(" ") ||
-            finalAccountName.endsWith(" ") ||
-            illegalCharacters.test(finalAccountName) ||
-            reservedNames.includes(finalAccountName.toUpperCase()) ||
-            finalAccountName.length > 255
-        ) {
-            log.error(`账户名 "${finalAccountName}" 不合法，将使用默认值`);
-            finalAccountName = "默认账户";
-        } 
-    } catch (error) {
-        // 只在文件完全不存在时创建，避免覆盖
-        file.writeTextSync(finalAccountName, content, false);
-        log.info(`创建新文件: ${finalAccountName}`);
-    }
-    
-
-    let filePath = `records/${finalAccountName}.txt`;
-    //读取现有内容
-    let existingContent = "";
-    try {
-        existingContent = file.readTextSync(filePath);
-    } catch (e) {
-    }
-
-    if (judge) {
-        runDate = `==========${new Date().getFullYear()}年${String(new Date().getMonth() + 1).padStart(2, '0')}月${String(new Date().getDate()).padStart(2, '0')}日==========`;
-        const finalContent1 = runDate + "\n" + existingContent;
-        //按行分割，保留最近365条完整记录（按原始换行分割，不过滤）
-        const lines = finalContent1.split("\n");
-        const keepLines = lines.length > 365 * 5 ? lines.slice(0, 365 * 5) : lines; // 假设每条记录最多5行
-        const result1 = file.writeTextSync(filePath, keepLines.join("\n"), false);
-
-        if (result1) {
-            log.info(`写入成功: ${filePath}`);
-        } else {
-            log.error(`写入失败: ${filePath}`);
-        }
-
-    } else {
-
-        //拼接
-        const finalContent = content + existingContent;
-        //按行分割，保留最近365条完整记录（按原始换行分割，不过滤）
-        const lines = finalContent.split("\n");
-        const keepLines = lines.length > 365 * 5 ? lines.slice(0, 365 * 5) : lines; // 假设每条记录最多5行
-        const result = file.writeTextSync(filePath, keepLines.join("\n"), false);
-
-        if (result) {
-            log.info(`写入成功: ${filePath}`);
-        } else {
-            log.error(`写入失败: ${filePath}`);
-        }
-    }
-}
+// 长对话点击
+async function clickLongTalk() {
+    // 识别是不是主界面
+    let isMainUi = { success: false, coordinates:[0, 0]};
+    do {
+        leftButtonClick();
+        isMainUi = await findImgIcon("assets/RecognitionObject/PaiMonMenu.png", { min: 15, max: 112 }, { min: 0, max: 84 }, false, 0.8, 500);
+        // log.info(`你看嘛: ${isMainUi.success}`);
+    } while (!isMainUi.success);    
+};
 
 // 滚动页面
 // totalDistance: 需要滚动的总距离
@@ -224,23 +187,23 @@ async function fakeLog(name, isJs, isStart, duration) {
     if (typeof name !== 'string') {
         log.error("参数 'name' 必须是字符串类型！");
         return;
-    }
+    };
     if (typeof isJs !== 'boolean') {
         log.error("参数 'isJs' 必须是布尔型！");
         return;
-    }
+    };
     if (typeof isStart !== 'boolean') {
         log.error("参数 'isStart' 必须是布尔型！");
         return;
-    }
+    };
     if (typeof currentTime !== 'number' || !Number.isInteger(currentTime)) {
         log.error("参数 'currentTime' 必须是整数！");
         return;
-    }
+    };
     if (typeof duration !== 'number' || !Number.isInteger(duration)) {
         log.error("参数 'duration' 必须是整数！");
         return;
-    }
+    };
 
     // 将 currentTime 转换为 Date 对象并格式化为 HH:mm:ss.sss
     const date = new Date(currentTime);
@@ -264,7 +227,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `→ 开始执行JS脚本: "${name}"`;
         log.debug(logMessage);
-    }
+    };
     if (isJs && !isStart) {
         // 处理 isJs = true 且 isStart = false 的情况
         const logMessage = `正在伪造js结束的日志记录\n\n` +
@@ -273,7 +236,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `------------------------------`;
         log.debug(logMessage);
-    }
+    };
     if (!isJs && isStart) {
         // 处理 isJs = false 且 isStart = true 的情况
         const logMessage = `正在伪造地图追踪开始的日志记录\n\n` +
@@ -282,7 +245,7 @@ async function fakeLog(name, isJs, isStart, duration) {
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `→ 开始执行地图追踪任务: "${name}"`;
         log.debug(logMessage);
-    }
+    };
     if (!isJs && !isStart) {
         // 处理 isJs = false 且 isStart = false 的情况
         const logMessage = `正在伪造地图追踪结束的日志记录\n\n` +
@@ -291,13 +254,266 @@ async function fakeLog(name, isJs, isStart, duration) {
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `------------------------------`;
         log.debug(logMessage);
-    }
-}
+    };
+};
 
+// 读写信息
+async function recordForFile(judge) {
+    /* ---------- 文件名合法性校验 ---------- */
+    const illegalCharacters = /[\\/:*?"<>|]/;
+    const reservedNames = [
+        "CON", "PRN", "AUX", "NUL",
+        "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
+        "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
+    ];
+
+    let accountName = settings.accountName || "默认账户";
+
+    if (accountName === "" ||
+        accountName.startsWith(" ") ||
+        accountName.endsWith(" ") ||
+        illegalCharacters.test(accountName) ||
+        reservedNames.includes(accountName.toUpperCase()) ||
+        accountName.length > 255
+    ) {
+        log.error(`账户名 "${accountName}" 不合法，将使用默认值`);
+        accountName = "默认账户";
+        await sleep(5000);
+    } else {
+        log.info(`账户名 "${accountName}" 合法`);
+    };
+
+    if (judge) {
+        /* ---------- 读取记录文件 ---------- */
+        const recordFolderPath = "records/";
+        let recordFilePath = `records/${accountName}.txt`;
+
+        const filesInSubFolder = file.ReadPathSync(recordFolderPath);
+        let fileExists = false;
+        for (const filePath of filesInSubFolder) {
+            if (filePath === `records\\${accountName}.txt`) {
+                fileExists = true;
+                break;
+            };
+        };
+
+        /* ---------- 初始化记录对象 ---------- */
+        record = {
+            lastRunDate: "1970/01/01",
+            lastActivateTime: new Date("1970-01-01T20:00:00.000Z"),
+            lastDragonEggsNum: "【山之血：0，太阳的轰鸣：0圣龙君临：0，菲耶蒂娜：0，献给小酒杯：0，飞澜鲨鲨：0】",
+            records: new Array(51).fill(""),
+            version: ""
+        };
+
+        let recordIndex = 0;
+
+        if (fileExists) {
+            log.info(`记录文件 ${recordFilePath} 存在`);
+        } else {
+            log.warn(`无记录文件，将使用默认数据`);
+            return;
+        };
+
+        let content = await file.readText(recordFilePath);
+        let lines = content.split("\n");
+
+        /* ---------- 逐行解析 ---------- */
+        for (const rawLine of lines) {
+            const line = rawLine.trim();
+            if (!line) continue;
+
+            /* 运行完成日期 */
+            if (line.startsWith("上次运行日期:")) {
+                record.lastRunDate = line.slice("上次运行日期:".length).trim();
+            };
+
+            /* 上次上香时间 */
+            let timeStr = null;
+            if (line.startsWith("上次上香时间:")) {
+                timeStr = line.slice("上次上香时间:".length).trim();
+            };
+            if (timeStr) {
+                const d = new Date(timeStr);
+                if (!isNaN(d.getTime())) {
+                    record.lastActivateTime = d;   // 保持 Date 对象
+                };
+            };
+
+            /* 背包龙蛋数目 */
+            if (line.startsWith("背包龙蛋数目:")) {
+                record.lastDragonEggsNum = line.slice("背包龙蛋数目:".length).trim();
+            };
+            
+            /* 相关信息保存 */
+            if (line.startsWith(">>>>>>>>>> ") && recordIndex < record.records.length) {
+                record.records[recordIndex++] = line;
+            } else if (line.startsWith("抽签的结果: ") && recordIndex < record.records.length) {
+                record.records[recordIndex++] = line;
+            } else if (line.startsWith("获得的食物: ") && recordIndex < record.records.length) {
+                record.records[recordIndex++] = line;
+            } else if (line.startsWith("幸运签内容: ") && recordIndex < record.records.length) {
+                record.records[recordIndex++] = line;
+            } else if (line.startsWith("获得的龙蛋: ") && recordIndex < record.records.length) {
+                record.records[recordIndex++] = line;
+            } else if (line.startsWith("转盘的运势: ") && recordIndex < record.records.length)  {
+                record.records[recordIndex++] = line;
+            };
+
+        };
+
+        log.info(`上次运行日期: ${record.lastRunDate}`);
+        log.info(`上次上香开始时间: ${record.lastActivateTime.toLocaleString()}`);
+
+        /* ---------- 读取 manifest 版本 ---------- */
+        try {
+            const manifest = JSON.parse(await file.readText("manifest.json"));
+            record.version = manifest.version;
+            log.info(`当前版本为${record.version}`);
+        } catch (err) {
+            log.error("读取或解析 manifest.json 失败:", err);
+        };
+
+        /* ---------- 判断上香时间 ---------- */
+        if (settings.sticks) {
+            const now = Date.now();        // 当前毫秒时间戳
+            const aimActivateTime = new Date(record.lastActivateTime.getTime() + 24 * 60 * 60 * 1000).getTime();
+            /* ---------- 计算下次可上香时间 ---------- */
+            if (aimActivateTime - now > 0) {
+                log.info(`上香时间还未到！！！`);
+                sticksTime = false;
+            } else {
+                log.info(`上香时间已到，请准备上香！`);
+                sticksTime = true;
+            };
+        };
+    } else {
+        let recordFilePath = `records/${accountName}.txt`;
+        let lines = [
+            `上次运行日期: ${record.lastRunDate}`,
+            `上次上香时间: ${record.lastActivateTime.toISOString()}`,
+            `背包龙蛋数目: ${record.lastDragonEggsNum}`,
+            ...record.records.filter(Boolean)
+        ];
+
+        let content = lines.join('\n');
+
+        try {
+            await file.writeText(recordFilePath, content, false);
+            log.info(`记录已写入 ${recordFilePath}`);
+        } catch (e) {
+            log.error(`写入 ${recordFilePath} 失败:`, e);
+        };
+    };
+};
+
+// 检查背包龙蛋数目
+async function chcekDragonEggs() {
+    await genshin.returnMainUi();
+    //打开背包    
+    await keyPress("B");
+    await checkExpire();
+    await sleep(1500);
+    await click(1250,50); 
+    let DragonEggs = [0, 0, 0, 0, 0, 0];
+    let judgeEgg = 0;
+    // 判定是不是只有一页
+    let sliderTop = await findImgIcon("assets/RecognitionObject/SliderTop.png", { min: 1277, max: 1300 }, { min: 120, max: 160 }, false);
+    if (!sliderTop.success) {
+        for (let index = 0; index < 6; index++) {
+            let DragonEgg = await findImgIcon(`assets/RecognitionObject/DragonEgg${index}.png`, { min: 99, max: 1295 }, { min: 104, max: 967 }, true, 0.95);
+            if (DragonEgg.success) {
+                let ocrEggNum = await performOcr("", 
+                    { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 }, true);
+                log.info(`第一次识别到的数字：${ocrEggNum.text}`);
+                if (ocrEggNum.text == "") {
+                    await sleep(500);
+                    ocrEggNum = await performOcr("", 
+                        { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 }, true);
+                    log.info(`第二次识别到的数字：${ocrEggNum.text}`);
+                };
+                DragonEggs[index] = Number(ocrEggNum.text);
+            }else{
+                DragonEggs[index] = 0;
+            };
+
+        };
+    }else{
+        for (let scroll = 0; scroll <= 10; scroll++) {
+            for (let index = 0; index < 6; index++) {
+                let DragonEgg = await findImgIcon(`assets/RecognitionObject/DragonEgg${index}.png`, { min: 99, max: 1295 }, { min: 104, max: 967 }, true, 0.95);
+                if (DragonEgg.success) {
+                    let ocrEggNum = await performOcr("", 
+                        { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 }, true);
+                    // log.info(`第一次识别到的数字：${ocrEggNum.text}`);
+                    if (ocrEggNum.text == "") {
+                        await sleep(500);
+                        ocrEggNum = await performOcr("", 
+                            { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 }, true);
+                        // log.info(`第二次识别到的数字：${ocrEggNum.text}`);
+                    };
+                    if (ocrEggNum.text == "") {
+                        ocrEggNum.text = 1;
+                    };
+                    DragonEggs[index] = ocrEggNum.text;
+                }else{
+                    DragonEggs[index] = 0;
+                };
+            };
+            if (judgeEgg == 1) {
+              break;  
+            };
+            if (DragonEggs.every(item => item == 0)) {
+                // 都为空就滑动背包 滑动大点
+                await sleep(1000);
+                await scrollPage(680, 10, 5);
+                await sleep(1000);
+                continue;
+            } else if (DragonEggs.some(item => item != 0) && judgeEgg == 0) {
+                // 露出最后一排数字
+                // await scrollPage(50, 5, 5);
+                // 不为空就滑动背包 滑动小点
+                await sleep(1000);
+                await scrollPage(300, 10, 5);
+                await sleep(1000);
+                judgeEgg = 1;
+            };
+
+            // 判断是否到底
+            let sliderBottom = await findImgIcon("assets/RecognitionObject/SliderBottom.png", { min: 1284, max: 1293 }, { min: 916, max: 942 }, false);
+            if (sliderBottom.success) {
+                log.info("已到达最后一页！");
+                break;
+            };
+        };
+    };
+
+    log.info(`背包龙蛋数目: 【山之血：${DragonEggs[0]}，太阳的轰鸣：${DragonEggs[1]}，圣龙君临：${DragonEggs[2]}，菲耶蒂娜：${DragonEggs[3]}，献给小酒杯：${DragonEggs[4]}，飞澜鲨鲨：${DragonEggs[5]}】`);
+    if (settings.notify) {
+        notification.Send(`背包龙蛋数目: 【山之血：${DragonEggs[0]}，太阳的轰鸣：${DragonEggs[1]}，圣龙君临：${DragonEggs[2]}，菲耶蒂娜：${DragonEggs[3]}，献给小酒杯：${DragonEggs[4]}，飞澜鲨鲨：${DragonEggs[5]}】`);
+    };
+    // 更新记录
+    record.lastDragonEggsNum = `【山之血：${DragonEggs[0]}，太阳的轰鸣：${DragonEggs[1]}，圣龙君临：${DragonEggs[2]}，菲耶蒂娜：${DragonEggs[3]}，献给小酒杯：${DragonEggs[4]}，飞澜鲨鲨：${DragonEggs[5]}】`;
+    await recordForFile(false);
+    return `【山之血：${DragonEggs[0]}，太阳的轰鸣：${DragonEggs[1]}，圣龙君临：${DragonEggs[2]}，菲耶蒂娜：${DragonEggs[3]}，献给小酒杯：${DragonEggs[4]}，飞澜鲨鲨：${DragonEggs[5]}】`;;
+};
+
+// 检查过期物品
+async function checkExpire() {
+    await sleep(1000);
+    let ocrExpire = await performOcr("",{ min: 870, max: 1040 }, { min: 280, max: 320 }, true);
+    if (ocrExpire.text == "物品过期") {
+        log.info(`处理中=========`);
+       await click(980, 750); 
+    };
+};
+
+// 执行区
 (async function() {
     await fakeLog("AutoPickLitter脚本", true, true, 0);
-    //判断你是不是老手
-    if(!settings.water && !settings.sticks && !settings.lots && !settings.conchs && !settings.meal && !settings.eggs && !settings.turntable && !settings.todayLuck){
+
+    // 判定你是不是新人
+    if(!settings.water && !settings.sticks && !settings.lots && !settings.conchs && !settings.meal && !settings.eggs && !settings.turntable && !settings.todayLuck && !settings.sweetStatue){
         log.error(`亲，这面请您点击【打开脚本目录】找到AutoPickLitter文件并打开然后去阅读README！！！`);
         log.error(`亲，这面请您点击【打开脚本目录】找到AutoPickLitter文件并打开然后去阅读README！！！`);
         log.error(`亲，这面请您点击【打开脚本目录】找到AutoPickLitter文件并打开然后去阅读README！！！`);
@@ -305,244 +521,169 @@ async function fakeLog(name, isJs, isStart, duration) {
         return 0;
     };
 
-    //蒙德清泉镇圣水
+    // 判定文件名的合法性，以及初始化相关文件
+    await recordForFile(true);
+    // 更新日期信息
+    record.lastRunDate = new Date(Date.now() - 4 * 60 * 60 * 1000)
+        .toLocaleDateString('zh-CN', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit' })
+        .replace(/\//g, '/');
+
+    await recordForFile(false);
+    // 蒙德清泉镇圣水
     if (settings.water) {
+        await fakeLog("蒙德清泉镇圣水", false, true, 0);
         await genshin.returnMainUi();
         await pathingScript.runFile("assets/霍普金斯.json");
         await genshin.returnMainUi();
+        await genshin.returnMainUi();
         await pathingScript.runFile("assets/蒙德清泉镇路线.json");
-        await sleep(1000);
-        //识别区域
-        try {
-            //识别对话位置，并点击
-            let ocrResults = await performOcr("神奇的", dialogZone.x, dialogZone.y, false);
-            if (ocrResults.length != 0) {
-                await sleep(700);
-                await genshin.chooseTalkOption("如何才");
-                await sleep(1000);
-                leftButtonClick();
-                await sleep(1000);
-                let recognizedOver = await performOcr("已",{ min: 1482, max: 1630 }, { min: 912, max: 957 }, false)
-                if (recognizedOver.length != 0) {
-                    log.info("已售罄！！！");
-                    // await genshin.returnMainUi();
+        //识别对话位置，并点击
+        let ocrResults = await performOcr("神奇的", dialogZone.x, dialogZone.y, false);
+        if (ocrResults.success) {
+            await sleep(500);
+            await performOcr("如何才", dialogZone.x, dialogZone.y, false);
+            await sleep(500);
+            let ocrOver = await performOcr("已",{ min: 1482, max: 1630 }, { min: 912, max: 957 }, false);
+            if (ocrOver.success) {
+                log.info("已售罄！！！");
+            } else {
+                let ocrMora = await performOcr("", { min: 1600, max: 1780 }, { min: 30, max: 60 }, true);
+                if (ocrMora == "") {
+                    await sleep(500);
+                    ocrMora = await performOcr("", { min: 1600, max: 1780 }, { min: 30, max: 60 }, true);
+                };
+                if (BigInt(ocrMora.text) >= 300) {
+                    await sleep(800);
+                    await click(1636,1019);
+                    await sleep(1000);
+                    await click(1168,785);
+                    await sleep(1000);
                 } else {
-                    let recognizedMora = await performOcr("", { min: 1600, max: 1780 }, { min: 30, max: 60 }, true)
-                    if (BigInt(recognizedMora) >= 300) {
-                        await sleep(800);
-                        await click(1636,1019);
-                        await sleep(1000);
-                        await click(1168,785);
-                        await sleep(1000);
-                    } else {
-                        log.info("不是哥们，你怎么比我还穷！！！");
-                        // await genshin.returnMainUi();
-                    };
+                    log.info("不是哥们，你怎么比我还穷！！！");
                 };
             };
-        // await genshin.returnMainUi();
-        } catch (error) {
-            log.error(`识别图像时发生异常: ${error.message}`);
         };
         await genshin.returnMainUi();
+        await fakeLog("蒙德清泉镇圣水", false, false, 0);
     };
 
-    //璃月璃沙娇上香
-    if (settings.sticks) {
+    // 璃月璃沙娇上香
+    if (sticksTime) {
+        await fakeLog("璃月璃沙娇上香", false, true, 0);
         await genshin.returnMainUi();
+        // 更新上香时间
+        record.lastActivateTime = new Date();
+        await recordForFile(false);
         await pathingScript.runFile("assets/璃月璃沙娇路线.json");
         await sleep(1000);
-        //识别区域
-        try {
-            //识别对话位置，并点击
-            // let ocrResults = await performOcr("王平安", { min: 1058, max: 1551 }, { min: 394, max: 680 }, false);
-            let ocrResults = await performOcr("王平安", dialogZone.x, dialogZone.y, false);
-            if (ocrResults.length != 0) {
+        // 识别区域
+        let ocrResults = await performOcr("王平安", dialogZone.x, dialogZone.y, false);
+        if (ocrResults.success) {
+            await sleep(700);
+            await genshin.chooseTalkOption("能给我几支香吗");
+            await sleep(700);
+            leftButtonClick();
+            await sleep(700);
+            leftButtonClick();
+            await sleep(2000);
+            let ocrResults1 = await performOcr("敬香", dialogZone.x, dialogZone.y, false);
+            if(ocrResults1.success){
+                await click(1168,785);
                 await sleep(700);
-                await genshin.chooseTalkOption("能给我几支香吗");
-                await sleep(700);
-                leftButtonClick();
-                await sleep(700);
-                leftButtonClick();
-                await sleep(2000);
-                // let ocrResults1 = await performOcr("敬香", { min: 1060, max: 1550 }, { min: 400, max: 680 }, false);
-                let ocrResults1 = await performOcr("敬香", dialogZone.x, dialogZone.y, false);
-                if(ocrResults1.length != 0){
-                    // await sleep(700);
-                    await click(1168,785);
-                    await sleep(700);
-                } else {
-                    log.error(`未识别到对话`);
-                    await genshin.returnMainUi();
-                };
             } else {
-                log.error(`识别图像时发生异常: ${error.message}`);
+                log.error("未识别到对话，可能角色移速太快加上有开盾打断识别了");
+                await genshin.returnMainUi();
             };
-        } catch (error) {
+        } else {
             log.error(`识别图像时发生异常: ${error.message}`);
         };
         await genshin.returnMainUi();
+        await fakeLog("璃月璃沙娇上香", false, false, 0);
     };
 
-    //稻妻鸣神大社抽签
+    // 稻妻鸣神大社抽签
     if (settings.lots) {
-        await fakeLog("执行抽签", false, true, 0)
+        await fakeLog("稻妻鸣神大社抽签", false, true, 0)
         await genshin.returnMainUi();
         await pathingScript.runFile("assets/稻妻鸣神大社路线.json");
         await sleep(1000);
-        //识别区域
-        try {
-            //识别对话位置，并点击
-            let ocrResults = await performOcr("御神签箱", dialogZone.x, dialogZone.y, false);
-            if (ocrResults.length != 0) {
-                await sleep(700);
-                leftButtonClick();
+        // 识别对话位置，并点击
+        let ocrResults = await performOcr("御神签箱", dialogZone.x, dialogZone.y, false);
+        if (ocrResults.success) {
+            await sleep(700);
+            leftButtonClick();
+            await sleep(2000);
+            let ocrResults1 = await performOcr("求签吧", dialogZone.x, dialogZone.y, false);
+            if (ocrResults1.success) {
                 await sleep(2000);
-                let ocrResults1 = await performOcr("求签吧", dialogZone.x, dialogZone.y, false);
-                if (ocrResults1.length != 0) {
-                    await sleep(2000);
-                    leftButtonClick();
-                    await sleep(4000);
-                    leftButtonClick();
-                    await sleep(3500);
-                };
-                let ocrResults2 = await performOcr("玄冬林", dialogZone.x, dialogZone.y, false);
-                if (ocrResults2.length != 0) {
-                    await sleep(1000);
-                    leftButtonClick();
+                leftButtonClick();
+                await sleep(4000);
+                leftButtonClick();
+                await sleep(3500);
+            };
+            let ocrResults2 = await performOcr("玄冬林", dialogZone.x, dialogZone.y, false);
+            let results = "";
+            if (ocrResults2.success) {
+                await sleep(1000);
+                leftButtonClick();
+                await sleep(700);
+                let ocrResults3 = await performOcr("我要", dialogZone.x, dialogZone.y, false);
+                if (ocrResults3.success) {
                     await sleep(700);
-                    let ocrResults3 = await performOcr("我要", dialogZone.x, dialogZone.y, false);
-                    if (ocrResults3.length != 0) {
-                        await sleep(700);
-                        leftButtonClick();
-                        await sleep(1500);
-                        //交互道具，直接选择位置点击
-                        await click(111,184);
-                        await sleep(1000);
-                        await click(1250,817);
-                        await sleep(1000);
-                        await click(1603,1013);
-                        await sleep(1500);
-                        await genshin.returnMainUi();
-                        //打开背包找签
-                        await keyPress("B");
-                        await sleep(1000);
-                        await click(1150,50);
-                        await sleep(700);
-                        for(let scroll = 0; scroll <= 22; scroll++){
-                            //识别御神签
-                            let img = await findImgIcon("assets/RecognitionObject/YuShenQianHalf.png", { min: 99, max: 1295 }, { min: 104, max: 967 }, true)
-                            if (img.length != 0) {
-                                break;
-                            };
-                            //判断是否到底
-                            let img1 = await findImgIcon("assets/RecognitionObject/SliderBottom.png", { min: 1284, max: 1293 }, { min: 916, max: 942 }, false)
-                            if (img1.length != 0) {
+                    leftButtonClick();
+                    await sleep(1500);
+                    // 交互道具，直接选择位置点击
+                    await click(111,184);
+                    await sleep(1000);
+                    await click(1250,817);
+                    await sleep(1000);
+                    await click(1603,1013);
+                    await sleep(1500);
+                    await genshin.returnMainUi();
+                    // 打开背包找签
+                    await keyPress("B");
+                    await checkExpire();
+                    await sleep(1000);
+                    await click(1150,50);
+                    await sleep(700);
+                    for(let scroll = 0; scroll <= 22; scroll++){
+                        // 识别御神签
+                        let yuShenQian = await findImgIcon("assets/RecognitionObject/YuShenQianHalf.png", { min: 99, max: 1295 }, { min: 104, max: 967 }, true);
+                        if (yuShenQian.success) {
+                            break;
+                        };
+                        if ( scroll != 0) {
+                            // 判断是否到底
+                            let sliderBottom = await findImgIcon("assets/RecognitionObject/SliderBottom.png", { min: 1284, max: 1293 }, { min: 916, max: 942 }, false);
+                            if (sliderBottom.success) {
                                 log.info("已到达最后一页！");
                                 break;
                             };
-                            //滑动背包
-                            await scrollPage(680, 10, 5);
-                            await sleep(100);
                         };
-                        await sleep(2000);
-                        await click(1670,1025);
-                        await sleep(2500);
-                        // 通过图片识别
-                        // 大凶or凶
-                        let img2 = await findImgIcon("assets/RecognitionObject/BigBad.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
-                        let img3 = await findImgIcon("assets/RecognitionObject/Bad.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
-                        // 大吉、中吉、吉、末吉
-                        let img4 = await findImgIcon("assets/RecognitionObject/BigLuck.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
-                        let img5 = await findImgIcon("assets/RecognitionObject/MidLuck.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
-                        let img6 = await findImgIcon("assets/RecognitionObject/EndLuck.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
-                        let img7 = await findImgIcon("assets/RecognitionObject/Luck.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
-                        await genshin.returnMainUi();
-                        if (img2.length !== 0) {
-                            log.info("抽签的结果:大凶");
-                            writeContentToFile(`抽签的结果:大凶\n`, false);
-                            await pathingScript.runFile("assets/挂签路线.json");
-                            await performOcr("御签挂", { min: 900, max: 1700 }, { min: 380, max: 880 }, false);
-                            await genshin.chooseTalkOption("挂起来吧");
-                            await sleep(700);
-                            await click(111,184);
-                            await sleep(1000);
-                            await click(1250,817);
-                            await sleep(1000);
-                            await click(1603,1013);
-                            await sleep(1500);
-                            await genshin.returnMainUi();
-                            log.info("事事顺利");
-                        } else if (img3.length !== 0) {
-                            log.info("抽签的结果:凶");
-                            writeContentToFile(`抽签的结果:凶\n`, false);
-                            await pathingScript.runFile("assets/挂签路线.json");
-                            await performOcr("御签挂", { min: 900, max: 1700 }, { min: 380, max: 880 }, false);
-                            await sleep(700);
-                            await genshin.chooseTalkOption("挂起来吧");
-                            await click(111,184);
-                            await sleep(1000);
-                            await click(1250,817);
-                            await sleep(1000);
-                            await click(1603,1013);
-                            await sleep(1500);
-                            await genshin.returnMainUi();
-                            log.info("事事顺利");
-                        } else if (img4.length !== 0) {
-                            log.info("抽签的结果:大吉");
-                            writeContentToFile(`抽签的结果:大吉\n`, false);
-                        } else if (img5.length !== 0) {
-                            log.info("抽签的结果:中吉");
-                            writeContentToFile(`抽签的结果:中吉\n`, false);
-                        } else if (img6.length !== 0) {
-                            log.info("抽签的结果:末吉");
-                            writeContentToFile(`抽签的结果:末吉\n`, false);
-                        } else if (img7.length !== 0) {
-                            log.info("抽签的结果:吉");
-                            writeContentToFile(`抽签的结果:吉\n`, false);
-                        } else {
-                            log.warn("嘘，快踢作者屁股，修bug！！！");
-                            
-                        };  
-                    } else {
+                        //滑动背包
+                        await scrollPage(680, 10, 5);
+                        await sleep(100);
+                    };
+                    await sleep(2000);
+                    await click(1670,1025);
+                    await sleep(3000);
+                    // 通过图片识别
+                    // 大凶or凶
+                    let bigBad = await findImgIcon("assets/RecognitionObject/BigBad.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
+                    let bad = await findImgIcon("assets/RecognitionObject/Bad.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
+                    // 大吉、中吉、吉、末吉
+                    let bigLuck = await findImgIcon("assets/RecognitionObject/BigLuck.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
+                    let midLuck = await findImgIcon("assets/RecognitionObject/MidLuck.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
+                    let endLuck = await findImgIcon("assets/RecognitionObject/EndLuck.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
+                    let luck = await findImgIcon("assets/RecognitionObject/Luck.png", { min: 630, max: 830 }, { min: 100, max: 160 }, false);
+                    await genshin.returnMainUi();
+                    if (bigBad.success) {
+                        log.info("抽签的结果:大凶");
+                        results = "大凶";
+                        await pathingScript.runFile("assets/挂签路线.json");
+                        await performOcr("御签挂", { min: 900, max: 1700 }, { min: 380, max: 880 }, false);
+                        await genshin.chooseTalkOption("挂起来吧");
                         await sleep(700);
-                        await genshin.chooseTalkOption("再见");
-                        await sleep(700);
-                        leftButtonClick();
-                        await sleep(1500);
-                        log.info("对话出现再见，默认解签完毕以及查看签操作！！！");
-                    }; 
-                };
-            } else {
-                log.error(`识别图像时发生异常: ${error.message}`);
-                // await genshin.returnMainUi();
-            }
-        } catch (error) {
-            log.error(`识别图像时发生异常: ${error.message}`);
-        };
-        await fakeLog("好运前进", false, true, 0)
-        await genshin.returnMainUi();
-        
-    };
-
-    //稻妻踏鞴砂海螺
-    if (settings.conchs) {
-        await genshin.returnMainUi();
-        await pathingScript.runFile("assets/稻妻踏鞴砂路线.json");
-        await sleep(700);
-        if (settings.doYouOpen) {
-            await pathingScript.runFile("assets/阿敬.json");
-            let figure = parseInt(settings.pickupTreasure);
-            try {
-                let ocrResults = await performOcr("阿敬", dialogZone.x, dialogZone.y, false);
-                if (ocrResults.length != 0) {
-                    await sleep(1000);
-                    let ocrResults1 = await performOcr("想要", dialogZone.x, dialogZone.y, false);
-                    if (ocrResults1.length != 0) {
-                        await sleep(700);
-                        leftButtonClick();
-                        await sleep(1500);
-                        //交互道具，直接选择位置点击
                         await click(111,184);
                         await sleep(1000);
                         await click(1250,817);
@@ -550,228 +691,393 @@ async function fakeLog(name, isJs, isStart, duration) {
                         await click(1603,1013);
                         await sleep(1500);
                         await genshin.returnMainUi();
-                        if (figure != 0) {
-                            await pathingScript.runFile(`assets/宝箱${figure}.json`);
-                            log.info(`你即将开启${figure}号宝箱`)
-                        } else {
-                            figure = Math.floor(Math.random() * 3) + 1;
-                            log.info(`你即将开启${figure}号宝箱`)
-                            await pathingScript.runFile(`assets/宝箱${figure}.json`);
-                        }
-                    } else {
-                        log.info("你开过了？look my eyes,回答我！！！");
-                        await genshin.chooseTalkOption("再见");
+                        log.info("事事顺利");
+                    } else if (bad.success) {
+                        log.info("抽签的结果:凶");
+                        results = "凶";  
+                        await pathingScript.runFile("assets/挂签路线.json");
+                        await performOcr("御签挂", { min: 900, max: 1700 }, { min: 380, max: 880 }, false);
                         await sleep(700);
-                        leftButtonClick();
+                        await genshin.chooseTalkOption("挂起来吧");
+                        await click(111,184);
+                        await sleep(1000);
+                        await click(1250,817);
+                        await sleep(1000);
+                        await click(1603,1013);
                         await sleep(1500);
-                    };
+                        await genshin.returnMainUi();
+                        log.info("事事顺利");
+                    } else if (bigLuck.success) {
+                        log.info("抽签的结果:大吉");
+                        results = "大吉";
+                    } else if (midLuck.success) {
+                        log.info("抽签的结果:中吉");
+                        results = "中吉";
+                    } else if (endLuck.success) {
+                        log.info("抽签的结果:末吉");
+                        results = "末吉";
+                    } else if (luck.success) {
+                        log.info("抽签的结果:吉");
+                        results = "吉";
+                    } else {
+                        log.warn("嘘，快踢作者屁股，修bug！！！");
+                    };  
                 } else {
-                    log.error(`识别图像时发生异常: ${error.message}`);
-                    // await genshin.returnMainUi();
-                };
-            } catch (error) {
-                log.error(`识别图像时发生异常: ${error.message}`);
-            };  
-        };
-        await genshin.returnMainUi();
-    };
-
-    //枫丹梅洛彼得堡领取福利餐
-    if(settings.meal){
-        await genshin.returnMainUi();
-        await pathingScript.runFile("assets/枫丹梅洛彼得堡路线.json");
-        await sleep(700);
-        try {
-            let ocrResults = await performOcr("布兰", dialogZone.x, dialogZone.y, false);
-            if (ocrResults.length != 0) {
-                await sleep(1000);
-                let ocrResults1 = await performOcr("没什么", dialogZone.x, dialogZone.y, false);
-                if(ocrResults1.length != 0){
-                    log.info("对话出现没什么，默认领取和使用过！！！");
-                } else{
-                    await genshin.chooseTalkOption("给我一份福利餐");
-                    await sleep(1000);
-                    leftButtonClick();
-                    await sleep(1000);
+                    await sleep(700);
+                    await genshin.chooseTalkOption("再见");
+                    await sleep(700);
                     leftButtonClick();
                     await sleep(1500);
-                    //打开背包找签
-                    log.info("打开背包");
-                    await keyPress("B");
-                    await sleep(1000);
-                    await click(1250,50); 
-                    await sleep(1000);
-                    for(let scroll = 0; scroll <= 10; scroll++){
-                        let img = await findImgIcon("assets/RecognitionObject/WelffareMealHalf.png", { min: 99, max: 1295 }, { min: 104, max: 967 }, true)
-                        if (img.length != 0) {
-                            break;
-                        }
-                        //滑动背包
-                        await sleep(1000);
-                        await scrollPage(680, 10, 5);
-                        await sleep(1000);
-                    };
-                    //这里是点击使用
-                    await sleep(1000);
-                    await click(1670,1025);
-                    await sleep(2000);
-                    //识别获得的食物名称
-                    let recognizedText = await performOcr("", { min: 813, max: 985 }, { min: 585, max: 619 }, true);
-                    log.info(`获得:${recognizedText}`);
-                    //点击幸运签，并识别内容
-                    await sleep(1000);
-                    await click(1000,520);
-                    await sleep(2000);
-                    let recognizedText1 = await performOcr("", { min: 716, max: 1200 }, { min: 631, max: 710 }, true);
-                    log.info(`幸运签内容:${recognizedText1}`);
-                    writeContentToFile(`获得的食物:${recognizedText}\n幸运签内容:${recognizedText1}\n`, false);
-                };
+                    log.info("对话出现再见，默认解签完毕以及查看签操作！！！");
+                }; 
 
-            } else {
-                log.error(`识别图像时发生异常: ${error.message}`);
-                // await genshin.returnMainUi();
+                for (let i = record.records.length - 1; i > 0; i--) {
+                    record.records[i] = record.records[i - 1];
+                }
+                record.records[0] = `抽签的结果: ${results}`;
+                if (settings.notify) {
+                    notification.Send(`抽签的结果: ${results}`);
+                }
+                await recordForFile(false);//修改记录文件
             };
-        } catch (error) {
+        } else {
             log.error(`识别图像时发生异常: ${error.message}`);
+            // await genshin.returnMainUi();
         };
         await genshin.returnMainUi();
+        await fakeLog("稻妻鸣神大社抽签", false, true, 0)
     };
 
-    //纳塔悠悠集市
-    if(settings.eggs){
+    // 稻妻踏鞴砂海螺
+    if (settings.conchs) {
+        await fakeLog("稻妻踏鞴砂海螺", false, true, 0)
         await genshin.returnMainUi();
-        await pathingScript.runFile("assets/纳塔悠悠集市路线.json");
+        await pathingScript.runFile("assets/稻妻踏鞴砂路线.json");
         await sleep(1000);
-        try {
-            let ocrResults = await performOcr("察尔瓦", dialogZone.x, dialogZone.y, false);
-            if (ocrResults.length != 0) {
-                await sleep(700);
-                leftButtonClick();
-                await sleep(2000);
-                let ocrResults1 = await performOcr("让我挑一枚", dialogZone.x, dialogZone.y, false);
-                if (ocrResults1 != 0) {
-                    await sleep(5000);
-                    let figure = 0;
-                    //六龙蛋位置
-                    let coordinates = [
-                        [551, 153],
-                        [881, 341],
-                        [1087, 161],
-                        [1342, 357],
-                        [472, 572],
-                        [572, 721]
-                    ];
-                    switch (settings.pickupDragonEgg) {
-                        case "闪闪礼蛋·山之血":
-                            figure = 1;
-                            writeContentToFile("获得的龙蛋:闪闪礼蛋·山之血\n", false);
-                            break;
-                        case "闪闪礼蛋·太阳的轰鸣":
-                            figure = 2;
-                            writeContentToFile("获得的龙蛋:闪闪礼蛋·太阳的轰鸣\n", false);
-                            break;
-                        case "闪闪礼蛋·圣龙君临":
-                            writeContentToFile("获得的龙蛋:闪闪礼蛋·圣龙君临\n", false);
-                            figure = 3;
-                            break;
-                        case "闪闪礼蛋·菲耶蒂娜":
-                            writeContentToFile("获得的龙蛋:闪闪礼蛋·菲耶蒂娜\n", false);
-                            figure = 4;
-                            break;
-                        case "闪闪礼蛋·献给小酒杯":
-                            writeContentToFile("获得的龙蛋:闪闪礼蛋·献给小酒杯\n", false);
-                            figure = 5;
-                            break;
-                        case "闪闪礼蛋·飞澜鲨鲨":
-                            writeContentToFile("获得的龙蛋:闪闪礼蛋·飞澜鲨鲨\n", false);
-                            figure = 6;
-                            break;
-                        default:
-                            figure = Math.floor(Math.random() * 6) + 1;
-                            log.info(`随机到第${figure}个蛋`);
-                            switch (figure) {
-                                case 1:
-                                    writeContentToFile("获得的龙蛋:闪闪礼蛋·山之血\n", false);
-                                    break;
-                                case 2:
-                                    writeContentToFile("获得的龙蛋:闪闪礼蛋·太阳的轰鸣\n", false);
-                                    break;
-                                case 3:
-                                    writeContentToFile("获得的龙蛋:闪闪礼蛋·圣龙君临\n", false);
-                                    break;
-                                case 4:
-                                    writeContentToFile("获得的龙蛋:闪闪礼蛋·菲耶蒂娜\n", false);
-                                    break;
-                                case 5:
-                                    writeContentToFile("获得的龙蛋:闪闪礼蛋·献给小酒杯\n", false);
-                                    break;
-                                default:
-                                    writeContentToFile("获得的龙蛋:闪闪礼蛋·飞澜鲨鲨\n", false);
-                                    break;
-                            };
-                            break;
-                    };
-                    moveMouseTo(coordinates[figure - 1][0],coordinates[figure - 1][1]);
-                    await sleep(100);
+        if (settings.doYouOpen) {
+            await pathingScript.runFile("assets/阿敬.json");
+            let figure = parseInt(settings.pickupTreasure);
+            let ocrResults = await performOcr("阿敬", dialogZone.x, dialogZone.y, false);
+            if (ocrResults.success) {
+                await sleep(1000);
+                let ocrResults1 = await performOcr("想要", dialogZone.x, dialogZone.y, false);
+                if (ocrResults1.success) {
+                    await sleep(700);
                     leftButtonClick();
-                    await sleep(3000);
+                    await sleep(1500);
+                    //交互道具，直接选择位置点击
+                    await click(111,184);
+                    await sleep(1000);
+                    await click(1250,817);
+                    await sleep(1000);
+                    await click(1603,1013);
+                    await sleep(1500);
+                    await genshin.returnMainUi();
+                    if (figure != 0) {
+                        await pathingScript.runFile(`assets/宝箱${figure}.json`);
+                        log.info(`你即将开启${figure}号宝箱`);
+                    } else {
+                        figure = Math.floor(Math.random() * 3) + 1;
+                        log.info(`你即将开启${figure}号宝箱`);
+                        await pathingScript.runFile(`assets/宝箱${figure}.json`);
+                    };
                 } else {
-                    log.info("你今天已经领取过了");
+                    log.info("你开过了？look my eyes,回答我！！！");
+                    await genshin.chooseTalkOption("再见");
+                    await sleep(700);
+                    leftButtonClick();
+                    await sleep(1500);
                 };
             } else {
                 log.error(`识别图像时发生异常: ${error.message}`);
             };
-        } catch (error) {
+        };
+        await genshin.returnMainUi();
+        await fakeLog("稻妻踏鞴砂海螺", false, false, 0)
+    };
+
+    //枫丹梅洛彼得堡福利餐
+    if(settings.meal){
+        await fakeLog("枫丹梅洛彼得堡福利餐", false, true, 0)
+        await genshin.returnMainUi();
+        await pathingScript.runFile("assets/枫丹梅洛彼得堡路线.json");
+        await sleep(1000);
+        let ocrResults = await performOcr("布兰", dialogZone.x, dialogZone.y, false);
+        if (ocrResults.success) {
+            // await sleep(500);
+            let ocrResults1 = await performOcr("没什么", dialogZone.x, dialogZone.y, false);
+            if(ocrResults1.success){
+                log.info("对话出现没什么，默认领取和使用过！！！");
+            } else{
+                // await genshin.chooseTalkOption("给我一份福利餐");
+                await performOcr("给我一份福利餐", dialogZone.x, dialogZone.y, false);
+                await sleep(1000);
+                leftButtonClick();
+                await sleep(1000);
+                leftButtonClick();
+                await sleep(1500);
+                //打开背包找签
+                log.info("打开背包");
+                await keyPress("B");
+                await checkExpire();
+                await sleep(1500);
+                await click(1250,50); 
+                await sleep(700);
+                for(let scroll = 0; scroll <= 10; scroll++){
+                    let welffareMeal = await findImgIcon("assets/RecognitionObject/WelffareMealHalf.png", { min: 99, max: 1295 }, { min: 104, max: 967 }, true);
+                    if (welffareMeal.success) {
+                        break;
+                    }
+                    //滑动背包
+                    await sleep(1000);
+                    await scrollPage(680, 10, 5);
+                    await sleep(1000);
+
+                    if ( scroll != 0) {
+                        // 判断是否到底
+                        let sliderBottom = await findImgIcon("assets/RecognitionObject/SliderBottom.png", { min: 1284, max: 1293 }, { min: 916, max: 942 }, false);
+                        if (sliderBottom.success) {
+                            log.info("已到达最后一页！");
+                            break;
+                        };
+                    };
+                };
+                //这里是点击使用
+                await sleep(1000);
+                await click(1670,1025);
+                await sleep(3000);
+                //识别获得的食物名称
+                let ocrText = await performOcr("", { min: 813, max: 985 }, { min: 585, max: 619 }, true);
+                if (ocrText.text == "") {
+                    await sleep(500);
+                    ocrText = await performOcr("", { min: 813, max: 985 }, { min: 585, max: 619 }, true);
+                };
+                log.info(`获得:${ocrText.text}`);
+                for (let i = record.records.length - 1; i > 0; i--) {
+                    record.records[i] = record.records[i - 1];
+                }
+                record.records[0] = `获得的食物: ${ocrText.text}`;
+                if (settings.notify) {
+                    notification.Send(`获得的食物: ${ocrText.text}`);
+                };
+                await recordForFile(false);// 修改记录文件
+
+                //点击幸运签，并识别内容
+                await sleep(1000);
+                await click(1000,520);
+                await sleep(3000);
+                let ocrText1 = await performOcr("", { min: 716, max: 1200 }, { min: 631, max: 710 }, true);
+                if (ocrText.text == "") {
+                    await sleep(500);
+                    ocrText1 = await performOcr("", { min: 716, max: 1200 }, { min: 631, max: 710 }, true);
+                };
+                let text = ocrText1.text.replace(/\r\n|\n|\r/g, "");
+
+                log.info(`幸运签内容:${text}`);
+
+                for (let i = record.records.length - 1; i > 0; i--) {
+                    record.records[i] = record.records[i - 1];
+                }
+                record.records[0] = `幸运签内容: ${text}`;
+                if (settings.notify) {
+                    notification.Send(`幸运签内容: ${text}`);
+                }
+                await recordForFile(false);// 修改记录文件
+                
+            };
+
+        } else {
             log.error(`识别图像时发生异常: ${error.message}`);
         };
         await genshin.returnMainUi();
+        await fakeLog("枫丹梅洛彼得堡福利餐", false, false, 0)
+    };
+
+    // 纳塔悠悠集市龙蛋
+    if(settings.eggs){
+        let nowDragonEggsNum = record.lastDragonEggsNum;
+        if (record.lastDragonEggsNum == "【山之血：0，太阳的轰鸣：0，圣龙君临：0，菲耶蒂娜：0，献给小酒杯：0，飞澜鲨鲨：0】" || settings.updateEggs) {
+            nowDragonEggsNum = await chcekDragonEggs();
+            settings.updateEggs = "false";
+        };
+        let nowDragonEggs = nowDragonEggsNum.match(/\d+/g).map(Number);
+        await fakeLog("纳塔悠悠集市龙蛋", false, true, 0)
+        await genshin.returnMainUi();
+        await pathingScript.runFile("assets/纳塔悠悠集市路线.json");
+        let ocrResults = await performOcr("察尔瓦", dialogZone.x, dialogZone.y, false);
+        if (ocrResults.success) {
+            await sleep(700);
+            leftButtonClick();
+            await sleep(2000);
+            let ocrResults1 = await performOcr("让我挑一枚", dialogZone.x, dialogZone.y, false);
+            if (ocrResults1.success) {
+                await sleep(5000);
+                let figure = 0;
+                if (settings.selectDragonEggModel == "随机模式") {
+                    figure = Math.floor((Math.random() + Date.now() % 1) * 6);
+                } else if (settings.selectDragonEggModel == "指定模式") {
+                    switch (settings.pickupDragonEgg) {
+                        case "闪闪礼蛋·山之血":
+                            figure = 0;
+                            break;
+                        case "闪闪礼蛋·太阳的轰鸣":
+                            figure = 1;
+                            break;
+                        case "闪闪礼蛋·圣龙君临":
+                            figure = 2;
+                            break;
+                        case "闪闪礼蛋·菲耶蒂娜":
+                            figure = 3;
+                            break;
+                        case "闪闪礼蛋·献给小酒杯":
+                            figure = 4;
+                            break;
+                        case "闪闪礼蛋·飞澜鲨鲨":
+                            figure = 5;
+                            break;
+                        default:
+                            log.warn("嘘，快踢作者屁股，修bug！！！");
+                            break;
+                    };
+                }else {
+                    const now = new Date();
+                    const weekNumber = now.getDay()
+                    if (nowDragonEggs.every(num => num === nowDragonEggs[0])) {
+                        // 所有元素相同时，按星期规则处理
+                        if (weekNumber === 0) { // 周日：随机一个元素+1
+                            figure = Math.floor(Math.random() * 6);
+                            nowDragonEggs[figure]++;
+                        } else { // 周一到周六：第n个元素 +n（1-6）
+                            const index = weekNumber - 1; // 周一对应索引0，...，周六对应索引5
+                            nowDragonEggs[index] += weekNumber;
+                        };
+                    } else {
+                        // 元素不同时：给低于平均数且最小的元素+1，直到趋于平均
+                        const sum = nowDragonEggs.reduce((a, b) => a + b, 0);
+                        const avg = sum / 6;
+                        // 筛选低于平均数的元素
+                        const belowAvg = nowDragonEggs.map((num, i) => ({ num, i })).filter(item => item.num < avg);
+                        
+                        if (belowAvg.length > 0) {
+                            // 找到低于平均数中的最小值
+                            const minVal = Math.min(...belowAvg.map(item => item.num));
+                            // 筛选出等于最小值的元素索引
+                            const minIndices = belowAvg.filter(item => item.num === minVal).map(item => item.i);
+                            figure = minIndices[0];
+                            // 给第一个最小值元素+1（若多个最小值，可改为随机选一个）
+                            nowDragonEggs[minIndices[0]]++;
+                        };
+                    };
+                };
+
+                // 日志输出会去点击那个龙蛋
+                switch (figure) {
+                    case 0:
+                        log.info("获得的龙蛋:闪闪礼蛋·山之血");
+                        break;
+                    case 1:
+                        log.info("获得的龙蛋:闪闪礼蛋·太阳的轰鸣");
+                        break;
+                    case 2:
+                        log.info("获得的龙蛋:闪闪礼蛋·圣龙君临");
+                        break;
+                    case 3:
+                        log.info("获得的龙蛋:闪闪礼蛋·菲耶蒂娜");
+                        break;
+                    case 4:
+                        log.info("获得的龙蛋:闪闪礼蛋·献给小酒杯");
+                        break;
+                    case 5:
+                        log.info("获得的龙蛋:闪闪礼蛋·飞澜鲨鲨");
+                        break;
+                    default:
+                        log.warn("嘘，快踢作者屁股，修bug！！！");
+                        break;
+                };
+
+                moveMouseTo(coordinates[figure - 1][0],coordinates[figure - 1][1]);
+                nowDragonEggs[figure]++;
+                if (settings.notify) {
+                    notification.Send(`背包龙蛋数目: 【山之血：${nowDragonEggs[0]}，太阳的轰鸣：${nowDragonEggs[1]}，圣龙君临：${nowDragonEggs[2]}，菲耶蒂娜：${nowDragonEggs[3]}，献给小酒杯：${nowDragonEggs[4]}，飞澜鲨鲨：${nowDragonEggs[5]}】`);
+                };
+                // 更新记录
+                record.lastDragonEggsNum = `【山之血：${nowDragonEggs[0]}，太阳的轰鸣：${nowDragonEggs[1]}，圣龙君临：${nowDragonEggs[2]}，菲耶蒂娜：${nowDragonEggs[3]}，献给小酒杯：${nowDragonEggs[4]}，飞澜鲨鲨：${nowDragonEggs[5]}】`;
+                await recordForFile(false);
+
+                moveMouseTo(coordinates[figure - 1][0],coordinates[figure - 1][1]);
+
+                await sleep(100);
+                leftButtonClick();
+                await sleep(3000);
+            } else {
+                log.info("你今天已经领取过了");
+            };
+        } else {
+            log.error(`识别图像时发生异常: ${error.message}`);
+        };
+
+        await genshin.returnMainUi();
+        await fakeLog("纳塔悠悠集市龙蛋", false, false, 0)
     };
 
     //挪德卡莱那夏镇好运转盘
     if (settings.turntable) {
+        await fakeLog("挪德卡莱那夏镇好运转盘", false, true, 0)
         await genshin.returnMainUi();
         await pathingScript.runFile("assets/挪德卡莱那夏镇好运转盘路线.json");
-        await sleep(700);
-        try {
-            let ocrResults = await performOcr("好运速转", dialogZone.x, dialogZone.y, false);
-            if (ocrResults.length != 0) {
-                await sleep(3000);
-                leftButtonClick();
-                await sleep(1000);
-                let ocrResults1 = await performOcr("拨动转盘", dialogZone.x, dialogZone.y, false);
-                if (ocrResults1 != 0) {
-                    await sleep(6000);
-                    let recognizedText = await performOcr("", { min: 555, max: 1365 }, { min: 902, max: 1000 }, true);
-                    log.info(`转盘运势:${recognizedText}`);
-                    writeContentToFile(`转盘运势:${recognizedText}\n`, false);
-                    await sleep(2000);
-                    leftButtonClick();
-                    await sleep(700);
-                } else {
-                    log.error(`识别图像时发生异常: ${error.message}`);
+        await sleep(1000);
+        let ocrResults = await performOcr("好运速转", dialogZone.x, dialogZone.y, false);
+        if (ocrResults.success) {
+            await sleep(3000);
+            leftButtonClick();
+            await sleep(1000);
+            let ocrResults1 = await performOcr("拨动转盘", dialogZone.x, dialogZone.y, false);
+            if (ocrResults1.success) {
+                await sleep(6000);
+                let ocrText = await performOcr("", { min: 555, max: 1365 }, { min: 902, max: 1000 }, true);
+                if (ocrText.text == "") {
+                    await sleep(500);
+                    ocrText = await performOcr("", { min: 555, max: 1365 }, { min: 902, max: 1000 }, true);
                 };
+                log.info(`转盘运势:${ocrText.text}`);
+                // writeContentToFile(`转盘的运势:${recognizedText}\n`, false);
+                let text = ocrText.text.replace(/\r\n|\n|\r/g, "");
+
+
+                for (let i = record.records.length - 1; i > 0; i--) {
+                    record.records[i] = record.records[i - 1];
+                }
+                record.records[0] = `转盘的运势: ${text}`;
+                if (settings.notify) {
+                    notification.Send(`转盘的运势: ${text}`);
+                }
+                await recordForFile(false);// 修改记录文件
+
+                await sleep(2000);
+                leftButtonClick();
+                await sleep(700);
             } else {
                 log.error(`识别图像时发生异常: ${error.message}`);
             };
-        } catch (error) {
+        } else {
             log.error(`识别图像时发生异常: ${error.message}`);
-        };     
+        };  
         await genshin.returnMainUi();
+        await fakeLog("挪德卡莱那夏镇好运转盘", false, false, 0)
     };
 
-    //挪德卡莱那夏今日收获
+    // 挪德卡莱那夏镇今日收获
     if (settings.todayLuck) {
+        await fakeLog("挪德卡莱那夏镇美味的今日收获", false, true, 0)
         await genshin.returnMainUi();
         await pathingScript.runFile("assets/挪德卡莱那夏镇美味的今日收获路线.json");
-        await sleep(700);
-        try {
+        await sleep(1000);
             let ocrResults = await performOcr("莉莉希", dialogZone.x, dialogZone.y, false);
-            if (ocrResults.length != 0) {
+            if (ocrResults.success) {
                 await sleep(700);
                 leftButtonClick();
-                await sleep(1500);
                 let ocrResults1 = await performOcr("可以领", dialogZone.x, dialogZone.y, false);
-                if (ocrResults1 != 0) {
+                if (ocrResults1.success) {
                     await sleep(700);
                     leftButtonClick();
                     await sleep(1500);
@@ -788,14 +1094,117 @@ async function fakeLog(name, isJs, isStart, duration) {
             } else {
                 log.error(`识别图像时发生异常: ${error.message}`);
             };
-        } catch (error) {
-            log.error(`识别图像时发生异常: ${error.message}`);
-        };
         await genshin.returnMainUi();
+        await fakeLog("挪德卡莱那夏镇美味的今日收获", false, false, 0)
     };
 
-    //输出日期
-    writeContentToFile("", true);
+    // 挪德卡莱那夏镇糖雕
+    if (settings.sweetStatue) {
+        await fakeLog("挪德卡莱那夏镇糖雕", false, true, 0)
+        await pathingScript.runFile("assets/挪德卡莱那夏镇糖雕路线.json");
+        await sleep(1000);
+        if (settings.partyName == "") {
+            let ocrResults = await performOcr("乌娜亚塔", dialogZone.x, dialogZone.y, false);
+            // log.info(`识别的东西${ocrResults.text}`);
+            if (ocrResults.success) {
+                await sleep(700);
+                await performOcr("来一份", dialogZone.x, dialogZone.y, false);
+                await clickLongTalk();
+                // 打开背包找糖
+                await keyPress("B");
+                await checkExpire();
+                await sleep(1000);
+                await click(864,52);
+                await sleep(800);
+                for(let scroll = 0; scroll <= 10; scroll++){
+                    let welffareMeal = await findImgIcon("assets/RecognitionObject/sugar.png", { min: 99, max: 1295 }, { min: 104, max: 967 }, true);
+                    if (welffareMeal.success) {
+                        break;
+                    }
+                    //滑动背包
+                    await sleep(1000);
+                    await scrollPage(680, 10, 5);
+                    await sleep(1000);
+                    if ( scroll != 0) {
+                        // 判断是否到底
+                        let sliderBottom = await findImgIcon("assets/RecognitionObject/SliderBottom.png", { min: 1284, max: 1293 }, { min: 916, max: 942 }, false);
+                        if (sliderBottom.success) {
+                            log.info("已到达最后一页！");
+                            break;
+                        };
+                    };
+                };
+                //这里是点击使用
+                await sleep(1000);
+                await click(1670,1025);
+                await sleep(700);
+                await click(1145, 765);
+                await sleep(700);
+                let ocrResults1 = await performOcr("是否", dialogZone.x, dialogZone.y, false);
+                if (ocrResults1.success) {
+                    await sleep(800);
+                    await click(1012, 765);
+                    await click(1012, 765);
+                };
+            };
+        } else {
+            await switchPartyIfNeeded(); // 切换队伍
+            let ocrResults = await performOcr("乌娜亚塔", dialogZone.x, dialogZone.y, false);
+            log.info(`识别的东西${ocrResults.text}`);
+            if (ocrResults.success) {
+                await sleep(700);
+                await performOcr(settings.selectGiveWho, dialogZone.x, dialogZone.y, false);
+                await clickLongTalk();
+                // 打开背包找糖
+                await keyPress("B");
+                await checkExpire();
+                await sleep(1000);
+                await click(864,52);
+                await sleep(800);
+                for(let scroll = 0; scroll <= 10; scroll++){
+                    let welffareMeal = await findImgIcon("assets/RecognitionObject/sugar.png", { min: 99, max: 1295 }, { min: 104, max: 967 }, true);
+                    if (welffareMeal.success) {
+                        break;
+                    }
+                    //滑动背包
+                    await sleep(1000);
+                    await scrollPage(680, 10, 5);
+                    await sleep(1000);
+                    if ( scroll != 0) {
+                        // 判断是否到底
+                        let sliderBottom = await findImgIcon("assets/RecognitionObject/SliderBottom.png", { min: 1284, max: 1293 }, { min: 916, max: 942 }, false);
+                        if (sliderBottom.success) {
+                            log.info("已到达最后一页！");
+                            break;
+                        };
+                    };
+                };
+                //这里是点击使用
+                await sleep(1000);
+                await click(1670,1025);
+                await sleep(700);
+                await findImgIcon(`assets/RecognitionObject/${settings.selectGiveWho}.png`, { min: 99, max: 1295 }, { min: 104, max: 967 }, true);
+                await sleep(700);
+                await click(1145, 765);
+                await sleep(700);
+                let ocrResults1 = await performOcr("是否", dialogZone.x, dialogZone.y, false);
+                if (ocrResults1.success) {
+                    await sleep(800);
+                    await click(1012, 765);
+                    await click(1012, 765);
+                };
+            };
+        };
+        await genshin.returnMainUi();
+        await fakeLog("挪德卡莱那夏镇糖雕", false, false, 0)
+    };
+
+    for (let i = record.records.length - 1; i > 0; i--) {
+        record.records[i] = record.records[i - 1];
+    }
+    record.records[0] = `>>>>>>>>>> ${new Date().getFullYear()}年${String(new Date().getMonth() + 1).padStart(2, '0')}月${String(new Date().getDate()).padStart(2, '0')}日`;
+    await recordForFile(false);// 修改记录文件
+
     await fakeLog("AutoPickLitter脚本", true, false, 2333);
 
 })();

@@ -1,0 +1,26 @@
+{
+  "manifest_version": 1,
+  "name": "启动一条龙",
+  "version": "0.0.1",
+  "tags": [
+    "abgi"
+  ],
+  "description": "调用ABGI接口，启动一条龙",
+  "saved_files": [
+  ],
+  "authors": [
+    {
+      "name": "隔壁老王",
+      "links": "https://github.com/wjdsg0327"
+    },
+    {
+      "name": "古又",
+      "links": "https://github.com/guyou45"
+    }
+  ],
+  "http_allowed_urls": [
+    "http://localhost:8082/api/*"
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js"
+}

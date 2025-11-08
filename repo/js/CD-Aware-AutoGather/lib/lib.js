@@ -344,6 +344,7 @@ async function getGameAccount(multiAccount = false, mask = true) {
     const region = captureGameRegion();
     const ocrResults = RecognitionObject.ocr(region.width * 0.75, region.height * 0.75, region.width * 0.25, region.height * 0.25);
     const resList = region.findMulti(ocrResults);
+    region.dispose();
 
     for (let i = 0; i < resList.count; i++) {
         const text = resList[i].text;
@@ -614,7 +615,9 @@ async function waitTpFinish(timeout = 30000) {
 
     await sleep(500); //点击传送后等待一段时间避免误判
     while (Date.now() - startTime < timeout) {
-        let res = captureGameRegion().find(region);
+        const ro = captureGameRegion();
+        let res = ro.find(region);
+        ro.dispose();
         if (!res.isEmpty()) {
             await sleep(600); //传送结束后有僵直
             return;

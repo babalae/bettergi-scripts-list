@@ -53,7 +53,9 @@ const findImageWithinBounds = (path, x, y, w, h) => {
   try {
     const ir = captureGameRegion();
     const ro = RecognitionObject.templateMatch(file.readImageMatSync(path), x, y, w, h);
-    return findFirst(ir, ro, (region) => region.isExist());
+    const result = findFirst(ir, ro, (region) => region.isExist());
+    ir.dispose();
+    return result;
   } catch (err) {
     err?.message && log.warn(`${err.message}`);
   }
@@ -63,22 +65,26 @@ const findText = (text, options) => {
   const searchText = ignoreCase ? text.toLowerCase() : text;
   const ir = captureGameRegion();
   const ro = RecognitionObject.ocrThis;
-  return findFirst(ir, ro, (region) => {
+  const result = findFirst(ir, ro, (region) => {
     const itemText = ignoreCase ? region.text.toLowerCase() : region.text;
     const isMatch = contains ? itemText.includes(searchText) : itemText === searchText;
     return isMatch && region.isExist();
   });
+  ir.dispose();
+  return result;
 };
 const findTextWithinBounds = (text, x, y, w, h, options) => {
   const { ignoreCase = true, contains = false } = options || {};
   const searchText = ignoreCase ? text.toLowerCase() : text;
   const ir = captureGameRegion();
   const ro = RecognitionObject.ocr(x, y, w, h);
-  return findFirst(ir, ro, (region) => {
+  const result = findFirst(ir, ro, (region) => {
     const itemText = ignoreCase ? region.text.toLowerCase() : region.text;
     const isMatch = contains ? itemText.includes(searchText) : itemText === searchText;
     return isMatch && region.isExist();
   });
+  ir.dispose();
+  return result;
 };
 
 // node_modules/.pnpm/@bettergi+utils@0.1.1/node_modules/@bettergi/utils/dist/store.js
@@ -322,12 +328,11 @@ const startGame = async () => {
   }
 
   const goToTeyvat = settings.goToTeyvat ?? true;
-  // const roomStr = settings.room || "7102316998";
   // 从房间号池中随机取一个
-  const roomPool = ["7102316998", "7107919931", "7155768958", "7071003734"];
+  const roomPool = ["7070702264", "7102316998", "7107919931", "7155768958", "7071003734"];
   const getRandomRoom = () => roomPool[Math.floor(Math.random() * roomPool.length)];
   let roomStr = settings.room || getRandomRoom();
-  if (roomStr && (roomStr.includes("7070702264") || roomStr.includes("15698418162"))) {
+  if (roomStr && (roomStr.includes("15698418162"))) {
     roomStr = getRandomRoom();
   }
   // 支持中英文逗号分割多个房间号

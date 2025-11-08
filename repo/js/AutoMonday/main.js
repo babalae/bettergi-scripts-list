@@ -57,9 +57,17 @@
     const username = settings.username || "默认账户";
     const cdRecordPath = `record/${username}_cd.txt`;// 修改CD记录文件路径，包含用户名
 
-    //设置分辨率和缩放
-    setGameMetrics(1920, 1080, 1);
-    await genshin.returnMainUi();
+    // 定义任务列表
+    const tasks = [
+        { condition: ifZBY, func: autoZhibian, name: "质变仪" },
+        { condition: ifYB, func: Jingdie, name: "晶蝶诱捕装置" },
+        { condition: ifCooking, func: Cooking, name: "做菜" },
+        { condition: ifduanZao, func: duanZao, name: "锻造" },
+        { condition: ifShouling, func: hitBoss, name: "首领" },
+        { condition: ifMijing, func: AutoDomain, name: "秘境" },
+        { condition: ifbuyNet, func: buyNet, name: "购买四方八方之网" },
+        { condition: ifbuyTzq, func: buyTzq, name: "购买投资券" }
+    ];
 
     // ===== 2. 子函数定义部分 =====
 
@@ -193,55 +201,135 @@
     }
 
     /**
-    * 文字OCR识别封装函数（测试中，未封装完成，后续会优化逻辑）
-    * @param text 要识别的文字，默认为"空参数"
-    * @param timeout 超时时间，单位为秒，默认为10秒
-    * @param afterBehavior 点击模式，0表示不点击，1表示点击识别到文字的位置，2表示输出模式，默认为0
-    * @param debugmodel 调试代码，0表示输入判断模式，1表示输出位置信息，2表示输出判断模式，默认为0
-    * @param x OCR识别区域的起始X坐标，默认为0
-    * @param y OCR识别区域的起始Y坐标，默认为0
-    * @param w OCR识别区域的宽度，默认为1920
-    * @param h OCR识别区域的高度，默认为1080
-    * @returns 包含识别结果的对象，包括识别的文字、坐标和是否找到的结果
-    */
-    async function textOCR(text = "空参数", timeout = 10, afterBehavior = 0, debugmodel = 0, x = 0, y = 0, w = 1920, h = 1080) {
-        const startTime = new Date();
-        var Outcheak = 0
-        for (var ii = 0; ii < 10; ii++) {
-            // 获取一张截图
-            var captureRegion = captureGameRegion();
-            var res1
-            var res2
-            var conuntcottimecot = 1;
-            var conuntcottimecomp = 1;
-            // 对整个区域进行 OCR
-            var resList = captureRegion.findMulti(RecognitionObject.ocr(x, y, w, h));
-            //log.info("OCR 全区域识别结果数量 {len}", resList.count);
-            if (resList.count !== 0) {
-                for (let i = 0; i < resList.count; i++) { // 遍历的是 C# 的 List 对象，所以要用 count，而不是 length
-                    let res = resList[i];
-                    res1 = res.text
-                    conuntcottimecomp++;
-                    if (res.text.includes(text) && debugmodel == 3) { return result = { text: res.text, x: res.x, y: res.y, found: true }; }
-                    if (res.text.includes(text) && debugmodel !== 2) {
-                        conuntcottimecot++;
-                        if (debugmodel === 1 & x === 0 & y === 0) { log.info("全图代码位置：({x},{y},{h},{w})", res.x - 10, res.y - 10, res.width + 10, res.Height + 10); }
-                        if (afterBehavior === 1) { await sleep(1000); click(res.x, res.y); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("点击模式:关") } }
-                        if (afterBehavior === 2) { await sleep(100); keyPress("F"); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("F模式:关"); } }
-                        if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; }
+     * 文字OCR识别封装函数（支持空文本匹配任意文字）
+     * @param {string} text - 要识别的文字，默认为"空参数"，空字符串会匹配任意文字
+     * @param {number} timeout - 超时时间，单位为秒，默认为10秒
+     * @param {number} afterBehavior - 点击模式，0=不点击，1=点击文字位置，2=按F键，默认为0
+     * @param {number} debugmodel - 调试模式，0=无输出，1=基础日志，2=详细输出，3=立即返回，默认为0
+     * @param {number} x - OCR识别区域起始X坐标，默认为0
+     * @param {number} y - OCR识别区域起始Y坐标，默认为0
+     * @param {number} w - OCR识别区域宽度，默认为1920
+     * @param {number} h - OCR识别区域高度，默认为1080
+     * @param {number} matchMode - 匹配模式，0=包含匹配，1=精确匹配，默认为0
+     * @returns {object} 包含识别结果的对象 {text, x, y, found}
+     */
+    async function textOCREnhanced(
+        text = "空参数",
+        timeout = 10,
+        afterBehavior = 0,
+        debugmodel = 0,
+        x = 0,
+        y = 0,
+        w = 1920,
+        h = 1080,
+        matchMode = 0
+    ) {
+        const startTime = Date.now();
+        const timeoutMs = timeout * 1000;
+        let lastResult = null;
+        let captureRegion = null; // 用于存储截图对象
+
+        // 只在调试模式1下输出基本信息
+        if (debugmodel === 1) {
+            if (text === "") {
+                log.info(`OCR: 空文本模式 - 匹配任意文字`);
+            } else if (text === "空参数") {
+                log.warn(`OCR: 使用默认参数"空参数"`);
+            }
+        }
+
+        while (Date.now() - startTime < timeoutMs) {
+            try {
+                // 获取截图并进行OCR识别
+                captureRegion = captureGameRegion();
+                const resList = captureRegion.findMulti(RecognitionObject.ocr(x, y, w, h));
+
+                // 遍历识别结果
+                for (let i = 0; i < resList.count; i++) {
+                    const res = resList[i];
+
+                    // 检查是否匹配
+                    let isMatched = false;
+                    if (text === "") {
+                        // 空文本匹配任意文字
+                        isMatched = true;
+                    } else if (matchMode === 1) {
+                        // 精确匹配
+                        isMatched = res.text === text;
+                    } else {
+                        // 包含匹配（默认）
+                        isMatched = res.text.includes(text);
                     }
-                    if (debugmodel === 2) {
-                        if (res1 === res2) { conuntcottimecot++; res2 = res1; }
-                        //log.info("输出模式：全图代码位置：({x},{y},{h},{w},{string})", res.x-10, res.y-10, res.width+10, res.Height+10, res.text);
-                        if (Outcheak === 1) { if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; } }
+
+                    if (isMatched) {
+                        // 只在调试模式1下输出匹配成功信息
+                        if (debugmodel === 1) {
+                            log.info(`OCR成功: "${res.text}" 位置(${res.x},${res.y})`);
+                        }
+
+                        // 调试模式3: 立即返回
+                        if (debugmodel === 3) {
+                            // 释放内存
+                            if (captureRegion) {
+                                captureRegion.dispose();
+                            }
+                            return { text: res.text, x: res.x, y: res.y, found: true };
+                        }
+
+                        // 执行后续行为
+                        switch (afterBehavior) {
+                            case 1: // 点击文字位置
+                                await sleep(1000);
+                                click(res.x, res.y);
+                                break;
+                            case 2: // 按F键
+                                await sleep(100);
+                                keyPress("F");
+                                break;
+                            default:
+                                // 不执行任何操作
+                                break;
+                        }
+
+                        // 记录最后一个匹配结果但不立即返回
+                        lastResult = { text: res.text, x: res.x, y: res.y, found: true };
                     }
                 }
+
+                // 释放截图对象内存
+                if (captureRegion) {
+                    captureRegion.dispose();
+                }
+
+                // 如果找到匹配结果，根据调试模式决定是否立即返回
+                if (lastResult && debugmodel !== 2) {
+                    return lastResult;
+                }
+
+                // 短暂延迟后继续下一轮识别
+                await sleep(100);
+
+            } catch (error) {
+                // 发生异常时释放内存
+                if (captureRegion) {
+                    captureRegion.dispose();
+                }
+                log.error(`OCR异常: ${error.message}`);
+                await sleep(100);
             }
-            const NowTime = new Date();
-            if ((NowTime - startTime) > timeout * 1000) { if (debugmodel === 2) { if (resList.count === 0) { return result = { found: false }; } else { Outcheak = 1; ii = 2; } } else { Outcheak = 0; if (debugmodel === 1 & x === 0 & y === 0) { log.info(`${timeout}秒超时退出，"${text}"未找到`) }; return result = { found: false }; } }
-            else { ii = 2; if (debugmodel === 1 & x === 0 & y === 0) { log.info(`"${text}"识别中……`); } }
-            await sleep(100);
         }
+
+        if (debugmodel === 1) {
+            // 超时处理
+            if (text === "") {
+                log.info(`OCR超时: ${timeout}秒内未找到任何文字`);
+            } else {
+                log.info(`OCR超时: ${timeout}秒内未找到"${text}"`);
+            }
+        }
+
+        // 返回最后一个结果或未找到
+        return lastResult || { found: false };
     }
 
     //判断队内角色
@@ -279,7 +367,7 @@
                 if (!ifbblIn) { throw new Error("队伍中未包含角色：芭芭拉"); }
             }
             while ((NowTime - startTime) < actiontime * 1000) {
-                const ocrRes = await textOCR("质变产生了以下物质", 0.7, 1, 0, 539, 251, 800, 425);
+                const ocrRes = await textOCREnhanced("质变产生了以下物质", 0.7, 1, 0, 539, 251, 800, 425);
                 if (ocrRes.found) {
                     click(970, 760);
                     if (!ifAkf) { return true; }
@@ -311,8 +399,8 @@
                 await includes("芭芭拉");
             }
             while ((NowTime - startTime) < actiontime * 1000) {
-                let result = await textOCR("获得", 0.2, 0, 3, 159, 494, 75, 44);
-                if (result.found) {
+                const ifEarn = await textOCREnhanced("获得", 0.2, 0, 3, 159, 494, 75, 44);
+                if (ifEarn.found) {
                     const currentTime = new Date().getTime();
                     if (currentTime - lastIncrementTime >= intervalTime) {
                         getFood++;
@@ -349,10 +437,10 @@
         await sleep(1000);
         await click(1067, 57);//点开背包,可做图像识别优化
 
-        const bagOk = await textOCR("小道具", 3, 0, 0, 126, 17, 99, 53); if (!bagOk.found) { throw new Error("未打开'小道具'页面,请确保背包已正确打开并切换到小道具标签页"); }//确认在小道具界面
+        const bagOk = await textOCREnhanced("小道具", 3, 0, 3, 126, 17, 99, 53); if (!bagOk.found) { throw new Error("未打开'小道具'页面,请确保背包已正确打开并切换到小道具标签页"); }//确认在小道具界面
         await sleep(500);
-        await imageRecognitionEnhanced(ZHIBIANYI, 1, 1, 0);//识别质变仪图片
-        if (!result.found) {
+        const ZbyResult = await imageRecognitionEnhanced(ZHIBIANYI, 1, 1, 0);//识别质变仪图片
+        if (!ZbyResult.found) {
             await genshin.returnMainUi();
             log.warn("'质变仪CD中'或'未找到质变仪!'");
             return false;//质变仪找不到就直接退出
@@ -371,26 +459,27 @@
         //检测并进入质变仪界面
         await middleButtonClick();
         await sleep(1000);
-        let Fmeun = await textOCR("参量质变仪", 2, 2, 3, 1205, 508, 140, 53);//单条F检测
+        let Fmeun = await textOCREnhanced("参量质变仪", 2, 2, 0, 1205, 508, 140, 53);//单条F检测
         await keyPress("F");
         let CHAx = await imageRecognitionEnhanced(CHA, 3, 0, 0, 1766, 3, 140, 90);
         if (!Fmeun.found && !CHAx.found) { return false; }
 
         //检测是否到达材料页面
-        await textOCR("进行质变", 3, 0, 0, 1675, 994, 150, 50); if (!result.found) { throw new Error("质变仪页面未打开"); }//单条F检测
+        const startTransform = await textOCREnhanced("进行质变", 3, 0, 3, 1675, 994, 150, 50); if (!startTransform.found) { throw new Error("质变仪页面未打开"); }//单条F检测
         await sleep(500);
+        let itemResult;
         switch (ITEM) {
             case 1:
                 await click(863, 47); // 初始化与'1养成道具'相关的设置或资源
-                await textOCR("养成道具", 3, 0, 0, 120, 19, 240, 50); if (!result.found) { throw new Error("'养成道具'页面未打开"); }
+                itemResult = await textOCREnhanced("养成道具", 3, 0, 3, 120, 19, 240, 50); if (!itemResult.found) { throw new Error("'养成道具'页面未打开"); }
                 break;
             case 2:
                 await click(959, 45);// 初始化与'2食物'相关的设置或资源
-                await textOCR("食物", 3, 0, 0, 124, 16, 93, 63); if (!result.found) { throw new Error("'食物'页面未打开"); }
+                itemResult = await textOCREnhanced("食物", 3, 0, 3, 124, 16, 93, 63); if (!itemResult.found) { throw new Error("'食物'页面未打开"); }
                 break;
             case 3:
                 await click(1050, 50); // 初始化与'3材料'相关的设置或资源
-                await textOCR("材料", 3, 0, 0, 124, 16, 93, 63); if (!result.found) { throw new Error("'材料'页面未打开"); }
+                itemResult = await textOCREnhanced("材料", 3, 0, 3, 124, 16, 93, 63); if (!itemResult.found) { throw new Error("'材料'页面未打开"); }
                 break;
             default:
                 // 处理未知ITEM值的情况
@@ -408,16 +497,16 @@
         const maxRetries = 20; // 最大重试次数
         let retries = 0; // 当前重试次数
         while (retries < maxRetries) {
-            const result = await imageRecognitionEnhanced(BH, 1, 0, 0, 115, 115, 1155, 845);
-            if (result.found) {
+            const ifBh = await imageRecognitionEnhanced(BH, 1, 0, 0, 115, 115, 1155, 845);
+            if (ifBh.found) {
                 await leftButtonUp();
                 await sleep(500);
-                await click(result.x, result.y);
+                await click(ifBh.x, ifBh.y);
                 await sleep(1000);
                 await click(440, 1008);  //选择最大数量
                 await sleep(1000);
                 await click(1792, 1019); //质变按钮
-                const zbPanel = await textOCR("参量质变仪", 3, 0, 0, 828, 253, 265, 73); if (!zbPanel.found) { log.error("单种材料不足，退出！"); }
+                const zbPanel = await textOCREnhanced("参量质变仪", 3, 0, 3, 828, 253, 265, 73); if (!zbPanel.found) { log.error("单种材料不足，退出！"); }
                 await sleep(1000);
                 await click(1183, 764); //确认 ;
                 await sleep(1000);
@@ -473,7 +562,7 @@
 
     // 背包过期物品识别
     async function handleExpiredItems() {
-        const ifGuoqi = await textOCR("物品过期", 1.5, 0, 0, 870, 280, 170, 40);
+        const ifGuoqi = await textOCREnhanced("物品过期", 1.5, 0, 3, 870, 280, 170, 40);
         if (ifGuoqi.found) {
             log.info("检测到过期物品，正在处理...");
             await sleep(500);
@@ -642,18 +731,18 @@
         await sleep(1500);
         keyPress("F");
 
-        await textOCR("单人挑战", 8, 1, 1, 1615, 990, 220, 50);// 等待“单人挑战”出现
+        await textOCREnhanced("单人挑战", 8, 1, 0, 1615, 990, 220, 50);// 等待“单人挑战”出现
         await sleep(10);
-        await textOCR("开始挑战", 8, 1, 1, 1615, 990, 220, 50);// 等待“开始挑战”出现
+        await textOCREnhanced("开始挑战", 8, 1, 0, 1615, 990, 220, 50);// 等待“开始挑战”出现
         await sleep(10);
-        await textOCR("地脉异常", 10, 1, 1, 840, 405, 180, 55);// 等待“地脉异常”出现
+        await textOCREnhanced("地脉异常", 10, 1, 0, 840, 405, 180, 55);// 等待“地脉异常”出现
 
         await sleep(1000);
 
         let success;
         for (let attempt = 0; attempt < 10; attempt++) {
-            success = await textOCR("启动", 0.5, 0, 3, 1210, 500, 85, 85);
-            if (!success || !success.found) {
+            success = await textOCREnhanced("启动", 0.5, 0, 3, 1210, 500, 85, 85);
+            if (success.found) {
                 keyPress("F");
                 break;
             } else {
@@ -689,7 +778,7 @@
         await sleep(1000);
 
         // 判断是否诱捕完成
-        const res2 = await textOCR("晶蝶诱捕装置", 1, 0, 3, 0, 0, 360, 500);
+        const res2 = await textOCREnhanced("晶蝶诱捕装置", 1, 0, 3, 0, 0, 360, 500);
 
         if (!res2.found) {
             log.warn("诱捕未完成，不执行后续操作");
@@ -752,7 +841,7 @@
         await sleep(1000);
         await click(1067, 57);//点开背包,可做图像识别优化
 
-        await textOCR("小道具", 3, 0, 0, 126, 17, 99, 53); if (!result.found) { throw new Error("未打开'小道具'页面,请确保背包已正确打开并切换到小道具标签页"); }//确认在小道具界面
+        const ifXdj = await textOCREnhanced("小道具", 3, 0, 3, 126, 17, 99, 53); if (!ifXdj.found) { throw new Error("未打开'小道具'页面,请确保背包已正确打开并切换到小道具标签页"); }//确认在小道具界面
         await sleep(500);
         const res1 = await imageRecognitionEnhanced(ZHIBIANYI, 1, 1, 0);//识别质变仪图片
         if (res1.found) {
@@ -808,7 +897,7 @@
         keyDown("VK_MENU");
         await sleep(500);
 
-        const res1 = await textOCR("烹饪", 5, 0, 0, 1150, 460, 155, 155);
+        const res1 = await textOCREnhanced("烹饪", 5, 0, 3, 1150, 460, 155, 155);
         if (res1.found) {
             click(res1.x + 15, res1.y + 15);
         }
@@ -837,7 +926,7 @@
         const maxRetries = 20; // 最大重试次数
         let retries = 0; // 当前重试次数
         while (retries < maxRetries) {
-            const res2 = await textOCR(food, 1, 0, 3, 116, 116, 1165, 880);
+            const res2 = await textOCREnhanced(food, 1, 0, 3, 116, 116, 1165, 880);
             if (res2.found) {
                 await leftButtonUp();
                 await sleep(500);
@@ -848,7 +937,7 @@
                 click(1700, 1020);// 制作
                 await sleep(1000);
 
-                await textOCR("自动烹饪", 5, 1, 0, 725, 1000, 130, 45);
+                await textOCREnhanced("自动烹饪", 5, 1, 0, 725, 1000, 130, 45);
                 await sleep(800);
                 click(960, 460);
                 await sleep(800);
@@ -899,20 +988,20 @@
         log.info("正在执行本周锻造任务……");
         await AutoPath("瓦格纳");
         keyDown("VK_MENU");
-        await textOCR("瓦格纳", 5, 1, 0, 1150, 460, 155, 155);
+        await textOCREnhanced("瓦格纳", 5, 1, 0, 1150, 460, 155, 155);
         await sleep(800);
         keyUp("VK_MENU");
 
         click(960, 540);// 对话
         await sleep(1000);
 
-        await textOCR("委托锻造", 5, 1, 0, 1150, 400, 300, 300);
+        await textOCREnhanced("委托锻造", 5, 1, 0, 1150, 400, 300, 300);
         await sleep(1500);
 
         click(960, 540);// 对话
         await sleep(1500);
 
-        const res1 = await textOCR("可收取", 1, 0, 2, 625, 265, 130, 50);
+        const res1 = await textOCREnhanced("可收取", 1, 0, 3, 625, 265, 130, 50);
         if (res1.found) {
             click(180, 1015);// 全部领取
             await sleep(1500);
@@ -926,7 +1015,7 @@
 
         click(360, 1015);// 筛选按钮
         await sleep(1500);
-        await textOCR("武器升级材料", 5, 1, 0, 30, 170, 410, 60);
+        await textOCREnhanced("武器升级材料", 5, 1, 0, 30, 170, 410, 60);
         await sleep(1500);
 
         await imageRecognitionEnhanced(mineralFile, 10, 1, 0, 40, 210, 720, 770)
@@ -1050,10 +1139,10 @@
         click(960, 540);// 对话
         await sleep(1000);
 
-        await textOCR("购买", 3, 1, 0, 1320, 630, 130, 60);// 对话：购买四方八方之网
+        await textOCREnhanced("购买", 3, 1, 0, 1320, 630, 130, 60);// 对话：购买四方八方之网
         await sleep(1000);
 
-        const res1 = await textOCR("已售罄", 0.5, 0, 0, 1515, 920, 90, 35);
+        const res1 = await textOCREnhanced("已售罄", 1, 0, 3, 1515, 920, 90, 35);
         if (!res1.found) {
             click(1670, 1015);
             await sleep(800);
@@ -1064,7 +1153,7 @@
             }
 
             click(1175, 780);// 点击购买
-            await sleep(100);
+            await sleep(300);
             await genshin.returnMainUi();
 
             log.info("本周四方网购买任务已完成！");
@@ -1101,13 +1190,13 @@
         click(960, 540);
         await sleep(2000);
 
-        await textOCR("我要结算", 3, 1, 0, 1325, 550, 250, 55);
+        await textOCREnhanced("我要结算", 3, 1, 0, 1325, 550, 250, 55);
 
         await sleep(1000);
         click(960, 540);
         await sleep(1000);
 
-        const notHave = await textOCR("没有投资券", 3, 0, 0, 830, 925, 160, 50);
+        const notHave = await textOCREnhanced("没有投资券", 3, 0, 3, 830, 925, 160, 50);
         if (notHave.found) {
             click(960, 540);
             await sleep(1500);
@@ -1133,7 +1222,7 @@
             click(960, 540);
             await sleep(1500);
 
-            await textOCR("我要结算", 3, 1, 0, 1325, 500, 250, 80);
+            await textOCREnhanced("我要结算", 3, 1, 0, 1325, 500, 250, 80);
 
             await sleep(1000);
             click(960, 540);
@@ -1158,36 +1247,37 @@
         await writeCDRecords(updatedRecords);
     }
 
+    // 版本信息
+    async function outputVersion() {
+        let scriptVersion, scriptname;
+        const manifestContent = file.readTextSync("manifest.json");
+        const manifest = JSON.parse(manifestContent);
+        scriptVersion = manifest.version;
+        scriptname = manifest.name;
+
+        log.warn(`${scriptname}：V${scriptVersion}`);
+    }
+
     // ===== 3. 主函数执行部分 =====
 
     try {
-        if (ifZBY) { await autoZhibian(); }// 质变仪
-        await sleep(10);
+        //设置分辨率和缩放
+        setGameMetrics(1920, 1080, 1);
+        await genshin.returnMainUi();
 
-        if (ifYB) { await Jingdie(); }// 晶蝶诱捕装置
-        await sleep(10);
+        await outputVersion(); // 输出版本信息
 
-        if (ifCooking) { await Cooking(); }// 做菜
-        await sleep(10);
-
-        if (ifduanZao) { await duanZao(); }// 锻造
-        await sleep(10);
-
-        if (ifShouling) { await hitBoss(); }// 首领
-        await sleep(10);
-
-        if (ifMijing) { await AutoDomain(); }// 秘境
-        await sleep(10);
-
-        if (ifbuyNet) { await buyNet(); }// 购买四方八方之网
-        await sleep(10);
-
-        if (ifbuyTzq) { await buyTzq(); }// 购买投资券
-        await sleep(10);
+        // 执行所有启用的任务
+        for (const task of tasks) {
+            if (task.condition) {
+                await task.func();
+                await sleep(10);
+            }
+        }
     } catch (error) {
         log.error(`执行过程中发生错误：${error.message}`);
     } finally {
         await genshin.returnMainUi();
     }
-
+    
 })();

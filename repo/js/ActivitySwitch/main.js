@@ -204,6 +204,7 @@ async function lookForClickActivity(ocrRegion, activityName) {
     const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
     // ocrObject.threshold = 1.0;
     let resList = captureRegion.findMulti(ocrObject);
+    captureRegion.dispose();
     let firstRes = null
     let lastRes = null
     for (let res of resList) {

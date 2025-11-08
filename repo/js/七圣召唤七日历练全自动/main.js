@@ -26,6 +26,7 @@ async function dragTemplateToPosition(templatePath, targetX, targetY, maxAttempt
             // 捕获游戏区域并查找模板
             const captureRegion = captureGameRegion();
             let foundRegion = captureRegion.find(templateRo);
+            captureRegion.dispose();
             
             if (foundRegion.isEmpty()) {
                 log.warn(`第 ${attempt + 1} 次尝试: 未找到模板图片 ${templatePath}`);
@@ -51,12 +52,14 @@ async function dragTemplateToPosition(templatePath, targetX, targetY, maxAttempt
             await sleep(500);
             moveMouseTo(50, 50);//移动鼠标位置，避免检测失败
             await sleep(400);
-            foundRegion = captureGameRegion().Find(templateRo);
+            const ro2 = captureGameRegion();
+            foundRegion = ro2.Find(templateRo);
+            ro2.dispose();
             log.info(`模板图片拖动后位置: (${foundRegion.x}, ${foundRegion.y})`);
-            if(Math.abs(foundRegion.x - targetX) < 3 && Math.abs(foundRegion.y - targetY) < 3){
-            log.info("拖动操作完成");
-            return true;
-            } 
+            if( Math.abs(foundRegion.x - targetX) < 3 && Math.abs(foundRegion.y - targetY ) < 3) {
+                log.info("拖动操作完成");
+                return true;
+            }
             
         } catch (error) {
             log.error(`第 ${attempt + 1} 次尝试时发生错误: ${error}`);
@@ -98,6 +101,7 @@ async function switchCardTeam(Name, shareCode) {
                 break;
             }
         }
+        captureRegion.dispose();
     }
 
     if (teamName.text != Name || settings.overwritePartyName == Name) {
@@ -118,6 +122,7 @@ async function switchCardTeam(Name, shareCode) {
     if (Name !== settings.defaultPartyName && shareCode) {
         captureRegion = captureGameRegion();
         let res = captureRegion.find(RecognitionObject.ocr(1140, 732, 83, 55));
+        captureRegion.dispose();
         if (res.text === "确认") {
             res.click();
         } else {
@@ -139,6 +144,7 @@ async function switchCardTeam(Name, shareCode) {
         await stopNow();
         captureRegion = captureGameRegion();
         res = captureRegion.find(RecognitionObject.ocr(770, 516, 381, 43));
+        captureRegion.dispose();
         if (res.text.includes("无法出战")) {
             log.error(res.text);
             userDefault = true;
@@ -288,6 +294,7 @@ async function checkChallengeResults() {
     const region2 = RecognitionObject.ocr(1520, 170, 160, 40); // 退出位置
     let capture = captureGameRegion();
     let res1 = capture.find(region1);
+    capture.dispose();
     let success = false;
     log.info(`结果识别：${res1.text}`);
     if (res1.text.includes("对局失败")) {
@@ -312,7 +319,9 @@ async function checkChallengeResults() {
         await sleep(500);
         click(1860, 50); //点击齿轮图标
         await sleep(1000);
-        let res2 = captureGameRegion().find(region2);
+        let ro2 = captureGameRegion();
+        let res2 = ro2.find(region2);
+        ro2.dispose();
         if (res2.text.includes("设置")) click(1600, 260); //点击退出-选项4
         else click(1600, 200); //点击退出-选项3
         await sleep(1000);
@@ -335,7 +344,9 @@ async function autoConversation() {
     log.info("准备开始对话");
     //最多10次对话
     while (talkTime < 30) {
-        let talk = captureGameRegion().find(talkRo);
+        let ro = captureGameRegion();
+        let talk = ro.find(talkRo);
+        ro.dispose();
         if (talk.isExist()) {
             await sleep(300);
             keyPress("VK_SPACE");
@@ -362,6 +373,7 @@ async function tpEndDetection() {
     while (tpTime < 300) {
         let capture = captureGameRegion();
         let res = capture.find(region);
+        capture.dispose();
         if (!res.isEmpty()) {
             log.info("传送完成");
             await sleep(1200); //传送结束后有僵直
@@ -419,11 +431,14 @@ const detectCardPlayer = async () => {
                 keyPress("ESCAPE");
                 await sleep(1500);
                 await point.action(); // 调用该点位对应的函数
+                captureRegion.dispose();
+                cropRegion.dispose();
                 return true; // 返回true表示已找到并处理
             }
         }
+        cropRegion.dispose();
     }
-
+    captureRegion.dispose();
     // 所有点位都未找到
     log.info("未在任何检测点找到玩家");
     textArray.length = 0;
@@ -461,6 +476,7 @@ async function captureAndStoreTexts() {
         // 在指定区域进行OCR识别
         const result = captureRegion.find(ocrRo);
         let res2 = captureRegion.find(ocrRo2);
+
         if (!result.isEmpty() && result.text) {
             // 存储识别结果和对应位置
             if (res2.isExist()) {
@@ -476,6 +492,7 @@ async function captureAndStoreTexts() {
         }
     }
 
+    captureRegion.dispose();
     log.info(`剩余挑战人数:${textArray.length}`);
     keyPress("ESCAPE");
     await sleep(1000);
@@ -678,6 +695,7 @@ async function clickTextInRegion(targetText, x, y, width, height, options = {}) 
             
             // 在限定区域内进行OCR识别
             const results = captureRegion.findMulti(ocrRo);
+            captureRegion.dispose();
 
             // 遍历OCR结果
             for (let i = 0; i < results.count; i++) {
@@ -708,7 +726,7 @@ async function clickTextInRegion(targetText, x, y, width, height, options = {}) 
                         res.clickTo(0, 0);
                         log.info(`已点击文字偏移位置: "${targetText}"`);
                     }
-                    
+
                    
                     return true;
                 }
@@ -748,7 +766,9 @@ async function gotoTavern() {
 
     click(1000, 645); //猫尾酒馆
     await sleep(600);
-    let tavern = captureGameRegion().find(tavernRo);
+    let ro = captureGameRegion();
+    let tavern = ro.find(tavernRo);
+    ro.dispose();
     if (tavern.isExist()) {
         tavern.click();
         await sleep(500);

@@ -38,6 +38,7 @@
              var  conuntcottimecomp=1;
             // 对整个区域进行 OCR
             var resList = captureRegion.findMulti(RecognitionObject.ocr(x,y,w,h));
+            captureRegion.dispose();
             //log.info("OCR 全区域识别结果数量 {len}", resList.count);
             if (resList.count !== 0) {
              for (let i = 0; i < resList.count; i++) 
@@ -83,7 +84,10 @@
         const Imagidentify = RecognitionObject.TemplateMatch(file.ReadImageMatSync(filePath));
         for (let ii = 0; ii < 10; ii++) {    
             captureRegion = captureGameRegion();  // 获取一张截图
-            res = captureRegion.DeriveCrop(xa, ya, wa, ha).Find(Imagidentify);
+            let dc = captureRegion.DeriveCrop(xa, ya, wa, ha);
+            let res = dc.Find(Imagidentify);
+            captureRegion.dispose();
+            dc.dispose();
         if (res.isEmpty()) {
             if (debugmodel===1 & xa===0 & ya===0){log.info("识别图片中")};
         } else {

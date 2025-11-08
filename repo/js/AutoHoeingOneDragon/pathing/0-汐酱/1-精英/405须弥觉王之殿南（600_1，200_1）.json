@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "author": "汐",
     "authors": [
@@ -9,9 +9,8 @@
     ],
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时127秒，包含以下怪物：2只岩盾丘丘人、2只射手丘丘人、1只火箭丘丘人、1只岩盾丘丘暴徒、1只丘丘岩盔王。",
-    "hash_res": "44011950",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760032079725,
+    "last_modified_time": 1762169999149,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "405须弥觉王之殿南（600_1，200_1）",
@@ -75,85 +74,95 @@
       "y": -815.7734375
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "keypress(x);钟离 e(hold);伊涅芙 e;茜特菈莉 e;莱依拉 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
       "id": 7,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 3460.138671875,
-      "y": -816.95166015625
+      "x": 3463.376953125,
+      "y": -824.630859375
     },
     {
       "action": "",
       "action_params": "",
       "id": 8,
-      "move_mode": "climb",
+      "move_mode": "dash",
       "type": "path",
-      "x": 3455.1728515625,
-      "y": -818.38623046875
+      "x": 3463.376953125,
+      "y": -824.630859375
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.5);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;钟离 e(hold);茜特菈莉 e;莱依拉 e;",
+      "action_params": "moveby(0,-2100),wait(0.3),keypress(t),wait(0.1),keypress(t),wait(0.1),keypress(t),click(middle)",
       "id": 9,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 3456.0390625,
-      "y": -826.90673828125
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3446.2998046875,
+      "y": -827.19384765625
     },
     {
-      "action": "combat_script",
-      "action_params": "attack(0.3),j",
+      "action": "",
+      "action_params": "",
       "id": 10,
       "move_mode": "fly",
       "type": "path",
-      "x": 3462.568359375,
-      "y": -841.93994140625
+      "x": 3467.5673828125,
+      "y": -847.505859375
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;",
+      "action_params": "moveby(0,-1800),wait(0.3),keypress(t),wait(0.1),keypress(t),wait(0.1),keypress(t),click(middle)",
       "id": 11,
-      "move_mode": "run",
-      "type": "path",
-      "x": 3442.41,
-      "y": -835.8199999999997
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3441.201171875,
+      "y": -863.96435546875
     },
     {
       "action": "",
       "action_params": "",
       "id": 12,
-      "move_mode": "climb",
-      "type": "target",
-      "x": 3428.880000000001,
-      "y": -830.0599999999995
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3418.169921875,
+      "y": -858.23046875
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 13,
-      "move_mode": "climb",
+      "move_mode": "dash",
       "type": "path",
-      "x": 3425,
-      "y": -834.3099999999995
+      "x": 3413.7294921875,
+      "y": -842.5830078125
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 14,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": 3430.75,
-      "y": -826.75
+      "x": 3424.5126953125,
+      "y": -834.13330078125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3438.646484375,
+      "y": -824.61669921875
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.2)",
-      "id": 15,
-      "move_mode": "run",
+      "id": 16,
+      "move_mode": "dash",
       "type": "orientation",
-      "x": 3430.75,
-      "y": -826.75
+      "x": 3438.646484375,
+      "y": -824.61669921875
     }
   ]
 }

@@ -97,7 +97,9 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 		keyPress("VK_L");
 
 		for (let i = 0; i < 10; i++) {
-			let QuickSetupButton = captureGameRegion().find(QuickSetupButtonRo);
+			let captureRegion = captureGameRegion();
+			let QuickSetupButton = captureRegion.find(QuickSetupButtonRo);
+			captureRegion.dispose();
 			if (QuickSetupButton.isExist()) {
 				log.info("已进入队伍配置页面");
 				break;
@@ -108,6 +110,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 		// 识别当前队伍
 		let captureRegion = captureGameRegion();
 		let resList = captureRegion.findMulti(RecognitionObject.ocr(100, 900, 300, 180));
+		captureRegion.dispose();
 		for (let i = 0; i < resList.count; i++) {
 			let res = resList[i];
 			if (settings.enableDebug) {
@@ -119,7 +122,9 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 				await sleep(500);
 			} else {
 				await sleep(1000);
-				let ConfigureTeamButton = captureGameRegion().find(ConfigureTeamButtonRo);
+				let ConfigureTeamButtonCaptureRegion = captureGameRegion();
+				let ConfigureTeamButton = ConfigureTeamButtonCaptureRegion.find(ConfigureTeamButtonRo);
+				ConfigureTeamButtonCaptureRegion.dispose();
 				if (ConfigureTeamButton.isExist()) {
 					log.info("识别到配置队伍按钮");
 					ConfigureTeamButton.click();
@@ -130,6 +135,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 						// 识别当前页
 						let captureRegion = captureGameRegion();
 						let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 100, 400, 900));
+						captureRegion.dispose();
 						for (let i = 0; i < resList.count; i++) {
 							let res = resList[i];
 							if (settings.enableDebug) {
@@ -143,7 +149,9 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 
 								// 找到目标队伍，点击确定、部署
 								await sleep(1500);
-								let ConfirmButton = captureGameRegion().find(ConfirmDeployButtonRo);
+								let ConfirmButtonCaptureRegion = captureGameRegion();
+								let ConfirmButton = ConfirmButtonCaptureRegion.find(ConfirmDeployButtonRo);
+								ConfirmButtonCaptureRegion.dispose();
 								if (ConfirmButton.isExist()) {
 									if (settings.enableDebug) {
 										log.info("识别到确定按钮:({x},{y},{w},{h})", ConfirmButton.x, ConfirmButton.y, ConfirmButton.Width, ConfirmButton.Height);
@@ -151,7 +159,9 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 									ConfirmButton.click();
 								}
 								await sleep(1500);
-								let DeployButton = captureGameRegion().find(ConfirmDeployButtonRo);
+								let DeployButtonCaptureRegion = captureGameRegion();
+								let DeployButton = DeployButtonCaptureRegion.find(ConfirmDeployButtonRo);
+								DeployButtonCaptureRegion.dispose();
 								if (DeployButton.isExist()) {
 									if (settings.enableDebug) {
 										log.info("识别到部署按钮:({x},{y},{w},{h})", DeployButton.x, DeployButton.y, DeployButton.Width, DeployButton.Height);
@@ -186,7 +196,9 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 		keyPress("VK_ESCAPE");
 		await sleep(2000);
 
-		let FriendsBotton = captureGameRegion().find(FriendsButtonRo);
+		let captureRegion = captureGameRegion();
+		let FriendsBotton = captureRegion.find(FriendsButtonRo);
+		captureRegion.dispose();
 		if (FriendsBotton.isExist()) {
 			log.info("识别到好友按钮");
 			FriendsBotton.click();
@@ -201,6 +213,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 			// 点击好友头像
 			let captureRegion = captureGameRegion();
 			let resList = captureRegion.findMulti(RecognitionObject.ocr(250, 120, 500, 840));
+			captureRegion.dispose();
 			for (let i = 0; i < resList.count; i++) {
 				let res = resList[i];
 				if (res.text.includes(settings.appointFriendName)) {
@@ -213,6 +226,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 					// 申请造访尘歌壶
 					let captureRegion = captureGameRegion();
 					let resList = captureRegion.findMulti(RecognitionObject.ocr(250, 220, 425, 380));
+					captureRegion.dispose();
 					for (let i = 0; i < resList.count; i++) {
 						let res = resList[i];
 						if (res.text.includes("申请造访") || res.text.includes("visit Serenitea Pot") || res.text.includes("申請造訪")) {
@@ -226,7 +240,9 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 			}
 			await sleep(1000);
 			// 翻页继续尝试&模板匹配的方式等待加载
-			let SliderBottom = captureGameRegion().find(RightSliderBottomRo);
+			let captureRegion_2 = captureGameRegion();
+			let SliderBottom = captureRegion_2.find(RightSliderBottomRo);
+			captureRegion_2.dispose();
 			if (SliderBottom.isExist()) {
 				await pageDown(RightSliderBottomRo);
 			} else {
@@ -235,6 +251,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 					let paimonMenu = captureRegion.Find(paimonMenuRo);
 					let CoOpMode = captureRegion.Find(CoOpModeRo);
 					let MyFriends = captureRegion.Find(MyFriendsRo);
+					captureRegion.dispose();
 					if (CoOpMode.isExist() || MyFriends.isExist()) {
 						log.info("继续申请");
 						break;
@@ -244,6 +261,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 						for (let i = 0; i < 30; i++) {
 							let captureRegion = captureGameRegion();
 							let paimonMenu = captureRegion.Find(paimonMenuRo);
+							captureRegion.dispose();
 							if (paimonMenu.isExist()) {
 								break;
 							}
@@ -269,7 +287,9 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 		let enterStatus = false;
 		keyPress("VK_ESCAPE");
 		await sleep(2000);
-		let FriendsBotton = captureGameRegion().find(FriendsButtonRo);
+		let captureRegion = captureGameRegion();
+		let FriendsBotton = captureRegion.find(FriendsButtonRo);
+		captureRegion.dispose();
 		if (FriendsBotton.isExist()) {
 			log.info("识别到好友按钮");
 			FriendsBotton.click();
@@ -326,6 +346,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 		for (let i = 0; i < 30; i++) {
 			let captureRegion = captureGameRegion();
 			let res = captureRegion.Find(paimonMenuRo);
+			captureRegion.dispose();
 			if (res.isEmpty()) {
 				await click(960, 540);
 			} else if (res.isExist()) {
@@ -352,7 +373,9 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 		keyPress("VK_ESCAPE");
 
 		await sleep(2000);
-		let AdventurerHandbookButton = captureGameRegion().find(AdventurerHandbookButtonRo);
+		let captureRegion = captureGameRegion();
+		let AdventurerHandbookButton = captureRegion.find(AdventurerHandbookButtonRo);
+		captureRegion.dispose();
 		if (AdventurerHandbookButton.isExist()) {
 			log.info("识别到冒险之证按钮");
 			AdventurerHandbookButton.click();
@@ -360,6 +383,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 			await sleep(2000)
 			let captureRegion = captureGameRegion();
 			let resList = captureRegion.findMulti(RecognitionObject.ocr(200, 300, 200, 100));
+			captureRegion.dispose();
 			for (let i = 0; i < resList.count; i++) {
 				let res = resList[i];
 				if (res.text.includes("委托") || res.text.includes("委託") || res.text.includes("Commissions") || res.text.includes("委")) {
@@ -373,7 +397,9 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 			}
 
 			await sleep(2000)
-			let EncounterPointsStageRewardsButton = captureGameRegion().find(EncounterPointsStageRewardsRo);
+			let captureRegion_2 = captureGameRegion();
+			let EncounterPointsStageRewardsButton = captureRegion_2.find(EncounterPointsStageRewardsRo);
+			captureRegion_2.dispose();
 			if (EncounterPointsStageRewardsButton.isExist()) {
 				log.info("识别到历练点领取按钮");
 				EncounterPointsStageRewardsButton.click();
@@ -393,11 +419,15 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 		log.info("正在返回大世界");
 		keyPress("VK_F2");
 		await sleep(2000);
-		let CoOpModeButton = captureGameRegion().find(CoOpModeRo);
+		let captureRegion = captureGameRegion();
+		let CoOpModeButton = captureRegion.find(CoOpModeRo);
+		captureRegion.dispose();
 		if (CoOpModeButton.isExist()) {
 			log.info("识别到多人游戏页面");
 			// 
-			let LeaveButton = captureGameRegion().find(LeaveButtonRo);
+			let captureRegion = captureGameRegion();
+			let LeaveButton = captureRegion.find(LeaveButtonRo);
+			captureRegion.dispose();
 			if (LeaveButton.isExist()) {
 				log.info("识别到离开尘歌壶按钮");
 				LeaveButton.click();
@@ -408,6 +438,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 			for (let i = 0; i < 10; i++) {
 				let captureRegion = captureGameRegion();
 				let res = captureRegion.Find(paimonMenuRo);
+				captureRegion.dispose();
 				if (res.isEmpty()) {
 					await click(960, 540);
 				} else if (res.isExist()) {
@@ -486,7 +517,9 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 
 	// 向下一页
 	async function pageDown(SliderBottomRo) {
+		let captureRegion = captureGameRegion();
 		let SliderBottom = captureGameRegion().find(SliderBottomRo);
+		captureRegion.dispose();
 		if (SliderBottom.isExist()) {
 			log.info("当前页面已点击完毕，向下滑动");
 			if (settings.enableDebug) {
@@ -500,7 +533,9 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 
 	//	回到页面顶部
 	async function pageTop(SliderTopRo) {
-		let SliderTop = captureGameRegion().find(SliderTopRo);
+		let captureRegion = captureGameRegion();
+		let SliderTop = captureRegion.find(SliderTopRo);
+		captureRegion.dispose();
 		if (SliderTop.isExist()) {
 			if (settings.enableDebug) {
 				log.info("滑条顶端位置:({x},{y},{h},{w})", SliderTop.x, SliderTop.y, SliderTop.Width, SliderTop.Height);

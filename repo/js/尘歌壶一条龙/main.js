@@ -171,6 +171,7 @@ async function exchangeItems() {
                 // 使用OCR识别物品名称
                 let ocrRo = RecognitionObject.Ocr(0, 0, targetRegion.Width, targetRegion.Height);
                 let ocrResult = targetRegion.find(ocrRo);
+                targetRegion.dispose();
 
                 if (ocrResult.isEmpty()) {
                     throw new Error("无法识别物品名称，请检查具体原因");
@@ -188,6 +189,8 @@ async function exchangeItems() {
                 let soldOutRegion = screen.DeriveCrop(1308, 403, 491, 100);
                 let soldOutOcrRo = RecognitionObject.Ocr(0, 0, soldOutRegion.Width, soldOutRegion.Height);
                 let soldOutResult = soldOutRegion.find(soldOutOcrRo);
+                screen.dispose();
+                soldOutRegion.dispose();
 
                 // 如果发现任何已售罄的物品，就认为所有可购买的物品都已检查过，结束搜索
                 log.debug(`识别到的文字: ${soldOutResult.Text}`)
@@ -303,6 +306,8 @@ async function waitForEnteringSereniteaPot() {
         let targetRegion = screen.DeriveCrop(85, 1025, 69, 28);
         let ocrRo = RecognitionObject.Ocr(0, 0, targetRegion.Width, targetRegion.Height);
         let ocrResult = targetRegion.find(ocrRo);
+        screen.dispose();
+        targetRegion.dispose();
         if (ocrResult.Text.toLowerCase().includes("enter")) {
             isEntering = false;
         }
@@ -371,18 +376,22 @@ async function findSereniteaPot() {
         // 使用OCR识别
         let ocrRo = RecognitionObject.Ocr(0, 0, targetRegion.Width, targetRegion.Height);
         let ocrResult = targetRegion.find(ocrRo);
+        screen.dispose();
+        targetRegion.dispose();
 
         if (!ocrResult.isEmpty() && ocrResult.Text.includes("尘歌壶")) {
             // 点击指定坐标
             click(1690, 1020);
             await sleep(1000);
             // 检查一下背包页面是否退出了，有可能当前角色状态没法放置尘歌壶，直接再判断一次截图区域文本是不是尘歌壶就行
-            let screen = captureGameRegion();
+            let screen2 = captureGameRegion();
             // 根据指定区域进行剪裁
-            let targetRegion = screen.DeriveCrop(1307, 119, 493, 55);
-            let ocrRo = RecognitionObject.Ocr(0, 0, targetRegion.Width, targetRegion.Height);
-            let ocrResult = targetRegion.find(ocrRo);
-            if (!ocrResult.isEmpty() && ocrResult.Text.includes("尘歌壶")) {
+            let targetRegion2 = screen2.DeriveCrop(1307, 119, 493, 55);
+            let ocrRo2 = RecognitionObject.Ocr(0, 0, targetRegion2.Width, targetRegion2.Height);
+            let ocrResult2 = targetRegion2.find(ocrRo2);
+            screen2.dispose();
+            targetRegion2.dispose();
+            if (!ocrResult2.isEmpty() && ocrResult2.Text.includes("尘歌壶")) {
                 throw new Error("当前无法放置尘歌壶，请检查具体原因");
             }
             return;

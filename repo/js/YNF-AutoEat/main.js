@@ -1,4 +1,25 @@
 (async function () {
+     // ===== 1. 预处理部分 =====
+
+     const party = settings.n;//设置好要切换的队伍
+     const food = settings.food;//设置要吃的食物
+     const foodCount = settings.foodNumber - 1;//点击“+”的次数，比食物数量少1
+     const n = settings.runNumber;//运行次数
+
+     const Dm = `assets/地脉.png`
+     const pingguo = `assets/${food}.png`;//食物图片路径
+     const zjz = `assets/zhengjianzhao.png`;//伊涅芙证件照
+     const foodbag = `assets/foodbag.png`;//背包的“食物”界面
+
+     const eater = "伊涅芙";//客官一位~
+
+     // 添加验证
+     if (!party) { log.error("队伍名为空，请仔细阅读readme并进行设置后再使用此脚本！"); return; }// 利用队伍是否为空判断用户有没有进行设置
+     if (foodCount > 98 || foodCount < 0) { log.error("食材数量请填写1-99之间的数字！"); return; }//确保食材数量1~99
+     if (n <= 0) { log.error("不是哥们，运行次数还能小于0？？？"); return; }//确保运行次数合法
+
+     // ===== 2. 子函数定义部分 =====
+
      /**
      * 封装函数，执行图片识别及点击操作（测试中，未封装完成，后续会优化逻辑）
      * @param {string} imagefilePath - 模板图片路径
@@ -129,55 +150,135 @@
      }
 
      /**
-      * 文字OCR识别封装函数（测试中，未封装完成，后续会优化逻辑）
-      * @param text 要识别的文字，默认为"空参数"
-      * @param timeout 超时时间，单位为秒，默认为10秒
-      * @param afterBehavior 点击模式，0表示不点击，1表示点击识别到文字的位置，2表示输出模式，默认为0
-      * @param debugmodel 调试代码，0表示输入判断模式，1表示输出位置信息，2表示输出判断模式，默认为0
-      * @param x OCR识别区域的起始X坐标，默认为0
-      * @param y OCR识别区域的起始Y坐标，默认为0
-      * @param w OCR识别区域的宽度，默认为1920
-      * @param h OCR识别区域的高度，默认为1080
-      * @returns 包含识别结果的对象，包括识别的文字、坐标和是否找到的结果
-      */
-     async function textOCR(text = "空参数", timeout = 10, afterBehavior = 0, debugmodel = 0, x = 0, y = 0, w = 1920, h = 1080) {
-          const startTime = new Date();
-          var Outcheak = 0
-          for (var ii = 0; ii < 10; ii++) {
-               // 获取一张截图
-               var captureRegion = captureGameRegion();
-               var res1
-               var res2
-               var conuntcottimecot = 1;
-               var conuntcottimecomp = 1;
-               // 对整个区域进行 OCR
-               var resList = captureRegion.findMulti(RecognitionObject.ocr(x, y, w, h));
-               //log.info("OCR 全区域识别结果数量 {len}", resList.count);
-               if (resList.count !== 0) {
-                    for (let i = 0; i < resList.count; i++) { // 遍历的是 C# 的 List 对象，所以要用 count，而不是 length
-                         let res = resList[i];
-                         res1 = res.text
-                         conuntcottimecomp++;
-                         if (res.text.includes(text) && debugmodel == 3) { return result = { text: res.text, x: res.x, y: res.y, found: true }; }
-                         if (res.text.includes(text) && debugmodel !== 2) {
-                              conuntcottimecot++;
-                              if (debugmodel === 1 & x === 0 & y === 0) { log.info("全图代码位置：({x},{y},{h},{w})", res.x - 10, res.y - 10, res.width + 10, res.Height + 10); }
-                              if (afterBehavior === 1) { await sleep(1000); click(res.x, res.y); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("点击模式:关") } }
-                              if (afterBehavior === 2) { await sleep(100); keyPress("F"); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("F模式:关"); } }
-                              if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; }
+     * 文字OCR识别封装函数（支持空文本匹配任意文字）
+     * @param {string} text - 要识别的文字，默认为"空参数"，空字符串会匹配任意文字
+     * @param {number} timeout - 超时时间，单位为秒，默认为10秒
+     * @param {number} afterBehavior - 点击模式，0=不点击，1=点击文字位置，2=按F键，默认为0
+     * @param {number} debugmodel - 调试模式，0=无输出，1=基础日志，2=详细输出，3=立即返回，默认为0
+     * @param {number} x - OCR识别区域起始X坐标，默认为0
+     * @param {number} y - OCR识别区域起始Y坐标，默认为0
+     * @param {number} w - OCR识别区域宽度，默认为1920
+     * @param {number} h - OCR识别区域高度，默认为1080
+     * @param {number} matchMode - 匹配模式，0=包含匹配，1=精确匹配，默认为0
+     * @returns {object} 包含识别结果的对象 {text, x, y, found}
+     */
+     async function textOCREnhanced(
+          text = "空参数",
+          timeout = 10,
+          afterBehavior = 0,
+          debugmodel = 0,
+          x = 0,
+          y = 0,
+          w = 1920,
+          h = 1080,
+          matchMode = 0
+     ) {
+          const startTime = Date.now();
+          const timeoutMs = timeout * 1000;
+          let lastResult = null;
+          let captureRegion = null; // 用于存储截图对象
+
+          // 只在调试模式1下输出基本信息
+          if (debugmodel === 1) {
+               if (text === "") {
+                    log.info(`OCR: 空文本模式 - 匹配任意文字`);
+               } else if (text === "空参数") {
+                    log.warn(`OCR: 使用默认参数"空参数"`);
+               }
+          }
+
+          while (Date.now() - startTime < timeoutMs) {
+               try {
+                    // 获取截图并进行OCR识别
+                    captureRegion = captureGameRegion();
+                    const resList = captureRegion.findMulti(RecognitionObject.ocr(x, y, w, h));
+
+                    // 遍历识别结果
+                    for (let i = 0; i < resList.count; i++) {
+                         const res = resList[i];
+
+                         // 检查是否匹配
+                         let isMatched = false;
+                         if (text === "") {
+                              // 空文本匹配任意文字
+                              isMatched = true;
+                         } else if (matchMode === 1) {
+                              // 精确匹配
+                              isMatched = res.text === text;
+                         } else {
+                              // 包含匹配（默认）
+                              isMatched = res.text.includes(text);
                          }
-                         if (debugmodel === 2) {
-                              if (res1 === res2) { conuntcottimecot++; res2 = res1; }
-                              //log.info("输出模式：全图代码位置：({x},{y},{h},{w},{string})", res.x-10, res.y-10, res.width+10, res.Height+10, res.text);
-                              if (Outcheak === 1) { if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; } }
+
+                         if (isMatched) {
+                              // 只在调试模式1下输出匹配成功信息
+                              if (debugmodel === 1) {
+                                   log.info(`OCR成功: "${res.text}" 位置(${res.x},${res.y})`);
+                              }
+
+                              // 调试模式3: 立即返回
+                              if (debugmodel === 3) {
+                                   // 释放内存
+                                   if (captureRegion) {
+                                        captureRegion.dispose();
+                                   }
+                                   return { text: res.text, x: res.x, y: res.y, found: true };
+                              }
+
+                              // 执行后续行为
+                              switch (afterBehavior) {
+                                   case 1: // 点击文字位置
+                                        await sleep(1000);
+                                        click(res.x, res.y);
+                                        break;
+                                   case 2: // 按F键
+                                        await sleep(100);
+                                        keyPress("F");
+                                        break;
+                                   default:
+                                        // 不执行任何操作
+                                        break;
+                              }
+
+                              // 记录最后一个匹配结果但不立即返回
+                              lastResult = { text: res.text, x: res.x, y: res.y, found: true };
                          }
                     }
+
+                    // 释放截图对象内存
+                    if (captureRegion) {
+                         captureRegion.dispose();
+                    }
+
+                    // 如果找到匹配结果，根据调试模式决定是否立即返回
+                    if (lastResult && debugmodel !== 2) {
+                         return lastResult;
+                    }
+
+                    // 短暂延迟后继续下一轮识别
+                    await sleep(100);
+
+               } catch (error) {
+                    // 发生异常时释放内存
+                    if (captureRegion) {
+                         captureRegion.dispose();
+                    }
+                    log.error(`OCR异常: ${error.message}`);
+                    await sleep(100);
                }
-               const NowTime = new Date();
-               if ((NowTime - startTime) > timeout * 1000) { if (debugmodel === 2) { if (resList.count === 0) { return result = { found: false }; } else { Outcheak = 1; ii = 2; } } else { Outcheak = 0; if (debugmodel === 1 & x === 0 & y === 0) { log.info(`${timeout}秒超时退出，"${text}"未找到`) }; return result = { found: false }; } }
-               else { ii = 2; if (debugmodel === 1 & x === 0 & y === 0) { log.info(`"${text}"识别中……`); } }
-               await sleep(100);
           }
+
+          if (debugmodel === 1) {
+               // 超时处理
+               if (text === "") {
+                    log.info(`OCR超时: ${timeout}秒内未找到任何文字`);
+               } else {
+                    log.info(`OCR超时: ${timeout}秒内未找到"${text}"`);
+               }
+          }
+
+          // 返回最后一个结果或未找到
+          return lastResult || { found: false };
      }
 
      //判断队内角色
@@ -223,9 +324,9 @@
 
           keyPress("F");
 
-          await textOCR("单人挑战", 8, 1, 1, 1615, 990, 220, 50);//等待“单人挑战”出现
-          await textOCR("开始挑战", 8, 1, 1, 1615, 990, 220, 50);//等待“开始挑战”出现
-          await textOCR("地脉异常", 15, 1, 1, 840, 405, 180, 55);//等待“地脉异常”出现
+          await textOCREnhanced("单人挑战", 8, 1, 0, 1615, 990, 220, 50);//等待“单人挑战”出现
+          await textOCREnhanced("开始挑战", 8, 1, 0, 1615, 990, 220, 50);//等待“开始挑战”出现
+          await textOCREnhanced("地脉异常", 15, 1, 0, 840, 405, 180, 55);//等待“地脉异常”出现
           await sleep(1000);
 
           return true;
@@ -364,9 +465,20 @@
           }
      }
 
+     // 版本信息
+     async function outputVersion() {
+          let scriptVersion, scriptname;
+          const manifestContent = file.readTextSync("manifest.json");
+          const manifest = JSON.parse(manifestContent);
+          scriptVersion = manifest.version;
+          scriptname = manifest.name;
+
+          log.warn(`${scriptname}：V${scriptVersion}`);
+     }
+
      // 背包过期物品识别，需要在背包界面，并且是1920x1080分辨率下使用
      async function handleExpiredItems() {
-          const ifGuoqi = await textOCR("物品过期", 1.5, 0, 0, 870, 280, 170, 40);
+          const ifGuoqi = await textOCREnhanced("物品过期", 1.5, 0, 3, 870, 280, 170, 40);
           if (ifGuoqi.found) {
                log.info("检测到过期物品，正在处理...");
                await sleep(500);
@@ -375,33 +487,13 @@
           // else { log.info("未检测到过期物品"); }//频繁开关背包，不需要每次都提示
      }
 
-
-     // ===== MAIN EXECUTION =====
-
-
-     // 预处理
-     const party = settings.n;//设置好要切换的队伍
-     const food = settings.food;//设置要吃的食物
-     const foodCount = settings.foodNumber - 1;//点击“+”的次数，比食物数量少1
-     const n = settings.runNumber;//运行次数
-
-     const Dm = `assets/地脉.png`
-     const pingguo = `assets/${food}.png`;//食物图片路径
-     const zjz = `assets/zhengjianzhao.png`;//伊涅芙证件照
-     const foodbag = `assets/foodbag.png`;//背包的“食物”界面
-
-     const eater = "伊涅芙";//客官一位~
-
-     // 添加验证
-     if (!party) { log.error("队伍名为空，请仔细阅读readme并进行设置后再使用此脚本！"); return; }// 利用队伍是否为空判断用户有没有进行设置
-     if (foodCount > 98 || foodCount < 0) { log.error("食材数量请填写1-99之间的数字！"); return; }//确保食材数量1~99
-     if (n <= 0) { log.error("不是哥们，运行次数还能小于0？？？"); return; }//确保运行次数合法
-
+     // ===== 3. 主函数执行部分 =====
 
      //设置分辨率和缩放
      setGameMetrics(1920, 1080, 1);
-
      await genshin.returnMainUi();//回到主界面，在秘境中可能会卡几秒
+
+     await outputVersion();
 
      log.warn("使用前请仔细阅读readme并进行相关设置！");
      log.warn("请确保食材充足！");

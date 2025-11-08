@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -8,9 +8,8 @@
     ],
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时120秒，包含以下怪物：1只遗迹重机、1只遗迹守卫。",
-    "hash_res": "90301179",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1761420095198,
+    "last_modified_time": 1761418923656,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "420【沙暴】须弥沙漠折胫谷（600_1，200_1）",
@@ -131,7 +130,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": ";芙宁娜 e;爱可菲 e;keypress(t),wait(0.2),keypress(t)",
+      "action_params": ";芙宁娜 e;爱可菲 e;keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t)",
       "id": 13,
       "move_mode": "walk",
       "type": "orientation",
@@ -144,8 +143,8 @@
       "id": 14,
       "move_mode": "dash",
       "type": "path",
-      "x": 5738.6875,
-      "y": -810.6899346387272
+      "x": 5741.9375,
+      "y": -810.4111328125
     },
     {
       "action": "stop_flying",
