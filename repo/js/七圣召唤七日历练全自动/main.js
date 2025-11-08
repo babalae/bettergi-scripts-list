@@ -113,9 +113,9 @@ async function switchCardTeam(Name, shareCode) {
     }
 
     async function stopNow() {
-        await sleep(250);
+        await sleep(1000);
         click(1795, 465); // 点空白处以便立即终止延时对话框
-        await sleep(250);
+        await sleep(1000);
     }
 
     let userDefault = false;
