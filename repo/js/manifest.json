@@ -1,0 +1,19 @@
+{
+  "manifest_version": 1,
+  "name": "自动按键脚本",
+  "version": "1.0.0",
+  "bgi_version": "0.36.1",
+  "description": "自动按下预设的电脑按键，支持单个按键和组合键",
+  "authors": [
+    {
+      "name": "YourName",
+      "link": "https://github.com/yourname"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "saved_files": [
+    "data/*.json",
+    "logs/*.txt"
+  ]
+}
