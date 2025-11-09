@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "枫原万叶-2",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 259.2275390625,
+      "y": -14.27880859375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 224.1240234375,
+      "y": -22.98779296875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 206.5283203125,
+      "y": -18.916015625,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 196.2314453125,
+      "y": -20.96630859375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 189.8515625,
+      "y": -38.1865234375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": ""
+    }
+  ]
+}

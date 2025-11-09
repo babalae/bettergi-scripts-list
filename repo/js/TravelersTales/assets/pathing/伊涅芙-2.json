@@ -1,0 +1,44 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757739387634,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "伊涅芙-2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9885.541015625,
+      "y": 1718.580078125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "500",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9962.751953125,
+      "y": 1676.69873046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9967.720703125,
+      "y": 1678.974609375
+    }
+  ]
+}

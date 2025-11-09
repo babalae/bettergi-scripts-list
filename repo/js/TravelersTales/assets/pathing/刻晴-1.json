@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "刻晴-1",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 366.7958984375,
+      "y": -502.546875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 379.1123046875,
+      "y": -508.06201171875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 390.0302734375,
+      "y": -519.9716796875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 413.8720703125,
+      "y": -498.4296875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 420.6357421875,
+      "y": -486.51513671875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 441.994140625,
+      "y": -482.31787109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 436.8525390625,
+      "y": -437.146484375,
+      "type": "target",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": ""
+    }
+  ]
+}

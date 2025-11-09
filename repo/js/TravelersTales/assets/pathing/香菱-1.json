@@ -1,0 +1,30 @@
+{
+  "info": {
+    "name": "香菱-1",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 267.9384765625,
+      "y": -665.1201171875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 234.3232421875,
+      "y": -666.10302734375,
+      "type": "target",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "枫原万叶-1",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 25.9921875,
+      "y": -112.341796875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 14.6875,
+      "y": -120.36962890625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -84.2197265625,
+      "y": -153.654296875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -116.779296875,
+      "y": -164.60888671875,
+      "action": "combat_script",
+      "action_params": ""
+    }
+  ]
+}
