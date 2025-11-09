@@ -1,6 +1,6 @@
 // 初始化相关变量
 let gameRegion;  // 游戏截图区域
-const dialogZone = { x: { min: 900, max: 1700 }, y: { min: 420, max: 880 } };   // 对话识别区域
+const dialogZone = { x: { min: 900, max: 1700 }, y: { min: 450, max: 880 } };   // 对话识别区域
 let record = {}; // record 记录内容
 let recordsNum = 0; // 写入内容次数
 let sticksTime = false; // 判定是否可以上香
@@ -1206,5 +1206,6 @@ async function checkExpire() {
     await recordForFile(false);// 修改记录文件
 
     await fakeLog("AutoPickLitter脚本", true, false, 2333);
+
 
 })();
