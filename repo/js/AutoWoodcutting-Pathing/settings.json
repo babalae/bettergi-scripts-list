@@ -6,6 +6,12 @@
         "default": false
     },
     {
+        "name": "woodInventoryNumber",
+        "type": "input-text",
+        "label": "砍伐数目：默认2000(背包木材检测专用)",
+        "default": "2000"
+    },
+    {
         "name": "woods",
         "type": "input-text",
         "label": "木材种类：空格分隔，不填默认全部支持木材"
