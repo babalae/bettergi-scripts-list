@@ -1,0 +1,67 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760278196281,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "丝柯克-1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9537.4404296875,
+      "y": 1637.35107421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9536.0341796875,
+      "y": 1629.38427734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9530.462890625,
+      "y": 1624.4794921875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9445.689453125,
+      "y": 1568.126953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9443.482421875,
+      "y": 1568.0068359375
+    }
+  ]
+}

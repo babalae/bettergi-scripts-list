@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "申鹤-1",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 267.9404296875,
+      "y": -665.1259765625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 234.0224609375,
+      "y": -662.20703125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 228.1494140625,
+      "y": -668.376953125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": ""
+    }
+  ]
+}

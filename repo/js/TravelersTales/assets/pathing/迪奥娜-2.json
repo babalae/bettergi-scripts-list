@@ -1,0 +1,30 @@
+{
+  "info": {
+    "name": "迪奥娜-2",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -867.611328125,
+      "y": 1992.142578125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -894.7001953125,
+      "y": 1984.333984375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": ""
+    }
+  ]
+}
