@@ -449,7 +449,7 @@
     // 分别将填入的木材名称和数量转成数组
     let woodsArray = settings.woods ? settings.woods.split(/\s+/) : [];
     let numbersArray = settings.numbers ? settings.numbers.split(/\s+/).map(Number).map(num => isNaN(num) ? 0 : num) : [];
-    let woodInventoryNumber = settings.woodInventoryNumber ? woodInventoryNumber : 2000;
+    let woodInventoryNumber = settings.woodInventoryNumber ? (isNaN(settings.woodInventoryNumber) ? 2000 : settings.woodInventoryNumber) : 2000;
     let hasItto = settings.hasItto ? settings.hasItto : false;
     let theBoonOfTheElderTreeStatus = settings.theBoonOfTheElderTree ? await theElderTree() : true;
     // 判断是否装备王树瑞佑，如果未装备则跳过伐木
