@@ -246,7 +246,7 @@
 
     // 调用BGI任务读取背包中的木材数量并返回
     async function woodInventory(woodsArray, numbersArray, woodInventoryNumber) {
-        log.info("先别急，先别动键盘鼠标，要去一个神秘的地方")
+        log.info("先别急，先别动键盘鼠标，要去一个神秘的地方");
         await genshin.Tp(1581.11, -112.45, "Enkanomiya", true);
         await moveMouseBy(0, -114514);
         await moveMouseBy(0, -1919810);
