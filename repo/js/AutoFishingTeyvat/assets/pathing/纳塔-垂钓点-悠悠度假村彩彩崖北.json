@@ -1,0 +1,85 @@
+{
+    "info": {
+        "authors": [
+            {
+                "links": "",
+                "name": "提瓦特钓鱼玳师"
+            }
+        ],
+        "bgi_version": "0.45.0",
+        "description": "地区: 纳塔\n类型: 垂钓点\n详细位置: 悠悠度假村彩彩崖北\n鱼类: 花鳉、繁花斗士急流鱼、青浪翻车鲀、伪装鲨鲨独角鱼\n饵类: 果酿饵、澄晶果粒饵\n附加信息: 普通",
+        "enable_monster_loot_split": false,
+        "last_modified_time": 1762777144040,
+        "map_match_method": "",
+        "map_name": "Teyvat",
+        "name": "纳塔-垂钓点-悠悠度假村彩彩崖北",
+        "tags": [],
+        "type": "collect",
+        "version": "1.0"
+    },
+    "positions": [
+        {
+            "action": "",
+            "action_params": "",
+            "id": 1,
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 13728.334,
+            "y": 838.435
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 2,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 13752.519,
+            "y": 861.214
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 3,
+            "move_mode": "fly",
+            "type": "path",
+            "x": 13777.93,
+            "y": 961.338
+        },
+        {
+            "action": "stop_flying",
+            "action_params": "",
+            "id": 4,
+            "move_mode": "fly",
+            "type": "path",
+            "x": 13754.492,
+            "y": 970.472
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 5,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 13752.883,
+            "y": 976.668
+        },
+        {
+            "action": "stop_flying",
+            "action_params": "1500",
+            "id": 6,
+            "move_mode": "fly",
+            "type": "path",
+            "x": 13793.481,
+            "y": 1006.024
+        },
+        {
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+            "id": 7,
+            "move_mode": "walk",
+            "type": "target",
+            "x": 13792.301,
+            "y": 1007.002
+        }
+    ]
+}
