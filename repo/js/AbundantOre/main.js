@@ -253,6 +253,25 @@ function get_some_tasks(hints) {
     return tasks.map(i => [i, statistics[i]]);
 }
 
+async function close_expired_stuff_popup_window() {
+    const game_region = captureGameRegion();
+
+    const text_x = 850;
+    const text_y = 273;
+    const text_w = 225;
+    const text_h = 51;
+    const ocr_res = game_region.find(RecognitionObject.ocr(text_x, text_y, text_w, text_h));
+    if (ocr_res) {
+        if (ocr_res.text.includes("物品过期")) {
+            log.info("检测到物品过期");
+            click(1000, 750);
+            await sleep(1000);
+        }
+    }
+
+    game_region.dispose();
+}
+
 async function get_inventory() {
     const ore_image_map = {
         amethyst_lumps: "assets/images/amethyst_lump.png",
@@ -264,6 +283,7 @@ async function get_inventory() {
     await genshin.returnMainUi();
     keyPress("b")
     await sleep(1000);
+    await close_expired_stuff_popup_window();
     click(964, 53);
     await sleep(500);
 
