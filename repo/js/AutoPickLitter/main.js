@@ -915,6 +915,7 @@ async function checkExpire() {
                 let figure = 0;
                 if (settings.selectDragonEggModel == "随机模式") {
                     figure = Math.floor((Math.random() + Date.now() % 1) * 6);
+                    nowDragonEggs[figure]++;
                 } else if (settings.selectDragonEggModel == "指定模式") {
                     switch (settings.pickupDragonEgg) {
                         case "闪闪礼蛋·山之血":
@@ -939,6 +940,7 @@ async function checkExpire() {
                             log.warn("嘘，快踢作者屁股，修bug！！！");
                             break;
                     };
+                    nowDragonEggs[figure]++;
                 }else {
                     const now = new Date();
                     const weekNumber = now.getDay()
@@ -949,7 +951,7 @@ async function checkExpire() {
                             nowDragonEggs[figure]++;
                         } else { // 周一到周六：第n个元素 +n（1-6）
                             const index = weekNumber - 1; // 周一对应索引0，...，周六对应索引5
-                            nowDragonEggs[index] += weekNumber;
+                            nowDragonEggs[index]++;
                         };
                     } else {
                         // 元素不同时：给低于平均数且最小的元素+1，直到趋于平均
@@ -994,18 +996,13 @@ async function checkExpire() {
                         log.warn("嘘，快踢作者屁股，修bug！！！");
                         break;
                 };
-
-                moveMouseTo(coordinates[figure - 1][0],coordinates[figure - 1][1]);
-                nowDragonEggs[figure]++;
                 if (settings.notify) {
                     notification.Send(`背包龙蛋数目: 【山之血：${nowDragonEggs[0]}，太阳的轰鸣：${nowDragonEggs[1]}，圣龙君临：${nowDragonEggs[2]}，菲耶蒂娜：${nowDragonEggs[3]}，献给小酒杯：${nowDragonEggs[4]}，飞澜鲨鲨：${nowDragonEggs[5]}】`);
                 };
                 // 更新记录
                 record.lastDragonEggsNum = `【山之血：${nowDragonEggs[0]}，太阳的轰鸣：${nowDragonEggs[1]}，圣龙君临：${nowDragonEggs[2]}，菲耶蒂娜：${nowDragonEggs[3]}，献给小酒杯：${nowDragonEggs[4]}，飞澜鲨鲨：${nowDragonEggs[5]}】`;
                 await recordForFile(false);
-
-                moveMouseTo(coordinates[figure - 1][0],coordinates[figure - 1][1]);
-
+                moveMouseTo(coordinates[figure][0],coordinates[figure][1]);
                 await sleep(100);
                 leftButtonClick();
                 await sleep(3000);
@@ -1206,6 +1203,5 @@ async function checkExpire() {
     await recordForFile(false);// 修改记录文件
 
     await fakeLog("AutoPickLitter脚本", true, false, 2333);
-
 
 })();
