@@ -425,12 +425,12 @@ async function chcekDragonEggs() {
             if (DragonEgg.success) {
                 let ocrEggNum = await performOcr("", 
                     { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 }, true);
-                log.info(`第一次识别到的数字：${ocrEggNum.text}`);
+                // log.info(`第一次识别到的数字：${ocrEggNum.text}`);
                 if (ocrEggNum.text == "") {
                     await sleep(500);
                     ocrEggNum = await performOcr("", 
                         { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 }, true);
-                    log.info(`第二次识别到的数字：${ocrEggNum.text}`);
+                    // log.info(`第二次识别到的数字：${ocrEggNum.text}`);
                 };
                 DragonEggs[index] = Number(ocrEggNum.text);
             }else{
@@ -477,6 +477,12 @@ async function chcekDragonEggs() {
                 await scrollPage(300, 10, 5);
                 await sleep(1000);
                 judgeEgg = 1;
+                // 判断是否为最后一页
+                let sliderBottom = await findImgIcon("assets/RecognitionObject/SliderBottom.png", { min: 1284, max: 1293 }, { min: 916, max: 942 }, false);
+                if (sliderBottom.success) {
+                    log.info("孤零零的龙蛋在最后一页！");
+                    continue;
+                };
             };
 
             // 判断是否到底
@@ -1203,5 +1209,6 @@ async function checkExpire() {
     await recordForFile(false);// 修改记录文件
 
     await fakeLog("AutoPickLitter脚本", true, false, 2333);
+
 
 })();
