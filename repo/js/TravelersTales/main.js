@@ -43,7 +43,7 @@ let failed = false;
     if (settings.enableDetailedLogs) {
         log.info(`最大运行次数: ${maxRuns}`);
     }
-    showCurrentSettings();
+    // showCurrentSettings();
 
     let failCount = 0;
     let lastProgress = -1;
