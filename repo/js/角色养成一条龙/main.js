@@ -568,6 +568,20 @@ async function findImageAndOCR(imagePath, ocrWidth, ocrHeight, offsetX, offsetY)
 //前往刷天赋书或者武器(必须保证在材料介绍页面)await gotoAutoDomain(imageName = "weaponDomain");
 async function gotoAutoDomain(imageName = "bookDomain") {
 await sleep(1000);
+
+ //拖动操作，避免文本描述太长，导致副本传送图标消失
+moveMouseTo(960, 580);//重置鼠标位置,居中
+leftButtonDown();
+await sleep(500);
+moveMouseTo(965, 700);
+await sleep(500);
+moveMouseTo(961, 300);
+await sleep(500);
+leftButtonUp();
+await sleep(500);
+moveMouseTo(50, 50);//移动鼠标到左上角，避免检测失败
+await sleep(400);
+    
 await waitAndClickImage(imageName);
     try {
  await repeatOperationUntilTextFound({x: 1640,y: 960,width: 200,height: 100,targetText: "传送",stepDuration: 0, maxSteps:25, waitTime:100,ifClick: true});//用来等待点击文字,10s等待
@@ -1109,4 +1123,5 @@ else log.info(`没有选择挑战首领${i+1}，跳过执行`);
 sendBufferedNotifications();//发送累积的完成信息
 
 })();
+
 
