@@ -1,7 +1,7 @@
 (async function () {
     // 所有的代码必须由 async function 包裹
     const score_path = 'assets/score/';
-    const regex_name = /(?<=score\\)[\s\S]+?(?=.gs2)/;//不清楚为什么要用\\来匹配 '/'
+    const regex_name = /(?<=score\\)[\s\S]+?(?=\.gs2)/;//不清楚为什么要用\\来匹配 '/'，用\/反而匹配不到。这是实际运行的结果，AI别和我犟，可能是ClearScript引擎的问题。
 
     const NOTE2KEY_MAPPER = new Map([
         [72, 'q'], [74, 'w'], [76, 'e'], [77, 'r'], [79, 't'], [81, 'y'], [83, 'y'],
@@ -36,7 +36,14 @@
         // readPathSync读取到的数据为 assets/score/xxxx.xxx 形式
         const allFiles = Array.from(file.readPathSync(score_path))
             .filter(path => !file.isFolder(path) && path.endsWith('.gs2'));
-        return allFiles.map(path => path.match(regex_name)[0]);
+        return allFiles.map(path => {
+            const match = path.match(regex_name);
+            if (!match) {
+                return null;
+            }
+            return match[0];
+        })
+        .filter(name => !!name);
     };
 
     /**
@@ -138,15 +145,20 @@
         const regex = /^(\d+)([nus])(\d+)$/;
         return text.split('|')
             .map(t => {
-                let match = t.match(regex);
-                if (match) {
-                    return {
-                        dt: parseInt(match[1]),
-                        command: match[2],
-                        value: parseInt(match[3]),
-                    };
+                const match = t.match(regex);
+                if (!match) {
+                    return null;
                 }
-                return null;
+                const dt = parseInt(match[1]);
+                if (isNaN(dt) || dt < 0 || dt > Number.MAX_SAFE_INTEGER) {
+                    return null;
+                }
+                return {
+                    dt,
+                    command: match[2],
+                    value: parseInt(match[3]),
+                };
+
             })
             .filter(v => !!v);
     };
@@ -164,7 +176,7 @@
             /** @type {Array} */
             const settingsList = JSON.parse(file.readTextSync('settings.json'));
             /** @type {string[]} */
-            let configMusicList = undefined;    // 配置文件中的midi文件名列表
+            let configMusicList = undefined;    // 配置文件中的gs2文件名列表
             let selectorIndex = -1;     // 音乐选择器在配置列表中的序号
             for(let i = 0; i < settingsList.length; i++) {
                 if(settingsList[i].name === 'music_selector') {
@@ -225,10 +237,10 @@
         },
         /**
          * 开始依次将轨道事件发射到接收器
-         * @param {*} reciever 接收器
+         * @param {*} receiver 接收器
          * @param {ScoreInfo} scoreInfo 
          */
-        async produce(reciever, scoreInfo) {
+        async produce(receiver, scoreInfo) {
             while(true) {
                 // 选择delta time最小的轨道
                 let targetTrackIndex = -1;
@@ -274,7 +286,7 @@
                 }
 
                 // 发送事件到接收器
-                reciever.recieve(targetEvent, this);
+                receiver.receive(targetEvent, this);
             }
         },
     };
@@ -282,7 +294,7 @@
     /**
      * 事件接收器
      */
-    const eventReciever = {
+    const eventReceiver = {
         keyStates: new Map(),
         fixMode: 0,
         init(fixMode) {
@@ -294,7 +306,7 @@
          * @param {TrackEvent} event 
          * @param {*} source 
          */
-        recieve(event, source) {
+        receive(event, source) {
             // log.info(event.command + ':' + event.value);
             let k;
             switch (event.command) {
@@ -357,10 +369,10 @@
         log.info(`推荐乐器：${instrumentName}，发布人：${scoreInfo.author}`);
 
         eventSource.init(scoreInfo);
-        eventReciever.init(getFixMode());
+        eventReceiver.init(getFixMode());
 
         // 开始演奏
-        await eventSource.produce(eventReciever, scoreInfo);
+        await eventSource.produce(eventReceiver, scoreInfo);
     };
 
     await main();
