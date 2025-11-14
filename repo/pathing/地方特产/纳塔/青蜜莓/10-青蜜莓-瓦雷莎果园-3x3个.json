@@ -1,239 +1,112 @@
 {
   "info": {
-    "name": "10-青蜜莓-瓦雷莎果园-3x3个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgiVersion": "0.43.5",
     "authors": [
       {
-        "name": "ddaodan",
-        "links": "https://github.com/ddaodan"
+        "links": "https://github.com/xd1145",
+        "name": "小大"
       }
     ],
-    "map_name": "Teyvat",
-    "bgi_version": "0.52.0",
-    "tags": [],
-    "last_modified_time": 1755542693430,
+    "bgi_version": "0.45.0",
+    "description": "青蜜莓补充",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1755844248216,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "10-青蜜莓-瓦雷莎果园-3x3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 10260.78,
-      "y": -2538.63,
-      "action": "force_tp",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 10260.9922,
+      "y": -2538.3125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 10257.16,
-      "y": -2531.65,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "type": "path",
+      "x": 10255.4551,
+      "y": -2535.5293
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 10247.22,
-      "y": -2529.64,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 10249.5449,
+      "y": -2531.4893
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 10228.08,
-      "y": -2514.94,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "type": "path",
+      "x": 10241.9805,
+      "y": -2526.6289
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 10224.72,
-      "y": -2517.3,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 10234.0752,
+      "y": -2521.0859
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": 10217.95,
-      "y": -2512.75,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "type": "path",
+      "x": 10225.8457,
+      "y": -2516.6484
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
-      "x": 10220.19,
-      "y": -2510.83,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "type": "path",
+      "x": 10218.5068,
+      "y": -2512.5068
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
-      "x": 10215.31,
-      "y": -2508.24,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "type": "path",
+      "x": 10219.9629,
+      "y": -2511.0596
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
-      "x": 10218.33,
-      "y": -2519.21,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "type": "path",
+      "x": 10215.3965,
+      "y": -2508.0029
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
-      "x": 10216.0,
-      "y": -2521.18,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 11,
-      "x": 10214.49,
-      "y": -2518.43,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 12,
-      "x": 10208.62,
-      "y": -2518.47,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 13,
-      "x": 10204.71,
-      "y": -2515.37,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 14,
-      "x": 10205.24,
-      "y": -2511.4,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 15,
-      "x": 10202.68,
-      "y": -2506.7,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 16,
-      "x": 10192.72,
-      "y": -2503.55,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 17,
-      "x": 10192.56,
-      "y": -2506.44,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 18,
-      "x": 10196.66,
-      "y": -2510.79,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 19,
-      "x": 10198.72,
-      "y": -2513.0,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 20,
-      "x": 10196.88,
-      "y": -2520.12,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 21,
-      "x": 10181.97,
-      "y": -2508.81,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 22,
-      "x": 10175.75,
-      "y": -2517.1,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 23,
-      "x": 10174.49,
-      "y": -2515.42,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 24,
-      "x": 10162.85,
-      "y": -2519.36,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(1)",
-      "type": "path"
+      "type": "path",
+      "x": 10214.4648,
+      "y": -2507.5703
     }
   ]
 }
