@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -6,10 +6,10 @@
         "name": "起个名字好难的喵"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760959330943,
+    "last_modified_time": 1763230240363,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "纳塔-浮土静界-桃椰子木-42个",
@@ -91,18 +91,27 @@
       "y": -2740.5312
     },
     {
-      "action": "combat_script",
-      "action_params": "w(6),wait(10),keydown(VK_Q),wait(1),keyup(VK_Q)",
+      "action": "",
+      "action_params": "",
       "id": 9,
       "move_mode": "walk",
+      "type": "target",
+      "x": 8410.72265625,
+      "y": -2734.60546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(6),wait(10),w(0.5)keydown(VK_Q),wait(1),keyup(VK_Q)",
+      "id": 10,
+      "move_mode": "walk",
       "type": "orientation",
-      "x": 8421.9365,
-      "y": -2729.7383
+      "x": 8418.4208984375,
+      "y": -2733.5625
     },
     {
       "action": "use_gadget",
       "action_params": "",
-      "id": 10,
+      "id": 11,
       "move_mode": "dash",
       "type": "path",
       "x": 8534.4023,
@@ -111,7 +120,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 11,
+      "id": 12,
       "move_mode": "dash",
       "type": "path",
       "x": 8567.582,
@@ -120,7 +129,7 @@
     {
       "action": "use_gadget",
       "action_params": "",
-      "id": 12,
+      "id": 13,
       "move_mode": "dash",
       "type": "path",
       "x": 8572.6689,
@@ -129,7 +138,7 @@
     {
       "action": "use_gadget",
       "action_params": "",
-      "id": 13,
+      "id": 14,
       "move_mode": "dash",
       "type": "path",
       "x": 8544.4736,
@@ -138,7 +147,7 @@
     {
       "action": "use_gadget",
       "action_params": "",
-      "id": 14,
+      "id": 15,
       "move_mode": "dash",
       "type": "path",
       "x": 8563.291,
@@ -147,7 +156,7 @@
     {
       "action": "use_gadget",
       "action_params": "",
-      "id": 15,
+      "id": 16,
       "move_mode": "dash",
       "type": "path",
       "x": 8515.1396,
