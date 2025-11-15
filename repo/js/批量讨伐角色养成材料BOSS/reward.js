@@ -48,7 +48,13 @@ async function autoNavigateToReward() {
                     await sleep(800);
                     keyUp("w");
                 }
-                if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {
+                if (iconRes.isEmpty()) {
+                    log.warn("未找到宝箱图标，重试");
+                    moveMouseBy(200, 0);
+                    await sleep(500);
+                    continue;
+                }
+                else if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {
                     advanceNum++;
                     log.info(`视野已调正，前进第${advanceNum}次`);
                     break;
@@ -76,7 +82,7 @@ async function autoNavigateToReward() {
     }
 }
 
-async function takeReward(isClaimFailed) {
+async function takeReward(isInsufficientResin) {
     try {
         const mainUiRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/mainUi.png"));
         for (let attempt = 1; attempt <= 100; attempt++) {
@@ -88,7 +94,7 @@ async function takeReward(isClaimFailed) {
             let rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 50);
             let rewardResult = rewardTextArea.find(RecognitionObject.ocrThis);
             rewardTextArea.dispose();
-            if (rewardResult.text === "接触征讨之花" && isClaimFailed == false) {
+            if (rewardResult.text === "接触征讨之花" && isInsufficientResin == false) {
                 keyPress("F");
                 await sleep(1000);
                 captureRegion.dispose();
@@ -106,7 +112,7 @@ async function takeReward(isClaimFailed) {
                 await sleep(1000);
                 captureRegion.dispose();
                 captureRegion = captureGameRegion();
-                isClaimFailed = true;
+                isInsufficientResin = true;
             }
             else if (useResult.text.includes("使用"))  {
                 log.info("使用脆弱树脂领取奖励");
@@ -133,7 +139,7 @@ async function takeReward(isClaimFailed) {
             if (inMainUi.x > 0 && !useResult.text.includes("树脂")) {
                 log.debug("回到主界面");
                 captureRegion.dispose();
-                return isClaimFailed;
+                return isInsufficientResin;
             }
             captureRegion.dispose();
             rewardTextArea.Dispose();
