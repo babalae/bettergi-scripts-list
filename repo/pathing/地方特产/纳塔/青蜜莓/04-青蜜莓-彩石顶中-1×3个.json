@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "黎歌",
     "version": "1.0",
-    "bgi_version": "0.42.0",
+    "bgi_version": "0.52.0",
     "authors": [
       {
         "name": "黎歌"
@@ -26,7 +26,8 @@
       "y": -2230.94,
       "type": "target",
       "move_mode": "walk",
-      "action": ""
+      "action": "combat_script",
+      "action_params": "wait(0.345)"
     }
   ]
 }

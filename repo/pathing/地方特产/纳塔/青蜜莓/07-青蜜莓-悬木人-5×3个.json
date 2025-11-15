@@ -4,7 +4,7 @@
     "type": "collect",
     "author": "黎歌",
     "version": "1.0",
-    "bgi_version": "0.45.0",
+    "bgi_version": "0.52.0",
     "authors": [
       {
         "name": "黎歌"
@@ -38,7 +38,8 @@
       "id": 3,
       "x": 8520.24,
       "y": -2185.33,
-      "action": "",
+      "action": "combat_script",
+      "action_params": "j,wait(1.2)",
       "move_mode": "fly",
       "type": "path"
     },
@@ -47,6 +48,7 @@
       "x": 8520.24,
       "y": -2185.33,
       "action": "stop_flying",
+      "action_params": "",
       "move_mode": "fly",
       "type": "target"
     },
@@ -128,9 +130,10 @@
       "id": 14,
       "x": 8550.91,
       "y": -2215.17,
-      "action": "",
+      "action": "combat_script",
       "move_mode": "walk",
-      "type": "target"
+      "type": "target",
+      "action_params": "wait(0.1)"
     }
   ]
 }
