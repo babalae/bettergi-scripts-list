@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "17-烬芯花-沃陆之邦右下-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.3",
+    "tags": [
+      "单手剑角色",
+      "大剑角色",
+      "长枪角色"
+    ],
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9812.68,
+      "y": -2852.6,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9786.82,
+      "y": -2850.11,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9772.49,
+      "y": -2835.73,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9747.92,
+      "y": -2812.08,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9743.19,
+      "y": -2806.47,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack(0.2)",
+      "type": "target"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "info": {
+    "name": "5204(水免)枫丹垂柳东南",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时93.14秒，包含以下怪物：4只火史莱姆、6只水史莱姆、2只大型水史莱姆、1只盗宝团·神射手。",
+    "hash_res": "06968243",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3032.75,
+      "y": 3732.41,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3027.18,
+      "y": 3806.88,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3026.19,
+      "y": 3841.87,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3026.19,
+      "y": 3841.87,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3031.97,
+      "y": 3847.21,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3052.8,
+      "y": 3858.35,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3089.58,
+      "y": 3876.4,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3119.1,
+      "y": 3869.58,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3119.1,
+      "y": 3869.58,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}

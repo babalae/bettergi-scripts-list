@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "砂糖-1",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "可能会失败",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1505.904296875,
+      "y": 2296.23291015625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1572.0302734375,
+      "y": 2342.5322265625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1658.2626953125,
+      "y": 2369.8974609375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1667.619140625,
+      "y": 2386.450439453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1675.1826171875,
+      "y": 2382.850830078125,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": -1675.1826171875,
+      "y": 2382.850830078125,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+[
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 5,
+      "priorityOptions": [
+        "已经找好了"
+        
+      ],
+      "npcWhiteList": [
+        "莎拉"
+      ]
+    },
+    "note": "执行对话步骤，优先选择特定选项并与白名单NPC交互"
+  },
+  {
+    "type": "地图追踪",
+    "data": "餐品订单-晨曦酒庄-1.json",
+    "note": "执行地图追踪找到恩内斯特"
+  },
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 5,
+      "priorityOptions": [
+        "这是你点的餐"
+        
+      ],
+      "npcWhiteList": [
+        "恩内斯特"
+      ]
+    },
+    "note": "与恩内斯特对话"
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "info": {
+    "name": "07-海草-稻妻-堇色之庭-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3931.33,
+      "y": -3202.81
+    },
+    {
+      "id": 2,
+      "x": -3925.78,
+      "y": -3166.3,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    }
+  ]
+}

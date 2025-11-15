@@ -1,0 +1,60 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时62.42秒，包含以下怪物：1只疾讯勇士·重刃讯使、1只流刃勇士·锯脂者、1只结羽勇士·腾空士、1只嵴锋龙武士·碎晶打者。",
+    "hash_res": "37172767",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757943035628,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "6905纳塔悠悠集市南1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 13905.4990234375,
+      "y": 327.88720703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13812.916015625,
+      "y": 298.6650390625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13807.396484375,
+      "y": 305.02197265625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13807.396484375,
+      "y": 305.02197265625
+    }
+  ]
+}

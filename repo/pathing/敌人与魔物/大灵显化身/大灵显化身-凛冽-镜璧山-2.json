@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "大灵显化身-凛冽-镜璧山-2",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9396.55,
+      "y": -1810.57,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 9390.4,
+      "y": -1756.82,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 9352.08,
+      "y": -1659.1,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(VK_SPACE),wait(1.5),click"
+    },
+    {
+      "id": 4,
+      "x": 9347.16,
+      "y": -1642.2,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

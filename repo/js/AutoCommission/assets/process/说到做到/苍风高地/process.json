@@ -1,0 +1,43 @@
+[
+    {
+        "type": "地图追踪",
+        "data": "说到做到-1.json",
+        "note": "寻路NPC接取任务"
+    },
+    {
+        "type": "对话",
+        "data": {
+            "skipCount": 1,
+            "priorityOptions": [
+                "山底"
+            ],
+            "npcWhiteList": [
+                "查耶维奇"
+            ]
+        },
+        "note": "选择去山底"
+    },
+    {
+        "type": "地图追踪",
+        "data": "说到做到-2山底.json",
+        "note": "寻路到山底并清理怪物"
+    },
+    {
+        "type": "地图追踪",
+        "data": "说到做到-1.json",
+        "note": "回去找NPC交任务"
+    },
+    {
+        "type": "对话",
+        "data": {
+            "skipCount": 1,
+            "priorityOptions": [
+                ""
+            ],
+            "npcWhiteList": [
+                "查耶维奇"
+            ]
+        },
+        "note": "与NPC对话"
+    }
+]

@@ -1,0 +1,58 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757819547774,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "菲谢尔-2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -749.439453125,
+      "y": 2263.066650390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -775.328125,
+      "y": 2268.723876953125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -783.751953125,
+      "y": 2246.14306640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -778.46484375,
+      "y": 2243.36669921875
+    }
+  ]
+}

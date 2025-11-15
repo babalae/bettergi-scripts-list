@@ -1,0 +1,121 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760768798092,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "6纳塔额外激活CD",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9711.3037109375,
+      "y": -1552.1005859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9470.3037109375,
+      "y": -1670.8291015625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3),wait(3.5)",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9487.90234375,
+      "y": -1667.02490234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9310.8408203125,
+      "y": -1423.21240234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9342.341796875,
+      "y": -1494.5732421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10117.359375,
+      "y": -134.76904296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10116.25,
+      "y": -126.99977866920653
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.5),wait(0.5)",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10115.087890625,
+      "y": -116.54833984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10072.021484375,
+      "y": 22.08056640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10063.0107421875,
+      "y": 75.552734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9968.375,
+      "y": 252.1005859375
+    }
+  ]
+}

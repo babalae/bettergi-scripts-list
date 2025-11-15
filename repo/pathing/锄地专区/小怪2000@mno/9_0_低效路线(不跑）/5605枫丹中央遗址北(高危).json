@@ -1,0 +1,117 @@
+{
+  "info": {
+    "name": "5605枫丹中央遗址北(高危)",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3811.69,
+      "y": 4952.58,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3814.94,
+      "y": 4948.73,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3860.69,
+      "y": 4940.63,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3860.69,
+      "y": 4940.63,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3830.42,
+      "y": 4912.06,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3813.08,
+      "y": 4874.84,
+      "action": "fight",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3813.08,
+      "y": 4874.84,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3825.52,
+      "y": 4870.54,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3853.41,
+      "y": 4875.58,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 3882.14,
+      "y": 4865.38,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 3882.14,
+      "y": 4865.38,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}

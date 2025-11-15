@@ -1,0 +1,33 @@
+{
+  "info": {
+    "name": "07-劫波莲-觉王之殿-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "lifrom",
+        "links": "https://github.com/pkjsjq"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3484.48,
+      "y": -608.26
+    },
+    {
+      "id": 2,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3451.4,
+      "y": -628.92
+    }
+  ]
+}

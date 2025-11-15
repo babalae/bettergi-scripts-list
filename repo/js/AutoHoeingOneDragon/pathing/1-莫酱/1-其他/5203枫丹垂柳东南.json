@@ -1,0 +1,154 @@
+{
+  "info": {
+    "name": "5203枫丹垂柳东南",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时132.8秒，包含以下怪物：3只盗宝团·斥候、2只盗宝团·火之药剂师、1只盗宝团·雷之药剂师、2只盗宝团·神射手、2只盗宝团·掘墓者、2只盗宝团·海上男儿、1只盗宝团·粉碎者。",
+    "hash_res": "00527089",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3032.71,
+      "y": 3732.42,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3039.78,
+      "y": 3718.95,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3021.45,
+      "y": 3687.31,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3015.31,
+      "y": 3660.03,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3009.01,
+      "y": 3640.13,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 2978.51,
+      "y": 3628.43,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 2978.51,
+      "y": 3628.43,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 2965.67,
+      "y": 3611.22,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 2950.03,
+      "y": 3617.53,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 2938,
+      "y": 3606.38,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 2938,
+      "y": 3606.38,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 2945.85,
+      "y": 3591.03,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 2935.07,
+      "y": 3557.3,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 2937.97,
+      "y": 3534.74,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 2937.97,
+      "y": 3534.74,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}

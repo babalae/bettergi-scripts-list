@@ -1,0 +1,40 @@
+﻿{
+  "info": {
+    "name": "强制黑芙",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755101630357,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 97.65771484375,
+      "y": 255.2640380859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 97.65771484375,
+      "y": 255.2640380859375,
+      "action": "log_output",
+      "move_mode": "walk",
+      "action_params": "重置[芙宁娜]状态——黑芙",
+      "type": "orientation"
+    }
+  ]
+}

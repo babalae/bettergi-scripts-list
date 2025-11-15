@@ -1,0 +1,49 @@
+﻿{
+  "info": {
+    "name": "蒙德-63",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755440714996,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 177.474609375,
+      "y": 2647.404296875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 169.177734375,
+      "y": 2648.077880859375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 148.21875,
+      "y": 2648.939453125,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+    "info": {
+        "name": "璃月-禽肉-云来海璃月港西南-3个-下落1肉1",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "地区: 璃月\n类型: 禽肉\n详细位置: 云来海璃月港西南\n数目: 3\n附加信息: 1禽肉鸟共1只\n注意: 使用前请将游戏时间调到白天，跑图位建议使用绮良良或埃洛伊",
+        "bgi_version": "0.43.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": 507.99,
+            "y": -630.6,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": 404.36,
+            "y": -645.53,
+            "action": "combat_script",
+            "move_mode": "fly",
+            "action_params": "keypress(space),wait(2),attack(0.1)",
+            "type": "target"
+        },
+        {
+            "id": 3,
+            "x": 406.18,
+            "y": -646.37,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 408.07,
+            "y": -646.96,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 407.05,
+            "y": -642.67,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": 403.51,
+            "y": -641.51,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 7,
+            "x": 399.4,
+            "y": -644.8,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 8,
+            "x": 402.17,
+            "y": -647.06,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 9,
+            "x": 403.91,
+            "y": -645.1,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        }
+    ]
+}

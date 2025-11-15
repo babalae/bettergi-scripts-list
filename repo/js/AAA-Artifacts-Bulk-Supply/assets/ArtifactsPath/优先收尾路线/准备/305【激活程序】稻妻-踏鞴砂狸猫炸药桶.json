@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "305【激活程序】稻妻-踏鞴砂狸猫炸药桶",
+    "type": "collect",
+    "version": "",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754247254965,
+    "enable_monster_loot_split": false,
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -3288.212890625,
+      "y": -3652.501953125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -3275.2626953125,
+      "y": -3611.5703125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(2.5)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -3278.2813092512442,
+      "y": -3624.4377576853785,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -3281.05859375,
+      "y": -3634.79296875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -3277.718736174709,
+      "y": -3639.7502122114893,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "attack(0.5),s(1)",
+      "type": "target"
+    }
+  ]
+}

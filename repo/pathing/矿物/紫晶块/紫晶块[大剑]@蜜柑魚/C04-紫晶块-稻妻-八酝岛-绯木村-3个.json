@@ -1,0 +1,140 @@
+{
+  "info": {
+    "name": "C04-紫晶块-稻妻-八酝岛-绯木村-3个",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.47.0",
+    "tags": [
+      "双手剑"
+    ],
+    "last_modified_time": 1751129797425,
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2216.05,
+      "y": -3709.45,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -2191.55,
+      "y": -3717.48,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -2170.96,
+      "y": -3710.87,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -2168.75,
+      "y": -3713.38,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -2115.25,
+      "y": -3759.99,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "玛薇卡 w(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.2),j,wait(0.1),j,wait(0.05),j,wait(1.2),e;",
+      "type": "orientation"
+    },
+    {
+      "id": 6,
+      "x": -2115.25,
+      "y": -3759.99,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -2107.66,
+      "y": -3764.36,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -2116.65,
+      "y": -3764.41,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -2116.65,
+      "y": -3764.39,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 10,
+      "x": -2119.36,
+      "y": -3764.12,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -2119.36,
+      "y": -3764.12,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 12,
+      "x": -2124.53,
+      "y": -3765.89,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": -2124.54,
+      "y": -3765.88,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

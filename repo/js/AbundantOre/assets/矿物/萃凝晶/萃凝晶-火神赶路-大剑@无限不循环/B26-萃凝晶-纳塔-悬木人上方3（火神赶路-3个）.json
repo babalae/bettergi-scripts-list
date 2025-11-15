@@ -1,0 +1,124 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/non-repeating001",
+        "name": "无限不循环"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1761135720632,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B26-萃凝晶-纳塔-悬木人上方3（火神赶路-3个）",
+    "tags": [
+      "双手剑",
+      "火神赶路"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8674.13,
+      "y": -2063.33
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8681.916,
+      "y": -2061.2393
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.15),attack(0.3),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.2),j,wait(0.15),j,wait(0.1),j,wait(1),attack,wait(2),e,wait(0.2),keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 3,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8806.082,
+      "y": -2038.3208
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8888.2324,
+      "y": -2039.0215
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8909.1211,
+      "y": -2048.1709
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8914.4551,
+      "y": -2048.1816
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8914.4551,
+      "y": -2048.1816
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8914.4551,
+      "y": -2048.1816
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8912.8232,
+      "y": -2042.2109
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8914.9111,
+      "y": -2042.5898
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8914.9111,
+      "y": -2042.5898
+    }
+  ]
+}

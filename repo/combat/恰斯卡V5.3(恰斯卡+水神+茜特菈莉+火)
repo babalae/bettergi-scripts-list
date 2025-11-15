@@ -1,0 +1,17 @@
+// 可根据自己的角色，替换盾，水，火位
+
+// 盾位
+茜特菈莉 e,q
+// 水位
+芙宁娜 e,q
+// 火位
+可莉 keypress(VK_SPACE)
+
+// 确定方向
+恰斯卡 attack,wait(2),keypress(VK_MBUTTON),keypress(VK_MBUTTON)
+
+恰斯卡 e,mousedown(left),a(0.2),moveby(0,600),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),moveby(85,20),wait(0.3),a(0.2),mouseup(left),e
+
+茜特菈莉 e  
+
+

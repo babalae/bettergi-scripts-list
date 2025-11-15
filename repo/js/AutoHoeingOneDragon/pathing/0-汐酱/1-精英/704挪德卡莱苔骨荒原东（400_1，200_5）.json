@@ -1,0 +1,132 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时141.26秒，包含以下怪物：5只荒野幽徒、1只荒野狂狩士、1只蕴光刃犀。",
+    "hash_res": "40263302",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759490607404,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "704挪德卡莱苔骨荒原东（400_1，200_5）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9222.28125,
+      "y": 1900.912109375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9195.994140625,
+      "y": 1916.140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9206.1630859375,
+      "y": 1958.40087890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9220.873046875,
+      "y": 1992.404296875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "800",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9229.9775390625,
+      "y": 2017.92041015625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9229.9775390625,
+      "y": 2017.92041015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9207.8681640625,
+      "y": 2045.8671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9184.375,
+      "y": 2067.4965472396234
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9151.884765625,
+      "y": 2057.534912109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9091.998046875,
+      "y": 2048.13818359375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9096.3896484375,
+      "y": 2058.386474609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9096.3896484375,
+      "y": 2058.386474609375
+    }
+  ]
+}

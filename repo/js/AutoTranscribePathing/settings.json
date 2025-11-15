@@ -1,0 +1,48 @@
+[
+  {
+    "name": "questName",
+    "type": "input-text",
+    "label": "委托名称",
+    "default": "默认委托"
+  },
+  {
+    "name": "questLocation",
+    "type": "input-text",
+    "label": "委托地点",
+    "default": "默认地点"
+  },
+  {
+    "name": "trackNumber",
+    "type": "input-text",
+    "label": "地图追踪编号",
+    "default": 1
+  },
+  {
+    "name": "runMode",
+    "type": "select",
+    "label": "运行模式",
+    "options": [
+      "录制模式",
+      "运行模式"
+    ],
+    "default": "录制模式"
+  },
+  {
+    "name": "author",
+    "type": "input-text",
+    "label": "作者",
+    "default": "星野工具箱"
+  },
+  {
+    "name": "description",
+    "type": "input-text",
+    "label": "描述",
+    "default": "自动地图追踪录制"
+  },
+  {
+    "name": "version",
+    "type": "input-text",
+    "label": "版本",
+    "default": "1.0"
+  }
+]

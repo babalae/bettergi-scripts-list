@@ -1,0 +1,71 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时72.17秒，包含以下怪物：2只冰箭丘丘人、1只木盾丘丘暴徒、1只蕴光刃犀。",
+    "hash_res": "99734786",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757854305966,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "7107挪德卡莱希汐岛东南2",
+    "tags": [
+      "挪德卡莱"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10553.2548828125,
+      "y": 1793.7978515625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10581.2626953125,
+      "y": 1815.0263671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10553.2548828125,
+      "y": 1793.7978515625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10493.4130859375,
+      "y": 1802.5556640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 10493.4130859375,
+      "y": 1802.5556640625
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758607800010,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "429须弥-花海锋刃林泽3",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6320.638671875,
+      "y": 820.98779296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 6329.71337890625,
+      "y": 815.23193359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6329.71337890625,
+      "y": 815.23193359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6328.943359375,
+      "y": 812.2578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),s(0.7),keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 5,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 6328.51953125,
+      "y": 811.369140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6337.76513671875,
+      "y": 817.236328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 6340.568359375,
+      "y": 816.56396484375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(0.8);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 8,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 6337.999954574047,
+      "y": 817.8749696840732
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6333.73828125,
+      "y": 822.1455078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": 6332.1875,
+      "y": 831.874734403048
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 11,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 6330.0625,
+      "y": 834.9371680038103
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 6331.3125,
+      "y": 839.3130533269832
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),s(0.1);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 13,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 6333.35791015625,
+      "y": 839.99169921875
+    },
+    {
+      "action": "set_time",
+      "action_params": "06:00",
+      "id": 14,
+      "move_mode": "climb",
+      "type": "orientation",
+      "x": 6333.35791015625,
+      "y": 839.99169921875
+    }
+  ]
+}

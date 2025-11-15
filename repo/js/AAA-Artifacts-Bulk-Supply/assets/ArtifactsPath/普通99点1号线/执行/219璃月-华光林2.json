@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758718009531,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "219璃月-华光林2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1604.439453125,
+      "y": 1039.6806640625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1637.2119140625,
+      "y": 947.21875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 3,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 1638.7138671875,
+      "y": 941.705078125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(1.1);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 4,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 1638.693359375,
+      "y": 942.62890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 1644.21875,
+      "y": 939.7501881311746
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 1646.625,
+      "y": 938.562322935365
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 7,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 1649.3115234375,
+      "y": 939.68701171875
+    }
+  ]
+}

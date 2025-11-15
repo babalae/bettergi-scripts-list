@@ -1,0 +1,302 @@
+{
+  "info": {
+    "name": "6401--纳塔_万火之瓯_竞技场_(14-17)",
+    "type": "collect",
+    "author": "Demo&汐",
+    "version": "1.1",
+    "description": "  路线信息：该路线预计用时332.5秒，包含以下怪物：1只水史莱姆、1只大型水史莱姆、1只铸砂勇士·叩问人、1只铸砂勇士·碎盾者、1只铸砂勇士·投矛手、3只疾讯勇士·引索客、1只疾讯勇士·荡风斥候、1只疾讯勇士·重刃讯使、1只嵴锋龙武士·碎晶打者、1只匿叶龙武士·旋锯飞叶、4只幼嵴锋龙、6只嵴锋龙、3只幼匿叶龙、6只匿叶龙。",
+    "hash_res": "20919146",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8909.67,
+      "y": -1639.07,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8941.52,
+      "y": -1640.71,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 8964.58,
+      "y": -1616.63,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 8986.05,
+      "y": -1613.65,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9008.82,
+      "y": -1609.81,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 9010.36,
+      "y": -1605.06,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 9011.54,
+      "y": -1596,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 8974.1,
+      "y": -1590.1,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 8988.75,
+      "y": -1592.5,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 8993.66,
+      "y": -1593.34,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 8996.93,
+      "y": -1607.07,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 12,
+      "x": 9003.04,
+      "y": -1626.08,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "wait(0.1)",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 9029.99,
+      "y": -1630.73,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 9044.95,
+      "y": -1633.01,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 9092.69,
+      "y": -1657.37,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 9104.06,
+      "y": -1646.86,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 9105.09,
+      "y": -1645.81,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 9122.78,
+      "y": -1658.14,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 9116.97,
+      "y": -1689.71,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 9109.37,
+      "y": -1710.8,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 9074.07,
+      "y": -1712.41,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": 9059.75,
+      "y": -1720.75,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": 9037.39,
+      "y": -1730.97,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 24,
+      "x": 9033.39,
+      "y": -1732.97,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 25,
+      "x": 8996.86,
+      "y": -1775.34,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 26,
+      "x": 8975.29,
+      "y": -1810.02,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 27,
+      "x": 8978.32,
+      "y": -1872.34,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 28,
+      "x": 8949.95,
+      "y": -1877.03,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 29,
+      "x": 8934.26,
+      "y": -1882.6,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 30,
+      "x": 8907.06,
+      "y": -1895.2,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 31,
+      "x": 8901.88,
+      "y": -1883.71,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

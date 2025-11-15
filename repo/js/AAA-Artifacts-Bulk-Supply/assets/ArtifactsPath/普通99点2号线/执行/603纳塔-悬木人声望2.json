@@ -1,0 +1,75 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758799560408,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "603纳塔-悬木人声望2",
+    "tags": [],
+    "type": "collect",
+    "version": "1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8439.60546875,
+      "y": -2107.0107421875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),w(0.3),keypress(f),a(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 2,
+      "move_mode": "run",
+      "type": "target",
+      "x": 8450.9892578125,
+      "y": -2090.3232421875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8425.999956549087,
+      "y": -2106.5942426338115
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8435.068359375,
+      "y": -2111.833984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.15),keypress(f),d(0.3),keypress(f),s(0.5);万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 5,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 8437.7216796875,
+      "y": -2113.0166015625
+    },
+    {
+      "action": "set_time",
+      "action_params": "06:00",
+      "id": 6,
+      "move_mode": "climb",
+      "type": "orientation",
+      "x": 8437.7216796875,
+      "y": -2113.0166015625
+    }
+  ]
+}

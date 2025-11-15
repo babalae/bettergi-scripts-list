@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "安柏-2",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -867.720703125,
+      "y": 2281.3876953125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -894,
+      "y": 2251.0126953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -934.244140625,
+      "y": 2231.7333984375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -943.337890625,
+      "y": 2240.958984375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -954.2490234375,
+      "y": 2239.379638671875,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -959.072265625,
+      "y": 2248.337158203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": ""
+    }
+  ]
+}

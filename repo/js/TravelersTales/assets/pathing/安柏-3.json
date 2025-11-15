@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "安柏-3",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1330.0263671875,
+      "y": 2563.802490234375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1324.9306640625,
+      "y": 2570.115966796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1306.3203125,
+      "y": 2583.71044921875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(3)"
+    },
+    {
+      "id": 4,
+      "x": -1301.4521484375,
+      "y": 2587.40966796875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": ""
+    }
+  ]
+}

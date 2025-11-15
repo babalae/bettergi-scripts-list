@@ -1,0 +1,67 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760360734155,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "菲林斯-3",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9537.4404296875,
+      "y": 1637.35107421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9537.08984375,
+      "y": 1625.5947265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9526.412109375,
+      "y": 1607.78662109375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1800",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9508.6572265625,
+      "y": 1603.52685546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3),keypress(f),wait(2),click,wait(2),keypress(w),wait(0.3),keypress(f),wait(1),click,wait(5)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9521.9375,
+      "y": 1607.78125
+    }
+  ]
+}

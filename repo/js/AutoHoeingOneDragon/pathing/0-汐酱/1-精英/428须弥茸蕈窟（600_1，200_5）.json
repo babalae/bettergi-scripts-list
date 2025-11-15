@@ -1,0 +1,168 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时128.25秒，包含以下怪物：1只遗迹重机、2只遗迹巡弋者、1只遗迹歼击者、2只遗迹防卫者。",
+    "hash_res": "39270316",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760076218260,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "428须弥茸蕈窟（600_1，200_5）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2927.60546875,
+      "y": 105.40087890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 2938.63671875,
+      "y": 116.71484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2938.63671875,
+      "y": 116.71484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2941.80859375,
+      "y": 136.13037109375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2953.6357421875,
+      "y": 152.5009765625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2935.7548828125,
+      "y": 168.3984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2913.564453125,
+      "y": 176.80322265625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2877.748046875,
+      "y": 196.4736328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2877.748046875,
+      "y": 196.4736328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2845.5009765625,
+      "y": 214.2802734375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2835.4013671875,
+      "y": 212.5078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2822.7744140625,
+      "y": 199.09228515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 2819.517578125,
+      "y": 196.57421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2822.4130859375,
+      "y": 154.34326171875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2839.2548828125,
+      "y": 133.06689453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 2839.2548828125,
+      "y": 133.06689453125
+    }
+  ]
+}

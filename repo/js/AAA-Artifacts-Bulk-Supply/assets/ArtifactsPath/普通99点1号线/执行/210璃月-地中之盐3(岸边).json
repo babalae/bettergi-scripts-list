@@ -1,0 +1,100 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758894876618,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "210璃月-地中之盐3(岸边)",
+    "tags": [],
+    "type": "collect",
+    "version": ""
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -164.5927734375,
+      "y": 1182.50537109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -164.48828125,
+      "y": 1218.1357421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -152.3046875,
+      "y": 1246.486328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": -133.78181091177794,
+      "y": 1255.9050297839422
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -101.333984375,
+      "y": 1236.02978515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -94.068359375,
+      "y": 1238.83251953125
+    },
+    {
+      "action": "",
+      "id": 7,
+      "move_mode": "climb",
+      "type": "target",
+      "x": -93.177734375,
+      "y": 1234.7353515625
+    },
+    {
+      "action": "",
+      "id": 8,
+      "move_mode": "climb",
+      "type": "target",
+      "x": -89.5078125,
+      "y": 1235.5849609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(1);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -92.09375,
+      "y": 1237.4453125
+    }
+  ]
+}

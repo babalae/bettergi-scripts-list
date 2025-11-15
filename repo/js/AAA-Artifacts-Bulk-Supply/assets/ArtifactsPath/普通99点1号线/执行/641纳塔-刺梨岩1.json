@@ -1,0 +1,40 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758721078720,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "641纳塔-刺梨岩1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14050.5478515625,
+      "y": 1126.0673828125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 14045.60546875,
+      "y": 1128.2705078125
+    }
+  ]
+}

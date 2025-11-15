@@ -1,0 +1,103 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760280696903,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "奈芙尔-2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9458.0341796875,
+      "y": 1660.66455078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 9445.8515625,
+      "y": 1650.435546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9431.48046875,
+      "y": 1641.517578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9415.0009765625,
+      "y": 1600.40087890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9432.439453125,
+      "y": 1593.509765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9452.025390625,
+      "y": 1572.876953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9467.2236328125,
+      "y": 1580.4658203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9463.240234375,
+      "y": 1592.98291015625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3),keypress(f)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9461.4052734375,
+      "y": 1598.06005859375
+    }
+  ]
+}
