@@ -1,0 +1,67 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "径一"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763197443677,
+    "map_match_method": "TemplateMatch",
+    "map_name": "Teyvat",
+    "name": "30诺德卡莱-帕哈岛传送点P1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9426.45703125,
+      "y": 3051.497802734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9416.583984375,
+      "y": 3103.17626953125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9366.802734375,
+      "y": 3116.514404296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9365.1494140625,
+      "y": 3144.561767578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(3),keypress(ESCAPE),wait(3),keypress(ESCAPE)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9378.984375,
+      "y": 3151.91845703125
+    }
+  ]
+}
