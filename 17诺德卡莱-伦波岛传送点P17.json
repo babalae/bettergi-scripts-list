@@ -1,0 +1,182 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "径一"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763207551798,
+    "map_match_method": "TemplateMatch",
+    "map_name": "Teyvat",
+    "name": "17诺德卡莱-伦波岛传送点P17",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9248.234375,
+      "y": 2350.26953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9230.16015625,
+      "y": 2355.216796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9224.1015625,
+      "y": 2380.680908203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 9228.2998046875,
+      "y": 2387.7509765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9224.2822265625,
+      "y": 2398.89794921875
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9222.5625,
+      "y": 2401.71875
+    },
+    {
+      "action": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9217.21875,
+      "y": 2403.0625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9218.65625,
+      "y": 2405.78125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(15)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9217.328125,
+      "y": 2401.97998046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(25)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9224.005859375,
+      "y": 2399.9296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9227.5712890625,
+      "y": 2408.30859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9247.79296875,
+      "y": 2404.787109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9281.2177734375,
+      "y": 2413.944580078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9232,
+      "y": 2453.25
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9225.6796875,
+      "y": 2490.01220703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9210.4873046875,
+      "y": 2507.400634765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9220.2783203125,
+      "y": 2515.1884765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9213.28515625,
+      "y": 2521.09423828125
+    }
+  ]
+}

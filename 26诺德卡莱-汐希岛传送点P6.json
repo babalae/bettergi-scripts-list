@@ -1,0 +1,67 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "径一"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763196969811,
+    "map_match_method": "TemplateMatch",
+    "map_name": "Teyvat",
+    "name": "26诺德卡莱-汐希岛传送点P6",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10781.3349609375,
+      "y": 1793.7158203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10799.9130859375,
+      "y": 1837.0107421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10851.40625,
+      "y": 1894.17431640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10836.525390625,
+      "y": 1928.43359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(3),keypress(ESCAPE),wait(3),keypress(ESCAPE)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10825.4697265625,
+      "y": 1938.375
+    }
+  ]
+}

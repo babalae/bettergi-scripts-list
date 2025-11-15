@@ -1,0 +1,67 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "径一"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763208617936,
+    "map_match_method": "TemplateMatch",
+    "map_name": "Teyvat",
+    "name": "23诺德卡莱-汐希岛传送点P3",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "combat_script",
+      "action_params": "wait(2),keypress(ESCAPE),attack(0.1)",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10524.880859375,
+      "y": 1931.72021484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10493.4375,
+      "y": 1896.0224609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10491.5439453125,
+      "y": 1840.40380859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10546.755859375,
+      "y": 1790.8583984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10551.5234375,
+      "y": 1783.70703125
+    }
+  ]
+}
