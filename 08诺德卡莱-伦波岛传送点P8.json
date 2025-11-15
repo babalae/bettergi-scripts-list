@@ -1,0 +1,94 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "径一"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763195612985,
+    "map_match_method": "TemplateMatch",
+    "map_name": "Teyvat",
+    "name": "08诺德卡莱-伦波岛传送点P8",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9885.5361328125,
+      "y": 1718.5986328125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "300",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9907.6640625,
+      "y": 1701.4560546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9940.4443359375,
+      "y": 1658.40478515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9960.6708984375,
+      "y": 1655.34716796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9970.384765625,
+      "y": 1622.90185546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9989.998046875,
+      "y": 1584.2431640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10006.2685546875,
+      "y": 1568.693359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10021.0087890625,
+      "y": 1539.107421875
+    }
+  ]
+}
