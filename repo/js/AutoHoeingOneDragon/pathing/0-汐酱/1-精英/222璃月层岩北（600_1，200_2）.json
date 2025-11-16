@@ -1,123 +1,87 @@
 {
   "info": {
-    "name": "222璃月层岩北（600_1，200_2）",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时50.45秒，包含以下怪物：2只幼岩龙蜥、1只岩龙蜥。",
-    "hash_res": "17551956",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
-    "map_name": "Teyvat",
-    "tags": [],
-    "last_modified_time": 1754741242693,
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时50.45秒，包含以下怪物：2只幼岩龙蜥、1只岩龙蜥。",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "hash_res": "17551956",
+    "last_modified_time": 1763149326108,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "222璃月层岩北（600_1，200_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 1701.5,
-      "y": -582.35,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -582.3500000000004
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 1706.51,
-      "y": -575.25,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1738.2197265625,
+      "y": -557.01025390625
     },
     {
+      "action": "combat_script",
+      "action_params": "keypress(x);茜特菈莉 e;莱依拉 e;伊涅芙 e;玛薇卡 keydown(w),attack(0.03),keydown(E),wait(0.45),keyup(E),keyup(w),charge(2.8),j;芙宁娜 e;爱可菲 e;万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2);琴 attack(0.08),e;钟离 q;keypress(x),wait(0.1),keypress(x)",
       "id": 3,
-      "x": 1724.45,
-      "y": -566.44,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1742.2600000000002,
+      "y": -553.1300000000001
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 1735.25,
-      "y": -558.29,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1747.201171875,
+      "y": -550.46142578125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 1742.26,
-      "y": -553.13,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;keypress(q)",
-      "type": "path"
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1780.830078125,
+      "y": -546.0576171875
     },
     {
-      "id": 6,
-      "x": 1742.26,
-      "y": -553.13,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": 1752.01,
-      "y": -550.14,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": 1760.03,
-      "y": -548.77,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": 1772.94,
-      "y": -539.04,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 10,
-      "x": 1782.27,
-      "y": -548.22,
       "action": "fight",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1782.2700000000004,
+      "y": -548.2200000000003
     },
     {
-      "id": 11,
-      "x": 1782.27,
-      "y": -548.22,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "wait(0.2)",
-      "type": "orientation"
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 1782.2700000000004,
+      "y": -548.2200000000003
     }
   ]
 }

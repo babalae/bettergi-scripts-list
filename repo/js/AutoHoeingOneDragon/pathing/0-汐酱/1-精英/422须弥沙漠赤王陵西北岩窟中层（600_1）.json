@@ -8,9 +8,9 @@
     ],
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时62.71秒，包含以下怪物：1只丘丘人、1只打手丘丘人、1只丘丘岩盔王。",
-    "hash_res": "60799840",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758782208175,
+    "hash_res": "60799840",
+    "last_modified_time": 1763017469679,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "422须弥沙漠赤王陵西北岩窟中层（600_1）",
@@ -29,8 +29,8 @@
       "y": -2051.5517578125
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(2),",
       "id": 2,
       "move_mode": "walk",
       "type": "orientation",

@@ -9,9 +9,9 @@
     ],
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时350.11秒，包含以下怪物：4只遗迹巡弋者、1只遗迹歼击者、13只遗迹防卫者、2只遗迹侦察者。",
-    "hash_res": "94674885",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1755963715450,
+    "hash_res": "94674885",
+    "last_modified_time": 1762608118591,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "316稻妻天云峠（200_20）",
@@ -145,7 +145,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.6)",
+      "action_params": "wait(1)",
       "id": 15,
       "move_mode": "fly",
       "type": "path",
@@ -171,7 +171,7 @@
       "y": -4675.6650390625
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 18,
       "move_mode": "dash",
@@ -180,7 +180,7 @@
       "y": -4688.134765625
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 19,
       "move_mode": "dash",
@@ -201,7 +201,6 @@
       "action": "",
       "action_params": "",
       "id": 21,
-      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
       "x": -4254.41,

@@ -1,106 +1,87 @@
 {
   "info": {
-    "name": "602纳塔奥奇（400_1）次数盾",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时83.32秒，包含以下怪物：1只丘丘人、2只打手丘丘人、1只射手丘丘人、1只深邃拟覆叶。",
-    "hash_res": "20871746",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
-    "map_name": "Teyvat",
-    "tags": [],
-    "last_modified_time": 1754754505767,
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时83.32秒，包含以下怪物：1只丘丘人、2只打手丘丘人、1只射手丘丘人、1只深邃拟覆叶。",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "hash_res": "20871746",
+    "last_modified_time": 1763193840807,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "602纳塔奥奇（400_1）次数盾",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 10070.24,
-      "y": 25.66,
       "action": "force_tp",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10070.24,
+      "y": 25.659999999999854
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 10071.87,
-      "y": 8.45,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 10049.39,
-      "y": -5.8,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 10017.33,
-      "y": -13.11,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 9968.93,
-      "y": -5,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": 9943.74,
-      "y": -26.27,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": 9928.93,
-      "y": -30.71,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": 9938.5,
-      "y": -46.75,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
       "type": "path",
-      "locked": false
+      "x": 10062.193359375,
+      "y": 2.2744140625
     },
     {
-      "id": 9,
-      "x": 9938.5,
-      "y": -46.75,
-      "action": "combat_script",
+      "action": "",
+      "action_params": "",
+      "id": 3,
       "move_mode": "dash",
+      "type": "path",
+      "x": 10006.5283203125,
+      "y": -18.9072265625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9950.515625,
+      "y": -29.8740234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9927.8232421875,
+      "y": -28.826171875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9937.1611328125,
+      "y": -51.95166015625
+    },
+    {
+      "action": "combat_script",
       "action_params": "wait(0.2)",
-      "type": "orientation"
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9937.1611328125,
+      "y": -51.95166015625
     }
   ]
 }
