@@ -301,7 +301,7 @@ async function recordForFile(judge) {
         record = {
             lastRunDate: "1970/01/01",
             lastActivateTime: new Date("1970-01-01T20:00:00.000Z"),
-            lastDragonEggsNum: "【山之血：0，太阳的轰鸣：0圣龙君临：0，菲耶蒂娜：0，献给小酒杯：0，飞澜鲨鲨：0】",
+            lastDragonEggsNum: "【山之血：0，飞澜鲨鲨：0，圣龙君临：0，太阳的轰鸣：0，献给小酒杯：0，菲耶蒂娜：0】",
             records: new Array(51).fill(""),
             version: ""
         };
@@ -1212,3 +1212,4 @@ async function checkExpire() {
 
 
 })();
+
