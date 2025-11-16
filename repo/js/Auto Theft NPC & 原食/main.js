@@ -350,6 +350,45 @@ async function naturalMove(initX, initY, targetX, targetY, duration, wiggle = 30
 	moveMouseTo(targetX, targetY);
 }
 
+// 定义一个独立的函数用于在指定区域进行 OCR 识别并输出识别内容
+async function recognizeTextInRegion(captureRegion, ocrRegion, timeout = 5000) {
+    let startTime = Date.now();
+    let retryCount = 0; // 重试计数
+    while (Date.now() - startTime < timeout) {
+        try {
+            // 在指定区域进行 OCR 识别
+            let ocrResult = captureRegion.find(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height));
+            if (ocrResult) {
+                // 后处理：根据替换映射表检查和替换错误识别的字符
+                let correctedText = ocrResult.text;
+                return correctedText; // 返回识别到的内容
+            } else {
+                log.warn(`OCR 识别区域未找到内容`);
+                return null; // 如果 OCR 未识别到内容，返回 null
+            }
+        } catch (error) {
+            retryCount++; // 增加重试计数
+            log.warn(`OCR 摩拉数识别失败，正在进行第 ${retryCount} 次重试...`);
+        }
+        await sleep(500); // 短暂延迟，避免过快循环
+    }
+    log.warn(`经过多次尝试，仍然无法在指定区域识别到文字`);
+    return null; // 如果未识别到文字，返回 null
+}
+async function getMora(captureRegion) {
+	let ocrRegionMora = { x: 1606, y: 28, width: 164, height: 40 }; // 设置对应的识别区域
+	let recognizedText = await recognizeTextInRegion(captureRegion, ocrRegionMora);
+	log.debug(`成功识别到摩拉数值: ${recognizedText}`);
+	try {
+		recognizedText = recognizedText.replace(/[,，]/g, ''); // 移除逗号
+		recognizedText = parseInt(recognizedText, 10); // 转换为整数
+		return recognizedText;
+	} catch (error) {
+		log.warn(`解析摩拉数值时发生错误: ${error.message}`);
+	}
+	return null;
+}
+
 // 切换下一页商品
 async function nextGoodsPage() {
 	//设置脚本环境的游戏分辨率和DPI缩放
@@ -448,13 +487,43 @@ async function spikChat(npcName) {
 	await sleep(1000);
 }
 
-// 购买逻辑
+let initialMora = null;
+let maxMora = null;
+if (settings._maxMora && settings._maxMora.trim() !== "") {
+	try {
+		maxMora = parseInt(settings._maxMora);
+		if (isNaN(maxMora)) {
+			throw "最大摩拉数值必须是数字或留空";
+		}
+	} catch (error) {
+		log.warn(`解析最大摩拉数值时发生错误: ${error.message}`);
+		throw `解析最大摩拉数值时发生错误: ${error.message}`;
+	}
+	log.info("设置最大使用摩拉数值: {maxMora}", maxMora);
+} else {
+	log.info("未设置最大使用摩拉数值，购买时不做限制");
+}
+
+	
+// 购买逻辑，返回true时停止购买
 async function buyGoods(npcName) {
 	// 设置脚本环境的游戏分辨率和DPI缩放
 	setGameMetrics(3840, 2160, 1.5);
 
 	let tempGoods = [...npcData[npcName].enableGoods];
-
+	if (maxMora !== null) {
+		// 需要识别初始摩拉数值
+		if (initialMora === null) {
+			log.info("正在识别初始摩拉数值");
+			let captureRegion = captureGameRegion();
+			initialMora = await getMora(captureRegion);
+			if (initialMora === null) {
+				log.info("无法识别当前摩拉数值，本次购买时不做限制");
+			} else {
+				log.info("识别到初始摩拉数值: {initialMora}", initialMora);
+			}
+		}
+	}
 	// 多页购买
 	for (let i = 0; i < npcData[npcName].page; i++) {
 		log.info("购买列表: {goods}", [...tempGoods].join(", "));
@@ -479,6 +548,23 @@ async function buyGoods(npcName) {
 					await sleep(500);
 					// 重新截图
 					captureRegion = captureGameRegion();
+
+					if (maxMora !== null && initialMora !== null) {
+						// 识别当前摩拉数值
+						let mora = await getMora(captureRegion);
+						if (mora === null) {
+							log.info("无法识别摩拉数值，继续购买下一件商品");
+						}
+						let currentSpent = initialMora - mora;
+						log.info(`当前摩拉已花费: ${currentSpent}，剩余预算： ${maxMora - currentSpent}`);
+						if (currentSpent >= maxMora) {
+							log.info("已达到最大使用摩拉数值，停止购买");
+							return true;
+						}
+					} else {
+						log.info("未设置最大摩拉数值，继续购买下一件商品");
+					}
+
 				}
 				else {
 					log.info("购买失败: {item}, 背包已经满或商品已售罄", goodsData[item].name);
@@ -501,6 +587,7 @@ async function buyGoods(npcName) {
 				await sleep(500);
 			}
 		}
+		return false;
 	}
 }
 
@@ -575,10 +662,14 @@ async function initRo() {
 			}
 			await autoPath(npc.path);
 			await spikChat(npc.name);
-			await buyGoods(key);
+			const needStop = await buyGoods(key);
 			// 返回主界面
 			await genshin.returnMainUi();
 			log.info("完成购买NPC: {npcName}", npc.name);
+			if (needStop) {
+				log.info("达到最大使用摩拉数值，停止后续购买");
+				break;
+			}
 		}
 		else {
 			log.info("跳过未启用的NPC: {npcName}", npc.name);
