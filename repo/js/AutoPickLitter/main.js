@@ -427,7 +427,7 @@ async function chcekDragonEggs() {
                     { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 }, true);
                 // log.info(`第一次识别到的数字：${ocrEggNum.text}`);
                 if (ocrEggNum.text == "") {
-                    await sleep(500);
+                    await sleep(700);
                     ocrEggNum = await performOcr("", 
                         { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 }, true);
                     // log.info(`第二次识别到的数字：${ocrEggNum.text}`);
@@ -447,7 +447,7 @@ async function chcekDragonEggs() {
                         { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 }, true);
                     // log.info(`第一次识别到的数字：${ocrEggNum.text}`);
                     if (ocrEggNum.text == "") {
-                        await sleep(500);
+                        await sleep(700);
                         ocrEggNum = await performOcr("", 
                             { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 }, true);
                         // log.info(`第二次识别到的数字：${ocrEggNum.text}`);
@@ -494,14 +494,14 @@ async function chcekDragonEggs() {
         };
     };
 
-    log.info(`背包龙蛋数目: 【山之血：${DragonEggs[0]}，太阳的轰鸣：${DragonEggs[1]}，圣龙君临：${DragonEggs[2]}，菲耶蒂娜：${DragonEggs[3]}，献给小酒杯：${DragonEggs[4]}，飞澜鲨鲨：${DragonEggs[5]}】`);
+    log.info(`背包龙蛋数目: 【山之血：${DragonEggs[0]}，飞澜鲨鲨：${DragonEggs[1]}，圣龙君临：${DragonEggs[2]}，太阳的轰鸣：${DragonEggs[3]}，献给小酒杯：${DragonEggs[4]}，菲耶蒂娜：${DragonEggs[5]}】`);
     if (settings.notify) {
-        notification.Send(`背包龙蛋数目: 【山之血：${DragonEggs[0]}，太阳的轰鸣：${DragonEggs[1]}，圣龙君临：${DragonEggs[2]}，菲耶蒂娜：${DragonEggs[3]}，献给小酒杯：${DragonEggs[4]}，飞澜鲨鲨：${DragonEggs[5]}】`);
+        notification.Send(`背包龙蛋数目: 【山之血：${DragonEggs[0]}，飞澜鲨鲨：${DragonEggs[1]}，圣龙君临：${DragonEggs[2]}，太阳的轰鸣：${DragonEggs[3]}，献给小酒杯：${DragonEggs[4]}，菲耶蒂娜：${DragonEggs[5]}】`);
     };
     // 更新记录
-    record.lastDragonEggsNum = `【山之血：${DragonEggs[0]}，太阳的轰鸣：${DragonEggs[1]}，圣龙君临：${DragonEggs[2]}，菲耶蒂娜：${DragonEggs[3]}，献给小酒杯：${DragonEggs[4]}，飞澜鲨鲨：${DragonEggs[5]}】`;
+    record.lastDragonEggsNum = `【山之血：${DragonEggs[0]}，飞澜鲨鲨：${DragonEggs[1]}，圣龙君临：${DragonEggs[2]}，太阳的轰鸣：${DragonEggs[3]}，献给小酒杯：${DragonEggs[4]}，菲耶蒂娜：${DragonEggs[5]}】`;
     await recordForFile(false);
-    return `【山之血：${DragonEggs[0]}，太阳的轰鸣：${DragonEggs[1]}，圣龙君临：${DragonEggs[2]}，菲耶蒂娜：${DragonEggs[3]}，献给小酒杯：${DragonEggs[4]}，飞澜鲨鲨：${DragonEggs[5]}】`;;
+    return `【山之血：${DragonEggs[0]}，飞澜鲨鲨：${DragonEggs[1]}，圣龙君临：${DragonEggs[2]}，太阳的轰鸣：${DragonEggs[3]}，献给小酒杯：${DragonEggs[4]}，菲耶蒂娜：${DragonEggs[5]}】`;;
 };
 
 // 检查过期物品
@@ -546,16 +546,16 @@ async function checkExpire() {
         //识别对话位置，并点击
         let ocrResults = await performOcr("神奇的", dialogZone.x, dialogZone.y, false);
         if (ocrResults.success) {
-            await sleep(500);
+            await sleep(700);
             await performOcr("如何才", dialogZone.x, dialogZone.y, false);
-            await sleep(500);
+            await sleep(700);
             let ocrOver = await performOcr("已",{ min: 1482, max: 1630 }, { min: 912, max: 957 }, false);
             if (ocrOver.success) {
                 log.info("已售罄！！！");
             } else {
                 let ocrMora = await performOcr("", { min: 1600, max: 1780 }, { min: 30, max: 60 }, true);
                 if (ocrMora == "") {
-                    await sleep(500);
+                    await sleep(700);
                     ocrMora = await performOcr("", { min: 1600, max: 1780 }, { min: 30, max: 60 }, true);
                 };
                 if (BigInt(ocrMora.text) >= 300) {
@@ -810,7 +810,7 @@ async function checkExpire() {
         await sleep(1000);
         let ocrResults = await performOcr("布兰", dialogZone.x, dialogZone.y, false);
         if (ocrResults.success) {
-            // await sleep(500);
+            await sleep(700);
             let ocrResults1 = await performOcr("没什么", dialogZone.x, dialogZone.y, false);
             if(ocrResults1.success){
                 log.info("对话出现没什么，默认领取和使用过！！！");
@@ -855,7 +855,7 @@ async function checkExpire() {
                 //识别获得的食物名称
                 let ocrText = await performOcr("", { min: 813, max: 985 }, { min: 585, max: 619 }, true);
                 if (ocrText.text == "") {
-                    await sleep(500);
+                    await sleep(700);
                     ocrText = await performOcr("", { min: 813, max: 985 }, { min: 585, max: 619 }, true);
                 };
                 log.info(`获得:${ocrText.text}`);
@@ -874,7 +874,7 @@ async function checkExpire() {
                 await sleep(3000);
                 let ocrText1 = await performOcr("", { min: 716, max: 1200 }, { min: 631, max: 710 }, true);
                 if (ocrText.text == "") {
-                    await sleep(500);
+                    await sleep(700);
                     ocrText1 = await performOcr("", { min: 716, max: 1200 }, { min: 631, max: 710 }, true);
                 };
                 let text = ocrText1.text.replace(/\r\n|\n|\r/g, "");
@@ -1039,7 +1039,7 @@ async function checkExpire() {
                 await sleep(6000);
                 let ocrText = await performOcr("", { min: 555, max: 1365 }, { min: 902, max: 1000 }, true);
                 if (ocrText.text == "") {
-                    await sleep(500);
+                    await sleep(700);
                     ocrText = await performOcr("", { min: 555, max: 1365 }, { min: 902, max: 1000 }, true);
                 };
                 log.info(`转盘运势:${ocrText.text}`);
