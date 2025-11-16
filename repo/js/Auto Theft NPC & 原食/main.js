@@ -522,6 +522,7 @@ async function buyGoods(npcName) {
 			} else {
 				log.info("识别到初始摩拉数值: {initialMora}", initialMora);
 			}
+			captureRegion.dispose();
 		}
 	}
 	// 多页购买
@@ -559,18 +560,19 @@ async function buyGoods(npcName) {
 						log.info(`当前摩拉已花费: ${currentSpent}，剩余预算： ${maxMora - currentSpent}`);
 						if (currentSpent >= maxMora) {
 							log.info("已达到最大使用摩拉数值，停止购买");
+							captureRegion.dispose();
 							return true;
 						}
 					} else {
 						log.info("未设置最大摩拉数值，继续购买下一件商品");
 					}
-
 				}
 				else {
 					log.info("购买失败: {item}, 背包已经满或商品已售罄", goodsData[item].name);
 				}
 			}
 		}
+		captureRegion.dispose();
 
 		// 从已购买物品中移除
 		tempGoods = tempGoods.filter(item => !boughtGoods.has(item));
