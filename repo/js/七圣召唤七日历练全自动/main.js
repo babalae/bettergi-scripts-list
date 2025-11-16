@@ -1,3 +1,8 @@
+const defaultReplacementMap = {
+    监: "盐",
+    卵: "卯",
+};
+
 // 存储挑战玩家信息
 let textArray = [];
 let skipNum = 0;
@@ -480,9 +485,13 @@ async function captureAndStoreTexts() {
         if (!result.isEmpty() && result.text) {
             // 存储识别结果和对应位置
             if (res2.isExist()) {
-                log.info(`识别到文本: ${result.text} 位置: (${pos.x}, ${pos.y})`);
+                let correctedText = result.text.trim();
+                for (let [wrongChar, correctChar] of Object.entries(defaultReplacementMap)) {
+                    correctedText = correctedText.replace(new RegExp(wrongChar, "g"), correctChar);
+                }
+                log.info(`识别到文本: ${correctedText} 位置: (${pos.x}, ${pos.y})`);
                 textArray.push({
-                    text: result.text.trim(),
+                    text: correctedText.trim(),
                     x: pos.x + width / 2, // 点击中心位置
                     y: pos.y + height / 2,
                 });
