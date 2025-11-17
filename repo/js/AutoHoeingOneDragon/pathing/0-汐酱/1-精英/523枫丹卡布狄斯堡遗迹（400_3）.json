@@ -8,9 +8,9 @@
     ],
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时128秒，包含以下怪物：3只嗜雷·兽境猎犬、1只压制特化型机关。",
-    "hash_res": "43333156",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760816713917,
+    "hash_res": "43333156",
+    "last_modified_time": 1763205799892,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "523枫丹卡布狄斯堡遗迹（400_3）",
@@ -93,8 +93,29 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keydown(w),wait(0.3),dash,wait(0.6),dash,keypress(f),wait(0.2),keypress(f),wait(0.6),dash,wait(2),keypress(f),wait(0.2),keypress(f),keyup(w),wait(3.5)",
+      "action_params": "keydown(w),wait(0.1),dash,keyup(w),wait(0.4),dash",
       "id": 9,
+      "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "mapRecognition",
+          "type": [
+            "unrecognized",
+            "pathTooFar"
+          ]
+        },
+        "monster_tag": ""
+      },
+      "type": "orientation",
+      "x": 4707.111328125,
+      "y": 2569.10205078125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(0.3),keypress(f),keypress(x),dash,keypress(f),keypress(x),wait(0.6),dash,keypress(f),keypress(x),wait(0.2),keypress(f),keypress(x),wait(0.6),keypress(f),keypress(x),dash,wait(2),keypress(f),keypress(x),wait(0.2),keypress(f),keypress(x),keyup(w),wait(3.5)",
+      "id": 10,
       "move_mode": "dash",
       "point_ext_params": {
         "description": "",
@@ -115,7 +136,7 @@
     {
       "action": "combat_script",
       "action_params": "keydown(w),wait(0.3),dash,wait(0.4),dash,keyup(w)",
-      "id": 10,
+      "id": 11,
       "move_mode": "walk",
       "point_ext_params": {
         "description": "",
@@ -136,7 +157,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 11,
+      "id": 12,
       "move_mode": "walk",
       "point_ext_params": {
         "description": "",
@@ -157,7 +178,7 @@
     {
       "action": "combat_script",
       "action_params": "keydown(w),wait(0.1),keydown(VK_LSHIFT),wait(0.7),j,wait(0.2),j,keyup(VK_LSHIFT),wait(4.3),j,wait(1.1),j,wait(1.1),j,wait(1.1),j,wait(2),keyup(w),keydown(a),wait(0.1),dash,wait(0.4),dash,keyup(a),",
-      "id": 12,
+      "id": 13,
       "move_mode": "walk",
       "point_ext_params": {
         "description": "",
@@ -178,7 +199,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 13,
+      "id": 14,
       "move_mode": "walk",
       "type": "orientation",
       "x": 4761.5634765625,
@@ -187,7 +208,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.2)",
-      "id": 14,
+      "id": 15,
       "move_mode": "walk",
       "type": "orientation",
       "x": 4761.5634765625,

@@ -29,8 +29,8 @@ const doDecompose2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("as
 
 const outDatedRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/ConfirmButton.png"), 760, 700, 100, 100);
 
-const normalPathA = "assets/ArtifactsPath/普通99点1号线";
-const normalPathB = "assets/ArtifactsPath/普通99点2号线";
+const normalPathA = "assets/ArtifactsPath/普通98点1号线";
+const normalPathB = "assets/ArtifactsPath/普通98点2号线";
 const normalPathC = "assets/ArtifactsPath/普通C";
 const extraPath = "assets/ArtifactsPath/额外";
 

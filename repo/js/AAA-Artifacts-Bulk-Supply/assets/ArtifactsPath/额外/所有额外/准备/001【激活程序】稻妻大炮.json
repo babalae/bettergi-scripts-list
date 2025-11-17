@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1762599891244,
+    "last_modified_time": 1763108611468,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "001【激活程序】稻妻大炮",
@@ -170,60 +170,6 @@
       "type": "orientation",
       "x": -3285.267578125,
       "y": -3731.4169921875
-    },
-    {
-      "action": "force_tp",
-      "action_params": "",
-      "id": 18,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": -3229.908203125,
-      "y": -3872.2470703125
-    },
-    {
-      "action": "combat_script",
-      "action_params": "keypress(f);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
-      "id": 19,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -3264.978515625,
-      "y": -3869.1298828125
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 20,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -3275.421875,
-      "y": -3880.9697265625
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 21,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": -3238.048828125,
-      "y": -3534.44921875
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 22,
-      "move_mode": "fly",
-      "type": "path",
-      "x": -3204.58984375,
-      "y": -3539.080078125
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 23,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -3130.77734375,
-      "y": -3497.97265625
     }
   ]
 }

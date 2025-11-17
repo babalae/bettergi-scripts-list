@@ -15,10 +15,9 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时258.7秒，包含以下怪物：1只疾讯勇士·引索客、1只疾讯勇士·荡风斥候、1只幼鳍游龙、2只鳍游龙、7只幼匿叶龙、4只匿叶龙。",
-    "hash_res": "95310429",
+    "description": "  路线信息：该路线预计用时238.49秒，包含16只小怪，预计收入891摩拉，包含以下怪物：1只疾讯勇士·引索客、1只疾讯勇士·荡风斥候、1只幼鳍游龙、2只鳍游龙、7只幼匿叶龙、4只匿叶龙。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760864274749,
+    "last_modified_time": 1763304936794,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "6610--纳塔_涌流地_东侧小岛_(10-14)",
@@ -173,7 +172,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.2)",
+      "action_params": "attack(0.21)",
       "id": 17,
       "move_mode": "fly",
       "type": "path",
@@ -217,13 +216,13 @@
       "y": -2808.95
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.1)",
+      "action": "fight",
+      "action_params": "",
       "id": 22,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 8328.27,
-      "y": -2808.95
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8286.044921875,
+      "y": -2786.42578125
     }
   ]
 }

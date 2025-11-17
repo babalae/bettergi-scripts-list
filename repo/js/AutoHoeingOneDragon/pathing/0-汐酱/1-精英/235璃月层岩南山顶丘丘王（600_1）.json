@@ -9,9 +9,8 @@
     ],
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时123.1秒，包含以下怪物：1只丘丘岩盔王、3只盗宝团·火之药剂师、1只盗宝团·水之药剂师。",
-    "hash_res": "45764381",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760294324666,
+    "last_modified_time": 1763192605624,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "235璃月层岩南山顶丘丘王（600_1）",
@@ -43,13 +42,13 @@
       "action_params": "",
       "id": 3,
       "move_mode": "climb",
-      "type": "path",
-      "x": 1740.2800000000007,
-      "y": -875.7799999999997
+      "type": "target",
+      "x": 1741.220703125,
+      "y": -874.09765625
     },
     {
       "action": "combat_script",
-      "action_params": "keydown(w),wait(0.2),j,wait(0.5),j",
+      "action_params": "keydown(w),wait(0.1),j,wait(0.5),j",
       "id": 4,
       "move_mode": "walk",
       "type": "orientation",
@@ -97,7 +96,7 @@
       "action_params": "",
       "id": 9,
       "move_mode": "dash",
-      "type": "path",
+      "type": "target",
       "x": 1682.6962890625,
       "y": -914.72216796875
     },
@@ -112,7 +111,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.3),wait(0.5),keypress(x);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;",
+      "action_params": "attack(0.3),wait(0.5),keypress(x);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;万叶  attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2);",
       "id": 11,
       "move_mode": "fly",
       "type": "path",
@@ -133,9 +132,9 @@
       "action_params": "",
       "id": 13,
       "move_mode": "climb",
-      "type": "path",
-      "x": 1690.4853515625,
-      "y": -945.68701171875
+      "type": "target",
+      "x": 1689.38671875,
+      "y": -944.37109375
     },
     {
       "action": "combat_script",
@@ -169,7 +168,7 @@
       "action_params": "",
       "id": 17,
       "move_mode": "dash",
-      "type": "path",
+      "type": "target",
       "x": 1738.458984375,
       "y": -1002.2158203125
     },

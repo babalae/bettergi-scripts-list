@@ -1,83 +1,69 @@
 {
   "info": {
-    "name": "220璃月地中之盐（600_1）",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时65.61秒，包含以下怪物：1只木盾丘丘人、1只火箭丘丘人、1只丘丘岩盔王、0.5只丘丘人。",
-    "hash_res": "88671083",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时65.61秒，包含以下怪物：1只木盾丘丘人、1只火箭丘丘人、1只丘丘岩盔王、0.5只丘丘人。",
+    "enable_monster_loot_split": false,
+    "hash_res": "88671083",
+    "last_modified_time": 1763215148608,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "220璃月地中之盐（600_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -164.54,
-      "y": 1182.55,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -164.54000000000087,
+      "y": 1182.5499999999993
     },
     {
-      "id": 2,
-      "x": -175.74,
-      "y": 1213.31,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": -160.86,
-      "y": 1251.86,
-      "action": "",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": -152.85,
-      "y": 1274.37,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": -145.15,
-      "y": 1290.14,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": -143.78,
-      "y": 1330.71,
-      "action": "fight",
-      "move_mode": "run",
-      "action_params": "",
-      "type": "path",
-      "locked": false
-    },
-    {
-      "id": 7,
-      "x": -143.78,
-      "y": 1330.71,
       "action": "combat_script",
-      "move_mode": "run",
+      "action_params": "keypress(f);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -167.40234375,
+      "y": 1237.5087890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -146.83203125,
+      "y": 1281.5654296875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -143.77999999999884,
+      "y": 1330.7099999999991
+    },
+    {
+      "action": "combat_script",
       "action_params": "wait(0.2)",
-      "type": "orientation"
+      "id": 5,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": -143.77999999999884,
+      "y": 1330.7099999999991
     }
   ]
 }
