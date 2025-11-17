@@ -2,6 +2,8 @@
 
 **双击运行脚本所在目录下的`SymLink.bat`文件，以创建符号链接。**
 
+(脚本所在目录为：你的BetterGI安装位置下面的`repo\js\CD-Aware-AutoGather`文件夹)
+
 此操作只需要一次。运行后，脚本下的`pathing`文件夹将指向Better GI的地图追踪文件夹`User\AutoPathing`，你通过Better GI新增或删除地图追踪任务后，脚本这边看到的也是修改后的。
 
 # 运行模式
