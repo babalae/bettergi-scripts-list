@@ -7,7 +7,7 @@
 
 let scriptContext = {
     scriptStartTime: new Date(),
-    version: "1.2",
+    version: "1.3",
 };
 
 /**
@@ -366,23 +366,6 @@ async function getGameAccount(multiAccount = false, mask = true) {
     }
 
     return account;
-}
-
-/**
- * 获取脚本所在文件夹路径
- * @returns {string|null} 脚本所在文件夹路径，若未获取到则返回 null
- */
-function getScriptDirPath() {
-    try {
-        file.readTextSync(`Ayaka-Main-${Math.random()}.txt`);
-    } catch (error) {
-        const err_msg = error.toString();
-        const match = err_msg.match(/'([^']+)'/);
-        const fullPath = match ? match[1] : null;
-        const folderPath = fullPath ? fullPath.replace(/\\[^\\]+$/, "") : null;
-        return folderPath;
-    }
-    return null;
 }
 
 /**

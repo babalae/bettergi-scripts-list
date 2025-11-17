@@ -35,11 +35,7 @@ class UserCancelled extends Error {
 (async function () {
     if (!file.IsFolder("pathing")) {
         let batFile = "SymLink.bat";
-        const folderPath = getScriptDirPath();
-        if (folderPath) {
-            batFile = `${folderPath}\\${batFile}`;
-        }
-        log.error("{0}文件夹不存在，请双击运行下列位置的脚本以创建文件夹链接\n{1}", "pathing", batFile);
+        log.error("{0}文件夹不存在，请双击运行本脚本目录下的{1}文件以创建文件夹链接", "pathing", batFile);
         return;
     }
     if (!runMode) {
@@ -260,7 +256,7 @@ function analysisCharacterRequirement(actions_map) {
         analysisResult[name] = value;
     }
 
-    const outFile = `${getScriptDirPath()}\\各条路线所需角色.txt`;
+    const outFile = `各条路线所需角色.txt`;
     let text = "";
     // text = JSON.stringify(analysisResult, null, 2);
     for (const [key, values] of Object.entries(analysisResult)) {
@@ -382,7 +378,7 @@ async function runPathTaskIfCooldownExpired(account, pathTask) {
 
             // 如果用户取消，抛出异常
             if (cancel) {
-                log.info(`${progress}{0}: 用户取消任務，不更新记录`, pathName);
+                log.info(`${progress}{0}: 用户取消任务，不更新记录`, pathName);
                 throw new UserCancelled(cancel);
             }
 
@@ -414,7 +410,7 @@ async function runPathTaskIfCooldownExpired(account, pathTask) {
                     let secondDiffTime = new Date() - secondPathStartTime;
 
                     if (secondCancel) {
-                        log.info(`${progress}{0}: 用户取消任務，不更新记录`, pathName);
+                        log.info(`${progress}{0}: 用户取消任务，不更新记录`, pathName);
                         throw new UserCancelled(secondCancel);
                     }
 
