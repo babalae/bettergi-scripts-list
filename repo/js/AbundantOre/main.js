@@ -556,6 +556,8 @@ async function main() {
                     const estimated_prompt = estimated_yield === accurate_yield ? "" : "（预计）";
                     const target_yield_prompt = target_yield === null ? "" : `/${target_yield}`;
                     log.info(`当前产出${estimated_prompt}：${Math.round(estimated_yield)}${target_yield_prompt}个`);
+                    // For ABGI only
+                    log.debug(`当前进度：${Math.round(estimated_yield)}${target_yield_prompt}个`);
                 } {
                     const running_minutes = ((Date.now() - start_time) / 1000 / 60).toFixed(1);
                     const total_minutes_prompt = run_until_unix_time === null ? "" : `/${Math.round((run_until_unix_time - start_time) / 60 / 1000)}`;
