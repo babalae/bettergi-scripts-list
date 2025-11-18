@@ -148,26 +148,30 @@ await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
 
 //检测传送结束  await tpEndDetection();
 async function tpEndDetection() {
-    const region1 = RecognitionObject.ocr(1690, 230, 75, 350);// 队伍名称区域
-    const region2 = RecognitionObject.ocr(872, 681, 180, 30);// 点击任意处关闭
+    const region1 = RecognitionObject.ocr(1700, 230, 210, 160);// 队伍名称前二人区域
+    const region2 = RecognitionObject.ocr(820, 620, 300, 140);// 点击任意处关闭
     let tpTime = 0;
-    await sleep(1500);//点击传送后等待一段时间避免误判
+    await sleep(2500);//点击传送后等待一段时间避免误判
     //最多30秒传送时间
     while (tpTime < 300) {
-
         let capture = captureGameRegion();
         let res1 = capture.find(region1);
         let res2 = capture.find(region2);
-        capture.dispose();
-        if (!res1.isEmpty()|| !res2.isEmpty()){
-            log.info("传送完成");
+	if (res2.text.includes("点击任意位置关闭")){
+            log.info("已传送至副本，点击任意位置关闭");
             await sleep(1000);//传送结束后有僵直
             click(960, 810);//点击任意处
             await sleep(500);
             return;
-        }
+        } 		
+        if (!res1.isEmpty()){
+            log.info("传送完成");
+            await sleep(1000);//传送结束后有僵直
+            return;
+        } 
         tpTime++;
         await sleep(100);
+        capture.Dispose();
     }
     throw new Error('传送时间超时');
 }
@@ -198,15 +202,13 @@ await sleep(1000);
 click(1690, 1015);//使用
 await sleep(1000);
 }
-keyPress("ESCAPE");
+click(1690, 1015);//退出
 await sleep(1500);
 }}
 //检测角色是否阵亡，并前往吃药复活
-async function resurgenceDetectionAndEatFood() {
-const region1 = RecognitionObject.ocr(1170, 780, 75, 35);// 复活料理区域
-const region2 = RecognitionObject.ocr(545, 360, 800, 45);// 料理冷却区域
-let recoveryFoodName = settings.recoveryFoodName ?? 0;
-let resurgenceFoodName = settings.resurgenceFoodName ?? 0;
+async function resurgenceDetectionAndEatFood(recoveryFoodName=0,resurgenceFoodName=0) {
+const region1 = RecognitionObject.ocr(780, 220, 340, 70);// 复活料理区域
+const region2 = RecognitionObject.ocr(545, 360, 300, 45);// 料理数字冷却区域
 if(1){
 keyPress("1");
 await sleep(60);
@@ -219,25 +221,25 @@ await sleep(1100);
 let capture = captureGameRegion();
 let res1 = capture.find(region1);
 let res2 = capture.find(region2);
-        if (res1.isEmpty()){
+        if (!res1.text.includes("使用道具复苏角色")){
             return;
         } 
-        else if (!res1.isEmpty() && !res2.isEmpty()) {
+        else if (res1.text.includes("使用道具复苏角色") && !res2.isEmpty()) {
             keyPress("ESCAPE");
             await sleep(1000);
             await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
             throw new Error('复活料理处于冷却中，战斗失败');
             return;
         }
-        else if (!res1.isEmpty() && res2.isEmpty()) {
+        else if (res1.text.includes("使用道具复苏角色") && res2.isEmpty()) {
             log.info("检测到阵亡角色……复活吧！我的爱人！！！");
             if(resurgenceFoodName && recoveryFoodName){
-            keyPress("ESCAPE");
-            await eatResurgenceFood();//满血复活
+            click(750,800);
+            await eatResurgenceFood(recoveryFoodName,resurgenceFoodName);//满血复活
             return;
             }
             else {
-            keyPress("ESCAPE");
+            click(750,800);
             await sleep(1000);
             await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
             throw new Error('未填写复活及恢复料理，复活失败T^T');
@@ -247,9 +249,7 @@ let res2 = capture.find(region2);
 }}
 
 //吃料理复活
-async function eatResurgenceFood() {
-let recoveryFoodName = settings.recoveryFoodName ?? 0;
-let resurgenceFoodName = settings.resurgenceFoodName ?? 0;
+async function eatResurgenceFood(recoveryFoodName=0,resurgenceFoodName=0) {
 const region = RecognitionObject.ocr(800, 200, 315, 32);// 复活对象检测
 const clickPositions = [
     { x: 760, y: 440 },  // 角色1
@@ -259,9 +259,11 @@ const clickPositions = [
 ];
 if(resurgenceFoodName && recoveryFoodName){
 log.info("开始吃菜");
-await sleep(500);
+await sleep(600);
 keyPress("B");//打开背包
 await sleep(2000);
+click(970, 755);//避免过期物品
+await sleep(1000);
 click(863, 51);//选择食物
 await sleep(1000);
 click(170, 1020);//筛选
@@ -314,7 +316,7 @@ for (let i = 0; i < clickPositions.length; i++) {
         await sleep(500);
         click(1350,290);//退出
         await sleep(500);
-        keyPress("ESCAPE");
+        click(1850, 50);//返回主界面
         await sleep(400);
         log.info("我又好了，嘿嘿");
         break;
@@ -632,7 +634,7 @@ async function autoFightAndEndDetection(extraFightAction) {
     let challengeNum = 0;
     //10分钟兜底
     while (challengeTime < 600000) {
-        await resurgenceDetectionAndEatFood();//检查吃药复活
+		await resurgenceDetectionAndEatFood(settings.recoveryFoodName,settings.resurgenceFoodName);//检查吃药复活
         challengeTime = challengeTime + 1000;
         // 捕获游戏区域
         let capture = captureGameRegion();
@@ -728,7 +730,8 @@ await sleep(500);
 keyPress("F");
 await sleep(2000);
 await repeatOperationUntilTextFound({x: 1650,y: 1000,width: 160,height: 45,targetText: "单人挑战",stepDuration: 0,waitTime: 100});//等待点击单人挑战
-await sleep(500);
+await sleep(1500);
+click(300,settings.difficulty*110+90)
 if(!settings.fightMode){
     let capture = captureGameRegion();
     const region = RecognitionObject.ocr(1320, 10, 290, 80);//领奖次数区域
@@ -741,6 +744,7 @@ if(!settings.fightMode){
     else log.info("检测到还有领奖次数，开始挑战");
     await sleep(500);
 }
+await sleep(500);
 click(1725, 1020);//点击单人挑战
 await sleep(200);
 click(1180, 760);//队伍等级偏低、体力不够可能会出弹窗
