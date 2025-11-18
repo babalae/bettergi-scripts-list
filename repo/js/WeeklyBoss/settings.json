@@ -18,6 +18,18 @@
       "门扉前的弈局"
     ]
   },
+    {
+    "name": "difficulty",
+    "type": "select",
+    "label": "难度等级(默认最高的四级)",
+    "options": [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "default": "4"
+  },
   {
     "name": "challengeTime",
     "type": "input-text",
