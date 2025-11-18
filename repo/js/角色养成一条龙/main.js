@@ -355,26 +355,30 @@ async function queryStaminaValue() {
 
 //检测传送结束  await tpEndDetection();
 async function tpEndDetection() {
-    const region1 = RecognitionObject.ocr(1690, 230, 75, 350);// 队伍名称区域
-    const region2 = RecognitionObject.ocr(872, 681, 180, 30);// 点击任意处关闭
+    const region1 = RecognitionObject.ocr(1700, 230, 210, 160);// 队伍名称前二人区域
+    const region2 = RecognitionObject.ocr(820, 620, 300, 140);// 点击任意处关闭
     let tpTime = 0;
-    await sleep(1500);//点击传送后等待一段时间避免误判
+    await sleep(2500);//点击传送后等待一段时间避免误判
     //最多30秒传送时间
     while (tpTime < 300) {
-
         let capture = captureGameRegion();
         let res1 = capture.find(region1);
         let res2 = capture.find(region2);
-        capture.dispose();
-        if (!res1.isEmpty()|| !res2.isEmpty()){
-            log.info("传送完成");
+	if (res2.text.includes("点击任意位置关闭")){
+            log.info("已传送至副本，点击任意位置关闭");
             await sleep(1000);//传送结束后有僵直
             click(960, 810);//点击任意处
             await sleep(500);
             return;
-        }
+        } 		
+        if (!res1.isEmpty()){
+            log.info("传送完成");
+            await sleep(1000);//传送结束后有僵直
+            return;
+        } 
         tpTime++;
         await sleep(100);
+        capture.Dispose();
     }
     throw new Error('传送时间超时');
 }
@@ -1123,5 +1127,6 @@ else log.info(`没有选择挑战首领${i+1}，跳过执行`);
 sendBufferedNotifications();//发送累积的完成信息
 
 })();
+
 
 
