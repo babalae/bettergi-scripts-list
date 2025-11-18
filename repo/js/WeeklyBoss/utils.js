@@ -157,6 +157,7 @@ async function tpEndDetection() {
         let capture = captureGameRegion();
         let res1 = capture.find(region1);
         let res2 = capture.find(region2);
+        capture.dispose();
 	if (res2.text.includes("点击任意位置关闭")){
             log.info("已传送至副本，点击任意位置关闭");
             await sleep(1000);//传送结束后有僵直
@@ -171,7 +172,6 @@ async function tpEndDetection() {
         } 
         tpTime++;
         await sleep(100);
-        capture.Dispose();
     }
     throw new Error('传送时间超时');
 }
