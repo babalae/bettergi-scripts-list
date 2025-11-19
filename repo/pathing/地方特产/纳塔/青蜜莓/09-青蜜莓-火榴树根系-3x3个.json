@@ -1,4 +1,4 @@
-{
+﻿{
   "config": {
     "realtime_triggers": {
       "AutoPick": true
@@ -20,11 +20,11 @@
         "name": "小大"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
     "items": [],
-    "last_modified_time": 1762540862239,
+    "last_modified_time": 1763585913857,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "09-青蜜莓-火榴树根系-3x3个",
@@ -55,8 +55,10 @@
       "y": -1804.8193
     },
     {
-      "action": "",
+      "action": "combat_script",
+      "action_params": "w(0.3)",
       "id": 2,
+      "locked": false,
       "move_mode": "walk",
       "point_ext_params": {
         "description": "",
@@ -69,7 +71,7 @@
           ]
         }
       },
-      "type": "path",
+      "type": "orientation",
       "x": 8100.6445,
       "y": -1802.6753
     },
@@ -89,12 +91,31 @@
         }
       },
       "type": "path",
+      "x": 8100.6445,
+      "y": -1802.6753
+    },
+    {
+      "action": "",
+      "id": 4,
+      "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "path",
       "x": 8118.5273,
       "y": -1793.3228
     },
     {
       "action": "",
-      "id": 4,
+      "id": 5,
       "move_mode": "walk",
       "point_ext_params": {
         "description": "",
@@ -113,7 +134,7 @@
     },
     {
       "action": "",
-      "id": 5,
+      "id": 6,
       "move_mode": "walk",
       "point_ext_params": {
         "description": "",
@@ -132,7 +153,7 @@
     },
     {
       "action": "",
-      "id": 6,
+      "id": 7,
       "move_mode": "walk",
       "point_ext_params": {
         "description": "",
@@ -151,7 +172,7 @@
     },
     {
       "action": "",
-      "id": 7,
+      "id": 8,
       "move_mode": "walk",
       "point_ext_params": {
         "description": "",
@@ -171,7 +192,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(1)",
-      "id": 8,
+      "id": 9,
       "move_mode": "walk",
       "point_ext_params": {
         "description": "",
