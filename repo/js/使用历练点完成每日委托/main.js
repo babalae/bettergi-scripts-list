@@ -380,7 +380,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
         }
 
         let y_avatar = 178; //好友头像按钮起始Y坐标
-        let y_request = 245; //申请造访按钮起始Y坐标
+        let y_request = 310; //申请造访按钮起始Y坐标
         const x_avatar = 208;
         const x_request = 460;
         const avatar_increment = 125; //两按钮相隔坐标
@@ -407,7 +407,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
                 await sleep(750);
             } else {
                 // 奇数索引，递增 y_request
-                if (request_count < 2) {
+                if (request_count < 1) {
                     // 前 3 位好友递增 249
                     y_request += request_increment;
                 } else {

@@ -11,7 +11,7 @@
     "description": "  路线信息：该路线预计用时131.17秒，包含以下怪物：1只丘丘人、1只打手丘丘人、1只丘丘雷兜王、3只深海龙蜥·原种。",
     "enable_monster_loot_split": false,
     "hash_res": "61562744",
-    "last_modified_time": 1763017018293,
+    "last_modified_time": 1763453290081,
     "map_match_method": "",
     "map_name": "Enkanomiya",
     "name": "326稻妻渊下宫狭间之街西北（600_2，200_2）",
@@ -39,13 +39,13 @@
       "y": 662.75
     },
     {
-      "action": "combat_script",
-      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "action": "",
+      "action_params": "",
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 671.54,
-      "y": 661.01
+      "x": 671.3749881497513,
+      "y": 658.5630911605749
     },
     {
       "action": "stop_flying",
@@ -53,31 +53,40 @@
       "id": 4,
       "move_mode": "fly",
       "type": "path",
-      "x": 698.1199999999999,
-      "y": 654
+      "x": 686.9046630859375,
+      "y": 657.15673828125
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": 706.8990478515625,
-      "y": 633.739501953125
+      "x": 711.35791015625,
+      "y": 656.0753173828125
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": 719.6617431640625,
-      "y": 648.9873046875
+      "x": 717.099609375,
+      "y": 625.11669921875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 726.5701904296875,
+      "y": 638.9072265625
     },
     {
       "action": "",
       "action_params": "",
-      "id": 7,
+      "id": 8,
       "move_mode": "dash",
       "type": "path",
       "x": 741.5596923828125,
@@ -86,7 +95,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
-      "id": 8,
+      "id": 9,
       "move_mode": "dash",
       "type": "path",
       "x": 766.555908203125,
@@ -95,25 +104,25 @@
     {
       "action": "",
       "action_params": "",
-      "id": 9,
+      "id": 10,
       "move_mode": "dash",
       "type": "path",
-      "x": 795.8750276505805,
-      "y": 652.280825577023
+      "x": 785.6041259765625,
+      "y": 637.651611328125
     },
     {
       "action": "",
       "action_params": "",
-      "id": 10,
+      "id": 11,
       "move_mode": "dash",
       "type": "path",
-      "x": 779.1519775390625,
-      "y": 656.4178466796875
+      "x": 776.9903564453125,
+      "y": 657.0362548828125
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 11,
+      "id": 12,
       "move_mode": "dash",
       "type": "path",
       "x": 772.816650390625,
@@ -122,7 +131,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.2)",
-      "id": 12,
+      "id": 13,
       "move_mode": "dash",
       "type": "orientation",
       "x": 772.816650390625,
