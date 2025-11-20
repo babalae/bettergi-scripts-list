@@ -302,12 +302,12 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 		}
 
 		let y_avatar = 178; //好友头像按钮起始Y坐标
-		let y_request = 245; //申请造访按钮起始Y坐标
+		let y_request = 310; //申请造访按钮起始Y坐标
 		const x_avatar = 208;
 		const x_request = 460;
-		const avatar_increment = 125; //两按钮相隔坐标
-		const request_increment = 124; //两按钮相隔坐标
-		const request_fixed_value = 560; //第四~七位好友申请造访按钮Y坐标
+		const avatar_increment = 125; //好友头像两按钮相隔坐标
+		const request_increment = 124; //申请造访两按钮相隔坐标
+		const request_fixed_value = 560; //第三~七位好友申请造访按钮Y坐标
 		let request_count = 0;
 
 		// 先申请造访首位好友的尘歌壶
@@ -329,11 +329,11 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 				await sleep(750);
 			} else {
 				// 奇数索引，递增 y_request
-				if (request_count < 2) {
-					// 前 3 位好友递增 249
+				if (request_count < 1) {
+					// 前 2 位好友递增
 					y_request += request_increment;
 				} else {
-					// 第 4 位及以后设为 1118
+					// 第 3 位及以后设为 固定值
 					y_request = request_fixed_value;
 				}
 				request_count++;
