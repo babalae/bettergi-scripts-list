@@ -1,88 +1,85 @@
-{
+﻿{
   "info": {
-    "name": "B02-璃月-云來海-孤云閣-3只",
-    "type": "collect",
-    "author": "蜜柑魚",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时60.37秒，包含以下怪物：3只水萤。",
-    "hash_res": "60002858",
-    "map_name": "Teyvat",
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
     "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时59.6秒，包含以下怪物：3只水萤。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763573483936,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B02-璃月-云來海-孤云閣-3只",
     "tags": [],
-    "last_modified_time": 1752249609915
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -657.56,
-      "y": -90.86,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -90.86
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": -609.13,
-      "y": -126.61,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -126.61
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": -597.5,
-      "y": -125.51,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -125.51
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": -550.75,
-      "y": -130.77,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": -564.74,
-      "y": -119.75,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": -561.94,
-      "y": -126.61,
-      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(2.5)",
-      "type": "path"
+      "type": "path",
+      "x": -550.75,
+      "y": -130.77
     },
     {
-      "id": 7,
-      "x": -561.94,
-      "y": -126.61,
-      "action": "fight",
-      "move_mode": "walk",
+      "action": "",
       "action_params": "",
-      "type": "path"
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -564.74,
+      "y": -119.75
     },
     {
-      "id": 8,
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
       "x": -561.94,
-      "y": -126.61,
+      "y": -126.61
+    },
+    {
       "action": "combat_script",
-      "move_mode": "walk",
       "action_params": "wait(0.1)",
-      "type": "orientation"
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -561.94,
+      "y": -126.61
     }
   ]
 }
