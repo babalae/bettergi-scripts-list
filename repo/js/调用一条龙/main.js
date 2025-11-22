@@ -10,5 +10,6 @@
                 log.error("ABGI未运行");
                 return;
         };
-        const listResp = await http.request('POST',"http://localhost:8082/api/oneLong/startOneLong",`${settings.oneDragonName}`,null);
+
+        const listResp = await http.request('POST',"http://localhost:8082/api/oneLong/startOneLong",JSON.stringify(`${settings.oneDragonName}`),null);
 })();
