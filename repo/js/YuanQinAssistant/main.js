@@ -4,7 +4,7 @@
     const regex_name = /(?<=score\\)[\s\S]+?(?=\.gs2)/;//不清楚为什么要用\\来匹配 '/'，用\/反而匹配不到。这是实际运行的结果，AI别和我犟，可能是ClearScript引擎的问题。
 
     const NOTE2KEY_MAPPER = new Map([
-        [72, 'q'], [74, 'w'], [76, 'e'], [77, 'r'], [79, 't'], [81, 'y'], [83, 'y'],
+        [72, 'q'], [74, 'w'], [76, 'e'], [77, 'r'], [79, 't'], [81, 'y'], [83, 'u'],
         [60, 'a'], [62, 's'], [64, 'd'], [65, 'f'], [67, 'g'], [69, 'h'], [71, 'j'],
         [48, 'z'], [50, 'x'], [52, 'c'], [53, 'v'], [55, 'b'], [57, 'n'], [59, 'm'],
     ]);
@@ -78,7 +78,7 @@
     /**
      * 从指定文件中加载琴谱
      * @param {string} filename 琴谱文件名
-     * @returns {ScoreInfo} 返回一个ScoreInfo对象
+     * @returns {ScoreInfo | null} 返回一个ScoreInfo对象
      */
     function loadScoreInfo(filename) {
         const filepath = buildFullpath(filename);
@@ -295,11 +295,11 @@
      * 事件接收器
      */
     const eventReceiver = {
-        keyStates: new Map(),
+        // keyStates: new Map(),
         fixMode: 0,
         init(fixMode) {
             this.fixMode = fixMode;
-            this.keyStates.clear();
+            // this.keyStates.clear();
         },
         /**
          * 
@@ -307,26 +307,27 @@
          * @param {*} source 
          */
         receive(event, source) {
-            // log.info(event.command + ':' + event.value);
-            let k;
+            // let k;
             switch (event.command) {
                 case 's': // 改变microtempo
                     source.microtempo = event.value;
                     break;
                 case 'n':   // 按下音符
-                    k = convertNote2Key(event.value, this.fixMode);
-                    if (k && (!this.keyStates.get(k))) {
-                        this.keyStates.set(k, true);
+                    let k = convertNote2Key(event.value, this.fixMode);
+                    // if (k && (!this.keyStates.get(k))) {
+                    if (k) {
+                        // this.keyStates.set(k, true);
                         keyDown(k);
-                    }
-                    break;
-                case 'u':   // 松开音符
-                    k = convertNote2Key(event.value, this.fixMode);
-                    if (k && this.keyStates.get(k)) {
-                        this.keyStates.set(k, false);
                         keyUp(k);
                     }
                     break;
+                // case 'u':   // 松开音符
+                    // k = convertNote2Key(event.value, this.fixMode);
+                    // if (k && this.keyStates.get(k)) {
+                    //     this.keyStates.set(k, false);
+                    //     keyUp(k);
+                    // }
+                    // break;
                 default:
                     break;
             }
@@ -363,6 +364,10 @@
         }
 
         const scoreInfo = loadScoreInfo(scoreFilename);
+        if (!scoreInfo) {
+            log.warn('读取曲谱文件失败，请在js配置中选择后尝试再次运行脚本');
+            return;
+        }
         const instrumentName = getInstrumentName(scoreInfo.instrument);
         log.info('当前演奏：' + scoreInfo.title);
         log.info(`作曲人：${scoreInfo.composer}，制谱人：${scoreInfo.arranger}`);
