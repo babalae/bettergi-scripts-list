@@ -6,12 +6,12 @@ let recordsNum = 0; // 写入内容次数
 let sticksTime = false; // 判定是否可以上香
 //六龙蛋位置
 const coordinates = [
-    [551, 153],
-    [881, 341],
-    [1087, 161],
-    [1342, 357],
-    [472, 572],
-    [572, 721]
+    [565, 150],
+    [568, 723],
+    [1088, 161],
+    [874, 335],
+    [468, 574],
+    [1339, 358]
 ];
 
 // 通用方法区域
@@ -526,14 +526,13 @@ async function checkExpire() {
         await fakeLog("AutoPickLitter脚本", true, false, 2333);
         return 0;
     };
-
+    await setGameMetrics(1920,1080,1);
     // 判定文件名的合法性，以及初始化相关文件
     await recordForFile(true);
     // 更新日期信息
     record.lastRunDate = new Date(Date.now() - 4 * 60 * 60 * 1000)
         .toLocaleDateString('zh-CN', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit' })
         .replace(/\//g, '/');
-
     await recordForFile(false);
     // 蒙德清泉镇圣水
     if (settings.water) {
@@ -543,6 +542,10 @@ async function checkExpire() {
         await genshin.returnMainUi();
         await genshin.returnMainUi();
         await pathingScript.runFile("assets/蒙德清泉镇路线.json");
+
+        // await genshin.setTime(8,0); // 等下个BGI版本再用
+
+
         //识别对话位置，并点击
         let ocrResults = await performOcr("神奇的", dialogZone.x, dialogZone.y, false);
         if (ocrResults.success) {
@@ -558,7 +561,9 @@ async function checkExpire() {
                     await sleep(700);
                     ocrMora = await performOcr("", { min: 1600, max: 1780 }, { min: 30, max: 60 }, true);
                 };
-                if (BigInt(ocrMora.text) >= 300) {
+                // 处理得到的数据
+                let onlyNumber = ocrMora.text.replace(/[^0-9]/g, "");
+                if (BigInt(onlyNumber) >= 300) {
                     await sleep(800);
                     await click(1636,1019);
                     await sleep(1000);
@@ -902,7 +907,7 @@ async function checkExpire() {
     // 纳塔悠悠集市龙蛋
     if(settings.eggs){
         let nowDragonEggsNum = record.lastDragonEggsNum;
-        if (record.lastDragonEggsNum == "【山之血：0，太阳的轰鸣：0，圣龙君临：0，菲耶蒂娜：0，献给小酒杯：0，飞澜鲨鲨：0】" || settings.updateEggs) {
+        if (record.lastDragonEggsNum == "【山之血：0，飞澜鲨鲨：0，圣龙君临：0，太阳的轰鸣：0，献给小酒杯：0，菲耶蒂娜：0】" || settings.updateEggs) {
             nowDragonEggsNum = await chcekDragonEggs();
             settings.updateEggs = "false";
         };
@@ -927,19 +932,19 @@ async function checkExpire() {
                         case "闪闪礼蛋·山之血":
                             figure = 0;
                             break;
-                        case "闪闪礼蛋·太阳的轰鸣":
+                        case "闪闪礼蛋·飞澜鲨鲨":
                             figure = 1;
                             break;
                         case "闪闪礼蛋·圣龙君临":
                             figure = 2;
                             break;
-                        case "闪闪礼蛋·菲耶蒂娜":
+                        case "闪闪礼蛋·太阳的轰鸣":
                             figure = 3;
                             break;
                         case "闪闪礼蛋·献给小酒杯":
                             figure = 4;
                             break;
-                        case "闪闪礼蛋·飞澜鲨鲨":
+                        case "闪闪礼蛋·菲耶蒂娜":
                             figure = 5;
                             break;
                         default:
@@ -948,6 +953,7 @@ async function checkExpire() {
                     };
                     nowDragonEggs[figure]++;
                 }else {
+                    // 平均模式
                     const now = new Date();
                     const weekNumber = now.getDay()
                     if (nowDragonEggs.every(num => num === nowDragonEggs[0])) {
@@ -977,36 +983,35 @@ async function checkExpire() {
                         };
                     };
                 };
-
                 // 日志输出会去点击那个龙蛋
                 switch (figure) {
                     case 0:
                         log.info("获得的龙蛋:闪闪礼蛋·山之血");
                         break;
                     case 1:
-                        log.info("获得的龙蛋:闪闪礼蛋·太阳的轰鸣");
+                        log.info("获得的龙蛋:闪闪礼蛋·飞澜鲨鲨");
                         break;
                     case 2:
                         log.info("获得的龙蛋:闪闪礼蛋·圣龙君临");
                         break;
                     case 3:
-                        log.info("获得的龙蛋:闪闪礼蛋·菲耶蒂娜");
+                        log.info("获得的龙蛋:闪闪礼蛋·太阳的轰鸣");
                         break;
                     case 4:
                         log.info("获得的龙蛋:闪闪礼蛋·献给小酒杯");
                         break;
                     case 5:
-                        log.info("获得的龙蛋:闪闪礼蛋·飞澜鲨鲨");
+                        log.info("获得的龙蛋:闪闪礼蛋·菲耶蒂娜");
                         break;
                     default:
                         log.warn("嘘，快踢作者屁股，修bug！！！");
                         break;
                 };
                 if (settings.notify) {
-                    notification.Send(`背包龙蛋数目: 【山之血：${nowDragonEggs[0]}，太阳的轰鸣：${nowDragonEggs[1]}，圣龙君临：${nowDragonEggs[2]}，菲耶蒂娜：${nowDragonEggs[3]}，献给小酒杯：${nowDragonEggs[4]}，飞澜鲨鲨：${nowDragonEggs[5]}】`);
+                    notification.Send(`背包龙蛋数目: 【山之血：${nowDragonEggs[0]}，飞澜鲨鲨：${nowDragonEggs[1]}，圣龙君临：${nowDragonEggs[2]}，太阳的轰鸣：${nowDragonEggs[3]}，献给小酒杯：${nowDragonEggs[4]}，菲耶蒂娜：${nowDragonEggs[5]}】`);
                 };
                 // 更新记录
-                record.lastDragonEggsNum = `【山之血：${nowDragonEggs[0]}，太阳的轰鸣：${nowDragonEggs[1]}，圣龙君临：${nowDragonEggs[2]}，菲耶蒂娜：${nowDragonEggs[3]}，献给小酒杯：${nowDragonEggs[4]}，飞澜鲨鲨：${nowDragonEggs[5]}】`;
+                record.lastDragonEggsNum = `【山之血：${nowDragonEggs[0]}，飞澜鲨鲨：${nowDragonEggs[1]}，圣龙君临：${nowDragonEggs[2]}，太阳的轰鸣：${nowDragonEggs[3]}，献给小酒杯：${nowDragonEggs[4]}，菲耶蒂娜：${nowDragonEggs[5]}】`;
                 await recordForFile(false);
                 moveMouseTo(coordinates[figure][0],coordinates[figure][1]);
                 await sleep(100);
