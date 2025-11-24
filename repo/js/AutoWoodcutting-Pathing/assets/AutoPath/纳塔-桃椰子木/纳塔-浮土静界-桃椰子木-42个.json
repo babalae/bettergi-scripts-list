@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1763230240363,
+    "last_modified_time": 1763838216521,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "纳塔-浮土静界-桃椰子木-42个",
@@ -77,13 +77,13 @@
       "action_params": "",
       "id": 7,
       "move_mode": "walk",
-      "type": "path",
+      "type": "target",
       "x": 8409.8359,
       "y": -2738.21
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.5),keypress(VK_T),wait(1)",
+      "action_params": "w(0.2),moveby(0,700),wait(0.75),keypress(VK_T),wait(0.2),keypress(VK_T),wait(1)",
       "id": 8,
       "move_mode": "walk",
       "type": "orientation",
@@ -141,8 +141,8 @@
       "id": 14,
       "move_mode": "dash",
       "type": "path",
-      "x": 8544.4736,
-      "y": -2691.1172
+      "x": 8545.162109375,
+      "y": -2689.005859375
     },
     {
       "action": "use_gadget",
