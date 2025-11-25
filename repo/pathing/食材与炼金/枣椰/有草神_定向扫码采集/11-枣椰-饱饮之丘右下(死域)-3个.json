@@ -1,0 +1,122 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "约1分钟2秒/3个",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763860301053,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "11-枣椰-饱饮之丘右下(死域)-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4994.51318359375,
+      "y": -2161.419921875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.2)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4955.181640625,
+      "y": -2155.587890625
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4955.181640625,
+      "y": -2155.587890625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4955.181640625,
+      "y": -2155.587890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4892.7783203125,
+      "y": -2137.1796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4858.083984375,
+      "y": -2130.693359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4843.490234375,
+      "y": -2127.130859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4811.1943359375,
+      "y": -2103.3095703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4806.513671875,
+      "y": -2103.4326171875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 w(0.25),click(middle),wait(0.5),keydown(e),wait(0.75),moveby(0,-1150),wait(0.3),moveby(950,310),wait(0.3),moveby(700,0),wait(0.3),keyup(e);",
+      "id": 10,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4807.5751953125,
+      "y": -2098.056640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4806,
+      "y": -2103
+    }
+  ]
+}
