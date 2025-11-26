@@ -81,6 +81,7 @@ async function dragTemplateToPosition(templatePath, targetX, targetY, maxAttempt
 async function switchCardTeam(Name, shareCode) {
     let captureRegion = captureGameRegion();
     let teamName = captureRegion.find(RecognitionObject.ocr(1305, 793, 206, 46));
+    captureRegion.dispose();
     log.info("当前队伍名称: {text}", teamName.text);
 
     async function selectTargetTeam(targetTeam) {
@@ -340,7 +341,7 @@ async function checkChallengeResults() {
     return success;
 }
 
-//通过f和空格自动对话，对话标志消失时停止await autoConversation();
+//通过f和空格自动对话，对话标志消失时停止
 async function autoConversation() {
     await sleep(500); //点击后等待一段时间避免误判
     const talkRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/talkSymbol.png"));
@@ -602,74 +603,92 @@ function sortAndFilterStrategy(charName) {
         }
     }
     const sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);   // 分数从大到小
-    log.debug(`各策略胜率分数: ${JSON.stringify(sortedScores)}`);
+    log.debug(`${charName}的各策略胜率分数: ${JSON.stringify(sortedScores)}`);
     const sortedKeys = sortedScores.filter((entry) => entry[1] >= minFallbackStrategyScore).map((entry) => entry[0]);;
     return sortedKeys;
 }
 
-//检查是否有对应的挑战对手
-async function searchAndClickTexts() {
+// 在桌子旁寻找牌手打牌
+async function searchCharAndPlayCards() {
     middleButtonClick();
     await sleep(800);
     moveMouseBy(0, 1030);
     await sleep(800);
     moveMouseBy(0, 1030);
-    await sleep(800);
-    // 限定区域坐标和大小
-    const searchX = 1210;
-    const searchY = 440;
-    const searchWidth = 150;
-    const searchHeight = 195;
+    await sleep(1000);
 
-    // 获取游戏区域截图
+    let charName = "";
+    let charIndex = -1;
+    let charOcrPos = null;
+
+    // 在桌子旁选一个牌手：此时不在乎选到谁（保持和原有逻辑一致）
     const captureRegion = captureGameRegion();
-
-    // 在限定区域内进行OCR识别
-    const ocrRo = RecognitionObject.ocr(searchX, searchY, searchWidth, searchHeight);
+    const ocrRo = RecognitionObject.ocr(1210, 440, 150, 195);
     const results = captureRegion.findMulti(ocrRo);
-
-    // 遍历OCR结果
-    for (let i = 0; i < results.count; i++) {
-        const res = results[i];
+    captureRegion.dispose();
+    for (const res of results) {
         const resText = res.text.trim();
-
         // 在存储的文本数组中查找匹配项
-        const index = textArray.findIndex((item) => isTextMatch(item.text, resText));
-
-        if (index !== -1) {
-            // 找到匹配项，点击对应位置
-            const charName = textArray[index].text;
-            log.info(`找到匹配文本: ${resText} (原存储文本: ${charName})`);
+        charIndex = textArray.findIndex((item) => isTextMatch(item.text, resText));
+        if (charIndex !== -1) {
+            charOcrPos = res;
+            charName = textArray[charIndex].text;
+            log.info(`找到文本: ${resText} (匹配到牌手: ${charName})`);
             skipNum = 0;
-            let success = false;
-            const strategy = allStrategy[charName];
-            if (strategy) {
-                log.info("使用角色专用策略与{0}对战", charName);
-                success = await Playcards(strategy, settings.overwritePartyName, res);
-            }
-            const sortedStrategy = sortAndFilterStrategy(charName);
-            for (const strategyName of sortedStrategy) {
-                if (!success) {
-                    if (strategyName === "雷神柯莱刻晴") {
-                        log.info("使用默认策略{0}与{1}对战", strategyName, charName);
-                        success = await Playcards(allStrategy[strategyName], settings.defaultPartyName, res);
-                    } else {
-                        log.info("使用备用策略{0}与{1}对战", strategyName, charName);
-                        success = await Playcards(allStrategy[strategyName], settings.overwritePartyName, res);
-                    }
-                    updateRunRecord(charName, strategyName, success);
-                }
-            }
-
-            // 从数组中移除已处理的文本
-            textArray.splice(index, 1);
-
-            return true;
+        } else {
+            log.debug("resText={0}无任何匹配牌手", resText);
         }
     }
-    log.info(`未找到匹配文本`);
-    skipNum++;
-    return false;
+    if (charName === "") {
+        log.warn(`在牌桌旁未找到可对战牌手 (剩余: ${textArray.join(", ")})`);
+        skipNum++;
+        return false;
+    }
+
+    // 调度策略进行打牌
+    let success = false;
+    const strategy = allStrategy[charName];
+    if (strategy) {
+        log.info("使用角色专用策略与{0}对战", charName);
+        success = await Playcards(strategy, settings.overwritePartyName, charOcrPos);
+    }
+    const sortedStrategy = sortAndFilterStrategy(charName);
+    log.info("{0}共有{1}个分数≥{2}的可用策略", charName, sortedStrategy.length, minFallbackStrategyScore);
+    for (const strategyName of sortedStrategy) {
+        if (success) {
+            break;  // 对战成功时跳出循环
+        }
+
+        // 重新寻找角色文本位置，避免上一次牌局结束后文本位置发生变动
+        const captureRegion = captureGameRegion();
+        const refreshedResults = captureRegion.findMulti(ocrRo);
+        captureRegion.dispose();
+        charOcrPos = null;
+        for (const ocrPos of refreshedResults) {
+            if (ocrPos.text.trim() === charName) {
+                charOcrPos = ocrPos;
+                break;
+            }
+        }
+        if (charOcrPos === null) {
+            log.error("在牌桌旁未识别到{0}的可交互文本，无法打牌", charName);
+            skipNum++;
+            return false;
+        }
+        // 开始对战
+        if (strategyName === "雷神柯莱刻晴") {
+            log.info("使用默认策略{0}与{1}对战", strategyName, charName);
+            success = await Playcards(allStrategy[strategyName], settings.defaultPartyName, charOcrPos);
+        } else {
+            log.info("使用备用策略{0}与{1}对战", strategyName, charName);
+            success = await Playcards(allStrategy[strategyName], settings.overwritePartyName, charOcrPos);
+        }
+        updateRunRecord(charName, strategyName, success);
+    }
+
+    // 从数组中移除已对战过的牌手
+    textArray.splice(charIndex, 1);
+    return true;
 }
 
 /**
@@ -761,25 +780,22 @@ async function clickTextInRegion(targetText, x, y, width, height, options = {}) 
 //函数：打开地图前往猫尾酒馆
 async function gotoTavern() {
     const tavernRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/tavern.png"));
+    const adventurersRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/AdventurersGuild.png"));
     await genshin.returnMainUi();
     await sleep(1000);
-    keyPress("m");
-    await sleep(1500);
-    click(1841, 1015); //地图选择
-    await sleep(1000);
-    await clickTextInRegion("蒙德", 1310, 70, 90, 180);
-    await sleep(1200);
+    await genshin.moveMapTo(-867, 2281, "蒙德");
     //放大地图
     await genshin.setBigMapZoomLevel(1.0);
     await sleep(400);
 
     click(1000, 645); //猫尾酒馆
     await sleep(600);
-    let ro = captureGameRegion();
-    let tavern = ro.find(tavernRo);
-    ro.dispose();
-    if (tavern.isExist()) {
-        tavern.click();
+    let region = captureGameRegion();
+    let tavern = region.find(tavernRo);
+    clickIcon = tavern.isExist() ? tavern : region.find(adventurersRo);
+    region.dispose();
+    if (clickIcon.isExist()) {
+        clickIcon.click();
         await sleep(500);
     } else {
         throw new Error("未能找到猫尾酒馆");
@@ -804,8 +820,10 @@ async function waitOrCheckMaxCoin(wait_time_ms) {
             click(733, 730); //点击取消
             await sleep(1000);
             click(1860, 250); //点击右上角X，退出打牌对话界面
+            captureRegion.dispose();
             throw new Error(`幸运牌币${coin}，已达到容量上限，无法获取对应奖励且挑战目标无法完成`);
         }
+        captureRegion.dispose();
         await sleep(1000);
         // 无break，以确保牌币未满时延时行为与此前一致
     }
@@ -813,7 +831,6 @@ async function waitOrCheckMaxCoin(wait_time_ms) {
 
 // true和false对应打牌成功或失败
 async function Playcards(strategy, teamName, pos) {
-                
     // 点击存储的位置
     keyDown("VK_LMENU");
     await sleep(500);
@@ -1029,14 +1046,14 @@ async function main() {
 
     if (textArray.length != 0) {
         await detectCardPlayer();
-        await searchAndClickTexts();
+        await searchCharAndPlayCards();
     }
     for (let i = 0; i < 20; i++) {
         //循环兜底，避免角色未到达指定位置
         if (textArray.length === 0) break;
         await gotoTavern();
         await detectCardPlayer();
-        await searchAndClickTexts();
+        await searchCharAndPlayCards();
     }
     await genshin.returnMainUi();
     await captureAndStoreTexts();
