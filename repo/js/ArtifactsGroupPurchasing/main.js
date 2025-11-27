@@ -43,6 +43,7 @@ let doRunExtra = false;
         const pos = enteringIndex.indexOf(yourIndex) + 1; // 第几个执行
         log.info(`你的序号是${yourIndex}号，将在第${pos}个执行`);
 
+        let loopCnt = 0;
         // 按 runningOrder 依次进入世界并执行联机收尾
         for (const idx of enteringIndex) {
             await genshin.clearPartyCache();
@@ -68,7 +69,7 @@ let doRunExtra = false;
                 autoEnterSettings = {
                     enterMode: "等待他人进入",
                     permissionMode: "白名单",
-                    timeout: 5,
+                    timeout: loopCnt++ === 0 ? 15 : 5,   // ← 第一次 15，之后 5
                     maxEnterCount: Object.keys(permits).length
                 };
 
@@ -81,7 +82,7 @@ let doRunExtra = false;
                 autoEnterSettings = {
                     enterMode: "进入他人世界",
                     enteringUID: settings[`p${idx}UID`],
-                    timeout: 5
+                    timeout: loopCnt++ === 0 ? 15 : 5,   // ← 第一次 15，之后 5
                 };
                 log.info(`将要进入序号${idx}，uid为${settings[`p${idx}UID`]}的世界`);
                 notification.send(`将要进入序号${idx}，uid为${settings[`p${idx}UID`]}，名称为${settings[`p${idx}Name`]}的世界`);

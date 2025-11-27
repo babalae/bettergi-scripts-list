@@ -65,7 +65,7 @@
   {
     "name": "timeMove",
     "type": "input-text",
-    "label": "单次滚动周期(毫秒)\n观察到滚动不全时建议调大",
+    "label": "单次滚动周期(毫秒)\n观察到上下滚动不全时建议调大",
     "default": "1000"
   },
   {
@@ -111,15 +111,22 @@
     "label": "路径组四要【选择】的标签"
   },
   {
-    "name": "efficiencyIndex",
+    "name": "eEfficiencyIndex",
     "type": "input-text",
-    "label": "路线效率计算权重，填0以上的数字\n越大越倾向于花费较多时间提高总收益",
+    "label": "精英计算权重，填0以上的数字\n越大越倾向于花费较多时间提高总收益",
+    "default": "2.5"
+  },
+  {
+    "name": "mEfficiencyIndex",
+    "type": "input-text",
+    "label": "小怪计算权重，填0以上的数字\n越大越倾向于花费较多时间提高总收益",
     "default": "0.5"
   },
   {
-    "name": "disableSelfOptimization",
-    "type": "checkbox",
-    "label": "勾选后禁用根据运行记录优化路线选择的功能\n完全使用路线原有信息"
+    "name": "splitFactor",
+    "type": "input-text",
+    "label": "精英小怪分离系数，填0-1数字\n越大越倾向于分离出更多的纯小怪路线\n总耗时大幅增加，但是有利于小怪路线蹭更多经验\n建议保持默认即可",
+    "default": "0"
   },
   {
     "name": "targetEliteNum",

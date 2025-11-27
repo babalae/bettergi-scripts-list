@@ -1,4 +1,4 @@
-//当前js版本1.10.1
+//当前js版本1.11.0
 
 let timeMoveUp;
 let timeMoveDown;
@@ -50,14 +50,24 @@ let localeWorks;
         await sleep(5000);
     }
 
-    let k = settings.efficiencyIndex;
-    // 空字符串、null、undefined 或非数字 → 0.5
-    if (k === '' || k == null || Number.isNaN(Number(k))) {
-        k = 0.5;
+    let k1 = +settings.eEfficiencyIndex || 2.5;
+    // 空字符串、null、undefined 或非数字 → 2.5
+    if (k1 === '' || k1 == null || Number.isNaN(Number(k1))) {
+        k1 = 2.5;
     } else {
-        k = Number(k);
-        if (k < 0) k = 0;
-        else if (k > 5) k = 5;
+        k1 = Number(k1);
+        if (k1 < 0) k1 = 0;
+        else if (k1 > 10) k1 = 10;
+    }
+
+    let k2 = +settings.mEfficiencyIndex || 0.5;
+    // 空字符串、null、undefined 或非数字 → 0.5
+    if (k2 === '' || k2 == null || Number.isNaN(Number(k2))) {
+        k2 = 0.5;
+    } else {
+        k2 = Number(k2);
+        if (k2 < 0) k2 = 0;
+        else if (k2 > 4) k2 = 4;
     }
 
     let targetEliteNum = (+settings.targetEliteNum || 400);
@@ -106,7 +116,7 @@ let localeWorks;
     await markPathings(pathings, groupTags, priorityTags, excludeTags);
 
     //找出最优组合
-    await findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum);
+    await findBestRouteGroups(pathings, k1, k2, targetEliteNum, targetMonsterNum);
 
     //分配到不同路径组
     await assignGroups(pathings, groupTags);
@@ -373,7 +383,7 @@ async function markPathings(pathings, groupTags, priorityTags, excludeTags) {
     });
 }
 
-async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum) {
+async function findBestRouteGroups(pathings, k1, k2, targetEliteNum, targetMonsterNum) {
     /* ========== 0. 原初始化不动 ========== */
     let nextTargetEliteNum = targetEliteNum;
     let iterationCount = 0;
@@ -392,11 +402,31 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
         p.selected = false;
         const G1 = p.mora_e + p.mora_m, G2 = p.mora_m;
         p.G1 = G1; p.G2 = G2;
-        p.E1 = p.e === 0 ? 0 : ((G1 - G2 * f) / p.e) ** (2 * k) * (G1 / p.t);
-        p.E2 = p.m === 0 ? 0 : (G2 / p.m) ** (0.75 * k) * (G2 / p.t);
+
+        /* 分离系数 0-1：0 无惩罚，1 最大惩罚 95 % */
+        const splitFactor = +(settings.splitFactor ?? 0);
+
+        /* 混合度：纯血 λ=0，最混合 λ=1 */
+        const λ = (p.e === 0 || p.m === 0) ? 0
+            : 1 - Math.min(p.e, p.m) / Math.max(p.e, p.m);
+
+        /* 仅 E2 惩罚，上限 95 %，线性 */
+        const penalty = 1 - 0.95 * splitFactor * λ;
+
+        /* 收益 */
+        const eliteGain = p.e === 0 ? 200 : (G1 - G2) / p.e;
+        const normalGain = p.m === 0 ? 40.5 : G2 / p.m;
+
+        /* 打分：E1 不惩罚，E2 带惩罚 */
+        p.E1 = (eliteGain ** k1) * (G1 / p.t);
+        if (p.e === 0) p.E1 = 0;
+
+        p.E2 = (normalGain ** k2) * (G2 / p.t) * penalty;
+
         maxE1 = Math.max(maxE1, p.E1);
         maxE2 = Math.max(maxE2, p.E2);
     });
+    
     pathings.forEach(p => {
         if (p.prioritized) { p.E1 += maxE1; p.E2 += maxE2; }
     });
@@ -452,26 +482,21 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
     }
 
     /* ========== 3. 最小不可再减集合（贪心逆筛） ========== */
-    // 3.1 【仅修改此处】排序依据改为约定的score：(怪均收益^k) × 秒均收益（精英权重=5）
-    // 怪均收益 = (总收益) / (精英数×5 + 普通怪数)；秒均收益 = 总收益 / 时间；score小的优先删除
     const selectedList = pathings.filter(p => p.selected)
         .sort((a, b) => {
-            // 计算a的score
-            const aTotalGain = a.G1 + a.G2;
-            const aDenominator = a.e * 5 + a.m; // 精英权重=5
-            const aPerMobGain = aDenominator === 0 ? 0 : aTotalGain / aDenominator;
-            const aPerSecGain = a.t === 0 ? 0 : aTotalGain / a.t;
-            const aScore = (aPerMobGain ** k) * aPerSecGain;
+            /* ********  关键修改  ******** */
+            const eliteGainA = a.e === 0 ? 200 : (a.G1 - a.G2) / a.e;
+            const normalGainA = a.m === 0 ? 40.5 : a.G2 / a.m;
+            const perSecA = a.t === 0 ? 0 : a.G1 / a.t;
+            const aScore = (((eliteGainA / 200) ** k1) + ((normalGainA / 40.5) ** k2)) * perSecA;
 
-            // 计算b的score
-            const bTotalGain = b.G1 + b.G2;
-            const bDenominator = b.e * 5 + b.m; // 精英权重=5
-            const bPerMobGain = bDenominator === 0 ? 0 : bTotalGain / bDenominator;
-            const bPerSecGain = b.t === 0 ? 0 : bTotalGain / b.t;
-            const bScore = (bPerMobGain ** k) * bPerSecGain;
+            const eliteGainB = b.e === 0 ? 200 : (b.G1 - b.G2) / b.e;
+            const normalGainB = b.m === 0 ? 40.5 : b.G2 / b.m;
+            const perSecB = b.t === 0 ? 0 : b.G1 / b.t;
+            const bScore = (((eliteGainB / 200) ** k1) + ((normalGainB / 40.5) ** k2)) * perSecB;
+            /* ******************************** */
 
-            // 升序排序：score小的在前，优先删除
-            return aScore - bScore;
+            return aScore - bScore;   // 升序：小的先删
         });
 
     for (const p of selectedList) {
@@ -483,7 +508,7 @@ async function findBestRouteGroups(pathings, k, targetEliteNum, targetMonsterNum
             p.selected = false;
             totalSelectedElites = newE;
             totalSelectedMonsters = newM;
-            totalGainCombined -= (p.selected ? p.G1 : p.G2);
+            totalGainCombined -= p.G1;   // 精英阶段已用 G1 统计
             totalTimeCombined -= p.t;
         }
     }
@@ -665,6 +690,28 @@ async function runPath(fullPath, map_name) {
             }
             return false;
         }
+
+        /**
+         * 计算匹配度：itemName中文部分在识别文本中出现的最长长度占总长度的比例
+         * @param {string} cnPart itemName的中文部分
+         * @param {string} ocrText OCR识别到的文本
+         * @returns {number} 0~1
+         */
+        function calcMatchRatio(cnPart, ocrText) {
+            if (!cnPart || !ocrText) return 0;
+            const len = cnPart.length;
+            let maxMatch = 0;
+            // 滑动窗口找最长连续子串
+            for (let i = 0; i <= ocrText.length - len; i++) {
+                let match = 0;
+                for (let j = 0; j < len; j++) {
+                    if (ocrText[i + j] === cnPart[j]) match++;
+                }
+                maxMatch = Math.max(maxMatch, match);
+            }
+            return maxMatch / len;
+        }
+
         if (pickup_Mode === "模板匹配拾取，拾取狗粮和怪物材料" || pickup_Mode === "模板匹配拾取，只拾取狗粮") {
             while (state.running) {
                 await sleep(1500);
@@ -688,17 +735,33 @@ async function runPath(fullPath, map_name) {
 
                     if (ocrText) {
                         log.info(`识别到背包已满，识别到文本：${ocrText}`);
+                        const ratioMap = new Map(); // itemName -> ratio
+
                         for (const targetItem of targetItems) {
                             const cnPart = targetItem.itemName.replace(/[^\u4e00-\u9fa5]/g, '');
-                            if (cnPart && ocrText.includes(cnPart)) {
-                                const itemName = targetItem.itemName;
-                                log.warn(`物品"${itemName}"已满，加入黑名单`);
-                                if (!blacklistSet.has(itemName)) {  // 仅当第一次出现才添加
-                                    blacklistSet.add(itemName);
-                                    blacklist.push(itemName);
-                                }
-                                await loadBlacklist(false);
+                            const ratio = calcMatchRatio(cnPart, ocrText);
+                            if (ratio > 0.75) {
+                                ratioMap.set(targetItem.itemName, ratio);
                             }
+                        }
+
+                        if (ratioMap.size > 0) {
+                            // 找出最大匹配度
+                            const maxRatio = Math.max(...ratioMap.values());
+                            // 所有等于最大匹配度的项
+                            const names = Array.from(ratioMap.entries())
+                                .filter(([, r]) => r === maxRatio)
+                                .map(([n]) => n)
+                                .sort(); // 排序方便日志
+
+                            log.warn(`以下物品匹配度最高且≥75%（${(maxRatio * 100).toFixed(1)}%），加入黑名单：${names.join('、')}`);
+                            for (const nm of names) {
+                                if (!blacklistSet.has(nm)) {
+                                    blacklistSet.add(nm);
+                                    blacklist.push(nm);
+                                }
+                            }
+                            await loadBlacklist(false);
                         }
                     }
                 }
@@ -1613,10 +1676,10 @@ async function isTimeRestricted(timeRule, threshold = 5) {
         };
 
         const start = parseTime(startStr, false);
-        const end   = parseTime(endStr, true);
+        const end = parseTime(endStr, true);
 
         const startTotal = start.h * 60 + start.m;
-        const endTotal   = end.h * 60 + end.m;
+        const endTotal = end.h * 60 + end.m;
 
         const effectiveEnd = endTotal >= startTotal ? endTotal : endTotal + 24 * 60;
 
