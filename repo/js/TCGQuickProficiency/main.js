@@ -238,9 +238,9 @@ async function teleportToTheCatsTail() {
     let clickIcon = null;
     for (let i = 0; i < 5; i++) {
         const region = captureGameRegion();
-        const tarvern = region.find(tavernRo);
+        const tavern = region.find(tavernRo);
+        clickIcon = tavern.isExist() ? tavern : region.find(adventurersRo);
         region.dispose();
-        clickIcon = tarvern.isExist() ? tarvern : region.find(adventurersRo);
         if (clickIcon.isExist()) {
             clickIcon.click();
             await sleep(500);
