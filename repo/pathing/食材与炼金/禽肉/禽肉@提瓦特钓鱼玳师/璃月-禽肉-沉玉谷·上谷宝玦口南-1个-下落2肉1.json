@@ -1,0 +1,45 @@
+{
+  "info": {
+    "name": "璃月-禽肉-沉玉谷·上谷宝玦口南-1个-下落2肉1",
+    "type": "collect",
+    "version": "1.0",
+    "description": "地区: 璃月\n类型: 禽肉\n详细位置: 沉玉谷·上谷宝玦口南\n数目: 1\n附加信息: 2禽肉鸟共1只\n注意: 使用前请将游戏时间调到白天，跑图位建议使用绮良良或埃洛伊",
+    "bgi_version": "0.43.1",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2462.76,
+      "y": 1801.62,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 2330.34,
+      "y": 1869.71,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(2),attack(0.1)",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 2330.34,
+      "y": 1869.71,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    }
+  ]
+}

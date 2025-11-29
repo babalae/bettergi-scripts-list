@@ -1,0 +1,75 @@
+{
+    "info": {
+        "name": "枫丹-垂钓点-诺思托伊区佩特莉可镇南",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.3",
+        "description": "地区: 枫丹\n类型: 垂钓点\n详细位置: 诺思托伊区佩特莉可镇南\n鱼类: 海涛斧枪鱼、波波心羽鲈、烘烘心羽鲈、维护机关·初始能力型、维护机关·水域清理者、维护机关·态势控制者、维护机关·澄金领队型\n饵类: 甘露饵、酸橘饵、维护机关频闪诱饵\n附加信息: 普通",
+        "bgi_version": "0.42.4"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 4322.26,
+            "y": 1172.83,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 4339.27,
+            "y": 1168.1,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 4356.35,
+            "y": 1105.41,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 4349.37,
+            "y": 1094.5,
+            "type": "target",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 4359.29,
+            "y": 1084.75,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": 4356.22,
+            "y": 1083.51,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 7,
+            "x": 4358.71,
+            "y": 1077.95,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+        }
+    ]
+}

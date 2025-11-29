@@ -1,0 +1,67 @@
+{
+    "info": {
+        "name": "璃月-垂钓点-碧水原无妄坡南",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.2",
+        "description": "地区: 璃月\n类型: 垂钓点\n详细位置: 碧水原无妄坡南\n鱼类: 花鳉、甜甜花鳉、擒霞客、流纹褐蝶鱼\n饵类: 果酿饵、蠕虫假饵\n附加信息: 战斗",
+        "bgi_version": "0.42.4"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 489.79,
+            "y": 1435.16,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 431.71,
+            "y": 1311.33,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "stop_flying",
+            "action_params": "",
+            "locked": false
+        },
+        {
+            "id": 3,
+            "x": 431.71,
+            "y": 1311.33,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "fight",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 433.46,
+            "y": 1307.41,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 425.95,
+            "y": 1304.39,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": 423.98,
+            "y": 1304.88,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+        }
+    ]
+}

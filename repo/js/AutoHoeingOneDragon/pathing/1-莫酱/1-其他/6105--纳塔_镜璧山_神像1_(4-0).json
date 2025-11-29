@@ -1,0 +1,71 @@
+{
+  "info": {
+    "name": "6105--纳塔_镜璧山_神像1_(4-0)",
+    "type": "collect",
+    "author": "Demo&汐&mno",
+    "version": "1.4",
+    "description": "  路线信息：该路线预计用时50.95秒，包含以下怪物：1只暝视龙武士·寒涌持者、2只暝视龙。",
+    "hash_res": "46732993",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9481.56,
+      "y": -1931.47,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9441.02,
+      "y": -1944.11,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9403.63,
+      "y": -1958.12,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9379.8,
+      "y": -1970.64,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9379.8,
+      "y": -1970.64,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}

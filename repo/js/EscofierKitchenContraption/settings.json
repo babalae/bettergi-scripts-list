@@ -1,0 +1,30 @@
+[
+  {
+    "name": "TEAMname",
+    "type": "input-text",
+    "label": "必填！！队伍名称，3号为爱可菲，4号位芭芭拉！"
+},
+{
+  "name": "AKF",
+  "type": "select",
+  "label": "选题，默认每天执行，可选是：周一执行，否为不执行",
+
+  "options": [
+    "是",
+    "否",
+    "每天执行"
+  ]
+},
+{
+  "name": "actiontime",
+  "type": "input-text",
+  "label": "选填，爱可菲厨艺机关超时默认150秒",
+  "default": "150"
+},
+{
+    "name": "nowuid",
+    "type": "input-text",
+    "label": "慎用，禁止特定执行脚本，用 / 隔开，如12345/99999"
+}
+
+]

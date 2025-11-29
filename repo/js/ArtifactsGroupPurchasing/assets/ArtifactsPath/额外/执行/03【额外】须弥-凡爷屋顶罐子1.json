@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762246346079,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "03【额外】须弥-凡爷屋顶罐子1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4403.0673828125,
+      "y": -1870.4541015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4390.72265625,
+      "y": -1875.52783203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(2.5),keypress(t),wait(0.5),keypress(t),wait(1.6),keypress(t),wait(0.5),keypress(t),wait(0.5),keypress(t)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4302.42431640625,
+      "y": -1889.50146484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4240.0224609375,
+      "y": -1850.310546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4215.19921875,
+      "y": -1831.75830078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4157.42041015625,
+      "y": -1827.27734375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4118.218726299502,
+      "y": -1832.15625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4114.74658203125,
+      "y": -1835.58154296875
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+[
+    {
+        "name": "operationMode",
+        "type": "select",
+        "label": "选择操作模式",
+        "options": [
+            "执行任务（若不存在索引文件则自动创建）",
+            "重新生成索引文件（用于强制刷新CD）"
+        ]
+    },
+    {
+        "name": "pathGroup1CdType",
+        "type": "select",
+        "label": "选择路径组1CD类型，不选不运行该路径组",
+        "options": [
+            "", // 增加一个空选项
+            "1次0点刷新",
+            "2次0点刷新",
+            "3次0点刷新",
+            "4点刷新",
+            "12小时刷新",
+            "24小时刷新",
+            "46小时刷新"
+        ]
+    },
+    {
+        "name": "pathGroup2CdType",
+        "type": "select",
+        "label": "选择路径组2CD类型，不选不运行该路径组",
+        "options": [
+            "", // 增加一个空选项
+            "1次0点刷新",
+            "2次0点刷新",
+            "3次0点刷新",
+            "4点刷新",
+            "12小时刷新",
+            "24小时刷新",
+            "46小时刷新"
+        ]
+    },
+    {
+        "name": "pathGroup3CdType",
+        "type": "select",
+        "label": "选择路径组3CD类型，不选不运行该路径组",
+        "options": [
+            "", // 增加一个空选项
+            "1次0点刷新",
+            "2次0点刷新",
+            "3次0点刷新",
+            "4点刷新",
+            "12小时刷新",
+            "24小时刷新",
+            "46小时刷新"
+        ]
+    },
+    {
+        "name": "otherPathGroupsCdTypes",
+        "type": "input-text",
+        "label": "依次输入更多路径组的CD类型\n需要更多路径组才输入，用英文分号;分隔\n例如要使用路径组4和5时输入\n1次0点刷新;46小时刷新"
+    },
+    {
+        "name": "partyNames",
+        "type": "input-text",
+        "label": "依次输入各个路径组使用的配队名称\n有几个填几个，用英文分号;分隔\n如：采集;挖矿;奶龙"
+    },
+    {
+        "name": "skipTimeRanges",
+        "type": "input-text",
+        "label": "输入不在某时执行（整数）\n如输入4则当小时数为4会终止运行"
+    },
+    {
+        "name": "infoFileName",
+        "type": "input-text",
+        "label": "输入用于存储信息的文件名，只在不同账号分别管理CD时填写"
+    },
+    {
+        "name": "disableJsons",
+        "type": "input-text",
+        "label": "填写需要禁用的路线的关键词，使用中文分号分隔\n文件路径含有相关关键词的路线会被禁用"
+    }
+]

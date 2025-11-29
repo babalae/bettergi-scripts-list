@@ -1,0 +1,75 @@
+{
+    "info": {
+        "name": "稻妻-垂钓点-八酝岛名椎滩北",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.6",
+        "description": "地区: 稻妻\n类型: 垂钓点\n详细位置: 八酝岛名椎滩北\n鱼类: 花鳉、肺棘鱼、流纹京紫蝶鱼、苦炮鲀\n饵类: 果酿饵、赤糜饵、蠕虫假饵、飞蝇假饵\n附加信息: 普通",
+        "bgi_version": "0.42.4"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -2738.32,
+            "y": -3414.58,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": -2722.58,
+            "y": -3402.62,
+            "type": "path",
+            "move_mode": "dash",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": -2674.26,
+            "y": -3417.0,
+            "type": "path",
+            "move_mode": "dash",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": -2637.52,
+            "y": -3407.57,
+            "type": "path",
+            "move_mode": "dash",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": -2619.53,
+            "y": -3416.3,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": -2613.13,
+            "y": -3400.58,
+            "type": "path",
+            "move_mode": "swim",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 7,
+            "x": -2614.86,
+            "y": -3395.74,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(2),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+        }
+    ]
+}

@@ -1,0 +1,90 @@
+{
+  "info": {
+    "name": "稻妻-骗骗花-鹤观笈名海滨-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-2个\n稻妻-鹤观笈名海滨\n经由Economy优化交互触发",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2552.49,
+      "y": -6004.27,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -2544.25,
+      "y": -6117.49,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(2),attack(0.1),wait(2)"
+    },
+    {
+      "id": 3,
+      "x": -2544.25,
+      "y": -6117.49,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.1),keypress(f),dash"
+    },
+    {
+      "id": 4,
+      "x": -2585.65,
+      "y": -6102.99,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -2682.99,
+      "y": -6107.12,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -2702.49,
+      "y": -6083.89,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -2718.68,
+      "y": -6084.74,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": -2718.68,
+      "y": -6084.74,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "info": {
+    "name": "新枫丹科学院东南",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "cy"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4001.01,
+      "y": 4878.36
+    },
+    {
+      "id": 2,
+      "x": 4054.82,
+      "y": 4875.81,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)"
+    },
+    {
+      "id": 3,
+      "x": 4059.93,
+      "y": 4870.97,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 4054.44,
+      "y": 4879.75,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 4051.25,
+      "y": 4878.88,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 4056.81,
+      "y": 4870.48,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 4057.53,
+      "y": 4878.45,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

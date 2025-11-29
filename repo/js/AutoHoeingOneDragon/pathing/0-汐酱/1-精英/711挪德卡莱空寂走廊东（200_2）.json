@@ -1,0 +1,86 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时105.7秒，包含以下怪物：1只凌晶·霜夜灵嗣、1只蕴光璇蛸。",
+    "hash_res": "69747912",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758034179890,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "711挪德卡莱空寂走廊东（200_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8953.23828125,
+      "y": 2504.5048828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8913.521484375,
+      "y": 2513.63427734375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "3000",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8824.189453125,
+      "y": 2491.1865234375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8821.2734375,
+      "y": 2491.68115234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8801.4736328125,
+      "y": 2494.8486328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8782.1953125,
+      "y": 2438.735107421875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8750.1015625,
+      "y": 2401.61474609375
+    }
+  ]
+}

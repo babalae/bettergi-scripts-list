@@ -1,0 +1,112 @@
+{
+    "info": {
+        "name": "层岩巨渊·地下矿区-垂钓点-无名遗迹西",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "地区: 层岩巨渊·地下矿区\n类型: 垂钓点\n详细位置: 无名遗迹西\n鱼类: 甜甜花锵、擒霞客、水晶宴、赤魔王、炮鲀\n饵类: 果酿饵、赤糜饵、飞蝇假饵\n附加信息: 普通",
+        "map_name": "TheChasm",
+        "bgi_version": "0.45.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 663.818,
+            "y": 710.265,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 668.568,
+            "y": 708.216,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 685.488,
+            "y": 668.296,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 699.35,
+            "y": 635.75,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 5,
+            "x": 702.592,
+            "y": 628.227,
+            "type": "path",
+            "move_mode": "swim",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": 708.633,
+            "y": 620.217,
+            "type": "path",
+            "move_mode": "run",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 7,
+            "x": 722.96,
+            "y": 602.276,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 8,
+            "x": 721.157,
+            "y": 575.572,
+            "type": "path",
+            "move_mode": "swim",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 9,
+            "x": 719.015,
+            "y": 553.48,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 10,
+            "x": 722.443,
+            "y": 525.935,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 11,
+            "x": 722.454,
+            "y": 525.244,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+        }
+    ]
+}

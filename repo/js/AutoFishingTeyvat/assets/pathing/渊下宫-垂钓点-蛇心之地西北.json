@@ -1,0 +1,76 @@
+{
+    "info": {
+        "name": "渊下宫-垂钓点-蛇心之地西北",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "地区: 渊下宫\n类型: 垂钓点\n详细位置: 蛇心之地西北\n鱼类: 擒霞客、流纹京紫鲽鱼、佛玛洛鳐、迪芙妲鳐\n饵类: 果酿饵、蠕虫假饵、飞蝇假饵\n附加信息: 普通",
+        "map_name": "Enkanomiya",
+        "bgi_version": "0.45.0"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": 449.696,
+            "y": -122.206,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": 456.196,
+            "y": -171.875,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": 460.745,
+            "y": -176.165,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": 521.016,
+            "y": -189.905,
+            "action": "combat_script",
+            "move_mode": "fly",
+            "action_params": "keypress(space),wait(0.5)",
+            "type": "path"
+        },
+        {
+            "id": 5,
+            "x": 505.83,
+            "y": -184.017,
+            "action": "stop_flying",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 6,
+            "x": 486.078,
+            "y": -182.429,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 7,
+            "x": 473.201,
+            "y": -180.944,
+            "action": "combat_script",
+            "move_mode": "walk",
+            "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+            "type": "target"
+        }
+    ]
+}
