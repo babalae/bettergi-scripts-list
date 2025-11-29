@@ -132,7 +132,7 @@ async function initialize() {
 async function checkUpdate() {
     try {
         // 发送GET请求
-        const response = await http.request("GET", "https://cnb.cool/bettergi/bettergi-scripts-list/-/git/raw/main/repo/js/AutoLeyLineOutcrop/manifest.json",
+        const response = await http.request("GET", "https://cnb.cool/bettergi/bettergi-scripts-list/-/git/raw/release/repo/js/AutoLeyLineOutcrop/manifest.json",
             JSON.stringify({"Content-Type": "text/plain; charset=utf-8"})
         );
         const latestManifest = JSON.parse(response.body);
