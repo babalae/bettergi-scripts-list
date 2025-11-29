@@ -90,7 +90,7 @@ async function runLeyLineOutcropScript() {
  * 初始化
  * @returns {Promise<void>}
  */
-function initialize() {
+async function initialize() {
     // 预定义工具函数
     try {
         const utils = [
@@ -117,7 +117,46 @@ function initialize() {
     } catch (error) {
         throw new Error("配置文件加载失败，请检查config.json文件是否存在");
     }
+    try {
+        // 3. 检查脚本更新
+        await checkUpdate();
+    } catch (updateError) {
+        log.warn(`检查脚本更新时出错: ${updateError.message}，请自行前往脚本仓库检查脚本是否存在更新版本！`);
+    }
 }
+
+/**
+ * 检查脚本更新
+ * @returns {Promise<void>}
+ */
+async function checkUpdate() {
+    try {
+        // 发送GET请求
+        const response = await http.request("GET", "https://cnb.cool/bettergi/bettergi-scripts-list/-/git/raw/release/repo/js/AutoLeyLineOutcrop/manifest.json",
+            JSON.stringify({"Content-Type": "text/plain; charset=utf-8"})
+        );
+        const latestManifest = JSON.parse(response.body);
+        const manifest = JSON.parse(file.readTextSync("manifest.json"));
+        const currentVersion = manifest.version;
+        const latestVersion = latestManifest.version;
+        if (currentVersion !== latestVersion) {
+            log.info(`发现新的脚本版本: ${latestVersion}（当前版本: ${currentVersion}）`);
+            if (isNotification) {
+                notification.send(`发现新的脚本版本: ${latestVersion}（当前版本: ${currentVersion}），请前往脚本仓库更新脚本！`);
+            }
+            if (!oneDragonMode) {
+                throw new Error("脚本有新版本，请前往脚本仓库更新脚本！");
+            } else {
+                log.warn("请及时更新脚本，以获得最新功能和修复！");
+            }
+        } else {
+            log.debug("脚本是最新版本");
+        }
+    } catch (error) {
+        throw new Error(`检查脚本更新时出错: ${error.message}`);
+    }
+}
+
 
 /**
  * 处理树脂耗尽模式
@@ -293,8 +332,9 @@ async function prepareForLeyLineRun() {
     await genshin.returnMainUi();  // 回到主界面
     setGameMetrics(1920, 1080, 1); // 看起来没什么用
     // 1. 开局传送到七天神像
-    // TODO：考虑添加选项禁用这个特性，看起来有点浪费时间，需要提示风险
-    await genshin.tpToStatueOfTheSeven(); 
+    if (!oneDragonMode) {
+        await genshin.tpToStatueOfTheSeven(); 
+    }
 
     // 2. 切换战斗队伍
     if (settings.team) {
@@ -905,7 +945,7 @@ async function navigateTowardReward(timeout, token) {
         while (!token.isCancellationRequested) {
             if (await adjustViewForReward(boxIconRo, token)) {
                 keyDown("w");
-                await sleep(300);
+                await sleep(200);
             } else if (!token.isCancellationRequested) { // 如果没有取消，则继续尝试调整
                 keyPress("x");
                 keyUp("w");
