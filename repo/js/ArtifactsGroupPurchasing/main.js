@@ -10,12 +10,13 @@ let state;
 let gameRegion;
 let TMthreshold = +settings.TMthreshold || 0.9;
 let doRunExtra = false;
+let expGain;
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
 
     if (settings.logName) {
-        await processArtifacts();
+        expGain = await processArtifacts();
     }
     await genshin.tpToStatueOfTheSeven();
     await switchPartyIfNeeded(settings.partyName);
@@ -130,7 +131,7 @@ let doRunExtra = false;
     await genshin.tpToStatueOfTheSeven();
 
     if (settings.logName) {
-        let expGain = await processArtifacts();
+        expGain = await processArtifacts() - expGain;
         log.info(`${settings.logName}：联机狗粮分解获得经验${expGain}`);
         notification.send(`${settings.logName}：联机狗粮分解获得经验${expGain}`);
     }
@@ -1452,28 +1453,27 @@ async function processArtifacts() {
         } else {
             log.warn(`在指定区域未识别到有效数字: ${newValue}`);
         }
-
-        log.info(`用户选择了分解，执行分解`);
-        // 根据用户配置，分解狗粮
-        await sleep(1000);
-        // 点击分解按钮
-        if (!await findAndClick(doDecomposeRo)) {
-            await genshin.returnMainUi();
-            return 0;
-        }
-        await sleep(500);
-
-        // 4. "进行分解"按钮// 点击进行分解按钮
-        if (!await findAndClick(doDecompose2Ro)) {
-            await genshin.returnMainUi();
-            return 0;
-        }
-        await sleep(1000);
-
-        // 5. 关闭确认界面
-        await click(1340, 755);
-        await sleep(1000);
-
+        /*
+                // 根据用户配置，分解狗粮
+                await sleep(1000);
+                // 点击分解按钮
+                if (!await findAndClick(doDecomposeRo)) {
+                    await genshin.returnMainUi();
+                    return 0;
+                }
+                await sleep(500);
+        
+                // 4. "进行分解"按钮// 点击进行分解按钮
+                if (!await findAndClick(doDecompose2Ro)) {
+                    await genshin.returnMainUi();
+                    return 0;
+                }
+                await sleep(1000);
+        
+                // 5. 关闭确认界面
+                await click(1340, 755);
+                await sleep(1000);
+        */
         const resinExperience = Math.max(newValue - initialValue, 0);
         log.info(`分解可获得经验: ${resinExperience}`);
         let resultExperience = resinExperience;
