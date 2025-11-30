@@ -414,17 +414,34 @@ const ocrRegion = {
 
         let logMsg = "";
 
-        if (diffRecovery > 0 || diffResurrection > 0) {
-            // 数量减少
-            logMsg = `${userName}: 今日消耗：${recoveryFoodName}${diffRecovery}个，${resurrectionFoodName}${diffResurrection}个`;
-        } else if (diffRecovery < 0 || diffResurrection < 0) {
-            // 数量增加
-            const addRecovery = -diffRecovery;
-            const addResurrection = -diffResurrection;
-            logMsg = `${userName}: 今日新增：${recoveryFoodName}${addRecovery}个，${resurrectionFoodName}${addResurrection}个`;
+
+        // 处理回血药描述
+        let descRecovery = "";
+        if (diffRecovery > 0) {
+            descRecovery = `消耗${recoveryFoodName}${diffRecovery}个`;
+        } else if (diffRecovery < 0) {
+            descRecovery = `新增${recoveryFoodName}${-diffRecovery}个`;
         } else {
-            // 数量无变化
+            descRecovery = `${recoveryFoodName}无变化`;
+        }
+
+        // 处理复活药描述
+        let descResurrection = "";
+        if (diffResurrection > 0) {
+            descResurrection = `消耗${resurrectionFoodName}${diffResurrection}个`;
+        } else if (diffResurrection < 0) {
+            descResurrection = `新增${resurrectionFoodName}${-diffResurrection}个`;
+        } else {
+            descResurrection = `${resurrectionFoodName}无变化`;
+        }
+
+        // 根据变化组合日志消息
+        if (diffRecovery === 0 && diffResurrection === 0) {
+            // 两个值都等于0，输出无变化
             logMsg = `${userName}: 今日药物数量无变化`;
+        }else {
+            // 其他情况
+            logMsg = `${userName}: 今日${descRecovery}，${descResurrection}`;
         }
 
         // 添加库存信息
