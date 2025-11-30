@@ -279,10 +279,11 @@ const ocrRegion = {
      }
 
     async function recognizeNumberByOCR(ocrRegion, pattern) {
+    let captureRegion = null;
     try {
-        // 直接链式调用，避免内存管理问题
         const ocrRo = RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
-        const resList = captureGameRegion().findMulti(ocrRo);
+        captureRegion = captureGameRegion();
+        const resList = captureRegion.findMulti(ocrRo);
 
         if (!resList || resList.length === 0) {
             log.warn("OCR未识别到任何文本");
@@ -302,8 +303,14 @@ const ocrRegion = {
                 }
             }
         }
-    } catch (error) {
+    }
+    catch (error) {
         log.error(`OCR识别时发生异常: ${error.message}`);
+    }
+    finally {
+        if (captureRegion) {
+            captureRegion.dispose();
+        }
     }
     return null;
 }
