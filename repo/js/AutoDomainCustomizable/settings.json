@@ -1,0 +1,129 @@
+[
+  {
+    "name": "DomainName",
+    "type": "select",
+    "label": "指定要前往的秘境 (自动传送到刷取的秘境)",
+    "options": [
+      "",
+      "仲夏庭园",
+      "塞西莉亚苗圃",
+      "震雷连山密宫",
+      "铭记之谷",
+      "孤云凌霄之处",
+      "无妄引咎密宫",
+      "华池岩岫",
+      "忘却之峡",
+      "太山府",
+      "芬德尼尔之顶",
+      "山脊守望",
+      "砂流之庭",
+      "菫色之庭",
+      "椛染之庭",
+      "沉眠之庭",
+      "岩中幽谷",
+      "缘觉塔",
+      "有顶塔",
+      "赤金的城墟",
+      "熔铁的孤塞",
+      "苍白的遗荣",
+      "深潮的余响",
+      "罪祸的终末",
+      "临瀑之城",
+      "褪色的剧场",
+      "蕴火的幽墟",
+      "深古瞭望所",
+      "虹灵的净土",
+      "昏识塔",
+      "荒废砌造坞",
+      "霜凝的机枢",
+      "失落的月庭",
+      "无光的深都"
+    ],
+    "default": ""
+  },
+  {
+    "name": "PartyName",
+    "type": "input-text",
+    "label": "自动切换到指定队伍 (注意队伍名称是游戏内你手动设置的名称)",
+    "default": ""
+  },
+  {
+    "name": "RunUntilResinDepleted",
+    "type": "checkbox",
+    "label": "刷取至树脂耗尽 (优先用原粹后用浓缩，其余不用)",
+    "default": false
+  },
+  {
+    "name": "OriginalResinUseCount",
+    "type": "input-text",
+    "label": "原粹树脂刷取次数 (请输入数字)",
+    "default": "0"
+  },
+  {
+    "name": "CondensedResinUseCount",
+    "type": "input-text",
+    "label": "浓缩树脂刷取次数 (请输入数字)",
+    "default": "0"
+  },
+  {
+    "name": "TransientResinUseCount",
+    "type": "input-text",
+    "label": "须臾树脂刷取次数 (请输入数字)",
+    "default": "0"
+  },
+  {
+    "name": "FragileResinUseCount",
+    "type": "input-text",
+    "label": "脆弱树脂刷取次数 (请输入数字)",
+    "default": "0"
+  },
+  {
+    "name": "AutoArtifactSalvage",
+    "type": "checkbox",
+    "label": "结束后自动分解圣遗物",
+    "default": true
+  },
+  {
+    "name": "MaxArtifactStar",
+    "type": "select",
+    "label": "需要快速分解圣遗物的最高星级",
+    "options": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    "default": "4"
+  },
+  {
+    "name": "FightEndDelay",
+    "type": "input-text",
+    "label": "战斗完成后等待时间 (秒) (任务结束后的额外延迟)",
+    "default": "5"
+  },
+  {
+    "name": "DomainRoundNum",
+    "type": "input-text",
+    "label": "秘境刷取轮数 (0表示9999轮，刷取至体力耗尽或达到指定次数)",
+    "default": "0"
+  },
+  {
+    "name": "SundaySelectedValue",
+    "type": "select",
+    "label": "周日副本序号 (限时副本全开时用)",
+    "options": [
+      "",
+      "1",
+      "2",
+      "3"
+    ],
+    "default": ""
+  },
+  {
+    "name": "EnableDebug",
+    "type": "checkbox",
+    "label": "启用调试模式 (将在日志中显示详细参数信息)",
+    "default": false
+  }
+]
