@@ -7,8 +7,8 @@ const runJS = settings.runJS || false;
 const roomID = settings.room || "37135473336";
 const userAttempts = Number(settings.thisAttempts || "0");
 const useFixedAttempts = userAttempts > 0;
-const weekMaxExp = Number(settings.weekMaxExp);
-const singleExp = Number(settings.singleExp);
+const weekMaxExp = Number(settings.weekMaxExp || "4000");
+const singleExp = Number(settings.singleExp || "270");
 let weekTotal = initWeekTotal();
 
 // 获取图片资源
