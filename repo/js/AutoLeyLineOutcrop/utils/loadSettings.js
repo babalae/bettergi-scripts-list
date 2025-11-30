@@ -67,6 +67,9 @@ function () {
         // 设置通知状态
         isNotification = settings.isNotification;
 
+        // 设置一条龙模式
+        oneDragonMode = settings.oneDragonMode;
+
         if (isNotification) {
             notification.send(`全自动地脉花开始运行，以下是本次运行的配置：\n\n地脉花类型：${settings.leyLineOutcropType}\n国家：${settings.country}\n刷取次数：${settings.timesValue}`);
         }
