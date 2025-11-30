@@ -414,6 +414,7 @@ const ocrRegion = {
 
         let logMsg = "";
 
+
         // 处理回血药描述
         let descRecovery = "";
         if (diffRecovery > 0) {
