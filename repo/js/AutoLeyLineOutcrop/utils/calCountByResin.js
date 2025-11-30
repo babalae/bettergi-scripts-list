@@ -163,11 +163,13 @@ async function recognizeNumberByOCR(ocrRegion, pattern) {
         
         if (!resList || resList.length === 0) {
             log.warn("OCR未识别到任何文本");
+            resList.dispose();
             return null;
         }
         
         for (const res of resList) {
             if (!res || !res.text) {
+                resList.dispose();
                 continue;
             }
             
@@ -175,13 +177,16 @@ async function recognizeNumberByOCR(ocrRegion, pattern) {
             if (numberMatch) {
                 const number = parseInt(numberMatch[1] || numberMatch[0]);
                 if (!isNaN(number)) {
+                    resList.dispose();
                     return number;
                 }
             }
         }
     } catch (error) {
         log.error(`OCR识别时发生异常: ${error.message}`);
+        resList.dispose();
     }
+    resList.dispose();
     return null;
 }
 
