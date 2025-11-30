@@ -438,13 +438,7 @@ const ocrRegion = {
         if (diffRecovery === 0 && diffResurrection === 0) {
             // 两个值都等于0，输出无变化
             logMsg = `${userName}: 今日药物数量无变化`;
-        } else if (diffRecovery > 0 && diffResurrection > 0) {
-            // 两种药都消耗
-            logMsg = `${userName}: 今日消耗：${recoveryFoodName}${diffRecovery}个，${resurrectionFoodName}${diffResurrection}个`;
-        } else if (diffRecovery < 0 && diffResurrection < 0) {
-            // 两种药都新增
-            logMsg = `${userName}: 今日新增：${recoveryFoodName}${-diffRecovery}个，${resurrectionFoodName}${-diffResurrection}个`;
-        } else {
+        }else {
             // 其他情况
             logMsg = `${userName}: 今日${descRecovery}，${descResurrection}`;
         }
