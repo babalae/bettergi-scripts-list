@@ -144,7 +144,7 @@ async function checkUpdate() {
             if (isNotification) {
                 notification.send(`发现新的脚本版本: ${latestVersion}（当前版本: ${currentVersion}），请前往脚本仓库更新脚本！`);
             }
-            if (!oneDragonMode) {
+            if (!settings.oneDragonMode) {
                 throw new Error("脚本有新版本，请前往脚本仓库更新脚本！");
             } else {
                 log.warn("请及时更新脚本，以获得最新功能和修复！");
@@ -332,7 +332,7 @@ async function prepareForLeyLineRun() {
     await genshin.returnMainUi();  // 回到主界面
     setGameMetrics(1920, 1080, 1); // 看起来没什么用
     // 1. 开局传送到七天神像
-    if (!oneDragonMode) {
+    if (!settings.oneDragonMode) {
         await genshin.tpToStatueOfTheSeven(); 
     }
 
