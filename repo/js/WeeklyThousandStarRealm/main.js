@@ -9,36 +9,34 @@ const userAttempts = Number(settings.thisAttempts || "0");
 const useFixedAttempts = userAttempts > 0;
 const weekMaxExp = Number(settings.weekMaxExp);
 const singleExp = Number(settings.singleExp);
-const weekTotal = getWeekTotal(weekMaxExp, singleExp);
-let isFirst = false;
+let weekTotal = initWeekTotal();
 
 // 获取图片资源
 function getImgMat(path) {
   return file.readImageMatSync('assets/' + path + '.png');
 }
 
-// 加载数据
+// 读取存档
 function loadWeekData() {
   try {
-    const text = file.readTextSync(storePath);
-    return JSON.parse(text);
+    const t = file.readTextSync(storePath);
+    return JSON.parse(t);
   } catch (_) {
     return null;
   }
 }
 
-// 保存数据
+// 保存存档
 function saveWeekData(data) {
-  return file.writeTextSync(storePath, JSON.stringify(data));
+  file.writeTextSync(storePath, JSON.stringify(data));
 }
 
-// 获取每周次数
-function getWeekTotal(weekMaxExp, singleExp) {
+// 初始化或更新 weekTotal
+function initWeekTotal() {
   const stored = loadWeekData();
-
   const calculated = Math.ceil(weekMaxExp / singleExp);
 
-  // 首次或配置变化覆盖写入
+  // 首次 OR 配置变化 → 重写
   if (
       !stored ||
       stored.weekMaxExp !== weekMaxExp ||
@@ -53,19 +51,17 @@ function getWeekTotal(weekMaxExp, singleExp) {
     return calculated;
   }
 
-  // 未变化则使用已有
   return stored.weekTotal;
 }
 
-// 减少刷取次数
+// 刷完一次 → 计数 -1
 function decreaseWeekTotal() {
   const stored = loadWeekData();
   if (!stored) return;
 
   stored.weekTotal = Math.max(stored.weekTotal - 1, 0);
   saveWeekData(stored);
-
-  return stored.weekTotal;
+  weekTotal = stored.weekTotal;
 }
 
 // 查找文本
@@ -203,7 +199,7 @@ async function createMap() {
 // 游玩关卡
 async function playMap() {
   const stored = loadWeekData();
-  const leave = stored ? stored.weekTotal : weekTotal; // 剩余次数
+  const leave = stored ? stored.weekTotal : weekTotal;
   const total = useFixedAttempts ? userAttempts : leave;
   await createMap();
   while (true) {
@@ -321,12 +317,12 @@ async function exitToTeyvat() {
   } else {
     // 每周模式
     const stored = loadWeekData();
-    const leave = stored ? stored.weekTotal : weekTotal; // 剩余次数
-    const done = weekTotal - leave; // 已刷次数
+    const leave = stored.weekTotal;
+    const done = Math.ceil(weekMaxExp / singleExp) - leave;
 
     log.info(
-        "本周共需刷取{total}次，已刷取{done}次，剩余{leave}次",
-        weekTotal,
+        "本周共需刷取 {total} 次，已刷 {done} 次，剩余 {leave} 次",
+        Math.ceil(weekMaxExp / singleExp),
         done,
         leave
     );
