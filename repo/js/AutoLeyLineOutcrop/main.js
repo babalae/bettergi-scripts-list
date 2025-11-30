@@ -811,7 +811,7 @@ async function autoFight(timeout) {
  */
 async function autoNavigateToReward() {
     // 定义识别对象
-    const cts = new CancellationTokenSource();
+    let cts = new CancellationTokenSource();
     const MAX_RETRY = 3; // 最大重试次数
     let retryCount = 0;
 
@@ -853,7 +853,7 @@ async function autoNavigateToReward() {
                     keyUp("s");
                     await sleep(500);
 
-                    // 创建新的令牌
+                    // 创建新的令牌用于下一次重试
                     cts = new CancellationTokenSource();
                 } else {
                     // 对于其他错误，直接抛出
