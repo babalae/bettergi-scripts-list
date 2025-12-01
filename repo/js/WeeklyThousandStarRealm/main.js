@@ -306,7 +306,9 @@ async function playMap() {
     }
   }
 
-  await deleteSource();
+  if (achievementMode) {
+    await deleteSource();
+  }
 
   for (let i = 1; i < total; i++) {
     const inRoom = await findText("房间", 1500, 0, 420, 500);
@@ -355,7 +357,9 @@ async function playMap() {
           await sleep(interval);
         }
       }
-      await deleteSource();
+      if (achievementMode) {
+        await deleteSource();
+      }
     }
   }
 }
