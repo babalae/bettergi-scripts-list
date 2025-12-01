@@ -4,7 +4,10 @@ const duration = 1000; // 默认点击等待延时
 
 const storePath = "data/store.json"
 const runJS = settings.runJS || false;
+const achievementMode = settings.achievementMode || true;
+const starMode = settings.starMode || false;
 const roomID = settings.room || "37135473336";
+const starRoomName = settings.starRoomName || "碰碰墙";
 const userAttempts = Number(settings.thisAttempts || "0");
 const useFixedAttempts = userAttempts > 0;
 const weekMaxExp = Number(settings.weekMaxExp || "4000");
@@ -131,21 +134,23 @@ async function findImageAndClick(path, x, y, w, h, imgAttempts = attempts) {
 
 // 清除游玩数据
 async function deleteSource() {
-  await sleep(duration);
-  await genshin.returnMainUi();
-  log.info("开始清除地图数据");
-  await sleep(duration);
-  keyPress("VK_B");
-  await sleep(duration);
-  await findTextAndClick("管理关卡", 960, 0, 960, 100);
-  await findTextAndClick("管理", 960, 980, 960, 100);
-  await findImageAndClick("check_box", 0, 0, 1480, 340);
-  await findTextAndClick("删除",960, 980, 960, 100);
-  await findTextAndClick("确认", 960, 600, 960, 400);
-  await findTextAndClick("确认", 960, 600, 960, 400);
-  log.info("数据清除完成");
-  await sleep(duration);
-  await genshin.returnMainUi();
+  if (achievementMode) {
+    await sleep(duration);
+    await genshin.returnMainUi();
+    log.info("开始清除地图数据");
+    await sleep(duration);
+    keyPress("VK_B");
+    await sleep(duration);
+    await findTextAndClick("管理关卡", 960, 0, 960, 100);
+    await findTextAndClick("管理", 960, 980, 960, 100);
+    await findImageAndClick("check_box", 0, 0, 1480, 340);
+    await findTextAndClick("删除",960, 980, 960, 100);
+    await findTextAndClick("确认", 960, 600, 960, 400);
+    await findTextAndClick("确认", 960, 600, 960, 400);
+    log.info("数据清除完成");
+    await sleep(duration);
+    await genshin.returnMainUi();
+  }
 }
 
 // 进入千星奇域的全部奇域页面
@@ -161,6 +166,26 @@ async function enterSourcePage() {
     keyPress("VK_F6");
   } else {
     keyPress("VK_F6");
+  }
+
+  await sleep(duration);
+}
+
+// 进入千星奇域的收藏奇域页面
+async function enterStarSourcePage() {
+  // 1. 检测是否在房间内，在则退出
+  const inRoom = await findText("房间", 1500, 0, 420, 500, 5);
+  if (inRoom) {
+    keyPress("VK_P");
+    await sleep(duration);
+    await findImageAndClick("exit_room", 960, 0, 960, 540);
+    await findTextAndClick("确认", 960, 600, 960, 400);
+    await genshin.returnMainUi();
+    keyPress("VK_B");
+  } else {
+    keyPress("VK_F6");
+    await sleep(duration);
+    await findTextAndClick("收藏", 0, 850, 300, 230);
   }
 
   await sleep(duration);
@@ -196,12 +221,47 @@ async function createMap() {
   await sleep(duration);
 }
 
+// 从收藏创建关卡
+async function createStarMap() {
+  await findTextAndClick("搜索", 0, 0, 1920, 120);
+  inputText(starRoomName);
+  await sleep(1000);
+  await findTextAndClick("搜索", 0, 0, 1920, 120);
+  await sleep(duration);
+  click(420, 830);
+  await sleep(duration);
+  while (true) {
+    const result = await findText("房间", 960, 100, 960, 200, 2);
+    if (result) {
+      await sleep(duration);
+      result.click();
+      await sleep(duration);
+      break;
+    } else {
+      const result2 = await findText("大厅", 960, 600, 960, 400, 2);
+      if (result2) {
+        result2.click();
+        await sleep(duration);
+      }
+    }
+  }
+  await findText("开始游戏", 960, 540, 960, 540);
+  click(770, 275);
+  await sleep(duration);
+}
+
 // 游玩关卡
 async function playMap() {
   const stored = loadWeekData();
   const leave = stored ? stored.weekTotal : weekTotal;
   const total = useFixedAttempts ? userAttempts : leave;
-  await createMap();
+
+  if (starMode) {
+    await createStarMap();
+  } else {
+    await createMap();
+  }
+
   while (true) {
     await sleep(duration);
     const result = await findText("开始游戏", 960, 540, 960, 540, 5);
@@ -217,6 +277,12 @@ async function playMap() {
   }
   let firstOutputCount = 0;
   while (true) {
+    const whiteText = await findText("空白处", 610, 950, 700, 60, 1);
+    if (whiteText) {
+      await sleep(duration);
+      click(610, 950);
+    }
+
     const result = await findText("返回大厅", 960, 540, 960, 540, 1);
     if (result) {
       await sleep(duration);
@@ -262,6 +328,11 @@ async function playMap() {
       }
       let outputCount = 0;
       while (true) {
+        const whiteText = await findText("空白处", 610, 950, 700, 60, 1);
+        if (whiteText) {
+          await sleep(duration);
+          click(610, 950);
+        }
         const result = await findText("返回大厅", 960, 540, 960, 540, 1);
         if (result) {
           await sleep(duration);
@@ -328,7 +399,12 @@ async function exitToTeyvat() {
     );
   }
 
-  await enterSourcePage();
+  if (starMode) {
+    log.info("已使用收藏模式");
+    await enterStarSourcePage();
+  } else {
+    await enterSourcePage();
+  }
   await playMap();
   await exitToTeyvat();
 })();
