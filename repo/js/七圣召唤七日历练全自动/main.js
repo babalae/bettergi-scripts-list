@@ -452,7 +452,7 @@ const detectCardPlayer = async () => {
 };
 
 //获取挑战对象名称
-async function captureAndStoreTexts() {
+async function getRemainingChallengeGuests() {
     // 清空数组
     textArray = [];
     // 四个固定位置坐标
@@ -635,12 +635,13 @@ async function searchCharAndPlayCards() {
             charName = textArray[charIndex].text;
             log.info(`找到文本: ${resText} (匹配到牌手: ${charName})`);
             skipNum = 0;
+            break;
         } else {
-            log.debug("resText={0}无任何匹配牌手", resText);
+            log.debug("resText={0} 无任何匹配牌手", resText);
         }
     }
     if (charName === "") {
-        log.warn(`在牌桌旁未找到可对战牌手 (剩余: ${textArray.join(", ")})`);
+        log.warn(`在牌桌旁未找到可对战牌手 (剩余: ${textArray.map(item => item.text).join(", ")})`);
         skipNum++;
         return false;
     }
@@ -1015,7 +1016,7 @@ async function main() {
     const nowTime = new Date();
     log.info(`前往猫尾酒馆`);
     await gotoTavern();
-    await captureAndStoreTexts();
+    await getRemainingChallengeGuests();
     allStrategy = scanCardStrategy();
     try {
         strategyRunRecord = JSON.parse(file.readTextSync(strategyRunRecordFile));
@@ -1056,7 +1057,7 @@ async function main() {
         await searchCharAndPlayCards();
     }
     await genshin.returnMainUi();
-    await captureAndStoreTexts();
+    await getRemainingChallengeGuests();
     notification.send(`打牌结束、剩余挑战人数:${textArray.length}`);
     // 更新最后完成时间
     if (textArray.length === 0) {
@@ -1074,7 +1075,7 @@ async function main() {
         log.error("需要在JS脚本配置中设置两个牌组且名称不能相同");
         return;
     }
-    if ((await isTaskRefreshed("assets/weekly.txt"), refresh)) {
+    if (await isTaskRefreshed("assets/weekly.txt", refresh)) {
         await genshin.returnMainUi();
         if(settings.teamName)await genshin.switchParty(settings.teamName);
         await main();
