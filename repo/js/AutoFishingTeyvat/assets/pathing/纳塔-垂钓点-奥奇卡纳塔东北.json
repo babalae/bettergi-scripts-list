@@ -64,18 +64,42 @@
         },
         {
             "id": 7,
-            "x": 9710.38,
-            "y": 159.39,
-            "type": "path",
+            "x": 9698.8291,
+            "y": 161.5961,
+            "type": "target",
             "move_mode": "fly",
             "action": "stop_flying",
             "action_params": "",
             "locked": false
         },
         {
+            "x": 9692.012,
+            "y": 163.0986,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "keypress(x);钟离 a(0.1),e(hold);茜特菈莉 e,wait(0.5),attack,wait(0.5),e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;wait(1)"
+        },
+        {
+            "x": 9705.8877,
+            "y": 168.5947,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
             "id": 8,
-            "x": 9710.38,
-            "y": 159.39,
+            "x": 9715.4189,
+            "y": 158.4404,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "x": 9713.4189,
+            "y": 151.4404,
             "type": "path",
             "move_mode": "walk",
             "action": "fight",
@@ -83,6 +107,15 @@
         },
         {
             "id": 9,
+            "x": 9710.38,
+            "y": 159.39,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 10,
             "x": 9715.11,
             "y": 157.19,
             "type": "path",
@@ -91,13 +124,13 @@
             "action_params": ""
         },
         {
-            "id": 10,
+            "id": 11,
             "x": 9719.96,
             "y": 155.9,
             "type": "target",
             "move_mode": "walk",
             "action": "combat_script",
-            "action_params": "wait(15),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+            "action_params": "wait(15),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
         }
     ]
 }
