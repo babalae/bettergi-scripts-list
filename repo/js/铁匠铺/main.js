@@ -82,19 +82,19 @@ const CrystalChunkForgeRo = RecognitionObject.TemplateMatch(
 //背包界面物品图标
 const CondessenceCrystalRo = RecognitionObject.TemplateMatch(
     file.ReadImageMatSync("Assets/RecognitionObject/ItemImage/CondessenceCrystal.png"),
-    115, 115, 1270, 625
+    115, 115, 1300, 955
 ); // 【萃凝晶】
 const CrystalChunkRo = RecognitionObject.TemplateMatch(
     file.ReadImageMatSync("Assets/RecognitionObject/ItemImage/CrystalChunk.png"),
-    115, 115, 1165, 510
+    115, 115, 1300, 955
 ); // 【水晶块】
 const AmethystLumpRo = RecognitionObject.TemplateMatch(
     file.ReadImageMatSync("Assets/RecognitionObject/ItemImage/AmethystLump.png"),
-    115, 115, 1165, 510
+    115, 115, 1300, 955
 ); // 【紫晶块】
 const RainbowdropCrystalRo = RecognitionObject.TemplateMatch(
     file.ReadImageMatSync("Assets/RecognitionObject/ItemImage/RainbowdropCrystal.png"),
-    115, 115, 1165, 510
+    115, 115, 1300, 955
 ); // 【虹滴晶】
 
 
