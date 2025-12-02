@@ -606,7 +606,7 @@ async function mora() {
                 // 尝试识别图像
                 const gameRegion = captureGameRegion();
                 let imageResult = gameRegion.find(recognitionObject);
-                gameRegion.dispose;
+                gameRegion.dispose();
                 if (imageResult) {
                     // log.info(`成功识别图像，坐标: x=${imageResult.x}, y=${imageResult.y}`);
                     // log.info(`图像尺寸: width=${imageResult.width}, height=${imageResult.height}`);
