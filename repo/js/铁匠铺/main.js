@@ -2,9 +2,12 @@
 
 // 用户配置
 let smithyName = settings.smithyName || "枫丹铁匠铺";           // 铁匠铺地区
-let primaryOre = settings.ore || "水晶块";                      // 主选矿石
-let secondaryOre = settings.secondaryOre || "萃凝晶";           // 备选矿石1
-let tertiaryOre = settings.tertiaryOre || "紫晶块";             // 备选矿石2
+let CondessenceCrystal = settings.CondessenceCrystal || "1";   // 萃凝晶
+let CrystalChunk = settings.CrystalChunk || "2";               // 水晶块
+let AmethystLump = settings.AmethystLump || "3";               // 紫晶块
+let RainbowdropCrystal = settings.RainbowdropCrystal || "4";   // 虹滴晶
+
+
 let notice = settings.notice ?? false;                          // 通知状态
 let forgedOrNot = (settings.forgedOrNot && settings.forgedOrNot.trim() !== "") ? settings.forgedOrNot : "是"; // 是否锻造
 let model = settings.model || "模式一";                         // 模式选择
@@ -12,8 +15,10 @@ let model = settings.model || "模式一";                         // 模式选�
 // 矿石图像与中文名称映射
 const ingredientImageMap = {
     萃凝晶: "assets/Picture/CondessenceCrystal.png",
-    紫晶块: "assets/Picture/AmethystLump.png",
     水晶块: "assets/Picture/CrystalChunk.png",
+    紫晶块: "assets/Picture/AmethystLump.png",
+    虹滴晶: "assets/Picture/RainbowdropCrystal.png",
+
     星银矿石: "assets/Picture/Starsilver.png",
     白铁块: "assets/Picture/WhiteIronChunk.png",
     铁块: "assets/Picture/IronChunk.png",
@@ -21,8 +26,10 @@ const ingredientImageMap = {
 
 const OreChineseMap = {
     萃凝晶: "萃凝晶",
-    紫晶块: "紫晶块",
     水晶块: "水晶块",
+    紫晶块: "紫晶块",
+    虹滴晶: "虹滴晶",
+
     星银矿石: "星银矿石",
     白铁块: "白铁块",
     铁块: "铁块",
@@ -34,7 +41,8 @@ const smithyMap = {
     "稻妻铁匠铺": { x: -4402, y: -3052, country: "稻妻" },
     "须弥铁匠铺": { x: 2786, y: -503, country: "须弥" },
     "枫丹铁匠铺": { x: 4507, y: 3630, country: "枫丹" },
-    "纳塔铁匠铺": { x: 9085, y: -1964, country: "纳塔" }
+    "纳塔铁匠铺": { x: 9085, y: -1964, country: "纳塔" },
+    "挪德卡莱铁匠铺": { x: 9458, y: 1660, country: "挪德卡莱" }
 };
 
 // 模板识别对象
@@ -76,14 +84,19 @@ const CondessenceCrystalRo = RecognitionObject.TemplateMatch(
     file.ReadImageMatSync("Assets/RecognitionObject/ItemImage/CondessenceCrystal.png"),
     115, 115, 1270, 625
 ); // 【萃凝晶】
-const AmethystLumpRo = RecognitionObject.TemplateMatch(
-    file.ReadImageMatSync("Assets/RecognitionObject/ItemImage/AmethystLump.png"),
-    115, 115, 1165, 510
-); // 【紫晶块】
 const CrystalChunkRo = RecognitionObject.TemplateMatch(
     file.ReadImageMatSync("Assets/RecognitionObject/ItemImage/CrystalChunk.png"),
     115, 115, 1165, 510
 ); // 【水晶块】
+const AmethystLumpRo = RecognitionObject.TemplateMatch(
+    file.ReadImageMatSync("Assets/RecognitionObject/ItemImage/AmethystLump.png"),
+    115, 115, 1165, 510
+); // 【紫晶块】
+const RainbowdropCrystalRo = RecognitionObject.TemplateMatch(
+    file.ReadImageMatSync("Assets/RecognitionObject/ItemImage/RainbowdropCrystal.png"),
+    115, 115, 1165, 510
+); // 【虹滴晶】
+
 
 //对话框图标
 const ForgeRo = RecognitionObject.TemplateMatch(
@@ -109,6 +122,8 @@ const MapForgeRo = RecognitionObject.TemplateMatch(
     file.ReadImageMatSync("Assets/RecognitionObject/icon/MapForge.png"),
     0, 0, 400, 625
 ); // 地图左上角【锻造】图标
+
+
 
 // 计算矿物图标的坐标（行列排列）
 const rows = [1, 2, 3];
@@ -226,7 +241,12 @@ async function findAndInteract(target, options = {}) {
         } finally {
             // 4. 资源清理
             if (gameRegion?.dispose) {
-                try { gameRegion.dispose(); } catch (e) { }
+                try {
+                    gameRegion.dispose();
+
+                } catch (error) {
+                    log.error(`释放游戏区域资源时出错: ${error.message}`);
+                }
             }
         }
 
@@ -244,6 +264,7 @@ async function findAndInteract(target, options = {}) {
         await sleep(interval);
     }
 }
+
 
 // 图像识别函数
 function recognizeImage(imagePath, x, y, searchWidth, searchHeight) {
@@ -266,16 +287,89 @@ function recognizeImage(imagePath, x, y, searchWidth, searchHeight) {
     }
 }
 
-// 检查是否需要跳过该矿石（若已属于备选中）
-function shouldSkipOre(targetOre, compareOres) {
-    return compareOres.includes(targetOre);
-}
-
 // 通知日志：使用矿石提示
 function determineOre(oreType) {
     let message = `将使用 ${OreChineseMap[oreType]} 锻造矿石`;
     log.info(message);
     return message;
+}
+
+/* 排序并过滤矿石
+在锻造逻辑前，生成一个按优先级排序的矿石列表，数字为 0 的矿石不参与锻造：
+*/
+function getSortedOresByPriority(priorityConfig, tieBreakOrder = []) {
+    // priorityConfig: { oreName: priorityNumber, ... }
+    // tieBreakOrder: 当优先级相同或重复时，按此数组的顺序决定先后（越靠前优先级越高）
+
+
+    // 调试日志：显示原始配置
+    log.info(`原始优先级配置: ${JSON.stringify(priorityConfig)}`);
+
+    const entries = Object.entries(priorityConfig || {}).filter(([_, priority]) => Number(priority) > 0);
+
+    // 调试日志：显示过滤后的条目
+    //log.info(`[排序调试] 过滤后的矿石条目: ${JSON.stringify(entries)}`);
+
+    // 去重并稳定排序：先按 priority 升序，同优先级时按 tieBreakOrder 的索引升序
+    entries.sort((a, b) => {
+        const pa = Number(a[1]);
+        const pb = Number(b[1]);
+
+
+        // 调试日志：显示每次比较
+        //log.info(`[排序调试] 比较 ${a[0]}=${pa} vs ${b[0]}=${pb}`);
+
+
+        if (pb !== pa)
+            return pa - pb;
+
+        const ai = tieBreakOrder.indexOf(a[0]);
+        const bi = tieBreakOrder.indexOf(b[0]);
+        const aIdx = ai === -1 ? Number.MAX_SAFE_INTEGER : ai;
+        const bIdx = bi === -1 ? Number.MAX_SAFE_INTEGER : bi;
+        return aIdx - bIdx;
+    });
+
+
+    // 调试日志：显示排序后的条目
+    //log.info(`[排序调试] 排序后的矿石条目: ${JSON.stringify(entries)}`);
+
+    // 返回去重后的名称列表（保持排序）
+    const seen = new Set();
+    const result = [];
+    for (const [name] of entries) {
+        if (!seen.has(name)) {
+            seen.add(name);
+            result.push(name);
+        }
+    }
+
+    // 调试日志：显示最终结果
+    log.info(`矿石使用排序: ${JSON.stringify(result)}`);
+
+    return result;
+}
+
+// 1. 定义优先级配置和昵称顺序。读取 settings.json 里的矿石优先级配置，转为数字
+const orePriorityConfig = {
+    "萃凝晶": Number(CondessenceCrystal) ?? 0,
+    "水晶块": Number(CrystalChunk) ?? 0,
+    "紫晶块": Number(AmethystLump) ?? 0,
+    "虹滴晶": Number(RainbowdropCrystal) ?? 0
+};
+//定义昵称顺序，用于优先级相同时的排序。
+const nicknameOrder = ["萃凝晶", "水晶块", "紫晶块", "虹滴晶"];
+
+// 2. 排序函数
+function getOreOrder(priorityConfig, orderArr) {
+    return orderArr
+        .filter(name => Number(priorityConfig[name]) > 0)
+        .sort((a, b) => {
+            const pa = Number(priorityConfig[a]);
+            const pb = Number(priorityConfig[b]);
+            if (pb !== pa) return pb - pa;
+            return orderArr.indexOf(a) - orderArr.indexOf(b);
+        });
 }
 
 /*********************** 主逻辑函数 ***********************/
@@ -326,13 +420,53 @@ async function getMaxOreType() {
         }
 
         const oreResults = [
-            { name: "萃凝晶", ro: CondessenceCrystalRo },
+            { name: "水晶块", ro: CrystalChunkRo },
             { name: "紫晶块", ro: AmethystLumpRo },
-            { name: "水晶块", ro: CrystalChunkRo }
+            { name: "萃凝晶", ro: CondessenceCrystalRo },
+            { name: "虹滴晶", ro: RainbowdropCrystalRo }
         ];
+
+        // 定义日志收集对象
+        const priorityLog = [];  // 优先级检查日志
+
+
+
+        // 过滤掉优先级为0的矿石
+        //const validOres = oreResults.filter(ore => Number(orePriorityConfig[ore.name]) > 0);
+
+
+        const validOres = oreResults.filter(ore => {
+            const priority = Number(orePriorityConfig[ore.name]);
+            const isValid = priority > 0;
+
+            // 收集优先级检查日志
+            priorityLog.push(`矿石 ${ore.name} 优先级: ${priority}, 是否使用对应矿: ${isValid}`);
+
+            //log.debug(`矿石 ${ore.name} 优先级: ${priority}, 是否有效: ${isValid}`);
+            return isValid;
+
+        });
+
+        // 在过滤完成后一次性输出所有日志
+        if (priorityLog.length > 0) {
+            log.info(`矿石优先级检查详情:\n${priorityLog.join('\n')}`);
+        }
+
+        /*已在总体逻辑中添加检查
+         * // *新增：当所有矿石优先级均为 0 时，停止脚本并通知用户
+        if (validOres.length === 0) {
+            log.error("没有有效的矿石配置，所有矿石优先级均为0或无效");
+            return null;
+        }
+        */
+
+
         let maxOre = null;
         let maxCount = 0;
-        for (const ore of oreResults) {
+        // 定义日志收集对象
+        const quantityLog = [];   // 数量识别日志
+
+        for (const ore of validOres) {
             const result = await findAndInteract(ore.ro, {
                 useClick: true,
                 timeout: 5000,
@@ -349,7 +483,8 @@ async function getMaxOreType() {
             if (resList.count > 0) {
                 let text = resList[0].text.replace(/[^\d]/g, "");
                 oreNum = parseInt(text, 10) || 0;
-                log.info(`识别到 ${OreChineseMap[ore.name]} 数量: ${oreNum}`);
+                quantityLog.push(`识别到 ${OreChineseMap[ore.name]} 数量: ${oreNum}`);
+                //log.info(`识别到 ${OreChineseMap[ore.name]} 数量: ${oreNum}`);
             }
             if (oreNum > maxCount) {
                 maxCount = oreNum;
@@ -363,7 +498,15 @@ async function getMaxOreType() {
                 */
             }
         }
+
+        // 数量识别日志
+        if (quantityLog.length > 0) {
+            log.info(`矿石数量识别:\n${quantityLog.join('\n')}`);
+        }
+
+
         return maxOre ? { name: maxOre, count: maxCount } : null; // 修改返回值
+
     } catch (error) {
         if (notice) {
             notification.error(`自动识别背包中数量最多的矿石失败，错误: ${error.message}`);
@@ -372,6 +515,8 @@ async function getMaxOreType() {
         }
         return null;
     }
+
+
 }
 
 // 自动前往铁匠铺
@@ -405,15 +550,10 @@ async function autoSmithy(smithyName) {
     }
 }
 
+
 // 尝试识别并锻造矿石
 async function tryForgeOre(oreType, skipCheckOres = []) {
-    // 若矿石在跳过列表中则直接返回
-    if (shouldSkipOre(oreType, skipCheckOres)) {
-        if (notice) {
-            //notification.send(`跳过 ${OreChineseMap[oreType]}，因为已存在于优先选择中`);
-        }
-        return false;
-    }
+
 
     // 获取矿石图像路径
     const imagePath = ingredientImageMap[oreType];
@@ -557,6 +697,10 @@ async function forgeOre(smithyName, maxOre = null) {
     if (dialogFound) {
         let interFaceFound = false;
         for (let attempt = 0; attempt < maxAttempts; attempt++) {
+            const ocrRegion = { x: 185, y: 125, width: 670 - 185, height: 175 - 125 };
+            let ocrResults = captureGameRegion().find(
+                RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height)
+            );
             let innerFound = false;
             for (let i = 0; i < 3; i++) {
                 let ro = captureGameRegion();
@@ -600,26 +744,42 @@ async function forgeOre(smithyName, maxOre = null) {
 
                     // 模式一：自动模式：自动选择数量最多的矿石锻造
                     if (model === "模式一" && maxOre) {
-                        primaryOre = maxOre;
-                        log.info(`自动选择数量最多的矿石为: ${primaryOre}`);
-                        forgeSuccess = await tryForgeOre(primaryOre, []);
+                        //log.info(`自动选择数量最多的矿石为: ${maxOre}`);
+                        forgeSuccess = await tryForgeOre(maxOre, []);
                         if (!forgeSuccess) {
-                            log.warn("自动模式锻造未成功，切换到手动备选矿石模式");
+                            log.warn("自动模式锻造未成功，切换到手动排序选矿模式");
                         }
                     }
-                    // 模式二或模式一失败时，依次尝试主选及备选矿石
+                    // 处于模式二或模式一失败时，则按配置优先级依次尝试
                     if (model === "模式二" || !forgeSuccess) {
-                        if (await tryForgeOre(primaryOre, [])) {
-                            forgeSuccess = true;
-                        } else if (await tryForgeOre(secondaryOre, [primaryOre])) {
-                            forgeSuccess = true;
-                        } else if (await tryForgeOre(tertiaryOre, [primaryOre, secondaryOre])) {
-                            forgeSuccess = true;
-                        } else {
+                        // 生成按优先级的候选矿石列表（只包含优先级大于0的项）
+                        let orderedOres = getSortedOresByPriority(orePriorityConfig, nicknameOrder);
+                        // 如果之前已尝试过 maxOre，则从列表中过滤掉它，避免重复尝试
+                        if (maxOre) {
+                            orderedOres = orderedOres.filter(o => o !== maxOre);
+                        }
+
+                        // 按顺序逐个尝试
+                        for (const oreName of orderedOres) {
+                            if (!oreName) continue;
+                            log.info(`按优先级尝试锻造矿石: ${oreName}`);
+                            try {
+                                if (await tryForgeOre(oreName, [])) {
+                                    forgeSuccess = true;
+                                    break;
+                                } else {
+                                    log.info(`${oreName} 尝试未成功，继续下一个`);
+                                }
+                            } catch (error) {
+                                log.error(`tryForgeOre(${oreName}) 报错: ${error.message}`);
+                            }
+                        }
+
+                        if (!forgeSuccess) {
                             if (notice) {
-                                notification.error("所有备选矿石都未能识别，结束锻造");
+                                notification.error("所有候选矿石均未能成功锻造，结束锻造");
                             } else {
-                                log.error("所有备选矿石都未能识别，结束锻造");
+                                log.error("所有候选矿石均未能成功锻造，结束锻造");
                             }
                         }
                     }
@@ -627,7 +787,7 @@ async function forgeOre(smithyName, maxOre = null) {
 
                 // 退出锻造前判断配方，点击“锻造队列”，再次确认使用的矿物已经锻造结果
                 const ocrRegionAfter = { x: 185, y: 125, width: 670 - 185, height: 175 - 125 };
-                let ro2 =captureGameRegion();
+                let ro2 = captureGameRegion();
                 let ocrResultsAfter = ro2.find(
                     RecognitionObject.ocr(ocrRegionAfter.x, ocrRegionAfter.y, ocrRegionAfter.width, ocrRegionAfter.height)
                 );
@@ -670,18 +830,35 @@ async function forgeOre(smithyName, maxOre = null) {
         log.info("自动锻造矿石脚本开始");
     }
 
+    // 详细的所有矿石优先级为0的检查
+    log.info(`[配置检查] 开始检查矿石优先级配置`);
+
+    // *新增：当所有矿石优先级均为 0 时，停止脚本并通知用户
+    const allOrePriorities = Object.values(orePriorityConfig || {}).map(v => Number(v) || 0);
+    const allZero = allOrePriorities.length > 0 && allOrePriorities.every(v => v === 0);
+    if (allZero) {
+        const msg = "所有矿石优先级均为0或无效 ，已停止脚本。请在设置中至少启用一种矿石。";
+        //log.error("没有有效的矿石配置，所有矿石优先级均为0或无效");
+
+        if (notice) {
+            notification.error(msg);
+        } else {
+            log.error(msg);
+        }
+        return; // 停止脚本
+    }
+
     let maxOre = null;
     if (forgedOrNot === "是") {
         if (model === "模式一") {
             const maxOreResult = await getMaxOreType();
             if (maxOreResult) {
                 maxOre = maxOreResult.name;
-                primaryOre = maxOre;
                 //log.info(`自动选择数量最多的矿石为: ${maxOre}`);
                 if (notice) {
-                    notification.send(`当前最多矿石为: ${OreChineseMap[maxOre]}，数量: ${maxOreResult.count}`);
+                    notification.send(`自动选择当前数量最多矿石: ${OreChineseMap[maxOre]}，数量: ${maxOreResult.count}`);
                 } else {
-                    log.info(`当前最多矿石为: ${OreChineseMap[maxOre]}，数量: ${maxOreResult.count}`);
+                    log.info(`自动选择当前数量最多矿石: ${OreChineseMap[maxOre]}，数量: ${maxOreResult.count}`);
                 }
             } else {
                 log.warn("自动识别矿石失败，将使用默认配置");
