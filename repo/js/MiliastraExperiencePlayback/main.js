@@ -355,9 +355,9 @@ var findBeyondHallBtn = () => {
   iro?.drawSelf("group_img");
   return iro;
 };
-//! 全部奇域按钮
+//! 查找搜索奇域按钮
 var findAllWonderlandsBtn = () => {
-  return findTextWithinBounds("全部", 1320, 0, 600, 95, { contains: true });
+  return findTextWithinBounds("搜索", 1320, 0, 600, 95, { contains: true });
 };
 //! 查找奇域搜索输入框
 var findSearchWonderlandInput = () => {
@@ -388,7 +388,7 @@ var findFirstSearchResultText = () => {
     }
   })();
 };
-//! 点击选择第一个搜索结果
+//! 点击选择第一个搜索结果位置
 var clickToChooseFirstSearchResult = () => {
   click(355, 365);
 };
@@ -413,11 +413,11 @@ var findGoToLobbyBtn = () => {
 var findCreateRoomBtn = () => {
   return findTextWithinBounds("房间", 960, 140, 960, 70, { contains: true });
 };
-//! 点击加入准备区
+//! 点击加入准备区位置
 var clickToPrepare = () => {
   click(770, 275);
 };
-//! 加入准备区提示
+//! 查找加入准备区提示
 var findPrepareMsg = () => {
   return findTextWithinBounds("加入准备", 576, 432, 768, 216, {
     contains: true
@@ -541,7 +541,7 @@ var createRoom = async (room) => {
   await goToRecommendedWonderlands();
   log.info("打开全部奇域界面...");
   await assertRegionAppearing(
-    () => findHeaderTitle("全部", true),
+    () => findHeaderTitle("搜索", true),
     "打开全部奇域界面超时",
     () => {
       findAllWonderlandsBtn()?.click();
@@ -693,6 +693,7 @@ var deleteStageSave = async () => {
       log.warn("未找到要删除的关卡存档，跳过");
       return;
     }
+    stagePos?.drawSelf("group_text");
     const colPos = findExternalSaveColumnPos();
     if (colPos === void 0) {
       log.warn("无法确定关卡的局外存档列位置，跳过");
