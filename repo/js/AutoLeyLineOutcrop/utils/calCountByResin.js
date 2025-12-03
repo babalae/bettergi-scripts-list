@@ -259,22 +259,30 @@ async function countCondensedResin() {
     // 点击浓缩树脂打开说明界面统计
     condensedResin.click();
     await sleep(CONFIG.UI_DELAY);
-    let captureRegion = captureGameRegion(); 
-    // OCR识别整个界面的文本
-    let ocrRo = RecognitionObject.Ocr(0, 0, captureRegion.width, captureRegion.height);
-    let textList = captureRegion.findMulti(ocrRo);
-    captureRegion.dispose();
-    for (const res of textList) {
-        if (res.text.includes("当前拥有")) {
-            const match = res.text.match(/当前拥有\s*([0-5ss])/);
-            if (match && match[1]) {
-                const count = parseInt(match[1]);
-                log.info(`浓缩树脂数量(说明界面): ${count}`);
-                keyPress("ESCAPE");
-                await sleep(CONFIG.UI_DELAY);
-                return count;
+    let captureRegion = captureGameRegion();
+    let textList = null;
+    try {
+        // OCR识别整个界面的文本
+        let ocrRo = RecognitionObject.Ocr(0, 0, captureRegion.width, captureRegion.height);
+        textList = captureRegion.findMulti(ocrRo);
+        
+        for (const res of textList) {
+            if (res.text.includes("当前拥有")) {
+                const match = res.text.match(/当前拥有\s*([0-5ss])/);
+                if (match && match[1]) {
+                    const count = parseInt(match[1]);
+                    log.info(`浓缩树脂数量(说明界面): ${count}`);
+                    keyPress("ESCAPE");
+                    await sleep(CONFIG.UI_DELAY);
+                    return count;
+                }
             }
         }
+    } finally {
+        if (textList && typeof textList.dispose === 'function') {
+            textList.dispose();
+        }
+        captureRegion.dispose();
     }
 
     log.warn(`未能识别浓缩树脂数量`);
