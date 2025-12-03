@@ -157,10 +157,11 @@ function isPointInRegion(point, region) {
  */
 async function recognizeNumberByOCR(ocrRegion, pattern) {
     let resList = null;
+    let captureRegion = null;
     try {
-        // 直接链式调用，避免内存管理问题
         const ocrRo = RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
-        resList = captureGameRegion().findMulti(ocrRo);
+        captureRegion = captureGameRegion();
+        resList = captureRegion.findMulti(ocrRo);
         
         if (!resList || resList.length === 0) {
             log.warn("OCR未识别到任何文本");
@@ -187,6 +188,9 @@ async function recognizeNumberByOCR(ocrRegion, pattern) {
     } finally {
         if (resList && typeof resList.dispose === 'function') {
             resList.dispose();
+        }
+        if (captureRegion && typeof captureRegion.dispose === 'function') {
+            captureRegion.dispose();
         }
     }
 }
