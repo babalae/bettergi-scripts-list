@@ -416,7 +416,7 @@
     async function run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight, block_tsurumi, auto_skip, fishing_cd, uid = "default_user") {
         const base_path_pathing = "assets/pathing/";
         const base_path_gcm = "assets/KeyMouseScript/";
-        const base_path_statues = "assets/pathing_statues/";
+        const base_path_statues = "assets/pathing_others/";
         const file_name = `${path_msg["area"]}-${path_msg["type"]}-${path_msg["detail"]}`;
 
         // 检测禁用键鼠设置
@@ -597,6 +597,36 @@
         }
 
         await pathingScript.runFile(base_path_pathing + file_name + ".json");
+
+        if (file_name === "稻妻-垂钓点-鹤观逢岳之野西南") {
+            const base_other_path = "assets/pathing_others/";
+            const image_path = "assets/peculiar_pinion.png";
+
+            keyPress("B");
+            await sleep(2000);
+            click(1055, 48);
+            await sleep(2000);
+
+            let imageRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(image_path), 0, 95, 1278, 883);
+            let ocrRo = RecognitionObject.Ocr(1626, 990, 150, 52);
+            imageRo.threshold = 0.9;
+            let gadget = captureGameRegion().Find(imageRo);
+
+            if (gadget.isExist()) {
+                gadget.Click();
+                await sleep(500);
+                let ocrResult = captureGameRegion().Find(ocrRo);
+                if (ocrResult.isExist() && ocrResult.text === "装备") {
+                    click(1685, 1018);
+                } else {
+                    click(1843, 48);
+                }
+                await sleep(1000);
+                await pathingScript.runFile(base_other_path + file_name + ".json");
+            } else {
+                log.info("未找到小道具：奇特的羽毛，该点位已跳过...");
+            }
+        }
 
         // 执行键鼠脚本
         if (path_msg["addition"] === "GCM") {
