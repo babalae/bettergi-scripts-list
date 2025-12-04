@@ -2,13 +2,13 @@
   {
     "type": "input-text",
     "name": "room",
-    "label": "奇域关卡关键词或关卡GUID",
+    "label": "每周奇域关卡关键词或关卡GUID",
     "default": "20134075027"
   },
   {
     "type": "input-text",
     "name": "playbacks",
-    "label": "通关回放文件池（自行录制拷贝到assets/playbacks，逗号分隔）",
+    "label": "每周通关回放文件随机池（逗号分隔）",
     "default": "通关回放1.json,通关回放2.json"
   },
   {
@@ -26,7 +26,7 @@
   {
     "type": "input-text",
     "name": "deleteStageSaveKeyword",
-    "label": "删除关卡存档关键字（关卡存档视图中的[关卡]列）",
+    "label": "删除关卡存档查找关键字",
     "default": "深渊100层"
   },
   {
@@ -44,8 +44,38 @@
   {
     "type": "input-text",
     "name": "thisAttempts",
-    "label": "指定通关次数（0表示自动判断）",
+    "label": "每周指定通关次数（0表示自动判断）",
     "default": "0"
+  },
+  {
+    "type": "checkbox",
+    "name": "dailyEnabled",
+    "label": "执行每日通关任务",
+    "default": false
+  },
+  {
+    "type": "input-text",
+    "name": "dailyRooms",
+    "label": "每日奇域关卡关键词或关卡GUID（逗号分隔）",
+    "default": "20134075027,24429042323,28644538672"
+  },
+  {
+    "type": "input-text",
+    "name": "dailyPlaybacks",
+    "label": "每日通关回放文件随机池（同一关卡逗号分隔，不同关卡分号分隔）",
+    "default": "通关回放1.json,通关回放2.json;通关回放2.json;20秒按1通关.json"
+  },
+  {
+    "type": "input-text",
+    "name": "dailyLimit",
+    "label": "每日单个关卡通关上限",
+    "default": "1"
+  },
+  {
+    "type": "checkbox",
+    "name": "dailyForce",
+    "label": "忽略每日单个关卡通关上限",
+    "default": false
   },
   {
     "type": "checkbox",
