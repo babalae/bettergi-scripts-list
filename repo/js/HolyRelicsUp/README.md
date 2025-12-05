@@ -68,7 +68,7 @@
     - 选项：`详情`、`强化`
     - 默认：`强化`
 
-![默认强化界面选项示例](assets/images/default_enhanced_interface_example.png)
+![默认强化界面选项示例](md/v1.1.7_update_example.jpg)
 
 6. **自动启用放入方式** (`enableInsertionMethod`)
     - 类型：复选框
