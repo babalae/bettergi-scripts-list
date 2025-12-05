@@ -1,20 +1,18 @@
 {
   "info": {
-    "author": "mno",
     "authors": [
       {
-        "links": "https://github.com/Bedrockx",
-        "name": "mno"
+        "links": "",
+        "name": "汐"
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时60.84秒，包含以下怪物：6只雷史莱姆、1只变异雷史莱姆。",
-    "hash_res": "72411001",
+    "description": "  路线信息：该路线预计用时78秒，包含以下怪物：1只嗜雷·兽境幼兽、2只荒野幽徒、1只荒野狂狩士。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760726816881,
+    "last_modified_time": 1764868630258,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "2301璃月太山府",
+    "name": "717挪德卡莱失落的月庭西（400_1，200_3）",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -26,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 1184.0947265625,
-      "y": 622.6318359375
+      "x": 10824.9072265625,
+      "y": 1938.76708984375
     },
     {
       "action": "",
@@ -35,8 +33,8 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 1172.857421875,
-      "y": 637.8037109375
+      "x": 10836.744140625,
+      "y": 1937.51318359375
     },
     {
       "action": "fight",
@@ -45,17 +43,17 @@
       "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 1150.73828125,
-      "y": 635.181640625
+      "x": 10892.2333984375,
+      "y": 2006.1103515625
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.2)",
+      "action": "fight",
+      "action_params": "",
       "id": 4,
       "move_mode": "dash",
-      "type": "orientation",
-      "x": 1150.73828125,
-      "y": 635.181640625
+      "type": "path",
+      "x": 10892.2333984375,
+      "y": 2006.1103515625
     }
   ]
 }

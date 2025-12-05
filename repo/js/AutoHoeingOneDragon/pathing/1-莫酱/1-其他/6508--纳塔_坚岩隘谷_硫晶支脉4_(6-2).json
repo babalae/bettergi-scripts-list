@@ -15,10 +15,9 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时203.75秒，包含以下怪物：2只幼嵴锋龙、4只嵴锋龙。",
-    "hash_res": "25889274",
+    "description": "  路线信息：该路线预计用时186.82秒，包含8只小怪，预计收入567摩拉，包含以下怪物：2只幼嵴锋龙、6只嵴锋龙。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760727081456,
+    "last_modified_time": 1764703207342,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "6508--纳塔_坚岩隘谷_硫晶支脉4_(6-2)",
@@ -31,7 +30,6 @@
       "action": "",
       "action_params": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 8452.52,
@@ -79,17 +77,17 @@
       "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": 8399.228515625,
-      "y": -1466.72412109375
+      "x": 8412.73828125,
+      "y": -1495.326171875
     },
     {
-      "action": "combat_script",
-      "action_params": "keydown(w),wait(0.1),keydown(VK_LSHIFT),wait(3.5),keyup(VK_LSHIFT),keyup(w),attack(0.3)",
+      "action": "stop_flying",
+      "action_params": "2700",
       "id": 7,
-      "move_mode": "dash",
-      "type": "orientation",
-      "x": 8353.69,
-      "y": -1464.12
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8349.6904296875,
+      "y": -1484.380859375
     },
     {
       "action": "",
@@ -97,8 +95,8 @@
       "id": 8,
       "move_mode": "dash",
       "type": "path",
-      "x": 8353.69,
-      "y": -1464.12
+      "x": 8335.3828125,
+      "y": -1498.1279296875
     },
     {
       "action": "combat_script",
@@ -115,8 +113,8 @@
       "id": 10,
       "move_mode": "dash",
       "type": "path",
-      "x": 8327.88,
-      "y": -1479.8099999999995
+      "x": 8325.5234375,
+      "y": -1485.0244140625
     },
     {
       "action": "fight",
