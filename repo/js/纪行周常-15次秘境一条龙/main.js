@@ -1,214 +1,234 @@
 (async function () {
-    // 1. 设置游戏分辨率
+    // 1. 基础设置
     setGameMetrics(1920, 1080, 1);
+    
+    // 定义全局变量以便在 finally 中释放
+    let mats = {}; 
+    let fightOcrRo = null; // 用于战斗判断的OCR对象
 
-    // 2. 返回主界面
-    await genshin.returnMainUi();
-    log.info("已返回主界面");
+    try {
+        // --- 资源加载阶段 ---
+        log.info("正在加载图片资源...");
+        
+        mats = {
+            enter: file.readImageMatSync("assets/images/华池岩岫.png"),
+            solo: file.readImageMatSync("assets/images/单人挑战.png"),
+            start: file.readImageMatSync("assets/images/开始挑战.png"),
+            leyline: file.readImageMatSync("assets/images/地脉异常.png"),
+            activate: file.readImageMatSync("assets/images/启动.png")
+        };
 
-    // 3. 切换队伍
-    if (settings.PartyName) {
-        await genshin.switchParty(settings.partyName);
-    }
+        // 模版匹配对象
+        const ro = {
+            enter: RecognitionObject.TemplateMatch(mats.enter),
+            solo: RecognitionObject.TemplateMatch(mats.solo),
+            start: RecognitionObject.TemplateMatch(mats.start),
+            leyline: RecognitionObject.TemplateMatch(mats.leyline),
+            activate: RecognitionObject.TemplateMatch(mats.activate)
+        };
 
-    // 4. 刷取循环
-    const maxAttempts = settings.loopTimes || 15;
-    let successCount = 0;
-    let attemptCount = 0;
+        // --- 照搬 123.js 的 OCR 对象逻辑 ---
+        // 识别全屏范围
+        fightOcrRo = RecognitionObject.Ocr(0, 0, genshin.width, genshin.height);
 
-    // 定义识别对象（使用相对路径）
-    const enterDungeonRo = RecognitionObject.TemplateMatch(
-        file.readImageMatSync("assets/images/华池岩岫.png")
-    );
+        log.info("资源加载完成");
 
-    const soloChallengeRo = RecognitionObject.TemplateMatch(
-        file.readImageMatSync("assets/images/单人挑战.png")
-    );
-
-    const startChallengeRo = RecognitionObject.TemplateMatch(
-        file.readImageMatSync("assets/images/开始挑战.png")
-    );
-
-    const leylineDisorderRo = RecognitionObject.TemplateMatch(
-        file.readImageMatSync("assets/images/地脉异常.png")
-    );
-
-    const activateRo = RecognitionObject.TemplateMatch(
-        file.readImageMatSync("assets/images/启动.png")
-    );
-
-    // OCR对象用于检测战斗文本
-    const ocrRo2 = RecognitionObject.Ocr(0, 0, genshin.width, genshin.height);
-
-    // 封装识别图片并点击的函数
-    async function findAndClick(ro, maxRetries = 2, retryInterval = 1000, timeout = null) {
-        let retryCount = 0;
-        const startTime = Date.now();
-
-        while (retryCount < maxRetries && (timeout === null || Date.now() - startTime < timeout)) {
-            const capture = captureGameRegion();
-            const result = capture.find(ro);
-            capture.dispose();
-
-            if (!result.isEmpty()) {
-                result.click();
-                await sleep(30);
-                result.click();
-                return true;
-            }
-
-            retryCount++;
-            await sleep(retryInterval);
+        // 2. 准备工作
+        await genshin.returnMainUi();
+        if (settings.partyName) {
+            await genshin.switchParty(settings.partyName);
         }
 
-        return false;
-    }
+        // 3. 循环逻辑
+        const maxAttempts = settings.loopTimes || 15;
+        let successCount = 0;
 
-    while (attemptCount < maxAttempts) {
-        attemptCount++;
-        log.info(`开始第 ${attemptCount}/${maxAttempts} 次挑战`);
+        for (let i = 0; i < maxAttempts; i++) {
+            log.info(`=== 开始第 ${i + 1}/${maxAttempts} 次循环 ===`);
 
-        let stepSuccess = false;
+            // a. 传送
+            await genshin.tp("1436.2861328125", "1289.95556640625");
+            await sleep(2500);
 
-        // a. 传送至点位
-        await genshin.tp("1436.2861328125", "1289.95556640625");
-        log.info("已传送至目标点位");
-        await sleep(2000);
+            // b. 寻找秘境入口
+            log.info("寻找秘境入口...");
+            keyDown("w");
+            const foundEnter = await waitFindTemplate(ro.enter, 3000); 
+            keyUp("w");
 
-        // b. 前进并检测"华池岩岫"
-        keyDown("w");
-        const enterDungeonTimeout = 3000;
-        const enterDungeonStartTime = Date.now();
-        let foundEnterDungeon = false;
+            if (!foundEnter) {
+                log.warn("未找到秘境入口，重置位置");
+                await genshin.returnMainUi();
+                continue;
+            }
 
-        while (Date.now() - enterDungeonStartTime < enterDungeonTimeout) {
-            const capture = captureGameRegion();
-            const result = capture.find(enterDungeonRo);
-            capture.dispose();
+            log.info("找到入口");
+            keyPress("f");
+            await sleep(1500);
 
-            if (!result.isEmpty()) {
-                foundEnterDungeon = true;
+            // c. 点击单人挑战
+            if (!await waitAndClickTemplate(ro.solo, 5000)) {
+                log.error("未找到'单人挑战'，重试");
+                continue;
+            }
+            await sleep(1000);
+
+            // d. 点击开始挑战
+            if (!await waitAndClickTemplate(ro.start, 5000)) {
+                log.error("未找到'开始挑战'");
+                continue;
+            }
+            log.info("进入加载...");
+            await sleep(5000); // 强制等待读条开始
+
+            // e. 确认进入副本并点击 (检测地脉异常)
+            // 123.js 原逻辑是找到就点，这里保持一致，作为判断进本的依据
+            if (await waitAndClickTemplate(ro.leyline, 120000)) {
+                log.info("已确认进入副本");
+                await sleep(1500);
+            } else {
+                log.error("进入副本超时");
                 break;
             }
-            await sleep(100);
+
+            // f. 走向钥匙并启动
+            log.info("走向启动钥匙...");
+            keyDown("w");
+            const foundActivate = await waitFindTemplate(ro.activate, 10000);
+            keyUp("w");
+
+            if (foundActivate) {
+                log.info("找到启动，开始战斗");
+                keyPress("f");
+                await sleep(1000);
+
+                // g. === 自动战斗 (完全复刻 123.js 的逻辑) ===
+                // 使用 SoloTask("AutoFight") + CancellationToken + 循环OCR检测
+                const fightResult = await autoFightLike123js(fightOcrRo, 120000); 
+                
+                if (fightResult) {
+                    successCount++;
+                    log.info(`战斗成功！当前完成 ${successCount} 次`);
+                    await sleep(2000);
+                } else {
+                    log.error("战斗失败，终止脚本");
+                    break;
+                }
+                
+            } else {
+                log.error("未找到启动钥匙");
+            }
         }
+        
+        await genshin.tp("1436.2861328125", "1289.95556640625");
+        log.info(`脚本结束。成功完成 ${successCount}/${maxAttempts} 次挑战`);
 
-        keyUp("w");
-
-        if (!foundEnterDungeon) {
-            log.warn("未找到'进入秘境'，重试中...");
-            await genshin.returnMainUi();
-            continue;
+    } catch (e) {
+        log.error("脚本运行出错: " + e.message);
+    } finally {
+        // --- 资源释放 (保持内存安全) ---
+        for (let key in mats) {
+            if (mats[key]) mats[key].Dispose();
         }
-
-        log.info("已找到'进入秘境'");
-        await sleep(500);
-
-        // c. 按F键并检测"单人挑战"
-        keyPress("f");
-        await sleep(5000);
-
-        const foundSoloChallenge = await findAndClick(soloChallengeRo);
-        if (!foundSoloChallenge) {
-            log.error("未找到'单人挑战'，终止脚本");
-            break;
+        if (fightOcrRo && fightOcrRo.Dispose) {
+            fightOcrRo.Dispose();
         }
-
-        log.info("已找到'单人挑战'");
-        await sleep(2000);
-
-        // d. 检测"开始挑战"
-        const foundStartChallenge = await findAndClick(startChallengeRo, 2, 3000);
-        if (!foundStartChallenge) {
-            log.error("未找到'开始挑战'，终止脚本");
-            break;
-        }
-
-        log.info("已找到'开始挑战'");
-        await sleep(3000);
-
-        // e. 检测"地脉异常"
-        const leylineDisorderTimeout = 120000;
-        const foundLeylineDisorder = await findAndClick(leylineDisorderRo, 999, 1000, leylineDisorderTimeout);
-        if (!foundLeylineDisorder) {
-            log.error("未找到'地脉异常'，超时终止");
-            break;
-        }
-
-        log.info("已找到'地脉异常'");
-        await sleep(1000);
-
-        // f. 前进并检测"启动"
-        keyDown("w");
-        const activateTimeout = 10000;
-        const foundActivate = await findAndClick(activateRo, 999, 100, activateTimeout);
-        keyUp("w");
-
-        if (!foundActivate) {
-            log.error("未找到'启动'，超时终止");
-            break;
-        }
-
-        log.info("已找到'启动'");
-        keyPress("f");
-        await sleep(1000);
-
-        // g. 开始自动战斗
-        log.info("开始自动战斗");
-        const fightResult = await autoFight(120000); // 120秒战斗超时
-
-        if (fightResult) {
-            successCount++;
-            log.info(`战斗成功！当前完成 ${successCount} 次`);
-        } else {
-            log.error("战斗失败，终止脚本");
-            break;
-        }
+        log.info("资源已释放");
     }
 
-    await genshin.tp("1436.2861328125", "1289.95556640625");
-    log.info(`脚本结束。成功完成 ${successCount}/${attemptCount} 次挑战`);
+    // ================= 辅助函数 =================
 
-    // 自动战斗函数
-    async function autoFight(timeout) {
+    /**
+     * 1. 启动 AutoFight 任务
+     * 2. 循环截图 OCR
+     * 3. 识别关键字 ["挑战成功", "达成", "挑战达成"]
+     * 4. 识别成功后取消任务
+     */
+    async function autoFightLike123js(ocrRo, timeout) {
         const cts = new CancellationTokenSource();
+        // 启动后台战斗任务
         dispatcher.runTask(new SoloTask("AutoFight"), cts);
 
         const startTime = Date.now();
         let fightResult = false;
+        
+        log.info("战斗开始");
 
         while (Date.now() - startTime < timeout) {
-            const ro = captureGameRegion();
-            if (recognizeFightText(ro)) {
-                ro.dispose();
-                fightResult = true;
-                break;
+            // 获取截图 (注意：这里增加了Dispose以防止内存溢出，逻辑与123.js一致)
+            let capture = captureGameRegion();
+            try {
+                // 使用传入的 ocrRo 进行查找
+                let result = capture.find(ocrRo);
+                let text = result.text;
+                
+                // 123.js 的判断关键字
+                const keywords = ["挑战成功", "达成", "挑战达成"];
+                let found = false;
+                
+                for (const keyword of keywords) {
+                    if (text.includes(keyword)) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found) {
+                    fightResult = true;
+                    break;
+                }
+            } catch (err) {
+                log.error(`OCR识别出错: ${err}`);
+            } finally {
+                // 123.js 缺少这一步，这里加上以保证长时间挂机不崩
+                capture.Dispose();
             }
-            ro.dispose();
-            await sleep(1000);
+            
+            await sleep(1000); // 123.js 的间隔是 1000ms
         }
 
+        // 停止战斗
         cts.cancel();
         return fightResult;
     }
 
-    // 战斗文本识别函数
-    function recognizeFightText(captureRegion) {
-        try {
-            const result = captureRegion.find(ocrRo2);
-            const text = result.text;
-            const keywords = ["挑战成功", "达成", "挑战达成"];
-
-            for (const keyword of keywords) {
-                if (text.includes(keyword)) {
+    // 模版点击辅助函数 (内存安全版)
+    async function waitAndClickTemplate(ro, timeoutMs) {
+        const start = Date.now();
+        while (Date.now() - start < timeoutMs) {
+            let capture = captureGameRegion();
+            try {
+                let res = capture.find(ro);
+                if (!res.isEmpty()) {
+                    res.click();
+                    // 123.js 的逻辑是点两下，这里保留双击逻辑以防万一
+                    await sleep(30); 
+                    res.click(); 
                     return true;
                 }
+            } finally {
+                capture.Dispose();
             }
-            return false;
-        } catch (error) {
-            log.error("OCR识别出错: {0}", error);
-            return false;
+            await sleep(1000); // 123.js 默认间隔较长，这里稍微对齐
         }
+        return false;
     }
+
+    // 模版查找辅助函数 (内存安全版)
+    async function waitFindTemplate(ro, timeoutMs, intervalMs = 200) {
+        const start = Date.now();
+        while (Date.now() - start < timeoutMs) {
+            let capture = captureGameRegion();
+            try {
+                let res = capture.find(ro);
+                if (!res.isEmpty()) return true;
+            } finally {
+                capture.Dispose();
+            }
+            await sleep(intervalMs);
+        }
+        return false;
+    }
+
 
 })();
