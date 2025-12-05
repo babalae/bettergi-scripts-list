@@ -2019,7 +2019,7 @@ const isInMainUI = () => {
 async function openAggrandizement() {
     let defaultEnhancedInterface = mana.get("defaultEnhancedInterfaceUp")
     if (config.defaultEnhancedInterface.includes(defaultEnhancedInterface)) {
-        log.info(`默认强化界面为%{s}`,defaultEnhancedInterface)
+        log.info(`默认强化界面为{s}`,defaultEnhancedInterface)
         return ;
     }
     let ms = 600
