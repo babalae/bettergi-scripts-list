@@ -220,6 +220,7 @@ const config = settings.refreshSettingsByLanguage ?
         log_off: settings.log_off,
         countMaxByHoly: Math.floor(settings.countMaxByHoly),//筛选圣遗物界面最大翻页次数
         enableBatchUp: settings.enableBatchUp,//启用批量强化
+        defaultEnhancedInterface: settings.defaultEnhancedInterface,//默认强化界面
         toBag: settings.toBag,//启用自动进入背包
         enableInsertionMethod: settings.enableInsertionMethod,//是否开启插入方式
         insertionMethod: settings.insertionMethod,//插入方式
@@ -2016,6 +2017,11 @@ const isInMainUI = () => {
  * <前置条件:处于圣遗物详情界面|测试通过:v>
  */
 async function openAggrandizement() {
+    let defaultEnhancedInterface = mana.get("defaultEnhancedInterfaceUp")
+    if (config.defaultEnhancedInterface.includes(defaultEnhancedInterface)) {
+        log.info(`默认强化界面为{s}`,defaultEnhancedInterface)
+        return ;
+    }
     let ms = 600
     // 注释掉的代码：使用模板匹配方法查找强化按钮
     // const aggrandizementRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("${path_base_main}强化.jpg"), 0, 0, genshinJson.width / 3.0, genshinJson.height);
