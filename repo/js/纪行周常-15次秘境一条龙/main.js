@@ -35,7 +35,7 @@
 
         // 2. 准备工作
         await genshin.returnMainUi();
-        if (settings.PartyName) {
+        if (settings.partyName) {
             await genshin.switchParty(settings.partyName);
         }
 
@@ -129,6 +129,9 @@
         // --- 资源释放 (保持内存安全) ---
         for (let key in mats) {
             if (mats[key]) mats[key].Dispose();
+        }
+        if (fightOcrRo && fightOcrRo.Dispose) {
+            fightOcrRo.Dispose();
         }
         log.info("资源已释放");
     }
@@ -226,5 +229,6 @@
         }
         return false;
     }
+
 
 })();
