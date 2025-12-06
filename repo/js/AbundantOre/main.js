@@ -406,7 +406,7 @@ async function run_pathing_script(name, path_state_change, current_states) {
     if (!cancellation_token.isCancellationRequested) {
         const curr_pos = (() => {
             try {
-                const p = genshin.getPositionFromMap();
+                const p = genshin.getPositionFromMap(JSON.parse(json_content).info.map_name);
                 return [p.X, p.Y];
             } catch (e) {}
             return [null, null];
