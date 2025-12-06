@@ -321,8 +321,8 @@ var userConfig = {
   thisAttempts: Math.max(0, Number(settings.thisAttempts || "0")),
   //! 每日任务相关设置
   dailyEnabled: settings.dailyEnabled ?? false,
-  dailyRooms: (settings.dailyRooms || "20134075027,24429042323,28644538672").replace(/，/g, ",").split(",").map((str) => str.trim()).filter(Boolean),
-  dailyPlaybacks: (settings.dailyPlaybacks || "通关回放1.json,通关回放2.json;通关回放2.json;20秒按1通关.json").replace(/，/g, ",").replace(/；/g, ";").split(";").map((str) => str.trim()).filter(Boolean).reduce((arr, room) => {
+  dailyRooms: (settings.dailyRooms || "24429042323,28644538672").replace(/，/g, ",").split(",").map((str) => str.trim()).filter(Boolean),
+  dailyPlaybacks: (settings.dailyPlaybacks || "通关回放1.json,通关回放2.json;60秒按1通关.json").replace(/，/g, ",").replace(/；/g, ";").split(";").map((str) => str.trim()).filter(Boolean).reduce((arr, room) => {
     const files = room.split(",").map((str) => str.trim()).filter(Boolean);
     if (files.length > 0) arr.push(files);
     return arr;
@@ -853,9 +853,19 @@ var exitStage = async () => {
     () => {
       keyPress("VK_ESCAPE");
     },
-    { maxAttempts: 5, retryInterval: 2e3 }
+    { maxAttempts: 10, retryInterval: 1e3 }
   );
-  findExitStageBtn()?.click();
+  await assertRegionAppearing(
+    findBeyondHallBtn,
+    "返回大厅超时",
+    async () => {
+      //! 点击 “中断挑战” 按钮
+      findExitStageBtn()?.click();
+      //! 点击底部 “返回大厅” 按钮
+      findBottomBtnText("返回大厅")?.click();
+    },
+    { maxAttempts: 60 }
+  );
   await genshin.returnMainUi();
 };
 //! 退出关卡返回大厅
