@@ -18,15 +18,8 @@ fourStarRo.Threshold = +settings.Threshold1 || 0.97;
 //fourStarRo.Use3Channels = true;
 fourStarRo.InitTemplate();
 
-const bigPngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/大瓶.png`), 1670, 900, 1890 - 1670, 980 - 900);
-bigPngRo.Threshold = 0.995;
-bigPngRo.Use3Channels = true;
-bigPngRo.InitTemplate();
-
-const smallPngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/大瓶和小瓶.png`), 1670, 900, 1890 - 1670, 980 - 900);
-smallPngRo.Threshold = 0.995;
-smallPngRo.Use3Channels = true;
-smallPngRo.InitTemplate();
+let pngRo1;
+let pngRo2;
 
 let bigBottleCount = 0;
 let smallBottleCount = 0;
@@ -50,7 +43,73 @@ let rg;
     //await genshin.tpToStatueOfTheSeven();
     keyPress("B");
     //切换到圣遗物界面
+
     await clickPNG("狗粮界面");
+
+    if (settings.autoSwitchCount) {
+        log.info(`填写了临界小瓶数量为${(+settings.autoSwitchCount)},开始识别`);
+
+        await clickPNG("筛选");
+        await sleep(200);
+        click(30, 30);
+        await sleep(100);
+        await clickPNG("重置");
+        await clickPNG("祝圣之霜定义");
+        await clickPNG("未装备");
+        await clickPNG("未锁定");
+        await clickPNG("确认");
+        await sleep(200);
+        click(30, 30);
+        await sleep(100);
+        {
+            const smallBottleRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/背包小瓶.png`));
+            smallBottleRo.InitTemplate();
+            for (let i = 0; i < 5; i++) {
+                const rg = captureGameRegion();
+                try {
+                    const res = rg.find(smallBottleRo);
+                    if (res.isExist()) {
+                        const regionToCheck = { x: res.x, y: res.y + 110, width: 122, height: 30 };
+                        const raw = await recognizeTextInRegion(regionToCheck);
+
+                        // 只保留数字
+                        const digits = (raw || '').replace(/\D/g, '');
+                        log.info(`识别到小瓶数量为${digits}`);
+                        if ((+digits) > settings.autoSwitchCount) {
+                            settings.bottleType = "只要大瓶";
+                        } else {
+                            settings.bottleType = "只要小瓶";
+                        }
+                        log.info(`当前分解模式为${settings.bottleType}`);
+                        break;
+                    }
+                } finally { rg.dispose(); }
+                if (i < 5 - 1) await sleep(50);
+            }
+        }
+    }
+
+    if (settings.bottleType != "只要小瓶") {
+        pngRo1 = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/大瓶.png`), 1670, 900, 1890 - 1670, 980 - 900);
+        pngRo1.Threshold = 0.995;
+        pngRo1.Use3Channels = true;
+        pngRo1.InitTemplate();
+
+        pngRo2 = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/大瓶和小瓶.png`), 1670, 900, 1890 - 1670, 980 - 900);
+        pngRo2.Threshold = 0.995;
+        pngRo2.Use3Channels = true;
+        pngRo2.InitTemplate();
+    } else {
+        pngRo1 = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/三个小瓶.png`), 1670, 900, 1890 - 1670, 980 - 900);
+        pngRo1.Threshold = 0.995;
+        pngRo1.Use3Channels = true;
+        pngRo1.InitTemplate();
+
+        pngRo2 = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/大瓶.png`), 1670, 900, 1890 - 1670, 980 - 900);
+        pngRo2.Threshold = 0.995;
+        pngRo2.Use3Channels = true;
+        pngRo2.InitTemplate();
+    }
 
     //点击分解
     await clickPNG("分解");
@@ -70,18 +129,26 @@ let rg;
             rg = captureGameRegion();
             try {
 
-                const bigRes = rg.find(bigPngRo);
+                const bigRes = rg.find(pngRo1);
                 if (bigRes.isExist()) {
                     foundBigBottle = true;
-                    bigBottleCount++;
+                    if (settings.bottleType === "只要大瓶") {
+                        bigBottleCount++;
+                    } else {
+                        smallBottleCount += 3;
+                    }
                     break;
                 }
 
-                const smallRes = rg.find(smallPngRo);
+                const smallRes = rg.find(pngRo2);
                 if (smallRes.isExist()) {
                     foundBigBottle = true;
-                    bigBottleCount++;
-                    smallBottleCount++;
+                    if (settings.bottleType === "只要大瓶") {
+                        bigBottleCount++;
+                        smallBottleCount++;
+                    } else {
+                        bigBottleCount++;
+                    }
                     break;
                 }
             } finally {
@@ -94,7 +161,7 @@ let rg;
             //log.info(`调试-用时${new Date() - time1}`);
         }
         if (foundBigBottle) {
-            log.info("成功选出分解大瓶所需狗粮");
+            log.info("成功选出分解所需狗粮");
         } else {
             log.info("结束分解");
             break;
@@ -213,7 +280,7 @@ async function findAndClick(target, maxAttempts = 20) {
         const rg = captureGameRegion();
         try {
             const res = rg.find(target);
-            if (res.isExist()) { res.click(); return true; }
+            if (res.isExist()) { await sleep(16); res.click(); return true; }
         } finally { rg.dispose(); }
         if (i < maxAttempts - 1) await sleep(50);
     }
@@ -237,4 +304,30 @@ async function findWithoutClick(target, maxAttempts = 20) {
         if (i < maxAttempts - 1) await sleep(50);
     }
     return false;
+}
+
+async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
+    let startTime = Date.now();
+    let retryCount = 0; // 重试计数
+    while (Date.now() - startTime < timeout) {
+        try {
+            // 在指定区域进行 OCR 识别
+            const gameRegion = captureGameRegion();
+            let ocrResult = gameRegion.find(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height));
+            gameRegion.dispose();
+            if (ocrResult) {
+                let correctedText = ocrResult.text;
+                return correctedText; // 返回识别到的内容
+            } else {
+                log.warn(`OCR 识别区域未找到内容`);
+                return null; // 如果 OCR 未识别到内容，返回 null
+            }
+        } catch (error) {
+            retryCount++; // 增加重试计数
+            log.warn(`OCR 识别失败，正在进行第 ${retryCount} 次重试...`);
+        }
+        await sleep(200);
+    }
+    log.warn(`经过多次尝试，仍然无法在指定区域识别到文字`);
+    return null; // 如果未识别到文字，返回 null
 }
