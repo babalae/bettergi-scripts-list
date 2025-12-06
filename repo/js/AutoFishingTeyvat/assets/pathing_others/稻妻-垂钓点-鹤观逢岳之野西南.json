@@ -11,25 +11,25 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "地区: 璃月\n类型: 垂钓点\n详细位置: 沉玉谷·上谷古树茶坡\n鱼类: 花鳉、斗棘鱼、流纹褐蝶鱼、锖假龙、金赤假龙、玉玉心羽鲈\n饵类: 果酿饵、赤糜饵、蠕虫假饵、飞蝇假饵、酸桔饵\n附加信息: 普通",
+    "description": "地区: 稻妻\n类型: 垂钓点\n详细位置: 鹤观逢岳之野西南\n鱼类: 花鳉、肺棘鱼、赤魔王、流纹京紫蝶鱼\n饵类: 果酿饵、赤糜饵、蠕虫假饵\n附加信息: 普通",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1764617428124,
+    "last_modified_time": 1764523145048,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "璃月-垂钓点-沉玉谷·上谷古树茶坡",
+    "name": "稻妻-垂钓点-鹤观逢岳之野西南",
     "tags": [],
     "type": "collect",
-    "version": "1.2"
+    "version": "1.0"
   },
   "positions": [
     {
-      "action": "",
+      "action": "use_gadget",
       "action_params": "",
       "id": 1,
       "move_mode": "walk",
-      "type": "teleport",
-      "x": 1692.1,
-      "y": 1829.41
+      "type": "path",
+      "x": -2380.44,
+      "y": -6416.99
     },
     {
       "action": "",
@@ -37,26 +37,17 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": 1695.38,
-      "y": 1833.56
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "1500",
-      "id": 3,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 1719.73,
-      "y": 1892.05
+      "x": -2376.39,
+      "y": -6423.84
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
-      "id": 4,
+      "id": 3,
       "move_mode": "walk",
       "type": "target",
-      "x": 1721.84,
-      "y": 1894.41
+      "x": -2378.47,
+      "y": -6425.81
     }
   ]
 }

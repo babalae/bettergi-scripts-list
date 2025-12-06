@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "authors": [
       {
@@ -19,7 +19,7 @@
     "name": "稻妻-垂钓点-鹤观逢岳之野西南",
     "tags": [],
     "type": "collect",
-    "version": "1.2"
+    "version": "1.3"
   },
   "positions": [
     {
@@ -55,8 +55,8 @@
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": -2524.10546875,
-      "y": -6453.3232421875
+      "x": -2524.11,
+      "y": -6453.32
     },
     {
       "action": "",
@@ -93,33 +93,6 @@
       "type": "path",
       "x": -2381.32,
       "y": -6416.21
-    },
-    {
-      "action": "use_gadget",
-      "action_params": "",
-      "id": 9,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -2380.439453125,
-      "y": -6416.994140625
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 10,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -2376.390625,
-      "y": -6423.84375
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
-      "id": 11,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -2378.46875,
-      "y": -6425.814453125
     }
   ]
 }
