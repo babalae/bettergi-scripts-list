@@ -54,9 +54,13 @@ let rg;
         click(30, 30);
         await sleep(100);
         await clickPNG("重置");
+        await sleep(200);
         await clickPNG("祝圣之霜定义");
+        await sleep(200);
         await clickPNG("未装备");
+        await sleep(200);
         await clickPNG("未锁定");
+        await sleep(200);
         await clickPNG("确认");
         await sleep(200);
         click(30, 30);
@@ -113,6 +117,11 @@ let rg;
 
     //点击分解
     await clickPNG("分解");
+    await sleep(500);
+    await clickPNG("分解筛选");
+    await sleep(200);
+    await clickPNG("分解未锁定");
+    await clickPNG("分解确认");
     //点击倒序
     await clickPNG("倒序");
     rg = captureGameRegion();
@@ -266,7 +275,7 @@ async function selectOneAritfact() {
     return false;
 }
 
-async function clickPNG(png, maxAttempts = 20, Threshold = 0.9) {
+async function clickPNG(png, maxAttempts = 40, Threshold = 0.9) {
     const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/${png}.png`));
     pngRo.Threshold = Threshold;
     pngRo.InitTemplate();
