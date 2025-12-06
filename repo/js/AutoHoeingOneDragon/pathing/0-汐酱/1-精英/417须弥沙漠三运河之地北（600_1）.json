@@ -1,0 +1,73 @@
+{
+  "info": {
+    "name": "417须弥沙漠三运河之地北（600_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时89.53秒，包含以下怪物：1只遗迹重机、1只镀金旅团·机弩兵、1只镀金旅团·破阵者、2只镀金旅团·刀舞者、1只镀金旅团·沙中净水、1只镀金旅团·炽阳凝冰。",
+    "hash_res": "32166093",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5300.48,
+      "y": -197.96,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 5289.36,
+      "y": -181.84,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "click,wait(1);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 5298.18,
+      "y": -126.9,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 5291.13,
+      "y": -116.63,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 5294.13,
+      "y": -102.63,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 5289.88,
+      "y": -94.52,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

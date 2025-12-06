@@ -1,0 +1,46 @@
+{
+  "info": {
+    "name": "105蒙德望风山地（200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时43.32秒，包含以下怪物：1只水史莱姆、1.5只丘丘人、2只打手丘丘人、1只冰箭丘丘人、1只火斧丘丘暴徒、1只水丘丘萨满。",
+    "hash_res": "07974331",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1273.98,
+      "y": 2722.33,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1294.86,
+      "y": 2687.8,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "click,wait(0.2),click",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1281.26,
+      "y": 2681.07,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

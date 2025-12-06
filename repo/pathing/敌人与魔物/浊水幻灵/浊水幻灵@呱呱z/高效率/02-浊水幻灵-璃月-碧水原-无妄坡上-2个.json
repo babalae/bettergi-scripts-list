@@ -1,0 +1,71 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jidingcai",
+        "name": "呱呱z"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756108075637,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-浊水幻灵-璃月-碧水原-无妄坡上-2个",
+    "tags": [
+      "精英怪",
+      "浊水幻灵",
+      "高效"
+    ],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 386.124,
+      "y": 1689.502
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 336.7246,
+      "y": 1721.1587
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 319.0957,
+      "y": 1719.8662
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(0.55),attack;",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 311.1758,
+      "y": 1712.2036
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 306.4014,
+      "y": 1705.1514
+    }
+  ]
+}

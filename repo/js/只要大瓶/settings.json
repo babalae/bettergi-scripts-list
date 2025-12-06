@@ -1,0 +1,41 @@
+[
+    {
+        "name": "maxStar",
+        "type": "select",
+        "label": "分解狗粮最高星级",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4"
+        ],
+        "default": "3"
+    },
+    {
+        "name": "bottleType",
+        "type": "select",
+        "label": "分解成大瓶还是小瓶",
+        "options": [
+            "只要大瓶",
+            "只要小瓶"
+        ],
+        "default": "只要大瓶"
+    },
+    {
+        "name": "autoSwitchCount",
+        "type": "input-text",
+        "label": "临界小瓶数量，填写后将会在每次开始时识别小瓶数量\n数量大于所填数值时将会自动切换为只要大瓶，否则切换为只要小瓶\n不填时不识别，保持自定义配置中的选项"
+    },
+    {
+        "name": "Threshold1",
+        "type": "input-text",
+        "label": "点击狗粮识别阈值（0-1）\n观察到星级识别错误时适当调高\n观察到部分狗粮没有点击时适当调低",
+        "default": "0.97"
+    },
+    {
+        "name": "Threshold2",
+        "type": "input-text",
+        "label": "经验瓶识别阈值（0-1）\n观察到不到1大瓶就分解时适当调高\n观察到超过1大瓶1小瓶还一直点击时适当调低",
+        "default": "0.99"
+    }
+]

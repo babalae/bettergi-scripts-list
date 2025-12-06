@@ -1,0 +1,247 @@
+[
+   {
+       "name": "refreshSettingsByLanguage",
+       "type": "checkbox",
+       "label": "<优先级最高>根据语言刷新设置列表\n<優先級最高>根據語言重新整理設置列表\n<Highest priority>Refresh the settings list based on language\n<最高優先順位>言語に基づいて設定リストを更新する\n<최우선 순위>언어에 따라 설정 목록을 새로 고침",
+       "default": false
+   },
+   {
+       "name": "language",
+       "type": "select",
+       "label": "语言|語言|Language|言語|언어",
+       "options": [
+         "简体中文",
+         "繁體中文",
+         "English",
+         "日本語",
+         "한국어",
+       ],
+       "default": "简体中文"
+   },
+   {
+     "name": "toBag",
+     "type": "checkbox",
+     "label": "启用自动进入背包",
+     "default": true
+   },
+   {
+     "name": "enableBatchUp",
+     "type": "checkbox",
+     "label": "启用批量强化(注:可单独使用单独使用时\n请处于圣遗物背包筛选未满级状态后)",
+     "default": false
+   },
+   {
+      "name": "defaultEnhancedInterface",
+      "type": "select",
+      "label": "默认强化界面(详情|强化)",
+      "options": [
+                    "详情",
+                    "强化"
+      ],
+      "default": "强化"
+   },
+   {
+     "name": "enableInsertionMethod",
+     "type": "checkbox",
+     "label": "自动启用放入方式 快捷放入/阶段放入(优先级高)",
+     "default": false
+   },
+   {
+       "name": "insertionMethod",
+       "type": "select",
+       "label": "放入方式(默认:自动识别,\n注意:最大强化等级设置为4,8,16时\n强制使用放入方式为阶段放入)",
+       "options": [
+         "默认",
+         "快捷放入",
+         "阶段放入"
+       ],
+       "default": "默认"
+   },
+   {
+       "name": "material",
+       "type": "select",
+       "label": "选择素材(默认:自动识别)\n(消失太快无法识别禁用)",
+       "options": [
+         "默认",
+         "1星素材",
+         "2星及以下素材",
+         "3星及以下素材",
+         "4星及以下素材"
+       ],
+       "default": "默认"
+   },
+   {
+       "name": "upMaxCount",
+       "type": "input-text",
+       "label": "最大圣遗物强化个数",
+       "default": ""
+   },
+   {
+       "name": "upMax",
+       "type": "select",
+       "label": "最大强化等级(默认4)",
+       "options": [
+         "4",
+         "8",
+         "16",
+         "20"
+       ],
+       "default": "4"
+   },
+   {
+     "name": "enableAttributeHolyRelic",
+     "type": "checkbox",
+     "label": "启用命中属性\n(默认关闭,\n不支持在升序情况下使用,\n不支持降序选中满级|未满级条件下强化+20操作)-实验功能",
+     "default": false
+   },
+   {
+     "name": "coverAttributeHolyRelic",
+     "type": "checkbox",
+     "label": "启用自定义命中属性覆盖通用命中属性\n(默认开启,以部件为单位,不启用则使用自定义命中属性)-实验功能",
+     "default": true
+   },
+   {
+     "name": "commonAttributeHolyRelic",
+     "type": "input-text",
+     "label": "通用命中属性\n(编写语法请查看文档)-实验功能",
+     "default": "@花*爆率*爆伤|@羽*爆率*爆伤|@沙*爆率*爆伤|@冠#爆率#爆伤&*爆率*爆伤|@杯#物伤#风伤#水伤#火伤#雷伤#岩伤#冰伤#草伤&*爆率*爆伤"
+   },
+   {
+     "name": "inputAttributeHolyRelic",
+     "type": "input-text",
+     "label": "自定义命中属性\n(编写语法请查看文档)-实验功能",
+     "default": ""
+   },
+   {
+     "name": "coverSiftAttributeHolyRelic",
+     "type": "checkbox",
+     "label": "启用筛选圣遗物自定义命中属性覆盖筛选圣遗物通用命中属性\n(默认开启,以部件为单位,不启用则使用自定义属性)-实验功能",
+     "default": true
+   },
+   {
+     "name": "meetAllSiftAttributeHolyRelic",
+     "type": "checkbox",
+     "label": "启用筛选圣遗物满足所有指定的子属性命中条件\n(默认关闭)-实验功能",
+     "default": false
+   },
+   {
+     "name": "commonSiftAttributeHolyRelic",
+     "type": "input-text",
+     "label": "筛选圣遗物通用命中属性\n(编写语法请查看文档)-实验功能",
+     "default": "@花*爆率*爆伤|@羽*爆率*爆伤|@沙*爆率*爆伤|@冠#爆率#爆伤&*爆率*爆伤|@杯#物伤#风伤#水伤#火伤#雷伤#岩伤#冰伤#草伤&*爆率*爆伤"
+   },
+   {
+     "name": "inputSiftAttributeHolyRelic",
+     "type": "input-text",
+     "label": "筛选圣遗物自定义命中属性\n(编写语法请查看文档)-实验功能",
+     "default": ""
+   },
+   {
+     "name": "toSort",
+     "type": "checkbox",
+     "label": "启用自动排序(未启用时以下配置 排序 均无效)",
+     "default": true
+   },
+   {
+       "name": "sortAttribute",
+       "type": "input-text",
+       "label": "属性排序(使用|分割)\n可使用简称如: 生命%|雷伤|充能",
+       "default": ""
+   },
+   {
+       "name": "sortMain",
+       "type": "select",
+       "label": "主排序",
+       "options": [
+         "升序",
+         "降序",
+       ],
+       "default": "升序"
+   },
+   {
+       "name": "sortAuxiliary",
+       "type": "select",
+       "label": "辅助排序",
+       "options": [
+         "等级顺序",
+         "品质顺序",
+       ],
+       "default": "等级顺序"
+   },
+   {
+     "name": "toSift",
+     "type": "checkbox",
+     "label": "启用筛选圣遗物开关(未启用时以下配置 圣遗物筛选 均无效)",
+     "default": true
+   },
+   {
+      "name": "suit",
+      "type": "input-text",
+      "label": "圣遗物筛选(使用|分割 的模糊匹配 <无个数限制>如: 如雷|苍白|...)",
+      "default": ""
+   },
+   {
+       "name": "countMaxByHoly",
+       "type": "select",
+       "label": "筛选圣遗物界面最大翻页次数 (默认4)",
+       "options": [
+         "1",
+         "2",
+         "3",
+         "4",
+         "5",
+         "6",
+         "7",
+         "8",
+       ],
+       "default": "4"
+   },
+   {
+     "name": "holyRelicsLockMark",
+     "type": "checkbox",
+     "label": "圣遗物筛选:(锁定状态)|标记",
+     "default": false
+   },
+   {
+     "name": "holyRelicsLockY",
+     "type": "checkbox",
+     "label": "圣遗物筛选:(锁定状态)|仅锁定",
+     "default": false
+   },
+   {
+     "name": "holyRelicsLockN",
+     "type": "checkbox",
+     "label": "圣遗物筛选:(锁定状态)|未锁定",
+     "default": false
+   },
+   {
+     "name": "holyRelicsEquipY",
+     "type": "checkbox",
+     "label": "圣遗物筛选:(装备状态)|已装备",
+     "default": false
+   },
+   {
+     "name": "holyRelicsEquipN",
+     "type": "checkbox",
+     "label": "圣遗物筛选:(装备状态)|未装备",
+     "default": false
+   },
+   {
+     "name": "holyRelicsSourceFrostSaint",
+     "type": "checkbox",
+     "label": "圣遗物筛选:(来源)|祝圣之霜定义",
+     "default": false
+   },
+   {
+      "name": "knapsackKey",
+      "type": "input-text",
+      "label": "打开背包按键(不填，默认：B)",
+      "default": "B"
+   },
+   {
+     "name": "log_off",
+     "type": "checkbox",
+     "label": "日志开关(用于开发者调试-日志输出为简体中文)",
+     "default": false
+   }
+]

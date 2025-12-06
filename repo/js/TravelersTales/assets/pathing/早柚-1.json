@@ -1,0 +1,94 @@
+{
+  "info": {
+    "name": "早柚-1",
+    "type": "collect",
+    "author": "哈少",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "run",
+      "type": "teleport",
+      "x": -4402.552734375,
+      "y": -3053.0302734375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4394.763671875,
+      "y": -3064.9873046875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4365.87890625,
+      "y": -3091.501953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -4363.03125,
+      "y": -3094.111328125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -4330.353515625,
+      "y": -3137.642578125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -4327.9609375,
+      "y": -3140.708984375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -4327.91796875,
+      "y": -3140.705078125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -4327.04296875,
+      "y": -3140.8291015625,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -4326.71875,
+      "y": -3140.927734375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

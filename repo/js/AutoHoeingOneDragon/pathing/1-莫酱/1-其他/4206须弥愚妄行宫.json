@@ -1,0 +1,160 @@
+{
+  "info": {
+    "name": "4206须弥愚妄行宫",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "mno",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时167.28秒，包含以下怪物：2只火史莱姆、1只大型火史莱姆、3只射手丘丘人、0.5只镀金旅团·阵前斧手、1只镀金旅团·刀舞者、1只镀金旅团·灵风猎手。",
+    "hash_res": "30341339",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752333935195,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4592.50927734375,
+      "y": -647.1630859375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4610.19140625,
+      "y": -652.08984375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4599.76171875,
+      "y": -673.5625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 4599.76171875,
+      "y": -673.5625,
+      "type": "orientation",
+      "move_mode": "fly",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4592.50732421875,
+      "y": -647.16845703125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4576.5791015625,
+      "y": -706.15966796875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 4557.32373046875,
+      "y": -731.05126953125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 4557.32373046875,
+      "y": -731.05126953125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 4549.1044921875,
+      "y": -768.912109375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 4542.794921875,
+      "y": -797.00244140625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "up_down_grab_leaf",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 4586.0068359375,
+      "y": -793.16259765625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 4610.3017578125,
+      "y": -788.14892578125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 4636.31298828125,
+      "y": -865.46533203125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 4656.13671875,
+      "y": -840.5849609375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 15,
+      "x": 4656.13671875,
+      "y": -840.5849609375,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

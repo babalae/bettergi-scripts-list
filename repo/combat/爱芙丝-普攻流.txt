@@ -1,0 +1,41 @@
+爱可菲 e,wait(0.5),keypress(F1),wait(1),keypress(ESCAPE)
+//爱可菲 E开书吃球
+芙宁娜 e,wait(0.5),keypress(F1),wait(1),keypress(ESCAPE),wait(0.75),keypress(q)
+//芙宁娜 E开书吃球接Q
+爱可菲 attack,keypress(q)
+//爱可菲 Q
+珊瑚宫心海 dash,wait(0.01),click(left),wait(0.6),keypress(e)"
+//心海 冲刺一下 AE 这个可以按照需求自由更改
+丝柯克 e,wait(0.4),click(left),wait(0.1),click(left),wait(0.4),click(left),wait(0.5),keypress(q),wait(0.7),click(left),wait(0.03),click(left),wait(0.45),click(left),wait(0.45),mousedown(left),wait(0.3),mouseup(left),wait(0.2),mousedown(right),wait(0.1),mouseup(right),wait(0.09),click(left),wait(0.03),click(left),wait(0.45),click(left),wait(0.45),mousedown(left),wait(0.3),mouseup(left),wait(0.2),mousedown(right),wait(0.1),mouseup(right),wait(0.09),click(left),wait(0.03),click(left),wait(0.45),click(left),wait(0.45),mousedown(left),wait(0.3),mouseup(left)
+//丝柯克 短E接3AQ接3A重闪*3
+
+
+//丝柯克【短E接5A】
+//e,wait(0.4),click(left),wait(0.1),click(left),wait(0.4),click(left),wait(0.5),click(left),wait(0.6),click(left)
+
+//丝柯克 5A
+//click(left),wait(0.1),click(left),wait(0.4),click(left),wait(0.5),click(left),wait(0.6),click(left)
+
+//丝柯克 【短E接3AQ】
+//e,wait(0.4),click(left),wait(0.1),click(left),wait(0.4),click(left),wait(0.5),keypress(q)
+
+//丝柯克【3A重闪】55+FPS
+//wait(0.09),click(left),wait(0.03),click(left),wait(0.45),click(left),wait(0.45),mousedown(left),wait(0.3),mouseup(left),wait(0.2),mousedown(right),wait(0.1),mouseup(right)
+
+//丝柯克【3A重闪】30FPS
+//wait(0.1),click(left),wait(0.1),click(left),wait(0.45),click(left),wait(0.45),mousedown(left),wait(0.3),mouseup(left),wait(0.2),mousedown(right),wait(0.1),mouseup(right)
+
+//【3A重闪】可以直接用复制到 [辅助操控 - 一键宏(按角色)] 内使用 在攻速加成和迟缓之冰buff下无法正常使用【wait(0.09)】是闪后等待时间
+//有更多排列组合的方法 比如 【短E接5AQ接3重闪*3】【短E接3AQ接3重闪*2接5A】等等 有需要可以自由组合
+//当帧数低  卡顿时 请将【3A重闪】替换为30FPS版
+
+//！！！！！！注意事项！！！！！！
+
+//如果你需要自由排列组合请看以下内容
+//请查看 Bettergi战斗脚本策略-高级语法相关教程【https://bettergi.com/feats/task/domain.html#战斗脚本策略-高级语法】
+//【Q】前后都要有 wait 像这样 【wait(0.5),keypress(q),wait(0.7)】
+//【短E】后要接 wait 像这样【e,wait(0.4)】
+//【3A重闪】循环时候才需要【wait(0.09)】当【短E】和【Q】后的【3A重闪】则可以省略【wait(0.09)】详细可参考我写的【短E接3AQ接3A重闪*3】
+//若要写【5A接3A重闪】则需要将【wait(0.09)】改大 我没测试这个 大概是0.5吧 如果需要可以自行测试最佳数据
+
+

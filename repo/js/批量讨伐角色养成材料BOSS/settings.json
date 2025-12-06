@@ -1,0 +1,104 @@
+[
+  {
+    "name": "runMode",
+    "type": "select",
+    "label": "选择模式",
+    "options": [
+      "运行",
+      "追加指定Boss及相关配置",
+      "删除同名Boss及相关配置",
+      "！！删除所有BOSS！！"
+    ],
+    "default": "运行"
+  },
+  {
+    "name": "bossSelection",
+    "type": "select",
+    "label": "选择讨伐BOSS \n - 以拼音首字母按英文字母表排序",
+    "options": [
+      "半永恒统辖矩阵",
+      "爆炎树",
+      "掣电树",
+      "纯水精灵",
+      "翠翎恐蕈",
+      "风蚀沙虫",
+      "歌裴莉娅的葬送",
+      "古岩龙蜥",
+      "恒常机关阵列",
+      "急冻树",
+      "金焰绒翼龙暴君",
+      "科培琉司的劫罚",
+      "雷音权现",
+      "灵觉隐修的迷者",
+      "秘源机兵·构型械",
+      "秘源机兵·统御械",
+      "魔偶剑鬼",
+      "魔像督军",
+      "千年珍珠骏麟",
+      "熔岩辉龙像",
+      "深罪浸礼者",
+      "霜夜巡天灵主",
+      "深邃摹结株",
+      "实验性场力发生装置",
+      "水形幻人",
+      "贪食匿叶龙山王",
+      "铁甲熔火帝皇",
+      "无相之草",
+      "无相之火",
+      "无相之雷",
+      "无相之水",
+      "无相之岩",
+      "遗迹巨蛇",
+      "隐山猊兽",
+      "兆载永劫龙兽",
+      "重拳出击鸭"
+    ]
+  },
+  {
+    "name": "switchPartyName",
+    "type": "input-text",
+    "label": "要切换的队伍名（默认不切换）",
+    "default": "不切换"
+  },
+  {
+    "name": "timeout",
+    "type": "input-text",
+    "label": "战斗超时设置（秒）\n !!!暂时未生效，等下版本BGI更新后更新!!!",
+    "default": 240
+  },
+  {
+    "name": "strategyName",
+    "type": "input-text",
+    "label": "战斗策略名\n !!!暂时未生效，等下版本BGI更新后更新!!!\n - BGI本体策略文件夹下的策略名，不含后缀， \n - 如在文件夹内需保留目录结构",
+    "default": "根据队伍自动选择"
+  },
+  {
+    "name": "returnToStatueBeforeStart",
+    "type": "checkbox",
+    "label": "是否开始前回七天神像（默认否）",
+    "default": true
+  },
+  {
+    "name": "farmMode",
+    "type": "select",
+    "label": "刷取模式",
+    "options":[
+      "一次性",
+      "一次性-每日限量",
+      "每日重置"
+    ],
+    "default": "一次性"
+  },
+  {
+    "name": "rounds",
+    "type": "input-text",
+    "label": "讨伐次数",
+    "default": "1"
+  },
+  {
+    "name": "dailyLimitCount",
+    "type": "input-text",
+    "label": "每日限量次数 \n - 仅在 【一次性-每日限量】 模式下有效",
+    "default": "1"
+  }
+]
