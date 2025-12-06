@@ -13,7 +13,7 @@ const targetItemPath = "assets/targetItems";
 const mainUITemplate = file.ReadImageMatSync("assets/MainUI.png");
 const itemFullTemplate = file.ReadImageMatSync("assets/itemFull.png");
 const fIcontemplate = file.ReadImageMatSync("assets/F_Dialogue.png");
-const accountName = settings.infoFileName || 默认账户;
+const accountName = settings.infoFileName || "默认账户";
 
 // 定义目标文件夹路径和记录文件路径
 const recordFolder = "record"; // 存储记录文件的文件夹路径
