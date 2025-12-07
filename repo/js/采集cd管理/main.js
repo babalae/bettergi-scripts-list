@@ -5,7 +5,7 @@ let blacklist = [];
 let blacklistSet = new Set();
 let gameRegion;
 let state = { running: true, currentPathing: null };
-const rollingDelay = 25;
+const rollingDelay = 32;
 const pickupDelay = 100;
 const timeMoveUp = Math.round((settings.timeMove || 1000) * 0.45);
 const timeMoveDown = Math.round((settings.timeMove || 1000) * 0.55);
@@ -66,6 +66,16 @@ if (!userSettings.infoFileName) {
         userSettings.otherPathGroupsCdTypes,
     ].join(".");
 }
+
+let findFInterval = (+settings.findFInterval || 100);
+if (findFInterval < 16) {
+    findFInterval = 16;
+}
+if (findFInterval > 200) {
+    findFInterval = 200;
+}
+let lastRoll = new Date();
+let checkDelay = Math.round(findFInterval / 2);
 
 (async function () {
     /* ===== 零基构建 settings.json（BEGIN） ===== */
@@ -140,6 +150,12 @@ if (!userSettings.infoFileName) {
             "name": "disableJsons",
             "type": "input-text",
             "label": "填写需要禁用的路线的关键词，使用中文分号分隔\n文件路径含有相关关键词的路线会被禁用"
+        },
+        {
+            "name": "findFInterval",
+            "type": "input-text",
+            "label": "识别间隔(毫秒)\n两次检测f图标之间等待时间",
+            "default": "100"
         }
     );
 
@@ -512,7 +528,10 @@ async function recognizeAndInteract() {
         const centerYF = await findFIcon();
         if (!centerYF) {
             if (await isMainUI()) {
-                await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+                if (new Date() - lastRoll >= 200) {
+                    await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+                    lastRoll = new Date();
+                }
             }
             continue;
         }
@@ -565,7 +584,7 @@ async function findFIcon() {
     } catch (e) {
         log.error(`findFIcon:${e.message}`);
     }
-    await sleep(50);
+    await sleep(checkDelay);
     return null;
 }
 
@@ -597,7 +616,7 @@ async function isMainUI() {
         } catch (e) {
             log.error(`isMainUI:${e.message}`);
         }
-        await sleep(50);
+        await sleep(checkDelay);
     }
     return false;
 }
