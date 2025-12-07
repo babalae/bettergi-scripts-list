@@ -4,6 +4,13 @@ let targetItems;
 let pickupDelay = 100;
 let timeMove = 1000;
 let findFInterval = (+settings.findFInterval || 100);
+if (findFInterval < 16) {
+    findFInterval = 16;
+}
+if (findFInterval > 200) {
+    findFInterval = 200;
+}
+let lastRoll = new Date();
 let checkDelay = Math.round(findFInterval / 2);
 let timeMoveUp = Math.round(timeMove * 0.45);
 let timeMoveDown = Math.round(timeMove * 0.55);
@@ -1220,7 +1227,12 @@ async function recognizeAndInteract() {
         gameRegion = captureGameRegion();
         let centerYF = await findFIcon();
         if (!centerYF) {
-            if (await isMainUI()) await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+            if (await isMainUI()) {
+                if (new Date() - lastRoll >= 200) {
+                    await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+                    lastRoll = new Date();
+                }
+            }
             continue;
         }
         //log.info(`调试-成功找到f图标,centerYF为${centerYF}`);

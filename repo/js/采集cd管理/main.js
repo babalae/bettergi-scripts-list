@@ -5,7 +5,7 @@ let blacklist = [];
 let blacklistSet = new Set();
 let gameRegion;
 let state = { running: true, currentPathing: null };
-const rollingDelay = 25;
+const rollingDelay = 32;
 const pickupDelay = 100;
 const timeMoveUp = Math.round((settings.timeMove || 1000) * 0.45);
 const timeMoveDown = Math.round((settings.timeMove || 1000) * 0.55);
@@ -68,6 +68,13 @@ if (!userSettings.infoFileName) {
 }
 
 let findFInterval = (+settings.findFInterval || 100);
+if (findFInterval < 16) {
+    findFInterval = 16;
+}
+if (findFInterval > 200) {
+    findFInterval = 200;
+}
+let lastRoll = new Date();
 let checkDelay = Math.round(findFInterval / 2);
 
 (async function () {
@@ -521,7 +528,10 @@ async function recognizeAndInteract() {
         const centerYF = await findFIcon();
         if (!centerYF) {
             if (await isMainUI()) {
-                await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+                if (new Date() - lastRoll >= 200) {
+                    await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+                    lastRoll = new Date();
+                }
             }
             continue;
         }

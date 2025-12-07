@@ -28,6 +28,13 @@ let targetItems;
 let doFurinaSwitch = false;
 
 let findFInterval = (+settings.findFInterval || 100);
+if (findFInterval < 16) {
+    findFInterval = 16;
+}
+if (findFInterval > 200) {
+    findFInterval = 200;
+}
+let lastRoll = new Date();
 let checkDelay = Math.round(findFInterval / 2);
 let rollingDelay = (+settings.rollingDelay || 32);
 const pickupDelay = (+settings.pickupDelay || 100);
@@ -804,7 +811,12 @@ async function recognizeAndInteract() {
         let centerYF = await findFIcon();
 
         if (!centerYF) {
-            if (await isMainUI()) await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+            if (await isMainUI()) {
+                if (new Date() - lastRoll >= 200) {
+                    await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+                    lastRoll = new Date();
+                }
+            }
             continue;
         }
         /*
