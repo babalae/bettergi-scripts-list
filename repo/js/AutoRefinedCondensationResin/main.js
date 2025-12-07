@@ -1,6 +1,7 @@
 // 识图资料
 const confirmRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/confirm.png"));
 const CondensedResin = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/Condensed_Resin.png"));
+const Clear = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/Clear.png"));
 // 读取配置文件
 const location = settings.location;
 const settingsWeek = settings.week;
@@ -34,6 +35,7 @@ async function condensedResin() {
         captureRegion.dispose();
         for (let i = 0; i < resList.count; i++) {
             if (resList[i].text.includes("合成")) {
+
                 // 找到合成台，点击合成台
                 log.info("寻找合成台成功,开始与合成台交互");
                 keyDown("VK_MENU");// Alt
@@ -44,6 +46,16 @@ async function condensedResin() {
                 await sleep(1500);
                 keyUp("VK_MENU");// Alt
                 await sleep(1000);
+
+                const ro0 = captureGameRegion();
+                let Resin0 = ro0.find(Clear);
+                ro0.dispose();
+                if (Resin0.isExist()) {
+                    log.info("筛选中,先取消筛选");
+                    await sleep(750);
+                    Resin0.click();
+                    await sleep(750);
+                }
 
                 // 图像识别浓缩树脂
                 const ro1 = captureGameRegion();
@@ -98,24 +110,21 @@ async function condensedResin() {
 }
 
 (async function () {
+    // 获取
     function validateAndStoreNumbers(input) {
-        // 定义存储结果的数组
-        let storedNumbers = [];
-
+        // 去除所有空格
+        const cleanedInput = input.replace(/\s/g, '');
+        
         // 使用正则表达式检测是否符合期望格式
-        const regex = /^(\b([1-9]|1[0-5])\b)(,(\b([1-9]|1[0-5])\b))*$/;
-
+        const regex = /^([1-7])(,([1-7]))*$/;
+        
         // 检测输入字符串是否符合正则表达式
-        if (regex.test(input)) {
+        if (regex.test(cleanedInput)) {
             // 将输入字符串按逗号分割成数组
-            const numbers = input.split(',');
-
-            // 将分割后的数字字符串转换为整数并存储到数组中
-            storedNumbers = numbers.map(Number);
-
-            return storedNumbers;
+            const numbers = cleanedInput.split(',');
+            return numbers.map(Number);
         } else {
-            return false
+            return false;
         }
     }
 
@@ -136,9 +145,6 @@ async function condensedResin() {
         // 转换为1-7格式（7代表周日）
         return dayOfWeek === 0 ? 7 : dayOfWeek;
     }
-
-
-
 
     //main/======================================================================================
     setGameMetrics(1920, 1080, 1)
