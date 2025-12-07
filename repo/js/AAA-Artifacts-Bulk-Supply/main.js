@@ -47,6 +47,8 @@ let furinaState = "unknown";
 let targetItems;
 let pickupDelay = 100;
 let timeMove = 1000;
+let findFInterval = (+settings.findFInterval || 100);
+let checkDelay = Math.round(findFInterval / 2);
 let timeMoveUp = Math.round(timeMove * 0.45);
 let timeMoveDown = Math.round(timeMove * 0.55);
 let rollingDelay = 25;
@@ -1377,7 +1379,7 @@ async function recognizeAndInteract() {
             if (!state.running)
                 return null;
         }
-        await sleep(100);
+        await sleep(checkDelay);
         return null;
     }
 
@@ -1396,7 +1398,7 @@ async function recognizeAndInteract() {
                 return false;
             }
             attempts++;
-            await sleep(50);
+            await sleep(checkDelay);
         }
         return false;
     }

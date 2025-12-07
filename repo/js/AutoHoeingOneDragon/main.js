@@ -1,4 +1,4 @@
-//当前js版本1.11.0
+//当前js版本1.12.0
 
 let timeMoveUp;
 let timeMoveDown;
@@ -27,7 +27,9 @@ whiteFurinaRo.InitTemplate();
 let targetItems;
 let doFurinaSwitch = false;
 
-let rollingDelay = (+settings.rollingDelay || 25);
+let findFInterval = (+settings.findFInterval || 100);
+let checkDelay = Math.round(findFInterval / 2);
+let rollingDelay = (+settings.rollingDelay || 32);
 const pickupDelay = (+settings.pickupDelay || 100);
 const timeMove = (+settings.timeMove || 1000);
 
@@ -426,7 +428,7 @@ async function findBestRouteGroups(pathings, k1, k2, targetEliteNum, targetMonst
         maxE1 = Math.max(maxE1, p.E1);
         maxE2 = Math.max(maxE2, p.E2);
     });
-    
+
     pathings.forEach(p => {
         if (p.prioritized) { p.E1 += maxE1; p.E2 += maxE2; }
     });
@@ -908,7 +910,7 @@ async function recognizeAndInteract() {
             if (!state.running)
                 return null;
         }
-        await sleep(50);
+        await sleep(checkDelay);
         return null;
     }
 
@@ -954,7 +956,7 @@ async function isMainUI() {
             return false;
         }
         attempts++;
-        await sleep(50);
+        await sleep(checkDelay);
         if (dodispose) {
             gameRegion.dispose;
         }
