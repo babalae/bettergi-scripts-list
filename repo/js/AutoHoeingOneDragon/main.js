@@ -970,7 +970,7 @@ async function isMainUI() {
         attempts++;
         await sleep(checkDelay);
         if (dodispose) {
-            gameRegion.dispose;
+            gameRegion.dispose();
         }
     }
     return false;
