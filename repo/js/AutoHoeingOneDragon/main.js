@@ -1220,7 +1220,7 @@ async function dumper(pathFilePath, map_name) {
             attempts++; // 增加尝试次数
             await sleep(200); // 每次检测间隔 200 毫秒
             if (dodispose) {
-                gameRegion.dispose;
+                gameRegion.dispose();
             }
         }
         return false; // 如果尝试次数达到上限或取消，返回 false
