@@ -520,7 +520,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             keyDown("VK_MENU");
             await sleep(500);
             for (let i = 0; i <= 4; i++) {
-                await click(math.round(genshin.width / 2.0), math.round(genshin.height * 0.8));
+                await click(Math.round(genshin.width / 2.0), Math.round(genshin.height * 0.8));
                 await sleep(1000);
             }
         } finally {
@@ -562,8 +562,8 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
                 await sleep(1000);
                 if (verify.isExist()) {
                     //这里可配置通知方法
-                    notification.error(`${script_name}触发人机验证，请手动登录。===待切换UID：${settings.UID}`);
-                    log.error(`${script_name}触发人机验证，请手动登录。===待切换UID：${settings.UID}`);
+                    notification.error(`${script_name}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
+                    log.error(`${script_name}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
                 }
             }
             /**
@@ -584,14 +584,14 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             keyDown("VK_MENU");
             await sleep(500);
             for (let i = 0; i <= 4; i++) {
-                await click(math.round(genshin.width / 2.0), math.round(genshin.height * 0.8));
+                await click(Math.round(genshin.width / 2.0), Math.round(genshin.height * 0.8));
                 await sleep(1000);
             }
             //keyUp("VK_MENU");
             await genshin.returnMainUi();
             await sleep(1000);
             // 如果配置了通知
-            notification.send("账号【" + settings.UID + "】切换成功");
+            notification.send("账号【" + settings.username + "】切换成功");
         } catch (error) {
             log.error(`${script_name}脚本执行过程中发生错误：${error.message}`);
             //如果发生错误，则发送通知
