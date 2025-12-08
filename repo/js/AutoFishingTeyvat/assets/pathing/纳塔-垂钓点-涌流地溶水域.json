@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "authors": [
       {
@@ -24,7 +24,7 @@
   "positions": [
     {
       "action": "",
-      "action_params": "wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "action_params": "",
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
@@ -37,8 +37,8 @@
       "id": 2,
       "move_mode": "fly",
       "type": "path",
-      "x": 8651.8017578125,
-      "y": -2787.7744140625
+      "x": 8651.8,
+      "y": -2787.77
     },
     {
       "action": "stop_flying",
@@ -46,8 +46,8 @@
       "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 8667.98046875,
-      "y": -2813.916015625
+      "x": 8667.98,
+      "y": -2813.92
     },
     {
       "action": "combat_script",
@@ -55,8 +55,8 @@
       "id": 4,
       "move_mode": "walk",
       "type": "target",
-      "x": 8664.6416015625,
-      "y": -2817.22265625
+      "x": 8664.64,
+      "y": -2817.22
     }
   ]
 }
