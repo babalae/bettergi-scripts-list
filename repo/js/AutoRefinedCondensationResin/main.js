@@ -3,7 +3,7 @@ const confirmRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/
 const CondensedResin = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/Condensed_Resin.png"));
 const Clear = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/Clear.png"));
 // 读取配置文件
-const location = settings.location;
+let location = settings.location;
 const settingsWeek = settings.week;
 const everyDay = settings.everyDay;
 
@@ -70,7 +70,7 @@ async function condensedResin() {
                     ro2.dispose();
                     if (confirm.isExist()) {
                         confirm.click(); // 点击合成
-                        await sleep(5000);
+                        await sleep(3000);
                         click(975, 900); // 点击确认，关闭合成成功资料
                         log.info("已完成合成浓缩树脂");
                     }
@@ -158,7 +158,7 @@ async function condensedResin() {
         log.info("已开启每天都合成体力，无视星期设置");
         try {
             if (!location) {
-                location = "璃月合成台";
+                location = "蒙德合成台";
                 log.info(`未设置传送位置，默认前往 ${location}...`);
             }
             log.info(`正在前往 ${location} 合成浓缩树脂`);
