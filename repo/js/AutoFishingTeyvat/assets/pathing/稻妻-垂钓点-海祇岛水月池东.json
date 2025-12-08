@@ -1,0 +1,98 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 稻妻\n类型: 垂钓点\n详细位置: 海祇岛水月池东\n鱼类: 花鳉、琉璃花鳉、擒霞客、水晶宴、肺棘鱼、流纹京紫蝶鱼\n饵类: 果酿饵、赤糜饵、蠕虫假饵\n附加信息: 战斗",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764501188634,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "稻妻-垂钓点-海祇岛水月池东",
+    "tags": [],
+    "type": "collect",
+    "version": "1.3"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1134.58,
+      "y": -3605.0
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(1),keypress(t),wait(1),keypress(t),wait(1),keypress(t),wait(1)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1138.31,
+      "y": -3597.41
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1131.4,
+      "y": -3587.05
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1152.04,
+      "y": -3592.3
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1191.11,
+      "y": -3605.33
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1202.95,
+      "y": -3599.06
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1243.13,
+      "y": -3568.21
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1248.88,
+      "y": -3568.81
+    }
+  ]
+}

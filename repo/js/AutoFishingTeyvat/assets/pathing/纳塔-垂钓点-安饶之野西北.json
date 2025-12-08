@@ -1,0 +1,116 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 纳塔\n类型: 垂钓点\n详细位置: 安饶之野西北\n鱼类: 炽岩斗士急流鱼、拟似燃素独角鱼、秘源机关·巡戒使\n饵类: 温火饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764512634203,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "纳塔-垂钓点-安饶之野西北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10794.75,
+      "y": -3069.64
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10779.14,
+      "y": -3026.07
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10745.41,
+      "y": -2968.31
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10705.58,
+      "y": -2931.41
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10684.32,
+      "y": -2882.59
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10685.97,
+      "y": -2862.68
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10701.33,
+      "y": -2848.82
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10704.09,
+      "y": -2835.58
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10693.22,
+      "y": -2812.18
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10678.82,
+      "y": -2807.32
+    }
+  ]
+}

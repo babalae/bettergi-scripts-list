@@ -1,0 +1,71 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 枫丹\n类型: 垂钓点\n详细位置: 枫丹动能工程科学研究院区中央实验室遗址南\n鱼类: 花鳉、海涛斧枪鱼、波波心羽鲈、维护机关·初始能力型、维护机关·水域清理者\n饵类: 果酿饵、甘露饵、酸桔饵、维护机关频闪诱饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764679446045,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "枫丹-垂钓点-枫丹动能工程科学研究院区中央实验室遗址南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.2"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3865.14,
+      "y": 4492.28
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(2.3),attack(0.1)",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3976.28,
+      "y": 4527.77
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3982.21,
+      "y": 4532.11
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3982.03,
+      "y": 4534.08
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3985.86,
+      "y": 4532.85
+    }
+  ]
+}

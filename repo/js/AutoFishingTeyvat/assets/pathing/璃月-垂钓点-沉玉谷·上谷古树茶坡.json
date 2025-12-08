@@ -1,0 +1,62 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 璃月\n类型: 垂钓点\n详细位置: 沉玉谷·上谷古树茶坡\n鱼类: 花鳉、斗棘鱼、流纹褐蝶鱼、锖假龙、金赤假龙、玉玉心羽鲈\n饵类: 果酿饵、赤糜饵、蠕虫假饵、飞蝇假饵、酸桔饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764617428124,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "璃月-垂钓点-沉玉谷·上谷古树茶坡",
+    "tags": [],
+    "type": "collect",
+    "version": "1.2"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1692.1,
+      "y": 1829.41
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1695.38,
+      "y": 1833.56
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1719.73,
+      "y": 1892.05
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1721.84,
+      "y": 1894.41
+    }
+  ]
+}

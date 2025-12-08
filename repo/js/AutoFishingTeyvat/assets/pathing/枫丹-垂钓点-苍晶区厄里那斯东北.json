@@ -1,0 +1,80 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 枫丹\n类型: 垂钓点\n详细位置: 苍晶区厄里那斯东北\n鱼类: 吹沙角鲀、波波心羽鲈、维护机关·初始能力型、维护机关·水域清理者、维护机关·态势控制者\n饵类: 甘露饵、酸橘饵、维护机关频闪诱饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764681791367,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "枫丹-垂钓点-苍晶区厄里那斯东北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.2"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4705.51,
+      "y": 2951.55
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4715.22,
+      "y": 2973.37
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4741.52,
+      "y": 3005.44
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4744.16,
+      "y": 3007.0
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4746.69,
+      "y": 3009.42
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4742.52,
+      "y": 3012.5
+    }
+  ]
+}

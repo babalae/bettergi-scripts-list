@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "枫丹-垂钓点-伊黎耶林区幽林雾道西南",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.2",
+    "description": "地区: 枫丹\n类型: 垂钓点\n详细位置: 伊黎耶林区幽林雾道西南\n鱼类: 花鳉、波波心羽鲈、烘烘心羽鲈、维护机关·水域清理者、维护机关·态势控制者、维护机关·澄金领队型\n饵类: 果酿饵、酸橘饵、维护机关频闪诱饵\n附加信息: 普通",
+    "bgi_version": "0.42.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3367.25,
+      "y": 3294.29,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3402.91,
+      "y": 3277.5,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3409.29,
+      "y": 3239.73,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 3399.85,
+      "y": 3200.1,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 3413.07,
+      "y": 3165.09,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 3416.3,
+      "y": 3162.42,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 3414.69,
+      "y": 3158.58,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

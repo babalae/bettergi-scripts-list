@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "纳塔-垂钓点-安饶之野西",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.0",
+    "description": "地区: 纳塔\n类型: 垂钓点\n详细位置: 安饶之野西\n鱼类: 拟似燃素独角鱼、秘源机关·巡戒使\n饵类: 温火饵\n附加信息: 普通",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 10794.75,
+      "y": -3069.64,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 10778.97,
+      "y": -3026.83,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 10749.68,
+      "y": -2966.94,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 10739.55,
+      "y": -2959.1,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 10733.51,
+      "y": -2968.69,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "type": "target"
+    }
+  ]
+}

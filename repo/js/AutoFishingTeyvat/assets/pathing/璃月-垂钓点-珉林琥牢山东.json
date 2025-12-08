@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "璃月-垂钓点-珉林琥牢山东",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.2",
+    "description": "地区: 璃月\n类型: 垂钓点\n详细位置: 珉林琥牢山东\n鱼类: 花鳉、甜甜花鳉、擒霞客、水晶宴、斗棘鱼、流纹褐蝶鱼\n饵类: 果酿饵、赤糜饵、蠕虫假饵\n附加信息: 普通",
+    "bgi_version": "0.42.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1794.21,
+      "y": 717.5,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1785.04,
+      "y": 716.3,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1636.13,
+      "y": 693.77,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(5.5),attack(0.1)"
+    },
+    {
+      "id": 4,
+      "x": 1642.25,
+      "y": 692.99,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}
