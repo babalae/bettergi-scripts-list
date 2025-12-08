@@ -27,9 +27,8 @@
             activate: RecognitionObject.TemplateMatch(mats.activate)
         };
 
-        // --- 照搬 123.js 的 OCR 对象逻辑 ---
         // 识别全屏范围
-        fightOcrRo = RecognitionObject.Ocr(0, 0, genshin.width, genshin.height);
+        fightOcrRo = RecognitionObject.ocr(0, 0, 1920, 1080);
 
         log.info("资源加载完成");
 
@@ -102,7 +101,7 @@
                 keyPress("f");
                 await sleep(1000);
 
-                // g. === 自动战斗 (完全复刻 123.js 的逻辑) ===
+                // g. === 自动战斗 ===
                 // 使用 SoloTask("AutoFight") + CancellationToken + 循环OCR检测
                 const fightResult = await autoFightLike123js(fightOcrRo, 120000); 
                 
@@ -155,14 +154,14 @@
         log.info("战斗开始");
 
         while (Date.now() - startTime < timeout) {
-            // 获取截图 (注意：这里增加了Dispose以防止内存溢出，逻辑与123.js一致)
+            // 获取截图 (注意：这里增加了Dispose以防止内存溢出)
             let capture = captureGameRegion();
             try {
                 // 使用传入的 ocrRo 进行查找
                 let result = capture.find(ocrRo);
                 let text = result.text;
                 
-                // 123.js 的判断关键字
+                // 判断关键字
                 const keywords = ["挑战成功", "达成", "挑战达成"];
                 let found = false;
                 
@@ -180,11 +179,10 @@
             } catch (err) {
                 log.error(`OCR识别出错: ${err}`);
             } finally {
-                // 123.js 缺少这一步，这里加上以保证长时间挂机不崩
                 capture.Dispose();
             }
             
-            await sleep(1000); // 123.js 的间隔是 1000ms
+            await sleep(1000);
         }
 
         // 停止战斗
@@ -201,7 +199,6 @@
                 let res = capture.find(ro);
                 if (!res.isEmpty()) {
                     res.click();
-                    // 123.js 的逻辑是点两下，这里保留双击逻辑以防万一
                     await sleep(30); 
                     res.click(); 
                     return true;
@@ -209,7 +206,7 @@
             } finally {
                 capture.Dispose();
             }
-            await sleep(1000); // 123.js 默认间隔较长，这里稍微对齐
+            await sleep(1000);
         }
         return false;
     }
