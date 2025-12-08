@@ -1,0 +1,162 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "Annijang"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1765175149471,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蒙德_明冠峡_丘丘射手_6只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -439.88671875,
+      "y": 2581.0634765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -407.359375,
+      "y": 2488.28515625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -404.109375,
+      "y": 2427.96826171875
+    },
+    {
+      "action": "pick_up_collect",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -404.109375,
+      "y": 2427.96826171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": -439.861328125,
+      "y": 2581.1015625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -442.810546875,
+      "y": 2622.772216796875
+    },
+    {
+      "action": "pick_up_collect",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -442.810546875,
+      "y": 2622.772216796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -436.89453125,
+      "y": 2657.080078125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "500",
+      "id": 9,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -430.44140625,
+      "y": 2694.435302734375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -430.44140625,
+      "y": 2694.435302734375
+    },
+    {
+      "action": "pick_up_collect",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -430.44140625,
+      "y": 2694.435302734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -455.818359375,
+      "y": 2677.699462890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -471.3828125,
+      "y": 2658.192626953125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 14,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -484.71484375,
+      "y": 2641.78564453125
+    },
+    {
+      "action": "pick_up_collect",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -484.71484375,
+      "y": 2641.78564453125
+    }
+  ]
+}
