@@ -879,7 +879,7 @@
         // 鹤观设置读取
         const block_tsurumi = typeof(settings.block_tsurumi) === 'undefined' ? false : settings.block_tsurumi;
         // 小道具替换方式读取
-        const tsurumi_method = typeof(settings.block_tsurumi) === 'undefined' ? "1" : settings.tsurumi_method.split(".")[0];
+        const tsurumi_method = typeof(settings.tsurumi_method) === 'undefined' ? "1" : settings.tsurumi_method.split(".")[0];
         // 读取自动拾取设置
         const auto_pick = typeof(settings.auto_pick) === 'undefined' ? false : settings.auto_pick;
         // 读取4点自动领取月卡的设置

@@ -625,7 +625,7 @@ async function autoFightAndEndDetection(extraFightAction) {
     // 定义两个检测区域
     const region1 = RecognitionObject.ocr(700, 0, 450, 100);//区域一 BOSS名称
     const region2 = RecognitionObject.ocr(820, 935, 280, 50);//区域二 成功倒计时
-    const paimonMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/paimon_menu.png"), 0, 0, genshin.width / 3.0, genshin.width / 5.0);
+    const paimonMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/paimon_menu.png"), 0, 0, 640, 216);
     const teamRo1 = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/team1.png"), 1820, 240, 80, 400);
     const teamRo2 = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/team2.png"), 1820, 240, 80, 400);
     let challengeTime = 0;
