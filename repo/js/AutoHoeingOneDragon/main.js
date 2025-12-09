@@ -1001,6 +1001,7 @@ async function loadTargetItems() {
 
             // 新增：解析括号中的阈值
             const match = it.fullPath.match(/[（(](.*?)[)）]/); // 匹配英文或中文括号
+            let itsThreshold;
             if (match) {
                 const val = parseFloat(match[1]);
                 itsThreshold = (!isNaN(val) && val >= 0 && val <= 1) ? val : 0.85;
