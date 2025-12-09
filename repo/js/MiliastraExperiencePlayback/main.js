@@ -807,9 +807,8 @@ var availablePlaybackFiles = () => {
 };
 var playStage = async (playbacks) => {
   //! 等待进入关卡
-  await assertRegionAppearing(
-    findStageEscBtn,
-    "等待进入关卡超时",
+  const ok = await waitForAction(
+    () => findStageEscBtn() !== void 0 || findBottomBtnText("返回大厅") !== void 0,
     async () => {
       findBottomBtnText("开始游戏")?.click();
       findBottomBtnText("准备", true)?.click();
@@ -822,6 +821,12 @@ var playStage = async (playbacks) => {
     },
     { maxAttempts: 60 }
   );
+  if (!ok) throw new Error("进入关卡超时");
+  //! 直接通关结算的关卡（不会进入关卡）
+  if (findBottomBtnText("返回大厅")) {
+    await exitStageToLobby();
+    return;
+  }
   //! 关闭游戏说明对话框
   await assertRegionDisappearing(
     findCloseDialog,
@@ -1026,7 +1031,7 @@ var deleteStageSave = async () => {
       { maxAttempts: 5 }
     );
     //! 计算勾选框位置并点击
-    const [cx, cy] = [(colPos.x * 2 + colPos.width) / 2, stagePos.y + 20];
+    const [cx, cy] = [(colPos.x * 2 + colPos.width) / 2, stagePos.y + 40];
     await assertRegionAppearing(
       () => findDeleteExternalSaveChecked(colPos.x),
       "勾选要删除的局外存档超时",
