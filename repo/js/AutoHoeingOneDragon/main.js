@@ -890,7 +890,7 @@ async function recognizeAndInteract() {
     async function performTemplateMatch(centerYF) {
         /* 一次性切 6 种宽度（0-5 汉字） */
         const regions = [];
-        for (let cn = 0; cn <= 6; cn++) {   // 0~5 共 6 档
+        for (let cn = 0; cn <= 5; cn++) {   // 0~5 共 6 档
             const w = 12 + 28 * Math.min(cn, 5) + 2;
             regions[cn] = gameRegion.DeriveCrop(1219, centerYF - 15, w, 30);
         }
@@ -980,6 +980,7 @@ async function isMainUI() {
 
 // 加载拾取物图片
 async function loadTargetItems() {
+
     let targetItemPath;
     if (pickup_Mode === "模板匹配拾取，拾取狗粮和怪物材料") {
         targetItemPath = "assets/targetItems/";
@@ -988,7 +989,7 @@ async function loadTargetItems() {
     } else {
         return null;
     }
-
+    log.info("开始加载模板图片");
     const items = await readFolder(targetItemPath, false);
 
     // 统一预加载模板
@@ -1002,13 +1003,16 @@ async function loadTargetItems() {
             const match = it.fullPath.match(/[（(](.*?)[)）]/); // 匹配英文或中文括号
             if (match) {
                 const val = parseFloat(match[1]);
-                it.Threshold = (!isNaN(val) && val >= 0 && val <= 1) ? val : 0.85;
+                itsThreshold = (!isNaN(val) && val >= 0 && val <= 1) ? val : 0.85;
             } else {
-                it.Threshold = 0.85;
+                itsThreshold = 0.85;
             }
+            it.roi.Threshold = itsThreshold;
+            it.roi.InitTemplate();
+
         } catch (error) { }
     }
-
+    log.info("模板图片加载完成");
     return items;
 }
 
