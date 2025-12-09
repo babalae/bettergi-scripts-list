@@ -1353,7 +1353,7 @@
                 } else if (turnStatus === "enemy") { // 敌方回合
                     await sleep(500);
                 } else {
-                    click(genshin.width / 2, genshin.height / 2);
+                    click(960, 540);
                     await sleep(500);
                 }
             }
@@ -1552,7 +1552,7 @@
                         await terminateTurn();
                     }
                 } else if (turnStatus === "enemy") { // 敌方回合
-                    click(genshin.width / 2, genshin.height / 2);
+                    click(960, 540);
                     await sleep(1000);
                 } else {
                     click(1873, 47);
@@ -1598,7 +1598,7 @@
                 } else if (turnStatus === "enemy") { // 敌方回合
                     await sleep(500);
                 } else {
-                    click(genshin.width / 2, genshin.height / 2);
+                    click(960, 540);
                     await sleep(500);
                 }
             }

@@ -2000,8 +2000,8 @@ const isInMainUI = () => {
         file.ReadImageMatSync(`${main_interface.path}${main_interface.name}${main_interface.type}`),
         0,
         0,
-        genshin.width / 3.0,
-        genshin.width / 5.0
+        640,
+        216
     );
     let captureRegion = openCaptureGameRegion();
     let res = findByCaptureGameRegion(captureRegion, paimonMenuRo);
