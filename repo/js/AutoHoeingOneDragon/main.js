@@ -11,7 +11,7 @@ if (settings.activeDumperMode) { //处理泥头车信息
 }
 let gameRegion;
 let targetItemPath = "assets/targetItems";
-let mainUITemplate = file.ReadImageMatSync("assets/MainUI.png");
+
 let itemFullTemplate = file.ReadImageMatSync("assets/itemFull.png");
 let frozenTemplate = file.ReadImageMatSync("assets/解除冰冻.png");
 const frozenRo = RecognitionObject.TemplateMatch(frozenTemplate, 1379, 574, 1463 - 1379, 613 - 574);
@@ -23,6 +23,15 @@ let whiteFurinaTemplate = file.ReadImageMatSync("assets/白芙图标.png");
 let whiteFurinaRo = RecognitionObject.TemplateMatch(whiteFurinaTemplate, 1634, 967, 1750 - 1634, 1070 - 967);
 whiteFurinaRo.Threshold = 0.99;
 whiteFurinaRo.InitTemplate();
+
+let fIcontemplate = file.ReadImageMatSync('assets/F_Dialogue.png');
+let fIconRo = RecognitionObject.TemplateMatch(fIcontemplate, 1102, 335, 34, 400);
+fIconRo.Threshold = 0.95;
+fIconRo.InitTemplate();
+
+let mainUITemplate = file.ReadImageMatSync("assets/MainUI.png");
+const mainUIRo = RecognitionObject.TemplateMatch(mainUITemplate, 0, 0, 150, 150);
+
 
 let targetItems;
 let doFurinaSwitch = false;
@@ -799,7 +808,6 @@ async function recognizeAndInteract() {
     //log.info("调试-开始执行图像识别与拾取任务");
     let lastcenterYF = 0;
     let lastItemName = "";
-    let fIcontemplate = file.ReadImageMatSync('assets/F_Dialogue.png');
     let thisMoveUpTime = 0;
     let lastMoveDown = 0;
     gameRegion = captureGameRegion();
@@ -880,40 +888,35 @@ async function recognizeAndInteract() {
     }
 
     async function performTemplateMatch(centerYF) {
+        /* 一次性切 6 种宽度（0-5 汉字） */
+        const regions = [];
+        for (let cn = 0; cn <= 6; cn++) {   // 0~5 共 6 档
+            const w = 12 + 28 * Math.min(cn, 5) + 2;
+            regions[cn] = gameRegion.DeriveCrop(1219, centerYF - 15, w, 30);
+        }
+
         try {
-            let result;
-            let itemName = null;
-            for (const targetItem of targetItems) {
-                //log.info(`正在尝试匹配${targetItem.itemName}`);
-                const cnLen = Math.min([...targetItem.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length, 5);
-                const recognitionObject = RecognitionObject.TemplateMatch(
-                    targetItem.template,
-                    1219,
-                    centerYF - 15,
-                    12 + 28 * cnLen + 2,
-                    30
-                );
-                recognitionObject.Threshold = targetItem.Threshold;
-                recognitionObject.InitTemplate();
-                result = gameRegion.find(recognitionObject);
-                if (result.isExist()) {
-                    itemName = targetItem.itemName;
-                    break;
+            for (const it of targetItems) {
+                const cnLen = Math.min(
+                    [...it.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length,
+                    5
+                ); // 0-5
+
+                if (regions[cnLen].find(it.roi).isExist()) {
+                    return it.itemName;
                 }
             }
-            return itemName;
-        } catch (error) {
-            log.error(`模板匹配时发生异常: ${error.message}`);
-            return null;
+        } catch (e) {
+            log.error(`performTemplateMatch: ${e.message}`);
+        } finally {
+            regions.forEach(r => r.dispose());
         }
+        return null;
     }
 
     async function findFIcon() {
-        let recognitionObject = RecognitionObject.TemplateMatch(fIcontemplate, 1102, 335, 34, 400);
-        recognitionObject.Threshold = 0.95;
-        recognitionObject.InitTemplate();
         try {
-            let result = gameRegion.find(recognitionObject);
+            let result = gameRegion.find(fIconRo);
             if (result.isExist()) {
                 return Math.round(result.y + result.height / 2);
             }
@@ -950,7 +953,6 @@ async function loadBlacklist(merge = false) {
 }
 
 async function isMainUI() {
-    const recognitionObject = RecognitionObject.TemplateMatch(mainUITemplate, 0, 0, 150, 150);
     const maxAttempts = 1;
     let attempts = 0;
     let dodispose = false;
@@ -960,7 +962,7 @@ async function isMainUI() {
             dodispose = true;
         }
         try {
-            const result = gameRegion.find(recognitionObject);
+            const result = gameRegion.find(mainUIRo);
             if (result.isExist()) return true;
         } catch (error) {
             log.error(`识别图像时发生异常: ${error.message}`);
@@ -994,6 +996,7 @@ async function loadTargetItems() {
         try {
             it.template = file.ReadImageMatSync(it.fullPath);
             it.itemName = it.fileName.replace(/\.png$/i, '');
+            it.roi = RecognitionObject.TemplateMatch(it.template);
 
             // 新增：解析括号中的阈值
             const match = it.fullPath.match(/[（(](.*?)[)）]/); // 匹配英文或中文括号
