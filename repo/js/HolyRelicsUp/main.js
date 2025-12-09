@@ -249,8 +249,8 @@ const config = settings.refreshSettingsByLanguage ?
 
 
 const genshinJson = {
-    width: genshin.width,
-    height: genshin.height,
+    width: 1920,//genshin.width,
+    height: 1080,//genshin.height,
 }
 
 
@@ -2000,8 +2000,8 @@ const isInMainUI = () => {
         file.ReadImageMatSync(`${main_interface.path}${main_interface.name}${main_interface.type}`),
         0,
         0,
-        640,
-        216
+        genshinJson.width / 3.0,
+        genshinJson.width / 5.0
     );
     let captureRegion = openCaptureGameRegion();
     let res = findByCaptureGameRegion(captureRegion, paimonMenuRo);
