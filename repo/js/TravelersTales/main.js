@@ -345,7 +345,7 @@ async function locate() {
  */
 async function waitToMain(hasKeyMouse = false) {
     log.info("等待返回主界面...");
-    const paimonMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/paimon_menu.png"), 0, 0, genshin.width / 3.0, genshin.width / 5.0);
+    const paimonMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/paimon_menu.png"), 0, 0, 640, 216);
     const maxRetries = 180; // 设置最大重试次数以防止无限循环
     let retries = 0;
     let enteredLoop = false;
