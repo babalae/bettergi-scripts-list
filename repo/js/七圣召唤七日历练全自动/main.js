@@ -666,7 +666,11 @@ async function searchCharAndPlayCards() {
         captureRegion.dispose();
         charOcrPos = null;
         for (const ocrPos of refreshedResults) {
-            if (ocrPos.text.trim() === charName) {
+            let correctedText = ocrPos.text.trim();
+            for (let [wrongChar, correctChar] of Object.entries(defaultReplacementMap)) {
+                correctedText = correctedText.replace(new RegExp(wrongChar, "g"), correctChar);
+            }
+            if (correctedText === charName) {
                 charOcrPos = ocrPos;
                 break;
             }
