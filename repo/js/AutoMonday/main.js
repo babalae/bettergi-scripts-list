@@ -28,7 +28,7 @@
     const BossPartyName = settings.BossPartyName;// 战斗队伍
     let mijingCount = 1;// 自动秘境计数
     // OCR对象用于检测战斗文本
-    const ocrRo2 = RecognitionObject.Ocr(0, 0, genshin.width, genshin.height);
+    const ocrRo2 = RecognitionObject.Ocr(0, 0, 1920, 1080);
 
     // 创建材质到ITEM的映射表
     // 养成道具=1，食物=2，材料=3
