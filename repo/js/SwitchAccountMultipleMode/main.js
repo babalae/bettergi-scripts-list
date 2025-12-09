@@ -124,14 +124,8 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
     var u = {}; // utilities 工具函数集合
     u.logi = function (message, args) { log.info("[切换账号]" + message, args) };
     u.logw = function (message, args) { log.warn("[切换账号]" + message, args) };
-    u.x = function (value) { return (value === undefined) ? genshin.width : genshin.width * (value / 1920); };
-    u.y = function (value) { return (value === undefined) ? genshin.height : genshin.height * (value / 1080); };
     u.loadTemplate = function (filePath, x /* 0 if omit */, y /* 0 if omit */, w /* maxWidth if omit */, h /* maxHeight if omit */) {
-        const _x = u.x(x === undefined ? 0 : x);
-        const _y = u.y(y === undefined ? 0 : y);
-        const _w = u.x(w) - _x;
-        const _h = u.y(h) - _y;
-        return RecognitionObject.TemplateMatch(file.ReadImageMatSync(filePath), _x, _y, _w, _h);
+        return RecognitionObject.TemplateMatch(file.ReadImageMatSync(filePath), x, y, w, h);
     };
     u.findText = function (resList, text) {
         for (let i = 0; i < resList.count; i++) {
@@ -279,7 +273,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             let logoutIconFound = !res.isEmpty();
 
             if (logoutIconFound) {
-                let resList = captureRegion.findMulti(RecognitionObject.ocr(u.x(850), u.y(970), u.x(220), u.y(100)));
+                let resList = captureRegion.findMulti(RecognitionObject.ocr(850, 970, 220, 100));
                 captureRegion.dispose();
                 if (u.findText(resList, "点击进入")) {
                     u.logi("检测到目前处于登录界面");
@@ -329,10 +323,10 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         // 识别派蒙菜单，点击登出按钮
         await u.waitAndFindImage(assetPaimonCancelIcon);
         // u.logi("点击登出按钮");
-        click(u.x(50), u.y(1024));
+        click(50, 1024);
 
         // 退出至登录界面
-        let btnExitToLogin = await u.waitAndFindText("退出至登录界面", u.x(680), u.y(380), u.x(540), u.y(340));
+        let btnExitToLogin = await u.waitAndFindText("退出至登录界面", 680, 380, 540, 340);
         // u.logi("检测到\"退出至登录界面\"按钮，点击");
         // btnExitToLogin.DrawSelf("ExitToLoginBtn");
         btnExitToLogin.Click();
@@ -355,7 +349,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
 
     async function stateChangeUser() {
         u.logi("开始切换账号");
-        await u.waitAndFindText(["进入游戏", "登录其他账号"], u.x(680), u.y(380), u.x(540), u.y(340), 200);
+        await u.waitAndFindText(["进入游戏", "登录其他账号"], 680, 380, 540, 340, 200);
 
         const assetSelectUserDropDownIcon = u.loadTemplate("Assets/RecognitionObject/caret.png", 680, 380, 1220, 720);
         let captureRegion = captureGameRegion();
@@ -363,7 +357,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         captureRegion.dispose();
         if (res.isEmpty()) {
             u.logi("未找到下拉菜单图标，点击硬编码的坐标(960, 500)展开菜单");
-            click(u.x(960), u.y(500));
+            click(960, 500);
         } else {
             // u.logi("识别到下拉菜单，点击");
             // res.DrawSelf("UserDropdown");
@@ -379,7 +373,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
                 await sleep(200);
 
                 let captureRegion = captureGameRegion();
-                let resList = captureRegion.findMulti(RecognitionObject.ocr(u.x(680), u.y(540), u.x(540), u.y(500)));
+                let resList = captureRegion.findMulti(RecognitionObject.ocr(680, 540, 540, 500));
                 captureRegion.dispose();
                 for (let i = 0; i < resList.count; i++) {
                     let res = resList[i];
@@ -409,7 +403,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         await sleep(500);
         {
             let captureRegion = captureGameRegion();
-            let btnEnterGame = captureRegion.DeriveCrop(u.x(684), u.y(598), u.x(552), u.y(66));
+            let btnEnterGame = captureRegion.DeriveCrop(684, 598, 552, 66);
             btnEnterGame.Click();
             captureRegion.dispose();
             btnEnterGame.dispose();
@@ -420,7 +414,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
 
     async function stateEnterGame() {
         // u.logi("开始进入游戏，等待游戏加载。");
-        let textClickToStart = await u.waitAndFindText("点击进入", u.x(850), u.y(970), u.x(220), u.y(100));
+        let textClickToStart = await u.waitAndFindText("点击进入", 850, 970, 220, 100);
         // u.logi("已识别到\"点击进入\"文本，点击鼠标进入游戏。");
         textClickToStart.DrawSelf("ClickToStart");
         textClickToStart.Click();
