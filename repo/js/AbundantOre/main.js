@@ -134,6 +134,25 @@ function load_statistics_data() {
     statistics = JSON.parse(file.readTextSync("assets/statistics.json")).data;
 }
 
+const flaky_end_paths = new Set();
+
+function load_flaky_end_paths() {
+    let file_content = "";
+    try {
+        file_content = file.readTextSync("assets/flaky_end_paths.conf");
+    } catch (error) {}
+    for (let l of file_content.split("\n")) {
+        l = l.trim();
+        if (l.length === 0) {
+            continue;
+        }
+        if (l.startsWith("//") || l.startsWith("#")) {
+            continue;
+        }
+        flaky_end_paths.add(l);
+    }
+}
+
 async function flush_persistent_data() {
     await file.writeText("local/persistent_data.json", JSON.stringify(persistent_data, null, "  "));
 }
@@ -327,6 +346,7 @@ async function get_inventory() {
 }
 
 let last_script_end_pos = [null, null];
+let last_script_normal_completion = true;
 
 async function run_pathing_script(name, path_state_change, current_states) {
     path_state_change ||= {};
@@ -386,11 +406,12 @@ async function run_pathing_script(name, path_state_change, current_states) {
     if (!cancellation_token.isCancellationRequested) {
         const curr_pos = (() => {
             try {
-                const p = genshin.getPositionFromMap();
+                const p = genshin.getPositionFromMap(JSON.parse(json_content).info.map_name);
                 return [p.X, p.Y];
             } catch (e) {}
             return [null, null];
         })();
+        log.debug("Character current pos ({x},{y})", curr_pos[0], curr_pos[1]);
         let character_moved = false;
         if (curr_pos[0] === null || last_script_end_pos[0] === null) {
             character_moved = curr_pos[0] !== last_script_end_pos[0] || curr_pos[1] !== last_script_end_pos[1];
@@ -400,15 +421,22 @@ async function run_pathing_script(name, path_state_change, current_states) {
             character_moved = dist > 5;
             log.debug("Character moved distance of {dist}", dist);
         }
+        if (!character_moved && flaky_end_paths.has(name) && last_script_normal_completion) {
+            log.debug("Assuming script successfully completed");
+            character_moved = true;
+        }
         last_script_end_pos = curr_pos;
         if (elapsed_time <= 5000) {
             in_memory_skip_tasks.add(name);
             log.warn("脚本运行时间小于5秒，可能发生了错误，不写记录");
+            last_script_normal_completion = false;
         } else if (!character_moved) {
             in_memory_skip_tasks.add(name);
             log.warn("角色未移动，可能发生了错误，不写记录");
+            last_script_normal_completion = false;
         } else {
             await mark_task_finished(name);
+            last_script_normal_completion = true;
         }
     } else {
         throw new Error("Cancelled");
@@ -430,6 +458,7 @@ async function main() {
     load_persistent_data();
     load_disabled_paths();
     load_statistics_data();
+    load_flaky_end_paths();
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     // Run an empty pathing script to give BGI a chance to switch team if the user specifies one.
     await pathingScript.runFile("assets/empty_pathing.json");

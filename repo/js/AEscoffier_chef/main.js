@@ -313,7 +313,7 @@
      * @returns {Promise<number[]>} 返回熟练度数组 [当前熟练度, 总熟练度]
      */
     async function check_proficiency(ui="main") {
-        let ocrRo = RecognitionObject.Ocr(0, 0, genshin.width, genshin.height);
+        let ocrRo = RecognitionObject.Ocr(0, 0, 1920, 1080);
         if (ui === "main") {
             ocrRo = RecognitionObject.Ocr(1424, 422, 82, 37);
         } else if (ui === "finish") {
@@ -371,7 +371,7 @@
      */
     async function select_food_by_fullname(food_name) {
         log.info(`在当前页面寻找 ${food_name} ...`);
-        const ocrRo = RecognitionObject.Ocr(0, 0, genshin.width, genshin.height);
+        const ocrRo = RecognitionObject.Ocr(0, 0, 1920, 1080);
 
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         await sleep(200);

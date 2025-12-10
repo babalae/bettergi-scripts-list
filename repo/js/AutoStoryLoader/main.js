@@ -8,8 +8,8 @@ const paimonMenuRo = RecognitionObject.TemplateMatch(
   file.ReadImageMatSync("Data/RecognitionObject/paimon_menu.png"),
   0,
   0,
-  genshin.width / 3.0,
-  genshin.width / 5.0
+  640,
+  216
 );
 
   // 读取设置
@@ -539,8 +539,8 @@ const isInMainUI = () => {
         file.ReadImageMatSync("Data/RecognitionObject/paimon_menu.png"),
         0,
         0,
-        genshin.width / 3.0,
-        genshin.width / 5.0
+        640,
+        216
       );
 
       return () => {

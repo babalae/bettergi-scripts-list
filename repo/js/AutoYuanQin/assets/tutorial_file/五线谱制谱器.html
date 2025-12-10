@@ -269,6 +269,19 @@
     			<input type="text" id="score_composer" name="score_composer" class="input-text" placeholder="曲师...">
 				<label for="score_arranger" class="textarea">谱师:</label>
     			<input type="text" id="score_arranger" name="score_arranger" class="input-text" placeholder="谱师...">
+				<label for="score_instrument" class="textarea">乐器: </label>
+                <select id="score_instrument" class="dropdown">
+                    <option value="风物之诗琴">风物之诗琴</option>
+                    <option value="老旧的诗琴">老旧的诗琴</option>
+                    <option value="镜花之琴">镜花之琴</option>
+					<option value="荒泷·盛世豪鼓">荒泷·盛世豪鼓</option>
+					<option value="绮筵之鼓">绮筵之鼓</option>
+					<option value="晚风圆号">晚风圆号</option>
+					<option value="聚聚鼓">聚聚鼓</option>
+					<option value="悠可琴">悠可琴</option>
+					<option value="「余音」">「余音」</option>
+					<option value="跃律琴">跃律琴</option>
+                </select>
 			</div>
             <!-- 第二行 -->
             <div class="row">
@@ -513,6 +526,7 @@
 			const json_content = `{
   "name": "${score_name}",
   "author": "${score_author}",
+  "instrument": "${score_instrument}",
   "description": "${score_description}",
   "bpm": "${score_bpm}",
   "time_signature": "${time_signature}",
@@ -544,6 +558,7 @@
 			const codeArea = document.getElementById('code-area');
 			const scoreName = document.getElementById('score_name');
 			const scoreAuthor = document.getElementById('score_author');
+			const scoreInstrument = document.getElementById('score_instrument');
 			const scoreBpm = document.getElementById('score_bpm');
 			const timeSignature = document.getElementById('time_signature');
 			const scoreComposer = document.getElementById('score_composer');
@@ -567,6 +582,7 @@
 				// 将本地乐谱文件载入HTML
 				scoreName.value = content_msg["name"];
 				scoreAuthor.value = content_msg["author"];
+				scoreInstrument.value = content_msg["instrument"];
 				scoreBpm.value = content_msg["bpm"];
 				timeSignature.value = content_msg["time_signature"];
 				scoreComposer.value = content_msg["composer"];
@@ -593,6 +609,7 @@
 			// 正则表达式，用于匹配如下内容
 			let regex_name = /(?<="name": ")[\s\S]*?(?=")/
 			let regex_author = /(?<="author": ")[\s\S]*?(?=")/
+			let regex_instrument = /(?<="instrument": ")[\s\S]*?(?=")/
 			let regex_description = /(?<="description": ")[\s\S]*?(?=")/
 			let regex_bpm = /(?<="bpm": ")[\s\S]*?(?=")/
 			let regex_time_signature = /(?<="time_signature": ")[\s\S]*?(?=")/
@@ -607,6 +624,8 @@
 				music_msg_dic["name"] = file_text.match(regex_name)[0];
 				// 录谱人
 				music_msg_dic["author"] = file_text.match(regex_author)[0];
+				// 乐器
+				music_msg_dic["instrument"] = file_text.match(regex_instrument)[0];
 				// 描述
 				music_msg_dic["description"] = file_text.match(regex_description)[0];
 				// 歌曲BPM

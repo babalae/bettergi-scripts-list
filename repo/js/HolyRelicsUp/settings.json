@@ -31,6 +31,16 @@
      "default": false
    },
    {
+      "name": "defaultEnhancedInterface",
+      "type": "select",
+      "label": "默认强化界面(详情|强化)",
+      "options": [
+                    "详情",
+                    "强化"
+      ],
+      "default": "强化"
+   },
+   {
      "name": "enableInsertionMethod",
      "type": "checkbox",
      "label": "自动启用放入方式 快捷放入/阶段放入(优先级高)",

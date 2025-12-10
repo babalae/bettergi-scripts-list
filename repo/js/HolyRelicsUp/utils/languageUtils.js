@@ -114,6 +114,8 @@ function getLanguageALLConfigMap() {
                     ['toBeActivated', '（待激活）'],
                     ['defaultValue', '默认'],
                     ['quicklyPutIn', '快捷放入'],
+                    ['defaultEnhancedInterfaceUp', '强化'],
+                    ['defaultEnhancedInterfaceInfo', '详情'],
                 ]),
                 settings:JSON.stringify([
                     {
@@ -146,6 +148,16 @@ function getLanguageALLConfigMap() {
                         "type": "checkbox",
                         "label": "启用批量强化(注:可单独使用单独使用时\n请处于圣遗物背包筛选未满级状态后)",
                         "default": false
+                    },
+                    {
+                        "name": "defaultEnhancedInterface",
+                        "type": "select",
+                        "label": "默认强化界面(详情|强化)",
+                        "options": [
+                            "详情",
+                            "强化"
+                        ],
+                        "default": "强化"
                     },
                     {
                         "name": "enableInsertionMethod",
@@ -439,6 +451,8 @@ function getLanguageALLConfigMap() {
                 ['toBeActivated', '（待激活）'],
                 ['defaultValue', '預設'],
                 ['quicklyPutIn', '快捷放入'],
+                ['defaultEnhancedInterfaceUp', '強化'],
+                ['defaultEnhancedInterfaceInfo', '詳情'],
             ]),
             settings: JSON.stringify([
                 {
@@ -471,6 +485,16 @@ function getLanguageALLConfigMap() {
                     "type": "checkbox",
                     "label": "啟用批量強化(注:可單獨使用單獨使用時請處於聖遺物背包篩選未滿級狀態後)",
                     "default": false
+                },
+                {
+                    "name": "defaultEnhancedInterface",
+                    "type": "select",
+                    "label": "默认強化界面(詳情|強化)",
+                    "options": [
+                        "詳情",
+                        "強化"
+                    ],
+                    "default": "強化"
                 },
                 {
                     "name": "enableInsertionMethod",
