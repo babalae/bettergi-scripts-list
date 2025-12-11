@@ -1,0 +1,194 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Annijang",
+        "name": "Annijang"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1765266908868,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B09-丘丘人射手-璃月-归离原-16只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 54.583984375,
+      "y": 139.59814453125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "100",
+      "id": 2,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 37.9189453125,
+      "y": 114.7822265625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 37.9189453125,
+      "y": 114.7822265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 44.46875,
+      "y": 110.71875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 49.3818359375,
+      "y": 101.9775390625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 46.8916015625,
+      "y": 97.39794921875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 45.7021484375,
+      "y": 87.34375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 37.5009765625,
+      "y": 85.083984375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 31.892578125,
+      "y": 76.4033203125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "100",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 64.83203125,
+      "y": 52.44384765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 82.296875,
+      "y": 42.5361328125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 86.55859375,
+      "y": 53.0673828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 83.12890625,
+      "y": 48.015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 119.1142578125,
+      "y": 31.4677734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 154.591796875,
+      "y": 35.220703125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 169.7822265625,
+      "y": 43.13330078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 172.236328125,
+      "y": 68.4697265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 171.255859375,
+      "y": 101.97265625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 153.712890625,
+      "y": 101.91015625
+    }
+  ]
+}
