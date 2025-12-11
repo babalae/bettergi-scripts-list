@@ -1,10 +1,10 @@
 {
   "info": {
-    "name": "丘丘人射手-14活力之家",
+    "name": "丘丘人射手-18优兰尼娅湖",
     "type": "collect",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.0",
+    "bgi_version": "0.52.0",
     "authors": [
       {
         "name": "曦",
@@ -15,24 +15,32 @@
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
+      "x": 3618.31,
+      "y": 4057.84,
       "type": "teleport",
-      "x": 4077.81,
-      "y": -2164.17
+      "move_mode": "walk",
+      "action": ""
     },
     {
       "id": 2,
-      "x": 4120.51,
-      "y": -2187.96,
+      "x": 3654.73,
+      "y": 4016.87,
       "type": "path",
       "move_mode": "walk",
       "action": ""
     },
     {
       "id": 3,
-      "x": 4144.22,
-      "y": -2192.51,
+      "x": 3677.64,
+      "y": 3998.93,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 4,
+      "x": 3725.09,
+      "y": 3971.78,
       "type": "path",
       "move_mode": "walk",
       "action": "fight"

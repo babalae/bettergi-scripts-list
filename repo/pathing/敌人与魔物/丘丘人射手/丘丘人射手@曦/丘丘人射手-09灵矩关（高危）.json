@@ -1,10 +1,10 @@
 {
   "info": {
-    "name": "丘丘人射手-02风龙废墟02",
+    "name": "丘丘人射手-09灵矩关（高危）",
     "type": "collect",
     "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
+    "description": "此处有丘丘岩凯王",
+    "bgi_version": "0.52.0",
     "authors": [
       {
         "name": "曦",
@@ -18,29 +18,29 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 338.22,
-      "y": 2581.22
+      "x": 1038.26,
+      "y": -559.75
     },
     {
       "id": 2,
-      "x": 374.62,
-      "y": 2590.7,
+      "x": 968.73,
+      "y": -521.92,
       "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "move_mode": "fly",
+      "action": "stop_flying"
     },
     {
       "id": 3,
-      "x": 426.24,
-      "y": 2604.62,
+      "x": 968.73,
+      "y": -521.92,
       "type": "path",
-      "move_mode": "fly",
-      "action": ""
+      "move_mode": "walk",
+      "action": "fight"
     },
     {
       "id": 4,
-      "x": 451.27,
-      "y": 2590.69,
+      "x": 933.36,
+      "y": -497.25,
       "type": "path",
       "move_mode": "walk",
       "action": "fight"
