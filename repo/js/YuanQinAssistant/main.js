@@ -9,6 +9,14 @@
         [48, 'z'], [50, 'x'], [52, 'c'], [53, 'v'], [55, 'b'], [57, 'n'], [59, 'm'],
     ]);
 
+    const instrumentNames = ["风物之诗琴", "老旧的诗琴", "镜花之琴", "盛世豪鼓", "绮庭之鼓", "晚风圆号", "余音", "悠可琴", "跃律琴"];
+
+
+    const mouseRo = RecognitionObject.TemplateMatch(
+        file.ReadImageMatSync("assets/image/mouse.png"),
+        170, 20, 40, 55
+    );
+
     /**
      * 将音符编码转换为按键
      * @param {number} noteCode 60表示C4音符
@@ -348,15 +356,64 @@
         }
     };
 
+    /**
+     * 获取乐器编号对应的乐器名称
+     * @param {number} instrumentCode 
+     * @returns {string} 乐器名称
+     */
     function getInstrumentName(instrumentCode) {
-        const list = ["风物之诗琴", "老旧的诗琴", "镜花之琴", "盛世豪鼓", "绮庭之鼓", "晚风圆号", "余音", "悠可琴", "跃律琴"];
-        return list[instrumentCode] || "未知乐器";
+        return instrumentNames[instrumentCode] || "未知乐器";
+    }
+
+    /**
+     * 捕获游戏区域并查找指定模板，返回匹配结果对象
+     * @param {object} templateRo 模板识别对象
+     * @returns {object} 匹配结果对象
+     */
+    function findInGameRegion(templateRo) {
+        try {
+            const gameRegion = captureGameRegion();
+            const result = gameRegion.find(templateRo);
+            gameRegion.dispose();
+            return result;
+        } catch (error) {
+            log.error(`findInGameRegion 出错: ${error.message}`);
+        }
+        return null;
+    }
+
+    /**
+     * 获取当前画面乐器的编号
+     * @returns {number} 若成功识别乐器界面，返回乐器编号，否则返回-1
+     */
+    function getCurrentInstrumentCode() {
+        let result = -1;
+        const res = findInGameRegion(mouseRo);
+        if (res && res.isExist()) {
+            result = 0;   // TODO: 后续根据不同乐器图标进行区分
+            res.dispose();
+        }
+        else {
+            log.warn('未检测到乐器界面，请切换到乐器界面后重新运行脚本\n如无法正确识别到乐器界面，请反馈给作者');
+        }
+        return result;
     }
 
 
     //----------------------------------------------------------
     async function main() {
         if (!checkScoreSheet())  return;
+
+        // 移动鼠标到右下角
+        setGameMetrics(1920, 1080, 1);
+        moveMouseTo(1920, 1080);
+        await sleep(500);
+
+        // 检查是否在乐器界面
+        if (getCurrentInstrumentCode() < 0) {
+            return;
+        }
+        
         const scoreFilename = settings.music_selector;
         if (!scoreFilename) {
             log.warn('未选择曲谱，请在js配置中选择后再次运行脚本');
@@ -368,6 +425,7 @@
             log.warn('读取曲谱文件失败，请在js配置中选择后尝试再次运行脚本');
             return;
         }
+        
         const instrumentName = getInstrumentName(scoreInfo.instrument);
         log.info('当前演奏：' + scoreInfo.title);
         log.info(`作曲人：${scoreInfo.composer}，制谱人：${scoreInfo.arranger}`);

@@ -272,8 +272,8 @@
                 }
 
                 // 执行计算逻辑
-                const diff = 9999 - numValue;
-                const result = diff > woodInventoryNumber ? woodInventoryNumber : diff;
+                const diff = Math.min(woodInventoryNumber, 9999) - numValue; // 限制不超过背包上限
+                const result = diff > 0 ? diff : 0;
 
                 keys.push(key);
                 values.push(result);
@@ -464,4 +464,5 @@
     } else {
         log.error("未装备有王树瑞佑，伐木结束")
     }
+
 })();

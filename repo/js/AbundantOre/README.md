@@ -29,6 +29,10 @@
 
 ## ChangeLog
 
+### 0.25
+
+- 修复坐标监控逻辑中未指定地图的bug，special thanks to [@this-Fish](https://github.com/this-Fish)
+
 ### 0.22
 
 - 增加处理过期物品的弹出窗口

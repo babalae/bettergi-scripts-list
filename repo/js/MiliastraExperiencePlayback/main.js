@@ -157,6 +157,14 @@ var deepMerge = (...objects) => {
 };
 
 // node_modules/.pnpm/@bettergi+utils@0.1.19/node_modules/@bettergi/utils/dist/time.js
+var getNextDay4AM = () => {
+  const now = /* @__PURE__ */ new Date();
+  const result = new Date(now);
+  result.setHours(4, 0, 0, 0);
+  const daysUntilNextDay = now.getHours() < 4 ? 0 : 1;
+  result.setDate(now.getDate() + daysUntilNextDay);
+  return result;
+};
 var getNextMonday4AM = () => {
   const now = /* @__PURE__ */ new Date();
   const result = new Date(now);
@@ -294,13 +302,15 @@ var useStore = (name) => {
   return createProxy(obj);
 };
 var useStoreWithDefaults = (name, defaults) => {
-  const store = useStore(name);
-  Object.assign(store, deepMerge(defaults, store));
-  return store;
+  const store2 = useStore(name);
+  Object.assign(store2, deepMerge(defaults, store2));
+  return store2;
 };
 
 // src/config.ts
+//! 用户脚本设置
 var userConfig = {
+  //! 每周任务相关设置
   room: settings.room || "20134075027",
   playbacks: (settings.playbacks || "通关回放1.json,通关回放2.json").replace(/，/g, ",").split(",").map((str) => str.trim()).filter(Boolean),
   expPerAttempt: Math.max(1, Number(settings.expPerAttempt || "20")),
@@ -309,73 +319,92 @@ var userConfig = {
   expWeeklyLimit: Math.max(1, Number(settings.expWeeklyLimit || "4000")),
   force: settings.force ?? false,
   thisAttempts: Math.max(0, Number(settings.thisAttempts || "0")),
+  //! 每日任务相关设置
+  dailyEnabled: settings.dailyEnabled ?? false,
+  dailyRooms: (settings.dailyRooms || "24429042323,28644538672").replace(/，/g, ",").split(",").map((str) => str.trim()).filter(Boolean),
+  dailyPlaybacks: (settings.dailyPlaybacks || "通关回放1.json,通关回放2.json;60秒按1通关.json").replace(/，/g, ",").replace(/；/g, ";").split(";").map((str) => str.trim()).filter(Boolean).reduce((arr, room) => {
+    const files = room.split(",").map((str) => str.trim()).filter(Boolean);
+    if (files.length > 0) arr.push(files);
+    return arr;
+  }, []),
+  dailyLimit: Math.max(1, Number(settings.dailyLimit || "1")),
+  dailyForce: settings.dailyForce ?? false,
   goToTeyvat: settings.goToTeyvat ?? true
 };
+//! 脚本数据存储
+var store = useStoreWithDefaults("data", {
+  weekly: { expGained: 0, attempts: 0 },
+  daily: { attempts: 0 },
+  nextWeek: getNextMonday4AM().getTime(),
+  nextDay: getNextDay4AM().getTime()
+});
 
-// src/regions.ts
-//! 查找确认按钮
+// src/modules/regions.ts
+//! 通用：查找确认按钮
 var findConfirmBtn = () => {
   return findTextWithinBounds("确认", 480, 720, 960, 145);
 };
-//! 查找标题文字
+//! 通用：查找标题文字
 var findHeaderTitle = (title, contains) => {
   return findTextWithinBounds(title, 0, 0, 300, 95, { contains });
 };
-//! 查找底部按钮文字
+//! 通用：查找底部按钮文字
 var findBottomBtnText = (text, contains) => {
-  return findTextWithinBounds(text, 960, 980, 960, 100, { contains });
+  return findTextWithinBounds(text, 0, 980, 1920, 100, { contains });
 };
-//! 查找关闭对话框按钮
+//! 通用：查找关闭对话框按钮
 var findCloseDialog = () => {
   const img = "assets/UI_BtnIcon_Close.png";
-  const iro = findImageWithinBounds(img, 480, 216, 960, 648, {
-    threshold: 0.85
-  });
+  const iro = findImageWithinBounds(img, 480, 216, 960, 648, { useMask: true, threshold: 0.75 });
   iro?.drawSelf("group_img");
   return iro;
+};
+//! 通用：点击空白处区域继续位置
+var clickToContinue = () => {
+  click(900, 1050);
 };
 //! 查找抽卡按钮（判断处于大世界条件一）
 var findGachaBtn = () => {
   const img = "assets/UI_BtnIcon_Gacha.png";
-  const iro = findImageWithinBounds(img, 960, 0, 960, 80, { threshold: 0.85 });
+  const iro = findImageWithinBounds(img, 960, 0, 960, 80, { useMask: true, threshold: 0.75 });
   iro?.drawSelf("group_img");
   return iro;
 };
 //! 查找推荐奇域按钮（判断处于大世界条件二）
 var findBeyondRecommendBtn = () => {
   const img = "assets/UI_BtnIcon_Beyond_Recommend.png";
-  const iro = findImageWithinBounds(img, 960, 0, 960, 80, { threshold: 0.85 });
+  const iro = findImageWithinBounds(img, 960, 0, 960, 80, { useMask: true, threshold: 0.75 });
   iro?.drawSelf("group_img");
   return iro;
 };
 //! 查找奇域大厅按钮（判断处于奇域大厅）
 var findBeyondHallBtn = () => {
   const img = "assets/UI_BtnIcon_Beyond_Hall.png";
-  const iro = findImageWithinBounds(img, 200, 0, 150, 100, { threshold: 0.85 });
+  const iro = findImageWithinBounds(img, 200, 0, 150, 100, { useMask: true, threshold: 0.75 });
   iro?.drawSelf("group_img");
   return iro;
 };
-//! 查找搜索奇域按钮
+//! 房间：查找搜索奇域按钮
 var findAllWonderlandsBtn = () => {
   return findTextWithinBounds("搜索", 1320, 0, 600, 95, { contains: true });
 };
-//! 查找奇域搜索输入框
+//! 房间：查找奇域搜索输入框
 var findSearchWonderlandInput = () => {
   return findTextWithinBounds("搜索", 0, 120, 1920, 60, { contains: true });
 };
-//! 查找奇域搜索输入框清除按钮
+//! 房间：查找奇域搜索输入框清除按钮
 var findClearInputBtn = () => {
   return findTextWithinBounds("清除", 0, 120, 1920, 60);
 };
-//! 查找搜索奇域按钮
+//! 房间：查找搜索奇域按钮
 var findSearchWonderlandBtn = () => {
   return findTextWithinBounds("搜索", 0, 120, 1920, 60, { contains: true });
 };
-//! 查找搜索过于频繁提示
+//! 房间：查找搜索过于频繁提示
 var findSearchWonderlandThrottleMsg = () => {
   return findTextWithinBounds("过于频繁", 0, 0, 1920, 300, { contains: true });
 };
-//! 查找第一个奇域搜索结果名称
+//! 房间：查找第一个奇域搜索结果名称
 var findFirstSearchResultText = () => {
   const ir = captureGameRegion();
   const ro = RecognitionObject.ocr(240, 390, 300, 50);
@@ -388,56 +417,56 @@ var findFirstSearchResultText = () => {
     }
   })();
 };
-//! 点击选择第一个搜索结果位置
+//! 房间：点击选择第一个搜索结果位置
 var clickToChooseFirstSearchResult = () => {
-  click(355, 365);
+  click(330, 365);
 };
-//! 查找进入房间快捷键按钮
+//! 房间：查找进入房间快捷键按钮
 var findEnterRoomShortcut = () => {
   return findTextWithinBounds("房间", 1580, 110, 320, 390, { contains: true });
 };
-//! 查找退出房间按钮
+//! 房间：查找退出房间按钮
 var findLeaveRoomBtn = () => {
   const img = "assets/UI_Icon_Leave_Right.png";
   const iro = findImageWithinBounds(img, 1570, 0, 350, 100);
   iro?.drawSelf("group_img");
   return iro;
 };
-//! 查找跳转大厅按钮
+//! 房间：查找跳转大厅按钮
 var findGoToLobbyBtn = () => {
   return findTextWithinBounds("大厅", 880, 840, 1040, 110, {
     contains: true
   });
 };
-//! 查找创建房间按钮
+//! 房间：查找创建房间按钮
 var findCreateRoomBtn = () => {
   return findTextWithinBounds("房间", 960, 140, 960, 70, { contains: true });
 };
-//! 点击加入准备区位置
+//! 房间：点击加入准备区位置
 var clickToPrepare = () => {
   click(770, 275);
 };
-//! 查找加入准备区提示
+//! 房间：查找加入准备区提示
 var findPrepareMsg = () => {
   return findTextWithinBounds("加入准备", 576, 432, 768, 216, {
     contains: true
   });
 };
-//! 查找奇域收藏
+//! 存档：查找奇域收藏
 var findBeyondFavoritesBtn = () => {
   return findTextWithinBounds("收藏", 0, 880, 200, 200, {
     contains: true
   });
 };
-//! 查找管理关卡按钮
+//! 存档：查找管理关卡按钮
 var findManageStagesBtn = () => {
   return findTextWithinBounds("管理", 1320, 0, 600, 95, { contains: true });
 };
-//! 查找编辑关卡存档按钮
+//! 存档：查找编辑关卡存档按钮
 var findEditStageSaveBtn = () => {
   return findTextWithinBounds("管理", 1220, 980, 700, 100);
 };
-//! 查找要删除的存档位置
+//! 存档：查找要删除的存档位置
 var findSaveToDeletePos = (keyword) => findTextWithinListView(
   keyword,
   {
@@ -450,11 +479,11 @@ var findSaveToDeletePos = (keyword) => findTextWithinListView(
   },
   { contains: true }
 );
-//! 查找局外存档列头
+//! 存档：查找局外存档列头
 var findExternalSaveColumnPos = () => {
   return findTextWithinBounds("局外", 55, 190, 1810, 50, { contains: true });
 };
-//! 查找删除局外存档复选框已选中状态
+//! 存档：查找删除局外存档复选框已选中状态
 var findDeleteExternalSaveChecked = (colPos) => {
   const img = "assets/Checkbox_Checked.png";
   const iro = findImageWithinBounds(img, colPos, 250, 290, 710, {
@@ -464,37 +493,56 @@ var findDeleteExternalSaveChecked = (colPos) => {
   iro?.drawSelf("group_img");
   return iro;
 };
-//! 查找删除关卡存档按钮
+//! 存档：查找删除关卡存档按钮
 var findDeleteStageSaveBtn = () => {
   return findTextWithinBounds("删除所选", 1220, 980, 700, 100);
 };
-//! 查找关卡退出按钮
+//! 关卡：查找关卡退出按钮
 var findStageEscBtn = () => {
   const img = "assets/UI_Icon_Leave.png";
   const iro = findImageWithinBounds(img, 0, 0, 100, 100, { threshold: 0.75 });
   iro?.drawSelf("group_img");
   return iro;
 };
-//! 查找中断挑战按钮
+//! 关卡：查找中断挑战按钮
 var findExitStageBtn = () => {
   return findTextWithinBounds("中断挑战", 576, 324, 768, 432);
 };
-//! 查找跳过奇域等级提升页面
+//! 关卡：查找奇域等级提升页面
 var findSkipLevelUpMsg = () => {
   return findTextWithinBounds("空白处", 610, 950, 700, 60, { contains: true });
 };
-//! 查找返回提瓦特按钮
+//! 退出：查找返回提瓦特按钮
 var findGotTeyvatBtn = () => {
   return findTextWithinBounds("返回", 1500, 0, 300, 95, { contains: true });
 };
+//! 纪游：查找诸界纪游按钮
+var findBeyondBattlepassBtn = () => {
+  const img = "assets/UI_BtnIcon_Beyond_Battlepass.png";
+  const iro = findImageWithinBounds(img, 960, 0, 960, 80, { useMask: true, threshold: 0.75 });
+  iro?.drawSelf("group_img");
+  return iro;
+};
+//! 纪游：查找纪游开屏动画
+var findBeyondBattlepassPopup = () => {
+  return findTextWithinBounds("奖励一览", 0, 0, 960, 1080, { contains: true });
+};
+//! 纪游：查找领取奖励按钮
+var findFetchRewardBtn = () => {
+  const img = "assets/UI_Img_UGCCultivateReward_FetchHint.png";
+  const iro = findImageWithinBounds(img, 1670, 100, 250, 880, { useMask: true, threshold: 0.75 });
+  iro?.drawSelf("group_img");
+  return iro;
+};
 
-// src/lobby.ts
+// src/modules/lobby.ts
 //! 判断是否处于奇域大厅
 var isInLobby = () => findBeyondHallBtn() !== void 0;
 //! 判断是否处于提瓦特大陆
 var isInTeyvat = () => {
   return findGachaBtn() !== void 0 && findBeyondRecommendBtn() !== void 0;
 };
+//! 从提瓦特前往公共大厅
 //! 退出大厅返回提瓦特大陆
 var exitLobbyToTeyvat = async () => {
   if (!userConfig.goToTeyvat) return;
@@ -523,7 +571,96 @@ var exitLobbyToTeyvat = async () => {
   if (!done) throw new Error("返回提瓦特大陆超时");
 };
 
-// src/room.ts
+// src/modules/reawrd.ts
+//! 领取诸界纪游经验
+var fetchBattlepassExp = async () => {
+  //! 确保处于大厅内
+  if (!isInLobby()) {
+    log.warn("不在奇域大厅内，跳过领取诸界纪游经验");
+    return;
+  }
+  if (!findBeyondBattlepassBtn()) {
+    log.warn("诸界纪游已结束，跳过领取诸界纪游经验");
+    return;
+  }
+  //! 打开诸界纪游界面
+  await assertRegionAppearing(
+    () => findHeaderTitle("纪游", true),
+    "打开诸界纪游界面超时",
+    () => {
+      keyPress("VK_F4");
+      //! 关闭纪游开屏动画（如果弹出）
+      if (findBeyondBattlepassPopup()) {
+        keyPress("VK_ESCAPE");
+      }
+    },
+    { maxAttempts: 5, retryInterval: 2e3 }
+  );
+  //! 跳转到任务界面
+  await assertRegionAppearing(
+    () => findHeaderTitle("任务", true),
+    "打开诸界纪游任务界面超时",
+    () => {
+      keyPress("VK_E");
+    },
+    { maxAttempts: 5, retryInterval: 2e3 }
+  );
+  //! 点击一键领取
+  await assertRegionDisappearing(
+    () => findBottomBtnText("领取", true),
+    "领取诸界纪游经验超时",
+    async () => {
+      //! 重复确认，防止误领纪游奖励（部件礼箱会卡流程）而不是经验
+      if (findHeaderTitle("任务", true)) {
+        findBottomBtnText("领取", true)?.click();
+        clickToContinue();
+        await sleep(1e3);
+        clickToContinue();
+      }
+    },
+    { maxAttempts: 5, retryInterval: 3e3 }
+  );
+  await genshin.returnMainUi();
+};
+//! 领取日活奖励
+var fetchCultivateReward = async () => {
+  //! 确保处于大厅内
+  if (!isInLobby()) {
+    log.warn("不在奇域大厅内，跳过领取日活奖励");
+    return;
+  }
+  //! 打开奇趣盛邀
+  await assertRegionAppearing(
+    () => findHeaderTitle("盛邀", true),
+    "打开任务书超时",
+    async () => {
+      keyPress("VK_F1");
+      await sleep(2e3);
+      if (findHeaderTitle("盛邀", true) === void 0) {
+        keyPress("VK_E");
+      }
+    },
+    { maxAttempts: 10, retryInterval: 1e3 }
+  );
+  //! 仅领取妙思觅索奖励（巧趣醒转奖励里有部件礼箱会卡流程）
+  await assertRegionDisappearing(
+    findFetchRewardBtn,
+    "领取妙思觅索奖励超时",
+    async () => {
+      const reward = findFetchRewardBtn();
+      if (reward) {
+        reward.click();
+        clickToContinue();
+        await sleep(1e3);
+        clickToContinue();
+      }
+    },
+    { maxAttempts: 5, retryInterval: 2e3 }
+  );
+  await genshin.returnMainUi();
+};
+
+// src/modules/room.ts
 var isInRoom = () => findHeaderTitle("房间", true) !== void 0;
 //! 打开人气奇域
 var goToRecommendedWonderlands = async () => {
@@ -579,8 +716,13 @@ var createRoom = async (room) => {
       return fswnt.toLocaleLowerCase().trim() !== iwnt.toLocaleLowerCase().trim();
     },
     async () => {
-      findSearchWonderlandBtn()?.click();
-      await sleep(1e3);
+      const searchBtn = findSearchWonderlandBtn();
+      if (searchBtn) {
+        searchBtn.click();
+        await sleep(200);
+        searchBtn.click();
+      }
+      await sleep(500);
       fswnt = findFirstSearchResultText();
     },
     { maxAttempts: 30, retryInterval: 200 }
@@ -658,7 +800,187 @@ var leaveRoom = async () => {
   }
 };
 
-// src/save.ts
+// src/modules/stage.ts
+//! 已有的执行通关回放文件列表
+var availablePlaybackFiles = () => {
+  return [...file.readPathSync("assets/playbacks")].map((path) => path.replace(/\\/g, "/"));
+};
+var playStage = async (playbacks) => {
+  //! 等待进入关卡
+  const ok = await waitForAction(
+    () => findStageEscBtn() !== void 0 || findBottomBtnText("返回大厅") !== void 0,
+    async () => {
+      findBottomBtnText("开始游戏")?.click();
+      findBottomBtnText("准备", true)?.click();
+      //! 判断是否已经加入准备区
+      if (findPrepareMsg()) {
+        log.info("加入准备区...");
+        await assertRegionDisappearing(findPrepareMsg, "等待加入准备区提示消失超时");
+        clickToPrepare();
+      }
+    },
+    { maxAttempts: 60 }
+  );
+  if (!ok) throw new Error("进入关卡超时");
+  //! 直接通关结算的关卡（不会进入关卡）
+  if (findBottomBtnText("返回大厅")) {
+    await exitStageToLobby();
+    return;
+  }
+  //! 关闭游戏说明对话框
+  await assertRegionDisappearing(
+    findCloseDialog,
+    "关闭游戏说明对话框超时",
+    () => {
+      findCloseDialog()?.click();
+    },
+    { maxAttempts: 10, retryInterval: 500 }
+  );
+  //! 执行随机通关回放文件
+  await execStagePlayback(playbacks);
+  await sleep(3e3);
+  //! 退出关卡返回大厅
+  await exitStageToLobby();
+};
+//! 执行通关回放文件（随机抽取）
+var execStagePlayback = async (playbacks) => {
+  const file2 = playbacks[Math.floor(Math.random() * playbacks.length)];
+  log.info("执行通关回放文件: {file}", file2);
+  await keyMouseScript.runFile(file2);
+};
+//! 退出关卡
+var exitStage = async () => {
+  if (findStageEscBtn() === void 0) return;
+  log.warn("关卡超时，尝试退出关卡...");
+  await assertRegionAppearing(
+    findExitStageBtn,
+    "等待中断挑战按钮出现超时",
+    () => {
+      keyPress("VK_ESCAPE");
+    },
+    { maxAttempts: 10, retryInterval: 1e3 }
+  );
+  await assertRegionAppearing(
+    findBeyondHallBtn,
+    "返回大厅超时",
+    async () => {
+      //! 点击 “中断挑战” 按钮
+      findExitStageBtn()?.click();
+      //! 点击底部 “返回大厅” 按钮
+      findBottomBtnText("返回大厅")?.click();
+    },
+    { maxAttempts: 60 }
+  );
+  await genshin.returnMainUi();
+};
+//! 退出关卡返回大厅
+var exitStageToLobby = async () => {
+  if (isInLobby()) {
+    log.warn("已处于奇域大厅，跳过");
+    return;
+  }
+  log.info("退出关卡返回大厅...");
+  const done = await waitForAction(
+    isInLobby,
+    async () => {
+      //! 跳过奇域等级提升页面（奇域等级每逢11、21、31、41级时出现加星页面）
+      if (findSkipLevelUpMsg()) {
+        clickToContinue();
+      }
+      //! 点击底部 “返回大厅” 按钮
+      findBottomBtnText("返回大厅")?.click();
+    },
+    { maxAttempts: 60 }
+  );
+  if (!done) {
+    await exitStage();
+    throw new Error("退出关卡返回大厅超时");
+  }
+};
+
+// src/workflows/daily.ts
+var execDailyTask = async () => {
+  if (!userConfig.dailyEnabled) {
+    log.warn("未启用执行每日通关任务，跳过");
+    return;
+  }
+  //! 确保通关回放文件存在
+  if (userConfig.dailyRooms.length !== userConfig.dailyPlaybacks.length) {
+    log.warn("每日奇域关卡数量与通关回放文件池数量不匹配，跳过");
+    return;
+  }
+  const files = availablePlaybackFiles();
+  const mappings = {};
+  for (let i = 0; i < userConfig.dailyRooms.length; i++) {
+    const room = userConfig.dailyRooms[i];
+    const playbacks = userConfig.dailyPlaybacks[i].map((file2) => `assets/playbacks/${file2}`).filter((path) => files.includes(path));
+    if (playbacks.length === 0) {
+      log.warn(
+        "房间 {room} 未找到任何通关回放文件，请确保已录制回放并拷贝到 assets/playbacks 目录下",
+        room
+      );
+      return;
+    }
+    mappings[room] = playbacks;
+  }
+  //! 新的一天开始，重置经验值数据
+  if (Date.now() >= store.nextDay) {
+    store.daily = { attempts: 0 };
+    store.nextDay = getNextDay4AM().getTime();
+  }
+  //! 检查当日通关次数是否已达上限
+  if (store.daily.attempts >= userConfig.dailyLimit) {
+    if (userConfig.dailyForce) {
+      log.warn("当日通关次数已达上限，强制执行");
+    } else {
+      log.warn("当日通关次数已达上限，跳过执行");
+      return;
+    }
+  }
+  //! 计算需要进行的尝试次数
+  let attempts = userConfig.dailyLimit - store.daily.attempts;
+  attempts = attempts > 0 ? attempts : 1;
+  //! 创建进度追踪器
+  const tracker = new ProgressTracker(attempts * userConfig.dailyRooms.length);
+  //! 迭代奇域关卡列表
+  try {
+    for (let i = 0; i < attempts; i++) {
+      //! 迭代尝试
+      try {
+        for (const room of userConfig.dailyRooms) {
+          //! 离开当前所在房间（如果存在）
+          await leaveRoom();
+          tracker.print(`开始当日第 ${store.daily.attempts + 1} 次奇域挑战...`);
+          //! 进入房间
+          await enterRoom(room);
+          //! 游玩关卡
+          await playStage(mappings[room]);
+          //! 更新进度
+          tracker.tick({ increment: 1 });
+        }
+      } catch (err) {
+        //! 发生主机异常（如：任务取消异常等），无法再继续执行
+        if (isHostException(err)) throw err;
+        //! 发生脚本流程异常，尝试退出关卡（如果在关卡中）
+        await exitStage();
+        log.error("脚本执行出错: {error}", getErrorMessage(err));
+      }
+      //! 一轮关卡执行结束，更新数据存储
+      store.daily.attempts += 1;
+    }
+    //! 领取诸界纪游经验
+    await fetchBattlepassExp();
+    //! 领取日活奖励
+    await fetchCultivateReward();
+  } catch (err) {
+    //! 发生主机异常（如：任务取消异常等），无法再继续执行
+    if (isHostException(err)) throw err;
+    log.error("脚本执行出错: {error}", getErrorMessage(err));
+  }
+  await genshin.returnMainUi();
+};
+
+// src/modules/save.ts
 //! 进入管理关卡存档界面
 var goToManageStageSave = async () => {
   //! 打开人气奇域
@@ -709,7 +1031,7 @@ var deleteStageSave = async () => {
       { maxAttempts: 5 }
     );
     //! 计算勾选框位置并点击
-    const [cx, cy] = [(colPos.x * 2 + colPos.width) / 2, stagePos.y + 20];
+    const [cx, cy] = [(colPos.x * 2 + colPos.width) / 2, stagePos.y + 40];
     await assertRegionAppearing(
       () => findDeleteExternalSaveChecked(colPos.x),
       "勾选要删除的局外存档超时",
@@ -746,108 +1068,15 @@ var deleteStageSave = async () => {
   }
 };
 
-// src/stage.ts
-//! 可用的执行通关回放文件列表
-var availablePlaybackFiles = () => {
-  const files = [...file.readPathSync("assets/playbacks")].map((path) => path.replace(/\\/g, "/"));
-  return userConfig.playbacks.map((file2) => `assets/playbacks/${file2}`).filter((path) => files.includes(path));
-};
-//! 确保通关回放文件存在
-var ensurePlaybackFilesExist = () => {
-  const list = availablePlaybackFiles();
-  if (list.length === 0) {
-    throw new Error("未找到任何通关回放文件，请确保已录制回放并拷贝到 assets/playbacks 目录下");
-  }
-};
-var playStage = async () => {
-  //! 等待进入关卡
-  await assertRegionAppearing(
-    findStageEscBtn,
-    "等待进入关卡超时",
-    async () => {
-      findBottomBtnText("开始游戏")?.click();
-      findBottomBtnText("准备", true)?.click();
-      //! 判断是否已经加入准备区
-      if (findPrepareMsg()) {
-        log.info("加入准备区...");
-        await assertRegionDisappearing(findPrepareMsg, "等待加入准备区提示消失超时");
-        clickToPrepare();
-      }
-    },
-    { maxAttempts: 60 }
-  );
-  //! 关闭游戏说明对话框
-  await assertRegionDisappearing(
-    findCloseDialog,
-    "关闭游戏说明对话框超时",
-    () => {
-      findCloseDialog()?.click();
-    },
-    { maxAttempts: 10, retryInterval: 500 }
-  );
-  //! 执行随机通关回放文件
-  await execStagePlayback();
-  await sleep(3e3);
-  //! 退出关卡返回大厅
-  await exitStageToLobby();
-};
-//! 执行通关回放文件（随机抽取）
-var execStagePlayback = async () => {
-  const list = availablePlaybackFiles();
-  const file2 = list[Math.floor(Math.random() * list.length)];
-  log.info("执行通关回放文件: {file}", file2);
-  await keyMouseScript.runFile(file2);
-};
-//! 退出关卡
-var exitStage = async () => {
-  if (findStageEscBtn() === void 0) return;
-  log.warn("关卡超时，尝试退出关卡...");
-  await assertRegionAppearing(
-    findExitStageBtn,
-    "等待中断挑战按钮出现超时",
-    () => {
-      keyPress("VK_ESCAPE");
-    },
-    { maxAttempts: 5, retryInterval: 2e3 }
-  );
-  findExitStageBtn()?.click();
-  await genshin.returnMainUi();
-};
-//! 退出关卡返回大厅
-var exitStageToLobby = async () => {
-  if (isInLobby()) {
-    log.warn("已处于奇域大厅，跳过");
+// src/workflows/weekly.ts
+var execWeeklyTask = async () => {
+  //! 确保通关回放文件存在
+  const files = availablePlaybackFiles();
+  const playbacks = userConfig.playbacks.map((file2) => `assets/playbacks/${file2}`).filter((path) => files.includes(path));
+  if (playbacks.length === 0) {
+    log.warn("未找到任何通关回放文件，请确保已录制回放并拷贝到 assets/playbacks 目录下");
     return;
   }
-  log.info("退出关卡返回大厅...");
-  const done = await waitForAction(
-    isInLobby,
-    async () => {
-      //! 跳过奇域等级提升页面（奇域等级每逢11、21、31、41级时出现加星页面）
-      findSkipLevelUpMsg()?.click();
-      //! 点击底部 “返回大厅” 按钮
-      findBottomBtnText("大厅", true)?.click();
-    },
-    { maxAttempts: 60 }
-  );
-  if (!done) {
-    await exitStage();
-    throw new Error("退出关卡返回大厅超时");
-  }
-};
-
-// main.ts
-(async function() {
-  //! 初始化游戏环境
-  setGameMetrics(1920, 1080, 1.5);
-  await genshin.returnMainUi();
-  //! 确保通关回放文件存在
-  ensurePlaybackFilesExist();
-  //! 初始化数据存储
-  const store = useStoreWithDefaults("data", {
-    weekly: { expGained: 0, attempts: 0 },
-    nextWeek: getNextMonday4AM().getTime()
-  });
   //! 新的一周开始，重置经验值数据
   if (Date.now() >= store.nextWeek) {
     store.weekly = { expGained: 0, attempts: 0 };
@@ -881,7 +1110,7 @@ var exitStageToLobby = async () => {
       //! 进入房间
       await enterRoom(userConfig.room);
       //! 游玩关卡
-      await playStage();
+      await playStage(playbacks);
       //! 关卡结束，更新数据存储
       store.weekly.attempts += 1;
       store.weekly.expGained += userConfig.expPerAttempt;
@@ -901,6 +1130,18 @@ var exitStageToLobby = async () => {
     await exitStage();
     log.error("脚本执行出错: {error}", getErrorMessage(err));
   }
+  await genshin.returnMainUi();
+};
+
+// main.ts
+(async function() {
+  //! 初始化游戏环境
+  setGameMetrics(1920, 1080, 1.5);
+  await genshin.returnMainUi();
+  //! 执行每周任务
+  await execWeeklyTask();
+  //! 执行每日任务
+  await execDailyTask();
   //! 返回提瓦特大陆
   await exitLobbyToTeyvat();
 })();

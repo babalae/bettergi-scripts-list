@@ -51,6 +51,12 @@
     "label": "勾选后禁用根据运行记录优化路线选择的功能\n完全使用路线原有信息"
   },
   {
+    "name": "findFInterval",
+    "type": "input-text",
+    "label": "识别间隔(毫秒)\n两次检测f图标之间等待时间",
+    "default": "100"
+  },
+  {
     "name": "pickupDelay",
     "type": "input-text",
     "label": "拾取后延时(毫秒)\n观察到日志显示连续拾取相同物品时建议调大",

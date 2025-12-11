@@ -20,10 +20,10 @@ async function switchToActivityPage(activityName, activityKey, maxOcrCount) {
         await keyUp(activityKey);
 
         await sleep(1000);
-        let ocr_x = parseInt(100 * gameWidth / 1920 + '')
-        let ocr_y = parseInt(200 * gameHeight / 1080 + '')
-        let ocr_width = parseInt(450 * gameWidth / 1920 + '')
-        let ocr_hight = parseInt(600 * gameHeight / 1080 + '')
+        let ocr_x = 100;
+        let ocr_y = 200;
+        let ocr_width = 450;
+        let ocr_hight = 600;
         log.info(`参考值(1920*1080):{"x": 100, "y": 200, "width": 450, "height": 600}`)
         let ocrRegion = {
             "x": ocr_x,

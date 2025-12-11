@@ -193,7 +193,7 @@ async function enterStarSourcePage() {
 
 // 创建关卡
 async function createMap() {
-  await findTextAndClick("全部", 1320, 0, 600, 95);
+  await findTextAndClick("搜索", 1320, 0, 600, 95);
   await findTextAndClick("搜索", 0, 120, 1920, 60);
   inputText(roomID);
   await sleep(1000);
