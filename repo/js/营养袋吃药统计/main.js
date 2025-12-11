@@ -241,7 +241,7 @@ const ocrRegion = {
 
 
             switch (refreshType) {
-                case 'daily': // 每天固定时间刷新
+                case 'daily': {// 每天固定时间刷新
                     // 计算从上次记录到现在的小时数
                     const diffHours = (nowTime - lastDate) / (1000 * 60 * 60);
 
@@ -252,6 +252,7 @@ const ocrRegion = {
                         shouldRefresh = true;
                     }
                     break;
+                }
                 default:
                     throw new Error(`未知的刷新类型: ${refreshType}`);
             }
