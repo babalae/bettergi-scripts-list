@@ -340,7 +340,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         btnLogout.DrawSelf("LogoutBtn");
         btnLogout.Click();
 
-        const assetQuitTextButton = u.loadTemplate("Assets/RecognitionObject/quit.png", 680, 380, 1220, 720);
+        const assetQuitTextButton = u.loadTemplate("Assets/RecognitionObject/quit.png", 680, 380, 1220, 700);
         let btnQuit = await u.waitAndFindImage(assetQuitTextButton, 200);
         // u.logi("识别到退出按钮，点击");
         // btnQuit.DrawSelf("QuitBtn");
@@ -351,7 +351,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         u.logi("开始切换账号");
         await u.waitAndFindText(["进入游戏", "登录其他账号"], 680, 380, 540, 340, 200);
 
-        const assetSelectUserDropDownIcon = u.loadTemplate("Assets/RecognitionObject/caret.png", 680, 380, 1220, 720);
+        const assetSelectUserDropDownIcon = u.loadTemplate("Assets/RecognitionObject/caret.png", 680, 380, 1220, 700);
         let captureRegion = captureGameRegion();
         let res = captureRegion.Find(assetSelectUserDropDownIcon);
         captureRegion.dispose();
