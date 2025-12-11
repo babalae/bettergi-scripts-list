@@ -225,7 +225,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
 
     const targetUser = settings.username;
 
-    const assetLogoutIcon = u.loadTemplate("Assets/RecognitionObject/logout.png", 1750, 900);
+    const assetLogoutIcon = u.loadTemplate("Assets/RecognitionObject/logout.png", 1750, 900, 170, 180);
     const assetPaimonMenuIcon = u.loadTemplate("Assets/RecognitionObject/paimon_menu.png", 0, 0, 150, 150);
 
     // Check current state
