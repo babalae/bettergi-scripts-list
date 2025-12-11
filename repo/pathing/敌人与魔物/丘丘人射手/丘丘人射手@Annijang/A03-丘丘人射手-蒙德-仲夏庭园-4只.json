@@ -2,17 +2,17 @@
   "info": {
     "authors": [
       {
-        "links": "",
+        "links": "https://github.com/Annijang",
         "name": "Annijang"
       }
     ],
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1765126598638,
+    "last_modified_time": 1765193422622,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "蒙德_仲夏庭园_丘丘射手_4只",
+    "name": "A03-丘丘人射手-蒙德-仲夏庭园-4只",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -41,23 +41,14 @@
       "action_params": "",
       "id": 3,
       "move_mode": "dash",
-      "type": "target",
+      "type": "path",
       "x": -1513.68359375,
       "y": 2466.96826171875
     },
     {
-      "action": "pick_up_collect",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -1512.939453125,
-      "y": 2459.68310546875
-    },
-    {
       "action": "",
       "action_params": "",
-      "id": 5,
+      "id": 4,
       "move_mode": "run",
       "type": "path",
       "x": -1476.580078125,
@@ -66,7 +57,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 6,
+      "id": 5,
       "move_mode": "walk",
       "type": "path",
       "x": -1445.728515625,
@@ -75,7 +66,7 @@
     {
       "action": "stop_flying",
       "action_params": "500",
-      "id": 7,
+      "id": 6,
       "move_mode": "fly",
       "type": "path",
       "x": -1438.4296875,
@@ -84,19 +75,9 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 8,
-      "locked": false,
+      "id": 7,
       "move_mode": "walk",
-      "type": "target",
-      "x": -1419.689453125,
-      "y": 2463.857421875
-    },
-    {
-      "action": "pick_up_collect",
-      "action_params": "",
-      "id": 9,
-      "move_mode": "walk",
-      "type": "target",
+      "type": "path",
       "x": -1419.689453125,
       "y": 2463.857421875
     }
