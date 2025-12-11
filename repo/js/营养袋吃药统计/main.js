@@ -11,13 +11,55 @@ const ocrRegion = {
     // 检验账户名
     async function getUserName() {
         userName = userName.trim();
-    //数字，中英文，长度在20个字符以内
+    // 数字，中英文，长度在20个字符以内
         if (!userName || !/^[\u4e00-\u9fa5A-Za-z0-9]{1,20}$/.test(userName)) {
             log.error(`账户名${userName}违规，暂时使用默认账户名，请查看readme后修改`)
             userName = "默认账户";
         }
         return userName;
     }
+
+    // 格式化日期为 YYYY/MM/DD
+    async function formatDate(date) {
+        return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
+    }
+
+    // 获取适用于记录的日期（根据刷新时间调整）
+    async function getRecordDate() {
+        const now = new Date();
+        const currentHour = now.getHours();
+        // 如果当前时间在刷新时间之前，使用昨天的日期
+        if (currentHour < 4) {
+            const yesterday = new Date(now);
+            yesterday.setDate(now.getDate() - 1);
+            return yesterday;
+        }
+        return now;
+    }
+
+    // 处理旧格式记录文件
+    async function migrateOldFormatRecords(filePath) {
+    try {
+        const content = await file.readText(filePath);
+        const lines = content.split('\n').filter(line => line.trim());
+
+        // 检查是否有旧格式的记录（如2025-12-10T02:02:32.460Z|179|546）
+        const hasOldFormat = lines.some(line =>
+            /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z\|\d+\|\d+$/.test(line)
+        );
+
+        if (hasOldFormat) {
+            // 直接清空文件（不创建备份）
+            await file.writeText(filePath, '');
+            notification.send(`${settings.userName}: 检测到旧格式记录，已重置记录文件`);
+            return true;
+        }
+    } catch (error) {
+        // 文件不存在或其他错误
+    }
+    return false;
+}
+
      /**
      * 文字OCR识别封装函数（支持空文本匹配任意文字）
      * @param {string} text - 要识别的文字，默认为"空参数"，空字符串会匹配任意文字
@@ -149,6 +191,7 @@ const ocrRegion = {
           // 返回最后一个结果或未找到
           return lastResult || { found: false };
      }
+
      /**
      * 判断任务是否已刷新
      * @param {string} filePath - 存储最后完成时间的文件路径
@@ -172,93 +215,52 @@ const ocrRegion = {
             monthlyDay = 1,         // 每月刷新默认第1天
             monthlyHour = 4          // 每月刷新默认凌晨4点
         } = options;
-
+        // 首先检查并删除旧格式记录
+        await migrateOldFormatRecords(filePath);
         try {
             // 读取文件内容
-            let content = await file.readText(filePath);
-            const parts = content.split("|");
+            const content = await file.readText(filePath);
+            const lines = content.split('\n').filter(line => line.trim());
 
-            if (parts.length < 3) {
+            if (lines.length === 0) {
                 return { refreshed: true, recovery: 0, resurrection: 0 };
             }
-            const lastTime = new Date(parts[0]);
-            const savedRecovery = parseInt(parts[1]) || 0;
-            const savedResurrection = parseInt(parts[2]) || 0;
-            const nowTime = new Date();
 
+            // 解析最新一条记录
+            const lastLine = lines[lines.length - 1];
+            const match = lastLine.match(/日期:(\d{4}\/\d{2}\/\d{2})，(.+)-(\d+)，(.+)-(\d+)/);
+
+            if (!match) return { refreshed: true, recovery: 0, resurrection: 0 };
+
+            const lastDate = new Date(match[1]);
+            lastDate.setHours(dailyHour, 0, 0, 0);
+            const recoveryNum = parseInt(match[3]);
+            const resurrectionNum = parseInt(match[5]);
+            const nowTime = new Date();
             let shouldRefresh = false;
 
 
             switch (refreshType) {
-                case 'hourly': // 每小时刷新
-                    shouldRefresh = (nowTime - lastTime) >= 3600 * 1000;
-                    break;
+                case 'daily': {// 每天固定时间刷新
+                    // 计算从上次记录到现在的小时数
+                    const diffHours = (nowTime - lastDate) / (1000 * 60 * 60);
 
-                case 'daily': // 每天固定时间刷新
-                    // 检查是否已经过了当天的刷新时间
-                    const todayRefresh = new Date(nowTime);
-                    todayRefresh.setHours(dailyHour, 0, 0, 0);
-
-                    // 如果当前时间已经过了今天的刷新时间，检查上次完成时间是否在今天刷新之前
-                    if (nowTime >= todayRefresh) {
-                        shouldRefresh = lastTime < todayRefresh;
-                    } else {
-                        // 否则检查上次完成时间是否在昨天刷新之前
-                        const yesterdayRefresh = new Date(todayRefresh);
-                        yesterdayRefresh.setDate(yesterdayRefresh.getDate() - 1);
-                        shouldRefresh = lastTime < yesterdayRefresh;
+                    // 如果距离上次记录超过24小时，或者当前时间在刷新时间之后但日期变化
+                    if (diffHours >= 24 ||
+                        (nowTime.getDate() !== lastDate.getDate() &&
+                         nowTime.getHours() >= dailyHour)) {
+                        shouldRefresh = true;
                     }
                     break;
-
-                case 'weekly': // 每周固定时间刷新
-                    // 获取本周的刷新时间
-                    const thisWeekRefresh = new Date(nowTime);
-                    // 计算与本周指定星期几的差值
-                    const dayDiff = (thisWeekRefresh.getDay() - weeklyDay + 7) % 7;
-                    thisWeekRefresh.setDate(thisWeekRefresh.getDate() - dayDiff);
-                    thisWeekRefresh.setHours(weeklyHour, 0, 0, 0);
-
-                    // 如果当前时间已经过了本周的刷新时间
-                    if (nowTime >= thisWeekRefresh) {
-                        shouldRefresh = lastTime < thisWeekRefresh;
-                    } else {
-                        // 否则检查上次完成时间是否在上周刷新之前
-                        const lastWeekRefresh = new Date(thisWeekRefresh);
-                        lastWeekRefresh.setDate(lastWeekRefresh.getDate() - 7);
-                        shouldRefresh = lastTime < lastWeekRefresh;
-                    }
-                    break;
-
-                case 'monthly': // 每月固定时间刷新
-                    // 获取本月的刷新时间
-                    const thisMonthRefresh = new Date(nowTime);
-                    // 设置为本月指定日期的凌晨
-                    thisMonthRefresh.setDate(monthlyDay);
-                    thisMonthRefresh.setHours(monthlyHour, 0, 0, 0);
-
-                    // 如果当前时间已经过了本月的刷新时间
-                    if (nowTime >= thisMonthRefresh) {
-                        shouldRefresh = lastTime < thisMonthRefresh;
-                    } else {
-                        // 否则检查上次完成时间是否在上月刷新之前
-                        const lastMonthRefresh = new Date(thisMonthRefresh);
-                        lastMonthRefresh.setMonth(lastMonthRefresh.getMonth() - 1);
-                        shouldRefresh = lastTime < lastMonthRefresh;
-                    }
-                    break;
-
-                case 'custom': // 自定义小时数刷新
-                    shouldRefresh = (nowTime - lastTime) >= customHours * 3600 * 1000;
-                    break;
-
+                }
                 default:
                     throw new Error(`未知的刷新类型: ${refreshType}`);
             }
 
             return {
                 refreshed: shouldRefresh,
-                recovery: savedRecovery,
-                resurrection: savedResurrection
+                recovery: recoveryNum,
+                resurrection: resurrectionNum
             };
 
         } catch (error) {
@@ -267,7 +269,53 @@ const ocrRegion = {
         }
     }
 
-//  背包过期物品识别，需要在背包界面，并且是1920x1080分辨率下使用
+    // 管理记录文件（限制30条）
+    async function updateRecord(filePath, recoveryNum, resurrectionNum) {
+        const recordDate = await getRecordDate();
+        const dateStr = await formatDate(recordDate);
+        const newLine = `日期:${dateStr}，${settings.recoveryFoodName}-${recoveryNum}，${settings.resurrectionFoodName}-${resurrectionNum}`;
+    try {
+        // 首先检查并删除旧格式记录
+        await migrateOldFormatRecords(filePath);
+
+        let content = await file.readText(filePath);
+        let lines = content.split('\n').filter(line => line.trim());
+        let updated = false;
+
+        // 检查最后一行是否与要写入的日期相同
+        if (lines.length > 0) {
+            const lastLine = lines[lines.length - 1];
+
+            // 正则匹配最后一行中的日期
+            const lastDateMatch = lastLine.match(/日期:(\d{4}\/\d{2}\/\d{2})/);
+
+            if (lastDateMatch && lastDateMatch[1] === dateStr) {
+                // 替换最后一行
+                lines[lines.length - 1] = newLine;
+                updated = true;
+            }
+        }
+
+        // 如果日期不同或没有匹配，添加新行
+        if (!updated) {
+            lines.push(newLine);
+        }
+
+        // 只保留最近30条记录
+        if (lines.length > 30) {
+            lines = lines.slice(-30);
+        }
+
+        await file.writeText(filePath, lines.join('\n'));
+        return true;
+    } catch (error) {
+        // 文件不存在时创建新文件
+        await file.writeText(filePath, newLine);
+        return true;
+    }
+}
+
+    //  背包过期物品识别，需要在背包界面，并且是1920x1080分辨率下使用
     async function handleExpiredItems() {
           const ifGuoqi = await textOCREnhanced("物品过期", 1.5, 0, 3, 870, 280, 170, 40);
           if (ifGuoqi.found) {
@@ -385,22 +433,13 @@ const ocrRegion = {
     const { recoveryNumber, resurrectionNumber } = await main();
     // initSelect处理逻辑
     if (settings.initSelect) {
-        // 获取当前时间戳
-        const currentTime = new Date().toISOString();
-        // 构建保存内容：时间戳|回血药数量|复活药数量
-        const saveContent = `${currentTime}|${recoveryNumber}|${resurrectionNumber}`;
-        try {
-            // 写入本地文件
-            await file.writeText(recordPath, saveContent);
-            notification.send(`${userName}: 强制初始化完成！${recoveryFoodName}${recoveryNumber}个, ${resurrectionFoodName}${resurrectionNumber}个`);
-        } catch (error) {
-            notification.send(`${userName}: 药品保存失败！`);
-        }
-        return; // 终止后续流程
+        await updateRecord(recordPath, recoveryNumber, resurrectionNumber);
+        notification.send(`${userName}: 强制初始化完成！${recoveryFoodName}${recoveryNumber}个, ${resurrectionFoodName}${resurrectionNumber}个`);
+        return;
     }
     if (refreshStatus.refreshed) {
         // 今日未初始化 - 写入初始数量
-        await file.writeText(recordPath, `${new Date().toISOString()}|${recoveryNumber}|${resurrectionNumber}`);
+        await updateRecord(recordPath, recoveryNumber, resurrectionNumber);
         // 添加账户名称的通知
         notification.send(`${userName}: 今日初始化完成！${recoveryFoodName}${recoveryNumber}个, ${resurrectionFoodName}${resurrectionNumber}个`);
     } else {
