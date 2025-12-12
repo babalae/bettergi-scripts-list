@@ -66,10 +66,10 @@ const ocrRoThis = RecognitionObject.ocrThis;
 async function runLeyLineOutcropScript() {
     // 初始化加载配置和设置并校验
     initialize();
-    
+
     // 处理树脂耗尽模式（如果开启）
     let runTimesValue = await handleResinExhaustionMode();
-    if(runTimesValue <= 0) {
+    if (runTimesValue <= 0) {
         throw new Error("树脂耗尽，脚本将结束运行");
     }
 
@@ -77,7 +77,7 @@ async function runLeyLineOutcropScript() {
 
     // 执行地脉花挑战
     await runLeyLineChallenges();
-    
+
     // 如果是树脂耗尽模式，执行完毕后再次检查是否还有树脂
     if (settings.isResinExhaustionMode) {
         await recheckResinAndContinue();
@@ -194,13 +194,13 @@ async function handleResinExhaustionMode() {
             settings.timesValue = resinResult.count;
         }
 
-
+        physical.NeedRunsCount = settings.timesValue;
         log.info(`树脂统计成功：`);
         log.info(`  原粹树脂可刷取: ${resinResult.originalResinTimes} 次`);
         log.info(`  浓缩树脂可刷取: ${resinResult.condensedResinTimes} 次`);
         log.info(`  须臾树脂可刷取: ${resinResult.transientResinTimes} 次${settings.useTransientResin ? '' : '（未开启使用）'}`);
         log.info(`  脆弱树脂可刷取: ${resinResult.fragileResinTimes} 次${settings.useFragileResin ? '' : '（未开启使用）'}`);
-        log.info(`  总计可刷取次数: {count} 次,最小替换:{key}`,(physical.OpenModeCountMin?settings.timesValue:resinResult.count),(physical.OpenModeCountMin?"开启":"未开启"));
+        log.info(`  总计可刷取次数: {count} 次,最小替换:{key}`, (physical.OpenModeCountMin ? settings.timesValue : resinResult.count), (physical.OpenModeCountMin ? "开启" : "未开启"));
 
         // 发送通知
         if (isNotification) {
@@ -211,7 +211,7 @@ async function handleResinExhaustionMode() {
                 `浓缩树脂: ${resinResult.condensedResinTimes} 次\n` +
                 `须臾树脂: ${resinResult.transientResinTimes} 次${settings.useTransientResin ? '' : '（未开启）'}\n` +
                 `脆弱树脂: ${resinResult.fragileResinTimes} 次${settings.useFragileResin ? '' : '（未开启）'}\n\n` +
-                `总计可刷取: ${physical.OpenModeCountMin?settings.timesValue:resinResult.count} 次\n最小替换:${(physical.OpenModeCountMin?"开启":"未开启")}\n`;
+                `总计可刷取: ${physical.OpenModeCountMin ? settings.timesValue : resinResult.count} 次\n最小替换:${(physical.OpenModeCountMin ? "开启" : "未开启")}\n`;
             notification.send(notificationText);
         }
 
@@ -235,6 +235,13 @@ async function handleResinExhaustionMode() {
 async function recheckResinAndContinue() {
     // 递归深度检查，防止无限循环
     recheckCount++;
+    if (physical.OpenModeCountMin) {
+        physical.AlreadyRunsCount++;
+        if (physical.NeedRunsCount<=physical.AlreadyRunsCount){
+            log.info(`[已开启取小值]树脂耗尽模式：任务已完成，已经运行{count}次`,physical.AlreadyRunsCount);
+            return;
+        }
+    }
 
     if (recheckCount > MAX_RECHECK_COUNT) {
         log.warn(`已达到最大重新检查次数限制 (${MAX_RECHECK_COUNT} 次)，停止继续检查`);

@@ -28,6 +28,8 @@ const genshinJson = {
 }
 const MinPhysical = settings.minPhysical?parseInt(settings.minPhysical+''):parseInt(20+'')
 const OpenModeCountMin = settings.openModeCountMin
+const AlreadyRunsCount=0
+const NeedRunsCount=0
 //====================================================
 /**
  * 根据键值获取JSON路径
@@ -152,11 +154,11 @@ async function ocrPhysical(opToMainUi = false) {
     //识别体力 x=1625,y=31,width=79,height=30 / x=1689,y=35,width=15,height=26
     let ocr_obj = {
         // x: 1623,
-        x: button.x + button.width,
+        x: button.x + button.width-20,
         // y: 32,
         y: button.y,
         // width: 61,
-        width: Math.abs(button2.x - button.x - button.width),
+        width: Math.abs(button2.x - button.x - button.width+20),
         height: button2.height
     }
 
@@ -242,4 +244,6 @@ this.physical = {
     ocrPhysical,
     MinPhysical,
     OpenModeCountMin,
+    AlreadyRunsCount,
+    NeedRunsCount,
 }
