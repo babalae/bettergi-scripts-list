@@ -29,6 +29,16 @@
         "default": "稻妻"
     },
     {
+        "name": "isResinExhaustionMode",
+        "type": "checkbox",
+        "label": "树脂耗尽模式\n开启后会自动统计所有可用树脂并计算可刷取次数，替换上方设置的刷取次数\n注意：请同时设置树脂刷取次数，将在统计失败时使用"
+    },
+    {
+        "name": "openModeCountMin",
+        "type": "checkbox",
+        "label": "刷取次数取小值\n开启后树脂耗尽模式中计算可刷取次数，和上方设置的刷取次数取小值"
+    },
+    {
         "name": "count",
         "type": "input-text",
         "label": "刷取次数，默认6次",
@@ -76,11 +86,6 @@
         "name": "oneDragonMode",
         "type": "checkbox",
         "label": "一条龙模式\n开启后，会跳过开始的前往七天神像以及强制更新"
-    },
-    {
-        "name": "isResinExhaustionMode",
-        "type": "checkbox",
-        "label": "树脂耗尽模式\n开启后会自动统计所有可用树脂并计算可刷取次数，替换上方设置的刷取次数\n注意：请同时设置树脂刷取次数，将在统计失败时使用"
     },
     {
             "name": "isGoToSynthesizer",
