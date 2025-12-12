@@ -81,7 +81,7 @@ async function ocrPhysical(opToMainUi = false) {
     //打开地图界面
     await keyPress('M')
     await sleep(ms)
-    log.info(`===[点击+]===`)
+    log.debug(`===[点击+]===`)
     //点击+ 按钮 x=1264,y=39,width=18,height=19
     let add_buttonJSON = getJsonPath('add_button');
     let add_objJson = {
@@ -109,7 +109,7 @@ async function ocrPhysical(opToMainUi = false) {
     // await click(add_obj.x, add_obj.y)
     await sleep(ms)
 
-    log.info(`===[定位原粹树脂]===`)
+    log.debug(`===[定位原粹树脂]===`)
     //定位月亮
     let jsonPath = getJsonPath('yue');
     let tmJson = {
@@ -130,7 +130,7 @@ async function ocrPhysical(opToMainUi = false) {
     }
     // region.Dispose()
 
-    log.info(`===[定位/200]===`)
+    log.debug(`===[定位/200]===`)
     //定位200
     let jsonPath2 = getJsonPath('200');
     let tmJson2 = {
@@ -150,7 +150,7 @@ async function ocrPhysical(opToMainUi = false) {
     }
     // region2.Dispose()
 
-    log.info(`===[识别原粹树脂]===`)
+    log.debug(`===[识别原粹树脂]===`)
     //识别体力 x=1625,y=31,width=79,height=30 / x=1689,y=35,width=15,height=26
     let ocr_obj = {
         // x: 1623,
@@ -162,7 +162,7 @@ async function ocrPhysical(opToMainUi = false) {
         height: button2.height
     }
 
-    log.info(`ocr_obj: x={x},y={y},width={width},height={height}`, ocr_obj.x, ocr_obj.y, ocr_obj.width, ocr_obj.height)
+    log.debug(`ocr_obj: x={x},y={y},width={width},height={height}`, ocr_obj.x, ocr_obj.y, ocr_obj.width, ocr_obj.height)
 
     try {
         let recognitionObjectOcr = RecognitionObject.Ocr(ocr_obj.x, ocr_obj.y, ocr_obj.width, ocr_obj.height);
