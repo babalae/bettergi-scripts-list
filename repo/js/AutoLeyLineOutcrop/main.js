@@ -211,7 +211,7 @@ async function handleResinExhaustionMode() {
                 `浓缩树脂: ${resinResult.condensedResinTimes} 次\n` +
                 `须臾树脂: ${resinResult.transientResinTimes} 次${settings.useTransientResin ? '' : '（未开启）'}\n` +
                 `脆弱树脂: ${resinResult.fragileResinTimes} 次${settings.useFragileResin ? '' : '（未开启）'}\n\n` +
-                `总计可刷取: ${resinResult.count} 次\n`;
+                `总计可刷取: ${physical.OpenModeCountMin?settings.timesValue:resinResult.count} 次\n最小替换:${(physical.OpenModeCountMin?"开启":"未开启")}\n`;
             notification.send(notificationText);
         }
 
