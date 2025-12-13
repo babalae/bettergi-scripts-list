@@ -44,7 +44,19 @@ const materialPriority = {
     "武器突破素材": 6,
 };
 
-
+// 2. 数字替换映射表（处理OCR识别误差）
+var numberReplaceMap = {
+    "O": "0", "o": "0", "Q": "0", "０": "0",
+    "I": "1", "l": "1", "i": "1", "１": "1", "一": "1",
+    "Z": "2", "z": "2", "２": "2", "二": "2",
+    "E": "3", "e": "3", "３": "3", "三": "3",
+    "A": "4", "a": "4", "４": "4",
+    "S": "5", "s": "5", "５": "5",
+    "G": "6", "b": "6", "６": "6",
+    "T": "7", "t": "7", "７": "7",
+    "B": "8", "θ": "8", "８": "8",
+    "g": "9", "q": "9", "９": "9",
+};
 
 // 提前计算所有动态坐标
 // 物品区左顶处物品左上角坐标(117,121)
@@ -62,19 +74,6 @@ async function recognizeText(ocrRegion, timeout = 100, retryInterval = 20, maxAt
     let failureCount = 0; // 用于记录连续失败的次数
     // const results = [];
     const frequencyMap = {}; // 用于记录每个结果的出现次数
-
-    const numberReplaceMap = {
-        "O": "0", "o": "0", "Q": "0", "０": "0",
-        "I": "1", "l": "1", "i": "1", "１": "1", "一": "1",
-        "Z": "2", "z": "2", "２": "2", "二": "2",
-        "E": "3", "e": "3", "３": "3", "三": "3",
-        "A": "4", "a": "4", "４": "4",
-        "S": "5", "s": "5", "５": "5",
-        "G": "6", "b": "6", "６": "6",
-        "T": "7", "t": "7", "７": "7",
-        "B": "8", "θ": "8", "８": "8",
-        "g": "9", "q": "9", "９": "9",
-    };
 
     while (Date.now() - startTime < timeout && retryCount < maxAttempts) {
         let ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
@@ -296,26 +295,26 @@ async function scanMaterials(materialsCategory, materialCategoryMap) {
 
     // 俏皮话逻辑
     const scanPhrases = [
-        "扫描中... 太好啦，有这么多素材！",
-        "扫描中... 不错的珍宝！",
-        "扫描中... 侦查骑士，发现目标！",
-        "扫描中... 嗯哼，意外之喜！",
-        "扫描中... 嗯？",
-        "扫描中... 很好，没有放过任何角落！",
-        "扫描中... 会有烟花材料嘛？",
-        "扫描中... 嗯，这是什么？",
-        "扫描中... 这些宝藏积灰了，先清洗一下",
-        "扫描中... 哇！都是好东西！",
-        "扫描中... 不虚此行！",
-        "扫描中... 瑰丽的珍宝，令人欣喜。",
-        "扫描中... 是对长高有帮助的东西吗？",
-        "扫描中... 嗯！品相卓越！",
-        "扫描中... 虽无法比拟黄金，但终有价值。",
-        "扫描中... 收获不少，可以拿去换几瓶好酒啦。",
-        "扫描中... 房租和伙食费，都有着落啦！",
-        "扫描中... 还不赖。",
-        "扫描中... 荒芜的世界，竟藏有这等瑰宝。",
-        "扫描中... 运气还不错。",
+        "... 太好啦，有这么多素材！",
+        "... 不错的珍宝！",
+        "... 侦查骑士，发现目标！",
+        "... 嗯哼，意外之喜！",
+        "... 嗯？",
+        "... 很好，没有放过任何角落！",
+        "... 会有烟花材料嘛？",
+        "... 嗯，这是什么？",
+        "... 这些宝藏积灰了，先清洗一下",
+        "... 哇！都是好东西！",
+        "... 不虚此行！",
+        "... 瑰丽的珍宝，令人欣喜。",
+        "... 是对长高有帮助的东西吗？",
+        "... 嗯！品相卓越！",
+        "... 虽无法比拟黄金，但终有价值。",
+        "... 收获不少，可以拿去换几瓶好酒啦。",
+        "... 房租和伙食费，都有着落啦！",
+        "... 还不赖。",
+        "... 荒芜的世界，竟藏有这等瑰宝。",
+        "... 运气还不错。",
     ];
 
     let tempPhrases = [...scanPhrases];
@@ -462,43 +461,13 @@ ${Array.from(unmatchedMaterialNames).join(",")}
     const overwriteFilePath = `overwrite_record/${materialsCategory}.txt`; // 所有的历史记录分类储存
     const latestFilePath = "latest_record.txt"; // 所有的历史记录集集合
     if (pathingMode.onlyCategory) {
-    writeLog(categoryFilePath, logContent);
+    writeFile(categoryFilePath, logContent);
     }
-    writeLog(overwriteFilePath, logContent);
-    writeLog(latestFilePath, logContent); // 覆盖模式？
+    writeFile(overwriteFilePath, logContent);
+    writeFile(latestFilePath, logContent); // 覆盖模式？
 
     // 返回结果
     return materialInfo;
-}
-
-function writeLog(filePath, logContent) {
-    try {
-        // 1. 读取现有内容（原样读取，不做任何分割处理）
-        let existingContent = "";
-        try {
-            existingContent = file.readTextSync(filePath);
-        } catch (e) {
-            // 文件不存在则保持空
-        }
-
-        // 2. 拼接新记录（新记录加在最前面，用两个换行分隔，保留原始格式）
-        const finalContent = logContent + "\n\n" + existingContent;
-
-        // 3. 按行分割，保留最近365条完整记录（按原始换行分割，不过滤）
-        const lines = finalContent.split("\n");
-        const keepLines = lines.length > 365 * 5 ? lines.slice(0, 365 * 5) : lines; // 假设每条记录最多5行
-        const result = file.writeTextSync(filePath, keepLines.join("\n"), false);
-
-        if (result) {
-            log.info(`写入成功: ${filePath}`);
-        } else {
-            log.error(`写入失败: ${filePath}`);
-        }
-    } catch (error) {
-        // 只在文件完全不存在时创建，避免覆盖
-        file.writeTextSync(filePath, logContent, false);
-        log.info(`创建新文件: ${filePath}`);
-    }
 }
 
 // 定义所有图标的图像识别对象，每个图片都有自己的识别区域
@@ -565,7 +534,11 @@ async function MaterialPath(materialCategoryMap, cachedFrame = null) {
     log.info(`类型 ${group.type} | 包含分类: ${group.categories.join(', ')}`);
 });
 
-    while (stage <= maxStage) {
+    let loopCount = 0;
+    const maxLoopCount = 200; // 合理阈值，正常流程约50-100次循环
+
+    while (stage <= maxStage && loopCount <= maxLoopCount) { // ===== 补充优化：加入循环次数限制 =====
+        loopCount++;
         switch (stage) {
             case 0: // 返回主界面
                 log.info("返回主界面");
@@ -588,6 +561,8 @@ async function MaterialPath(materialCategoryMap, cachedFrame = null) {
                     stage = 2; // 进入下一阶段
                 } else {
                     log.warn("未识别到背包图标，重新尝试");
+                    // ===== 补充优化：连续回退时释放资源 =====
+                    cachedFrame?.dispose();
                     stage = 0; // 回退
                 }
                 break;
@@ -643,6 +618,8 @@ async function MaterialPath(materialCategoryMap, cachedFrame = null) {
                         break;
                     default:
                         log.error("未知的材料分类");
+                        // ===== 补充优化：异常时释放资源并退出 =====
+                        cachedFrame?.dispose();
                         stage = 0; // 回退到阶段0
                         return;
                 }
@@ -653,7 +630,9 @@ async function MaterialPath(materialCategoryMap, cachedFrame = null) {
                     stage = 4; // 进入下一阶段
                 } else {
                     log.warn("未识别到材料分类图标，重新尝试");
-                    log.warn(`识别结果：${JSON.stringify(CategoryResult)}`);
+                    // log.warn(`识别结果：${JSON.stringify(CategoryResult)}`);
+                    // ===== 补充优化：连续回退时释放资源 =====
+                    cachedFrame?.dispose();
                     stage = 2; // 回退到阶段2
                 }
                 break;
@@ -681,6 +660,14 @@ async function MaterialPath(materialCategoryMap, cachedFrame = null) {
                 stage = maxStage + 1; // 确保退出循环
                 break;
         }
+    }
+
+    // ===== 补充优化：循环超限处理，防止卡死 =====
+    if (loopCount > maxLoopCount) {
+        log.error(`主循环次数超限（${maxLoopCount}次），强制退出`);
+        cachedFrame?.dispose();
+        await genshin.returnMainUi();
+        return [];
     }
 
     await genshin.returnMainUi(); // 返回主界面

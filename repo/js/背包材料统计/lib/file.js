@@ -78,43 +78,8 @@ function readAllFilePaths(dir, depth = 0, maxDepth = 3, includeExtensions = ['.p
         return [];
     }
 }
-/*
-// 新记录在最下面
-async function writeFile(filePath, content, isAppend = false, maxRecords = 365) {
-    try {
-        if (isAppend) {
-            // 读取现有内容（如果文件不存在则为空）
-            const existingContent = file.readTextSync(filePath) || "";
-            // 分割成记录数组（过滤空字符串）
-            const records = existingContent.split("\n\n").filter(Boolean);
-            
-            // 关键修复：将新内容添加到末尾，然后只保留最后maxRecords条
-            const allRecords = [...records, content]; // 新内容放在最后
-            const latestRecords = allRecords.slice(-maxRecords); // 整体截取最新的maxRecords条
-            
-            // 拼接成最终内容
-            const finalContent = latestRecords.join("\n\n");
-            const result = file.WriteTextSync(filePath, finalContent, false);
-            
-            // 日志输出（可根据需要启用）
-            // log.info(result ? `[追加] 成功写入: ${filePath}` : `[追加] 写入失败: ${filePath}`);
-            return result;
-        } else {
-            // 非追加模式：直接覆盖写入
-            const result = file.WriteTextSync(filePath, content, false);
-            // log.info(result ? `[覆盖] 成功写入: ${filePath}` : `[覆盖] 写入失败: ${filePath}`);
-            return result;
-        }
-    } catch (error) {
-        // 发生错误时尝试创建文件并写入
-        const result = file.WriteTextSync(filePath, content, false);
-        log.info(result ? `[新建] 成功创建: ${filePath}` : `[新建] 创建失败: ${filePath}`);
-        return result;
-    }
-}
-*/
-// 新记录在最上面20250531
-async function writeFile(filePath, content, isAppend = false, maxRecords = 365) {
+// 新记录在最上面20250531 isAppend默认就是true追加
+function writeFile(filePath, content, isAppend = true, maxRecords = 36500) {
     try {
         if (isAppend) {
             // 读取现有内容，处理文件不存在的情况

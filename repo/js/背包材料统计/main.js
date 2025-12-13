@@ -34,6 +34,7 @@ const CONSTANTS = {
 // 引入外部脚本（源码不变）
 // ==============================================
 eval(file.readTextSync("lib/file.js"));
+eval(file.readTextSync("lib/ocr.js"));
 eval(file.readTextSync("lib/autoPick.js"));
 eval(file.readTextSync("lib/exp.js"));
 eval(file.readTextSync("lib/backStats.js"));
@@ -851,35 +852,63 @@ function filterLowCountMaterials(pathingMaterialCounts, materialCategoryMap) {
 
   // 提取所有需要扫描的材料（含怪物材料）
   const allMaterials = Object.values(materialCategoryMap).flat();
+  log.info(`【材料基准】本次需扫描的全量材料：${allMaterials.join("、")}`);
 
-  const filteredMaterials = pathingMaterialCounts
-    .filter(item =>
-      allMaterials.includes(item.name) &&
-      (item.count < targetCount || item.count === "?")
-    )
+  // ========== 第一步：平行判断超量材料（原始数据，不经过低数量过滤） ==========
+  pathingMaterialCounts.forEach(item => {
+    // 只处理allMaterials内的材料（同源）
+    if (!allMaterials.includes(item.name)) return;
+    // 未知数量（?）不判断超量
+    if (item.count === "?") return;
+
+    // 矿石数量特殊处理（和低数量筛选的处理逻辑一致）
+    let processedCount = Number(item.count);
+    if (specialMaterials.includes(item.name)) {
+      processedCount = Math.floor(processedCount / 10);
+    }
+
+    // 超量判断（平行逻辑：只要≥阈值就标记，和低数量无关）
+    if (processedCount >= EXCESS_THRESHOLD) {
+      tempExcess.push(item.name);
+      log.debug(`【超量标记】${item.name} 原始数量：${item.count} → 处理后：${processedCount} ≥ 阈值${EXCESS_THRESHOLD}，标记为超量`);
+    }
+  });
+
+  // ========== 第二步：平行筛选低数量材料（原有逻辑保留） ==========
+  const filteredLowCountMaterials = pathingMaterialCounts
+    .filter(item => {
+      // 只处理allMaterials内的材料（同源）
+      if (!allMaterials.includes(item.name)) return false;
+      // 低数量判断：<目标值 或 数量未知（?）
+      return item.count < targetCount || item.count === "?";
+    })
     .map(item => {
       // 矿石数量÷10
       let processedCount = item.count;
       if (specialMaterials.includes(item.name) && item.count !== "?") {
         processedCount = Math.floor(Number(item.count) / 10);
       }
-
-      // 判断是否超量（用处理后数量对比阈值）
-      if (item.count !== "?" && processedCount >= EXCESS_THRESHOLD) {
-        tempExcess.push(item.name); // 记录超量材料名
-      }
-
       return { ...item, count: processedCount };
     });
 
   tempExcess.push("OCR启动"); // 添加特殊标记，用于终止OCR等待
-  // 更新全局超量名单（去重）
+
+  // ========== 第三步：更新全局超量名单（去重） ==========
   excessMaterialNames = [...new Set(tempExcess)];
   log.info(`【超量材料更新】共${excessMaterialNames.length}种：${excessMaterialNames.join("、")}`);
+  log.info(`【低数量材料】筛选后共${filteredLowCountMaterials.length}种：${filteredLowCountMaterials.map(m => m.name).join("、")}`);
 
-  return filteredMaterials;
+  // 返回低数量材料（超量名单已独立生成）
+  return filteredLowCountMaterials;
 }
-
+// 极简封装：用路径和当前目标发通知，然后执行路径
+async function runPathAndNotify(pathingFilePath, currentMaterialName) {
+  const pathName = basename(pathingFilePath); // 取路径名
+  if (notify) { // 只在需要通知时执行
+    notification.Send(`当前执行路径：${pathName}\n目标：${currentMaterialName || '未知'}`);
+  }
+  return await pathingScript.runFile(pathingFilePath); // 执行路径
+}
 // ==============================================
 // 路径处理（拆分巨型函数）
 // ==============================================
@@ -911,7 +940,7 @@ async function processFoodPathEntry(entry, accumulators, recordDir, noRecordDir)
   // 执行路径
   const startTime = new Date().toLocaleString();
   const initialPosition = genshin.getPositionFromMap();
-  await pathingScript.runFile(pathingFilePath);
+  await runPathAndNotify(pathingFilePath, currentMaterialName);
   const finalPosition = genshin.getPositionFromMap();
   const finalCumulativeDistance = calculateDistance(initialPosition, finalPosition);
   const endTime = new Date().toLocaleString();
@@ -1024,7 +1053,7 @@ async function processMonsterPathEntry(entry, context) {
 
     const startTime = new Date().toLocaleString();
     const initialPosition = genshin.getPositionFromMap();
-    await pathingScript.runFile(pathingFilePath);
+    await runPathAndNotify(pathingFilePath, currentMaterialName);
     const finalPosition = genshin.getPositionFromMap();
     const finalCumulativeDistance = calculateDistance(initialPosition, finalPosition);
     const endTime = new Date().toLocaleString();
@@ -1049,7 +1078,7 @@ async function processMonsterPathEntry(entry, context) {
 
     const startTime = new Date().toLocaleString();
     const initialPosition = genshin.getPositionFromMap();
-    await pathingScript.runFile(pathingFilePath);
+    await runPathAndNotify(pathingFilePath, currentMaterialName);
     const finalPosition = genshin.getPositionFromMap();
     const finalCumulativeDistance = calculateDistance(initialPosition, finalPosition);
     const endTime = new Date().toLocaleString();
@@ -1171,7 +1200,7 @@ async function processNormalPathEntry(entry, context) {
 
     const startTime = new Date().toLocaleString();
     const initialPosition = genshin.getPositionFromMap();
-    await pathingScript.runFile(pathingFilePath);
+    await runPathAndNotify(pathingFilePath, currentMaterialName);
     const finalPosition = genshin.getPositionFromMap();
     const finalCumulativeDistance = calculateDistance(initialPosition, finalPosition);
     const endTime = new Date().toLocaleString();
@@ -1195,7 +1224,7 @@ async function processNormalPathEntry(entry, context) {
 
     const startTime = new Date().toLocaleString();
     const initialPosition = genshin.getPositionFromMap();
-    await pathingScript.runFile(pathingFilePath);
+    await runPathAndNotify(pathingFilePath, currentMaterialName);
     const finalPosition = genshin.getPositionFromMap();
     const finalCumulativeDistance = calculateDistance(initialPosition, finalPosition);
     const endTime = new Date().toLocaleString();
@@ -1499,8 +1528,9 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
 
     // 1. 怪物材料筛选（复用全量扫描结果）
     log.info(`${CONSTANTS.LOG_MODULES.MONSTER}[怪物材料] 基于全量扫描结果筛选有效材料`);
-    const filteredMonsterMaterials = filterLowCountMaterials(allMaterialCounts.flat(), materialCategoryMap); // 复用结果
-    const validMonsterMaterialNames = filteredMonsterMaterials.map(m => m.name);
+    const filteredMaterials = filterLowCountMaterials(allMaterialCounts.flat(), materialCategoryMap); // 仅调用一次！
+    // 怪物材料复用结果
+    const validMonsterMaterialNames = filteredMaterials.map(m => m.name);
     log.info(`${CONSTANTS.LOG_MODULES.MONSTER}[怪物材料] 筛选后有效材料：${validMonsterMaterialNames.join('、')}`);
 
     // 2. 普通材料筛选（同样复用全量扫描结果，无需再次扫描）
@@ -1509,7 +1539,7 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
       return { allPaths: [], pathingMaterialCounts };
 }
     log.info(`${CONSTANTS.LOG_MODULES.PATH}[普通材料] 基于全量扫描结果筛选低数量材料`);
-    const lowCountMaterialsFiltered = filterLowCountMaterials(allMaterialCounts.flat(), materialCategoryMap); // 复用结果
+    const lowCountMaterialsFiltered = filteredMaterials; // 复用第一次的结果！
     const flattenedLowCountMaterials = lowCountMaterialsFiltered.flat().sort((a, b) => a.count - b.count);
     const lowCountMaterialNames = flattenedLowCountMaterials.map(material => material.name);
 
@@ -1656,20 +1686,23 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
       const targetTexts = targetTextCategories[categoryName];
       allTargetTexts = allTargetTexts.concat(Object.values(targetTexts).flat());
     }
-  // 关键补充：等待超量名单生成（由filterLowCountMaterials更新）
-  let waitTimes = 0;
-  while (excessMaterialNames.length === 0 && !state.cancelRequested && waitTimes < 100) { 
-    await sleep(1000); // 每1秒查一次
-    waitTimes++;
-  }
-  // 若收到终止信号，直接退出OCR任务（不再执行后续逻辑）
-  if (state.cancelRequested) {
-    log.info(`${CONSTANTS.LOG_MODULES.MAIN}OCR任务收到终止信号，已退出`);
-    return;
-  }
-  // 现在过滤才有效（确保excessMaterialNames已生成）
-  allTargetTexts = allTargetTexts.filter(name => !excessMaterialNames.includes(name));
-  log.info(`OCR最终目标文本（已过滤超量）：${allTargetTexts.join('、')}`);
+
+    // 关键补充：等待超量名单生成（由filterLowCountMaterials更新）
+    let waitTimes = 0;
+    while (excessMaterialNames.length === 0 && !state.cancelRequested && waitTimes < 100) { 
+      await sleep(1000); // 每1秒查一次
+      waitTimes++;
+    }
+    // 若收到终止信号，直接退出OCR任务（不再执行后续逻辑）
+    if (state.cancelRequested) {
+      log.info(`${CONSTANTS.LOG_MODULES.MAIN}OCR任务收到终止信号，已退出`);
+      return;
+    }
+    // 现在过滤才有效（确保excessMaterialNames已生成）
+    allTargetTexts = allTargetTexts.filter(name => !excessMaterialNames.includes(name));
+    log.info(`超量名单：${excessMaterialNames.join('、')}`);
+    log.info(`OCR最终目标文本（已过滤超量）：${allTargetTexts.join('、')}`);
+
     await alignAndInteractTarget(allTargetTexts, fDialogueRo, textxRange, texttolerance);
   })();
 
