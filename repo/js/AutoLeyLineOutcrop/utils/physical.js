@@ -30,6 +30,7 @@ const MinPhysical = settings.minPhysical?parseInt(settings.minPhysical+''):parse
 const OpenModeCountMin = settings.openModeCountMin
 const AlreadyRunsCount=0
 const NeedRunsCount=0
+const TemplateOrcJson={x: 1568, y: 16, width: 225, height: 60,}
 //====================================================
 /**
  * 根据键值获取JSON路径
@@ -114,10 +115,10 @@ async function ocrPhysical(opToMainUi = false) {
     let jsonPath = getJsonPath('yue');
     let tmJson = {
         path: `${jsonPath.path}${jsonPath.name}${jsonPath.type}`,
-        x: 1219,
-        y: 30,
-        width: 300,
-        height: 52,
+        x: TemplateOrcJson.x,
+        y: TemplateOrcJson.y,
+        width: TemplateOrcJson.width,
+        height: TemplateOrcJson.height,
     }
     let templateMatchButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${tmJson.path}`), tmJson.x, tmJson.y, tmJson.width, tmJson.height);
     // let region =
@@ -125,8 +126,8 @@ async function ocrPhysical(opToMainUi = false) {
     // let button = region.find(yueRo);
     await sleep(ms)
     if (!button.isExist()) {
-        log.error(`未找到${tmJson.path}请检查路径是否正确`)
-        throwError(`未找到请检查路径是否正确`)
+        log.error(`${tmJson.path} 匹配异常`)
+        throwError(`${tmJson.path} 匹配异常`)
     }
     // region.Dispose()
 
@@ -135,18 +136,18 @@ async function ocrPhysical(opToMainUi = false) {
     let jsonPath2 = getJsonPath('200');
     let tmJson2 = {
         path: `${jsonPath2.path}${jsonPath2.name}${jsonPath2.type}`,
-        x: 1600,
-        y: 20,
-        width: 1920 - 1600,
-        height: 52,
+        x: TemplateOrcJson.x,
+        y: TemplateOrcJson.y,
+        width: TemplateOrcJson.width,
+        height: TemplateOrcJson.height,
     }
     let templateMatchButtonRo2 = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${tmJson2.path}`), tmJson2.x, tmJson2.y, tmJson2.width, tmJson2.height);
     // let region2 = captureGameRegion()
     let button2 = captureGameRegion().find(templateMatchButtonRo2);
     await sleep(ms)
     if (!button2.isExist()) {
-        log.error(`未找到${tmJson2.path}请检查路径是否正确`)
-        throwError(`未找到${tmJson2.path}，请检查路径是否正确`)
+        log.error(`${tmJson2.path} 匹配异常`)
+        throwError(`${tmJson2.path} 匹配异常`)
     }
     // region2.Dispose()
 
