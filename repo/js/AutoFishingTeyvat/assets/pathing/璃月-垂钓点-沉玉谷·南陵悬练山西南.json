@@ -1,0 +1,62 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 璃月\n类型: 垂钓点\n详细位置: 沉玉谷·南陵悬练山西南\n鱼类: 甜甜花鳉、擒霞客、赤魔王、金赤假龙、玉玉心羽鲈\n饵类: 果酿饵、赤糜饵、飞蝇假饵、酸桔饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764506207904,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "璃月-垂钓点-沉玉谷·南陵悬练山西南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.2"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2257.07,
+      "y": 934.98
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2275.92,
+      "y": 927.3
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2297.46,
+      "y": 911.72
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2303.76,
+      "y": 908.06
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "info": {
+    "name": "自动钓鱼路线-枫丹-伊黎耶林区南岸",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "鸿羽er",
+        "links": "https://github.com/evildoer12138"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3377.08,
+      "y": 3292.24,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3408.88,
+      "y": 3302.0,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3433.76,
+      "y": 3256.0,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 3426.5,
+      "y": 3200.25,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 3423.25,
+      "y": 3177.0,
+      "move_mode": "run",
+      "type": "path",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 3416.63,
+      "y": 3164.62,
+      "move_mode": "climb",
+      "type": "path",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "action": "",
+      "move_mode": "climb",
+      "type": "target",
+      "x": 3414.25,
+      "y": 3160.75,
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "action": "fishing",
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3403.8,
+      "y": 3143.7,
+      "action_params": ""
+    }
+  ]
+}

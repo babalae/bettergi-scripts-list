@@ -1,0 +1,98 @@
+{
+  "info": {
+    "name": "璃月-03-宗室本北-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "愚溪",
+        "links": "https://github.com/Kupder"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1436.31,
+      "y": 1289.95
+    },
+    {
+      "id": 2,
+      "x": 1430.54,
+      "y": 1303.15,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 1416.57,
+      "y": 1310.83,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 1410.47,
+      "y": 1321.06,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 1369.42,
+      "y": 1358.55,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 6,
+      "x": 1375.37,
+      "y": 1364.61,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)"
+    },
+    {
+      "id": 7,
+      "x": 1376.99,
+      "y": 1360.14,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": 1373.06,
+      "y": 1366.23,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x": 1377.5,
+      "y": 1370.3,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 10,
+      "x": 1374.32,
+      "y": 1370.76,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

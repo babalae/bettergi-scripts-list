@@ -1,0 +1,97 @@
+{
+  "info": {
+    "name": "25-海露花-枫丹-中央实验室遗址3-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "芭芭拉"
+    ],
+    "last_modified_time": 1755415679554,
+    "authors": [
+      {
+        "name": "寥寥轻舟"
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3811.67,
+      "y": 4952.62,
+      "action": "hydro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3763.1,
+      "y": 4906.28,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 charge(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3759.48,
+      "y": 4902.67,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3682.44,
+      "y": 4918.41,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3621.71,
+      "y": 4882.75,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3572.02,
+      "y": 4882.94,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3563.39,
+      "y": 4886.96,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1);芭芭拉 e;",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 3558.73,
+      "y": 4888.11,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "s(1)",
+      "type": "path",
+      "locked": false
+    }
+  ]
+}

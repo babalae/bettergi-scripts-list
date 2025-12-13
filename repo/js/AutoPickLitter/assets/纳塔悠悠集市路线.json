@@ -1,0 +1,152 @@
+﻿{
+  "info": {
+    "name": "纳塔悠悠集市路线",
+    "bgi_version": "0.45.0",
+    "type": "collect",
+    "order": 0,
+    "tags": [],
+    "enable_monster_loot_split": false,
+    "map_name": "Teyvat",
+    "map_match_method": "",
+    "items": [],
+    "authors": [
+      {
+        "name": "古又",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "领取龙蛋",
+    "last_modified_time": 1755440920507
+  },
+  "config": {
+    "realtime_triggers": {
+      "AutoPick": true
+    }
+  },
+  "farming_info": {
+    "allow_farming_count": false,
+    "normal_mob_count": 0,
+    "elite_mob_count": 0,
+    "primary_target": "",
+    "duration_seconds": 0,
+    "elite_details": "",
+    "total_mora": 0
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 13979.1865234375,
+      "y": 470.8291015625,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "",
+        "enable_monster_loot_split": false
+      }
+    },
+    {
+      "id": 2,
+      "x": 13964.6474609375,
+      "y": 457.3974609375,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "",
+        "enable_monster_loot_split": false
+      }
+    },
+    {
+      "id": 3,
+      "x": 13960.3623046875,
+      "y": 453.92626953125,
+      "action": "",
+      "move_mode": "jump",
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "",
+        "enable_monster_loot_split": false
+      }
+    },
+    {
+      "id": 4,
+      "x": 13941.265625,
+      "y": 434.55224609375,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "",
+        "enable_monster_loot_split": false
+      }
+    },
+    {
+      "id": 5,
+      "x": 13934.8505859375,
+      "y": 426.47900390625,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "",
+        "enable_monster_loot_split": false
+      }
+    },
+    {
+      "id": 6,
+      "x": 13919.9755859375,
+      "y": 411.5107421875,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "",
+        "enable_monster_loot_split": false
+      }
+    }
+  ]
+}

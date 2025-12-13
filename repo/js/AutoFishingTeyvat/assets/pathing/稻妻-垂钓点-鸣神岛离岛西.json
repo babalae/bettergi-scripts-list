@@ -1,0 +1,71 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 稻妻\n类型: 垂钓点\n详细位置: 鸣神岛离岛西\n鱼类: 琉璃花鳉、肺棘鱼、赤魔王、炮鲀、苦炮鲀\n饵类: 果酿饵、赤糜饵、飞蝇假饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764496604308,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "稻妻-垂钓点-鸣神岛离岛西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.2"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3635.69,
+      "y": -2531.05
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3672.15,
+      "y": -2554.0
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -3679.47,
+      "y": -2542.05
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -3684.49,
+      "y": -2543.76
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -3688.56,
+      "y": -2546.53
+    }
+  ]
+}

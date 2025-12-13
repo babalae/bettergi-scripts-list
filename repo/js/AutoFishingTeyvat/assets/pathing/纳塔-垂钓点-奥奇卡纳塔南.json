@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "纳塔-垂钓点-奥奇卡纳塔南",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.3",
+    "description": "地区: 纳塔\n类型: 垂钓点\n详细位置: 奥奇卡纳塔南\n鱼类: 花鳉、繁花斗士急流鱼、深潜斗士急流鱼、青浪翻车鲀、晚霞翻车鲀\n饵类: 果酿饵、澄晶果粒饵\n附加信息: 普通",
+    "bgi_version": "0.42.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9715.53,
+      "y": -847.85,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9720.81,
+      "y": -862.49,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9722.94,
+      "y": -881.93,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(space),wait(1.5),attack(0.1)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9724.38,
+      "y": -887.87,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "type": "path"
+    }
+  ]
+}

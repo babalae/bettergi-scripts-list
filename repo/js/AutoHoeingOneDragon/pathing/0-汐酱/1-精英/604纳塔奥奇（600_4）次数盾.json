@@ -1,0 +1,159 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时208.56秒，包含以下怪物：4只深邃拟覆叶。",
+    "hash_res": "95488855",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760205755349,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "604纳塔奥奇（600_4）次数盾",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10165.76,
+      "y": -395.59000000000015
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10201.94,
+      "y": -404.75
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10223.875,
+      "y": -408.68721226996877
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10242.1,
+      "y": -448.97000000000025
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10254.87,
+      "y": -443.6800000000003
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10250.466796875,
+      "y": -473.97265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10271.4013671875,
+      "y": -502.0927734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10301.75,
+      "y": -506.75
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10313.94,
+      "y": -526.4400000000005
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10299.31,
+      "y": -558.6900000000005
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10276.1,
+      "y": -565.5799999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10275.63,
+      "y": -571.1099999999997
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(4)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10276.1,
+      "y": -559.5799999999999
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10276.1,
+      "y": -559.5799999999999
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10276.1,
+      "y": -559.5799999999999
+    }
+  ]
+}

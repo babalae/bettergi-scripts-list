@@ -1,0 +1,102 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757244411101,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "09-须弥-帕蒂沙兰-觉王之殿下方-3朵",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "teleport",
+      "x": 3592.0,
+      "y": -787.3306
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3584.0,
+      "y": -754.75
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3582.0723,
+      "y": -716.9102
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3586.916,
+      "y": -712.2134
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3594.4375,
+      "y": -703.2739
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3604.375,
+      "y": -705.9375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3623.2578,
+      "y": -710.4868
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.8)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3620.5674,
+      "y": -715.1758
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "teleport",
+      "x": 3592.0,
+      "y": -787.3306
+    }
+  ]
+}

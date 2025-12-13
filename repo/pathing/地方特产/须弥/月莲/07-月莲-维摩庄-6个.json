@@ -1,0 +1,133 @@
+{
+  "info": {
+    "name": "07-月莲-维摩庄-6个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "芙宁娜"
+    ],
+    "last_modified_time": 1751168807019,
+    "authors": [
+      {
+        "name": "tignioj"
+      },
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2794.12,
+      "y": -1216.44,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 2827.14,
+      "y": -1162.23,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 2872.96,
+      "y": -1134.97,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 2913.22,
+      "y": -1132.97,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 2947.61,
+      "y": -1117.85,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 2943.14,
+      "y": -1127.28,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 2942.22,
+      "y": -1135.94,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芙宁娜 attack,e(wait)"
+    },
+    {
+      "id": 8,
+      "x": 2948.13,
+      "y": -1127.76,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target",
+      "locked": true
+    },
+    {
+      "id": 9,
+      "x": 2949.87,
+      "y": -1136.94,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 2957.83,
+      "y": -1127.46,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 2957.18,
+      "y": -1121.97,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 2956.52,
+      "y": -1116.61,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target",
+      "locked": false
+    }
+  ]
+}

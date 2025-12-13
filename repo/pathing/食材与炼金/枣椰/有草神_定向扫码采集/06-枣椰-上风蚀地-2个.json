@@ -1,0 +1,95 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "约1分钟6秒/2个",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764003391801,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "06-枣椰-上风蚀地-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4475.0957,
+      "y": -2915.5889
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4476.5938,
+      "y": -2894.4756
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "3500",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 4448.1289,
+      "y": -2823.6641
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2750",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4463.7734,
+      "y": -2834.8447
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4471.3281,
+      "y": -2837.4141
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_X);迪希雅 wait(0.3),keypress(VK_E),wait(0.3),keypress(VK_E),wait(0.1);",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4505.6133,
+      "y": -2833.7393
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4505.6133,
+      "y": -2833.7393
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_X);迪希雅 wait(0.01)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4505.0,
+      "y": -2833.0
+    }
+  ]
+}

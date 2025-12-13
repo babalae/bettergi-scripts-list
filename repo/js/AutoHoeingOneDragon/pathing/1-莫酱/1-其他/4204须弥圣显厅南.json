@@ -1,0 +1,95 @@
+{
+  "info": {
+    "name": "4204须弥圣显厅南",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "mno",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时59.52秒，包含以下怪物：1只镀金旅团·刀舞者、1只镀金旅团·炽阳凝冰、1只镀金旅团·白日鸣雷。",
+    "hash_res": "62910228",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752332384592,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4777.59619140625,
+      "y": -1434.33447265625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4747.89990234375,
+      "y": -1443.3154296875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4750.2041015625,
+      "y": -1472.65283203125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4751.0341796875,
+      "y": -1491.1083984375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4757.4287109375,
+      "y": -1521.546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "up_down_grab_leaf",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4738.5078125,
+      "y": -1533.74462890625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "up_down_grab_leaf",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 4728.2568359375,
+      "y": -1556.125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 4728.2568359375,
+      "y": -1556.125,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

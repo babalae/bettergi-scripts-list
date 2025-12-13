@@ -1,0 +1,105 @@
+[
+  {
+    "name": "target_amount",
+    "type": "input-text",
+    "default": 480,
+    "label": "终止条件，满足任一条件即停止\n---------------------------------------------------------------\n      1. 挖矿的个数，空表示无限制👇"
+  },
+  {
+    "name": "target_running_minutes",
+    "type": "input-text",
+    "label": "      2. 运行分钟数，如120，空表示无限制👇"
+  },
+  {
+    "name": "time_range",
+    "type": "input-text",
+    "label": "      3. 只在此时间段内运行，如23:30~03:50，空表示无限制👇"
+  },
+  {
+    "name": "fight_option",
+    "type": "select",
+    "label": "---------------------------------------------------------------\n需要战斗的路线👇",
+    "options": [
+      "正常挖",
+      "只跳过与精英怪战斗的路线",
+      "全跳过"
+    ],
+    "default": "正常挖"
+  },
+  {
+    "name": "exclude_nod_krai",
+    "type": "checkbox",
+    "label": "不挖挪德卡莱👇"
+  },
+  {
+    "name": "exclude_natlan",
+    "type": "checkbox",
+    "label": "不挖纳塔👇"
+  },
+  {
+    "name": "exclude_fontaine_underwater",
+    "type": "checkbox",
+    "label": "不挖枫丹水下👇"
+  },
+  {
+    "name": "exclude_fontaine_terrestrial",
+    "type": "checkbox",
+    "label": "不挖枫丹地上👇"
+  },
+  {
+    "name": "exclude_sumeru",
+    "type": "checkbox",
+    "default": true,
+    "label": "不挖须弥👇"
+  },
+  {
+    "name": "exclude_inazuma",
+    "type": "checkbox",
+    "label": "不挖稻妻👇"
+  },
+  {
+    "name": "exclude_liyue",
+    "type": "checkbox",
+    "label": "不挖璃月👇"
+  },
+  {
+    "name": "exclude_chasm_underground",
+    "type": "checkbox",
+    "label": "不挖层岩巨渊地下矿区👇"
+  },
+  {
+    "name": "exclude_mondstadt",
+    "type": "checkbox",
+    "label": "不挖蒙德👇"
+  },
+  {
+    "name": "exclude_crystal_chunks",
+    "type": "checkbox",
+    "label": "不挖水晶块👇"
+  },
+  {
+    "name": "exclude_condessence_crystals",
+    "type": "checkbox",
+    "label": "不挖萃凝晶👇"
+  },
+  {
+    "name": "exclude_amethyst_lumps",
+    "type": "checkbox",
+    "label": "不挖紫晶块👇"
+  },
+  {
+    "name": "exclude_rainbowdrop_crystals",
+    "type": "checkbox",
+    "label": "不挖虹滴晶👇"
+  },
+  {
+     "name": "custom_mining_action",
+     "type": "input-text",
+     "label": "自定义挖矿动作，不建议填，详见README"
+  },
+  {
+    "name": "profile_id",
+    "type": "input-text",
+    "label": "（仅多帐号适用）区分帐号的唯一ID"
+  }
+]

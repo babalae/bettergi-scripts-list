@@ -1,0 +1,108 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 蒙德\n类型: 垂钓点\n详细位置: 苍风高地晨曦酒庄西南\n鱼类: 蓝染花鳉、擒霞客、鸩棘鱼、赤魔王、流纹茶蝶鱼、炮鲀、苦炮鲀\n饵类: 果酿饵、赤糜饵、蠕虫假饵、飞蝇假饵\n附加信息: 战斗",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764497110124,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蒙德-垂钓点-苍风高地晨曦酒庄西南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.2"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -321.65,
+      "y": 1472.26
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -324.01,
+      "y": 1493.99
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -325.27,
+      "y": 1532.57
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -314.55,
+      "y": 1557.49
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -288.38,
+      "y": 1598.5
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -233.0,
+      "y": 1710.13
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -230.75,
+      "y": 1708.75
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -234.0,
+      "y": 1704.12
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -240.91,
+      "y": 1703.85
+    }
+  ]
+}

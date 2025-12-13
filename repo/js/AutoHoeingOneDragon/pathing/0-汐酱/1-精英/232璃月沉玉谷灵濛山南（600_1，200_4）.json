@@ -1,0 +1,114 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时137.15秒，包含以下怪物：1只丘丘岩盔王、2只幼岩龙蜥、2只玄文兽。",
+    "hash_res": "01480954",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763017893890,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "232璃月沉玉谷灵濛山南（600_1，200_4）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2002.369999999999,
+      "y": 2081.0300000000007
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1979.2900000000009,
+      "y": 2074.01
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1969.369999999999,
+      "y": 2066.49
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1938.4599999999991,
+      "y": 2042.7799999999988
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1905.0107421875,
+      "y": 2030.8798828125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1872.421875,
+      "y": 2036.94580078125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1868.6900000000005,
+      "y": 2059.630000000001
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2002.3899999999994,
+      "y": 2081.040000000001
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1973.8600000000006,
+      "y": 2117.49
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1967.8400000000001,
+      "y": 2151.3899999999994
+    }
+  ]
+}
