@@ -15,6 +15,7 @@ const mainUITemplate = file.ReadImageMatSync("assets/MainUI.png");
 const itemFullTemplate = file.ReadImageMatSync("assets/itemFull.png");
 const fIcontemplate = file.ReadImageMatSync("assets/F_Dialogue.png");
 const accountName = settings.infoFileName || "默认账户";
+let currentParty = '';
 
 // 定义目标文件夹路径和记录文件路径
 const recordFolder = "record"; // 存储记录文件的文件夹路径
@@ -613,10 +614,6 @@ let underWater = false;
                 "烬芯花": "1次0点刷新"
             };
 
-
-
-            let changedParty = false;
-
             /* ---------- 3. 主循环 ---------- */
             while (priorityList.length > 0) {
 
@@ -720,10 +717,26 @@ let underWater = false;
                 const targetObj = cdMap.get(fullName);
                 const startTime = new Date();
 
-                if (!changedParty && settings.priorityItemsPartyName) {
-                    await switchPartyIfNeeded(settings.priorityItemsPartyName);
-                    changedParty = true;
+                /* ---------- 智能选队：按路线所在文件夹反查路径组 ---------- */
+                {
+                    const fullPath = bestRoute.fullPath;                            // 例：pathing/须弥/xxx.json
+                    const folderName = fullPath.split(/\\|\//).slice(-2, -1)[0];    // 倒数第二层文件夹名
+                    let targetParty = '';                                           // 最终要用的队伍名
+
+                    const groupCount = Math.min(99, Math.max(1, parseInt(settings.groupCount || '3')));
+                    for (let g = 1; g <= groupCount; g++) {                         // 遍历路径组
+                        if (settings[`pathGroup${g}FolderName`] === folderName) {   // 找到归属组
+                            targetParty = settings[`pathGroup${g}PartyName`] || '';
+                            break;                                                  // 命中即停
+                        }
+                    }
+                    if (!targetParty) targetParty = settings.priorityItemsPartyName || ''; // 回退
+                    if (targetParty) {
+                        await switchPartyIfNeeded(targetParty);
+                        log.info(`优先采集阶段选用配队：${targetParty}（文件夹：${folderName}）`);
+                    }
                 }
+
                 let timeNow = new Date();
                 if (Foods.length != 0 && (((timeNow - lastCookTime) > cookInterval) || firstCook)) {
                     firstCook = false;
@@ -886,7 +899,6 @@ let underWater = false;
 
                     try {
                         const filePaths = groupFiles.map(f => f.fullPath);
-                        let changedParty = false;
 
                         /* ================== 提前计算分均效率（所有模式通用） ================== */
                         // 0) 解析优先关键词
@@ -1041,10 +1053,8 @@ let underWater = false;
                                 lastsettimeTime = new Date();
                             }
 
-                            if (!changedParty) {
-                                await switchPartyIfNeeded(partyNames[groupNumber - 1]);
-                                changedParty = true;
-                            }
+                            await switchPartyIfNeeded(partyNames[groupNumber - 1]);
+
                             await fakeLog(fileName, false, true, 0);
 
                             /* ========== 历史拾取物前置排序 ========== */
@@ -1592,22 +1602,41 @@ async function readFolder(folderPath, onlyJson) {
     return files;
 }
 
-//切换队伍
+/**
+ * 带缓存的配队切换函数
+ * 如果目标配队与 currentParty 一致则跳过；否则真正切换并更新 currentParty。
+ * @param {string} partyName 期望切换到的配队名称
+ */
 async function switchPartyIfNeeded(partyName) {
-    if (!partyName) {
+    if (!partyName) {                       // 空名直接回主界面
         await genshin.returnMainUi();
         return;
     }
+
+    if (partyName === currentParty) {       // 缓存命中，跳过切换
+        await genshin.returnMainUi();
+        return;
+    }
+
+    /* 真正切换 */
     try {
-        log.info("正在尝试切换至" + partyName);
-        if (!await genshin.switchParty(partyName)) {
-            log.info("切换队伍失败，前往七天神像重试");
+        log.info(`正在尝试切换至配队「${partyName}」`);
+        let success = await genshin.switchParty(partyName);
+        if (!success) {                     // 第一次失败，去神像再试一次
+            log.info('切换失败，前往七天神像重试');
             await genshin.tpToStatueOfTheSeven();
-            await genshin.switchParty(partyName);
+            success = await genshin.switchParty(partyName);
         }
-    } catch {
-        log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
-        notification.error(`队伍切换失败，可能处于联机模式或其他不可切换状态`);
+
+        if (success) {                      // 切换成功，更新缓存
+            currentParty = partyName;
+            log.info(`已切换至配队「${partyName}」并更新缓存`);
+        } else {
+            throw new Error('两次切换均失败');
+        }
+    } catch (e) {
+        log.error('队伍切换失败，可能处于联机模式或其他不可切换状态');
+        notification.error('队伍切换失败，可能处于联机模式或其他不可切换状态');
         await genshin.returnMainUi();
     }
 }
