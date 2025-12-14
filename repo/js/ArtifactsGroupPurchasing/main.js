@@ -20,6 +20,7 @@ let gameRegion;
 let TMthreshold = +settings.TMthreshold || 0.9;
 let doRunExtra = false;
 let expGain;
+let skipRunning = false;
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
@@ -329,6 +330,9 @@ async function runGroupPurchasing(runExtra) {
         }
 
         log.warn("等待队友就绪超时");
+        if (settings.onlyRunPerfectly === "确认启用强迫症模式") {
+            skipRunning = true;
+        }
         return false;
     }
 
@@ -512,6 +516,12 @@ async function runGroupPurchasing(runExtra) {
             log.warn(`文件夹 ${folderPath} 下未找到任何 JSON 路线文件`);
             return;
         }
+        if (skipRunning) {
+            log.info(`强迫症模式启用中，队友不齐或未及时到位，跳过所有路线`);
+            notification.send(`强迫症模式启用中，队友不齐或未及时到位，跳过所有路线`);
+            await sleep(10000);
+            return;
+        }
         if (!settings.runDebug) {
             for (const { fullPath } of files) {
                 await runPath(fullPath, 1);
@@ -533,6 +543,13 @@ async function runGroupPurchasing(runExtra) {
 
         if (files.length === 0) {
             log.warn(`文件夹 ${folderPath} 下未找到任何 JSON 路线文件`);
+            return;
+        }
+
+        if (skipRunning) {
+            log.info(`强迫症模式启用中，队友不齐或未及时到位，跳过所有路线`);
+            notification.send(`强迫症模式启用中，队友不齐或未及时到位，跳过所有路线`);
+            await sleep(10000);
             return;
         }
 
@@ -744,6 +761,9 @@ async function autoEnter(autoEnterSettings) {
     if (new Date() - start >= timeout * 60 * 1000) {
         log.warn("超时未达到预定人数");
         notification.error(`超时未达到预定人数`);
+        if (settings.onlyRunPerfectly === "确认启用强迫症模式") {
+            skipRunning = true;
+        }
     }
 
     async function confirmSearchResult() {
