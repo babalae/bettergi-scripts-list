@@ -144,11 +144,57 @@ async function runGatherMode() {
     let account = await get_profile_name();
     log.info("为{0}采集材料并管理CD", account);
 
+    // 1. 先检查是否有任何任务需要执行（CD已刷新）
+    let hasExpiredTask = false;
+    const defaultTimeValue = getDefaultTime();
+
+    for (const pathTask of selectedMaterials) {
+        const recordFile = getRecordFilePath(account, pathTask);
+        const jsonFiles = pathTask.jsonFiles;
+        
+        // 读取记录文件（与原始逻辑完全相同）
+        const recordMap = {};
+        try {
+            const text = file.readTextSync(recordFile);
+            for (const line of text.split("\n")) {
+                const [p, t] = line.trim().split("\t");
+                if (p && t) {
+                    recordMap[p] = new Date(t);
+                }
+            }
+        } catch (error) {
+            log.debug(`记录文件{0}不存在或格式错误`, recordFile);
+            // 记录文件不存在或格式错误，说明有任务需要执行
+            hasExpiredTask = true;
+            break;
+        }
+        
+        // 检查是否有文件过期（使用相同的保底机制）
+        for (const jsonPath of jsonFiles) {
+            const fileName = basename(jsonPath);
+            const lastTime = recordMap[fileName] || defaultTimeValue; // 相同的保底逻辑
+            if (Date.now() > lastTime) {
+                hasExpiredTask = true;
+                break;
+            }
+        }
+        
+        if (hasExpiredTask) {
+            break;
+        }
+    }
+    
+    if (!hasExpiredTask) {
+        log.info("所有选中的材料都还在冷却中，无需执行");
+        return;
+    }
+    
+    // 2. 有任务需要执行，现在才切换队伍
     await switchPartySafely(settings.partyName);
     currentParty = settings.partyName;
 
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
-    // 可在此处继续处理 selectedMaterials 列表
+    // 3. 执行所有选中的任务（原始函数内部会再次检查CD）
     try {
         for (const pathTask of selectedMaterials) {
             await runPathTaskIfCooldownExpired(account, pathTask);
