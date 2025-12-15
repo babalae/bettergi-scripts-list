@@ -742,6 +742,7 @@ let underWater = false;
                     firstCook = false;
                     await ingredientProcessing();
                     lastCookTime = new Date();
+                    underWater = false;
                 }
 
                 if (settings.setTimeMode && settings.setTimeMode != "不调节时间" && (((timeNow - lastsettimeTime) > settimeInterval) || firstsettime)) {
@@ -1041,6 +1042,7 @@ let underWater = false;
                                 firstCook = false;
                                 await ingredientProcessing();
                                 lastCookTime = new Date();
+                                underWater = false;
                             }
 
                             if (settings.setTimeMode && settings.setTimeMode != "不调节时间" && (((timeNow - lastsettimeTime) > settimeInterval) || firstsettime)) {
