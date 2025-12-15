@@ -720,7 +720,7 @@ let underWater = false;
                 /* ---------- 智能选队：按路线所在文件夹反查路径组 ---------- */
                 {
                     const fullPath = bestRoute.fullPath;                            // 例：pathing/须弥/xxx.json
-                    const folderName = fullPath.split(/\\|\//).slice(-2, -1)[0];    // 倒数第二层文件夹名
+                    const folderName = fullPath.split(/\\|\//)[1];   // 索引 1 就是第二层
                     let targetParty = '';                                           // 最终要用的队伍名
 
                     const groupCount = Math.min(99, Math.max(1, parseInt(settings.groupCount || '3')));
