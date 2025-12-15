@@ -792,11 +792,13 @@ let underWater = false;
                 }
                 state.running = false; await pickupTask;
                 await fakeLog(fileName, false, false, 0);
-                /* 4-3 扣除进度：别名→本名 */
                 state.runPickupLog.forEach(name => {
-                    const realName = other2Name.get(name) || name;   // 别名→本名
-                    if (priorityItemSet.has(name) || priorityItemSet.has(realName)) {
-                        pickedCounter[realName] = (pickedCounter[realName] || 0) + 1;
+                    /* 就地展开：别名→本名数组，再把所有相关名称都计数 */
+                    const realNames = alias2Names.get(name) || [name]; // 可能是多个本名
+                    for (const rn of realNames) {
+                        if (priorityItemSet.has(name) || priorityItemSet.has(rn)) {
+                            pickedCounter[rn] = (pickedCounter[rn] || 0) + 1;
+                        }
                     }
                 });
 
@@ -807,9 +809,9 @@ let underWater = false;
                     /* 1. 字面名（可能是别名）直接扣 */
                     picked += pickedCounter[task.itemName] || 0;
 
-                    /* 2. 别名→本名反向扣 */
-                    const realName = other2Name.get(task.itemName);
-                    if (realName) picked += pickedCounter[realName] || 0;
+                    /* 2. 别名→本名反向扣（多对一） */
+                    const realNames = alias2Names.get(task.itemName) || [];
+                    for (const rn of realNames) picked += pickedCounter[rn] || 0;
 
                     /* 3. 本名→别名顺向扣 */
                     const others = name2Other.get(task.itemName) || [];
