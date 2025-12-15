@@ -1,4 +1,3 @@
-
 /* ===== 强制模板匹配拾取（BEGIN） ===== */
 let targetItems = [];
 let blacklist = [];
@@ -22,7 +21,6 @@ const recordFolder = "record"; // 存储记录文件的文件夹路径
 const defaultTimeStamp = "2023-10-13T00:00:00.000Z"; // 固定的时间戳
 let pickupRecordFile;
 const MAX_PICKUP_DAYS = 30;
-
 
 // 从 settings 中读取用户配置，并设置默认值
 const userSettings = {
@@ -352,10 +350,14 @@ let underWater = false;
         targetItems = await loadTargetItems();
         /* ===== 别名索引 ===== */
         const name2Other = new Map();      // 本名 → 别名数组
-        const other2Name = new Map();      // 别名 → 本名
+        const alias2Names = new Map();     // 别名 → 本名数组（支持多对一）
         for (const it of targetItems) {
-            name2Other.set(it.itemName, it.otherName || []);
-            for (const a of (it.otherName || [])) other2Name.set(a, it.itemName);
+            const aliases = it.otherName || [];
+            name2Other.set(it.itemName, aliases);
+            for (const a of aliases) {
+                if (!alias2Names.has(a)) alias2Names.set(a, []);
+                alias2Names.get(a).push(it.itemName);   // 一个别名可指向多个本名
+            }
         }
 
         await loadBlacklist(true);
@@ -422,7 +424,6 @@ let underWater = false;
             log.error(`写入文件失败: ${recordFilePath}`);
         }
 
-
         if (typeof ingredientProcessingFood === 'string' && ingredientProcessingFood.trim()) {
             Foods = ingredientProcessingFood
                 .split(/[,，;；\s]+/)          // 支持中英文逗号、分号、空格
@@ -465,15 +466,23 @@ let underWater = false;
                 }
             } catch (_) { /* 文件不存在或解析失败 */ }
 
-            /* 扣除今日已拾取：别名→本名 */
+            /* 扣除今日已拾取：双向扣除 */
             for (let i = priorityList.length - 1; i >= 0; i--) {
                 const task = priorityList[i];
                 let got = 0;
-                /* 先算本名 */
+
+                /* 1. 字面名（可能是别名）直接扣 */
                 got += todayPicked[task.itemName] || 0;
-                /* 再算别名 */
+
+                /* 2. 如果字面名是别名，把对应本名也扣一遍 */
+                const realNames = alias2Names.get(task.itemName) || [];   // 现在是数组
+
+                for (const n of realNames) got += todayPicked[n] || 0;
+
+                /* 3. 如果字面名是本名，把所有别名再扣一遍 */
                 const others = name2Other.get(task.itemName) || [];
                 for (const a of others) got += todayPicked[a] || 0;
+
                 task.count -= got;
                 if (task.count <= 0) priorityList.splice(i, 1);
             }
@@ -617,16 +626,24 @@ let underWater = false;
             /* ---------- 3. 主循环 ---------- */
             while (priorityList.length > 0) {
 
+                /* 1. 先把用户填的字面名（可能是别名）全部弄进来 */
                 const priorityItemSet = new Set(priorityList.map(p => p.itemName));
-                for (const a of priorityItemSet) {
+
+                /* 2. 双向扩：本名↔别名 */
+                for (const a of [...priorityItemSet]) {          // 复制一份避免遍历过程中增长
+                    // 2.1 如果 a 是“本名”，把它的所有别名加进来（原来就有的逻辑）
                     const others = name2Other.get(a) || [];
-                    for (const o of others) priorityItemSet.add(o);   // 别名也加入
+                    for (const o of others) priorityItemSet.add(o);
+
+                    // 2.2 如果 a 是“别名”，把对应的本名加进来（新增反向）
+                    const realName = alias2Names.get(a) || [];
+                    for (const r of realName) priorityItemSet.add(r);
                 }
 
                 const pickedCounter = {};
                 priorityItemSet.forEach(n => pickedCounter[n] = 0);
                 /* ===== 每轮开始输出剩余物品 ===== */
-                log.info(`剩余目标材料 ${priorityList.map(t => `${t.itemName}*${t.count}`).join(', ')}`);
+                log.info(`剩余目标材料 ${priorityList.map(t => `${t.itemName}*${t.count}`).join(', ')} `);
                 /* 4-1 扫描 + 读 record + 前置过滤（禁用/时间/材料相关）+ 计算效率 + CD后置排除 */
                 const allFiles = await readFolder('pathing', true);
                 const rawRecord = await file.readText(`${recordFolder}/${subFolderName}/record.json`);
@@ -783,11 +800,24 @@ let underWater = false;
                     }
                 });
 
-                /* ===== 追加：立即把 pickedCounter 回写到 priorityList ===== */
+                /* ===== 追加：立即把 pickedCounter 回写到 priorityList（双向扣减）===== */
                 for (const task of priorityList) {
-                    const left = task.count - (pickedCounter[task.itemName] || 0);
-                    task.count = Math.max(0, left);   // 防止负数
+                    let picked = 0;
+
+                    /* 1. 字面名（可能是别名）直接扣 */
+                    picked += pickedCounter[task.itemName] || 0;
+
+                    /* 2. 别名→本名反向扣 */
+                    const realName = other2Name.get(task.itemName);
+                    if (realName) picked += pickedCounter[realName] || 0;
+
+                    /* 3. 本名→别名顺向扣 */
+                    const others = name2Other.get(task.itemName) || [];
+                    for (const a of others) picked += pickedCounter[a] || 0;
+
+                    task.count = Math.max(0, task.count - picked);
                 }
+
                 /* 倒序删除已达标项 */
                 for (let i = priorityList.length - 1; i >= 0; i--) {
                     if (priorityList[i].count <= 0) {
@@ -885,7 +915,7 @@ let underWater = false;
                 if (!currentCdType) continue;
 
                 const folder = folderNames[i - 1] || `路径组${i}`;
-                const targetFolder = `pathing/${folder}`;
+                const targetFolder = `pathing/${folder} `;
 
                 /* 运行期同样用 Map<fileName, 原对象> 只改 cdTime */
                 const rawRecord = await file.readText(recordFilePath);
@@ -1405,17 +1435,20 @@ async function loadTargetItems() {
             it.roi.InitTemplate();
 
             /* ---------- 2. 解析中括号内容 + 纯中文过滤 ---------- */
-            const otherNames = new Set();          // 用 Set 去重
-            // 2-1 中括号匹配
+            const otherNames = new Set();
+
+            // 一次性扫描完整路径里的所有 []
             for (const m of it.fullPath.matchAll(/\[(.*?)\]/g)) {
                 const pure = (m[1] || '').replace(/[^\u4e00-\u9fff]/g, '').trim();
                 if (pure) otherNames.add(pure);
             }
-            // 2-2 若 itemName 本身含非中文，也生成纯中文别名
+
+            // 若 itemName 本身含非中文，也生成纯中文别名
             const namePure = it.itemName.replace(/[^\u4e00-\u9fff]/g, '').trim();
             if (namePure && namePure !== it.itemName) otherNames.add(namePure);
 
-            it.otherName = Array.from(otherNames); // 转回数组
+            it.otherName = Array.from(otherNames);
+
         } catch (error) {
             log.error(`[loadTargetItems] ${it.fullPath}: ${error.message}`);
         }
@@ -2029,4 +2062,3 @@ async function appendDailyPickup(pickupLog) {
         log.error(`appendDailyPickup 写盘失败: ${error.message}`);
     }
 }
-
