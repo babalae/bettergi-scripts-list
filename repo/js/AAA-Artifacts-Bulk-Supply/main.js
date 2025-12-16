@@ -1112,10 +1112,10 @@ async function parsePathing(pathFilePath) {
             return { ok: false };
         }
 
-        // map_name 不存在时兜底为 "Teyvat"
+        // 从 info.map_name 读取，不存在时兜底为 "Teyvat"
         const map_name =
-            typeof json.map_name === 'string' && json.map_name.trim() !== ''
-                ? json.map_name
+            typeof json.info?.map_name === 'string' && json.info.map_name.trim() !== ''
+                ? json.info.map_name
                 : 'Teyvat';
 
         // 从后往前找第一个 type !== "orientation" 的点
