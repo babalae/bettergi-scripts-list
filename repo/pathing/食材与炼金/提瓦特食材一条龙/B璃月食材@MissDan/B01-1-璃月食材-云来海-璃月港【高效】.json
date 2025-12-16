@@ -7,15 +7,15 @@
       }
     ],
     "bgi_version": "0.52.0",
-    "description": "",
+    "description": "4个莲蓬；",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1761598885917,
+    "last_modified_time": 1760734574279,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B15-璃月食材-碧水源-无妄坡",
+    "name": "B01-1-璃月食材-云来海-璃月港【高效】",
     "tags": [],
     "type": "collect",
-    "version": "2.0"
+    "version": "3.0"
   },
   "positions": [
     {
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 386.125,
-      "y": 1688.9253
+      "x": 366.7148,
+      "y": -502.5122
     },
     {
       "action": "",
@@ -33,8 +33,8 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": 381.6035,
-      "y": 1691.0576
+      "x": 377.4072,
+      "y": -506.3633
     },
     {
       "action": "",
@@ -42,44 +42,44 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 365.1934,
-      "y": 1709.8379
+      "x": 391.1562,
+      "y": -520.335
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
-      "x": 344.1543,
-      "y": 1707.4067
+      "x": 402.1465,
+      "y": -509.4082
     },
     {
       "action": "",
       "action_params": "",
       "id": 5,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
-      "x": 302.3887,
-      "y": 1706.6001
+      "x": 401.4004,
+      "y": -491.957
     },
     {
-      "action": "stop_flying",
+      "action": "",
       "action_params": "",
       "id": 6,
-      "move_mode": "fly",
+      "move_mode": "walk",
       "type": "path",
-      "x": 251.3535,
-      "y": 1707.3018
+      "x": 405.5303,
+      "y": -491.793
     },
     {
       "action": "",
       "action_params": "",
       "id": 7,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 215.3613,
-      "y": 1688.7549
+      "x": 404.7051,
+      "y": -488.2661
     },
     {
       "action": "",
@@ -87,26 +87,26 @@
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": 214.2129,
-      "y": 1688.1982
+      "x": 411.1777,
+      "y": -483.2593
     },
     {
       "action": "",
       "action_params": "",
       "id": 9,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
-      "x": 200.208,
-      "y": 1707.2842
+      "x": 414.6182,
+      "y": -484.7744
     },
     {
       "action": "",
       "action_params": "",
       "id": 10,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": 191.2031,
-      "y": 1705.917
+      "x": 419.874,
+      "y": -488.4819
     },
     {
       "action": "",
@@ -114,44 +114,44 @@
       "id": 11,
       "move_mode": "walk",
       "type": "path",
-      "x": 189.2109,
-      "y": 1705.5854
+      "x": 428.5508,
+      "y": -484.0527
     },
     {
       "action": "",
       "action_params": "",
       "id": 12,
       "move_mode": "walk",
-      "type": "target",
-      "x": 191.2939,
-      "y": 1718.9478
+      "type": "path",
+      "x": 433.1807,
+      "y": -493.2607
     },
     {
       "action": "",
       "action_params": "",
       "id": 13,
-      "move_mode": "jump",
+      "move_mode": "walk",
       "type": "path",
-      "x": 188.9229,
-      "y": 1722.5146
+      "x": 423.5166,
+      "y": -497.2529
     },
     {
       "action": "",
       "action_params": "",
       "id": 14,
       "move_mode": "walk",
-      "type": "target",
-      "x": 182.5098,
-      "y": 1717.9082
+      "type": "path",
+      "x": 414.8193,
+      "y": -503.9287
     },
     {
-      "action": "stop_flying",
-      "action_params": "500",
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
       "id": 15,
-      "move_mode": "fly",
-      "type": "target",
-      "x": 161.2949,
-      "y": 1681.7202
+      "move_mode": "walk",
+      "type": "path",
+      "x": 416.6328,
+      "y": -506.3804
     }
   ]
 }

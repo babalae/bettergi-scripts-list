@@ -6,16 +6,16 @@
         "name": "MissDan"
       }
     ],
-    "bgi_version": "0.45.0",
-    "description": "",
+    "bgi_version": "0.52.0",
+    "description": "1个甜甜花；1个薄荷；3个日落果；6个鸟蛋；1个松茸；1个蘑菇；",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760742000178,
+    "last_modified_time": 1763412319203,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B07-璃月食材-琼玑野-七天神像【高效】",
+    "name": "B07-2-璃月食材-琼玑野-七天神像【高效】",
     "tags": [],
     "type": "collect",
-    "version": "2.0"
+    "version": "3.0"
   },
   "positions": [
     {
@@ -33,103 +33,13 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": -251.75,
-      "y": 623.7881
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "fly",
-      "type": "path",
-      "x": -242.6406,
-      "y": 612.6045
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -249.6582,
-      "y": 614.3145
-    },
-    {
-      "action": "combat_script",
-      "action_params": "万叶 e(wait,hold),wait(0.4)",
-      "id": 5,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -249.9688,
-      "y": 613.0
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -248.8203,
-      "y": 611.0156
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "fly",
-      "type": "path",
-      "x": -283.1035,
-      "y": 573.9834
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -289.9512,
-      "y": 569.7354
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 9,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -291.4355,
-      "y": 568.2305
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 10,
-      "move_mode": "fly",
-      "type": "target",
-      "x": -303.8164,
-      "y": 554.3252
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 11,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": -254.7754,
-      "y": 630.3955
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 12,
-      "move_mode": "walk",
-      "type": "path",
       "x": -262.873,
       "y": 634.4849
     },
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 13,
+      "id": 3,
       "move_mode": "fly",
       "type": "target",
       "x": -329.6797,
@@ -138,7 +48,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 14,
+      "id": 4,
       "move_mode": "fly",
       "type": "path",
       "x": -334.791,
@@ -147,7 +57,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 15,
+      "id": 5,
       "move_mode": "fly",
       "type": "path",
       "x": -337.7656,
@@ -156,7 +66,7 @@
     {
       "action": "combat_script",
       "action_params": "万叶 e(wait,hold),wait(0.4)",
-      "id": 16,
+      "id": 6,
       "move_mode": "walk",
       "type": "target",
       "x": -337.7656,
@@ -165,7 +75,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 7,
       "move_mode": "walk",
       "type": "path",
       "x": -341.916,
@@ -174,7 +84,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 8,
       "move_mode": "run",
       "type": "path",
       "x": -334.8047,
@@ -183,7 +93,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 19,
+      "id": 9,
       "move_mode": "walk",
       "type": "path",
       "x": -334.2598,
@@ -192,7 +102,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 20,
+      "id": 10,
       "move_mode": "run",
       "type": "path",
       "x": -319.3965,
@@ -201,7 +111,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 21,
+      "id": 11,
       "move_mode": "walk",
       "type": "path",
       "x": -317.1973,
@@ -210,7 +120,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 22,
+      "id": 12,
       "move_mode": "dash",
       "type": "path",
       "x": -343.4043,
@@ -219,7 +129,7 @@
     {
       "action": "combat_script",
       "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
-      "id": 23,
+      "id": 13,
       "move_mode": "walk",
       "type": "path",
       "x": -348.2207,
@@ -228,7 +138,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 24,
+      "id": 14,
       "move_mode": "walk",
       "type": "path",
       "x": -353.9023,
@@ -237,7 +147,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 25,
+      "id": 15,
       "move_mode": "walk",
       "type": "path",
       "x": -355.8281,
@@ -246,7 +156,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 26,
+      "id": 16,
       "move_mode": "walk",
       "type": "path",
       "x": -355.1758,
@@ -255,7 +165,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 27,
+      "id": 17,
       "move_mode": "jump",
       "type": "path",
       "x": -353.916,
@@ -264,7 +174,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 28,
+      "id": 18,
       "move_mode": "run",
       "type": "path",
       "x": -349.2832,
@@ -273,7 +183,7 @@
     {
       "action": "combat_script",
       "action_params": "万叶 e(wait,hold),wait(0.4)",
-      "id": 29,
+      "id": 19,
       "move_mode": "walk",
       "type": "target",
       "x": -347.6543,
@@ -282,7 +192,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 30,
+      "id": 20,
       "move_mode": "walk",
       "type": "path",
       "x": -340.8496,
@@ -291,7 +201,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.2)",
-      "id": 31,
+      "id": 21,
       "move_mode": "walk",
       "type": "path",
       "x": -337.6484,
