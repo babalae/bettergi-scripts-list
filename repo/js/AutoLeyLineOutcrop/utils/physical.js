@@ -200,7 +200,7 @@ async function ocrPhysical(opToMainUi = false) {
 function throwError(msg) {
     // 使用notification组件显示错误通知
     // notification.error(`${msg}`);
-    if (isNotification) {
+    if (setting.isNotification) {
         notification.error(`${msg}`);
     }
     // 抛出一个包含错误信息的Error对象

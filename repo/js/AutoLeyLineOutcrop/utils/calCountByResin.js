@@ -215,7 +215,7 @@ async function countOriginalResin(tryOriginalMode,opToMainUi) {
         if (ocrPhysical && ocrPhysical.ok) {
             return ocrPhysical.remainder;
         } else {
-            new Error("ocrPhysical error");
+            throw new Error("ocrPhysical error");
         }
     }
 }
