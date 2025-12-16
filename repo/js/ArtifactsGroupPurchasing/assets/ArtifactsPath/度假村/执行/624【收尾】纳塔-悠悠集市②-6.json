@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1764867553071,
+    "last_modified_time": 1765809244548,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "624【收尾】纳塔-悠悠集市②-6",
@@ -87,8 +87,8 @@
       "id": 8,
       "move_mode": "climb",
       "type": "target",
-      "x": 13971.8486328125,
-      "y": 449.0439453125
+      "x": 13972.5458984375,
+      "y": 449.7177734375
     },
     {
       "action": "combat_script",
@@ -136,8 +136,8 @@
       "y": 431.95654296875
     },
     {
-      "action": "combat_script",
-      "action_params": "keydown(Q),keypress(f),wait(0.8),keypress(f),keyup(Q),wait(0.1),j,keypress(f),",
+      "action": "",
+      "action_params": "",
       "id": 14,
       "move_mode": "dash",
       "type": "path",
@@ -145,8 +145,8 @@
       "y": 441.33251953125
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "keydown(Q),keypress(f),wait(0.8),keypress(f),keyup(Q)",
       "id": 15,
       "move_mode": "dash",
       "type": "path",

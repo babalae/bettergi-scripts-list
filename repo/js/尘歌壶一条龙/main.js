@@ -1,16 +1,50 @@
 async function main() {
+    setGameMetrics(1920, 1080, 1);
 
-    const today = new Date().getDay();
-    const isMonday = today === 1;
+    // 获取调整后的周几
+    const dayOfWeek = getAdjustedDayOfWeek();
+    
+    // 检查是否需要跳过整个尘歌壶流程
+    if (settings.week) {
+        const weekArray = validateAndStoreNumbers(settings.week);
+        
+        if (!weekArray) {
+            log.error("周设置格式错误，请使用类似'0,1,3,5,7'的格式（0表示每天运行），将跳过周检查");
+        } else if (weekArray.length > 0) {
+            // 如果设置了0，表示每天运行，跳过周检查
+            if (weekArray.includes(0)) {
+                log.info("周设置中包含0，每天运行尘歌壶流程");
+            } else if (!weekArray.includes(dayOfWeek)) {
+                    log.info(`今天是周 ${dayOfWeek}，不在设置的周 ${settings.week} 中，跳过尘歌壶流程`);
+                    return;
+            }
+        }
+    }
 
-    // 检查是否为周一，周三或周六
-    if (!isScheduledDay()) {
-        log.info("今日非周一，周三或周六，脚本不执行");
-        return;
+    // 解析exchangeWeek设置，判断今天是否兑换物品
+    let exchangeWeekArray = [1]; // 默认周一
+    if (settings.exchangeWeek) {
+        const result = validateAndStoreNumbers(settings.exchangeWeek);
+        if (result) {
+            exchangeWeekArray = result;
+        } else {
+            log.error("exchangeWeek设置格式错误，将使用默认值（周一）");
+        }
     }
     
+    let shouldExchange = false;
+    if (exchangeWeekArray.includes(0)) {
+        shouldExchange = true;
+        log.info("exchangeWeek设置为0，每天兑换物品");
+    } else if (exchangeWeekArray.includes(dayOfWeek)) {
+        shouldExchange = true;
+    }
+
     // 检查配置
     checkSettings();
+
+    await genshin.returnMainUi();
+    await sleep(1000);
 
     // 打开背包并切换到小道具
     await openBackpack();
@@ -33,8 +67,8 @@ async function main() {
     // 领取好感度以及洞天宝钱
     await collectRewards();
     
-    if (isMonday) {
-        log.info("今天是周一，兑换物品");
+    if (shouldExchange) {
+        log.info(`今天是周 ${dayOfWeek}，兑换物品`);
         // 兑换物品
         await exchangeItems();
     }
@@ -45,11 +79,11 @@ async function main() {
     await sleep(1000);
     click(960, 540);
 
-    // 周一执行锻造任务和烹饪任务
-    if (isMonday) {
-        log.info("今天是周一，执行锻造任务");
+    // 周N执行锻造任务和烹饪任务
+    if (shouldExchange) {
+        log.info(`今天是周 ${dayOfWeek}，执行锻造任务`);
         if (settings.forgingRoute) await handleForging();
-        log.info("今天是周一，执行烹饪任务");
+        log.info(`今天是周 ${dayOfWeek}，执行烹饪任务`);
         if (settings.cookingRoute) await handleCooking();
         keyDown("a");
         await sleep(2000);
@@ -113,11 +147,43 @@ async function handleForging() {
     }
 }
 
-// 判断当前是否为周一，周三或周六
-function isScheduledDay() {
-    const today = new Date().getDay(); // 0=周日, 1=周一, ..., 6=周六
-    return today === 1 || today === 3 || today === 6; // 周一，周三或周六
-}
+// 获取当前周（考虑00:00~04:00视为前一天）
+    function getAdjustedDayOfWeek() {
+        const now = new Date();
+        let dayOfWeek = now.getDay(); // 0-6 (0是周日)
+        const hours = now.getHours();
+
+        // 如果时间在00:00~04:00之间，视为前一天
+        if (hours < 4) {
+            dayOfWeek = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // 前一天
+            log.info(`当前时间 ${now.getHours()}:${now.getMinutes()}，视为前一天（周 ${dayOfWeek === 0 ? 7 : dayOfWeek}）`);
+        } else {
+            log.info(`当前时间 ${now.getHours()}:${now.getMinutes()}，使用当天（周 ${dayOfWeek === 0 ? 7 : dayOfWeek}）`);
+        }
+
+        // 转换为1-7格式（7代表周日）
+        return dayOfWeek === 0 ? 7 : dayOfWeek;
+    }
+
+    // 验证周设置格式
+    function validateAndStoreNumbers(input) {
+        if (!input) return false;
+        
+        // 去除所有空格
+        const cleanedInput = input.replace(/\s/g, '');
+        
+        // 使用正则表达式检测是否符合期望格式
+        const regex = /^([0-7])(,([0-7]))*$/;
+        
+        // 检测输入字符串是否符合正则表达式
+        if (regex.test(cleanedInput)) {
+            // 将输入字符串按逗号分割成数组
+            const numbers = cleanedInput.split(',');
+            return numbers.map(Number);
+        } else {
+            return false;
+        }
+    }
 
 async function exchangeItems() {
     if (!settings.itemsToBuy) {

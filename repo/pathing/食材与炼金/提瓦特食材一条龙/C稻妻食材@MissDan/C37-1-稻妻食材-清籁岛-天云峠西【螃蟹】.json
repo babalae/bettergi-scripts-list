@@ -9,13 +9,13 @@
     "bgi_version": "0.52.0",
     "description": "7个甜甜花；4个薄荷；34个螃蟹；23个海草；1个鬼兜虫；2个鸣草；",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1762348888070,
+    "last_modified_time": 1763317667314,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "C37-1-稻妻食材-清籁岛-天云峠西【螃蟹】",
     "tags": [],
     "type": "collect",
-    "version": "2.0"
+    "version": "3.0"
   },
   "positions": [
     {
@@ -204,8 +204,8 @@
       "id": 21,
       "move_mode": "walk",
       "type": "path",
-      "x": -4106.1244,
-      "y": -4623.3141
+      "x": -4103.6875,
+      "y": -4620.6562
     },
     {
       "action": "",
@@ -256,6 +256,15 @@
       "action": "",
       "action_params": "",
       "id": 27,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4046.375,
+      "y": -4709.3125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 28,
       "move_mode": "dash",
       "type": "path",
       "x": -4063.2012,
@@ -264,7 +273,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 28,
+      "id": 29,
       "move_mode": "dash",
       "type": "path",
       "x": -4058.8789,
@@ -273,7 +282,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.2)",
-      "id": 29,
+      "id": 30,
       "move_mode": "walk",
       "type": "path",
       "x": -4061.9883,
@@ -282,7 +291,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 30,
+      "id": 31,
       "move_mode": "dash",
       "type": "path",
       "x": -4048.2461,
@@ -291,29 +300,20 @@
     {
       "action": "",
       "action_params": "",
-      "id": 31,
+      "id": 32,
       "move_mode": "dash",
       "type": "path",
-      "x": -4045.8486,
-      "y": -4730.5225
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 32,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -4042.0781,
-      "y": -4729.5615
+      "x": -4040.875,
+      "y": -4725.75
     },
     {
       "action": "",
       "action_params": "",
       "id": 33,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": -4046.5654,
-      "y": -4731.4365
+      "x": -4039.4375,
+      "y": -4730.0
     },
     {
       "action": "",
@@ -1120,13 +1120,22 @@
       "id": 123,
       "move_mode": "dash",
       "type": "path",
+      "x": -4270.5625,
+      "y": -4988.125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 124,
+      "move_mode": "dash",
+      "type": "path",
       "x": -4235.9043,
       "y": -4981.7383
     },
     {
       "action": "",
       "action_params": "",
-      "id": 124,
+      "id": 125,
       "move_mode": "dash",
       "type": "path",
       "x": -4204.3594,
@@ -1135,7 +1144,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 125,
+      "id": 126,
       "move_mode": "dash",
       "type": "path",
       "x": -4184.6914,
@@ -1144,7 +1153,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 126,
+      "id": 127,
       "move_mode": "dash",
       "type": "path",
       "x": -4155.2148,
@@ -1153,7 +1162,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(6)",
-      "id": 127,
+      "id": 128,
       "move_mode": "run",
       "type": "target",
       "x": -4130.5039,
@@ -1162,7 +1171,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 128,
+      "id": 129,
       "move_mode": "dash",
       "type": "path",
       "x": -4195.3027,
@@ -1171,17 +1180,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 129,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -4219.0527,
-      "y": -4981.6582
-    },
-    {
-      "action": "",
-      "action_params": "",
       "id": 130,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
       "x": -4216.6719,
       "y": -4957.3994
@@ -1242,7 +1242,16 @@
     },
     {
       "action": "",
+      "action_params": "",
       "id": 137,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4246.2559,
+      "y": -4914.4502
+    },
+    {
+      "action": "",
+      "id": 138,
       "move_mode": "walk",
       "type": "path",
       "x": -4244.3171,
@@ -1251,20 +1260,11 @@
     {
       "action": "",
       "action_params": "",
-      "id": 138,
+      "id": 139,
       "move_mode": "walk",
       "type": "target",
       "x": -4259.3652,
       "y": -4905.2617
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 139,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -4246.2559,
-      "y": -4914.4502
     },
     {
       "action": "",
