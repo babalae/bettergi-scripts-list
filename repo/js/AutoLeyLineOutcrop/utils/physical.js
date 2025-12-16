@@ -28,8 +28,8 @@ const genshinJson = {
 }
 const MinPhysical = settings.minPhysical?parseInt(settings.minPhysical+''):parseInt(20+'')
 const OpenModeCountMin = settings.openModeCountMin
-const AlreadyRunsCount=0
-const NeedRunsCount=0
+let AlreadyRunsCount=0
+let NeedRunsCount=0
 const TemplateOrcJson={x: 1568, y: 16, width: 225, height: 60,}
 //====================================================
 /**
