@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1761552681918,
+    "last_modified_time": 1765817751671,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "1P枫丹-科学院工坊TP刷CD",
@@ -31,11 +31,10 @@
       "action": "set_time",
       "action_params": "06:00",
       "id": 2,
-      "locked": false,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "orientation",
-      "x": 4432.203125,
-      "y": 5046.1982421875
+      "x": 4437.81640625,
+      "y": 5082.35791015625
     },
     {
       "action": "",
@@ -43,26 +42,17 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 4432.203125,
-      "y": 5046.1982421875
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 4446.23828125,
-      "y": 4972.1025390625
+      "x": 4429.931640625,
+      "y": 5013.0234375
     },
     {
       "action": "combat_script",
-      "action_params": "wait(1)",
-      "id": 5,
+      "action_params": "wait(1.5)",
+      "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 4425.44140625,
-      "y": 4940.6064453125
+      "x": 4428.125,
+      "y": 4938.6171875
     }
   ]
 }
