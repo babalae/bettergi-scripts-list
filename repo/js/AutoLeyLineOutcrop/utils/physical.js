@@ -56,7 +56,7 @@ async function saveOnlyNumber(str) {
 
 /**
  * 识别原粹树脂（体力）的函数
- * @param {boolean} [opToMainUi=true] - 是否操作到主界面
+ * @param {boolean} [opToMainUi=false] - 是否操作到主界面
  * @returns {Promise<Object>} 返回一个包含识别结果的Promise对象
  *   - ok {boolean}: 是否可执行（体力是否足够）
  *   - min {number}: 最小可执行体力值
@@ -93,16 +93,16 @@ async function ocrPhysical(opToMainUi = false) {
         height: 60,
     }
     let templateMatchAddButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${add_objJson.path}`), add_objJson.x, add_objJson.y, add_objJson.width, add_objJson.height);
-    // let regionA = captureGameRegion()
-    let buttonA = captureGameRegion().find(templateMatchAddButtonRo);
-    // let button = region.find(yueRo);
+    let regionA = captureGameRegion()
+    // let buttonA = captureGameRegion().find(templateMatchAddButtonRo);
+    let buttonA = region.find(templateMatchAddButtonRo);
     await sleep(ms)
     if (!buttonA.isExist()) {
         log.error(`未找到${add_objJson.path}请检查路径是否正确`)
         throwError(`未找到${add_objJson.path}请检查路径是否正确`)
     }
     await buttonA.click()
-    // regionA.Dispose()
+    regionA.Dispose()
     // let add_obj = {
     //     x: 1264,
     //     y: 39,
