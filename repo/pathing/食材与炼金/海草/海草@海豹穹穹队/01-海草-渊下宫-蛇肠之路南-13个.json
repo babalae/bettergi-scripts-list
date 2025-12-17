@@ -1,0 +1,293 @@
+﻿{
+  "config": {
+    "realtime_triggers": {
+      "AutoPick": true
+    }
+  },
+  "farming_info": {
+    "allow_farming_count": false,
+    "duration_seconds": 0,
+    "elite_details": "",
+    "elite_mob_count": 0,
+    "normal_mob_count": 0,
+    "primary_target": "",
+    "total_mora": 0
+  },
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "海豹穹穹队"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "纳西妲采集",
+    "enable_monster_loot_split": false,
+    "items": [],
+    "last_modified_time": 1764094384692,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "01-海草-蛇肠之路南-13个-2",
+    "order": 0,
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "teleport",
+      "x": 1409.778076171875,
+      "y": -462.369384765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 attack(0.08),e",
+      "id": 2,
+      "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "target",
+      "x": 1424.799560546875,
+      "y": -456.658935546875
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "run",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "path",
+      "x": 1454.474853515625,
+      "y": -441.562744140625
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "target",
+      "x": 1457.541748046875,
+      "y": -424.958251953125
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "run",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "path",
+      "x": 1496.3812255859375,
+      "y": -408.584716796875
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "run",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "path",
+      "x": 1529.6866455078125,
+      "y": -395.711669921875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 attack(0.08),e",
+      "id": 7,
+      "move_mode": "run",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "target",
+      "x": 1536.835205078125,
+      "y": -387.872314453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 attack(0.08),e",
+      "id": 8,
+      "move_mode": "run",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "target",
+      "x": 1550.3282470703125,
+      "y": -413.249267578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 attack(0.08),e",
+      "id": 9,
+      "move_mode": "run",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "target",
+      "x": 1574.02490234375,
+      "y": -394.025634765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 attack(0.08),e",
+      "id": 10,
+      "move_mode": "run",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "target",
+      "x": 1566.800048828125,
+      "y": -370.240234375
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "run",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "target",
+      "x": 1551.5797119140625,
+      "y": -353.974365234375
+    },
+    {
+      "action": "",
+      "id": 12,
+      "move_mode": "run",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "path",
+      "x": 1551.3385009765625,
+      "y": -354.922607421875
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "target",
+      "x": 1516.046875,
+      "y": -337.748291015625
+    }
+  ]
+}
