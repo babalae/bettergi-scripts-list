@@ -140,6 +140,11 @@ let skipRunning = false;
     }
     await genshin.tpToStatueOfTheSeven();
 
+    if (skipRunning) {
+        log.info(`本次运行启用并触发了强迫症模式，需要重新上线`);
+        return;
+    }
+
     if (settings.logName) {
         expGain = await processArtifacts() - expGain;
         log.info(`${settings.logName}：联机狗粮分解获得经验${expGain}`);
@@ -332,6 +337,7 @@ async function runGroupPurchasing(runExtra) {
         log.warn("等待队友就绪超时");
         if (settings.onlyRunPerfectly === "确认启用强迫症模式") {
             skipRunning = true;
+            doRunExtra = false;
         }
         return false;
     }
@@ -763,6 +769,7 @@ async function autoEnter(autoEnterSettings) {
         notification.error(`超时未达到预定人数`);
         if (settings.onlyRunPerfectly === "确认启用强迫症模式") {
             skipRunning = true;
+            doRunExtra = false;
         }
     }
 
