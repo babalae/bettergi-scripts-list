@@ -56,7 +56,7 @@ async function saveOnlyNumber(str) {
 
 /**
  * 识别原粹树脂（体力）的函数
- * @param {boolean} [opToMainUi=true] - 是否操作到主界面
+ * @param {boolean} [opToMainUi=false] - 是否操作到主界面
  * @returns {Promise<Object>} 返回一个包含识别结果的Promise对象
  *   - ok {boolean}: 是否可执行（体力是否足够）
  *   - min {number}: 最小可执行体力值
