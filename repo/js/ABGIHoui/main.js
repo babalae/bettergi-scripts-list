@@ -3,7 +3,7 @@
             case "一条龙":
                 log.info(`ABGI启动${settings.selectTask}`+"："+`${settings.inputText}`);
                 return;
-            case "启动配置组":
+            case "配置组":
                 log.info(`ABGI启动${settings.selectTask}`+"："+`${settings.inputText}`);
                 return;
             case "狗粮联机上线":
