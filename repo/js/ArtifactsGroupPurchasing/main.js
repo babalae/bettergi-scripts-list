@@ -142,6 +142,9 @@ let skipRunning = false;
 
     if (skipRunning) {
         log.info(`本次运行启用并触发了强迫症模式，需要重新上线`);
+        log.debug('ABGI启动联机上线：');
+        await sleep(2000);
+        log.debug('ABGI启动配置组：强迫症等待组');
         return;
     }
 
