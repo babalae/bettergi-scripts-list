@@ -166,7 +166,7 @@ let localeWorks;
     } else if (operationMode === "运行锄地路线") {
         await switchPartyIfNeeded(partyName);
 
-        const avatars = getAvatars() || [];
+        const avatars = Array.from(getAvatars?.() || []);
 
         // 拼接队伍字符串，放在 switch 之前
         let teamStr = '';
