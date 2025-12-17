@@ -592,7 +592,7 @@ const ocrRegion = {
             notification.send(logMsg);
         }else{
             // 添加账户名称的通知
-            notification.send(`${userName}: 今日初始化完成！${recoveryFoodName}${recoveryNumber}个, ${resurrectionFoodName}${resurrectionNumber}个`);
+            notification.send(`${userName}: 今日初始化完成！${recoveryFoodName}${initRecovery}个, ${resurrectionFoodName}${initResurrection}个`);
         }
     } else {
         // 当前数据有任意一个为0，不写入记录，只发送通知
