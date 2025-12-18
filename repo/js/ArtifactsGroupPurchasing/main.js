@@ -142,9 +142,18 @@ let skipRunning = false;
 
     if (skipRunning) {
         log.info(`本次运行启用并触发了强迫症模式，需要重新上线`);
-        log.debug('ABGI启动联机上线：');
-        await sleep(2000);
-        log.debug('ABGI启动配置组：强迫症等待组');
+
+        // 按中文分号分割字符串
+        const segments = settings.onlyRunPerfectly.split('；');
+
+        // 逐段输出，每段间隔1秒
+        for (const segment of segments) {
+            if (segment.trim()) { // 跳过空段落
+                log.info(segment.trim());
+                await sleep(1000);
+            }
+        }
+
         return;
     }
 
@@ -338,7 +347,7 @@ async function runGroupPurchasing(runExtra) {
         }
 
         log.warn("等待队友就绪超时");
-        if (settings.onlyRunPerfectly === "确认启用强迫症模式") {
+        if (settings.onlyRunPerfectly) {
             skipRunning = true;
             doRunExtra = false;
         }
@@ -770,7 +779,7 @@ async function autoEnter(autoEnterSettings) {
     if (new Date() - start >= timeout * 60 * 1000) {
         log.warn("超时未达到预定人数");
         notification.error(`超时未达到预定人数`);
-        if (settings.onlyRunPerfectly === "确认启用强迫症模式") {
+        if (settings.onlyRunPerfectly) {
             skipRunning = true;
             doRunExtra = false;
         }
