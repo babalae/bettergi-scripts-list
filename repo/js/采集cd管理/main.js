@@ -255,7 +255,7 @@ let underWater = false;
         newSettings.push({
             name: `pathGroup${g}FolderName`,
             type: "select",
-            label: `##############################################################################\n选择路径组${g}文件夹（pathing下第一层）`,
+            label: `#############################################\n选择路径组${g}文件夹（pathing下第一层）`,
             options: ["", ...uniqueDirs]
         });
 
