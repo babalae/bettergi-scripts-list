@@ -80,7 +80,7 @@ let skipRunning = false;
                 autoEnterSettings = {
                     enterMode: "等待他人进入",
                     permissionMode: "白名单",
-                    timeout: loopCnt++ === 0 ? 15 : 5,   // ← 第一次 15，之后 5
+                    timeout: loopCnt++ === 0 ? 10 : 5,   // ← 第一次 10，之后 5
                     maxEnterCount: Object.keys(permits).length
                 };
 
@@ -93,7 +93,7 @@ let skipRunning = false;
                 autoEnterSettings = {
                     enterMode: "进入他人世界",
                     enteringUID: settings[`p${idx}UID`],
-                    timeout: loopCnt++ === 0 ? 15 : 5,   // ← 第一次 15，之后 5
+                    timeout: loopCnt++ === 0 ? 10 : 5,   // ← 第一次 10，之后 5
                 };
                 log.info(`将要进入序号${idx}，uid为${settings[`p${idx}UID`]}的世界`);
                 notification.send(`将要进入序号${idx}，uid为${settings[`p${idx}UID`]}，名称为${settings[`p${idx}Name`]}的世界`);
@@ -219,9 +219,9 @@ async function checkP1Name(p1Name) {
 async function runGroupPurchasing(runExtra) {
     // ===== 1. 读取配置 =====
     const p1EndingRoute = settings.p1EndingRoute || "枫丹高塔";
-    const p2EndingRoute = settings.p2EndingRoute || "度假村";
-    const p3EndingRoute = settings.p3EndingRoute || "智障厅";
-    const p4EndingRoute = settings.p4EndingRoute || "踏鞴砂";
+    const p2EndingRoute = "度假村";
+    const p3EndingRoute = "智障厅";
+    const p4EndingRoute = "踏鞴砂";
     const forceGroupNumber = settings.forceGroupNumber || 0;
 
     // ===== 2. 图标模板 =====
