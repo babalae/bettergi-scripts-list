@@ -4,6 +4,15 @@
       "AutoPick": true
     }
   },
+  "farming_info": {
+    "allow_farming_count": false,
+    "duration_seconds": 0,
+    "elite_details": "",
+    "elite_mob_count": 0,
+    "normal_mob_count": 0,
+    "primary_target": "",
+    "total_mora": 0
+  },
   "info": {
     "authors": [
       {
@@ -12,250 +21,235 @@
       }
     ],
     "bgi_version": "0.52.0",
-    "description": "队伍必须有早柚/瑶瑶，高危",
+    "description": "沙漠鳗鱼采集（高危），队伍里必须由早柚/瑶瑶",
     "enable_monster_loot_split": false,
     "items": [],
-    "last_modified_time": 1761248331434,
+    "last_modified_time": 1762055367564,
     "map_match_method": "TemplateMatch",
     "map_name": "Teyvat",
-    "name": "15-鳗肉-藤兜砦-3条",
+    "name": "A08-鳗肉-须弥-铄石之丘-3条",
     "order": 0,
-    "tags": [],
+    "tags": [
+      "鳗肉",
+      "瑶瑶"
+    ],
     "type": "collect",
     "version": "1.0"
   },
   "positions": [
     {
       "action": "",
+      "action_params": "",
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -2193.44,
-      "y": -3485.01
+      "x": 5141.61,
+      "y": -2778.84
     },
     {
       "action": "",
+      "action_params": "",
       "id": 2,
       "move_mode": "walk",
-      "type": "path",
-      "x": -2191.2129,
-      "y": -3480.5664
+      "point_ext_params": {
+        "description": "",
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "mapRecognition",
+          "type": [
+            "unrecognized"
+          ]
+        },
+        "monster_tag": ""
+      },
+      "type": "teleport",
+      "x": 5711.48,
+      "y": -2850.78
     },
     {
       "action": "",
       "id": 3,
       "move_mode": "walk",
       "type": "path",
-      "x": -2189.1172,
-      "y": -3476.0303
+      "x": 5721.1445,
+      "y": -2864.3945
     },
     {
       "action": "",
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": -2186.457,
-      "y": -3467.418
+      "x": 5725.8906,
+      "y": -2876.1543
     },
     {
       "action": "",
       "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": -2184.668,
-      "y": -3461.6152
+      "x": 5731.4941,
+      "y": -2890.4111
     },
     {
       "action": "",
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": -2179.7227,
-      "y": -3448.168
+      "x": 5739.7148,
+      "y": -2911.1221
     },
     {
       "action": "",
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": -2175.6113,
-      "y": -3442.7832
+      "x": 5741.5781,
+      "y": -2915.9375
     },
     {
       "action": "",
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": -2169.9609,
-      "y": -3434.6592
+      "x": 5756.2178,
+      "y": -2921.0938
     },
     {
       "action": "",
       "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": -2164.6172,
-      "y": -3430.5068
+      "x": 5768.8145,
+      "y": -2924.9854
     },
     {
       "action": "",
       "id": 10,
       "move_mode": "walk",
       "type": "path",
-      "x": -2158.3555,
-      "y": -3423.8105
+      "x": 5781.3418,
+      "y": -2928.8027
     },
     {
       "action": "",
       "id": 11,
       "move_mode": "walk",
       "type": "path",
-      "x": -2150.6719,
-      "y": -3414.1289
+      "x": 5788.1582,
+      "y": -2930.9307
     },
     {
       "action": "",
       "id": 12,
       "move_mode": "walk",
       "type": "path",
-      "x": -2141.916,
-      "y": -3407.6738
+      "x": 5795.084,
+      "y": -2933.084
     },
     {
       "action": "",
       "id": 13,
       "move_mode": "walk",
       "type": "path",
-      "x": -2133.709,
-      "y": -3400.0117
+      "x": 5804.0449,
+      "y": -2935.834
     },
     {
       "action": "",
       "id": 14,
       "move_mode": "walk",
       "type": "path",
-      "x": -2127.3203,
-      "y": -3398.2393
+      "x": 5804.0449,
+      "y": -2935.834
     },
     {
       "action": "",
       "id": 15,
       "move_mode": "walk",
-      "type": "target",
-      "x": -2117.4473,
-      "y": -3397.9053
+      "type": "path",
+      "x": 5820.2354,
+      "y": -2940.8262
     },
     {
       "action": "",
       "id": 16,
       "move_mode": "walk",
-      "type": "target",
-      "x": -2116.5371,
-      "y": -3397.4863
+      "type": "path",
+      "x": 5826.377,
+      "y": -2942.7031
     },
     {
       "action": "",
       "id": 17,
       "move_mode": "walk",
       "type": "path",
-      "x": -2115.5137,
-      "y": -3397.1914
+      "x": 5830.8135,
+      "y": -2946.4854
     },
     {
       "action": "",
       "id": 18,
       "move_mode": "walk",
       "type": "path",
-      "x": -2112.7402,
-      "y": -3398.9531
+      "x": 5833.5762,
+      "y": -2947.8604
     },
     {
       "action": "",
       "id": 19,
       "move_mode": "walk",
-      "type": "target",
-      "x": -2108.3828,
-      "y": -3401.0615
+      "type": "path",
+      "x": 5837.4688,
+      "y": -2949.5
     },
     {
       "action": "",
       "id": 20,
       "move_mode": "walk",
       "type": "path",
-      "x": -2105.8203,
-      "y": -3399.8262
+      "x": 5839.3867,
+      "y": -2950.3486
     },
     {
       "action": "",
       "id": 21,
       "move_mode": "walk",
       "type": "path",
-      "x": -2105.8184,
-      "y": -3399.8242
+      "x": 5839.7793,
+      "y": -2951.96
     },
     {
       "action": "",
       "id": 22,
       "move_mode": "walk",
-      "type": "path",
-      "x": -2106.0098,
-      "y": -3401.084
+      "type": "target",
+      "x": 5840.4238,
+      "y": -2952.707
     },
     {
       "action": "",
       "id": 23,
       "move_mode": "walk",
-      "type": "path",
-      "x": -2109.957,
-      "y": -3400.6475
+      "type": "target",
+      "x": 5841.4141,
+      "y": -2952.5713
     },
     {
       "action": "",
       "id": 24,
       "move_mode": "walk",
-      "type": "path",
-      "x": -2106.0664,
-      "y": -3393.3799
+      "type": "target",
+      "x": 5841.1523,
+      "y": -2951.0439
     },
     {
       "action": "",
+      "action_params": "",
       "id": 25,
       "move_mode": "walk",
-      "type": "path",
-      "x": -2104.8125,
-      "y": -3386.5156
-    },
-    {
-      "action": "",
-      "id": 26,
-      "move_mode": "walk",
       "type": "target",
-      "x": -2104.6836,
-      "y": -3384.5508
-    },
-    {
-      "action": "",
-      "id": 27,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -2105.3613,
-      "y": -3380.6592
-    },
-    {
-      "action": "",
-      "id": 28,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -2104.3438,
-      "y": -3380.4443
-    },
-    {
-      "action": "",
-      "id": 29,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -2105.707,
-      "y": -3382.6055
+      "x": 5841.0664,
+      "y": -2951.6201
     }
   ]
 }

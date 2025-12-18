@@ -4,6 +4,15 @@
       "AutoPick": true
     }
   },
+  "farming_info": {
+    "allow_farming_count": false,
+    "duration_seconds": 0,
+    "elite_details": "",
+    "elite_mob_count": 0,
+    "normal_mob_count": 0,
+    "primary_target": "",
+    "total_mora": 0
+  },
   "info": {
     "authors": [
       {
@@ -12,13 +21,13 @@
       }
     ],
     "bgi_version": "0.52.0",
-    "description": "队伍必须有早柚/瑶瑶",
+    "description": "要解锁渊下宫，队伍有瑶瑶",
     "enable_monster_loot_split": false,
     "items": [],
-    "last_modified_time": 1761243053834,
+    "last_modified_time": 1761354761577,
     "map_match_method": "TemplateMatch",
-    "map_name": "Teyvat",
-    "name": "17-鳗肉-堇色之庭-2条",
+    "map_name": "Enkanomiya",
+    "name": "C01-鳗肉-渊下宫-蛇肠之路-2条",
     "order": 0,
     "tags": [],
     "type": "collect",
@@ -30,128 +39,161 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -3933.97,
-      "y": -3204.57
+      "x": 1581.1082,
+      "y": -112.4448
     },
     {
       "action": "",
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": -3933.9531,
-      "y": -3198.3047
+      "x": 1586.113,
+      "y": -105.8945
     },
     {
       "action": "",
       "id": 3,
       "move_mode": "walk",
       "type": "path",
-      "x": -3941.0273,
-      "y": -3193.1895
+      "x": 1590.8835,
+      "y": -99.3115
     },
     {
       "action": "",
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": -3951.5996,
-      "y": -3187.0488
+      "x": 1598.6953,
+      "y": -89.813
     },
     {
       "action": "",
       "id": 5,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": -3961.2012,
-      "y": -3187.6709
+      "x": 1599.2595,
+      "y": -86.8965
     },
     {
-      "action": "",
+      "action": "stop_flying",
+      "action_params": "",
       "id": 6,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": -3967.1152,
-      "y": -3197.1768
+      "x": 1607.366,
+      "y": -80.6416
     },
     {
       "action": "",
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": -3973.5664,
-      "y": -3206.5283
+      "x": 1607.4735,
+      "y": -80.4331
     },
     {
       "action": "",
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": -3977.6406,
-      "y": -3212.3555
+      "x": 1612.3179,
+      "y": -78.7031
     },
     {
       "action": "",
       "id": 9,
       "move_mode": "walk",
-      "type": "target",
-      "x": -3979.6836,
-      "y": -3214.3232
+      "type": "path",
+      "x": 1619.0381,
+      "y": -77.8293
     },
     {
       "action": "",
       "id": 10,
       "move_mode": "walk",
       "type": "path",
-      "x": -3981.168,
-      "y": -3214.5293
+      "x": 1624.3772,
+      "y": -76.6831
     },
     {
       "action": "",
       "id": 11,
       "move_mode": "walk",
       "type": "path",
-      "x": -3978.3398,
-      "y": -3217.2578
+      "x": 1626.7103,
+      "y": -74.5327
     },
     {
       "action": "",
       "id": 12,
       "move_mode": "walk",
       "type": "target",
-      "x": -3977.6602,
-      "y": -3219.2393
+      "x": 1628.2163,
+      "y": -71.1416
     },
     {
       "action": "",
       "id": 13,
       "move_mode": "walk",
-      "type": "path",
-      "x": -3977.9805,
-      "y": -3220.2305
+      "type": "target",
+      "x": 1629.8463,
+      "y": -69.8701
     },
     {
       "action": "",
       "id": 14,
       "move_mode": "walk",
-      "type": "path",
-      "x": -3977.9727,
-      "y": -3220.2344
+      "type": "target",
+      "x": 1631.3804,
+      "y": -68.4861
     },
     {
       "action": "",
       "id": 15,
       "move_mode": "walk",
-      "type": "path",
-      "x": -3977.6953,
-      "y": -3218.7285
+      "type": "target",
+      "x": 1630.3982,
+      "y": -70.2754
     },
     {
       "action": "",
       "id": 16,
       "move_mode": "walk",
       "type": "path",
-      "x": -3982.0117,
-      "y": -3215.5215
+      "x": 1627.9126,
+      "y": -68.582
+    },
+    {
+      "action": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1626.7578,
+      "y": -70.2148
+    },
+    {
+      "action": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1629.5195,
+      "y": -70.1953
+    },
+    {
+      "action": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1630.0789,
+      "y": -69.2764
+    },
+    {
+      "action": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1630.1964,
+      "y": -71.2432
     }
   ]
 }

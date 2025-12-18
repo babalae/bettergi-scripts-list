@@ -4,28 +4,34 @@
       "AutoPick": true
     }
   },
+  "farming_info": {
+    "allow_farming_count": false,
+    "duration_seconds": 0,
+    "elite_details": "",
+    "elite_mob_count": 0,
+    "normal_mob_count": 0,
+    "primary_target": "",
+    "total_mora": 0
+  },
   "info": {
     "authors": [
       {
-        "links": "https: //github.com/OhmyPaoPao",
-        "name": "海豹穹穹队"
+        "links": "",
+        "name": "海报穹穹队"
       }
     ],
     "bgi_version": "0.52.0",
-    "description": "沙漠鳗鱼采集（高危），队伍里必须由早柚/瑶瑶",
+    "description": "沙漠鳗鱼采集，队伍里必须由早柚/瑶瑶",
     "enable_monster_loot_split": false,
     "items": [],
-    "last_modified_time": 1762053988444,
+    "last_modified_time": 1762791518680,
     "map_match_method": "TemplateMatch",
     "map_name": "Teyvat",
-    "name": "02-鳗肉-喀万驿阿如村-6条",
+    "name": "A02-鳗肉-须弥-喀万驿阿如村-6条",
     "order": 0,
-    "tags": [
-      "鳗肉",
-      "瑶瑶"
-    ],
+    "tags": [],
     "type": "collect",
-    "version": "1.0"
+    "version": "2.0"
   },
   "positions": [
     {
@@ -133,12 +139,11 @@
     },
     {
       "action": "",
-      "action_params": "",
       "id": 13,
       "move_mode": "walk",
       "type": "target",
-      "x": 4010.9004,
-      "y": -1960.958
+      "x": 4007.5537,
+      "y": -1958.6235
     },
     {
       "action": "up_down_grab_leaf",
@@ -146,30 +151,12 @@
       "id": 14,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 4024.8652,
-      "y": -1949.5679
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 15,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 4025.5332,
-      "y": -1948.7852
-    },
-    {
-      "action": "up_down_grab_leaf",
-      "action_params": "",
-      "id": 16,
-      "move_mode": "walk",
-      "type": "orientation",
       "x": 4028.4834,
       "y": -1933.6748
     },
     {
       "action": "",
-      "id": 17,
+      "id": 15,
       "move_mode": "walk",
       "type": "path",
       "x": 4038.0752,
@@ -177,7 +164,7 @@
     },
     {
       "action": "",
-      "id": 18,
+      "id": 16,
       "move_mode": "walk",
       "type": "path",
       "x": 4037.3418,
@@ -185,7 +172,7 @@
     },
     {
       "action": "",
-      "id": 19,
+      "id": 17,
       "move_mode": "walk",
       "type": "path",
       "x": 4039.1709,
@@ -193,7 +180,7 @@
     },
     {
       "action": "",
-      "id": 20,
+      "id": 18,
       "move_mode": "walk",
       "type": "path",
       "x": 4040.0957,
@@ -201,7 +188,7 @@
     },
     {
       "action": "",
-      "id": 21,
+      "id": 19,
       "move_mode": "walk",
       "type": "path",
       "x": 4041.8047,
@@ -209,7 +196,7 @@
     },
     {
       "action": "",
-      "id": 22,
+      "id": 20,
       "move_mode": "walk",
       "type": "path",
       "x": 4039.6436,
@@ -217,7 +204,7 @@
     },
     {
       "action": "",
-      "id": 23,
+      "id": 21,
       "move_mode": "walk",
       "type": "path",
       "x": 4039.6221,
@@ -225,7 +212,7 @@
     },
     {
       "action": "",
-      "id": 24,
+      "id": 22,
       "move_mode": "walk",
       "type": "target",
       "x": 4039.8535,
@@ -233,7 +220,7 @@
     },
     {
       "action": "",
-      "id": 25,
+      "id": 23,
       "move_mode": "walk",
       "type": "path",
       "x": 4040.3086,
@@ -241,7 +228,7 @@
     },
     {
       "action": "",
-      "id": 26,
+      "id": 24,
       "move_mode": "walk",
       "type": "path",
       "x": 4040.3086,
@@ -249,7 +236,7 @@
     },
     {
       "action": "",
-      "id": 27,
+      "id": 25,
       "move_mode": "walk",
       "type": "path",
       "x": 4039.4961,
@@ -257,7 +244,7 @@
     },
     {
       "action": "",
-      "id": 28,
+      "id": 26,
       "move_mode": "walk",
       "type": "path",
       "x": 4040.3379,
@@ -265,7 +252,7 @@
     },
     {
       "action": "",
-      "id": 29,
+      "id": 27,
       "move_mode": "walk",
       "type": "path",
       "x": 4038.3135,
@@ -273,7 +260,7 @@
     },
     {
       "action": "",
-      "id": 30,
+      "id": 28,
       "move_mode": "walk",
       "type": "path",
       "x": 4038.5186,
@@ -281,7 +268,7 @@
     },
     {
       "action": "",
-      "id": 31,
+      "id": 29,
       "move_mode": "walk",
       "type": "teleport",
       "x": 3864.01,
@@ -289,7 +276,7 @@
     },
     {
       "action": "",
-      "id": 32,
+      "id": 30,
       "move_mode": "walk",
       "type": "path",
       "x": 3874.4609,
@@ -297,7 +284,7 @@
     },
     {
       "action": "",
-      "id": 33,
+      "id": 31,
       "move_mode": "walk",
       "type": "path",
       "x": 3884.0615,
@@ -305,7 +292,7 @@
     },
     {
       "action": "",
-      "id": 34,
+      "id": 32,
       "move_mode": "walk",
       "type": "path",
       "x": 3905.5469,
@@ -313,7 +300,7 @@
     },
     {
       "action": "",
-      "id": 35,
+      "id": 33,
       "move_mode": "walk",
       "type": "path",
       "x": 3923.2129,
@@ -321,7 +308,7 @@
     },
     {
       "action": "",
-      "id": 36,
+      "id": 34,
       "move_mode": "walk",
       "type": "path",
       "x": 3931.1631,
@@ -329,7 +316,7 @@
     },
     {
       "action": "",
-      "id": 37,
+      "id": 35,
       "move_mode": "walk",
       "type": "path",
       "x": 3942.4053,
@@ -337,7 +324,7 @@
     },
     {
       "action": "",
-      "id": 38,
+      "id": 36,
       "move_mode": "walk",
       "type": "path",
       "x": 3954.9473,
@@ -345,7 +332,7 @@
     },
     {
       "action": "",
-      "id": 39,
+      "id": 37,
       "move_mode": "walk",
       "type": "path",
       "x": 3965.0674,
@@ -353,7 +340,7 @@
     },
     {
       "action": "",
-      "id": 40,
+      "id": 38,
       "move_mode": "walk",
       "type": "path",
       "x": 3969.9951,
@@ -361,7 +348,7 @@
     },
     {
       "action": "",
-      "id": 41,
+      "id": 39,
       "move_mode": "walk",
       "type": "target",
       "x": 3972.6455,
@@ -369,7 +356,7 @@
     },
     {
       "action": "",
-      "id": 42,
+      "id": 40,
       "move_mode": "walk",
       "type": "target",
       "x": 3975.2021,
@@ -377,7 +364,7 @@
     },
     {
       "action": "",
-      "id": 43,
+      "id": 41,
       "move_mode": "walk",
       "type": "target",
       "x": 3973.4346,
@@ -385,7 +372,7 @@
     },
     {
       "action": "",
-      "id": 44,
+      "id": 42,
       "move_mode": "walk",
       "type": "target",
       "x": 3971.7559,
