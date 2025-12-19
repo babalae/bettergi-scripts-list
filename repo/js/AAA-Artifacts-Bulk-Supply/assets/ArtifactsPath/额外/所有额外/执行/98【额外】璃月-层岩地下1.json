@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1765263801315,
+    "last_modified_time": 1766156653809,
     "map_match_method": "",
     "map_name": "TheChasm",
     "name": "98【额外】璃月-层岩地下1",
@@ -94,18 +94,8 @@
       "action": "combat_script",
       "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 9,
-      "locked": false,
       "move_mode": "climb",
       "type": "path",
-      "x": 275.7218017578125,
-      "y": 964.794189453125
-    },
-    {
-      "action": "log_output",
-      "action_params": "↓↓↓↓报错正常,层岩分层地图无法获取\"现在坐标\"对比\"路径最后坐标\"分析跑完了没",
-      "id": 10,
-      "move_mode": "climb",
-      "type": "orientation",
       "x": 275.7218017578125,
       "y": 964.794189453125
     }
