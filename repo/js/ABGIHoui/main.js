@@ -36,6 +36,9 @@
             case "米游社签到":
                 log.info(`ABGI启动${settings.selectTask}`+"：");
                 return;
+            case "bat脚本":
+                log.info(`ABGI启动BAT脚本`+"："+`${settings.inputText}`);
+                return;
             default:
                 log.error(`ABGI不支持的任务${settings.selectTask}`);
                 return;
