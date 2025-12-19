@@ -89,7 +89,12 @@ async function toMainUi() {
 
 async function compareUid(UID = settings.uid) {
     let uid = await ocrUID()
-    let setUid = saveOnlyNumber(UID)
+    let setUid = 0
+    try {
+        setUid = saveOnlyNumber(UID)
+    }catch (e) {
+        // log.warn(`UID未设置`)
+    }
     let compare = uid === setUid
     if (compare) {
         log.info(`[OCR识别UID]识别结果: {uid} 与设置UID相同`, uid);
