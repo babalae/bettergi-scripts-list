@@ -541,7 +541,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             await sleep(9000);
             await matchImgAndClick(login_out_account, "登录页的右下角退出按钮");
             await matchImgAndClick(out_account, "退出当前账号");
-            await matchImgAndClick(login_other_account, "登录其他账号");
+            await recognizeTextAndClick("登录其他账号", RecognitionObject.Ocr(300, 200, 1200, 800), 5000);
             await sleep(1000);
             await matchImgAndClick(input_phone_or_email, "填写邮箱/手机号");
             await inputText(settings.username);
@@ -571,7 +571,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
              * 如果发现卡在这一步，请适当延长sleep时间
              */
             await sleep(8000);
-            await recognizeTextAndClick("点击进入", RecognitionObject.Ocr(862, 966, 206, 104), 960, 540, 5000);
+            await recognizeTextAndClick("点击进入", RecognitionObject.Ocr(862, 966, 206, 104), 5000);
             await sleep(15000);
 
             //可能登录账号的时候出现月卡提醒，则先点击一次月卡。

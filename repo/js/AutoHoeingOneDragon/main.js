@@ -1,4 +1,4 @@
-//当前js版本1.12.0
+//当前js版本1.13.1
 
 let timeMoveUp;
 let timeMoveDown;
@@ -63,8 +63,9 @@ let localeWorks;
 
     localeWorks = !isNaN(Date.parse(new Date().toLocaleString()));
     if (!localeWorks) {
-        log.warn('[WARN] 当前设备 toLocaleString 无法被 Date 解析');
+        log.warn('[WARN] 当前设备本地时间格式无法解析');
         log.warn('[WARN] 建议不要使用12小时时间制');
+        log.warn('[WARN] 已将记录改为使用utc时间');
         await sleep(5000);
     }
 
@@ -164,38 +165,38 @@ let localeWorks;
         await updateRecords(pathings, accountName);
     } else if (operationMode === "运行锄地路线") {
         await switchPartyIfNeeded(partyName);
-        // 检测四神队伍并输出当前角色
-        const avatars = getAvatars() || [];
-        const need = ['钟离', '芙宁娜', '纳西妲', '雷电将军'];
 
-        let improperTeam = true;
-        for (let i = 0; i < need.length; i++) {
-            let found = false;
-            for (let j = 0; j < avatars.length; j++) {
-                if (avatars[j] === need[i]) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                improperTeam = false;
-                break;
-            }
-        }
+        const avatars = Array.from(getAvatars?.() || []);
 
-        // 手动拼接角色名，避免 join 报错
+        // 拼接队伍字符串，放在 switch 之前
         let teamStr = '';
         for (let k = 0; k < avatars.length; k++) {
             teamStr += avatars[k];
-            if (k < avatars.length - 1) {
-                teamStr += '、';
-            }
+            if (k < avatars.length - 1) teamStr += '、';
         }
-
         log.info('当前队伍：' + teamStr);
-        if (improperTeam) {
-            log.warn("当前队伍不适合锄地，建议重新阅读readme相关部分");
-            await sleep(5000);
+
+        switch (true) {
+            case ['钟离', '芙宁娜', '纳西妲', '雷电将军'].every(n => avatars.includes(n)):
+                log.warn("四神队不适合锄地，建议重新阅读 readme 相关部分");
+                await sleep(10000);
+                return;
+
+            case avatars.includes('钟离'):
+                log.warn("当前队伍包含钟离，钟离不适合锄地，建议重新阅读 readme 相关部分");
+                await sleep(5000);
+                break;
+
+            case !['芙宁娜', '爱可菲', '玛薇卡'].some(n => avatars.includes(n)):
+                log.warn("未携带合适的输出角色（芙宁娜/爱可菲/玛薇卡），建议重新阅读 readme 相关部分");
+                await sleep(5000);
+                break;
+
+            case !['茜特菈莉', '伊涅芙', '莱依拉', '蓝砚', '白术', '琦良良', '迪希雅', '迪奥娜']
+                .some(n => avatars.includes(n)):
+                log.warn("未携带合适的抗打断角色（茜特菈莉/伊涅芙/莱依拉/蓝砚/白术/琦良良/迪希雅/迪奥娜）");
+                await sleep(5000);
+                break;
         }
 
         log.info("开始运行锄地路线");

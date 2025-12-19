@@ -47,7 +47,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keydown(w),wait(0.2),keypress(e),wait(1.7),keypress(e),wait(1.2),keyup(w)",
+      "action_params": "keydown(VK_SPACE),wait(0.9),keyup(VK_SPACE),keydown(w),wait(0.2),keypress(e),wait(1.7),keypress(e),wait(1.2)",
       "id": 4,
       "move_mode": "walk",
       "type": "orientation",
@@ -74,7 +74,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keydown(w),wait(0.2),dash,wait(1),keyup(w),wait(1.5)",
+      "action_params": "keydown(w),wait(0.2),dash,wait(0.5),keyup(w),wait(1.5)",
       "id": 7,
       "move_mode": "walk",
       "type": "orientation",

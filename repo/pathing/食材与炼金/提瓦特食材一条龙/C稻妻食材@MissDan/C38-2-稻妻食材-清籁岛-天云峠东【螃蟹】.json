@@ -9,13 +9,13 @@
     "bgi_version": "0.52.0",
     "description": "3个甜甜花；1个薄荷；12个螃蟹；3个电气水晶；22个海草；",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1762349147569,
+    "last_modified_time": 1763318104444,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "C38-2-稻妻食材-清籁岛-天云峠东【螃蟹】",
     "tags": [],
     "type": "collect",
-    "version": "2.0"
+    "version": "3.0"
   },
   "positions": [
     {
@@ -202,8 +202,8 @@
       "action": "",
       "action_params": "",
       "id": 21,
-      "move_mode": "walk",
-      "type": "target",
+      "move_mode": "dash",
+      "type": "path",
       "x": -4434.8125,
       "y": -4813.6877
     },
@@ -393,8 +393,8 @@
       "id": 42,
       "move_mode": "walk",
       "type": "path",
-      "x": -4637.7285,
-      "y": -5012.2676
+      "x": -4635.0,
+      "y": -5009.6875
     },
     {
       "action": "",
@@ -463,7 +463,7 @@
       "action": "",
       "action_params": "",
       "id": 50,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
       "x": -4800.1035,
       "y": -4886.9893
@@ -472,7 +472,7 @@
       "action": "",
       "action_params": "",
       "id": 51,
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "path",
       "x": -4800.623,
       "y": -4880.9375
@@ -674,6 +674,15 @@
       "type": "path",
       "x": -4612.7773,
       "y": -4746.6523
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 74,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4635.0703,
+      "y": -5009.6113
     }
   ]
 }
