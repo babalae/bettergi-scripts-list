@@ -1,0 +1,67 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766122792212,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "禽肉7-4-彩彩崖北-2肉×2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 13731.1767578125,
+      "y": 833.81103515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13747.2685546875,
+      "y": 872.8359375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "3000",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 13764.9755859375,
+      "y": 891.2822265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 13767.9736328125,
+      "y": 891.2275390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 13763.4365234375,
+      "y": 890.77197265625
+    }
+  ]
+}
