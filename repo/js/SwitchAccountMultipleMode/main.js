@@ -41,6 +41,8 @@ const login_verification = {
     name: "verification.png"
 };
 
+eval(file.readTextSync('utils/uid.js'))
+
 async function clickCenter(x, y, width, height) {
     let centerX = Math.round(x + width / 2);
     let centerY = Math.round(y + height / 2);
@@ -423,6 +425,10 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
     // ======================================================
     // Main flow
 
+    if (await uidUtil.check()) {
+        log.info("当前UID与设置UID相同，无需切换账号。");
+        return
+    }
     if (settings.Modes == "下拉列表") {
         await DropDownMode();
     } else if (settings.Modes == "账号+密码") {
