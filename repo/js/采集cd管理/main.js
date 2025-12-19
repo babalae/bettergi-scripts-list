@@ -931,8 +931,6 @@ let underWater = false;
                     await genshin.returnMainUi();
 
                     try {
-                        const filePaths = groupFiles.map(f => f.fullPath);
-
                         /* ================== 提前计算分均效率（所有模式通用） ================== */
                         // 0) 解析优先关键词
                         const priorityKeywords = settings.priorityTags
@@ -955,8 +953,8 @@ let underWater = false;
                         }
 
                         // 2) 先计算一次基础效率（未知路线先标 -1）
-                        filePaths.forEach(p => {
-                            const fullName = basename(p);
+                        groupFiles.forEach(p => {
+                            const fullName = basename(p.fullPath);
                             const obj = cdMap.get(fullName);
                             let avgEff = -1; // 先标记为“未知”
 
@@ -973,35 +971,40 @@ let underWater = false;
                             p._efficiency = avgEff; // 已知路线存真实效率，未知路线存 -1
                         });
 
-                        // 3) 计算默认效率（分位值）
-                        const knownEff = filePaths
+                        // 3) 计算默认效率（分位值 & 临界值 取最大）
+                        const knownEff = groupFiles
                             .map(p => p._efficiency)
-                            .filter(e => e >= 0) // 只保留已知路线
+                            .filter(e => e >= 0)          // 只保留已知路线
                             .sort((a, b) => a - b);
+
+                        const userThreshold = Number(settings[`pathGroup${i}thresholdEfficiency`]) || 0;
 
                         let defaultEff;
                         if (knownEff.length === 0) {
-                            // 一条已知路线都没有 → 回退到老逻辑
-                            defaultEff = Number(settings[`pathGroup${i}thresholdEfficiency`]) || 0;
+                            // 一条已知路线都没有 → 直接用临界值
+                            defaultEff = userThreshold;
                         } else {
-                            // 按配置的分位取默认效率
+                            // 按配置的分位取效率
                             const rawPct = settings.defaultEffPercentile;
                             const pct = Math.max(0, Math.min(1, rawPct === "" ? 0.5 : Number(rawPct)));
                             const idx = Math.ceil(pct * knownEff.length) - 1;
-                            defaultEff = knownEff[Math.max(0, idx)];
+                            const percentileEff = knownEff[Math.max(0, idx)];
+
+                            // 关键改动：与临界值取最大
+                            defaultEff = Math.max(percentileEff, userThreshold);
                         }
 
                         // 4) 把 -1 的未知路线替换成默认效率
-                        filePaths.forEach(p => {
+                        groupFiles.forEach(p => {
                             if (p._efficiency === -1) p._efficiency = defaultEff;
                         });
 
                         // 5) 计算全局最大效率值（已含默认效率）
-                        const maxEff = Math.max(...filePaths.map(p => p._efficiency), 0);
+                        const maxEff = Math.max(...groupFiles.map(p => p._efficiency), 0);
 
                         // 6) 优先关键词加分（逻辑不变）
-                        filePaths.forEach(p => {
-                            const fullName = basename(p);
+                        groupFiles.forEach(p => {
+                            const fullName = basename(p.fullPath);
                             const obj = cdMap.get(fullName);
 
                             const itemHit = obj?.history?.some(log =>
@@ -1009,7 +1012,7 @@ let underWater = false;
                                     priorityKeywords.some(key => item.includes(key))
                                 )
                             );
-                            const pathHit = priorityKeywords.some(key => p.includes(key));
+                            const pathHit = priorityKeywords.some(key => p.fullPath.includes(key));
                             const descHit = priorityKeywords.some(key => (p.description || '').includes(key));
 
                             if (itemHit || pathHit || descHit) {
@@ -1020,9 +1023,9 @@ let underWater = false;
                         /* ================== 排序分支 ================== */
                         switch (settings.sortMode) {
                             case "优先最早刷新，将优先执行最早刷新的路线":
-                                filePaths.sort((a, b) => {
-                                    const nameA = basename(a);
-                                    const nameB = basename(b);
+                                groupFiles.sort((a, b) => {
+                                    const nameA = basename(a.fullPath);
+                                    const nameB = basename(b.fullPath);
                                     const timeA = cdMap.has(nameA) ? new Date(cdMap.get(nameA).cdTime) : new Date(0);
                                     const timeB = cdMap.has(nameB) ? new Date(cdMap.get(nameB).cdTime) : new Date(0);
                                     return timeA - timeB;   // 越早刷新越靠前
@@ -1031,7 +1034,7 @@ let underWater = false;
 
                             case "优先最高效率，将优先执行最高分均拾取物的路线":
                                 // 直接复用提前算好的 _efficiency
-                                filePaths.sort((a, b) => (b._efficiency || 0) - (a._efficiency || 0));
+                                groupFiles.sort((a, b) => (b._efficiency || 0) - (a._efficiency || 0));
                                 break;
 
                             default:
@@ -1039,8 +1042,8 @@ let underWater = false;
                                 break;
                         }
 
-                        for (const filePath of filePaths) {
-                            const fileName = basename(filePath).replace('.json', '');
+                        for (const filePath of groupFiles) {
+                            const fileName = basename(filePath.fullPath).replace('.json', '');
                             const fullName = fileName + '.json';
                             const targetObj = cdMap.get(fullName);
                             const nextCD = targetObj ? new Date(targetObj.cdTime) : new Date(0);
@@ -1054,8 +1057,8 @@ let underWater = false;
 
                             let doSkip = false;
                             for (const kw of disableArray) {
-                                if (filePath.includes(kw)) {
-                                    log.info(`路径文件 ${filePath} 包含禁用关键词 "${kw}"，跳过任务 ${fileName}`);
+                                if (filePath.fullPath.includes(kw)) {
+                                    log.info(`路径文件 ${filePath.fullPath} 包含禁用关键词 "${kw}"，跳过任务 ${fileName}`);
                                     doSkip = true; break;
                                 }
                             }
@@ -1116,19 +1119,20 @@ let underWater = false;
                             const pickupTask = recognizeAndInteract();
                             runnedAnyPath = true;
 
-                            log.info(`当前进度：路径组${i} ${folder} ${fileName} 为第 ${filePaths.indexOf(filePath) + 1}/${filePaths.length} 个`);
-                            if (!underWater && filePath.includes('枫丹水下')) {
+                            log.info(`当前进度：路径组${i} ${folder} ${fileName} 为第 ${groupFiles.indexOf(filePath) + 1}/${groupFiles.length} 个`);
+                            log.info(`当前路线分均效率为 ${(filePath._efficiency ?? 0).toFixed(2)}`);
+                            if (!underWater && filePath.fullPath.includes('枫丹水下')) {
                                 await pathingScript.runFile("assets/A00-塞洛海原（学习螃蟹技能）.json");
                                 underWater = true;
                             }
-                            if (underWater && !filePath.includes('枫丹水下')) {
+                            if (underWater && !filePath.fullPath.includes('枫丹水下')) {
                                 underWater = false;
                             }
                             try {
                                 state.runPickupLog = [];          // 新路线开始前清空
-                                await pathingScript.runFile(filePath);
+                                await pathingScript.runFile(filePath.fullPath);
                             } catch (error) {
-                                log.error(`路径文件 ${filePath} 不存在或执行失败: ${error}`);
+                                log.error(`路径文件 ${filePath.fullPath} 不存在或执行失败: ${error}`);
                                 continue;
                             }
 
