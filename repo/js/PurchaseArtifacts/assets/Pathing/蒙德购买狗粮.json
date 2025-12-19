@@ -1,48 +1,58 @@
 {
   "info": {
-    "name": "未命名路径",
-    "type": "collect",
-    "author": "柒叶子",
-    "version": "1.0",
+    "authors": [
+      {
+        "links": "",
+        "name": "柒叶子"
+      }
+    ],
+    "bgi_version": "0.45.0",
     "description": "蒙德购买狗粮",
-    "bgi_version": "0.35.1"
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766155550206,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蒙德购买狗粮",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -867.7177734375,
-      "y": 2281.383544921875,
-      "action_params": ""
+      "y": 2281.383544921875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -886.9833984375,
-      "y": 2277.64013671875,
+      "move_mode": "dash",
       "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "x": -886.9833984375,
+      "y": 2277.64013671875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": -912.6171875,
-      "y": 2292.257568359375,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "type": "path",
+      "x": -911.95703125,
+      "y": 2291.001220703125
     },
     {
-      "id": 4,
-      "x": -913.181640625,
-      "y": 2292.407958984375,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "climb",
+      "type": "target",
+      "x": -913.046875,
+      "y": 2291.388427734375
     }
   ]
 }
