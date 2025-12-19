@@ -41,7 +41,13 @@ async function ocrUID() {
     let res = region3.find(recognitionObjectOcr);
     log.info(`[OCR识别UID]识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y},width:${res.width},height:${res.height}`);
     //只保留数字
-    let uid = saveOnlyNumber(res.text)
+    let uid
+    try {
+        uid = saveOnlyNumber(res.text)
+    } catch (e) {
+        log.warn(`UID未设置`)
+        uid = 0
+    }
     log.info(`[OCR识别UID]识别结果: {uid}`, uid);
     region3.dispose()
     return uid
