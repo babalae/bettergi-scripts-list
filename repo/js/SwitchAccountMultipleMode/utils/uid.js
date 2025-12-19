@@ -21,7 +21,7 @@ function getJsonPath(key) {
 }
 
 function saveOnlyNumber(str) {
-    str = '' + str
+    str = str ? str : '';
     // 使用正则表达式匹配字符串中的所有数字
     // \d+ 匹配一个或多个数字
     // .join('') 将匹配到的数字数组连接成一个字符串
@@ -105,7 +105,7 @@ async function checkUid() {
 async function check() {
     try {
         await toMainUi();
-    }catch (e){
+    } catch (e) {
         log.warn("多次尝试返回主界面失败")
     }
     let checkJson = await checkUid()
