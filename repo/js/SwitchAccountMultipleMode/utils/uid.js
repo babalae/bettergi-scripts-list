@@ -92,7 +92,7 @@ async function compareUid(UID = settings.uid) {
     let setUid = 0
     try {
         setUid = saveOnlyNumber(UID)
-    }catch (e) {
+    } catch (e) {
         // log.warn(`UID未设置`)
     }
     let compare = uid === setUid
@@ -114,17 +114,21 @@ async function checkUid() {
 }
 
 async function check() {
-    try {
-        await toMainUi();
-    } catch (e) {
-        log.warn("多次尝试返回主界面失败")
+    let check = false
+    if (settings.uid) {
+        try {
+            await toMainUi();
+        } catch (e) {
+            log.warn("多次尝试返回主界面失败")
+        }
+        let checkJson = await checkUid()
+        if ((!checkJson.inMainUI) && (!checkJson.isUid)) {
+            //尝试直接识别
+            checkJson.isUid = await compareUid()
+        }
+        check = checkJson.isUid
     }
-    let checkJson = await checkUid()
-    if ((!checkJson.inMainUI) && (!checkJson.isUid)) {
-        //尝试直接识别
-        checkJson.isUid = await compareUid()
-    }
-    return checkJson.isUid
+    return check
 }
 
 this.uidUtil = {
