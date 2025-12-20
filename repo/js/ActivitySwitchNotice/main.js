@@ -30,7 +30,9 @@ async function toMainUi() {
     }
 }
 (async function () {
-    await toMainUi();
+    if (settings.toMainUi){
+        await toMainUi();
+    }
     await main();
 })();
 
