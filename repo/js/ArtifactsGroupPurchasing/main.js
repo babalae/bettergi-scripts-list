@@ -153,7 +153,7 @@ let skipRunning = false;
                 await sleep(1000);
             }
         }
-
+        await sleep(10000);
         return;
     }
 
@@ -161,6 +161,22 @@ let skipRunning = false;
         expGain = await processArtifacts() - expGain;
         log.info(`${settings.logName}：联机狗粮分解获得经验${expGain}`);
         notification.send(`${settings.logName}：联机狗粮分解获得经验${expGain}`);
+    }
+
+    {
+        log.info(`本次运行未启用或未触发强迫症模式，正常结束`);
+        if (settings.normalEnding) {
+            // 按中文分号分割字符串
+            const segments = settings.normalEnding.split('；');
+
+            // 逐段输出，每段间隔1秒
+            for (const segment of segments) {
+                if (segment.trim()) { // 跳过空段落
+                    log.info(segment.trim());
+                    await sleep(1000);
+                }
+            }
+        }
     }
 }
 )();
@@ -297,6 +313,8 @@ async function runGroupPurchasing(runExtra) {
         if (runExtra) {
             log.info("请确保联机收尾已结束，将开始运行额外路线");
             await runExtraPath();
+        } else {
+            log.warn("处于单人模式，不执行任何路线");
         }
     } else {
         log.warn("角色编号识别异常")
@@ -779,7 +797,7 @@ async function autoEnter(autoEnterSettings) {
     if (new Date() - start >= timeout * 60 * 1000) {
         log.warn("超时未达到预定人数");
         notification.error(`超时未达到预定人数`);
-        if (settings.onlyRunPerfectly) {
+        if (settings.onlyRunPerfectly && enterMode != "进入他人世界") {
             skipRunning = true;
             doRunExtra = false;
         }
