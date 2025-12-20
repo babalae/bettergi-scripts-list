@@ -17,7 +17,12 @@
   {
     "name": "onlyRunPerfectly",
     "type": "input-text",
-    "label": "输入任意内容后启用强迫症模式\n人不齐或队友未正常到位时不执行任何路线\n并在运行结束后输出按中文分号；分隔的内容"
+    "label": "输入任意内容后启用强迫症模式\n人不齐或队友未正常到位时不执行任何路线\n并在运行结束后间隔一秒输出按中文分号；分隔的内容"
+  },
+  {
+    "name": "normalEnding",
+    "type": "input-text",
+    "label": "正常运行结束后间隔一秒输出按中文分号；分隔的内容"
   },
   {
     "name": "groupMode",

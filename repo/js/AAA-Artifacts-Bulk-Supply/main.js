@@ -138,15 +138,43 @@ let gameRegion;
     moraDiff += await mora();
     log.info(`狗粮路线获取摩拉: ${moraDiff}`);
     log.info(`狗粮路线获取狗粮经验: ${artifactExperienceDiff}`);
-    //修改records
-    for (let i = record.records.length - 1; i > 0; i--) {
-        record.records[i] = record.records[i - 1];
+    // ========== 主流程末尾：替换原来的“修改records”区块 ==========
+    const todayKey = `日期:${record.lastRunDate}，运行收尾路线${record.lastRunEndingRoute}`;
+    let merged = false;
+
+    // 先扫描数组，找同一天同收尾路线
+    for (let i = 0; i < record.records.length; i++) {
+        const line = record.records[i];
+        if (line && line.startsWith(todayKey)) {
+            // 解析原记录的经验、摩拉
+            const match = line.match(/狗粮经验(-?\d+)，摩拉(-?\d+)/);
+            if (match) {
+                const oldExp = Number(match[1]);
+                const oldMora = Number(match[2]);
+                // 累加并取正
+                const newExp = Math.max(0, oldExp + artifactExperienceDiff);
+                const newMora = Math.max(0, oldMora + moraDiff);
+                record.records[i] = `${todayKey}，狗粮经验${newExp}，摩拉${newMora}`;
+                merged = true;
+                log.info(`检测到同日记录，已合并更新：经验 ${newExp}，摩拉 ${newMora}`);
+            }
+            break; // 同一天只可能有一条，找到就停
+        }
     }
-    record.records[0] = `日期:${record.lastRunDate}，运行收尾路线${record.lastRunEndingRoute}，狗粮经验${artifactExperienceDiff}，摩拉${moraDiff}`;
+
+    // 如果没找到同一天，再走原来的“整体后移插新记录”逻辑
+    if (!merged) {
+        for (let i = record.records.length - 1; i > 0; i--) {
+            record.records[i] = record.records[i - 1];
+        }
+        record.records[0] = `${todayKey}，狗粮经验${Math.max(0, artifactExperienceDiff)}，摩拉${Math.max(0, moraDiff)}`;
+    }
+
+    // 通知与写盘保持不变
     if (settings.notify) {
-        notification.Send(`日期:${record.lastRunDate}，运行收尾路线${record.lastRunEndingRoute}，狗粮经验${artifactExperienceDiff}，摩拉${moraDiff}`);
+        notification.Send(`${todayKey}，狗粮经验${Math.max(0, artifactExperienceDiff)}，摩拉${Math.max(0, moraDiff)}`);
     }
-    await writeRecord(accountName);//修改记录文件
+    await writeRecord(accountName);
 
 })();
 
@@ -195,7 +223,7 @@ async function readRecord(accountName) {
         lastRunDate: "1970/01/01",
         lastActivateTime: new Date("1970-01-01T20:00:00.000Z"),
         lastRunEndingRoute: "收尾额外A",
-        records: new Array(14).fill(""),
+        records: new Array(33550336).fill(""),
         version: ""
     };
 
