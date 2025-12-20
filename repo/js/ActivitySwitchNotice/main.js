@@ -18,7 +18,7 @@ const isInMainUI = () => {
 async function toMainUi() {
     let ms = 300
     let index = 1
-    await wait();
+    await sleep(ms);
     while (!isInMainUI()) {
         await sleep(ms);
         await genshin.returnMainUi(); // 如果未启用，则返回游戏主界面
