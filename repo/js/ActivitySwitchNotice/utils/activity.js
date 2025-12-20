@@ -10,6 +10,11 @@ const xyConfig = {
     top: {x: 344, y: 273},
     bottom: {x: 342, y: 791},
 }
+
+const genshinJson = {
+    width: 1920,//genshin.width,
+    height: 1080,//genshin.height,
+}
 eval(file.readTextSync(`notice.js`))
 
 /**
@@ -51,6 +56,17 @@ async function scrollPage(totalDistance, isUp = false, waitCount = 6, stepDistan
     await sleep(ms);
     leftButtonUp();
     await sleep(ms);
+}
+
+/**
+ * 根据活动状态进行页面滚动
+ * @param {boolean} isUp - 是否向上滚动，默认为false
+ */
+async function scrollPagesByActivity(isUp = false) {
+    // 移动到顶部坐标位置
+    moveTo(xyConfig.top.x, xyConfig.top.y)
+    //80 18次滑动偏移量  46次测试未发现偏移
+    await scrollPage(Math.floor(genshinJson.height * 80 / 1080), isUp, 6, 18)
 }
 
 /**
