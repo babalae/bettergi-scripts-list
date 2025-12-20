@@ -29,6 +29,7 @@ async function toMainUi() {
         index += 1
     }
 }
+
 (async function () {
     if (settings.toMainUi){
         await toMainUi();

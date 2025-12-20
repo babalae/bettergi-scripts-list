@@ -278,4 +278,5 @@ async function activityMain() {
 
 this.activityUtil = {
     activityMain,
+    // OcrRemainingTime,
 }
