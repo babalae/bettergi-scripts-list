@@ -88,7 +88,7 @@ async function scrollPagesByActivityToTop() {
     // 无限循环，直到到达顶部后通过return退出
     while (true) {
         // 检查是否已超过最大尝试次数(10次)
-        if (index < config.toTopCount) {
+        if (index >= config.toTopCount) {
             throw new Error("回到顶部失败")  // 超过尝试次数抛出错误
         }
         index++  // 增加尝试次数计数器
