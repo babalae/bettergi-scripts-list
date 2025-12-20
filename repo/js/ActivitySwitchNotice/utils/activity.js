@@ -7,7 +7,46 @@ const ocrRegionConfig = {
     remainingTime: {x: 497, y: 202, width: 1417, height: 670},//剩余时间识别区域坐标和尺寸
 }
 eval(file.readTextSync(`notice.js`))
-
+/**
+ * 滚动页面的异步函数
+ * @param {number} totalDistance - 总滚动距离
+ * @param {boolean} [isUp=false] - 是否向上滚动，默认为false(向下滚动)
+ * @param {number} [waitCount=6] - 每隔多少步等待一次
+ * @param {number} [stepDistance=30] - 每步滚动的距离
+ * @param {number} [delayMs=1] - 等待的延迟时间(毫秒)
+ */
+async function scrollPage(totalDistance, isUp = false, waitCount = 6, stepDistance = 30, delayMs = 1000) {
+    let ms = 600
+    await sleep(ms);
+    leftButtonDown();  // 按下左键
+    await sleep(ms);
+    // 计算总步数
+    let steps = Math.floor(totalDistance / stepDistance);
+    // 开始循环滚动
+    for (let j = 0; j < steps; j++) {
+        // 计算剩余距离
+        let remainingDistance = totalDistance - j * stepDistance;
+        // 确定本次移动距离
+        let moveDistance = remainingDistance < stepDistance ? remainingDistance : stepDistance;
+        // 如果是向上滚动，则移动距离取反
+        if (isUp) {
+            //向上活动
+            moveDistance = -moveDistance
+        }
+        // 执行鼠标移动
+        moveMouseBy(0, -moveDistance);
+        // 取消注释后会在每一步后等待
+        // await sleep(delayMs);
+        // 每隔waitCount步等待一次
+        if (j % waitCount === 0) {
+            await sleep(delayMs);
+        }
+    }
+    // 滚动完成后释放左键
+    await sleep(ms);
+    leftButtonUp();
+    await sleep(ms);
+}
 
 /**
  * OCR点击活动函数
