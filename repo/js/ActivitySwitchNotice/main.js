@@ -1,4 +1,3 @@
-eval(file.readTextSync(`utils/notice.js`))
 eval(file.readTextSync(`utils/activity.js`))
 
 (async function () {
@@ -8,5 +7,5 @@ eval(file.readTextSync(`utils/activity.js`))
  * @returns {Promise<void>}
  */
 async function main(){
-
+    await activityUtil.activityMain()
 }
