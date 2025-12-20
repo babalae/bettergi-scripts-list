@@ -13,7 +13,7 @@ async function sendNotice(map, title, noNotice) {
     // 初始化通知文本，如果有标题则添加标题
     let text = title ? title + "\n" : ""
     // 遍历map，将键值对添加到通知文本中
-    map.forEach((key, value) => {
+    map.forEach((value,key) => {
         text += `> ${key}:${value}\n`
     })
     // 发送通知
