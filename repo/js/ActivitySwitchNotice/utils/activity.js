@@ -166,7 +166,7 @@ async function OcrClickActivity(activityNameList, map = new Map([]), defaultActi
         act_x1: null,//第一个活动的x坐标
         act_y1: null,//第一个活动的y坐标
         lastActivityName: null,//记录最后一个活动名称
-        activityMap: null,//记录所有活动名称
+        activityMap: activityMap,//记录所有活动名称
         activityOk: activityOk,
     }
     // 如果有识别结果，记录第一个活动的坐标
@@ -229,9 +229,9 @@ async function activityMain() {
             //通知所有活动
             let resObject = await OcrClickActivity([], activityMap)  // OCR识别并点击所有活动
             // 更新活动Map，只添加新发现的活动
-            resObject.activityMap.forEach((key, value) => {
+            resObject.activityMap.keys().forEach(key => {
                 if (!activityMap.has(key)) {
-                    activityMap.set(key, value)
+                    activityMap.set(key, activityMap.get(key))
                 }
             })
             // 检查是否到达页面底部
@@ -244,9 +244,9 @@ async function activityMain() {
             //通知指定活动
             let resObject = await OcrClickActivity(config.activityNameList, activityMap, switchToActivityCount)  // OCR识别并点击指定活动
             // 更新活动Map，只添加新发现的活动
-            resObject.activityMap.forEach((key, value) => {
+            resObject.activityMap.keys().forEach(key => {
                 if (!activityMap.has(key)) {
-                    activityMap.set(key, value)
+                    activityMap.set(key, activityMap.get(key))
                 }
             })
             // 根据返回结果决定是否继续
