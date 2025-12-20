@@ -118,7 +118,7 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
  * @param {Object} ocrRegion - OCR识别区域配置（默认为ocrRegionConfig.activity）
  * @returns {Object} 返回包含活动识别结果的对象
  */
-async function OcrClickActivity(activityNameList, lastName, map = new Map([]), defaultActivityCount = 0, ocrRegion = ocrRegionConfig.activity) {
+async function OcrClickActivity(activityNameList, lastName=null, map = new Map([]), defaultActivityCount = 0, ocrRegion = ocrRegionConfig.activity) {
     let ms = 1000; // 设置等待时间（毫秒）
     await moveMouseTo(0, 20)
     let switchToActivityCount = defaultActivityCount // 记录成功切换到活动的次数
@@ -139,11 +139,19 @@ async function OcrClickActivity(activityNameList, lastName, map = new Map([]), d
         activityMap: activityMap,//记录所有活动名称
         activityOk: activityOk,
     }
-    if (resList && resList.length > 0 && lastName === resList[resList.length - 1].text) {
+    if (resList.length > 0 &&lastName !== null&& lastName === resList[resList.length - 1].text) {
+        log.info(`已到达最后一个活动`)
         return resObject
     }
     // 遍历所有识别结果
     for (let res of resList) {
+        log.info(`{last}识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y}`,lastName);
+        // 检查是否已找到所有活动
+        if (activityNameList.length !== 0 && activityNameList.length === switchToActivityCount) {
+            log.info(`已识别:{switchToActivityCount}个活动`, switchToActivityCount);
+            activityOk = true
+            break
+        }
         // log.info(`res:${res}`)
         // log.info(`识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y}`);
         await sleep(ms) // 等待指定时间
@@ -167,13 +175,8 @@ async function OcrClickActivity(activityNameList, lastName, map = new Map([]), d
             firstRes = res
         }
         lastRes = res
-        // 检查是否已找到所有活动
-        if (activityNameList.length !== 0 && activityNameList.length === switchToActivityCount) {
-            log.info(`已识别:{switchToActivityCount}个活动`, switchToActivityCount);
-            activityOk = true
-            break
-        }
     }
+    lastName=lastRes.text
     // 创建并返回结果对象
     resObject = {
         switchToActivityCount: switchToActivityCount,//记录点击成功的次数
@@ -227,10 +230,19 @@ async function activityMain() {
     await sleep(ms); // 等待活动页面加载
     // 初始化活动Map，用于存储已识别的活动
     let activityMap = new Map([])
+    let LastName = null  // 记录上一个活动名称
     let LastActivityName = null  // 记录上一个活动名称
+    let LastActivityName2 = null  // 记录上一个活动名称
     let index = 0  // 当前尝试次数计数器
     let maxIndex = 10  // 最大尝试次数限制
-
+    let resObject = {
+        switchToActivityCount: 0,//记录点击成功的次数
+        act_x1: null,//第一个活动的x坐标
+        act_y1: null,//第一个活动的y坐标
+        lastActivityName: null,//记录最后一个活动名称
+        activityMap: activityMap,//记录所有活动名称
+        activityOk: false,
+    }
     // 处理有指定活动列表的情况
     let switchToActivityCount = 0  // 记录切换活动的次数
     //拉到顶部
@@ -238,10 +250,13 @@ async function activityMain() {
     // 主循环，用于持续处理活动
     while (true) {
         index++  // 增加尝试次数
+        if ((LastActivityName2 !== null && LastActivityName !== null) && LastActivityName === LastActivityName2) {
+            break
+        }
         // 处理无指定活动列表的情况
         if (config.activityNameList.length <= 0) {
             //通知所有活动
-            let resObject = await OcrClickActivity([], LastActivityName, activityMap)  // OCR识别并点击所有活动
+            let resObject = await OcrClickActivity([], LastName, activityMap)  // OCR识别并点击所有活动
             // 更新活动Map，只添加新发现的活动
             resObject.activityMap.keys().forEach(key => {
                 if (!activityMap.has(key)) {
@@ -249,14 +264,12 @@ async function activityMain() {
                 }
             })
             // 检查是否到达页面底部
-            if (LastActivityName === resObject.lastActivityName) {
-                //到底了，退出循环
+            if ((LastActivityName2 !== null && LastActivityName !== null) && LastActivityName === LastActivityName2) {
                 break
             }
-            LastActivityName = resObject.lastActivityName  // 更新最后活动名称
         } else {
             //通知指定活动
-            let resObject = await OcrClickActivity(config.activityNameList, LastActivityName, activityMap, switchToActivityCount)  // OCR识别并点击指定活动
+            let resObject = await OcrClickActivity(config.activityNameList, LastName, activityMap, switchToActivityCount)  // OCR识别并点击指定活动
             // 更新活动Map，只添加新发现的活动
             resObject.activityMap.keys().forEach(key => {
                 if (!activityMap.has(key)) {
@@ -266,7 +279,7 @@ async function activityMain() {
             // 根据返回结果决定是否继续
             if (resObject.activityOk) {
                 break  // 活动处理完成，退出循环
-            } else if (LastActivityName === resObject.lastActivityName) {
+            } else if ((LastActivityName2 !== null && LastActivityName !== null) && LastActivityName === LastActivityName2) {
                 //到底了，退出循环
                 break
             } else if (switchToActivityCount < config.activityNameList.length) {
@@ -274,8 +287,16 @@ async function activityMain() {
             } else if (switchToActivityCount >= config.activityNameList.length) {
                 break  // 已尝试所有指定活动，退出循环
             }
-            LastActivityName = resObject.lastActivityName  // 更新最后活动名称
         }
+        log.info(`当前 lastActivityName: {resObject.lastActivityName}`,resObject.lastActivityName)
+        if ((index) % 2 == 1) {
+            LastActivityName = resObject.lastActivityName
+        } else {
+            LastActivityName2 = resObject.lastActivityName  // 更新最后活动名称
+        }
+        LastName = resObject.lastActivityName  // 更新最后活动名称
+        log.info(`{index}次尝试 LastName={LastName}`, index,LastName)  // 记录尝试次数
+
         //向下滑动一页
         await scrollPagesByActivity()
         // 待实现：向下滑动一页的功能
