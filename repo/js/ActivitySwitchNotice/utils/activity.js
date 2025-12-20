@@ -69,13 +69,15 @@ async function scrollPagesByActivity(isUp = false) {
     await scrollPage(Math.floor(genshinJson.height * 80 / 1080), isUp, 6, 18)
 }
 
+
 /**
- * OCR点击活动函数
- * @param {Object} ocrRegion - OCR识别区域配置，默认为ocrRegionConfig.activity
+ * 处理活动点击的异步函数
  * @param {Array} activityNameList - 活动名称列表
- * @returns {Object} 返回包含识别结果的对象
+ * @param {Map} map - 活动映射表（默认为空Map）
+ * @param {Object} ocrRegion - OCR识别区域配置（默认为ocrRegionConfig.activity）
+ * @returns {Object} 返回包含活动识别结果的对象
  */
-async function OcrClickActivity(activityNameList, ocrRegion = ocrRegionConfig.activity) {
+async function OcrClickActivity(activityNameList, map = new Map([]), ocrRegion = ocrRegionConfig.activity) {
     let ms = 1000; // 设置等待时间（毫秒）
     let switchToActivityCount = 0 // 记录成功切换到活动的次数
     let captureRegion = captureGameRegion(); // 获取游戏区域截图
@@ -85,7 +87,7 @@ async function OcrClickActivity(activityNameList, ocrRegion = ocrRegionConfig.ac
     captureRegion.dispose(); // 释放截图资源
     let firstRes = null // 存储第一个识别结果
     let lastRes = null // 存储最后一个识别结果
-    let activityMap = new Map([]) // 创建活动映射表
+    let activityMap = map// 创建活动映射表
     let activityOk = false
     // 遍历所有识别结果
     for (let res of resList) {
@@ -186,7 +188,7 @@ async function activityMain() {
         // 处理无指定活动列表的情况
         if (config.activityNameList.length <= 0) {
             //通知所有活动
-            let resObject = await OcrClickActivity([])  // OCR识别并点击所有活动
+            let resObject = await OcrClickActivity([],activityMap)  // OCR识别并点击所有活动
             // 更新活动Map，只添加新发现的活动
             resObject.activityMap.forEach((key, value) => {
                 if (!activityMap.has(key)) {
@@ -204,7 +206,7 @@ async function activityMain() {
             // 处理有指定活动列表的情况
             let switchToActivityCount = 0  // 记录切换活动的次数
             //通知指定活动
-            let resObject = await OcrClickActivity(config.activityNameList)  // OCR识别并点击指定活动
+            let resObject = await OcrClickActivity(config.activityNameList,activityMap)  // OCR识别并点击指定活动
             // 更新活动Map，只添加新发现的活动
             resObject.activityMap.forEach((key, value) => {
                 if (!activityMap.has(key)) {
