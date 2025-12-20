@@ -15,7 +15,6 @@ const genshinJson = {
     width: 1920,//genshin.width,
     height: 1080,//genshin.height,
 }
-eval(file.readTextSync(`notice.js`))
 
 /**
  * 滚动页面的异步函数
@@ -63,10 +62,16 @@ async function scrollPage(totalDistance, isUp = false, waitCount = 6, stepDistan
  * @param {boolean} isUp - 是否向上滚动，默认为false
  */
 async function scrollPagesByActivity(isUp = false) {
-    // 移动到顶部坐标位置
-    moveTo(xyConfig.top.x, xyConfig.top.y)
-    //80 18次滑动偏移量  46次测试未发现偏移
-    await scrollPage(Math.floor(genshinJson.height * 80 / 1080), isUp, 6, 18)
+    let x=isUp?xyConfig.top.x:xyConfig.bottom.x
+    let y=isUp?xyConfig.top.y:xyConfig.bottom.y
+    log.info(`${isUp?'向上':'向下'}滑动`)
+    // log.info(`坐标:${x},${y}`)
+    for (let i = 0; i < 4; i++) {
+        // 移动到顶部坐标位置
+        await moveMouseTo(x, y)
+        //80 18次滑动偏移量  46次测试未发现偏移
+        await scrollPage(90, isUp, 6, 30)
+    }
 }
 
 
