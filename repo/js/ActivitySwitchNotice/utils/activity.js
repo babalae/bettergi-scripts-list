@@ -208,9 +208,8 @@ async function OcrRemainingTime(activityName, key = "剩余时间", ocrRegion = 
 async function activityMain() {
     let ms = 1000;  // 设置等待时间（毫秒）
     //  打开活动页面
-    await keyDown(config.activityKey);  // 模拟按下活动快捷键
+    await keyPress(config.activityKey);  // 模拟按下活动快捷键
     await sleep(ms); // 等待活动页面加载
-    await keyUp(config.activityKey);  // 模拟释放活动快捷键
     // 初始化活动Map，用于存储已识别的活动
     let activityMap = new Map([])
     let LastActivityName = null  // 记录上一个活动名称
@@ -277,7 +276,7 @@ async function activityMain() {
 }
 
 this.activityUtil = {
-    config,
+    // config,
     activityMain,
     // OcrRemainingTime,
 }

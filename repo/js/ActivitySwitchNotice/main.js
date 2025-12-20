@@ -34,7 +34,6 @@ async function toMainUi() {
     if (settings.toMainUi){
         await toMainUi();
     }
-    await keyPress(activityUtil.config.activityKey)
     await main();
 })();
 
