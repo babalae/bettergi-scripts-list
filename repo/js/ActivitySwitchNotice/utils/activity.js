@@ -67,7 +67,7 @@ async function scrollPagesByActivity(isUp = false) {
     log.info(`${isUp?'向上':'向下'}滑动`)
     // log.info(`坐标:${x},${y}`)
     for (let i = 0; i < 4; i++) {
-        // 移动到顶部坐标位置
+        // 移动到坐标位置
         await moveMouseTo(x, y)
         //80 18次滑动偏移量  46次测试未发现偏移
         await scrollPage(90, isUp, 6, 30)
@@ -82,9 +82,9 @@ async function scrollPagesByActivity(isUp = false) {
  * @param {Object} ocrRegion - OCR识别区域配置（默认为ocrRegionConfig.activity）
  * @returns {Object} 返回包含活动识别结果的对象
  */
-async function OcrClickActivity(activityNameList, map = new Map([]), ocrRegion = ocrRegionConfig.activity) {
+async function OcrClickActivity(activityNameList, map = new Map([]),defaultActivityCount = 0, ocrRegion = ocrRegionConfig.activity) {
     let ms = 1000; // 设置等待时间（毫秒）
-    let switchToActivityCount = 0 // 记录成功切换到活动的次数
+    let switchToActivityCount = defaultActivityCount // 记录成功切换到活动的次数
     let captureRegion = captureGameRegion(); // 获取游戏区域截图
     const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
     // ocrObject.threshold = 1.0;
@@ -183,6 +183,9 @@ async function activityMain() {
     let LastActivityName = null  // 记录上一个活动名称
     let index = 0  // 当前尝试次数计数器
     let maxIndex = 10  // 最大尝试次数限制
+
+    // 处理有指定活动列表的情况
+    let switchToActivityCount = 0  // 记录切换活动的次数
     //todo:拉到顶部
 
     // 待实现：将页面滚动到顶部的功能
@@ -207,11 +210,8 @@ async function activityMain() {
             }
             LastActivityName = resObject.lastActivityName  // 更新最后活动名称
         } else {
-
-            // 处理有指定活动列表的情况
-            let switchToActivityCount = 0  // 记录切换活动的次数
             //通知指定活动
-            let resObject = await OcrClickActivity(config.activityNameList,activityMap)  // OCR识别并点击指定活动
+            let resObject = await OcrClickActivity(config.activityNameList,activityMap,switchToActivityCount)  // OCR识别并点击指定活动
             // 更新活动Map，只添加新发现的活动
             resObject.activityMap.forEach((key, value) => {
                 if (!activityMap.has(key)) {
