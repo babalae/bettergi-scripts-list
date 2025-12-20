@@ -109,9 +109,12 @@ async function activityMain() {
     await keyUp(config.activityKey);
     let activityMap = new Map([])
     let LastActivityName = null
+    let index = 0
+    let maxIndex=10
     //todo:拉到顶部
 
     while (true) {
+        index++
         if (config.activityNameList.length <= 0) {
             //通知所有
             let resObject = await OcrClickActivity([])
@@ -145,6 +148,10 @@ async function activityMain() {
                 break
             }
             LastActivityName = resObject.lastActivityName
+        }
+        if (index >= maxIndex) {
+            log.warn(`超出尝试最大{index}次数，退出`, index)
+            break
         }
     }
 
