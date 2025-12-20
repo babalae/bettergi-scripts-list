@@ -219,10 +219,8 @@ async function activityMain() {
 
     // 处理有指定活动列表的情况
     let switchToActivityCount = 0  // 记录切换活动的次数
-    //todo:拉到顶部
-
-    // 待实现：将页面滚动到顶部的功能
-
+    //拉到顶部
+    await scrollPagesByActivityToTop();
     // 主循环，用于持续处理活动
     while (true) {
         index++  // 增加尝试次数
@@ -264,8 +262,8 @@ async function activityMain() {
             }
             LastActivityName = resObject.lastActivityName  // 更新最后活动名称
         }
-        //todo:向下滑动一页
-
+        //向下滑动一页
+        await scrollPagesByActivity()
         // 待实现：向下滑动一页的功能
         // 检查是否超过最大尝试次数
         if (index >= maxIndex) {
