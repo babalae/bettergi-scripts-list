@@ -93,7 +93,7 @@ async function scrollPagesByActivityToTop() {
         }
         index++  // 增加尝试次数计数器
         let captureRegion = captureGameRegion(); // 获取游戏区域截图
-        const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
+        const ocrObject = RecognitionObject.Ocr(config.activity.x, config.activity.y, config.activity.width, config.activity.height); // 创建OCR识别对象
         // ocrObject.threshold = 1.0;
         let resList = captureRegion.findMulti(ocrObject); // 在指定区域进行OCR识别
         captureRegion.dispose(); // 释放截图资源
