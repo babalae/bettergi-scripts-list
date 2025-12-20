@@ -1,6 +1,8 @@
 const config = {
     activityNameList: (settings.activityNameList ? settings.activityNameList.splice('|') : []),
     activityKey: (settings.activityKey ? settings.activityKey : 'F5'),
+    toTopCount: (settings.toTopCount ? parseInt('' + settings.toTopCount) : 10),//滑动到顶最大尝试次数
+    scrollPageCount: (settings.scrollPageCount ? parseInt('' + settings.scrollPageCount) : 4),//滑动次数/页
 }
 const ocrRegionConfig = {
     activity: {x: 197, y: 220, width: 292, height: 701},//活动识别区域坐标和尺寸
@@ -62,11 +64,11 @@ async function scrollPage(totalDistance, isUp = false, waitCount = 6, stepDistan
  * @param {boolean} isUp - 是否向上滚动，默认为false
  */
 async function scrollPagesByActivity(isUp = false) {
-    let x=isUp?xyConfig.top.x:xyConfig.bottom.x
-    let y=isUp?xyConfig.top.y:xyConfig.bottom.y
-    log.info(`${isUp?'向上':'向下'}滑动`)
+    let x = isUp ? xyConfig.top.x : xyConfig.bottom.x
+    let y = isUp ? xyConfig.top.y : xyConfig.bottom.y
+    log.info(`${isUp ? '向上' : '向下'}滑动`)
     // log.info(`坐标:${x},${y}`)
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < config.scrollPageCount; i++) {
         // 移动到坐标位置
         await moveMouseTo(x, y)
         //80 18次滑动偏移量  46次测试未发现偏移
@@ -74,6 +76,37 @@ async function scrollPagesByActivity(isUp = false) {
     }
 }
 
+/**
+ * 通过滚动页面直到到达顶部位置
+ * 该函数会持续滚动页面，直到检测到页面顶部的标识不再变化为止
+ * @returns {Promise<void>} 无返回值，当到达顶部时函数执行结束
+ * @throws {Error} 如果尝试滚动超过10次仍未到达顶部，抛出错误
+ */
+async function scrollPagesByActivityToTop() {
+    let topName = null  // 用于存储检测到的顶部标识文本
+    let index = 0       // 记录滚动尝试次数的计数器
+    // 无限循环，直到到达顶部后通过return退出
+    while (true) {
+        // 检查是否已超过最大尝试次数(10次)
+        if (index < config.toTopCount) {
+            throw new Error("回到顶部失败")  // 超过尝试次数抛出错误
+        }
+        index++  // 增加尝试次数计数器
+        let captureRegion = captureGameRegion(); // 获取游戏区域截图
+        const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
+        // ocrObject.threshold = 1.0;
+        let resList = captureRegion.findMulti(ocrObject); // 在指定区域进行OCR识别
+        captureRegion.dispose(); // 释放截图资源
+        if (topName !== resList[0].text) {
+            topName = resList[0].text
+        } else {
+            // break
+            return
+        }
+        await scrollPagesByActivity(true)
+    }
+
+}
 
 /**
  * 处理活动点击的异步函数
@@ -82,7 +115,7 @@ async function scrollPagesByActivity(isUp = false) {
  * @param {Object} ocrRegion - OCR识别区域配置（默认为ocrRegionConfig.activity）
  * @returns {Object} 返回包含活动识别结果的对象
  */
-async function OcrClickActivity(activityNameList, map = new Map([]),defaultActivityCount = 0, ocrRegion = ocrRegionConfig.activity) {
+async function OcrClickActivity(activityNameList, map = new Map([]), defaultActivityCount = 0, ocrRegion = ocrRegionConfig.activity) {
     let ms = 1000; // 设置等待时间（毫秒）
     let switchToActivityCount = defaultActivityCount // 记录成功切换到活动的次数
     let captureRegion = captureGameRegion(); // 获取游戏区域截图
@@ -196,7 +229,7 @@ async function activityMain() {
         // 处理无指定活动列表的情况
         if (config.activityNameList.length <= 0) {
             //通知所有活动
-            let resObject = await OcrClickActivity([],activityMap)  // OCR识别并点击所有活动
+            let resObject = await OcrClickActivity([], activityMap)  // OCR识别并点击所有活动
             // 更新活动Map，只添加新发现的活动
             resObject.activityMap.forEach((key, value) => {
                 if (!activityMap.has(key)) {
@@ -211,7 +244,7 @@ async function activityMain() {
             LastActivityName = resObject.lastActivityName  // 更新最后活动名称
         } else {
             //通知指定活动
-            let resObject = await OcrClickActivity(config.activityNameList,activityMap,switchToActivityCount)  // OCR识别并点击指定活动
+            let resObject = await OcrClickActivity(config.activityNameList, activityMap, switchToActivityCount)  // OCR识别并点击指定活动
             // 更新活动Map，只添加新发现的活动
             resObject.activityMap.forEach((key, value) => {
                 if (!activityMap.has(key)) {
