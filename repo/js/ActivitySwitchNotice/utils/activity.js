@@ -151,7 +151,7 @@ async function activityMain() {
             }
             LastActivityName = resObject.lastActivityName
         }
-        //todo:滑动一页
+        //todo:向下滑动一页
 
         //
         if (index >= maxIndex) {
