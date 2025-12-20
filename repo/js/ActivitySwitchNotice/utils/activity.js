@@ -109,6 +109,7 @@ async function activityMain() {
     await keyUp(config.activityKey);
     let activityMap = new Map([])
     let LastActivityName = null
+    //todo:拉到顶部
 
     while (true) {
         if (config.activityNameList.length <= 0) {
