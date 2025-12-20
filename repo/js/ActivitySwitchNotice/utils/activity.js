@@ -91,7 +91,7 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
         if (index >= config.toTopCount) {
             throw new Error("回到顶部失败")  // 超过尝试次数抛出错误
         }
-        await moveMouseTo(0,20)
+        await moveMouseTo(0, 20)
         index++  // 增加尝试次数计数器
         let captureRegion = captureGameRegion(); // 获取游戏区域截图
         const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
@@ -102,6 +102,7 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
         if (topName !== resList[0].text) {
             topName = resList[0].text
         } else {
+            log.info(`回到顶部成功`)
             // break
             return
         }
@@ -119,7 +120,7 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
  */
 async function OcrClickActivity(activityNameList, lastName, map = new Map([]), defaultActivityCount = 0, ocrRegion = ocrRegionConfig.activity) {
     let ms = 1000; // 设置等待时间（毫秒）
-    await moveMouseTo(0,20)
+    await moveMouseTo(0, 20)
     let switchToActivityCount = defaultActivityCount // 记录成功切换到活动的次数
     let captureRegion = captureGameRegion(); // 获取游戏区域截图
     const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
@@ -138,7 +139,7 @@ async function OcrClickActivity(activityNameList, lastName, map = new Map([]), d
         activityMap: activityMap,//记录所有活动名称
         activityOk: activityOk,
     }
-    if (lastName === resList[resList.length - 1].text) {
+    if (resList && resList.length > 0 && lastName === resList[resList.length - 1].text) {
         return resObject
     }
     // 遍历所有识别结果
