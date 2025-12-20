@@ -116,7 +116,7 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
  * @param {Object} ocrRegion - OCR识别区域配置（默认为ocrRegionConfig.activity）
  * @returns {Object} 返回包含活动识别结果的对象
  */
-async function OcrClickActivity(activityNameList, map = new Map([]), defaultActivityCount = 0, ocrRegion = ocrRegionConfig.activity) {
+async function OcrClickActivity(activityNameList, lastName, map = new Map([]), defaultActivityCount = 0, ocrRegion = ocrRegionConfig.activity) {
     let ms = 1000; // 设置等待时间（毫秒）
     let switchToActivityCount = defaultActivityCount // 记录成功切换到活动的次数
     let captureRegion = captureGameRegion(); // 获取游戏区域截图
@@ -128,6 +128,17 @@ async function OcrClickActivity(activityNameList, map = new Map([]), defaultActi
     let lastRes = null // 存储最后一个识别结果
     let activityMap = map// 创建活动映射表
     let activityOk = false
+    let resObject = {
+        switchToActivityCount: switchToActivityCount,//记录点击成功的次数
+        act_x1: null,//第一个活动的x坐标
+        act_y1: null,//第一个活动的y坐标
+        lastActivityName: lastName,//记录最后一个活动名称
+        activityMap: activityMap,//记录所有活动名称
+        activityOk: activityOk,
+    }
+    if (lastName === resList[resList.length - 1].text) {
+        return resObject
+    }
     // 遍历所有识别结果
     for (let res of resList) {
         // log.info(`res:${res}`)
@@ -161,11 +172,11 @@ async function OcrClickActivity(activityNameList, map = new Map([]), defaultActi
         }
     }
     // 创建并返回结果对象
-    let resObject = {
+    resObject = {
         switchToActivityCount: switchToActivityCount,//记录点击成功的次数
         act_x1: null,//第一个活动的x坐标
         act_y1: null,//第一个活动的y坐标
-        lastActivityName: null,//记录最后一个活动名称
+        lastActivityName: lastName,//记录最后一个活动名称
         activityMap: activityMap,//记录所有活动名称
         activityOk: activityOk,
     }
@@ -227,7 +238,7 @@ async function activityMain() {
         // 处理无指定活动列表的情况
         if (config.activityNameList.length <= 0) {
             //通知所有活动
-            let resObject = await OcrClickActivity([], activityMap)  // OCR识别并点击所有活动
+            let resObject = await OcrClickActivity([], LastActivityName, activityMap)  // OCR识别并点击所有活动
             // 更新活动Map，只添加新发现的活动
             resObject.activityMap.keys().forEach(key => {
                 if (!activityMap.has(key)) {
@@ -242,7 +253,7 @@ async function activityMain() {
             LastActivityName = resObject.lastActivityName  // 更新最后活动名称
         } else {
             //通知指定活动
-            let resObject = await OcrClickActivity(config.activityNameList, activityMap, switchToActivityCount)  // OCR识别并点击指定活动
+            let resObject = await OcrClickActivity(config.activityNameList, LastActivityName, activityMap, switchToActivityCount)  // OCR识别并点击指定活动
             // 更新活动Map，只添加新发现的活动
             resObject.activityMap.keys().forEach(key => {
                 if (!activityMap.has(key)) {
