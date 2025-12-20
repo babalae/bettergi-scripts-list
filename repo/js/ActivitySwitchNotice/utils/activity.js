@@ -82,7 +82,7 @@ async function scrollPagesByActivity(isUp = false) {
  * @returns {Promise<void>} 无返回值，当到达顶部时函数执行结束
  * @throws {Error} 如果尝试滚动超过10次仍未到达顶部，抛出错误
  */
-async function scrollPagesByActivityToTop() {
+async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) {
     let topName = null  // 用于存储检测到的顶部标识文本
     let index = 0       // 记录滚动尝试次数的计数器
     // 无限循环，直到到达顶部后通过return退出
@@ -93,7 +93,8 @@ async function scrollPagesByActivityToTop() {
         }
         index++  // 增加尝试次数计数器
         let captureRegion = captureGameRegion(); // 获取游戏区域截图
-        const ocrObject = RecognitionObject.Ocr(config.activity.x, config.activity.y, config.activity.width, config.activity.height); // 创建OCR识别对象
+        const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
+
         // ocrObject.threshold = 1.0;
         let resList = captureRegion.findMulti(ocrObject); // 在指定区域进行OCR识别
         captureRegion.dispose(); // 释放截图资源
