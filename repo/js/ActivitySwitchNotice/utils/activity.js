@@ -6,7 +6,12 @@ const ocrRegionConfig = {
     activity: {x: 197, y: 220, width: 292, height: 701},//活动识别区域坐标和尺寸
     remainingTime: {x: 497, y: 202, width: 1417, height: 670},//剩余时间识别区域坐标和尺寸
 }
+const xyConfig = {
+    top: {x: 344, y: 273},
+    bottom: {x: 342, y: 791},
+}
 eval(file.readTextSync(`notice.js`))
+
 /**
  * 滚动页面的异步函数
  * @param {number} totalDistance - 总滚动距离
@@ -154,7 +159,7 @@ async function activityMain() {
     let activityMap = new Map([])
     let LastActivityName = null  // 记录上一个活动名称
     let index = 0  // 当前尝试次数计数器
-    let maxIndex=10  // 最大尝试次数限制
+    let maxIndex = 10  // 最大尝试次数限制
     //todo:拉到顶部
 
     // 待实现：将页面滚动到顶部的功能
@@ -198,7 +203,7 @@ async function activityMain() {
                 break
             } else if (switchToActivityCount < config.activityNameList.length) {
                 switchToActivityCount += resObject.switchToActivityCount  // 增加切换次数
-            }else if (switchToActivityCount >= config.activityNameList.length) {
+            } else if (switchToActivityCount >= config.activityNameList.length) {
                 break  // 已尝试所有指定活动，退出循环
             }
             LastActivityName = resObject.lastActivityName  // 更新最后活动名称
