@@ -1,0 +1,18 @@
+[
+   {
+     "name": "enable",
+     "type": "checkbox",
+     "label": "启用先返回主界面后执行切换",
+     "default": true
+   },
+   {
+       "name": "activityNameList",
+       "type": "input-text",
+       "label": "活动名称(使用|分割)"
+   },
+   {
+      "name": "activityKey",
+      "type": "input-text",
+      "label": "打开活动页面按键(不填，默认：F5)"
+   }
+]
