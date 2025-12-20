@@ -101,65 +101,80 @@ async function OcrRemainingTime(activityName, key = "剩余时间", ocrRegion = 
     return null;
 }
 
+/**
+ * 活动主函数，用于自动化处理活动相关操作
+ * 包括打开活动页面、识别活动、滑动页面等功能
+ */
 async function activityMain() {
-    let ms = 1000;
+    let ms = 1000;  // 设置等待时间（毫秒）
     //  打开活动页面
-    await keyDown(config.activityKey);
+    await keyDown(config.activityKey);  // 模拟按下活动快捷键
     await sleep(ms); // 等待活动页面加载
-    await keyUp(config.activityKey);
+    await keyUp(config.activityKey);  // 模拟释放活动快捷键
+    // 初始化活动Map，用于存储已识别的活动
     let activityMap = new Map([])
-    let LastActivityName = null
-    let index = 0
-    let maxIndex=10
+    let LastActivityName = null  // 记录上一个活动名称
+    let index = 0  // 当前尝试次数计数器
+    let maxIndex=10  // 最大尝试次数限制
     //todo:拉到顶部
 
-    //
+    // 待实现：将页面滚动到顶部的功能
 
+    // 主循环，用于持续处理活动
     while (true) {
-        index++
+        index++  // 增加尝试次数
+        // 处理无指定活动列表的情况
         if (config.activityNameList.length <= 0) {
-            //通知所有
-            let resObject = await OcrClickActivity([])
+            //通知所有活动
+            let resObject = await OcrClickActivity([])  // OCR识别并点击所有活动
+            // 更新活动Map，只添加新发现的活动
             resObject.activityMap.forEach((key, value) => {
                 if (!activityMap.has(key)) {
                     activityMap.set(key, value)
                 }
             })
+            // 检查是否到达页面底部
             if (LastActivityName === resObject.lastActivityName) {
-                //到底了
+                //到底了，退出循环
                 break
             }
-            LastActivityName = resObject.lastActivityName
+            LastActivityName = resObject.lastActivityName  // 更新最后活动名称
         } else {
-            let switchToActivityCount = 0
-            //通知指定
-            let resObject = await OcrClickActivity(config.activityNameList)
+
+            // 处理有指定活动列表的情况
+            let switchToActivityCount = 0  // 记录切换活动的次数
+            //通知指定活动
+            let resObject = await OcrClickActivity(config.activityNameList)  // OCR识别并点击指定活动
+            // 更新活动Map，只添加新发现的活动
             resObject.activityMap.forEach((key, value) => {
                 if (!activityMap.has(key)) {
                     activityMap.set(key, value)
                 }
             })
+            // 根据返回结果决定是否继续
             if (resObject.activityOk) {
-                break
+                break  // 活动处理完成，退出循环
             } else if (LastActivityName === resObject.lastActivityName) {
-                //到底了
+                //到底了，退出循环
                 break
             } else if (switchToActivityCount < config.activityNameList.length) {
-                switchToActivityCount += resObject.switchToActivityCount
+                switchToActivityCount += resObject.switchToActivityCount  // 增加切换次数
             }else if (switchToActivityCount >= config.activityNameList.length) {
-                break
+                break  // 已尝试所有指定活动，退出循环
             }
-            LastActivityName = resObject.lastActivityName
+            LastActivityName = resObject.lastActivityName  // 更新最后活动名称
         }
         //todo:向下滑动一页
 
-        //
+        // 待实现：向下滑动一页的功能
+        // 检查是否超过最大尝试次数
         if (index >= maxIndex) {
-            log.warn(`超出尝试最大{index}次数，退出`, index)
+            log.warn(`超出尝试最大{index}次数，退出`, index)  // 记录警告日志
             break
         }
     }
 
+    // 发送活动剩余时间通知
     await noticeUtil.sendNotice(activityMap, "活动剩余时间:")
 }
 
