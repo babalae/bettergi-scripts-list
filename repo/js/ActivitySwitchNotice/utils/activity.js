@@ -2,14 +2,20 @@ const config = {
     activityNameList: (settings.activityNameList ? settings.activityNameList.splice('|') : []),
     activityKey: (settings.activityKey ? settings.activityKey : 'F5'),
 }
+const ocrRegionConfig = {
+    activity: {x: 0, y: 0, width: 1920, height: 1080},//活动识别区域坐标和尺寸
+    remainingTime: {x: 0, y: 0, width: 1920, height: 1080},//剩余时间识别区域坐标和尺寸
+}
+eval(file.readTextSync(`notice.js`))
+
 
 /**
  * OCR点击活动函数
- * @param {Object} ocrRegion - OCR识别区域坐标和尺寸
+ * @param {Object} ocrRegion - OCR识别区域配置，默认为ocrRegionConfig.activity
  * @param {Array} activityNameList - 活动名称列表
- * @returns {Object} 返回包含点击活动结果的对象
+ * @returns {Object} 返回包含识别结果的对象
  */
-async function OcrClickActivity(ocrRegion, activityNameList) {
+async function OcrClickActivity(activityNameList, ocrRegion = ocrRegionConfig.activity) {
     let ms = 1000; // 设置等待时间（毫秒）
     let switchToActivityCount = 0 // 记录成功切换到活动的次数
     let captureRegion = captureGameRegion(); // 获取游戏区域截图
@@ -20,6 +26,7 @@ async function OcrClickActivity(ocrRegion, activityNameList) {
     let firstRes = null // 存储第一个识别结果
     let lastRes = null // 存储最后一个识别结果
     let activityMap = new Map([]) // 创建活动映射表
+    let activityOk = false
     // 遍历所有识别结果
     for (let res of resList) {
         // log.info(`res:${res}`)
@@ -35,12 +42,11 @@ async function OcrClickActivity(ocrRegion, activityNameList) {
         }
         await sleep(ms) // 等待指定时间
         //识别剩余时间
-        let time = "剩余时间:"
-        //todo:识别剩余时间
-
-        // 记录所有活动名称
-        activityMap.set(res.text, time)
-
+        let remainingTime = await OcrRemainingTime(res.text);
+        if (remainingTime) {
+            // 记录所有活动名称
+            activityMap.set(res.text, remainingTime)
+        }
         // 记录第一个和最后一个识别结果
         if (firstRes === null) {
             firstRes = res
@@ -49,6 +55,7 @@ async function OcrClickActivity(ocrRegion, activityNameList) {
         // 检查是否已找到所有活动
         if (activityNameList.length !== 0 && activityNameList.length === switchToActivityCount) {
             log.info(`已识别:{switchToActivityCount}个活动`, switchToActivityCount);
+            activityOk = true
             break
         }
     }
@@ -57,22 +64,42 @@ async function OcrClickActivity(ocrRegion, activityNameList) {
         switchToActivityCount: switchToActivityCount,//记录点击成功的次数
         act_x1: null,//第一个活动的x坐标
         act_y1: null,//第一个活动的y坐标
-        lastActivityName: null,//记录最后一个活动名称 点击成功就为空
+        lastActivityName: null,//记录最后一个活动名称
         activityMap: null,//记录所有活动名称
+        activityOk: activityOk,
     }
     // 如果有识别结果，记录第一个活动的坐标
     if (firstRes !== null) {
         resObject.act_x1 = firstRes.x
         resObject.act_y1 = firstRes.y
-    }
-    // 如果没有成功切换到活动，记录最后一个活动名称
-    if (!switchToActivity && (lastRes !== null)) {
-        // log.info(`test--length-1`)
+
         resObject.lastActivityName = lastRes.text
     }
     return resObject
 }
 
+/**
+ * OCR识别活动剩余时间的函数
+ * @param {Object} ocrRegion - OCR识别的区域坐标和尺寸
+ * @param {string} activityName - 活动名称
+ * @param {string} key - 要识别的关键词，默认为"剩余时间"
+ * @returns {string|null} 返回识别到的剩余时间文本，若未识别到则返回null
+ */
+async function OcrRemainingTime(activityName, key = "剩余时间", ocrRegion = ocrRegionConfig.remainingTime) {
+    let captureRegion = captureGameRegion(); // 获取游戏区域截图
+    const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
+    // ocrObject.threshold = 1.0;
+    let resList = captureRegion.findMulti(ocrObject); // 在指定区域进行OCR识别
+    captureRegion.dispose(); // 释放截图资源
+    for (let res of resList) {
+        if (res.text.includes(key)) { // 检查识别结果是否包含关键词
+            log.info(`{activityName}--{time}`, activityName, res.text); // 记录日志
+            return res.text             // 返回识别到的文本
+        }
+    }
+    // 没有识别到剩余时间
+    return null;
+}
 
 async function activityMain() {
     let ms = 1000;
@@ -80,11 +107,47 @@ async function activityMain() {
     await keyDown(config.activityKey);
     await sleep(ms); // 等待活动页面加载
     await keyUp(config.activityKey);
-    if (config.activityNameList.length <= 0) {
-        //通知所有
-    } else {
-        //通知指定
+    let activityMap = new Map([])
+    let LastActivityName = null
+
+    while (true) {
+        if (config.activityNameList.length <= 0) {
+            //通知所有
+            let resObject = await OcrClickActivity([])
+            resObject.activityMap.forEach((key, value) => {
+                if (!activityMap.has(key)) {
+                    activityMap.set(key, value)
+                }
+            })
+            if (LastActivityName === resObject.lastActivityName) {
+                //到底了
+                break
+            }
+            LastActivityName = resObject.lastActivityName
+        } else {
+            let switchToActivityCount = 0
+            //通知指定
+            let resObject = await OcrClickActivity(config.activityNameList)
+            resObject.activityMap.forEach((key, value) => {
+                if (!activityMap.has(key)) {
+                    activityMap.set(key, value)
+                }
+            })
+            if (resObject.activityOk) {
+                break
+            } else if (LastActivityName === resObject.lastActivityName) {
+                //到底了
+                break
+            } else if (switchToActivityCount < config.activityNameList.length) {
+                switchToActivityCount += resObject.switchToActivityCount
+            }else if (switchToActivityCount >= config.activityNameList.length) {
+                break
+            }
+            LastActivityName = resObject.lastActivityName
+        }
     }
+
+    await noticeUtil.sendNotice(activityMap, "活动剩余时间:")
 }
 
 this.activityUtil = {
