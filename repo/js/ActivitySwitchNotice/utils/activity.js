@@ -3,8 +3,8 @@ const config = {
     activityKey: (settings.activityKey ? settings.activityKey : 'F5'),
 }
 const ocrRegionConfig = {
-    activity: {x: 0, y: 0, width: 1920, height: 1080},//活动识别区域坐标和尺寸
-    remainingTime: {x: 0, y: 0, width: 1920, height: 1080},//剩余时间识别区域坐标和尺寸
+    activity: {x: 197, y: 220, width: 292, height: 701},//活动识别区域坐标和尺寸
+    remainingTime: {x: 497, y: 202, width: 1417, height: 670},//剩余时间识别区域坐标和尺寸
 }
 eval(file.readTextSync(`notice.js`))
 
