@@ -5,7 +5,7 @@ const config = {
     scrollPageCount: (settings.scrollPageCount ? parseInt('' + settings.scrollPageCount) : 4),//滑动次数/页
 }
 const ocrRegionConfig = {
-    activity: {x: 197, y: 220, width: 292, height: 701},//活动识别区域坐标和尺寸
+    activity: {x: 267, y: 197, width: 226, height: 616},//活动识别区域坐标和尺寸
     remainingTime: {x: 497, y: 202, width: 1417, height: 670},//剩余时间识别区域坐标和尺寸
 }
 const xyConfig = {
