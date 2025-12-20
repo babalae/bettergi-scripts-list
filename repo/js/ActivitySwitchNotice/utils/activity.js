@@ -113,6 +113,8 @@ async function activityMain() {
     let maxIndex=10
     //todo:拉到顶部
 
+    //
+
     while (true) {
         index++
         if (config.activityNameList.length <= 0) {
@@ -149,6 +151,9 @@ async function activityMain() {
             }
             LastActivityName = resObject.lastActivityName
         }
+        //todo:滑动一页
+
+        //
         if (index >= maxIndex) {
             log.warn(`超出尝试最大{index}次数，退出`, index)
             break
