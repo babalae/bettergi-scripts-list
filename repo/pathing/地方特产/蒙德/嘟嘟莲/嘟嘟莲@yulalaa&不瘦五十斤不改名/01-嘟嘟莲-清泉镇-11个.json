@@ -1,0 +1,76 @@
+{
+  "info": {
+    "name": "01-嘟嘟莲-清泉镇-11个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "yulalaa"
+      },
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -914.86,
+      "y": 1795.45,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -914.9,
+      "y": 1795.43,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": -917.45,
+      "y": 1788.8,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": -910.45,
+      "y": 1787.9,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": -909.69,
+      "y": 1801.84,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -907.67,
+      "y": 1805.8,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -894.63,
+      "y": 1819.19,
+      "action": "nahida_collect",
+      "move_mode": "swim",
+      "type": "target"
+    }
+  ]
+}

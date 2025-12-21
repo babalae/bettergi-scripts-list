@@ -1,0 +1,30 @@
+// 描述:适合角色少的玩家，盾奶全程覆盖确保安全，输出不够可以增加战斗超时，没有夜兰可用行秋代替。万叶（聚怪，1+命），莱依拉（盾），夜兰（追踪）或行秋（抗打断），诺艾尔（盾奶）。
+
+// 第1轮：元素战技。
+莱依拉 e, wait(0.2)
+万叶 e(hold), wait(0.1), attack, wait(1.1), attack, wait(0.2), attack, wait(0.2), attack, wait(0.4), attack, wait(0.4), attack, wait(1)
+行秋 e, wait(1.4), attack, wait(0.2), attack, wait(0.2), attack, wait(0.5), attack, wait(0.2)
+夜兰 e, wait(0.6), attack, wait(0.2), attack, wait(0.2), attack, wait(0.2), attack, wait(1)
+万叶 e(hold), wait(0.1), attack, wait(1.1), attack, wait(0.2), attack, wait(0.2), attack, wait(0.4), attack, wait(0.4), attack, wait(1)
+诺艾尔 e, wait(0.2), charge(6.5), wait(0.6), s(2), w(0.5)
+
+// 第2轮：重复上轮，可酌情增加轮次，以确保在单体敌人下最后一轮所有角色元素爆发充能完毕。
+// 万叶142，莱依拉128，行秋239，夜兰200，诺艾尔185，可以确保2轮充满。
+莱依拉 e, wait(0.2)
+万叶 e(hold), wait(0.1), attack, wait(1.1), attack, wait(0.2), attack, wait(0.2), attack, wait(0.4), attack, wait(0.4), attack, wait(1)
+行秋 e, wait(1.4), attack, wait(0.2), attack, wait(0.2), attack, wait(0.5), attack, wait(0.2)
+夜兰 e, wait(0.6), attack, wait(0.2), attack, wait(0.2), attack, wait(0.2), attack, wait(1)
+万叶 e(hold), wait(0.1), attack, wait(1.1), attack, wait(0.2), attack, wait(0.2), attack, wait(0.4), attack, wait(0.4), attack, wait(1)
+诺艾尔 e, wait(0.2), charge(6.5), wait(0.6), s(2), w(0.5)
+
+// 第3轮：元素爆发，万叶需要1+命。
+万叶 e(hold), wait(0.1), attack, wait(1.1)
+行秋 e, wait(1.4), q, wait(0.5)
+夜兰 e, wait(0.6), q, wait(0.8)
+莱依拉 q, wait(0.2), e, wait(0.2)
+万叶 attack, wait(0.2), attack, wait(0.2), attack, wait(0.4), attack, wait(0.4), attack, wait(1)
+万叶 attack, wait(0.2), attack, wait(0.2), attack, wait(0.4), attack, wait(0.4), attack, wait(1)
+万叶 attack, wait(0.2), attack, wait(0.2), attack, wait(0.4), attack, wait(0.4), attack, wait(1)
+万叶 attack, wait(0.2), attack, wait(0.2), attack, wait(0.4), attack, wait(0.4), attack, wait(1)
+万叶 e(hold), wait(0.1), attack, wait(1.1), q, wait(0.5), e(hold), wait(0.1), attack, wait(1.1)
+诺艾尔 q, wait(0.6), e, wait(0.2), charge(6.5), wait(0.6), s(2), w(0.5)

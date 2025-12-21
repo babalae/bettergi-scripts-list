@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "03-荻花洲",
+    "type": "collect",
+    "author": "鸿羽er",
+    "version": "1.0",
+    "description": "可能会奖励一个突发事件",
+    "bgi_version": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 483.5,
+      "y": 1443.0,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 483.0,
+      "y": 1429.0,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 485.5,
+      "y": 1391.5,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 475.01,
+      "y": 1347.48,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 424.19,
+      "y": 1315.31,
+      "action_params": ""
+    }
+  ]
+}

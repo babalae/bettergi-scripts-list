@@ -1,0 +1,262 @@
+{
+  "info": {
+    "author": "汐&mno",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      },
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时277.21秒，包含以下怪物：4.5只打手丘丘人、1只火箭丘丘人、1只木盾丘丘暴徒、3只鳍游龙、2只幼匿叶龙、3只匿叶龙、1只幼突角龙、3只突角龙。",
+    "hash_res": "17472963",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760864638952,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "6801--纳塔_安饶之野_镜壁山东南_(20)",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9282.81,
+      "y": -2162.18
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9241.94,
+      "y": -2210.56
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9210.3,
+      "y": -2249.95
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9235.19,
+      "y": -2230.11
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9245.37,
+      "y": -2226.21
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9288.66,
+      "y": -2246.03
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 9302.08,
+      "y": -2233.16
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9339.02,
+      "y": -2223.47
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9346.02,
+      "y": -2233.47
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9413.99,
+      "y": -2273.57
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9394.8,
+      "y": -2295.68
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9383.2,
+      "y": -2305.81
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9377.9,
+      "y": -2311.65
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9362.7,
+      "y": -2328.41
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.5)",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9380.84,
+      "y": -2379.84
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9392.53,
+      "y": -2403.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9378.52,
+      "y": -2401.64
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9342.47,
+      "y": -2365.69
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9345.06,
+      "y": -2358.31
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9308.95,
+      "y": -2367.61
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9304.62,
+      "y": -2389.58
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9300.62,
+      "y": -2393.58
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 23,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9294.81,
+      "y": -2428.22
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9289.56,
+      "y": -2432.45
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9352.26,
+      "y": -2446.84
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 26,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9352.26,
+      "y": -2446.84
+    }
+  ]
+}

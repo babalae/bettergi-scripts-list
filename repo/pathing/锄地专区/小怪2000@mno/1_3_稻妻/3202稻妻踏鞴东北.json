@@ -1,0 +1,63 @@
+{
+  "info": {
+    "name": "3202稻妻踏鞴东北",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时45.21秒，包含6只小怪，预计收入243摩拉，包含以下怪物：1只盗宝团·斥候、1只盗宝团·火之药剂师、1只盗宝团·雷之药剂师、1只盗宝团·杂工、1只盗宝团·掘墓者、1只盗宝团·海上男儿。",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -3393.12,
+      "y": -3556.05,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -3404.73,
+      "y": -3578.11,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "500",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -3421.67,
+      "y": -3578.79,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -3434.64,
+      "y": -3572.82,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -3434.64,
+      "y": -3572.82,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}

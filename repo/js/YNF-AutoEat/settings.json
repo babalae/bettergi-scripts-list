@@ -1,0 +1,35 @@
+[
+  {
+    "name": "n",
+    "type": "input-text",
+    "label": "队伍名称（包含伊涅芙的队伍）",
+    "default": ""
+  },
+  {
+    "name": "food",
+    "type": "select",
+    "label": "伊涅芙今天吃什么（默认苹果）",
+    "options": [
+      "苹果",
+      "日落果",
+      "泡泡桔",
+      "烛伞蘑菇",
+      "星蕈",
+      "活化的星蕈",
+      "枯焦的星蕈"
+    ],
+    "default": "苹果"
+  },
+  {
+    "name": "foodNumber",
+    "type": "input-text",
+    "label": "食材数量\n想让伊涅芙吃多少个(单次)",
+    "default": "99"
+  },
+  {
+    "name": "runNumber",
+    "type": "input-text",
+    "label": "运行次数（想嘎伊涅芙多少次）",
+    "default": "1"
+  }
+]

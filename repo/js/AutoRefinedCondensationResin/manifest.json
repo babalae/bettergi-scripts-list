@@ -1,0 +1,19 @@
+{
+  "manifest_version": 1,
+  "name": "自动合成浓缩树脂",
+  "version": "1.3",
+  "bgi_version": "0.47.0",
+  "description": "\n可前往多国合成台自动合成浓缩树脂（仅支持中文语言）。\n通过OCR技术确保准确进入合成台并完成合成操作。\n可设置特定星期执行任务（例：输入\"1,3,5,7\"在周一/三/五/日执行）。\n特殊时间处理：00:00~04:00视为前一天。",
+  "tags": [
+    "OCR",
+    "合成树脂"
+  ],
+  "authors": [
+    {
+      "name": "蜜柑魚",
+      "links": "https://github.com/this-Fish"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js"
+}

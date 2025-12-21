@@ -1,0 +1,116 @@
+{
+  "info": {
+    "name": "自动钓鱼路线-蒙德-风龙废墟",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "鸿羽er",
+        "links": "https://github.com/evildoer12138"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 37.46,
+      "y": 2382.08,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 48.33,
+      "y": 2411.95,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 59.21,
+      "y": 2441.82,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 70.23,
+      "y": 2472.53,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 79.87,
+      "y": 2497.0,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 117.87,
+      "y": 2481.6,
+      "move_mode": "fly",
+      "type": "path",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 125.13,
+      "y": 2483.0,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 132.38,
+      "y": 2484.41,
+      "move_mode": "climb",
+      "type": "path",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 131.16,
+      "y": 2485.78,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 128.91,
+      "y": 2488.56,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "moveby(0,600)",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 116.33,
+      "y": 2504.11,
+      "action": "fishing",
+      "move_mode": "walk",
+      "action_params": "moveby(0,600)",
+      "type": "orientation"
+    }
+  ]
+}

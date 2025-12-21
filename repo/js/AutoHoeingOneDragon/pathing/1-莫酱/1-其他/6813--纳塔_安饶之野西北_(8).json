@@ -1,0 +1,87 @@
+{
+  "info": {
+    "name": "6813--纳塔_安饶之野西北_(8)",
+    "type": "collect",
+    "author": "汐&mno",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时95.35秒，包含以下怪物：5只幼突角龙、3只突角龙。",
+    "hash_res": "66354892",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 10928.75,
+      "y": -2366.36,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 10923.25,
+      "y": -2428.53,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 10936.81,
+      "y": -2429.81,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 10913.62,
+      "y": -2434.69,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 10825.45,
+      "y": -2463.02,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 10814.56,
+      "y": -2523.83,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 10814.56,
+      "y": -2523.83,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "info": {
+    "name": "07-海露花-枫丹-希望之路1-2个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "水下地图"
+    ],
+    "last_modified_time": 1755371855425,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4770.2373,
+      "y": 3159.4775,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "click(middle);",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4791.457,
+      "y": 3126.9546,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4791.457,
+      "y": 3126.9546,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1),click(middle);",
+      "type": "target"
+    }
+  ]
+}

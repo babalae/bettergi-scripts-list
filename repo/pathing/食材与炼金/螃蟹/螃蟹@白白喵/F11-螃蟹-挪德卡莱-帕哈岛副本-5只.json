@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758184667915,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F11-螃蟹-挪德卡莱-帕哈岛副本-5只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9375.3896,
+      "y": 3150.5332
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9365.9531,
+      "y": 3135.8887
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.03)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9369.6367,
+      "y": 3116.8523
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9366.6426,
+      "y": 3119.3813
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9358.5254,
+      "y": 3113.6147
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9351.9355,
+      "y": 3119.856
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9344.6152,
+      "y": 3131.1267
+    }
+  ]
+}

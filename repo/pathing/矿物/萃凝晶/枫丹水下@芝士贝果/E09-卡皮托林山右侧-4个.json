@@ -1,0 +1,86 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "bgi_version": "0.54.1-alpha.2",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1765701316338,
+    "map_match_method": "",
+    "map_name": "SeaOfBygoneEras",
+    "name": "E09-卡皮托林山右侧-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3502.5256,
+      "y": 1342.6149
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,1400)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3502.5256,
+      "y": 1342.6149
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle);wait(0.5);moveby(0,600);",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3437.2285,
+      "y": 1392.176
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3426.5979,
+      "y": 1395.3397
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3425.6084,
+      "y": 1405.7275
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3432.126,
+      "y": 1397.0103
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3438.1821,
+      "y": 1401.2108
+    }
+  ]
+}

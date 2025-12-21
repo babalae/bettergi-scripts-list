@@ -1,0 +1,113 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时128.89秒，包含以下怪物：2只水史莱姆、1只蕴光奇羊、2只蕴光璇蛸。",
+    "hash_res": "29721038",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758033985518,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "709挪德卡莱蓝珀湖东南（200_3）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9097.6318359375,
+      "y": 2296.713623046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9093.2783203125,
+      "y": 2280.0087890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9069.125,
+      "y": 2269.704833984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9055.9794921875,
+      "y": 2224.7255859375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9041.0693359375,
+      "y": 2211.619384765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9029.750189603981,
+      "y": 2197.250121263707
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1300",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8999.874853846932,
+      "y": 2161.250712424282
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8997.0244140625,
+      "y": 2158.02783203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.5)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8922.80078125,
+      "y": 2178.556396484375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8942.56640625,
+      "y": 2175.955322265625
+    }
+  ]
+}

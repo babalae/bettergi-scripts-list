@@ -1,0 +1,152 @@
+{
+  "info": {
+    "name": "6301--纳塔_翘枝崖_神像_(8-3)",
+    "type": "collect",
+    "author": "Demo&汐&mno",
+    "version": "1.4",
+    "description": "  路线信息：该路线预计用时297秒，包含10只小怪，预计收入729摩拉，包含以下怪物：70只秘源机兵·构型械、1只鳍游龙、2只幼绒翼龙、7只绒翼龙。",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9847.07,
+      "y": -1290.93,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9827.46,
+      "y": -1266.91,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9826.81,
+      "y": -1297.82,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9785.35,
+      "y": -1250.81,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9778.12,
+      "y": -1257.16,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 9771.27,
+      "y": -1266.61,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 9764.16,
+      "y": -1316.6,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 9740.7,
+      "y": -1313.96,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 9722.93,
+      "y": -1290.56,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1.0)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 9719.73,
+      "y": -1285.92,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "wait(1.5)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 9714.22,
+      "y": -1281.77,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 9695.49,
+      "y": -1270.68,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 9691.46,
+      "y": -1283.55,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 14,
+      "x": 9691.46,
+      "y": -1283.55,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}

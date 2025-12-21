@@ -1,0 +1,89 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时131.22秒，预计收入2400摩拉，包含以下怪物：4只精英传奇倍率三。",
+    "hash_res": "51645284",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762457743387,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "001璃月沉玉谷南陵 传奇",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1863.6399999999994,
+      "y": 1591
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1887.66796875,
+      "y": 1579.5458984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-2500),wait(0.4),keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),moveby(0,500),wait(2),attack(0.7)",
+      "id": 3,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 1954.9326171875,
+      "y": 1591.1748046875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1954.9326171875,
+      "y": 1591.1748046875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1991.1650390625,
+      "y": 1590.81640625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1991.1650390625,
+      "y": 1590.81640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 1991.1650390625,
+      "y": 1590.81640625
+    }
+  ]
+}

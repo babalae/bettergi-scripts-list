@@ -21,7 +21,7 @@ let FermentRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Pi
 
 // 定义所有可能的食材，注意料理名字长度可能超过识图范围
 const ingredients = [
-    "枫达", "盐", "胡椒", "洋葱", "牛奶", "番茄", "香辛料", "卷心菜", "土豆", "小麦", "稻米", "豆腐", "杏仁", "鱼肉", "螃蟹", "虾仁", "咖啡豆", "秃秃豆", "发酵果实汁"
+    "枫达", "盐", "胡椒", "洋葱", "牛奶", "番茄", "香辛料", "卷心菜", "土豆", "小麦", "稻米", "豆腐", "杏仁", "鱼肉", "螃蟹", "虾仁", "咖啡豆", "秃秃豆", "发酵果实汁", "黑麦"
 ];
 
 // 定义所有食材及其对应的路径文件和 NPC
@@ -34,29 +34,33 @@ const fengdanGroceryFilePath = `assets/Pathing/枫丹达莫维百货店主布希
 const cafeLuzheFilePath = `assets/Pathing/枫丹咖啡厅露泽店主阿鲁埃.json`;
 const sumiCitycafeFilePath = `assets/Pathing/须弥城咖啡馆代理店长恩忒卡.json`;
 const sumiCityFishPath = `assets/Pathing/须弥城鱼贩珀姆.json`;
+const sumiGroceryFilePath = `assets/Pathing/须弥杂货铺哈马维.json`;
 const omosPortFishPath = `assets/Pathing/须弥奥摩斯港鱼贩布特罗斯.json`;
 const azaleVillMerPath = `assets/Pathing/须弥阿如村商人阿扎莱.json`;
+const natlanGroceryFilePath = `assets/Pathing/纳塔杂货铺布纳马.json`;
+const nodKraiGroceryFilePath = `assets/Pathing/挪德卡莱杂货铺采若.json`;
 
 const ingredientPaths = {
     "枫达": [fengdanGroceryFilePath, cafeLuzheFilePath],
-    "盐": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, fengdanGroceryFilePath],
-    "洋葱": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, fengdanGroceryFilePath],
-    "牛奶": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, fengdanGroceryFilePath],
-    "番茄": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, fengdanGroceryFilePath],
-    "卷心菜": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, fengdanGroceryFilePath],
-    "土豆": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, fengdanGroceryFilePath],
-    "小麦": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, fengdanGroceryFilePath],
-    "胡椒": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, fengdanGroceryFilePath],
-    "稻米": [liyueGroceryFilePath, groceryFilePath],//
-    "虾仁": [liyueGroceryFilePath, groceryFilePath, sumiCityFishPath, omosPortFishPath],
-    "豆腐": [liyueGroceryFilePath, groceryFilePath],
+    "盐": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath, natlanGroceryFilePath, nodKraiGroceryFilePath],
+    "洋葱": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath, natlanGroceryFilePath, nodKraiGroceryFilePath],
+    "牛奶": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath, natlanGroceryFilePath, nodKraiGroceryFilePath],
+    "番茄": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath, natlanGroceryFilePath, nodKraiGroceryFilePath],
+    "卷心菜": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath, natlanGroceryFilePath, nodKraiGroceryFilePath],
+    "土豆": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath, natlanGroceryFilePath, nodKraiGroceryFilePath],
+    "小麦": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath, natlanGroceryFilePath, nodKraiGroceryFilePath],
+    "胡椒": [mondstadtGroceryFilePath, liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, fengdanGroceryFilePath, natlanGroceryFilePath, nodKraiGroceryFilePath],
+    "稻米": [liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath],//
+    "虾仁": [liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath, sumiCityFishPath, omosPortFishPath],
+    "豆腐": [liyueGroceryFilePath, groceryFilePath, sumiGroceryFilePath],
     "杏仁": [liyueGroceryFilePath, fengdanGroceryFilePath],
     "鱼肉": [liyueWanminFilePath, charcoalFilePath, sumiCityFishPath, omosPortFishPath, azaleVillMerPath],
     "螃蟹": [liyueWanminFilePath, charcoalFilePath, sumiCityFishPath, omosPortFishPath],
-    "秃秃豆": [fengdanGroceryFilePath, azaleVillMerPath],
+    "秃秃豆": [fengdanGroceryFilePath, azaleVillMerPath, natlanGroceryFilePath],
     "咖啡豆": [sumiCitycafeFilePath, cafeLuzheFilePath],
     "香辛料": [azaleVillMerPath],
-    "发酵果实汁": [fengdanGroceryFilePath]
+    "发酵果实汁": [fengdanGroceryFilePath],
+    "黑麦": [nodKraiGroceryFilePath],
 };
 
 // 定义食材名称和图片文件名的映射表
@@ -92,7 +96,7 @@ const replacementMap = {
 const npcNames = {
     [mondstadtGroceryFilePath]: ["布兰琪"],
     [liyueGroceryFilePath]: ["东升"],
-    [liyueWanminFilePath]: ["卯师傅"],// ["卯师傅", "卵师傅"]
+    [liyueWanminFilePath]: ["卯师傅", "师傅"],// ["卯师傅", "卵师傅"]
     [groceryFilePath]: ["葵"],
     [charcoalFilePath]: ["志村勘"],
     [fengdanGroceryFilePath]: ["布希柯"],
@@ -100,7 +104,10 @@ const npcNames = {
     [sumiCityFishPath]: ["珀姆"],
     [sumiCitycafeFilePath]: ["恩忒卡"],
     [omosPortFishPath]: ["布特罗斯"],
-    [azaleVillMerPath]: ["阿扎莱"]
+    [azaleVillMerPath]: ["阿扎莱"],
+    [sumiGroceryFilePath]: ["哈马维"],
+    [natlanGroceryFilePath]: ["布纳马"],
+    [nodKraiGroceryFilePath]: ["采若"],
 };
 
 // 筛选出用户选择的食材及其对应的路径文件和 NPC
@@ -176,10 +183,14 @@ function recognizeImage(templatePath, xMin, yMin, width, height, timeout = 2000)
         try {
             let template = file.ReadImageMatSync(templatePath);
             let recognitionObject = RecognitionObject.TemplateMatch(template, xMin, yMin, width, height);
-            let result = captureGameRegion().find(recognitionObject);
+            let ra = captureGameRegion();
+            let result = ra.find(recognitionObject);
+            template.dispose();
+            ra.dispose();
             if (result.isExist()) {
                 return { success: true, x: result.x, y: result.y, width: result.width, height: result.height };
             }
+
         } catch (error) {
             log.error(`识别图像时发生异常: ${error.message}`);
             return null;
@@ -206,13 +217,14 @@ function performOcr(targetText, xRange, yRange, tolerance, timeout = 2000) {
                 adjustedXMin, adjustedYMin, 
                 adjustedXMax - adjustedXMin, adjustedYMax - adjustedYMin
             ));
+            ra.dispose();
 
             // 遍历识别结果，检查是否找到目标文本
             for (let i = 0; i < resList.count; i++) {
                 let res = resList[i];
+                // log.info("0CR结果-"+ res.text);
                 // 后处理：根据替换映射表检查和替换错误识别的字符
                 let correctedText = res.text;
-                const replacementMap = { /* 替换映射表，例如：'0': 'O', '1': 'l' */ };
                 for (let [wrongChar, correctChar] of Object.entries(replacementMap)) {
                     correctedText = correctedText.replace(new RegExp(wrongChar, 'g'), correctChar);
                 }
@@ -289,6 +301,23 @@ async function clickSelectedIngredients(selectedIngredients, filePath, npcNames)
             await click(1300, 650); await sleep(500);
             await click(1300, 650); await sleep(1000);
             await click(1320, 780); await sleep(1000);
+        } else if (filePath === sumiGroceryFilePath) {
+            log.info("执行须弥杂货商等的点击操作");
+            await click(1300, 660); await sleep(1000);
+            await click(1300, 660); await sleep(1000);
+            await click(1300, 660); await sleep(1000);
+            await click(1300, 660); await sleep(1000);
+        } else if (filePath === natlanGroceryFilePath) {
+            log.info("执行纳塔杂货商等的点击操作");
+            await click(1300, 580); await sleep(1000);
+            await click(1300, 580); await sleep(1000);
+            await click(1300, 580); await sleep(1000);
+            await click(1300, 580); await sleep(1000);
+        } else if (filePath === nodKraiGroceryFilePath) {
+            log.info("执行挪德卡莱杂货商等的点击操作");
+            await click(1300, 430); await sleep(1000);
+            await click(1300, 430); await sleep(1000);
+            await click(1300, 430); await sleep(1000);
         } else {
             log.info("执行其他路径文件的点击操作");
             await click(1300, 580); await sleep(500);
@@ -298,55 +327,73 @@ async function clickSelectedIngredients(selectedIngredients, filePath, npcNames)
         }
     }
 
-    // 检查 F 图标和右边水平对齐的文字
-    async function checkNpcAndFAlignment(npcName, fDialogueRo) {
-        let ra = captureGameRegion();
-        let fRes = ra.find(fDialogueRo);
-        if (!fRes.isExist()) {
-            let f_attempts = 0; // 初始化尝试次数
-            while (f_attempts < 3) { // 最多尝试 3 次
-                f_attempts++;
-                log.info(`当前尝试次数：${f_attempts}`);
+// 检查 F 图标和右边水平对齐的文字
+async function checkNpcAndFAlignment(npcName, fDialogueRo) {
+    let ra = captureGameRegion();
+    let fRes = ra.find(fDialogueRo);
+    ra.dispose();
+    if (!fRes.isExist()) {
+        let f_attempts = null; // 初始化尝试次数
+        while (f_attempts < 5) { // 最多尝试 4 次
+            f_attempts++;
+            log.info(`当前尝试次数：${f_attempts}`);
 
-                if (f_attempts === 1) {
-                    // 第一次未找到 F 图标
-                    await simulateKeyOperations("S", 200); // 后退 200 毫秒
-                    await sleep(200);
-                    await simulateKeyOperations("W", 800); // 前进 800 毫秒
-                } else if (f_attempts === 2) {
-                    // 第二次未找到 F 图标
-                    log.info("重新加载路径文件");
-                    await pathingScript.runFile(filePath);
-                    await sleep(500);
-                } else {
-                    // 第三次未找到 F 图标
-                    log.warn("尝试次数已达上限");
-                    return false;
-                }
-                log.warn(`尝试 ${f_attempts + 1}：寻找 F 图标`);
+            if (f_attempts <= 3) {
+                // 第 1-3 次尝试
+                await simulateKeyOperations("S", 200); // 后退 200 毫秒
+                await sleep(200);
+                await simulateKeyOperations("W", 400); // 前进 400 毫秒
+                await sleep(500);
+            } else if (f_attempts === 4) {
+                // 第 4 次尝试
+                log.info("重新加载路径文件");
+                await pathingScript.runFile(filePath);
+                await sleep(500);
+            } else {
+                // 第 5 次尝试，尝试次数已达上限
+                log.warn("尝试次数已达上限");
+                break; // 找到后退出循环
             }
+
+            // 检查是否找到 F 图标
+            ra = captureGameRegion();
+            fRes = ra.find(fDialogueRo); // 重新查找 F 图标
+            ra.dispose();
+            if (fRes.isExist()) {
+                log.info("找到 F 图标");
+                break; // 找到后退出循环
+            }
+            log.warn(`尝试 ${f_attempts}：寻找 F 图标`);
         }
-        // 获取 F 图标的中心点 Y 坐标
-        let centerYF = fRes.y + fRes.height / 2;
 
-        // 在 F 图标右侧水平方向上识别 NPC 名称
-        let ocrResult = await performOcr(npcName, npcxRange, { min: fRes.y, max: fRes.y + fRes.height }, tolerance);
-        if (!ocrResult.success) {
-            log.warn(`OCR 识别未找到 NPC: ${npcName}，尝试滚动`);
-            return false;
-        }
-
-        // 获取 NPC 名称的中心点 Y 坐标
-        let centerYnpcName = ocrResult.y + ocrResult.height / 2;
-
-        // 检查 NPC 名称和 F 图标的中心点 Y 坐标是否在容错范围内
-        if (Math.abs(centerYnpcName - centerYF) <= npctolerance) {
-            return true;
-        } else {
-            log.info(`NPC '${npcName}' 和 F 图标未水平对齐， NPC: ${centerYnpcName}, F 图标: ${centerYF}`);
+        // 如果尝试次数用完仍未找到 F 图标，返回 false
+        if (!fRes.isExist()) {
+            log.warn("经过多次尝试后仍未找到 F 图标");
             return false;
         }
     }
+
+    // 获取 F 图标的中心点 Y 坐标
+    let centerYF = fRes.y + fRes.height / 2;
+
+    // 在 F 图标右侧水平方向上识别 NPC 名称
+    let ocrResult = await performOcr(npcName, npcxRange, { min: fRes.y, max: fRes.y + fRes.height }, tolerance);
+    if (!ocrResult.success) {
+        log.warn(`OCR 识别未找到 NPC: ${npcName}，尝试滚动`);
+        return false;
+    }
+
+    // 获取 NPC 名称的中心点 Y 坐标
+    let centerYnpcName = ocrResult.y + ocrResult.height / 2;
+
+    // 检查 NPC 名称和 F 图标的中心点 Y 坐标是否在容错范围内
+    if (Math.abs(centerYnpcName - centerYF) <= npctolerance) {
+        return true;
+    } else {
+        log.info(`NPC '${npcName}' 和 F 图标未水平对齐，NPC: ${centerYnpcName}, F 图标: ${centerYF}`);
+        return false;
+    }
+}
 
     // 新增变量用于记录滚轮操作次数
     let scrollAttempts = 0;
@@ -355,7 +402,6 @@ async function clickSelectedIngredients(selectedIngredients, filePath, npcNames)
     for (const npcName of npcNames) {
         log.info(`尝试识别 NPC: ${npcName}`);
         let isAligned = await checkNpcAndFAlignment(npcName, fDialogueRo);
-
         while (!isAligned && scrollAttempts < maxScrollAttempts) {
             // 如果未水平对齐，执行滚轮操作
             await keyMouseScript.runFile(`assets/滚轮下翻.json`);
@@ -369,13 +415,40 @@ async function clickSelectedIngredients(selectedIngredients, filePath, npcNames)
             }
 
             // 重新检查 F 图标和 NPC 名称是否对齐
-            isAligned = await checkNpcAndFAlignment(npcName, fDialogueRo);
+            let ra = captureGameRegion();
+            let fRes = ra.find(fDialogueRo);
+            ra.dispose();
+            if (!fRes.isExist()) {
+                log.warn("未找到 F 图标");
+                continue; // 如果未找到 F 图标，继续下一次循环
+            }
+
+            // 获取 F 图标的中心点 Y 坐标
+            let centerYF = fRes.y + fRes.height / 2;
+
+            // 在 F 图标右侧水平方向上识别 NPC 名称
+            let ocrResult = await performOcr(npcName, npcxRange, { min: fRes.y, max: fRes.y + fRes.height }, tolerance);
+            if (!ocrResult.success) {
+                log.warn(`OCR 识别未找到 NPC: ${npcName}`);
+                continue; // 如果未找到 NPC 名称，继续下一次循环
+            }
+
+            // 获取 NPC 名称的中心点 Y 坐标
+            let centerYnpcName = ocrResult.y + ocrResult.height / 2;
+
+            // 检查 NPC 名称和 F 图标的中心点 Y 坐标是否在容错范围内
+            if (Math.abs(centerYnpcName - centerYF) <= npctolerance) {
+                isAligned = true;
+                log.info(`NPC '${npcName}' 和 F 图标水平对齐，NPC: ${centerYnpcName}, F 图标: ${centerYF}`);
+            } else {
+                log.info(`NPC '${npcName}' 和 F 图标未水平对齐，NPC: ${centerYnpcName}, F 图标: ${centerYF}`);
+            }
         }
 
-            // 如果水平对齐，执行交互操作
-             if (isAligned) {
-                keyPress("F");
-                await sleep(2500);
+        // 如果水平对齐，执行交互操作
+         if (isAligned) {
+            keyPress("F");
+            await sleep(2500);
 
 // 首次执行点击操作
             await performClickOperations(filePath);

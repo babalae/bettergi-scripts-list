@@ -13,7 +13,9 @@ async function recognizeImage(recognitionObject, timeout = 5000) {
     while (Date.now() - startTime < timeout) {
         try {
             // 尝试识别图像
-            let imageResult = captureGameRegion().find(recognitionObject);
+            const ro = captureGameRegion();
+            let imageResult = ro.find(recognitionObject);
+            ro.dispose();
             if (imageResult) {
                 // log.info(`成功识别图像，坐标: x=${imageResult.x}, y=${imageResult.y}`);
                 // log.info(`图像尺寸: width=${imageResult.width}, height=${imageResult.height}`);
@@ -35,7 +37,9 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 5000) {
     while (Date.now() - startTime < timeout) {
         try {
             // 尝试 OCR 识别
-            let resList = captureGameRegion().findMulti(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height)); // 指定识别区域
+            const ro = captureGameRegion();
+            let resList = ro.findMulti(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height)); // 指定识别区域
+            ro.dispose();
             // 遍历识别结果，检查是否找到目标文本
             for (let res of resList) {
                 // 后处理：根据替换映射表检查和替换错误识别的字符
@@ -46,8 +50,8 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 5000) {
 
                 if (correctedText.includes(targetText)) {
                     // 如果找到目标文本，计算并点击文字的中心坐标
-                    let centerX = res.x + res.width / 2;
-                    let centerY = res.y + res.height / 2;
+                    let centerX = Math.round(res.x + res.width / 2);
+                    let centerY = Math.round(res.y + res.height / 2);
                     await click(centerX, centerY);
                     await sleep(500); // 确保点击后有足够的时间等待
                     return { success: true, x: centerX, y: centerY };
@@ -70,7 +74,9 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
     while (Date.now() - startTime < timeout) {
         try {
             // 在指定区域进行 OCR 识别
-            let ocrResult = captureGameRegion().find(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height));
+            const ro = captureGameRegion();
+            let ocrResult = ro.find(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height));
+            ro.dispose();
             if (ocrResult) {
                 // 后处理：根据替换映射表检查和替换错误识别的字符
                 let correctedText = ocrResult.text;
@@ -130,7 +136,7 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
 
     // 如果识别到了“角色菜单”或“天赋”，则识别“摩拉数值”
     if (recognized) {
-        let ocrRegionMora = { x: 1620, y: 25, width: 152, height: 46 }; // 设置对应的识别区域
+        let ocrRegionMora = { x: 1606, y: 28, width: 164, height: 40 }; // 设置对应的识别区域
         let recognizedText = await recognizeTextInRegion(ocrRegionMora);
         if (recognizedText) {
             log.info(`成功识别到摩拉数值: ${recognizedText}`);

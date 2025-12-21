@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "01-劫波莲-化城郭-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "jbcaaa",
+        "links": "https://github.com/jbcaaa"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2297.63,
+      "y": -824.53
+    },
+    {
+      "id": 2,
+      "x": 2300.36,
+      "y": -845.3,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 2309.1,
+      "y": -855.22,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": 2308.08,
+      "y": -843.78,
+      "type": "target",
+      "move_mode": "fly",
+      "action": ""
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时140.74秒，包含以下怪物：1只丘丘人、1只打手丘丘人、2只木盾丘丘人、1只火箭丘丘人、1只火斧丘丘暴徒、1只水丘丘萨满、6只深海龙蜥·原种。",
+    "hash_res": "47020069",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762454807684,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "504枫丹茉洁站（200_7）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3635.459999999999,
+      "y": 3801.4400000000005
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3631.2700000000004,
+      "y": 3811.459999999999
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3596.5185546875,
+      "y": 3843.4482421875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3581.8955078125,
+      "y": 3824.59423828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3544.7587890625,
+      "y": 3857.196044921875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3536.7197265625,
+      "y": 3884.576171875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3524.25,
+      "y": 3919.0668380835505
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3517.158203125,
+      "y": 3955.246337890625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3520.306640625,
+      "y": 3975.86669921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3530.509765625,
+      "y": 3947.76513671875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3576.603515625,
+      "y": 3978.8330078125
+    }
+  ]
+}

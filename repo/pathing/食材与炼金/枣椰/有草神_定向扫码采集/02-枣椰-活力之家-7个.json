@@ -1,0 +1,164 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/taotao568685",
+        "name": "白白喵"
+      },
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "约1分钟26秒/7个",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763845516342,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-枣椰-活力之家-7个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "nahida_collect",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4036.2339,
+      "y": -2464.9932
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 2,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4195.8247,
+      "y": -2454.8877
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4197.0347,
+      "y": -2457.1221
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 w(0.3),click(middle),wait(0.5),keydown(e),wait(0.75),moveby(-25,-1500),wait(0.3),moveby(-50,800),wait(0.3),moveby(-950,0),wait(0.3),keyup(e);",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4185.4746,
+      "y": -2452.1504
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4211.4932,
+      "y": -2473.4229
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 w(0.2),click(middle),wait(0.5),keydown(e),wait(0.75),moveby(0,-1000),wait(0.3),moveby(0,500),wait(0.3),moveby(150,0),wait(0.3),keyup(e);",
+      "id": 6,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4215.5449,
+      "y": -2484.918
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4171.0088,
+      "y": -2476.0041
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4151.2383,
+      "y": -2495.4668
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4138.0,
+      "y": -2503.8818
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4123.5015,
+      "y": -2520.1113
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4126.4668,
+      "y": -2535.5391
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4150.9316,
+      "y": -2569.2861
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 w(0.3),click(middle),wait(0.5),keydown(e),wait(0.75),moveby(0,-900),wait(0.3),moveby(0,500),wait(0.3),moveby(150,0),wait(0.3),keyup(e);",
+      "id": 13,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4162.666,
+      "y": -2549.1797
+    },
+    {
+      "action": "combat_script",
+      "action_params": "",
+      "id": 14,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4150.9316,
+      "y": -2569.2861
+    }
+  ]
+}

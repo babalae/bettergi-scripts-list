@@ -1,0 +1,87 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时117.67秒，包含以下怪物：1只大型狂蔓隙境原体、2只狂蔓隙境原体、1只遗迹重机、1只遗迹龙兽·空巡。",
+    "hash_res": "61674668",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759426377945,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "509枫丹厄里那斯西（600_1，400_1，200_3）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4954.93,
+      "y": 2760.1000000000004
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(2.6),click",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5038.619999999999,
+      "y": 2781.66
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5047.720000000001,
+      "y": 2785.2199999999993
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5051.5,
+      "y": 2783.869999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5066.185546875,
+      "y": 2784.0166015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5071.0634765625,
+      "y": 2841.961669921875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5075.200000000001,
+      "y": 2862.290000000001
+    }
+  ]
+}

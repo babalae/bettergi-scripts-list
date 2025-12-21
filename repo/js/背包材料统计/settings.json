@@ -1,0 +1,142 @@
+[
+    {
+        "name": "TargetCount",
+        "type": "input-text",
+        "label": "js目录下默认扫描的3层文件结构：\n./📁BetterGI/📁User/📁JsScript/\n📁背包材料统计/\n    📁pathing/\n        📁 食材与炼金/\n            📁 薄荷/\n                📄 薄荷1.json\n                📁 薄荷效率/\n                    📄 薄荷-吉吉喵.json\n            📁 苹果/\n                📄 旅行者的果园.json\n----------------------------------\n目标数量，默认5000\n给📁pathing下材料设定的目标数"
+    },
+    {
+        "name": "TargetresourceName",
+        "type": "input-text",
+        "label": "----------------------------------\n优先级材料，跳过目标数直接运行\n如填入 甜甜花，薄荷,苹果"
+    },
+    {
+        "name": "TimeCost",
+        "type": "input-text",
+        "label": "====================\n时间成本：秒\n一单位材料的平均耗时，默认30"
+    },
+    {
+        "name": "notify",
+        "type": "checkbox",
+        "label": "----------------------------------\n是否发送通知。默认：否\n需在BGI开启JS通知，并设置通知地址"
+    },
+    {
+        "name": "noRecord",
+        "type": "checkbox",
+        "label": "----------------------------------\n取消扫描。默认：否\n勾选将不进行单路径的扫描，但保留时间记录\n(推荐路径记录炼成后启用)"
+    },
+    {
+        "name": "Pathing",
+        "type": "select",
+        "label": "====================\n扫描📁pathing下的\n或勾选【材料分类】的材料。默认：仅📁pathing材料",
+        "options": [
+          "1.兼并:📁pathing材料+【材料分类】",
+          "2.仅📁pathing材料",
+          "3.仅【材料分类】勾选",
+    ]
+    },
+    {
+        "name": "Smithing",
+        "type": "checkbox",
+        "label": "\n----------------------------------\n【锻造素材】"
+    },
+    {
+        "name": "Drops",
+        "type": "checkbox",
+        "label": "如：矿石、原胚\n----------------------------------\n【怪物掉落素材】"
+    },
+    {
+        "name": "ForagedFood",
+        "type": "checkbox",
+        "label": "如：经验书、怪物掉落\n----------------------------------\n【采集食物】，食用回血"
+    },
+    {
+        "name": "General",
+        "type": "checkbox",
+        "label": "如：苹果、日落果、泡泡桔\n----------------------------------\n【一般素材】"
+    },
+    {
+        "name": "CookingIngs",
+        "type": "checkbox",
+        "label": "如：特产、非食用素材\n----------------------------------\n\n【烹饪用食材】"
+    },
+    {
+        "name": "Weekly",
+        "type": "checkbox",
+        "label": "----------------------------------\n\n【周本素材】"
+    },
+    {
+        "name": "Wood",
+        "type": "checkbox",
+        "label": "----------------------------------\n\n【木材】"
+    },
+    {
+        "name": "CharAscension",
+        "type": "checkbox",
+        "label": "----------------------------------\n\n【角色培养素材】世界BOSS树脂材料"
+    },
+    {
+        "name": "Fishing",
+        "type": "checkbox",
+        "label": "----------------------------------\n\n【鱼饵、鱼类】"
+    },
+    {
+        "name": "Gems",
+        "type": "checkbox",
+        "label": "----------------------------------\n\n【宝石】"
+    },
+    {
+        "name": "Talent",
+        "type": "checkbox",
+        "label": "----------------------------------\n\n【角色天赋素材】天赋书"
+    },
+    {
+        "name": "WeaponAscension",
+        "type": "checkbox",
+        "label": "----------------------------------\n\n【武器突破素材】"
+    },
+    {
+        "name": "PopupNames",
+        "type": "input-text",
+        "label": "数字太小可能无法识别，用?代替\n====================\n弹窗名（默认：全部)"
+    },
+    {
+        "name": "PopupClickDelay",
+        "type": "input-text",
+        "label": "如 过期物品,信件，自定义文件夹名。注意文件夹结构\n----------------------------------\n弹窗循环间隔（默认:15 秒)"
+    },
+    {
+        "name": "CDCategories",
+        "type": "input-text",
+        "label": "====================\n\n采用的CD分类（默认：全部) 举例：采集,怪物，木材"
+    },
+    {
+        "name": "CurrentTime",
+        "type": "input-text",
+        "label": "根据CD分类来加载路径文件，具体看materialsCD目录\n====================\n\n终止时刻（默认：不执行) 例：4:00"
+    },
+    {
+        "name": "PickCategories",
+        "type": "input-text",
+        "label": "====================\n\n采用的识别名单（默认：全部) 举例：交互，采集,宝箱"
+    },
+    {
+        "name": "ExceedCount",
+        "type": "input-text",
+        "label": "根据拾取分类来加载OCR名单，具体看targetText目录\n----------------------------------\n\n超量阈值（默认：5000)超量的路径材料将不拾取"
+    },
+    {
+        "name": "PageScrollDistance",
+        "type": "input-text",
+        "label": "====================\n拖动距离：(默认711像素点)"
+    },
+    {
+        "name": "HoldX",
+        "type": "input-text",
+        "label": "------------------------\n(0,0)———> X 增加\n   |\n   |\n  V  Y 增加\n\n翻页拖动点X坐标：0~1920(默认1050)"
+    },
+    {
+        "name": "HoldY",
+        "type": "input-text",
+        "label": "------------------------\n翻页拖动点Y坐标：0~1080(默认750)"
+    }
+]

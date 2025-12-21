@@ -1,0 +1,84 @@
+﻿{
+  "info": {
+    "name": "404须弥-天臂池七天神像1",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "tags": [],
+    "last_modified_time": 1753727370653,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3252.5263671875,
+      "y": -598.263671875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3245.841796875,
+      "y": -635.15625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "a(1)",
+      "type": "orientation"
+    },
+    {
+      "id": 3,
+      "x": 3245.841796875,
+      "y": -635.15625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.1)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3244.76171875,
+      "y": -667.30224609375,
+      "action": "up_down_grab_leaf",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3243.2294921875,
+      "y": -673.9853515625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3243.4658203125,
+      "y": -669.6513671875,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 3243.083984375,
+      "y": -667.75537109375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

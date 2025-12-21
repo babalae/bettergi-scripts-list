@@ -1,0 +1,141 @@
+{
+  "info": {
+    "name": "203璃月遁玉陵f4（200_4）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时147.14秒，包含以下怪物：3只遗迹守卫、1只遗迹猎者。",
+    "hash_res": "94905154",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1754763417853,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 981.38,
+      "y": -343.15,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1044.5,
+      "y": -312.75,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1092.56,
+      "y": -290.5,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1110,
+      "y": -313.5,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1138.25,
+      "y": -338.25,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1154.13,
+      "y": -345.75,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(3.5),",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 1154.13,
+      "y": -345.75,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 1161.75,
+      "y": -345.94,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 1185,
+      "y": -313.5,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 1200.63,
+      "y": -277.75,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 1194.81,
+      "y": -260.25,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(2),keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 1200.63,
+      "y": -277.75,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 1190.81,
+      "y": -292.94,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

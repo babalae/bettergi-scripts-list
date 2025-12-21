@@ -1,13 +1,30 @@
 {
-  "manifest_version": 1,
-  "name": "自动锻造魔矿",
-  "version": "1.1(2025.05.01版)",
-  "description": "自动选择铁匠铺和使用矿物去锻造魔矿。\n注1:默认选择枫丹铁匠铺，可选择其他地区铁匠铺。由于地图追踪功能不支持室内定位，所以不支持纳塔铁匠铺；\n注2:可选使用水晶矿(默认)、紫晶矿、萃凝晶。\n鸣谢:寒露,蜜柑魚",
-  "authors": [
-    {
-      "name": "呱呱z"
-    }
-  ],
-  "settings_ui": "settings.json",
-  "main": "main.js"
+    "manifest_version": 1,
+    "name": "自动锻造魔矿(识图版)",
+    "version": "2.4.0",
+    "bgi_version": "0.48.2",
+    "description": "自动选择铁匠铺和使用矿物去锻造精锻矿。\n \n使用前请阅读“readme”文件以获取更多详细信息。 \n---更新说明--- \n- 请查阅readme",
+    "tags": [
+        "铁匠铺",
+        "锻造",
+        "精锻用魔矿",
+        "图像识别",
+        "模板匹配",
+        "OCR"
+    ],
+    "authors": [
+        {
+            "name": "呱呱z",
+            "links": "https://github.com/jidingcai"
+        },
+        {
+            "name": "寒露"
+        },
+        {
+            "name": "蜜柑魚",
+            "links": "https://github.com/this-Fish"
+        }
+    ],
+    "settings_ui": "settings.json",
+    "main": "main.js"
 }

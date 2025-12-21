@@ -1,0 +1,194 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "寥寥轻舟"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756463670561,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-海露花-枫丹-揭示之书-下方-6个",
+    "tags": [
+      "芭芭拉"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "hydro_collect",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4689.4,
+      "y": 2429.52
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4686.38,
+      "y": 2406.21
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4679.98,
+      "y": 2399.39
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4674.8,
+      "y": 2389.45
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4681.25,
+      "y": 2371.59
+    },
+    {
+      "action": "combat_script",
+      "action_params": "芭芭拉 charge(0.5)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4687.53,
+      "y": 2355.04
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4687.75,
+      "y": 2351.87
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4670.62,
+      "y": 2354.08
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4643.88,
+      "y": 2324.36
+    },
+    {
+      "action": "combat_script",
+      "action_params": "芭芭拉 e,wait(0.2),keypress(e);",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4637.35,
+      "y": 2289.23
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4635.7,
+      "y": 2283.87
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4595.64,
+      "y": 2302.05
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4606.99,
+      "y": 2337.16
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3);芭芭拉 e,wait(0.2),keypress(e);",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4566.58,
+      "y": 2356.39
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4565.76,
+      "y": 2350.57
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4554.1562,
+      "y": 2350.2766
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4552.56,
+      "y": 2350.82
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4544.27,
+      "y": 2361.17
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1);",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4564.96,
+      "y": 2363.38
+    }
+  ]
+}

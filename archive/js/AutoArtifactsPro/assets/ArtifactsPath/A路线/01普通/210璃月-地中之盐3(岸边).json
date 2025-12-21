@@ -1,0 +1,91 @@
+{
+  "info": {
+    "name": "210璃月-地中之盐3(岸边)",
+    "type": "collect",
+    "author": "汐",
+    "version": "",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -164.5927734375,
+      "y": 1182.50537109375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -164.48828125,
+      "y": 1218.1357421875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -152.3046875,
+      "y": 1246.486328125,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -133.78181091177794,
+      "y": 1255.9050297839422,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -101.333984375,
+      "y": 1236.02978515625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -95.0634765625,
+      "y": 1238.294921875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": -94.11328125,
+      "y": 1235.544921875,
+      "action": "",
+      "move_mode": "climb",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": -90.9267578125,
+      "y": 1235.23193359375,
+      "action": "",
+      "move_mode": "climb",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": -93.0693359375,
+      "y": 1238.69384765625,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(1);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "path"
+    }
+  ]
+}

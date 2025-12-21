@@ -1,0 +1,96 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时57.73秒，包含以下怪物：1只冲锋丘丘人、1只丘丘岩盔王。",
+    "hash_res": "38158110",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763454043396,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "221璃月震雷宫（600_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -416.34000000000015,
+      "y": 730.0299999999997
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -413.19140625,
+      "y": 711.51611328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -441.38671875,
+      "y": 682.697265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -452.541015625,
+      "y": 660.8251953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -464.14453125,
+      "y": 658.72021484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -482.9375434509129,
+      "y": 630.0001818955616
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -448.677734375,
+      "y": 616.001953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -448.677734375,
+      "y": 616.001953125
+    }
+  ]
+}

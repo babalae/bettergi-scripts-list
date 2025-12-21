@@ -1,0 +1,95 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时91.49秒，包含以下怪物：1只铸砂勇士·叩问人、1只铸砂勇士·碎盾者、2只鳍游龙。",
+    "hash_res": "38648249",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760729096662,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "6206--纳塔_浮羽之湾北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10728.4189453125,
+      "y": -1379.1650390625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10728.4189453125,
+      "y": -1379.1650390625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10699.7333984375,
+      "y": -1394.3798828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10728.4189453125,
+      "y": -1379.1650390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10741.2080078125,
+      "y": -1433.07666015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10781.5302734375,
+      "y": -1468.6240234375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10803.720703125,
+      "y": -1466.7841796875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 10803.720703125,
+      "y": -1466.7841796875
+    }
+  ]
+}

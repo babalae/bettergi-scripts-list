@@ -1,0 +1,119 @@
+{
+  "info": {
+    "name": "333稻妻渊下宫常夜灵庙西南（200_7）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时143.58秒，包含以下怪物：2只冲锋丘丘人、1只木盾丘丘暴徒、3只嗜岩·兽境幼兽、3只遗迹守卫。",
+    "hash_res": "56339918",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -366.34,
+      "y": 235.74,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -245.75,
+      "y": 223.94,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -226.24,
+      "y": 222.01,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -213.55,
+      "y": 220.31,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -210.5,
+      "y": 219.8,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": -198.07,
+      "y": 271.19,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -204.99,
+      "y": 223.87,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -221.46,
+      "y": 220.49,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -264.02,
+      "y": 192.58,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -290.21,
+      "y": 129.31,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "w(2),wait(3)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -290.21,
+      "y": 129.31,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

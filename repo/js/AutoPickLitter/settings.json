@@ -1,0 +1,123 @@
+[
+  {
+    "name": "water",
+    "type": "checkbox",
+    "label": "               按自身情况选择相关内容               \n有打开背包的操作，运行前将世界权限设为【不允许加入】\n\n-----------------蒙德清泉镇圣水---------------"
+  },
+  {
+    "name": "sticks",
+    "type": "checkbox",
+    "label": "\n-----------------璃月铜雀庙上香---------------\n注意:请完成相关系列任务"
+  },
+  {
+    "name": "lots",
+    "type": "checkbox",
+    "label": "\n---------------稻妻鸣神大社抽签---------------\n注意:勾选前，请去看readme"
+  },
+  {
+    "name": "conchs",
+    "type": "checkbox",
+    "label": "\n----------------稻妻踏鞴砂海螺----------------\n注意:勾选前，请去看readme"
+  },
+  {
+    "name": "doYouOpen",
+    "type": "checkbox",
+    "label": "是否开启宝箱(默认是)",
+    "default": "true"
+  },
+  {
+    "name": "pickupTreasure",
+    "type": "select",
+    "label": "开启宝箱或随机(1:左面 2:中间 3:右边 0:随机 默认0)",
+    "options": [
+      "1", "2", "3", "0"
+    ],
+    "default": "0"
+  },
+  {
+    "name": "meal",
+    "type": "checkbox",
+    "label": "\n-------------枫丹梅洛彼得堡福利餐-------------\n注意:开图啊，喂！！！"
+  },
+  {
+    "name": "eggs",
+    "type": "checkbox",
+    "label": "\n-------------纳塔悠悠集市闪闪龙蛋-------------\n注意:开图啊，喂！！！"
+  },
+  {
+    "name": "selectDragonEggModel",
+    "type": "select",
+    "label": "随机模式、平均模式或者指定模式(默认是随机模式)",
+    "options": [
+      "随机模式",
+      "平均模式",
+      "指定模式"
+    ],
+    "default": "随机模式"
+  },
+  {
+    "name": "pickupDragonEgg",
+    "type": "select",
+    "label": "指定模式：选择你喜欢的龙蛋",
+    "options": [
+      "闪闪礼蛋·山之血",
+      "闪闪礼蛋·太阳的轰鸣",
+      "闪闪礼蛋·圣龙君临",
+      "闪闪礼蛋·菲耶蒂娜",
+      "闪闪礼蛋·献给小酒杯",
+      "闪闪礼蛋·飞澜鲨鲨"
+    ]
+  },
+  {
+    "name": "updateEggs",
+    "type": "checkbox",
+    "label": "是否更新背包各龙蛋数目(默认否)",
+    "default": "false"
+  },
+  {
+    "name": "turntable",
+    "type": "checkbox",
+    "label": "\n-------------挪德卡莱那夏镇好运转盘------------\n注意:开图啊，喂！！！"
+  },
+  {
+    "name": "todayLuck",
+    "type": "checkbox",
+    "label": "\n-------------挪德卡莱那夏镇今日收获------------\n注意:开图，并且完成【餐食大事】的任务！！！"
+  },
+  {
+    "name": "sweetStatue",
+    "type": "checkbox",
+    "label": "\n---------------挪德卡莱那夏镇糖雕--------------\n注意:开图啊，喂！！！"
+  },
+  {
+        "name": "partyName",
+        "type": "input-text",
+        "label": "切换队伍名称\n如果你想领取专属糖雕请正确输入包含专属角色的队伍名称\n未输入队伍名称则领取普通糖雕" 
+  },
+  {
+    "name": "selectGiveWho",
+    "type": "select",
+    "label": "请选择领取的专属糖雕(领取的专属糖雕会默认给专属角色吃)",
+    "options": [
+      "伊涅芙",
+      "爱诺",
+      "拉乌玛",
+      "菲林斯",
+      "奈芙尔",
+      ""
+      // "雅珂达（别选择我！！！）"
+    ],
+    "default": ""
+  },
+  {
+    "name": "notify",
+    "type": "checkbox",
+    "label": "\n---------------------通知---------------------\n是否开启通知"
+  },
+  {
+    "name": "accountName",
+    "type": "input-text",
+    "label": "-----------------账户名称-------------------\n用于多用户运行时区分不同账户\n单用户无需修改",
+    "default": "默认账户"
+  }
+]

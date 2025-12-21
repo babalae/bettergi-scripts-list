@@ -1,0 +1,72 @@
+[
+    {
+        "name": "partyName",
+        "type": "input-text",
+        "label": "需要领取好感的队伍名称(不填写则不切换队伍)"
+    },
+    {
+        "name": "disableGoStatue",
+        "type": "checkbox",
+        "label": "关闭前往七天神像"
+    },
+    {
+        "name": "week",
+        "type": "input-text",
+        "label": "指定星期几执行\n(使用\",\"分割多个星期几)\n例：输入\"2,3,4,5,6,7\"\n⠀⠀⠀会在星期2,3,4,5,6,日才执行使用历练点完成每日委托\n输入\"0\"则为每天执行",
+        "default": "0"
+    },
+    {
+        "name": "notDoublePoints",
+        "type": "checkbox",
+        "label": "直接使用历练点完成每日委托 (推荐全角色满好感时启用)\n启用后无视下方 好友尘歌壶双倍好感设置",
+        "default": true
+    },
+    {
+        "name": "appointFriendName",
+        "type": "input-text",
+        "label": "---好友尘歌壶双倍好感设置---\n\n(选填)指定好友名称"
+    },
+    {
+        "name": "request_times",
+        "type": "input-text",
+        "label": "(选填)申请好友数，需小于等于7，不支持翻页"
+    },
+    {
+        "name": "removedCharacters1",
+        "type": "checkbox",
+        "label": "让1号位角色离队"
+    },
+    {
+        "name": "removedCharacters2",
+        "type": "checkbox",
+        "label": "让2号位角色离队"
+    },
+    {
+        "name": "removedCharacters3",
+        "type": "checkbox",
+        "label": "让3号位角色离队"
+    },
+    {
+        "name": "removedCharacters4",
+        "type": "checkbox",
+        "label": "让4号位角色离队"
+    },
+    {
+        "name": "adventurePath",
+        "type": "select",
+        "label": "前往指定地区的冒险家协会领取奖励",
+        "options": [
+            "蒙德",
+            "璃月",
+            "稻妻",
+            "枫丹",
+            "挪德卡莱"
+        ],
+        "default": "蒙德"
+    },
+    {
+        "name": "enableDebug",
+        "type": "checkbox",
+        "label": "开启Debug模式(队伍识别输出所有内容)"
+    }
+]

@@ -1,0 +1,156 @@
+{
+  "info": {
+    "author": "Demo&汐&mno",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      },
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时297秒，包含10只小怪，预计收入729摩拉，包含以下怪物：1只鳍游龙、2只幼绒翼龙、7只绒翼龙。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764870053638,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "6301--纳塔_翘枝崖_神像_(8-3)",
+    "tags": [],
+    "type": "collect",
+    "version": "1.4"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9847.07,
+      "y": -1290.9300000000003
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9827.46,
+      "y": -1266.9099999999999
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9826.81,
+      "y": -1297.8199999999997
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9785.35,
+      "y": -1250.8099999999995
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9778.12,
+      "y": -1257.1599999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9771.27,
+      "y": -1266.6099999999997
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.5)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9764.16,
+      "y": -1316.6000000000004
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9740.7,
+      "y": -1313.96
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1.0)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9723.1640625,
+      "y": -1295.6787109375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1.5)",
+      "id": 10,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 9717.3955078125,
+      "y": -1294.24169921875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "id": 11,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 9709.9306640625,
+      "y": -1284.9521484375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9695.49,
+      "y": -1270.6800000000003
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9691.46,
+      "y": -1283.5500000000002
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9691.46,
+      "y": -1283.5500000000002
+    }
+  ]
+}

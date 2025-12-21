@@ -1,0 +1,64 @@
+[
+  {
+    "type": "地图追踪",
+    "data": "1.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+  {
+    "type": "自动任务",
+    "data": {
+      "action": "enable",
+      "taskType": "AutoSkip"
+    },
+    "note": "开启自动剧情"
+  },
+  {
+    "type": "按键",
+    "data": "F",
+    "note": "按下F键"
+  },
+  {
+    "type": "等待返回主界面",
+    "note": "等待返回主界面"
+  },
+  {
+  "type": "自动任务",
+  "data": {
+    "action": "disable"
+  },
+  "note": "取消所有自动任务"
+},
+  {
+    "type": "地图追踪",
+    "data": "2.json",
+    "note": "执行第二个地图追踪步骤"
+  },
+  {
+    "type": "键鼠脚本",
+    "data": "对话并关闭阅读.json",
+    "note": "对话并关闭阅读"
+  },
+  {
+    "type": "地图追踪",
+    "data": "1.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+  {
+    "type": "自动任务",
+    "data": {
+      "action": "enable",
+      "taskType": "AutoSkip"
+    },
+    "note": "开启自动剧情"
+  },
+  {
+    "type": "按键",
+    "data": "F",
+    "note": "按下F键"
+  },
+  {
+    "type": "等待返回主界面",
+    "note": "等待返回主界面"
+  }
+]
+

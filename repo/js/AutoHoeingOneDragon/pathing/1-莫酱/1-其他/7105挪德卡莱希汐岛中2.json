@@ -1,0 +1,181 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时143.71秒，包含以下怪物：2只水史莱姆、1只大型水史莱姆、1只辉电·霜夜灵嗣、1只凌晶·霜夜灵嗣。",
+    "hash_res": "50760446",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757851601648,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "7105挪德卡莱希汐岛中2",
+    "tags": [
+      "挪德卡莱"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10754.3466796875,
+      "y": 2061.1728515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10765.8232421875,
+      "y": 2056.236328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10775.8896484375,
+      "y": 2052.828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10783.970703125,
+      "y": 2044.412109375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10750.9970703125,
+      "y": 2001.2412109375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 10750.9970703125,
+      "y": 2001.2412109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10754.3466796875,
+      "y": 2061.171630859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10734.02734375,
+      "y": 2049.311767578125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10729.2509765625,
+      "y": 2046.77685546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10735.62109375,
+      "y": 2060.714111328125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10752.8232421875,
+      "y": 2067.874267578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10752.8232421875,
+      "y": 2067.874267578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10768.83984375,
+      "y": 2075.16357421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 10770.7138671875,
+      "y": 2092.34375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10773.4033203125,
+      "y": 2099.35302734375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 16,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10780.1591796875,
+      "y": 2104.132080078125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 10780.1591796875,
+      "y": 2104.132080078125
+    }
+  ]
+}

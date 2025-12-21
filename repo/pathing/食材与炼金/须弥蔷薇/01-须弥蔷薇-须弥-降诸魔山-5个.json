@@ -1,0 +1,49 @@
+{
+  "info": {
+    "version": "1.0",
+    "name": "01-须弥蔷薇-须弥-降诸魔山-5个",
+    "description": "",
+    "type": "collect",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2246.05,
+      "y": -1680.4,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": 2246.45,
+      "y": -1679.77,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 2349.68,
+      "y": -1723.12,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": 2361.56,
+      "y": -1715.63,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

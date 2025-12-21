@@ -1,0 +1,78 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时70.28秒，包含以下怪物：2只射手丘丘人、2只火箭丘丘人、1只丘丘岩盔王。",
+    "hash_res": "67300983",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763453561540,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "411须弥沙漠饱饮之丘东（600_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5049.959999999999,
+      "y": -1794.71
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5029.720703125,
+      "y": -1793.54345703125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4993.349609375,
+      "y": -1809.279296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4925.7841796875,
+      "y": -1861.74169921875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4912.07,
+      "y": -1849.5100000000002
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4912.07,
+      "y": -1849.5100000000002
+    }
+  ]
+}

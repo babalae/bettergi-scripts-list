@@ -1,0 +1,81 @@
+{
+  "info": {
+    "name": "A06-日落果-蒙德-坠星山谷-6个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "日落果05-坠星山谷-6颗-万叶纯享-白白喵",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1642.3496,
+      "y": 2681.9944,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1639.958,
+      "y": 2674.4834,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1627.085,
+      "y": 2655.0078,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1609.4043,
+      "y": 2623.3989,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1605.6973,
+      "y": 2618.3843,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -1587.1758,
+      "y": 2601.2312,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -1556.29,
+      "y": 2595.7061,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "万叶 e(hold),attack,wait(3.0)"
+    }
+  ]
+}

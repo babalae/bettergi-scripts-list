@@ -1,0 +1,122 @@
+{
+  "info": {
+    "name": "纳塔涌流地01",
+    "type": "collect",
+    "author": "未知作者",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "未知作者"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8285.98,
+      "y": -2521.44,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": 8275.64,
+      "y": -2566.64,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 8284.78,
+      "y": -2570.91,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)"
+    },
+    {
+      "id": 4,
+      "x": 8289.08,
+      "y": -2570.33,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 8288.96,
+      "y": -2573.14,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 8289.24,
+      "y": -2576.54,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 8288.06,
+      "y": -2575.22,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": 8288.1,
+      "y": -2573.6,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x": 8287.57,
+      "y": -2570.53,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 10,
+      "x": 8288.51,
+      "y": -2570.52,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 11,
+      "x": 8286.33,
+      "y": -2571.34,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 12,
+      "x": 8288.71,
+      "y": -2572.8,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 13,
+      "x": 8284.83,
+      "y": -2572.11,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

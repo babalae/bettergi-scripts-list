@@ -1,0 +1,44 @@
+[
+    {
+        "name": "route",
+        "type": "input-text",
+        "label": "进入尘歌壶以后寻找阿圆的路径\n填写规则：方向键+空格+时间(单位：毫秒)\n多个路径用英文逗号隔开，示例：A 1800,S 1300\n示例配套洞天摹数81708444664"
+    },
+    {
+        "name": "itemsToBuy",
+        "type": "input-text",
+        "label": "想要购买的物品名称，支持只填写部分文字\n多个物品用英文逗号隔开，例如：祝圣精华,树脂"
+    },
+    {
+        "name": "forgingRoute",
+        "type": "input-text",
+        "label": "锻造路径(格式同上)，示例：D 2000\n周一自动执行"
+    },
+    {
+        "name": "cookingRoute",
+        "type": "input-text",
+        "label": "烹饪路径(格式同上)，示例：W 1000\n周一自动执行"
+    },
+    {
+        "name": "skipCharacterReward",
+        "type": "checkbox",
+        "label": "不领取角色好感(注意是不领取)"
+    },
+    {
+        "name": "skipTreasureReward",
+        "type": "checkbox",
+        "label": "不领取洞天宝钱(注意是不领取)"
+    },
+    {
+        "name": "week",
+        "type": "input-text",
+        "label": "指定周几执行\n(使用\",\"分割多个周几)\n例：输入\"2,3,4,5,6,7\"，会在周2,3,4,5,6,日才运行尘歌壶流程",
+        "default": "1,3,6"
+    },
+    {
+        "name": "exchangeWeek",
+        "type": "input-text",
+        "label": "指定在周几购买物品、烹饪、锻造\n(使用\",\"分割多个周几，0表示每天)\n例：输入\"1,3,5\"，会在周一、三、五购买物品、烹饪、锻造\n默认：1（周一）",
+        "default": "1"
+    }
+]

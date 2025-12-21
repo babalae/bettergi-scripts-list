@@ -1,0 +1,31 @@
+{
+  "info": {
+    "name": "鳄鱼-触发点",
+    "type": "collect",
+    "author": "秋云",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3605.18,
+      "y": -513.31,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 2,
+      "x": 3614.63,
+      "y": -521.6,
+      "action": "exit_and_relogin",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

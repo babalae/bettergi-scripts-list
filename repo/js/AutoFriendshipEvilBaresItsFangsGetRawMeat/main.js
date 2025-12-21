@@ -1,4 +1,4 @@
-(async function() {
+(async function () {
 
 	function logTimeTaken(startTime) {
 		const currentTime = Date.now();
@@ -70,12 +70,90 @@
 		}
 	}
 
+	async function fakeLog(name, isJs, isStart, duration) {
+		await sleep(10);
+		const currentTime = Date.now();
+		// 参数检查
+		if (typeof name !== 'string') {
+			log.error("参数 'name' 必须是字符串类型！");
+			return;
+		}
+		if (typeof isJs !== 'boolean') {
+			log.error("参数 'isJs' 必须是布尔型！");
+			return;
+		}
+		if (typeof isStart !== 'boolean') {
+			log.error("参数 'isStart' 必须是布尔型！");
+			return;
+		}
+		if (typeof currentTime !== 'number' || !Number.isInteger(currentTime)) {
+			log.error("参数 'currentTime' 必须是整数！");
+			return;
+		}
+		if (typeof duration !== 'number' || !Number.isInteger(duration)) {
+			log.error("参数 'duration' 必须是整数！");
+			return;
+		}
+
+		// 将 currentTime 转换为 Date 对象并格式化为 HH:mm:ss.sss
+		const date = new Date(currentTime);
+		const hours = String(date.getHours()).padStart(2, '0');
+		const minutes = String(date.getMinutes()).padStart(2, '0');
+		const seconds = String(date.getSeconds()).padStart(2, '0');
+		const milliseconds = String(date.getMilliseconds()).padStart(3, '0');
+		const formattedTime = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+
+		// 将 duration 转换为分钟和秒，并保留三位小数
+		const durationInSeconds = duration / 1000; // 转换为秒
+		const durationMinutes = Math.floor(durationInSeconds / 60);
+		const durationSeconds = (durationInSeconds % 60).toFixed(3); // 保留三位小数
+
+		// 使用四个独立的 if 语句处理四种情况
+		if (isJs && isStart) {
+			// 处理 isJs = true 且 isStart = true 的情况
+			const logMessage = `正在伪造js开始的日志记录\n\n` +
+				`[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+				`------------------------------\n\n` +
+				`[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+				`→ 开始执行JS脚本: "${name}"`;
+			log.debug(logMessage);
+		}
+		if (isJs && !isStart) {
+			// 处理 isJs = true 且 isStart = false 的情况
+			const logMessage = `正在伪造js结束的日志记录\n\n` +
+				`[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+				`→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
+				`[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+				`------------------------------`;
+			log.debug(logMessage);
+		}
+		if (!isJs && isStart) {
+			// 处理 isJs = false 且 isStart = true 的情况
+			const logMessage = `正在伪造地图追踪开始的日志记录\n\n` +
+				`[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+				`------------------------------\n\n` +
+				`[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+				`→ 开始执行地图追踪任务: "${name}"`;
+			log.debug(logMessage);
+		}
+		if (!isJs && !isStart) {
+			// 处理 isJs = false 且 isStart = false 的情况
+			const logMessage = `正在伪造地图追踪结束的日志记录\n\n` +
+				`[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+				`→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
+				`[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+				`------------------------------`;
+			log.debug(logMessage);
+		}
+	}
+
 	// 好感核心函数
 	async function AutoFriendship(runTimes, statueTimes, getMeatMode, delayTime, startTime, ocrTimeout) {
 		for (let i = 0; i < runTimes; i++) {
 			if ((i + 1) % statueTimes === 0) { // 判断当前循环次数否达到去神像设置值
 				await genshin.tpToStatueOfTheSeven();
 				await AutoPath(`好感-张牙舞爪的恶党-触发位置(二净甸)`);
+				await sleep(delayTime);
 			} else if (!await comparePosition()) { // 对比触发位置坐标，如果不符合预期坐标则重新执行触发线路
 				log.info(`导航至突发任务（张牙舞爪的恶党）触发位置(二净甸)`);
 				await AutoPath(`好感-张牙舞爪的恶党-触发位置(二净甸)`);
@@ -93,13 +171,14 @@
 				while (Date.now() - ocrStartTime < ocrTimeout && !ocrStatus) {
 					let captureRegion = captureGameRegion();
 					let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 200, 300, 300));
+					captureRegion.dispose();
 					for (let o = 0; o < resList.count; o++) {
 						let res = resList[o];
 						if (res.text.includes("张牙") || res.text.includes("舞爪") || res.text.includes("恶党") || res.text.includes("打倒") || res.text.includes("所有") || res.text.includes("鳄鱼")) {
 							ocrStatus = true;
 							break;
 						}
-						await sleep(1000);
+						await sleep(500);
 					}
 				}
 
@@ -111,7 +190,24 @@
 						"forceInteraction": true
 					}));
 
-					await AutoPath(`好感-张牙舞爪的恶党-循环${getMeatMode ? '(二净甸刷肉版)' : '(二净甸)'}`);
+					const pathingName = `第${i + 1}次，共${runTimes}次`
+					await fakeLog(`${pathingName}`, false, true, 0);
+
+					//原版逻辑 await AutoPath(`好感-张牙舞爪的恶党-循环${getMeatMode ? '(二净甸刷肉版)' : '(二净甸)'}`);
+					//多种拾取模式
+					if (getMeatMode == "算了我不捡了") {
+						await AutoPath(`好感-张牙舞爪的恶党-循环(二净甸)`);
+					} else if (getMeatMode == "通用拾取") {
+						await AutoPath(`好感-张牙舞爪的恶党-循环(二净甸刷肉版)`);
+					} else if (getMeatMode == "万叶拾取") {
+						await AutoPath(`万叶版前往`);
+						await keyMouseScript.runFile(`assets/万叶拾取.json`);
+						await AutoPath(`万叶版返回`);
+					} else {
+						await AutoPath(`好感-张牙舞爪的恶党-循环(二净甸)`);
+					}
+
+					await fakeLog(`${pathingName}`, false, false, 0);
 
 					// 关闭急速拾取
 					dispatcher.addTimer(new RealtimeTimer("AutoPick", {
@@ -195,7 +291,7 @@
 	if (!!settings.partyName) {
 		try {
 			log.info("正在尝试切换至" + settings.partyName);
-			if(!await genshin.switchParty(settings.partyName)){
+			if (!await genshin.switchParty(settings.partyName)) {
 				log.info("切换队伍失败，前往七天神像重试");
 				await genshin.tpToStatueOfTheSeven();
 				await genshin.switchParty(settings.partyName);

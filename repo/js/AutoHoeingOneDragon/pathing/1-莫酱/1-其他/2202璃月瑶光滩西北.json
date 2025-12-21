@@ -1,0 +1,169 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时253秒，预计收入1293.5摩拉，包含以下怪物：2只丘丘人、2只打手丘丘人、3只冲锋丘丘人、3只木盾丘丘人、1只雷箭丘丘人、1只冰箭丘丘人、2只木盾丘丘暴徒、1只草丘丘萨满、2只水萤、3只雷萤。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764874904871,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "2202璃月瑶光滩西北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -57.400000000001455,
+      "y": 656.9400000000005
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -93.4921875,
+      "y": 563.68994140625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -120.62494469884041,
+      "y": 497.1870301031331
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "id": 4,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -116.6953125,
+      "y": 465.3017578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -135.3671875,
+      "y": 464.9990234375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -142.3203125,
+      "y": 415.1396484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -137.5859375,
+      "y": 410.8955078125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "id": 8,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -132.193359375,
+      "y": 361.4775390625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -92.955078125,
+      "y": 360.7890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -74.05078125,
+      "y": 392.0087890625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -74.421875,
+      "y": 422.533203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -70.173828125,
+      "y": 425.3583984375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -26.060546875,
+      "y": 430.9765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -35.025390625,
+      "y": 444.9287109375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 15,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -38.46484375,
+      "y": 484.09619140625
+    }
+  ]
+}

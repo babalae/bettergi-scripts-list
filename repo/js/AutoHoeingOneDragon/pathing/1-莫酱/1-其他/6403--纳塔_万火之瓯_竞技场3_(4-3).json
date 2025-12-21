@@ -1,0 +1,81 @@
+{
+  "info": {
+    "name": "6403--纳塔_万火之瓯_竞技场3_(4-3)",
+    "type": "collect",
+    "author": "Demo&汐&mno",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时72.91秒，包含以下怪物：1只幼匿叶龙、1.5只匿叶龙。",
+    "hash_res": "16176037",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8916.82,
+      "y": -1638.64,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8789.81,
+      "y": -1690.83,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 8804.78,
+      "y": -1726.55,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 8791.52,
+      "y": -1736.43,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 8751.9,
+      "y": -1732.84,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 8751.9,
+      "y": -1732.84,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}

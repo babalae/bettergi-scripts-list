@@ -2,14 +2,18 @@
   "info": {
     "name": "史莱姆速刷",
     "type": "collect",
-    "author": "爱凑热闹",
     "version": "1.0",
     "description": "",
-    "bgiVersion": "0.42.0"
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "爱凑热闹"
+      }
+    ]
   },
   "positions": [
     {
-      "id": 2,
+      "id": 1,
       "x": 25.82,
       "y": -114.76,
       "type": "teleport",
@@ -69,7 +73,7 @@
       "x": -82.27,
       "y": -70.88,
       "type": "path",
-      "move_mode": "fly",
+      "move_mode": "walk",
       "action": ""
     },
     {
@@ -77,13 +81,13 @@
       "x": -90.53,
       "y": -58.56,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "fly",
       "action": "stop_flying"
     },
     {
       "id": 10,
-      "x": -84.49,
-      "y": -67.71,
+      "x": -90.53,
+      "y": -58.56,
       "type": "path",
       "move_mode": "walk",
       "action": "fight"
@@ -305,7 +309,7 @@
       "action": "fight"
     },
     {
-      "id": 39,
+      "id": 38,
       "x": 1184.92,
       "y": 621.06,
       "type": "teleport",
@@ -321,7 +325,7 @@
       "action": ""
     },
     {
-      "id": 41,
+      "id": 40,
       "x": 1149.21,
       "y": 634.4,
       "type": "path",
@@ -449,7 +453,7 @@
       "action": ""
     },
     {
-      "id": 57,
+      "id": 56,
       "x": -136.26,
       "y": 206.48,
       "type": "path",
@@ -814,102 +818,6 @@
       "y": 2908.77,
       "type": "path",
       "move_mode": "walk",
-      "action": "fight"
-    },
-    {
-      "id": 102,
-      "x": -1654.33,
-      "y": 2923.56,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 103,
-      "x": -1669.27,
-      "y": 2946.75,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 104,
-      "x": -1663.94,
-      "y": 2962.22,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
-    },
-    {
-      "id": 105,
-      "x": -1642.83,
-      "y": 2965.06,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 106,
-      "x": -1634.06,
-      "y": 2969.78,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 107,
-      "x": -1642.75,
-      "y": 2965.45,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight"
-    },
-    {
-      "id": 108,
-      "x": -1719.15,
-      "y": 2971.09,
-      "type": "path",
-      "move_mode": "fly",
-      "action": ""
-    },
-    {
-      "id": 109,
-      "x": -1733.85,
-      "y": 2953.36,
-      "type": "path",
-      "move_mode": "fly",
-      "action": ""
-    },
-    {
-      "id": 110,
-      "x": -1724.3,
-      "y": 2946.84,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
-    },
-    {
-      "id": 111,
-      "x": -1721.41,
-      "y": 2945.58,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
-    },
-    {
-      "id": 112,
-      "x": -1756.24,
-      "y": 2952.34,
-      "type": "path",
-      "move_mode": "run",
-      "action": ""
-    },
-    {
-      "id": 113,
-      "x": -1741.86,
-      "y": 2949.04,
-      "type": "path",
-      "move_mode": "run",
       "action": "fight"
     }
   ]

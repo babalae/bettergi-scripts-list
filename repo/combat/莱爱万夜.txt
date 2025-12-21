@@ -1,0 +1,29 @@
+// 描述:低配版永冻队，强度在线，适合秘境。莱依拉（盾），爱可菲（奶），万叶（聚怪），夜兰（追踪）。
+
+// 元素战技。
+莱依拉 e, wait(0.2)
+爱可菲 e, wait(0.2)
+万叶 e(hold), wait(0.1), attack, wait(1.1)
+夜兰 e, wait(0.6)
+夜兰 attack, wait(0.2), attack, wait(0.2), attack, wait(0.2), attack, wait(1)
+万叶 attack, wait(0.2), attack, wait(0.2), attack, wait(0.5), attack, wait(0.4), attack, wait(0.8)
+万叶 e(hold), wait(0.1), attack, wait(1.1)
+莱依拉 e, wait(0.2)
+夜兰 e, wait(0.6)
+万叶 attack, wait(0.2), attack, wait(0.2), attack, wait(0.5), attack, wait(0.4), attack, wait(0.8)
+爱可菲 e, wait(0.2)
+夜兰 attack, wait(0.2), attack, wait(0.2), attack, wait(0.2), attack, wait(1)
+万叶 attack, wait(0.2), attack, wait(0.2), attack, wait(0.5), attack, wait(0.4), attack, wait(0.8)
+
+// 元素爆发：万叶153，莱依拉120，爱可菲116，夜兰224，可以确保充满。
+莱依拉 e, wait(0.2)
+万叶 e(hold), wait(0.1), attack, wait(1.1)
+莱依拉 q, wait(0.2)
+夜兰 q, wait(0.8)
+夜兰 attack, wait(0.2), attack, wait(0.2), attack, wait(0.2), attack, wait(1)
+万叶 attack, wait(0.2), attack, wait(0.2), attack, wait(0.5), attack, wait(0.4), attack, wait(0.8)
+莱依拉 e, wait(0.2)
+夜兰 attack, wait(0.2), attack, wait(0.2), attack, wait(0.2), attack, wait(1)
+万叶 attack, wait(0.2), attack, wait(0.2), attack, wait(0.5), attack, wait(0.4), attack, wait(0.8)
+万叶 q, wait(0.5)
+爱可菲 q, wait(1)

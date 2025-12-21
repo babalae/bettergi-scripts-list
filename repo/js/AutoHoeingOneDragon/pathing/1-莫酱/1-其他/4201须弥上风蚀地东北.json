@@ -1,0 +1,87 @@
+{
+  "info": {
+    "name": "4201须弥上风蚀地东北",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "mno",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时89.24秒，包含以下怪物：2只镀金旅团·机弩兵、3只镀金旅团·鸦喙戟手、1只镀金旅团·破阵者、1只镀金旅团·刀舞者、1只镀金旅团·沙中净水。",
+    "hash_res": "35314168",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752328905599,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4210.0634765625,
+      "y": -2711.734375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4224.0947265625,
+      "y": -2652.341796875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 4224.0947265625,
+      "y": -2652.341796875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4261.1279296875,
+      "y": -2619.4501953125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4339.76025390625,
+      "y": -2593.375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4341.583984375,
+      "y": -2602.3681640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 4341.583984375,
+      "y": -2602.3681640625,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

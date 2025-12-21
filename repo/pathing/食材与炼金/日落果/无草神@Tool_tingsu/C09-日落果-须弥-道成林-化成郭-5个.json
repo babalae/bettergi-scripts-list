@@ -1,0 +1,71 @@
+{
+  "info": {
+    "name": "C09-日落果-须弥-道成林-化成郭-5个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2701.59,
+      "y": -761.96,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 2681.75,
+      "y": -777.27,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 2646.49,
+      "y": -835.7,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 2640.65,
+      "y": -846.27,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.8),keypress(VK_SPACE),wait(0.8),keypress(VK_SPACE)"
+    },
+    {
+      "id": 5,
+      "x": 2618.52,
+      "y": -851.38,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 2619.32,
+      "y": -853.56,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.8),keypress(VK_SPACE),wait(0.8),keypress(VK_SPACE)"
+    }
+  ]
+}

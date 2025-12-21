@@ -1,0 +1,148 @@
+{
+  "info": {
+    "author": "Demo&汐&mno",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      },
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时148.98秒，包含以下怪物：1只结羽勇士·腾空士、1只结羽勇士·削羽人、1只结羽勇士·驭空客、1只灵觉勇士·执意师、1只灵觉勇士·控念师、2只绒翼龙武士·膛星之锤、1只绒翼龙武士·长空明焰、2只绒翼龙、2只幼暝视龙、1只暝视龙。",
+    "hash_res": "95744100",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760728917436,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "6106--纳塔_镜璧山_中部2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.4"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": 9481.63,
+      "y": -1931.47
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9485.53,
+      "y": -1877.59
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9511.81,
+      "y": -1893.58
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9511.81,
+      "y": -1893.58
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9528.14,
+      "y": -1888.69
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9537.08,
+      "y": -1939.62
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": 9481.63,
+      "y": -1931.47
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9462,
+      "y": -1905.75
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9462,
+      "y": -1905.75
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9429.64,
+      "y": -1875.81
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9429.64,
+      "y": -1872.81
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9394.1,
+      "y": -1869.41
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9394.1,
+      "y": -1869.41
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+[
+    {
+        "name": "startRouteNumber",
+        "type": "input-text",
+        "label": "从第几条路径开始运行（默认1）",
+        "default": "1"
+    },
+    {
+        "name": "doTest",
+        "type": "checkbox",
+        "label": "修改路线描述信息，将会取最近至多5次记录进行平均\n不勾选则运行路线并存储数据"
+    }
+]

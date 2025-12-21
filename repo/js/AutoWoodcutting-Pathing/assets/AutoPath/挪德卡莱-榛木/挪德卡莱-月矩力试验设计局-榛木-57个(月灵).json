@@ -1,0 +1,292 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1761585695201,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "挪德卡莱-月矩力试验设计局-榛木-57个(月灵)",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9874.6055,
+      "y": 3588.8125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9866.1328,
+      "y": 3580.4534
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9840.1201,
+      "y": 3568.9429
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9808.2832,
+      "y": 3565.4539
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9837.0391,
+      "y": 3506.3804
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9830.8828,
+      "y": 3478.2305
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9802.3203,
+      "y": 3480.2502
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9750.7578,
+      "y": 3534.22
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9733.3984,
+      "y": 3495.5356
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9726.8242,
+      "y": 3485.926
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_T),wait(0.2),w(5.3),wait(0.2),keypress(VK_Z)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9758.9902,
+      "y": 3458.2192
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_T),wait(0.2),w(2.2),wait(0.2)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9746.7168,
+      "y": 3428.2258
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9746.7168,
+      "y": 3428.2258
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9742.1914,
+      "y": 3425.2725
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_T),wait(0.2),w(5),wait(0.2),keypress(VK_Z)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9702.125,
+      "y": 3446.2502
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9590.4863,
+      "y": 3399.0759
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9565.8916,
+      "y": 3385.6265
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9563.5029,
+      "y": 3369.2168
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9543.2051,
+      "y": 3328.5415
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 20,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9587.8047,
+      "y": 3324.0654
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9612.6943,
+      "y": 3320.3975
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 22,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 9626.1426,
+      "y": 3319.2527
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9630.6855,
+      "y": 3329.0168
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9631.0332,
+      "y": 3339.2024
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9657.8467,
+      "y": 3326.4319
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 26,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9692.1211,
+      "y": 3346.679
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 27,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9692.1787,
+      "y": 3346.676
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 28,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9681.3711,
+      "y": 3369.5923
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 29,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9662.9453,
+      "y": 3364.3254
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 30,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9657.7617,
+      "y": 3378.7139
+    }
+  ]
+}
