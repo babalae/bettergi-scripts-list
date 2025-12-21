@@ -194,7 +194,62 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
     // 超过最大尝试次数仍未稳定
     throw new Error(`回到活动页面顶部失败：尝试 ${attemptIndex} 次后仍未检测到稳定顶部活动`);
 }
+/**
+ * 解析原神活动剩余时间字符串，返回总小时数
+ * 支持格式示例：
+ *   "剩余时间：22天14小时"  → 542（22*24 + 14）
+ *   "剩余时间：5小时"      → 5
+ *   "剩余时间：3天"        → 72（3*24 + 0）
+ *   "剩余时间：1天23小时"  → 47
+ *   "剩余：10天"           → 240（也支持部分关键词匹配）
+ *
+ * @param {string} timeText - OCR识别出的剩余时间文本
+ * @returns {number} 总剩余小时数（整数，四舍五入向下取整）
+ *                   如果解析失败，返回 0
+ */
+function parseRemainingTimeToHours(timeText) {
+    if (!timeText || typeof timeText !== 'string') {
+        return 0;
+    }
 
+    // 提取数字和单位（支持中英文冒号、空格等）
+    const dayMatch = timeText.match(/(\d+)\s*天/);
+    const hourMatch = timeText.match(/(\d+)\s*小时/);
+
+    let days = 0;
+    let hours = 0;
+
+    if (dayMatch) {
+        days = parseInt(dayMatch[1], 10);
+    }
+    if (hourMatch) {
+        hours = parseInt(hourMatch[1], 10);
+    }
+
+    // 天数转小时 + 原有小时
+    const totalHours = days * 24 + hours;
+
+    return totalHours;
+}
+
+/**
+ * 可选：返回格式化字符串，如 "542小时（22天14小时）"
+ */
+function formatRemainingTime(timeText) {
+    if (!timeText || typeof timeText !== 'string') {
+        return "解析失败";
+    }
+
+    const dayMatch = timeText.match(/(\d+)\s*天/);
+    const hourMatch = timeText.match(/(\d+)\s*小时/);
+
+    const days = dayMatch ? parseInt(dayMatch[1], 10) : 0;
+    const hours = hourMatch ? parseInt(hourMatch[1], 10) : 0;
+    const totalHours = days * 24 + hours;
+
+    const original = timeText.trim();
+    return `${totalHours}小时（${days > 0 ? days + '天' : ''}${hours > 0 ? hours + '小时' : ''}）`;
+}
 /**
  * OCR识别活动剩余时间的函数
  * @param {Object} ocrRegion - OCR识别的区域坐标和尺寸
@@ -291,14 +346,16 @@ async function activityMain() {
                 await click(res.x, res.y);     // 点击进入活动详情
                 await sleep(ms);
 
-                const remainingTime = await OcrRemainingTime(activityName);
-                if (remainingTime) {
-                    activityMap.set(activityName, remainingTime);
-                    log.info(`成功记录 → {activityName} {remainingTime}`,activityName, remainingTime);
-                } else {
-                    activityMap.set(activityName, "未识别到剩余时间");
-                    log.warn(`未能识别剩余时间: ${activityName}`);
+                let remainingTimeText = await OcrRemainingTime(activityName);
+                if (remainingTimeText) {
+                    const totalHours = parseRemainingTimeToHours(remainingTimeText);
+                    activityMap.set(activityName, {
+                        text: remainingTimeText,
+                        hours: totalHours
+                    });
+                    log.info(`成功记录 → {activityName} {remainingTime} 共计: {hours}`,activityName, remainingTimeText,totalHours);
                 }
+
                 await sleep(ms);
             }
 
@@ -322,6 +379,7 @@ async function activityMain() {
         await scrollPagesByActivity(false);  // false = 向下滚动
         await sleep(ms);
     }
+
 
     // 7. 全部扫描完毕，统一发送通知（只发一次！）
     if (activityMap.size > 0) {
