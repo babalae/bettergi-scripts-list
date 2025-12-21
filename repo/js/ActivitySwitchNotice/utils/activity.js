@@ -157,7 +157,7 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
             log.warn("顶部OCR未识别到任何活动条目，可能是页面为空或识别失败");
             // 再尝试一次向上滚大距离
             // await scrollPagesByActivity(true);  // true = 向上
-            await scrollPagesByActivity(true, 80*5, 6, 60);
+            await scrollPagesByActivity(true, 80*4, 6, 60);
             await sleep(ms);
             continue;
         }
@@ -186,7 +186,7 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
         // 这里使用更大滚动距离确保能快速回顶
         // await scrollPagesByActivity(true);  // true = 向上
         // 可选：加大单次滚动量（如果你发现默认一页不够）
-        await scrollPagesByActivity(true, 80*5, 6, 60);
+        await scrollPagesByActivity(true, 80*4, 6, 60);
 
         await sleep(ms);  // 给页面滚动和渲染留时间
     }
@@ -295,6 +295,7 @@ async function activityMain() {
 
     // 3. 初始化存储所有活动的 Map
     const activityMap = new Map();  // key: 活动名称, value: 剩余时间文本
+    let previousPageActivities = new Set();  // 新增：记录上一页识别到的所有活动名称（用于重复页判断）
 
     let lastPageBottomName = null;     // 上一次扫描到的页面最底部活动名
     let sameBottomCount = 0;           // 连续出现相同底部活动名的次数
