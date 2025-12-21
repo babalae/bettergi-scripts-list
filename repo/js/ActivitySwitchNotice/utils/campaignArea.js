@@ -69,9 +69,10 @@ async function getDayOfWeek() {
 
 async function campaignAreaMain() {
     let dayOfWeek = getDayOfWeek();
-    if (dayOfWeek.day===0) {
+    if (dayOfWeek.day!==0) {
         return
     }
+    log.info(`[{dayOfWeek.dayOfWeek}]，开始执行秘境征讨剩余次数提醒`, dayOfWeek.dayOfWeek)
     let ms = 600
     await sleep(ms)
     await keyPress(config.campaignAreaKey)
