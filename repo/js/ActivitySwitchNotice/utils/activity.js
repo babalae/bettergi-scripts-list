@@ -8,7 +8,7 @@ function settingsParseInt(str, defaultValue) {
 }
 
 const config = {
-    activityNameList: (settings.activityNameList ? settings.activityNameList.splice('|') : []),
+    activityNameList: (settings.activityNameList ? settings.activityNameList.split('|') : []),
     activityKey: (settings.activityKey ? settings.activityKey : 'F5'),
     toTopCount: settingsParseInt(settings.toTopCount,10),//滑动到顶最大尝试次数
     scrollPageCount: settingsParseInt(settings.scrollPageCount,4),//滑动次数/页
