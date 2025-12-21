@@ -68,8 +68,8 @@ async function getDayOfWeek() {
     const weekDays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
     let weekDay = `${weekDays[day]}`;
 
-    log.info(`今天是[{day}]`, day)
-    log.info(`今天是[{weekDays}]`, weekDay)
+    log.debug(`今天是[{day}]`, day)
+    log.debug(`今天是[{weekDays}]`, weekDay)
     // 返回包含星期数字和对应星期名称的对象
     return {
         day: day,
