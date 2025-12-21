@@ -353,7 +353,7 @@ async function activityMain() {
                         text: remainingTimeText,
                         hours: totalHours
                     });
-                    log.info(`成功记录 → {activityName} {remainingTime} 共计: {hours}`,activityName, remainingTimeText,totalHours);
+                    log.info(`成功记录 → {activityName} {remainingTime} 共计: {hours} 小时`,activityName, remainingTimeText,totalHours);
                 }
 
                 await sleep(ms);
