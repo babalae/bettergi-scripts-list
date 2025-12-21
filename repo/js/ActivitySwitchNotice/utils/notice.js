@@ -17,7 +17,7 @@ async function sendNotice(map, title, noNotice) {
         text += `> ${key} ${value}\n`
     })
     // 发送通知
-    notification.send(`${text}`)
+    notification.send(text)
 }
 
 this.noticeUtil = {
