@@ -426,13 +426,14 @@ async function activityMain() {
         await scrollPagesByActivity(false);  // false = 向下滚动
         await sleep(ms);
     }
-    const sortedEntries = Array.from(activityMap.entries())
+    let activityMapFilter = new Map();
+     Array.from(activityMap.entries())
         .filter(([name, info]) => info.hours <= config.notifyHoursThreshold)
-        .sort((a, b) => a[1].hours - b[1].hours);
+        .forEach(([name, info]) => activityMapFilter.set(name, info));
     // 7. 全部扫描完毕，统一发送通知（只发一次！）
-    if (sortedEntries.size > 0) {
-        log.info(`扫描完成，共记录 {activityMap.size} 个活动，即将发送通知`, sortedEntries.size);
-        await noticeUtil.sendNotice(sortedEntries, `原神活动剩余时间提醒(仅显示剩余 ≤ ${config.notifyHoursThreshold} 小时的活动):`);
+    if (activityMapFilter.size > 0) {
+        log.info(`扫描完成，共记录 {activityMap.size} 个活动，即将发送通知`, activityMapFilter.size);
+        await noticeUtil.sendNotice(activityMapFilter, `原神活动剩余时间提醒(仅显示剩余 ≤ ${config.notifyHoursThreshold} 小时的活动):`);
     } else {
         log.warn("未识别到任何活动，未发送通知");
     }
