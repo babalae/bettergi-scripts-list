@@ -43,7 +43,7 @@ async function toMainUi() {
  * @returns {Promise<void>}
  */
 async function main() {
-    await activityUtil.activityMain()
-    await toMainUi()
     await campaignAreaUtil.campaignAreaMain()
+    await toMainUi()
+    await activityUtil.activityMain()
 }

@@ -18,10 +18,16 @@ const ocrRegionConfig = {
     weeklyCount: {x: 809, y: 258, width: 277, height: 37},//征讨领域减半次数识别区域坐标和尺寸
 }
 const xyConfig = {
-    campaignArea: {x: 0, y: 0},//征讨领域坐标
+    campaignArea: {x: 493, y: 537},//征讨领域坐标
     secretRealm: {x: 304, y: 448},//秘境坐标
 }
 
+/**
+ * OCR识别周计数函数
+ * @param {Object} ocrRegion - OCR识别区域配置，默认为ocrRegionConfig.weeklyCount
+ * @returns {Object} 返回包含周计数信息的JSON对象，包含text、total和count属性
+ * @throws {Error} 当OCR识别失败时抛出错误
+ */
 async function ocrWeeklyCount(ocrRegion = ocrRegionConfig.weeklyCount) {
     let captureRegion = captureGameRegion(); // 获取游戏区域截图
     const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
@@ -29,24 +35,24 @@ async function ocrWeeklyCount(ocrRegion = ocrRegionConfig.weeklyCount) {
     let res = captureRegion.find(ocrObject); // 在指定区域进行OCR识别
     captureRegion.dispose(); // 释放截图资源
     if (!res.isExist()) {
-        log.error(`ocrWeeklyCount not found`)
-        throw new Error(`ocrWeeklyCount not found`)
+        log.error(`ocrWeeklyCount not found`) // 记录错误日志
+        throw new Error(`ocrWeeklyCount not found`) // 抛出错误异常
     }
-    let weekJson = {
+    let weekJson = { // 初始化周计数JSON对象
         text: res.text,
         total: 3,
         count: 3,
     }
-    let weekCountText = res.text
-    let result = weekCountText.match(/[0-9/]+/g)?.join('') || '';
+    let weekCountText = res.text // 获取OCR识别的文本结果
+    let result = weekCountText.match(/[0-9/]+/g)?.join('') || ''; // 使用正则表达式提取数字和斜杠
 
-    log.info(`识别结果:{weekCountText}`, weekCountText)
-    log.info(`处理结果:{result}`, result)
-    const numbers = result.split('/').map((item) => parseInt(item));
-    weekJson.total = numbers[1]
-    weekJson.count = numbers[0]
-    log.info(`Json:{weekJson}`, weekJson)
-    return weekJson
+    log.info(`识别结果:{weekCountText}`, weekCountText) // 记录原始识别结果
+    log.info(`处理结果:{result}`, result) // 记录处理后的结果
+    const numbers = result.split('/').map((item) => parseInt(item)); // 分割字符串并转换为数字数组
+    weekJson.total = numbers[1] // 设置总数
+    weekJson.count = numbers[0] // 设置当前计数
+    log.info(`Json:{weekJson}`, weekJson) // 记录最终JSON结果
+    return weekJson // 返回处理后的周计数JSON对象
 }
 
 /**
@@ -60,6 +66,8 @@ async function getDayOfWeek() {
     const day = today.getDay();
     // 创建包含星期名称的数组
     const weekDays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+    log.info(`今天是[{day}]`, day)
+    log.info(`今天是[{weekDays}]`, weekDays[day])
     // 返回包含星期数字和对应星期名称的对象
     return {
         day: day,
@@ -75,7 +83,7 @@ async function campaignAreaMain() {
     // 获取当前星期信息
     let dayOfWeek = getDayOfWeek();
     // 如果不是周日(0代表周日)，则直接返回
-    if (dayOfWeek.day!==0) {
+    if (dayOfWeek.day==0) {
         return
     }
     // 记录开始执行秘境征讨提醒的日志
