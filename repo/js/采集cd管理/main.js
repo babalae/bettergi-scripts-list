@@ -187,12 +187,12 @@ let underWater = false;
         {
             "name": "ingredientProcessingFood",
             "type": "input-text",
-            "label": "料理/食材名称\n建议料理和食材分开填写"
+            "label": "食材名称\n用中文逗号，分隔"
         },
         {
             "name": "foodCount",
             "type": "input-text",
-            "label": "料理/食材数量\n数量对应上方的食材"
+            "label": "食材数量\n数量对应上方的食材\n用中文逗号，分隔"
         },
         {
             "name": "setTimeMode",
@@ -438,7 +438,7 @@ let underWater = false;
                 .filter(word => word.length > 0);
         }
 
-        let cookInterval = 60 * 60 * 1000;
+        let cookInterval = 95 * 60 * 1000;
         let settimeInterval = 10 * 60 * 1000;
         // ==================== 优先级材料前置采集 ====================
 
@@ -1759,57 +1759,6 @@ async function isTimeRestricted(timeRule, threshold = 5) {
 * @returns {Promise<void>} 无返回值，执行完所有加工流程后退出
 */
 async function ingredientProcessing() {
-    /**
-* 文字OCR识别封装函数（测试中，未封装完成，后续会优化逻辑）
-* @param text 要识别的文字，默认为"空参数"
-* @param timeout 超时时间，单位为秒，默认为10秒
-* @param afterBehavior 点击模式，0表示不点击，1表示点击识别到文字的位置，2表示输出模式，默认为0
-* @param debugmodel 调试代码，0表示输入判断模式，1表示输出位置信息，2表示输出判断模式，默认为0
-* @param x OCR识别区域的起始X坐标，默认为0
-* @param y OCR识别区域的起始Y坐标，默认为0
-* @param w OCR识别区域的宽度，默认为1920
-* @param h OCR识别区域的高度，默认为1080
-* @returns 包含识别结果的对象，包括识别的文字、坐标和是否找到的结果
-*/
-    async function textOCR(text = "空参数", timeout = 10, afterBehavior = 0, debugmodel = 0, x = 0, y = 0, w = 1920, h = 1080) {
-        const startTime = new Date();
-        let Outcheak = 0
-        for (let ii = 0; ii < 10; ii++) {
-            // 获取一张截图
-            let captureRegion = captureGameRegion();
-            let res1
-            let res2
-            let conuntcottimecot = 1;
-            let conuntcottimecomp = 1;
-            // 对整个区域进行 OCR
-            let resList = captureRegion.findMulti(RecognitionObject.ocr(x, y, w, h));
-            //log.info("OCR 全区域识别结果数量 {len}", resList.count);
-            if (resList.count !== 0) {
-                for (let i = 0; i < resList.count; i++) { // 遍历的是 C# 的 List 对象，所以要用 count，而不是 length
-                    let res = resList[i];
-                    res1 = res.text
-                    conuntcottimecomp++;
-                    if (res.text.includes(text) && debugmodel == 3) { return result = { text: res.text, x: res.x, y: res.y, found: true }; }
-                    if (res.text.includes(text) && debugmodel !== 2) {
-                        conuntcottimecot++;
-                        if (debugmodel === 1 & x === 0 & y === 0) { log.info("全图代码位置：({x},{y},{h},{w})", res.x - 10, res.y - 10, res.width + 10, res.Height + 10); }
-                        if (afterBehavior === 1) { await sleep(1000); click(res.x, res.y); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("点击模式:关") } }
-                        if (afterBehavior === 2) { await sleep(100); keyPress("F"); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("F模式:关"); } }
-                        if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; }
-                    }
-                    if (debugmodel === 2) {
-                        if (res1 === res2) { conuntcottimecot++; res2 = res1; }
-                        //log.info("输出模式：全图代码位置：({x},{y},{h},{w},{string})", res.x-10, res.y-10, res.width+10, res.Height+10, res.text);
-                        if (Outcheak === 1) { if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; } }
-                    }
-                }
-            }
-            const NowTime = new Date();
-            if ((NowTime - startTime) > timeout * 1000) { if (debugmodel === 2) { if (resList.count === 0) { return result = { found: false }; } else { Outcheak = 1; ii = 2; } } else { Outcheak = 0; if (debugmodel === 1 & x === 0 & y === 0) { log.info(`${timeout}秒超时退出，"${text}"未找到`) }; return result = { found: false }; } }
-            else { ii = 2; if (debugmodel === 1 & x === 0 & y === 0) { log.info(`"${text}"识别中……`); } }
-            await sleep(100);
-        }
-    }
     if (Foods.length == 0) { log.error("未选择要加工的料理/食材"); return; }
     if (Foods.length != foodCount.length) { log.error("请检查料理与对应的数量是否一致！"); return; }
     const stove = "蒙德炉子";
@@ -1823,12 +1772,9 @@ async function ingredientProcessing() {
         return;
     }
 
-    const res1 = await textOCR("烹饪", 5, 0, 0, 1150, 460, 155, 155);
-    if (res1.found) {
-        await sleep(10);
-        keyDown("VK_MENU");
-        await sleep(500);
-        click(res1.x + 15, res1.y + 15);
+    const res1 = await findPNG("交互烹饪锅");
+    if (res1) {
+        keyPress("F");
     } else {
         log.warn("烹饪按钮未找到，正在寻找……");
         let attempts = 0;
@@ -1837,12 +1783,9 @@ async function ingredientProcessing() {
         while (attempts < maxAttempts) {
             log.info(`第${attempts + 1}次尝试寻找烹饪按钮`);
             keyPress("W");
-            const res2 = await textOCR("烹饪", 5, 0, 0, 1150, 460, 155, 155);
-            if (res2.found) {
-                await sleep(10);
-                keyDown("VK_MENU");
-                await sleep(500);
-                click(res2.x + 15, res2.y + 15);
+            const res2 = await findPNG("交互烹饪锅");
+            if (res2) {
+                keyPress("F");
                 foundInRetry = true;
                 break;
             } else {
@@ -1851,177 +1794,107 @@ async function ingredientProcessing() {
             }
         }
         if (!foundInRetry) {
-            log.error("多次未找到烹饪按钮，放弃寻找");
+            log.error("多次未找到烹饪按钮，放弃");
             return;
         }
     }
-
-    await sleep(800);
-    keyUp("VK_MENU");
-    await sleep(1000);
-
+    await clickPNG("食材加工");
     for (let i = 0; i < Foods.length; i++) {
+        log.info(`开始加工${Foods[i]}`);
         const targetFoods = new Set([
             "面粉", "兽肉", "鱼肉", "神秘的肉", "黑麦粉", "奶油", "熏禽肉",
             "黄油", "火腿", "糖", "香辛料", "酸奶油", "蟹黄", "果酱",
             "奶酪", "培根", "香肠"
         ]);
-        if (targetFoods.has(Foods[i])) {//调味品就点到对应页面
-            const res3 = await textOCR("食材加工", 1, 0, 0, 140, 30, 115, 30);
-            if (!res3.found) {
-                await sleep(500);
-                click(1010, 55);
-                await sleep(500);
+        if (targetFoods.has(Foods[i])) {
+            if (await clickPNG("全部领取", 10)) {
+                await clickPNG("点击空白区域继续");
+                await findPNG("食材加工2");
+                await sleep(100);
             }
+            let res1 = await clickPNG(Foods[i] + "1", 10);
 
-            const res = await textOCR("全部领取", 1, 0, 0, 195, 1000, 120, 40);
-            if (res.found) {
-                click(res.x, res.y);
-                await sleep(800);
-                click(960, 750);
-                await sleep(500);
-            }
-
-            const res1 = await textOCR(Foods[i], 1, 0, 3, 116, 116, 1165, 505);
-
-            if (res1.found) {
+            if (res1) {
                 log.info(`${Foods[i]}已找到`);
-                await click(res1.x + 50, res1.y - 60);
             } else {
-                await sleep(500);
-                let ra = captureGameRegion();
-
                 try {
-                    const ocrResult = ra.findMulti(RecognitionObject.ocr(115, 115, 1150, 502));
-                    const foodItems = []; // 存储找到的相关项目
-
-                    // 收集所有包含"分钟"或"秒"的项目
-                    for (let j = 0; j < ocrResult.count; ++j) {
-                        if (ocrResult[j].text.endsWith("分钟") || ocrResult[j].text.endsWith("秒")) {
-                            foodItems.push({
-                                index: j,
-                                x: ocrResult[j].x,
-                                y: ocrResult[j].y
-                            });
+                    const rg = captureGameRegion();
+                    const foodItems = [];
+                    try {
+                        for (const flag of ['已加工0个', '已加工1个']) {
+                            const mat = file.ReadImageMatSync(`assets/RecognitionObject/${flag}.png`);
+                            const res = rg.findMulti(RecognitionObject.TemplateMatch(mat));
+                            for (let i = 0; i < res.count; ++i) {
+                                foodItems.push({ x: res[i].x, y: res[i].y });
+                            }
+                            mat.dispose();
                         }
-                    }
-
-                    log.debug("检查到的正在加工食材的数量：" + foodItems.length);
+                    } finally { rg.dispose(); }
 
                     // 依次筛选这些项目
                     for (const item of foodItems) {
                         // 点击该项目
                         click(item.x, item.y);
-                        await sleep(150);
+                        await sleep(200);
                         click(item.x, item.y);
-                        await sleep(800);
-
-                        let res2 = await textOCR("", 0.5, 0, 2, 1320, 100, 150, 50);
-                        log.debug("当前项目：" + res2.text);
-                        log.debug(item.x + "," + item.y);
-                        await sleep(1000);
-
-                        if (res2.text === Foods[i]) {
-                            ra?.dispose();
-                            res1.found = true;
-                            log.info(`从正在加工的食材中找到了：${Foods[i]}`);
+                        if (await findPNG(Foods[i] + "2", 15)) {
+                            log.info(`${Foods[i]}已找到`);
+                            res1 = true;
                             break;
                         }
                     }
-                    if (!res1.found) {
+                    if (!res1) {
                         log.error(`未找到目标食材: ${Foods[i]}`);
-                        ra?.dispose();
                         continue;
                     }
-                } finally {
-                    ra?.dispose();
+                } catch (error) {
+                    log.error(`食材加工识别出错：${error.message}`);
                 }
             }
 
-            await sleep(1000);
-            click(1700, 1020);// 制作
+            await clickPNG("制作");
+            await sleep(300);
+            if (await findPNG("队列已满", 1)) {
+                log.warn(`检测到${Foods[i]}队列已满，等待图标消失`);
+                while (true) {
+                    if (!await findPNG("队列已满", 1)) {
+                        break;
+                    } else {
+                        log.warn(`检测到${Foods[i]}已满，等待图标消失`);
+                    }
+                    await sleep(300);
+                }
+                continue;
+            }
+            if (await findPNG("材料不足", 1)) {
+                log.warn(`检测到${Foods[i]}材料不足，等待图标消失`);
+                while (true) {
+                    if (!await findPNG("材料不足", 1)) {
+                        break;
+                    } else {
+                        log.warn(`检测到${Foods[i]}材料不足，等待图标消失`);
+                    }
+                    await sleep(300);
+                }
+                continue;
+            }
             await sleep(800);
             click(960, 460);
             await sleep(800);
             inputText(foodCount[i]);
             log.info(`尝试制作${Foods[i]} ${foodCount[i]}个`);
             log.warn("由于受到队列和背包食材数量限制，实际制作数量与上述数量可能不一致！");
-            await sleep(800);
-            click(1190, 755);
-            await sleep(800);
-        } else {
-            const res3 = await textOCR("料理制作", 1, 0, 0, 140, 30, 115, 30);
-            if (!res3.found) {
-                await sleep(500);
-                click(910, 55);
-                await sleep(500);
-            }
-
-            click(145, 1015);// 筛选
-            await sleep(800);
-
-            click(195, 1015);// 重置
-            await sleep(800);
-
-            click(500, 1020);// 确认筛选
-            await sleep(800);
-
-            //滚轮预操作
-            await moveMouseTo(1287, 131);
-            await sleep(100);
-            await leftButtonDown();
-            await sleep(100);
-            await moveMouseTo(1287, 161);
-
-            let YOffset = 0; // Y轴偏移量，根据需要调整
-            const maxRetries = 20; // 最大重试次数
-            let retries = 0; // 当前重试次数
-            while (retries < maxRetries) {
-                const res2 = await textOCR(Foods[i], 1, 0, 3, 116, 116, 1165, 880);
-                if (res2.found) {
-                    await leftButtonUp();
-                    await sleep(500);
-                    await click(res2.x + 50, res2.y - 60);
-                    await sleep(1000);
-
-                    await sleep(1000);
-                    click(1700, 1020);// 制作
-                    await sleep(1000);
-
-                    await textOCR("自动烹饪", 5, 1, 0, 725, 1000, 130, 45);
-                    await sleep(800);
-                    click(960, 460);
-                    await sleep(800);
-                    inputText(foodCount[i]);
-                    await sleep(800);
-                    click(1190, 755);
-                    await sleep(2500); // 等待烹饪完成
-
-                    keyPress("ESCAPE")
-                    await sleep(500);
-                    keyPress("ESCAPE")
-                    await sleep(1500);
-
+            await clickPNG("确认加工");
+            await sleep(500);
+            while (true) {
+                if (!await findPNG("已不能持有更多", 1)) {
                     break;
                 } else {
-                    retries++; // 重试次数加1
-                    //滚轮操作
-                    YOffset += 50;
-                    await sleep(500);
-                    if (retries === maxRetries || 161 + YOffset > 1080) {
-                        await leftButtonUp();
-                        await sleep(100);
-                        await moveMouseTo(1287, 131);
-                        await sleep(800);
-                        leftButtonClick();
-                        log.error(`料理/食材：${Foods[i]} 未找到！请检查料理名称是否正确！`);
-                        continue;
-                    }
-                    await moveMouseTo(1287, 161 + YOffset);
-                    await sleep(300);
+                    log.warn(`检测到${Foods[i]}已满，等待图标消失`);
                 }
+                await sleep(300);
             }
-
+            await sleep(200);
         }
     }
     await genshin.returnMainUi();
@@ -2067,4 +1940,32 @@ async function appendDailyPickup(pickupLog) {
     } catch (error) {
         log.error(`appendDailyPickup 写盘失败: ${error.message}`);
     }
+}
+
+async function clickPNG(png, maxAttempts = 60) {
+    //log.info(`调试-点击目标${png},重试次数${maxAttempts}`);
+    const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/${png}.png`));
+    pngRo.Threshold = 0.95;
+    pngRo.InitTemplate();
+    return await findAndClick(pngRo, true, maxAttempts);
+}
+
+async function findPNG(png, maxAttempts = 60) {
+    //log.info(`调试-识别目标${png},重试次数${maxAttempts}`);
+    const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/${png}.png`));
+    pngRo.Threshold = 0.95;
+    pngRo.InitTemplate();
+    return await findAndClick(pngRo, false, maxAttempts);
+}
+
+async function findAndClick(target, doClick = true, maxAttempts = 60) {
+    for (let i = 0; i < maxAttempts; i++) {
+        const rg = captureGameRegion();
+        try {
+            const res = rg.find(target);
+            if (res.isExist()) { await sleep(200); if (doClick) { res.click(); } return true; }
+        } finally { rg.dispose(); }
+        if (i < maxAttempts - 1) await sleep(50);
+    }
+    return false;
 }
