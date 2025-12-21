@@ -96,13 +96,14 @@ async function ocrPhysical(opToMainUi = false) {
     let regionA = captureGameRegion()
     // let buttonA = captureGameRegion().find(templateMatchAddButtonRo);
     let buttonA = region.find(templateMatchAddButtonRo);
+    regionA.Dispose()
+
     await sleep(ms)
     if (!buttonA.isExist()) {
         log.error(`未找到${add_objJson.path}请检查路径是否正确`)
         throwError(`未找到${add_objJson.path}请检查路径是否正确`)
     }
     await buttonA.click()
-    regionA.Dispose()
     // let add_obj = {
     //     x: 1264,
     //     y: 39,
@@ -124,12 +125,12 @@ async function ocrPhysical(opToMainUi = false) {
     let region =captureGameRegion()
     // let button = captureGameRegion().find(templateMatchButtonRo);
     let button = region.find(templateMatchButtonRo);
+    region.Dispose()
     await sleep(ms)
     if (!button.isExist()) {
         log.error(`${tmJson.path} 匹配异常`)
         throwError(`${tmJson.path} 匹配异常`)
     }
-    region.Dispose()
 
     log.debug(`===[定位/200]===`)
     //定位200
@@ -144,12 +145,13 @@ async function ocrPhysical(opToMainUi = false) {
     let templateMatchButtonRo2 = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${tmJson2.path}`), tmJson2.x, tmJson2.y, tmJson2.width, tmJson2.height);
     let region2 = captureGameRegion()
     let button2 = region2.find(templateMatchButtonRo2);
+    region2.Dispose()
+
     await sleep(ms)
     if (!button2.isExist()) {
         log.error(`${tmJson2.path} 匹配异常`)
         throwError(`${tmJson2.path} 匹配异常`)
     }
-    region2.Dispose()
 
     log.debug(`===[识别原粹树脂]===`)
     //识别体力 x=1625,y=31,width=79,height=30 / x=1689,y=35,width=15,height=26
@@ -169,12 +171,12 @@ async function ocrPhysical(opToMainUi = false) {
         let recognitionObjectOcr = RecognitionObject.Ocr(ocr_obj.x, ocr_obj.y, ocr_obj.width, ocr_obj.height);
         let region3 = captureGameRegion()
         let res = region3.find(recognitionObjectOcr);
+        region3.Dispose()
 
         log.info(`[OCR原粹树脂]识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y},width:${res.width},height:${res.height}`);
         let remainder = await saveOnlyNumber(res.text)
         let execute = (remainder - minPhysical) >= 0
         log.info(`最小可执行原粹树脂:{min},原粹树脂:{key}`, minPhysical, remainder,)
-        region3.Dispose()
 
         await keyPress('VK_ESCAPE')
         return {
