@@ -195,93 +195,6 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
     throw new Error(`回到活动页面顶部失败：尝试 ${attemptIndex} 次后仍未检测到稳定顶部活动`);
 }
 
-// /**
-//  * 处理活动点击的异步函数
-//  * @param {Array} activityNameList - 活动名称列表
-//  * @param {Map} map - 活动映射表（默认为空Map）
-//  * @param {Object} ocrRegion - OCR识别区域配置（默认为ocrRegionConfig.activity）
-//  * @returns {Object} 返回包含活动识别结果的对象
-//  */
-// async function OcrClickActivity(activityNameList, lastName=null, map = new Map([]), defaultActivityCount = 0, ocrRegion = ocrRegionConfig.activity) {
-//     let ms = 1000; // 设置等待时间（毫秒）
-//     await moveMouseTo(0, 20)
-//     let switchToActivityCount = defaultActivityCount // 记录成功切换到活动的次数
-//     let captureRegion = captureGameRegion(); // 获取游戏区域截图
-//     const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
-//     // ocrObject.threshold = 1.0;
-//     let resList = captureRegion.findMulti(ocrObject); // 在指定区域进行OCR识别
-//     captureRegion.dispose(); // 释放截图资源
-//     let firstRes = null // 存储第一个识别结果
-//     let lastRes = null // 存储最后一个识别结果
-//     let activityMap = map// 创建活动映射表
-//     let activityOk = false
-//     let resObject = {
-//         switchToActivityCount: switchToActivityCount,//记录点击成功的次数
-//         act_x1: null,//第一个活动的x坐标
-//         act_y1: null,//第一个活动的y坐标
-//         lastActivityName: lastName,//记录最后一个活动名称
-//         activityMap: activityMap,//记录所有活动名称
-//         activityOk: activityOk,
-//     }
-//     log.info(`OCR-START-LastName==>{key}`,lastName);
-//     if (resList.length > 0 &&lastName !== null&& lastName === resList[resList.length - 1].text) {
-//         log.info(`已到达最后一个活动`)
-//         return resObject
-//     }
-//     // 遍历所有识别结果
-//     for (let res of resList) {
-//         log.info(`{last}识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y}`,lastName);
-//         // 检查是否已找到所有活动
-//         if (activityNameList.length !== 0 && activityNameList.length === switchToActivityCount) {
-//             log.info(`已识别:{switchToActivityCount}个活动`, switchToActivityCount);
-//             activityOk = true
-//             break
-//         }
-//         // log.info(`res:${res}`)
-//         // log.info(`识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y}`);
-//         await sleep(ms) // 等待指定时间
-//         await click(res.x, res.y); // 点击识别位置
-//         // 检查识别结果是否包含活动名称
-//         for (const activityName of activityNameList) {
-//             if ((!activityMap.has(res.text)) && (res.text.includes(activityName))) {
-//                 log.info(`找到活动: ${activityName}`);
-//                 switchToActivityCount++; // 增加活动计数
-//             }
-//         }
-//         await sleep(ms) // 等待指定时间
-//         //识别剩余时间
-//         let remainingTime = await OcrRemainingTime(res.text);
-//         if (remainingTime) {
-//             // 记录所有活动名称
-//             activityMap.set(res.text, remainingTime)
-//         }
-//         // 记录第一个和最后一个识别结果
-//         if (firstRes === null) {
-//             firstRes = res
-//         }
-//         lastRes = res
-//     }
-//     if (lastRes !== null) {
-//         lastName=lastRes.text
-//     }
-//     // 创建并返回结果对象
-//     resObject = {
-//         switchToActivityCount: switchToActivityCount,//记录点击成功的次数
-//         act_x1: null,//第一个活动的x坐标
-//         act_y1: null,//第一个活动的y坐标
-//         lastActivityName: lastName,//记录最后一个活动名称
-//         activityMap: activityMap,//记录所有活动名称
-//         activityOk: activityOk,
-//     }
-//     // 如果有识别结果，记录第一个活动的坐标
-//     if (firstRes !== null) {
-//         resObject.act_x1 = firstRes.x
-//         resObject.act_y1 = firstRes.y
-//     }
-//     log.info(`OCR-END-LastName==>{key}`,resObject.lastActivityName);
-//     return resObject
-// }
-
 /**
  * OCR识别活动剩余时间的函数
  * @param {Object} ocrRegion - OCR识别的区域坐标和尺寸
@@ -305,97 +218,6 @@ async function OcrRemainingTime(activityName, key = "剩余时间", ocrRegion = 
     return null;
 }
 
-// /**
-//  * 活动主函数，用于自动化处理活动相关操作
-//  * 包括打开活动页面、识别活动、滑动页面等功能
-//  */
-// async function activityMain() {
-//     let ms = 1000;  // 设置等待时间（毫秒）
-//     //  打开活动页面
-//     await keyPress(config.activityKey);  // 模拟按下活动快捷键
-//     await sleep(ms); // 等待活动页面加载
-//     // 初始化活动Map，用于存储已识别的活动
-//     let activityMap = new Map([])
-//     let LastName = null  // 记录上一个活动名称
-//     let LastActivityName = null  // 记录上一个活动名称
-//     let LastActivityName2 = null  // 记录上一个活动名称
-//     let index = 0  // 当前尝试次数计数器
-//     let maxIndex = 10  // 最大尝试次数限制
-//     let resObject = {
-//         switchToActivityCount: 0,//记录点击成功的次数
-//         act_x1: null,//第一个活动的x坐标
-//         act_y1: null,//第一个活动的y坐标
-//         lastActivityName: null,//记录最后一个活动名称
-//         activityMap: activityMap,//记录所有活动名称
-//         activityOk: false,
-//     }
-//     // 处理有指定活动列表的情况
-//     let switchToActivityCount = 0  // 记录切换活动的次数
-//     //拉到顶部
-//     await scrollPagesByActivityToTop();
-//     // 主循环，用于持续处理活动
-//     while (true) {
-//         index++  // 增加尝试次数
-//         if ((LastActivityName2 !== null && LastActivityName !== null) && LastActivityName === LastActivityName2) {
-//             break
-//         }
-//         // 处理无指定活动列表的情况
-//         if (config.activityNameList.length <= 0) {
-//             //通知所有活动
-//             let resObject = await OcrClickActivity([], LastName, activityMap)  // OCR识别并点击所有活动
-//             // 更新活动Map，只添加新发现的活动
-//             resObject.activityMap.keys().forEach(key => {
-//                 if (!activityMap.has(key)) {
-//                     activityMap.set(key, activityMap.get(key))
-//                 }
-//             })
-//             // 检查是否到达页面底部
-//             if ((LastActivityName2 !== null && LastActivityName !== null) && LastActivityName === LastActivityName2) {
-//                 break
-//             }
-//         } else {
-//             //通知指定活动
-//             let resObject = await OcrClickActivity(config.activityNameList, LastName, activityMap, switchToActivityCount)  // OCR识别并点击指定活动
-//             // 更新活动Map，只添加新发现的活动
-//             resObject.activityMap.keys().forEach(key => {
-//                 if (!activityMap.has(key)) {
-//                     activityMap.set(key, activityMap.get(key))
-//                 }
-//             })
-//             // 根据返回结果决定是否继续
-//             if (resObject.activityOk) {
-//                 break  // 活动处理完成，退出循环
-//             } else if ((LastActivityName2 !== null && LastActivityName !== null) && LastActivityName === LastActivityName2) {
-//                 //到底了，退出循环
-//                 break
-//             } else if (switchToActivityCount < config.activityNameList.length) {
-//                 switchToActivityCount += resObject.switchToActivityCount  // 增加切换次数
-//             } else if (switchToActivityCount >= config.activityNameList.length) {
-//                 break  // 已尝试所有指定活动，退出循环
-//             }
-//         }
-//         log.info(`当前 lastActivityName: {resObject.lastActivityName}`,resObject.lastActivityName)
-//         if ((index) % 2 == 1) {
-//             LastActivityName = resObject.lastActivityName
-//         } else {
-//             LastActivityName2 = resObject.lastActivityName  // 更新最后活动名称
-//         }
-//         LastName = resObject.lastActivityName  // 更新最后活动名称
-//         log.info(`{index}次尝试 LastName={LastName}`, index,LastName)  // 记录尝试次数
-//
-//         //向下滑动一页
-//         await scrollPagesByActivity()
-//         // 待实现：向下滑动一页的功能
-//         // 检查是否超过最大尝试次数
-//         if (index >= maxIndex) {
-//             log.warn(`超出尝试最大{index}次数，退出`, index)  // 记录警告日志
-//             break
-//         }
-//     }
-//
-//     // 发送活动剩余时间通知
-//     await noticeUtil.sendNotice(activityMap, "活动剩余时间:")
-// }
 
 /**
  * 活动主函数：扫描所有活动页面，识别剩余时间，最后统一发送通知
@@ -472,7 +294,7 @@ async function activityMain() {
                 const remainingTime = await OcrRemainingTime(activityName);
                 if (remainingTime) {
                     activityMap.set(activityName, remainingTime);
-                    log.info(`成功记录 → {activityName}: {remainingTime}`,activityName, remainingTime);
+                    log.info(`成功记录 → {activityName} {remainingTime}`,activityName, remainingTime);
                 } else {
                     activityMap.set(activityName, "未识别到剩余时间");
                     log.warn(`未能识别剩余时间: ${activityName}`);
