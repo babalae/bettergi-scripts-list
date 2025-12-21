@@ -17,20 +17,20 @@ const RESIN_ICONS = {
 
 // 普通数字识别对象（1-4）
 const NUMBER_ICONS = [
-    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num1.png")), value: 1 },
-    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num2.png")), value: 2 },
-    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num3.png")), value: 3 },
-    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num4.png")), value: 4 }
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num1.png")), value: 1},
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num2.png")), value: 2},
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num3.png")), value: 3},
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num4.png")), value: 4}
 ];
 
 // 白色数字识别对象（0-5，用于浓缩树脂）
 const WHITE_NUMBER_ICONS = [
-    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num0_white.png")), value: 0 },
-    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num1_white.png")), value: 1 },
-    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num2_white.png")), value: 2 },
-    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num3_white.png")), value: 3 },
-    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num4_white.png")), value: 4 },
-    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num5_white.png")), value: 5 }
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num0_white.png")), value: 0},
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num1_white.png")), value: 1},
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num2_white.png")), value: 2},
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num3_white.png")), value: 3},
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num4_white.png")), value: 4},
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num5_white.png")), value: 5}
 ];
 
 // 配置常量
@@ -39,19 +39,19 @@ const CONFIG = {
     SLEEP_INTERVAL: 500,            // 循环间隔时间（毫秒）
     UI_DELAY: 1500,                 // UI操作延迟时间（毫秒）
     MAP_ZOOM_LEVEL: 6,              // 地图缩放级别
-    
+
     // 点击坐标
     COORDINATES: {
-        MAP_SWITCH: { x: 1840, y: 1020 },    // 地图右下角切换按钮
-        MONDSTADT: { x: 1420, y: 180 },      // 蒙德选择按钮
-        AVOID_SELECTION: { x: 1090, y: 450 }  // 避免选中效果的点击位置
+        MAP_SWITCH: {x: 1840, y: 1020},    // 地图右下角切换按钮
+        MONDSTADT: {x: 1420, y: 180},      // 蒙德选择按钮
+        AVOID_SELECTION: {x: 1090, y: 450}  // 避免选中效果的点击位置
     },
-    
+
     // OCR识别区域配置
     OCR_REGIONS: {
-        ORIGINAL_RESIN: { width: 200, height: 40 },
-        CONDENSED_RESIN: { width: 90, height: 40 },
-        OTHER_RESIN: { width: 0, height: 60 }  // width会根据图标宽度动态设置
+        ORIGINAL_RESIN: {width: 200, height: 40},
+        CONDENSED_RESIN: {width: 90, height: 40},
+        OTHER_RESIN: {width: 0, height: 60}  // width会根据图标宽度动态设置
     }
 };
 
@@ -73,7 +73,7 @@ let resinCounts = {
  */
 async function recognizeImage(recognitionObject, timeout = CONFIG.RECOGNITION_TIMEOUT) {
     const startTime = Date.now();
-    
+
     while (Date.now() - startTime < timeout) {
         try {
             // 直接链式调用，不保存gameRegion变量，避免内存管理问题
@@ -86,7 +86,7 @@ async function recognizeImage(recognitionObject, timeout = CONFIG.RECOGNITION_TI
         }
         await sleep(CONFIG.SLEEP_INTERVAL);
     }
-    
+
     log.warn(`经过多次尝试，仍然无法识别图像`);
     return null;
 }
@@ -143,10 +143,10 @@ async function recognizeWhiteNumberByImage(ocrRegion) {
  * @returns {boolean} 是否在区域内
  */
 function isPointInRegion(point, region) {
-    return point.x >= region.x && 
-           point.x <= region.x + region.width &&
-           point.y >= region.y && 
-           point.y <= region.y + region.height;
+    return point.x >= region.x &&
+        point.x <= region.x + region.width &&
+        point.y >= region.y &&
+        point.y <= region.y + region.height;
 }
 
 /**
@@ -162,17 +162,17 @@ async function recognizeNumberByOCR(ocrRegion, pattern) {
         const ocrRo = RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
         captureRegion = captureGameRegion();
         resList = captureRegion.findMulti(ocrRo);
-        
+
         if (!resList || resList.length === 0) {
             log.warn("OCR未识别到任何文本");
             return null;
         }
-        
+
         for (const res of resList) {
             if (!res || !res.text) {
                 continue;
             }
-            
+
             const numberMatch = res.text.match(pattern);
             if (numberMatch) {
                 const number = parseInt(numberMatch[1] || numberMatch[0]);
@@ -201,7 +201,26 @@ async function recognizeNumberByOCR(ocrRegion, pattern) {
  * 统计原粹树脂数量
  * @returns {number} 原粹树脂数量
  */
-async function countOriginalResin() {
+/**
+ * 统计原粹树脂数量
+ * @returns {number} 原粹树脂数量
+ */
+async function countOriginalResin(tryOriginalMode,opToMainUi) {
+    if (tryOriginalMode) {
+        log.info("尝试使用原始模式");
+        return await countOriginalResinBackup()
+    } else {
+        let ocrPhysical = await physical.ocrPhysical(opToMainUi);
+        await sleep(600)
+        if (ocrPhysical && ocrPhysical.ok) {
+            return ocrPhysical.remainder;
+        } else {
+            throw new Error("ocrPhysical error");
+        }
+    }
+}
+
+async function countOriginalResinBackup() {
     const originalResin = await recognizeImage(RESIN_ICONS.ORIGINAL);
     if (!originalResin) {
         log.warn(`未找到原粹树脂图标`);
@@ -269,7 +288,7 @@ async function countCondensedResin() {
         // OCR识别整个界面的文本
         let ocrRo = RecognitionObject.Ocr(0, 0, captureRegion.width, captureRegion.height);
         textList = captureRegion.findMulti(ocrRo);
-        
+
         for (const res of textList) {
             if (res.text.includes("当前拥有")) {
                 const match = res.text.match(/当前拥有\s*([0-5ss])/);
@@ -371,18 +390,31 @@ async function openMap() {
     log.info("打开地图界面");
     keyPress("M");
     await sleep(CONFIG.UI_DELAY);
-    
+
     // 切换到国家选择界面
-    click(CONFIG.COORDINATES.MAP_SWITCH.x, CONFIG.COORDINATES.MAP_SWITCH.y);
-    await sleep(CONFIG.UI_DELAY);
-    
+    // click(CONFIG.COORDINATES.MAP_SWITCH.x, CONFIG.COORDINATES.MAP_SWITCH.y);
+    // await sleep(CONFIG.UI_DELAY);
+
     // 选择蒙德
-    click(CONFIG.COORDINATES.MONDSTADT.x, CONFIG.COORDINATES.MONDSTADT.y);
-    await sleep(CONFIG.UI_DELAY);
-    
+    // click(CONFIG.COORDINATES.MONDSTADT.x, CONFIG.COORDINATES.MONDSTADT.y);
+    // await sleep(CONFIG.UI_DELAY);
+    // await switchtoCountrySelection(CONFIG.COORDINATES.MONDSTADT.x, CONFIG.COORDINATES.MONDSTADT.y)
+
     // 设置地图缩放级别，排除识别干扰
     await genshin.setBigMapZoomLevel(CONFIG.MAP_ZOOM_LEVEL);
     log.info("地图界面设置完成");
+}
+
+/**
+ * 切换到国家选择界面的异步函数
+ * 通过点击指定坐标并等待界面加载来完成切换操作
+ */
+async function switchtoCountrySelection(x, y) {
+    // 切换到国家选择界面
+    click(CONFIG.COORDINATES.MAP_SWITCH.x, CONFIG.COORDINATES.MAP_SWITCH.y);
+    await sleep(CONFIG.UI_DELAY);
+    click(x, y);
+    await sleep(CONFIG.UI_DELAY);
 }
 
 /**
@@ -405,7 +437,7 @@ async function openReplenishResinUi() {
  */
 function displayResults(results) {
     const resultText = `原粹:${results.original} 浓缩:${results.condensed} 须臾:${results.transient} 脆弱:${results.fragile}`;
-    
+
     log.info(`============ 树脂统计结果 ============`);
     log.info(`原粹树脂数量: ${results.original}`);
     log.info(`浓缩树脂数量: ${results.condensed}`);
@@ -420,42 +452,55 @@ function displayResults(results) {
  * 统计所有树脂数量的主函数
  * @returns {Object} 包含所有树脂数量的对象
  */
- this.countAllResin = async function() {
+this.countAllResin = async function () {
     try {
         setGameMetrics(1920, 1080, 1);
         log.info("开始统计树脂数量");
-        
+
         // 返回主界面
-        await genshin.returnMainUi();
+        let toMainUi=true
+        // await genshin.returnMainUi();
+        // await sleep(CONFIG.UI_DELAY);
+
+        let tryPass = true;
+        try {
+            resinCounts.original = await countOriginalResin(false,toMainUi);
+        } catch (e) {
+            tryPass = false
+        }
         await sleep(CONFIG.UI_DELAY);
-        
+
         // 打开地图界面统计原粹/浓缩树脂
         await openMap();
         await sleep(CONFIG.UI_DELAY);
-        
         log.info("开始统计地图界面中的树脂");
-        resinCounts.original = await countOriginalResin();
+
+        if (!tryPass){
+            // 如果第一次尝试失败，则切换到蒙德
+            await switchtoCountrySelection(CONFIG.COORDINATES.MONDSTADT.x, CONFIG.COORDINATES.MONDSTADT.y)
+            resinCounts.original = await countOriginalResin(!tryPass);
+        }
         resinCounts.condensed = await countCondensedResin();
-        
+
         // 打开补充树脂界面统计须臾/脆弱树脂
         await openReplenishResinUi();
         await sleep(CONFIG.UI_DELAY);
-        
+
         // 点击避免选中效果影响统计
         click(CONFIG.COORDINATES.AVOID_SELECTION.x, CONFIG.COORDINATES.AVOID_SELECTION.y);
         await sleep(500);
-        
+
         log.info("开始统计补充树脂界面中的树脂");
         resinCounts.transient = await countTransientResin();
         resinCounts.fragile = await countFragileResin();
-        
+
         // 显示结果
         displayResults(resinCounts);
-        
+
         // 返回主界面
         await genshin.returnMainUi();
         await sleep(CONFIG.UI_DELAY);
-        
+
         log.info("树脂统计完成");
         return {
             originalResinCount: resinCounts.original,
@@ -463,7 +508,7 @@ function displayResults(results) {
             transientResinCount: resinCounts.transient,
             fragileResinCount: resinCounts.fragile
         };
-        
+
     } catch (error) {
         log.error(`统计树脂数量时发生异常: ${error.message}`);
         throw error;
@@ -480,7 +525,7 @@ function displayResults(results) {
  *     fragileResinTimes: number
  * }
  */
-this.calCountByResin = async function() {
+this.calCountByResin = async function () {
     try {
         let countResult = await this.countAllResin();
         let count = 0;
@@ -508,7 +553,7 @@ this.calCountByResin = async function() {
         // 2. 浓缩树脂：每个计算为1次
         let condensedResinTimes = countResult.condensedResinCount;
         log.info(`浓缩树脂可刷取次数: ${condensedResinTimes}`);
-        
+
         // 3. 须臾树脂：检查设置是否开启
         let transientResinTimes = 0;
         if (settings.useTransientResin) {
@@ -517,7 +562,7 @@ this.calCountByResin = async function() {
         } else {
             log.info(`须臾树脂未开启使用，跳过计算`);
         }
-        
+
         // 4. 脆弱树脂：检查设置是否开启
         let fragileResinTimes = 0;
         if (settings.useFragileResin) {
@@ -526,7 +571,7 @@ this.calCountByResin = async function() {
         } else {
             log.info(`脆弱树脂未开启使用，跳过计算`);
         }
-        
+
         // 计算总次数
         count = originalResinTimes + condensedResinTimes + transientResinTimes + fragileResinTimes;
         log.info(`总计可刷取次数: ${count}`);
