@@ -14,6 +14,7 @@
 - ✅ 支持指定特定活动进行监控
 - ✅ 防重复检测机制
 - ✅ 异常处理和错误恢复
+- ✅ 每周日自动提醒征讨领域剩余次数
 
 ---
 
@@ -29,12 +30,15 @@
 #### 2. 基础设置
 在 [settings.json]() 中可以配置以下参数：
 
-| 设置项 | 说明 | 默认值 |
-|--------|------|--------|
-| `toMainUi` | 执行前是否自动返回游戏主界面 | true |
-| `activityNameList` | 监控的特定活动名称（用\|分隔） | 空（监控所有活动） |
-| `notifyHoursThreshold` | 通知时间阈值（小时） | 8760（365天） |
-| `activityKey` | 打开活动页面的快捷键 | F5 |
+| 设置项 | 说明 | 默认值        | 开放 |
+|--------|------|------------|:--:|
+| `toMainUi` | 执行前是否自动返回游戏主界面 | true       | v  |
+| `activityNameList` | 监控的特定活动名称（用\|分隔） | 空（监控所有活动）  | v  |
+| `notifyHoursThreshold` | 通知时间阈值（小时） | 8760（365天） | v  |
+| `activityKey` | 打开活动页面的快捷键 | F5         | v  |
+| `toTopCount` |  滑动到顶最大尝试次数  | 10         | v  |
+| `scrollPageCount` |滑动次数/页  | 4          | x  |
+| `campaignAreaKey` | 打开征讨领域页面的快捷键 | F1         | x  |
 
 ### 使用流程
 
@@ -98,6 +102,7 @@
 > 风花节活动 剩余时间：1天5小时<还剩 29 小时><即将结束>
 ```
 
+
 **`以上为用户使用指南全部内容`**
 ---
 
@@ -108,6 +113,7 @@
 ActivitySwitchNotice/
 ├── utils/
 │   ├── activity.js     # 核心活动处理逻辑
+│   ├── campaignArea.js # 征讨领域提醒功能
 │   └── notice.js       # 通知发送功能
 ├── main.js             # 主入口文件
 ├── manifest.json       # 插件配置文件
@@ -116,9 +122,10 @@ ActivitySwitchNotice/
 ```
 
 
+
 ## 核心模块
 
-### [activity.js]() - 活动处理核心
+### `activity.js` - 活动处理核心
 
 主要包含以下功能函数：
 
@@ -132,33 +139,38 @@ ActivitySwitchNotice/
 ### `notice.js` - 通知模块
 
 - `sendNotice()` - 发送活动提醒通知，按剩余时间排序
+- `send()` - 发送普通通知
 
-### [main.js]() - 主程序入口
+### `campaignArea.js` - 征讨领域模块
 
-- 检测是否在主界面
-- 返回主界面功能
-- 执行主流程
+- `ocrWeeklyCount()` - OCR识别征讨领域周次数
+- `getDayOfWeek()` - 获取当前星期信息
+- `campaignAreaMain()` - 征讨领域提醒主函数
 
 ## 配置选项
 
-在 [settings.json]() 中可配置以下参数：
+在 `settings.json` 中可配置以下参数：
 
-| 配置项 | 类型 | 说明 |
-|--------|------|------|
-| `toMainUi` | Boolean | 是否先返回主界面再执行 |
+| 配置项 | 类型 | 说明            |
+|--------|------|---------------|
+| `toMainUi` | Boolean | 是否先返回主界面再执行   |
 | `activityNameList` | String | 指定活动名称（用\|分隔） |
-| `notifyHoursThreshold` | Number | 通知阈值（小时） |
-| `activityKey` | String | 打开活动页面的快捷键 |
+| `notifyHoursThreshold` | Number | 通知阈值（小时）      |
+| `activityKey` | String | 打开活动页面的快捷键    |
+| `toTopCount` |Number| 滑动到顶最大尝试次数      | 
+| `scrollPageCount` |Number|   滑动次数/页    | 
+| `campaignAreaKey` | String | 打开征讨领域页面的快捷键  |
 
 ## 工作原理
 
 1. 自动返回游戏主界面
-2. 按配置快捷键打开活动页面
-3. 滚动到活动列表顶部
-4. 逐页扫描所有活动
-5. OCR识别每个活动的剩余时间
-6. 解析时间为小时数并过滤
-7. 发送符合条件的活动提醒
+2. 检查是否为周日，如果是则执行征讨领域提醒功能
+3. 按配置快捷键打开活动页面
+4. 滚动到活动列表顶部
+5. 逐页扫描所有活动
+6. OCR识别每个活动的剩余时间
+7. 解析时间为小时数并过滤
+8. 发送符合条件的活动提醒
 
 ## 注意事项
 
