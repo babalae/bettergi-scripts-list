@@ -35,6 +35,7 @@ async function toMainUi() {
         await toMainUi();
     }
     await main();
+    await toMainUi();
 })();
 
 /**
