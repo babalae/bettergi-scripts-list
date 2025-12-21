@@ -27,7 +27,7 @@
 - 在脚本设置界面进行个性化配置
 
 #### 2. 基础设置
-在 [settings.json](file://G:\code\bettergi-scripts-list\archive\js\5_7PVP_Auto\settings.json) 中可以配置以下参数：
+在 [settings.json]() 中可以配置以下参数：
 
 | 设置项 | 说明 | 默认值 |
 |--------|------|--------|
