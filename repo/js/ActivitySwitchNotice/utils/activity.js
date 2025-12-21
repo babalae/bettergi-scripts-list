@@ -324,8 +324,33 @@ async function activityMain() {
             log.info("当前页未识别到任何活动，视为已到页面底部");
             break;
         }
+        // ============ 新增：提前判断是否为重复页 ============
+        const currentPageNames = new Set();
+        for (let res of resList) {
+            currentPageNames.add(res.text.trim());
+        }
+
+        // 计算与上一页的重合率
+        if (previousPageActivities.size > 0) {
+            let overlapCount = 0;
+            for (let name of currentPageNames) {
+                if (previousPageActivities.has(name)) overlapCount++;
+            }
+            const overlapRatio = overlapCount / previousPageActivities.size;
+
+            // 如果重合率 >= 70%（可调整），认为滚动未生效，是重复页
+            if (overlapRatio >= 0.7) {
+                log.info(`检测到当前页与上一页高度重复（重合率 ${Math.round(overlapRatio * 100)}%），已到达底部，停止扫描`);
+                break;
+            }
+        }
+
+        // 更新上一页记录（为下一轮做准备）
+        previousPageActivities = currentPageNames;
+        // =================================================
 
         let currentPageBottomName = null;  // 本页最下面的活动名
+        let newActivityCountThisPage = 0;
 
         // 遍历当前页所有识别到的活动条目
         for (let res of resList) {
@@ -354,6 +379,7 @@ async function activityMain() {
                         hours: totalHours
                     });
                     log.info(`成功记录 → {activityName} {remainingTime} 共计: {hours} 小时`,activityName, remainingTimeText,totalHours);
+                    newActivityCountThisPage++;
                 }
 
                 await sleep(ms);
@@ -362,7 +388,11 @@ async function activityMain() {
             // 更新本页最下面的活动名
             currentPageBottomName = activityName;
         }
-
+        // 备用判断：本页一个新活动都没加，也认为到底（双保险）
+        if (newActivityCountThisPage === 0 && scannedPages > 1) {
+            log.info("本页无新活动添加，确认已到底");
+            break;
+        }
         // 5. 判断是否已到达页面底部
         if (currentPageBottomName && currentPageBottomName === lastPageBottomName) {
             sameBottomCount++;
