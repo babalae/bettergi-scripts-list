@@ -14,7 +14,7 @@ async function sendNotice(map, title, noNotice) {
     let text = title ? title + "\n" : ""
     // 遍历map，将键值对添加到通知文本中
     map.forEach((value,key) => {
-        text += "> ${key} ${value}\n"
+        text += `> ${key} ${value}\n`
     })
     // 发送通知
     notification.send(`${text}`)
